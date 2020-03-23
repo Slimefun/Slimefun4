@@ -5,11 +5,22 @@ import java.util.Optional;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
+import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 
+/**
+ * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
+ * it is responsible for storing NBT data inside a {@link TileState}.
+ * 
+ * This is used to speed up performance and prevent
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class BlockDataService {
 
     private final NamespacedKey namespacedKey;
@@ -18,16 +29,53 @@ public class BlockDataService {
         namespacedKey = new NamespacedKey(plugin, key);
     }
 
+    /**
+     * This will store the given {@link String} inside the NBT data of the given {@link Block}
+     * 
+     * @param b
+     *            The {@link Block} in which to store the given value
+     * @param value
+     *            The value to store
+     */
     public void setBlockData(Block b, String value) {
-        TileState tileEntity = (TileState) b.getState();
-        PersistentDataAPI.setString(tileEntity, namespacedKey, value);
-        tileEntity.update();
+        BlockState state = b.getState();
+
+        if (state instanceof TileState) {
+            PersistentDataAPI.setString((TileState) state, namespacedKey, value);
+            state.update();
+        }
     }
 
+    /**
+     * This method returns the NBT data previously stored inside this {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block} to retrieve data from
+     * @return The stored value
+     */
     public Optional<String> getBlockData(Block b) {
-        return PersistentDataAPI.getOptionalString((TileState) b.getState(), namespacedKey);
+        BlockState state = b.getState();
+
+        if (state instanceof TileState) {
+            return PersistentDataAPI.getOptionalString((TileState) state, namespacedKey);
+        }
+        else {
+            return Optional.empty();
+        }
     }
 
+    /**
+     * This method checks whether the given {@link Material} is a Tile Entity.
+     * This is used to determine whether the {@link Block} produced by this {@link Material}
+     * produces a {@link TileState}, making it useable as a {@link PersistentDataHolder}.
+     * 
+     * Due to {@link Block#getState()} being a very expensive call performance-wise though,
+     * this simple lookup method is used instead.
+     * 
+     * @param type
+     *            The {@link Material} to check for
+     * @return Whether the given {@link Material} is considered a Tile Entity
+     */
     public boolean isTileEntity(Material type) {
         switch (type) {
         case PLAYER_HEAD:
@@ -35,6 +83,17 @@ public class BlockDataService {
         case CHEST:
         case DISPENSER:
         case DROPPER:
+        case FURNACE:
+        case BLAST_FURNACE:
+        case HOPPER:
+        case LECTERN:
+        case JUKEBOX:
+        case ENDER_CHEST:
+        case ENCHANTING_TABLE:
+        case DAYLIGHT_DETECTOR:
+        case SMOKER:
+        case SPAWNER:
+        case BEACON:
             return true;
         default:
             return false;

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -22,7 +23,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -165,7 +165,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
                     else {
                         ItemStack fuel = processing.get(l).getInput();
 
-                        if (SlimefunManager.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_FUEL, true) || SlimefunManager.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
+                        if (SlimefunUtils.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_FUEL, true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
                             inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                         }
 
@@ -202,7 +202,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
         for (MachineFuel recipe : fuelTypes) {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
                     found.put(slot, recipe.getInput().getAmount());
                     return recipe;
                 }

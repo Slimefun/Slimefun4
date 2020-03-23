@@ -12,10 +12,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GadgetsListener implements Listener {
@@ -39,7 +39,7 @@ public class GadgetsListener implements Listener {
                 handleBoots(p, boots);
             }
 
-            if (SlimefunManager.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
+            if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
                 new MagnetTask(p).scheduleRepeating(0, 8);
             }
         }

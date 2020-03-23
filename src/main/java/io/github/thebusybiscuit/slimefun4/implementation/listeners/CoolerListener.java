@@ -15,9 +15,9 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 /**
  * This {@link Listener} listens for a {@link FoodLevelChangeEvent} and consumes a {@link Juice}
@@ -41,7 +41,7 @@ public class CoolerListener implements Listener {
             Player p = (Player) e.getEntity();
 
             for (ItemStack item : p.getInventory().getContents()) {
-                if (SlimefunManager.isItemSimilar(item, SlimefunItems.COOLER, false)) {
+                if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COOLER, false)) {
                     PlayerBackpack backpack = PlayerProfile.getBackpack(item);
 
                     if (backpack != null && tryConsumeJuice(p, backpack)) {

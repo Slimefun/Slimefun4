@@ -11,12 +11,12 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -149,7 +149,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
     private ItemStack getOutput(ItemStack item) {
         for (int i = 0; i < recipeList.size(); i += 2) {
-            if (SlimefunManager.isItemSimilar(item, recipeList.get(i), true)) {
+            if (SlimefunUtils.isItemSimilar(item, recipeList.get(i), true)) {
                 return recipeList.get(i + 1);
             }
         }

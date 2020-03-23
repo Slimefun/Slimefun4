@@ -28,10 +28,10 @@ import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -288,7 +288,7 @@ public class CargoNet extends Network {
                         int slot = request.getSlot();
                         ItemStack prevStack = menu.getItemInSlot(slot);
 
-                        if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunManager.isItemSimilar(prevStack, new CustomItem(request.getItem(), 1), true)))) {
+                        if (!(prevStack == null || (prevStack.getAmount() + request.getItem().getAmount() <= prevStack.getMaxStackSize() && SlimefunUtils.isItemSimilar(prevStack, new CustomItem(request.getItem(), 1), true)))) {
                             iterator.remove();
                             break;
                         }
@@ -435,7 +435,7 @@ public class CargoNet extends Network {
                                 boolean add = true;
 
                                 for (ItemStackAndInteger item : items) {
-                                    if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
+                                    if (SlimefunUtils.isItemSimilar(is, item.getItem(), true)) {
                                         add = false;
                                         item.add(is.getAmount() + stored);
                                     }
@@ -545,7 +545,7 @@ public class CargoNet extends Network {
             boolean add = true;
 
             for (ItemStackAndInteger item : items) {
-                if (SlimefunManager.isItemSimilar(is, item.getItem(), true)) {
+                if (SlimefunUtils.isItemSimilar(is, item.getItem(), true)) {
                     add = false;
                     item.add(is.getAmount());
                 }

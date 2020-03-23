@@ -9,11 +9,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class EntityKillListener implements Listener {
@@ -32,7 +32,7 @@ public class EntityKillListener implements Listener {
             if (customDrops != null && !customDrops.isEmpty()) {
                 for (ItemStack drop : customDrops) {
                     if (Slimefun.hasUnlocked(p, drop, true)) {
-                        if (SlimefunManager.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((boolean) Slimefun.getItemValue("BASIC_CIRCUIT_BOARD", "drop-from-golems"))) {
+                        if (SlimefunUtils.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((boolean) Slimefun.getItemValue("BASIC_CIRCUIT_BOARD", "drop-from-golems"))) {
                             continue;
                         }
 

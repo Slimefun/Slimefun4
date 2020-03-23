@@ -30,6 +30,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -39,7 +40,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SlimefunItem implements Placeable {
@@ -457,9 +457,9 @@ public class SlimefunItem implements Placeable {
         }
 
         // Support for legacy items
-        if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-        else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-        else return SlimefunManager.isItemSimilar(item, this.item, true);
+        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
+        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
+        else return SlimefunUtils.isItemSimilar(item, this.item, true);
     }
 
     /**
@@ -675,8 +675,8 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
-        if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
 
         return null;
     }

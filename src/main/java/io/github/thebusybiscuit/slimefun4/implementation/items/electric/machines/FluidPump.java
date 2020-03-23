@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -23,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -107,7 +107,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
                     if (!menu.fits(output, getOutputSlots())) {
                         return;
                     }

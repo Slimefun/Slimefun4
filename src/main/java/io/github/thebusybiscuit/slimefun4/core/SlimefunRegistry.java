@@ -91,7 +91,7 @@ public class SlimefunRegistry {
         boolean showVanillaRecipes = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
 
         layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
-        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide(showVanillaRecipes));
+        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
         layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));

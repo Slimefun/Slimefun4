@@ -30,6 +30,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -41,7 +42,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -378,7 +378,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
         if (item != null) {
             for (MachineFuel recipe : recipes) {
-                if (SlimefunManager.isItemSimilar(item, recipe.getInput(), true)) {
+                if (SlimefunUtils.isItemSimilar(item, recipe.getInput(), true)) {
                     menu.consumeItem(43);
 
                     if (getTier() == 2) {
@@ -412,7 +412,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
             dispenser.setItem(slot, null);
             return true;
         }
-        else if (SlimefunManager.isItemSimilar(newFuel, currentFuel, true)) {
+        else if (SlimefunUtils.isItemSimilar(newFuel, currentFuel, true)) {
             int rest = newFuel.getType().getMaxStackSize() - currentFuel.getAmount();
 
             if (rest > 0) {

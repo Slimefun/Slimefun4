@@ -9,13 +9,13 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -81,8 +81,8 @@ public class ReactorAccessPort extends SlimefunItem {
             @Override
             public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
                 if (flow == ItemTransportFlow.INSERT) {
-                    if (SlimefunManager.isItemSimilar(item, SlimefunItems.REACTOR_COOLANT_CELL, true)) return getCoolantSlots();
-                    else if (SlimefunManager.isItemSimilar(item, SlimefunItems.NETHER_ICE_COOLANT_CELL, true)) return getCoolantSlots();
+                    if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REACTOR_COOLANT_CELL, true)) return getCoolantSlots();
+                    else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.NETHER_ICE_COOLANT_CELL, true)) return getCoolantSlots();
                     else return getFuelSlots();
                 }
                 else return getOutputSlots();

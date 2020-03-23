@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -18,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -98,7 +98,7 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
 
         for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 3.0, 3.0, 3.0, n -> n instanceof Ageable && n.isValid() && !((Ageable) n).isAdult())) {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
                     if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);

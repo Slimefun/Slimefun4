@@ -16,6 +16,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -23,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -111,7 +111,7 @@ public class SlimefunItemListener implements Listener {
     }
 
     private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
-        return canPlaceBlock(p, b) && (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true) || SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true) || SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
+        return canPlaceBlock(p, b) && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
     }
 
     private boolean canPlaceBlock(Player p, Block relative) {

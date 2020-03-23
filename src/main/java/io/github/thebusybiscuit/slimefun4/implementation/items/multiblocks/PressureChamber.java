@@ -15,12 +15,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class PressureChamber extends MultiBlockMachine {
     
@@ -41,7 +41,7 @@ public class PressureChamber extends MultiBlockMachine {
 
         for (ItemStack current : inv.getContents()) {
             for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
-                if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
+                if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
                     ItemStack output = RecipeType.getRecipeOutput(this, convert);
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 

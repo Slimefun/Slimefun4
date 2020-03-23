@@ -35,10 +35,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -292,7 +292,7 @@ public class AncientAltarListener implements Listener {
     public ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
         if (input.size() != 8) return null;
 
-        if (SlimefunManager.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
+        if (SlimefunUtils.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
             if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) {
                 return null;
             }
@@ -309,11 +309,11 @@ public class AncientAltarListener implements Listener {
 
     private ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
         for (AltarRecipe recipe : altarRecipes) {
-            if (SlimefunManager.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
+            if (SlimefunUtils.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
                 for (int i = 0; i < 8; i++) {
-                    if (SlimefunManager.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
+                    if (SlimefunUtils.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
                         for (int j = 1; j < 8; j++) {
-                            if (!SlimefunManager.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+                            if (!SlimefunUtils.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
                                 break;
                             }
                             else if (j == 7) {

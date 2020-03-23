@@ -9,10 +9,10 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class SlimefunGuideListener implements Listener {
 
@@ -40,7 +40,7 @@ public class SlimefunGuideListener implements Listener {
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
 
-        if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
+        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
             e.cancel();
 
             if (p.isSneaking()) {
@@ -50,7 +50,7 @@ public class SlimefunGuideListener implements Listener {
                 SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
             }
         }
-        else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
             e.cancel();
 
             if (p.isSneaking()) {
@@ -60,7 +60,7 @@ public class SlimefunGuideListener implements Listener {
                 SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
             }
         }
-        else if (SlimefunManager.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
             e.cancel();
 
             if (p.isSneaking()) {

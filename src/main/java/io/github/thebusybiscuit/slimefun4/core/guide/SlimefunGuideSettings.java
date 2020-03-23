@@ -26,10 +26,10 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 /**
  * This static utility class offers various methods that provide access to the
@@ -110,7 +110,7 @@ public final class SlimefunGuideSettings {
     private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
         int i = 19;
 
-        if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
+        if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
                 menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
@@ -130,7 +130,7 @@ public final class SlimefunGuideSettings {
 
             i++;
         }
-        else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
+        else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
                 menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
@@ -150,7 +150,7 @@ public final class SlimefunGuideSettings {
 
             i++;
         }
-        else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+        else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
             menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
             menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                 pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
