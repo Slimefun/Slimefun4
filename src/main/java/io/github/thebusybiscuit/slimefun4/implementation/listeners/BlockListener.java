@@ -91,57 +91,8 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {
-        ItemStack item = e.getItemInHand();
-
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
-
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
-
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, false)) e.setCancelled(true);
-
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
-
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
-            e.setCancelled(true);
-
-            if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(item, false);
-            }
-
-            FireworkUtils.launchRandom(e.getPlayer(), 3);
-            List<ItemStack> gifts = new ArrayList<>();
-
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
-            gifts.add(new ItemStack(Material.EMERALD));
-
-            e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
-        }
-        else if (e.getBlock().getY() != e.getBlockAgainst().getY() && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false))) {
-            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-            e.setCancelled(true);
-        }
-    }
-
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent e) {
+    public void onBlockUnregister(BlockBreakEvent e) {
         boolean allow = true;
         List<ItemStack> drops = new ArrayList<>();
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
@@ -225,6 +176,55 @@ public class BlockListener implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent e) {
+        ItemStack item = e.getItemInHand();
+
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, false)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
+            e.setCancelled(true);
+
+            if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(item, false);
+            }
+
+            FireworkUtils.launchRandom(e.getPlayer(), 3);
+            List<ItemStack> gifts = new ArrayList<>();
+
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
+            gifts.add(new ItemStack(Material.EMERALD));
+
+            e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
+        }
+        else if (e.getBlock().getY() != e.getBlockAgainst().getY() && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false))) {
+            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
+            e.setCancelled(true);
         }
     }
 

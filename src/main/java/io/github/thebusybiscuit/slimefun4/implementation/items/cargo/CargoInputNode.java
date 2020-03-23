@@ -26,7 +26,8 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public class CargoInputNode extends SlimefunItem {
 
-    private static final int[] border = { 0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 18, 22, 23, 26, 27, 31, 32, 33, 34, 35, 36, 40, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private final int[] border = { 0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 18, 22, 23, 26, 27, 31, 32, 33, 34, 35, 36, 40, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private final int[] slots = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
 
     public CargoInputNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
@@ -39,7 +40,7 @@ public class CargoInputNode extends SlimefunItem {
             }
 
             @Override
-            public void newInstance(final BlockMenu menu, final Block b) {
+            public void newInstance(BlockMenu menu, Block b) {
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
                     menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
                     menu.addMenuClickHandler(15, (p, slot, item, action) -> {
@@ -182,7 +183,7 @@ public class CargoInputNode extends SlimefunItem {
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
-                    for (int slot : getInputSlots()) {
+                    for (int slot : slots) {
                         if (inv.getItemInSlot(slot) != null) {
                             b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
                             inv.replaceExistingItem(slot, null);
@@ -194,16 +195,12 @@ public class CargoInputNode extends SlimefunItem {
         });
     }
 
-    protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
             preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         preset.addItem(2, new CustomItem(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"), ChestMenuUtils.getEmptyClickHandler());
-    }
-
-    public int[] getInputSlots() {
-        return new int[] { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
     }
 
 }

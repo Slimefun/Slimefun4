@@ -91,33 +91,7 @@ public class AncientAltarListener implements Listener {
 
         if (id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemID())) {
             e.cancel();
-
-            if (altarsInUse.contains(b.getLocation())) {
-                return;
-            }
-
-            Item stack = findItem(b);
-
-            if (stack == null) {
-                if (e.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR) return;
-
-                if (b.getRelative(0, 1, 0).getType() != Material.AIR) {
-                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_PEDESTAL.obstructed", true);
-                    return;
-                }
-
-                insertItem(e.getPlayer(), b);
-            }
-            else if (!removedItems.contains(stack.getUniqueId())) {
-                UUID uuid = stack.getUniqueId();
-                removedItems.add(uuid);
-
-                Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
-
-                stack.remove();
-                e.getPlayer().getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
-                e.getPlayer().playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
-            }
+            usePedestal(b, e.getPlayer());
         }
         else if (id.equals("ANCIENT_ALTAR")) {
             if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || altarsInUse.contains(b.getLocation())) {
@@ -129,73 +103,106 @@ public class AncientAltarListener implements Listener {
             altarsInUse.add(b.getLocation());
             e.cancel();
 
-            ItemStack catalyst = new CustomItem(e.getPlayer().getInventory().getItemInMainHand(), 1);
-            List<Block> pedestals = getPedestals(b);
+            useAltar(b, e.getPlayer());
+        }
+    }
 
-            if (!altars.contains(b)) {
-                altars.add(b);
+    private void usePedestal(Block pedestal, Player p) {
+        if (altarsInUse.contains(pedestal.getLocation())) {
+            return;
+        }
 
-                if (pedestals.size() == 8) {
-                    pedestals.forEach(block -> altarsInUse.add(block.getLocation()));
+        Item stack = findItem(pedestal);
 
-                    if (catalyst.getType() != Material.AIR) {
-                        List<ItemStack> input = new ArrayList<>();
-                        for (Block pedestal : pedestals) {
-                            Item stack = findItem(pedestal);
+        if (stack == null) {
+            if (p.getInventory().getItemInMainHand().getType() == Material.AIR) return;
 
-                            if (stack != null) {
-                                input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
-                            }
+            if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
+                SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
+                return;
+            }
+
+            insertItem(p, pedestal);
+        }
+        else if (!removedItems.contains(stack.getUniqueId())) {
+            UUID uuid = stack.getUniqueId();
+            removedItems.add(uuid);
+
+            Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
+
+            stack.remove();
+            p.getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
+            p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
+        }
+    }
+    
+    private void useAltar(Block b, Player p) {
+        ItemStack catalyst = new CustomItem(p.getInventory().getItemInMainHand(), 1);
+        List<Block> pedestals = getPedestals(b);
+
+        if (!altars.contains(b)) {
+            altars.add(b);
+
+            if (pedestals.size() == 8) {
+                pedestals.forEach(block -> altarsInUse.add(block.getLocation()));
+
+                if (catalyst.getType() != Material.AIR) {
+                    List<ItemStack> input = new ArrayList<>();
+                    for (Block pedestal : pedestals) {
+                        Item stack = findItem(pedestal);
+
+                        if (stack != null) {
+                            input.add(fixItemStack(stack.getItemStack(), stack.getCustomName()));
                         }
+                    }
 
-                        ItemStack result = getRecipeOutput(catalyst, input);
-                        if (result != null) {
-                            if (Slimefun.hasUnlocked(e.getPlayer(), result, true)) {
-                                List<ItemStack> consumed = new ArrayList<>();
-                                consumed.add(catalyst);
+                    ItemStack result = getRecipeOutput(catalyst, input);
+                    if (result != null) {
+                        if (Slimefun.hasUnlocked(p, result, true)) {
+                            List<ItemStack> consumed = new ArrayList<>();
+                            consumed.add(catalyst);
 
-                                if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-                                    ItemUtils.consumeItem(e.getPlayer().getInventory().getItemInMainHand(), false);
-                                }
-
-                                Slimefun.runSync(new AncientAltarTask(b, result, pedestals, consumed), 10L);
+                            if (p.getGameMode() != GameMode.CREATIVE) {
+                                ItemUtils.consumeItem(p.getInventory().getItemInMainHand(), false);
                             }
-                            else {
-                                altars.remove(b);
 
-                                pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
-
-                                // Item not unlocked, no longer in use.
-                                altarsInUse.remove(b.getLocation());
-                            }
+                            Slimefun.runSync(new AncientAltarTask(b, result, pedestals, consumed), 10L);
                         }
                         else {
                             altars.remove(b);
-                            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
                             pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 
-                            // Bad recipe, no longer in use.
+                            // Item not unlocked, no longer in use.
                             altarsInUse.remove(b.getLocation());
                         }
                     }
                     else {
                         altars.remove(b);
-                        SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.unknown-catalyst", true);
+                        SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
                         pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
 
-                        // Unknown catalyst, no longer in use
+                        // Bad recipe, no longer in use.
                         altarsInUse.remove(b.getLocation());
                     }
                 }
                 else {
                     altars.remove(b);
-                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
+                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 
-                    // Not a valid altar so remove from inuse
+                    pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+
+                    // Unknown catalyst, no longer in use
                     altarsInUse.remove(b.getLocation());
                 }
+            }
+            else {
+                altars.remove(b);
+                SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
+
+                // Not a valid altar so remove from inuse
+                altarsInUse.remove(b.getLocation());
             }
         }
     }

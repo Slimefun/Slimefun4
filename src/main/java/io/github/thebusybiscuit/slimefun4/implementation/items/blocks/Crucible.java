@@ -42,7 +42,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         return recipes;
     }
 
-    private static List<ItemStack> getMachineRecipes() {
+    private List<ItemStack> getMachineRecipes() {
         List<ItemStack> items = new LinkedList<>();
 
         items.add(new ItemStack(Material.COBBLESTONE, 16));

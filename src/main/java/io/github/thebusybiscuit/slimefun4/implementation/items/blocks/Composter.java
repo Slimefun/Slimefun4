@@ -39,7 +39,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
         return recipes;
     }
 
-    private static List<ItemStack> getMachineRecipes() {
+    private List<ItemStack> getMachineRecipes() {
         List<ItemStack> items = new LinkedList<>();
 
         for (Material leave : MaterialCollections.getAllLeaves()) {

@@ -44,7 +44,7 @@ public class CoolerListener implements Listener {
                 if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COOLER, false)) {
                     PlayerBackpack backpack = PlayerProfile.getBackpack(item);
 
-                    if (backpack != null && tryConsumeJuice(p, backpack)) {
+                    if (backpack != null && consumeJuice(p, backpack)) {
                         break;
                     }
                 }
@@ -52,7 +52,7 @@ public class CoolerListener implements Listener {
         }
     }
 
-    private boolean tryConsumeJuice(Player p, PlayerBackpack backpack) {
+    private boolean consumeJuice(Player p, PlayerBackpack backpack) {
         Inventory inv = backpack.getInventory();
         int slot = -1;
 

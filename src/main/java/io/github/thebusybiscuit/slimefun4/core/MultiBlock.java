@@ -10,7 +10,6 @@ import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
@@ -64,10 +63,6 @@ public class MultiBlock {
 
     public BlockFace getTriggerBlock() {
         return this.trigger;
-    }
-
-    public void register() {
-        SlimefunPlugin.getRegistry().getMultiBlocks().add(this);
     }
 
     @Override

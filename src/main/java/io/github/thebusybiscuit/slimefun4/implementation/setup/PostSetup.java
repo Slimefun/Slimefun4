@@ -92,6 +92,43 @@ public final class PostSetup {
             }
         }
 
+        loadAutomaticCraftingChamber();
+        loadOreGrinderRecipes();
+        loadSmelteryRecipes();
+
+        CommandSender sender = Bukkit.getConsoleSender();
+
+        int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
+        int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
+
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + total + " Items and " + SlimefunPlugin.getRegistry().getResearches().size() + " Researches");
+        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " Items from Slimefun, " + (total - vanilla) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is maintained by community developers!");
+
+        if (SlimefunPlugin.getUpdater().getBranch().isOfficial()) {
+            sender.sendMessage("");
+            sender.sendMessage(ChatColor.GREEN + " -- Source Code:   https://github.com/TheBusyBiscuit/Slimefun4");
+            sender.sendMessage(ChatColor.GREEN + " -- Wiki:          https://github.com/TheBusyBiscuit/Slimefun4/wiki");
+            sender.sendMessage(ChatColor.GREEN + " -- Addons:        https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons");
+            sender.sendMessage(ChatColor.GREEN + " -- Bug Reports:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
+            sender.sendMessage(ChatColor.GREEN + " -- Discord:       https://discord.gg/fsD4Bkh");
+        }
+        else {
+            sender.sendMessage(ChatColor.GREEN + " -- UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
+        }
+
+        sender.sendMessage("");
+
+        SlimefunPlugin.getItemCfg().save();
+        SlimefunPlugin.getResearchCfg().save();
+        SlimefunPlugin.getWhitelist().save();
+    }
+
+    private static void loadAutomaticCraftingChamber() {
         AutomatedCraftingChamber crafter = (AutomatedCraftingChamber) SlimefunItems.AUTOMATED_CRAFTING_CHAMBER.getItem();
 
         if (crafter != null) {
@@ -115,7 +152,9 @@ public final class PostSetup {
             }
 
         }
-
+    }
+    
+    private static void loadOreGrinderRecipes() {
         List<ItemStack[]> grinderRecipes = new ArrayList<>();
 
         GrindStone grinder = (GrindStone) SlimefunItems.GRIND_STONE.getItem();
@@ -161,7 +200,9 @@ public final class PostSetup {
         }
 
         stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] { recipe[0] }, new ItemStack[] { recipe[1] }));
-
+    }
+    
+    private static void loadSmelteryRecipes() {
         Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
         if (smeltery != null) {
             ItemStack[] input = null;
@@ -196,37 +237,6 @@ public final class PostSetup {
                 }
             }
         }
-
-        CommandSender sender = Bukkit.getConsoleSender();
-
-        int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
-        int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
-
-        sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
-        sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + total + " Items and " + SlimefunPlugin.getRegistry().getResearches().size() + " Researches");
-        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " Items from Slimefun, " + (total - vanilla) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
-        sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is maintained by community developers!");
-
-        if (SlimefunPlugin.getUpdater().getBranch().isOfficial()) {
-            sender.sendMessage("");
-            sender.sendMessage(ChatColor.GREEN + " -- Source Code:   https://github.com/TheBusyBiscuit/Slimefun4");
-            sender.sendMessage(ChatColor.GREEN + " -- Wiki:          https://github.com/TheBusyBiscuit/Slimefun4/wiki");
-            sender.sendMessage(ChatColor.GREEN + " -- Addons:        https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons");
-            sender.sendMessage(ChatColor.GREEN + " -- Bug Reports:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
-            sender.sendMessage(ChatColor.GREEN + " -- Discord:       https://discord.gg/fsD4Bkh");
-        }
-        else {
-            sender.sendMessage(ChatColor.GREEN + " -- UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
-        }
-
-        sender.sendMessage("");
-
-        SlimefunPlugin.getItemCfg().save();
-        SlimefunPlugin.getResearchCfg().save();
-        SlimefunPlugin.getWhitelist().save();
     }
 
     private static boolean isDust(ItemStack item) {

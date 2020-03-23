@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Server;
 
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 
 /**
@@ -23,14 +25,31 @@ public final class NetworkManager {
     private final int maxNodes;
     private final List<Network> networks = new LinkedList<>();
 
+    /**
+     * This creates a new {@link NetworkManager} with the given capacity.
+     * 
+     * @param capacity
+     *            The maximum amount of nodes a {@link Network} can have
+     */
     public NetworkManager(int capacity) {
         maxNodes = capacity;
     }
 
+    /**
+     * This method returns the limit of nodes a {@link Network} can have.
+     * This value is read from the {@link Config} file.
+     * 
+     * @return the maximum amount of nodes a {@link Network} can have
+     */
     public int getMaxSize() {
         return maxNodes;
     }
 
+    /**
+     * This returns a {@link List} of every {@link Network} on the {@link Server}.
+     * 
+     * @return A {@link List} containing every {@link Network} on the {@link Server}
+     */
     public List<Network> getNetworkList() {
         return networks;
     }

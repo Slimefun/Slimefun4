@@ -1,12 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import me.mrCookieSlime.Slimefun.Objects.Research;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import me.mrCookieSlime.Slimefun.Objects.Research;
+
+/**
+ * This {@link Event} is called whenever a {@link Player} unlocks a {@link Research}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class ResearchUnlockEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();

@@ -4,8 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Piston;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPistonEvent;
@@ -35,20 +37,14 @@ public class BlockPhysicsListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockFall(EntityChangeBlockEvent e) {
-        if (e.getEntity() instanceof FallingBlock) {
-            if (e.getEntity().hasMetadata("seismic_axe")) {
-                e.setCancelled(true);
-                e.getEntity().remove();
-            }
-            else if (BlockStorage.hasBlockInfo(e.getBlock())) {
-                e.setCancelled(true);
-                FallingBlock fb = (FallingBlock) e.getEntity();
+        if (e.getEntity().getType() == EntityType.FALLING_BLOCK && BlockStorage.hasBlockInfo(e.getBlock())) {
+            e.setCancelled(true);
+            FallingBlock block = (FallingBlock) e.getEntity();
 
-                if (fb.getDropItem()) {
-                    fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getBlockData().getMaterial(), 1));
-                }
+            if (block.getDropItem()) {
+                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getBlockData().getMaterial(), 1));
             }
         }
     }

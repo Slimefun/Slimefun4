@@ -32,6 +32,17 @@ public interface DamageableItem extends ItemAttribute {
      */
     boolean isDamageable();
 
+    /**
+     * This method will damage the given {@link ItemStack} once.
+     * It also takes into account the {@link Enchantment} {@code Unbreaking}.
+     * 
+     * It will only apply the damage if {@link #isDamageable()} returned true.
+     * 
+     * @param p
+     *            The {@link Player} to which the item belongs
+     * @param item
+     *            The {@link ItemStack} to damage
+     */
     default void damageItem(Player p, ItemStack item) {
         if (isDamageable() && item != null && item.getType() != Material.AIR && item.getAmount() > 0) {
             if (item.getEnchantments().containsKey(Enchantment.DURABILITY) && Math.random() * 100 <= (60 + Math.floorDiv(40, (item.getEnchantmentLevel(Enchantment.DURABILITY) + 1)))) {
