@@ -7,6 +7,14 @@ import org.bukkit.entity.Player;
 import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
+/**
+ * Guide Handlers are used to add "fake" categories to the Guide.
+ * 
+ * @deprecated Some day in the future we will simply allow to override the "opening" method of a Category instead.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 @Deprecated
 public interface GuideHandler {
 

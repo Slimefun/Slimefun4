@@ -40,9 +40,18 @@ public class EnergyNet extends Network {
     }
 
     public static EnergyNetComponentType getComponent(String id) {
-        if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponentType.GENERATOR;
-        if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponentType.CAPACITOR;
-        if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponentType.CONSUMER;
+        if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) {
+            return EnergyNetComponentType.GENERATOR;
+        }
+
+        if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+            return EnergyNetComponentType.CAPACITOR;
+        }
+
+        if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) {
+            return EnergyNetComponentType.CONSUMER;
+        }
+
         return EnergyNetComponentType.NONE;
     }
 
@@ -83,9 +92,9 @@ public class EnergyNet extends Network {
         return energyNetwork;
     }
 
-    private Set<Location> input = new HashSet<>();
-    private Set<Location> storage = new HashSet<>();
-    private Set<Location> output = new HashSet<>();
+    private final Set<Location> generators = new HashSet<>();
+    private final Set<Location> storage = new HashSet<>();
+    private final Set<Location> consumers = new HashSet<>();
 
     protected EnergyNet(Location l) {
         super(l);
@@ -98,7 +107,10 @@ public class EnergyNet extends Network {
 
     @Override
     public NetworkComponent classifyLocation(Location l) {
-        if (regulator.equals(l)) return NetworkComponent.REGULATOR;
+        if (regulator.equals(l)) {
+            return NetworkComponent.REGULATOR;
+        }
+
         switch (getComponent(l)) {
         case CAPACITOR:
             return NetworkComponent.CONNECTOR;
@@ -113,8 +125,8 @@ public class EnergyNet extends Network {
     @Override
     public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
         if (from == NetworkComponent.TERMINUS) {
-            input.remove(l);
-            output.remove(l);
+            generators.remove(l);
+            consumers.remove(l);
         }
 
         switch (getComponent(l)) {
@@ -122,10 +134,10 @@ public class EnergyNet extends Network {
             storage.add(l);
             break;
         case CONSUMER:
-            output.add(l);
+            consumers.add(l);
             break;
         case GENERATOR:
-            input.add(l);
+            generators.add(l);
             break;
         default:
             break;
@@ -149,7 +161,7 @@ public class EnergyNet extends Network {
 
             int available = (int) supply;
 
-            for (Location destination : output) {
+            for (Location destination : consumers) {
                 int capacity = ChargableBlock.getMaxCharge(destination);
                 int charge = ChargableBlock.getCharge(destination);
 
@@ -186,7 +198,7 @@ public class EnergyNet extends Network {
                 else ChargableBlock.setUnsafeCharge(battery, 0, true);
             }
 
-            for (Location source : input) {
+            for (Location source : generators) {
                 if (ChargableBlock.isChargable(source)) {
                     if (available > 0) {
                         int capacity = ChargableBlock.getMaxCharge(source);
@@ -212,7 +224,7 @@ public class EnergyNet extends Network {
         double supply = 0;
         Set<Location> exploded = new HashSet<>();
 
-        for (Location source : input) {
+        for (Location source : generators) {
             long timestamp = System.currentTimeMillis();
             SlimefunItem item = BlockStorage.check(source);
             Config config = BlockStorage.getLocationInfo(source);
@@ -235,7 +247,7 @@ public class EnergyNet extends Network {
             SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
         }
 
-        input.removeAll(exploded);
+        generators.removeAll(exploded);
 
         return supply;
     }

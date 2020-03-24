@@ -38,14 +38,30 @@ public class PlayerLanguageChangeEvent extends Event {
         return handlers;
     }
 
+    /**
+     * Returns the {@link Player} who triggered this {@link Event},
+     * the {@link Player} who switched his {@link Language} to be precise.
+     * 
+     * @return The {@link Player} who switched his {@link Language}
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * This returns the {@link Language} that this {@link Player} was using before.
+     * 
+     * @return The previous {@link Language} of our {@link Player}
+     */
     public Language getPreviousLanguage() {
         return from;
     }
 
+    /**
+     * This returns the {@link Language} that this {@link Player} wants to switch to.
+     * 
+     * @return The new {@link Language}
+     */
     public Language getNewLanguage() {
         return to;
     }

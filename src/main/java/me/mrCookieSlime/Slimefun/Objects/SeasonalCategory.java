@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
+import java.time.Month;
 import java.util.Calendar;
 
 import org.bukkit.NamespacedKey;
@@ -18,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class SeasonalCategory extends Category {
 
-    private final int month;
+    private final Month month;
 
     /**
      * The constructor for a SeasonCategory.
@@ -32,14 +33,10 @@ public class SeasonalCategory extends Category {
      * @param item
      *            The display item for this category
      */
-    public SeasonalCategory(NamespacedKey key, int month, int tier, ItemStack item) {
+    public SeasonalCategory(NamespacedKey key, Month month, int tier, ItemStack item) {
         super(key, item, tier);
 
-        if (month < 1 || month > 12) {
-            throw new IllegalArgumentException("There is no month no. " + month);
-        }
-
-        this.month = month - 1;
+        this.month = month;
     }
 
     /**
@@ -47,8 +44,8 @@ public class SeasonalCategory extends Category {
      * 
      * @return the id of the month this {@link SeasonalCategory} is assigned to (from 1 = January ; to 12 = December)
      */
-    public int getMonth() {
-        return this.month;
+    public Month getMonth() {
+        return month;
     }
 
     /**
@@ -59,6 +56,6 @@ public class SeasonalCategory extends Category {
      */
     public boolean isUnlocked() {
         Calendar calendar = Calendar.getInstance();
-        return month == calendar.get(Calendar.MONTH);
+        return month.ordinal() == calendar.get(Calendar.MONTH);
     }
 }

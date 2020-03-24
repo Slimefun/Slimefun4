@@ -30,12 +30,14 @@ public class SlimefunCommand implements CommandExecutor, Listener {
     private final Map<SubCommand, Integer> commandUsage = new HashMap<>();
 
     public SlimefunCommand(SlimefunPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public void register() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         plugin.getCommand("slimefun").setExecutor(this);
         plugin.getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter(this));
-
-        this.plugin = plugin;
         Commands.addCommands(this, commands);
     }
 

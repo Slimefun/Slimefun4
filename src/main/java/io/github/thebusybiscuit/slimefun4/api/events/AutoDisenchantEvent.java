@@ -35,6 +35,11 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
         return handlers;
     }
 
+    /**
+     * This returns the {@link ItemStack} that is being disenchanted.
+     * 
+     * @return The {@link ItemStack} that is being disenchanted
+     */
     public ItemStack getItem() {
         return this.item;
     }

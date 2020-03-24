@@ -105,8 +105,14 @@ public class MultiBlock {
         return true;
     }
 
+    /**
+     * This returns whether this {@link MultiBlock} is a symmetric structure or whether
+     * the left and right side differ.
+     * 
+     * @return Whether this {@link MultiBlock} is a symmetric structure
+     */
     public boolean isSymmetric() {
-        return this.isSymmetric;
+        return isSymmetric;
     }
 
     @Override

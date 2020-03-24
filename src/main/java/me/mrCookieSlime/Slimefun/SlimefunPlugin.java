@@ -96,9 +96,11 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
+    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
-    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
+    private final TickerTask ticker = new TickerTask();
+    private final SlimefunCommand command = new SlimefunCommand(this);
 
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
@@ -118,9 +120,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private NetworkManager networkManager;
     private ProtectionManager protections;
 
-    private TickerTask ticker;
-    private SlimefunCommand command;
-
+    // Important config files for Slimefun
     private Config researches;
     private Config items;
     private Config whitelist;
@@ -159,16 +159,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             items = new Config(this, "Items.yml");
             whitelist = new Config(this, "whitelist.yml");
 
-            // Setup various config files
+            // Setup various other config files
             textureService.load();
             permissionsService.load();
             local = new LocalizationService(this, config.getString("options.language"));
 
-            // Setting up Network classes
-            networkManager = new NetworkManager(config.getInt("options.max-network-size"));
-
-            // Setting up other stuff
+            // Setting up Networks
             gpsNetwork = new GPSNetwork();
+            networkManager = new NetworkManager(config.getInt("options.max-network-size"));
 
             // Setting up bStats
             metricsService.start();
@@ -306,14 +304,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }, 0);
 
             // Setting up the command /sf and all subcommands
-            command = new SlimefunCommand(this);
+            command.register();
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
                 getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
             }
-
-            ticker = new TickerTask();
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
 
@@ -385,7 +381,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             return true;
         }
 
-        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);;
+        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);
         return false;
     }
 

@@ -46,6 +46,17 @@ public abstract class Network {
      */
     public abstract NetworkComponent classifyLocation(Location l);
 
+    /**
+     * This method is called whenever a {@link Location} in this {@link Network} changes
+     * its classification.
+     * 
+     * @param l
+     *            The {@link Location} that is changing its classification
+     * @param from
+     *            The {@link NetworkComponent} this {@link Location} was previously classified as
+     * @param to
+     *            The {@link NetworkComponent} this {@link Location} is changing to
+     */
     public abstract void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
     protected Location regulator;
