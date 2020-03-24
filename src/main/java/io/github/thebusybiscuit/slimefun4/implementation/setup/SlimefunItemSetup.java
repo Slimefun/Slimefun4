@@ -715,6 +715,7 @@ public final class SlimefunItemSetup {
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.GOLD_4K, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.GOLD_DUST, null, null, null, null, null, null, null, null})
+		.setUseableInWorkbench(true)
 		.register(plugin);
 
 		new SlimefunItem(Categories.MISC, (SlimefunItemStack) SlimefunItems.STONE_CHUNK, RecipeType.ORE_WASHER,
