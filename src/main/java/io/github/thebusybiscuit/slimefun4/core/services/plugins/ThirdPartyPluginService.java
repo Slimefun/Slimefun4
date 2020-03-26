@@ -32,8 +32,9 @@ public class ThirdPartyPluginService {
     private boolean isEmeraldEnchantsInstalled = false;
     private boolean isCoreProtectInstalled = false;
     private boolean isPlaceholderAPIInstalled = false;
-    
-    private Function<Block, Optional<ItemStack>> exoticGardenIntegration;
+
+    // Overridden if ExoticGarden is loaded
+    private Function<Block, Optional<ItemStack>> exoticGardenIntegration = b -> Optional.empty();
 
     public ThirdPartyPluginService(SlimefunPlugin plugin) {
         this.plugin = plugin;
@@ -54,7 +55,7 @@ public class ThirdPartyPluginService {
             if (isPluginInstalled("ClearLag")) {
                 new ClearLagHook(plugin);
             }
-            
+
             isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
             isEmeraldEnchantsInstalled = isPluginInstalled("EmeraldEnchants");
 
@@ -83,7 +84,7 @@ public class ThirdPartyPluginService {
             return false;
         }
     }
-    
+
     public void loadExoticGarden(Plugin plugin, Function<Block, Optional<ItemStack>> method) {
         if (plugin.getName().equals("ExoticGarden")) {
             isExoticGardenInstalled = true;
