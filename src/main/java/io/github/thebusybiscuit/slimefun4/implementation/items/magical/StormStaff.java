@@ -94,7 +94,8 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
                                 item.setAmount(0);
                             }
                             else {
-                                itemMeta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, --currentUses);
+                                currentUses--;
+                                itemMeta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, currentUses);
                                 itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + currentUses + ' ' + (currentUses > 1 ? "Uses" : "Use") + " &7left"));
                                 itemMeta.setLore(itemLore);
                                 item.setItemMeta(itemMeta);

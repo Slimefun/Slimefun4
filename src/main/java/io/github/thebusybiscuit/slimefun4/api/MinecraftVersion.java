@@ -33,7 +33,7 @@ public enum MinecraftVersion {
     private final String name;
     private final String prefix;
 
-    private MinecraftVersion(String name) {
+    MinecraftVersion(String name) {
         this.name = name;
         this.prefix = name().replace("MINECRAFT_", "v") + '_';
     }

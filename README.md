@@ -17,7 +17,8 @@ Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons),
 * **[Wiki](https://github.com/TheBusyBiscuit/Slimefun4/wiki)**
 
 ## Download Slimefun 4
-Slimefun 4 can be downloaded for free on our builds page.<br>
+(See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))<br>
+Slimefun 4 can be downloaded **for free** on our builds page.<br>
 We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
 Here is a full summary of the differences between these two versions of Slimefun.
 
@@ -30,7 +31,7 @@ Here is a full summary of the differences between these two versions of Slimefun
 | **Bug Reports** | :heavy_check_mark: | :x: |
 | **frequent updates & fast patches** | :heavy_check_mark: | :x: |
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
-| **Download** | :package: **[download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable" build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
+| **Download link** | :package: **[download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable" build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
 **We wholeheartedly recommend you to use development builds.**<br>
 But we can understand the use of "stable" builds if your server's livelihood heavily depends on Slimefun.<br>
@@ -80,9 +81,10 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 * [Common issues](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Common-Issues)
 
 ## Contributing to this project
-Slimefun 4 is licensed under
+Slimefun 4 is an Open-Source project and licensed under
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE).<br>
-Over 100 people have already contributed to this amazing project. You guys are awesome.
+Over 100 people have already contributed to this amazing project. You guys are awesome.<br>
+Please consider helping us maintain this project too, your engagement keeps the project alive <3.
 
 <p align="center">
   <a href="https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors">

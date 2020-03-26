@@ -47,7 +47,7 @@ public enum Radioactivity {
 
     private final ChatColor color;
 
-    private Radioactivity(ChatColor color) {
+    Radioactivity(ChatColor color) {
         this.color = color;
     }
 

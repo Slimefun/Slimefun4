@@ -56,7 +56,7 @@ enum ScriptAction {
     private final ItemStack item;
     private final AndroidType type;
 
-    private ScriptAction(AndroidType type, String texture) {
+    ScriptAction(AndroidType type, String texture) {
         this.type = type;
         this.item = SkullItem.fromHash(texture);
     }

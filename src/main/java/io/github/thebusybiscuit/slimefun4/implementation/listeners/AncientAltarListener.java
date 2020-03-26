@@ -25,7 +25,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -135,7 +134,7 @@ public class AncientAltarListener implements Listener {
             p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
         }
     }
-    
+
     private void useAltar(Block b, Player p) {
         ItemStack catalyst = new CustomItem(p.getInventory().getItemInMainHand(), 1);
         List<Block> pedestals = getPedestals(b);
@@ -258,7 +257,7 @@ public class AncientAltarListener implements Listener {
         String nametag = ItemUtils.getItemName(stack);
         Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
         entity.setVelocity(new Vector(0, 0.1, 0));
-        entity.setMetadata("no_pickup", new FixedMetadataValue(SlimefunPlugin.instance, "altar_item"));
+        SlimefunUtils.markAsNoPickup(entity, "altar_item");
         entity.setCustomNameVisible(true);
         entity.setCustomName(nametag);
         p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);

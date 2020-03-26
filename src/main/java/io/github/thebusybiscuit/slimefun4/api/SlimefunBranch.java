@@ -33,7 +33,7 @@ public enum SlimefunBranch {
     private final String name;
     private final boolean official;
 
-    private SlimefunBranch(String name, boolean official) {
+    SlimefunBranch(String name, boolean official) {
         this.name = name;
         this.official = official;
     }

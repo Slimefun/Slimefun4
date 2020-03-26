@@ -5,12 +5,15 @@ import java.util.Optional;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -31,8 +34,34 @@ public final class SlimefunUtils {
 
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
     private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
+    private static final String NO_PICKUP_METADATA = "no_pickup";
 
     private SlimefunUtils() {}
+
+    /**
+     * This method quickly returns whether an {@link Item} was marked as "no_pickup" by
+     * a Slimefun device.
+     * 
+     * @param item
+     *            The {@link Item} to query
+     * @return Whether the {@link Item} is excluded from being picked up
+     */
+    public static boolean hasNoPickupFlag(Item item) {
+        return !item.hasMetadata(NO_PICKUP_METADATA);
+    }
+
+    /**
+     * This will prevent the given {@link Item} from being picked up.
+     * This is useful for display items which the {@link AncientPedestal} uses.
+     * 
+     * @param item
+     *            The {@link Item} to prevent from being picked up
+     * @param context
+     *            The context in which this {@link Item} was flagged
+     */
+    public static void markAsNoPickup(Item item, String context) {
+        item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance, context));
+    }
 
     /**
      * This method checks whether the given {@link ItemStack} is considered {@link Soulbound}.

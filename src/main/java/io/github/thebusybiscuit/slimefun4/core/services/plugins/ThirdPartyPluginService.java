@@ -1,7 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.logging.Level;
 
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -28,6 +32,8 @@ public class ThirdPartyPluginService {
     private boolean isEmeraldEnchantsInstalled = false;
     private boolean isCoreProtectInstalled = false;
     private boolean isPlaceholderAPIInstalled = false;
+    
+    private Function<Block, Optional<ItemStack>> exoticGardenIntegration;
 
     public ThirdPartyPluginService(SlimefunPlugin plugin) {
         this.plugin = plugin;
@@ -48,8 +54,7 @@ public class ThirdPartyPluginService {
             if (isPluginInstalled("ClearLag")) {
                 new ClearLagHook(plugin);
             }
-
-            isExoticGardenInstalled = isPluginInstalled("ExoticGarden");
+            
             isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
             isEmeraldEnchantsInstalled = isPluginInstalled("EmeraldEnchants");
 
@@ -78,6 +83,13 @@ public class ThirdPartyPluginService {
             return false;
         }
     }
+    
+    public void loadExoticGarden(Plugin plugin, Function<Block, Optional<ItemStack>> method) {
+        if (plugin.getName().equals("ExoticGarden")) {
+            isExoticGardenInstalled = true;
+            exoticGardenIntegration = method;
+        }
+    }
 
     public boolean isExoticGardenInstalled() {
         return isExoticGardenInstalled;
@@ -97,6 +109,10 @@ public class ThirdPartyPluginService {
 
     public boolean isPlaceholderAPIInstalled() {
         return isPlaceholderAPIInstalled;
+    }
+
+    public Optional<ItemStack> harvestExoticGardenPlant(Block block) {
+        return exoticGardenIntegration.apply(block);
     }
 
 }

@@ -451,7 +451,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         ChestMenu menu = create(p);
         Optional<String> wiki = item.getWikipage();
-        
+
         if (wiki.isPresent()) {
             menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
@@ -614,7 +614,17 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             int outputs = 45;
 
             for (int i = 0; i < 18; i++) {
-                int slot = i % 2 == 0 ? inputs++ : outputs++;
+                int slot;
+
+                if (i % 2 == 0) {
+                    slot = inputs;
+                    inputs++;
+                }
+                else {
+                    slot = outputs;
+                    outputs++;
+                }
+
                 addDisplayRecipe(menu, profile, recipes, slot, i, page);
             }
         }

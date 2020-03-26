@@ -7,6 +7,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.minebuilders.clearlag.events.EntityRemoveEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
@@ -23,7 +24,7 @@ class ClearLagHook implements Listener {
         while (iterator.hasNext()) {
             Entity n = iterator.next();
 
-            if (n instanceof Item && n.hasMetadata("no_pickup")) {
+            if (n instanceof Item && SlimefunUtils.hasNoPickupFlag((Item) n)) {
                 iterator.remove();
             }
         }

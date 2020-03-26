@@ -184,7 +184,7 @@ public final class SlimefunGuideSettings {
             Language language = SlimefunPlugin.getLocal().getLanguage(p);
             String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")") : SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
 
-            menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"), (pl, slot, item, action) -> {
+            menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7some messages, not items.", "&7&oThis feature is still being worked on", "", "&7\u21E8 &eClick to change your language"), (pl, slot, item, action) -> {
                 openLanguages(pl);
                 return false;
             });

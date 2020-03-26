@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -41,8 +42,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
@@ -55,9 +54,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHook
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
@@ -65,8 +62,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemC
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
@@ -75,9 +70,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
@@ -135,6 +130,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+            long timestamp = System.nanoTime();
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
             if (isVersionUnsupported()) {
@@ -256,52 +252,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new PlayerProfileListener(this);
 
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
-            Slimefun.runSync(() -> {
-                textureService.register(registry.getAllSlimefunItems());
-                permissionsService.register(registry.getAllSlimefunItems());
-                recipeService.load();
-
+            Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
-
-                PostSetup.loadItems();
-
-                for (World world : Bukkit.getWorlds()) {
-                    new BlockStorage(world);
-                }
-
-                if (isEnabled("ANCIENT_ALTAR")) {
-                    ancientAltarListener.load(this);
-                }
-
-                if (isEnabled("GRAPPLING_HOOK")) {
-                    grapplingHookListener.load(this);
-                }
-
-                if (isEnabled("BLADE_OF_VAMPIRES")) {
-                    new VampireBladeListener(this);
-                }
-
-                if (isEnabled("COOLER")) {
-                    new CoolerListener(this);
-                }
-
-                if (isEnabled("SEISMIC_AXE")) {
-                    new SeismicAxeListener(this);
-                }
-
-                if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
-                    new TeleporterListener(this);
-                }
-
-                if (isEnabled("PROGRAMMABLE_ANDROID_BUTCHER", "PROGRAMMABLE_ANDROID_2_BUTCHER", "PROGRAMMABLE_ANDROID_3_BUTCHER")) {
-                    new ButcherAndroidListener(this);
-                }
-
-                if (isEnabled("ENERGY_REGULATOR", "CARGO_MANAGER")) {
-                    new NetworkListener(this);
-                }
-
-            }, 0);
+            }), 0);
 
             // Setting up the command /sf and all subcommands
             command.register();
@@ -312,26 +265,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
-
-            // Starting all ASYNC Tasks
-            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-                try {
-                    ticker.run();
-                }
-                catch (Throwable x) {
-                    getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion());
-                    ticker.abortTick();
-                }
-            }, 100L, config.getInt("URID.custom-ticker-delay"));
-
+            ticker.start(this);
+            thirdPartySupportService.start();
             gitHubService.start(this);
 
-            // Hooray!
-            getLogger().log(Level.INFO, "Finished!");
-            thirdPartySupportService.start();
-
-            // Do not show /sf elevator command in our Log, it could get quite spammy
+            // Exclude the command /sf elevator from our server log, it could get quite spammy
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
+
+            // Hooray!
+            getLogger().log(Level.INFO, "Slimefun has finished loading in {0}ms", DoubleHandler.fixDouble((System.nanoTime() - timestamp) / 1000000.0));
         }
         else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
@@ -347,17 +289,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return true;
             });
         }
-    }
-
-    private boolean isEnabled(String... itemIds) {
-        for (String id : itemIds) {
-            SlimefunItem item = SlimefunItem.getByID(id);
-
-            if (item != null && !item.isDisabled()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean isVersionUnsupported() {

@@ -65,6 +65,8 @@
 * Salt now only requires 2 blocks of Sand
 * Fireworks from researching no longer damages entities
 * Very slight performance improvements for Cargo networks
+* 4K-carat gold ingots can now be used in a workbench by default (overridden by Items.yml)
+* The project license is now included in every build
 
 #### Fixes
 * Fixed some languages showing numbers larger than 100%

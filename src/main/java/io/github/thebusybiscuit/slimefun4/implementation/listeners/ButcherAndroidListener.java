@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -43,7 +44,7 @@ public class ButcherAndroidListener implements Listener {
                 List<ItemStack> items = new ArrayList<>();
 
                 for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
-                    if (n instanceof Item && !n.hasMetadata("no_pickup")) {
+                    if (n instanceof Item && n.isValid() && !SlimefunUtils.hasNoPickupFlag((Item) n)) {
                         items.add(((Item) n).getItemStack());
                         n.remove();
                     }

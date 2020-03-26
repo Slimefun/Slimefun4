@@ -53,7 +53,7 @@ enum EmbeddedLanguage {
     private final String id;
     private final String textureHash;
 
-    private EmbeddedLanguage(String id, String textureHash) {
+    EmbeddedLanguage(String id, String textureHash) {
         this.id = id;
         this.textureHash = textureHash;
     }
