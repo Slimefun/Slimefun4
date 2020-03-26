@@ -84,6 +84,7 @@
 * Fixed Androids not taking fuel from interfaces
 * Fixed #1721
 * Fixed #1619
+* Fixed #1768
 
 ## Release Candidate 9 (07 Mar 2020)
 

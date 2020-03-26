@@ -254,6 +254,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
+                textureService.register(registry.getAllSlimefunItems());
+                permissionsService.register(registry.getAllSlimefunItems());
+                recipeService.load();
             }), 0);
 
             // Setting up the command /sf and all subcommands
