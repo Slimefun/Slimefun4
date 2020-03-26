@@ -46,7 +46,7 @@ public final class SlimefunUtils {
      *            The {@link Item} to query
      * @return Whether the {@link Item} is excluded from being picked up
      */
-    public static boolean has2NoPickupFlag(Item item) {
+    public static boolean hasNoPickupFlag(Item item) {
         return item.hasMetadata(NO_PICKUP_METADATA);
     }
 
