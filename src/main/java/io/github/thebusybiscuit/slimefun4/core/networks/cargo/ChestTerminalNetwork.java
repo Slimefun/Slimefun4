@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api.item_transport;
+package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +31,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
  * An abstract super class of {@link CargoNet} that handles interactions with ChestTerminal.

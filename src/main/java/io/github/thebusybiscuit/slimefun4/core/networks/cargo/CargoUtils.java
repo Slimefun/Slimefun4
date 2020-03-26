@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api.item_transport;
+package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 final class CargoUtils {
 
