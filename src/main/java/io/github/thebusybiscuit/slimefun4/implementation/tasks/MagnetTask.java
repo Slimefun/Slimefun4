@@ -16,13 +16,13 @@ public class MagnetTask extends PlayerTask {
 
     @Override
     public void executeTask() {
-        for (Entity n : p.getNearbyEntities(6D, 6D, 6D)) {
+        for (Entity n : p.getNearbyEntities(6, 6, 6)) {
             if (n instanceof Item) {
                 Item item = (Item) n;
 
                 if (!SlimefunUtils.hasNoPickupFlag(item) && item.getPickupDelay() <= 0) {
                     item.teleport(p.getEyeLocation());
-                    p.getWorld().playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+                    p.getWorld().playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 2);
                 }
             }
         }

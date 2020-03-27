@@ -14,10 +14,8 @@ import java.util.stream.IntStream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -39,7 +37,7 @@ public class ErrorReport {
 
     private File file;
 
-    public ErrorReport(Throwable throwable, Consumer<PrintStream> printer) {
+    public ErrorReport(Throwable throwable, SlimefunAddon addon, Consumer<PrintStream> printer) {
         Slimefun.runSync(() -> {
             file = getNewFile();
 
@@ -56,6 +54,7 @@ public class ErrorReport {
                 stream.println("Slimefun Environment:");
                 stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
                 stream.println("  Slimefun v" + SlimefunPlugin.instance.getDescription().getVersion());
+                stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
                 stream.println();
 
                 List<String> plugins = new ArrayList<>();
@@ -79,20 +78,25 @@ public class ErrorReport {
                 stream.println();
                 throwable.printStackTrace(stream);
 
-                Slimefun.getLogger().log(Level.WARNING, "");
-                Slimefun.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
-                Slimefun.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
-                Slimefun.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developers. This message does not have to be included.");
-                Slimefun.getLogger().log(Level.WARNING, "");
+                addon.getLogger().log(Level.WARNING, "");
+                addon.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
+                addon.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
+                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developers.");
+
+                if (addon.getBugTrackerURL() != null) {
+                    addon.getLogger().log(Level.WARNING, "Bug Tracker: " + addon.getBugTrackerURL());
+                }
+
+                addon.getLogger().log(Level.WARNING, "");
             }
             catch (FileNotFoundException x) {
-                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
+                addon.getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
             }
         });
     }
 
     public ErrorReport(Throwable throwable, Location l, SlimefunItem item) {
-        this(throwable, stream -> {
+        this(throwable, item.getAddon(), stream -> {
             stream.println("Block Info:");
             stream.println("  World: " + l.getWorld().getName());
             stream.println("  X: " + l.getBlockX());
@@ -114,47 +118,10 @@ public class ErrorReport {
     }
 
     public ErrorReport(Throwable throwable, SlimefunItem item) {
-        this(throwable, stream -> {
+        this(throwable, item.getAddon(), stream -> {
             stream.println("SlimefunItem:");
             stream.println("  ID: " + item.getID());
             stream.println("  Plugin: " + (item.getAddon() == null ? "Unknown" : item.getAddon().getName()));
-            stream.println();
-        });
-    }
-
-    public ErrorReport(Throwable throwable, Player p) {
-        this(throwable, stream -> {
-            stream.println("Player Info:");
-            stream.println("  ID: " + p.getUniqueId() + " (" + p.getName() + ")");
-            stream.println("  World: " + p.getWorld().getName());
-            stream.println("  X: " + p.getLocation().getX());
-            stream.println("  Y: " + p.getLocation().getY());
-            stream.println("  Z: " + p.getLocation().getZ());
-            stream.println("  Profile in RAM? " + PlayerProfile.isLoaded(p.getUniqueId()));
-            stream.println();
-            stream.println("Item in Main Hand:");
-            stream.println(p.getInventory().getItemInMainHand());
-            stream.println(SlimefunItem.getByItem(p.getInventory().getItemInMainHand()));
-            stream.println();
-            stream.println("Item in Off Hand:");
-            stream.println(p.getInventory().getItemInOffHand());
-            stream.println(SlimefunItem.getByItem(p.getInventory().getItemInOffHand()));
-            stream.println();
-            stream.println("Helmet:");
-            stream.println(p.getInventory().getHelmet());
-            stream.println(SlimefunItem.getByItem(p.getInventory().getHelmet()));
-            stream.println();
-            stream.println("Chestplate:");
-            stream.println(p.getInventory().getChestplate());
-            stream.println(SlimefunItem.getByItem(p.getInventory().getChestplate()));
-            stream.println();
-            stream.println("Leggings:");
-            stream.println(p.getInventory().getLeggings());
-            stream.println(SlimefunItem.getByItem(p.getInventory().getLeggings()));
-            stream.println();
-            stream.println("Boots:");
-            stream.println(p.getInventory().getBoots());
-            stream.println(SlimefunItem.getByItem(p.getInventory().getBoots()));
             stream.println();
         });
     }

@@ -55,6 +55,7 @@ public class SlimefunRegistry {
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = new HashSet<>();
     private final KeyMap<Research> researchIds = new KeyMap<>();
+
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;

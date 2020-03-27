@@ -122,9 +122,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Config config;
 
     // Listeners that need to be accessed elsewhere
-    private AncientAltarListener ancientAltarListener;
+    private final AncientAltarListener ancientAltarListener = new AncientAltarListener();
+    private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
     private BackpackListener backpackListener;
-    private GrapplingHookListener grapplingHookListener;
     private SlimefunBowListener bowListener;
 
     @Override
@@ -210,8 +210,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new IronGolemListener(this);
 
             bowListener = new SlimefunBowListener(this);
-            ancientAltarListener = new AncientAltarListener();
-            grapplingHookListener = new GrapplingHookListener();
 
             // Toggleable Listeners for performance reasons
             if (config.getBoolean("items.talismans")) {
@@ -387,15 +385,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     private void createDirectories() {
-        String[] storage = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
-        String[] general = { "scripts", "generators", "error-reports", "cache/github" };
+        String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
+        String[] pluginFolders = { "scripts", "generators", "error-reports", "cache/github" };
 
-        for (String file : storage) {
-            createDir("data-storage/Slimefun/" + file);
+        for (String folder : storageFolders) {
+            File file = new File("data-storage/Slimefun/" + folder);
+            if (!file.exists()) file.mkdirs();
         }
 
-        for (String file : general) {
-            createDir("plugins/Slimefun/" + file);
+        for (String folder : pluginFolders) {
+            File file = new File("plugins/Slimefun/" + folder);
+            if (!file.exists()) file.mkdirs();
         }
     }
 
@@ -416,11 +416,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         catch (Throwable x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
         }
-    }
-
-    private void createDir(String path) {
-        File file = new File(path);
-        if (!file.exists()) file.mkdirs();
     }
 
     public static Config getCfg() {
