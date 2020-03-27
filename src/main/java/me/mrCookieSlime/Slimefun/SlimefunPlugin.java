@@ -227,16 +227,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             thirdPartySupportService.start();
             gitHubService.start(this);
 
-            // Starting all ASYNC Tasks
-            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-                try {
-                    ticker.run();
-                } catch (Throwable x) {
-                    getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion());
-                    ticker.abortTick();
-                }
-            }, 100L, config.getInt("URID.custom-ticker-delay"));
-
             // Exclude the command /sf elevator from our server log, it could get quite spammy
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 
