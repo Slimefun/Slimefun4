@@ -224,6 +224,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
             ticker.start(this);
+            thirdPartySupportService.start();
+            gitHubService.start(this);
 
             // Starting all ASYNC Tasks
             getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
@@ -234,11 +236,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     ticker.abortTick();
                 }
             }, 100L, config.getInt("URID.custom-ticker-delay"));
-
-            gitHubService.start(this);
-
-            thirdPartySupportService.start();
-            gitHubService.start(this);
 
             // Exclude the command /sf elevator from our server log, it could get quite spammy
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
