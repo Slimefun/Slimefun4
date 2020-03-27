@@ -67,6 +67,7 @@
 * Very slight performance improvements for Cargo networks
 * 4K-carat gold ingots can now be used in a workbench by default (overridden by Items.yml)
 * The project license is now included in every build
+* Moved EmeraldsEnchants integration from EmeraldEnchants to Slimefun
 
 #### Fixes
 * Fixed some languages showing numbers larger than 100%

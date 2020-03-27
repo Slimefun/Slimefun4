@@ -4,12 +4,12 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-abstract class SlimefunTask implements Runnable {
+abstract class PlayerTask implements Runnable {
 
     protected int id;
     protected Player p;
 
-    public SlimefunTask(Player p) {
+    public PlayerTask(Player p) {
         this.p = p;
     }
 
@@ -33,10 +33,10 @@ abstract class SlimefunTask implements Runnable {
     }
 
     /**
-     * This method checks if this {@link SlimefunTask} should be continued or cancelled.
-     * It will also cancel this {@link SlimefunTask} if it became invalid.
+     * This method checks if this {@link PlayerTask} should be continued or cancelled.
+     * It will also cancel this {@link PlayerTask} if it became invalid.
      * 
-     * @return Whether this {@link SlimefunTask} is still valid
+     * @return Whether this {@link PlayerTask} is still valid
      */
     protected boolean isValid() {
         if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isSneaking()) {

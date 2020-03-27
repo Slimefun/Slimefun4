@@ -1193,7 +1193,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_AIR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_EARTH, SlimefunItems.NECROTIC_SKULL, SlimefunItems.RUNE_FIRE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3})
 		.register(plugin);
 
-		new SoulboundBackpack(36, Categories.PORTABLE, (SlimefunItemStack) SlimefunItems.BOUND_BACKPACK,
+		new SoulboundBackpack(36, Categories.PORTABLE, SlimefunItems.BOUND_BACKPACK,
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.WOVEN_BACKPACK, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2})
 		.register(plugin);
 

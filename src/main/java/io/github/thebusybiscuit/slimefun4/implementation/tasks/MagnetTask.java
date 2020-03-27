@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-public class MagnetTask extends SlimefunTask {
+public class MagnetTask extends PlayerTask {
 
     public MagnetTask(Player p) {
         super(p);

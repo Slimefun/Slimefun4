@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
-public class JetpackTask extends SlimefunTask {
+public class JetpackTask extends PlayerTask {
 
     private final double thrust;
 

@@ -11,7 +11,7 @@ import org.bukkit.util.Vector;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
-public class JetBootsTask extends SlimefunTask {
+public class JetBootsTask extends PlayerTask {
 
     private final double speed;
 
