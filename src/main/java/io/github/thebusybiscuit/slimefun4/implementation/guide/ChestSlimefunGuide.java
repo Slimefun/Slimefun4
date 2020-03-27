@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.bukkit.ChatColor;
@@ -257,17 +258,23 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                 else {
                     menu.addItem(index, sfitem.getItem());
                     menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                        if (survival) {
-                            displayItem(profile, sfitem, true);
-                        }
-                        else {
-                            if (sfitem instanceof MultiBlockMachine) {
-                                SlimefunPlugin.getLocal().sendMessage(pl, "guide.cheat.no-multiblocks");
+                        try {
+                            if (survival) {
+                                displayItem(profile, sfitem, true);
                             }
                             else {
-                                pl.getInventory().addItem(sfitem.getItem().clone());
+                                if (sfitem instanceof MultiBlockMachine) {
+                                    SlimefunPlugin.getLocal().sendMessage(pl, "guide.cheat.no-multiblocks");
+                                }
+                                else {
+                                    pl.getInventory().addItem(sfitem.getItem().clone());
+                                }
                             }
                         }
+                        catch (RuntimeException x) {
+                            printErrorMessage(pl, x);
+                        }
+
                         return false;
                     });
 
@@ -320,11 +327,16 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
                 menu.addItem(index, itemstack);
                 menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
-                    if (!survival) {
-                        pl.getInventory().addItem(item.getItem().clone());
+                    try {
+                        if (!survival) {
+                            pl.getInventory().addItem(item.getItem().clone());
+                        }
+                        else {
+                            displayItem(profile, item, true);
+                        }
                     }
-                    else {
-                        displayItem(profile, item, true);
+                    catch (RuntimeException x) {
+                        printErrorMessage(pl, x);
                     }
 
                     return false;
@@ -486,7 +498,14 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         addBackButton(menu, 0, p, profile, true);
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
-            displayItem(profile, itemstack, 0, true);
+            try {
+                if (itemstack.getType() != Material.BARRIER) {
+                    displayItem(profile, itemstack, 0, true);
+                }
+            }
+            catch (RuntimeException x) {
+                printErrorMessage(pl, x);
+            }
             return false;
         };
 
@@ -659,6 +678,11 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), sound, 1, 1));
         return menu;
+    }
+
+    private void printErrorMessage(Player p, RuntimeException x) {
+        p.sendMessage(ChatColor.DARK_RED + "An internal server error has occured. Please inform an admin, check the console for further info.");
+        Slimefun.getLogger().log(Level.SEVERE, "An error has occured while trying to open a SlimefunItem in the guide!");
     }
 
 }
