@@ -45,6 +45,11 @@ public class ThirdPartyPluginService {
             isPlaceholderAPIInstalled = true;
             new PlaceholderAPIHook().register();
         }
+        
+        if (isPluginInstalled("EmeraldEnchants")) {
+            isEmeraldEnchantsInstalled = true;
+            Slimefun.registerGuideHandler(new EmeraldEnchantsHook());
+        }
 
         /*
          * These Items are not marked as soft-dependencies and
@@ -57,7 +62,6 @@ public class ThirdPartyPluginService {
             }
 
             isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
-            isEmeraldEnchantsInstalled = isPluginInstalled("EmeraldEnchants");
 
             // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
             if (isPluginInstalled("WorldEdit")) {

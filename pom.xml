@@ -231,22 +231,20 @@
             <version>2.10.5</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.TheBusyBiscuit</groupId>
+            <artifactId>EmeraldEnchants2</artifactId>
+            <version>3cd370b5d8</version>
+            <scope>provided</scope>
+        </dependency>
         
-        <!-- System dependencies, these projects have no repository -->
-        <!-- In EmeraldEnchant's case it would create a dependency loop otherwise -->
+        <!-- System dependency, this project has no maven repository -->
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
             <version>2.9.7</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>me.mrCookieSlime</groupId>
-            <artifactId>EmeraldEnchants</artifactId>
-            <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/EmeraldEnchants v2.0.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
