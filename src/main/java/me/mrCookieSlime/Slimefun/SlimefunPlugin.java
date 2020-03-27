@@ -141,10 +141,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             instance = this;
 
             // Creating all necessary Folders
-            getLogger().log(Level.INFO, "Loading Files...");
+            getLogger().log(Level.INFO, "Loading files...");
             createDirectories();
 
-            getLogger().log(Level.INFO, "Loading Config...");
+            getLogger().log(Level.INFO, "Loading config...");
 
             // Setup config.yml
             config = new Config(this);
@@ -180,30 +180,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Loading GEO-Resources...");
             GEOResourcesSetup.setup();
 
-            getLogger().log(Level.INFO, "Loading Items...");
-            PostSetup.setupItemSettings();
+            getLogger().log(Level.INFO, "Loading items...");
+            loadItems();
 
-            try {
-                SlimefunItemSetup.setup(this);
-            }
-            catch (Throwable x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
-            }
-
-            getLogger().log(Level.INFO, "Loading Researches...");
-
-            try {
-                ResearchSetup.setupResearches();
-            }
-            catch (Throwable x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
-            }
+            getLogger().log(Level.INFO, "Loading researches...");
+            loadResearches();
 
             registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
             PostSetup.setupWiki();
-
-            // Setting up GitHub Connectors...
-            gitHubService.connect(false);
 
             // All Slimefun Listeners
             new SlimefunBootsListener(this);
@@ -276,7 +260,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 
             // Hooray!
-            getLogger().log(Level.INFO, "Slimefun has finished loading in {0}ms", DoubleHandler.fixDouble((System.nanoTime() - timestamp) / 1000000.0));
+            getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
         }
         else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
@@ -291,6 +275,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 sender.sendMessage("https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
                 return true;
             });
+        }
+    }
+
+    private String getStartupTime(long timestamp) {
+        long ms = (System.nanoTime() - timestamp) / 1000000;
+
+        if (ms > 1000) {
+            return DoubleHandler.fixDouble(ms / 1000) + "s";
+        }
+        else {
+            return DoubleHandler.fixDouble(ms) + "ms";
         }
     }
 
@@ -401,6 +396,25 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         for (String file : general) {
             createDir("plugins/Slimefun/" + file);
+        }
+    }
+
+    private void loadItems() {
+        try {
+            PostSetup.setupItemSettings();
+            SlimefunItemSetup.setup(this);
+        }
+        catch (Throwable x) {
+            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
+        }
+    }
+
+    private void loadResearches() {
+        try {
+            ResearchSetup.setupResearches();
+        }
+        catch (Throwable x) {
+            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
         }
     }
 
