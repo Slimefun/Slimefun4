@@ -40,11 +40,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     private final int[] recipeSlots = {3, 4, 5, 12, 13, 14, 21, 22, 23};
     private static final int CATEGORY_SIZE = 36;
-
+    private final Sound sound;
     private final boolean showVanillaRecipes;
 
     public ChestSlimefunGuide(boolean showVanillaRecipes) {
         this.showVanillaRecipes = showVanillaRecipes;
+        this.sound = Sound.ITEM_BOOK_PAGE_TURN;
     }
 
     @Override
@@ -426,12 +427,13 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         ItemStack[] recipe = item.getRecipe();
 
         ChestMenu menu = create(p);
+        Optional<String> wiki = item.getWikipage();
 
-        if (item.hasWikipage()) {
+        if (wiki.isPresent()) {
             menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
-                ChatUtils.sendURL(pl, item.getWikipage());
+                ChatUtils.sendURL(pl, wiki.get());
                 return false;
             });
         }
@@ -566,7 +568,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
                 if (page > 0) {
                     displayRecipes(pl, profile, menu, sfItem, page - 1);
-                    pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
+                    pl.playSound(pl.getLocation(), sound, 1, 1);
                 }
 
                 return false;
@@ -576,7 +578,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
                 if (recipes.size() > (18 * (page + 1))) {
                     displayRecipes(pl, profile, menu, sfItem, page + 1);
-                    pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
+                    pl.playSound(pl.getLocation(), sound, 1, 1);
                 }
 
                 return false;
@@ -586,7 +588,15 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             int outputs = 45;
 
             for (int i = 0; i < 18; i++) {
-                int slot = i % 2 == 0 ? inputs++ : outputs++;
+                int slot;
+
+                if (i % 2 == 0) {
+                    slot = inputs;
+                    inputs++;
+                } else {
+                    slot = outputs;
+                    outputs++;
+                }
                 addDisplayRecipe(menu, profile, recipes, slot, i, page);
             }
         }
@@ -614,11 +624,11 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private static ChestMenu create(Player p) {
+    private ChestMenu create(Player p) {
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
 
         menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1));
+        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), sound, 1, 1));
         return menu;
     }
 

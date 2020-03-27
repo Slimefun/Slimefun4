@@ -308,4 +308,15 @@ public class TickerTask implements Runnable {
         delete.put(l, destroy);
     }
 
+    public void start(SlimefunPlugin plugin) {
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+            try {
+                run();
+            } catch (Throwable x) {
+                plugin.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
+                abortTick();
+            }
+        }, 100L, SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay"));
+    }
+
 }

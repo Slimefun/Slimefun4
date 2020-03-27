@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -14,10 +15,14 @@ public class MagnetTask extends SlimefunTask {
 
     @Override
     public void executeTask() {
-        for (Entity item : p.getNearbyEntities(6D, 6D, 6D)) {
-            if (item instanceof Item && !item.hasMetadata("no_pickup") && ((Item) item).getPickupDelay() <= 0) {
-                item.teleport(p.getEyeLocation());
-                p.getWorld().playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+        for (Entity n : p.getNearbyEntities(6D, 6D, 6D)) {
+            if (n instanceof Item) {
+                Item item = (Item) n;
+
+                if (!SlimefunUtils.hasNoPickupFlag(item) && item.getPickupDelay() <= 0) {
+                    item.teleport(p.getEyeLocation());
+                    p.getWorld().playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+                }
             }
         }
     }

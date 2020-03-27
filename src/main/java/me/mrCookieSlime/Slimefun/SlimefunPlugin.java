@@ -2,8 +2,10 @@ package me.mrCookieSlime.Slimefun;
 
 import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
@@ -20,9 +22,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
@@ -36,8 +38,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -51,9 +52,11 @@ import java.util.stream.Collectors;
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
+    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
-    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
+    private final TickerTask ticker = new TickerTask();
+    private final SlimefunCommand command = new SlimefunCommand(this);
 
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
@@ -73,9 +76,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private NetworkManager networkManager;
     private ProtectionManager protections;
 
-    private TickerTask ticker;
-    private SlimefunCommand command;
-
+    // Important config files for Slimefun
     private Config researches;
     private Config items;
     private Config whitelist;
@@ -90,6 +91,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+            long timestamp = System.nanoTime();
 
             if (isVersionUnsupported()) {
                 getServer().getPluginManager().disablePlugin(this);
@@ -118,11 +120,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             permissionsService.load();
             local = new LocalizationService(this, config.getString("options.language"));
 
-            // Setting up Network classes
-            networkManager = new NetworkManager(config.getInt("options.max-network-size"));
-
-            // Setting up other stuff
+            // Setting up Network
             gpsNetwork = new GPSNetwork();
+            networkManager = new NetworkManager(config.getInt("options.max-network-size"));
 
             // Setting up bStats
             metricsService.start();
@@ -207,60 +207,23 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new PlayerProfileListener(this);
 
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
-            Slimefun.runSync(() -> {
+            Slimefun.runSync(new SlimefunStartupTask(this, () -> {
+                protections = new ProtectionManager(getServer());
                 textureService.register(registry.getAllSlimefunItems());
                 permissionsService.register(registry.getAllSlimefunItems());
-
                 recipeService.load();
-                protections = new ProtectionManager(getServer());
-
-                PostSetup.loadItems();
-
-                for (World world : Bukkit.getWorlds()) {
-                    new BlockStorage(world);
-                }
-
-                if (isEnabled("ANCIENT_ALTAR")) {
-                    ancientAltarListener.load(this);
-                }
-
-                if (isEnabled("GRAPPLING_HOOK")) {
-                    grapplingHookListener.load(this);
-                }
-
-                if (isEnabled("BLADE_OF_VAMPIRES")) {
-                    new VampireBladeListener(this);
-                }
-
-                if (isEnabled("COOLER")) {
-                    new CoolerListener(this);
-                }
-
-                if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
-                    new TeleporterListener(this);
-                }
-
-                if (isEnabled("PROGRAMMABLE_ANDROID_BUTCHER", "PROGRAMMABLE_ANDROID_2_BUTCHER", "PROGRAMMABLE_ANDROID_3_BUTCHER")) {
-                    new ButcherAndroidListener(this);
-                }
-
-                if (isEnabled("ENERGY_REGULATOR", "CARGO_MANAGER")) {
-                    new NetworkListener(this);
-                }
-
-            }, 0);
+            }), 0);
 
             // Setting up the command /sf and all subcommands
-            command = new SlimefunCommand(this);
+            command.register();
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
                 getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
             }
 
-            ticker = new TickerTask();
-
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
+            ticker.start(this);
 
             // Starting all ASYNC Tasks
             getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
@@ -274,12 +237,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             gitHubService.start(this);
 
-            // Hooray!
-            getLogger().log(Level.INFO, "完成!");
             thirdPartySupportService.start();
+            gitHubService.start(this);
 
-            // Do not show /sf elevator command in our Log, it could get quite spammy
+            // Exclude the command /sf elevator from our server log, it could get quite spammy
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
+
+            // Hooray!
+            getLogger().log(Level.INFO, "Slimefun 加载完成, 耗时 {0}ms", DoubleHandler.fixDouble((System.nanoTime() - timestamp) / 1000000.0));
         } else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");
@@ -293,17 +258,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return true;
             });
         }
-    }
-
-    private boolean isEnabled(String... itemIds) {
-        for (String id : itemIds) {
-            SlimefunItem item = SlimefunItem.getByID(id);
-
-            if (item != null && !item.isDisabled()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean isVersionUnsupported() {
@@ -324,7 +278,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "###");
             getLogger().log(Level.SEVERE, "### 你正在使用 Minecraft " + ReflectionUtils.getVersion());
             getLogger().log(Level.SEVERE, "### 但 Slimefun v" + getDescription().getVersion() + " 仅支持");
-            getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", MinecraftVersion.getSupportedVersions()));
+            getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
             getLogger().log(Level.SEVERE, "###");
             getLogger().log(Level.SEVERE, "### 请考虑使用关闭自动更新的旧版本或者升级服务端版本");
             return true;
@@ -332,6 +286,18 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         getLogger().log(Level.WARNING, "我们无法识别出你在用的服务端版本 :( ({0})", currentVersion);
         return false;
+    }
+
+    private Collection<String> getSupportedVersions() {
+        List<String> list = new ArrayList<>();
+
+        for (MinecraftVersion version : MinecraftVersion.values()) {
+            if (version != MinecraftVersion.UNKNOWN) {
+                list.add(version.getName());
+            }
+        }
+
+        return list;
     }
 
     @Override

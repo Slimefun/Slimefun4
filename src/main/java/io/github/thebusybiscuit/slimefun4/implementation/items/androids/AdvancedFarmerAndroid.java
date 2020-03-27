@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
-import me.mrCookieSlime.ExoticGarden.ExoticGarden;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -11,13 +10,17 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Optional;
+
 /**
  * The {@link AdvancedFarmerAndroid} is an extension of the {@link FarmerAndroid}.
  * It also allows the {@link Player} to harvest plants from the addon ExoticGarden.
  *
  * @author John000708
  * @author TheBusyBiscuit
+ *
  * @see FarmerAndroid
+ *
  */
 public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
 
@@ -35,11 +38,15 @@ public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
         farm(menu, block);
 
         if (SlimefunPlugin.getThirdPartySupportService().isExoticGardenInstalled()) {
-            ItemStack drop = ExoticGarden.harvestPlant(block);
+            Optional<ItemStack> result = SlimefunPlugin.getThirdPartySupportService().harvestExoticGardenPlant(block);
 
-            if (drop != null && menu.fits(drop, getOutputSlots())) {
+            if (result.isPresent()) {
+                ItemStack drop = result.get();
                 menu.pushItem(drop, getOutputSlots());
-                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+
+                if (menu.fits(drop, getOutputSlots())) {
+                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                }
             }
         }
     }

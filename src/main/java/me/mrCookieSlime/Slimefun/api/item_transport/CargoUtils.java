@@ -1,8 +1,8 @@
 package me.mrCookieSlime.Slimefun.api.item_transport;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -29,7 +29,7 @@ final class CargoUtils {
             for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
                 ItemStack is = menu.getItemInSlot(slot);
 
-                if (SlimefunManager.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
+                if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
                     if (is.getAmount() > template.getAmount()) {
                         menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                         return template;
@@ -64,7 +64,7 @@ final class CargoUtils {
         for (int slot = minSlot; slot < maxSlot; slot++) {
             ItemStack is = inv.getContents()[slot];
 
-            if (SlimefunManager.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
+            if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
                 if (is.getAmount() > template.getAmount()) {
                     inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                     return template;
@@ -131,7 +131,7 @@ final class CargoUtils {
                 if (is == null) {
                     menu.replaceExistingItem(slot, stack.clone());
                     return null;
-                } else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+                } else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                     int amount = is.getAmount() + stack.getAmount();
 
                     if (amount > is.getType().getMaxStackSize()) {
@@ -191,7 +191,7 @@ final class CargoUtils {
             if (is == null) {
                 inv.setItem(slot, stack.clone());
                 return null;
-            } else if (SlimefunManager.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+            } else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
                 int amount = is.getAmount() + stack.getAmount();
 
                 if (amount > is.getType().getMaxStackSize()) {
@@ -246,10 +246,10 @@ final class CargoUtils {
 
                 BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 
-                return SlimefunManager.isItemSimilar(item, items.get(index), lore);
+                return SlimefunUtils.isItemSimilar(item, items.get(index), lore);
             } else {
                 for (ItemStack stack : items) {
-                    if (SlimefunManager.isItemSimilar(item, stack, lore)) {
+                    if (SlimefunUtils.isItemSimilar(item, stack, lore)) {
                         return true;
                     }
                 }
@@ -258,7 +258,7 @@ final class CargoUtils {
             }
         } else {
             for (int slot : SLOTS) {
-                if (menu.getItemInSlot(slot) != null && SlimefunManager.isItemSimilar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
+                if (menu.getItemInSlot(slot) != null && SlimefunUtils.isItemSimilar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
                     return false;
                 }
             }

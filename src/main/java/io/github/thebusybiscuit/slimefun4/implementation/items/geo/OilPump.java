@@ -5,12 +5,12 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -111,7 +111,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
         }
         else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
                     OptionalInt supplies = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {

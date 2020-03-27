@@ -156,7 +156,7 @@ public class ErrorReport {
         });
     }
 
-    private void scanPlugins(List<String> plugins, List<String> addons) {
+    private static void scanPlugins(List<String> plugins, List<String> addons) {
         String dependency = "Slimefun";
 
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
@@ -176,7 +176,7 @@ public class ErrorReport {
         }
     }
 
-    private File getNewFile() {
+    private static File getNewFile() {
         String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
         File newFile = new File(path + ".err");
 

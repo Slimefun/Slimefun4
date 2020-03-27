@@ -8,22 +8,17 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class SlimefunItems {
@@ -66,7 +61,7 @@ public final class SlimefunItems {
     public static final ItemStack WOVEN_BACKPACK = new SlimefunItemStack("WOVEN_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&e编织背包", "", "&7大小: &e36", "&7ID: <ID>", "", "&7&e右键&7 打开");
     public static final ItemStack GILDED_BACKPACK = new SlimefunItemStack("GILDED_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&e镀金背包", "", "&7大小: &e45", "&7ID: <ID>", "", "&7&e右键&7 打开");
     public static final ItemStack RADIANT_BACKPACK = new SlimefunItemStack("RADIANT_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&e金光闪闪的背包", "", "&7大小: &e54 (大箱子)", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final ItemStack BOUND_BACKPACK = new SlimefunItemStack("BOUND_BACKPACK", "2a3b34862b9afb63cf8d5779966d3fba70af82b04e83f3eaf6449aeba", "&c灵魂绑定背包", "", "&7大小: &e36", "&7ID: <ID>", "", "&7&e右键&7 打开");
+    public static final SlimefunItemStack BOUND_BACKPACK = new SlimefunItemStack("BOUND_BACKPACK", "2a3b34862b9afb63cf8d5779966d3fba70af82b04e83f3eaf6449aeba", "&c灵魂绑定背包", "", "&7大小: &e36", "&7ID: <ID>", "", "&7&e右键&7 打开");
     public static final ItemStack COOLER = new SlimefunItemStack("COOLER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjMTU3MjU4NGViNWRlMjI5ZGU5ZjVhNGY3NzlkMGFhY2JhZmZkMzNiY2IzM2ViNDUzNmE2YTJiYzZhMSJ9fX0=", "&b小冰柜", "&r可以储存果汁和冰沙", "&r当小冰柜在你的物品栏里时", "&r在你饥饿时将会自动消耗里面的食物", "", "&7大小: &e27", "&7ID: <ID>", "", "&7&e右键&7 打开");
 
     /*		 Jetpacks		*/
@@ -354,14 +349,14 @@ public final class SlimefunItems {
     public static final ItemStack COOLING_UNIT = new SlimefunItemStack("COOLING_UNIT", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0YmFkODZjOTlkZjc4MGM4ODlhMTA5OGY3NzY0OGVhZDczODVjYzFkZGIwOTNkYTVhN2Q4YzRjMmFlNTRkIn19fQ==", "&b冷却装置");
     public static final ItemStack ELECTRIC_MOTOR = new SlimefunItemStack("ELECTRIC_MOTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNiY2EwMTJmNjdlNTRkZTlhZWU3MmZmNDI0ZTA1NmMyYWU1OGRlNWVhY2M5NDlhYjJiY2Q5NjgzY2VjIn19fQ==", "&c电动马达");
     public static final ItemStack CARGO_MOTOR = new SlimefunItemStack("CARGO_MOTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNiY2EwMTJmNjdlNTRkZTlhZWU3MmZmNDI0ZTA1NmMyYWU1OGRlNWVhY2M5NDlhYjJiY2Q5NjgzY2VjIn19fQ==", "&3货运马达");
-    public static final ItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new SlimefunItemStack("SCROLL_OF_DIMENSIONAL_TELEPOSITION", Material.PAPER, "&6维度传送卷轴", "", "&c这个卷轴可以便携地创建", "&c一个临时的黑洞", "&c将附近的实体都传送至", "&c另一个维度上", "&c所有东西都反转了", "", "&r就是说: 让实体转180°");
-    public static final ItemStack TOME_OF_KNOWLEDGE_SHARING = new SlimefunItemStack("TOME_OF_KNOWLEDGE_SHARING", Material.BOOK, "&6知识共享之书", "&7主人: &bNone", "", "&e右键&7 以绑定你的所有研究", "", "", "&e右键&7 以获得前任主人的所有研究");
+    public static final SlimefunItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new SlimefunItemStack("SCROLL_OF_DIMENSIONAL_TELEPOSITION", Material.PAPER, "&6维度传送卷轴", "", "&c这个卷轴可以便携地创建", "&c一个临时的黑洞", "&c将附近的实体都传送至", "&c另一个维度上", "&c所有东西都反转了", "", "&r就是说: 让实体转180°");
+    public static final SlimefunItemStack TOME_OF_KNOWLEDGE_SHARING = new SlimefunItemStack("TOME_OF_KNOWLEDGE_SHARING", Material.BOOK, "&6知识共享之书", "&7主人: &bNone", "", "&e右键&7 以绑定你的所有研究", "", "", "&e右键&7 以获得前任主人的所有研究");
     public static final ItemStack HARDENED_GLASS = new SlimefunItemStack("HARDENED_GLASS", Material.LIGHT_GRAY_STAINED_GLASS, "&7钢化玻璃", "", "&r可以抵抗爆炸");
     public static final ItemStack WITHER_PROOF_OBSIDIAN = new SlimefunItemStack("WITHER_PROOF_OBSIDIAN", Material.OBSIDIAN, "&5防凋零黑曜石", "", "&r可以抵抗爆炸和", "&r凋零的攻击");
     public static final ItemStack WITHER_PROOF_GLASS = new SlimefunItemStack("WITHER_PROOF_GLASS", Material.PURPLE_STAINED_GLASS, "&5防凋零玻璃", "", "&r可以抵抗爆炸和", "&r凋零的攻击");
     public static final ItemStack REINFORCED_PLATE = new SlimefunItemStack("REINFORCED_PLATE", Material.PAPER, "&7钢筋板");
-    public static final ItemStack ANCIENT_PEDESTAL = new SlimefunItemStack("ANCIENT_PEDESTAL", Material.DISPENSER, "&d古代基座", "", "&5古代祭坛的一部分");
-    public static final ItemStack ANCIENT_ALTAR = new SlimefunItemStack("ANCIENT_ALTAR", Material.ENCHANTING_TABLE, "&d古代祭坛", "", "&5在世界里建造祭坛", "&5并用古老的仪式合成物品");
+    public static final SlimefunItemStack ANCIENT_PEDESTAL = new SlimefunItemStack("ANCIENT_PEDESTAL", Material.DISPENSER, "&d古代基座", "", "&5古代祭坛的一部分");
+    public static final SlimefunItemStack ANCIENT_ALTAR = new SlimefunItemStack("ANCIENT_ALTAR", Material.ENCHANTING_TABLE, "&d古代祭坛", "", "&5在世界里建造祭坛", "&5并用古老的仪式合成物品");
     public static final ItemStack COPPER_WIRE = new SlimefunItemStack("COPPER_WIRE", Material.STRING, "&6铜线", "", "&6电子配件中的重要组成部分");
 
     public static final SlimefunItemStack RAINBOW_WOOL = new SlimefunItemStack("RAINBOW_WOOL", Material.WHITE_WOOL, "&5彩虹羊毛", "", "&d轮番展现彩虹的颜色!");
@@ -568,89 +563,18 @@ public final class SlimefunItems {
     public static final SlimefunItemStack SOULBOUND_TRIDENT = new SlimefunItemStack("SOULBOUND_TRIDENT", Material.TRIDENT, "&c灵魂绑定三叉戟");
 
     /*		Runes				*/
-    public static final ItemStack BLANK_RUNE;
-    public static final ItemStack RUNE_AIR;
-    public static final ItemStack RUNE_WATER;
-    public static final ItemStack RUNE_FIRE;
-    public static final ItemStack RUNE_EARTH;
-    public static final ItemStack RUNE_ENDER;
-    public static final ItemStack RUNE_RAINBOW;
-    public static final ItemStack RUNE_LIGHTNING;
-    public static final ItemStack RUNE_SOULBOUND;
+    /* Runes */
+    public static final ItemStack BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", new ColoredFireworkStar(Color.BLACK, "&8空白符文"));
 
-    static {
-        ItemStack itemB = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imB = (FireworkEffectMeta) itemB.getItemMeta();
-        imB.setEffect(FireworkEffect.builder().with(Type.BURST).with(Type.BURST).withColor(Color.BLACK).build());
-        imB.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&8空白符文"));
-        itemB.setItemMeta(imB);
-        BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", itemB);
+    public static final ItemStack RUNE_AIR = new SlimefunItemStack("ANCIENT_RUNE_AIR", new ColoredFireworkStar(Color.AQUA, "&7古代符文 &8&l[&b&l气&8&l]"));
+    public static final ItemStack RUNE_WATER = new SlimefunItemStack("ANCIENT_RUNE_WATER", new ColoredFireworkStar(Color.BLUE, "&7古代符文 &8&l[&1&l水&8&l]"));
+    public static final ItemStack RUNE_FIRE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", new ColoredFireworkStar(Color.RED, "&7古代符文 &8&l[&4&l火&8&l]"));
+    public static final ItemStack RUNE_EARTH = new SlimefunItemStack("ANCIENT_RUNE_EARTH", new ColoredFireworkStar(Color.fromRGB(112, 47, 7), "&7古代符文 &8&l[&c&l地&8&l]"));
+    public static final ItemStack RUNE_ENDER = new SlimefunItemStack("ANCIENT_RUNE_ENDER", new ColoredFireworkStar(Color.PURPLE, "&7古代符文 &8&l[&5&l末影&8&l]"));
 
-        ItemStack itemA = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imA = (FireworkEffectMeta) itemA.getItemMeta();
-        imA.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.AQUA).build());
-        imA.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&b&l气&8&l]"));
-        itemA.setItemMeta(imA);
-        RUNE_AIR = new SlimefunItemStack("ANCIENT_RUNE_AIR", itemA);
-
-        ItemStack itemW = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imW = (FireworkEffectMeta) itemW.getItemMeta();
-        imW.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.BLUE).build());
-        imW.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&1&l水&8&l]"));
-        itemW.setItemMeta(imW);
-        RUNE_WATER = new SlimefunItemStack("ANCIENT_RUNE_WATER", itemW);
-
-        ItemStack itemF = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imF = (FireworkEffectMeta) itemF.getItemMeta();
-        imF.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.RED).build());
-        imF.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&4&l火&8&l]"));
-        itemF.setItemMeta(imF);
-        RUNE_FIRE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", itemF);
-
-        ItemStack itemE = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imE = (FireworkEffectMeta) itemE.getItemMeta();
-        imE.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(112, 47, 7)).build());
-        imE.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&c&l地&8&l]"));
-        itemE.setItemMeta(imE);
-        RUNE_EARTH = new SlimefunItemStack("ANCIENT_RUNE_EARTH", itemE);
-
-        ItemStack itemN = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imN = (FireworkEffectMeta) itemN.getItemMeta();
-        imN.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.PURPLE).build());
-        imN.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&5&l末影&8&l]"));
-        itemN.setItemMeta(imN);
-        RUNE_ENDER = new SlimefunItemStack("ANCIENT_RUNE_ENDER", itemN);
-
-        ItemStack itemR = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imR = (FireworkEffectMeta) itemR.getItemMeta();
-        imR.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.FUCHSIA).build());
-        imR.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&d&l虹&8&l]"));
-        itemR.setItemMeta(imR);
-        RUNE_RAINBOW = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", itemR);
-
-        ItemStack itemL = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imL = (FireworkEffectMeta) itemL.getItemMeta();
-        imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(255, 255, 95)).build());
-        imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&e&l雷&8&l]"));
-        itemL.setItemMeta(imL);
-        RUNE_LIGHTNING = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", itemL);
-
-        ItemStack itemS = new ItemStack(Material.FIREWORK_STAR);
-        FireworkEffectMeta imS = (FireworkEffectMeta) itemS.getItemMeta();
-        imS.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.fromRGB(47, 0, 117)).build());
-        imS.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7古代符文 &8&l[&5&l灵魂绑定&8&l]"));
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.YELLOW + "先把你要绑定的物品丢到地上");
-        lore.add(ChatColor.YELLOW + "然后把这个符文丢向那个物品");
-        lore.add(ChatColor.DARK_PURPLE + "就能灵魂绑定 " + ChatColor.YELLOW + "那个物品.");
-        lore.add(" ");
-        lore.add(ChatColor.YELLOW + "建议你在" + ChatColor.GOLD + "重要 " + ChatColor.YELLOW + "物品上使用.");
-        lore.add(" ");
-        lore.add(ChatColor.YELLOW + "绑定后的物品死亡后不会掉落.");
-        imS.setLore(lore);
-        itemS.setItemMeta(imS);
-        RUNE_SOULBOUND = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", itemS);
-    }
+    public static final SlimefunItemStack RUNE_RAINBOW = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", new ColoredFireworkStar(Color.FUCHSIA, "&7古代符文 &8&l[&d&l虹&8&l]"));
+    public static final SlimefunItemStack RUNE_LIGHTNING = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", new ColoredFireworkStar(Color.fromRGB(255, 255, 95), "&7古代符文 &8&l[&e&l雷&8&l]"));
+    public static final SlimefunItemStack RUNE_SOULBOUND = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", new ColoredFireworkStar(Color.fromRGB(47, 0, 117), "&7古代符文 &8&l[&5&l灵魂绑定&8&l]", "&e先把你要绑定的物品丢到地上", "&e然后把这个符文丢向那个物品", "&5就能灵魂绑定 &e那个物品.", " ", "&e建议你在 &6重要 &e物品上使用.", " ", "&e绑定后的物品死亡后不会掉落."));
 
     /*		Electricity			*/
     public static final ItemStack SOLAR_GENERATOR = new SlimefunItemStack("SOLAR_GENERATOR", Material.DAYLIGHT_DETECTOR, "&b太阳能发电机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(4));

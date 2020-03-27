@@ -3,12 +3,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWasher;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -85,7 +85,7 @@ public abstract class ElectricDustWasher extends AContainer {
     }
 
     private boolean process(Block b, BlockMenu menu, int slot) {
-        if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
+        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
             if (!legacyMode) {
                 boolean emptySlot = false;
 
@@ -111,7 +111,7 @@ public abstract class ElectricDustWasher extends AContainer {
             }
 
             return true;
-        } else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
+        } else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
             MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[]{SlimefunItems.PURE_ORE_CLUSTER});
 
             if (menu.fits(r.getOutput()[0], getOutputSlots())) {

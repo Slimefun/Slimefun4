@@ -1,20 +1,20 @@
-package me.mrCookieSlime.Slimefun;
+package io.github.thebusybiscuit.slimefun4.api;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This enum holds all versions of Minecraft that we currently support.
  *
  * @author TheBusyBiscuit
+ *
  * @see SlimefunPlugin
+ *
  */
 public enum MinecraftVersion {
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.14
-     * (The "Village & Pillage" Update)
+     * (The "Village &amp; Pillage" Update)
      */
     MINECRAFT_1_14("1.14.x"),
 
@@ -58,16 +58,19 @@ public enum MinecraftVersion {
         return version.startsWith(prefix);
     }
 
-    static Collection<String> getSupportedVersions() {
-        List<String> list = new ArrayList<>();
-
-        for (MinecraftVersion version : values()) {
-            if (version != UNKNOWN) {
-                list.add(version.getName());
-            }
+    /**
+     * This method checks whether this {@link MinecraftVersion} is newer or equal to
+     * the given {@link MinecraftVersion},
+     *
+     * @param version The {@link MinecraftVersion} to compare
+     * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
+     */
+    public boolean isAtLeast(MinecraftVersion version) {
+        if (this == UNKNOWN) {
+            return false;
         }
 
-        return list;
+        return ordinal() >= version.ordinal();
     }
 
 }

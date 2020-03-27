@@ -85,6 +85,35 @@ public final class PostSetup {
             }
         }
 
+        loadAutomaticCraftingChamber();
+        loadOreGrinderRecipes();
+        loadSmelteryRecipes();
+
+        CommandSender sender = Bukkit.getConsoleSender();
+
+        int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
+        int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
+
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + "成功加载了 " + total + " 个物品和 " + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究");
+        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " 个物品来自 Slimefun, " + (total - vanilla) + " 个物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 个扩展 )");
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区维护的开源项目!");
+        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + " -- 源码:   https://github.com/StarWishsama/Slimefun4");
+        sender.sendMessage(ChatColor.GREEN + " -- Bug反馈:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
+        sender.sendMessage("");
+
+        sender.sendMessage("");
+
+        SlimefunPlugin.getItemCfg().save();
+        SlimefunPlugin.getResearchCfg().save();
+        SlimefunPlugin.getWhitelist().save();
+    }
+
+    private static void loadAutomaticCraftingChamber() {
         AutomatedCraftingChamber crafter = (AutomatedCraftingChamber) SlimefunItems.AUTOMATED_CRAFTING_CHAMBER.getItem();
 
         if (crafter != null) {
@@ -108,7 +137,9 @@ public final class PostSetup {
             }
 
         }
+    }
 
+    private static void loadOreGrinderRecipes() {
         List<ItemStack[]> grinderRecipes = new ArrayList<>();
 
         GrindStone grinder = (GrindStone) SlimefunItems.GRIND_STONE.getItem();
@@ -152,7 +183,9 @@ public final class PostSetup {
         }
 
         stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[]{recipe[0]}, new ItemStack[]{recipe[1]}));
+    }
 
+    private static void loadSmelteryRecipes() {
         Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
         if (smeltery != null) {
             ItemStack[] input = null;
@@ -173,6 +206,7 @@ public final class PostSetup {
                         // We want to exclude Dust to Ingot Recipes
                         if (inputs.size() == 1 && isDust(inputs.get(0))) {
                             ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem()).addRecipe(new ItemStack[]{inputs.get(0)}, recipe[0]);
+
                             registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{inputs.get(0)}, new ItemStack[]{recipe[0]});
                             registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{recipe[0]}, new ItemStack[]{inputs.get(0)});
                         } else {
@@ -184,29 +218,6 @@ public final class PostSetup {
                 }
             }
         }
-
-        CommandSender sender = Bukkit.getConsoleSender();
-
-        int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
-        int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
-
-        sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
-        sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "成功加载了 " + total + " 个物品和 " + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究");
-        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " 个物品来自 Slimefun, " + (total - vanilla) + " 个物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 个扩展 )");
-        sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区维护的开源项目!");
-        sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + " -- 源码:   https://github.com/StarWishsama/Slimefun4");
-        sender.sendMessage(ChatColor.GREEN + " -- Bug反馈:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
-        sender.sendMessage("");
-
-        sender.sendMessage("");
-
-        SlimefunPlugin.getItemCfg().save();
-        SlimefunPlugin.getResearchCfg().save();
-        SlimefunPlugin.getWhitelist().save();
     }
 
     private static boolean isDust(ItemStack item) {

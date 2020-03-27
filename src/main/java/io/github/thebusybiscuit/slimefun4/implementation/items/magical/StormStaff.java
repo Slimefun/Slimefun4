@@ -85,6 +85,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
                                 item.setAmount(0);
                             } else {
+                                currentUses--;
                                 itemMeta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, --currentUses);
                                 itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&7还可以使用 &e" + currentUses + " 次"));
                                 itemMeta.setLore(itemLore);

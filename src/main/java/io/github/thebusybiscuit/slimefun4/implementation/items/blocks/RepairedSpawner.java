@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
 import org.bukkit.block.CreatureSpawner;
@@ -23,7 +23,7 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
     @Override
     public BlockPlaceHandler getItemHandler() {
         return (e, item) -> {
-            if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
+            if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
                 EntityType type = null;
 
                 for (String line : item.getItemMeta().getLore()) {

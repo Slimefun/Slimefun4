@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Sound;
 import org.bukkit.entity.EnderPearl;
@@ -34,9 +34,9 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     private boolean hasArmor(PlayerInventory inv) {
-        return SlimefunManager.isItemSimilar(inv.getHelmet(), SlimefunItems.ENDER_HELMET, true)
-                && SlimefunManager.isItemSimilar(inv.getChestplate(), SlimefunItems.ENDER_CHESTPLATE, true)
-                && SlimefunManager.isItemSimilar(inv.getLeggings(), SlimefunItems.ENDER_LEGGINGS, true)
-                && SlimefunManager.isItemSimilar(inv.getBoots(), SlimefunItems.ENDER_BOOTS, true);
+        return SlimefunUtils.isItemSimilar(inv.getHelmet(), SlimefunItems.ENDER_HELMET, true)
+                && SlimefunUtils.isItemSimilar(inv.getChestplate(), SlimefunItems.ENDER_CHESTPLATE, true)
+                && SlimefunUtils.isItemSimilar(inv.getLeggings(), SlimefunItems.ENDER_LEGGINGS, true)
+                && SlimefunUtils.isItemSimilar(inv.getBoots(), SlimefunItems.ENDER_BOOTS, true);
     }
 }

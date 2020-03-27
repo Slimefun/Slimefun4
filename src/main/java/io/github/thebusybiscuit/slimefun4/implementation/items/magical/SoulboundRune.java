@@ -1,13 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -104,7 +104,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         if (n instanceof Item) {
             Item item = (Item) n;
 
-            return !SlimefunManager.isItemSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
+            return !SlimefunUtils.isSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
         }
 
         return false;

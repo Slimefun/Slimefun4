@@ -104,7 +104,7 @@ public class CargoOutputNode extends SlimefunItem {
         });
     }
 
-    protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
             preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }

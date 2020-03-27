@@ -9,6 +9,8 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 
+import java.time.Month;
+
 /**
  * This class holds a static references to every {@link Category}
  * found in Slimefun.
@@ -27,7 +29,7 @@ public final class Categories {
     public static final Category TOOLS = new Category(new NamespacedKey(SlimefunPlugin.instance, "tools"), new CustomItem(SlimefunItems.AUTO_SMELT_PICKAXE, "&7Tools"), 1);
     public static final Category PORTABLE = new Category(new NamespacedKey(SlimefunPlugin.instance, "items"), new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
     public static final Category FOOD = new Category(new NamespacedKey(SlimefunPlugin.instance, "food"), new CustomItem(SlimefunItems.FORTUNE_COOKIE, "&7Food"), 2);
-    public static final Category MACHINES_1 = new Category(new NamespacedKey(SlimefunPlugin.instance, "basic_machines"), new CustomItem(Material.SMITHING_TABLE, "&7Basic Machines"), 1);
+    public static final Category MACHINES_1 = new Category(new NamespacedKey(SlimefunPlugin.instance, "basic_machines"), new CustomItem(Material.CRAFTING_TABLE, "&7Basic Machines"), 1);
     public static final Category ARMOR = new Category(new NamespacedKey(SlimefunPlugin.instance, "armor"), new CustomItem(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, "&7Armor"), 2);
     public static final Category LUMPS_AND_MAGIC = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_items"), new CustomItem(SlimefunItems.RUNE_ENDER, "&7Magical Items"), 2);
     public static final Category MAGIC = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_gadgets"), new CustomItem(SlimefunItems.INFUSED_ELYTRA, "&7Magical Gadgets"), 3);
@@ -45,10 +47,10 @@ public final class Categories {
     public static final LockedCategory TALISMANS_2 = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "ender_talismans"), new CustomItem(SlimefunItems.ENDER_TALISMAN, "&7Talismans - &aTier II"), 3, TALISMANS_1);
 
     // Seasonal Categories
-    public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "christmas"), 12, 1, new CustomItem(Material.NETHER_STAR, ChatUtils.christmas("Christmas") + " &7(December only)"));
-    public static final SeasonalCategory VALENTINES_DAY = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "valentines_day"), 2, 2, new CustomItem(Material.POPPY, "&dValentine's Day" + " &7(14th February)"));
-    public static final SeasonalCategory EASTER = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "easter"), 4, 2, new CustomItem(Material.EGG, "&6Easter" + " &7(April)"));
-    public static final SeasonalCategory BIRTHDAY = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "birthday"), 10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
-    public static final SeasonalCategory HALLOWEEN = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "halloween"), 10, 1, new CustomItem(Material.JACK_O_LANTERN, "&6&lHalloween &7(31st October)"));
+    public static final SeasonalCategory CHRISTMAS = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "christmas"), Month.DECEMBER, 1, new CustomItem(Material.NETHER_STAR, ChatUtils.christmas("Christmas") + " &7(December only)"));
+    public static final SeasonalCategory VALENTINES_DAY = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "valentines_day"), Month.FEBRUARY, 2, new CustomItem(Material.POPPY, "&dValentine's Day" + " &7(14th February)"));
+    public static final SeasonalCategory EASTER = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "easter"), Month.APRIL, 2, new CustomItem(Material.EGG, "&6Easter" + " &7(April)"));
+    public static final SeasonalCategory BIRTHDAY = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "birthday"), Month.OCTOBER, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
+    public static final SeasonalCategory HALLOWEEN = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "halloween"), Month.OCTOBER, 1, new CustomItem(Material.JACK_O_LANTERN, "&6&lHalloween &7(31st October)"));
 
 }

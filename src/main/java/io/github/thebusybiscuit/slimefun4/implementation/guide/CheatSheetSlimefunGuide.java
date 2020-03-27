@@ -4,8 +4,8 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 
 public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
 
-    public CheatSheetSlimefunGuide(boolean showVanillaRecipes) {
-        super(showVanillaRecipes);
+    public CheatSheetSlimefunGuide() {
+        super(false);
     }
 
     @Override

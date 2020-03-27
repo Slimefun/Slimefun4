@@ -5,35 +5,44 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Piston;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPistonEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * This {@link Listener} is responsible for listening to any physics-based events, such
+ * as {@link EntityChangeBlockEvent} or a {@link BlockPistonEvent}.
+ * <p>
+ * This ensures that a {@link Piston} cannot be abused to break Slimefun blocks.
+ *
+ * @author VoidAngel
+ * @author Poslovitch
+ * @author TheBusyBiscuit
+ */
 public class BlockPhysicsListener implements Listener {
 
     public BlockPhysicsListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockFall(EntityChangeBlockEvent e) {
-        if (e.getEntity() instanceof FallingBlock) {
-            if (e.getEntity().hasMetadata("seismic_axe")) {
-                e.setCancelled(true);
-                e.getEntity().remove();
-            } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
-                e.setCancelled(true);
-                FallingBlock fb = (FallingBlock) e.getEntity();
+        if (e.getEntity().getType() == EntityType.FALLING_BLOCK && BlockStorage.hasBlockInfo(e.getBlock())) {
+            e.setCancelled(true);
+            FallingBlock block = (FallingBlock) e.getEntity();
 
-                if (fb.getDropItem()) {
-                    fb.getWorld().dropItemNaturally(fb.getLocation(), new ItemStack(fb.getBlockData().getMaterial(), 1));
-                }
+            if (block.getDropItem()) {
+                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getBlockData().getMaterial(), 1));
             }
         }
     }

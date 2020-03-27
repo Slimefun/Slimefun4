@@ -3,12 +3,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -73,7 +73,7 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
             }
         } else {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
                     MachineRecipe r = new MachineRecipe(40, new ItemStack[0], new ItemStack[]{SlimefunItems.BUCKET_OF_FUEL});
 
                     if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) {

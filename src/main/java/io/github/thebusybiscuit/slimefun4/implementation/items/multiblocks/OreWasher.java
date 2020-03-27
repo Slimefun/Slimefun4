@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -59,7 +59,7 @@ public class OreWasher extends MultiBlockMachine {
 
         for (ItemStack current : inv.getContents()) {
             if (current != null) {
-                if (SlimefunManager.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
+                if (SlimefunUtils.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
                     ItemStack adding = getRandomDust();
                     Inventory outputInv = null;
 
@@ -84,7 +84,7 @@ public class OreWasher extends MultiBlockMachine {
                     } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
                     return;
-                } else if (SlimefunManager.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
+                } else if (SlimefunUtils.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
                     ItemStack adding = SlimefunItems.SALT;
                     Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
@@ -98,7 +98,7 @@ public class OreWasher extends MultiBlockMachine {
                     } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
                     return;
-                } else if (SlimefunManager.isItemSimilar(current, SlimefunItems.PULVERIZED_ORE, true)) {
+                } else if (SlimefunUtils.isItemSimilar(current, SlimefunItems.PULVERIZED_ORE, true)) {
                     ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
                     Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 

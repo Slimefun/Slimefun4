@@ -7,13 +7,9 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerLanguageChangeEvent;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.*;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -99,7 +95,7 @@ public final class SlimefunGuideSettings {
     private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
         int i = 19;
 
-        if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
+        if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
                 menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
@@ -117,7 +113,7 @@ public final class SlimefunGuideSettings {
             }
 
             i++;
-        } else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
+        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
                 menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
@@ -135,7 +131,7 @@ public final class SlimefunGuideSettings {
             }
 
             i++;
-        } else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
             menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
             menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                 pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
@@ -325,4 +321,7 @@ public final class SlimefunGuideSettings {
         return SlimefunGuide.getItem(layout);
     }
 
+    public static boolean hasFireworksEnabled(Player p) {
+        return !PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1;
+    }
 }

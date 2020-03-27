@@ -1,6 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
@@ -18,14 +17,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Statically handles researches. Represents a research, which is bound to one
- * {@link SlimefunItem} or more and require XP levels to unlock this/these item(s).
+ * Represents a research, which is bound to one
+ * {@link SlimefunItem} or more and requires XP levels to unlock said item(s).
  *
  * @author TheBusyBiscuit
- *
  * @see ResearchSetup
  * @see ResearchUnlockEvent
- *
  */
 public class Research implements Keyed {
 
@@ -97,7 +94,8 @@ public class Research implements Keyed {
      * The name is automatically taken from the currently selected {@link Language} of
      * the specified {@link Player}.
      *
-     * @param p The {@link Player} to translate this name for.
+     * @param p
+     *            The {@link Player} to translate this name for.
      * @return The localized Name of this {@link Research}.
      */
     public String getName(Player p) {
@@ -155,8 +153,12 @@ public class Research implements Keyed {
      * @return Whether that {@link Player} can unlock this {@link Research}
      */
     public boolean canUnlock(Player p) {
-        if (!isEnabled()) return true;
-        return (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) || p.getLevel() >= this.cost;
+        if (!isEnabled()) {
+            return true;
+        }
+
+        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
+        return creativeResearch || p.getLevel() >= this.cost;
     }
 
     /**
@@ -181,7 +183,7 @@ public class Research implements Keyed {
                     profile.setResearched(this, true);
                     SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName(p)));
 
-                    if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && (!PersistentDataAPI.hasByte(p, SlimefunGuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, SlimefunGuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+                    if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
                         FireworkUtils.launchRandom(p, 1);
                     }
                 };
@@ -193,18 +195,9 @@ public class Research implements Keyed {
                     if (!event.isCancelled()) {
                         if (instant) {
                             runnable.run();
-                        }
-                        else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
+                        } else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
                             SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName(p)));
-
-                            for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
-                                int j = i;
-
-                                Slimefun.runSync(() -> {
-                                    p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-                                    SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
-                                }, i * 20L);
-                            }
+                            playResearchAnimation(p);
 
                             Slimefun.runSync(() -> {
                                 runnable.run();
@@ -215,6 +208,17 @@ public class Research implements Keyed {
                 });
             }
         });
+    }
+
+    private void playResearchAnimation(Player p) {
+        for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
+            int j = i;
+
+            Slimefun.runSync(() -> {
+                p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
+            }, i * 20L);
+        }
     }
 
     /**

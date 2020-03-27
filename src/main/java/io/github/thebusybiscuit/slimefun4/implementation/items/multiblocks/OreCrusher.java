@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Effect;
@@ -59,17 +59,16 @@ public class OreCrusher extends MultiBlockMachine {
 		
 		for (ItemStack current : inv.getContents()) {
 			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
-				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
-					ItemStack adding = RecipeType.getRecipeOutput(this, convert);
-					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
-					if (outputInv != null) {
-						ItemStack removing = current.clone();
-						removing.setAmount(convert.getAmount());
-						inv.removeItem(removing);
-						outputInv.addItem(adding);
-						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
-					}
-					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
+                    ItemStack adding = RecipeType.getRecipeOutput(this, convert);
+                    Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+                    if (outputInv != null) {
+                        ItemStack removing = current.clone();
+                        removing.setAmount(convert.getAmount());
+                        inv.removeItem(removing);
+                        outputInv.addItem(adding);
+                        p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
+                    } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 					
 					return;
 				}

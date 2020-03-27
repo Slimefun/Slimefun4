@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -11,7 +13,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -40,7 +42,10 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
         crops.add(Material.NETHER_WART);
         crops.add(Material.BEETROOTS);
         crops.add(Material.COCOA);
-        crops.add(Material.SWEET_BERRY_BUSH);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            crops.add(Material.SWEET_BERRY_BUSH);
+        }
 
         createPreset(this, this::constructMenu);
 
@@ -112,7 +117,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 
         if (work(b, inv) > 0) {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
                     inv.consumeItem(slot);
                     break;
                 }
@@ -132,7 +137,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 
                     if (ageable.getAge() < ageable.getMaximumAge()) {
                         for (int slot : getInputSlots()) {
-                            if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
                                 if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption())
                                     return work;
                                 ChargableBlock.addCharge(b, -getEnergyConsumption());

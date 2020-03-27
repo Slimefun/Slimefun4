@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
@@ -57,13 +57,13 @@ public class SlimefunItemConsumeListener implements Listener {
      * @param item The {@link ItemStack} in question
      */
     private void removeGlassBottle(Player p, ItemStack item) {
-        if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
+        if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
             if (p.getInventory().getItemInMainHand().getAmount() == 1) {
                 Slimefun.runSync(() -> p.getEquipment().getItemInMainHand().setAmount(0));
             } else {
                 Slimefun.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
             }
-        } else if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
+        } else if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
             if (p.getInventory().getItemInOffHand().getAmount() == 1) {
                 Slimefun.runSync(() -> p.getEquipment().getItemInOffHand().setAmount(0));
             } else {

@@ -11,9 +11,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CargoConnector extends SimpleSlimefunItem<BlockUseHandler> {
+public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
 
-    public CargoConnector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public CargoConnectorNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 

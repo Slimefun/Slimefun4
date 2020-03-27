@@ -2,11 +2,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
@@ -107,13 +107,12 @@ public class MagicWorkbench extends BackpackCrafter {
 
     private boolean isCraftable(Inventory inv, ItemStack[] recipe) {
         for (int j = 0; j < inv.getContents().length; j++) {
-            if (!SlimefunManager.isItemSimilar(inv.getContents()[j], recipe[j], true)) {
+            if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], true)) {
                 if (SlimefunItem.getByItem(recipe[j]) instanceof SlimefunBackpack) {
-                    if (!SlimefunManager.isItemSimilar(inv.getContents()[j], recipe[j], false)) {
+                    if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], false)) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     return false;
                 }
             }

@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -48,7 +48,7 @@ public class Compressor extends MultiBlockMachine {
 
         for (ItemStack item : inv.getContents()) {
             for (ItemStack recipeInput : RecipeType.getRecipeInputs(this)) {
-                if (recipeInput != null && SlimefunManager.isItemSimilar(item, recipeInput, true)) {
+                if (recipeInput != null && SlimefunUtils.isItemSimilar(item, recipeInput, true)) {
                     ItemStack output = RecipeType.getRecipeOutput(this, recipeInput);
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 

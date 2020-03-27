@@ -11,7 +11,10 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -20,7 +23,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.apache.commons.lang.Validate;
@@ -54,18 +56,35 @@ public class SlimefunItem implements Placeable {
 
     private String[] keys;
     private Object[] values;
-    private String wiki = null;
 
+    private Optional<String> wikiLink = Optional.empty();
     private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
 
     private boolean ticking = false;
     private BlockTicker blockTicker;
     private GeneratorTicker energyTicker;
 
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     *
+     * @param category   The {@link Category} this {@link SlimefunItem} belongs to
+     * @param item       The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeType the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe     An Array representing the recipe of this {@link SlimefunItem}
+     */
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, item, recipeType, recipe, null);
     }
 
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     *
+     * @param category     The {@link Category} this {@link SlimefunItem} belongs to
+     * @param item         The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeType   the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe       An Array representing the recipe of this {@link SlimefunItem}
+     * @param recipeOutput The result of crafting this item
+     */
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         this(category, item, recipeType, recipe, recipeOutput, null, null);
     }
@@ -74,7 +93,6 @@ public class SlimefunItem implements Placeable {
         this(category, item, recipeType, recipe, null, keys, values);
     }
 
-    // Root constructor
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
@@ -156,10 +174,22 @@ public class SlimefunItem implements Placeable {
         return research;
     }
 
+    /**
+     * This returns whether or not this {@link SlimefunItem} is allowed to be used in
+     * an {@link AutoEnchanter}.
+     *
+     * @return Whether this {@link SlimefunItem} can be enchanted.
+     */
     public boolean isEnchantable() {
         return enchantable;
     }
 
+    /**
+     * This returns whether or not this {@link SlimefunItem} is allowed to be used in
+     * an {@link AutoDisenchanter}.
+     *
+     * @return Whether this {@link SlimefunItem} can be disenchanted.
+     */
     public boolean isDisenchantable() {
         return disenchantable;
     }
@@ -239,7 +269,7 @@ public class SlimefunItem implements Placeable {
             }
 
             if (recipe == null || recipe.length < 9) {
-                recipe = new ItemStack[]{null, null, null, null, null, null, null, null, null};
+                recipe = new ItemStack[] { null, null, null, null, null, null, null, null, null };
             }
 
             SlimefunPlugin.getRegistry().getAllSlimefunItems().add(this);
@@ -409,9 +439,9 @@ public class SlimefunItem implements Placeable {
         }
 
         // Support for legacy items
-        if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-        else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-        else return SlimefunManager.isItemSimilar(item, this.item, true);
+        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
+        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
+        else return SlimefunUtils.isItemSimilar(item, this.item, true);
     }
 
     /**
@@ -477,18 +507,8 @@ public class SlimefunItem implements Placeable {
      *            The associated wiki page
      */
     public void addOficialWikipage(String page) {
-        wiki = "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page;
-    }
-
-    /**
-     * This method returns whether this item has been assigned a wiki page.
-     *
-     * @see SlimefunItem#addOficialWikipage(String)
-     *
-     * @return Whether this Item has a wiki page
-     */
-    public boolean hasWikipage() {
-        return wiki != null;
+        Validate.notNull(page, "Wiki page cannot be null.");
+        wikiLink = Optional.of("https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
     }
 
     /**
@@ -499,8 +519,8 @@ public class SlimefunItem implements Placeable {
      *
      * @return This item's wiki page
      */
-    public String getWikipage() {
-        return wiki;
+    public Optional<String> getWikipage() {
+        return wikiLink;
     }
 
     /**
@@ -530,6 +550,9 @@ public class SlimefunItem implements Placeable {
      *            The {@link Class} of the {@link ItemHandler} to call.
      * @param callable
      *            A {@link Consumer} that is called for any found {@link ItemHandler}.
+     * @param <T>
+     *            The type of {@link ItemHandler} to call.
+     *
      * @return Whether or not an {@link ItemHandler} was found.
      */
     public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
@@ -591,7 +614,7 @@ public class SlimefunItem implements Placeable {
      *            The {@link Throwable} to throw as a stacktrace.
      */
     public void error(String message, Throwable throwable) {
-        addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[]{id, addon.getName(), addon.getPluginVersion()});
+        addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion()});
 
         if (addon.getBugTrackerURL() != null) {
             // We can prompt the server operator to report it to the addon's bug tracker
@@ -632,8 +655,8 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
-        if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false))
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false))
             return getByID("REINFORCED_SPAWNER");
 
         return null;

@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
@@ -68,7 +68,7 @@ public class VanillaMachinesListener implements Listener {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
-            if (!SlimefunManager.isItemSimilar(item1, SlimefunItems.ELYTRA, true) && checkForUnallowedItems(item1, item2)) {
+            if (!SlimefunUtils.isItemSimilar(item1, SlimefunItems.ELYTRA, true) && checkForUnallowedItems(item1, item2)) {
                 e.setCancelled(true);
                 SlimefunPlugin.getLocal().sendMessage(e.getWhoClicked(), "anvil.not-working", true);
             }

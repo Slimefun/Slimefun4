@@ -2,11 +2,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -97,7 +97,7 @@ public class Smeltery extends MultiBlockMachine {
     private void craft(Player p, Block dispenser, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
         for (ItemStack removing : recipe) {
             if (removing != null) {
-                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunManager.isItemSimilar(stack, removing, true));
+                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunUtils.isItemSimilar(stack, removing, true));
             }
         }
 
@@ -144,9 +144,9 @@ public class Smeltery extends MultiBlockMachine {
         for (ItemStack converting : inputs.get(i)) {
             if (converting != null) {
                 for (int j = 0; j < inv.getContents().length; j++) {
-                    if (j == (inv.getContents().length - 1) && !SlimefunManager.isItemSimilar(converting, inv.getContents()[j], true)) {
+                    if (j == (inv.getContents().length - 1) && !SlimefunUtils.isItemSimilar(converting, inv.getContents()[j], true)) {
                         return false;
-                    } else if (SlimefunManager.isItemSimilar(inv.getContents()[j], converting, true)) break;
+                    } else if (SlimefunUtils.isItemSimilar(inv.getContents()[j], converting, true)) break;
                 }
             }
         }

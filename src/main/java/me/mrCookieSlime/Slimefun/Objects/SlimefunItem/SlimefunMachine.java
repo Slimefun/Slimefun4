@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -65,7 +66,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
     @Override
     public void postRegister() {
-        multiblock.register();
+        SlimefunPlugin.getRegistry().getMultiBlocks().add(multiblock);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
@@ -105,7 +105,7 @@ public class SlimefunBootsListener implements Listener {
         if (e.getClickedBlock().getType() != Material.FARMLAND) return;
 
         ItemStack boots = e.getPlayer().getInventory().getBoots();
-        if (SlimefunManager.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
+        if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
             e.setCancelled(true);
         }
     }

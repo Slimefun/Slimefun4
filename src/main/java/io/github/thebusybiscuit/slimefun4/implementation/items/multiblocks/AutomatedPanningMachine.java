@@ -3,10 +3,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Effect;
@@ -96,17 +96,17 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 	public void onInteract(Player p, Block b) {
         ItemStack input = p.getInventory().getItemInMainHand();
 
-        if (SlimefunManager.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunManager.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
-            Material block = input.getType();
+		if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
+			Material block = input.getType();
 
-            if (p.getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(input, false);
-            }
+			if (p.getGameMode() != GameMode.CREATIVE) {
+				ItemUtils.consumeItem(input, false);
+			}
 
-            ItemStack output = getRandomDrop(block);
-            TaskQueue queue = new TaskQueue();
+			ItemStack output = getRandomDrop(block);
+			TaskQueue queue = new TaskQueue();
 
-            queue.thenRepeatEvery(20, 5, () ->
+			queue.thenRepeatEvery(20, 5, () ->
                     b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, block)
             );
 

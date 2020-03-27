@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -11,7 +12,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -107,7 +107,7 @@ public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBloc
 
         if (work(b, inv) > 0) {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
                     inv.consumeItem(slot);
                     break;
                 }
@@ -127,7 +127,7 @@ public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBloc
 
                     if (sapling.getStage() < sapling.getMaximumStage()) {
                         for (int slot : getInputSlots()) {
-                            if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
                                 if (work > 3 || ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return work;
                                 ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
 

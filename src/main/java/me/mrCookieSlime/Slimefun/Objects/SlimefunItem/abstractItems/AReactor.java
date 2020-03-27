@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAcce
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -15,7 +16,6 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -275,7 +275,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                                 if (coolant) {
                                     if (port != null) {
                                         for (int slot : getCoolantSlots()) {
-                                            if (SlimefunManager.isItemSimilar(port.getItemInSlot(slot), getCoolant(), true)) {
+                                            if (SlimefunUtils.isItemSimilar(port.getItemInSlot(slot), getCoolant(), true)) {
                                                 port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getCoolantSlots()));
                                             }
                                         }
@@ -284,7 +284,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                                     boolean explosion = true;
 
                                     for (int slot : getCoolantSlots()) {
-                                        if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), getCoolant(), true)) {
+                                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), getCoolant(), true)) {
                                             menu.consumeItem(slot);
                                             ReactorHologram.update(l, "&b\u2744 &7100%");
                                             explosion = false;
@@ -373,7 +373,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     private void restockFuel(BlockMenu menu, BlockMenu port) {
         for (int slot : getFuelSlots()) {
             for (MachineFuel recipe : fuelTypes) {
-                if (SlimefunManager.isItemSimilar(port.getItemInSlot(slot), recipe.getInput(), true) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
+                if (SlimefunUtils.isItemSimilar(port.getItemInSlot(slot), recipe.getInput(), true) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
                     port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getFuelSlots()));
                     return;
                 }
@@ -384,7 +384,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
         for (MachineFuel recipe : fuelTypes) {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
                     found.put(slot, recipe.getInput().getAmount());
                     return recipe;
                 }

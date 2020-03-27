@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
@@ -12,7 +13,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -21,8 +21,6 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.TileState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -65,11 +63,8 @@ public class BlockListener implements Listener {
                 e.setCancelled(true);
             }
             else {
-                BlockState state = e.getBlock().getState();
-                boolean supportsPersistentData = state instanceof TileState;
-
-                if (supportsPersistentData) {
-                    SlimefunPlugin.getBlockDataService().setBlockData((TileState) state, sfItem.getID());
+                if (SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
+                    SlimefunPlugin.getBlockDataService().setBlockData(e.getBlock(), sfItem.getID());
                 }
 
                 BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
@@ -77,8 +72,7 @@ public class BlockListener implements Listener {
                 SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
                 if (blockHandler != null) {
                     blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
-                }
-                else {
+                } else {
                     sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onBlockPlace(e, item));
                 }
             }
@@ -90,57 +84,8 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {
-        ItemStack item = e.getItemInHand();
-
-        if (SlimefunManager.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
-
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
-
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, false)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, false)) e.setCancelled(true);
-
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
-
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
-        else if (SlimefunManager.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
-            e.setCancelled(true);
-
-            if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(item, false);
-            }
-
-            FireworkUtils.launchRandom(e.getPlayer(), 3);
-            List<ItemStack> gifts = new ArrayList<>();
-
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
-            gifts.add(new ItemStack(Material.EMERALD));
-
-            e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
-        }
-        else if (e.getBlock().getY() != e.getBlockAgainst().getY() && (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) || SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) || SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false))) {
-            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-            e.setCancelled(true);
-        }
-    }
-
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent e) {
+    public void onBlockUnregister(BlockBreakEvent e) {
         boolean allow = true;
         List<ItemStack> drops = new ArrayList<>();
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
@@ -151,15 +96,11 @@ public class BlockListener implements Listener {
         if (sensitiveMaterials.contains(block2.getType())) {
             SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
 
-            if (sfItem == null) {
-                BlockState state = block2.getState();
+            if (sfItem == null && SlimefunPlugin.getBlockDataService().isTileEntity(block2.getType())) {
+                Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(block2);
 
-                if (state instanceof TileState) {
-                    Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
-
-                    if (blockData.isPresent()) {
-                        sfItem = SlimefunItem.getByID(blockData.get());
-                    }
+                if (blockData.isPresent()) {
+                    sfItem = SlimefunItem.getByID(blockData.get());
                 }
             }
 
@@ -173,8 +114,7 @@ public class BlockListener implements Listener {
                 if (allow) {
                     block2.getWorld().dropItemNaturally(block2.getLocation(), BlockStorage.retrieve(block2));
                     block2.setType(Material.AIR);
-                }
-                else {
+                } else {
                     e.setCancelled(true);
                     return;
                 }
@@ -183,15 +123,11 @@ public class BlockListener implements Listener {
 
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
-        if (sfItem == null) {
-            BlockState state = e.getBlock().getState();
+        if (sfItem == null && SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
+            Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(e.getBlock());
 
-            if (state instanceof TileState) {
-                Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData((TileState) state);
-
-                if (blockData.isPresent()) {
-                    sfItem = SlimefunItem.getByID(blockData.get());
-                }
+            if (blockData.isPresent()) {
+                sfItem = SlimefunItem.getByID(blockData.get());
             }
         }
 
@@ -227,11 +163,59 @@ public class BlockListener implements Listener {
 
             if (e.isDropItems()) {
                 for (ItemStack drop : drops) {
-                    if (drop.getType() != Material.AIR) {
+                    if (drop != null && drop.getType() != Material.AIR) {
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent e) {
+        ItemStack item = e.getItemInHand();
+
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, false)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
+
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
+            e.setCancelled(true);
+
+            if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(item, false);
+            }
+
+            FireworkUtils.launchRandom(e.getPlayer(), 3);
+            List<ItemStack> gifts = new ArrayList<>();
+
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
+            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
+            gifts.add(new ItemStack(Material.EMERALD));
+
+            e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
+        } else if (e.getBlock().getY() != e.getBlockAgainst().getY() && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false))) {
+            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
+            e.setCancelled(true);
         }
     }
 

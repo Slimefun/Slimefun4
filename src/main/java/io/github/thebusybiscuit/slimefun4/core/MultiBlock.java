@@ -29,8 +29,8 @@ public class MultiBlock {
 
     public static final List<Tag<Material>> SUPPORTED_TAGS = Arrays.asList(
             Tag.LOGS,
-            Tag.WOODEN_FENCES,
             Tag.WOODEN_TRAPDOORS,
+            Tag.WOODEN_FENCES,
             Tag.WOODEN_SLABS
     );
 
@@ -106,7 +106,7 @@ public class MultiBlock {
     }
 
     public boolean isSymmetric() {
-        return this.isSymmetric;
+        return isSymmetric;
     }
 
     @Override

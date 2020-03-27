@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -23,8 +25,10 @@ public abstract class FoodFabricator extends AContainer {
         registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.BEETROOT)}, new ItemStack[]{SlimefunItems.BEETROOT_ORGANIC_FOOD});
         registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.MELON)}, new ItemStack[]{SlimefunItems.MELON_ORGANIC_FOOD});
         registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.APPLE)}, new ItemStack[]{SlimefunItems.APPLE_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.SWEET_BERRIES)}, new ItemStack[]{SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD});
         registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.DRIED_KELP)}, new ItemStack[]{SlimefunItems.KELP_ORGANIC_FOOD});
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.SWEET_BERRIES)}, new ItemStack[]{SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD});
+        }
     }
 
     @Override
