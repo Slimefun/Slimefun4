@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
@@ -340,6 +341,12 @@ public class SlimefunItem implements Placeable {
                 SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
 
                 for (ItemHandler handler : itemhandlers.values()) {
+                    Optional<IncompatibleItemHandlerException> exception = handler.validate(this);
+
+                    if (exception.isPresent()) {
+                        throw exception.get();
+                    }
+
                     if (!handler.isPrivate()) {
                         Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
                         handlerset.add(handler);

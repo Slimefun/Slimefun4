@@ -1,11 +1,16 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
+import java.util.Optional;
+
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
 import org.bukkit.event.block.BlockDispenseEvent;
 
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 
 /**
  * This {@link ItemHandler} is triggered when the {@link SlimefunItem} it was assigned to
@@ -21,6 +26,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 @FunctionalInterface
 public interface BlockDispenseHandler extends ItemHandler {
+
+    @Override
+    default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+        if (item instanceof NotPlaceable || item.getItem().getType() != Material.DISPENSER) {
+            return Optional.of(new IncompatibleItemHandlerException("Only dispensers that are not marked as 'NotPlaceable' can have a BlockDispenseHandler.", item, this));
+        }
+
+        return Optional.empty();
+    }
 
     void onBlockDispense(BlockDispenseEvent e, Dispenser dispenser, Block facedBlock, SlimefunItem machine);
 

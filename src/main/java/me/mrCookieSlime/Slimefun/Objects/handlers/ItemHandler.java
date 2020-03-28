@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
+import java.util.Optional;
+
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -27,6 +30,20 @@ public interface ItemHandler {
      */
     default boolean isPrivate() {
         return true;
+    }
+
+    /**
+     * This method is used to check whether a given {@link SlimefunItem} is compatible
+     * with this {@link ItemHandler}, it will return an {@link IncompatibleItemHandlerException}
+     * if the items are not compatible.
+     * 
+     * @param item
+     *            The {@link SlimefunItem} to validate
+     * @return An {@link Optional} describing the result, it will contain an {@link IncompatibleItemHandlerException}
+     *         should there be an issue
+     */
+    default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+        return Optional.empty();
     }
 
     /**
