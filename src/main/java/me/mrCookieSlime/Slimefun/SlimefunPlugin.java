@@ -280,7 +280,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         long ms = (System.nanoTime() - timestamp) / 1000000;
 
         if (ms > 1000) {
-            return DoubleHandler.fixDouble(ms / 1000) + "s";
+            return DoubleHandler.fixDouble(ms / 1000.0) + "s";
         }
         else {
             return DoubleHandler.fixDouble(ms) + "ms";
