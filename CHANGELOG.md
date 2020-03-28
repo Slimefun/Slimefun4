@@ -41,7 +41,7 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 </details>
 
-## Release Candidate 10 (TBD)
+## Release Candidate 10 (28 Mar 2020)
 
 #### Additions
 * Added some new charts to bStats
