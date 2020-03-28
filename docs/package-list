@@ -11,6 +11,7 @@ io.github.thebusybiscuit.slimefun4.core.attributes
 io.github.thebusybiscuit.slimefun4.core.commands
 io.github.thebusybiscuit.slimefun4.core.commands.subcommands
 io.github.thebusybiscuit.slimefun4.core.guide
+io.github.thebusybiscuit.slimefun4.core.networks.cargo
 io.github.thebusybiscuit.slimefun4.core.networks.energy
 io.github.thebusybiscuit.slimefun4.core.services
 io.github.thebusybiscuit.slimefun4.core.services.github
