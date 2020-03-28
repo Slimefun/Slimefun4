@@ -15,6 +15,9 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
  * So it will throw this exception when it is added to a non-block item.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see ItemHandler
+ * @see SlimefunItem
  *
  */
 public class IncompatibleItemHandlerException extends RuntimeException {

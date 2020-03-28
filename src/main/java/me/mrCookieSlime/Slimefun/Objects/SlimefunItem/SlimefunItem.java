@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
@@ -273,9 +274,14 @@ public class SlimefunItem implements Placeable {
      *            The {@link SlimefunAddon} that this {@link SlimefunItem} belongs to.
      */
     public void register(SlimefunAddon addon) {
+        Validate.notNull(addon, "A SlimefunAddon cannot be null!");
         this.addon = addon;
 
         try {
+            if (!addon.hasDependency("Slimefun")) {
+                throw new MissingDependencyException(addon, "Slimefun");
+            }
+            
             preRegister();
 
             SlimefunItem conflicting = getByID(id);

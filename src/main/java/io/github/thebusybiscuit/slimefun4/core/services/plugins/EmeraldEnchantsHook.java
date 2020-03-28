@@ -12,6 +12,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.EmeraldEnchants.EnchantmentGuide;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 
+// GuideHandler is deprecated and will be removed quite soon.
+// Now that this hook is in Slimefun vs. EmeraldEnchants, we can start deconstructing it.
 class EmeraldEnchantsHook implements GuideHandler {
 	
 	private PlayerRunnable runnable;
