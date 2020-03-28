@@ -106,6 +106,8 @@ guide:
     - "&7将要搜索的物品的名字输入在聊天栏上"
     message: "&b你想要搜索什么?"
     name: "&7搜索..."
+    tooltip: "&b单击搜索物品"
+    inventory: '正在搜索: %item%'
   title:
     addons: Slimefun4 扩展
     bugs: 问题反馈
@@ -124,6 +126,11 @@ guide:
       miner: 此采矿机可以获得的资源
     versions-notice: 在反馈问题时这些很重要!
     wiki: 在官方 Slimefun 维基上查看此物品
+  locked: 已锁定
+  locked-category:
+  - 为了解锁这一类别
+  - 你需要先解锁以下
+  - 类别里的所有物品
 inventory:
   no-access: "&4你没有权限使用这个方块"
 languages:
@@ -195,6 +202,10 @@ machines:
     invulnerability: "&b&l你获得了 30 秒的无敌效果!"
     teleported: "&3传送成功!"
     teleporting: "&3传送中..."
+    gui:
+      title: 你的传送点
+      tooltip: 单击传送
+      time: 预计时间
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成表放置物品."
   wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
 messages:

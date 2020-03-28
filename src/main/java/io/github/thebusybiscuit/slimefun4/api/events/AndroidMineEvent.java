@@ -5,27 +5,31 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidEntity;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 
 /**
- * This event is fired before a miner android mines a block.
- * If this event is cancelled, the block will not be mined.
+ * This {@link Event} is fired before a {@link MinerAndroid} mines a {@link Block}.
+ * If this {@link Event} is cancelled, the {@link Block} will not be mined.
+ * 
+ * @author poma123
+ * 
  */
 public class AndroidMineEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
     private final Block block;
-    private final AndroidEntity android;
+    private final AndroidInstance android;
     private boolean cancelled;
 
     /**
      * @param block
-     *            - mined block
+     *            The mined {@link Block}
      * @param android
-     *            - the block of the android
+     *            The {@link AndroidInstance} that triggered this {@link Event}
      */
-    public AndroidMineEvent(Block block, AndroidEntity android) {
+    public AndroidMineEvent(Block block, AndroidInstance android) {
         this.block = block;
         this.android = android;
     }
@@ -39,21 +43,21 @@ public class AndroidMineEvent extends Event implements Cancellable {
     }
 
     /**
-     * This method returns the mined block
+     * This method returns the mined {@link Block}
      *
-     * @return the mined block
+     * @return the mined {@link Block}
      */
     public Block getBlock() {
         return block;
     }
 
     /**
-     * This method returns the block of the
-     * android who wants to mine a block.
+     * This method returns the {@link AndroidInstance} who
+     * triggered this {@link Event}
      *
-     * @return the block of the android
+     * @return the involved {@link AndroidInstance}
      */
-    public AndroidEntity getAndroid() {
+    public AndroidInstance getAndroid() {
         return android;
     }
 

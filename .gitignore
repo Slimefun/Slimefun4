@@ -6,3 +6,5 @@
 /target
 /.idea/
 dependency-reduced-pom.xml
+javadoc.xml
+.DS_Store

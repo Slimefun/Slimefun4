@@ -17,6 +17,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * It is represented by {@code EnergyNetComponentType.CAPACITOR}.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see EnergyNet
+ * @see EnergyNetComponent
  *
  */
 public class Capacitor extends SlimefunItem implements EnergyNetComponent {

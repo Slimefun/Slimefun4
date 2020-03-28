@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generat
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+// github.com/TheBusyBiscuit/Slimefun4
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -10,10 +12,13 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> implements EnergyNetComponent {
+
+    private static final int DEFAULT_NIGHT_ENERGY = 0;
 
     public SolarGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -37,7 +42,7 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
      */
     public double getNightEnergy() {
         // Override this as necessary for highly advanced Solar Generators
-        return 0;
+        return DEFAULT_NIGHT_ENERGY;
     }
 
     @Override
@@ -72,6 +77,15 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
                 return false;
             }
         };
+    }
+
+    @Override
+    public void preRegister() {
+        super.preRegister();
+
+        // This prevents Players from toggling the Daylight sensor
+        BlockUseHandler handler = PlayerRightClickEvent::cancel;
+        addItemHandler(handler);
     }
 
 }

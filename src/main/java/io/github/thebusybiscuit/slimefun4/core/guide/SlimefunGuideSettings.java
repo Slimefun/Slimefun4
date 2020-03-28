@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,10 +25,11 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 /**
  * This static utility class offers various methods that provide access to the
@@ -57,13 +57,13 @@ public final class SlimefunGuideSettings {
 
         ChestMenuUtils.drawBackground(menu, BACKGROUND_SLOTS);
 
-        addMenubar(p, menu, guide);
+        addHeader(p, menu, guide);
         addConfigurableOptions(p, menu, guide);
 
         menu.open(p);
     }
 
-    private static void addMenubar(Player p, ChestMenu menu, ItemStack guide) {
+    private static void addHeader(Player p, ChestMenu menu, ItemStack guide) {
         menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")), (pl, slot, item, action) -> {
             SlimefunGuide.openGuide(pl, guide);
             return false;
@@ -76,12 +76,12 @@ public final class SlimefunGuideSettings {
 
         menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK, "&aSlimefun Version", "&7&o" + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.versions-notice"), "", "&rMinecraft Version: &a" + Bukkit.getBukkitVersion(), "&rSlimefun Version: &a" + SlimefunPlugin.getVersion(), "&rCS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()), ChestMenuUtils.getEmptyClickHandler());
 
-        menu.addItem(6, new CustomItem(Material.COMPARATOR, "&e" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.source"), "", "&7Last Activity: &a" + NumberUtils.timeDelta(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), "&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 &eClick to go to GitHub"),
-                (pl, slot, item, action) -> {
-                    pl.closeInventory();
-                    ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4");
-                    return false;
-                });
+        menu.addItem(6, new CustomItem(Material.COMPARATOR, "&e" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.source"), "", "&7Last Activity: &a" + NumberUtils.timeDelta(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), "&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 &eClick to go to GitHub"));
+        menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
+            pl.closeInventory();
+            ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4");
+            return false;
+        });
 
         menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, "&3" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.wiki"), "", "&7Do you need help with an Item or machine?", "&7You cannot figure out what to do?", "&7Check out our community-maintained Wiki", "&7and become one of our Editors!", "", "&7\u21E8 &eClick to go to the official Slimefun Wiki"), (pl, slot, item, action) -> {
             pl.closeInventory();
@@ -110,7 +110,7 @@ public final class SlimefunGuideSettings {
     private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
         int i = 19;
 
-        if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
+        if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
                 menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
@@ -130,7 +130,7 @@ public final class SlimefunGuideSettings {
 
             i++;
         }
-        else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
+        else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
             if (p.hasPermission("slimefun.cheat.items")) {
                 menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
@@ -150,7 +150,7 @@ public final class SlimefunGuideSettings {
 
             i++;
         }
-        else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+        else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
             menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
             menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                 pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
@@ -161,7 +161,7 @@ public final class SlimefunGuideSettings {
             i++;
         }
 
-        if (SlimefunPlugin.getSettings().researchFireworksEnabled) {
+        if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled()) {
             if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
                 menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 &eClick to disable your fireworks"), (pl, slot, item, action) -> {
                     PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
@@ -180,11 +180,11 @@ public final class SlimefunGuideSettings {
             i++;
         }
 
-        if (SlimefunPlugin.getSettings().translationsEnabled) {
+        if (SlimefunPlugin.getLocal().isEnabled()) {
             Language language = SlimefunPlugin.getLocal().getLanguage(p);
             String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")") : SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
 
-            menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"), (pl, slot, item, action) -> {
+            menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7some messages, not items.", "&7&oThis feature is still being worked on", "", "&7\u21E8 &eClick to change your language"), (pl, slot, item, action) -> {
                 openLanguages(pl);
                 return false;
             });
@@ -341,6 +341,10 @@ public final class SlimefunGuideSettings {
 
     private static ItemStack getItem(SlimefunGuideLayout layout) {
         return SlimefunGuide.getItem(layout);
+    }
+
+    public static boolean hasFireworksEnabled(Player p) {
+        return !PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1;
     }
 
 }

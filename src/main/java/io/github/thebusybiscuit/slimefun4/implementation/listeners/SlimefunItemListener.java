@@ -5,34 +5,25 @@ import java.util.Optional;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -120,7 +111,7 @@ public class SlimefunItemListener implements Listener {
     }
 
     private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
-        return canPlaceBlock(p, b) && (SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true) || SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true) || SlimefunManager.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
+        return canPlaceBlock(p, b) && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
     }
 
     private boolean canPlaceBlock(Player p, Block relative) {
@@ -128,88 +119,8 @@ public class SlimefunItemListener implements Listener {
     }
 
     @EventHandler
-    public void onEat(PlayerItemConsumeEvent e) {
-        Player p = e.getPlayer();
-        ItemStack item = e.getItem();
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
-
-        if (sfItem != null) {
-            if (Slimefun.hasUnlocked(p, sfItem, true)) {
-                if (sfItem instanceof Juice) {
-                    // Fix for Saturation on potions is no longer working
-
-                    for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
-                        if (effect.getType().equals(PotionEffectType.SATURATION)) {
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, effect.getDuration(), effect.getAmplifier()));
-                            break;
-                        }
-                    }
-
-                    removeGlassBottle(p, item);
-                }
-                else {
-                    sfItem.callItemHandler(ItemConsumptionHandler.class, handler -> handler.onConsume(e, p, item));
-                }
-            }
-            else {
-                e.setCancelled(true);
-            }
-        }
-    }
-
-    private void removeGlassBottle(Player p, ItemStack item) {
-        // Determine from which hand the juice is being drunk, and its amount
-
-        if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
-            if (p.getInventory().getItemInMainHand().getAmount() == 1) {
-                Slimefun.runSync(() -> p.getEquipment().getItemInMainHand().setAmount(0));
-            }
-            else {
-                Slimefun.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
-            }
-        }
-        else if (SlimefunManager.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
-            if (p.getInventory().getItemInOffHand().getAmount() == 1) {
-                Slimefun.runSync(() -> p.getEquipment().getItemInOffHand().setAmount(0));
-            }
-            else {
-                Slimefun.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
-            }
-        }
-    }
-
-    @EventHandler
-    public void onIronGolemHeal(PlayerInteractEntityEvent e) {
-        if (e.getRightClicked() instanceof IronGolem) {
-            PlayerInventory inv = e.getPlayer().getInventory();
-            ItemStack item = null;
-
-            if (e.getHand() == EquipmentSlot.HAND) {
-                item = inv.getItemInMainHand();
-            }
-            else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                item = inv.getItemInOffHand();
-            }
-
-            if (item != null && item.getType() == Material.IRON_INGOT && SlimefunItem.getByItem(item) != null) {
-                e.setCancelled(true);
-                SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
-
-                // This is just there to update the Inventory...
-                // Somehow cancelling it isn't enough.
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    inv.setItemInMainHand(item);
-                }
-                else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    inv.setItemInOffHand(item);
-                }
-            }
-        }
-    }
-
-    @EventHandler
     public void onItemDrop(PlayerDropItemEvent e) {
-        for (ItemHandler handler : SlimefunItem.getHandlers(ItemDropHandler.class)) {
+        for (ItemHandler handler : SlimefunItem.getPublicItemHandlers(ItemDropHandler.class)) {
             if (((ItemDropHandler) handler).onItemDrop(e, e.getPlayer(), e.getItemDrop())) {
                 return;
             }

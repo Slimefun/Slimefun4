@@ -4,32 +4,33 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -39,12 +40,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class SlimefunItem implements Placeable {
 
-    private ItemState state;
+    private ItemState state = ItemState.UNREGISTERED;
 
     protected String id;
     protected SlimefunAddon addon;
@@ -60,22 +60,46 @@ public class SlimefunItem implements Placeable {
     protected boolean hidden = false;
     protected boolean useableInWorkbench = false;
 
-    private String permission = "";
-    private List<String> noPermissionTooltip;
-
     private String[] keys;
     private Object[] values;
-    private String wiki = null;
 
+    private Optional<String> wikiLink = Optional.empty();
     private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
+
     private boolean ticking = false;
     private BlockTicker blockTicker;
     private GeneratorTicker energyTicker;
 
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     * 
+     * @param category
+     *            The {@link Category} this {@link SlimefunItem} belongs to
+     * @param item
+     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeType
+     *            the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe
+     *            An Array representing the recipe of this {@link SlimefunItem}
+     */
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, item, recipeType, recipe, null);
     }
 
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     * 
+     * @param category
+     *            The {@link Category} this {@link SlimefunItem} belongs to
+     * @param item
+     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeType
+     *            the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe
+     *            An Array representing the recipe of this {@link SlimefunItem}
+     * @param recipeOutput
+     *            The result of crafting this item
+     */
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         this(category, item, recipeType, recipe, recipeOutput, null, null);
     }
@@ -84,8 +108,10 @@ public class SlimefunItem implements Placeable {
         this(category, item, recipeType, recipe, null, keys, values);
     }
 
-    // Root constructor
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
+        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(item, "'item' is not allowed to be null!");
+
         this.category = category;
         this.item = item;
         this.id = item.getItemID();
@@ -106,24 +132,43 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * Returns the identifier of this SlimefunItem.
+     * Returns the identifier of this {@link SlimefunItem}.
      *
-     * @return the identifier of this SlimefunItem
-     *
-     * @since 4.1.11, rename of {@link #getName()}.
+     * @return the identifier of this {@link SlimefunItem}
      */
     public String getID() {
         return id;
     }
 
+    /**
+     * This method returns the {@link ItemState} this {@link SlimefunItem}
+     * is currently in. This can be used to determine whether a {@link SlimefunItem}
+     * is enabled or disabled.
+     * 
+     * {@link VanillaItem} represents a special case here.
+     * 
+     * @return The {@link ItemState} of this {@link SlimefunItem}
+     */
     public ItemState getState() {
         return state;
     }
 
+    /**
+     * This returns the {@link ItemStack} of this {@link SlimefunItem}.
+     * The {@link ItemStack} describes the look and feel of this {@link SlimefunItem}.
+     * 
+     * @return The {@link ItemStack} that this {@link SlimefunItem} represents
+     */
     public ItemStack getItem() {
         return item;
     }
 
+    /**
+     * This returns the {@link Category} of our {@link SlimefunItem}, every {@link SlimefunItem}
+     * is associated with exactly one {@link Category}.
+     * 
+     * @return The {@link Category} that this {@link SlimefunItem} belongs to
+     */
     public Category getCategory() {
         return category;
     }
@@ -144,10 +189,22 @@ public class SlimefunItem implements Placeable {
         return research;
     }
 
+    /**
+     * This returns whether or not this {@link SlimefunItem} is allowed to be used in
+     * an {@link AutoEnchanter}.
+     * 
+     * @return Whether this {@link SlimefunItem} can be enchanted.
+     */
     public boolean isEnchantable() {
         return enchantable;
     }
 
+    /**
+     * This returns whether or not this {@link SlimefunItem} is allowed to be used in
+     * an {@link AutoDisenchanter}.
+     * 
+     * @return Whether this {@link SlimefunItem} can be disenchanted.
+     */
     public boolean isDisenchantable() {
         return disenchantable;
     }
@@ -183,18 +240,11 @@ public class SlimefunItem implements Placeable {
         return addon;
     }
 
-    public String getPermission() {
-        return permission;
-    }
-
-    public List<String> getNoPermissionTooltip() {
-        return noPermissionTooltip;
-    }
-
     public BlockTicker getBlockTicker() {
         return blockTicker;
     }
 
+    // We should maybe refactor this and move it to a subclass
     public GeneratorTicker getEnergyTicker() {
         return energyTicker;
     }
@@ -205,31 +255,12 @@ public class SlimefunItem implements Placeable {
      * @return Whether this {@link SlimefunItem} is disabled.
      */
     public boolean isDisabled() {
+        if (state == ItemState.UNREGISTERED) {
+            error("isDisabled() cannot be called before registering the item", new UnregisteredItemException(this));
+            return false;
+        }
+
         return state != ItemState.ENABLED;
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param slimefun
-     *            deprecated.
-     */
-    @Deprecated
-    public void register() {
-        register((SlimefunAddon) null);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param slimefun
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(boolean slimefun) {
-        register(slimefun ? SlimefunPlugin.instance : null);
     }
 
     /**
@@ -246,42 +277,46 @@ public class SlimefunItem implements Placeable {
         try {
             preRegister();
 
-            if (SlimefunPlugin.getRegistry().getSlimefunItemIds().containsKey(this.id)) {
-                throw new IllegalArgumentException("ID \"" + this.id + "\" already exists");
+            SlimefunItem conflicting = getByID(id);
+
+            if (conflicting != null) {
+                throw new IdConflictException(this, conflicting);
             }
 
-            if (this.recipe.length < 9) {
-                this.recipe = new ItemStack[] { null, null, null, null, null, null, null, null, null };
+            if (recipe == null || recipe.length < 9) {
+                recipe = new ItemStack[] { null, null, null, null, null, null, null, null, null };
             }
 
             SlimefunPlugin.getRegistry().getAllSlimefunItems().add(this);
 
-            SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".enabled", true);
-            SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".can-be-used-in-workbenches", this.useableInWorkbench);
-            SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".hide-in-guide", this.hidden);
-            SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
-            SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
-            SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
-            SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".no-permission-tooltip", new String[] { "&4&lLOCKED", "", "&rYou do not have Permission", "&rto access this Item" });
+            SlimefunPlugin.getItemCfg().setDefaultValue(id + ".enabled", true);
+            SlimefunPlugin.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", useableInWorkbench);
+            SlimefunPlugin.getItemCfg().setDefaultValue(id + ".hide-in-guide", hidden);
+            SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
+            SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
 
-            if (this.keys != null && this.values != null) {
-                for (int i = 0; i < this.keys.length; i++) {
-                    SlimefunPlugin.getItemCfg().setDefaultValue(this.id + '.' + this.keys[i], this.values[i]);
+            if (keys != null && values != null) {
+                for (int i = 0; i < keys.length; i++) {
+                    SlimefunPlugin.getItemCfg().setDefaultValue(id + '.' + keys[i], values[i]);
                 }
             }
 
             for (World world : Bukkit.getWorlds()) {
                 SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
-                SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + this.id, true);
+                SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + id, true);
             }
 
-            if (this.ticking && !SlimefunPlugin.getCfg().getBoolean("URID.enable-tickers")) {
-                this.state = ItemState.DISABLED;
+            if (ticking && !SlimefunPlugin.getCfg().getBoolean("URID.enable-tickers")) {
+                state = ItemState.DISABLED;
                 return;
             }
 
             if (this instanceof Radioactive) {
                 SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
+            }
+
+            if (this instanceof WitherProof) {
+                SlimefunPlugin.getRegistry().getWitherProofBlocks().put(id, (WitherProof) this);
             }
 
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
@@ -294,42 +329,36 @@ public class SlimefunItem implements Placeable {
                     category.register();
                 }
 
-                this.state = ItemState.ENABLED;
+                state = ItemState.ENABLED;
 
-                this.useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".can-be-used-in-workbenches");
-                this.hidden = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".hide-in-guide");
-                this.enchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-enchanting");
-                this.disenchantable = SlimefunPlugin.getItemCfg().getBoolean(this.id + ".allow-disenchanting");
-                this.permission = SlimefunPlugin.getItemCfg().getString(this.id + ".required-permission");
-                this.noPermissionTooltip = SlimefunPlugin.getItemCfg().getStringList(this.id + ".no-permission-tooltip");
+                useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
+                hidden = SlimefunPlugin.getItemCfg().getBoolean(id + ".hide-in-guide");
+                enchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-enchanting");
+                disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
 
                 SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
-                SlimefunPlugin.getRegistry().getSlimefunItemIds().put(this.id, this);
+                SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
 
                 for (ItemHandler handler : itemhandlers.values()) {
-                    if (areItemHandlersPrivate()) continue;
-
-                    Set<ItemHandler> handlerset = getHandlers(handler.getIdentifier());
-                    handlerset.add(handler);
-                }
-
-                if (SlimefunPlugin.getSettings().printOutLoading) {
-                    info("Loaded Item \"" + id + "\"");
+                    if (!handler.isPrivate()) {
+                        Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
+                        handlerset.add(handler);
+                    }
                 }
             }
             else {
                 if (this instanceof VanillaItem) {
-                    this.state = ItemState.VANILLA;
+                    state = ItemState.VANILLA;
                 }
                 else {
-                    this.state = ItemState.DISABLED;
+                    state = ItemState.DISABLED;
                 }
             }
 
             postRegister();
         }
         catch (Exception x) {
-            error("Registering the Item '" + id + "' has failed", x);
+            error("Registering " + toString() + " has failed", x);
         }
     }
 
@@ -356,7 +385,10 @@ public class SlimefunItem implements Placeable {
     }
 
     public void bindToResearch(Research r) {
-        if (r != null) r.getAffectedItems().add(this);
+        if (r != null) {
+            r.getAffectedItems().add(this);
+        }
+
         this.research = r;
     }
 
@@ -376,13 +408,240 @@ public class SlimefunItem implements Placeable {
         this.recipeOutput = output;
     }
 
+    /**
+     * This method returns whether or not this {@link SlimefunItem} is allowed to
+     * be used in a Crafting Table.
+     * 
+     * Items of type {@link VanillaItem} may be used in workbenches for example.
+     * 
+     * @see #setUseableInWorkbench(boolean)
+     * 
+     * @return Whether this {@link SlimefunItem} may be used in a Workbench.
+     */
     public boolean isUseableInWorkbench() {
         return useableInWorkbench;
     }
 
+    /**
+     * This sets whether or not this {@link SlimefunItem} is allowed to be
+     * used in a normal Crafting Table.
+     * 
+     * @param useable
+     *            Whether this {@link SlimefunItem} should be useable in a workbench
+     * 
+     * @return This instance of {@link SlimefunItem}
+     */
     public SlimefunItem setUseableInWorkbench(boolean useable) {
         this.useableInWorkbench = useable;
         return this;
+    }
+
+    /**
+     * This method checks whether the provided {@link ItemStack} represents
+     * this {@link SlimefunItem}.
+     * 
+     * @param item
+     *            The {@link ItemStack} to compare
+     * 
+     * @return Whether the given {@link ItemStack} represents this {@link SlimefunItem}
+     */
+    public boolean isItem(ItemStack item) {
+        if (item == null) return false;
+
+        if (item.hasItemMeta()) {
+            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+
+            if (itemID.isPresent()) {
+                return getID().equals(itemID.get());
+            }
+        }
+
+        // Support for legacy items
+        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
+        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
+        else return SlimefunUtils.isItemSimilar(item, this.item, true);
+    }
+
+    /**
+     * This method is used for internal purposes only.
+     */
+    public void load() {
+        try {
+            if (!hidden) {
+                category.add(this);
+            }
+
+            ItemStack output = recipeOutput == null ? item.clone() : recipeOutput.clone();
+            recipeType.register(recipe, output);
+        }
+        catch (Exception x) {
+            error("Failed to properly load the Item \"" + id + "\"", x);
+        }
+    }
+
+    public void addItemHandler(ItemHandler... handlers) {
+        for (ItemHandler handler : handlers) {
+            itemhandlers.put(handler.getIdentifier(), handler);
+
+            // Tickers are a special case (at the moment at least)
+            if (handler instanceof BlockTicker) {
+                ticking = true;
+                SlimefunPlugin.getRegistry().getTickerBlocks().add(getID());
+                blockTicker = (BlockTicker) handler;
+            }
+            else if (handler instanceof GeneratorTicker) {
+                energyTicker = (GeneratorTicker) handler;
+            }
+        }
+    }
+
+    /**
+     * This method is called before {@link #register(SlimefunAddon)}.
+     * Override this method to add any additional setup, adding an {@link ItemHandler} for example.
+     */
+    public void preRegister() {
+        // Override this method to execute code before the Item has been registered
+        // Useful for calls to addItemHandler(...)
+    }
+
+    /**
+     * This method is called after {@link #register(SlimefunAddon)}.
+     * Override this method to add any additional setup that needs to happen after
+     * the original registration of this {@link SlimefunItem}.
+     */
+    public void postRegister() {
+        // Override this method to execute code after the Item has been registered
+        // Useful for calls to Slimefun.getItemValue(...)
+    }
+
+    protected void setItem(ItemStack stack) {
+        this.item = stack;
+    }
+
+    /**
+     * This method will assign the given wiki page to this Item.
+     * Note that you only need to provide the page name itself,
+     * the URL to our wiki is prepended automatically.
+     * 
+     * @param page
+     *            The associated wiki page
+     */
+    public void addOficialWikipage(String page) {
+        Validate.notNull(page, "Wiki page cannot be null.");
+        wikiLink = Optional.of("https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
+    }
+
+    /**
+     * This method returns the wiki page that has been asigned to this item.
+     * It will return null, if no wiki page was found.
+     * 
+     * @see SlimefunItem#addOficialWikipage(String)
+     * 
+     * @return This item's wiki page
+     */
+    public Optional<String> getWikipage() {
+        return wikiLink;
+    }
+
+    /**
+     * This method will return this Item's Name (The name that is displayed when
+     * hovering over this {@link ItemStack} in an {@link Inventory}).
+     * 
+     * @return This item's name in {@link ItemStack} form
+     */
+    public final String getItemName() {
+        return ItemUtils.getItemName(item);
+    }
+
+    /**
+     * This method returns a Set of item handlers associated with this Item.
+     * 
+     * @return The Set of item handlers
+     */
+    public Collection<ItemHandler> getHandlers() {
+        return itemhandlers.values();
+    }
+
+    /**
+     * This method calls every {@link ItemHandler} of the given {@link Class}
+     * and performs the action as specified via the {@link Consumer}.
+     * 
+     * @param c
+     *            The {@link Class} of the {@link ItemHandler} to call.
+     * @param callable
+     *            A {@link Consumer} that is called for any found {@link ItemHandler}.
+     * @param <T>
+     *            The type of {@link ItemHandler} to call.
+     * 
+     * @return Whether or not an {@link ItemHandler} was found.
+     */
+    public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
+        Optional<ItemHandler> handler = itemhandlers.get(c);
+
+        if (handler.isPresent()) {
+            try {
+                callable.accept(c.cast(handler.get()));
+            }
+            catch (Throwable x) {
+                error("Could not pass \"" + c.getSimpleName() + "\" for " + toString(), x);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * This returns whether or not we are scheduling a ticking task for this block.
+     * 
+     * @return Whether this {@link SlimefunItem} is a ticking block
+     */
+    public boolean isTicking() {
+        return ticking;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + ')';
+    }
+
+    @Override
+    public Collection<ItemStack> getDrops() {
+        return Arrays.asList(item.clone());
+    }
+
+    @Override
+    public Collection<ItemStack> getDrops(Player p) {
+        return getDrops();
+    }
+
+    public void info(String message) {
+        addon.getLogger().log(Level.INFO, message);
+    }
+
+    public void warn(String message) {
+        addon.getLogger().log(Level.WARNING, message);
+    }
+
+    /**
+     * This will throw a {@link Throwable} to the console and signal that
+     * this was caused by this {@link SlimefunItem}.
+     * 
+     * @param message
+     *            The message to display alongside this Stacktrace
+     * @param throwable
+     *            The {@link Throwable} to throw as a stacktrace.
+     */
+    public void error(String message, Throwable throwable) {
+        addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
+
+        if (addon.getBugTrackerURL() != null) {
+            // We can prompt the server operator to report it to the addon's bug tracker
+            addon.getLogger().log(Level.SEVERE, "You can report it here: {0}", addon.getBugTrackerURL());
+        }
+
+        addon.getLogger().log(Level.SEVERE, message, throwable);
     }
 
     public static SlimefunItem getByID(String id) {
@@ -404,6 +663,8 @@ public class SlimefunItem implements Placeable {
             }
         }
 
+        // Quite expensive performance-wise
+        // But necessary for supporting legacy items
         for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
             if (sfi.isItem(item)) {
                 // If we have to loop all items for the given item, then at least
@@ -413,148 +674,11 @@ public class SlimefunItem implements Placeable {
                 return sfi;
             }
         }
-        if (SlimefunManager.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
-        if (SlimefunManager.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
 
         return null;
-    }
-
-    public boolean isItem(ItemStack item) {
-        if (item == null) return false;
-
-        if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
-
-            if (itemID.isPresent()) {
-                return getID().equals(itemID.get());
-            }
-        }
-
-        if (this instanceof ChargableItem && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-        else if (this instanceof SlimefunBackpack && SlimefunManager.isItemSimilar(item, this.item, false)) return true;
-        else return SlimefunManager.isItemSimilar(item, this.item, true);
-    }
-
-    public void load() {
-        try {
-            if (!hidden) {
-                category.add(this);
-            }
-
-            ItemStack output = recipeOutput == null ? item.clone() : recipeOutput.clone();
-
-            if (recipeType == RecipeType.MOB_DROP) {
-                String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
-                registerMobDrop(mob, output);
-            }
-            else if (recipeType == RecipeType.ANCIENT_ALTAR) {
-                new AltarRecipe(Arrays.asList(recipe), output);
-            }
-            else if (recipeType.getMachine() != null) {
-                SlimefunItem machine = getByID(recipeType.getMachine().getID());
-
-                if (machine instanceof SlimefunMachine) {
-                    ((SlimefunMachine) getByID(recipeType.getMachine().getID())).addRecipe(recipe, output);
-                }
-            }
-
-            install();
-        }
-        catch (Exception x) {
-            error("Failed to properly load the Item \"" + id + "\"", x);
-        }
-    }
-
-    private void registerMobDrop(String mob, ItemStack output) {
-        try {
-            EntityType entity = EntityType.valueOf(mob);
-            Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
-            dropping.add(output);
-            SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
-        }
-        catch (Exception x) {
-            error("An Exception occured when setting a Drop for the Mob Type: \"" + mob + "\"", x);
-        }
-    }
-
-    @Deprecated
-    public void install() {
-        // Deprecated
-    }
-
-    public void addItemHandler(ItemHandler... handlers) {
-        for (ItemHandler handler : handlers) {
-            itemhandlers.put(handler.getIdentifier(), handler);
-
-            if (handler instanceof BlockTicker) {
-                ticking = true;
-                SlimefunPlugin.getRegistry().getTickerBlocks().add(getID());
-                blockTicker = (BlockTicker) handler;
-            }
-            else if (handler instanceof GeneratorTicker) {
-                energyTicker = (GeneratorTicker) handler;
-            }
-        }
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param vanilla
-     *            deprecated.
-     * @param handlers
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(boolean vanilla, ItemHandler... handlers) {
-        addItemHandler(handlers);
-        register(vanilla);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param handlers
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(ItemHandler... handlers) {
-        addItemHandler(handlers);
-        register(false);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param vanilla
-     *            deprecated.
-     * @param handler
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(boolean vanilla, SlimefunBlockHandler handler) {
-        SlimefunPlugin.getRegistry().getBlockHandlers().put(getID(), handler);
-        register(vanilla);
-    }
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Use {@link SlimefunItem#register(SlimefunAddon)} instead.
-     * @param handler
-     *            deprecated.
-     */
-    @Deprecated
-    public void register(SlimefunBlockHandler handler) {
-        SlimefunPlugin.getRegistry().getBlockHandlers().put(getID(), handler);
-        register(false);
-    }
-
-    public static Set<ItemHandler> getHandlers(Class<? extends ItemHandler> identifier) {
-        return SlimefunPlugin.getRegistry().getItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
     public static ItemStack getItem(String id) {
@@ -562,247 +686,11 @@ public class SlimefunItem implements Placeable {
         return item != null ? item.getItem() : null;
     }
 
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param capacity
-     *            The capacity of this Block
-     */
-    @Deprecated
-    public void registerChargeableBlock(int capacity) {
-        registerChargeableBlock(false, capacity);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     */
-    @Deprecated
-    public void registerEnergyGenerator(boolean slimefun, int capacity) {
-        register(slimefun);
-        SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     */
-    @Deprecated
-    public void registerChargeableBlock(boolean slimefun, int capacity) {
-        register(slimefun);
-        SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-        EnergyNet.registerComponent(id, EnergyNetComponentType.CONSUMER);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     */
-    @Deprecated
-    public void registerCapacitor(boolean slimefun, int capacity) {
-        register(slimefun);
-        SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-        SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
-        EnergyNet.registerComponent(id, EnergyNetComponentType.CAPACITOR);
-    }
-
-    /**
-     * @deprecated Please implement the {@link EnergyNetComponent} interface instead.
-     * @param slimefun
-     *            Whether this is from Slimefun or from an Addon.
-     * @param capacity
-     *            The capacity of this Block
-     * @param handlers
-     *            Your Item Handlers
-     */
-    @Deprecated
-    public void registerChargeableBlock(boolean vanilla, int capacity, ItemHandler... handlers) {
-        addItemHandler(handlers);
-        registerChargeableBlock(vanilla, capacity);
-    }
-
-    public void preRegister() {
-        // Override this method to execute code before the Item has been registered
-        // Useful for calls to addItemHandler(...)
-    }
-
-    public void postRegister() {
-        // Override this method to execute code after the Item has been registered
-        // Useful for calls to Slimefun.getItemValue(...)
-    }
-
-    protected void setItem(ItemStack stack) {
-        this.item = stack;
-    }
-
-    public static boolean isTicking(String item) {
-        return SlimefunPlugin.getRegistry().getTickerBlocks().contains(item);
+    public static Set<ItemHandler> getPublicItemHandlers(Class<? extends ItemHandler> identifier) {
+        return SlimefunPlugin.getRegistry().getPublicItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
     public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
         SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
-    }
-
-    /**
-     * This method will assign the given wiki page to this Item.
-     * Note that you only need to provide the page name itself,
-     * the URL to our wiki is prepended automatically.
-     * 
-     * @param page
-     *            The associated wiki page
-     */
-    public void addOficialWikipage(String page) {
-        wiki = "https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page;
-    }
-
-    /**
-     * This method returns whether this item has been assigned a wiki page.
-     * 
-     * @see SlimefunItem#addOficialWikipage(String)
-     * 
-     * @return Whether this Item has a wiki page
-     */
-    public boolean hasWikipage() {
-        return wiki != null;
-    }
-
-    /**
-     * This method returns the wiki page that has been asigned to this item.
-     * It will return null, if no wiki page was found.
-     * 
-     * @see SlimefunItem#addOficialWikipage(String)
-     * 
-     * @return This item's wiki page
-     */
-    public String getWikipage() {
-        return wiki;
-    }
-
-    /**
-     * This method will return this Item's Name (The name that is displayed when
-     * hovering over this Item in an Inventory).
-     * 
-     * @return This item's name in ItemStack form
-     */
-    public final String getItemName() {
-        return ItemUtils.getItemName(item);
-    }
-
-    /**
-     * This method returns a Set of item handlers associated with this Item.
-     * 
-     * @return The Set of item handlers
-     */
-    public Collection<ItemHandler> getHandlers() {
-        return itemhandlers.values();
-    }
-
-    /**
-     * Override this method if you don't want to add your Item Handler to the global list.
-     * Only use this method if you absolutely know what you are doing and can make sure that the
-     * Item handler is handled somewhere else.
-     * 
-     * @deprecated This method was just a temporary way to add backwards compatibility, it will soon not be needed
-     *             anymore
-     * 
-     * @return Whether this Item handler is handled directly by the Item itself
-     */
-    @Deprecated
-    protected boolean areItemHandlersPrivate() {
-        return false;
-    }
-
-    /**
-     * This method calls every {@link ItemHandler} of the given {@link Class}
-     * and performs the action as specified via the {@link Consumer}.
-     * 
-     * @param c
-     *            The {@link Class} of the {@link ItemHandler} to call.
-     * @param callable
-     *            A {@link Consumer} that is called for any found {@link ItemHandler}.
-     * @return Whether or not an {@link ItemHandler} was found.
-     */
-    public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
-        Optional<ItemHandler> handler = itemhandlers.get(c);
-
-        if (handler.isPresent()) {
-            try {
-                callable.accept(c.cast(handler.get()));
-            }
-            catch (Throwable x) {
-                error("Could not pass \"" + c.getSimpleName() + "\" for the following Item: \"" + getID() + "\"", x);
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean isTicking() {
-        return ticking;
-    }
-
-    @Override
-    public String toString() {
-        return "SlimefunItem: " + id + " (" + state + ", addon=" + (addon == null ? "Unknown" : addon.getName()) + ")";
-    }
-
-    @Override
-    public Collection<ItemStack> getDrops() {
-        return Arrays.asList(item.clone());
-    }
-
-    @Override
-    public Collection<ItemStack> getDrops(Player p) {
-        return getDrops();
-    }
-
-    protected Logger getLogger() {
-        if (addon != null) {
-            return addon.getLogger();
-        }
-        else {
-            // This can be removed once SlimefunAddon is required for registration.
-            return Bukkit.getLogger();
-        }
-    }
-
-    public void info(String message) {
-        getLogger().log(Level.INFO, message);
-    }
-
-    public void warn(String message) {
-        getLogger().log(Level.WARNING, message);
-    }
-
-    /**
-     * This will throw a {@link Throwable} to the console and signal that
-     * this was caused by this {@link SlimefunItem}.
-     * 
-     * @param message
-     *            The message to display alongside this Stacktrace
-     * @param throwable
-     *            The {@link Throwable} to throw as a stacktrace.
-     */
-    public void error(String message, Throwable throwable) {
-        if (addon != null && addon.getBugTrackerURL() != null) {
-            getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
-            getLogger().log(Level.SEVERE, "Report this here: {0}", addon.getBugTrackerURL());
-        }
-        else {
-            getLogger().log(Level.SEVERE, "DO NOT REPORT THIS TO SLIMEFUN");
-            getLogger().log(Level.SEVERE, "This is caused by an Addon that added \"{0}\"", id);
-        }
-
-        getLogger().log(Level.SEVERE, message, throwable);
     }
 }

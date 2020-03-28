@@ -9,14 +9,14 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -117,33 +117,45 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 		}
 		else {
 			for (int slot : getInputSlots()) {
-				if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
-					ItemStack output = randomizer.getRandom();
-					
-					MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
-					if (!menu.fits(output, getOutputSlots())) return;
-					
-					menu.consumeItem(slot);
-					processing.put(b, r);
-					progress.put(b, r.getTicks());
-					break;
-				}
-				else if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-					ItemStack output = randomizerNether.getRandom();
-					
-					MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
-					if (!menu.fits(output, getOutputSlots())) return;
-					
-					menu.consumeItem(slot);
-					processing.put(b, r);
-					progress.put(b, r.getTicks());
-					break;
+				if (process(b, menu, slot)) {
+				    break;
 				}
 			}
 		}
 	}
 	
-	@Override
+	private boolean process(Block b, BlockMenu menu, int slot) {
+	    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
+            ItemStack output = randomizer.getRandom();
+            
+            MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
+            
+            if (menu.fits(output, getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
+            
+            return true;
+        }
+        else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+            ItemStack output = randomizerNether.getRandom();
+            
+            MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] {output});
+            
+            if (menu.fits(output, getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
+            
+            return true;
+        }
+	    
+	    return false;
+    }
+
+    @Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_GOLD_PAN";
 	}

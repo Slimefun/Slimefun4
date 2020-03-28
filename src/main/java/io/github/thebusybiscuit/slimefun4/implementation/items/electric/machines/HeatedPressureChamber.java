@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -24,7 +25,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -62,7 +62,7 @@ public abstract class HeatedPressureChamber extends AContainer {
                 List<Integer> slots = new ArrayList<>();
 
                 for (int slot : getInputSlots()) {
-                    if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
+                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
                         slots.add(slot);
                     }
                 }
@@ -168,7 +168,9 @@ public abstract class HeatedPressureChamber extends AContainer {
             MachineRecipe recipe = findRecipe(menu, found);
 
             if (recipe != null) {
-                if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) return;
+                if (!menu.fits(recipe.getOutput()[0], getOutputSlots())) {
+                    return;
+                }
 
                 for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
                     menu.consumeItem(entry.getKey(), entry.getValue());
@@ -184,12 +186,13 @@ public abstract class HeatedPressureChamber extends AContainer {
         for (MachineRecipe recipe : recipes) {
             for (ItemStack input : recipe.getInput()) {
                 for (int slot : getInputSlots()) {
-                    if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), input, true)) {
+                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), input, true)) {
                         found.put(slot, input.getAmount());
                         break;
                     }
                 }
             }
+            
             if (found.size() == recipe.getInput().length) {
                 return recipe;
             }

@@ -9,6 +9,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -41,7 +42,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                 Location l = b.getLocation().add(0.5, 1.2, 0.5);
                 boolean sound = false;
 
-                for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> n instanceof Item && n.isValid() && !n.hasMetadata("no_pickup") && n.getLocation().distanceSquared(l) > 0.25)) {
+                for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> isValidItem(l, n))) {
                     item.setVelocity(new Vector(0, 0.1, 0));
                     item.teleport(l);
                     sound = true;
@@ -57,5 +58,14 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                 return true;
             }
         };
+    }
+
+    private boolean isValidItem(Location l, Entity entity) {
+        if (entity instanceof Item && entity.isValid()) {
+            Item item = (Item) entity;
+            return !SlimefunUtils.hasNoPickupFlag(item) && item.getLocation().distanceSquared(l) > 0.25;
+        }
+
+        return false;
     }
 }

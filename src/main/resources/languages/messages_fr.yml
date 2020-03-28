@@ -101,6 +101,11 @@ guide:
       lore: Cliquez pour ajouter votre propre traduction
       name: "&aIl manque quelque chose ?"
     updated: "&aVotre langue a été correctement définie sur : &b%lang%"
+  locked: VERROUILLÉ
+  locked-category:
+  - Pour déverrouiller cette catégorie, vous devrez
+  - déverrouiller tous les objets des
+  - catégories suivantes
   pages:
     next: Page suivante
     previous: Page précédente
@@ -110,6 +115,8 @@ guide:
     - "&7Entrez votre terme de recherche dans le chat"
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
+    inventory: 'Rechercher: %item%'
+    tooltip: "&bCliquez pour rechercher un objet"
   title:
     addons: Extensions de Slimefun4
     bugs: Signaler un bug
@@ -203,6 +210,10 @@ machines:
     les objets correctement dans le distributeur."
   TELEPORTER:
     cancelled: "&4Téléportation annulée !"
+    gui:
+      time: Temps estimé
+      title: Vos waypoints
+      tooltip: Cliquez pour vous téléporter
     invulnerability: "&b&lVous avez reçu 30 secondes d'invulnérabilité !"
     teleported: "&3Téléportation terminée !"
     teleporting: "&3Téléportation..."

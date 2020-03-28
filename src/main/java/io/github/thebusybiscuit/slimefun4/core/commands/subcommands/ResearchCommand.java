@@ -6,18 +6,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.players.PlayerList;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 class ResearchCommand extends SubCommand {
 
     private static final String PLACEHOLDER_PLAYER = "%player%";
     private static final String PLACEHOLDER_RESEARCH = "%research%";
 
-    public ResearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    ResearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
@@ -27,7 +27,12 @@ class ResearchCommand extends SubCommand {
     }
 
     @Override
-    protected String getDescriptionPath() {
+    public boolean isHidden() {
+        return false;
+    }
+
+    @Override
+    protected String getDescription() {
         return "commands.research.description";
     }
 
@@ -87,15 +92,17 @@ class ResearchCommand extends SubCommand {
     }
 
     private void reset(PlayerProfile profile, Player p) {
-        for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
-            profile.setResearched(res, false);
+        for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
+            profile.setResearched(research, false);
         }
 
         SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
     }
 
     private Optional<Research> getResearchFromString(String input) {
-        if (!input.contains(":")) return Optional.empty();
+        if (!input.contains(":")) {
+            return Optional.empty();
+        }
 
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
             if (research.getKey().toString().equalsIgnoreCase(input)) {

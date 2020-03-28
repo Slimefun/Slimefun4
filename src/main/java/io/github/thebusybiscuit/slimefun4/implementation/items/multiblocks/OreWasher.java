@@ -15,19 +15,20 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OreWasher extends MultiBlockMachine {
+    
+    private final boolean legacyMode;
 
 	public OreWasher() {
 		super(
 				Categories.MACHINES_1, 
-				(SlimefunItemStack) SlimefunItems.ORE_WASHER, 
+				SlimefunItems.ORE_WASHER, 
 				new ItemStack[] {null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {
 						SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, 
@@ -42,6 +43,8 @@ public class OreWasher extends MultiBlockMachine {
 				},
 				BlockFace.SELF
 		);
+		
+		legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-washer");
 	}
 	
 	@Override
@@ -57,11 +60,11 @@ public class OreWasher extends MultiBlockMachine {
 
 		for (ItemStack current : inv.getContents()) {
 			if (current != null) {
-				if (SlimefunManager.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
+				if (SlimefunUtils.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
 					ItemStack adding = getRandomDust();
 					Inventory outputInv = null;
 
-					if (!SlimefunPlugin.getSettings().legacyOreWasher) {
+					if (!legacyMode) {
 						// This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
 						// However, due to the way the method findValidOutputInv() functions, the dummyAdding will never actually be added to the real inventory,
 						// so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH however, signals that it's
@@ -84,7 +87,7 @@ public class OreWasher extends MultiBlockMachine {
 					
 					return;
 				}
-				else if (SlimefunManager.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
+				else if (SlimefunUtils.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
 					ItemStack adding = SlimefunItems.SALT;
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
@@ -100,7 +103,7 @@ public class OreWasher extends MultiBlockMachine {
 
 					return;
 				}
-				else if (SlimefunManager.isItemSimilar(current, SlimefunItems.PULVERIZED_ORE, true)) {
+				else if (SlimefunUtils.isItemSimilar(current, SlimefunItems.PULVERIZED_ORE, true)) {
 					ItemStack adding = SlimefunItems.PURE_ORE_CLUSTER;
 					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 

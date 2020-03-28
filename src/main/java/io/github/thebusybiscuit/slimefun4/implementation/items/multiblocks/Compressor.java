@@ -14,20 +14,19 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Compressor extends MultiBlockMachine {
 
 	public Compressor() {
 		super(
 				Categories.MACHINES_1, 
-				(SlimefunItemStack) SlimefunItems.COMPRESSOR, 
+				SlimefunItems.COMPRESSOR, 
 				new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON)},
 				new ItemStack[] {
 					new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE),
@@ -48,38 +47,45 @@ public class Compressor extends MultiBlockMachine {
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
 		
-		for (ItemStack current : inv.getContents()) {
-			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
-				if (convert != null && SlimefunManager.isItemSimilar(current, convert, true)) {
-					ItemStack adding = RecipeType.getRecipeOutput(this, convert);
-					Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
+		for (ItemStack item : inv.getContents()) {
+			for (ItemStack recipeInput : RecipeType.getRecipeInputs(this)) {
+				if (recipeInput != null && SlimefunUtils.isItemSimilar(item, recipeInput, true)) {
+					ItemStack output = RecipeType.getRecipeOutput(this, recipeInput);
+					Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 					
 					if (outputInv != null) {
-						ItemStack removing = current.clone();
-						removing.setAmount(convert.getAmount());
-						inv.removeItem(removing);
-						
-						for (int i = 0; i < 4; i++) {
-							int j = i;
-							
-							Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-								if (j < 3) {
-									p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
-								} 
-								else {
-									p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-									outputInv.addItem(adding);
-								}
-							}, i * 20L);
-						}
+					    ItemStack removing = item.clone();
+				        removing.setAmount(recipeInput.getAmount());
+				        inv.removeItem(removing);
+
+						craft(p, output, outputInv);
 					}
-					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+					else {
+					    SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+					}
 					
 					return;
 				}
 			}
 		}
+		
 		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
 	}
+
+    private void craft(Player p, ItemStack output, Inventory outputInv) {
+        for (int i = 0; i < 4; i++) {
+            int j = i;
+            
+            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+                if (j < 3) {
+                    p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
+                } 
+                else {
+                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    outputInv.addItem(output);
+                }
+            }, i * 20L);
+        }
+    }
 
 }

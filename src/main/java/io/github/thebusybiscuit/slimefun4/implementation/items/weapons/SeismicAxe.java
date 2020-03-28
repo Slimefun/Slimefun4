@@ -18,11 +18,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.DamageableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -71,7 +71,10 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
                         if (p.getWorld().getPVP()) {
                             EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
                             Bukkit.getPluginManager().callEvent(event);
-                            if (!event.isCancelled()) ((LivingEntity) n).damage(6D);
+
+                            if (!event.isCancelled()) {
+                                ((LivingEntity) n).damage(6D);
+                            }
                         }
                     }
                 }

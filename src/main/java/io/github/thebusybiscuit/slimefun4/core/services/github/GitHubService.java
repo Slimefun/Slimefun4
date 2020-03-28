@@ -42,6 +42,7 @@ public class GitHubService {
 
         connectors = new HashSet<>();
         contributors = new ConcurrentHashMap<>();
+        loadConnectors(false);
     }
 
     public void start(Plugin plugin) {
@@ -56,7 +57,7 @@ public class GitHubService {
         new Translators(contributors);
     }
 
-    public void connect(boolean logging) {
+    private void loadConnectors(boolean logging) {
         this.logging = logging;
         addDefaultContributors();
 

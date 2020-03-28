@@ -19,12 +19,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * Statically handles categories.
- * Represents a category, which structure multiple {@link SlimefunItem} in the guide.
- * <p>
- * See {@link Categories} for the built-in categories.
+ * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
+ * See {@link Categories} for all built-in categories.
  * 
  * @author TheBusyBiscuit
  *
@@ -40,19 +39,6 @@ public class Category implements Keyed {
     protected final int tier;
 
     /**
-     * Constructs a Category with the given display item.
-     * The tier is set to a default value of {@code 3}.
-     * 
-     * @param item
-     *            the display item for this category
-     * @deprecated Use the alternative with a {@link NamespacedKey} instead
-     */
-    @Deprecated
-    public Category(ItemStack item) {
-        this(item, 3);
-    }
-
-    /**
      * Constructs a new {@link Category} with the given {@link NamespacedKey} as an identifier
      * and the given {@link ItemStack} as its display item.
      * The tier is set to a default value of {@code 3}.
@@ -64,22 +50,6 @@ public class Category implements Keyed {
      */
     public Category(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
-    }
-
-    /**
-     * Constructs a Category with the given display item and the provided tier.
-     * </br>
-     * A lower tier results in this category being displayed first.
-     * 
-     * @param item
-     *            the display item for this category
-     * @param tier
-     *            the tier for this category
-     * @deprecated Use the alternative with a {@link NamespacedKey} instead
-     */
-    @Deprecated
-    public Category(ItemStack item, int tier) {
-        this(new NamespacedKey(SlimefunPlugin.instance, "invalid_category"), item, tier);
     }
 
     /**
@@ -186,6 +156,26 @@ public class Category implements Keyed {
     @Override
     public String toString() {
         return "Slimefun Category {" + key + ",tier=" + tier + "}";
+    }
+
+    /**
+     * This method checks whether this {@link Category} will be hidden for the specified
+     * {@link Player}.
+     * 
+     * Categories are hidden if all of their items have been disabled.
+     * 
+     * @param p
+     *            The {@link Player} to check for
+     * @return Whether this {@link Category} will be hidden to the given {@link Player}
+     */
+    public boolean isHidden(Player p) {
+        for (SlimefunItem slimefunItem : getItems()) {
+            if (Slimefun.isEnabled(p, slimefunItem, false)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

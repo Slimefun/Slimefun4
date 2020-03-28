@@ -1,7 +1,10 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -13,70 +16,69 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
-import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.hooks.SlimefunHooks;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
+import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
+import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AndroidKillingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.GearListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.IgnitionChamberListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemConsumeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.MiscSetup;
+import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
-import io.github.thebusybiscuit.slimefun4.implementation.setup.WikiSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 
 /**
  * This is the main class of Slimefun.
@@ -89,46 +91,48 @@ import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
+    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
-    private RecipeSnapshot recipeSnapshot;
-    private SlimefunRegistry registry;
+    private final SlimefunRegistry registry = new SlimefunRegistry();
+    private final TickerTask ticker = new TickerTask();
+    private final SlimefunCommand command = new SlimefunCommand(this);
 
-    // Services
+    // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
-    private final CustomTextureService textureService = new CustomTextureService(this);
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
+    private final CustomTextureService textureService = new CustomTextureService(this);
     private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService(this, getFile());
+    private final MetricsService metricsService = new MetricsService(this);
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
-    private final MetricsService metricsService = new MetricsService(this);
-
-    private TickerTask ticker;
+    private final PermissionsService permissionsService = new PermissionsService(this);
+    private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
+    private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private LocalizationService local;
+
+    private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
+    private ProtectionManager protections;
+
+    // Important config files for Slimefun
     private Config researches;
     private Config items;
     private Config whitelist;
     private Config config;
 
-    private GPSNetwork gps;
-    private ProtectionManager protections;
-    private ConfigCache settings;
-    private SlimefunHooks hooks;
-
-    // Supported Versions of Minecraft, to ensure people dont use it on the wrong version.
-    private final String[] supportedMinecraftVersions = { "v1_14_", "v1_15_" };
-
     // Listeners that need to be accessed elsewhere
-    private AncientAltarListener ancientAltarListener;
+    private final AncientAltarListener ancientAltarListener = new AncientAltarListener();
+    private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
     private BackpackListener backpackListener;
-    private GrapplingHookListener grapplingHookListener;
     private SlimefunBowListener bowListener;
 
     @Override
     public void onEnable() {
         if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+            long timestamp = System.nanoTime();
 
+            // We wanna ensure that the Server uses a compatible version of Minecraft
             if (isVersionUnsupported()) {
                 getServer().getPluginManager().disablePlugin(this);
                 return;
@@ -137,29 +141,28 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             instance = this;
 
             // Creating all necessary Folders
-            getLogger().log(Level.INFO, "Loading Files...");
+            getLogger().log(Level.INFO, "Loading files...");
             createDirectories();
 
-            getLogger().log(Level.INFO, "Loading Config...");
+            getLogger().log(Level.INFO, "Loading config...");
 
             // Setup config.yml
             config = new Config(this);
-            registry = new SlimefunRegistry();
-            settings = new ConfigCache(config);
+            registry.load(config);
 
             // Loading all extra configs
             researches = new Config(this, "Researches.yml");
             items = new Config(this, "Items.yml");
             whitelist = new Config(this, "whitelist.yml");
 
-            // Setup messages.yml
+            // Setup various other config files
+            textureService.load();
+            permissionsService.load();
             local = new LocalizationService(this, config.getString("options.language"));
 
-            // Setting up Network classes
+            // Setting up Networks
+            gpsNetwork = new GPSNetwork();
             networkManager = new NetworkManager(config.getInt("options.max-network-size"));
-
-            // Setting up other stuff
-            gps = new GPSNetwork();
 
             // Setting up bStats
             metricsService.start();
@@ -177,61 +180,45 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Loading GEO-Resources...");
             GEOResourcesSetup.setup();
 
-            getLogger().log(Level.INFO, "Loading Items...");
-            MiscSetup.setupItemSettings();
+            getLogger().log(Level.INFO, "Loading items...");
+            loadItems();
 
-            try {
-                SlimefunItemSetup.setup(this);
-            }
-            catch (Throwable x) {
-                getLogger().log(Level.SEVERE, "An Error occured while initializing SlimefunItems for Slimefun " + getVersion(), x);
-            }
+            getLogger().log(Level.INFO, "Loading researches...");
+            loadResearches();
 
-            getLogger().log(Level.INFO, "Loading Researches...");
-
-            try {
-                ResearchSetup.setupResearches();
-            }
-            catch (Throwable x) {
-                getLogger().log(Level.SEVERE, "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion(), x);
-            }
-            settings.researchesEnabled = getResearchCfg().getBoolean("enable-researching");
-
-            MiscSetup.setupMisc();
-
-            Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
-            WikiSetup.addWikiPages(this);
-            textureService.setup(registry.getAllSlimefunItems());
-
-            // Setting up GitHub Connectors...
-            gitHubService.connect(config.getBoolean("options.print-out-github-data-retrieving"));
+            registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
+            PostSetup.setupWiki();
 
             // All Slimefun Listeners
             new SlimefunBootsListener(this);
             new SlimefunItemListener(this);
+            new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
             new MultiBlockListener(this);
-            new GearListener(this);
+            new GadgetsListener(this);
             new DispenserListener(this);
             new EntityKillListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
-            new TeleporterListener(this);
-            new AndroidKillingListener(this);
-            new NetworkListener(this);
             new ItemPickupListener(this);
             new DeathpointListener(this);
             new ExplosionsListener(this);
             new DebugFishListener(this);
             new VanillaMachinesListener(this);
+            new FireworksListener(this);
+            new WitherListener(this);
+            new IronGolemListener(this);
 
             bowListener = new SlimefunBowListener(this);
-            ancientAltarListener = new AncientAltarListener();
-            grapplingHookListener = new GrapplingHookListener();
 
-            // Toggleable Listeners for performance
-            if (config.getBoolean("items.talismans")) new TalismanListener(this);
-            if (config.getBoolean("items.soulbound")) new SoulboundListener(this);
+            // Toggleable Listeners for performance reasons
+            if (config.getBoolean("items.talismans")) {
+                new TalismanListener(this);
+            }
+
+            if (config.getBoolean("items.soulbound")) {
+                new SoulboundListener(this);
+            }
 
             if (config.getBoolean("items.backpacks")) {
                 backpackListener = new BackpackListener(this);
@@ -247,67 +234,31 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new PlayerProfileListener(this);
 
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
-            Slimefun.runSync(() -> {
-                recipeSnapshot = new RecipeSnapshot(this);
+            Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
-                MiscSetup.loadItems(settings);
-
-                for (World world : Bukkit.getWorlds()) {
-                    new BlockStorage(world);
-                }
-
-                if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) {
-                    ancientAltarListener.load(this);
-                }
-
-                if (SlimefunItem.getByID("GRAPPLING_HOOK") != null) {
-                    grapplingHookListener.load(this);
-                }
-
-                if (SlimefunItem.getByID("IGNITION_CHAMBER") != null) {
-                    new IgnitionChamberListener(this);
-                }
-
-                if (SlimefunItem.getByID("BLADE_OF_VAMPIRES") != null) {
-                    new VampireBladeListener(this);
-                }
-
-                if (SlimefunItem.getByID("COOLER") != null) {
-                    new CoolerListener(this);
-                }
-            }, 0);
+                textureService.register(registry.getAllSlimefunItems());
+                permissionsService.register(registry.getAllSlimefunItems());
+                recipeService.load();
+            }), 0);
 
             // Setting up the command /sf and all subcommands
-            new SlimefunCommand(this);
+            command.register();
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
                 getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
             }
 
-            ticker = new TickerTask();
-
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
-
-            // Starting all ASYNC Tasks
-            getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-                try {
-                    ticker.run();
-                }
-                catch (Exception x) {
-                    getLogger().log(Level.SEVERE, "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + getVersion(), x);
-                    ticker.abortTick();
-                }
-            }, 100L, config.getInt("URID.custom-ticker-delay"));
-
+            ticker.start(this);
+            thirdPartySupportService.start();
             gitHubService.start(this);
 
-            // Hooray!
-            getLogger().log(Level.INFO, "Finished!");
-            hooks = new SlimefunHooks(this);
-
-            // Do not show /sf elevator command in our Log, it could get quite spammy
+            // Exclude the command /sf elevator from our server log, it could get quite spammy
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
+
+            // Hooray!
+            getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
         }
         else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
@@ -325,50 +276,60 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    private String getStartupTime(long timestamp) {
+        long ms = (System.nanoTime() - timestamp) / 1000000;
+
+        if (ms > 1000) {
+            return DoubleHandler.fixDouble(ms / 1000) + "s";
+        }
+        else {
+            return DoubleHandler.fixDouble(ms) + "ms";
+        }
+    }
+
     private boolean isVersionUnsupported() {
         String currentVersion = ReflectionUtils.getVersion();
 
         if (currentVersion.startsWith("v")) {
-            boolean compatibleVersion = false;
-            StringBuilder versions = new StringBuilder();
-
-            int i = 0;
-            for (String version : supportedMinecraftVersions) {
-                if (currentVersion.startsWith(version)) {
-                    compatibleVersion = true;
+            for (MinecraftVersion version : MinecraftVersion.values()) {
+                if (version.matches(currentVersion)) {
+                    minecraftVersion = version;
+                    return false;
                 }
-
-                String s = version.substring(1).replaceFirst("_", ".").replace("_", ".X");
-                if (i == 0) versions.append(s);
-                else if (i == supportedMinecraftVersions.length - 1) versions.append(" or ").append(s);
-                else versions.append(", ").append(s);
-
-                i++;
             }
 
             // Looks like you are using an unsupported Minecraft Version
-            if (!compatibleVersion) {
-                getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### You are using the wrong Version of Minecraft!");
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### You are using Minecraft " + ReflectionUtils.getVersion());
-                getLogger().log(Level.SEVERE, "### but Slimefun v" + getDescription().getVersion() + " requires you to be using");
-                getLogger().log(Level.SEVERE, "### Minecraft {0}", versions);
-                getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### Please use an older Version of Slimefun and disable auto-updating");
-                getLogger().log(Level.SEVERE, "### or consider updating your Server Software.");
-                return true;
+            getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
+            getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
+            getLogger().log(Level.SEVERE, "###");
+            getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", ReflectionUtils.getVersion());
+            getLogger().log(Level.SEVERE, "### but Slimefun v{0} requires you to be using", getDescription().getVersion());
+            getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
+            return true;
+        }
+
+        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);
+        return false;
+    }
+
+    private Collection<String> getSupportedVersions() {
+        List<String> list = new ArrayList<>();
+
+        for (MinecraftVersion version : MinecraftVersion.values()) {
+            if (version != MinecraftVersion.UNKNOWN) {
+                list.add(version.getName());
             }
         }
 
-        return false;
+        return list;
     }
 
     @Override
     public void onDisable() {
-        // CS-CoreLib wasn't loaded, just disabling
-        if (instance == null) return;
+        // Slimefun never loaded successfully, so we don't even bother doing stuff here
+        if (instance == null) {
+            return;
+        }
 
         Bukkit.getScheduler().cancelTasks(this);
 
@@ -392,11 +353,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     storage.save(true);
                 }
                 else {
-                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"" + world.getName() + "\"");
+                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
                 }
             }
             catch (Exception x) {
-                getLogger().log(Level.SEVERE, "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion(), x);
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
             }
         }
 
@@ -424,28 +385,44 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     private void createDirectories() {
-        String[] storage = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
-        String[] general = { "scripts", "generators", "error-reports", "cache/github" };
+        String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
+        String[] pluginFolders = { "scripts", "generators", "error-reports", "cache/github" };
 
-        for (String file : storage) {
-            createDir("data-storage/Slimefun/" + file);
+        for (String folder : storageFolders) {
+            File file = new File("data-storage/Slimefun/" + folder);
+            if (!file.exists()) file.mkdirs();
         }
 
-        for (String file : general) {
-            createDir("plugins/Slimefun/" + file);
+        for (String folder : pluginFolders) {
+            File file = new File("plugins/Slimefun/" + folder);
+            if (!file.exists()) file.mkdirs();
         }
     }
 
-    private void createDir(String path) {
-        File file = new File(path);
-        if (!file.exists()) file.mkdirs();
+    private void loadItems() {
+        try {
+            PostSetup.setupItemSettings();
+            SlimefunItemSetup.setup(this);
+        }
+        catch (Throwable x) {
+            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
+        }
+    }
+
+    private void loadResearches() {
+        try {
+            ResearchSetup.setupResearches();
+        }
+        catch (Throwable x) {
+            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
+        }
     }
 
     public static Config getCfg() {
         return instance.config;
     }
 
-    public static io.github.thebusybiscuit.cscorelib2.config.Config getResearchCfg() {
+    public static Config getResearchCfg() {
         return instance.researches;
     }
 
@@ -453,30 +430,23 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.items;
     }
 
-    public static io.github.thebusybiscuit.cscorelib2.config.Config getWhitelist() {
+    public static Config getWhitelist() {
         return instance.whitelist;
     }
 
     public static GPSNetwork getGPSNetwork() {
-        return instance.gps;
-    }
-
-    public static SlimefunHooks getHooks() {
-        return instance.hooks;
-    }
-
-    public static ConfigCache getSettings() {
-        return instance.settings;
+        return instance.gpsNetwork;
     }
 
     public static TickerTask getTicker() {
         return instance.ticker;
     }
 
-    public static boolean isActive() {
-        return instance != null;
-    }
-
+    /**
+     * This returns the version of Slimefun that is currently installed.
+     * 
+     * @return The currently installed version of Slimefun
+     */
     public static String getVersion() {
         return instance.getDescription().getVersion();
     }
@@ -489,8 +459,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.local;
     }
 
-    public static RecipeSnapshot getMinecraftRecipes() {
-        return instance.recipeSnapshot;
+    public static MinecraftRecipeService getMinecraftRecipes() {
+        return instance.recipeService;
     }
 
     public static CustomItemDataService getItemDataService() {
@@ -501,14 +471,34 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.textureService;
     }
 
+    public static PermissionsService getPermissionsService() {
+        return instance.permissionsService;
+    }
+
     public static BlockDataService getBlockDataService() {
         return instance.blockDataService;
     }
 
+    public static ThirdPartyPluginService getThirdPartySupportService() {
+        return instance.thirdPartySupportService;
+    }
+
+    /**
+     * This method returns the {@link UpdaterService} of Slimefun.
+     * It is used to handle automatic updates.
+     * 
+     * @return The {@link UpdaterService} for Slimefun
+     */
     public static UpdaterService getUpdater() {
         return instance.updaterService;
     }
 
+    /**
+     * This method returns the {@link GitHubService} of Slimefun.
+     * It is used to retrieve data from GitHub repositories.
+     * 
+     * @return The {@link GitHubService} for Slimefun
+     */
     public static GitHubService getGitHubService() {
         return instance.gitHubService;
     }
@@ -537,8 +527,24 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.bowListener;
     }
 
+    /**
+     * This method returns a {@link Set} of every {@link Plugin} that lists Slimefun
+     * as a required or optional dependency.
+     * 
+     * We will just assume this to be a list of our addons.
+     * 
+     * @return A {@link Set} of every {@link Plugin} that is dependent on Slimefun
+     */
     public static Set<Plugin> getInstalledAddons() {
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName())).collect(Collectors.toSet());
+    }
+
+    public static SlimefunCommand getCommand() {
+        return instance.command;
+    }
+
+    public static MinecraftVersion getMinecraftVersion() {
+        return instance.minecraftVersion;
     }
 
     @Override

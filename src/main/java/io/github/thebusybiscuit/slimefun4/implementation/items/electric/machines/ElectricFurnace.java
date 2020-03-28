@@ -25,12 +25,14 @@ public abstract class ElectricFurnace extends AContainer {
     public void registerDefaultRecipes() {
         Iterator<Recipe> iterator = Bukkit.recipeIterator();
         while (iterator.hasNext()) {
-            Recipe r = iterator.next();
-            if (r instanceof CookingRecipe) {
-                RecipeChoice choice = ((CookingRecipe<?>) r).getInputChoice();
+            Recipe recipe = iterator.next();
+            
+            if (recipe instanceof CookingRecipe) {
+                RecipeChoice choice = ((CookingRecipe<?>) recipe).getInputChoice();
+                
                 if (choice instanceof MaterialChoice) {
                     for (Material input : ((MaterialChoice) choice).getChoices()) {
-                        registerRecipe(4, new ItemStack[] { new ItemStack(input) }, new ItemStack[] { r.getResult() });
+                        registerRecipe(4, new ItemStack[] { new ItemStack(input) }, new ItemStack[] { recipe.getResult() });
                     }
                 }
             }

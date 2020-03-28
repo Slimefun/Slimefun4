@@ -12,13 +12,18 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class TeleporterCommand extends SubCommand {
 
-    public TeleporterCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    TeleporterCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "teleporter";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

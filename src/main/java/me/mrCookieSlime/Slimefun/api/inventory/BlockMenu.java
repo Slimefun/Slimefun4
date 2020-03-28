@@ -82,7 +82,7 @@ public class BlockMenu extends DirtyChestMenu {
         File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
 
         if (file.exists() && !file.delete()) {
-            Slimefun.getLogger().log(Level.WARNING, "Could not delete File: " + file.getName());
+            Slimefun.getLogger().log(Level.WARNING, "Could not delete file: {0}", file.getName());
         }
     }
 }

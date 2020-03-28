@@ -96,7 +96,12 @@ public class Talisman extends SlimefunItem {
     }
 
     @Override
-    public void install() {
+    public void load() {
+        super.load();
+        createEnderTalisman();
+    }
+
+    protected void createEnderTalisman() {
         EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(upgrade());
         Research research = Research.getByID(112);
 

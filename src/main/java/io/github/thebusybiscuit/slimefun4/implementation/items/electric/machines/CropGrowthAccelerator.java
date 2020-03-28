@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -10,17 +10,19 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -29,21 +31,22 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public abstract class CropGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
-    private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
-    private static final Map<Material, Integer> crops = new EnumMap<>(Material.class);
-
-    static {
-        crops.put(Material.WHEAT, 7);
-        crops.put(Material.POTATOES, 7);
-        crops.put(Material.CARROTS, 7);
-        crops.put(Material.NETHER_WART, 3);
-        crops.put(Material.BEETROOTS, 3);
-        crops.put(Material.COCOA, 8);
-        crops.put(Material.SWEET_BERRY_BUSH, 3);
-    }
+    private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+    private final Set<Material> crops = new HashSet<>();
 
     public CropGrowthAccelerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        crops.add(Material.WHEAT);
+        crops.add(Material.POTATOES);
+        crops.add(Material.CARROTS);
+        crops.add(Material.NETHER_WART);
+        crops.add(Material.BEETROOTS);
+        crops.add(Material.COCOA);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            crops.add(Material.SWEET_BERRY_BUSH);
+        }
 
         createPreset(this, this::constructMenu);
 
@@ -62,7 +65,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
         });
     }
 
-    protected void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
             preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
@@ -115,7 +118,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 
         if (work(b, inv) > 0) {
             for (int slot : getInputSlots()) {
-                if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
                     inv.consumeItem(slot);
                     break;
                 }
@@ -130,19 +133,22 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
             for (int z = -getRadius(); z <= getRadius(); z++) {
                 Block block = b.getRelative(x, 0, z);
 
-                if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
-                    for (int slot : getInputSlots()) {
-                        if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-                            if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption()) return work;
-                            ChargableBlock.addCharge(b, -getEnergyConsumption());
+                if (crops.contains(block.getType())) {
+                    Ageable ageable = (Ageable) block.getBlockData();
 
-                            Ageable ageable = (Ageable) block.getBlockData();
-                            ageable.setAge(ageable.getAge() + 1);
-                            block.setBlockData(ageable);
+                    if (ageable.getAge() < ageable.getMaximumAge()) {
+                        for (int slot : getInputSlots()) {
+                            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+                                if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption()) return work;
+                                ChargableBlock.addCharge(b, -getEnergyConsumption());
 
-                            block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
-                            work++;
-                            return work;
+                                ageable.setAge(ageable.getAge() + 1);
+                                block.setBlockData(ageable);
+
+                                block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+                                work++;
+                                return work;
+                            }
                         }
                     }
                 }

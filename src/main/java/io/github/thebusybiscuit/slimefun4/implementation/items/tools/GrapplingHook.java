@@ -59,7 +59,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
                 b.setLeashHolder(arrow);
 
-                boolean state = p.getInventory().getItemInMainHand().getType() != Material.SHEARS;
+                boolean state = item.getType() != Material.SHEARS;
                 SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(uuid, arrow, b, state, despawnTicks);
             }
         };

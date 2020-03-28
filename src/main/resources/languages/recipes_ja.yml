@@ -1,0 +1,142 @@
+---
+minecraft:
+  blasting:
+    lore:
+    - このアイテムの精錬に使用する
+    - '機械: 溶鉱炉'
+    name: 溶鉱炉での精錬
+  campfire:
+    lore:
+    - このアイテムの精錬に使用する
+    - '機械: 焚き火'
+    name: 焚き火
+  furnace:
+    lore:
+    - このアイテムの精錬に使用する
+    - '機械: かまど'
+    name: かまどでの精錬
+  shaped:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: 作業台'
+    - 並べ方は固定
+    name: 定形レシピ
+  shapeless:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: 作業台'
+    - 並べ方は自由
+    name: 不定形レシピ
+  smoking:
+    lore:
+    - このアイテムの燻製に使用する
+    - '機械: 燻製器'
+    name: 燻製器
+  stonecutting:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: 石切台'
+    name: 石切台
+slimefun:
+  ancient_altar:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Ancient Altar'
+    - 詳細はAncient Altarに記載
+    name: Ancient Altar
+  armor_forge:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Armor Forge'
+    name: Armor Forge
+  compressor:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Compressor'
+    name: Compressor
+  enhanced_crafting_table:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Enhanced Crafting Table'
+    - 通常の作業台では不十分です！
+    name: Enhanced Crafting Table
+  food_composter:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Food Composter'
+    name: Food Composter
+  food_fabricator:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Food Fabricator'
+    name: Food Fabricator
+  gold_pan:
+    lore:
+    - このアイテムの入手に使用する
+    - '機械: Gold Pan'
+    name: Gold Pan
+  grind_stone:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Grind Stone'
+    name: Grind Stone
+  heated_pressure_chamber:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Heated Pressure Chamber'
+    name: Heated Pressure Chamber
+  juicer:
+    lore:
+    - このジュースの作成に使用する
+    - '機械: Juicer'
+    name: Juicer
+  magic_workbench:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Magic Workbench'
+    name: Magic Workbench
+  mob_drop:
+    lore:
+    - モブを倒して
+    - 入手するアイテム
+    name: モブドロップ
+  multiblock:
+    lore:
+    - 図面通りに設置して
+    - 建造する。クラフトではありません！
+    name: マルチブロック
+  ore_crusher:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Ore Crusher'
+    name: Ore Crusher
+  ore_washer:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Ore Washer'
+    name: Ore Washer
+  pressure_chamber:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Pressure Chamber'
+    name: Pressure Chamber
+  smeltery:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Smeltery'
+    name: Smeltery
+  freezer:
+    name: Freezer
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Freezer'
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - このアイテムの採掘に使用する
+    - '機械: GEO Miner'
+  nuclear_reactor:
+    name: Nuclear Reactor
+    lore:
+    - このアイテムを副産物として入手できる
+    - '機械: Nuclear Reactor'

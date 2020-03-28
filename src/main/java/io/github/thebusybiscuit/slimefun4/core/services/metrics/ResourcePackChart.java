@@ -6,7 +6,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class ResourcePackChart extends SimplePie {
 
-    public ResourcePackChart() {
+    ResourcePackChart() {
         super("resourcepack", () -> {
             String version = SlimefunPlugin.getItemTextureService().getVersion();
 

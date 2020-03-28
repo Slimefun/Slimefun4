@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
@@ -27,7 +28,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class BookSlimefunGuide implements SlimefunGuideImplementation {
@@ -177,7 +177,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         if (category.getItems().size() < 250) {
 
             if (survival) {
-                profile.getGuideHistory().add(category);
+                profile.getGuideHistory().add(category, page);
             }
 
             List<TellRawMessage> pages = new ArrayList<>();
@@ -203,7 +203,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                                 openCategory(profile, category, true, page);
                                             }
                                             else {
-                                                if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative)) {
+                                                if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled())) {
                                                     p.setLevel(p.getLevel() - research.getCost());
                                                 }
 
@@ -293,7 +293,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
+    public void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory) {
         SlimefunGuide.displayItem(profile, item, addToHistory);
     }
 

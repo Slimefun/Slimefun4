@@ -28,8 +28,12 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class AutoEnchanter extends AContainer {
 
+    private final int emeraldEnchantsLimit;
+
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        emeraldEnchantsLimit = SlimefunPlugin.getCfg().getInt("options.emerald-enchantment-limit");
     }
 
     @Override
@@ -55,6 +59,7 @@ public class AutoEnchanter extends AContainer {
     @Override
     protected void tick(Block b) {
         BlockMenu menu = BlockStorage.getInventory(b.getLocation());
+
         if (isProcessing(b)) {
             int timeleft = progress.get(b);
 
@@ -81,7 +86,8 @@ public class AutoEnchanter extends AContainer {
 
             for (int slot : getInputSlots()) {
                 ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
-                // Check if enchantable
+
+                // Check if the item is enchantable
                 SlimefunItem sfTarget = SlimefunItem.getByItem(target);
                 if (sfTarget != null && !sfTarget.isEnchantable()) return;
 
@@ -102,7 +108,7 @@ public class AutoEnchanter extends AContainer {
                         }
                     }
 
-                    if (SlimefunPlugin.getHooks().isEmeraldEnchantsInstalled()) {
+                    if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
                         for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
                             if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
                                 amount++;
@@ -113,7 +119,7 @@ public class AutoEnchanter extends AContainer {
                         specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
                     }
 
-                    if (amount > 0 && specialAmount <= SlimefunPlugin.getSettings().emeraldEnchantsLimit) {
+                    if (amount > 0 && specialAmount <= emeraldEnchantsLimit) {
                         ItemStack newItem = target.clone();
                         newItem.setAmount(1);
 

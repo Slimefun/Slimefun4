@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
+import java.util.Map;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,9 +30,15 @@ public abstract class SubCommand {
 
     public abstract String getName();
 
+    public abstract boolean isHidden();
+
+    protected void recordUsage(Map<SubCommand, Integer> commandUsage) {
+        commandUsage.merge(this, 1, Integer::sum);
+    }
+
     public abstract void onExecute(CommandSender sender, String[] args);
 
-    protected String getDescriptionPath() {
+    protected String getDescription() {
         return "commands." + getName();
     }
 
@@ -45,10 +53,10 @@ public abstract class SubCommand {
      */
     public String getDescription(CommandSender sender) {
         if (sender instanceof Player) {
-            return SlimefunPlugin.getLocal().getMessage((Player) sender, getDescriptionPath());
+            return SlimefunPlugin.getLocal().getMessage((Player) sender, getDescription());
         }
         else {
-            return SlimefunPlugin.getLocal().getMessage(getDescriptionPath());
+            return SlimefunPlugin.getLocal().getMessage(getDescription());
         }
     }
 

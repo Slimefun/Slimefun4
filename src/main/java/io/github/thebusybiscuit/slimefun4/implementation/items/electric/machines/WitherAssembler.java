@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -13,6 +14,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -22,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -32,6 +33,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+/**
+ * The {@link WitherAssembler} is an electrical machine that can automatically spawn
+ * a {@link Wither} if the required ingredients have been provided.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 4096;
@@ -96,7 +104,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
             @Override
             public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
                 if (flow == ItemTransportFlow.INSERT) {
-                    if (SlimefunManager.isItemSimilar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
+                    if (SlimefunUtils.isItemSimilar(item, new ItemStack(Material.SOUL_SAND), true)) return getSoulSandSlots();
                     else return getWitherSkullSlots();
                 }
                 else return new int[0];
@@ -193,7 +201,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
                     BlockMenu menu = BlockStorage.getInventory(b);
 
                     for (int slot : getSoulSandSlots()) {
-                        if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
                             soulsand = soulsand + menu.getItemInSlot(slot).getAmount();
 
                             if (soulsand > 3) {
@@ -204,7 +212,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
                     }
 
                     for (int slot : getWitherSkullSlots()) {
-                        if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
                             skulls = skulls + menu.getItemInSlot(slot).getAmount();
 
                             if (skulls > 2) {
@@ -216,7 +224,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
                     if (soulsand > 3 && skulls > 2) {
                         for (int slot : getSoulSandSlots()) {
-                            if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+                            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
                                 int amount = menu.getItemInSlot(slot).getAmount();
 
                                 if (amount >= soulsand) {
@@ -231,7 +239,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
                         }
 
                         for (int slot : getWitherSkullSlots()) {
-                            if (SlimefunManager.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+                            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
                                 int amount = menu.getItemInSlot(slot).getAmount();
 
                                 if (amount >= skulls) {

@@ -13,10 +13,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class VanillaMachinesListener implements Listener {
 
@@ -51,12 +51,14 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler
     public void onPrepareCraft(PrepareItemCraftEvent e) {
-        for (ItemStack item : e.getInventory().getContents()) {
-            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        if (e.getInventory().getResult() != null) {
+            for (ItemStack item : e.getInventory().getContents()) {
+                SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-            if (sfItem != null && !sfItem.isUseableInWorkbench()) {
-                e.getInventory().setResult(null);
-                break;
+                if (sfItem != null && !sfItem.isUseableInWorkbench()) {
+                    e.getInventory().setResult(null);
+                    break;
+                }
             }
         }
     }
@@ -67,7 +69,7 @@ public class VanillaMachinesListener implements Listener {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
-            if (!SlimefunManager.isItemSimilar(item1, SlimefunItems.ELYTRA, true) && checkForUnallowedItems(item1, item2)) {
+            if (!SlimefunUtils.isItemSimilar(item1, SlimefunItems.ELYTRA, true) && checkForUnallowedItems(item1, item2)) {
                 e.setCancelled(true);
                 SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
             }

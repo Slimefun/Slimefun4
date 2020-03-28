@@ -11,13 +11,18 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class OpenGuideCommand extends SubCommand {
 
-    public OpenGuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    OpenGuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "open_guide";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

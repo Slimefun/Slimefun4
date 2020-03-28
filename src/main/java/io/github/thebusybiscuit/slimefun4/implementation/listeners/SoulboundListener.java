@@ -12,8 +12,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class SoulboundListener implements Listener {
 
@@ -31,7 +31,7 @@ public class SoulboundListener implements Listener {
             for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
                 ItemStack item = p.getInventory().getItem(slot);
 
-                if (SlimefunManager.isItemSoulbound(item)) {
+                if (SlimefunUtils.isSoulbound(item)) {
                     storeItem(p.getUniqueId(), slot, item);
                 }
             }
@@ -39,7 +39,7 @@ public class SoulboundListener implements Listener {
             Iterator<ItemStack> drops = e.getDrops().iterator();
             while (drops.hasNext()) {
                 ItemStack item = drops.next();
-                if (SlimefunManager.isItemSoulbound(item)) drops.remove();
+                if (SlimefunUtils.isSoulbound(item)) drops.remove();
             }
 
         }

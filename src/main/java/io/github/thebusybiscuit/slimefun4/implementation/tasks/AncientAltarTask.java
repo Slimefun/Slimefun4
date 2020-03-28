@@ -15,13 +15,26 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * The {@link AncientAltarTask} is responsible for the animation that happens when a ritual
+ * involving the {@link AncientAltar} is started.
+ * 
+ * @author dniym
+ * @author meiamsome
+ * @author TheBusyBiscuit
+ * 
+ * @see AncientAltar
+ * @see AncientAltarListener
+ *
+ */
 public class AncientAltarTask implements Runnable {
 
-    private final List<Block> altars;
+    private final AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
 
     private final Block altar;
     private final Location dropLocation;
@@ -35,10 +48,9 @@ public class AncientAltarTask implements Runnable {
     private boolean running;
     private int stage;
 
-    public AncientAltarTask(List<Block> altars, Block altar, Location drop, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
-        this.dropLocation = drop;
+    public AncientAltarTask(Block altar, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
+        this.dropLocation = altar.getLocation().add(0.5, 1.3, 0.5);
         this.altar = altar;
-        this.altars = altars;
         this.output = output;
         this.pedestals = pedestals;
         this.items = items;
@@ -47,7 +59,7 @@ public class AncientAltarTask implements Runnable {
         this.stage = 0;
 
         for (Block pedestal : this.pedestals) {
-            Item item = AncientAltarListener.findItem(pedestal);
+            Item item = listener.findItem(pedestal);
             this.itemLock.put(item, item.getLocation().clone());
         }
     }
@@ -95,14 +107,14 @@ public class AncientAltarTask implements Runnable {
     }
 
     private void checkPedestal(Block pedestal) {
-        Item item = AncientAltarListener.findItem(pedestal);
+        Item item = listener.findItem(pedestal);
 
         if (item == null || itemLock.remove(item) == null) {
             abort();
         }
         else {
             particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
-            items.add(AncientAltarListener.fixItemStack(item.getItemStack(), item.getCustomName()));
+            items.add(listener.fixItemStack(item.getItemStack(), item.getCustomName()));
             pedestal.getWorld().playSound(pedestal.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
 
             dropLocation.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, pedestal.getLocation().add(0.5, 1.5, 0.5), 16, 0.3F, 0.2F, 0.3F);
@@ -117,14 +129,13 @@ public class AncientAltarTask implements Runnable {
 
     private void abort() {
         running = false;
-        AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
         pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
         // This should re-enable altar blocks on craft failure.
         listener.getAltarsInUse().remove(altar.getLocation());
         dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F);
         itemLock.clear();
-        altars.remove(altar);
+        listener.getAltars().remove(altar);
     }
 
     private void finish() {
@@ -133,12 +144,11 @@ public class AncientAltarTask implements Runnable {
             dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
             dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
 
-            AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
             pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
             // This should re-enable altar blocks on craft completion.
             listener.getAltarsInUse().remove(altar.getLocation());
-            altars.remove(altar);
+            listener.getAltars().remove(altar);
         }
         else {
             dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);

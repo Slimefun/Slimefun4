@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -18,6 +17,7 @@ import org.bukkit.entity.Animals;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -26,8 +26,11 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -39,8 +42,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -59,7 +60,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
     public ProgrammableAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        this.texture = item.getBase64Texture().orElse(null);
+        this.texture = item.getSkullTexture().orElse(null);
         registerDefaultFuelTypes();
 
         new BlockMenuPreset(getID(), "Programmable Android") {
@@ -232,27 +233,12 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
             return;
         }
 
-        if (BlockStorage.getLocationInfo(b.getLocation(), "paused").equals("false")) {
+        if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "paused"))) {
             BlockMenu menu = BlockStorage.getInventory(b);
             float fuel = Float.parseFloat(BlockStorage.getLocationInfo(b.getLocation(), "fuel"));
 
             if (fuel < 0.001) {
-                ItemStack item = menu.getItemInSlot(43);
-
-                if (item != null) {
-                    for (MachineFuel recipe : recipes) {
-                        if (SlimefunManager.isItemSimilar(item, recipe.getInput(), true)) {
-                            menu.consumeItem(43);
-
-                            if (getTier() == 2) {
-                                menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
-                            }
-
-                            BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (recipe.getTicks() * this.getFuelEfficiency())));
-                            break;
-                        }
-                    }
-                }
+                consumeFuel(b, menu);
             }
             else {
                 String[] script = PatternUtils.DASH.split(BlockStorage.getLocationInfo(b.getLocation(), "script"));
@@ -262,7 +248,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 boolean refresh = true;
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
-                ScriptPart part = ScriptPart.valueOf(script[index]);
+                ScriptAction part = ScriptAction.valueOf(script[index]);
 
                 if (getAndroidType().isType(part.getRequiredType())) {
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
@@ -323,51 +309,10 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                         movedig(b, menu, face, b.getRelative(BlockFace.DOWN));
                         break;
                     case INTERFACE_ITEMS:
-                        if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_ITEMS") && b.getRelative(face).getState() instanceof Dispenser) {
-                            Dispenser d = (Dispenser) b.getRelative(face).getState();
-
-                            for (int slot : getOutputSlots()) {
-                                ItemStack stack = menu.getItemInSlot(slot);
-
-                                if (stack != null) {
-                                    Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
-
-                                    if (optional.isPresent()) {
-                                        menu.replaceExistingItem(slot, optional.get());
-                                    }
-                                    else {
-                                        menu.replaceExistingItem(slot, null);
-                                    }
-                                }
-                            }
-                        }
+                        depositItems(menu, b.getRelative(face));
                         break;
                     case INTERFACE_FUEL:
-                        if (BlockStorage.check(b.getRelative(face), "ANDROID_INTERFACE_FUEL") && b.getRelative(face).getState() instanceof Dispenser) {
-                            Dispenser d = (Dispenser) b.getRelative(face).getState();
-
-                            for (int slot = 0; slot < 9; slot++) {
-                                ItemStack item = d.getInventory().getItem(slot);
-
-                                if (item != null) {
-                                    if (menu.getItemInSlot(43) == null) {
-                                        menu.replaceExistingItem(43, item);
-                                        d.getInventory().setItem(slot, null);
-                                        break;
-                                    }
-                                    else if (SlimefunManager.isItemSimilar(item, menu.getItemInSlot(43), true)) {
-                                        int rest = item.getType().getMaxStackSize() - menu.getItemInSlot(43).getAmount();
-
-                                        if (rest > 0) {
-                                            int amt = item.getAmount() > rest ? rest : item.getAmount();
-                                            menu.replaceExistingItem(43, new CustomItem(item, menu.getItemInSlot(43).getAmount() + amt));
-                                            ItemUtils.consumeItem(item, amt, false);
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-                        }
+                        refuel(menu, b.getRelative(face));
                         break;
                     case FARM_FORWARD:
                         farm(menu, b.getRelative(face));
@@ -405,6 +350,81 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                 }
             }
         }
+    }
+
+    private void depositItems(BlockMenu menu, Block facedBlock) {
+        if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_ITEMS")) {
+            Dispenser d = (Dispenser) facedBlock.getState();
+
+            for (int slot : getOutputSlots()) {
+                ItemStack stack = menu.getItemInSlot(slot);
+
+                if (stack != null) {
+                    Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
+
+                    if (optional.isPresent()) {
+                        menu.replaceExistingItem(slot, optional.get());
+                    }
+                    else {
+                        menu.replaceExistingItem(slot, null);
+                    }
+                }
+            }
+        }
+    }
+
+    private void consumeFuel(Block b, BlockMenu menu) {
+        ItemStack item = menu.getItemInSlot(43);
+
+        if (item != null) {
+            for (MachineFuel recipe : recipes) {
+                if (SlimefunUtils.isItemSimilar(item, recipe.getInput(), true)) {
+                    menu.consumeItem(43);
+
+                    if (getTier() == 2) {
+                        menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
+                    }
+
+                    BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (recipe.getTicks() * this.getFuelEfficiency())));
+                    break;
+                }
+            }
+        }
+    }
+
+    private void refuel(BlockMenu menu, Block facedBlock) {
+        if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_FUEL")) {
+            Dispenser d = (Dispenser) facedBlock.getState();
+
+            for (int slot = 0; slot < 9; slot++) {
+                ItemStack item = d.getInventory().getItem(slot);
+
+                if (item != null) {
+                    insertFuel(menu, d.getInventory(), slot, menu.getItemInSlot(43), item);
+                }
+            }
+        }
+    }
+
+    private boolean insertFuel(BlockMenu menu, Inventory dispenser, int slot, ItemStack currentFuel, ItemStack newFuel) {
+        if (currentFuel == null) {
+            menu.replaceExistingItem(43, newFuel);
+            dispenser.setItem(slot, null);
+            return true;
+        }
+        else if (SlimefunUtils.isItemSimilar(newFuel, currentFuel, true)) {
+            int rest = newFuel.getType().getMaxStackSize() - currentFuel.getAmount();
+
+            if (rest > 0) {
+                int amount = newFuel.getAmount() > rest ? rest : newFuel.getAmount();
+                menu.replaceExistingItem(43, new CustomItem(newFuel, currentFuel.getAmount() + amount));
+                ItemUtils.consumeItem(newFuel, amount, false);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     protected void move(Block b, BlockFace face, Block block) {

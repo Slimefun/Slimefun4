@@ -9,19 +9,27 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RecipeDisplayItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+/**
+ * The {@link AutoDrier} is an implementation of {@link AContainer} that features recipes
+ * related to "drying out" items.
+ * It also allows you to convert Rotten Flesh into Leather.
+ * 
+ * @author Linox
+ *
+ */
 public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
     private final List<ItemStack> recipeList = new ArrayList<>();
@@ -66,6 +74,9 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
         recipeList.add(SlimefunItems.RABBIT_JERKY);
 
         recipeList.add(new ItemStack(Material.COOKED_COD));
+        recipeList.add(SlimefunItems.FISH_JERKY);
+
+        recipeList.add(new ItemStack(Material.COOKED_SALMON));
         recipeList.add(SlimefunItems.FISH_JERKY);
     }
 
@@ -138,7 +149,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
 
     private ItemStack getOutput(ItemStack item) {
         for (int i = 0; i < recipeList.size(); i += 2) {
-            if (SlimefunManager.isItemSimilar(item, recipeList.get(i), true)) {
+            if (SlimefunUtils.isItemSimilar(item, recipeList.get(i), true)) {
                 return recipeList.get(i + 1);
             }
         }

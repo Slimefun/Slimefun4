@@ -8,6 +8,12 @@ import org.bukkit.event.HandlerList;
 
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 
+/**
+ * This {@link Event} is called when a {@link Player} interacts with a {@link MultiBlock}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class MultiBlockInteractEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();

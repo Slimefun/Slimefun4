@@ -19,6 +19,17 @@ import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 
+/**
+ * This {@link Listener} is responsible for listening to a {@link PlayerInteractEvent} and
+ * triggering any {@link MultiBlockInteractionHandler}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see MultiBlock
+ * @see MultiBlockInteractionHandler
+ * @see MultiBlockInteractEvent
+ *
+ */
 public class MultiBlockListener implements Listener {
 
     public MultiBlockListener(SlimefunPlugin plugin) {
@@ -50,7 +61,7 @@ public class MultiBlockListener implements Listener {
         }
     }
 
-    protected boolean compareMaterials(Block b, Material[] blocks, boolean onlyTwoWay) {
+    private boolean compareMaterials(Block b, Material[] blocks, boolean onlyTwoWay) {
         if (!compareMaterialsVertical(b, blocks[1], blocks[4], blocks[7])) {
             return false;
         }
@@ -66,7 +77,7 @@ public class MultiBlockListener implements Listener {
         return false;
     }
 
-    protected boolean compareMaterialsVertical(Block b, Material top, Material center, Material bottom) {
+    private boolean compareMaterialsVertical(Block b, Material top, Material center, Material bottom) {
         return (center == null || equals(b.getType(), center)) && (top == null || equals(b.getRelative(BlockFace.UP).getType(), top)) && (bottom == null || equals(b.getRelative(BlockFace.DOWN).getType(), bottom));
     }
 

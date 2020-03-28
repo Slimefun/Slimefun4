@@ -15,12 +15,15 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -29,7 +32,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
@@ -46,15 +48,21 @@ public class SlimefunRegistry {
     private final List<SlimefunItem> slimefunItems = new ArrayList<>();
     private final List<SlimefunItem> enabledItems = new ArrayList<>();
 
-    private final KeyMap<Research> researchIds = new KeyMap<>();
     private final List<Category> categories = new ArrayList<>();
-    private final List<Research> researches = new LinkedList<>();
     private final List<MultiBlock> multiblocks = new LinkedList<>();
+
+    private final List<Research> researches = new LinkedList<>();
+    private final List<String> researchRanks = new ArrayList<>();
+    private final Set<UUID> researchingPlayers = new HashSet<>();
+    private final KeyMap<Research> researchIds = new KeyMap<>();
+
+    private boolean enableResearches;
+    private boolean freeCreativeResearches;
+    private boolean researchFireworks;
 
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
     private final Set<String> activeChunks = new HashSet<>();
-    private final Set<UUID> researchingPlayers = new HashSet<>();
 
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
@@ -62,6 +70,7 @@ public class SlimefunRegistry {
     private final Set<String> energyCapacitors = new HashSet<>();
     private final Set<String> energyConsumers = new HashSet<>();
     private final Set<String> chargeableBlocks = new HashSet<>();
+    private final Map<String, WitherProof> witherProofBlocks = new HashMap<>();
 
     private final Map<String, BlockStorage> worlds = new HashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
@@ -79,11 +88,17 @@ public class SlimefunRegistry {
     private final Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
-    public SlimefunRegistry() {
-        SlimefunGuideImplementation chestGuide = new ChestSlimefunGuide(SlimefunPlugin.getCfg().getBoolean("options.show-vanilla-recipes-in-guide"));
-        layouts.put(SlimefunGuideLayout.CHEST, chestGuide);
-        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
+    public void load(Config cfg) {
+        boolean showVanillaRecipes = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
+
+        layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
+        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
         layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
+
+        researchRanks.addAll(cfg.getStringList("research-ranks"));
+
+        freeCreativeResearches = cfg.getBoolean("options.allow-free-creative-research");
+        researchFireworks = cfg.getBoolean("options.research-unlock-fireworks");
     }
 
     public List<Category> getEnabledCategories() {
@@ -116,6 +131,34 @@ public class SlimefunRegistry {
         return researches;
     }
 
+    public KeyMap<Research> getResearchIds() {
+        return researchIds;
+    }
+
+    public Set<UUID> getCurrentlyResearchingPlayers() {
+        return researchingPlayers;
+    }
+
+    public List<String> getResearchRanks() {
+        return researchRanks;
+    }
+
+    public void setResearchingEnabled(boolean enabled) {
+        enableResearches = enabled;
+    }
+
+    public boolean isResearchingEnabled() {
+        return enableResearches;
+    }
+
+    public boolean isFreeCreativeResearchingEnabled() {
+        return freeCreativeResearches;
+    }
+
+    public boolean isResearchFireworkEnabled() {
+        return researchFireworks;
+    }
+
     public List<MultiBlock> getMultiBlocks() {
         return multiblocks;
     }
@@ -144,16 +187,8 @@ public class SlimefunRegistry {
         return activeChunks;
     }
 
-    public Set<UUID> getCurrentlyResearchingPlayers() {
-        return researchingPlayers;
-    }
-
     public Map<String, SlimefunItem> getSlimefunItemIds() {
         return slimefunIds;
-    }
-
-    public KeyMap<Research> getResearchIds() {
-        return researchIds;
     }
 
     public Map<String, Integer> getEnergyCapacities() {
@@ -172,7 +207,7 @@ public class SlimefunRegistry {
         return profiles;
     }
 
-    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getItemHandlers() {
+    public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
         return itemHandlers;
     }
 
@@ -220,6 +255,10 @@ public class SlimefunRegistry {
 
     public Set<String> getChargeableBlocks() {
         return chargeableBlocks;
+    }
+
+    public Map<String, WitherProof> getWitherProofBlocks() {
+        return witherProofBlocks;
     }
 
 }

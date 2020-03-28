@@ -106,6 +106,8 @@ guide:
     - "&7検索ワードをチャットで入力してください"
     message: "&b検索ワードをチャットで入力してください"
     name: "&7検索…"
+    tooltip: "&bクリックでアイテムの検索"
+    inventory: '検索結果: %item%'
   title:
     addons: Slimefun4 アドオン
     bugs: バグ報告
@@ -124,6 +126,11 @@ guide:
       miner: 採掘可能な資源
     versions-notice: バグ報告をお願いします！
     wiki: このアイテムを公式Wikiで確認する
+  locked: ロック中
+  locked-category:
+  - このカテゴリを開放するには
+  - 以下のカテゴリの全アイテムを
+  - リサーチしてください
 inventory:
   no-access: "&4アクセス権がありません"
 languages:
@@ -195,6 +202,10 @@ machines:
     invulnerability: "&b&l30秒間の無敵が付与されました！"
     teleported: "&3テレポート完了！"
     teleporting: "&3テレポート中…"
+    gui:
+      title: あなたのウェイポイント
+      tooltip: クリックでテレポート
+      time: 推定時間
   unknown-material: "&eアイテムを識別できません、レシピ通りに配置してください"
   wrong-item: "&eそのアイテムは識別できません、レシピから正しいアイテムを確認してください"
 messages:

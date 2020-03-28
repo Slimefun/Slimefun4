@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 /**
  * This enum holds all available levels of {@link Radioactivity}.
@@ -13,15 +14,40 @@ import org.bukkit.ChatColor;
  */
 public enum Radioactivity {
 
-    LOW(ChatColor.YELLOW), 
-    MODERATE(ChatColor.YELLOW), 
-    HIGH(ChatColor.DARK_GREEN), 
-    VERY_HIGH(ChatColor.RED), 
+    /**
+     * This represents a low level of radiation.
+     * It will still cause damage but will take a while before it becomes deadly.
+     */
+    LOW(ChatColor.YELLOW),
+
+    /**
+     * This represents a medium level of radiation.
+     * This can be considered the default.
+     */
+    MODERATE(ChatColor.YELLOW),
+
+    /**
+     * This is a high level of radiation.
+     * It will cause death if the {@link Player} does not act quickly.
+     */
+    HIGH(ChatColor.DARK_GREEN),
+
+    /**
+     * A very high level of radiation will be deadly.
+     * The {@link Player} should not take this too lightly...
+     */
+    VERY_HIGH(ChatColor.RED),
+
+    /**
+     * This is the deadlies level of radiation.
+     * The {@link Player} has basically no chance to protect themselves in time.
+     * It will cause certain death.
+     */
     VERY_DEADLY(ChatColor.DARK_RED);
 
     private final ChatColor color;
 
-    private Radioactivity(ChatColor color) {
+    Radioactivity(ChatColor color) {
         this.color = color;
     }
 
@@ -37,7 +63,7 @@ public enum Radioactivity {
      * 
      * @return The level of radiation associated with this constant.
      */
-    public int getLevel() {
+    public int getRadiationLevel() {
         return ordinal() + 1;
     }
 

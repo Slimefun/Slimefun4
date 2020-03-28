@@ -20,7 +20,9 @@ public final class ReactorHologram {
             }
         }
 
-        if (!createIfNoneExists) return null;
+        if (!createIfNoneExists) {
+            return null;
+        }
 
         ArmorStand hologram = SimpleHologram.create(l);
         hologram.setCustomNameVisible(false);

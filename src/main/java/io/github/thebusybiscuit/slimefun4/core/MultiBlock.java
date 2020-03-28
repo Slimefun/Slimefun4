@@ -10,7 +10,6 @@ import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
@@ -21,6 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
  * to recognize that machine in a {@link MultiBlockInteractEvent}.
  * 
  * @author TheBusyBiscuit
+ * @author Liruxo
  * 
  * @see MultiBlockMachine
  * @see MultiBlockInteractionHandler
@@ -30,9 +30,9 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 public class MultiBlock {
 
     public static final List<Tag<Material>> SUPPORTED_TAGS = Arrays.asList(
-        Tag.LOGS, 
-        Tag.WOODEN_FENCES, 
-        Tag.WOODEN_TRAPDOORS, 
+        Tag.LOGS,
+        Tag.WOODEN_TRAPDOORS,
+        Tag.WOODEN_FENCES,
         Tag.WOODEN_SLABS
     );
 
@@ -63,10 +63,6 @@ public class MultiBlock {
 
     public BlockFace getTriggerBlock() {
         return this.trigger;
-    }
-
-    public void register() {
-        SlimefunPlugin.getRegistry().getMultiBlocks().add(this);
     }
 
     @Override
@@ -109,8 +105,14 @@ public class MultiBlock {
         return true;
     }
 
+    /**
+     * This returns whether this {@link MultiBlock} is a symmetric structure or whether
+     * the left and right side differ.
+     * 
+     * @return Whether this {@link MultiBlock} is a symmetric structure
+     */
     public boolean isSymmetric() {
-        return this.isSymmetric;
+        return isSymmetric;
     }
 
     @Override

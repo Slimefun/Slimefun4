@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -170,10 +171,17 @@ public final class Slimefun {
      */
     public static boolean hasUnlocked(Player p, SlimefunItem sfItem, boolean message) {
         if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
-            if (sfItem.getResearch() == null) return true;
-            else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) return true;
+            if (sfItem.getResearch() == null) {
+                return true;
+            }
+            else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) {
+                return true;
+            }
             else {
-                if (message && !(sfItem instanceof VanillaItem)) SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+                if (message && !(sfItem instanceof VanillaItem)) {
+                    SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+                }
+
                 return false;
             }
         }
@@ -194,9 +202,12 @@ public final class Slimefun {
      *         <code>false</code> otherwise.
      */
     public static boolean hasPermission(Player p, SlimefunItem item, boolean message) {
-        if (item == null) return true;
-        else if (item.getPermission().equalsIgnoreCase("")) return true;
-        else if (p.hasPermission(item.getPermission())) return true;
+        if (item == null) {
+            return true;
+        }
+        else if (SlimefunPlugin.getPermissionsService().hasPermission(p, item)) {
+            return true;
+        }
         else {
             if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.no-permission", true);
             return false;
@@ -219,8 +230,7 @@ public final class Slimefun {
     public static boolean isEnabled(Player p, ItemStack item, boolean message) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-        if (sfItem == null) return true;
-        else return isEnabled(p, sfItem, message);
+        return sfItem == null || isEnabled(p, sfItem, message);
     }
 
     /**
@@ -238,7 +248,10 @@ public final class Slimefun {
      */
     public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
         if (sfItem.isDisabled()) {
-            if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
+            if (message) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
+            }
+
             return false;
         }
 

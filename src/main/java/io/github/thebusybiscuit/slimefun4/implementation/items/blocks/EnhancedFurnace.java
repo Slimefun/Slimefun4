@@ -16,6 +16,16 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link EnhancedFurnace} is an upgraded version of a {@link Furnace}.
+ * It has a custom speed, efficiency and also a level of fortune.
+ * All of these values are tweaked for every instance of this class.
+ * 
+ * It uses a {@link BlockTicker} to manipulate the {@link Furnace} into working faster.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 
     private final int speed;

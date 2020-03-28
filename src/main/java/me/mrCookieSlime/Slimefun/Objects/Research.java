@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Objects;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -12,24 +11,25 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * Statically handles researches. Represents a research, which is bound to one
- * {@link SlimefunItem} or more and require XP levels to unlock this/these item(s).
- * 
- * See {@link ResearchSetup} for the built-in researches.
+ * Represents a research, which is bound to one
+ * {@link SlimefunItem} or more and requires XP levels to unlock said item(s).
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see ResearchSetup
+ * @see ResearchUnlockEvent
+ * 
  */
 public class Research implements Keyed {
 
@@ -38,10 +38,10 @@ public class Research implements Keyed {
     private final NamespacedKey key;
     private final int id;
     private String name;
+    private boolean enabled = true;
     private int cost;
 
     private final List<SlimefunItem> items = new LinkedList<>();
-    private boolean enabled = true;
 
     /**
      * The constructor for a {@link Research}.
@@ -75,8 +75,15 @@ public class Research implements Keyed {
         return key;
     }
 
+    /**
+     * This method returns whether this {@link Research} is enabled.
+     * {@code false} can mean that this particular {@link Research} was disabled or that
+     * researches alltogether have been disabled.
+     * 
+     * @return Whether this {@link Research} is enabled or not
+     */
     public boolean isEnabled() {
-        return SlimefunPlugin.getSettings().researchesEnabled && enabled;
+        return SlimefunPlugin.getRegistry().isResearchingEnabled() && enabled;
     }
 
     /**
@@ -153,8 +160,12 @@ public class Research implements Keyed {
      * @return Whether that {@link Player} can unlock this {@link Research}
      */
     public boolean canUnlock(Player p) {
-        if (!isEnabled()) return true;
-        return (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getSettings().researchesFreeInCreative) || p.getLevel() >= this.cost;
+        if (!isEnabled()) {
+            return true;
+        }
+        
+        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
+        return creativeResearch || p.getLevel() >= this.cost;
     }
 
     /**
@@ -165,7 +176,7 @@ public class Research implements Keyed {
      * @param instant
      *            Whether to unlock the research instantly
      */
-    public void unlock(final Player p, boolean instant) {
+    public void unlock(Player p, boolean instant) {
         if (!instant) {
             Slimefun.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
@@ -179,7 +190,7 @@ public class Research implements Keyed {
                     profile.setResearched(this, true);
                     SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace("%research%", getName(p)));
 
-                    if (SlimefunPlugin.getSettings().researchFireworksEnabled && (!PersistentDataAPI.hasByte(p, SlimefunGuideSettings.FIREWORKS_KEY) || PersistentDataAPI.getByte(p, SlimefunGuideSettings.FIREWORKS_KEY) == (byte) 1)) {
+                    if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
                         FireworkUtils.launchRandom(p, 1);
                     }
                 };
@@ -194,15 +205,7 @@ public class Research implements Keyed {
                         }
                         else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
                             SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace("%research%", getName(p)));
-
-                            for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
-                                int j = i;
-
-                                Slimefun.runSync(() -> {
-                                    p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-                                    SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
-                                }, i * 20L);
-                            }
+                            playResearchAnimation(p);
 
                             Slimefun.runSync(() -> {
                                 runnable.run();
@@ -213,6 +216,17 @@ public class Research implements Keyed {
                 });
             }
         });
+    }
+
+    private void playResearchAnimation(Player p) {
+        for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
+            int j = i;
+
+            Slimefun.runSync(() -> {
+                p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace("%research%", getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
+            }, i * 20L);
+        }
     }
 
     /**
@@ -242,10 +256,6 @@ public class Research implements Keyed {
 
         SlimefunPlugin.getRegistry().getResearches().add(this);
         SlimefunPlugin.getRegistry().getResearchIds().add(this);
-
-        if (SlimefunPlugin.getSettings().printOutLoading) {
-            Slimefun.getLogger().log(Level.INFO, "Loaded Research \"{0}\"", name);
-        }
     }
 
     // Temporary migration method from ids to Namespaced Keys.
@@ -272,7 +282,9 @@ public class Research implements Keyed {
      */
     public static Research getByID(int id) {
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (research.getID() == id) return research;
+            if (research.getID() == id) {
+                return research;
+            }
         }
         return null;
     }

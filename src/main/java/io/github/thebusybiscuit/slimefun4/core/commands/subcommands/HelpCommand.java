@@ -8,13 +8,18 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class HelpCommand extends SubCommand {
 
-    public HelpCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
+    HelpCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
         super(plugin, cmd);
     }
 
     @Override
     public String getName() {
         return "help";
+    }
+
+    @Override
+    public boolean isHidden() {
+        return false;
     }
 
     @Override

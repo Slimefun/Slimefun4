@@ -38,6 +38,7 @@ android:
     uploaded:
     - "&bCaricamento..."
     - "&aHai caricato correttamente il tuo script!"
+    editor: Editor di script
   started: "&7Il tuo Android ha ripreso a eseguire il suo script"
   stopped: "&7Il tuo Android ha messo in pausa il suo script"
 anvil:
@@ -89,11 +90,11 @@ guide:
   languages:
     select: Clicca per selezionare questa lingua
     select-default: Clicca per selezionare la lingua predefinita
+    selected-language: 'Attualmente selezionato:'
     translations:
       lore: Clicca per aggiungere la tua traduzione
       name: "&aC'è qualcosa che manca?"
     updated: "&aLa tua lingua è stata impostata correttamente su: &b%lang%"
-    selected-language: 'In questo momento stai selezionando:'
   pages:
     next: Pagina successiva
     previous: Pagina precedente
@@ -103,44 +104,74 @@ guide:
     - "&7Digita il termine di ricerca in chat"
     message: "&bChe cosa vuoi cercare?"
     name: "&7Ricerca..."
+    tooltip: "&bClicca per cercare un elemento"
+    inventory: 'Ricerca di: %item%'
   title:
+    addons: Addons per Slimefun4
+    bugs: Bug Reports
     credits: Collaboratori di Slimefun4
     languages: Seleziona la tua lingua preferita
     main: Guida della Slimefun
     settings: Impostazioni e informazioni
     wiki: Slimefun4 Wiki
-    addons: Addons per Slimefun4
-    bugs: Bug Reports
+    source: Codice Sorgente
   tooltips:
     open-category: Clicca per aprire
     versions-notice: Questi sono molto importanti quando stai reportando dei bugs!
+    wiki: Visualizza questo elemento sulla Wiki ufficiale di Slimefun
+    recipes:
+      machine: Ricette fatte in questa Machine
+      miner: Risorse che puoi ottenere con questo Miner
+      generator: Tipi di carburante disponibili
+      gold-pan: Risorse che puoi ottenere
+  back:
+    title: Indietro
+    guide: Torna alla Guida di Slimefun
+    settings: Torna al Pannello delle Impostazioni
+  locked: BLOCCATO
+  locked-category:
+  - Per sbloccare questa categoria
+  - è necessario sbloccare tutti gli elementi dalle
+  - seguenti categorie
 inventory:
   no-access: "&4Non ti è permesso accedere a questo blocco"
 languages:
   cs: Ceco
   de: Tedesco
   default: Server predefinito
+  el: Greco
   en: Inglese
   es: Spagnolo
   fr: Francese
+  he: Ebreo
   hu: Ungherese
+  id: Indonesiano
   it: Italiano
   lv: Lettone
   nl: Olandese
   pl: Polacco
+  pt: Portoghese (Portogallo)
+  pt-BR: Portoghese (Brasile)
   ru: Russo
   sk: Slovacco
   sv: Svedese
   vi: Vietnamese
-  zh-TW: Cinese (Taiwan)
-  id: Indonesiano
   zh-CN: Cinese (Cina)
-  el: Greco
-  he: Ebreo
-  pt: Portoghese (Portogallo)
-  pt-BR: |-
-    Portoghese
-    (Brasile)
+  zh-TW: Cinese (Taiwan)
+  ar: Arabo
+  af: Afrikaans
+  da: Danese
+  fi: Finlandese
+  uk: Ucraino
+  ms: Malese
+  'no': Norvegese
+  ja: Giapponese
+  fa: Persiano
+  th: Tailandese
+  ro: Rumeno
+  bg: Bulgaro
+  ko: Coreano
+  tr: Turco
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'altare non è circondato dalla quantità necessaria di
@@ -163,6 +194,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: "&7Si prega di inserire il testo dell'ologramma desiderato nella chat.
       &r (i codici colore sono supportati!)"
+    inventory-title: Hologram Editor
   ignition-chamber-no-flint: "&cCamera di combustione mancante acciarino."
   in-use: "&cQuesto inventario di questo blocco è attualmente aperto da un altro giocatore."
   pattern-not-found: "&eScusa, non sono riuscito a riconoscere questa ricetta. Si
@@ -172,10 +204,18 @@ machines:
     invulnerability: "&b&lTi sono stati dati 30 secondi di Invulnerabilità!"
     teleported: "&3Teletrasportato!"
     teleporting: "&3Teletrasporto ..."
+    gui:
+      title: I tuoi waypoint
+      tooltip: Clicca per teletrasportarti
+      time: Tempo stimato
   unknown-material: "&eScusa, non sono riuscito a riconoscere l'item nel mio distributore.
     Per favore, metti qualcosa in quello che so."
   wrong-item: "&eScusa, non sono riuscito a riconoscere l'item con cui mi hai cliccato
     con il tasto destro. Controlla le ricette e vedi quali oggetti puoi usare."
+  GPS_CONTROL_PANEL:
+    title: GPS - Control Panel
+    transmitters: Panoramica del Transmitter
+    waypoints: Panoramica dei waypoint
 messages:
   cannot-place: "&cNon puoi piazzare quel blocco qui!"
   diet-cookie: "&e stai iniziando a sentirti molto leggero ..."

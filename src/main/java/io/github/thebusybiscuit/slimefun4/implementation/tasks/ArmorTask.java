@@ -11,12 +11,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
@@ -79,14 +79,14 @@ public class ArmorTask implements Runnable {
     }
 
     private void checkForSolarHelmet(Player p) {
-        if (SlimefunManager.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15) {
+        if (SlimefunUtils.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15) {
             ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
         }
     }
 
     private void checkForRadiation(Player p) {
         // Check for a Hazmat Suit
-        if (!SlimefunManager.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) || !SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) || !SlimefunManager.isItemSimilar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) || !SlimefunManager.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
+        if (!SlimefunUtils.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) || !SlimefunUtils.isItemSimilar(SlimefunItems.HAZMATSUIT_CHESTPLATE, p.getInventory().getChestplate(), true) || !SlimefunUtils.isItemSimilar(SlimefunItems.HAZMATSUIT_LEGGINGS, p.getInventory().getLeggings(), true) || !SlimefunUtils.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
             for (ItemStack item : p.getInventory()) {
                 if (isRadioactive(p, item)) {
                     break;

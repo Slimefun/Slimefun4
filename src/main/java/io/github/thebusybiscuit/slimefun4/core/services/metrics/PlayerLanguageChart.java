@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class PlayerLanguageChart extends AdvancedPie {
 
-    public PlayerLanguageChart() {
+    PlayerLanguageChart() {
         super("player_languages", () -> {
             Map<String, Integer> languages = new HashMap<>();
 

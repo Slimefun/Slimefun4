@@ -52,12 +52,12 @@ commands:
   give: Da a alguien algún objeto de Slimefun.
   guide: Obtén la guia de Slimefun.
   help: Muestra estos mensajes de ayuda.
-  open_guide: Abre la guia Slimefun sin usar el libro.
+  open_guide: Abre la guía de Slimefun sin usar el libro.
   research:
     description: Desbloquea/Reinicia el conocimiento para un jugador.
     reset: "&cHas reiniciado el conocimiento de %player%."
     reset-target: "&cTu conocimiento fue reiniciado."
-  search: Busca en la guia por el término dado.
+  search: Busca en la guía el término dado.
   stats: Muestra algunos Stats de un Jugador.
   teleporter: Ve los  Waypoints de otros jugadores.
   timings: Información del lag de tu servidor.
@@ -73,7 +73,7 @@ gps:
   - "&4b) Tu red GPS no es lo suficientemente compleja."
   waypoint:
     added: "&aNuevo waypoint agregado exitosamente."
-    max: "&4Has alcanzado el maximo número de waypoints permitidos."
+    max: "&4Has alcanzado el máximo número de waypoints permitidos."
     new: "&ePor favor, escribe en el chat el nombre de tu nuevo waypoint. &7(¡Se permiten
       códigos de color!)"
 guide:
@@ -97,44 +97,53 @@ guide:
     select-default: Clic para seleccionar el idioma predeterminado.
     selected-language: 'Actualmente seleccionado:'
     translations:
-      name: "&a¿Falta algo?"
       lore: Clic para agregar tu propia traducción.
+      name: "&a¿Falta algo?"
     updated: "&aTu lenguaje fue cambiado a: &b%lang%"
+  locked: BLOQUEADO
+  locked-category:
+  - Para desbloquear esta categoría deberás
+  - desbloquear todos los objetos de las
+  - siguientes categorías
   pages:
     next: Página siguiente
     previous: Página anterior
   search:
+    inventory: 'Buscando: %item%'
     lore:
     - "&b¿Qué te gustaría buscar?"
     - "&7Escribe en el chat el término que quieres buscar."
     message: "&b¿Qué te gustaría buscar?"
     name: "&7Busca..."
+    tooltip: "&bClick para buscar un item"
   title:
     addons: Complementos para Slimefun4
     bugs: Reportes de Bugs
     credits: Colaboradores de Slimefun4
     languages: Selecciona tu idioma.
-    main: Guia de Slimefun.
+    main: Guía de Slimefun.
     settings: Configuración e Información.
     source: Código base
     wiki: Wiki de Slimefun4
   tooltips:
     open-category: Clic para abrir
     recipes:
+      generator: Tipos de combustible disponibles
       gold-pan: Recursos que puedes obtener
       machine: Recetas hechas en esta máquina
       miner: Recursos que puedes obtener con el Miner
-      generator: Tipos de combustible disponibles
     versions-notice: "¡Esto es muy importante cuando se reportan bugs!"
-    wiki: Ve este item en la wiki oficial de Slimefun
+    wiki: Ve este objeto en la wiki oficial de Slimefun
 inventory:
   no-access: "&4No tienes permitido el acceso a este bloque."
 languages:
   af: Africano
   ar: Árabe
+  bg: Búlgaro
   cs: Checo
   da: Danés
   de: Alemán
+  default: Predeterminado
   el: Griego
   en: Inglés
   es: Español
@@ -146,6 +155,7 @@ languages:
   id: Indonesio
   it: Italiano
   ja: Japonés
+  ko: Coreano
   lv: Letón
   ms: Malayo
   nl: Holandés
@@ -158,24 +168,21 @@ languages:
   sk: Esloveno
   sv: Sueco
   th: Tailandés
+  tr: Turco
   uk: Ucraniano
   vi: Vietnamita
   zh-CN: Chino (China)
   zh-TW: Chino (Taiwan)
-  default: Predeterminado
-  bg: Búlgaro
-  ko: Coreano
-  tr: Turco
 machines:
   ANCIENT_ALTAR:
-    not-enough-pedestals: "&4El Altar no esta rodeado por la cantidad correcta de
+    not-enough-pedestals: "&4El Altar no está rodeado por la cantidad correcta de
       pedestales &c(%pedestals% / 8)"
     unknown-catalyst: "&4¡Catalyst desconocido! &cUsa la receta correcta!"
     unknown-recipe: "&4¡Receta desconocida! &c¡Usa la receta correcta!"
   ANCIENT_PEDESTAL:
-    obstructed: "&4¡El Pedestal esta obstruido! &c¡Quita lo que se encuentra encima!"
+    obstructed: "&4¡El Pedestal está obstruido! &c¡Quita lo que se encuentra encima!"
   CARGO_NODES:
-    must-be-placed: "&4¡Tiene que ponerse sobre un cofre o maquina!"
+    must-be-placed: "&4¡Tiene que ponerse sobre un cofre o máquina!"
   ELEVATOR:
     click-to-teleport: "&eClic &7para ir a este piso:"
     current-floor: "&eTe encuentras en este piso:"
@@ -199,6 +206,10 @@ machines:
     el objeto en el patrón correcto dentro del dispensador."
   TELEPORTER:
     cancelled: "&4¡Teletransportación cancelada!"
+    gui:
+      time: Tiempo estimado
+      title: Tus waypoints
+      tooltip: Click para teletransportarte
     invulnerability: "&b&l¡Tienes 30 segundos de invulnerabilidad!"
     teleported: "&3¡Teletransportado!"
     teleporting: "&3Teletransportando..."
@@ -213,13 +224,13 @@ messages:
   disabled-item: "&4&l¡Este item ha sido desactivado! ¿Cómo es que lo tienes?"
   fire-extinguish: "&7Has dejado de quemarte."
   fortune-cookie:
-  - "&7¡Ayudame, estoy atrapado en una fábrica de galletas de la fortuna!"
-  - "&7Moriras mañana... por un Creeper."
-  - "&7¡¡¡En algun punto de tu vida algo malo te ocurrira!!!"
-  - "&7La próxima semana notaras que este no es el mundo real, estás en un juego de
+  - "&7¡Ayuda, estoy atrapado en una fábrica de galletas de la fortuna!"
+  - "&7Morirás mañana... por un Creeper."
+  - "&7¡¡¡En algún punto de tu vida algo malo te ocurrira!!!"
+  - "&7La próxima semana notarás que este no es el mundo real, estás en un juego de
     computadora."
   - "&7Esta galleta sabrá bien en unos segundos."
-  - '&7¡La última palabra que oirás será "¡¡EXTERMINAR!!"'
+  - '&7¡La última palabra que oirás será "¡¡EXTERMINAD!!"'
   - "&7Hagas lo que hagas, no abraces a los Creepers... Lo he intentado, se siente
     bien, pero no vale la pena."
   - "&742. La respuesta es 42."
@@ -227,11 +238,11 @@ messages:
   - "&7¡Nunca caves hacia abajo!"
   give-item: '&bLe has dado a %player%, &a%amount% &7"%item%&7"'
   given-item: '&bTe han dado &a%amount% &7"%item%&7"'
-  give-research: '&bLe has dado a %player% el conocimiento &7"%research%&7"'
+  give-research: '&bLe has dado a %player% la investigación &7"%research%&7"'
   hungry: "&c¡Tienes demasiada hambre para hacer eso!"
   link-prompt: "&eHaga clic aquí:"
   mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
-  multimeter: "&bEnergia almacenada: &3%stored% &b/ &3%capacity%"
+  multimeter: "&bEnergía almacenada: &3%stored% &b/ &3%capacity%"
   no-iron-golem-heal: "&cEso no es un lingote de hierro. ¡No puedes usar esto para
     sanar a los Golems de Hierro!"
   no-permission: "&4No tienes el permiso requerido para hacer esto."
@@ -242,15 +253,15 @@ messages:
   not-researched: "&4No tienes conocimiento suficiente para entender esto."
   not-valid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a
     0!"
-  not-valid-item: "&c¡&4%item% &cno es un item válido!"
+  not-valid-item: "&c¡&4%item% &cno es un objeto válido!"
   not-valid-research: "&c¡&4%research% &cno es un conocimiento válido!"
   only-players: "&4Este comando es solo para jugadores."
   opening-backpack: "&bAbriendo la mochila, esto podría tomar unos segundos..."
-  opening-guide: "&bAbriendo la guia, esto puede tomar unos segundos..."
+  opening-guide: "&bAbriendo la guía, esto puede tomar unos segundos..."
   radiation: "&4¡Te has expuesto a radiación mortal! &c¡Desaste del objeto radiactivo
     o equipate un traje HazMat!"
   research:
-    progress: "&7Empiezas a aprender sobre &b%research% &e(%progress%)"
+    progress: "&7Empiezas a pensar sobre &b%research% &e(%progress%)"
     start: "&7Los espíritus antiguos susurran palabras crípticas en tu oído..."
   soulbound-rune:
     fail: "&cSolo puedes ligar un objeto a tu alma."
@@ -266,14 +277,14 @@ messages:
     magician: "&a&oTu talismán te ha dado un encantamiento adicional."
     miner: "&a&oTu talismán ha duplicado los minerales."
     traveller: "&a&oTu talismán te ha dado un impulso de velocidad."
-    warrior: "&a&oTu talismán te ha hecho mas fuerte por un tiempo."
+    warrior: "&a&oTu talismán te ha hecho más fuerte por un tiempo."
     water: "&a&oTu talismán ha evitado que mueras ahogado."
     whirlwind: "&a&oTu talismán ha reflejado un proyectil."
     wizard: "&a&oTu talismán te ha dado un mayor nivel de fortuna, pero pudo disminuír
       el nivel de otros encantamientos."
   unknown-player: "&4Jugador desconocido: &c%player%"
   unlocked: '&bHas desbloqueado &7"%research%"'
-  usage: "&4Usa: &c%usage%"
+  usage: "&4Uso: &c%usage%"
 miner:
   no-ores: "&ePerdón, ¡No encuentro ningún mineral cerca!"
 workbench:

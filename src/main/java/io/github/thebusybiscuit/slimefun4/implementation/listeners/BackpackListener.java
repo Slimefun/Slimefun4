@@ -20,12 +20,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -80,13 +80,13 @@ public class BackpackListener implements Listener {
                     }
                 }
             }
-            else if (!isItemAllowed(item, e.getCurrentItem())) {
+            else if (!isItemAllowed(e.getCurrentItem())) {
                 e.setCancelled(true);
             }
         }
     }
 
-    private boolean isItemAllowed(ItemStack backpack, ItemStack item) {
+    private boolean isItemAllowed(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
@@ -98,10 +98,12 @@ public class BackpackListener implements Listener {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem instanceof SlimefunBackpack) {
-            return false;
-        }
-        else if (sfItem instanceof Cooler) {
-            return sfItem instanceof Juice;
+            if (sfItem instanceof Cooler) {
+                return sfItem instanceof Juice;
+            }
+            else {
+                return false;
+            }
         }
 
         return true;
@@ -113,7 +115,9 @@ public class BackpackListener implements Listener {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
             }
         }
-        else SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
+        else {
+            SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
+        }
     }
 
     private void openBackpack(ItemStack item, PlayerProfile profile, int size) {
@@ -132,7 +136,9 @@ public class BackpackListener implements Listener {
 
             Slimefun.runSync(() -> PlayerProfile.getBackpack(item).open(p));
         }
-        else SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
+        else {
+            SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
+        }
     }
 
     public static void setBackpackId(Player p, ItemStack item, int line, int id) {

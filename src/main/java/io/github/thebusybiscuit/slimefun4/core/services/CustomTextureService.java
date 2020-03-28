@@ -18,14 +18,23 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class CustomTextureService {
 
-    private final Config config;
+    private final Plugin plugin;
+    private Config config;
     private boolean modified = false;
 
     public CustomTextureService(Plugin plugin) {
-        this.config = new Config(plugin, "item-models.yml");
+        this.plugin = plugin;
     }
 
-    public void setup(Iterable<SlimefunItem> items) {
+    public void load() {
+        config = new Config(plugin, "item-models.yml");
+
+        config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n\n" + "There is no official Slimefun resource pack at the moment.");
+
+        config.getConfiguration().options().copyHeader(true);
+    }
+
+    public void register(Iterable<SlimefunItem> items) {
         config.setDefaultValue("SLIMEFUN_GUIDE", 0);
 
         config.setDefaultValue("_UI_BACKGROUND", 0);

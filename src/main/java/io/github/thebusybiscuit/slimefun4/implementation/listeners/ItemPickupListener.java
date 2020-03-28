@@ -6,6 +6,7 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
@@ -15,7 +16,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  */
 public class ItemPickupListener implements Listener {
 
-    private static final String METADATA_JEY = "no_pickup";
     private static final String ITEM_PREFIX = ChatColors.color("&5&dALTAR &3Probe - &e");
 
     public ItemPickupListener(SlimefunPlugin plugin) {
@@ -23,8 +23,8 @@ public class ItemPickupListener implements Listener {
     }
 
     @EventHandler
-    public void onPickup(EntityPickupItemEvent e) {
-        if (e.getItem().hasMetadata(METADATA_JEY)) {
+    public void onEntityPickup(EntityPickupItemEvent e) {
+        if (SlimefunUtils.hasNoPickupFlag(e.getItem())) {
             e.setCancelled(true);
         }
         else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {
@@ -34,8 +34,8 @@ public class ItemPickupListener implements Listener {
     }
 
     @EventHandler
-    public void onMinecartPickup(InventoryPickupItemEvent e) {
-        if (e.getItem().hasMetadata(METADATA_JEY)) {
+    public void onHopperPickup(InventoryPickupItemEvent e) {
+        if (SlimefunUtils.hasNoPickupFlag(e.getItem())) {
             e.setCancelled(true);
         }
         else if (e.getItem().getItemStack().hasItemMeta() && e.getItem().getItemStack().getItemMeta().hasDisplayName() && e.getItem().getItemStack().getItemMeta().getDisplayName().startsWith(ITEM_PREFIX)) {

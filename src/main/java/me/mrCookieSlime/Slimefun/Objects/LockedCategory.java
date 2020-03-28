@@ -7,8 +7,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -29,11 +29,7 @@ public class LockedCategory extends Category {
 
     /**
      * The basic constructor for a LockedCategory.
-     * <p>
-     * See {@link Category#Category(ItemStack, int)} for more information about creating
-     * a category.
-     * <p>
-     * Like {@link Category#Category(ItemStack)}, the tier is automatically set to 3.
+     * Like {@link Category}, the default tier is automatically set to 3.
      * 
      * @param key
      *            A unique identifier for this category
@@ -49,9 +45,6 @@ public class LockedCategory extends Category {
 
     /**
      * The constructor for a LockedCategory.
-     * <p>
-     * See {@link Category#Category(ItemStack, int)} for more information about creating
-     * a category.
      * 
      * @param key
      *            A unique identifier for this category
@@ -115,17 +108,17 @@ public class LockedCategory extends Category {
      * 
      * @param p
      *            The {@link Player} to check
+     * @param profile
+     *            The {@link PlayerProfile} that belongs to the given {@link Player}
      * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
      */
-    public boolean hasUnlocked(Player p) {
-        return hasUnlocked(p, PlayerProfile.get(p));
-    }
-
     public boolean hasUnlocked(Player p, PlayerProfile profile) {
         for (Category category : parents) {
             for (SlimefunItem item : category.getItems()) {
                 // Should we replace this all with Slimefun.hasUnlocked() ?
-                if (Slimefun.isEnabled(p, item, false) && Slimefun.hasPermission(p, item, false) && item.getResearch() != null && !profile.hasUnlocked(item.getResearch())) return false;
+                if (Slimefun.isEnabled(p, item, false) && Slimefun.hasPermission(p, item, false) && item.getResearch() != null && !profile.hasUnlocked(item.getResearch())) {
+                    return false;
+                }
             }
         }
 

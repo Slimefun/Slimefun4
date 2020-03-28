@@ -3,8 +3,8 @@ package io.github.thebusybiscuit.slimefun4.api.items;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 
 public interface ItemRestriction {
 
@@ -20,6 +20,8 @@ public interface ItemRestriction {
      *            The SlimefunItem that the {@link ItemStack} represents
      * @param itemstack
      *            The ItemStack that is being tested.
+     * 
+     * @return Whether the action was allowed
      */
     boolean isAllowed(PlayerProfile profile, Player p, SlimefunItem item, ItemStack itemstack);
 

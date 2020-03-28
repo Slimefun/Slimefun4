@@ -28,10 +28,12 @@ public class DispenserListener implements Listener {
             SlimefunItem machine = BlockStorage.check(b);
 
             if (machine != null) {
-                Dispenser dispenser = (Dispenser) b.getState();
-                BlockFace face = ((Directional) b.getBlockData()).getFacing();
-                Block block = b.getRelative(face);
-                machine.callItemHandler(BlockDispenseHandler.class, handler -> handler.onBlockDispense(e, dispenser, block, machine));
+                machine.callItemHandler(BlockDispenseHandler.class, handler -> {
+                    Dispenser dispenser = (Dispenser) b.getState();
+                    BlockFace face = ((Directional) b.getBlockData()).getFacing();
+                    Block block = b.getRelative(face);
+                    handler.onBlockDispense(e, dispenser, block, machine);
+                });
             }
         }
     }

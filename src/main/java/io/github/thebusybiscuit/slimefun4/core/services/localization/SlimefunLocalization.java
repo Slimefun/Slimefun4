@@ -7,6 +7,7 @@ import java.util.function.UnaryOperator;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -34,21 +36,49 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         super(plugin);
     }
 
+    /**
+     * This method attempts to return the {@link Language} with the given
+     * language code.
+     * 
+     * @param id
+     *            The language code
+     * @return A {@link Language} with the given id or null
+     */
     public abstract Language getLanguage(String id);
 
+    /**
+     * This method returns the currently selected {@link Language} of a {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player} to query
+     * @return The {@link Language} that was selected by the given {@link Player}
+     */
     public abstract Language getLanguage(Player p);
 
+    /**
+     * This method returns the default {@link Language} of this {@link Server}
+     * 
+     * @return The default {@link Language}
+     */
     public abstract Language getDefaultLanguage();
 
-    public abstract boolean hasLanguage(String id);
+    protected abstract boolean hasLanguage(String id);
 
+    /**
+     * This method returns a full {@link Collection} of every {@link Language} that was
+     * found.
+     * 
+     * @return A {@link Collection} that contains every installed {@link Language}
+     */
     public abstract Collection<Language> getLanguages();
 
     protected abstract void addLanguage(String id, String texture);
 
     protected void loadEmbeddedLanguages() {
         for (EmbeddedLanguage lang : EmbeddedLanguage.values()) {
-            addLanguage(lang.getID(), lang.getTexture());
+            if (lang.isReadyForRelease() || SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.STABLE) {
+                addLanguage(lang.getId(), lang.getTexture());
+            }
         }
     }
 
