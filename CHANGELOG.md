@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Release Candidate 10 (TBD)](#release-candidate-10-tbd)
+- [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
     - [Additions](#additions)
     - [Changes](#changes)
     - [Fixes](#fixes)
