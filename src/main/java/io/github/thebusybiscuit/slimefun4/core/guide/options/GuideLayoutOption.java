@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-class OptionGuideDesign implements SlimefunGuideOption<SlimefunGuideLayout> {
+class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
 
     @Override
     public SlimefunAddon getAddon() {

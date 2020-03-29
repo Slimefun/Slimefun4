@@ -47,11 +47,11 @@ public final class SlimefunGuideSettings {
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
-        options.add(new OptionGuideDesign());
+        options.add(new GuideLayoutOption());
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            options.add(new OptionFireworks());
-            options.add(new OptionPlayerLanguages());
+            options.add(new FireworksOption());
+            options.add(new PlayerLanguageOption());
         }
     }
 
@@ -227,8 +227,8 @@ public final class SlimefunGuideSettings {
 
     public static boolean hasFireworksEnabled(Player p) {
         for (SlimefunGuideOption<?> option : options) {
-            if (option instanceof OptionFireworks) {
-                OptionFireworks fireworks = (OptionFireworks) option;
+            if (option instanceof FireworksOption) {
+                FireworksOption fireworks = (FireworksOption) option;
                 return fireworks.getSelectedOption(p, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST)).orElse(true);
             }
         }

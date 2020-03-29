@@ -12,7 +12,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-class OptionFireworks implements SlimefunGuideOption<Boolean> {
+class FireworksOption implements SlimefunGuideOption<Boolean> {
 
     @Override
     public SlimefunAddon getAddon() {

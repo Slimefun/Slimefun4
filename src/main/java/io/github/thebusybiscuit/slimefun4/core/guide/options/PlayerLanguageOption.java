@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-class OptionPlayerLanguages implements SlimefunGuideOption<String> {
+class PlayerLanguageOption implements SlimefunGuideOption<String> {
 
     @Override
     public SlimefunAddon getAddon() {
