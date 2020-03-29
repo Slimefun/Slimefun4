@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -21,7 +20,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see SlimefunItemStack
  *
  */
-public class CustomItemDataService {
+public class CustomItemDataService implements PersistentDataService {
 
     private final NamespacedKey namespacedKey;
 
@@ -36,7 +35,7 @@ public class CustomItemDataService {
     }
 
     public void setItemData(ItemMeta im, String id) {
-        PersistentDataAPI.setString(im, namespacedKey, id);
+        setString(im, namespacedKey, id);
     }
 
     public Optional<String> getItemData(ItemStack item) {
@@ -44,7 +43,7 @@ public class CustomItemDataService {
     }
 
     public Optional<String> getItemData(ItemMeta meta) {
-        return PersistentDataAPI.getOptionalString(meta, namespacedKey);
+        return getString(meta, namespacedKey);
     }
 
 }

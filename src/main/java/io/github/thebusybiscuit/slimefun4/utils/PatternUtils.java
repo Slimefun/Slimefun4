@@ -20,4 +20,5 @@ public final class PatternUtils {
     public static final Pattern COMMA = Pattern.compile(",");
     public static final Pattern SLASH_SEPARATOR = Pattern.compile(" / ");
     public static final Pattern DASH = Pattern.compile("-");
+    public static final Pattern ASCII = Pattern.compile("[A-Za-z \"_]+");
 }

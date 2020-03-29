@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -92,7 +93,7 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
             // applies to shulker boxes)
             // Inventory has to be changed after blockState.update() as updating it will create a different Inventory
             // for the object
-            if (blockState instanceof BlockInventoryHolder) {
+            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) && blockState instanceof BlockInventoryHolder) {
                 ((BlockInventoryHolder) blockState).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
             }
 

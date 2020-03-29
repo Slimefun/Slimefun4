@@ -18,15 +18,15 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 @Deprecated
 public interface GuideHandler {
 
-    public abstract void addEntry(List<String> texts, List<String> tooltips);
+    void addEntry(List<String> texts, List<String> tooltips);
 
-    public abstract PlayerRunnable getRunnable();
+    PlayerRunnable getRunnable();
 
-    public abstract int getTier();
+    int getTier();
 
-    public abstract boolean trackHistory();
+    boolean trackHistory();
 
-    public abstract int next(Player p, int index, ChestMenu menu);
+    int next(Player p, int index, ChestMenu menu);
 
     default PlayerRunnable getRunnable(boolean book) {
         return this.getRunnable();

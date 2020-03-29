@@ -299,12 +299,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             // Looks like you are using an unsupported Minecraft Version
+            getLogger().log(Level.SEVERE, "#############################################");
             getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
             getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
             getLogger().log(Level.SEVERE, "###");
             getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", ReflectionUtils.getVersion());
             getLogger().log(Level.SEVERE, "### but Slimefun v{0} requires you to be using", getDescription().getVersion());
             getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
+            getLogger().log(Level.SEVERE, "#############################################");
             return true;
         }
 

@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
@@ -30,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -54,9 +55,15 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     private final Sound sound;
     private final boolean showVanillaRecipes;
 
-    public ChestSlimefunGuide(boolean showVanillaRecipes) {
-        this.showVanillaRecipes = showVanillaRecipes;
-        this.sound = Sound.ITEM_BOOK_PAGE_TURN;
+    public ChestSlimefunGuide(boolean vanillaRecipes) {
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            sound = Sound.ITEM_BOOK_PAGE_TURN;
+            showVanillaRecipes = vanillaRecipes;
+        }
+        else {
+            sound = Sound.ENTITY_BAT_TAKEOFF;
+            showVanillaRecipes = false;
+        }
     }
 
     @Override
@@ -271,7 +278,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                                 }
                             }
                         }
-                        catch (RuntimeException x) {
+                        catch (Throwable x) {
                             printErrorMessage(pl, x);
                         }
 
@@ -335,7 +342,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                             displayItem(profile, item, true);
                         }
                     }
-                    catch (RuntimeException x) {
+                    catch (Throwable x) {
                         printErrorMessage(pl, x);
                     }
 
@@ -423,7 +430,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             profile.getGuideHistory().add(item, index);
         }
 
-        displayItem(menu, profile, p, item, result, recipeType, recipeItems, task, addToHistory);
+        displayItem(menu, profile, p, item, result, recipeType, recipeItems, task);
 
         if (recipes.length > 1) {
             for (int i = 27; i < 36; i++) {
@@ -479,7 +486,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             profile.getGuideHistory().add(item);
         }
 
-        displayItem(menu, profile, p, item, result, recipeType, recipe, task, addToHistory);
+        displayItem(menu, profile, p, item, result, recipeType, recipe, task);
 
         if (item instanceof RecipeDisplayItem) {
             displayRecipes(p, profile, menu, (RecipeDisplayItem) item, 0);
@@ -492,7 +499,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, RecipeChoiceTask task, boolean addToHistory) {
+    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, RecipeChoiceTask task) {
         boolean isSlimefunRecipe = item instanceof SlimefunItem;
 
         addBackButton(menu, 0, p, profile, true);
@@ -503,7 +510,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                     displayItem(profile, itemstack, 0, true);
                 }
             }
-            catch (RuntimeException x) {
+            catch (Throwable x) {
                 printErrorMessage(pl, x);
             }
             return false;
@@ -680,9 +687,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         return menu;
     }
 
-    private void printErrorMessage(Player p, RuntimeException x) {
+    private void printErrorMessage(Player p, Throwable x) {
         p.sendMessage(ChatColor.DARK_RED + "An internal server error has occured. Please inform an admin, check the console for further info.");
-        Slimefun.getLogger().log(Level.SEVERE, "An error has occured while trying to open a SlimefunItem in the guide!");
+        Slimefun.getLogger().log(Level.SEVERE, "An error has occured while trying to open a SlimefunItem in the guide!", x);
     }
 
 }

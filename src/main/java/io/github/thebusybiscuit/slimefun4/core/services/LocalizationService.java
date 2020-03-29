@@ -16,7 +16,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
@@ -32,7 +31,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @see Language
  *
  */
-public class LocalizationService extends SlimefunLocalization {
+public class LocalizationService extends SlimefunLocalization implements PersistentDataService {
 
     private static final String LANGUAGE_PATH = "language";
 
@@ -108,7 +107,7 @@ public class LocalizationService extends SlimefunLocalization {
 
     @Override
     public Language getLanguage(Player p) {
-        Optional<String> language = PersistentDataAPI.getOptionalString(p, languageKey);
+        Optional<String> language = getString(p, languageKey);
 
         if (language.isPresent()) {
             Language lang = languages.get(language.get());

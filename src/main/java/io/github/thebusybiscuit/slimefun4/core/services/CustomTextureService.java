@@ -5,6 +5,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -30,7 +32,6 @@ public class CustomTextureService {
         config = new Config(plugin, "item-models.yml");
 
         config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n\n" + "There is no official Slimefun resource pack at the moment.");
-
         config.getConfiguration().options().copyHeader(true);
     }
 
@@ -80,7 +81,10 @@ public class CustomTextureService {
 
     public void setTexture(ItemMeta im, String id) {
         int data = getModelData(id);
-        im.setCustomModelData(data == 0 ? null : data);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            im.setCustomModelData(data == 0 ? null : data);
+        }
     }
 
 }

@@ -10,7 +10,8 @@ import org.bukkit.block.TileState;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
@@ -21,7 +22,7 @@ import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
  * @author TheBusyBiscuit
  *
  */
-public class BlockDataService {
+public class BlockDataService implements PersistentDataService {
 
     private final NamespacedKey namespacedKey;
 
@@ -41,7 +42,7 @@ public class BlockDataService {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            PersistentDataAPI.setString((TileState) state, namespacedKey, value);
+            setString((TileState) state, namespacedKey, value);
             state.update();
         }
     }
@@ -57,7 +58,7 @@ public class BlockDataService {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            return PersistentDataAPI.getOptionalString((TileState) state, namespacedKey);
+            return getString((TileState) state, namespacedKey);
         }
         else {
             return Optional.empty();
@@ -77,6 +78,10 @@ public class BlockDataService {
      * @return Whether the given {@link Material} is considered a Tile Entity
      */
     public boolean isTileEntity(Material type) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            return false;
+        }
+        
         switch (type) {
         case PLAYER_HEAD:
         case PLAYER_WALL_HEAD:

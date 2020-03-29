@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
 import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +47,12 @@ public final class Language {
         SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
     }
 
-    public String getID() {
+    /**
+     * This returns the identifier of this {@link Language}.
+     * 
+     * @return The identifier of this {@link Language}
+     */
+    public String getId() {
         return id;
     }
 

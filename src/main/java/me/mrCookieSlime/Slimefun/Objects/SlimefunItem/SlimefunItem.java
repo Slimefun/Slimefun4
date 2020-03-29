@@ -281,7 +281,7 @@ public class SlimefunItem implements Placeable {
             if (!addon.hasDependency("Slimefun")) {
                 throw new MissingDependencyException(addon, "Slimefun");
             }
-            
+
             preRegister();
 
             SlimefunItem conflicting = getByID(id);
@@ -359,13 +359,11 @@ public class SlimefunItem implements Placeable {
                     }
                 }
             }
+            else if (this instanceof VanillaItem) {
+                state = ItemState.VANILLA;
+            }
             else {
-                if (this instanceof VanillaItem) {
-                    state = ItemState.VANILLA;
-                }
-                else {
-                    state = ItemState.DISABLED;
-                }
+                state = ItemState.DISABLED;
             }
 
             postRegister();

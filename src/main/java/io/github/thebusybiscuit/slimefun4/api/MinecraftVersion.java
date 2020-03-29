@@ -11,6 +11,12 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  *
  */
 public enum MinecraftVersion {
+    
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.14
+     * (The Update Aquatic)
+     */
+    MINECRAFT_1_13("1.13.x"),
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.14
