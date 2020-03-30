@@ -1,13 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
 class NetherIceResource implements GEOResource {
 
