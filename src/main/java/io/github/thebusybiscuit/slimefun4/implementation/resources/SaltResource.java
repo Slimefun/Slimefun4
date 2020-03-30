@@ -14,7 +14,7 @@ class SaltResource implements GEOResource {
     private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, "salt");
 
     @Override
-    public int getDefaultSupply(Environment environment, Biome biome) {
+    public int getDefaultSupply(Environment environment, Biome biome, World world) {
 
         if (environment != Environment.NORMAL) {
             return 0;

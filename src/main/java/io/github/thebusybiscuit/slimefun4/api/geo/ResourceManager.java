@@ -69,7 +69,7 @@ public class ResourceManager {
 
     private int generate(GEOResource resource, World world, int x, int z) {
         Block block = world.getBlockAt(x << 4, 72, z << 4);
-        int value = resource.getDefaultSupply(world.getEnvironment(), block.getBiome());
+        int value = resource.getDefaultSupply(world.getEnvironment(), block.getBiome(), world);
 
         if (value > 0) {
             value += ThreadLocalRandom.current().nextInt(resource.getMaxDeviation());

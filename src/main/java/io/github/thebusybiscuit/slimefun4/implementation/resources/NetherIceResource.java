@@ -14,7 +14,7 @@ class NetherIceResource implements GEOResource {
     private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, "nether_ice");
 
     @Override
-    public int getDefaultSupply(Environment environment, Biome biome) {
+    public int getDefaultSupply(Environment environment, Biome biome, World world) {
         return environment == Environment.NETHER ? 32 : 0;
     }
 

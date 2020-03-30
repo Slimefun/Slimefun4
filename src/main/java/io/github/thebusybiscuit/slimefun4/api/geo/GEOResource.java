@@ -41,7 +41,7 @@ public interface GEOResource extends Keyed {
      * 
      * @return The default supply found in a {@link Chunk} with the given {@link Biome}
      */
-    int getDefaultSupply(Environment environment, Biome biome);
+    int getDefaultSupply(Environment environment, Biome biome, World world);
 
     /**
      * Returns how much the value may deviate from the default supply (positive only).
