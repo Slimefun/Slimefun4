@@ -144,9 +144,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Loading files...");
             createDirectories();
 
-            getLogger().log(Level.INFO, "Loading config...");
-
             // Setup config.yml
+            getLogger().log(Level.INFO, "Loading config...");
             config = new Config(this);
             registry.load(config);
 
