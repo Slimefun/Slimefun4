@@ -464,7 +464,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         Player p = profile.getPlayer();
         if (p == null) return;
 
-        ItemStack result = item.getRecipeOutput() != null ? item.getRecipeOutput() : item.getItem();
+        ItemStack result = item.getRecipeOutput();
         RecipeType recipeType = item.getRecipeType();
         ItemStack[] recipe = item.getRecipe();
 

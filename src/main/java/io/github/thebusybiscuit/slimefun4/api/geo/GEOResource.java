@@ -8,6 +8,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
@@ -27,6 +28,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  * @see ResourceManager
  * @see GEOMiner
  * @see GEOScanner
+ * @see GEOResourceGenerationEvent
  *
  */
 public interface GEOResource extends Keyed {

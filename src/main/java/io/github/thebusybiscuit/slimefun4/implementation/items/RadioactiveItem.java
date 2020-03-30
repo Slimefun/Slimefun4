@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
@@ -41,7 +42,7 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive {
      */
     public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-
+        
         this.radioactivity = radioactivity;
     }
 

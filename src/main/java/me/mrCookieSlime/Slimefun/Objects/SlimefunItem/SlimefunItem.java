@@ -70,7 +70,7 @@ public class SlimefunItem implements Placeable {
 
     private boolean ticking = false;
     private BlockTicker blockTicker;
-    private GeneratorTicker energyTicker;
+    private GeneratorTicker generatorTicker;
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
@@ -183,10 +183,21 @@ public class SlimefunItem implements Placeable {
         return recipeType;
     }
 
+    /**
+     * This method returns the result of crafting this {@link SlimefunItem}
+     * 
+     * @return The recipe output of this {@link SlimefunItem}
+     */
     public ItemStack getRecipeOutput() {
-        return recipeOutput;
+        return recipeOutput != null ? recipeOutput.clone() : item.clone();
     }
 
+    /**
+     * This method returns the {@link Research} this {@link SlimefunItem} is linked to.
+     * This will be null if the item is not linked to any {@link Research}
+     * 
+     * @return The linked {@link Research} or null
+     */
     public Research getResearch() {
         return research;
     }
@@ -248,7 +259,7 @@ public class SlimefunItem implements Placeable {
 
     // We should maybe refactor this and move it to a subclass
     public GeneratorTicker getEnergyTicker() {
-        return energyTicker;
+        return generatorTicker;
     }
 
     /**
@@ -285,7 +296,6 @@ public class SlimefunItem implements Placeable {
             preRegister();
 
             SlimefunItem conflicting = getByID(id);
-
             if (conflicting != null) {
                 throw new IdConflictException(this, conflicting);
             }
@@ -327,7 +337,7 @@ public class SlimefunItem implements Placeable {
             }
 
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
-                registerEnergyNetComponent((EnergyNetComponent) this);
+                ((EnergyNetComponent) this).registerComponent(id);
             }
 
             if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
@@ -345,19 +355,7 @@ public class SlimefunItem implements Placeable {
 
                 SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
                 SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
-
-                for (ItemHandler handler : itemhandlers.values()) {
-                    Optional<IncompatibleItemHandlerException> exception = handler.validate(this);
-
-                    if (exception.isPresent()) {
-                        throw exception.get();
-                    }
-
-                    if (!handler.isPrivate()) {
-                        Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
-                        handlerset.add(handler);
-                    }
-                }
+                loadItemHandlers();
             }
             else if (this instanceof VanillaItem) {
                 state = ItemState.VANILLA;
@@ -373,25 +371,18 @@ public class SlimefunItem implements Placeable {
         }
     }
 
-    private void registerEnergyNetComponent(EnergyNetComponent component) {
-        switch (component.getEnergyComponentType()) {
-        case CONSUMER:
-            SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
-            break;
-        case CAPACITOR:
-            SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
-            break;
-        case GENERATOR:
-            SlimefunPlugin.getRegistry().getEnergyGenerators().add(id);
-            break;
-        default:
-            break;
-        }
+    private void loadItemHandlers() {
+        for (ItemHandler handler : itemhandlers.values()) {
+            Optional<IncompatibleItemHandlerException> exception = handler.validate(this);
 
-        int capacity = component.getCapacity();
+            if (exception.isPresent()) {
+                throw exception.get();
+            }
 
-        if (capacity > 0) {
-            SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+            if (!handler.isPrivate()) {
+                Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
+                handlerset.add(handler);
+            }
         }
     }
 
@@ -404,6 +395,10 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipe(ItemStack[] recipe) {
+        if (recipe == null || recipe.length < 9) {
+            throw new IllegalArgumentException("Cannot set a recipe shorter than 9 elements.");
+        }
+
         this.recipe = recipe;
     }
 
@@ -412,6 +407,7 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setCategory(Category category) {
+        Validate.notNull(category, "'category' is not allowed to be null!");
         this.category = category;
     }
 
@@ -482,8 +478,7 @@ public class SlimefunItem implements Placeable {
                 category.add(this);
             }
 
-            ItemStack output = recipeOutput == null ? item.clone() : recipeOutput.clone();
-            recipeType.register(recipe, output);
+            recipeType.register(recipe, getRecipeOutput());
         }
         catch (Exception x) {
             error("Failed to properly load the Item \"" + id + "\"", x);
@@ -501,7 +496,7 @@ public class SlimefunItem implements Placeable {
                 blockTicker = (BlockTicker) handler;
             }
             else if (handler instanceof GeneratorTicker) {
-                energyTicker = (GeneratorTicker) handler;
+                generatorTicker = (GeneratorTicker) handler;
             }
         }
     }
@@ -523,10 +518,6 @@ public class SlimefunItem implements Placeable {
     public void postRegister() {
         // Override this method to execute code after the Item has been registered
         // Useful for calls to Slimefun.getItemValue(...)
-    }
-
-    protected void setItem(ItemStack stack) {
-        this.item = stack;
     }
 
     /**

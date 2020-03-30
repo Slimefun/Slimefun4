@@ -48,7 +48,8 @@
 ## Release Candidate 11 (TBD)
 
 #### Additions
-* Added experimental 1.13 backwards compatibility
+* Added GEOResourceGenerationEvent
+* Added SlimefunGuide-Options API
 
 #### Changes
 
