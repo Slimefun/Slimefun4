@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -1342,7 +1343,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.BROKEN_SPAWNER, new RecipeType(SlimefunItems.PICKAXE_OF_CONTAINMENT),
+		new SlimefunItem(Categories.LUMPS_AND_MAGIC, (SlimefunItemStack) SlimefunItems.BROKEN_SPAWNER, new RecipeType(new NamespacedKey(plugin, "pickaxe_of_containment"), SlimefunItems.PICKAXE_OF_CONTAINMENT),
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.SPAWNER), null, null, null, null})
 		.register(plugin);
 
@@ -2771,11 +2772,11 @@ public final class SlimefunItemSetup {
 			
 		}.register(plugin);
 
-		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BUCKET_OF_OIL, new RecipeType(SlimefunItems.OIL_PUMP),
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BUCKET_OF_OIL, new RecipeType(new NamespacedKey(plugin, "oil_pump"), SlimefunItems.OIL_PUMP),
 		new ItemStack[] {null, null, null, null, new ItemStack(Material.BUCKET), null, null, null, null})
 		.register(plugin);
 
-		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BUCKET_OF_FUEL, new RecipeType(SlimefunItems.REFINERY),
+		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.BUCKET_OF_FUEL, RecipeType.REFINERY,
 		new ItemStack[] {null, null, null, null, SlimefunItems.BUCKET_OF_OIL, null, null, null, null})
 		.register(plugin);
 

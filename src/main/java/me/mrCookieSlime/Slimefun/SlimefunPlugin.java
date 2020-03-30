@@ -124,8 +124,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     // Listeners that need to be accessed elsewhere
     private final AncientAltarListener ancientAltarListener = new AncientAltarListener();
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
-    private BackpackListener backpackListener;
-    private SlimefunBowListener bowListener;
+    private final BackpackListener backpackListener = new BackpackListener();
+    private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
     @Override
     public void onEnable() {
@@ -209,7 +209,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new WitherListener(this);
             new IronGolemListener(this);
 
-            bowListener = new SlimefunBowListener(this);
+            bowListener.load(this);
 
             // Toggleable Listeners for performance reasons
             if (config.getBoolean("items.talismans")) {
@@ -221,7 +221,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             if (config.getBoolean("items.backpacks")) {
-                backpackListener = new BackpackListener(this);
+                backpackListener.load(this);
             }
 
             // Handle Slimefun Guide being given on Join

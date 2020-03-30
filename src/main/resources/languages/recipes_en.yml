@@ -122,6 +122,25 @@ slimefun:
     - 'This Item is a byproduct'
     - 'of running a Nuclear Reactor'
     
+  oil_pump:
+    name: 'Oil Pump'
+    lore:
+    - 'This Item can be gathered'
+    - 'by using an Oil Pump'
+    
+  pickaxe_of_containment:
+    name: 'Pickaxe of Containment'
+    lore:
+    - 'This Block can be obtained'
+    - 'by mining a Spawner with'
+    - 'the Pickaxe of Containment'
+    
+  refinery:
+    name: 'Refinery'
+    lore:
+    - 'Craft this Item as shown'
+    - 'using a Refinery'
+    
 minecraft:
 
   shaped:

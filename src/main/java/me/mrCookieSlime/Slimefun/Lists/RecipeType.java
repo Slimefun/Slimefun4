@@ -52,6 +52,7 @@ public class RecipeType implements Keyed {
     public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
     public static final RecipeType FOOD_COMPOSTER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_composter"), SlimefunItems.FOOD_COMPOSTER);
     public static final RecipeType FREEZER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "freezer"), SlimefunItems.FREEZER);
+    public static final RecipeType REFINERY = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "refinery"), SlimefunItems.REFINERY);
 
     public static final RecipeType GEO_MINER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "geo_miner"), SlimefunItems.GEO_MINER);
     public static final RecipeType NUCLEAR_REACTOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "nuclear_reactor"), SlimefunItems.NUCLEAR_REACTOR);
