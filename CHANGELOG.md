@@ -54,6 +54,7 @@
 #### Changes
 
 #### Fixes
+* Fixed error message when clicking empty slots in the Slimefun Guide
 
 ## Release Candidate 10 (28 Mar 2020)
 

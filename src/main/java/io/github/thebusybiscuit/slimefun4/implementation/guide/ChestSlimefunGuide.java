@@ -506,7 +506,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
             try {
-                if (itemstack.getType() != Material.BARRIER) {
+                if (itemstack != null && itemstack.getType() != Material.BARRIER) {
                     displayItem(profile, itemstack, 0, true);
                 }
             }
