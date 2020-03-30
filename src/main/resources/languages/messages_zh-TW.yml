@@ -97,17 +97,22 @@ guide:
       lore: 點擊增加您自己的翻譯
       name: "&a缺少什麼嗎?"
     updated: "&a你的語言已改成: &b%lang%"
+  locked: 已鎖定
+  locked-category:
+  - 要解鎖此分類
+  - 必須先解鎖下列分類
+  - 的所有物品
   pages:
     next: 下一頁
     previous: 上一頁
   search:
+    inventory: '尋找: %item%'
     lore:
     - "&b您要搜尋什麼？"
     - "&7請輸入搜尋字句到聊天"
     message: "&c你要搜尋什麼?"
     name: "&7搜尋..."
     tooltip: "&b點擊以尋找物品"
-    inventory: '尋找: %item%'
   title:
     addons: Slimefun4的附加插件
     bugs: 錯誤報告
@@ -126,11 +131,6 @@ guide:
       miner: 此挖礦機可獲取的資源
     versions-notice: 這些在報告錯誤時非常重要！
     wiki: 在Slimefun官方Wiki上查看此物品
-  locked: 已鎖定
-  locked-category:
-  - 要解鎖此分類
-  - 必須先解鎖下列分類
-  - 的所有物品
 inventory:
   no-access: "&4沒有權限使用該物品"
 languages:
@@ -199,13 +199,13 @@ machines:
   pattern-not-found: "&e查無此合成表 請確認使用的機器或合成表的材料"
   TELEPORTER:
     cancelled: "&4傳送中止!"
+    gui:
+      time: 估計時間
+      title: 你的標記點
+      tooltip: 點擊以傳送
     invulnerability: "&b&l你得到了30秒的無敵!"
     teleported: "&3傳送成功!"
     teleporting: "&3傳送中..."
-    gui:
-      title: 你的標記點
-      tooltip: 點擊以傳送
-      time: 估計時間
   unknown-material: "&e這個機器不能處理這個物品 請確認使用的機器或合成表的材料"
   wrong-item: "&e你手持的物品和機器並不相容 請確認使用的機器或合成表的材料"
 messages:
