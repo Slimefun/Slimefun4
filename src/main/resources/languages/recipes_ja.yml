@@ -70,6 +70,16 @@ slimefun:
     - このアイテムの作成に使用する
     - '機械: Food Fabricator'
     name: Food Fabricator
+  freezer:
+    lore:
+    - このアイテムの作成に使用する
+    - '機械: Freezer'
+    name: Freezer
+  geo_miner:
+    lore:
+    - このアイテムの採掘に使用する
+    - '機械: GEO Miner'
+    name: GEO Miner
   gold_pan:
     lore:
     - このアイテムの入手に使用する
@@ -105,6 +115,11 @@ slimefun:
     - 図面通りに設置して
     - 建造する。クラフトではありません！
     name: マルチブロック
+  nuclear_reactor:
+    lore:
+    - このアイテムを副産物として入手できる
+    - '機械: Nuclear Reactor'
+    name: Nuclear Reactor
   ore_crusher:
     lore:
     - このアイテムの作成に使用する
@@ -125,18 +140,19 @@ slimefun:
     - このアイテムの作成に使用する
     - '機械: Smeltery'
     name: Smeltery
-  freezer:
-    name: Freezer
+  oil_pump:
+    name: Oil Pump
+    lore:
+    - このアイテムの収集に使用する
+    - '機械: Oil Pump'
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
+    lore:
+    - このブロックを入手するには
+    - Pickaxe of Containmentを
+    - 使用してスポナーを採掘する
+  refinery:
+    name: Refinery
     lore:
     - このアイテムの作成に使用する
-    - '機械: Freezer'
-  geo_miner:
-    name: GEO Miner
-    lore:
-    - このアイテムの採掘に使用する
-    - '機械: GEO Miner'
-  nuclear_reactor:
-    name: Nuclear Reactor
-    lore:
-    - このアイテムを副産物として入手できる
-    - '機械: Nuclear Reactor'
+    - '機械: Refinery'
