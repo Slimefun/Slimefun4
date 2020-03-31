@@ -181,7 +181,7 @@ public class TalismanListener implements Listener {
                 for (ItemStack drop : drops) {
                     if (!drop.getType().isBlock()) {
                         int amount = Math.max(1, (fortune * 2) - drop.getAmount());
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                        e.getBlock().getDrops().add(new CustomItem(drop, amount));
                     }
                 }
             }
