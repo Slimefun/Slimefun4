@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -19,7 +20,7 @@ import java.util.Optional;
  *
  * @author TheBusyBiscuit
  */
-public class BlockDataService {
+public class BlockDataService implements PersistentDataService {
 
     private final NamespacedKey namespacedKey;
 
@@ -30,14 +31,16 @@ public class BlockDataService {
     /**
      * This will store the given {@link String} inside the NBT data of the given {@link Block}
      *
-     * @param b     The {@link Block} in which to store the given value
-     * @param value The value to store
+     * @param b
+     *            The {@link Block} in which to store the given value
+     * @param value
+     *            The value to store
      */
     public void setBlockData(Block b, String value) {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            PersistentDataAPI.setString((TileState) state, namespacedKey, value);
+            setString(state, namespacedKey, value);
             state.update();
         }
     }
@@ -45,14 +48,15 @@ public class BlockDataService {
     /**
      * This method returns the NBT data previously stored inside this {@link Block}.
      *
-     * @param b The {@link Block} to retrieve data from
+     * @param b
+     *            The {@link Block} to retrieve data from
      * @return The stored value
      */
     public Optional<String> getBlockData(Block b) {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            return PersistentDataAPI.getOptionalString((TileState) state, namespacedKey);
+            return getString(state, namespacedKey);
         } else {
             return Optional.empty();
         }
@@ -62,14 +66,19 @@ public class BlockDataService {
      * This method checks whether the given {@link Material} is a Tile Entity.
      * This is used to determine whether the {@link Block} produced by this {@link Material}
      * produces a {@link TileState}, making it useable as a {@link PersistentDataHolder}.
-     * <p>
+     *
      * Due to {@link Block#getState()} being a very expensive call performance-wise though,
      * this simple lookup method is used instead.
      *
-     * @param type The {@link Material} to check for
+     * @param type
+     *            The {@link Material} to check for
      * @return Whether the given {@link Material} is considered a Tile Entity
      */
     public boolean isTileEntity(Material type) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            return false;
+        }
+
         switch (type) {
             case PLAYER_HEAD:
             case PLAYER_WALL_HEAD:

@@ -1,17 +1,23 @@
-package io.github.thebusybiscuit.slimefun4.core.guide;
+package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerLanguageChangeEvent;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
-import io.github.thebusybiscuit.slimefun4.utils.*;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -21,18 +27,34 @@ import java.util.*;
 /**
  * This static utility class offers various methods that provide access to the
  * Settings menu of our {@link SlimefunGuide}.
- * <p>
+ *
  * This menu is used to allow a {@link Player} to change things such as the {@link Language}.
  *
  * @author TheBusyBiscuit
+ *
  * @see SlimefunGuide
+ *
  */
 public final class SlimefunGuideSettings {
 
-    public static final NamespacedKey FIREWORKS_KEY = new NamespacedKey(SlimefunPlugin.instance, "research_fireworks");
     private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 52, 53};
+    private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
-    private SlimefunGuideSettings() {}
+    static {
+        options.add(new OptionGuideDesign());
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            options.add(new OptionFireworks());
+            options.add(new OptionPlayerLanguages());
+        }
+    }
+
+    private SlimefunGuideSettings() {
+    }
+
+    public static <T> void addOption(SlimefunGuideOption<T> option) {
+        options.add(option);
+    }
 
     public static void openSettings(Player p, ItemStack guide) {
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings"));
@@ -49,7 +71,7 @@ public final class SlimefunGuideSettings {
     }
 
     private static void addHeader(Player p, ChestMenu menu, ItemStack guide) {
-        menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")), (pl, slot, item, action) -> {
+        menu.addItem(0, new CustomItem(SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")), (pl, slot, item, action) -> {
             SlimefunGuide.openGuide(pl, guide);
             return false;
         });
@@ -95,138 +117,19 @@ public final class SlimefunGuideSettings {
     private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
         int i = 19;
 
-        if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
-            if (p.hasPermission("slimefun.cheat.items")) {
-                menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
-                menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-                    pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
-                    openSettings(pl, pl.getInventory().getItemInMainHand());
+        for (SlimefunGuideOption<?> option : options) {
+            Optional<ItemStack> item = option.getDisplayItem(p, guide);
+
+            if (item.isPresent()) {
+                menu.addItem(i, item.get());
+                menu.addMenuClickHandler(i, (pl, slot, stack, action) -> {
+                    option.onClick(p, guide);
                     return false;
                 });
-            } else {
-                menu.addItem(i, new CustomItem(Material.CHEST, "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&7\u21E8 &eClick to change your layout"));
-                menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-                    pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
-                    openSettings(pl, pl.getInventory().getItemInMainHand());
-                    return false;
-                });
-            }
 
-            i++;
-        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
-            if (p.hasPermission("slimefun.cheat.items")) {
-                menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
-                menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-                    pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
-                    openSettings(pl, pl.getInventory().getItemInMainHand());
-                    return false;
-                });
-            } else {
-                menu.addItem(i, new CustomItem(Material.BOOK, "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&7\u21E8 &eClick to change your layout"));
-                menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-                    pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
-                    openSettings(pl, pl.getInventory().getItemInMainHand());
-                    return false;
-                });
-            }
-
-            i++;
-        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-            menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&7\u21E8 &eClick to change your layout"));
-            menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-                pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
-                openSettings(pl, pl.getInventory().getItemInMainHand());
-                return false;
-            });
-
-            i++;
-        }
-
-        if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled()) {
-            if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
-                menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &aYes", "", "&7When researching items, you will", "&7be presented with a big firework.", "", "&7\u21E8 &eClick to disable your fireworks"), (pl, slot, item, action) -> {
-                    PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
-                    openSettings(pl, guide);
-                    return false;
-                });
-            } else {
-                menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &4No", "", "&7When researching items, you will", "&7not be presented with a big firework.", "", "&7\u21E8 &eClick to enable your fireworks"), (pl, slot, item, action) -> {
-                    PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
-                    openSettings(pl, guide);
-                    return false;
-                });
-            }
-
-            i++;
-        }
-
-        if (SlimefunPlugin.getLocal().isEnabled()) {
-            Language language = SlimefunPlugin.getLocal().getLanguage(p);
-            String languageName = language.isDefault() ? (SlimefunPlugin.getLocal().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")") : SlimefunPlugin.getLocal().getMessage(p, "languages." + language.getID());
-
-            menu.addItem(i, new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7messages, not items.", "", "&7\u21E8 &eClick to change your language"), (pl, slot, item, action) -> {
-                openLanguages(pl);
-                return false;
-            });
-
-            // i++;
-        }
-    }
-
-    private static void openLanguages(Player p) {
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.languages"));
-
-        menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
-
-        for (int i = 0; i < 9; i++) {
-            if (i == 1) {
-                menu.addItem(1, ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.settings")), (pl, slot, item, action) -> {
-                    openSettings(pl, p.getInventory().getItemInMainHand());
-                    return false;
-                });
-            } else if (i == 7) {
-                menu.addItem(7, new CustomItem(SkullItem.fromHash("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"), SlimefunPlugin.getLocal().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
-                    ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun");
-                    pl.closeInventory();
-                    return false;
-                });
-            } else {
-                menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+                i++;
             }
         }
-
-        Language defaultLanguage = SlimefunPlugin.getLocal().getDefaultLanguage();
-        String defaultLanguageString = SlimefunPlugin.getLocal().getMessage(p, "languages.default");
-
-        menu.addItem(9, new CustomItem(defaultLanguage.getItem(), ChatColor.GRAY + defaultLanguageString + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select-default")), (pl, i, item, action) -> {
-            SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), defaultLanguage));
-            PersistentDataAPI.remove(pl, SlimefunPlugin.getLocal().getKey());
-
-            SlimefunPlugin.getLocal().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", defaultLanguageString));
-
-            openSettings(pl, p.getInventory().getItemInMainHand());
-            return false;
-        });
-
-        int slot = 10;
-
-        for (Language language : SlimefunPlugin.getLocal().getLanguages()) {
-            menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "&b" + SlimefunPlugin.getLocal().getProgress(language) + '%', "", "&7\u21E8 &e" + SlimefunPlugin.getLocal().getMessage(p, "guide.languages.select")), (pl, i, item, action) -> {
-                SlimefunPlugin.instance.getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocal().getLanguage(pl), language));
-                PersistentDataAPI.setString(pl, SlimefunPlugin.getLocal().getKey(), language.getID());
-
-                String name = language.getName(pl);
-                SlimefunPlugin.getLocal().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", name));
-
-                openSettings(pl, p.getInventory().getItemInMainHand());
-                return false;
-            });
-
-            slot++;
-        }
-
-        menu.open(p);
     }
 
     private static void openCredits(Player p, int page) {
@@ -317,11 +220,15 @@ public final class SlimefunGuideSettings {
         return skull;
     }
 
-    private static ItemStack getItem(SlimefunGuideLayout layout) {
-        return SlimefunGuide.getItem(layout);
+    public static boolean hasFireworksEnabled(Player p) {
+        for (SlimefunGuideOption<?> option : options) {
+            if (option instanceof OptionFireworks) {
+                OptionFireworks fireworks = (OptionFireworks) option;
+                return fireworks.getSelectedOption(p, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST)).orElse(true);
+            }
+        }
+
+        return true;
     }
 
-    public static boolean hasFireworksEnabled(Player p) {
-        return !PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1;
-    }
 }

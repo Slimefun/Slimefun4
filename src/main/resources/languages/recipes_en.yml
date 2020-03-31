@@ -159,11 +159,30 @@ minecraft:
   campfire:
     name: 'Campfire Recipe'
     lore:
-    - 'Smelt this item over a Campfire'
-    - 'to craft your desired item'
-    
+      - 'Smelt this item over a Campfire'
+      - 'to craft your desired item'
+
   stonecutting:
     name: 'Stonecutter Recipe'
     lore:
-    - 'Craft this Item as shown'
-    - 'using a Stonecutter'
+      - 'Craft this Item as shown'
+      - 'using a Stonecutter'
+      -
+  oil_pump:
+    name: 'Oil Pump'
+    lore:
+      - 'This Item can be gathered'
+      - 'by using an Oil Pump'
+
+  pickaxe_of_containment:
+    name: 'Pickaxe of Containment'
+    lore:
+      - 'This Block can be obtained'
+      - 'by mining a Spawner with'
+      - 'the Pickaxe of Containment'
+
+  refinery:
+    name: 'Refinery'
+    lore:
+      - 'Craft this Item as shown'
+      - 'using a Refinery'

@@ -17,9 +17,9 @@ class PlayerLanguageChart extends AdvancedPie {
 
             for (Player p : Bukkit.getOnlinePlayers()) {
                 Language language = SlimefunPlugin.getLocal().getLanguage(p);
-                boolean supported = SlimefunPlugin.getLocal().isLanguageLoaded(language.getID());
+                boolean supported = SlimefunPlugin.getLocal().isLanguageLoaded(language.getId());
 
-                String lang = supported ? language.getID() : "Unsupported Language";
+                String lang = supported ? language.getId() : "Unsupported Language";
                 languages.merge(lang, 1, Integer::sum);
             }
 

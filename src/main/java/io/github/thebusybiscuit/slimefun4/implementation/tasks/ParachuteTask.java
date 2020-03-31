@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-public class ParachuteTask extends SlimefunTask {
+public class ParachuteTask extends PlayerTask {
 
     public ParachuteTask(Player p) {
         super(p);

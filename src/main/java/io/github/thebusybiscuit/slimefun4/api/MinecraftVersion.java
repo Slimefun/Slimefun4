@@ -6,11 +6,14 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  * This enum holds all versions of Minecraft that we currently support.
  *
  * @author TheBusyBiscuit
- *
  * @see SlimefunPlugin
- *
  */
 public enum MinecraftVersion {
+    /**
+     * This constant represents Minecraft (Java Edition) Version 1.14
+     * (The Update Aquatic)
+     */
+    MINECRAFT_1_13("1.13.x"),
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.14

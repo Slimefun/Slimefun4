@@ -49,11 +49,12 @@ public class GitHubService {
         Contributor fuffles = new Contributor("Fuffles_");
         fuffles.setContribution("&dSkull Texture Artist", 0);
         contributors.put(fuffles.getName(), fuffles);
+        loadConnectors(false);
 
         new Translators(contributors);
     }
 
-    public void connect(boolean logging) {
+    private void loadConnectors(boolean logging) {
         this.logging = logging;
         addDefaultContributors();
 

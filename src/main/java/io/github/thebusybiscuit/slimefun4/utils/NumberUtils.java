@@ -35,7 +35,7 @@ public final class NumberUtils {
         int hours = (int) ((System.currentTimeMillis() - timestamp) / (1000 * 60 * 60));
 
         if (hours == 0) {
-            return "> 1 小时";
+            return "< 1 小时";
         } else if ((hours / 24) == 0) {
             return (hours % 24) + "小时";
         } else if (hours % 24 == 0) {

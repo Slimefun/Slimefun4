@@ -3,12 +3,14 @@ package io.github.thebusybiscuit.slimefun4.api.geo;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -70,6 +72,10 @@ public class ResourceManager {
         if (value > 0) {
             value += ThreadLocalRandom.current().nextInt(resource.getMaxDeviation());
         }
+
+        GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, block.getBiome(), x, z, resource, value);
+        Bukkit.getPluginManager().callEvent(event);
+        value = event.getValue();
 
         setSupplies(resource, world, x, z, value);
         return value;

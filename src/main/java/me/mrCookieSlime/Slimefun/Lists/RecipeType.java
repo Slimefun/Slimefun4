@@ -33,6 +33,7 @@ public class RecipeType implements Keyed {
     public static final RecipeType ORE_WASHER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ore_washer"), SlimefunItems.ORE_WASHER, "", "&a&oWash it in an Ore Washer");
     public static final RecipeType ENHANCED_CRAFTING_TABLE = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "enhanced_crafting_table"), SlimefunItems.ENHANCED_CRAFTING_TABLE, "", "&a&oA regular Crafting Table cannot", "&a&ohold this massive Amount of Power...");
     public static final RecipeType JUICER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "juicer"), SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
+    public static final RecipeType REFINERY = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "refinery"), SlimefunItems.REFINERY);
 
     public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "ancient_altar"), SlimefunItems.ANCIENT_ALTAR, (recipe, output) -> {
         AltarRecipe altarRecipe = new AltarRecipe(Arrays.asList(recipe), output);

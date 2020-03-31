@@ -40,7 +40,7 @@ public class BackpackListener implements Listener {
 
     private Map<UUID, ItemStack> backpacks = new HashMap<>();
 
-    public BackpackListener(SlimefunPlugin plugin) {
+    public void load(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

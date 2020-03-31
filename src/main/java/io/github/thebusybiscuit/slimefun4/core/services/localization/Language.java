@@ -40,7 +40,7 @@ public final class Language {
         SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
     }
 
-    public String getID() {
+    public String getId() {
         return id;
     }
 

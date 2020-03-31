@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
@@ -10,6 +11,7 @@ import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -27,12 +29,17 @@ import java.util.Objects;
  */
 public class MultiBlock {
 
-    public static final List<Tag<Material>> SUPPORTED_TAGS = Arrays.asList(
-            Tag.LOGS,
-            Tag.WOODEN_TRAPDOORS,
-            Tag.WOODEN_FENCES,
-            Tag.WOODEN_SLABS
-    );
+    public static final List<Tag<Material>> SUPPORTED_TAGS = new ArrayList<>();
+
+    static {
+        SUPPORTED_TAGS.add(Tag.LOGS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
+        }
+    }
 
     private final SlimefunItem item;
     private final Material[] blocks;

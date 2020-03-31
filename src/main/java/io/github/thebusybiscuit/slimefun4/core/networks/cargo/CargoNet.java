@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.api.item_transport;
+package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;

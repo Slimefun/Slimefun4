@@ -7,7 +7,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-public class JetpackTask extends SlimefunTask {
+public class JetpackTask extends PlayerTask {
 
     private final double thrust;
 

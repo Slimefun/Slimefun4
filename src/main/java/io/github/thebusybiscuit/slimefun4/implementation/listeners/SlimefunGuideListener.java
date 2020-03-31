@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.entity.Player;

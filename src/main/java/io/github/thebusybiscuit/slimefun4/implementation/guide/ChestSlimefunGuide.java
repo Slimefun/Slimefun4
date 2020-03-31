@@ -4,10 +4,15 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.guide.*;
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -34,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class ChestSlimefunGuide implements SlimefunGuideImplementation {
@@ -43,9 +49,14 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     private final Sound sound;
     private final boolean showVanillaRecipes;
 
-    public ChestSlimefunGuide(boolean showVanillaRecipes) {
-        this.showVanillaRecipes = showVanillaRecipes;
-        this.sound = Sound.ITEM_BOOK_PAGE_TURN;
+    public ChestSlimefunGuide(boolean vanillaRecipes) {
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            sound = Sound.ITEM_BOOK_PAGE_TURN;
+            showVanillaRecipes = vanillaRecipes;
+        } else {
+            sound = Sound.ENTITY_BAT_TAKEOFF;
+            showVanillaRecipes = false;
+        }
     }
 
     @Override
@@ -239,15 +250,20 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                 } else {
                     menu.addItem(index, sfitem.getItem());
                     menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                        if (survival) {
-                            displayItem(profile, sfitem, true);
-                        } else {
-                            if (sfitem instanceof MultiBlockMachine) {
-                                SlimefunPlugin.getLocal().sendMessage(pl, "guide.cheat.no-multiblocks");
+                        try {
+                            if (survival) {
+                                displayItem(profile, sfitem, true);
                             } else {
-                                pl.getInventory().addItem(sfitem.getItem().clone());
+                                if (sfitem instanceof MultiBlockMachine) {
+                                    SlimefunPlugin.getLocal().sendMessage(pl, "guide.cheat.no-multiblocks");
+                                } else {
+                                    pl.getInventory().addItem(sfitem.getItem().clone());
+                                }
                             }
+                        } catch (Throwable x) {
+                            printErrorMessage(pl, x);
                         }
+
                         return false;
                     });
 
@@ -300,11 +316,16 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
                 menu.addItem(index, itemstack);
                 menu.addMenuClickHandler(index, (pl, slot, itm, action) -> {
-                    if (!survival) {
-                        pl.getInventory().addItem(item.getItem().clone());
-                    } else {
-                        displayItem(profile, item, true);
+                    try {
+                        if (!survival) {
+                            pl.getInventory().addItem(item.getItem().clone());
+                        } else {
+                            displayItem(profile, item, true);
+                        }
+                    } catch (Throwable x) {
+                        printErrorMessage(pl, x);
                     }
+
 
                     return false;
                 });
@@ -422,7 +443,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         Player p = profile.getPlayer();
         if (p == null) return;
 
-        ItemStack result = item.getRecipeOutput() != null ? item.getRecipeOutput() : item.getItem();
+        ItemStack result = item.getRecipeOutput();
         RecipeType recipeType = item.getRecipeType();
         ItemStack[] recipe = item.getRecipe();
 
@@ -463,7 +484,13 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         addBackButton(menu, 0, p, profile, true);
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
-            displayItem(profile, itemstack, 0, true);
+            try {
+                if (itemstack != null && itemstack.getType() != Material.BARRIER) {
+                    displayItem(profile, itemstack, 0, true);
+                }
+            } catch (Throwable x) {
+                printErrorMessage(pl, x);
+            }
             return false;
         };
 
@@ -632,4 +659,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         return menu;
     }
 
+    private void printErrorMessage(Player p, Throwable x) {
+        p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
+        Slimefun.getLogger().log(Level.SEVERE, "An error has occured while trying to open a SlimefunItem in the guide!", x);
+    }
 }

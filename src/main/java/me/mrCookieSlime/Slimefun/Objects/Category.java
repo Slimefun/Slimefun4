@@ -171,4 +171,14 @@ public class Category implements Keyed {
         return true;
     }
 
+    /**
+     * This method makes Walshy happy.
+     * It adds a way to get the name of a {@link Category} without localization nor coloring.
+     *
+     * @return The unlocalized name of this {@link Category}
+     */
+    public String getUnlocalizedName() {
+        return ChatColor.stripColor(item.getItemMeta().getDisplayName());
+    }
+
 }

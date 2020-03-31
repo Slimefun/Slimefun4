@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services.localization;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -13,6 +14,7 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collection;
@@ -72,7 +74,9 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     protected void loadEmbeddedLanguages() {
         for (EmbeddedLanguage lang : EmbeddedLanguage.values()) {
-            addLanguage(lang.getId(), lang.getTexture());
+            if (lang.isReadyForRelease() || SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.STABLE) {
+                addLanguage(lang.getId(), lang.getTexture());
+            }
         }
     }
 
@@ -128,8 +132,10 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         return new CustomItem(item, meta -> {
             meta.setDisplayName(ChatColor.AQUA + config.getString(key.getNamespace() + "." + key.getKey() + ".name"));
             List<String> lore = config.getStringList(key.getNamespace() + "." + key.getKey() + ".lore");
-            lore.replaceAll(str -> ChatColor.GRAY + str);
+            lore.replaceAll(line -> ChatColor.GRAY + line);
             meta.setLore(lore);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         });
     }
 

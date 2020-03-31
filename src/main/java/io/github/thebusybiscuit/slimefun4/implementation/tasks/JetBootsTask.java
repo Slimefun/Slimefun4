@@ -10,7 +10,7 @@ import org.bukkit.util.Vector;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class JetBootsTask extends SlimefunTask {
+public class JetBootsTask extends PlayerTask {
 
     private final double speed;
 

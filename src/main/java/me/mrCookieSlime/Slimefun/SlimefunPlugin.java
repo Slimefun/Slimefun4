@@ -83,10 +83,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Config config;
 
     // Listeners that need to be accessed elsewhere
-    private AncientAltarListener ancientAltarListener;
-    private BackpackListener backpackListener;
-    private GrapplingHookListener grapplingHookListener;
-    private SlimefunBowListener bowListener;
+    private final AncientAltarListener ancientAltarListener = new AncientAltarListener();
+    private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
+    private final BackpackListener backpackListener = new BackpackListener();
+    private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
     @Override
     public void onEnable() {
@@ -134,28 +134,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             GEOResourcesSetup.setup();
 
             getLogger().log(Level.INFO, "加载物品中...");
-            PostSetup.setupItemSettings();
-
-            try {
-                SlimefunItemSetup.setup(this);
-            } catch (Throwable x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
-            }
+            loadItems();
 
             getLogger().log(Level.INFO, "加载研究项目中...");
-
-            try {
-                ResearchSetup.setupResearches();
-            } catch (Throwable x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
-            }
+            loadResearches();
 
             registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
 
             PostSetup.setupWiki();
-
-            // Setting up GitHub Connectors...
-            gitHubService.connect(false);
 
             // Residence & PlotSquared Listener
             new ProtectionChecker(this);
@@ -180,9 +166,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new WitherListener(this);
             new IronGolemListener(this);
 
-            bowListener = new SlimefunBowListener(this);
-            ancientAltarListener = new AncientAltarListener();
-            grapplingHookListener = new GrapplingHookListener();
+            bowListener.load(this);
 
             // Toggleable Listeners for performance
             if (config.getBoolean("items.talismans")) {
@@ -194,7 +178,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             if (config.getBoolean("items.backpacks")) {
-                backpackListener = new BackpackListener(this);
+                backpackListener.load(this);
             }
 
             // Handle Slimefun Guide being given on Join
@@ -231,7 +215,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 
             // Hooray!
-            getLogger().log(Level.INFO, "Slimefun 加载完成, 耗时 {0}ms", DoubleHandler.fixDouble((System.nanoTime() - timestamp) / 1000000.0));
+            getLogger().log(Level.INFO, "Slimefun 加载完成, 耗时 {0}ms", getStartupTime(timestamp));
         } else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");
@@ -244,6 +228,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 sender.sendMessage("https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
                 return true;
             });
+        }
+    }
+
+    private String getStartupTime(long timestamp) {
+        long ms = (System.nanoTime() - timestamp) / 1000000;
+
+        if (ms > 1000) {
+            return DoubleHandler.fixDouble(ms / 1000) + "s";
+        } else {
+            return DoubleHandler.fixDouble(ms) + "ms";
         }
     }
 
@@ -346,21 +340,35 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     private void createDirectories() {
-        String[] storage = {"Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
-        String[] general = {"scripts", "generators", "error-reports", "cache/github"};
+        String[] storageFolders = {"Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
+        String[] pluginFolders = {"scripts", "generators", "error-reports", "cache/github"};
 
-        for (String file : storage) {
-            createDir("data-storage/Slimefun/" + file);
+        for (String folder : storageFolders) {
+            File file = new File("data-storage/Slimefun/" + folder);
+            if (!file.exists()) file.mkdirs();
         }
 
-        for (String file : general) {
-            createDir("plugins/Slimefun/" + file);
+        for (String folder : pluginFolders) {
+            File file = new File("plugins/Slimefun/" + folder);
+            if (!file.exists()) file.mkdirs();
         }
     }
 
-    private void createDir(String path) {
-        File file = new File(path);
-        if (!file.exists()) file.mkdirs();
+    private void loadItems() {
+        try {
+            PostSetup.setupItemSettings();
+            SlimefunItemSetup.setup(this);
+        } catch (Throwable x) {
+            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
+        }
+    }
+
+    private void loadResearches() {
+        try {
+            ResearchSetup.setupResearches();
+        } catch (Throwable x) {
+            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
+        }
     }
 
     public static Config getCfg() {

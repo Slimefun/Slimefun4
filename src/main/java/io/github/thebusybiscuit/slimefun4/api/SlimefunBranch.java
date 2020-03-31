@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+
 /**
  * This enum represents the branch this Slimefun build is on.
  * development or stable, unofficial or even unknown.
@@ -35,6 +37,10 @@ public enum SlimefunBranch {
     SlimefunBranch(String name, boolean official) {
         this.name = name;
         this.official = official;
+
+        if (!PatternUtils.ASCII.matcher(name).matches()) {
+            throw new IllegalStateException("The SlimefunBranch enum contains ILLEGAL CHARACTERS. DO NOT TRANSLATE THIS FILE.");
+        }
     }
 
     public String getName() {
@@ -50,5 +56,6 @@ public enum SlimefunBranch {
     public boolean isOfficial() {
         return official;
     }
+
 
 }

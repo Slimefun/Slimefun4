@@ -6,7 +6,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.CookingRecipe;
+import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -25,8 +25,8 @@ public abstract class ElectricFurnace extends AContainer {
         Iterator<Recipe> iterator = Bukkit.recipeIterator();
         while (iterator.hasNext()) {
             Recipe recipe = iterator.next();
-            if (recipe instanceof CookingRecipe) {
-                RecipeChoice choice = ((CookingRecipe<?>) recipe).getInputChoice();
+            if (recipe instanceof FurnaceRecipe) {
+                RecipeChoice choice = ((FurnaceRecipe) recipe).getInputChoice();
                 if (choice instanceof MaterialChoice) {
                     for (Material input : ((MaterialChoice) choice).getChoices()) {
                         registerRecipe(4, new ItemStack[]{new ItemStack(input)}, new ItemStack[]{recipe.getResult()});
