@@ -2,9 +2,11 @@
 slimefun:
   24k_gold_block: Thành phố Vàng
   advanced_android: Android nâng cao
+  advanced_butcher_android: Android nâng cao - Đồ tể
   advanced_circuit_board: Bảng mạch tiên tiến
   advanced_electric_smeltery: Lò rèn điện nâng cao
   advanced_farmer_android: Android nâng cao - Nông phu
+  advanced_fisherman_android: Android nâng cao - Câu cá
   advanced_output_node: Nút đầu ra nâng cao
   alloys: Hợp kim cao cấp
   ancient_altar: Tế đài cổ đại
@@ -47,6 +49,7 @@ slimefun:
   bound_tools: Dụng cụ linh hồn
   bound_weapons: Vũ khí linh hồn
   bronze: Tác phẩm đồng
+  butcher_androids: Android đồ tể
   cactus_armor: Bộ đồ xương rồng
   capacitors: Tụ điện cấp 1
   carbonado: Kim cương đen
@@ -55,6 +58,7 @@ slimefun:
   carbon_press: Máy ép carbon
   cargo_basics: Máy dịch chuyển đồ cơ bản
   cargo_nodes: Thiết lập máy dịch chuyển đồ
+  chainmail_armor: Giáp lưới
   charging_bench: Bàn sạc
   coal_generator: Máy phát điện bằng than
   cobalt_pickaxe: Cúp nhanh nhẹn
@@ -81,6 +85,9 @@ slimefun:
   elemental_staff: Trượng nguyên tố
   elevator: Thang máy
   elytra: Cánh cứng
+  empowered_android: Android siêu cấp
+  empowered_butcher_android: Android siêu cấp - Đồ tể
+  empowered_fisherman_android: Android siêu cấp - Câu cá
   ender_armor: Giáp Ender
   ender_backpack: Balô Ender
   ender_talismans: Bùa hộ mệnh Ender
@@ -122,6 +129,7 @@ slimefun:
   high_tier_electric_ingot_machines: Máy chế tạo phôi điện siêu tốc
   high_tier_enhanced_furnaces: Lò nung cao cấp
   hologram_projector: Ảnh ba chiều
+  hunter_talisman: Bùa hộ mệnh của thợ săn
   infernal_bonemeal: Phân bón âm phủ
   infused_hopper: Phễu thu hút
   infused_magnet: Nam châm truyền
@@ -143,6 +151,8 @@ slimefun:
   magic_workbench: Bài chế tạo-ma thuật
   magnesium_generator: Sức mạnh từ Magiê
   magnet: Nam Châm
+  meat_jerky: Thịt Khô
+  miner_talisman: Bùa hộ mệnh của thợ mỏ
   misc_power_items: Vật phẩm quan trọng liên quan đến năng lượng
   monster_jerky: Thịt quái quật khô
   more_enhanced_furnaces: Lò nung tốt hơn
@@ -156,9 +166,11 @@ slimefun:
   nuclear_reactor: Nhà máy điện hạt nhân
   oil: Dầu
   ore_crusher: Nhân đôi quặng
+  ore_washer: Máy rửa quặng
   organic_fertilizer: Phân hữu cơ
   organic_food: Thực phẩm hữu cơ
   output_chest: Rương máy móc đưa ra cơ bản
+  parachute: Dù bay
   pickaxe_of_containment: Cúp ngăn chặn
   pickaxe_of_the_seeker: Cúp tìm kiếm
   pickaxe_of_vein_mining: Cúp đào tĩnh mạch
@@ -166,6 +178,7 @@ slimefun:
   portable_crafter: Bàn chế tạo di động
   portable_dustbin: Thùng rác di động
   pressure_chamber: Buồng áp suất
+  programmable_androids: Android lập trình được
   radiant_backpack: Ba lô phát quang
   rainbow_blocks: Khối cầu vòng
   reactor_access_port: Lò phản ứng được tiếp xúc
@@ -217,16 +230,5 @@ slimefun:
   wizard_talisman: Bùa hộ mệnh Thuật Sĩ
   woven_backpack: Ba lô kết lại
   xp_collector: Máy thu kinh nghiệm
-  meat_jerky: Thịt Khô
-  parachute: Dù bay
-  ore_washer: Máy rửa quặng
-  miner_talisman: Bùa hộ mệnh của thợ mỏ
-  hunter_talisman: Bùa hộ mệnh của thợ săn
-  chainmail_armor: Giáp lưới
-  programmable_androids: Android lập trình được
-  butcher_androids: Android đồ tể
-  advanced_butcher_android: Android nâng cao - Đồ tể
-  advanced_fisherman_android: Android nâng cao - Câu cá
-  empowered_android: Android siêu cấp
-  empowered_butcher_android: Android siêu cấp - Đồ tể
-  empowered_fisherman_android: Android siêu cấp - Câu cá
+  makeshift_smeltery: Cải tiến lò đúc
+  tree_growth_accelerator: Cây phát triển nhanh hơn
