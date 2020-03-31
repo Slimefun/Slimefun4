@@ -61,7 +61,6 @@ commands:
   teleporter: 查看其他玩家的公开传送点
   timings: 查看关于 Slimefun 的耗能信息
   versions: 列出已安装的扩展插件
-  reload: 重载配置文件
 gps:
   deathpoint: "&4死亡地点 &7%date%"
   geo:
@@ -178,7 +177,6 @@ machines:
     unknown-recipe: "&4未知合成表! &c请使用正确的合成方式!"
   ANCIENT_PEDESTAL:
     obstructed: "&4基座被挡住了! &c把基座上面的东西移开!"
-    in-use: "&4基座上还有东西没有拿走!"
   CARGO_NODES:
     must-be-placed: "&4必须放置在箱子或机器上!"
   ELEVATOR:
@@ -251,7 +249,6 @@ messages:
   research:
     progress: "&7你开始慢慢理解研究 &b%research% &e(%progress%)"
     start: "&7古老的灵魂正向你诉说神秘的话语!"
-  reloaded: "&a重载成功!"
   soulbound-rune:
     fail: "&c一次只能绑定一个物品."
     success: "&a物品绑定成功! 在你死亡后此物品将不会掉落."

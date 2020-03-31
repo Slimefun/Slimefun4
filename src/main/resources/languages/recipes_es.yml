@@ -70,6 +70,16 @@ slimefun:
       - Haz este objeto tal como se muestra
       - usando un Food Fabricator
     name: Food Fabricator
+  freezer:
+    lore:
+      - Congela este objeto tal como se muestra
+      - usando un Freezer
+    name: Freezer
+  geo_miner:
+    lore:
+      - Este objeto se puede obtener
+      - usando un GEO Miner
+    name: GEO Miner
   gold_pan:
     lore:
       - Usa un Gold Pan para
@@ -105,6 +115,11 @@ slimefun:
       - Construye la estructura presentada
       - tal cual. No es una receta.
     name: Multiblock
+  nuclear_reactor:
+    lore:
+      - Este objeto es un suproducto generado
+      - al correr un Nuclear Reactor
+    name: Nuclear Reactor
   ore_crusher:
     lore:
       - Haz este objeto tal como se muestra
@@ -125,18 +140,19 @@ slimefun:
       - Haz este objeto tal como se muestra
       - usando un Smeltery
     name: Smeltery
-  freezer:
-    name: Freezer
+  oil_pump:
+    name: Oil Pump
     lore:
-      - Congela este objeto tal como se muestra
-      - usando un Freezer
-  geo_miner:
-    name: GEO Miner
+      - Este objeto puede ser recogido
+      - usando una Oil Pump
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
     lore:
-      - Este objeto se puede obtener
-      - usando un GEO Miner
-  nuclear_reactor:
-    name: Nuclear Reactor
+      - Este bloque puede ser obtenido
+      - al minar un Generador con
+      - el Pickaxe of Containment
+  refinery:
+    name: Refinery
     lore:
-      - Este objeto es un suproducto generado
-      - al correr un Nuclear Reactor
+      - Haz este objeto tal como se muestra
+      - usando una Refinery
