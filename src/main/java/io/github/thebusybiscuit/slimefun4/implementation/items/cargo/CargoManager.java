@@ -57,11 +57,11 @@ public class CargoManager extends SlimefunItem {
 
                     if (BlockStorage.getLocationInfo(b.getLocation(), visualizerKey) == null) {
                         BlockStorage.addBlockInfo(b, visualizerKey, "disabled");
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c货运网络可视化: " + "&4\u2718"));
                     }
                     else {
                         BlockStorage.addBlockInfo(b, visualizerKey, null);
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c货运网络可视化: " + "&2\u2714"));
                     }
                 }
             }
