@@ -125,3 +125,13 @@ slimefun:
     - Fabriquez cet objet comme indiqué
     - dans une Smeltery
     name: Smeltery
+  freezer:
+    name: Freezer
+    lore:
+    - 
+    - à l'aide d'un Freezer
+  oil_pump:
+    name: Pompe à pétrole
+    lore:
+    - 
+    - en utilisant une pompe à pétrole
