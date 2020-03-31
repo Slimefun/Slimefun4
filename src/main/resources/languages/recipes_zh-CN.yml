@@ -68,8 +68,18 @@ slimefun:
   food_fabricator:
     lore:
     - 如合成表所示合成
-    - 在食品加工机中合成
+    - 使用食品加工机
     name: 食品加工机 (Food Fabricator)
+  freezer:
+    lore:
+    - 如合成表所示
+    - 在冰箱中合成
+    name: 冰箱 (Freezer)
+  geo_miner:
+    lore:
+    - 这个物品可以用
+    - GEO 矿机采集
+    name: GEO 矿机 (GEO Miner)
   gold_pan:
     lore:
     - 使用淘金盘
@@ -105,6 +115,11 @@ slimefun:
     - 按照展示的结构用方块建造.
     - 它不能被合成.
     name: 多方块结构
+  nuclear_reactor:
+    lore:
+    - 这个物品是核反应堆
+    - 运行时产生的副产物
+    name: 核反应堆 (Nuclear Reactor)
   ore_crusher:
     lore:
     - 如合成表所示
@@ -125,18 +140,19 @@ slimefun:
     - 如合成表所示
     - 用冶炼机合成
     name: 冶炼机 (Smeltery)
-  freezer:
-    name: 冰箱 (Freezer)
-    lore:
-    - 如合成表所示
-    - 在冰箱中合成
-  geo_miner:
-    name: GEO 矿机 (GEO Miner)
+  oil_pump:
+    name: 油泵 (Oil Pump)
     lore:
     - 这个物品可以用
-    - GEO 矿机采集
-  nuclear_reactor:
-    name: 核反应堆 (Nuclear Reactor)
+    - 油泵收集
+  pickaxe_of_containment:
+    name: 刷怪笼之镐 (Pickaxe of Containment)
     lore:
-    - 这个物品是核反应堆
-    - 运行时产生的副产物
+    - 这个方块可以
+    - 用刷怪笼之镐
+    - 挖掘后得到
+  refinery:
+    name: 炼油机 (Refinery)
+    lore:
+    - 如合成表所示
+    - 用炼油机合成
