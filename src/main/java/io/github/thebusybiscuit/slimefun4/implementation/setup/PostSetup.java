@@ -97,14 +97,15 @@ public final class PostSetup {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "成功加载了 " + total + " 个物品和 " + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究");
+        sender.sendMessage(ChatColor.GREEN + "成功载入了 " + total + " 个物品和 " + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究");
         sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " 个物品来自 Slimefun, " + (total - vanilla) + " 个物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 个扩展 )");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由社区维护的开源项目!");
+        sender.sendMessage(ChatColor.GREEN + "Slimefun 是一个由大型社区维护的开源项目.");
+
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + " -- 源码:   https://github.com/StarWishsama/Slimefun4");
-        sender.sendMessage(ChatColor.GREEN + " -- Bug反馈:   https://github.com/TheBusyBiscuit/Slimefun4/issues");
-        sender.sendMessage("");
+        sender.sendMessage(ChatColor.GREEN + " - 源码:  https://github.com/StarWishsama/Slimefun4");
+        sender.sendMessage(ChatColor.GREEN + " - 问题反馈:  https://github.com/StarWishsama/Slimefun4/issues");
+
 
         sender.sendMessage("");
 

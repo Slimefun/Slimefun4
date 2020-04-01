@@ -163,7 +163,7 @@ public class TalismanListener implements Listener {
      * @param e BlockBreakEvent
      * @since 4.2.0
      */
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
@@ -179,9 +179,10 @@ public class TalismanListener implements Listener {
 
             if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
                 for (ItemStack drop : drops) {
-                    if (!drop.getType().isBlock() && !e.isCancelled()) {
+                    if (!drop.getType().isBlock()) {
                         int amount = Math.max(1, (fortune * 2) - drop.getAmount());
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                        //e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                        e.getBlock().getDrops(item).add(new CustomItem(drop, amount));
                     }
                 }
             }

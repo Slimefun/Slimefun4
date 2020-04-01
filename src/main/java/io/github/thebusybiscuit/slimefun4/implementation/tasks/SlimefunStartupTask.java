@@ -1,3 +1,4 @@
+
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
@@ -14,6 +15,7 @@ import org.bukkit.World;
  * they say "SlimefunStartupTask" instead of "Slimefun:lambda:123456789".
  *
  * @author TheBusyBiscuit
+ *
  */
 public class SlimefunStartupTask implements Runnable {
 

@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -24,7 +25,11 @@ import java.util.stream.Collectors;
 public class PressureChamber extends MultiBlockMachine {
 
     public PressureChamber() {
-        super(Categories.MACHINES_1, SlimefunItems.PRESSURE_CHAMBER, new ItemStack[]{new ItemStack(Material.SMOOTH_STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON), new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)}, new ItemStack[0], BlockFace.UP);
+        super(Categories.MACHINES_1, SlimefunItems.PRESSURE_CHAMBER, new ItemStack[]{
+                SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? new ItemStack(Material.SMOOTH_STONE_SLAB) : new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? new ItemStack(Material.SMOOTH_STONE_SLAB) : new ItemStack(Material.STONE_SLAB),
+                new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON),
+                new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)
+        }, new ItemStack[0], BlockFace.UP);
     }
 
     @Override

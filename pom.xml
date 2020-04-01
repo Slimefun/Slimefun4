@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.mrCookieSlime</groupId>
     <artifactId>Slimefun</artifactId>
-    <version>4.3-NIGHTLY-200331</version>
-    
+
+    <!-- Our default version will be UNOFFICIAL, this will prevent the auto updater -->
+    <!-- from overriding our local test file -->
+    <version>4.3-NIGHTLY-200401</version>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Default settings for sonarcloud.io -->
+        <sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
+        <sonar.organization>thebusybiscuit-github</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
-    
+
     <repositories>
         <repository>
             <id>paper-repo</id>
@@ -30,7 +39,7 @@
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
-            <id>CodeMC</id>
+            <id>bStats-repo</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
         <repository>
@@ -42,12 +51,25 @@
             <url>https://ci.athion.net/job/PlotSquared-Breaking/ws/mvn/</url>
         </repository>
     </repositories>
-    
+
     <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-        <finalName>${project.name}-v${project.version}</finalName>
+        <finalName>${project.name} v${project.version}</finalName>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <excludes>
+                        <!-- package info files are only important to the Javadocs -->
+                        <!-- We can exclude them from the final jar -->
+                        <exclude>**/package-info.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -61,13 +83,15 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.2</version>
-                
+
                 <configuration>
+
+                    <!-- Shade bStats and CS-CoreLib2 into the output jar -->
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
@@ -78,8 +102,18 @@
                             <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
                         </relocation>
                     </relocations>
+
+                    <!-- Exclude unneeded metadata from shaded dependencies -->
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                 </configuration>
-                
+
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -89,22 +123,79 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.2.0</version>
+
+                <configuration>
+                    <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
+                    <destDir>docs</destDir>
+
+                    <doctitle>Slimefun4 - Javadocs</doctitle>
+                    <windowtitle>Slimefun4 - Javadocs</windowtitle>
+                    <detectOfflineLinks>false</detectOfflineLinks>
+                    <additionalJOption>-html5</additionalJOption>
+
+                    <!-- We can reference Bukkit's API in our Javadocs -->
+                    <links>
+                        <link>https://hub.spigotmc.org/javadocs/bukkit/</link>
+                    </links>
+
+                    <!-- We can group pakages together in our Javadocs -->
+                    <groups>
+                        <group>
+                            <title>Slimefun4 - API</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.api*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Core packages</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.core*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Implementations</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Item Implementations</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.implementation.items*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Old packages</title>
+                            <packages>me.mrCookieSlime.Slimefun*</packages>
+                        </group>
+                    </groups>
+                </configuration>
+            </plugin>
         </plugins>
-        
+
         <resources>
+
+            <!-- Resources we want to include, such as configs or language files -->
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <filtering>true</filtering>
-                
+
                 <includes>
                     <include>*</include>
                     <include>languages/*</include>
                 </includes>
             </resource>
+
+            <!--  We also want to include our LICENSE file -->
+            <resource>
+                <directory>${basedir}</directory>
+
+                <includes>
+                    <include>LICENSE</include>
+                </includes>
+            </resource>
         </resources>
     </build>
-    
+
     <dependencies>
+        <!-- Hard dependencies -->
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
@@ -117,10 +208,12 @@
             <version>8081bb4fe4</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Shaded packages -->
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.11</version>
+            <version>bd12910bdb</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -129,6 +222,8 @@
             <version>1.7</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Third party plugin integrations -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
@@ -142,6 +237,20 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.TheBusyBiscuit</groupId>
+            <artifactId>EmeraldEnchants2</artifactId>
+            <version>3cd370b5d8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.intellectualsites.plotsquared</groupId>
+            <artifactId>PlotSquared-API</artifactId>
+            <version>4.488</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- System dependency, this project has no maven repository -->
+        <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
             <version>2.9.7</version>
@@ -149,30 +258,11 @@
             <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>com.github.TheBusyBiscuit</groupId>
-            <artifactId>EmeraldEnchants2</artifactId>
-            <version>3cd370b5d8</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.mrCookieSlime</groupId>
-            <artifactId>ExoticGarden</artifactId>
-            <version>1.2.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ExoticGarden v1.2.0.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>com.bekvon.bukkit</groupId>
             <artifactId>residence</artifactId>
             <version>4.8.8.2</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Residence4.8.8.2.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.github.intellectualsites.plotsquared</groupId>
-            <artifactId>PlotSquared-API</artifactId>
-            <version>4.488</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
