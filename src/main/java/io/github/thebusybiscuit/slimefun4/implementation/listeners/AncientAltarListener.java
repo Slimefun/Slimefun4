@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.Optional;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -114,25 +113,30 @@ public class AncientAltarListener implements Listener {
             UUID uuid = stack.getUniqueId();
             removedItems.add(uuid);
 
-            Slimefun.runSync(() -> removedItems.remove(uuid), 30L);  
-        	
+            Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
+
             p.getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
             p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
             removeDisplayItem(pedestal);
-        } 
+        }
     }
+
+    // Refer to Pull request #61, Make sure DO NOT REMOVE when merge upstream
+    // also, use java 8 new feature is a good choice :)
     public static void removeDisplayItem(Block b) {
         getEntity(b).ifPresent(Item::remove);
     }
+
     private static Optional<Item> getEntity(Block b) {
-    	for (Entity n : b.getChunk().getEntities()) {
+        for (Entity n : b.getChunk().getEntities()) {
             if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 1.0D && n.getCustomName() != null) {
-            	Item item = (Item) n;
+                Item item = (Item) n;
                 return Optional.of(item);
-                }
+            }
             }
     	return Optional.empty();
     }
+
     private void useAltar(Block b, Player p) {
         ItemStack catalyst = new CustomItem(p.getInventory().getItemInMainHand(), 1);
         List<Block> pedestals = getPedestals(b);
