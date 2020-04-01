@@ -129,7 +129,7 @@ public class AncientAltarListener implements Listener {
 
     private static Optional<Item> getEntity(Block b) {
         for (Entity n : b.getChunk().getEntities()) {
-            if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 1.0D && n.getCustomName() != null) {
+            if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.95D && n.getCustomName() != null) {
                 Item item = (Item) n;
                 return Optional.of(item);
             }
