@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.Optional;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -44,6 +45,7 @@ public class AncientAltarListener implements Listener {
 
     private final List<Block> altars = new ArrayList<>();
     private final Set<UUID> removedItems = new HashSet<>();
+	public boolean using ;
 
     public void load(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -92,14 +94,21 @@ public class AncientAltarListener implements Listener {
             useAltar(b, e.getPlayer());
         }
     }
-
+    private void isUsing(Block pedestal,Location loc) {
+    	if(loc == null) this.using = false;
+    	if(pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) < 0.3D) {
+    		this.using = false;
+    		}else {
+    			this.using = true;
+    		}
+    	
+    }
     private void usePedestal(Block pedestal, Player p) {
         if (altarsInUse.contains(pedestal.getLocation())) {
             return;
         }
 
         Item stack = findItem(pedestal);
-
         if (stack == null) {
             if (p.getInventory().getItemInMainHand().getType() == Material.AIR) return;
 
@@ -110,33 +119,19 @@ public class AncientAltarListener implements Listener {
 
             insertItem(p, pedestal);
         } else if (!removedItems.contains(stack.getUniqueId())) {
+        	isUsing(pedestal,stack.getLocation());
+        	/*if(this.using == false) {
+        		p.sendMessage("false");
+        	}*/
             UUID uuid = stack.getUniqueId();
             removedItems.add(uuid);
-
-            Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
-
+            
+            Slimefun.runSync(() -> removedItems.remove(uuid), 30L);  
+        	stack.remove();
             p.getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
             p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
-            removeDisplayItem(pedestal);
-        }
+        } 
     }
-
-    // Refer to Pull request #61, Make sure DO NOT REMOVE when merge upstream
-    // also, use java 8 new feature is a good choice :)
-    public static void removeDisplayItem(Block b) {
-        getEntity(b).ifPresent(Item::remove);
-    }
-
-    private static Optional<Item> getEntity(Block b) {
-        for (Entity n : b.getChunk().getEntities()) {
-            if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.95D && n.getCustomName() != null) {
-                Item item = (Item) n;
-                return Optional.of(item);
-            }
-            }
-    	return Optional.empty();
-    }
-
     private void useAltar(Block b, Player p) {
         ItemStack catalyst = new CustomItem(p.getInventory().getItemInMainHand(), 1);
         List<Block> pedestals = getPedestals(b);
@@ -235,8 +230,9 @@ public class AncientAltarListener implements Listener {
 
     public Item findItem(Block b) {
         for (Entity n : b.getChunk().getEntities()) {
-            if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 1.0D && n.getCustomName() != null) {
-                return (Item) n;
+            if (n instanceof Item && b.getLocation().add(0.5, 1.5, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) {
+                Item item = (Item) n;
+                return item;
             }
         }
         return null;
@@ -251,7 +247,7 @@ public class AncientAltarListener implements Listener {
         }
 
         String nametag = ItemUtils.getItemName(stack);
-        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.5, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
         entity.setVelocity(new Vector(0, 0.1, 0));
         SlimefunUtils.markAsNoPickup(entity, "altar_item");
         entity.setCustomNameVisible(true);
