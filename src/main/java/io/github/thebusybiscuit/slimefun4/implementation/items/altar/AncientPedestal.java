@@ -5,8 +5,12 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
 import org.bukkit.entity.Item;
+import org.bukkit.event.server.BroadcastMessageEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class AncientPedestal extends SlimefunItem {
@@ -16,8 +20,9 @@ public class AncientPedestal extends SlimefunItem {
 
         SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
             AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
-            Item stack = listener.findItem(b);
+            
 
+            Item stack = listener.findItem(b);
             if (SlimefunPlugin.getCfg().getBoolean("options.anti-altar-glitch")) {
                 if (stack == null) {
                     return true;
@@ -27,6 +32,9 @@ public class AncientPedestal extends SlimefunItem {
                 }
             } else {
                 if (stack != null) {
+                	if(listener.using) {
+                		return false;
+                	}
                     stack.removeMetadata("item_placed", SlimefunPlugin.instance);
                     b.getWorld().dropItem(b.getLocation(), listener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
                     stack.remove();
