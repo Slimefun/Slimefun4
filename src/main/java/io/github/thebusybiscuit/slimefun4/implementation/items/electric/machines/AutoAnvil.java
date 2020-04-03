@@ -18,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Objects;
+
 public abstract class AutoAnvil extends AContainer {
 
     public AutoAnvil(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -26,7 +28,7 @@ public abstract class AutoAnvil extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "Auto-Anvil";
+        return Objects.requireNonNull(SlimefunItems.AUTO_ANVIL.getItemMeta()).getDisplayName();
     }
 
     @Override

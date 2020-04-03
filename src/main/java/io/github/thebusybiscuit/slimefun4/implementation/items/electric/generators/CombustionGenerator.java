@@ -9,6 +9,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 public abstract class CombustionGenerator extends AGenerator {
 
     public CombustionGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -28,7 +30,7 @@ public abstract class CombustionGenerator extends AGenerator {
 
     @Override
     public String getInventoryTitle() {
-        return "&cCombustion Reactor";
+        return Objects.requireNonNull(SlimefunItems.COMBUSTION_REACTOR.getItemMeta()).getDisplayName();
     }
 
 }

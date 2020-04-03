@@ -1,12 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public abstract class LavaGenerator extends AGenerator {
 
@@ -26,7 +29,7 @@ public abstract class LavaGenerator extends AGenerator {
 
     @Override
     public String getInventoryTitle() {
-        return "&4Lava Generator";
+        return Objects.requireNonNull(SlimefunItems.LAVA_GENERATOR.getItemMeta()).getDisplayName();
     }
 
 }

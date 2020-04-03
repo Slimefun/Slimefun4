@@ -267,7 +267,7 @@ public class CargoNet extends ChestTerminalNetwork {
             String str = BlockStorage.getLocationInfo(l).getString("frequency");
             return Integer.parseInt(str);
         } catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a Cargo Node Frequency", x);
+            Slimefun.getLogger().log(Level.SEVERE, "在解析货运节点频率时出现了问题, 你应该去打开货运节点的.sfb文件看看frequency", x);
             return 0;
         }
     }
