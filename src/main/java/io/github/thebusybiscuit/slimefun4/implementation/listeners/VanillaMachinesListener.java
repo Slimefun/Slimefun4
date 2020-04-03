@@ -27,10 +27,11 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGrindstone(InventoryClickEvent e) {
+        // The Grindstone was only ever added in MC 1.14
         if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
-        
+
         if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];

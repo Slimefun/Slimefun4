@@ -7,11 +7,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ChestedHorse;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -50,10 +50,21 @@ public class TalismanListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamageGet(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
-            if (e.getCause() == DamageCause.LAVA) Talisman.checkFor(e, SlimefunItems.TALISMAN_LAVA);
-            if (e.getCause() == DamageCause.DROWNING) Talisman.checkFor(e, SlimefunItems.TALISMAN_WATER);
-            if (e.getCause() == DamageCause.FALL) Talisman.checkFor(e, SlimefunItems.TALISMAN_ANGEL);
-            if (e.getCause() == DamageCause.FIRE) Talisman.checkFor(e, SlimefunItems.TALISMAN_FIRE);
+            if (e.getCause() == DamageCause.LAVA) {
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_LAVA);
+            }
+
+            if (e.getCause() == DamageCause.DROWNING) {
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_WATER);
+            }
+
+            if (e.getCause() == DamageCause.FALL) {
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_ANGEL);
+            }
+
+            if (e.getCause() == DamageCause.FIRE) {
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_FIRE);
+            }
 
             if (e.getCause() == DamageCause.ENTITY_ATTACK) {
                 Talisman.checkFor(e, SlimefunItems.TALISMAN_KNIGHT);
@@ -64,8 +75,10 @@ public class TalismanListener implements Listener {
                 Projectile projectile = (Projectile) ((EntityDamageByEntityEvent) e).getDamager();
 
                 if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
-                    Vector direction = ((Player) e.getEntity()).getEyeLocation().getDirection().multiply(2.0);
-                    Projectile clone = (Projectile) e.getEntity().getWorld().spawnEntity(((LivingEntity) e.getEntity()).getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ()), projectile.getType());
+                    Player p = (Player) e.getEntity();
+                    Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
+                    Location loc = p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ());
+                    Projectile clone = (Projectile) e.getEntity().getWorld().spawnEntity(loc, projectile.getType());
                     clone.setShooter(projectile.getShooter());
                     clone.setVelocity(direction);
                     projectile.remove();
@@ -79,8 +92,10 @@ public class TalismanListener implements Listener {
         if (e.getEntity().getKiller() != null && !(e.getEntity() instanceof Player) && !e.getEntity().getCanPickupItems() && Talisman.checkFor(e, SlimefunItems.TALISMAN_HUNTER)) {
             List<ItemStack> extraDrops = new ArrayList<>(e.getDrops());
 
+            // Prevent doubling of items stored inside a Horse's chest
             if (e.getEntity() instanceof ChestedHorse) {
-                for (ItemStack invItem : ((ChestedHorse) e.getEntity()).getInventory().getStorageContents()) {
+                ChestedHorse horse = ((ChestedHorse) e.getEntity());
+                for (ItemStack invItem : horse.getInventory().getStorageContents()) {
                     extraDrops.remove(invItem);
                 }
 
@@ -120,6 +135,8 @@ public class TalismanListener implements Listener {
             item.setItemMeta(meta);
 
             int itemSlot = slot;
+
+            // Update the item forcefully
             Slimefun.runSync(() -> inv.setItem(itemSlot, item), 1L);
         }
     }

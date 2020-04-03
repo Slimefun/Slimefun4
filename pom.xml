@@ -14,6 +14,10 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
+        <!--  Bukkit properties -->
+        <bukkit.version>1.15.2</bukkit.version>
+        <bukkit.javadocs>https://hub.spigotmc.org/javadocs/bukkit/</bukkit.javadocs>
+        
         <!-- Default settings for sonarcloud.io -->
 		<sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
 		<sonar.organization>thebusybiscuit-github</sonar.organization>
@@ -135,7 +139,7 @@
 					
 					<!-- We can reference Bukkit's API in our Javadocs -->
 					<links>
-						<link>https://hub.spigotmc.org/javadocs/bukkit/</link>
+						<link>${bukkit.javadocs}</link>
 					</links>
 					
 					<!-- We can group pakages together in our Javadocs -->
@@ -151,6 +155,10 @@
 						<group>
 							<title>Slimefun4 - Implementations</title>
 							<packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
+						</group>
+						<group>
+							<title>Slimefun4 - Common utility packages</title>
+							<packages>io.github.thebusybiscuit.slimefun4.utils*</packages>
 						</group>
 						<group>
 							<title>Slimefun4 - Item Implementations</title>
@@ -194,7 +202,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
+            <version>${bukkit.version}-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -208,7 +216,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>bd12910bdb</version>
+            <version>0.12</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

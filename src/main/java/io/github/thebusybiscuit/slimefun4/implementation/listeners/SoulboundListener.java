@@ -31,15 +31,20 @@ public class SoulboundListener implements Listener {
             for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
                 ItemStack item = p.getInventory().getItem(slot);
 
+                // Store soulbound items for later retrieval
                 if (SlimefunUtils.isSoulbound(item)) {
                     storeItem(p.getUniqueId(), slot, item);
                 }
             }
 
+            // Remove soulbound items from our drops
             Iterator<ItemStack> drops = e.getDrops().iterator();
             while (drops.hasNext()) {
                 ItemStack item = drops.next();
-                if (SlimefunUtils.isSoulbound(item)) drops.remove();
+
+                if (SlimefunUtils.isSoulbound(item)) {
+                    drops.remove();
+                }
             }
 
         }
@@ -51,19 +56,17 @@ public class SoulboundListener implements Listener {
     }
 
     private void storeItem(UUID uuid, int slot, ItemStack item) {
-        Map<Integer, ItemStack> items = soulbound.computeIfAbsent(uuid, id -> new HashMap<>());
+        Map<Integer, ItemStack> items = soulbound.computeIfAbsent(uuid, uid -> new HashMap<>());
         items.put(slot, item);
     }
 
     private void retrieveItems(Player p) {
-        Map<Integer, ItemStack> items = soulbound.get(p.getUniqueId());
+        Map<Integer, ItemStack> items = soulbound.remove(p.getUniqueId());
 
         if (items != null) {
             for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
                 p.getInventory().setItem(entry.getKey(), entry.getValue());
             }
         }
-
-        soulbound.remove(p.getUniqueId());
     }
 }

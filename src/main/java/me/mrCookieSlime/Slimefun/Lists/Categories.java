@@ -6,11 +6,11 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
-import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 
 /**
  * This class holds a static references to every {@link Category}

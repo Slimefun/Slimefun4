@@ -1,8 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
 import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.World.Environment;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

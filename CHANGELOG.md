@@ -50,11 +50,13 @@
 #### Additions
 * Added GEOResourceGenerationEvent
 * Added SlimefunGuide-Options API
+* Added 1.13 backwards compatibility
 
 #### Changes
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
+* Fixed #1779
 
 ## Release Candidate 10 (28 Mar 2020)
 

@@ -179,14 +179,14 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
         preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 
-        preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, new CustomItem(getFuelIcon(), "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : border_2) {
             preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         if (needsCooling()) {
-            preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
+            preset.addItem(7, new CustomItem(getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
         }
         else {
             preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
@@ -207,7 +207,23 @@ public abstract class AReactor extends AbstractEnergyGenerator {
      */
     public abstract ItemStack getCoolant();
 
-    private boolean needsCooling() {
+    /**
+     * This method returns the displayed icon above the fuel input slot.
+     * It should reflect the {@link ItemStack} used to power the reactor.
+     * This method does <b>not</b> determine the fuel input, only the icon.
+     * 
+     * @return The {@link ItemStack} used as the fuel icon for this {@link AReactor}.
+     */
+    public abstract ItemStack getFuelIcon();
+
+    /**
+     * This method returns whether this {@link AReactor} requires as some form of
+     * coolant.
+     * It is a not-null check performed on {@link #getCoolant()}
+     * 
+     * @return Whether this {@link AReactor} requires cooling
+     */
+    protected final boolean needsCooling() {
         return getCoolant() != null;
     }
 

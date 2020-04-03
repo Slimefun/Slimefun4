@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.bukkit.command.CommandSender;
@@ -41,7 +42,7 @@ class GiveCommand extends SubCommand {
                 if (player.isPresent()) {
                     Player p = player.get();
 
-                    SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase());
+                    SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase(Locale.ROOT));
                     if (sfItem != null) {
                         int amount = parseAmount(args);
 

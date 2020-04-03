@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
@@ -89,7 +90,7 @@ public class Category implements Keyed {
      */
     public void register() {
         if (this instanceof SeasonalCategory) {
-            if (((SeasonalCategory) this).isUnlocked()) {
+            if (((SeasonalCategory) this).isVisible()) {
                 SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
                 Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
             }

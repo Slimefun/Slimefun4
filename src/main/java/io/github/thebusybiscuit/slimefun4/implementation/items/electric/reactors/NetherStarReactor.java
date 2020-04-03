@@ -43,7 +43,7 @@ public abstract class NetherStarReactor extends AReactor {
     }
 
     @Override
-    public void extraTick(final Location l) {
+    public void extraTick(Location l) {
         Slimefun.runSync(() -> {
             for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
                 if (entity instanceof LivingEntity) {
@@ -56,6 +56,11 @@ public abstract class NetherStarReactor extends AReactor {
     @Override
     public ItemStack getCoolant() {
         return SlimefunItems.NETHER_ICE_COOLANT_CELL;
+    }
+
+    @Override
+    public ItemStack getFuelIcon() {
+        return new ItemStack(Material.NETHER_STAR);
     }
 
     @Override

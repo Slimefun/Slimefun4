@@ -32,6 +32,7 @@ public class ExplosionsListener implements Listener {
             if (id != null) {
                 blocks.remove();
 
+                // Hardened Glass and WitherProof blocks cannot be destroyed by explosions
                 if (!id.equalsIgnoreCase("HARDENED_GLASS") && !SlimefunPlugin.getRegistry().getWitherProofBlocks().containsKey(id)) {
                     boolean success = true;
                     SlimefunItem sfItem = SlimefunItem.getByID(id);
@@ -49,7 +50,5 @@ public class ExplosionsListener implements Listener {
                 }
             }
         }
-
     }
-
 }

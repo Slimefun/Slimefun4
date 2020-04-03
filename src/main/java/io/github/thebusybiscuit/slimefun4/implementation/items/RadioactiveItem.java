@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
-import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;

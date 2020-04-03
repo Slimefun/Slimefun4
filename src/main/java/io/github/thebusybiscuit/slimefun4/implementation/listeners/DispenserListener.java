@@ -14,6 +14,16 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockDispenseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+/**
+ * This {@link Listener} listens to the {@link BlockDispenseEvent} and calls the
+ * {@link BlockDispenseHandler} as a result of that.
+ * 
+ * @author TheBusyBiscuit
+ * @author MisterErwin
+ * 
+ * @see BlockDispenseHandler
+ *
+ */
 public class DispenserListener implements Listener {
 
     public DispenserListener(SlimefunPlugin plugin) {

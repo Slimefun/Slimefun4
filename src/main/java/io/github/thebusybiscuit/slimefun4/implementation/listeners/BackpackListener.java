@@ -30,8 +30,14 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for all events centered around a {@link SlimefunBackpack}.
+ * This also includes the {@link Cooler}
  * 
  * @author TheBusyBiscuit
+ * @author Walshy
+ * @author NihilistBrew
+ * @author AtomicScience
+ * @author VoidAngel
+ * @author John000708
  * 
  * @see SlimefunBackpack
  * @see PlayerBackpack

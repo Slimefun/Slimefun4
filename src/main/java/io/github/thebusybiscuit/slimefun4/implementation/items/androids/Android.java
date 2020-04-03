@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -147,8 +148,7 @@ abstract class Android extends SlimefunItem {
                             j++;
                         }
                         builder.append(ScriptAction.REPEAT);
-                        BlockStorage.addBlockInfo(b, "script", builder.toString());
-
+                        setScript(b.getLocation(), builder.toString());
                         openScript(pl, b, builder.toString());
                     }
                     else if (action.isRightClicked()) {
@@ -161,7 +161,7 @@ abstract class Android extends SlimefunItem {
                         }
 
                         builder.append(ScriptAction.REPEAT);
-                        BlockStorage.addBlockInfo(b, "script", builder.toString());
+                        setScript(b.getLocation(), builder.toString());
 
                         openScript(pl, b, builder.toString());
                     }
@@ -283,7 +283,7 @@ abstract class Android extends SlimefunItem {
                         script2.setValue("downloads", script2.getInt("downloads") + 1);
                         script2.save();
 
-                        BlockStorage.addBlockInfo(b, "script", script2.getString("code"));
+                        setScript(b.getLocation(), script2.getString("code"));
                         openScriptEditor(pl, b);
                     }
                     return false;
@@ -297,7 +297,7 @@ abstract class Android extends SlimefunItem {
     }
 
     private void uploadScript(Player p, Block b, int page) {
-        String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
+        String code = getScript(b.getLocation());
         int num = 1;
 
         for (Config script : getUploadedScripts()) {
@@ -339,7 +339,7 @@ abstract class Android extends SlimefunItem {
 
         menu.addItem(1, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-            openScript(pl, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
+            openScript(pl, b, getScript(b.getLocation()));
             return false;
         });
 
@@ -443,7 +443,7 @@ abstract class Android extends SlimefunItem {
             }
 
             builder.append("REPEAT");
-            BlockStorage.addBlockInfo(b, "script", builder.toString());
+            setScript(b.getLocation(), builder.toString());
 
             openScript(p, b, builder.toString());
             return false;
@@ -474,8 +474,16 @@ abstract class Android extends SlimefunItem {
         }
 
         builder.append("REPEAT");
-        BlockStorage.addBlockInfo(b, "script", builder.toString());
+        setScript(b.getLocation(), builder.toString());
 
         openScript(p, b, builder.toString());
+    }
+
+    protected String getScript(Location l) {
+        return BlockStorage.getLocationInfo(l, "script");
+    }
+
+    protected void setScript(Location l, String script) {
+        BlockStorage.addBlockInfo(l, "script", script);
     }
 }
