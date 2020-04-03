@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -456,6 +457,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.protections;
     }
 
+    /**
+     * This returns the {@link LocalizationService} of Slimefun.
+     * 
+     * @return The {@link LocalizationService} of Slimefun
+     */
     public static LocalizationService getLocal() {
         return instance.local;
     }
@@ -540,10 +546,20 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName())).collect(Collectors.toSet());
     }
 
+    /**
+     * The {@link Command} that was added by Slimefun.
+     * 
+     * @return Slimefun's command
+     */
     public static SlimefunCommand getCommand() {
         return instance.command;
     }
 
+    /**
+     * This returns the currently installed version of Minecraft.
+     * 
+     * @return The current version of Minecraft
+     */
     public static MinecraftVersion getMinecraftVersion() {
         return instance.minecraftVersion;
     }
