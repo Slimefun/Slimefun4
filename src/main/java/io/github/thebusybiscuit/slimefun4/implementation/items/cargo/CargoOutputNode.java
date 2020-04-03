@@ -28,7 +28,7 @@ public class CargoOutputNode extends SlimefunItem {
     public CargoOutputNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
-        new BlockMenuPreset(getID(), "&6Output Node") {
+        new BlockMenuPreset(getID(), "&6输出节点") {
 
             @Override
             public void init() {
@@ -58,7 +58,7 @@ public class CargoOutputNode extends SlimefunItem {
                     menu.addMenuClickHandler(13, ChestMenuUtils.getEmptyClickHandler());
                 }
                 else {
-                    menu.replaceExistingItem(13, new CustomItem(MaterialCollections.getAllWoolColors().get(channel), "&bChannel ID: &3" + (channel + 1)));
+                    menu.replaceExistingItem(13, new CustomItem(MaterialCollections.getAllWoolColors().get(channel), "&b频道ID: &3" + (channel + 1)));
                     menu.addMenuClickHandler(13, ChestMenuUtils.getEmptyClickHandler());
                 }
 
