@@ -99,7 +99,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
                 BlockMenu port = getAccessPort(b.getLocation());
                 if (port != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7交互接口", "", "&6已检测到", "", "&7> 点击查看交互接口"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7反应堆访问接口", "", "&6已检测到", "", "&7> 点击打开访问接口界面"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         port.open(p);
                         newInstance(menu, b);
@@ -108,7 +108,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                     });
                 }
                 else {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7交互接口", "", "&c未检测到", "", "&7交互接口必须", "&7放置比反应堆", "&7高出三个方块的位置"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7反应堆访问接口", "", "&c未检测到", "", "&7访问接口必须", "&7放置比反应堆", "&7高出三个方块的位置"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         newInstance(menu, b);
                         menu.open(p);
