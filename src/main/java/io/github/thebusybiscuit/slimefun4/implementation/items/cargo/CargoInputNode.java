@@ -31,7 +31,7 @@ public class CargoInputNode extends SlimefunItem {
     public CargoInputNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
-        new BlockMenuPreset(getID(), "&3Input Node") {
+        new BlockMenuPreset(getID(), "&3输入管道") {
 
             @Override
             public void init() {
@@ -41,14 +41,14 @@ public class CargoInputNode extends SlimefunItem {
             @Override
             public void newInstance(BlockMenu menu, Block b) {
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
-                    menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
+                    menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7类型: &r白名单", "", "&e> 点击更改到黑名单模式"));
                     menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-type", "blacklist");
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
+                    menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7类型: &8黑名单", "", "&e> 点击更改到白名单模式"));
                     menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
                         newInstance(menu, b);
@@ -57,7 +57,7 @@ public class CargoInputNode extends SlimefunItem {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
-                    menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
+                    menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7匹配耐久度/数据值: &4\u2718", "", "&e> 点击修改是不是匹配耐久度"));
                     menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-durability", "true");
                         newInstance(menu, b);
@@ -70,7 +70,7 @@ public class CargoInputNode extends SlimefunItem {
                     dmg.setDamage(20);
                     is.setItemMeta((ItemMeta) dmg);
 
-                    menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
+                    menu.replaceExistingItem(16, new CustomItem(is, "&7匹配耐久度/数据值: &2\u2714", "", "&e> 点击修改是不是匹配耐久度"));
                     menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-durability", "false");
                         newInstance(menu, b);
@@ -96,7 +96,7 @@ public class CargoInputNode extends SlimefunItem {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
-                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7匹配Lore: &2\u2714", "", "&e> 点击修改是不是匹配Lore"));
                     menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-lore", "false");
                         newInstance(menu, b);
@@ -104,7 +104,7 @@ public class CargoInputNode extends SlimefunItem {
                     });
                 }
                 else {
-                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7匹配Lore: &4\u2718", "", "&e> 点击修改是不是匹配Lore"));
                     menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-lore", "true");
                         newInstance(menu, b);
@@ -197,7 +197,7 @@ public class CargoInputNode extends SlimefunItem {
             preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(2, new CustomItem(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(2, new CustomItem(Material.PAPER, "&3物品", "", "&b放入所有你想被设置为", "&b黑名单/白名单的物品"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     public int[] getInputSlots() {

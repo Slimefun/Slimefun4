@@ -81,7 +81,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
-                    menu.replaceExistingItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
+                    menu.replaceExistingItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7模式: &e发电", "", "&6你的反应堆将专注于发电", "&6如果你的能量网络不需要更多电力", "&6它将停止发电", "", "&7> 点击更改到 &e生产 &7模式"));
                     menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "reactor-mode", "production");
                         newInstance(menu, b);
@@ -99,7 +99,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
                 BlockMenu port = getAccessPort(b.getLocation());
                 if (port != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7交互接口", "", "&6已检测到", "", "&7> 点击查看交互接口"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7反应堆访问接口", "", "&6已检测到", "", "&7> 点击打开访问接口界面"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         port.open(p);
                         newInstance(menu, b);
@@ -108,7 +108,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                     });
                 }
                 else {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7交互接口", "", "&c未检测到", "", "&7交互接口必须", "&7放置比反应堆", "&7高出三个方块的位置"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7反应堆访问接口", "", "&c未检测到", "", "&7访问接口必须", "&7放置比反应堆", "&7高出三个方块的位置"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         newInstance(menu, b);
                         menu.open(p);
@@ -185,9 +185,9 @@ public abstract class AReactor extends AbstractEnergyGenerator {
         }
 
         if (needsCooling()) {
-            preset.addItem(7, new CustomItem(this.getCoolant(), "&b冷却机槽", "", "&r这个槽可以放置反应堆冷却剂", "&4如果没有任何冷却剂", "&4你的反应堆将爆炸"));
+            preset.addItem(7, new CustomItem(this.getCoolant(), "&b冷却剂槽", "", "&r这个槽可以放置反应堆冷却剂", "&4如果没有任何冷却剂", "&4你的反应堆将爆炸"));
         } else {
-            preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&b冷却剂", "", "&r这个槽可以放置反应堆冷却剂"));
+            preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&b冷却剂槽", "", "&r这个槽可以放置反应堆冷却剂"));
 
             for (int i : border_4) {
                 preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&c无需冷却剂"), ChestMenuUtils.getEmptyClickHandler());
