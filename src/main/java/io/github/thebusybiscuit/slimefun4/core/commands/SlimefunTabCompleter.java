@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
@@ -13,6 +14,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+
+import javax.annotation.Nonnull;
 
 class SlimefunTabCompleter implements TabCompleter {
 
@@ -25,13 +28,15 @@ class SlimefunTabCompleter implements TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+    public List<String> onTabComplete(@Nonnull CommandSender sender, @Nonnull Command cmd, @Nonnull String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getTabArguments(), args[0]);
         }
         else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
-                return createReturnList(SlimefunPlugin.getRegistry().getEnabledSlimefunItemIds(), args[2]);
+                return createReturnList(SlimefunPlugin.getRegistry().getEnabledSlimefunItemIds().stream()
+                        .map(String::toLowerCase)
+                        .collect(Collectors.toList()), args[2]);
             }
             else if (args[0].equalsIgnoreCase("research")) {
                 Set<NamespacedKey> researches = SlimefunPlugin.getRegistry().getResearchIds().keySet();
@@ -47,11 +52,11 @@ class SlimefunTabCompleter implements TabCompleter {
                 return createReturnList(suggestions, args[2]);
             }
             else {
-                return null;
+                return Collections.emptyList();
             }
         }
         else {
-            return null;
+            return Collections.emptyList();
         }
     }
 
@@ -71,14 +76,14 @@ class SlimefunTabCompleter implements TabCompleter {
         List<String> returnList = new ArrayList<>();
 
         for (String item : list) {
-            if (item.contains(input)) {
+            if (item.startsWith(input)) {
                 returnList.add(item);
 
                 if (returnList.size() >= MAX_SUGGESTIONS) {
                     break;
                 }
             }
-            else if (item.equals(input)) {
+            else if (item.equalsIgnoreCase(input)) {
                 return Collections.emptyList();
             }
         }

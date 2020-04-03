@@ -17,6 +17,8 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.Commands;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
+import javax.annotation.Nonnull;
+
 /**
  * This {@link CommandExecutor} holds the functionality of our {@code /slimefun} command.
  * 
@@ -55,7 +57,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command cmd, @Nonnull String label, String[] args) {
         if (args.length > 0) {
             for (SubCommand command : commands) {
                 if (args[0].equalsIgnoreCase(command.getName())) {
