@@ -8,6 +8,7 @@ io.github.thebusybiscuit.slimefun4.api.network
 io.github.thebusybiscuit.slimefun4.api.player
 io.github.thebusybiscuit.slimefun4.core
 io.github.thebusybiscuit.slimefun4.core.attributes
+io.github.thebusybiscuit.slimefun4.core.categories
 io.github.thebusybiscuit.slimefun4.core.commands
 io.github.thebusybiscuit.slimefun4.core.commands.subcommands
 io.github.thebusybiscuit.slimefun4.core.guide
