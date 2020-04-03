@@ -75,6 +75,7 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 * [What is Slimefun?](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)
 * [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun)
 * [Addons for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons)
+* [How to create an Addon for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide)
 * [Getting Started](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Getting-Started)
 * [Help us expand the Wiki!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Expanding-the-Wiki)
 * [Help us translate Slimefun!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun)
