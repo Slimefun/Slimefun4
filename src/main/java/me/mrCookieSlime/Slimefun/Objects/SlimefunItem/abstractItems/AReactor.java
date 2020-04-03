@@ -187,7 +187,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
         if (needsCooling()) {
             preset.addItem(7, new CustomItem(this.getCoolant(), "&b冷却剂槽", "", "&r这个槽可以放置反应堆冷却剂", "&4如果没有任何冷却剂", "&4你的反应堆将爆炸"));
         } else {
-            preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&b冷却剂", "", "&r这个槽可以放置反应堆冷却剂"));
+            preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&b冷却剂槽", "", "&r这个槽可以放置反应堆冷却剂"));
 
             for (int i : border_4) {
                 preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&c无需冷却剂"), ChestMenuUtils.getEmptyClickHandler());
