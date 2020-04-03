@@ -34,7 +34,7 @@ public class ReactorAccessPort extends SlimefunItem {
     public ReactorAccessPort(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), "&2Reactor Access Port") {
+        new BlockMenuPreset(getID(), "&2反应堆交互接口") {
 
             @Override
             public void init() {
@@ -51,7 +51,7 @@ public class ReactorAccessPort extends SlimefunItem {
                 BlockMenu reactor = getReactor(b.getLocation());
 
                 if (reactor != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7反应堆", "", "&6检测到", "", "&7> 点击打开反应堆界面"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         if (reactor != null) {
                             reactor.open(p);
@@ -63,7 +63,7 @@ public class ReactorAccessPort extends SlimefunItem {
                     });
                 }
                 else {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Reactor", "", "&cNot detected", "", "&7Reactor must be", "&7placed 3 blocks below", "&7the access port!"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7反应堆", "", "&c未检测到", "", "&7反应堆必须放置在", "&7本交互接口的", "&73个方块以下的位置"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         newInstance(menu, b);
                         return false;
