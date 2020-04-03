@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
@@ -112,7 +113,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     }
 
     private void generateLiquid(Block block, boolean water) {
-        if(water && block.getWorld().getEnvironment() == Envrionment.NETHER) {
+        if (water && block.getWorld().getEnvironment() == World.Environment.NETHER) {
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0F, 1.0F);
             return;
         }
@@ -128,10 +129,11 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     }
 
     private void addLiquidLevel(Block block, boolean water) {
-        if(water && block.getWorld().getEnvironment() == Envrionment.NETHER) {
+        if (water && block.getWorld().getEnvironment() == World.Environment.NETHER) {
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0F, 1.0F);
             return;
         }
+
         int level = ((Levelled) block.getBlockData()).getLevel();
 
         if (level > 7) {
@@ -147,10 +149,11 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     }
 
     private void placeLiquid(Block block, boolean water) {
-       if(block.getWorld().getEnvironment() == Environment.NETHER && water) {
+        if (block.getWorld().getEnvironment() == World.Environment.NETHER && water) {
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1.0F, 1.0F);
             return;
-       }
+        }
+
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
             block.setType(water ? Material.WATER : Material.LAVA);
         } else {
