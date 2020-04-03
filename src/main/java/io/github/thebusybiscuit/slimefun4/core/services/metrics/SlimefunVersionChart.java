@@ -13,8 +13,7 @@ class SlimefunVersionChart extends DrilldownPie {
             Map<String, Map<String, Integer>> outerMap = new HashMap<>();
             Map<String, Integer> innerMap = new HashMap<>();
 
-            // Why don't judge is the version valid? I have to edit by myself.
-            innerMap.put("UNOFFICIAL", 1);
+            innerMap.put(SlimefunPlugin.getVersion(), 1);
             outerMap.put(SlimefunPlugin.getUpdater().getBranch().getName(), innerMap);
 
             return outerMap;
