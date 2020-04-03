@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.Optional;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -45,7 +44,6 @@ public class AncientAltarListener implements Listener {
 
     private final List<Block> altars = new ArrayList<>();
     private final Set<UUID> removedItems = new HashSet<>();
-	public boolean using ;
 
     public void load(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -94,12 +92,12 @@ public class AncientAltarListener implements Listener {
             useAltar(b, e.getPlayer());
         }
     }
-    private void isUsing(Block pedestal,Location loc) {
-    	if(loc == null) this.using = false;
+    public boolean isUsing(Block pedestal,Location loc) {
+    	if(loc == null) return false;
     	if(pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) < 0.3D) {
-    		this.using = false;
+    		return false;
     		}else {
-    			this.using = true;
+    			return true;
     		}
     	
     }
@@ -119,10 +117,6 @@ public class AncientAltarListener implements Listener {
 
             insertItem(p, pedestal);
         } else if (!removedItems.contains(stack.getUniqueId())) {
-        	isUsing(pedestal,stack.getLocation());
-        	/*if(this.using == false) {
-        		p.sendMessage("false");
-        	}*/
             UUID uuid = stack.getUniqueId();
             removedItems.add(uuid);
             
