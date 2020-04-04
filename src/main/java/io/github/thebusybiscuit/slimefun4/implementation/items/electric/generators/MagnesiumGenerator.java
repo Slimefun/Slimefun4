@@ -27,7 +27,7 @@ public abstract class MagnesiumGenerator extends AGenerator {
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.MAGNESIUM_GENERATOR.getItem().getItemName();
+        return SlimefunItems.MAGNESIUM_GENERATOR.getItemMeta().getDisplayName();
     }
 
 }
