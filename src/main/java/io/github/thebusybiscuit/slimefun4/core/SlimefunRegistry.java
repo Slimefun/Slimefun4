@@ -231,6 +231,13 @@ public class SlimefunRegistry {
         return geoResources;
     }
 
+    /**
+     * This method will soon be removed.
+     * 
+     * @deprecated The {@link GuideHandler} API is deprecated. It will soon be removed.
+     * 
+     * @return A Map of handlers
+     */
     @Deprecated
     public Map<Integer, List<GuideHandler>> getGuideHandlers() {
         return guideHandlers;

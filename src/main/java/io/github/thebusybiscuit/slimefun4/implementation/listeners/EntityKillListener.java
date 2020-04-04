@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -32,7 +33,7 @@ public class EntityKillListener implements Listener {
             if (customDrops != null && !customDrops.isEmpty()) {
                 for (ItemStack drop : customDrops) {
                     if (Slimefun.hasUnlocked(p, drop, true)) {
-                        if (SlimefunUtils.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((boolean) Slimefun.getItemValue("BASIC_CIRCUIT_BOARD", "drop-from-golems"))) {
+                        if (SlimefunUtils.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((BasicCircuitBoard) SlimefunItem.getByID("BASIC_CIRCUIT_BOARD")).isDroppedFromGolems()) {
                             continue;
                         }
 

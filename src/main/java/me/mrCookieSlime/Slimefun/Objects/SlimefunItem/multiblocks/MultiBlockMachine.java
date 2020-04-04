@@ -33,10 +33,6 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 		super(category, item, recipe, machineRecipes, trigger);
 	}
 	
-	public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
-		super(category, item, recipe, machineRecipes, trigger, keys, values);
-	}
-	
 	@Override
 	public void register(SlimefunAddon addon) {
 		addItemHandler(getInteractionHandler());
@@ -95,7 +91,7 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 			}
 		}
 		
-		return null;
-	}
+        return null;
+    }
 
 }

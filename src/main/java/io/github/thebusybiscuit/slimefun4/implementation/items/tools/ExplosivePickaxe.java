@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -29,10 +30,12 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 
-    private boolean damageOnUse;
+    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
 
-    public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
+    public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        addItemSetting(damageOnUse);
     }
 
     @Override
@@ -106,13 +109,8 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
     }
 
     @Override
-    public void postRegister() {
-        damageOnUse = ((boolean) Slimefun.getItemValue(getID(), "damage-on-use"));
-    }
-
-    @Override
     public boolean isDamageable() {
-        return damageOnUse;
+        return damageOnUse.getValue();
     }
 
 }

@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -42,6 +43,8 @@ public final class Slimefun {
     /**
      * Returns the value associated to this key for the SlimefunItem corresponding to this id.
      *
+     * @deprecated Please use the {@link ItemSetting} API instead.
+     *
      * @param id
      *            the id of the SlimefunItem, not null
      * @param key
@@ -50,22 +53,9 @@ public final class Slimefun {
      * @return the value associated to the key for the SlimefunItem corresponding to the id,
      *         or null if it doesn't exist.
      */
+    @Deprecated
     public static Object getItemValue(String id, String key) {
         return getItemConfig().getValue(id + '.' + key);
-    }
-
-    /**
-     * Sets a default value associated to this key for the SlimefunItem corresponding to this id.
-     *
-     * @param id
-     *            the id of the SlimefunItem, not null
-     * @param key
-     *            the key of the value to set, not null
-     * @param value
-     *            the value to set, can be null
-     */
-    public static void setItemVariable(String id, String key, Object value) {
-        getItemConfig().setDefaultValue(id + '.' + key, value);
     }
 
     /**
@@ -274,6 +264,15 @@ public final class Slimefun {
         else return true;
     }
 
+    /**
+     * This method will soon be removed.
+     * 
+     * @deprecated The {@link GuideHandler} API is deprecated. It will soon be removed.
+     * 
+     * @param tier
+     *            The tier
+     * @return A list of handlers
+     */
     @Deprecated
     public static List<GuideHandler> getGuideHandlers(int tier) {
         return SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(tier, new ArrayList<>());

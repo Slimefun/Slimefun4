@@ -68,11 +68,11 @@ public final class PostSetup {
             SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
         }
 
-        Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
+        Slimefun.getItemConfig().setDefaultValue("ORE_CRUSHER.double-ores", true);
 
         for (Enchantment enchantment : Enchantment.values()) {
             for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
-                Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + enchantment.getKey().getKey() + ".level." + i, true);
+                Slimefun.getItemConfig().setDefaultValue("MAGICIAN_TALISMAN.allow-enchantments." + enchantment.getKey().getKey() + ".level." + i, true);
             }
         }
     }

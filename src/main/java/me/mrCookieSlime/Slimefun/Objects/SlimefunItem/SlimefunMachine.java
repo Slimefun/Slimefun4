@@ -39,14 +39,6 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
         this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
     }
 
-    protected SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
-        super(category, item, RecipeType.MULTIBLOCK, recipe, keys, values);
-        this.recipes = new ArrayList<>();
-        this.shownRecipes = new ArrayList<>();
-        this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
-    }
-
     public List<ItemStack[]> getRecipes() {
         return recipes;
     }
@@ -73,7 +65,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
     @Override
     public void load() {
         super.load();
-        
+
         for (ItemStack recipeItem : shownRecipes) {
             SlimefunItem item = SlimefunItem.getByItem(recipeItem);
 
@@ -85,7 +77,7 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
     private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
         List<Material> materials = new ArrayList<>();
-        
+
         for (ItemStack item : items) {
             if (item == null) {
                 materials.add(null);

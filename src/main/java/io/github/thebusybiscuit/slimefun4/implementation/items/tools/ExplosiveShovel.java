@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -32,21 +33,23 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 
-    private boolean damageOnUse;
+    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
 
-    public ExplosiveShovel(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
+    public ExplosiveShovel(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        addItemSetting(damageOnUse);
     }
-    
+
     @Override
     public BlockBreakHandler getItemHandler() {
         return new BlockBreakHandler() {
-            
+
             @Override
             public boolean isPrivate() {
                 return false;
             }
-            
+
             @Override
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
                 if (isItem(item)) {
@@ -90,13 +93,8 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
     }
 
     @Override
-    public void postRegister() {
-        damageOnUse = ((boolean) Slimefun.getItemValue(getID(), "damage-on-use"));
-    }
-
-    @Override
     public boolean isDamageable() {
-        return damageOnUse;
+        return damageOnUse.getValue();
     }
 
 }

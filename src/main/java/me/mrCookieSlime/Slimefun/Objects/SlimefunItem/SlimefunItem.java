@@ -23,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
@@ -62,11 +63,10 @@ public class SlimefunItem implements Placeable {
     protected boolean hidden = false;
     protected boolean useableInWorkbench = false;
 
-    private String[] keys;
-    private Object[] values;
-
     private Optional<String> wikiLink = Optional.empty();
+
     private final OptionalMap<Class<? extends ItemHandler>, ItemHandler> itemhandlers = new OptionalMap<>(HashMap::new);
+    private final Set<ItemSetting<?>> itemSettings = new HashSet<>();
 
     private boolean ticking = false;
     private BlockTicker blockTicker;
@@ -103,14 +103,6 @@ public class SlimefunItem implements Placeable {
      *            The result of crafting this item
      */
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        this(category, item, recipeType, recipe, recipeOutput, null, null);
-    }
-
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        this(category, item, recipeType, recipe, null, keys, values);
-    }
-
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
 
@@ -120,8 +112,17 @@ public class SlimefunItem implements Placeable {
         this.recipeType = recipeType;
         this.recipe = recipe;
         this.recipeOutput = recipeOutput;
-        this.keys = keys;
-        this.values = values;
+    }
+
+    @Deprecated
+    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
+        this(category, item, recipeType, recipe, recipeOutput);
+
+        if (keys != null && values != null && keys.length == values.length) {
+            for (int i = 0; i < keys.length; i++) {
+                itemSettings.add(new ItemSetting<>(keys[i], values[i]));
+            }
+        }
     }
 
     // Previously deprecated constructor, now only for internal purposes
@@ -200,6 +201,38 @@ public class SlimefunItem implements Placeable {
      */
     public Research getResearch() {
         return research;
+    }
+
+    /**
+     * This returns a {@link Set} containing all instances of {@link ItemSetting} for this {@link SlimefunItem}.
+     * 
+     * @return A {@link Set} of every {@link ItemSetting} for this {@link SlimefunItem}
+     */
+    public Set<ItemSetting<?>> getItemSettings() {
+        return itemSettings;
+    }
+
+    /**
+     * This method returns an {@link Optional} holding an {@link ItemSetting} with the given
+     * key and data type. Or an empty {@link Optional} if this {@link SlimefunItem} has no such {@link ItemSetting}.
+     * 
+     * @param <T>
+     *            The Type of value stored in this {@link ItemSetting}
+     * @param key
+     *            The key of this {@link ItemSetting}
+     * @param c
+     *            The {@link Class} of the type of value stored by this setting
+     * @return An {@link Optional} describing the result
+     */
+    @SuppressWarnings("unchecked")
+    public <T> Optional<ItemSetting<T>> getItemSetting(String key, Class<T> c) {
+        for (ItemSetting<?> setting : itemSettings) {
+            if (setting.getKey().equals(key) && c.isInstance(setting.getDefaultValue())) {
+                return Optional.of((ItemSetting<T>) setting);
+            }
+        }
+
+        return Optional.empty();
     }
 
     /**
@@ -314,10 +347,8 @@ public class SlimefunItem implements Placeable {
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
 
-            if (keys != null && values != null) {
-                for (int i = 0; i < keys.length; i++) {
-                    SlimefunPlugin.getItemCfg().setDefaultValue(id + '.' + keys[i], values[i]);
-                }
+            for (ItemSetting<?> setting : itemSettings) {
+                setting.load(this);
             }
 
             for (World world : Bukkit.getWorlds()) {
@@ -499,9 +530,9 @@ public class SlimefunItem implements Placeable {
      * Note that this will not work after the {@link SlimefunItem} was registered.
      * 
      * @param handlers
-     *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}.
+     *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
-    public void addItemHandler(ItemHandler... handlers) {
+    public final void addItemHandler(ItemHandler... handlers) {
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }
@@ -517,6 +548,25 @@ public class SlimefunItem implements Placeable {
             }
             else if (handler instanceof GeneratorTicker) {
                 generatorTicker = (GeneratorTicker) handler;
+            }
+        }
+    }
+
+    /**
+     * This method will add any given {@link ItemSetting} to this {@link SlimefunItem}.
+     * Note that this will not work after the {@link SlimefunItem} was registered.
+     * 
+     * @param settings
+     *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
+     */
+    public final void addItemSetting(ItemSetting<?>... settings) {
+        if (state != ItemState.UNREGISTERED) {
+            throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");
+        }
+
+        for (ItemSetting<?> setting : settings) {
+            if (setting != null) {
+                itemSettings.add(setting);
             }
         }
     }
