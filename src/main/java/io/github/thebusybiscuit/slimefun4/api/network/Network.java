@@ -149,6 +149,7 @@ public abstract class Network {
 
                 onClassificationChange(l, currentAssignment, classification);
             }
+
             steps += 1;
 
             if (steps >= maxSteps) {
@@ -173,6 +174,10 @@ public abstract class Network {
         discoverNeighbors(l, 0.0, 0.0, -1.0);
     }
 
+    /**
+     * This method runs the network visualizer which displays a {@link Particle} on
+     * every {@link Location} that this {@link Network} can connect to.
+     */
     public void display() {
         Slimefun.runSync(() -> {
             DustOptions options = new DustOptions(Color.BLUE, 2F);

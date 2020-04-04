@@ -114,17 +114,6 @@ public class SlimefunItem implements Placeable {
         this.recipeOutput = recipeOutput;
     }
 
-    @Deprecated
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
-        this(category, item, recipeType, recipe, recipeOutput);
-
-        if (keys != null && values != null && keys.length == values.length) {
-            for (int i = 0; i < keys.length; i++) {
-                itemSettings.add(new ItemSetting<>(keys[i], values[i]));
-            }
-        }
-    }
-
     // Previously deprecated constructor, now only for internal purposes
     protected SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
         this.category = category;

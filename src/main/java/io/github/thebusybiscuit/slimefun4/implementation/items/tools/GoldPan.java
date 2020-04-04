@@ -15,6 +15,8 @@ import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricGoldPan;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.AutomatedPanningMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -23,6 +25,17 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * A {@link GoldPan} is a {@link SlimefunItem} which allows you to obtain various
+ * resources from Gravel.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see NetherGoldPan
+ * @see AutomatedPanningMachine
+ * @see ElectricGoldPan
+ *
+ */
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
@@ -109,7 +122,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return recipes;
     }
 
-    protected class GoldPanDrop extends ItemSetting<Integer> {
+    class GoldPanDrop extends ItemSetting<Integer> {
 
         private final ItemStack output;
 

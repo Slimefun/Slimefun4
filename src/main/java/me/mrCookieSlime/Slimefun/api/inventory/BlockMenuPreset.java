@@ -130,7 +130,9 @@ public abstract class BlockMenuPreset extends ChestMenu {
         }
 
         for (int slot = 0; slot < 54; slot++) {
-            if (getMenuClickHandler(slot) != null) menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
+            if (getMenuClickHandler(slot) != null) {
+                menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
+            }
         }
 
         menu.addMenuOpeningHandler(getMenuOpeningHandler());
