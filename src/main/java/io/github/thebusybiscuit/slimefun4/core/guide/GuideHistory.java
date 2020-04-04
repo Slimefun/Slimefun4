@@ -132,8 +132,6 @@ public class GuideHistory {
      * 
      * @param guide
      *            The {@link SlimefunGuideImplementation} to use
-     * @param survival
-     *            Whether the entry should be opened in survival or creative mode
      */
     public void openLastEntry(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(false);
@@ -149,8 +147,6 @@ public class GuideHistory {
      * 
      * @param guide
      *            The {@link SlimefunGuideImplementation} to use
-     * @param survival
-     *            Whether the entry should be opened in survival or creative mode
      */
     public void goBack(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(true);
