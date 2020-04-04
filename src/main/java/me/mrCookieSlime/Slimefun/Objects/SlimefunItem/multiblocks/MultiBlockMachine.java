@@ -32,6 +32,8 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
         super(category, item, recipe, machineRecipes, trigger);
     }
 
+    @Deprecated
+    // 向后兼容
     public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
         super(category, item, recipe, machineRecipes, trigger, keys, values);
     }

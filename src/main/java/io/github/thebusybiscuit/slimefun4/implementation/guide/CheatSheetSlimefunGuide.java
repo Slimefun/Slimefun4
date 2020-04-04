@@ -12,4 +12,9 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
     public SlimefunGuideLayout getLayout() {
         return SlimefunGuideLayout.CHEAT_SHEET;
     }
+
+    @Override
+    protected boolean isSurvivalMode() {
+        return false;
+    }
 }

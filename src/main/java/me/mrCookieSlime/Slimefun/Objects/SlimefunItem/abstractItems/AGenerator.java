@@ -82,7 +82,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
             return true;
         });
 
-        this.registerDefaultFuelTypes();
+        registerDefaultFuelTypes();
     }
 
     private void constructMenu(BlockMenuPreset preset) {

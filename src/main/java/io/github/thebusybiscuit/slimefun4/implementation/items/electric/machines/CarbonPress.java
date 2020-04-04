@@ -38,7 +38,7 @@ public abstract class CarbonPress extends AContainer implements RecipeDisplayIte
 
     @Override
     public String getInventoryTitle() {
-        return "&cCarbon Press";
+        return SlimefunItems.CARBON_PRESS.getItemMeta().getDisplayName();
     }
 
 }

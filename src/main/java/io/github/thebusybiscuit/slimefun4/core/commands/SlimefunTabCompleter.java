@@ -10,7 +10,7 @@ import java.util.*;
 
 class SlimefunTabCompleter implements TabCompleter {
 
-    private static final int MAX_SUGGESTIONS = 50;
+    private static final int MAX_SUGGESTIONS = 80;
 
     private final SlimefunCommand command;
 
@@ -62,17 +62,16 @@ class SlimefunTabCompleter implements TabCompleter {
         if (string.equals("")) return list;
 
         String input = string.toLowerCase(Locale.ROOT);
-        List<String> returnList = new ArrayList<>();
+        List<String> returnList = new LinkedList<>();
 
         for (String item : list) {
-            if (item.contains(input)) {
+            if (item.toLowerCase(Locale.ROOT).contains(input)) {
                 returnList.add(item);
 
                 if (returnList.size() >= MAX_SUGGESTIONS) {
                     break;
                 }
-            }
-            else if (item.equals(input)) {
+            } else if (item.equalsIgnoreCase(input)) {
                 return Collections.emptyList();
             }
         }

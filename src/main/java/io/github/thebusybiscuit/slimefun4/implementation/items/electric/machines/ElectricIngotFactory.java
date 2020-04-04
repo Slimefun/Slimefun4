@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -26,7 +27,7 @@ public abstract class ElectricIngotFactory extends AContainer implements RecipeD
 
     @Override
     public String getInventoryTitle() {
-        return "&cElectric Ingot Factory";
+        return SlimefunItems.ELECTRIC_INGOT_FACTORY.getItemMeta().getDisplayName();
     }
 
 }

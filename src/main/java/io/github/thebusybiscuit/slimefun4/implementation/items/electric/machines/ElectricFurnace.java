@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -48,7 +49,7 @@ public abstract class ElectricFurnace extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&bElectric Furnace";
+        return SlimefunItems.ELECTRIC_FURNACE.getItemMeta().getDisplayName();
     }
 
 }

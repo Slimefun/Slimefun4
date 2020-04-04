@@ -80,7 +80,7 @@ public abstract class HeatedPressureChamber extends AContainer {
     }
 
     private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
-        return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
+        return Comparator.comparingInt(slot -> menu.getItemInSlot(slot).getAmount());
     }
 
     @Override
@@ -97,7 +97,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&cHeated Pressure Chamber";
+        return SlimefunItems.HEATED_PRESSURE_CHAMBER.getItemMeta().getDisplayName();
     }
 
     @Override

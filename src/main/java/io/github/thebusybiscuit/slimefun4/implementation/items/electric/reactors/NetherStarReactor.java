@@ -31,7 +31,7 @@ public abstract class NetherStarReactor extends AReactor {
 
     @Override
     public String getInventoryTitle() {
-        return "&fNether Star Reactor";
+        return SlimefunItems.NETHERSTAR_REACTOR.getItemMeta().getDisplayName();
     }
 
     @Override
@@ -40,7 +40,7 @@ public abstract class NetherStarReactor extends AReactor {
     }
 
     @Override
-    public void extraTick(final Location l) {
+    public void extraTick(Location l) {
         Slimefun.runSync(() -> {
             for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
                 if (entity instanceof LivingEntity) {
@@ -48,6 +48,11 @@ public abstract class NetherStarReactor extends AReactor {
                 }
             }
         }, 0L);
+    }
+
+    @Override
+    public ItemStack getFuelIcon() {
+        return new ItemStack(Material.NETHER_STAR);
     }
 
     @Override

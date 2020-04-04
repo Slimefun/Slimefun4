@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -21,10 +21,12 @@ import java.util.UUID;
 
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
-    private long despawnTicks;
+    private final ItemSetting<Integer> despawnTicks = new ItemSetting<>("despawn-seconds", 60);
 
-    public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
+    public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        addItemSetting(despawnTicks);
     }
 
     @Override
@@ -59,13 +61,8 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 b.setLeashHolder(arrow);
 
                 boolean state = item.getType() != Material.SHEARS;
-                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(uuid, arrow, b, state, despawnTicks);
+                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(uuid, arrow, b, state, despawnTicks.getValue() * 20);
             }
         };
-    }
-
-    @Override
-    public void postRegister() {
-        despawnTicks = (int) Slimefun.getItemValue(getID(), "despawn-seconds") * 20L;
     }
 }

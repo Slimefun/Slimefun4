@@ -160,7 +160,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
             return true;
         });
 
-        this.registerDefaultFuelTypes();
+        registerDefaultFuelTypes();
     }
 
     private void constructMenu(BlockMenuPreset preset) {
@@ -178,14 +178,14 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
         preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 
-        preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7燃料槽", "", "&r这个槽可以放置放射性质的燃料例如", "&2铀 &r或 &a镎"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, new CustomItem(getFuelIcon(), "&7燃料槽", "", "&r这个槽可以放置放射性质的燃料例如", "&2铀 &r或 &a镎"), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : border_2) {
             preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         if (needsCooling()) {
-            preset.addItem(7, new CustomItem(this.getCoolant(), "&b冷却剂槽", "", "&r这个槽可以放置反应堆冷却剂", "&4如果没有任何冷却剂", "&4你的反应堆将爆炸"));
+            preset.addItem(7, new CustomItem(getCoolant(), "&b冷却剂槽", "", "&r这个槽可以放置反应堆冷却剂", "&4如果没有任何冷却剂", "&4你的反应堆将爆炸"));
         } else {
             preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&b冷却剂槽", "", "&r这个槽可以放置反应堆冷却剂"));
 
@@ -205,7 +205,24 @@ public abstract class AReactor extends AbstractEnergyGenerator {
      */
     public abstract ItemStack getCoolant();
 
-    private boolean needsCooling() {
+    /**
+     * This method returns the displayed icon above the fuel input slot.
+     * It should reflect the {@link ItemStack} used to power the reactor.
+     * This method does <b>not</b> determine the fuel input, only the icon.
+     *
+     * @return The {@link ItemStack} used as the fuel icon for this {@link AReactor}.
+     */
+    public abstract ItemStack getFuelIcon();
+
+    /**
+     * This method returns whether this {@link AReactor} requires as some form of
+     * coolant.
+     * It is a not-null check performed on {@link #getCoolant()}
+     *
+     * @return Whether this {@link AReactor} requires cooling
+     */
+
+    protected final boolean needsCooling() {
         return getCoolant() != null;
     }
 
@@ -347,7 +364,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
             }
 
             @Override
-            public boolean explode(final Location l) {
+            public boolean explode(Location l) {
                 boolean explosion = explode.contains(l);
 
                 if (explosion) {

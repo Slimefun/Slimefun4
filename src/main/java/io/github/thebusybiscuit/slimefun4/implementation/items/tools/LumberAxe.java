@@ -81,7 +81,7 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
                     for (Block b : logs) {
                         Material type = b.getType();
 
-                        if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK) && ProtectionChecker.check(e.getPlayer(), b, false)) {
+                        if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK) && ProtectionChecker.check(e.getPlayer(), b, true)) {
                             b.getWorld().playSound(b.getLocation(), Sound.ITEM_AXE_STRIP, 1, 1);
                             Axis axis = ((Orientable) b.getBlockData()).getAxis();
                             b.setType(Material.valueOf("STRIPPED_" + type.name()));

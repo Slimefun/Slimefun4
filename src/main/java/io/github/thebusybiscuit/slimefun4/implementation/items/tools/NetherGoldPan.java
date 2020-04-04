@@ -1,86 +1,37 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
-import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
-public class NetherGoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
-
-    private final List<ItemStack> recipes;
-    private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
-    private int weights;
+public class NetherGoldPan extends GoldPan {
 
     public NetherGoldPan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe, new String[]{"chance.QUARTZ", "chance.GOLD_NUGGET", "chance.NETHER_WART", "chance.BLAZE_POWDER", "chance.GLOWSTONE_DUST", "chance.GHAST_TEAR"}, new Integer[]{50, 25, 10, 8, 5, 2});
-
-        recipes = Arrays.asList(new ItemStack(Material.SOUL_SAND), new ItemStack(Material.QUARTZ), new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLD_NUGGET), new ItemStack(Material.SOUL_SAND), new ItemStack(Material.NETHER_WART), new ItemStack(Material.SOUL_SAND), new ItemStack(Material.BLAZE_POWDER), new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GLOWSTONE_DUST), new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GHAST_TEAR));
+        super(category, item, recipeType, recipe);
     }
 
     @Override
-    public void postRegister() {
-        add(new ItemStack(Material.QUARTZ), (int) Slimefun.getItemValue(getID(), "chance.QUARTZ"));
-        add(new ItemStack(Material.GOLD_NUGGET), (int) Slimefun.getItemValue(getID(), "chance.GOLD_NUGGET"));
-        add(new ItemStack(Material.NETHER_WART), (int) Slimefun.getItemValue(getID(), "chance.NETHER_WART"));
-        add(new ItemStack(Material.BLAZE_POWDER), (int) Slimefun.getItemValue(getID(), "chance.BLAZE_POWDER"));
-        add(new ItemStack(Material.GLOWSTONE_DUST), (int) Slimefun.getItemValue(getID(), "chance.GLOWSTONE_DUST"));
-        add(new ItemStack(Material.GHAST_TEAR), (int) Slimefun.getItemValue(getID(), "chance.GHAST_TEAR"));
-
-        if (weights < 100) {
-            add(new ItemStack(Material.AIR), 100 - weights);
-        }
-    }
-
-    private void add(ItemStack item, int chance) {
-        randomizer.add(item, chance);
-        weights += chance;
+    protected Material getInput() {
+        return Material.SOUL_SAND;
     }
 
     @Override
-    public String getLabelLocalPath() {
-        return "guide.tooltips.recipes.gold-pan";
-    }
+    protected Set<GoldPanDrop> getGoldPanDrops() {
+        Set<GoldPanDrop> settings = new HashSet<>();
 
-    @Override
-    public ItemUseHandler getItemHandler() {
-        return e -> {
-            Optional<Block> block = e.getClickedBlock();
+        settings.add(new GoldPanDrop("chance.QUARTZ", 50, new ItemStack(Material.QUARTZ)));
+        settings.add(new GoldPanDrop("chance.GOLD_NUGGET", 25, new ItemStack(Material.GOLD_NUGGET)));
+        settings.add(new GoldPanDrop("chance.NETHER_WART", 10, new ItemStack(Material.NETHER_WART)));
+        settings.add(new GoldPanDrop("chance.BLAZE_POWDER", 8, new ItemStack(Material.BLAZE_POWDER)));
+        settings.add(new GoldPanDrop("chance.GLOWSTONE_DUST", 5, new ItemStack(Material.GLOWSTONE_DUST)));
+        settings.add(new GoldPanDrop("chance.GHAST_TEAR", 2, new ItemStack(Material.GHAST_TEAR)));
 
-            if (block.isPresent()) {
-                Block b = block.get();
-
-                if (b.getType() == Material.SOUL_SAND && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-                    ItemStack output = randomizer.getRandom();
-
-                    b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-                    b.setType(Material.AIR);
-
-                    if (output.getType() != Material.AIR) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
-                    }
-                }
-            }
-            e.cancel();
-        };
-    }
-
-    @Override
-    public List<ItemStack> getDisplayRecipes() {
-        return recipes;
+        return settings;
     }
 
 }

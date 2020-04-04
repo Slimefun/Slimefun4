@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -8,6 +9,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public abstract class CoalGenerator extends AGenerator {
 
@@ -42,7 +45,7 @@ public abstract class CoalGenerator extends AGenerator {
 
     @Override
     public String getInventoryTitle() {
-        return "&cCoal Generator";
+        return Objects.requireNonNull(SlimefunItems.COAL_GENERATOR.getItemMeta()).getDisplayName();
     }
 
 }

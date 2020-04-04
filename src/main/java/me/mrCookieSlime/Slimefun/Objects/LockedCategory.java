@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.NamespacedKey;

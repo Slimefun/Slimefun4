@@ -14,34 +14,70 @@ import java.util.LinkedList;
  * {@link SlimefunGuide}.
  *
  * @author TheBusyBiscuit
+ *
  * @see SlimefunGuide
  * @see PlayerProfile
+ *
  */
 public class GuideHistory {
 
     private final PlayerProfile profile;
     private final Deque<GuideEntry<?>> queue = new LinkedList<>();
 
+    /**
+     * This creates a new {@link GuideHistory} for the given {@link PlayerProfile}
+     *
+     * @param profile The {@link PlayerProfile} this {@link GuideHistory} was made for
+     */
     public GuideHistory(PlayerProfile profile) {
         this.profile = profile;
     }
 
+    /**
+     * This method will clear this {@link GuideHistory} and remove all entries.
+     */
     public void clear() {
         queue.clear();
     }
 
+    /**
+     * This method adds a {@link Category} to this {@link GuideHistory}.
+     * Should the {@link Category} already be the last element in this {@link GuideHistory},
+     * then the entry will be overridden with the new page.
+     *
+     * @param category The {@link Category} that should be added to this {@link GuideHistory}
+     * @param page     The current page of the {@link Category} that should be stored
+     */
     public void add(Category category, int page) {
         refresh(category, page);
     }
 
+    /**
+     * This method adds a {@link ItemStack} to this {@link GuideHistory}.
+     * Should the {@link ItemStack} already be the last element in this {@link GuideHistory},
+     * then the entry will be overridden with the new page.
+     *
+     * @param item The {@link ItemStack} that should be added to this {@link GuideHistory}
+     * @param page The current page of the recipes of this {@link ItemStack}
+     */
     public void add(ItemStack item, int page) {
         refresh(item, page);
     }
 
+    /**
+     * This method stores the given {@link SlimefunItem} in this {@link GuideHistory}.
+     *
+     * @param item The {@link SlimefunItem} that should be added to this {@link GuideHistory}
+     */
     public void add(SlimefunItem item) {
         queue.add(new GuideEntry<>(item, 0));
     }
 
+    /**
+     * This method stores the given search term in this {@link GuideHistory}.
+     *
+     * @param searchTerm The term that the {@link Player} searched for
+     */
     public void add(String searchTerm) {
         queue.add(new GuideEntry<>(searchTerm, 0));
     }
@@ -56,6 +92,11 @@ public class GuideHistory {
         }
     }
 
+    /**
+     * This returns the amount of elements in this {@link GuideHistory}.
+     *
+     * @return The size of this {@link GuideHistory}
+     */
     public int size() {
         return queue.size();
     }
@@ -75,25 +116,42 @@ public class GuideHistory {
         return queue.isEmpty() ? null : queue.getLast();
     }
 
-    public void openLastEntry(SlimefunGuideImplementation guide, boolean survival) {
+    /**
+     * This method opens the last opened entry to the associated {@link PlayerProfile}
+     * of this {@link GuideHistory}.
+     *
+     * @param guide    The {@link SlimefunGuideImplementation} to use
+     * @param survival Whether the entry should be opened in survival or creative mode
+     */
+    public void openLastEntry(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(false);
-        open(guide, entry, survival);
+        open(guide, entry);
     }
 
-    public void goBack(SlimefunGuideImplementation guide, boolean survival) {
+    /**
+     * This method opens the previous entry to the associated {@link PlayerProfile}.
+     * More precisely, it will remove the last entry and open the second-last entry
+     * to the {@link Player}.
+     * <p>
+     * It can be thought of as a "back" button. Since that is what this is used for.
+     *
+     * @param guide    The {@link SlimefunGuideImplementation} to use
+     * @param survival Whether the entry should be opened in survival or creative mode
+     */
+    public void goBack(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(true);
-        open(guide, entry, survival);
+        open(guide, entry);
     }
 
-    private <T> void open(SlimefunGuideImplementation guide, GuideEntry<T> entry, boolean survival) {
+    private <T> void open(SlimefunGuideImplementation guide, GuideEntry<T> entry) {
         if (entry == null) {
-            guide.openMainMenu(profile, survival, 1);
+            guide.openMainMenu(profile, 1);
         } else if (entry.getIndexedObject() instanceof Category) {
-            guide.openCategory(profile, (Category) entry.getIndexedObject(), survival, entry.getPage());
+            guide.openCategory(profile, (Category) entry.getIndexedObject(), entry.getPage());
         } else if (entry.getIndexedObject() instanceof SlimefunItem) {
             guide.displayItem(profile, (SlimefunItem) entry.getIndexedObject(), false);
         } else if (entry.getIndexedObject() instanceof String) {
-            guide.openSearch(profile, (String) entry.getIndexedObject(), survival, false);
+            guide.openSearch(profile, (String) entry.getIndexedObject(), false);
         } else if (entry.getIndexedObject() instanceof ItemStack) {
             guide.displayItem(profile, (ItemStack) entry.getIndexedObject(), entry.getPage(), false);
         }

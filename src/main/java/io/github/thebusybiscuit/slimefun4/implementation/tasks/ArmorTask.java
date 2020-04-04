@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -78,9 +79,19 @@ public class ArmorTask implements Runnable {
     }
 
     private void checkForSolarHelmet(Player p) {
-        if (SlimefunUtils.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true) && Slimefun.hasUnlocked(p, SlimefunItem.getByID("SOLAR_HELMET"), true) && (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15) {
-            ItemEnergy.chargeInventory(p, ((Double) Slimefun.getItemValue("SOLAR_HELMET", "charge-amount")).floatValue());
+        if (!SlimefunUtils.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true)) {
+            return;
         }
+
+        SlimefunItem item = SlimefunItem.getByItem(p.getInventory().getHelmet());
+
+        if (item instanceof SolarHelmet && Slimefun.hasUnlocked(p, item, true) && hasSunlight(p)) {
+            ItemEnergy.chargeInventory(p, ((SolarHelmet) item).getChargeAmount());
+        }
+    }
+
+    private boolean hasSunlight(Player p) {
+        return (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
     }
 
     private void checkForRadiation(Player p) {

@@ -62,7 +62,7 @@ public final class SlimefunGuide {
     }
 
     public static void openCheatMenu(Player p) {
-        openMainMenuAsync(p, false, SlimefunGuideLayout.CHEAT_SHEET, 1);
+        openMainMenuAsync(p, SlimefunGuideLayout.CHEAT_SHEET, 1);
     }
 
     public static void openGuide(Player p, ItemStack guide) {
@@ -86,29 +86,31 @@ public final class SlimefunGuide {
         if (optional.isPresent()) {
             PlayerProfile profile = optional.get();
             SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
-            profile.getGuideHistory().openLastEntry(guide, true);
+            profile.getGuideHistory().openLastEntry(guide);
         } else {
-            openMainMenuAsync(p, true, layout, 1);
+            openMainMenuAsync(p, layout, 1);
         }
     }
 
-    private static void openMainMenuAsync(Player player, boolean survival, SlimefunGuideLayout layout, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, survival, selectedPage)))) {
+    private static void openMainMenuAsync(Player player, SlimefunGuideLayout layout, int selectedPage) {
+        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
             SlimefunPlugin.getLocal().sendMessage(player, "messages.opening-guide");
         }
     }
 
-    public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
-        SlimefunPlugin.getRegistry().getGuideLayout(layout).openMainMenu(profile, survival, selectedPage);
+    public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, int selectedPage) {
+        SlimefunPlugin.getRegistry().getGuideLayout(layout).openMainMenu(profile, selectedPage);
     }
 
-    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, boolean survival, int selectedPage) {
+    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, int selectedPage) {
         if (category == null) return;
-        SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, survival, selectedPage);
+        SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, selectedPage);
     }
 
     public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
+        SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST);
+        if (!survival) layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEAT_SHEET);
+        layout.openSearch(profile, input, addToHistory);
     }
 
     public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {

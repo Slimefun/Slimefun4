@@ -28,7 +28,7 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 
     @Override
     public String getInventoryTitle() {
-        return "&cRefinery";
+        return item.getItemMeta().getDisplayName();
     }
 
     @Override

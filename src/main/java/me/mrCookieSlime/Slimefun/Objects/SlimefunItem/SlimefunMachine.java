@@ -38,8 +38,10 @@ public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
         this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
     }
 
+    @Deprecated
+    // 向后兼容
     protected SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger, String[] keys, Object[] values) {
-        super(category, item, RecipeType.MULTIBLOCK, recipe, keys, values);
+        super(category, item, RecipeType.MULTIBLOCK, recipe, null, keys, values);
         this.recipes = new ArrayList<>();
         this.shownRecipes = new ArrayList<>();
         this.shownRecipes.addAll(Arrays.asList(machineRecipes));
