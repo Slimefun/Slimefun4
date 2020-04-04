@@ -1,19 +1,18 @@
-package me.mrCookieSlime.Slimefun.Objects;
+package io.github.thebusybiscuit.slimefun4.core.categories;
 
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.LocalDate;
 import java.time.Month;
-import java.util.Calendar;
 
 /**
  * Represents a {@link Category} that is only displayed in the Guide during
- * a specified month.
- * <p>
- * See {@link Category} for the complete documentation.
+ * a specified {@link Month}.
  *
  * @author TheBusyBiscuit
- *
  * @see Category
  * @see LockedCategory
  */
@@ -40,9 +39,9 @@ public class SeasonalCategory extends Category {
     }
 
     /**
-     * Gets the month during which the category should be displayed.
+     * This method returns the {@link Month} in which this {@link SeasonalCategory} will appear.
      *
-     * @return the id of the month this {@link SeasonalCategory} is assigned to (from 1 = January ; to 12 = December)
+     * @return the {@link Month} in which this {@link SeasonalCategory} appears
      */
     public Month getMonth() {
         return month;
@@ -54,8 +53,7 @@ public class SeasonalCategory extends Category {
      *
      * @return true if it should, otherwise false
      */
-    public boolean isUnlocked() {
-        Calendar calendar = Calendar.getInstance();
-        return month.ordinal() == calendar.get(Calendar.MONTH);
+    public boolean isVisible() {
+        return month == LocalDate.now().getMonth();
     }
 }

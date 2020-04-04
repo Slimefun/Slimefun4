@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
@@ -21,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -127,7 +127,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     private boolean displayCategory(ChestMenu menu, Player p, PlayerProfile profile, boolean survival, Category category, int index) {
         if (!(category instanceof LockedCategory)) {
-            if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isUnlocked()) {
+            if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isVisible()) {
                 menu.addItem(index, category.getItem(p));
                 menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                     openCategory(profile, category, survival, 1);

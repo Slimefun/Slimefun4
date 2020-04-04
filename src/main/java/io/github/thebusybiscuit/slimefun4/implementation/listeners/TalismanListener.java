@@ -179,10 +179,9 @@ public class TalismanListener implements Listener {
 
             if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
                 for (ItemStack drop : drops) {
-                    if (!drop.getType().isBlock()) {
+                    if (!drop.getType().isBlock() && e.getBlock().getType() == Material.AIR) {
                         int amount = Math.max(1, (fortune * 2) - drop.getAmount());
-                        //e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
-                        e.getBlock().getDrops(item).add(new CustomItem(drop, amount));
+                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
                     }
                 }
             }

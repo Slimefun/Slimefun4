@@ -27,7 +27,7 @@ public abstract class NuclearReactor extends AReactor {
 
     @Override
     public String getInventoryTitle() {
-        return "&2Nuclear Reactor";
+        return SlimefunItems.NUCLEAR_REACTOR.getItemMeta().getDisplayName()
     }
 
     @Override
@@ -35,6 +35,11 @@ public abstract class NuclearReactor extends AReactor {
         registerFuel(new MachineFuel(1200, SlimefunItems.URANIUM, SlimefunItems.NEPTUNIUM));
         registerFuel(new MachineFuel(600, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM));
         registerFuel(new MachineFuel(1500, SlimefunItems.BOOSTED_URANIUM, null));
+    }
+
+    @Override
+    public ItemStack getFuelIcon() {
+        return SlimefunItems.URANIUM;
     }
 
     @Override

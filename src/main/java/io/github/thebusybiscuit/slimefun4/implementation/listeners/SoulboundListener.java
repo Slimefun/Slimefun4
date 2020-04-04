@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -35,11 +34,7 @@ public class SoulboundListener implements Listener {
                 }
             }
 
-            Iterator<ItemStack> drops = e.getDrops().iterator();
-            while (drops.hasNext()) {
-                ItemStack item = drops.next();
-                if (SlimefunUtils.isSoulbound(item)) drops.remove();
-            }
+            e.getDrops().removeIf(SlimefunUtils::isSoulbound);
 
         }
     }
@@ -50,19 +45,17 @@ public class SoulboundListener implements Listener {
     }
 
     private void storeItem(UUID uuid, int slot, ItemStack item) {
-        Map<Integer, ItemStack> items = soulbound.computeIfAbsent(uuid, id -> new HashMap<>());
+        Map<Integer, ItemStack> items = soulbound.computeIfAbsent(uuid, uid -> new HashMap<>());
         items.put(slot, item);
     }
 
     private void retrieveItems(Player p) {
-        Map<Integer, ItemStack> items = soulbound.get(p.getUniqueId());
+        Map<Integer, ItemStack> items = soulbound.remove(p.getUniqueId());
 
         if (items != null) {
             for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
                 p.getInventory().setItem(entry.getKey(), entry.getValue());
             }
         }
-
-        soulbound.remove(p.getUniqueId());
     }
 }

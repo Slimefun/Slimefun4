@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
@@ -15,7 +16,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
@@ -108,7 +108,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                     tooltips.add(parents.toString());
                     actions.add(null);
                 } else if (category instanceof SeasonalCategory) {
-                    if (((SeasonalCategory) category).isUnlocked()) {
+                    if (((SeasonalCategory) category).isVisible()) {
                         texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, ItemUtils.getItemName(category.getItem(p)))));
                         tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
                         actions.add(new PlayerRunnable(1) {

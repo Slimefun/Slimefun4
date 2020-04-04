@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Locale;
 import java.util.Optional;
 
 class GiveCommand extends SubCommand {
@@ -40,7 +41,7 @@ class GiveCommand extends SubCommand {
                 if (player.isPresent()) {
                     Player p = player.get();
 
-                    SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase());
+                    SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase(Locale.ROOT));
                     if (sfItem != null) {
                         int amount = parseAmount(args);
 
