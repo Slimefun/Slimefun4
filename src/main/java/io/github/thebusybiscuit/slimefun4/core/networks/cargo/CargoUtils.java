@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.thebusybiscuit.slimefun4.utils.BlockUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -46,7 +47,7 @@ final class CargoUtils {
                 }
             }
         } 
-        else {
+        else if (BlockUtils.hasInventory(target)) {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -58,8 +59,9 @@ final class CargoUtils {
     }
 
     private static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
+        ItemStack[] contents = inv.getContents();
         int minSlot = 0;
-        int maxSlot = inv.getContents().length;
+        int maxSlot = contents.length;
         
         if (inv instanceof FurnaceInventory) {
             minSlot = 2;
@@ -70,7 +72,7 @@ final class CargoUtils {
         }
         
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack is = inv.getContents()[slot];
+            ItemStack is = contents[slot];
 
             if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
                 if (is.getAmount() > template.getAmount()) {
@@ -100,14 +102,15 @@ final class CargoUtils {
                 }
             }
         } 
-        else {
+        else if (BlockUtils.hasInventory(target)) {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
                 Inventory inv = ((InventoryHolder) state).getInventory();
 
+                ItemStack[] contents = inv.getContents();
                 int minSlot = 0;
-                int maxSlot = inv.getContents().length;
+                int maxSlot = contents.length;
 
                 if (inv instanceof FurnaceInventory) {
                     minSlot = 2;
@@ -118,7 +121,7 @@ final class CargoUtils {
                 }
 
                 for (int slot = minSlot; slot < maxSlot; slot++) {
-                    ItemStack is = inv.getContents()[slot];
+                    ItemStack is = contents[slot];
 
                     if (matchesFilter(node, is, index)) {
                         inv.setItem(slot, null);
@@ -160,7 +163,7 @@ final class CargoUtils {
                 }
             }
         } 
-        else {
+        else if (BlockUtils.hasInventory(target)) {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -172,8 +175,9 @@ final class CargoUtils {
     }
 
     private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
+        ItemStack[] contents = inv.getContents();
     	int minSlot = 0;
-        int maxSlot = inv.getContents().length;
+        int maxSlot = contents.length;
 
         //Check if it is a normal furnace
         if (inv instanceof FurnaceInventory) {
@@ -204,26 +208,28 @@ final class CargoUtils {
         }
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack is = inv.getContents()[slot];
+            ItemStack is = contents[slot];
 
             if (is == null) {
                 inv.setItem(slot, stack.clone());
                 return null;
             } 
-            else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
-                int amount = is.getAmount() + stack.getAmount();
-                
-                if (amount > is.getType().getMaxStackSize()) {
-                    is.setAmount(is.getType().getMaxStackSize());
-                    stack.setAmount(amount - is.getType().getMaxStackSize());
-                } 
-                else {
-                    is.setAmount(amount);
-                    stack = null;
-                }
+            else {
+                if (SlimefunUtils.isItemSimilar(is, stack, true, false)
+                        && is.getAmount() < is.getType().getMaxStackSize()) {
+                    int amount = is.getAmount() + stack.getAmount();
 
-                inv.setItem(slot, is);
-                return stack;
+                    if (amount > is.getType().getMaxStackSize()) {
+                        is.setAmount(is.getType().getMaxStackSize());
+                        stack.setAmount(amount - is.getType().getMaxStackSize());
+                    } else {
+                        is.setAmount(amount);
+                        stack = null;
+                    }
+
+                    inv.setItem(slot, is);
+                    return stack;
+                }
             }
         }
         
@@ -280,7 +286,7 @@ final class CargoUtils {
         } 
         else {
             for (int slot : SLOTS) {
-                if (menu.getItemInSlot(slot) != null && SlimefunUtils.isItemSimilar(item, new CustomItem(menu.getItemInSlot(slot), 1), lore)) {
+                if (menu.getItemInSlot(slot) != null && SlimefunUtils.isItemSimilar(item, menu.getItemInSlot(slot), lore, false)) {
                     return false;
                 }
             }

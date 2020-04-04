@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import io.github.thebusybiscuit.slimefun4.utils.BlockUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -254,7 +255,7 @@ abstract class ChestTerminalNetwork extends Network {
                         handleWithdraw(blockMenu, items, l);
                     }
                 }
-                else {
+                else if (BlockUtils.hasInventory(target)) {
                     BlockState state = target.getState();
 
                     if (state instanceof InventoryHolder) {
