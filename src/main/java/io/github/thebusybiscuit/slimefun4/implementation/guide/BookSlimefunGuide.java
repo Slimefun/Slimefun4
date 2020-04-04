@@ -43,13 +43,9 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void openMainMenu(PlayerProfile profile, boolean survival, int page) {
+    public void openMainMenu(PlayerProfile profile, int page) {
         Player p = profile.getPlayer();
         if (p == null) return;
-
-        if (survival) {
-            profile.getGuideHistory().clear();
-        }
 
         List<TellRawMessage> pages = new ArrayList<>();
         List<String> texts = new ArrayList<>();
@@ -70,19 +66,18 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
             if (!locked) {
                 if (tier < category.getTier()) {
-                    if (survival) {
-                        for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
-                            handler.addEntry(texts, tooltips);
-                            actions.add(new PlayerRunnable(2) {
+                    for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
+                        handler.addEntry(texts, tooltips);
+                        actions.add(new PlayerRunnable(2) {
 
-                                @Override
-                                public void run(Player p) {
-                                    handler.run(p, survival, true);
-                                }
+                            @Override
+                            public void run(Player p) {
+                                handler.run(p, true, true);
+                            }
 
-                            });
-                        }
+                        });
                     }
+                    
                     tier = category.getTier();
 
                     if (tier > 1) {
@@ -117,7 +112,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
                             @Override
                             public void run(Player p) {
-                                Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
+                                Slimefun.runSync(() -> openCategory(profile, category, 1), 1L);
                             }
 
                         });
@@ -130,7 +125,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
                         @Override
                         public void run(Player p) {
-                            Slimefun.runSync(() -> openCategory(profile, category, survival, 1), 1L);
+                            Slimefun.runSync(() -> openCategory(profile, category, 1), 1L);
                         }
 
                     });
@@ -138,18 +133,16 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
         }
 
-        if (survival) {
-            for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
-                handler.addEntry(texts, tooltips);
-                actions.add(new PlayerRunnable(2) {
+        for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
+            handler.addEntry(texts, tooltips);
+            actions.add(new PlayerRunnable(2) {
 
-                    @Override
-                    public void run(Player p) {
-                        handler.run(p, survival, true);
-                    }
+                @Override
+                public void run(Player p) {
+                    handler.run(p, true, true);
+                }
 
-                });
-            }
+            });
         }
 
         for (int i = 0; i < texts.size(); i = i + 10) {
@@ -170,15 +163,12 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void openCategory(PlayerProfile profile, Category category, boolean survival, int page) {
+    public void openCategory(PlayerProfile profile, Category category, int page) {
         Player p = profile.getPlayer();
         if (p == null) return;
 
         if (category.getItems().size() < 250) {
-
-            if (survival) {
-                profile.getGuideHistory().add(category, page);
-            }
+            profile.getGuideHistory().add(category, page);
 
             List<TellRawMessage> pages = new ArrayList<>();
             List<String> texts = new ArrayList<>();
@@ -188,7 +178,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             for (SlimefunItem item : category.getItems()) {
                 if (Slimefun.hasPermission(p, item, false)) {
                     if (Slimefun.isEnabled(p, item, false)) {
-                        if (survival && !Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
+                        if (!Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
                             Research research = item.getResearch();
 
                             texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GRAY, item.getItemName())));
@@ -200,7 +190,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                     if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
                                         if (research.canUnlock(p)) {
                                             if (profile.hasUnlocked(research)) {
-                                                openCategory(profile, category, true, page);
+                                                openCategory(profile, category, page);
                                             }
                                             else {
                                                 if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled())) {
@@ -210,11 +200,11 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                                 if (p.getGameMode() == GameMode.CREATIVE) {
                                                     research.unlock(p, true);
 
-                                                    Slimefun.runSync(() -> openCategory(profile, category, survival, page), 1L);
+                                                    Slimefun.runSync(() -> openCategory(profile, category, page), 1L);
                                                 }
                                                 else {
                                                     research.unlock(p, false);
-                                                    Slimefun.runSync(() -> openCategory(profile, category, survival, page), 103L);
+                                                    Slimefun.runSync(() -> openCategory(profile, category, page), 103L);
                                                 }
                                             }
                                         }
@@ -273,7 +263,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
                     @Override
                     public void run(Player p) {
-                        openMainMenu(profile, survival, 1);
+                        openMainMenu(profile, 1);
                     }
 
                 });
@@ -288,8 +278,8 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-        SlimefunGuide.openSearch(profile, input, survival, addToHistory);
+    public void openSearch(PlayerProfile profile, String input, boolean addToHistory) {
+        SlimefunGuide.openSearch(profile, input, true, addToHistory);
     }
 
     @Override

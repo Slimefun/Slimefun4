@@ -161,7 +161,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
             return true;
         });
 
-        this.registerDefaultFuelTypes();
+        registerDefaultFuelTypes();
     }
 
     private void constructMenu(BlockMenuPreset preset) {
@@ -365,7 +365,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
             }
 
             @Override
-            public boolean explode(final Location l) {
+            public boolean explode(Location l) {
                 boolean explosion = explode.contains(l);
 
                 if (explosion) {

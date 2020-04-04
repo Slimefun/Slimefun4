@@ -38,11 +38,11 @@ public interface SlimefunGuideImplementation {
      */
     ItemStack getItem();
 
-    void openMainMenu(PlayerProfile profile, boolean survival, int page);
+    void openMainMenu(PlayerProfile profile, int page);
 
-    void openCategory(PlayerProfile profile, Category category, boolean survival, int page);
+    void openCategory(PlayerProfile profile, Category category, int page);
 
-    void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory);
+    void openSearch(PlayerProfile profile, String input, boolean addToHistory);
 
     void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory);
 

@@ -135,9 +135,9 @@ public class GuideHistory {
      * @param survival
      *            Whether the entry should be opened in survival or creative mode
      */
-    public void openLastEntry(SlimefunGuideImplementation guide, boolean survival) {
+    public void openLastEntry(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(false);
-        open(guide, entry, survival);
+        open(guide, entry);
     }
 
     /**
@@ -152,23 +152,23 @@ public class GuideHistory {
      * @param survival
      *            Whether the entry should be opened in survival or creative mode
      */
-    public void goBack(SlimefunGuideImplementation guide, boolean survival) {
+    public void goBack(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(true);
-        open(guide, entry, survival);
+        open(guide, entry);
     }
 
-    private <T> void open(SlimefunGuideImplementation guide, GuideEntry<T> entry, boolean survival) {
+    private <T> void open(SlimefunGuideImplementation guide, GuideEntry<T> entry) {
         if (entry == null) {
-            guide.openMainMenu(profile, survival, 1);
+            guide.openMainMenu(profile, 1);
         }
         else if (entry.getIndexedObject() instanceof Category) {
-            guide.openCategory(profile, (Category) entry.getIndexedObject(), survival, entry.getPage());
+            guide.openCategory(profile, (Category) entry.getIndexedObject(), entry.getPage());
         }
         else if (entry.getIndexedObject() instanceof SlimefunItem) {
             guide.displayItem(profile, (SlimefunItem) entry.getIndexedObject(), false);
         }
         else if (entry.getIndexedObject() instanceof String) {
-            guide.openSearch(profile, (String) entry.getIndexedObject(), survival, false);
+            guide.openSearch(profile, (String) entry.getIndexedObject(), false);
         }
         else if (entry.getIndexedObject() instanceof ItemStack) {
             guide.displayItem(profile, (ItemStack) entry.getIndexedObject(), entry.getPage(), false);

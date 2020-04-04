@@ -286,6 +286,8 @@ public class SlimefunItem implements Placeable {
      */
     public void register(SlimefunAddon addon) {
         Validate.notNull(addon, "A SlimefunAddon cannot be null!");
+        Validate.notNull(addon.getJavaPlugin(), "SlimefunAddon#getJavaPlugin() is not allowed to return null!");
+
         this.addon = addon;
 
         try {
@@ -411,6 +413,13 @@ public class SlimefunItem implements Placeable {
         this.category = category;
     }
 
+    /**
+     * This method will set the result of crafting this {@link SlimefunItem}.
+     * If null is passed, then it will use the default item as the recipe result.
+     * 
+     * @param output
+     *            The {@link ItemStack} that will be the result of crafting this {@link SlimefunItem}
+     */
     public void setRecipeOutput(ItemStack output) {
         this.recipeOutput = output;
     }
@@ -485,7 +494,18 @@ public class SlimefunItem implements Placeable {
         }
     }
 
+    /**
+     * This method will add any given {@link ItemHandler} to this {@link SlimefunItem}.
+     * Note that this will not work after the {@link SlimefunItem} was registered.
+     * 
+     * @param handlers
+     *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}.
+     */
     public void addItemHandler(ItemHandler... handlers) {
+        if (state != ItemState.UNREGISTERED) {
+            throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
+        }
+
         for (ItemHandler handler : handlers) {
             itemhandlers.put(handler.getIdentifier(), handler);
 

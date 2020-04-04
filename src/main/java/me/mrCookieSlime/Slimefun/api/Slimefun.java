@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -29,9 +30,9 @@ public final class Slimefun {
 
     @Deprecated
     public static void registerGuideHandler(GuideHandler handler) {
-        List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(handler.getTier(), new ArrayList<>());
-        handlers.add(handler);
-        SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
+        Bukkit.getLogger().log(Level.SEVERE, "The Plugin \"EmeraldEnchants\" is outdated!");
+        Bukkit.getLogger().log(Level.SEVERE, "Your version will soon stop working.");
+        Bukkit.getLogger().log(Level.SEVERE, "Update it immediately: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/EmeraldEnchants2/master/");
     }
 
     public static Logger getLogger() {

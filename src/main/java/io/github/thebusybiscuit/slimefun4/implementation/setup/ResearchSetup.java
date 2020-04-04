@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Research;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -260,6 +261,16 @@ public final class ResearchSetup {
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
-        Slimefun.registerResearch(new NamespacedKey(SlimefunPlugin.instance, key), id, name, defaultCost, items);
+        Research research = new Research(new NamespacedKey(SlimefunPlugin.instance, key), id, name, defaultCost);
+
+        for (ItemStack item : items) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+            if (sfItem != null) {
+                research.addItems(sfItem);
+            }
+        }
+
+        research.register();
     }
 }

@@ -1,15 +1,16 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 
 public final class ItemEnergy {
 
@@ -81,7 +82,7 @@ public final class ItemEnergy {
             }
         }
 
-        BigDecimal decimal = BigDecimal.valueOf(stored).setScale(2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal decimal = BigDecimal.valueOf(stored).setScale(2, RoundingMode.HALF_UP);
 
         lore.set(index, ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7") + decimal.floatValue() + " / " + capacity + " J");
 
