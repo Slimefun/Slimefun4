@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -27,7 +28,7 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
 
     @Override
     public String getInventoryTitle() {
-        return "&bElectric Ingot Pulverizer";
+        return SlimefunItems.ELECTRIC_INGOT_PULVERIZER.getItemMeta().getDisplayName();
     }
 
     @Override

@@ -146,7 +146,7 @@ public abstract class ElectricSmeltery extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&cElectric Smeltery";
+        return item.getItemMeta().getDisplayName();
     }
 
     @Override

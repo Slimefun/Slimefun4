@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -65,7 +66,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 
                                     Block b = e.getBlock().getRelative(x, y, z);
 
-                                    if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+                                    if (ProtectionChecker.check(e.getPlayer(), b, false) && MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                                         SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
 
                                         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());

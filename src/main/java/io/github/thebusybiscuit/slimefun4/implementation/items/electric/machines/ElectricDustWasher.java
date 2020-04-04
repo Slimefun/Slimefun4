@@ -38,7 +38,7 @@ public abstract class ElectricDustWasher extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&bElectric Dust Washer";
+        return SlimefunItems.ELECTRIC_DUST_WASHER.getItemMeta().getDisplayName();
     }
 
     @Override

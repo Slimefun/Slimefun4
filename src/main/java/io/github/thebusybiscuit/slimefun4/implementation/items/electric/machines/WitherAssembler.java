@@ -44,7 +44,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
     public WitherAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), "&5Wither Assembler") {
+        new BlockMenuPreset(getID(), item.getItemMeta().getDisplayName()) {
 
             @Override
             public void init() {

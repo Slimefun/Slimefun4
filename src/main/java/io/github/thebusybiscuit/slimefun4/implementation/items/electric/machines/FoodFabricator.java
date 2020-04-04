@@ -43,7 +43,7 @@ public abstract class FoodFabricator extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return "&cFood Fabricator";
+        return item.getItemMeta().getDisplayName();
     }
 
 }

@@ -55,26 +55,25 @@ public class ProtectionChecker implements Listener {
         plotInstalled = plugin.getServer().getPluginManager().getPlugin("PlotSquared") != null;
     }
 
-    public static boolean check(Player p, Block block, boolean isAndroid) {
+    public static boolean check(Player p, Block block, boolean isBreak) {
         if (p != null && block != null) {
             if (p.isOp()) {
                 return true;
             } else if (resInstalled) {
                 ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
-                if (res != null && !p.hasPermission("residence.bypass.build") && !p.hasPermission("residence.bypass.destroy")) {
+                if (res != null) {
                     ResidencePermissions perms = res.getPermissions();
                     if (res.getOwnerUUID() == p.getUniqueId()) {
                         return true;
                     }
-                    if (isAndroid) {
-                        return perms.playerHas(p, Flags.destroy, true)
-                                || perms.playerHas(p, Flags.place, true)
-                                || perms.playerHas(p, Flags.build, true);
-                    }
-                    if (!perms.playerHas(p, Flags.use, true)) {
+                    if (!isBreak && !perms.playerHas(p, Flags.use, true)) {
                         SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
                         return false;
                     }
+
+                    return perms.playerHas(p, Flags.destroy, true)
+                            || perms.playerHas(p, Flags.place, true)
+                            || perms.playerHas(p, Flags.build, true);
                 }
             } else if (plotInstalled) {
                 Plot plot = Plot.getPlot(new Location(block.getWorld().getName(), block.getX(), block.getY(), block.getZ()));

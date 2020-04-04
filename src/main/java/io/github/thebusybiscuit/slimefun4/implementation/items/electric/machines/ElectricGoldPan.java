@@ -76,7 +76,7 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 
 	@Override
 	public String getInventoryTitle() {
-		return "&6Electric Gold Pan";
+		return SlimefunItems.ELECTRIC_GOLD_PAN.getItemMeta().getDisplayName();
 	}
 
 	@Override

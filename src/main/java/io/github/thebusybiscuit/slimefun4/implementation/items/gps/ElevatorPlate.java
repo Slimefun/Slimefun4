@@ -123,7 +123,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     public void openEditor(Player p, Block b) {
         ChestMenu menu = new ChestMenu("Elevator Settings");
 
-        menu.addItem(4, new CustomItem(Material.NAME_TAG, "&7Floor Name &e(Click to edit)", "", "&r" + ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), "floor"))));
+        menu.addItem(4, new CustomItem(Material.NAME_TAG, "&7楼层名 &e(单击编辑)", "", "&r" + ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), "floor"))));
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             pl.closeInventory();
             pl.sendMessage("");

@@ -59,7 +59,7 @@ public abstract class ElectricPress extends AContainer implements RecipeDisplayI
 
     @Override
     public String getInventoryTitle() {
-        return "&eElectric Press";
+        return SlimefunItems.ELECTRIC_PRESS.getItemMeta().getDisplayName();
 
     }
 
