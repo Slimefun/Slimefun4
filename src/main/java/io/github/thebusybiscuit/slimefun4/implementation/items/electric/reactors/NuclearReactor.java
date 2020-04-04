@@ -27,7 +27,7 @@ public abstract class NuclearReactor extends AReactor {
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.NUCLEAR_REACTOR.getItemMeta().getDisplayName()
+        return SlimefunItems.NUCLEAR_REACTOR.getItemMeta().getDisplayName();
     }
 
     @Override
