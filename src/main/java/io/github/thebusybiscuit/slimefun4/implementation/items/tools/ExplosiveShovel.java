@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -26,14 +26,18 @@ import java.util.List;
  * However it can only break blocks that a shovel can break.
  *
  * @author Linox
+ *
  * @see ExplosivePickaxe
+ *
  */
 public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 
-    private boolean damageOnUse;
+    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
 
-    public ExplosiveShovel(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
+    public ExplosiveShovel(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        addItemSetting(damageOnUse);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
 
                                     Block b = e.getBlock().getRelative(x, y, z);
 
-                                    if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK) && ProtectionChecker.check(e.getPlayer(), b, false)) {
+                                    if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                                         SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
 
                                         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -87,13 +91,8 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
     }
 
     @Override
-    public void postRegister() {
-        damageOnUse = ((boolean) Slimefun.getItemValue(getID(), "damage-on-use"));
-    }
-
-    @Override
     public boolean isDamageable() {
-        return damageOnUse;
+        return damageOnUse.getValue();
     }
 
 }

@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -28,9 +29,15 @@ public final class Slimefun {
 
     @Deprecated
     public static void registerGuideHandler(GuideHandler handler) {
+        // 支持旧扩展
         List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(handler.getTier(), new ArrayList<>());
         handlers.add(handler);
         SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
+
+        Bukkit.getLogger().log(Level.SEVERE, "插件 \"EmeraldEnchants\" 已经过时了!");
+        Bukkit.getLogger().log(Level.SEVERE, "你目前使用的版本将很快不可用.");
+        Bukkit.getLogger().log(Level.SEVERE, "在此处下载新版本: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/EmeraldEnchants2/master/");
+
     }
 
     public static Logger getLogger() {
@@ -52,13 +59,13 @@ public final class Slimefun {
     /**
      * Sets a default value associated to this key for the SlimefunItem corresponding to this id.
      *
-     * @param id
-     *            the id of the SlimefunItem, not null
-     * @param key
-     *            the key of the value to set, not null
-     * @param value
-     *            the value to set, can be null
+     * @param id    the id of the SlimefunItem, not null
+     * @param key   the key of the value to set, not null
+     * @param value the value to set, can be null
      */
+
+    @Deprecated
+    // 向后兼容
     public static void setItemVariable(String id, String key, Object value) {
         getItemConfig().setDefaultValue(id + '.' + key, value);
     }

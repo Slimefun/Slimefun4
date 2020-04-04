@@ -1,7 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -22,13 +24,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
 
-    private String[] blacklist;
+    private ItemSetting<List<String>> blacklist = new ItemSetting<>("unplaceable-blocks", MaterialCollections.getAllUnbreakableBlocks().stream().map(Material::name).collect(Collectors.toList()));
 
-    public BlockPlacer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
+    public BlockPlacer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        addItemSetting(blacklist);
     }
 
     @Override
@@ -51,7 +56,7 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     private boolean isBlacklisted(Material type) {
-        for (String blockType : blacklist) {
+        for (String blockType : blacklist.getValue()) {
             if (type.toString().equals(blockType)) {
                 return true;
             }
@@ -92,7 +97,7 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
             // Inventory has to be changed after blockState.update() as updating it will create a different Inventory
             // for the object
             if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) && blockState instanceof BlockInventoryHolder) {
-                ((BlockInventoryHolder) facedBlock.getState()).getInventory().setContents(((BlockInventoryHolder) blockState).getInventory().getContents());
+                ((BlockInventoryHolder) blockState).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
             }
 
         }
@@ -105,11 +110,5 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         else {
             Slimefun.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
         }
-    }
-
-    @Override
-    public void postRegister() {
-        List<?> list = (List<?>) Slimefun.getItemValue(getID(), "unplaceable-blocks");
-        blacklist = list.toArray(new String[0]);
     }
 }

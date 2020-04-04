@@ -30,10 +30,6 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
         super(category, item, recipeType, recipe, recipeOutput);
     }
 
-    public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
-    }
-
     @Override
     public void preRegister() {
         addItemHandler(getItemHandler());
