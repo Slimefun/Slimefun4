@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -154,7 +156,8 @@ public class Talisman extends SlimefunItem {
         consumeItem(inv, talisman);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
-        sendMessage(p, talisman);
+        if (!SlimefunUtils.isItemSimilar(talisman.getItem(), SlimefunItems.TALISMAN_MINER, true))
+            sendMessage(p, talisman);
     }
 
     private static void applyTalismanEffects(Player p, Talisman talisman) {

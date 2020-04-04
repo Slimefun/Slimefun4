@@ -1,10 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Talisman;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
@@ -170,7 +172,7 @@ public class TalismanListener implements Listener {
         int fortune = 1;
         Random random = ThreadLocalRandom.current();
 
-        if (item.getType() != Material.AIR && item.getAmount() > 0) {
+        if (item.getType() != Material.AIR && item.getAmount() > 0 && ProtectionChecker.check(e.getPlayer(), e.getBlock(), true)) {
             if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                 fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
                 if (fortune <= 0) fortune = 1;
@@ -179,8 +181,9 @@ public class TalismanListener implements Listener {
 
             if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
                 for (ItemStack drop : drops) {
-                    if (!drop.getType().isBlock() && e.getBlock().getType() == Material.AIR) {
+                    if (!drop.getType().isBlock()) {
                         int amount = Math.max(1, (fortune * 2) - drop.getAmount());
+                        SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.talisman." + ((Talisman) SlimefunItem.getByID(SlimefunItems.TALISMAN_MINER.getItemID())).getSuffix(), true);
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
                     }
                 }

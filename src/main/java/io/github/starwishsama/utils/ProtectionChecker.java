@@ -67,7 +67,9 @@ public class ProtectionChecker implements Listener {
                         return true;
                     }
                     if (isAndroid) {
-                        return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.place, true);
+                        return perms.playerHas(p, Flags.destroy, true)
+                                || perms.playerHas(p, Flags.place, true)
+                                || perms.playerHas(p, Flags.build, true);
                     }
                     if (!perms.playerHas(p, Flags.use, true)) {
                         SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
