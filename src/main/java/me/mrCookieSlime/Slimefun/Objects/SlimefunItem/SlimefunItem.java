@@ -736,8 +736,13 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) return getByID("REINFORCED_SPAWNER");
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) {
+            return getByID("BROKEN_SPAWNER");
+        }
+        
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
+            return getByID("REINFORCED_SPAWNER");
+        }
 
         return null;
     }

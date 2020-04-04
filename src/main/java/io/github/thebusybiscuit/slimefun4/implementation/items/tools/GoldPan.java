@@ -116,8 +116,10 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         List<ItemStack> recipes = new LinkedList<>();
 
         for (GoldPanDrop drop : drops) {
-            recipes.add(new ItemStack(getInput()));
-            recipes.add(drop.getOutput());
+            if (drop.getValue() > 0) {
+                recipes.add(new ItemStack(getInput()));
+                recipes.add(drop.getOutput());
+            }
         }
 
         return recipes;

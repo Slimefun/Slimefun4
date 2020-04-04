@@ -124,6 +124,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalB
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeFlask;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
@@ -491,12 +492,12 @@ public final class SlimefunItemSetup {
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.IRON_DUST, RecipeType.ORE_CRUSHER,
 		new ItemStack[] {new ItemStack(Material.IRON_ORE), null, null, null, null, null, null, null, null}, 
-		new CustomItem(SlimefunItems.IRON_DUST, (boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1))
+		new CustomItem(SlimefunItems.IRON_DUST, oreCrusher.isDoubleDropsEnabled() ? 2: 1))
 		.register(plugin);
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.GOLD_DUST, RecipeType.ORE_CRUSHER,
 		new ItemStack[] {new ItemStack(Material.GOLD_ORE), null, null, null, null, null, null, null, null}, 
-		new CustomItem(SlimefunItems.GOLD_DUST, (boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores") ? 2: 1))
+		new CustomItem(SlimefunItems.GOLD_DUST, oreCrusher.isDoubleDropsEnabled() ? 2: 1))
 		.register(plugin);
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.COPPER_DUST, RecipeType.ORE_WASHER,
@@ -814,9 +815,8 @@ public final class SlimefunItemSetup {
 		true, true, "fire", new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 3600, 4))
 		.register(plugin);
 
-		new Talisman(SlimefunItems.TALISMAN_MAGICIAN,
-		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.TALISMAN, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
-		false, false, "magician", 80)
+		new MagicianTalisman(SlimefunItems.TALISMAN_MAGICIAN,
+		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.TALISMAN, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3})
 		.register(plugin);
 
 		new Talisman(SlimefunItems.TALISMAN_TRAVELLER,
