@@ -35,17 +35,17 @@ class VersionsCommand extends SubCommand {
             sender.sendMessage(ChatColors.color("&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
             sender.sendMessage("");
             sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + CSCoreLib.getLib().getDescription().getVersion()));
-            sender.sendMessage(ChatColors.color("&aSlimefun &2v" + plugin.getDescription().getVersion()));
+            sender.sendMessage(ChatColors.color("&aSlimefun &2v" + plugin.getDescription().getVersion() + " (200405)"));
             sender.sendMessage("");
 
             Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();
-            sender.sendMessage(ChatColors.color("&7Installed Addons &8(" + addons.size() + ")"));
+            sender.sendMessage(ChatColors.color("&7已安装的扩展 &8(" + addons.size() + ")"));
 
             for (Plugin plugin : addons) {
                 if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-                    sender.sendMessage(ChatColors.color(" &a" + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
+                    sender.sendMessage(ChatColors.color(" &a[√] " + plugin.getName() + " &2v" + plugin.getDescription().getVersion()));
                 } else {
-                    sender.sendMessage(ChatColors.color(" &c" + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
+                    sender.sendMessage(ChatColors.color(" &c[X] " + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
                 }
             }
         } else {
