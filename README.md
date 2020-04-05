@@ -1,6 +1,12 @@
 # Slimefun 4
 For English version, [Click here](https://github.com/TheBusyBiscuit/Slimefun4)
 
+![目前版本](https://img.shields.io/github/v/release/StarWishSama/Slimefun4?include_prereleases)<br>
+![编译状态](https://github.com/StarWishsama/Slimefun4/workflows/Java%20CI/badge.svg)
+<a href="https://github.com/StarWishsama/Slimefun4/issues">
+  <img src="https://img.shields.io/github/issues/StarWishsama/Slimefun4.svg?style=popout">
+</a> 
+
 Slimefun 是一个致力于提供模组般体验的插件. 它提供了你能想到的一切, 从背包到喷气背包!
 Slimefun 让每个玩家自己决定要在魔法还是科技方面发展<br>
 从魔杖到核反应堆，我们应有尽有.<br>
