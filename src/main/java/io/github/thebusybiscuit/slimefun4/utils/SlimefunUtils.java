@@ -129,6 +129,7 @@ public final class SlimefunUtils {
             return ((SlimefunItemStack) item).getItemID().equals(((SlimefunItemStack) sfitem).getItemID());
         }
 
+        boolean sfItemHasMeta = sfitem.hasItemMeta();
         if (item.hasItemMeta()) {
             ItemMeta itemMeta = item.getItemMeta();
             if (sfitem instanceof SlimefunItemStack) {
@@ -141,12 +142,12 @@ public final class SlimefunUtils {
                 return equalsItemMeta(itemMeta, meta, checkLore);
             }
 
-            if (sfitem.hasItemMeta()) {
+            if (sfItemHasMeta) {
                 return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
             }
         }
         else {
-            return !sfitem.hasItemMeta();
+            return !sfItemHasMeta;
         }
 
         return false;
