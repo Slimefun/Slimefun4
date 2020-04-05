@@ -125,8 +125,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private boolean displayCategory(ChestMenu menu, Player p, PlayerProfile profile, Category category, int index) {
-        if (category instanceof FlexCategory) {
-            return ((FlexCategory) category).isVisible(p, profile, getLayout());
+        if (category instanceof FlexCategory && !((FlexCategory) category).isVisible(p, profile, getLayout())) {
+            return false;
         }
         else if (!(category instanceof LockedCategory)) {
             if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isVisible()) {

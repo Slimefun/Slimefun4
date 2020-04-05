@@ -3,16 +3,17 @@ package io.github.thebusybiscuit.slimefun4.implementation.guide;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEventAction;
 import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -24,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
@@ -50,19 +50,17 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
         for (int i = 0; i < lines.size(); i = i + 10) {
             ChatComponent page = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
-            page.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
-            page.setClickEvent(new ClickEvent(ClickEventAction.SUGGEST_COMMAND, "/sf search "));
 
             for (int j = i; j < lines.size() && j < i + 10; j++) {
                 page.append(lines.get(j));
             }
 
-            page.append(new ChatComponent(""));
+            page.append(new ChatComponent("\n"));
 
             if (backButton) {
-                ChatComponent button = new ChatComponent(ChatColor.GRAY + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"));
-                button.setHoverEvent(new HoverEvent(ChatColor.GRAY + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")));
-                button.setClickEvent(new ClickEvent(SlimefunPlugin.instance, p, 10, player -> openMainMenu(PlayerProfile.get(player), 1)));
+                ChatComponent button = new ChatComponent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"));
+                button.setHoverEvent(new HoverEvent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")));
+                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(PlayerProfile.get(pl), 1)));
                 page.append(button);
             }
 
@@ -108,14 +106,14 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                         lore.add(parent.getItem(p).getItemMeta().getDisplayName());
                     }
 
-                    ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.RED, ItemUtils.getItemName(category.getItem(p)) + "\n"));
-                    chatComponent.setHoverEvent(new HoverEvent(lore.toArray(new String[0])));
+                    ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.RED, ItemUtils.getItemName(category.getItem(p))) + "\n");
+                    chatComponent.setHoverEvent(new HoverEvent(lore));
                     lines.add(chatComponent);
                 }
                 else if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isVisible()) {
-                    ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, ItemUtils.getItemName(category.getItem(p)) + "\n"));
+                    ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, ItemUtils.getItemName(category.getItem(p))) + "\n");
                     chatComponent.setHoverEvent(new HoverEvent(ItemUtils.getItemName(category.getItem(p)), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
-                    chatComponent.setClickEvent(new ClickEvent(SlimefunPlugin.instance, p, 10, pl -> openCategory(profile, category, 1)));
+                    chatComponent.setClickEvent(new ClickEvent(category.getKey(), pl -> openCategory(profile, category, 1)));
                     lines.add(chatComponent);
                 }
             }
@@ -140,12 +138,14 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             for (SlimefunItem item : category.getItems()) {
                 if (Slimefun.hasPermission(p, item, false)) {
                     if (Slimefun.isEnabled(p, item, false)) {
+                        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, item.getID().toLowerCase(Locale.ROOT));
+
                         if (!Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
                             Research research = item.getResearch();
 
                             ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
                             component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
-                            component.setClickEvent(new ClickEvent(SlimefunPlugin.instance, p, 10, player -> {
+                            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> {
                                 if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
                                     if (research.canUnlock(p)) {
                                         if (profile.hasUnlocked(research)) {
@@ -157,7 +157,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                     }
                                     else SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
                                 }
-                            }));
+                            })));
 
                             lines.add(component);
                         }
@@ -171,8 +171,8 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                 lore.addAll(item.getItem().getItemMeta().getLore());
                             }
 
-                            component.setHoverEvent(new HoverEvent(lore.toArray(new String[0])));
-                            component.setClickEvent(new ClickEvent(SlimefunPlugin.instance, p, 10, player -> displayItem(profile, item, true)));
+                            component.setHoverEvent(new HoverEvent(lore));
+                            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> displayItem(profile, item, true))));
                             lines.add(component);
                         }
                     }
@@ -185,7 +185,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                     lore.add("");
                     lore.addAll(SlimefunPlugin.getPermissionsService().getLore(item));
 
-                    component.setHoverEvent(new HoverEvent(lore.toArray(new String[0])));
+                    component.setHoverEvent(new HoverEvent(lore));
                     lines.add(component);
                 }
             }
