@@ -165,7 +165,7 @@ public class Research implements Keyed {
         }
         
         boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
-        return creativeResearch || p.getLevel() >= this.cost;
+        return creativeResearch || p.getLevel() >= cost;
     }
 
     /**

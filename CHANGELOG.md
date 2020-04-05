@@ -50,7 +50,8 @@
 #### Additions
 * Added GEOResourceGenerationEvent
 * Added SlimefunGuide-Options API
-* Added 1.13 backwards compatibility
+* Added ItemSettings API
+* Added experimental 1.13 backwards compatibility
 
 #### Changes
 

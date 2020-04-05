@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -11,6 +10,8 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
@@ -23,24 +24,15 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     private ItemManipulationEvent event;
 
-    public BlockMenuPreset(String id, String inventoryTitle) {
-        super(inventoryTitle);
-
-        this.id = id;
-        this.inventoryTitle = inventoryTitle;
-        this.init();
-        this.universal = false;
-        SlimefunPlugin.getRegistry().getMenuPresets().put(id, this);
+    public BlockMenuPreset(String id, String title) {
+        this(id, title, false);
     }
 
-    public void registerEvent(ItemManipulationEvent event) {
-        this.event = event;
-    }
+    public BlockMenuPreset(String id, String title, boolean universal) {
+        super(title);
 
-    public BlockMenuPreset(String id, String inventoryTitle, boolean universal) {
-        super(inventoryTitle);
         this.id = id;
-        this.inventoryTitle = inventoryTitle;
+        this.inventoryTitle = title;
         this.init();
         this.universal = universal;
         SlimefunPlugin.getRegistry().getMenuPresets().put(id, this);
@@ -52,13 +44,17 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
 
+    public void registerEvent(ItemManipulationEvent event) {
+        this.event = event;
+    }
+
     public void newInstance(BlockMenu menu, Block b) {
         // This method can optionally be overridden by implementations
     }
 
     public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-        // This method will default to this method, can be overridden though
-        return this.getSlotsAccessedByItemTransport(flow);
+        // This method will default to that method, it can be overridden by subclasses though
+        return getSlotsAccessedByItemTransport(flow);
     }
 
     @Override
@@ -114,19 +110,25 @@ public abstract class BlockMenuPreset extends ChestMenu {
     }
 
     public boolean isUniversal() {
-        return this.universal;
+        return universal;
     }
 
-    public void clone(BlockMenu menu) {
+    protected void clone(DirtyChestMenu menu) {
         menu.setPlayerInventoryClickable(true);
 
         for (int slot : occupied) {
             menu.addItem(slot, getItemInSlot(slot));
         }
 
-        if (size > -1) menu.addItem(size - 1, null);
+        if (size > -1) {
+            menu.addItem(size - 1, null);
+        }
 
-        newInstance(menu, menu.getLocation());
+        if (menu instanceof BlockMenu) {
+            BlockMenu blockMenu = (BlockMenu) menu;
+            newInstance(blockMenu, blockMenu.getLocation());
+        }
+
         for (int slot = 0; slot < 54; slot++) {
             if (getMenuClickHandler(slot) != null) {
                 menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
@@ -135,33 +137,37 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
         menu.addMenuOpeningHandler(getMenuOpeningHandler());
         menu.addMenuCloseHandler(getMenuCloseHandler());
-        menu.registerEvent(event);
-    }
-
-    public void clone(UniversalBlockMenu menu) {
-        menu.setPlayerInventoryClickable(true);
-
-        for (int slot : occupied) {
-            menu.addItem(slot, getItemInSlot(slot));
-        }
-
-        if (size > -1) menu.addItem(size - 1, null);
-
-        for (int slot = 0; slot < 54; slot++) {
-            if (getMenuClickHandler(slot) != null) menu.addMenuClickHandler(slot, getMenuClickHandler(slot));
-        }
-
-        menu.addMenuOpeningHandler(getMenuOpeningHandler());
-        menu.addMenuCloseHandler(getMenuCloseHandler());
         menu.registerEvent(this.event);
     }
 
+    /**
+     * This returns the id of the associated {@link SlimefunItem}.
+     * It also doubles as the id for this {@link BlockMenuPreset}.
+     * 
+     * @return Our identifier
+     */
     public String getID() {
         return id;
     }
 
+    /**
+     * This returns the {@link SlimefunItem} associated with this {@link BlockMenuPreset}.
+     * 
+     * @return The associated {@link SlimefunItem}
+     */
+    public SlimefunItem getSlimefunItem() {
+        return SlimefunItem.getByID(id);
+    }
+
     public void newInstance(BlockMenu menu, Location l) {
-        Bukkit.getScheduler().runTask(SlimefunPlugin.instance, () -> newInstance(menu, l.getBlock()));
+        Slimefun.runSync(() -> {
+            try {
+                newInstance(menu, l.getBlock());
+            }
+            catch (Throwable x) {
+                getSlimefunItem().error("An eror occured while trying to create a BlockMenu", x);
+            }
+        });
     }
 
 }

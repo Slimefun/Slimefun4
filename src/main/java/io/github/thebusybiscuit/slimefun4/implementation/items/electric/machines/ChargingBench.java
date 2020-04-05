@@ -47,6 +47,7 @@ public class ChargingBench extends AContainer {
 
         for (int slot : getInputSlots()) {
             ItemStack stack = menu.getItemInSlot(slot);
+
             if (ItemEnergy.getMaxEnergy(stack) > 0) {
                 if (ItemEnergy.getStoredEnergy(stack) < ItemEnergy.getMaxEnergy(stack)) {
 

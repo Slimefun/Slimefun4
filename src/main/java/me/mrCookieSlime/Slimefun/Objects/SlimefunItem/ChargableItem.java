@@ -14,8 +14,4 @@ public class ChargableItem extends SlimefunItem {
         super(category, item, recipeType, recipe);
     }
 
-    public ChargableItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
-    }
-
 }

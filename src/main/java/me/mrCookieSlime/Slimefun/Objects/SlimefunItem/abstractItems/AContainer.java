@@ -33,14 +33,14 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 public abstract class AContainer extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
+    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
+    private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
+    private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
+
     public static Map<Block, MachineRecipe> processing = new HashMap<>();
     public static Map<Block, Integer> progress = new HashMap<>();
 
     protected final List<MachineRecipe> recipes = new ArrayList<>();
-
-    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
-    private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
-    private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
     public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -49,6 +49,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
         registerBlockHandler(id, (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
+
             if (inv != null) {
                 for (int slot : getInputSlots()) {
                     if (inv.getItemInSlot(slot) != null) {
@@ -70,7 +71,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             return true;
         });
 
-        this.registerDefaultRecipes();
+        registerDefaultRecipes();
     }
 
     public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
@@ -202,11 +203,15 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
     public void registerRecipe(MachineRecipe recipe) {
         recipe.setTicks(recipe.getTicks() / getSpeed());
-        this.recipes.add(recipe);
+        recipes.add(recipe);
     }
 
     public void registerRecipe(int seconds, ItemStack[] input, ItemStack[] output) {
-        this.registerRecipe(new MachineRecipe(seconds, input, output));
+        registerRecipe(new MachineRecipe(seconds, input, output));
+    }
+
+    public void registerRecipe(int seconds, ItemStack input, ItemStack output) {
+        registerRecipe(new MachineRecipe(seconds, new ItemStack[] { input }, new ItemStack[] { output }));
     }
 
     @Override
@@ -239,7 +244,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
                     progress.put(b, timeleft - 1);
                 }
-                else progress.put(b, timeleft - 1);
+                else {
+                    progress.put(b, timeleft - 1);
+                }
             }
             else {
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
@@ -269,11 +276,15 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                     r = recipe;
                     break;
                 }
-                else found.clear();
+                else {
+                    found.clear();
+                }
             }
 
             if (r != null) {
-                if (!fits(b, r.getOutput())) return;
+                if (!fits(b, r.getOutput())) {
+                    return;
+                }
 
                 for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
                     inv.consumeItem(entry.getKey(), entry.getValue());
@@ -284,5 +295,4 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             }
         }
     }
-
 }

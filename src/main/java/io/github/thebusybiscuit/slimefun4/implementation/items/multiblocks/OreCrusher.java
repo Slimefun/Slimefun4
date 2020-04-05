@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,15 +14,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class OreCrusher extends MultiBlockMachine {
+    
+    private final ItemSetting<Boolean> doubleOres = new ItemSetting<>("double-ores", true);
 
 	public OreCrusher() {
 		super(
@@ -31,20 +34,24 @@ public class OreCrusher extends MultiBlockMachine {
 				new ItemStack[] {
 						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), 
 						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND),
-						
-						new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1), 
-						new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
-						new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
-						new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1), 
-						new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
+						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND)
 				},
 				BlockFace.SELF
 		);
+		
+		addItemSetting(doubleOres);
+		
+		shownRecipes.addAll(Arrays.asList(
+		        new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1), 
+                new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
+                new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
+                new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1), 
+                new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
+        ));
 	}
 	
-	private static boolean isDoubleDropsEnabled() {
-		return (boolean) Slimefun.getItemValue("ORE_CRUSHER", "double-ores");
+	public boolean isDoubleDropsEnabled() {
+	    return doubleOres.getValue();
 	}
 
 	@Override

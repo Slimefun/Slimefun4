@@ -10,7 +10,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 /**
  * Guide Handlers are used to add "fake" categories to the Guide.
  * 
- * @deprecated Some day in the future we will simply allow to override the "opening" method of a Category instead.
+ * @deprecated Soon we will simply allow to override the "opening" method of a Category instead.
  * 
  * @author TheBusyBiscuit
  *
