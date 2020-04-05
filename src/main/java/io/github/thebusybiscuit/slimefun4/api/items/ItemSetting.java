@@ -77,6 +77,16 @@ public class ItemSetting<T> {
     }
 
     /**
+     * This method checks if this {@link ItemSetting} stores the given data type.
+     *
+     * @param c The class of data type you want to compare
+     * @return Whether this {@link ItemSetting} stores the given type
+     */
+    public boolean isType(Class<?> c) {
+        return c.isInstance(defaultValue);
+    }
+
+    /**
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
      *

@@ -215,7 +215,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 
             // Hooray!
-            getLogger().log(Level.INFO, "Slimefun 加载完成, 耗时 {0}ms", getStartupTime(timestamp));
+            getLogger().log(Level.INFO, "Slimefun 加载完成, 耗时 {0}", getStartupTime(timestamp));
         } else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");

@@ -3,14 +3,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.starwishsama.utils.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Talisman;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.LivingEntity;
@@ -33,7 +32,10 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TalismanListener implements Listener {
@@ -133,19 +135,9 @@ public class TalismanListener implements Listener {
         Random random = ThreadLocalRandom.current();
 
         if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
-            List<String> enchantments = new LinkedList<>();
-
-            for (Enchantment en : Enchantment.values()) {
-                for (int i = 1; i <= en.getMaxLevel(); i++) {
-                    if ((en.canEnchantItem(e.getItem()) || e.getItem().getType() == Material.BOOK) && (boolean) Slimefun.getItemValue("MAGICIAN_TALISMAN", "allow-enchantments." + en.getKey().getKey() + ".level." + i)) {
-                        enchantments.add(en.getKey().getKey() + '-' + i);
-                    }
-                }
-            }
-
-            String enchant = enchantments.get(random.nextInt(enchantments.size()));
-            String[] enchantSplit = PatternUtils.DASH.split(enchant);
-            e.getEnchantsToAdd().put(Enchantment.getByKey(NamespacedKey.minecraft(enchantSplit[0])), Integer.parseInt(enchantSplit[1]));
+            MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
+            MagicianTalisman.TalismanEnchantment enchantment = talisman.getRandomEnchantment();
+            e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
         }
 
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
