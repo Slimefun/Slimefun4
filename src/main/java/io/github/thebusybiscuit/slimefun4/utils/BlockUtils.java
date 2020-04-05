@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import org.bukkit.block.Block;
 public final class BlockUtils {
 
+    private BlockUtils() {}
+
     public static boolean hasInventory(Block block) {
         if (block == null) return false;
 
