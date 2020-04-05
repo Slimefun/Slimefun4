@@ -24,5 +24,15 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - uses: actions/upload-artifact@v1
       with:
-        name: Slimefun
+        name: Slimefun.jar
         path: staging
+    - name: Maven release
+      uses: qcastel/github-actions-maven-release@v1.0.3
+      with:
+          release-branch-name: "master"
+          git-release-bot-name: "nameless-bot"
+          git-release-bot-email: "namelessbot@starwish.io"
+          access-token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          gpg-key-id: ${{ secrets.GITHUB_GPG_KEY_ID }}
+          gpg-key: ${{ secrets.GITHUB_GPG_KEY }}  
+  
