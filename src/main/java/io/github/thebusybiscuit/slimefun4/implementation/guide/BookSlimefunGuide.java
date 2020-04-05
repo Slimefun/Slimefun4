@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
+import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEventAction;
 import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -23,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
@@ -47,7 +49,9 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         book.setTitle(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
 
         for (int i = 0; i < lines.size(); i = i + 10) {
-            ChatComponent page = new ChatComponent(ChatColors.color("&b&l- Slimefun Guide -\n\n"));
+            ChatComponent page = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
+            page.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
+            page.setClickEvent(new ClickEvent(ClickEventAction.SUGGEST_COMMAND, "/sf search "));
 
             for (int j = i; j < lines.size() && j < i + 10; j++) {
                 page.append(lines.get(j));
@@ -195,6 +199,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
     @Override
     public void openSearch(PlayerProfile profile, String input, boolean addToHistory) {
+        // We need to write a book implementation for this at some point
         SlimefunGuide.openSearch(profile, input, true, addToHistory);
     }
 

@@ -54,6 +54,7 @@
 * Added experimental 1.13 backwards compatibility
 * Added "Magma Cream to Magma Blocks" recipe to the Electric Press
 * Added "Magma Blocks to Sulfate" recipe
+* You can now search for items from within the book variant of the Guide
 
 #### Changes
 * Replaced GuideHandlers with FlexCategories
