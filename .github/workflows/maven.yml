@@ -33,6 +33,7 @@ jobs:
           git-release-bot-name: "nameless-bot"
           git-release-bot-email: "namelessbot@starwish.io"
           access-token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          gpg-enabled: "true"  
           gpg-key-id: ${{ secrets.GITHUB_GPG_KEY_ID }}
           gpg-key: ${{ secrets.GITHUB_GPG_KEY }}  
   
