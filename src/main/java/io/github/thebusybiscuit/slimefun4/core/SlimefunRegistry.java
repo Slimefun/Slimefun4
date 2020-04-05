@@ -31,7 +31,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
@@ -85,7 +84,6 @@ public class SlimefunRegistry {
 
     private final Map<String, Set<Location>> activeTickers = new HashMap<>();
 
-    private final Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
     public void load(Config cfg) {
@@ -229,18 +227,6 @@ public class SlimefunRegistry {
 
     public KeyMap<GEOResource> getGEOResources() {
         return geoResources;
-    }
-
-    /**
-     * This method will soon be removed.
-     * 
-     * @deprecated The {@link GuideHandler} API is deprecated. It will soon be removed.
-     * 
-     * @return A Map of handlers
-     */
-    @Deprecated
-    public Map<Integer, List<GuideHandler>> getGuideHandlers() {
-        return guideHandlers;
     }
 
     @Deprecated

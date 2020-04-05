@@ -1,7 +1,5 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,12 +57,13 @@ public final class Slimefun {
     }
 
     /**
-     * Returns the Config instance of Items.yml file.
-     * <p>
-     * It calls {@code SlimefunStartup#getItemCfg()}.
+     * Returns the {@link Config} instance of our Items.yml file.
+     *
+     * @deprecated Do not access this directly, use the {@link ItemSetting} API instead.
      *
      * @return the Items.yml Config instance.
      */
+    @Deprecated
     public static Config getItemConfig() {
         return SlimefunPlugin.getItemCfg();
     }
@@ -200,7 +199,10 @@ public final class Slimefun {
             return true;
         }
         else {
-            if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.no-permission", true);
+            if (message) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.no-permission", true);
+            }
+
             return false;
         }
     }
@@ -240,7 +242,7 @@ public final class Slimefun {
     public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
         if (sfItem.isDisabled()) {
             if (message) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
             }
 
             return false;
@@ -249,8 +251,12 @@ public final class Slimefun {
         String world = p.getWorld().getName();
         if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
             if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
-                if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-                if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
+                if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) {
+                    SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
+                }
+                if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) {
+                    return true;
+                }
                 else {
                     if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
                     return false;
@@ -262,20 +268,6 @@ public final class Slimefun {
             }
         }
         else return true;
-    }
-
-    /**
-     * This method will soon be removed.
-     * 
-     * @deprecated The {@link GuideHandler} API is deprecated. It will soon be removed.
-     * 
-     * @param tier
-     *            The tier
-     * @return A list of handlers
-     */
-    @Deprecated
-    public static List<GuideHandler> getGuideHandlers(int tier) {
-        return SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(tier, new ArrayList<>());
     }
 
     public static BukkitTask runSync(Runnable r) {

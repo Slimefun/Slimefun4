@@ -52,12 +52,17 @@
 * Added SlimefunGuide-Options API
 * Added ItemSettings API
 * Added experimental 1.13 backwards compatibility
+* Added "Magma Cream to Magma Blocks" recipe to the Electric Press
+* Added "Magma Blocks to Sulfate" recipe
 
 #### Changes
+* Replaced GuideHandlers with FlexCategories
+* Removed support for old EmeraldEnchants versions
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
 * Fixed #1779
+* Fixed localized messages not showing in the book guide
 
 ## Release Candidate 10 (28 Mar 2020)
 

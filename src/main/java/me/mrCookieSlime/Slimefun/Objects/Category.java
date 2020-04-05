@@ -151,7 +151,7 @@ public class Category implements Keyed {
      * @return the list of SlimefunItems bound to this category
      */
     public List<SlimefunItem> getItems() {
-        return this.items;
+        return items;
     }
 
     /**
@@ -166,7 +166,7 @@ public class Category implements Keyed {
 
     @Override
     public String toString() {
-        return "Slimefun Category {" + key + ",tier=" + tier + "}";
+        return getClass().getSimpleName() + " {" + key + ",tier=" + tier + "}";
     }
 
     /**
