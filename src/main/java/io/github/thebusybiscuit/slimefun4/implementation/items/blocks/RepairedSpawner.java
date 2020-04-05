@@ -30,6 +30,9 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
                     if (ChatColor.stripColor(line).startsWith("类型: ") && !line.contains("<类型>")) {
                         type = EntityType.valueOf(ChatColor.stripColor(line).replace("类型: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
                     }
+                    if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
+                        type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
+                    }
                 }
 
                 if (type != null) {
