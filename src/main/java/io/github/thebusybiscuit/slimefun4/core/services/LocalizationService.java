@@ -66,8 +66,6 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         }
 
         Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
-
-        setPrefix("&aSlimefun 4 &7> ");
         save();
     }
 
@@ -124,6 +122,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         // Clearing out the old Language (if necessary)
         if (reset) {
             getConfig().clear();
+            setPrefix("&aSlimefun 4 &7> ");
         }
 
         defaultLanguage.setResearches(streamConfigFile("researches_" + language + ".yml", null));

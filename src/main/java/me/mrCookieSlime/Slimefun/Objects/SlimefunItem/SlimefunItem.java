@@ -408,12 +408,24 @@ public class SlimefunItem implements Placeable {
         }
     }
 
-    public void bindToResearch(Research r) {
-        if (r != null) {
-            r.getAffectedItems().add(this);
+    /**
+     * This method will set the {@link Research} of this {@link SlimefunItem}.
+     * You don't have to call this method if your {@link SlimefunItem} was linked to your {@link Research}
+     * using {@link Research#addItems(SlimefunItem...)}
+     * 
+     * @param research
+     *            The new {@link Research} for this {@link SlimefunItem}
+     */
+    public void setResearch(Research research) {
+        if (this.research != null) {
+            this.research.getAffectedItems().remove(this);
         }
 
-        this.research = r;
+        if (research != null) {
+            research.getAffectedItems().add(this);
+        }
+
+        this.research = research;
     }
 
     public void setRecipe(ItemStack[] recipe) {
@@ -587,7 +599,7 @@ public class SlimefunItem implements Placeable {
      * @param page
      *            The associated wiki page
      */
-    public void addOficialWikipage(String page) {
+    public final void addOficialWikipage(String page) {
         Validate.notNull(page, "Wiki page cannot be null.");
         wikiLink = Optional.of("https://github.com/TheBusyBiscuit/Slimefun4/wiki/" + page);
     }
@@ -739,7 +751,7 @@ public class SlimefunItem implements Placeable {
         if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) {
             return getByID("BROKEN_SPAWNER");
         }
-        
+
         if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
             return getByID("REINFORCED_SPAWNER");
         }

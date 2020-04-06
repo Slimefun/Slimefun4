@@ -81,7 +81,7 @@ public class ErrorReport {
                 addon.getLogger().log(Level.WARNING, "");
                 addon.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
                 addon.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
-                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developers.");
+                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developer(s).");
 
                 if (addon.getBugTrackerURL() != null) {
                     addon.getLogger().log(Level.WARNING, "Bug Tracker: " + addon.getBugTrackerURL());
