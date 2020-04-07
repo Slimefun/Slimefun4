@@ -35,7 +35,7 @@ class VersionsCommand extends SubCommand {
             sender.sendMessage(ChatColors.color("&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
             sender.sendMessage("");
             sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + CSCoreLib.getLib().getDescription().getVersion()));
-            sender.sendMessage(ChatColors.color("&aSlimefun &2v" + plugin.getDescription().getVersion() + " (200405)"));
+            sender.sendMessage(ChatColors.color("&aSlimefun &2v" + plugin.getDescription().getVersion()));
             sender.sendMessage("");
 
             Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();
