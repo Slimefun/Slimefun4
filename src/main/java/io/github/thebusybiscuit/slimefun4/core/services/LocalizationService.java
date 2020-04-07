@@ -59,12 +59,11 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         }
         else {
             setLanguage("en", false);
-            plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
+            plugin.getLogger().log(Level.WARNING, "无法识别你选择的语言: \"{0}\"", serverDefaultLanguage);
         }
 
-        Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
+        Slimefun.getLogger().log(Level.INFO, "可用的语言列表: {0}", String.join(", ", languages.keySet()));
 
-        setPrefix("&aSlimefun 4 &7> ");
         save();
     }
 
@@ -121,6 +120,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         // Clearing out the old Language (if necessary)
         if (reset) {
             getConfig().clear();
+            setPrefix("&aSlimefun 4 &7> ");
         }
 
         defaultLanguage.setResearches(streamConfigFile("researches_" + language + ".yml", null));

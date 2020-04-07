@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -50,11 +49,9 @@ public class ThirdPartyPluginService {
 
         if (isPluginInstalled("EmeraldEnchants")) {
             isEmeraldEnchantsInstalled = true;
-
-            GuideHandler handler = new EmeraldEnchantsHook();
-            List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(handler.getTier(), new ArrayList<>());
-            handlers.add(handler);
-            SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
+            Plugin emeraldEnchants = plugin.getServer().getPluginManager().getPlugin("EmeraldEnchants");
+            FlexCategory category = new EmeraldEnchantsCategory(new NamespacedKey(emeraldEnchants, "enchantment_guide"));
+            category.register();
         }
 
         /*
@@ -86,7 +83,7 @@ public class ThirdPartyPluginService {
 
     private boolean isPluginInstalled(String hook) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
-            Slimefun.getLogger().log(Level.INFO, "成功接入插件: {0}", hook);
+            Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
             return true;
         } else {
             return false;

@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
@@ -25,9 +26,11 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -40,7 +43,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 
 public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
@@ -85,26 +87,20 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         ChestMenu menu = create(p);
 
         List<Category> categories = SlimefunPlugin.getRegistry().getEnabledCategories();
-        List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().values().stream().flatMap(List::stream).collect(Collectors.toList());
 
         int index = 9;
-        int pages = (categories.size() + handlers.size() - 1) / CATEGORY_SIZE + 1;
+        int pages = (categories.size() - 1) / CATEGORY_SIZE + 1;
 
         createHeader(p, profile, menu);
 
         int target = (CATEGORY_SIZE * (page - 1)) - 1;
 
-        while (target < (categories.size() + handlers.size() - 1) && index < CATEGORY_SIZE + 9) {
+        while (target < (categories.size() - 1) && index < CATEGORY_SIZE + 9) {
             target++;
+            Category category = categories.get(target);
 
-            if (target >= categories.size()) {
-                index = handlers.get(target - categories.size()).next(p, index, menu);
-            } else {
-                Category category = categories.get(target);
-
-                if (!category.isHidden(p) && displayCategory(menu, p, profile, category, index)) {
-                    index++;
-                }
+            if (!category.isHidden(p) && displayCategory(menu, p, profile, category, index)) {
+                index++;
             }
         }
 
@@ -126,7 +122,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private boolean displayCategory(ChestMenu menu, Player p, PlayerProfile profile, Category category, int index) {
-        if (!(category instanceof LockedCategory)) {
+        if (category instanceof FlexCategory && !((FlexCategory) category).isVisible(p, profile, getLayout())) {
+            return false;
+        } else if (!(category instanceof LockedCategory)) {
             if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isVisible()) {
                 menu.addItem(index, category.getItem(p));
                 menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
@@ -221,17 +219,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                                     if (profile.hasUnlocked(research)) {
                                         openCategory(profile, category, page);
                                     } else {
-                                        if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled())) {
-                                            pl.setLevel(pl.getLevel() - research.getCost());
-                                        }
-
-                                        if (pl.getGameMode() == GameMode.CREATIVE) {
-                                            research.unlock(pl, SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled());
-                                            Slimefun.runSync(() -> openCategory(profile, category, page), 5L);
-                                        } else {
-                                            research.unlock(pl, false);
-                                            Slimefun.runSync(() -> openCategory(profile, category, page), 103L);
-                                        }
+                                        unlockItem(pl, sfitem, () -> openCategory(profile, category, page));
                                     }
                                 } else {
                                     SlimefunPlugin.getLocal().sendMessage(pl, "messages.not-enough-xp", true);
@@ -512,7 +500,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
     }
 
-    private void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
+    protected void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
         for (int i = 0; i < 9; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }

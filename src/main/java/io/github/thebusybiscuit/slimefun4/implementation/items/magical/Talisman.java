@@ -107,7 +107,7 @@ public class Talisman extends SlimefunItem {
         Research research = Research.getByID(112);
 
         if (talisman != null && research != null) {
-            talisman.bindToResearch(research);
+            talisman.setResearch(research);
         }
     }
 

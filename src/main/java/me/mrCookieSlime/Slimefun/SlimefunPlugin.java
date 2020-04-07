@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun;
 
-import io.github.starwishsama.utils.ProtectionChecker;
+import io.github.starwishsama.extra.ProtectionChecker;
+import io.github.starwishsama.extra.UpdateChecker;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
@@ -36,6 +37,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.*;
@@ -216,6 +218,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun 加载完成, 耗时 {0}", getStartupTime(timestamp));
+
+            if (config.getBoolean("options.update-check")) {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        getLogger().log(Level.INFO, UpdateChecker.getUpdateInfo());
+                    }
+                }.runTaskAsynchronously(instance);
+            }
+
         } else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");

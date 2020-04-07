@@ -55,7 +55,7 @@ public final class ChestMenuUtils {
         return new CustomItem(SEARCH_BUTTON, meta -> {
             meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "guide.search.name")));
 
-            List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.search.tooltip"));
+            List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E8 " + SlimefunPlugin.getLocal().getMessage(p, "guide.search.tooltip"));
             lore.replaceAll(ChatColors::color);
             meta.setLore(lore);
         });

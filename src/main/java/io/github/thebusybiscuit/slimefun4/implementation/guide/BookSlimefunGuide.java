@@ -1,33 +1,35 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
+import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
+import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
+import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.PlayerRunnable;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.CustomBookOverlay;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
@@ -38,7 +40,33 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
     @Override
     public ItemStack getItem() {
-        return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun 指南 &7(书本界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开 设置 / 关于");
+        return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+    }
+
+    private void openBook(Player p, List<ChatComponent> lines, boolean backButton) {
+        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
+        book.setTitle(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
+
+        for (int i = 0; i < lines.size(); i = i + 10) {
+            ChatComponent page = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
+
+            for (int j = i; j < lines.size() && j < i + 10; j++) {
+                page.append(lines.get(j));
+            }
+
+            page.append(new ChatComponent("\n"));
+
+            if (backButton) {
+                ChatComponent button = new ChatComponent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"));
+                button.setHoverEvent(new HoverEvent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")));
+                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(PlayerProfile.get(pl), 1)));
+                page.append(button);
+            }
+
+            book.addPage(page);
+        }
+
+        book.open(p);
     }
 
     @Override
@@ -46,116 +74,50 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         Player p = profile.getPlayer();
         if (p == null) return;
 
-        List<TellRawMessage> pages = new ArrayList<>();
-        List<String> texts = new ArrayList<>();
-        List<String> tooltips = new ArrayList<>();
-        List<PlayerRunnable> actions = new ArrayList<>();
-
+        List<ChatComponent> lines = new LinkedList<>();
         int tier = 0;
 
         for (Category category : SlimefunPlugin.getRegistry().getEnabledCategories()) {
-            boolean locked = true;
-
-            for (SlimefunItem item : category.getItems()) {
-                if (Slimefun.isEnabled(p, item, false)) {
-                    locked = false;
-                    break;
-                }
-            }
-
-            if (!locked) {
+            if (!category.isHidden(p) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getLayout()))) {
                 if (tier < category.getTier()) {
-                    for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
-                        handler.addEntry(texts, tooltips);
-                        actions.add(new PlayerRunnable(2) {
-
-                            @Override
-                            public void run(Player p) {
-                                handler.run(p, true, true);
-                            }
-
-                        });
-                    }
                     tier = category.getTier();
 
                     if (tier > 1) {
-                        for (int i = 0; i < 10; i++) {
-                            if (texts.size() % 10 == 0) break;
-                            texts.add(" ");
-                            tooltips.add(null);
-                            actions.add(null);
+                        for (int i = 0; i < 10 && lines.size() % 10 != 0; i++) {
+                            lines.add(new ChatComponent("\n"));
                         }
                     }
 
-                    texts.add(ChatColors.color("&8\u21E8 &6等级 " + tier));
-                    tooltips.add(null);
-                    actions.add(null);
+                    lines.add(new ChatComponent(ChatColor.DARK_GRAY + "\u21E8" + ChatColor.DARK_BLUE + " Tier " + tier + "\n"));
                 }
                 if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p, profile)) {
-                    StringBuilder parents = new StringBuilder(ChatColors.color("&4&l已锁定\n\n&7为了解锁这个分类,\n&7你需要先解锁以下分类\n&7中的所有物品:\n"));
+                    List<String> lore = new LinkedList<>();
+                    lore.add(ChatColor.DARK_RED + SlimefunPlugin.getLocal().getMessage(p, "guide.locked") + " " + ChatColor.GRAY + "- " + ChatColor.RESET + category.getItem(p).getItemMeta().getDisplayName());
+                    lore.add("");
+
+                    for (String line : SlimefunPlugin.getLocal().getMessages(p, "guide.locked-category")) {
+                        lore.add(ChatColor.RESET + line);
+                    }
+
+                    lore.add("");
 
                     for (Category parent : ((LockedCategory) category).getParents()) {
-                        parents.append(ChatColors.color("\n&c" + ItemUtils.getItemName(parent.getItem(p))));
+                        lore.add(parent.getItem(p).getItemMeta().getDisplayName());
                     }
 
-                    texts.add(ChatColors.color(ChatUtils.crop(ChatColor.RED, ItemUtils.getItemName(category.getItem(p)))));
-                    tooltips.add(parents.toString());
-                    actions.add(null);
-                } else if (category instanceof SeasonalCategory) {
-                    if (((SeasonalCategory) category).isVisible()) {
-                        texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, ItemUtils.getItemName(category.getItem(p)))));
-                        tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
-                        actions.add(new PlayerRunnable(1) {
-
-                            @Override
-                            public void run(Player p) {
-                                Slimefun.runSync(() -> openCategory(profile, category, 1), 1L);
-                            }
-
-                        });
-                    }
-                } else {
-                    texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, ItemUtils.getItemName(category.getItem(p)))));
-                    tooltips.add(ChatColors.color("&eClick to open the following Category:\n" + ItemUtils.getItemName(category.getItem(p))));
-                    actions.add(new PlayerRunnable(1) {
-
-                        @Override
-                        public void run(Player p) {
-                            Slimefun.runSync(() -> openCategory(profile, category, 1), 1L);
-                        }
-
-                    });
+                    ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.RED, ItemUtils.getItemName(category.getItem(p))) + "\n");
+                    chatComponent.setHoverEvent(new HoverEvent(lore));
+                    lines.add(chatComponent);
+                } else if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isVisible()) {
+                    ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, ItemUtils.getItemName(category.getItem(p))) + "\n");
+                    chatComponent.setHoverEvent(new HoverEvent(ItemUtils.getItemName(category.getItem(p)), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
+                    chatComponent.setClickEvent(new ClickEvent(category.getKey(), pl -> openCategory(profile, category, 1)));
+                    lines.add(chatComponent);
                 }
             }
         }
 
-        for (GuideHandler handler : Slimefun.getGuideHandlers(tier)) {
-            handler.addEntry(texts, tooltips);
-            actions.add(new PlayerRunnable(2) {
-
-                @Override
-                public void run(Player p) {
-                    handler.run(p, true, true);
-                }
-
-            });
-        }
-
-        for (int i = 0; i < texts.size(); i = i + 10) {
-            TellRawMessage pageMessage = new TellRawMessage();
-            pageMessage.addText(ChatColors.color("&b&l- Slimefun Guide -\n\n"));
-
-            for (int j = i; j < texts.size() && j < i + 10; j++) {
-                pageMessage.addText(texts.get(j) + "\n");
-
-                if (tooltips.get(j) != null) pageMessage.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
-                if (actions.get(j) != null) pageMessage.addClickEvent(actions.get(j));
-            }
-
-            pages.add(pageMessage);
-        }
-
-        new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[0])).open(p);
+        openBook(p, lines, false);
     }
 
     @Override
@@ -163,113 +125,73 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         Player p = profile.getPlayer();
         if (p == null) return;
 
-        if (category.getItems().size() < 250) {
-
+        if (category instanceof FlexCategory) {
+            ((FlexCategory) category).open(p, profile, getLayout());
+        } else if (category.getItems().size() < 250) {
             profile.getGuideHistory().add(category, page);
 
-            List<TellRawMessage> pages = new ArrayList<>();
-            List<String> texts = new ArrayList<>();
-            List<String> tooltips = new ArrayList<>();
-            List<PlayerRunnable> actions = new ArrayList<>();
+            List<ChatComponent> lines = new LinkedList<>();
 
             for (SlimefunItem item : category.getItems()) {
                 if (Slimefun.hasPermission(p, item, false)) {
                     if (Slimefun.isEnabled(p, item, false)) {
+                        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, item.getID().toLowerCase(Locale.ROOT));
+
                         if (!Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
                             Research research = item.getResearch();
 
-                            texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GRAY, item.getItemName())));
-                            tooltips.add(ChatColors.color(item.getItemName() + "\n&c&lLOCKED\n\n&7Cost: " + (p.getLevel() >= research.getCost() ? "&b" : "&4") + research.getCost() + " Levels\n\n&a> Click to unlock"));
-                            actions.add(new PlayerRunnable(2) {
-
-                                @Override
-                                public void run(Player p) {
-                                    if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
-                                        if (research.canUnlock(p)) {
-                                            if (profile.hasUnlocked(research)) {
-                                                openCategory(profile, category, page);
-                                            } else {
-                                                if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled())) {
-                                                    p.setLevel(p.getLevel() - research.getCost());
-                                                }
-
-                                                if (p.getGameMode() == GameMode.CREATIVE) {
-                                                    research.unlock(p, true);
-
-                                                    Slimefun.runSync(() -> openCategory(profile, category, page), 1L);
-                                                } else {
-                                                    research.unlock(p, false);
-                                                    Slimefun.runSync(() -> openCategory(profile, category, page), 103L);
-                                                }
-                                            }
-                                        } else SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
-                                    }
+                            ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
+                            component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
+                            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> {
+                                if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
+                                    if (research.canUnlock(p)) {
+                                        if (profile.hasUnlocked(research)) {
+                                            openCategory(profile, category, page);
+                                        } else {
+                                            unlockItem(p, item, () -> openCategory(profile, category, page));
+                                        }
+                                    } else SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
                                 }
-                            });
-                        } else {
-                            texts.add(ChatColors.color(ChatUtils.crop(ChatColor.GREEN, item.getItemName())));
+                            })));
 
-                            StringBuilder tooltip = new StringBuilder();
-                            tooltip.append(item.getItemName());
+                            lines.add(component);
+                        } else {
+                            ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, item.getItemName()) + "\n");
+
+                            List<String> lore = new ArrayList<>();
+                            lore.add(item.getItemName());
 
                             if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
-                                for (String line : item.getItem().getItemMeta().getLore()) {
-                                    tooltip.append('\n').append(line);
-                                }
+                                lore.addAll(item.getItem().getItemMeta().getLore());
                             }
 
-                            tooltip.append(ChatColors.color("\n\n&e&o单击查看更多信息"));
-
-                            tooltips.add(tooltip.toString());
-                            actions.add(new PlayerRunnable(2) {
-
-                                @Override
-                                public void run(Player p) {
-                                    displayItem(profile, item, true);
-                                }
-
-                            });
+                            component.setHoverEvent(new HoverEvent(lore));
+                            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> displayItem(profile, item, true))));
+                            lines.add(component);
                         }
                     }
                 } else {
-                    texts.add(ChatColors.color(ChatUtils.crop(ChatColor.DARK_RED, ItemUtils.getItemName(item.getItem()))));
-                    tooltips.add(ChatColors.color("&cNo Permission!"));
-                    actions.add(null);
+                    ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.DARK_RED, ItemUtils.getItemName(item.getItem())) + "\n");
+
+                    List<String> lore = new ArrayList<>();
+                    lore.add(ChatColor.DARK_RED + ChatColor.stripColor(ItemUtils.getItemName(item.getItem())));
+                    lore.add("");
+                    lore.addAll(SlimefunPlugin.getPermissionsService().getLore(item));
+
+                    component.setHoverEvent(new HoverEvent(lore));
+                    lines.add(component);
                 }
             }
 
-            for (int i = 0; i < texts.size(); i = i + 10) {
-                TellRawMessage pageMessage = new TellRawMessage();
-                pageMessage.addText(ChatColors.color("&b&l- Slimefun Guide -\n\n"));
-
-                for (int j = i; j < texts.size() && j < i + 10; j++) {
-                    pageMessage.addText(texts.get(j) + "\n");
-                    if (tooltips.get(j) != null) pageMessage.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
-                    if (actions.get(j) != null) pageMessage.addClickEvent(actions.get(j));
-                }
-
-                pageMessage.addText("\n");
-                pageMessage.addText(ChatColors.color("&6\u21E6 &l返回"));
-                pageMessage.addHoverEvent(HoverAction.SHOW_TEXT, ChatColors.color("&eClick to go back to the Category Overview"));
-                pageMessage.addClickEvent(new PlayerRunnable(2) {
-
-                    @Override
-                    public void run(Player p) {
-                        openMainMenu(profile, 1);
-                    }
-
-                });
-                pages.add(pageMessage);
-            }
-
-            new CustomBookOverlay("Slimefun Guide", "TheBusyBiscuit", pages.toArray(new TellRawMessage[0])).open(p);
+            openBook(p, lines, true);
         } else {
-            p.sendMessage(ChatColor.RED + "这个分类太大了以至于打不开 :/");
+            p.sendMessage(ChatColor.RED + "That Category is too big to open :/");
         }
     }
 
     @Override
     public void openSearch(PlayerProfile profile, String input, boolean addToHistory) {
+        // We need to write a book implementation for this at some point
         SlimefunGuide.openSearch(profile, input, true, addToHistory);
     }
 

@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import io.github.starwishsama.utils.ProtectionChecker;
+import io.github.starwishsama.extra.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;

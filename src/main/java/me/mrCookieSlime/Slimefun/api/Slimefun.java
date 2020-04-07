@@ -248,7 +248,7 @@ public final class Slimefun {
     public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
         if (sfItem.isDisabled()) {
             if (message) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
             }
 
             return false;
@@ -257,9 +257,12 @@ public final class Slimefun {
         String world = p.getWorld().getName();
         if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
             if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
-                if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-                if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
-                else {
+                if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) {
+                    SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
+                }
+                if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) {
+                    return true;
+                } else {
                     if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
                     return false;
                 }

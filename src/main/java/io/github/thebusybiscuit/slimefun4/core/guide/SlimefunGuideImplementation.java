@@ -4,7 +4,12 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -47,4 +52,16 @@ public interface SlimefunGuideImplementation {
 
     void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory);
 
+    default void unlockItem(Player p, SlimefunItem sfitem, Runnable callback) {
+        Research research = sfitem.getResearch();
+
+        if (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) {
+            research.unlock(p, true);
+            Slimefun.runSync(callback, 5L);
+        } else {
+            research.unlock(p, false);
+            p.setLevel(p.getLevel() - research.getCost());
+            Slimefun.runSync(callback, 103L);
+        }
+    }
 }
