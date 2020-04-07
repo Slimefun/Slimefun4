@@ -10,11 +10,19 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
+/**
+ * This utility class contains a few static methods that are all about {@link String} manipulation
+ * or sending a {@link String} to a {@link Player}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public final class ChatUtils {
 
     private ChatUtils() {}
 
     public static void sendURL(CommandSender sender, String url) {
+        // If we get access to the URL prompt one day, we can just prompt the link to the Player that way.
         sender.sendMessage("");
         SlimefunPlugin.getLocal().sendMessage(sender, "messages.link-prompt", false);
         sender.sendMessage(ChatColors.color("&7&o" + url));

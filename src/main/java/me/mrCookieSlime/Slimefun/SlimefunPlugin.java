@@ -563,6 +563,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static MinecraftVersion getMinecraftVersion() {
         return instance.minecraftVersion;
     }
+    
+    public static String getCSCoreLibVersion() {
+        return CSCoreLib.getLib().getDescription().getVersion();
+    }
 
     @Override
     public JavaPlugin getJavaPlugin() {
