@@ -1,4 +1,4 @@
 /**
  * This package contains a few utility classes that handle holograms in Slimefun.
  */
-package io.github.thebusybiscuit.slimefun4.utils.holograms
+package io.github.thebusybiscuit.slimefun4.utils.holograms;
