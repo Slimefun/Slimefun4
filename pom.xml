@@ -105,10 +105,6 @@
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
                             <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>me.mrCookieSlime.Slimefun.paperlib</shadedPattern> <!-- Replace this -->
-                        </relocation>
                     </relocations>
 
                     <!-- Exclude unneeded metadata from shaded dependencies -->
@@ -209,12 +205,6 @@
             <artifactId>bukkit</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.2</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
