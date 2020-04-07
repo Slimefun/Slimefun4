@@ -68,8 +68,18 @@ slimefun:
   food_fabricator:
     lore:
     - Bu eşyayı Food Fabricator kullanarak
-    - gösterildiği gibi üretin.
+    - gösterildiği gibi üretin
     name: Food Fabricator
+  freezer:
+    lore:
+    - Bu eşyayı Freezer kullanarak
+    - gösterildiği gibi üretin
+    name: Freezer
+  geo_miner:
+    lore:
+    - Bu eşyayı GEO Miner kullanarak
+    - elde edin
+    name: GEO Miner
   gold_pan:
     lore:
     - Bu eşyayı almak için
@@ -105,6 +115,11 @@ slimefun:
     - Gösterilen yapıyı olduğu gibi inşa edin.
     - Üretim masasında üretilmez.
     name: Yapı İnşa Etme
+  nuclear_reactor:
+    lore:
+    - Bu eşya Nuclear Reactor'ın
+    - bir yan ürünüdür
+    name: Nuclear Reactor
   ore_crusher:
     lore:
     - Bu eşyayı Ore Crusher kullanarak
@@ -125,18 +140,19 @@ slimefun:
     - Bu eşyayı Smeltery kullanarak
     - gösterildiği gibi üretin.
     name: Smeltery
-  freezer:
-    name: Freezer
+  oil_pump:
+    name: Oil Pump
     lore:
-    - Bu eşyayı Freezer kullanarak
-    - gösterildiği gibi üretin
-  geo_miner:
-    name: GEO Miner
-    lore:
-    - Bu eşyayı GEO Miner kullanarak
+    - Bu eşyayı Oil Pump kullanarak
     - elde edin
-  nuclear_reactor:
-    name: Nuclear Reactor
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
     lore:
-    - Bu eşya Nuclear Reactor'ın
-    - bir yan ürünüdür
+    - Bu bloku Pickaxe of Containment kullanarak
+    - ve bir Spawner kırarak
+    - elde edin
+  refinery:
+    name: Refinery
+    lore:
+    - Bu eşyayı Refinery kullanarak
+    - üretin
