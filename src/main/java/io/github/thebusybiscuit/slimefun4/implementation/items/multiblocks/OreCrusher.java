@@ -44,7 +44,11 @@ public class OreCrusher extends MultiBlockMachine {
 	}
 
 	public boolean isDoubleDropsEnabled() {
-		return doubleOres.getValue();
+		try {
+			return doubleOres.getValue();
+		} catch (Exception e) {
+			return doubleOres.getDefaultValue();
+		}
 	}
 
 	@Override

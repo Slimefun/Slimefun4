@@ -22,8 +22,10 @@ public class ItemSetting<T> {
     /**
      * This creates a new {@link ItemSetting} with the given key and default value
      *
-     * @param key          The key under which this setting will be stored (relative to the {@link SlimefunItem})
-     * @param defaultValue The default value for this {@link ItemSetting}
+     * @param key
+     *            The key under which this setting will be stored (relative to the {@link SlimefunItem})
+     * @param defaultValue
+     *            The default value for this {@link ItemSetting}
      */
     public ItemSetting(String key, T defaultValue) {
         Validate.notNull(key, "The key of an ItemSetting is not allowed to be null!");
@@ -38,7 +40,8 @@ public class ItemSetting<T> {
      * Override this method to catch changes of a value.
      * A value may never be null.
      *
-     * @param newValue The new value for this {@link ItemSetting}
+     * @param newValue
+     *            The new value for this {@link ItemSetting}
      */
     public void update(T newValue) {
         Validate.notNull(newValue, "An ItemSetting cannot have a null value!");
@@ -63,7 +66,6 @@ public class ItemSetting<T> {
      */
     public T getValue() {
         Validate.notNull(value, "An ItemSetting was invoked but was not initialized yet.");
-
         return value;
     }
 
@@ -79,7 +81,8 @@ public class ItemSetting<T> {
     /**
      * This method checks if this {@link ItemSetting} stores the given data type.
      *
-     * @param c The class of data type you want to compare
+     * @param c
+     *            The class of data type you want to compare
      * @return Whether this {@link ItemSetting} stores the given type
      */
     public boolean isType(Class<?> c) {
@@ -90,7 +93,8 @@ public class ItemSetting<T> {
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
      *
-     * @param item The {@link SlimefunItem} who called this method
+     * @param item
+     *            The {@link SlimefunItem} who called this method
      */
     @SuppressWarnings("unchecked")
     public void load(SlimefunItem item) {
