@@ -8,7 +8,7 @@
 
     <!-- Our default version will be UNOFFICIAL, this will prevent the auto updater -->
     <!-- from overriding our local test file -->
-    <version>4.3-NIGHTLY-200407</version>
+    <version>4.3-NIGHTLY-200408</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -251,11 +251,6 @@
             <artifactId>PlotSquared-API</artifactId>
             <version>4.488</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-http</artifactId>
-            <version>5.2.5</version>
         </dependency>
 
         <!-- System dependency, this project has no maven repository -->

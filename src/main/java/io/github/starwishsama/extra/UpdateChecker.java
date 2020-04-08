@@ -1,28 +1,44 @@
 package io.github.starwishsama.extra;
 
-import cn.hutool.core.io.IORuntimeException;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.SocketException;
+import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 
 public class UpdateChecker {
     private static List<GithubBean> getReleaseBean() {
         try {
-            HttpResponse response = HttpRequest.post("https://api.github.com/repos/StarWishsama/Slimefun4/releases").timeout(5000).setSSLProtocol("TLSv1.2").execute();
+            URL url = new URL("https://api.github.com/repos/StarWishsama/Slimefun4/releases");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.setRequestMethod("GET");
+            conn.setInstanceFollowRedirects(false);
+            conn.connect();
 
-            if (response.isOk()) {
-                return new GsonBuilder().serializeNulls().create().fromJson(response.body(), new TypeToken<List<GithubBean>>() {
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String str;
+                while ((str = br.readLine()) != null) {
+                    sb.append(str);
+                }
+
+                return new GsonBuilder().serializeNulls().create().fromJson(sb.toString().trim(), new TypeToken<List<GithubBean>>() {
                 }.getType());
             }
+
+            conn.disconnect();
         } catch (Exception e) {
-            if (e instanceof IORuntimeException && e.getMessage().contains("reset")) {
+            if (e instanceof SocketException) {
                 Slimefun.getLogger().log(Level.WARNING, "连接至 Github 更新服务器超时");
             } else {
                 Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
