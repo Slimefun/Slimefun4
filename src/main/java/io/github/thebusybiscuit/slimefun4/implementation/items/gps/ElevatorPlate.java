@@ -7,7 +7,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEventAction;
 import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -35,6 +36,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     private final Set<UUID> users = new HashSet<>();
+    private final NamespacedKey elevatorKey = new NamespacedKey(SlimefunPlugin.instance, "elevator");
 
     public ElevatorPlate(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
@@ -115,12 +117,23 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             if (block.getY() == b.getY()) {
                 line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), ChatColor.RESET + floor, ""));
+                line.setHoverEvent(new HoverEvent(ChatColor.RESET + floor, "", ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), ChatColor.RESET + floor, ""));
             }
             else {
                 line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(ClickEventAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " "));
+                line.setHoverEvent(new HoverEvent(ChatColor.RESET + floor, "", ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), ChatColor.RESET + floor, ""));
+                line.setClickEvent(new ClickEvent(elevatorKey, player -> {
+                    users.add(player.getUniqueId());
+
+                    float yaw = player.getEyeLocation().getYaw() + 180;
+
+                    if (yaw > 180) {
+                        yaw = -180 + (yaw - 180);
+                    }
+
+                    player.teleport(new Location(player.getWorld(), block.getX() + 0.5, block.getY() + 0.4, block.getZ() + 0.5, yaw, player.getEyeLocation().getPitch()));
+                    player.sendTitle(ChatColor.RESET + ChatColors.color(floor), " ", 20, 60, 20);
+                }));
             }
 
             page.append(line);
