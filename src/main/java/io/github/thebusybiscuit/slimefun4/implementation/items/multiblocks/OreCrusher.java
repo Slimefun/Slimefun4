@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -38,18 +39,21 @@ public class OreCrusher extends MultiBlockMachine {
 				},
 				BlockFace.SELF
 		);
-		
 		addItemSetting(doubleOres);
-		
-		shownRecipes.addAll(Arrays.asList(
-		        new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1), 
-                new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
-                new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
-                new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1), 
-                new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
-        ));
 	}
-	
+
+	@Override
+	public void register(SlimefunAddon addon) {
+		super.register(addon);
+		shownRecipes.addAll(Arrays.asList(
+				new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1),
+				new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
+				new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
+				new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1),
+				new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
+		));
+	}
+
 	public boolean isDoubleDropsEnabled() {
 	    return doubleOres.getValue();
 	}
