@@ -34,9 +34,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class Category implements Keyed {
 
+    protected final List<SlimefunItem> items = new ArrayList<>();
     protected final NamespacedKey key;
     protected final ItemStack item;
-    protected final List<SlimefunItem> items;
     protected final int tier;
 
     /**
@@ -73,8 +73,6 @@ public class Category implements Keyed {
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         this.item.setItemMeta(meta);
-
-        this.items = new ArrayList<>();
         this.tier = tier;
     }
 
@@ -103,6 +101,16 @@ public class Category implements Keyed {
      */
     public void add(SlimefunItem item) {
         items.add(item);
+    }
+
+    /**
+     * Removes the given {@link SlimefunItem} from this {@link Category}.
+     * 
+     * @param item
+     *            the {@link SlimefunItem} that should be removed from this {@link Category}
+     */
+    public void remove(SlimefunItem item) {
+        items.remove(item);
     }
 
     /**

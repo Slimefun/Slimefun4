@@ -103,6 +103,7 @@ public class SlimefunItem implements Placeable {
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
+        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.category = category;
         this.item = item;
@@ -248,8 +249,21 @@ public class SlimefunItem implements Placeable {
      * 
      * @return Whether this {@link SlimefunItem} is hidden.
      */
-    public boolean isHidden() {
+    public final boolean isHidden() {
         return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+
+        if (state == ItemState.ENABLED) {
+            if (hidden) {
+                category.remove(this);
+            }
+            else {
+                category.add(this);
+            }
+        }
     }
 
     /**
@@ -257,29 +271,8 @@ public class SlimefunItem implements Placeable {
      * 
      * @return Whether this {@link SlimefunItem} was added by an addon.
      */
-    public boolean isAddonItem() {
+    public final boolean isAddonItem() {
         return !(addon instanceof SlimefunPlugin);
-    }
-
-    /**
-     * This method returns the {@link SlimefunAddon} that registered this
-     * {@link SlimefunItem}. If this Item is from Slimefun itself, the current
-     * instance of {@link SlimefunPlugin} will be returned.
-     * Use an instanceof check or {@link SlimefunItem#isAddonItem()} to account for that.
-     * 
-     * @return The {@link SlimefunAddon} that registered this {@link SlimefunItem}
-     */
-    public SlimefunAddon getAddon() {
-        return addon;
-    }
-
-    public BlockTicker getBlockTicker() {
-        return blockTicker;
-    }
-
-    // We should maybe refactor this and move it to a subclass
-    public GeneratorTicker getEnergyTicker() {
-        return generatorTicker;
     }
 
     /**
@@ -294,6 +287,32 @@ public class SlimefunItem implements Placeable {
         }
 
         return state != ItemState.ENABLED;
+    }
+
+    /**
+     * This method returns the {@link SlimefunAddon} that registered this
+     * {@link SlimefunItem}. If this Item is from Slimefun itself, the current
+     * instance of {@link SlimefunPlugin} will be returned.
+     * Use an instanceof check or {@link SlimefunItem#isAddonItem()} to account for that.
+     * 
+     * @return The {@link SlimefunAddon} that registered this {@link SlimefunItem}
+     */
+    public SlimefunAddon getAddon() {
+        if (addon == null) {
+            error("getAddon() cannot be called before registering the item", new UnregisteredItemException(this));
+            return null;
+        }
+
+        return addon;
+    }
+
+    public BlockTicker getBlockTicker() {
+        return blockTicker;
+    }
+
+    // We should maybe refactor this and move it to a subclass
+    public GeneratorTicker getEnergyTicker() {
+        return generatorTicker;
     }
 
     /**
@@ -374,7 +393,7 @@ public class SlimefunItem implements Placeable {
                 loadItemHandlers();
             }
             else if (this instanceof VanillaItem) {
-                state = ItemState.VANILLA;
+                state = ItemState.VANILLA_FALLBACK;
             }
             else {
                 state = ItemState.DISABLED;
@@ -382,7 +401,7 @@ public class SlimefunItem implements Placeable {
 
             postRegister();
 
-            if (SlimefunPlugin.getRegistry().isAutoLoadingEnabled()) {
+            if (SlimefunPlugin.getRegistry().isAutoLoadingEnabled() && state == ItemState.ENABLED) {
                 info("Item was registered during runtime.");
                 load();
             }
@@ -436,11 +455,16 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipeType(RecipeType type) {
+        Validate.notNull(type, "'recipeType' is not allowed to be null!");
         this.recipeType = type;
     }
 
     public void setCategory(Category category) {
         Validate.notNull(category, "'category' is not allowed to be null!");
+
+        this.category.remove(this);
+        category.add(this);
+
         this.category = category;
     }
 

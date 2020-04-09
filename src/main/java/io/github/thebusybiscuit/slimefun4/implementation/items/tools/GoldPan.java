@@ -81,6 +81,10 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             randomizer.add(new ItemStack(Material.AIR), 100 - randomizer.sumWeights());
         }
     }
+    
+    public ItemStack getRandomOutput() {
+        return randomizer.getRandom();
+    }
 
     @Override
     public String getLabelLocalPath() {
@@ -96,7 +100,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
                 Block b = block.get();
 
                 if (b.getType() == getInput() && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-                    ItemStack output = randomizer.getRandom();
+                    ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
                     b.setType(Material.AIR);
@@ -125,11 +129,11 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return recipes;
     }
 
-    class GoldPanDrop extends ItemSetting<Integer> {
+    public class GoldPanDrop extends ItemSetting<Integer> {
 
         private final ItemStack output;
 
-        public GoldPanDrop(String key, int defaultValue, ItemStack output) {
+        protected GoldPanDrop(String key, int defaultValue, ItemStack output) {
             super(key, defaultValue);
 
             this.output = output;
