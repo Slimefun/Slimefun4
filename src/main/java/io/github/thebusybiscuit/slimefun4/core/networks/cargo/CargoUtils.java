@@ -137,40 +137,41 @@ final class CargoUtils {
         if (!matchesFilter(node, stack, index)) return stack;
 
         DirtyChestMenu menu = getChestMenu(target);
-
-        if (menu != null) {
-            for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, stack)) {
-                ItemStack is = menu.getItemInSlot(slot) == null ? null : menu.getItemInSlot(slot).clone();
-
-                if (is == null) {
-                    menu.replaceExistingItem(slot, stack.clone());
-                    return null;
-                } 
-                else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
-                    int amount = is.getAmount() + stack.getAmount();
-
-                    if (amount > is.getType().getMaxStackSize()) {
-                        is.setAmount(is.getType().getMaxStackSize());
-                        stack.setAmount(amount - is.getType().getMaxStackSize());
-                    } 
-                    else {
-                        is.setAmount(amount);
-                        stack = null;
-                    }
-
-                    menu.replaceExistingItem(slot, is);
-                    return stack;
+        if (menu == null) {
+            if (BlockUtils.hasInventory(target)) {
+                BlockState state = target.getState();
+                if (state instanceof InventoryHolder) {
+                    return insertIntoVanillaInventory(stack, ((InventoryHolder) state).getInventory());
                 }
             }
-        } 
-        else if (BlockUtils.hasInventory(target)) {
-            BlockState state = target.getState();
+            return stack;
+        }
 
-            if (state instanceof InventoryHolder) {
-                return insertIntoVanillaInventory(stack, ((InventoryHolder) state).getInventory());
+        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, stack)) {
+            ItemStack itemInSlot = menu.getItemInSlot(slot);
+            if (itemInSlot == null) {
+                menu.replaceExistingItem(slot, stack.clone());
+                return null;
+            }
+
+            itemInSlot = itemInSlot.clone();
+            int inSlotMaxSize = itemInSlot.getType().getMaxStackSize();
+            int inSlotAmount = itemInSlot.getAmount();
+            if (SlimefunUtils.isItemSimilar(itemInSlot, stack, true, false) && inSlotAmount < inSlotMaxSize) {
+                int amount = inSlotAmount + stack.getAmount();
+
+                itemInSlot.setAmount(Math.max(amount, inSlotMaxSize));
+                if (amount > inSlotMaxSize) {
+                    stack.setAmount(amount - inSlotMaxSize);
+                }
+                else {
+                    stack = null;
+                }
+
+                menu.replaceExistingItem(slot, itemInSlot);
+                return stack;
             }
         }
-        
         return stack;
     }
 
