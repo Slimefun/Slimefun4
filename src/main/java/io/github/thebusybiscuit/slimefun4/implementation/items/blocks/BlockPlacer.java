@@ -117,7 +117,7 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         Map<Integer, ItemStack> unRemovedItems = dispenser.getInventory().removeItem(itemStack);
         Inventory inv = dispenser.getInventory();
 
-        if (!unRemovedItems.isEmpty()) {
+        if (!unRemovedItems.isEmpty() && itemStack.getType().name().contains("SHULKER_BOX")) {
             unRemovedItems.forEach((k, v) -> {
                 int size = itemStack.getAmount();
                 for (int i = 0; i < inv.getSize(); i++) {
