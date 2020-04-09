@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import io.github.starwishsama.extra.UpdateChecker;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
@@ -47,6 +48,8 @@ class VersionsCommand extends SubCommand {
                     sender.sendMessage(ChatColors.color(" &c[X] " + plugin.getName() + " &4v" + plugin.getDescription().getVersion()));
                 }
             }
+
+            sender.sendMessage(ChatColors.color(UpdateChecker.getUpdateInfo(false)));
         } else {
             SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
         }

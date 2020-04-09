@@ -207,7 +207,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        getLogger().log(Level.INFO, UpdateChecker.getUpdateInfo());
+                        getLogger().log(Level.INFO, UpdateChecker.getUpdateInfo(true));
                     }
                 }.runTaskAsynchronously(this);
             }

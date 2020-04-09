@@ -2,6 +2,7 @@ package io.github.starwishsama.extra;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +35,7 @@ public class UpdateChecker {
         return null;
     }
 
-    public static String getUpdateInfo() {
+    public static String getUpdateInfo(boolean isConsole) {
         List<GithubBean> bean = getReleaseBean();
         if (bean != null) {
             String[] splitVersion = SlimefunPlugin.getVersion().split("-");
@@ -43,10 +44,14 @@ public class UpdateChecker {
             int latest = Integer.parseInt(bean.get(0).getTag_name().split("-")[1]);
             if (!version.equals("未知") && StringUtils.isNumeric(version)) {
                 int current = Integer.parseInt(version);
-                if (current > latest) {
-                    return "你正在使用最新版本 " + SlimefunPlugin.getVersion();
+                if (current >= latest) {
+                    return ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion());
                 } else {
-                    return "有更新了 | " + bean.get(0).getTag_name() + " 现已发布\n下载地址 > " + bean.get(0).getAssets().get(0).getBrowser_download_url();
+                    String updateInfo = "&e有更新了 &7| &b" + bean.get(0).getTag_name() + " 现已发布";
+                    if (!isConsole) {
+                        updateInfo = updateInfo + "\n&r下载地址 > &7" + bean.get(0).getAssets().get(0).getBrowser_download_url();
+                    }
+                    return ChatColors.color(updateInfo);
                 }
             }
         }
