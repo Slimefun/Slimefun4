@@ -13,9 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -26,19 +23,6 @@ import java.util.logging.Logger;
 public final class Slimefun {
 
     private Slimefun() {}
-
-    @Deprecated
-    public static void registerGuideHandler(GuideHandler handler) {
-        // 支持旧扩展
-        List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(handler.getTier(), new ArrayList<>());
-        handlers.add(handler);
-        SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
-
-        Bukkit.getLogger().log(Level.SEVERE, "插件 \"EmeraldEnchants\" 已经过时了!");
-        Bukkit.getLogger().log(Level.SEVERE, "你目前使用的版本将很快不可用.");
-        Bukkit.getLogger().log(Level.SEVERE, "在此处下载新版本: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/EmeraldEnchants2/master/");
-
-    }
 
     public static Logger getLogger() {
         return SlimefunPlugin.instance.getLogger();
@@ -252,32 +236,14 @@ public final class Slimefun {
             }
 
             return false;
-        }
-
-        String world = p.getWorld().getName();
-        if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
-            if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
-                if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) {
-                    SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-                }
-                if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) {
-                    return true;
-                } else {
-                    if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-                    return false;
-                }
+        } else if (!SlimefunPlugin.getWorldSettingsService().isEnabled(p.getWorld(), sfItem)) {
+            if (message) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
             }
-            else {
-                if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-                return false;
-            }
-        }
-        else return true;
-    }
 
-    @Deprecated
-    public static List<GuideHandler> getGuideHandlers(int tier) {
-        return SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(tier, new ArrayList<>());
+            return false;
+        }
+        return true;
     }
 
     public static BukkitTask runSync(Runnable r) {

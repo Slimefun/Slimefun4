@@ -29,8 +29,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -102,17 +100,6 @@ public class SlimefunItem implements Placeable {
         this.recipeType = recipeType;
         this.recipe = recipe;
         this.recipeOutput = recipeOutput;
-    }
-
-    @Deprecated
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, String[] keys, Object[] values) {
-        this(category, item, recipeType, recipe, recipeOutput);
-
-        if (keys != null && values != null && keys.length == values.length) {
-            for (int i = 0; i < keys.length; i++) {
-                itemSettings.add(new ItemSetting<>(keys[i], values[i]));
-            }
-        }
     }
 
     // Previously deprecated constructor, now only for internal purposes
@@ -206,9 +193,12 @@ public class SlimefunItem implements Placeable {
      * This method returns an {@link Optional} holding an {@link ItemSetting} with the given
      * key and data type. Or an empty {@link Optional} if this {@link SlimefunItem} has no such {@link ItemSetting}.
      *
-     * @param <T> The Type of value stored in this {@link ItemSetting}
-     * @param key The key of this {@link ItemSetting}
-     * @param c   The {@link Class} of the type of value stored by this setting
+     * @param <T>
+     *            The Type of value stored in this {@link ItemSetting}
+     * @param key
+     *            The key of this {@link ItemSetting}
+     * @param c
+     *            The {@link Class} of the type of value stored by this setting
      * @return An {@link Optional} describing the result
      */
     @SuppressWarnings("unchecked")
@@ -334,13 +324,9 @@ public class SlimefunItem implements Placeable {
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
 
+            // Load all item settings
             for (ItemSetting<?> setting : itemSettings) {
                 setting.load(this);
-            }
-
-            for (World world : Bukkit.getWorlds()) {
-                SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
-                SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + id, true);
             }
 
             if (ticking && !SlimefunPlugin.getCfg().getBoolean("URID.enable-tickers")) {
@@ -383,6 +369,11 @@ public class SlimefunItem implements Placeable {
             }
 
             postRegister();
+
+            if (SlimefunPlugin.getRegistry().isAutoLoadingEnabled()) {
+                info("Item was registered during runtime.");
+                load();
+            }
         } catch (Exception x) {
             error("Registering " + toString() + " has failed", x);
         }
@@ -408,7 +399,8 @@ public class SlimefunItem implements Placeable {
      * You don't have to call this method if your {@link SlimefunItem} was linked to your {@link Research}
      * using {@link Research#addItems(SlimefunItem...)}
      *
-     * @param research The new {@link Research} for this {@link SlimefunItem}
+     * @param research
+     *            The new {@link Research} for this {@link SlimefunItem}
      */
     public void setResearch(Research research) {
         if (this.research != null) {
@@ -443,7 +435,8 @@ public class SlimefunItem implements Placeable {
      * This method will set the result of crafting this {@link SlimefunItem}.
      * If null is passed, then it will use the default item as the recipe result.
      *
-     * @param output The {@link ItemStack} that will be the result of crafting this {@link SlimefunItem}
+     * @param output
+     *            The {@link ItemStack} that will be the result of crafting this {@link SlimefunItem}
      */
     public void setRecipeOutput(ItemStack output) {
         this.recipeOutput = output;
@@ -522,7 +515,8 @@ public class SlimefunItem implements Placeable {
      * This method will add any given {@link ItemHandler} to this {@link SlimefunItem}.
      * Note that this will not work after the {@link SlimefunItem} was registered.
      *
-     * @param handlers Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
+     * @param handlers
+     *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
     public final void addItemHandler(ItemHandler... handlers) {
         if (state != ItemState.UNREGISTERED) {
@@ -547,7 +541,8 @@ public class SlimefunItem implements Placeable {
      * This method will add any given {@link ItemSetting} to this {@link SlimefunItem}.
      * Note that this will not work after the {@link SlimefunItem} was registered.
      *
-     * @param settings Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
+     * @param settings
+     *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
         if (state != ItemState.UNREGISTERED) {
@@ -679,11 +674,13 @@ public class SlimefunItem implements Placeable {
     }
 
     public void info(String message) {
-        addon.getLogger().log(Level.INFO, message);
+        String msg = toString() + ": " + message;
+        addon.getLogger().log(Level.INFO, msg);
     }
 
     public void warn(String message) {
-        addon.getLogger().log(Level.WARNING, message);
+        String msg = toString() + ": " + message;
+        addon.getLogger().log(Level.WARNING, msg);
     }
 
     /**
@@ -708,6 +705,20 @@ public class SlimefunItem implements Placeable {
 
     public static SlimefunItem getByID(String id) {
         return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
+    }
+
+    /**
+     * This gets an ItemStack from the SlimefunItem with that id.
+     *
+     * @param id the item id
+     * @return The item
+     * @deprecated Please use {@link #getByID(String)} to obtain the {@link SlimefunItem} and then get the ItemStack
+     * from that.
+     */
+    @Deprecated
+    public static ItemStack getItem(String id) {
+        SlimefunItem sfi = getByID(id);
+        return sfi == null ? null : sfi.getItem();
     }
 
     public static SlimefunItem getByItem(ItemStack item) {
@@ -737,16 +748,15 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) return getByID("BROKEN_SPAWNER");
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false))
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) {
+            return getByID("BROKEN_SPAWNER");
+        }
+
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
             return getByID("REINFORCED_SPAWNER");
+        }
 
         return null;
-    }
-
-    public static ItemStack getItem(String id) {
-        SlimefunItem item = getByID(id);
-        return item != null ? item.getItem() : null;
     }
 
     public static Set<ItemHandler> getPublicItemHandlers(Class<? extends ItemHandler> identifier) {

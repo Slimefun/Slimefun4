@@ -26,9 +26,10 @@ public class SlimefunGuideListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         if (giveOnFirstJoin && !e.getPlayer().hasPlayedBefore()) {
             Player p = e.getPlayer();
-            if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
-            if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE"))
+
+            if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
                 return;
+            }
 
             SlimefunGuideLayout type = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST;
             p.getInventory().addItem(SlimefunGuide.getItem(type));
@@ -43,6 +44,10 @@ public class SlimefunGuideListener implements Listener {
         if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
             e.cancel();
 
+            if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
+                return;
+            }
+
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, item);
             } else {
@@ -51,6 +56,10 @@ public class SlimefunGuideListener implements Listener {
         } else if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
             e.cancel();
 
+            if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
+                return;
+            }
+
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, item);
             } else {
@@ -58,6 +67,10 @@ public class SlimefunGuideListener implements Listener {
             }
         } else if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
             e.cancel();
+
+            if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
+                return;
+            }
 
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, item);

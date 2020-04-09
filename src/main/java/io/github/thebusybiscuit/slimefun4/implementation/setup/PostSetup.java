@@ -15,7 +15,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
@@ -53,12 +52,6 @@ public final class PostSetup {
             }
         } catch (IOException e) {
             Slimefun.getLogger().log(Level.SEVERE, "Failed to load wiki.json file", e);
-        }
-    }
-
-    public static void setupItemSettings() {
-        for (World world : Bukkit.getWorlds()) {
-            SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
         }
     }
 
@@ -102,7 +95,8 @@ public final class PostSetup {
 
         SlimefunPlugin.getItemCfg().save();
         SlimefunPlugin.getResearchCfg().save();
-        SlimefunPlugin.getWhitelist().save();
+
+        SlimefunPlugin.getRegistry().setAutoLoadingMode(true);
     }
 
     private static void loadAutomaticCraftingChamber() {

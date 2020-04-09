@@ -39,7 +39,7 @@ public class MagicianTalisman extends Talisman {
      *
      * @author TheBusyBiscuit
      */
-    public class TalismanEnchantment extends ItemSetting<Boolean> {
+    public static class TalismanEnchantment extends ItemSetting<Boolean> {
 
         private final Enchantment enchantment;
         private final int level;

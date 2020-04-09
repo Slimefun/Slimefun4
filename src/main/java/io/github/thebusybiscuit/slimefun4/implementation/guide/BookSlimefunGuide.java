@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
@@ -14,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -33,6 +35,8 @@ import java.util.Locale;
 
 public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
+    private final NamespacedKey guideSearch = new NamespacedKey(SlimefunPlugin.instance, "search");
+
     @Override
     public SlimefunGuideLayout getLayout() {
         return SlimefunGuideLayout.BOOK;
@@ -40,7 +44,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
     @Override
     public ItemStack getItem() {
-        return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
+        return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun 指南 &7(书本界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开 设置 / 关于");
     }
 
     private void openBook(Player p, List<ChatComponent> lines, boolean backButton) {
@@ -49,6 +53,12 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
         for (int i = 0; i < lines.size(); i = i + 10) {
             ChatComponent page = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
+            page.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
+
+            page.setClickEvent(new ClickEvent(guideSearch, player -> PlayerProfile.get(player, profile -> Slimefun.runSync(() -> {
+                SlimefunPlugin.getLocal().sendMessage(player, "guide.search.message");
+                ChatInput.waitForPlayer(SlimefunPlugin.instance, player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
+            }, 1))));
 
             for (int j = i; j < lines.size() && j < i + 10; j++) {
                 page.append(lines.get(j));

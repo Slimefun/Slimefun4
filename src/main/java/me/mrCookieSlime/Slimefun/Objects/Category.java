@@ -18,10 +18,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 
 /**
- * Statically handles categories.
- * Represents a category, which structure multiple {@link SlimefunItem} in the guide.
- * <p>
- * See {@link Categories} for the built-in categories.
+ * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
+ * See {@link Categories} for all built-in categories.
  *
  * @author TheBusyBiscuit
  * @see LockedCategory
@@ -84,12 +82,7 @@ public class Category implements Keyed {
      * By default, a category is automatically registered when a {@link SlimefunItem} is bound to it.
      */
     public void register() {
-        if (this instanceof SeasonalCategory) {
-            if (((SeasonalCategory) this).isVisible()) {
-                SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
-                Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
-            }
-        } else {
+        if (!(this instanceof SeasonalCategory) || ((SeasonalCategory) this).isVisible()) {
             SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
             Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
         }
@@ -129,6 +122,16 @@ public class Category implements Keyed {
     }
 
     /**
+     * This method makes Walshy happy.
+     * It adds a way to get the name of a {@link Category} without localization nor coloring.
+     *
+     * @return The unlocalized name of this {@link Category}
+     */
+    public String getUnlocalizedName() {
+        return ChatColor.stripColor(item.getItemMeta().getDisplayName());
+    }
+
+    /**
      * Returns all instances of {@link SlimefunItem} bound to this {@link Category}.
      *
      * @return the list of SlimefunItems bound to this category
@@ -164,22 +167,12 @@ public class Category implements Keyed {
      */
     public boolean isHidden(Player p) {
         for (SlimefunItem slimefunItem : getItems()) {
-            if (Slimefun.isEnabled(p, slimefunItem, false)) {
+            if (!slimefunItem.isHidden() && Slimefun.isEnabled(p, slimefunItem, false)) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    /**
-     * This method makes Walshy happy.
-     * It adds a way to get the name of a {@link Category} without localization nor coloring.
-     *
-     * @return The unlocalized name of this {@link Category}
-     */
-    public String getUnlocalizedName() {
-        return ChatColor.stripColor(item.getItemMeta().getDisplayName());
     }
 
 }

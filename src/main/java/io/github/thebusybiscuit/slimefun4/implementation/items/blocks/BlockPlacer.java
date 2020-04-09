@@ -41,7 +41,7 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         return (e, dispenser, facedBlock, machine) -> {
             e.setCancelled(true);
 
-            if ((facedBlock.getType() == null || facedBlock.getType() == Material.AIR) && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
+            if (facedBlock.getType() == Material.AIR && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
 
                 if (sfItem != null) {
@@ -104,10 +104,9 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
 
         facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, item.getType());
 
-        if (dispenser.getInventory().containsAtLeast(item, 2)) {
+        if (dispenser.getInventory().containsAtLeast(item, 1)) {
             dispenser.getInventory().removeItem(new CustomItem(item, 1));
-        }
-        else {
+        } else {
             Slimefun.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
         }
     }

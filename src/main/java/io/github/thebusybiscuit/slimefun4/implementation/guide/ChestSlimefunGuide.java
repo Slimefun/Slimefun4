@@ -38,10 +38,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 
 public class ChestSlimefunGuide implements SlimefunGuideImplementation {
@@ -269,7 +266,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         if (p == null) return;
 
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.search.inventory").replace("%item%", ChatUtils.crop(ChatColor.RESET, input)));
-        String searchTerm = input.toLowerCase();
+        String searchTerm = input.toLowerCase(Locale.ROOT);
 
         if (addToHistory) {
             profile.getGuideHistory().add(searchTerm);
@@ -282,7 +279,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         int index = 9;
         // Find items and add them
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-            String itemName = ChatColor.stripColor(item.getItemName()).toLowerCase();
+            String itemName = ChatColor.stripColor(item.getItemName()).toLowerCase(Locale.ROOT);
 
             if (index == 44) break;
 

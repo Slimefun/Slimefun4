@@ -19,14 +19,9 @@ import java.util.List;
  */
 public class PermissionsService {
 
-    private final SlimefunPlugin plugin;
-    private Config config;
+    private final Config config;
 
     public PermissionsService(SlimefunPlugin plugin) {
-        this.plugin = plugin;
-    }
-
-    public void load() {
         config = new Config(plugin, "permissions.yml");
 
         config.getConfiguration().options().header(

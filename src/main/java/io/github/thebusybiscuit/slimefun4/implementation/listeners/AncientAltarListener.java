@@ -45,7 +45,7 @@ public class AncientAltarListener implements Listener {
     private final List<Block> altars = new ArrayList<>();
     private final Set<UUID> removedItems = new HashSet<>();
 
-    public void load(SlimefunPlugin plugin) {
+    public void register(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

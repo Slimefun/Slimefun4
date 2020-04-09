@@ -4,10 +4,13 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Locale;
 
 /**
  * This Class represents a {@link Language} that Slimefun can recognize and use.
@@ -30,16 +33,26 @@ public final class Language {
      * This instantiates a new {@link Language} with the given language code
      * and skull texture.
      *
-     * @param id   The language code of this {@link Language}
-     * @param hash The hash of the skull texture to use
+     * @param id
+     *            The language code of this {@link Language}
+     * @param hash
+     *            The hash of the skull texture to use
      */
     public Language(String id, String hash) {
+        Validate.notNull(id, "A Language must have an id that is not null!");
+        Validate.notNull(hash, "A Language must have a texture that is not null!");
+
         this.id = id;
 
         item = SkullItem.fromHash(hash);
-        SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
+        SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase(Locale.ROOT));
     }
 
+    /**
+     * This returns the identifier of this {@link Language}.
+     *
+     * @return The identifier of this {@link Language}
+     */
     public String getId() {
         return id;
     }
@@ -98,7 +111,8 @@ public final class Language {
      * This method localizes the name of this {@link Language} in the selected {@link Language}
      * of the given {@link Player}.
      *
-     * @param p The {@link Player} to localize the name for
+     * @param p
+     *            The {@link Player} to localize the name for
      * @return The localized name of this {@link Language}
      */
     public String getName(Player p) {

@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
  */
 public final class PatternUtils {
 
-    private PatternUtils() {}
+    private PatternUtils() {
+    }
 
     public static final Pattern SEMICOLON = Pattern.compile(";");
     public static final Pattern HASH = Pattern.compile("#");
@@ -20,4 +21,7 @@ public final class PatternUtils {
     public static final Pattern SLASH_SEPARATOR = Pattern.compile(" / ");
     public static final Pattern DASH = Pattern.compile("-");
     public static final Pattern ASCII = Pattern.compile("[A-Za-z \"_]+");
+    public static final Pattern ALPHANUMERIC = Pattern.compile("[A-Fa-f0-9]+");
+    public static final Pattern NUMERIC = Pattern.compile("[0-9]+");
+    public static final Pattern NUMBER_SEPERATOR = Pattern.compile(",|\\.");
 }

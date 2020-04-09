@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -50,8 +49,8 @@ public class ErrorReport {
                 stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
                 stream.println();
                 stream.println("Slimefun Environment:");
-                stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
-                stream.println("  Slimefun v" + SlimefunPlugin.instance.getDescription().getVersion());
+                stream.println("  CS-CoreLib v" + SlimefunPlugin.getCSCoreLibVersion());
+                stream.println("  Slimefun v" + SlimefunPlugin.getVersion());
                 stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
                 stream.println();
 

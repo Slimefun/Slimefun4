@@ -18,11 +18,8 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
+        SlimefunPlugin.getWorldSettingsService().load(e.getWorld());
         BlockStorage.getForcedStorage(e.getWorld());
-
-        SlimefunPlugin.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled", true);
-        SlimefunPlugin.getWhitelist().setDefaultValue(e.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
-        SlimefunPlugin.getWhitelist().save();
     }
 
     @EventHandler

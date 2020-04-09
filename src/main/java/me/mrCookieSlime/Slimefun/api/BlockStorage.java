@@ -36,10 +36,10 @@ public class BlockStorage {
     private static final String PATH_BLOCKS = "data-storage/Slimefun/stored-blocks/";
     private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
 
-    private World world;
-    private Map<Location, Config> storage = new ConcurrentHashMap<>();
-    private Map<Location, BlockMenu> inventories = new ConcurrentHashMap<>();
-    private Map<String, Config> blocksCache = new ConcurrentHashMap<>();
+    private final World world;
+    private final Map<Location, Config> storage = new ConcurrentHashMap<>();
+    private final Map<Location, BlockMenu> inventories = new ConcurrentHashMap<>();
+    private final Map<String, Config> blocksCache = new ConcurrentHashMap<>();
 
     public static BlockStorage getStorage(World world) {
         return SlimefunPlugin.getRegistry().getWorlds().get(world.getName());
@@ -76,8 +76,12 @@ public class BlockStorage {
     }
 
     public BlockStorage(World w) {
-        if (SlimefunPlugin.getRegistry().getWorlds().containsKey(w.getName())) return;
         this.world = w;
+
+        if (SlimefunPlugin.getRegistry().getWorlds().containsKey(w.getName())) {
+            // Cancel the loading process if the world was already loaded
+            return;
+        }
 
         Slimefun.getLogger().log(Level.INFO, "正在加载世界 \"" + w.getName() + "\" 中的方块");
         Slimefun.getLogger().log(Level.INFO, "这需要一些时间...");

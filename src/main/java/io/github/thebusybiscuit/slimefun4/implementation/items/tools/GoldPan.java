@@ -106,7 +106,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return recipes;
     }
 
-    protected class GoldPanDrop extends ItemSetting<Integer> {
+    class GoldPanDrop extends ItemSetting<Integer> {
 
         private final ItemStack output;
 

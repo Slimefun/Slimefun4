@@ -22,7 +22,7 @@ public class SlimefunBowListener implements Listener {
 
     private final Map<UUID, SlimefunBow> bows = new HashMap<>();
 
-    public void load(SlimefunPlugin plugin) {
+    public void register(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

@@ -4,7 +4,6 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -34,8 +33,8 @@ class VersionsCommand extends SubCommand {
         if (sender.hasPermission("slimefun.command.versions") || sender instanceof ConsoleCommandSender) {
             sender.sendMessage(ChatColors.color("&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
             sender.sendMessage("");
-            sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + CSCoreLib.getLib().getDescription().getVersion()));
-            sender.sendMessage(ChatColors.color("&aSlimefun &2v" + plugin.getDescription().getVersion()));
+            sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + SlimefunPlugin.getCSCoreLibVersion()));
+            sender.sendMessage(ChatColors.color("&aSlimefun &2v" + SlimefunPlugin.getVersion()));
             sender.sendMessage("");
 
             Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();

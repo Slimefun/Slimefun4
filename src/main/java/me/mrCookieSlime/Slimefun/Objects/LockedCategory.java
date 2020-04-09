@@ -92,7 +92,7 @@ public class LockedCategory extends Category {
             throw new IllegalArgumentException("Category '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
         }
 
-        this.parents.add(category);
+        parents.add(category);
     }
 
     /**
@@ -105,7 +105,7 @@ public class LockedCategory extends Category {
      * @see #addParent(Category)
      */
     public void removeParent(Category category) {
-        this.parents.remove(category);
+        parents.remove(category);
     }
 
     /**
