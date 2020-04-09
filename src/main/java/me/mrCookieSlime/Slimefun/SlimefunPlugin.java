@@ -1,6 +1,7 @@
 package me.mrCookieSlime.Slimefun;
 
 import io.github.starwishsama.extra.ProtectionChecker;
+import io.github.starwishsama.extra.UpdateChecker;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
@@ -202,6 +203,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun 完成加载, 耗时 {0}", getStartupTime(timestamp));
+
+            if (config.getBoolean("options.update-check")) {
+                getLogger().log(Level.INFO, UpdateChecker.getUpdateInfo());
+            }
+
         } else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");
@@ -516,7 +522,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/TheBusyBiscuit/Slimefun4/issues";
+        return "https://github.com/StarWishsama/Slimefun4/issues";
     }
 
 }
