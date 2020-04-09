@@ -48,6 +48,7 @@ public class SlimefunStartupTask implements Runnable {
         PostSetup.loadItems();
 
         // Load all worlds
+        SlimefunPlugin.getWorldSettingsService().load(Bukkit.getWorlds());
         for (World world : Bukkit.getWorlds()) {
             new BlockStorage(world);
         }
@@ -55,11 +56,11 @@ public class SlimefunStartupTask implements Runnable {
         // Load all listeners that depend on items to be enabled
 
         if (isEnabled("ANCIENT_ALTAR")) {
-            SlimefunPlugin.getAncientAltarListener().load(plugin);
+            SlimefunPlugin.getAncientAltarListener().register(plugin);
         }
 
         if (isEnabled("GRAPPLING_HOOK")) {
-            SlimefunPlugin.getGrapplingHookListener().load(plugin);
+            SlimefunPlugin.getGrapplingHookListener().register(plugin);
         }
 
         if (isEnabled("BLADE_OF_VAMPIRES")) {

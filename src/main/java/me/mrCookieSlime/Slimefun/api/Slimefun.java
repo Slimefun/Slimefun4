@@ -247,27 +247,14 @@ public final class Slimefun {
 
             return false;
         }
+        else if (!SlimefunPlugin.getWorldSettingsService().isEnabled(p.getWorld(), sfItem)) {
+            if (message) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
+            }
 
-        String world = p.getWorld().getName();
-        if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
-            if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
-                if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) {
-                    SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-                }
-                if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) {
-                    return true;
-                }
-                else {
-                    if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-                    return false;
-                }
-            }
-            else {
-                if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-                return false;
-            }
+            return false;
         }
-        else return true;
+        return true;
     }
 
     public static BukkitTask runSync(Runnable r) {

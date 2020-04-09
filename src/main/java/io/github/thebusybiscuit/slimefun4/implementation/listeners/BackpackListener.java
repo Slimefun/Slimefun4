@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -19,6 +18,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
@@ -47,7 +47,7 @@ public class BackpackListener implements Listener {
 
     private Map<UUID, ItemStack> backpacks = new HashMap<>();
 
-    public void load(SlimefunPlugin plugin) {
+    public void register(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -117,7 +117,7 @@ public class BackpackListener implements Listener {
 
     public void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
         if (item.getAmount() == 1) {
-            if (Slimefun.hasUnlocked(p, backpack, true) && !PlayerProfile.get(p, profile -> openBackpack(item, profile, backpack.getSize()))) {
+            if (Slimefun.hasUnlocked(p, backpack, true) && !PlayerProfile.get(p, profile -> openBackpack(p, item, profile, backpack.getSize()))) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
             }
         }
@@ -126,11 +126,10 @@ public class BackpackListener implements Listener {
         }
     }
 
-    private void openBackpack(ItemStack item, PlayerProfile profile, int size) {
-        Player p = profile.getPlayer();
-
-        for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
-            if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+    private void openBackpack(Player p, ItemStack item, PlayerProfile profile, int size) {
+        List<String> lore = item.getItemMeta().getLore();
+        for (int line = 0; line < lore.size(); line++) {
+            if (lore.get(line).equals(ChatColors.color("&7ID: <ID>"))) {
                 setBackpackId(p, item, line, profile.createBackpack(size).getID());
                 break;
             }
@@ -140,7 +139,13 @@ public class BackpackListener implements Listener {
             p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
             backpacks.put(p.getUniqueId(), item);
 
-            Slimefun.runSync(() -> PlayerProfile.getBackpack(item).open(p));
+            Slimefun.runSync(() -> {
+                PlayerBackpack backpack = PlayerProfile.getBackpack(item);
+
+                if (backpack != null) {
+                    backpack.open(p);
+                }
+            });
         }
         else {
             SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);

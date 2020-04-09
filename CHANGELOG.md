@@ -59,11 +59,17 @@
 #### Changes
 * Replaced GuideHandlers with FlexCategories
 * Removed support for old EmeraldEnchants versions
+* Updated the book variant of the guide to use the newer API
+* Removed internal /sf elevator command
+* Split whitelist.yml up into individual /world-settings/worldname.yml files
+* Performance improvements
+* Slimefun Guide runs much faster now and can better deal with many Categories and items
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
 * Fixed #1779
 * Fixed localized messages not showing in the book guide
+* Fixed empty categories showing up when items inside were hidden
 
 ## Release Candidate 10 (28 Mar 2020)
 

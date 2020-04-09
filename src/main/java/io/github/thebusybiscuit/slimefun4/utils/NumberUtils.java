@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.logging.Level;
 
+import org.bukkit.ChatColor;
+
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -28,6 +30,15 @@ public final class NumberUtils {
             Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while parsing a GitHub-Date for Slimefun " + SlimefunPlugin.getVersion());
             return null;
         }
+    }
+
+    public static ChatColor getColorFromPercentage(float percentage) {
+        if (percentage < 16.0F) return ChatColor.DARK_RED;
+        else if (percentage < 32.0F) return ChatColor.RED;
+        else if (percentage < 48.0F) return ChatColor.GOLD;
+        else if (percentage < 64.0F) return ChatColor.YELLOW;
+        else if (percentage < 80.0F) return ChatColor.DARK_GREEN;
+        else return ChatColor.GREEN;
     }
 
     public static String timeDelta(Date date) {

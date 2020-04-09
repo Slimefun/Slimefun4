@@ -30,7 +30,7 @@ public class GrapplingHookListener implements Listener {
     private final Set<UUID> invulnerable = new HashSet<>();
     private final Map<UUID, Entity[]> temporaryEntities = new HashMap<>();
 
-    public void load(SlimefunPlugin plugin) {
+    public void register(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

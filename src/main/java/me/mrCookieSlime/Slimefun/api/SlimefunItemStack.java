@@ -189,17 +189,15 @@ public class SlimefunItemStack extends CustomItem {
     }
 
     private static String getTexture(String id, String texture) {
-        String base64 = texture;
-
-        // At this point we can be sure it's not a base64 encoded texture
-        if (!texture.startsWith("ey")) {
-            base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes());
+        if (texture.startsWith("ey")) {
+            return texture;
         }
-        else if (!PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+        else if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+            return Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes());
+        }
+        else {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
-
-        return base64;
     }
 
 }

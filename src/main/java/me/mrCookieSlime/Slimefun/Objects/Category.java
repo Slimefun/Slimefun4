@@ -89,13 +89,7 @@ public class Category implements Keyed {
      * By default, a category is automatically registered when a {@link SlimefunItem} is bound to it.
      */
     public void register() {
-        if (this instanceof SeasonalCategory) {
-            if (((SeasonalCategory) this).isVisible()) {
-                SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
-                Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
-            }
-        }
-        else {
+        if (!(this instanceof SeasonalCategory) || ((SeasonalCategory) this).isVisible()) {
             SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
             Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
         }
@@ -181,7 +175,7 @@ public class Category implements Keyed {
      */
     public boolean isHidden(Player p) {
         for (SlimefunItem slimefunItem : getItems()) {
-            if (Slimefun.isEnabled(p, slimefunItem, false)) {
+            if (!slimefunItem.isHidden() && Slimefun.isEnabled(p, slimefunItem, false)) {
                 return false;
             }
         }

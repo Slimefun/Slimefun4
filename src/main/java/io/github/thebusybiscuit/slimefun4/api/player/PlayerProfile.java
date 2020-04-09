@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -19,9 +20,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -201,27 +204,28 @@ public final class PlayerProfile {
     public void sendStats(CommandSender sender) {
         Set<Research> researched = getResearches();
         int levels = researched.stream().mapToInt(Research::getCost).sum();
+        int totalResearches = SlimefunPlugin.getRegistry().getResearches().size();
 
-        String progress = String.valueOf(Math.round(((researched.size() * 100.0F) / SlimefunPlugin.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
-        if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + " &r% ";
-        else if (Float.parseFloat(progress) < 32.0F) progress = "&c" + progress + " &r% ";
-        else if (Float.parseFloat(progress) < 48.0F) progress = "&6" + progress + " &r% ";
-        else if (Float.parseFloat(progress) < 64.0F) progress = "&e" + progress + " &r% ";
-        else if (Float.parseFloat(progress) < 80.0F) progress = "&2" + progress + " &r% ";
-        else progress = "&a" + progress + " &r% ";
+        float progress = Math.round(((researched.size() * 100.0F) / totalResearches) * 100.0F) / 100.0F;
 
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Statistics for Player: &b" + name));
+        sender.sendMessage(ChatColors.color("&7Statistics for Player: &b" + name));
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Title: &b" + getTitle()));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + SlimefunPlugin.getRegistry().getResearches().size() + ")"));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
+        sender.sendMessage(ChatColors.color("&7Title: " + ChatColor.AQUA + getTitle()));
+        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + researched.size() + " / " + totalResearches + ')'));
+        sender.sendMessage(ChatColors.color("&7Total XP Levels spent: " + ChatColor.AQUA + levels));
     }
 
     public Player getPlayer() {
         return Bukkit.getPlayer(getUUID());
     }
 
+    /**
+     * This returns the {@link GuideHistory} of this {@link Player}.
+     * It is basically that player's browsing history.
+     * 
+     * @return The {@link GuideHistory} of this {@link Player}
+     */
     public GuideHistory getGuideHistory() {
         return guideHistory;
     }
@@ -291,26 +295,24 @@ public final class PlayerProfile {
      *            The player who's profile to retrieve
      * @param callback
      *            The callback with the PlayerProfile
+     * 
      * @return If the player was cached or not.
      */
     public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
-        PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId());
+        PlayerProfile cached = SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId());
 
-        if (profile != null) {
-            callback.accept(profile);
+        if (cached != null) {
+            callback.accept(cached);
             return true;
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
-            PlayerProfile pp = new PlayerProfile(p);
-            SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
-            callback.accept(pp);
+            PlayerProfile profile = new PlayerProfile(p);
+            SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), profile);
+            callback.accept(profile);
         });
+        
         return false;
-    }
-
-    public static boolean isLoaded(UUID uuid) {
-        return SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(uuid);
     }
 
     public static Optional<PlayerProfile> find(OfflinePlayer p) {
@@ -324,24 +326,23 @@ public final class PlayerProfile {
     public static PlayerBackpack getBackpack(ItemStack item) {
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) return null;
 
-        Optional<Integer> id = Optional.empty();
+        OptionalInt id = OptionalInt.empty();
         String uuid = "";
 
         for (String line : item.getItemMeta().getLore()) {
-            if (line.startsWith(ChatColor.translateAlternateColorCodes('&', "&7ID: ")) && line.indexOf('#') != -1) {
-                try {
-                    String[] splitLine = PatternUtils.HASH.split(line);
-                    id = Optional.of(Integer.parseInt(splitLine[1]));
-                    uuid = splitLine[0].replace(ChatColor.translateAlternateColorCodes('&', "&7ID: "), "");
-                }
-                catch (NumberFormatException x) {
-                    return null;
+            if (line.startsWith(ChatColors.color("&7ID: ")) && line.indexOf('#') != -1) {
+                String[] splitLine = PatternUtils.HASH.split(line);
+
+                if (PatternUtils.NUMERIC.matcher(splitLine[1]).matches()) {
+                    id = OptionalInt.of(Integer.parseInt(splitLine[1]));
+                    uuid = splitLine[0].replace(ChatColors.color("&7ID: "), "");
                 }
             }
         }
 
         if (id.isPresent()) {
-            return PlayerProfile.fromUUID(UUID.fromString(uuid)).getBackpack(id.get());
+            PlayerProfile profile = fromUUID(UUID.fromString(uuid));
+            return profile.getBackpack(id.getAsInt());
         }
         else {
             return null;

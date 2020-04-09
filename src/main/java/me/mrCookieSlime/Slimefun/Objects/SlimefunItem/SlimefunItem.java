@@ -10,8 +10,6 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -336,13 +334,9 @@ public class SlimefunItem implements Placeable {
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-enchanting", enchantable);
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".allow-disenchanting", disenchantable);
 
+            // Load all item settings
             for (ItemSetting<?> setting : itemSettings) {
                 setting.load(this);
-            }
-
-            for (World world : Bukkit.getWorlds()) {
-                SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled", true);
-                SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items." + id, true);
             }
 
             if (ticking && !SlimefunPlugin.getCfg().getBoolean("URID.enable-tickers")) {
@@ -387,6 +381,11 @@ public class SlimefunItem implements Placeable {
             }
 
             postRegister();
+
+            if (SlimefunPlugin.getRegistry().isAutoLoadingEnabled()) {
+                info("Item was registered during runtime.");
+                load();
+            }
         }
         catch (Exception x) {
             error("Registering " + toString() + " has failed", x);
@@ -690,11 +689,13 @@ public class SlimefunItem implements Placeable {
     }
 
     public void info(String message) {
-        addon.getLogger().log(Level.INFO, message);
+        String msg = toString() + ": " + message;
+        addon.getLogger().log(Level.INFO, msg);
     }
 
     public void warn(String message) {
-        addon.getLogger().log(Level.WARNING, message);
+        String msg = toString() + ": " + message;
+        addon.getLogger().log(Level.WARNING, msg);
     }
 
     /**
@@ -719,6 +720,22 @@ public class SlimefunItem implements Placeable {
 
     public static SlimefunItem getByID(String id) {
         return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
+    }
+
+    /**
+     * This gets an ItemStack from the SlimefunItem with that id.
+     * 
+     * @deprecated Please use {@link #getByID(String)} to obtain the {@link SlimefunItem} and then get the ItemStack
+     *             from that.
+     * 
+     * @param id
+     *            the item id
+     * @return The item
+     */
+    @Deprecated
+    public static ItemStack getItem(String id) {
+        SlimefunItem sfi = getByID(id);
+        return sfi == null ? null : sfi.getItem();
     }
 
     public static SlimefunItem getByItem(ItemStack item) {
@@ -757,11 +774,6 @@ public class SlimefunItem implements Placeable {
         }
 
         return null;
-    }
-
-    public static ItemStack getItem(String id) {
-        SlimefunItem item = getByID(id);
-        return item != null ? item.getItem() : null;
     }
 
     public static Set<ItemHandler> getPublicItemHandlers(Class<? extends ItemHandler> identifier) {
