@@ -110,7 +110,7 @@ public class SlimefunRegistry {
         automaticallyLoadItems = mode;
     }
 
-    public List<Category> getEnabledCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 

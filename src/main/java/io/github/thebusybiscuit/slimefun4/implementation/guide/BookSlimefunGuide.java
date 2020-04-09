@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
@@ -88,7 +87,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         List<ChatComponent> lines = new LinkedList<>();
         int tier = 0;
 
-        for (Category category : SlimefunPlugin.getRegistry().getEnabledCategories()) {
+        for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
             if (!category.isHidden(p) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getLayout()))) {
                 if (tier < category.getTier()) {
                     tier = category.getTier();
@@ -101,6 +100,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
                     lines.add(new ChatComponent(ChatColor.DARK_GRAY + "\u21E8" + ChatColor.DARK_BLUE + " Tier " + tier + "\n"));
                 }
+
                 if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p, profile)) {
                     List<String> lore = new LinkedList<>();
                     lore.add(ChatColor.DARK_RED + SlimefunPlugin.getLocal().getMessage(p, "guide.locked") + " " + ChatColor.GRAY + "- " + ChatColor.RESET + category.getItem(p).getItemMeta().getDisplayName());
@@ -120,7 +120,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                     chatComponent.setHoverEvent(new HoverEvent(lore));
                     lines.add(chatComponent);
                 }
-                else if (!(category instanceof SeasonalCategory) || ((SeasonalCategory) category).isVisible()) {
+                else {
                     ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, ItemUtils.getItemName(category.getItem(p))) + "\n");
                     chatComponent.setHoverEvent(new HoverEvent(ItemUtils.getItemName(category.getItem(p)), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
                     chatComponent.setClickEvent(new ClickEvent(category.getKey(), pl -> openCategory(profile, category, 1)));

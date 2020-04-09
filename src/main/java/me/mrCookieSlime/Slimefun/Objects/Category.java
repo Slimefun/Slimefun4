@@ -84,13 +84,11 @@ public class Category implements Keyed {
     /**
      * Registers this category.
      * <p>
-     * By default, a category is automatically registered when a {@link SlimefunItem} is bound to it.
+     * By default, a category is automatically registered when a {@link SlimefunItem} was added to it.
      */
     public void register() {
-        if (!(this instanceof SeasonalCategory) || ((SeasonalCategory) this).isVisible()) {
-            SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
-            Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
-        }
+        SlimefunPlugin.getRegistry().getCategories().add(this);
+        Collections.sort(SlimefunPlugin.getRegistry().getCategories(), Comparator.comparingInt(Category::getTier));
     }
 
     /**

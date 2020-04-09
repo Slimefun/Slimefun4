@@ -76,7 +76,7 @@ public class DebugFishListener implements Listener {
         p.sendMessage(" ");
         p.sendMessage(ChatColors.color("&d" + b.getType() + " &e@ X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ()));
         p.sendMessage(ChatColors.color("&dId: " + "&e" + item.getID()));
-        p.sendMessage(ChatColors.color("&Plugin: " + "&e" + item.getAddon().getName()));
+        p.sendMessage(ChatColors.color("&dPlugin: " + "&e" + item.getAddon().getName()));
 
         if (b.getState() instanceof Skull) {
             p.sendMessage(ChatColors.color("&dSkull: " + enabledTooltip));
@@ -102,14 +102,14 @@ public class DebugFishListener implements Listener {
         if (item.isTicking()) {
             p.sendMessage(ChatColors.color("&dTicker: " + enabledTooltip));
             p.sendMessage(ChatColors.color("  &dAsync: &e" + (BlockStorage.check(b).getBlockTicker().isSynchronized() ? disabledTooltip : enabledTooltip)));
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true) + "ms"));
-            p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + ticker.toMillis(ticker.getTimings(BlockStorage.checkID(b)), true) + "ms"));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true) + "ms"));
+            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true)));
+            p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + ticker.toMillis(ticker.getTimings(BlockStorage.checkID(b)), true)));
+            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true)));
         }
         else if (item.getEnergyTicker() != null) {
             p.sendMessage(ChatColors.color("&dTicking: " + "&3Indirect"));
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true) + "ms"));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true) + "ms"));
+            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true)));
+            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true)));
         }
         else {
             p.sendMessage(ChatColors.color("&dTicker: " + disabledTooltip));

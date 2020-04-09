@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -8,10 +9,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class SlimefunGuideListener implements Listener {
@@ -27,7 +28,7 @@ public class SlimefunGuideListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         if (giveOnFirstJoin && !e.getPlayer().hasPlayedBefore()) {
             Player p = e.getPlayer();
-            
+
             if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
                 return;
             }
@@ -40,52 +41,46 @@ public class SlimefunGuideListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerRightClickEvent e) {
         Player p = e.getPlayer();
-        ItemStack item = e.getItem();
 
-        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.BOOK), true)) {
-            e.cancel();
-            
-            if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
-                return;
-            }
-
+        if (openGuide(e, SlimefunGuideLayout.BOOK) == Result.ALLOW) {
             if (p.isSneaking()) {
-                SlimefunGuideSettings.openSettings(p, item);
+                SlimefunGuideSettings.openSettings(p, e.getItem());
             }
             else {
                 SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
             }
         }
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), true)) {
-            e.cancel();
-            
-            if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
-                return;
-            }
-
+        else if (openGuide(e, SlimefunGuideLayout.CHEST) == Result.ALLOW) {
             if (p.isSneaking()) {
-                SlimefunGuideSettings.openSettings(p, item);
+                SlimefunGuideSettings.openSettings(p, e.getItem());
             }
             else {
                 SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
             }
         }
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+        else if (openGuide(e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
+            // We rather just run the command here,
+            // all necessary permission checks will be handled there.
+            p.chat("/sf cheat");
+        }
+    }
+
+    private Result openGuide(PlayerRightClickEvent e, SlimefunGuideLayout layout) {
+        Player p = e.getPlayer();
+        ItemStack item = e.getItem();
+
+        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true)) {
             e.cancel();
-            
+
             if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
-                return;
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                return Result.DENY;
             }
 
-            if (p.isSneaking()) {
-                SlimefunGuideSettings.openSettings(p, item);
-            }
-            else {
-                // We rather just run the command here,
-                // all necessary permission checks will be handled there.
-                p.chat("/sf cheat");
-            }
+            return Result.ALLOW;
         }
+
+        return Result.DEFAULT;
     }
 
 }

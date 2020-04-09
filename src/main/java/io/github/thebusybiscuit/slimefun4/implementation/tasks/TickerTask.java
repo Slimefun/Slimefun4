@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -204,15 +203,15 @@ public class TickerTask implements Runnable {
     }
 
     public void info(CommandSender sender) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(halted).toUpperCase(Locale.ROOT)));
+        sender.sendMessage(ChatColors.color("&2== &aSlimefun Diagnostic Tool &2=="));
+        sender.sendMessage(ChatColors.color("&6Halted: &e&l" + String.valueOf(halted).toUpperCase(Locale.ROOT)));
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + toMillis(time, true)));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Chunks: &e" + chunks));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Machines: &e" + machines));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Skipped Machines: &e" + skipped));
+        sender.sendMessage(ChatColors.color("&6Impact: &e" + toMillis(time, true)));
+        sender.sendMessage(ChatColors.color("&6Ticked Chunks: &e" + chunks));
+        sender.sendMessage(ChatColors.color("&6Ticked Machines: &e" + machines));
+        sender.sendMessage(ChatColors.color("&6Skipped Machines: &e" + skipped));
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Machines:"));
+        sender.sendMessage(ChatColors.color("&6Ticking Machines:"));
 
         List<Map.Entry<String, Long>> timings = machineCount.keySet().stream().map(key -> new AbstractMap.SimpleEntry<>(key, machineTimings.getOrDefault(key, 0L))).sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue())).collect(Collectors.toList());
 
@@ -240,7 +239,7 @@ public class TickerTask implements Runnable {
 
             for (Map.Entry<String, Long> entry : timings) {
                 int count = machineCount.get(entry.getKey());
-                if (entry.getValue() > 500_000) {
+                if (entry.getValue() > 300_000) {
                     sender.sendMessage("  " + entry.getKey() + " - " + count + "x (" + toMillis(entry.getValue(), false) + ", " + toMillis(entry.getValue() / count, false) + " avg/machine)");
                 }
                 else hidden++;
@@ -303,7 +302,8 @@ public class TickerTask implements Runnable {
     }
 
     public long getTimings(Chunk c) {
-        return chunkTimings.getOrDefault(c.toString(), 0L);
+        String id = c.getWorld().getName() + ';' + c.getX() + ';' + c.getZ();
+        return chunkTimings.getOrDefault(id, 0L);
     }
 
     public void addBlockTimings(Location l, long time) {
@@ -319,14 +319,20 @@ public class TickerTask implements Runnable {
     }
 
     public String toMillis(long nanoseconds, boolean colors) {
-        String number = decimalFormat.format(nanoseconds / 1000000F);
+        String number = decimalFormat.format(nanoseconds / 1000000.0);
 
         if (!colors) {
             return number;
         }
         else {
             String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
-            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+
+            if (parts.length == 1) {
+                return parts[0];
+            }
+            else {
+                return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+            }
         }
     }
 

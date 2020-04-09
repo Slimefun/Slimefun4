@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -49,13 +50,12 @@ public class SeasonalCategory extends Category {
         return month;
     }
 
-    /**
-     * Checks if the category should currently be displayed in the Guide.
-     * This is based on {@link SeasonalCategory#getMonth()}.
-     * 
-     * @return true if it should, otherwise false
-     */
-    public boolean isVisible() {
-        return month == LocalDate.now().getMonth();
+    @Override
+    public boolean isHidden(Player p) {
+        if (month != LocalDate.now().getMonth()) {
+            return true;
+        }
+
+        return super.isHidden(p);
     }
 }

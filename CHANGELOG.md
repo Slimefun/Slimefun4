@@ -72,6 +72,8 @@
 * Fixed #1779
 * Fixed localized messages not showing in the book guide
 * Fixed empty categories showing up when items inside were hidden
+* Fixed ghost pages showing up when too many categories were disabled
+* Fixed debug fish not showing the correct chunk timings
 
 ## Release Candidate 10 (28 Mar 2020)
 
