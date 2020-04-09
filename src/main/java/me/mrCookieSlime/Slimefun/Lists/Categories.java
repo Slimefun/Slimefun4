@@ -16,9 +16,11 @@ import java.time.Month;
  * found in Slimefun.
  *
  * @author TheBusyBiscuit
+ *
  * @see Category
  * @see LockedCategory
  * @see SeasonalCategory
+ *
  */
 public final class Categories {
 

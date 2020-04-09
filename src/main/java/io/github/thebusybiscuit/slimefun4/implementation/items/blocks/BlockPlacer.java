@@ -20,10 +20,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.inventory.BlockInventoryHolder;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
@@ -104,10 +106,31 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
 
         facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, item.getType());
 
-        if (dispenser.getInventory().containsAtLeast(item, 1)) {
+        if (dispenser.getInventory().containsAtLeast(item, 2)) {
             dispenser.getInventory().removeItem(new CustomItem(item, 1));
         } else {
-            Slimefun.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
+            Slimefun.runSync(() -> removeItems(dispenser, item));
+        }
+    }
+
+    private void removeItems(Dispenser dispenser, ItemStack itemStack) {
+        Map<Integer, ItemStack> unRemovedItems = dispenser.getInventory().removeItem(itemStack);
+        Inventory inv = dispenser.getInventory();
+
+        if (!unRemovedItems.isEmpty()) {
+            unRemovedItems.forEach((k, v) -> {
+                int size = itemStack.getAmount();
+                for (int i = 0; i < inv.getSize(); i++) {
+                    if (v.getType() == itemStack.getType()) {
+                        if (size > 0) {
+                            inv.setItem(i, null);
+                            size--;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            });
         }
     }
 }

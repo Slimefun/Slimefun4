@@ -37,6 +37,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.*;
@@ -203,7 +204,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Slimefun 加载完成, 耗时 {0}", getStartupTime(timestamp));
 
             if (config.getBoolean("options.update-check")) {
-                Slimefun.runSync(() -> getLogger().log(Level.INFO, UpdateChecker.getUpdateInfo()));
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        getLogger().log(Level.INFO, UpdateChecker.getUpdateInfo());
+                    }
+                }.runTaskAsynchronously(this);
             }
 
         } else {

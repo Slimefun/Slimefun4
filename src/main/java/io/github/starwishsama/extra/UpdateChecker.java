@@ -10,6 +10,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -24,7 +25,11 @@ public class UpdateChecker {
             return new GsonBuilder().serializeNulls().create().fromJson(read, new TypeToken<List<GithubBean>>() {
             }.getType());
         } catch (Exception e) {
-            Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
+            if (e instanceof SocketException) {
+                Slimefun.getLogger().log(Level.WARNING, "连接至 Github 服务器出错");
+            } else {
+                Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
+            }
         }
         return null;
     }
