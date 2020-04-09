@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.util.Locale;
 import java.util.function.Consumer;
 
 import org.bukkit.ChatColor;
@@ -49,7 +50,7 @@ public final class ChatUtils {
     public static String humanize(String string) {
         StringBuilder builder = new StringBuilder();
 
-        String[] segments = string.toLowerCase().split("_");
+        String[] segments = string.toLowerCase(Locale.ROOT).split("_");
 
         builder.append(Character.toUpperCase(segments[0].charAt(0))).append(segments[0].substring(1));
 

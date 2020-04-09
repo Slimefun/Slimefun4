@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

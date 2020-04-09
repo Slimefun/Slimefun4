@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -203,7 +205,7 @@ public class TickerTask implements Runnable {
 
     public void info(CommandSender sender) {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(halted).toUpperCase()));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(halted).toUpperCase(Locale.ROOT)));
         sender.sendMessage("");
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + toMillis(time, true)));
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Chunks: &e" + chunks));
@@ -317,14 +319,14 @@ public class TickerTask implements Runnable {
     }
 
     public String toMillis(long nanoseconds, boolean colors) {
-        String number = decimalFormat.format(time / 1000000F);
+        String number = decimalFormat.format(nanoseconds / 1000000F);
 
         if (!colors) {
             return number;
         }
         else {
-            String[] parts = number.split(",|\\.");
-            return parts[0] + "," + ChatColor.GRAY + parts[1] + "ms";
+            String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
+            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
         }
     }
 

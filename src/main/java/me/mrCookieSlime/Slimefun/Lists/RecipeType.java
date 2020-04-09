@@ -75,7 +75,7 @@ public class RecipeType implements Keyed {
         this.machine = machine;
 
         if (machine.length() > 0) {
-            this.key = new NamespacedKey(SlimefunPlugin.instance, machine.toLowerCase());
+            this.key = new NamespacedKey(SlimefunPlugin.instance, machine.toLowerCase(Locale.ROOT));
         }
         else {
             this.key = new NamespacedKey(SlimefunPlugin.instance, "unknown");
@@ -152,7 +152,7 @@ public class RecipeType implements Keyed {
     }
 
     private static void registerMobDrop(ItemStack[] recipe, ItemStack output) {
-        String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
+        String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase(Locale.ROOT).replace(' ', '_');
         EntityType entity = EntityType.valueOf(mob);
         Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
         dropping.add(output);

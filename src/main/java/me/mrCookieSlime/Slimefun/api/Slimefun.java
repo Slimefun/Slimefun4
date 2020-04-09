@@ -1,6 +1,5 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -26,13 +25,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public final class Slimefun {
 
     private Slimefun() {}
-
-    @Deprecated
-    public static void registerGuideHandler(GuideHandler handler) {
-        Bukkit.getLogger().log(Level.SEVERE, "The Plugin \"EmeraldEnchants\" is outdated!");
-        Bukkit.getLogger().log(Level.SEVERE, "Your version will soon stop working.");
-        Bukkit.getLogger().log(Level.SEVERE, "Update it immediately: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/EmeraldEnchants2/master/");
-    }
 
     public static Logger getLogger() {
         return SlimefunPlugin.instance.getLogger();

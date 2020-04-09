@@ -107,7 +107,9 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
         for (int i = 0; i < floors.size(); i++) {
             if (i % 10 == 0) {
-                if (page != null) book.addPage(page);
+                if (page != null) {
+                    book.addPage(page);
+                }
 
                 page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.pick-a-floor")) + "\n");
             }
@@ -140,7 +142,10 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             page.append(line);
         }
 
-        book.addPage(page);
+        if (page != null) {
+            book.addPage(page);
+        }
+
         book.open(p);
     }
 

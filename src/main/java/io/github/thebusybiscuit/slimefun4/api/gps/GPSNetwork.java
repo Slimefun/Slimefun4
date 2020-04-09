@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.gps;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -166,7 +167,7 @@ public class GPSNetwork {
 
             menu.addItem(slot, new CustomItem(globe, entry.getKey().replace("player:death ", ""), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
             menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
-                String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(' ', '_');
+                String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase(Locale.ROOT).replace(' ', '_');
                 Config cfg = new Config(WAYPOINTS_DIRECTORY + pl.getUniqueId().toString() + ".yml");
                 cfg.setValue(id, null);
                 cfg.save();
@@ -214,7 +215,7 @@ public class GPSNetwork {
         }
 
         Config cfg = new Config(WAYPOINTS_DIRECTORY + p.getUniqueId().toString() + ".yml");
-        String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase().replace(' ', '_');
+        String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase(Locale.ROOT).replace(' ', '_');
 
         cfg.setValue(id, l);
         cfg.setValue(id + ".name", name);

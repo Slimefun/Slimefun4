@@ -62,7 +62,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 b.setLeashHolder(arrow);
 
                 boolean state = item.getType() != Material.SHEARS;
-                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(uuid, arrow, b, state, despawnTicks.getValue() * 20);
+                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(uuid, arrow, b, state, despawnTicks.getValue() * 20L);
             }
         };
     }
