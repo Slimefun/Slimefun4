@@ -127,11 +127,11 @@ public class CargoInputNode extends SlimefunItem {
                 int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0 : (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
 
                 if (channel == 16) {
-                    menu.replaceExistingItem(42, new CustomItem(SkullItem.fromHash("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&bChannel ID: &3" + (channel + 1)));
+                    menu.replaceExistingItem(42, new CustomItem(SkullItem.fromHash("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&b信道 ID: &3" + (channel + 1)));
                     menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
                 }
                 else {
-                    menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&bChannel ID: &3" + (channel + 1)));
+                    menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&b信道 ID: &3" + (channel + 1)));
                     menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
                 }
 
