@@ -1,5 +1,4 @@
 package io.github.thebusybiscuit.slimefun4.utils;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 public final class BlockUtils {
 
@@ -23,19 +22,7 @@ public final class BlockUtils {
             case SMOKER:
                 return true;
             default:
-                return isShulkerBox(block);
+                return block.getType().name().endsWith("SHULKER_BOX");
         }
     }
-
-    public static boolean isShulkerBox(Block block) {
-        Material type = block.getType();
-        return type == Material.SHULKER_BOX || type == Material.WHITE_SHULKER_BOX || type == Material.ORANGE_SHULKER_BOX
-                || type == Material.MAGENTA_SHULKER_BOX || type == Material.LIGHT_BLUE_SHULKER_BOX
-                || type == Material.YELLOW_SHULKER_BOX || type == Material.LIME_SHULKER_BOX
-                || type == Material.PINK_SHULKER_BOX || type == Material.GRAY_SHULKER_BOX
-                || type == Material.LIGHT_GRAY_SHULKER_BOX || type == Material.CYAN_SHULKER_BOX
-                || type == Material.PURPLE_SHULKER_BOX || type == Material.BLUE_SHULKER_BOX || type == Material.BROWN_SHULKER_BOX
-                || type == Material.GREEN_SHULKER_BOX || type == Material.RED_SHULKER_BOX || type == Material.BLACK_SHULKER_BOX;
-    }
-
 }
