@@ -49,7 +49,7 @@ class VersionsCommand extends SubCommand {
                 }
             }
 
-            sender.sendMessage(ChatColors.color(UpdateChecker.getUpdateInfo(false)));
+            sender.sendMessage(ChatColors.color(UpdateChecker.getUpdateInfo()));
         } else {
             SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
         }

@@ -35,7 +35,7 @@ public class UpdateChecker {
         return null;
     }
 
-    public static String getUpdateInfo(boolean isConsole) {
+    public static String getUpdateInfo() {
         List<GithubBean> bean = getReleaseBean();
         if (bean != null) {
             String[] splitVersion = SlimefunPlugin.getVersion().split("-");
@@ -47,10 +47,7 @@ public class UpdateChecker {
                 if (current >= latest) {
                     return ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion());
                 } else {
-                    String updateInfo = "&e有更新了 &7| &b" + bean.get(0).getTag_name() + " 现已发布";
-                    if (!isConsole) {
-                        updateInfo = updateInfo + "\n&r下载地址 > &7" + bean.get(0).getAssets().get(0).getBrowser_download_url();
-                    }
+                    String updateInfo = "&e有更新了 &7| &b" + bean.get(0).getTag_name() + " 现已发布\n&r下载地址 > &7" + bean.get(0).getAssets().get(0).getBrowser_download_url();
                     return ChatColors.color(updateInfo);
                 }
             }
