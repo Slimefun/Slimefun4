@@ -37,7 +37,7 @@ abstract class GitHubConnector {
         file = new File("plugins/Slimefun/cache/github/" + getFileName() + ".json");
 
         if (github.isLoggingEnabled()) {
-            Slimefun.getLogger().log(Level.INFO, "正在从 Github 检索 {0}.json...", this.getFileName());
+            Slimefun.getLogger().log(Level.INFO, "Retrieving {0}.json from GitHub...", this.getFileName());
         }
 
         try {

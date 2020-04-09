@@ -18,8 +18,10 @@ import java.util.List;
  * See {@link Category} for the complete documentation.
  *
  * @author TheBusyBiscuit
+ *
  * @see Category
  * @see SeasonalCategory
+ *
  */
 public class LockedCategory extends Category {
 
@@ -27,19 +29,11 @@ public class LockedCategory extends Category {
 
     /**
      * The basic constructor for a LockedCategory.
-     * <p>
-     * See {@link Category#Category(ItemStack, int)} for more information about creating
-     * a category.
-     * <p>
-     * Like {@link Category#Category(ItemStack)}, the tier is automatically set to 3.
+     * Like {@link Category}, the default tier is automatically set to 3.
      *
-     * @param key
-     *            A unique identifier for this category
-     * @param item
-     *            The display item for this category
-     * @param parents
-     *            The parent categories for this category
-     *
+     * @param key     A unique identifier for this category
+     * @param item    The display item for this category
+     * @param parents The parent categories for this category
      */
     public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
         this(key, item, 3, parents);
@@ -47,9 +41,6 @@ public class LockedCategory extends Category {
 
     /**
      * The constructor for a LockedCategory.
-     * <p>
-     * See {@link Category#Category(ItemStack, int)} for more information about creating
-     * a category.
      *
      * @param key
      *            A unique identifier for this category
@@ -113,12 +104,10 @@ public class LockedCategory extends Category {
      *
      * @param p
      *            The {@link Player} to check
+     * @param profile
+     *            The {@link PlayerProfile} that belongs to the given {@link Player}
      * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
      */
-    public boolean hasUnlocked(Player p) {
-        return hasUnlocked(p, PlayerProfile.get(p));
-    }
-
     public boolean hasUnlocked(Player p, PlayerProfile profile) {
         for (Category category : parents) {
             for (SlimefunItem item : category.getItems()) {

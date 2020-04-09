@@ -710,10 +710,12 @@ public class SlimefunItem implements Placeable {
     /**
      * This gets an ItemStack from the SlimefunItem with that id.
      *
-     * @param id the item id
-     * @return The item
      * @deprecated Please use {@link #getByID(String)} to obtain the {@link SlimefunItem} and then get the ItemStack
-     * from that.
+     *             from that.
+     *
+     * @param id
+     *            the item id
+     * @return The item
      */
     @Deprecated
     public static ItemStack getItem(String id) {

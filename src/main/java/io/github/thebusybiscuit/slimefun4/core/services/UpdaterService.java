@@ -12,10 +12,10 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
  */
 public class UpdaterService {
 
-    // 汉化版不提供自动更新服务.
-    private final SlimefunBranch branch = SlimefunBranch.UNOFFICIAL;
+    private final SlimefunBranch branch;
 
     public UpdaterService() {
+        branch = SlimefunBranch.UNOFFICIAL;
     }
 
     /**
@@ -28,4 +28,5 @@ public class UpdaterService {
     public SlimefunBranch getBranch() {
         return branch;
     }
+
 }

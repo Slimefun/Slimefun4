@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 class EmeraldEnchantsCategory extends FlexCategory {
 
     public EmeraldEnchantsCategory(NamespacedKey key) {
-        super(key, new CustomItem(Material.ENCHANTED_BOOK, "&2EmeraldEnchants &a(Enchantment Guide)"), 2);
+        super(key, new CustomItem(Material.ENCHANTED_BOOK, "&2绿宝石附魔 &a(附魔指南)"), 2);
     }
 
     @Override

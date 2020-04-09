@@ -8,9 +8,7 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
  * for the {@link SkullItem} to display.
  *
  * @author TheBusyBiscuit
- *
  * @see Language
- *
  */
 enum EmbeddedLanguage {
 

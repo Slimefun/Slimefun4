@@ -18,6 +18,7 @@ import java.util.List;
  * It can be completely overridden to perform any action upon being opened.
  *
  * @author TheBusyBiscuit
+ *
  */
 public abstract class FlexCategory extends Category {
 
@@ -36,7 +37,7 @@ public abstract class FlexCategory extends Category {
     @Override
     public final boolean isHidden(Player p) {
         // We can stop this method right here.
-        // We provide a custom method for this. See isVisible(...);
+        // We provide a custom method for this. See isVisible(...)
         return false;
     }
 

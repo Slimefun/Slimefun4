@@ -84,6 +84,7 @@ public final class SlimefunGuide {
         }
 
         Optional<PlayerProfile> optional = PlayerProfile.find(p);
+
         if (optional.isPresent()) {
             PlayerProfile profile = optional.get();
             SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);

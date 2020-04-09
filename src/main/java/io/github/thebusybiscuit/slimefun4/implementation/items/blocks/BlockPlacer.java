@@ -120,11 +120,13 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         if (!unRemovedItems.isEmpty() && itemStack.getType().name().contains("SHULKER_BOX")) {
             unRemovedItems.forEach((k, v) -> {
                 int size = itemStack.getAmount();
+                System.out.println(size);
                 for (int i = 0; i < inv.getSize(); i++) {
                     if (v.getType() == itemStack.getType()) {
                         if (size > 0) {
                             inv.setItem(i, null);
                             size--;
+                            System.out.println(size);
                         } else {
                             break;
                         }

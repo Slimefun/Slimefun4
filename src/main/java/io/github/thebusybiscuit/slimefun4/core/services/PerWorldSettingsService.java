@@ -48,7 +48,8 @@ public class PerWorldSettingsService {
     /**
      * This method loads the given {@link World} if it was not loaded before.
      *
-     * @param world The {@link World} to load
+     * @param world
+     *            The {@link World} to load
      */
     public void load(World world) {
         disabledItems.putIfAbsent(world.getName(), loadWorld(world.getName()));
@@ -57,7 +58,8 @@ public class PerWorldSettingsService {
     /**
      * Temporary migration method for the old system
      *
-     * @throws IOException This will be thrown if we failed to delete the old {@link File}
+     * @throws IOException
+     *             This will be thrown if we failed to delete the old {@link File}
      */
     private void migrate() throws IOException {
         Config oldConfig = new Config(plugin, "whitelist.yml");
@@ -87,8 +89,11 @@ public class PerWorldSettingsService {
     /**
      * This method checks whether the given {@link SlimefunItem} is enabled in the given {@link World}.
      *
-     * @param world The {@link World} to check
-     * @param item  The {@link SlimefunItem} that should be checked
+     * @param world
+     *            The {@link World} to check
+     * @param item
+     *            The {@link SlimefunItem} that should be checked
+     *
      * @return Whether the given {@link SlimefunItem} is enabled in that {@link World}
      */
     public boolean isEnabled(World world, SlimefunItem item) {
@@ -104,7 +109,9 @@ public class PerWorldSettingsService {
     /**
      * This checks whether the given {@link World} is enabled or not.
      *
-     * @param world The {@link World} to check
+     * @param world
+     *            The {@link World} to check
+     *
      * @return Whether this {@link World} is enabled
      */
     public boolean isWorldEnabled(World world) {
@@ -115,8 +122,11 @@ public class PerWorldSettingsService {
     /**
      * This method checks whether the given {@link SlimefunAddon} is enabled in that {@link World}.
      *
-     * @param world The {@link World} to check
-     * @param addon The {@link SlimefunAddon} to check
+     * @param world
+     *            The {@link World} to check
+     * @param addon
+     *            The {@link SlimefunAddon} to check
+     *
      * @return Whether this addon is enabled in that {@link World}
      */
     public boolean isAddonEnabled(World world, SlimefunAddon addon) {

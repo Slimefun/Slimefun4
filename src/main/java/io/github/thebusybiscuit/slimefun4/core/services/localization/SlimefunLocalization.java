@@ -134,6 +134,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
             List<String> lore = config.getStringList(key.getNamespace() + "." + key.getKey() + ".lore");
             lore.replaceAll(line -> ChatColor.GRAY + line);
             meta.setLore(lore);
+
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         });

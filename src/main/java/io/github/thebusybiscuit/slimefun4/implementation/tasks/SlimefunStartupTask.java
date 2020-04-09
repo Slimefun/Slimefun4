@@ -1,4 +1,3 @@
-
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
@@ -41,6 +40,7 @@ public class SlimefunStartupTask implements Runnable {
         PostSetup.loadItems();
 
         // Load all worlds
+        SlimefunPlugin.getWorldSettingsService().load(Bukkit.getWorlds());
         for (World world : Bukkit.getWorlds()) {
             new BlockStorage(world);
         }

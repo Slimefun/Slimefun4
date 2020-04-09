@@ -39,6 +39,7 @@ public class GitHubService {
 
         connectors = new HashSet<>();
         contributors = new ConcurrentHashMap<>();
+        loadConnectors(false);
     }
 
     public void start(Plugin plugin) {
@@ -49,7 +50,6 @@ public class GitHubService {
         Contributor fuffles = new Contributor("Fuffles_");
         fuffles.setContribution("&dSkull Texture Artist", 0);
         contributors.put(fuffles.getName(), fuffles);
-        loadConnectors(false);
 
         new Translators(contributors);
     }

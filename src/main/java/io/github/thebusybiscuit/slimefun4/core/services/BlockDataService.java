@@ -40,7 +40,7 @@ public class BlockDataService implements PersistentDataService {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            setString(state, namespacedKey, value);
+            setString((TileState) state, namespacedKey, value);
             state.update();
         }
     }
@@ -56,7 +56,7 @@ public class BlockDataService implements PersistentDataService {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            return getString(state, namespacedKey);
+            return getString((TileState) state, namespacedKey);
         } else {
             return Optional.empty();
         }

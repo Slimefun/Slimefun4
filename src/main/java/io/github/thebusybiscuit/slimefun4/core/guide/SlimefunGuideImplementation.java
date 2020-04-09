@@ -64,4 +64,5 @@ public interface SlimefunGuideImplementation {
             Slimefun.runSync(callback, 103L);
         }
     }
+
 }

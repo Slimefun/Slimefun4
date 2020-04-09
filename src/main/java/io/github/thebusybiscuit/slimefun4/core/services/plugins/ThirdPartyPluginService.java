@@ -16,13 +16,11 @@ import java.util.logging.Level;
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
  * that are not a dependency or a {@link SlimefunAddon}.
- *
+ * <p>
  * Integration with these plugins happens inside Slimefun itself.
  *
  * @author TheBusyBiscuit
- *
  * @see SlimefunPlugin
- *
  */
 public class ThirdPartyPluginService {
 
@@ -83,7 +81,7 @@ public class ThirdPartyPluginService {
 
     private boolean isPluginInstalled(String hook) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
-            Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
+            Slimefun.getLogger().log(Level.INFO, "已接入插件: {0}", hook);
             return true;
         } else {
             return false;
