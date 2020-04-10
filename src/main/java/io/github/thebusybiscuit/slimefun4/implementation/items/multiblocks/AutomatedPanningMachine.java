@@ -1,14 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -19,130 +18,66 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AutomatedPanningMachine extends MultiBlockMachine {
-	
-	private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
-	private int weights;
-	
-	private final RandomizedSet<ItemStack> randomizerNether = new RandomizedSet<>();
-	private int weightsNether;
+
+	private final GoldPan goldPan = (GoldPan) SlimefunItems.GOLD_PAN.getItem();
+	private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();
 
 	public AutomatedPanningMachine() {
-		super(
-				Categories.MACHINES_1,
-				SlimefunItems.AUTOMATED_PANNING_MACHINE,
-				new ItemStack[]{
-						null, null, null,
-						null, new ItemStack(Material.OAK_TRAPDOOR), null,
-						null, new ItemStack(Material.CAULDRON), null
-				},
-				new ItemStack[]{
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT),
-						new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE,
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL),
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET),
-                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.QUARTZ),
-                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLD_NUGGET),
-                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.NETHER_WART),
-                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.BLAZE_POWDER),
-                        new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GLOWSTONE_DUST),
-					new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GHAST_TEAR)
-				}, 
-				BlockFace.SELF
-		);
+		super(Categories.MACHINES_1, SlimefunItems.AUTOMATED_PANNING_MACHINE, new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null}, new ItemStack[0], BlockFace.SELF);
 	}
-	
+
 	@Override
-	public void postRegister() {
-		super.postRegister();
-		
-		String goldPan = "GOLD_PAN";
-		String netherGoldPan = "NETHER_GOLD_PAN";
-		
-		add(false, SlimefunItems.SIFTED_ORE, (int) Slimefun.getItemValue(goldPan, "chance.SIFTED_ORE"));
-		add(false, new ItemStack(Material.CLAY_BALL), (int) Slimefun.getItemValue(goldPan, "chance.CLAY"));
-		add(false, new ItemStack(Material.FLINT), (int) Slimefun.getItemValue(goldPan, "chance.FLINT"));
-		add(false, new ItemStack(Material.IRON_NUGGET), (int) Slimefun.getItemValue(goldPan, "chance.IRON_NUGGET"));
+	public List<ItemStack> getDisplayRecipes() {
+		List<ItemStack> recipes = new ArrayList<>();
 
-		if (weights < 100) {
-			add(false, new ItemStack(Material.AIR), 100 - weights);
-		}
-		
-		add(true, new ItemStack(Material.QUARTZ), (int) Slimefun.getItemValue(netherGoldPan, "chance.QUARTZ"));
-		add(true, new ItemStack(Material.GOLD_NUGGET), (int) Slimefun.getItemValue(netherGoldPan, "chance.GOLD_NUGGET"));
-		add(true, new ItemStack(Material.NETHER_WART), (int) Slimefun.getItemValue(netherGoldPan, "chance.NETHER_WART"));
-		add(true, new ItemStack(Material.BLAZE_POWDER), (int) Slimefun.getItemValue(netherGoldPan, "chance.BLAZE_POWDER"));
-		add(true, new ItemStack(Material.GLOWSTONE_DUST), (int) Slimefun.getItemValue(netherGoldPan, "chance.GLOWSTONE_DUST"));
-		add(true, new ItemStack(Material.GHAST_TEAR), (int) Slimefun.getItemValue(netherGoldPan, "chance.GHAST_TEAR"));
-		
+		recipes.addAll(goldPan.getDisplayRecipes());
+		recipes.addAll(netherGoldPan.getDisplayRecipes());
 
-		if (weightsNether < 100) {
-			add(true, new ItemStack(Material.AIR), 100 - weightsNether);
-		}
+		return recipes;
 	}
-	
-	private void add(boolean nether, ItemStack item, int chance) {
-		if (nether) {
-			randomizerNether.add(item, chance);
-			weightsNether += chance;
-		}
-		else {
-			randomizer.add(item, chance);
-			weights += chance;
-		}
-	}
-	
+
 	@Override
 	public void onInteract(Player p, Block b) {
-        ItemStack input = p.getInventory().getItemInMainHand();
+		ItemStack input = p.getInventory().getItemInMainHand();
 
 		if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
-			Material block = input.getType();
+			Material material = input.getType();
 
 			if (p.getGameMode() != GameMode.CREATIVE) {
 				ItemUtils.consumeItem(input, false);
 			}
 
-			ItemStack output = getRandomDrop(block);
+			ItemStack output = material == Material.GRAVEL ? goldPan.getRandomOutput() : netherGoldPan.getRandomOutput();
 			TaskQueue queue = new TaskQueue();
 
-			queue.thenRepeatEvery(20, 5, () ->
-                    b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, block)
-            );
+			queue.thenRepeatEvery(20, 5, () -> b.getWorld().playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, material));
 
-            queue.thenRun(20, () -> {
-                if (output.getType() != Material.AIR) {
-                    Inventory outputChest = findOutputChest(b.getRelative(BlockFace.DOWN), output);
+			queue.thenRun(20, () -> {
+				if (output.getType() != Material.AIR) {
+					Inventory outputChest = findOutputChest(b.getRelative(BlockFace.DOWN), output);
 
-                    if (outputChest != null) {
-                        outputChest.addItem(output.clone());
-                    } else {
+					if (outputChest != null) {
+						outputChest.addItem(output.clone());
+					} else {
 						b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
 					}
-					
+
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
 				}
 				else {
 					p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 1F, 1F);
 				}
 			});
-			
+
 			queue.execute(SlimefunPlugin.instance);
 		}
 		else {
 			SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
 		}
-	}
-
-	private ItemStack getRandomDrop(Material input) {
-		if (input == Material.GRAVEL) {
-			return randomizer.getRandom();
-		}
-		else if (input == Material.SOUL_SAND) {
-			return randomizerNether.getRandom();
-		}
-		
-		return new ItemStack(Material.AIR);
 	}
 
 }

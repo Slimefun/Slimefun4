@@ -29,5 +29,5 @@ public enum ItemState {
      * This {@link SlimefunItem} has fallen back to its vanilla behavior, because it is disabled and an instance of
      * {@link VanillaItem}.
      */
-    VANILLA
+    VANILLA_FALLBACK
 }

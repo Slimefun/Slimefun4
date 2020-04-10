@@ -4,10 +4,13 @@ import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricGoldPan;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.AutomatedPanningMachine;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -18,6 +21,15 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
+/**
+ * A {@link GoldPan} is a {@link SlimefunItem} which allows you to obtain various
+ * resources from Gravel.
+ *
+ * @author TheBusyBiscuit
+ * @see NetherGoldPan
+ * @see AutomatedPanningMachine
+ * @see ElectricGoldPan
+ */
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
@@ -63,6 +75,10 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         }
     }
 
+    public ItemStack getRandomOutput() {
+        return randomizer.getRandom();
+    }
+
     @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.gold-pan";
@@ -77,7 +93,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
                 Block b = block.get();
 
                 if (b.getType() == getInput() && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-                    ItemStack output = randomizer.getRandom();
+                    ItemStack output = getRandomOutput();
 
                     b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
                     b.setType(Material.AIR);
@@ -106,11 +122,11 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return recipes;
     }
 
-    class GoldPanDrop extends ItemSetting<Integer> {
+    public class GoldPanDrop extends ItemSetting<Integer> {
 
         private final ItemStack output;
 
-        public GoldPanDrop(String key, int defaultValue, ItemStack output) {
+        protected GoldPanDrop(String key, int defaultValue, ItemStack output) {
             super(key, defaultValue);
 
             this.output = output;
