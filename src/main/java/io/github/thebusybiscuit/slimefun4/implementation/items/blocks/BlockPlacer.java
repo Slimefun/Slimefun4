@@ -107,9 +107,19 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, item.getType());
 
         if (dispenser.getInventory().containsAtLeast(item, 2)) {
-            dispenser.getInventory().removeItem(new CustomItem(item, 1));
+            if (item.getType().name().contains("SHULKER_BOX")) {
+                removeItems(dispenser, item);
+            } else {
+                dispenser.getInventory().removeItem(new CustomItem(item, 1));
+            }
         } else {
-            Slimefun.runSync(() -> removeItems(dispenser, item));
+            Slimefun.runSync(() -> {
+                if (item.getType().name().contains("SHULKER_BOX")) {
+                    removeItems(dispenser, item);
+                } else {
+                    dispenser.getInventory().removeItem(item);
+                }
+            }, 2L);
         }
     }
 
@@ -117,16 +127,14 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         Map<Integer, ItemStack> unRemovedItems = dispenser.getInventory().removeItem(itemStack);
         Inventory inv = dispenser.getInventory();
 
-        if (!unRemovedItems.isEmpty() && itemStack.getType().name().contains("SHULKER_BOX")) {
+        if (!unRemovedItems.isEmpty()) {
             unRemovedItems.forEach((k, v) -> {
                 int size = itemStack.getAmount();
-                System.out.println(size);
                 for (int i = 0; i < inv.getSize(); i++) {
-                    if (v.getType() == itemStack.getType()) {
+                    if (inv.getItem(i) != null && v.getType().equals(inv.getItem(i).getType())) {
                         if (size > 0) {
-                            inv.setItem(i, null);
+                            inv.setItem(i, new CustomItem(itemStack, Math.max(0, itemStack.getAmount() - v.getAmount())));
                             size--;
-                            System.out.println(size);
                         } else {
                             break;
                         }
