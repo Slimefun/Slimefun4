@@ -20,22 +20,31 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class GrapplingHookListener implements Listener {
 
+    private GrapplingHook grapplingHook;
+
     private final Map<UUID, Boolean> jumpState = new HashMap<>();
     private final Set<UUID> invulnerable = new HashSet<>();
     private final Map<UUID, Entity[]> temporaryEntities = new HashMap<>();
 
-    public void register(SlimefunPlugin plugin) {
+    public void register(SlimefunPlugin plugin, GrapplingHook grapplingHook) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        this.grapplingHook = grapplingHook;
     }
 
     @EventHandler
     public void onArrowHitEntity(EntityDamageByEntityEvent e) {
+        if (grapplingHook == null || grapplingHook.isDisabled()) {
+            return;
+        }
+
         if (e.getDamager() instanceof Arrow) {
             handleGrapplingHook((Arrow) e.getDamager());
         }
@@ -43,6 +52,10 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onArrowHit(ProjectileHitEvent e) {
+        if (grapplingHook == null || grapplingHook.isDisabled()) {
+            return;
+        }
+
         Slimefun.runSync(() -> {
             if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
                 handleGrapplingHook((Arrow) e.getEntity());
@@ -52,6 +65,10 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onArrowHit(EntityDamageEvent e) {
+        if (grapplingHook == null || grapplingHook.isDisabled()) {
+            return;
+        }
+
         if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerable.contains(e.getEntity().getUniqueId())) {
             e.setCancelled(true);
             invulnerable.remove(e.getEntity().getUniqueId());

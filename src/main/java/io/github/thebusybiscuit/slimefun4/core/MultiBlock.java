@@ -65,22 +65,25 @@ public class MultiBlock {
         return blocks[0] == blocks[2] && blocks[3] == blocks[5] && blocks[6] == blocks[8];
     }
 
-    public Material[] getBuild() {
-        return this.blocks;
+    public Material[] getStructure() {
+        return blocks;
     }
 
     public BlockFace getTriggerBlock() {
-        return this.trigger;
+        return trigger;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof MultiBlock)) return false;
+        if (!(obj instanceof MultiBlock)) {
+            return false;
+        }
 
         MultiBlock mb = (MultiBlock) obj;
+
         if (trigger == mb.getTriggerBlock()) {
-            for (int i = 0; i < mb.getBuild().length; i++) {
-                if (!compareBlocks(blocks[i], mb.getBuild()[i])) {
+            for (int i = 0; i < mb.getStructure().length; i++) {
+                if (!compareBlocks(blocks[i], mb.getStructure()[i])) {
                     return false;
                 }
             }

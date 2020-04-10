@@ -1,5 +1,7 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
+import org.bukkit.entity.Player;
+
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -17,6 +19,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 @FunctionalInterface
 public interface ItemUseHandler extends ItemHandler {
 
+    /**
+     * This function is triggered when a {@link Player} right clicks with the assigned {@link SlimefunItem}
+     * in his hand.
+     * 
+     * @param e
+     *            The {@link PlayerRightClickEvent} that was triggered
+     */
     void onRightClick(PlayerRightClickEvent e);
 
     @Override

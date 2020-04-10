@@ -51,14 +51,17 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class AncientAltarListener implements Listener {
 
+    private AncientAltar altar;
+
     private final Set<AltarRecipe> altarRecipes = new HashSet<>();
     private final Set<Location> altarsInUse = new HashSet<>();
 
     private final List<Block> altars = new ArrayList<>();
     private final Set<UUID> removedItems = new HashSet<>();
 
-    public void register(SlimefunPlugin plugin) {
+    public void register(SlimefunPlugin plugin, AncientAltar altar) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        this.altar = altar;
     }
 
     public Set<Location> getAltarsInUse() {
@@ -75,7 +78,9 @@ public class AncientAltarListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerRightClickEvent e) {
-        if (e.useBlock() == Result.DENY) return;
+        if (altar == null || altar.isDisabled() || e.useBlock() == Result.DENY) {
+            return;
+        }
 
         Optional<Block> blockOptional = e.getClickedBlock();
         if (!blockOptional.isPresent()) return;
@@ -208,6 +213,10 @@ public class AncientAltarListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
+        if (altar == null || altar.isDisabled()) {
+            return;
+        }
+
         Block pedestal = e.getBlockPlaced().getRelative(BlockFace.DOWN);
 
         if (pedestal.getType() == Material.DISPENSER) {

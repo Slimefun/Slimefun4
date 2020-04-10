@@ -16,7 +16,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
- * that are not a dependency or a {@link SlimefunAddon}.
+ * that are not necessarily a dependency or a {@link SlimefunAddon}.
  * 
  * Integration with these plugins happens inside Slimefun itself.
  * 

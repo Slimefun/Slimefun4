@@ -10,6 +10,13 @@ import org.bukkit.persistence.PersistentDataType;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
+/**
+ * This interface is used to defer calls to Peristent Data and make sure they are only called
+ * if the {@link MinecraftVersion} supports it.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 interface PersistentDataService {
 
     default void setString(Object obj, NamespacedKey key, String value) {

@@ -15,8 +15,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 /**
  * A {@link FlexCategory} is a {@link Category} inside the {@link SlimefunGuide} that can
  * be completely modified.
- * It cannot hold any {@link SlimefunItem}.
- * It can be completely overridden to perform any action upon being opened.
+ * It cannot hold any {@link SlimefunItem} but can be completely overridden
+ * to perform any action upon being opened.
  * 
  * @author TheBusyBiscuit
  *
@@ -27,18 +27,18 @@ public abstract class FlexCategory extends Category {
         this(key, item, 3);
     }
 
-    public abstract boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
-
-    public abstract void open(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
-
     public FlexCategory(NamespacedKey key, ItemStack item, int tier) {
         super(key, item, tier);
     }
 
+    public abstract boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
+
+    public abstract void open(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
+
     @Override
     public final boolean isHidden(Player p) {
         // We can stop this method right here.
-        // We provide a custom method for this. See isVisible(...)
+        // We provide a custom method with more parameters for this. See isVisible(...)
         return false;
     }
 

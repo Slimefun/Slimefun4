@@ -8,6 +8,7 @@ import org.bukkit.plugin.Plugin;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This Class represents our {@link Updater} Service.
@@ -19,11 +20,20 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
  */
 public class UpdaterService {
 
-    private final Plugin plugin;
+    private final SlimefunPlugin plugin;
     private final Updater updater;
     private final SlimefunBranch branch;
 
-    public UpdaterService(Plugin plugin, File file) {
+    /**
+     * This will create a new {@link UpdaterService} for the given {@link SlimefunPlugin}.
+     * The {@link File} should be the result of the getFile() operation of that {@link Plugin}.
+     * 
+     * @param plugin
+     *            The instance of Slimefun
+     * @param file
+     *            The {@link File} of this {@link Plugin}
+     */
+    public UpdaterService(SlimefunPlugin plugin, File file) {
         this.plugin = plugin;
         String version = plugin.getDescription().getVersion();
 
@@ -68,11 +78,11 @@ public class UpdaterService {
             updater.start();
         }
         else {
-            drawBorder();
+            printBorder();
             plugin.getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
             plugin.getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
             plugin.getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun to any official sources.");
-            drawBorder();
+            printBorder();
         }
     }
 
@@ -80,7 +90,7 @@ public class UpdaterService {
      * This method is called when the {@link UpdaterService} was disabled.
      */
     public void disable() {
-        drawBorder();
+        printBorder();
         plugin.getLogger().log(Level.WARNING, "It looks like you have disabled auto-updates for Slimefun!");
         plugin.getLogger().log(Level.WARNING, "Auto-Updates keep your server safe, performant and bug-free.");
         plugin.getLogger().log(Level.WARNING, "We respect your decision.");
@@ -89,10 +99,10 @@ public class UpdaterService {
             plugin.getLogger().log(Level.WARNING, "If you are just scared of Slimefun breaking, then please consider using a \"stable\" build instead of disabling auto-updates.");
         }
 
-        drawBorder();
+        printBorder();
     }
 
-    private void drawBorder() {
+    private void printBorder() {
         plugin.getLogger().log(Level.WARNING, "#######################################################");
     }
 
