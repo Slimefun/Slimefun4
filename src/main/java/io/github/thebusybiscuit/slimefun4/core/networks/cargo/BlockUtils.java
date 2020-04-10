@@ -3,7 +3,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-public final class BlockUtils {
+final class BlockUtils {
 
     private BlockUtils() {}
 
