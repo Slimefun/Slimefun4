@@ -45,7 +45,7 @@ public class Talisman extends SlimefunItem {
     }
 
     public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
-        this(Categories.TALISMANS_1, item, recipe, consumable, cancelEvent, messageSuffix, chance, effects);
+        this(Categories.TALISMANS, item, recipe, consumable, cancelEvent, messageSuffix, chance, effects);
     }
 
     protected Talisman(Category category, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {

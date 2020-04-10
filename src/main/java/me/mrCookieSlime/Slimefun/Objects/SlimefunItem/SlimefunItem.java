@@ -366,7 +366,7 @@ public class SlimefunItem implements Placeable {
 
             if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
 
-                if (!SlimefunPlugin.getRegistry().getEnabledCategories().contains(category)) {
+                if (!SlimefunPlugin.getRegistry().getCategories().contains(category)) {
                     category.register();
                 }
 

@@ -29,6 +29,7 @@ options:
   legacy-ore-grinder: true
   # 是否启用反基座刷物品
   # 请注意: 启用后只有从基座上把物品拿下才能拆除
+  # 更新: 新版本关闭后也可以防止刷物品
   anti-altar-glitch: false
   # 网络最大上限 (?)
   max-network-size: 150

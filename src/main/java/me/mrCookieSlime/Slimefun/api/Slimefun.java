@@ -28,25 +28,10 @@ public final class Slimefun {
         return SlimefunPlugin.instance.getLogger();
     }
 
-    /**
-     * Returns the value associated to this key for the SlimefunItem corresponding to this id.
-     *
-     * @param id  the id of the SlimefunItem, not null
-     * @param key the key of the value to get, not null
-     * @return the value associated to the key for the SlimefunItem corresponding to the id,
-     * or null if it doesn't exist.
-     */
+    // 向后兼容
     public static Object getItemValue(String id, String key) {
         return getItemConfig().getValue(id + '.' + key);
     }
-
-    /**
-     * Sets a default value associated to this key for the SlimefunItem corresponding to this id.
-     *
-     * @param id    the id of the SlimefunItem, not null
-     * @param key   the key of the value to set, not null
-     * @param value the value to set, can be null
-     */
 
     @Deprecated
     // 向后兼容
@@ -54,13 +39,8 @@ public final class Slimefun {
         getItemConfig().setDefaultValue(id + '.' + key, value);
     }
 
-    /**
-     * Returns the Config instance of Items.yml file.
-     * <p>
-     * It calls {@code SlimefunStartup#getItemCfg()}.
-     *
-     * @return the Items.yml Config instance.
-     */
+    // 向后兼容
+    @Deprecated
     public static Config getItemConfig() {
         return SlimefunPlugin.getItemCfg();
     }
@@ -95,13 +75,7 @@ public final class Slimefun {
     }
 
     public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
-        Research research = new Research(key, id, name, cost);
-
-        for (ItemStack item : items) {
-            research.addItems(SlimefunItem.getByItem(item));
-        }
-
-        research.register();
+        registerResearch(new Research(key, id, name, cost), items);
     }
 
     /**
@@ -123,7 +97,9 @@ public final class Slimefun {
 
         if (sfItem != null) {
             if (sfItem.getState() == ItemState.DISABLED) {
-                if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                if (message) {
+                    SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                }
                 return false;
             }
 

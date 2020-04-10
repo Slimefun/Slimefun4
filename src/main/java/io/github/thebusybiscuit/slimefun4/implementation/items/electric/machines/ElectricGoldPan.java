@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -11,7 +11,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -19,65 +18,32 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
-	private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
-	private final RandomizedSet<ItemStack> randomizerNether = new RandomizedSet<>();
+    private final GoldPan goldPan = (GoldPan) SlimefunItems.GOLD_PAN.getItem();
+    private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();
 
-	private final List<ItemStack> displayRecipes = Arrays.asList(
-			new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT),
-			new ItemStack(Material.GRAVEL), SlimefunItems.SIFTED_ORE,
-			new ItemStack(Material.GRAVEL), new ItemStack(Material.CLAY_BALL),
-			new ItemStack(Material.GRAVEL), new ItemStack(Material.IRON_NUGGET),
+    public ElectricGoldPan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
 
-			new ItemStack(Material.SOUL_SAND), new ItemStack(Material.QUARTZ),
-			new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GOLD_NUGGET),
-			new ItemStack(Material.SOUL_SAND), new ItemStack(Material.NETHER_WART),
-			new ItemStack(Material.SOUL_SAND), new ItemStack(Material.BLAZE_POWDER),
-			new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GLOWSTONE_DUST),
-			new ItemStack(Material.SOUL_SAND), new ItemStack(Material.GHAST_TEAR)
-	);
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        List<ItemStack> recipes = new ArrayList<>();
 
-	public ElectricGoldPan(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
+        recipes.addAll(goldPan.getDisplayRecipes());
+        recipes.addAll(netherGoldPan.getDisplayRecipes());
 
-	@Override
-	public void postRegister() {
-		super.postRegister();
-
-		String goldPan = "GOLD_PAN";
-		String netherGoldPan = "NETHER_GOLD_PAN";
-
-		add(false, SlimefunItems.SIFTED_ORE, (int) Slimefun.getItemValue(goldPan, "chance.SIFTED_ORE"));
-		add(false, new ItemStack(Material.CLAY_BALL), (int) Slimefun.getItemValue(goldPan, "chance.CLAY"));
-		add(false, new ItemStack(Material.FLINT), (int) Slimefun.getItemValue(goldPan, "chance.FLINT"));
-		add(false, new ItemStack(Material.IRON_NUGGET), (int) Slimefun.getItemValue(goldPan, "chance.IRON_NUGGET"));
-
-		add(true, new ItemStack(Material.QUARTZ), (int) Slimefun.getItemValue(netherGoldPan, "chance.QUARTZ"));
-		add(true, new ItemStack(Material.GOLD_NUGGET), (int) Slimefun.getItemValue(netherGoldPan, "chance.GOLD_NUGGET"));
-		add(true, new ItemStack(Material.NETHER_WART), (int) Slimefun.getItemValue(netherGoldPan, "chance.NETHER_WART"));
-		add(true, new ItemStack(Material.BLAZE_POWDER), (int) Slimefun.getItemValue(netherGoldPan, "chance.BLAZE_POWDER"));
-		add(true, new ItemStack(Material.GLOWSTONE_DUST), (int) Slimefun.getItemValue(netherGoldPan, "chance.GLOWSTONE_DUST"));
-		add(true, new ItemStack(Material.GHAST_TEAR), (int) Slimefun.getItemValue(netherGoldPan, "chance.GHAST_TEAR"));
-	}
-
-	private void add(boolean nether, ItemStack item, int chance) {
-		if (nether) {
-			randomizerNether.add(item, chance);
-		}
-		else {
-			randomizer.add(item, chance);
-		}
-	}
+        return recipes;
+    }
 
 	@Override
 	public String getInventoryTitle() {
-		return SlimefunItems.ELECTRIC_GOLD_PAN.getItemMeta().getDisplayName();
-	}
+        return SlimefunItems.ELECTRIC_GOLD_PAN.clone().getItemMeta().getDisplayName();
+    }
 
 	@Override
 	public ItemStack getProgressBar() {
@@ -102,52 +68,51 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 					progress.put(b, timeleft - 1);
 				}
 				else progress.put(b, timeleft - 1);
-			}
-			else if (ChargableBlock.isChargable(b)) {
-				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-				ChargableBlock.addCharge(b, -getEnergyConsumption());
+			} else if (ChargableBlock.isChargable(b)) {
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
 
-				menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-				menu.pushItem(processing.get(b).getOutput()[0].clone(), getOutputSlots());
+                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                menu.pushItem(processing.get(b).getOutput()[0].clone(), getOutputSlots());
 
-				progress.remove(b);
-				processing.remove(b);
-			}
-		} else {
-			for (int slot : getInputSlots()) {
-				if (process(b, menu, slot)) {
-					break;
-				}
-			}
-		}
+                progress.remove(b);
+                processing.remove(b);
+            }
+        } else {
+            for (int slot : getInputSlots()) {
+                if (process(b, menu, slot)) {
+                    break;
+                }
+            }
+        }
 	}
 
 	private boolean process(Block b, BlockMenu menu, int slot) {
 		if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
-			ItemStack output = randomizer.getRandom();
+            ItemStack output = goldPan.getRandomOutput();
 
-			MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[]{output});
+            MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[]{output});
 
-			if (menu.fits(output, getOutputSlots())) {
-				menu.consumeItem(slot);
-				processing.put(b, r);
-				progress.put(b, r.getTicks());
-			}
+            if (menu.fits(output, getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
 
-			return true;
-		} else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-			ItemStack output = randomizerNether.getRandom();
+            return true;
+        } else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+            ItemStack output = netherGoldPan.getRandomOutput();
 
-			MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[]{output});
+            MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[]{output});
 
-			if (menu.fits(output, getOutputSlots())) {
-				menu.consumeItem(slot);
-				processing.put(b, r);
-				progress.put(b, r.getTicks());
-			}
+            if (menu.fits(output, getOutputSlots())) {
+                menu.consumeItem(slot);
+                processing.put(b, r);
+                progress.put(b, r.getTicks());
+            }
 
-			return true;
-		}
+            return true;
+        }
 
 		return false;
 	}
@@ -155,11 +120,6 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 	@Override
 	public String getMachineIdentifier() {
 		return "ELECTRIC_GOLD_PAN";
-	}
-
-	@Override
-	public List<ItemStack> getDisplayRecipes() {
-		return displayRecipes;
 	}
 
 }

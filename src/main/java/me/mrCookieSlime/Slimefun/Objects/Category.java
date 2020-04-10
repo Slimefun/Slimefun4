@@ -15,7 +15,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
@@ -82,10 +85,8 @@ public class Category implements Keyed {
      * By default, a category is automatically registered when a {@link SlimefunItem} is bound to it.
      */
     public void register() {
-        if (!(this instanceof SeasonalCategory) || ((SeasonalCategory) this).isVisible()) {
-            SlimefunPlugin.getRegistry().getEnabledCategories().add(this);
-            Collections.sort(SlimefunPlugin.getRegistry().getEnabledCategories(), Comparator.comparingInt(Category::getTier));
-        }
+        SlimefunPlugin.getRegistry().getCategories().add(this);
+        SlimefunPlugin.getRegistry().getCategories().sort(Comparator.comparingInt(Category::getTier));
     }
 
     /**

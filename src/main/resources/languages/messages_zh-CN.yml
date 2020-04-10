@@ -61,6 +61,8 @@ commands:
   teleporter: 查看其他玩家的公开传送点
   timings: 查看关于 Slimefun 的耗能信息
   versions: 列出已安装的扩展插件
+  reload: 重载配置文件
+  transform: 将物品转换为英文物品
 gps:
   deathpoint: "&4死亡地点 &7%date%"
   geo:
