@@ -29,31 +29,32 @@ final class CargoUtils {
 
     public static ItemStack withdraw(Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
-
-        if (menu != null) {
-            for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
-                ItemStack is = menu.getItemInSlot(slot);
-
-                if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
-                    if (is.getAmount() > template.getAmount()) {
-                        menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
-                        return template;
-                    } 
-                    else {
-                        menu.replaceExistingItem(slot, null);
-                        return is.clone();
-                    }
+        if (menu == null) {
+            if (BlockUtils.hasInventory(target)) {
+                BlockState state = target.getState();
+                if (state instanceof InventoryHolder) {
+                    return withdrawFromVanillaInventory(node, template, ((InventoryHolder) state).getInventory());
                 }
             }
-        } 
-        else if (BlockUtils.hasInventory(target)) {
-            BlockState state = target.getState();
+            return null;
+        }
 
-            if (state instanceof InventoryHolder) {
-                return withdrawFromVanillaInventory(node, template, ((InventoryHolder) state).getInventory());
+        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+            ItemStack is = menu.getItemInSlot(slot);
+
+            if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
+                if (is.getAmount() > template.getAmount()) {
+                    is.setAmount(is.getAmount() - template.getAmount());
+                    menu.replaceExistingItem(slot, is);
+                    return template;
+                }
+                else {
+                    menu.replaceExistingItem(slot, null);
+                    return is;
+                }
             }
         }
-        
+
         return null;
     }
 
@@ -75,12 +76,14 @@ final class CargoUtils {
 
             if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
                 if (is.getAmount() > template.getAmount()) {
-                    inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
+                    is.setAmount(is.getAmount() - template.getAmount());
+                    inv.setItem(slot, is);
                     return template;
                 } 
                 else {
-                    inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
-                    return is.clone();
+                    is.setAmount(is.getAmount() - template.getAmount());
+                    inv.setItem(slot, is);
+                    return is;
                 }
             }
         }
@@ -97,10 +100,10 @@ final class CargoUtils {
 
                 if (matchesFilter(node, is, index)) {
                     menu.replaceExistingItem(slot, null);
-                    return new ItemStackAndInteger(is.clone(), slot);
+                    return new ItemStackAndInteger(is, slot);
                 }
             }
-        } 
+        }
         else if (BlockUtils.hasInventory(target)) {
             BlockState state = target.getState();
 
@@ -114,7 +117,7 @@ final class CargoUtils {
                 if (inv instanceof FurnaceInventory) {
                     minSlot = 2;
                     maxSlot = 3;
-                } 
+                }
                 else if (inv instanceof BrewerInventory) {
                     maxSlot = 3;
                 }
@@ -124,7 +127,7 @@ final class CargoUtils {
 
                     if (matchesFilter(node, is, index)) {
                         inv.setItem(slot, null);
-                        return new ItemStackAndInteger(is.clone(), slot);
+                        return new ItemStackAndInteger(is, slot);
                     }
                 }
             }
