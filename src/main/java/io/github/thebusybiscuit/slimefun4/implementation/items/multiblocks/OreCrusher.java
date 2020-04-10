@@ -34,27 +34,30 @@ public class OreCrusher extends MultiBlockMachine {
 				new ItemStack[] {
 						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), 
 						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND)
+						new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND),
+                        new ItemStack(Material.MAGMA_BLOCK, 4), SlimefunItems.SULFATE
 				},
 				BlockFace.SELF
 		);
+		
 		addItemSetting(doubleOres);
-	}
-
-	@Override
-	public void postRegister() {
-		super.postRegister();
-		shownRecipes.addAll(Arrays.asList(
-				new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1),
-				new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
-				new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
-				new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1),
-				new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
-		));
 	}
 
 	public boolean isDoubleDropsEnabled() {
 	    return doubleOres.getValue();
+	}
+
+	@Override
+	public void postRegister() {
+	    super.postRegister();
+
+	    shownRecipes.addAll(Arrays.asList(
+                new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1),
+                new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
+                new ItemStack(Material.REDSTONE_ORE), new ItemStack(Material.REDSTONE, isDoubleDropsEnabled() ? 8: 4),
+                new ItemStack(Material.DIAMOND_ORE), new ItemStack(Material.DIAMOND, isDoubleDropsEnabled() ? 2: 1), 
+                new ItemStack(Material.EMERALD_ORE), new ItemStack(Material.EMERALD, isDoubleDropsEnabled() ? 2: 1)
+        ));
 	}
 
 	@Override

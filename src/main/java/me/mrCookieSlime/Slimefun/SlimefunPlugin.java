@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
+import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
@@ -108,6 +109,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
     private final PermissionsService permissionsService = new PermissionsService(this);
+    private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private LocalizationService local;
@@ -117,10 +119,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private ProtectionManager protections;
 
     // Important config files for Slimefun
-    private Config researches;
-    private Config items;
-    private Config whitelist;
-    private Config config;
+    private final Config config = new Config(this);
+    private final Config items = new Config(this, "Items.yml");
+    private final Config researches = new Config(this, "Researches.yml");
 
     // Listeners that need to be accessed elsewhere
     private final AncientAltarListener ancientAltarListener = new AncientAltarListener();
@@ -142,22 +143,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             instance = this;
 
             // Creating all necessary Folders
-            getLogger().log(Level.INFO, "Loading files...");
+            getLogger().log(Level.INFO, "Loading various systems...");
             createDirectories();
-
-            // Setup config.yml
-            getLogger().log(Level.INFO, "Loading config...");
-            config = new Config(this);
             registry.load(config);
 
-            // Loading all extra configs
-            researches = new Config(this, "Researches.yml");
-            items = new Config(this, "Items.yml");
-            whitelist = new Config(this, "whitelist.yml");
-
-            // Setup various other config files
-            textureService.load();
-            permissionsService.load();
+            // Set up localization
             local = new LocalizationService(this, config.getString("options.language"));
 
             // Setting up Networks
@@ -209,7 +199,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new WitherListener(this);
             new IronGolemListener(this);
 
-            bowListener.load(this);
+            bowListener.register(this);
 
             // Toggleable Listeners for performance reasons
             if (config.getBoolean("items.talismans")) {
@@ -221,7 +211,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             if (config.getBoolean("items.backpacks")) {
-                backpackListener.load(this);
+                backpackListener.register(this);
             }
 
             // Handle Slimefun Guide being given on Join
@@ -238,7 +228,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 protections = new ProtectionManager(getServer());
                 textureService.register(registry.getAllSlimefunItems());
                 permissionsService.register(registry.getAllSlimefunItems());
-                recipeService.load();
+                recipeService.refresh();
             }), 0);
 
             // Setting up the command /sf and all subcommands
@@ -253,9 +243,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             ticker.start(this);
             thirdPartySupportService.start();
             gitHubService.start(this);
-
-            // Exclude the command /sf elevator from our server log, it could get quite spammy
-            CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
@@ -333,6 +320,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             return;
         }
 
+        // Cancel all tasks from this plugin immediately
         Bukkit.getScheduler().cancelTasks(this);
 
         if (ticker != null) {
@@ -367,9 +355,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             menu.save();
         }
 
+        // Create a new backup zip
         backupService.run();
 
         // Prevent Memory Leaks
+        // These static Maps should be removed at some point...
         AContainer.processing = null;
         AContainer.progress = null;
 
@@ -381,6 +371,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         instance = null;
 
+        // Close all inventories on the server to prevent item dupes
+        // (Incase some idiot uses /reload)
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.closeInventory();
         }
@@ -388,22 +380,21 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     private void createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
-        String[] pluginFolders = { "scripts", "generators", "error-reports", "cache/github" };
+        String[] pluginFolders = { "scripts", "generators", "error-reports", "cache/github", "world-settings" };
 
         for (String folder : storageFolders) {
-            File file = new File("data-storage/Slimefun/" + folder);
+            File file = new File("data-storage/Slimefun", folder);
             if (!file.exists()) file.mkdirs();
         }
 
         for (String folder : pluginFolders) {
-            File file = new File("plugins/Slimefun/" + folder);
+            File file = new File("plugins/Slimefun", folder);
             if (!file.exists()) file.mkdirs();
         }
     }
 
     private void loadItems() {
         try {
-            PostSetup.setupItemSettings();
             SlimefunItemSetup.setup(this);
         }
         catch (Throwable x) {
@@ -430,10 +421,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static Config getItemCfg() {
         return instance.items;
-    }
-
-    public static Config getWhitelist() {
-        return instance.whitelist;
     }
 
     public static GPSNetwork getGPSNetwork() {
@@ -488,6 +475,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static ThirdPartyPluginService getThirdPartySupportService() {
         return instance.thirdPartySupportService;
+    }
+
+    public static PerWorldSettingsService getWorldSettingsService() {
+        return instance.worldSettingsService;
     }
 
     /**
@@ -562,6 +553,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     public static MinecraftVersion getMinecraftVersion() {
         return instance.minecraftVersion;
+    }
+
+    public static String getCSCoreLibVersion() {
+        return CSCoreLib.getLib().getDescription().getVersion();
     }
 
     @Override

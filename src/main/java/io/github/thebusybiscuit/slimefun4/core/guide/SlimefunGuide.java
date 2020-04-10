@@ -84,11 +84,12 @@ public final class SlimefunGuide {
     }
 
     public static void openGuide(Player p, SlimefunGuideLayout layout) {
-        if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
-        if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-
-        Optional<PlayerProfile> optional = PlayerProfile.find(p);
+        if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
+            return;
+        }
         
+        Optional<PlayerProfile> optional = PlayerProfile.find(p);
+
         if (optional.isPresent()) {
             PlayerProfile profile = optional.get();
             SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -33,10 +34,22 @@ public class MinecraftRecipeService {
         this.plugin = plugin;
     }
 
-    public void load() {
+    /**
+     * This method refreshes the {@link RecipeSnapshot} that is used by the {@link MinecraftRecipeService}.
+     */
+    public void refresh() {
         snapshot = new RecipeSnapshot(plugin);
     }
 
+    /**
+     * This method returns an {@link Optional} describing the output of a {@link FurnaceRecipe}
+     * with the given {@link ItemStack} as an input.
+     * 
+     * @param input
+     *            The input {@link ItemStack}
+     * 
+     * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
+     */
     public Optional<ItemStack> getFurnaceOutput(ItemStack input) {
         return snapshot.getRecipeOutput(MinecraftRecipe.FURNACE, input);
     }
@@ -65,8 +78,21 @@ public class MinecraftRecipeService {
         }
     }
 
+    /**
+     * This returns an array containing all {@link Recipe Recipes} for crafting the given
+     * {@link ItemStack}.
+     * 
+     * @param item
+     *            The {@link ItemStack} for which to get the recipes
+     * @return An array of {@link Recipe Recipes} to craft the given {@link ItemStack}
+     */
     public Recipe[] getRecipesFor(ItemStack item) {
-        return snapshot.getRecipesFor(item).toArray(new Recipe[0]);
+        if (item == null) {
+            return new Recipe[0];
+        }
+        else {
+            return snapshot.getRecipesFor(item).toArray(new Recipe[0]);
+        }
     }
 
 }

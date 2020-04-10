@@ -91,6 +91,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                                             for (ItemStack drop : b.getDrops(getItem())) {
                                                 b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune) : drop);
                                             }
+
                                             b.setType(Material.AIR);
                                         }
 
@@ -103,7 +104,9 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 
                     return true;
                 }
-                else return false;
+                else {
+                    return false;
+                }
             }
         };
     }

@@ -138,7 +138,7 @@ public class Research implements Keyed {
     public void addItems(SlimefunItem... items) {
         for (SlimefunItem item : items) {
             if (item != null) {
-                item.bindToResearch(this);
+                item.setResearch(this);
             }
         }
     }
@@ -242,7 +242,7 @@ public class Research implements Keyed {
             Iterator<SlimefunItem> iterator = items.iterator();
             while (iterator.hasNext()) {
                 SlimefunItem item = iterator.next();
-                if (item != null) item.bindToResearch(null);
+                if (item != null) item.setResearch(null);
                 iterator.remove();
             }
             return;

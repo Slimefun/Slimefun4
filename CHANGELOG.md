@@ -52,12 +52,28 @@
 * Added SlimefunGuide-Options API
 * Added ItemSettings API
 * Added experimental 1.13 backwards compatibility
+* Added "Magma Cream to Magma Blocks" recipe to the Electric Press
+* Added "Magma Blocks to Sulfate" recipe
+* You can now search for items from within the book variant of the Guide
 
 #### Changes
+* Replaced GuideHandlers with FlexCategories
+* Removed support for old EmeraldEnchants versions
+* Updated the book variant of the guide to use the newer API
+* Removed internal /sf elevator command
+* Split whitelist.yml up into individual /world-settings/worldname.yml files
+* Performance improvements
+* Slimefun Guide runs much faster now and can better deal with many Categories and items
+* Lots of API improvements
+* Faulty addons are now identified more easily and will no longer break Slimefun's main content this quickly
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
 * Fixed #1779
+* Fixed localized messages not showing in the book guide
+* Fixed empty categories showing up when items inside were hidden
+* Fixed ghost pages showing up when too many categories were disabled
+* Fixed debug fish not showing the correct chunk timings
 
 ## Release Candidate 10 (28 Mar 2020)
 
