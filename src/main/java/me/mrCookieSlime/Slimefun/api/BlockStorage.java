@@ -43,6 +43,7 @@ public class BlockStorage {
 
     private static final String PATH_BLOCKS = "data-storage/Slimefun/stored-blocks/";
     private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
+    private static final String PATH_INVENTORIES = "data-storage/Slimefun/stored-inventories/";
 
     private final World world;
     private final Map<Location, Config> storage = new ConcurrentHashMap<>();
@@ -450,14 +451,13 @@ public class BlockStorage {
                 }
             }
             else if (!storage.hasInventory(l)) {
-                File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
-
+                File file = new File(PATH_INVENTORIES + serializeLocation(l) + ".sfi");
                 if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(id), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
                 else storage.loadInventory(l, BlockMenuPreset.getPreset(id));
             }
         }
 
-        refreshCache(getStorage(l.getWorld()), l, id, serializeBlockInfo(cfg), updateTicker);
+        refreshCache(storage, l, id, serializeBlockInfo(cfg), updateTicker);
     }
 
     public static void setBlockInfo(Block b, String json, boolean updateTicker) {

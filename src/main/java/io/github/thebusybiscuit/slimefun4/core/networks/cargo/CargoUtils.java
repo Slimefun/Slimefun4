@@ -61,15 +61,15 @@ final class CargoUtils {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
-        
+
         if (inv instanceof FurnaceInventory) {
             minSlot = 2;
             maxSlot = 3;
-        } 
+        }
         else if (inv instanceof BrewerInventory) {
             maxSlot = 3;
         }
-        
+
         for (int slot = minSlot; slot < maxSlot; slot++) {
             ItemStack itemInSlot = contents[slot]; // Mapped into inventory
 
@@ -77,14 +77,14 @@ final class CargoUtils {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return template;
-                } 
+                }
                 else {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return itemInSlot;
                 }
             }
         }
-        
+
         return null;
 	}
 
@@ -184,21 +184,21 @@ final class CargoUtils {
             if (stack.getType().isFuel()) {
                 minSlot = 1;
                 maxSlot = 2;
-            } 
+            }
             else {
                 maxSlot = 1;
             }
-        } 
+        }
         else if (inv instanceof BrewerInventory) {
             //Check if it goes in the potion slot,
             if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
                 maxSlot = 3;
                 //The blaze powder slot,
-            } 
+            }
             else if (stack.getType() == Material.BLAZE_POWDER) {
                 minSlot = 4;
                 maxSlot = 5;
-            } 
+            }
             else {
                 //Or the input
                 minSlot = 3;
@@ -212,7 +212,7 @@ final class CargoUtils {
             if (itemInSlot == null) {
                 inv.setItem(slot, stack);
                 return null;
-            } 
+            }
             else {
                 int maxStackSize = itemInSlot.getType().getMaxStackSize();
                 if (SlimefunUtils.isItemSimilar(itemInSlot, stack, true, false) && itemInSlot.getAmount() < maxStackSize) {
@@ -231,7 +231,7 @@ final class CargoUtils {
                 }
             }
         }
-        
+
         return stack;
 	}
 
@@ -256,37 +256,38 @@ final class CargoUtils {
         boolean lore = "true".equals(blockInfo.getString("filter-lore"));
 
         if ("whitelist".equals(blockInfo.getString("filter-type"))) {
-            List<ItemStack> items = new ArrayList<>();
+            List<ItemStack> templateItems = new ArrayList<>();
 
             for (int slot : SLOTS) {
                 ItemStack template = menu.getItemInSlot(slot);
                 if (template != null) {
-                    items.add(template);
+                    templateItems.add(template);
                 }
             }
 
-            if (items.isEmpty()) {
+            if (templateItems.isEmpty()) {
                 return false;
             }
 
             if (index >= 0) {
                 index++;
-                if (index > (items.size() - 1)) index = 0;
+                if (index > (templateItems.size() - 1)) index = 0;
 
-                BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
+                blockInfo.setValue("index", String.valueOf(index));
+                BlockStorage.setBlockInfo(block, blockInfo, false);
 
-                return SlimefunUtils.isItemSimilar(item, items.get(index), lore);
-            } 
+                return SlimefunUtils.isItemSimilar(item, templateItems.get(index), lore);
+            }
             else {
-                for (ItemStack stack : items) {
+                for (ItemStack stack : templateItems) {
                     if (SlimefunUtils.isItemSimilar(item, stack, lore)) {
-                    	return true;
+                        return true;
                     }
                 }
-                
+
                 return false;
             }
-        } 
+        }
         else {
             for (int slot : SLOTS) {
                 ItemStack itemInSlot = menu.getItemInSlot(slot);
@@ -294,7 +295,7 @@ final class CargoUtils {
                     return false;
                 }
             }
-            
+
             return true;
         }
     }
