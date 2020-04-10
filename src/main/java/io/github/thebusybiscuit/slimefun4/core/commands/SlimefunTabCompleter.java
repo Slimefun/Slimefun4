@@ -26,7 +26,7 @@ class SlimefunTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
-            return createReturnList(command.getTabArguments(), args[0]);
+            return createReturnList(command.getSubCommandNames(), args[0]);
         }
         else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
@@ -46,10 +46,12 @@ class SlimefunTabCompleter implements TabCompleter {
                 return createReturnList(suggestions, args[2]);
             }
             else {
+                // Returning null will make it fallback to the default arguments (all online players)
                 return null;
             }
         }
         else {
+            // Returning null will make it fallback to the default arguments (all online players)
             return null;
         }
     }

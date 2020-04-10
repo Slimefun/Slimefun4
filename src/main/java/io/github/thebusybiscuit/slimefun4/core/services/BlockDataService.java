@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Optional;
 
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -22,12 +23,17 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  * @author TheBusyBiscuit
  *
  */
-public class BlockDataService implements PersistentDataService {
+public class BlockDataService implements PersistentDataService, Keyed {
 
     private final NamespacedKey namespacedKey;
 
     public BlockDataService(Plugin plugin, String key) {
         namespacedKey = new NamespacedKey(plugin, key);
+    }
+
+    @Override
+    public NamespacedKey getKey() {
+        return namespacedKey;
     }
 
     /**
@@ -81,7 +87,7 @@ public class BlockDataService implements PersistentDataService {
         if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return false;
         }
-        
+
         switch (type) {
         case PLAYER_HEAD:
         case PLAYER_WALL_HEAD:

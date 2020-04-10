@@ -20,12 +20,19 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  */
 public class SeismicAxeListener implements Listener {
 
-    public SeismicAxeListener(SlimefunPlugin plugin) {
+    private final SeismicAxe seismicAxe;
+
+    public SeismicAxeListener(SlimefunPlugin plugin, SeismicAxe seismicAxe) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        this.seismicAxe = seismicAxe;
     }
 
     @EventHandler
     public void onBlockFall(EntityChangeBlockEvent e) {
+        if (seismicAxe.isDisabled()) {
+            return;
+        }
+
         if (e.getEntity().getType() == EntityType.FALLING_BLOCK && e.getEntity().hasMetadata("seismic_axe")) {
             e.setCancelled(true);
             e.getEntity().remove();

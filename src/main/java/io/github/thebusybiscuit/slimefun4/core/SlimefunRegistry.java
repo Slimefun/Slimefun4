@@ -90,7 +90,7 @@ public class SlimefunRegistry {
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
     public void load(Config cfg) {
-        boolean showVanillaRecipes = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
+        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
 
         layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
         layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
@@ -98,8 +98,8 @@ public class SlimefunRegistry {
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
-        freeCreativeResearches = cfg.getBoolean("options.allow-free-creative-research");
-        researchFireworks = cfg.getBoolean("options.research-unlock-fireworks");
+        freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
+        researchFireworks = cfg.getBoolean("researches.enable-fireworks");
     }
 
     public boolean isAutoLoadingEnabled() {

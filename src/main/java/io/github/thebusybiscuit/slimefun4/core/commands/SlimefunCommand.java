@@ -29,6 +29,12 @@ public class SlimefunCommand implements CommandExecutor, Listener {
     private final List<SubCommand> commands = new LinkedList<>();
     private final Map<SubCommand, Integer> commandUsage = new HashMap<>();
 
+    /**
+     * Creates a new instance of {@link SlimefunCommand}
+     * 
+     * @param plugin
+     *            The instance of our {@link SlimefunPlugin}
+     */
     public SlimefunCommand(SlimefunPlugin plugin) {
         this.plugin = plugin;
     }
@@ -91,7 +97,12 @@ public class SlimefunCommand implements CommandExecutor, Listener {
         }
     }
 
-    public List<String> getTabArguments() {
+    /**
+     * This returns A {@link List} containing every possible {@link SubCommand} of this {@link Command}.
+     * 
+     * @return A {@link List} containing every {@link SubCommand}
+     */
+    public List<String> getSubCommandNames() {
         return commands.stream().map(SubCommand::getName).collect(Collectors.toList());
     }
 

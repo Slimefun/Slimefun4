@@ -15,9 +15,8 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} listens for a {@link FoodLevelChangeEvent} and consumes a {@link Juice}
@@ -31,21 +30,34 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
  */
 public class CoolerListener implements Listener {
 
-    public CoolerListener(SlimefunPlugin plugin) {
+    private final Cooler cooler;
+
+    public CoolerListener(SlimefunPlugin plugin, Cooler cooler) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        this.cooler = cooler;
     }
 
     @EventHandler
     public void onStarve(FoodLevelChangeEvent e) {
+        if (cooler.isDisabled()) {
+            return;
+        }
+
         if (e.getFoodLevel() < ((Player) e.getEntity()).getFoodLevel()) {
             Player p = (Player) e.getEntity();
 
             for (ItemStack item : p.getInventory().getContents()) {
-                if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COOLER, false)) {
-                    PlayerBackpack backpack = PlayerProfile.getBackpack(item);
+                if (cooler.isItem(item)) {
+                    if (Slimefun.hasUnlocked(p, cooler, true)) {
+                        PlayerBackpack backpack = PlayerProfile.getBackpack(item);
 
-                    if (backpack != null && consumeJuice(p, backpack)) {
-                        break;
+                        if (backpack != null && consumeJuice(p, backpack)) {
+                            break;
+                        }
+                    }
+                    else {
+                        return;
                     }
                 }
             }

@@ -54,6 +54,17 @@ public class MinecraftRecipeService {
         return snapshot.getRecipeOutput(MinecraftRecipe.FURNACE, input);
     }
 
+    /**
+     * This returns the shape of a given {@link Recipe}.
+     * For any shapeless {@link Recipe} the result will be equivalent to
+     * {@link RecipeSnapshot#getRecipeInput(Recipe)}.
+     * For a {@link ShapedRecipe} this method will fix the order so it matches a
+     * 3x3 crafting grid.
+     * 
+     * @param recipe
+     *            The {@link Recipe} to get the shape from
+     * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
+     */
     public RecipeChoice[] getRecipeShape(Recipe recipe) {
         if (recipe instanceof ShapedRecipe) {
             List<RecipeChoice> choices = new LinkedList<>();

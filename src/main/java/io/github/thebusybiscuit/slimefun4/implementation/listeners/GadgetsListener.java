@@ -18,6 +18,19 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} is responsible for listening to the {@link PlayerToggleSneakEvent}
+ * to start tasks for various gadgets that are activated by pressing shift,
+ * like the {@link Jetpack} or {@link JetBoots}
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see JetpackTask
+ * @see JetBootsTask
+ * @see ParachuteTask
+ * @see MagnetTask
+ *
+ */
 public class GadgetsListener implements Listener {
 
     public GadgetsListener(SlimefunPlugin plugin) {
