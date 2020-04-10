@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 
-import io.github.thebusybiscuit.slimefun4.utils.BlockUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;

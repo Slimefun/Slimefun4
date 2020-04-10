@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.thebusybiscuit.slimefun4.utils.BlockUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;

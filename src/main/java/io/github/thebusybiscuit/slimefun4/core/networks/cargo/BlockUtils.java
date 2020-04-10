@@ -1,10 +1,9 @@
-package io.github.thebusybiscuit.slimefun4.utils;
-import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
+package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 public final class BlockUtils {
-
-    private static final boolean is_1_14 = ReflectionUtils.isVersion("v1_14_");
 
     private BlockUtils() {}
 
@@ -20,12 +19,11 @@ public final class BlockUtils {
             case DROPPER:
             case HOPPER:
             case BREWING_STAND:
-            case ENDER_CHEST:
                 return true;
             default:
                 if (type.name().endsWith("SHULKER_BOX")) return true;
 
-                return (is_1_14 &&
+                return (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) &&
                         (type == Material.BARREL || type == Material.BLAST_FURNACE || type == Material.LECTERN || type == Material.SMOKER));
         }
     }
