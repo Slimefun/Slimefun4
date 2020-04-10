@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -43,8 +42,8 @@ public class OreCrusher extends MultiBlockMachine {
 	}
 
 	@Override
-	public void register(SlimefunAddon addon) {
-		super.register(addon);
+	public void postRegister() {
+		super.postRegister();
 		shownRecipes.addAll(Arrays.asList(
 				new ItemStack(Material.COAL_ORE), new ItemStack(Material.COAL, isDoubleDropsEnabled() ? 2: 1),
 				new ItemStack(Material.LAPIS_ORE), new ItemStack(Material.LAPIS_LAZULI, isDoubleDropsEnabled() ? 14: 7),
