@@ -34,7 +34,7 @@ class TransformCommand extends SubCommand {
             ItemStack item = p.getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
             if (meta != null) {
-                if (meta.getDisplayName().contains("已修复的刷怪笼")) {
+                if (meta.getDisplayName().contains(ChatColors.color("&b已修复的刷怪笼"))) {
                     ItemStack transform = p.getInventory().getItemInMainHand().clone();
                     List<String> lore = meta.getLore();
                     if (lore != null) {
@@ -50,7 +50,7 @@ class TransformCommand extends SubCommand {
                     transform.setItemMeta(meta);
                     p.getInventory().setItemInMainHand(null);
                     p.getInventory().setItemInMainHand(transform);
-                } else if (meta.getDisplayName().contains("Reinforced Spawner")) {
+                } else if (meta.getDisplayName().contains(ChatColors.color("&bReinforced Spawner"))) {
                     ItemStack transform = SlimefunItems.REPAIRED_SPAWNER.clone();
                     ItemMeta im = item.getItemMeta().clone();
                     List<String> lore = im.getLore();
