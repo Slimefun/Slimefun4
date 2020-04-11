@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AncientAltarOutputEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +15,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
@@ -140,10 +143,14 @@ public class AncientAltarTask implements Runnable {
 
     private void finish() {
         if (running) {
-            dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
-            dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
-            dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
 
+            AncientAltarOutputEvent ancientAltarOutputEvent = new AncientAltarOutputEvent(output, altar);
+            Bukkit.getPluginManager().callEvent(ancientAltarOutputEvent);
+            if (!ancientAltarOutputEvent.isCancelled()) {
+                dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
+                dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
+                dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
+            }
             pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
             // This should re-enable altar blocks on craft completion.
