@@ -92,15 +92,14 @@ public class AncientAltarListener implements Listener {
             useAltar(b, e.getPlayer());
         }
     }
+
     public boolean isUsing(Block pedestal,Location loc) {
-    	if(loc == null) return false;
-    	if(pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) < 0.3D) {
-    		return false;
-    		}else {
-    			return true;
-    		}
-    	
+        if (loc == null) {
+            return false;
+        }
+        return !(pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) < 0.3D);
     }
+
     private void usePedestal(Block pedestal, Player p) {
         if (altarsInUse.contains(pedestal.getLocation())) {
             return;

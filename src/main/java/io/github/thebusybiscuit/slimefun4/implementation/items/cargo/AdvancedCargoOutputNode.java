@@ -31,7 +31,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
     public AdvancedCargoOutputNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
-        new BlockMenuPreset(getID(), "&cOutput Node") {
+        new BlockMenuPreset(getID(), "&c高级货运输出节点") {
 
             @Override
             public void init() {
@@ -41,14 +41,14 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
             @Override
             public void newInstance(BlockMenu menu, Block b) {
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
-                    menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
+                    menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7模式: &r白名单", "", "&e> 单击切换至黑名单模式"));
                     menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-type", "blacklist");
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
+                    menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7模式: &8黑名单", "", "&e> 单击切换至白名单模式"));
                     menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
                         newInstance(menu, b);
@@ -57,7 +57,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
-                    menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
+                    menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7判断子ID/耐久度: &4\u2718", "", "&e> 单击启用检查耐久度是否匹配"));
                     menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-durability", "true");
                         newInstance(menu, b);
@@ -68,7 +68,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
                     Damageable dmg = (Damageable) is.getItemMeta();
                     dmg.setDamage(20);
                     is.setItemMeta((ItemMeta) dmg);
-                    menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
+                    menu.replaceExistingItem(16, new CustomItem(is, "&7判断子ID/耐久度: &2\u2714", "", "&e> 单击关闭检查耐久度是否匹配"));
                     menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-durability", "false");
                         newInstance(menu, b);
@@ -77,14 +77,14 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
-                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7匹配 Lore: &2\u2714", "", "&e> 单击修改是否匹配Lore"));
                     menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-lore", "false");
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+                    menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7匹配 Lore: &4\u2718", "", "&e> 单击修改是否匹配Lore"));
                     menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "filter-lore", "true");
                         newInstance(menu, b);
@@ -92,7 +92,7 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
                     });
                 }
 
-                menu.replaceExistingItem(41, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
+                menu.replaceExistingItem(41, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&b信道", "", "&e> 单击将信道ID减一"));
                 menu.addMenuClickHandler(41, (p, slot, item, action) -> {
                     int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
                     if (channel < 0) {
@@ -107,14 +107,14 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
                 int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0 : (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
 
                 if (channel == 16) {
-                    menu.replaceExistingItem(42, new CustomItem(SkullItem.fromHash("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&bChannel ID: &3" + (channel + 1)));
+                    menu.replaceExistingItem(42, new CustomItem(SkullItem.fromHash("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&b信道 ID: &3" + (channel + 1)));
                     menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
                 } else {
-                    menu.replaceExistingItem(42, new CustomItem(MaterialCollections.getAllWoolColors().get(channel), "&bChannel ID: &3" + (channel + 1)));
+                    menu.replaceExistingItem(42, new CustomItem(MaterialCollections.getAllWoolColors().get(channel), "&b信道 ID: &3" + (channel + 1)));
                     menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
                 }
 
-                menu.replaceExistingItem(43, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
+                menu.replaceExistingItem(43, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&b信道", "", "&e> 单击将信道ID加一"));
                 menu.addMenuClickHandler(43, (p, slot, item, action) -> {
                     int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 
@@ -175,6 +175,6 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
             preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(2, new CustomItem(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(2, new CustomItem(Material.PAPER, "&3物品", "", "&b放入所有你想添加至", "&b黑名单/白名单的物品"), ChestMenuUtils.getEmptyClickHandler());
     }
 }

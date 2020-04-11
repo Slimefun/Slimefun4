@@ -1,4 +1,3 @@
-
 package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -42,7 +41,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "floor", "&rFloor #0");
+                BlockStorage.addBlockInfo(b, "floor", "&r1楼");
                 BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
             }
 
@@ -103,7 +102,9 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
         for (int i = 0; i < floors.size(); i++) {
             if (i % 10 == 0) {
-                if (page != null) book.addPage(page);
+                if (page != null) {
+                    book.addPage(page);
+                }
 
                 page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.pick-a-floor")) + "\n");
             }

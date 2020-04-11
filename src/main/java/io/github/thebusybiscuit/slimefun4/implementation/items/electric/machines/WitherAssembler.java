@@ -54,14 +54,14 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
-                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
+                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7是否启用: &4\u2718", "", "&e> 单击启用机器"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "enabled", "true");
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
+                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7是否启用: &2\u2714", "", "&e> 单击关闭机器"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "enabled", "false");
                         newInstance(menu, b);
@@ -71,9 +71,9 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
                 double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F : Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 
-                menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
+                menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7生成高度: &3比机器高 " + offset + " 格方块", "", "&r左键: &7+0.1", "&r右键: &7-0.1"));
                 menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-                    double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
+                    double offsetv = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
                     BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
                     newInstance(menu, b);
                     return false;
@@ -147,9 +147,9 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
             preset.addItem(i, new CustomItem(Material.BROWN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(1, new CustomItem(Material.WITHER_SKELETON_SKULL, "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(7, new CustomItem(Material.SOUL_SAND, "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(13, new CustomItem(Material.CLOCK, "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, new CustomItem(Material.WITHER_SKELETON_SKULL, "&7凋零骷髅头颅槽", "", "&r这里可以放入凋零骷髅头颅"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(7, new CustomItem(Material.SOUL_SAND, "&7灵魂沙槽", "", "&r这里可以放入灵魂沙"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(13, new CustomItem(Material.CLOCK, "&7冷却时间: &b30 秒", "", "&r这台机器需要等待半分钟才能操作", "&r所以请给它点时间!"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     public int[] getInputSlots() {
