@@ -32,7 +32,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
 
     /**
      * @param block
-     *            The mined {@link Block}
+     *            The altar {@link Block}
      * @param output
      *            The {@link ItemStack} that would be dropped by the ritual
      *
@@ -56,7 +56,8 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
      *
      * @return the main altar's block {@link Block}
      */
-    public Block getBlock() {
+
+    public Block getAltarBlock() {
         return block;
     }
 
@@ -69,7 +70,8 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
         return output;
     }
 
-    /** This method will change the item that would be dropped by the {@link AncientAltar}
+    /**
+     * This method will change the item that would be dropped by the {@link AncientAltar}
      *
      * @param output being the {@link ItemStack} you want to change the item to.
      */
