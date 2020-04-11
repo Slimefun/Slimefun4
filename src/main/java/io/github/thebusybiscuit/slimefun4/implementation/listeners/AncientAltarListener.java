@@ -170,7 +170,7 @@ public class AncientAltarListener implements Listener {
                                 ItemUtils.consumeItem(p.getInventory().getItemInMainHand(), false);
                             }
 
-                            Slimefun.runSync(new AncientAltarTask(b, result, pedestals, consumed, p), 10L);
+                            Slimefun.runSync(new AncientAltarTask(b, result, pedestals, consumed), 10L);
                         }
                         else {
                             altars.remove(b);
