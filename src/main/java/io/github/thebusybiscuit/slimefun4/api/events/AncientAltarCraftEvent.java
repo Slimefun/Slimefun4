@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -16,9 +18,12 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author Tweep
  *
+ * @see AncientAltar
+ * @see AncientAltarTask
+ * @see AncientAltarListener
  */
 
-public class AncientAltarOutputEvent extends PlayerEvent implements Cancellable {
+public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private final Block block;
@@ -33,7 +38,7 @@ public class AncientAltarOutputEvent extends PlayerEvent implements Cancellable 
      *
      */
 
-    public AncientAltarOutputEvent(ItemStack output, Block block, Player player) {
+    public AncientAltarCraftEvent(ItemStack output, Block block, Player player) {
         super(player);
         this.block = block;
         this.output = output;
@@ -43,31 +48,43 @@ public class AncientAltarOutputEvent extends PlayerEvent implements Cancellable 
         return handlers;
     }
 
-    public HandlerList getHandlers() { return handlers; }
+    public HandlerList getHandlers() {
+        return handlers;
+    }
     /**
      * This method returns the main altar's block {@link Block}
      *
      * @return the main altar's block {@link Block}
      */
-    public Block getBlock() { return block; }
+    public Block getBlock() {
+        return block;
+    }
 
     /**
-     * This method returns the item that would be dropped by the altar. {@link ItemStack}
+     * This method returns the {@link ItemStack} that would be dropped by the {@link AncientAltar }
      *
-     * @return the item that would be dropped by the altar. {@link ItemStack}
+     * @return the {@link ItemStack} that would be dropped by the {@link AncientAltar}
      */
     public ItemStack getItem() {
         return output;
     }
 
+    /** This method will change the item that would be dropped by the {@link AncientAltar}
+     *
+     * @param output being the {@link ItemStack} you want to change the item to.
+     */
     public void setItem(ItemStack output) {
         this.output = output;
     }
 
     @Override
-    public boolean isCancelled() { return cancelled; }
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
     @Override
-    public void setCancelled(boolean b) { cancelled = b; }
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
+    }
 
 }
