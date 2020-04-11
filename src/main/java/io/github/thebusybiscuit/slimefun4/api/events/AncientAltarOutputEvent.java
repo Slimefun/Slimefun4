@@ -20,7 +20,7 @@ public class AncientAltarOutputEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private final Block block;
-    private final ItemStack output;
+    private ItemStack output;
     private boolean cancelled;
 
     /**
@@ -55,6 +55,10 @@ public class AncientAltarOutputEvent extends Event implements Cancellable {
      */
     public ItemStack getItem() {
         return output;
+    }
+
+    public void setItem(ItemStack output) {
+        this.output = output;
     }
 
     @Override
