@@ -3,9 +3,11 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -16,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
  *
  */
 
-public class AncientAltarOutputEvent extends Event implements Cancellable {
+public class AncientAltarOutputEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
     private final Block block;
@@ -31,7 +33,8 @@ public class AncientAltarOutputEvent extends Event implements Cancellable {
      *
      */
 
-    public AncientAltarOutputEvent(ItemStack output, Block block) {
+    public AncientAltarOutputEvent(ItemStack output, Block block, Player player) {
+        super(player);
         this.block = block;
         this.output = output;
     }

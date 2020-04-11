@@ -15,6 +15,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
@@ -50,13 +51,15 @@ public class AncientAltarTask implements Runnable {
 
     private boolean running;
     private int stage;
+    private Player player;
 
-    public AncientAltarTask(Block altar, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
+    public AncientAltarTask(Block altar, ItemStack output, List<Block> pedestals, List<ItemStack> items, Player p) {
         this.dropLocation = altar.getLocation().add(0.5, 1.3, 0.5);
         this.altar = altar;
         this.output = output;
         this.pedestals = pedestals;
         this.items = items;
+        player = p;
 
         this.running = true;
         this.stage = 0;
@@ -144,7 +147,7 @@ public class AncientAltarTask implements Runnable {
     private void finish() {
         if (running) {
 
-            AncientAltarOutputEvent ancientAltarOutputEvent = new AncientAltarOutputEvent(output, altar);
+            AncientAltarOutputEvent ancientAltarOutputEvent = new AncientAltarOutputEvent(output, altar, player);
             Bukkit.getPluginManager().callEvent(ancientAltarOutputEvent);
             if (!ancientAltarOutputEvent.isCancelled()) {
                 dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
