@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  *
  */
 public enum SlimefunBranch {
-    
+
     // It is unbelievable that I have to say this...
     // DO NOT TRANSLATE THIS FILE. I repeat:
     // DO NOT TRANSLATE THIS FILE.
@@ -43,12 +43,18 @@ public enum SlimefunBranch {
     SlimefunBranch(String name, boolean official) {
         this.name = name;
         this.official = official;
-        
+
         if (!PatternUtils.ASCII.matcher(name).matches()) {
             throw new IllegalStateException("The SlimefunBranch enum contains ILLEGAL CHARACTERS. DO NOT TRANSLATE THIS FILE.");
         }
     }
 
+    /**
+     * This returns the name of this {@link SlimefunBranch}. The name is just a more readable
+     * version of the enum constant.
+     * 
+     * @return The name of this {@link SlimefunBranch}
+     */
     public String getName() {
         return name;
     }

@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class MakeshiftSmeltery extends MultiBlockMachine {
 
     public MakeshiftSmeltery() {
-        super(Categories.MACHINES_1, SlimefunItems.MAKESHIFT_SMELTERY, new ItemStack[] { 
+        super(Categories.BASIC_MACHINES, SlimefunItems.MAKESHIFT_SMELTERY, new ItemStack[] { 
               null, new ItemStack(Material.OAK_FENCE), null, 
               new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), 
               null, new ItemStack(Material.FLINT_AND_STEEL), null 

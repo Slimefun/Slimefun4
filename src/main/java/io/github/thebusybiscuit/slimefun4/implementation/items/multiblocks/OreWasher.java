@@ -27,7 +27,7 @@ public class OreWasher extends MultiBlockMachine {
 
 	public OreWasher() {
 		super(
-				Categories.MACHINES_1, 
+				Categories.BASIC_MACHINES, 
 				SlimefunItems.ORE_WASHER, 
 				new ItemStack[] {null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {

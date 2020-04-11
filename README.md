@@ -51,7 +51,7 @@ Development builds are uploaded automatically making the maintenance of a proper
 * [download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)
 
 ## Discord
-You can find Slimefun's community on Discord and connect with **over 1250** users of this plugin from all over the world.<br>
+You can find Slimefun's community on Discord and connect with **over 1500** users of this plugin from all over the world.<br>
 Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.<br>
 We are also hosting a community event every so often, join us to find out more.<br>
 **Important**: We do **not** accept bug reports on discord, please use our [Issue Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues) to submit bug reports!

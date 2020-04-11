@@ -25,7 +25,7 @@ public class Juicer extends MultiBlockMachine {
 
 	public Juicer() {
 		super(
-				Categories.MACHINES_1, 
+				Categories.BASIC_MACHINES, 
 				SlimefunItems.JUICER, 
 				new ItemStack[] {null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
 				new ItemStack[0],

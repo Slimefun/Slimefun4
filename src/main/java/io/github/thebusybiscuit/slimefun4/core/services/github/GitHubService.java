@@ -6,14 +6,13 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.bukkit.plugin.Plugin;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This Service is responsible for grabbing every {@link Contributor} to this project
@@ -45,7 +44,7 @@ public class GitHubService {
         loadConnectors(false);
     }
 
-    public void start(Plugin plugin) {
+    public void start(SlimefunPlugin plugin) {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
     }
 

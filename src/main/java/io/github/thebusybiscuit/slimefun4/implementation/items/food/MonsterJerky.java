@@ -11,6 +11,14 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * {@link MonsterJerky} is basically just Rotten Flesh but without the Hunger Effect.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see MeatJerky
+ *
+ */
 public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     public MonsterJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

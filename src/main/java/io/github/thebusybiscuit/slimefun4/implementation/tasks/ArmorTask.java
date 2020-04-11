@@ -12,6 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -21,6 +22,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
+/**
+ * The {@link ArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
+ * {@link Radioactive} items or any {@link SlimefunArmorPiece}.
+ * It also handles the prevention of radioation through a Hazmat Suit
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class ArmorTask implements Runnable {
 
     private final Set<PotionEffect> radiationEffects;

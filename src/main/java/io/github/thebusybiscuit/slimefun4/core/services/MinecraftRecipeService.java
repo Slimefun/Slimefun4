@@ -30,6 +30,15 @@ public class MinecraftRecipeService {
     private final Plugin plugin;
     private RecipeSnapshot snapshot;
 
+    /**
+     * This constructs a new {@link MinecraftRecipeService} for the given {@link Plugin}.
+     * Slimefun already has a {@link MinecraftRecipeService} so creating your own won't be
+     * of much use unless you wanna expand upon it. It is advised to use Slimefun's built-in
+     * {@link MinecraftRecipeService} though.
+     * 
+     * @param plugin
+     *            The {@link Plugin} that requests this Service
+     */
     public MinecraftRecipeService(Plugin plugin) {
         this.plugin = plugin;
     }

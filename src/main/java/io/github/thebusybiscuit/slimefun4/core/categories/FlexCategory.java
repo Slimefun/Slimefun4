@@ -31,6 +31,19 @@ public abstract class FlexCategory extends Category {
         super(key, item, tier);
     }
 
+    /**
+     * This method returns whether this {@link FlexCategory} is visible under the given context.
+     * Implementing this method gives full flexibility over who can see the Category when and where.
+     * 
+     * @param p
+     *            The {@link Player} who opened his {@link SlimefunGuide}
+     * @param profile
+     *            The {@link PlayerProfile} of the {@link Player}
+     * @param layout
+     *            The {@link SlimefunGuideLayout} in which this {@link FlexCategory} is viewed
+     * 
+     * @return Whether to display this {@link FlexCategory}
+     */
     public abstract boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
 
     public abstract void open(Player p, PlayerProfile profile, SlimefunGuideLayout layout);

@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import com.google.gson.JsonElement;
@@ -49,7 +50,8 @@ abstract class GitHubConnector {
             URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
 
             URLConnection connection = website.openConnection();
-            connection.setConnectTimeout(3000);
+            connection.setConnectTimeout(8000);
+            connection.addRequestProperty("Accept-Charset", "UTF-8");
             connection.addRequestProperty("User-Agent", "Slimefun 4 GitHub Agent (by TheBusyBiscuit)");
             connection.setDoOutput(true);
 
@@ -83,7 +85,7 @@ abstract class GitHubConnector {
     }
 
     public void parseData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getFile(), StandardCharsets.UTF_8))) {
             StringBuilder builder = new StringBuilder();
 
             String line;
