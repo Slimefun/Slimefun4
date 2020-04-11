@@ -41,7 +41,7 @@ public class ErrorReport {
         Slimefun.runSync(() -> {
             file = getNewFile();
 
-            try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8)) {
+            try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
                 stream.println();
                 stream.println("Java Environment:");
                 stream.println("  Operating System: " + System.getProperty("os.name"));

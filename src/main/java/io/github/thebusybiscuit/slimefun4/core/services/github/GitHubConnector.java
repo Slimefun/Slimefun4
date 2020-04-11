@@ -9,7 +9,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import com.google.gson.JsonElement;
@@ -85,7 +84,7 @@ abstract class GitHubConnector {
     }
 
     public void parseData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(getFile(), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
             StringBuilder builder = new StringBuilder();
 
             String line;
