@@ -22,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
  * @see AncientAltarTask
  * @see AncientAltarListener
  */
-
 public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
@@ -51,6 +50,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
     public HandlerList getHandlers() {
         return handlers;
     }
+    
     /**
      * This method returns the main altar's block {@link Block}
      *
