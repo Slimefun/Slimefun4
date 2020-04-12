@@ -494,12 +494,12 @@ public final class SlimefunItemSetup {
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.IRON_DUST, RecipeType.ORE_CRUSHER,
 		new ItemStack[] {new ItemStack(Material.IRON_ORE), null, null, null, null, null, null, null, null}, 
-		new CustomItem(SlimefunItems.IRON_DUST, oreCrusher.isDoubleDropsEnabled() ? 2: 1))
+		new CustomItem(SlimefunItems.IRON_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
 		.register(plugin);
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.GOLD_DUST, RecipeType.ORE_CRUSHER,
 		new ItemStack[] {new ItemStack(Material.GOLD_ORE), null, null, null, null, null, null, null, null}, 
-		new CustomItem(SlimefunItems.GOLD_DUST, oreCrusher.isDoubleDropsEnabled() ? 2: 1))
+		new CustomItem(SlimefunItems.GOLD_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
 		.register(plugin);
 
 		new SlimefunItem(Categories.RESOURCES, (SlimefunItemStack) SlimefunItems.COPPER_DUST, RecipeType.ORE_WASHER,
