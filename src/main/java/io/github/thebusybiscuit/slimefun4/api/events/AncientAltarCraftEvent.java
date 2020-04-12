@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
@@ -50,7 +49,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
     public HandlerList getHandlers() {
         return handlers;
     }
-    
+
     /**
      * This method returns the main altar's block {@link Block}
      *
@@ -72,7 +71,8 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
     /**
      * This method will change the item that would be dropped by the {@link AncientAltar}
      *
-     * @param output being the {@link ItemStack} you want to change the item to.
+     * @param output
+     *            being the {@link ItemStack} you want to change the item to.
      */
     public void setItem(ItemStack output) {
         this.output = output;

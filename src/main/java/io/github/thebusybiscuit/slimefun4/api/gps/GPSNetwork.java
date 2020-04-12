@@ -58,6 +58,16 @@ public class GPSNetwork {
     private final ItemStack endIcon = SkullItem.fromHash("c6cac59b2aae489aa0687b5d802b2555eb14a40bd62b21eb116fa569cdb756");
     private final ItemStack worldIcon = SkullItem.fromHash("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56");
 
+    /**
+     * This method updates the status of a {@link GPSTransmitter}.
+     * 
+     * @param l
+     *            The {@link Location} of the {@link GPSTransmitter}
+     * @param uuid
+     *            The {@link UUID} who the {@link GPSTransmitter} belongs to
+     * @param online
+     *            Whether that {@link GPSTransmitter} is online
+     */
     public void updateTransmitter(Location l, UUID uuid, boolean online) {
         Set<Location> set = transmitters.computeIfAbsent(uuid, id -> new HashSet<>());
 
@@ -69,6 +79,16 @@ public class GPSNetwork {
         }
     }
 
+    /**
+     * This method calculates the GPS complexity for the given {@link UUID}.
+     * The complexity is determined by the Y level of each {@link GPSTransmitter}
+     * multiplied by the multiplier of that transmitter.
+     * 
+     * @param uuid
+     *            The {@link UUID} who to calculate it for
+     * 
+     * @return The network complexity for that {@link UUID}
+     */
     public int getNetworkComplexity(UUID uuid) {
         if (!transmitters.containsKey(uuid)) {
             return 0;

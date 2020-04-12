@@ -49,6 +49,7 @@
 
 #### Additions
 * Added GEOResourceGenerationEvent
+* Added AncientAltarCraftEvent
 * Added SlimefunGuide-Options API
 * Added ItemSettings API
 * Added experimental 1.13 backwards compatibility
@@ -74,6 +75,9 @@
 * Fixed empty categories showing up when items inside were hidden
 * Fixed ghost pages showing up when too many categories were disabled
 * Fixed debug fish not showing the correct chunk timings
+* Fixed heads with missing permissions placing down
+* Fixed unpermitted items still showing up in the guide if researches are disabled
+* Fixed unpermitted items in the book guide triggering the search function
 
 ## Release Candidate 10 (28 Mar 2020)
 
