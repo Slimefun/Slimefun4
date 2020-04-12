@@ -201,6 +201,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             thirdPartySupportService.start();
             gitHubService.start(this);
 
+            // Exclude the command /sf elevator from our server log, it could get quite spammy
+            CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
+
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun 完成加载, 耗时 {0}", getStartupTime(timestamp));
 

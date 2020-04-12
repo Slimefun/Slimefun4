@@ -1,10 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
-import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
+import io.github.thebusybiscuit.cscorelib2.chat.json.*;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -17,10 +14,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -41,7 +36,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "floor", "&r1楼");
+                BlockStorage.addBlockInfo(b, "floor", "&r一楼");
                 BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
             }
 
@@ -59,10 +54,12 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     @Override
     public BlockUseHandler getItemHandler() {
         return e -> {
-            Block b = e.getClickedBlock().get();
+            if (e.getClickedBlock().isPresent()) {
+                Block b = e.getClickedBlock().get();
 
-            if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
-                openEditor(e.getPlayer(), b);
+                if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString())) {
+                    openEditor(e.getPlayer(), b);
+                }
             }
         };
     }
@@ -70,18 +67,20 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     public List<Block> getFloors(Block b) {
         List<Block> floors = new LinkedList<>();
 
-        for (int y = b.getWorld().getMaxHeight(); y > 0; y--) {
-            if (y == b.getY()) {
+        for (int y = 0; y < b.getWorld().getMaxHeight(); y++) {
+            if (b.getY() == y) {
                 floors.add(b);
                 continue;
             }
 
             Block block = b.getWorld().getBlockAt(b.getX(), y, b.getZ());
 
-            if (block.getType() == getItem().getType() && BlockStorage.check(block, getID())) {
+            if (BlockStorage.check(block, getID()) && block.getType() == getItem().getType()) {
                 floors.add(block);
             }
         }
+
+        floors.sort((b1, b2) -> b2.getY() - b1.getY());
 
         return floors;
     }
@@ -111,26 +110,16 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             Block block = floors.get(i);
             String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), "floor"));
+
             ChatComponent line;
 
             if (block.getY() == b.getY()) {
                 line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.RESET + floor, ""));
+                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), ChatColor.RESET + floor, ""));
             } else {
-                line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(elevatorKey, player -> Slimefun.runSync(() -> {
-                    users.add(player.getUniqueId());
-
-                    float yaw = player.getEyeLocation().getYaw() + 180;
-
-                    if (yaw > 180) {
-                        yaw = -180 + (yaw - 180);
-                    }
-
-                    player.teleport(new Location(player.getWorld(), block.getX() + 0.5, block.getY() + 0.4, block.getZ() + 0.5, yaw, player.getEyeLocation().getPitch()));
-                    player.sendTitle(ChatColor.RESET + ChatColors.color(floor), " ", 20, 60, 20);
-                })));
+                line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.RESET + floor);
+                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), ChatColor.RESET + floor, ""));
+                line.setClickEvent(new ClickEvent(ClickEventAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " "));
             }
 
             page.append(line);
@@ -138,9 +127,8 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
         if (page != null) {
             book.addPage(page);
+            book.open(p);
         }
-
-        book.open(p);
     }
 
     public void openEditor(Player p, Block b) {
