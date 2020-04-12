@@ -26,7 +26,7 @@ public class PressureChamber extends MultiBlockMachine {
 
     public PressureChamber() {
         super(Categories.MACHINES_1, SlimefunItems.PRESSURE_CHAMBER, new ItemStack[]{
-                SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? new ItemStack(Material.SMOOTH_STONE_SLAB) : new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "Dispenser (Facing down)"), SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? new ItemStack(Material.SMOOTH_STONE_SLAB) : new ItemStack(Material.STONE_SLAB),
+                SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? new ItemStack(Material.SMOOTH_STONE_SLAB) : new ItemStack(Material.STONE_SLAB), new CustomItem(Material.DISPENSER, "发射器（朝下）"), SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? new ItemStack(Material.SMOOTH_STONE_SLAB) : new ItemStack(Material.STONE_SLAB),
                 new ItemStack(Material.PISTON), new ItemStack(Material.GLASS), new ItemStack(Material.PISTON),
                 new ItemStack(Material.PISTON), new ItemStack(Material.CAULDRON), new ItemStack(Material.PISTON)
         }, new ItemStack[0], BlockFace.UP);

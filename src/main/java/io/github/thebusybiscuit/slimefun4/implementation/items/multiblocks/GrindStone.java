@@ -25,7 +25,7 @@ public class GrindStone extends MultiBlockMachine {
 		super(
                 Categories.MACHINES_1,
                 SlimefunItems.GRIND_STONE,
-                new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
+                new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "发射器（朝上）"), null},
                 new ItemStack[]{
                         new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4),
                         new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4),
@@ -36,7 +36,7 @@ public class GrindStone extends MultiBlockMachine {
                         new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL),
                         new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
                         new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK,
-						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
+						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4),
 						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4),
 						new ItemStack(Material.PRISMARINE_BRICKS), new ItemStack(Material.PRISMARINE, 4),
 						new ItemStack(Material.PRISMARINE), new ItemStack(Material.PRISMARINE_SHARD, 4)
@@ -44,18 +44,18 @@ public class GrindStone extends MultiBlockMachine {
 				BlockFace.SELF
 		);
 	}
-	
+
 	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public void onInteract(Player p, Block b) {
 		Block dispBlock = b.getRelative(BlockFace.DOWN);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
-		
+
 		for (ItemStack current : inv.getContents()) {
 			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
                 if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
@@ -72,7 +72,7 @@ public class GrindStone extends MultiBlockMachine {
 					else {
 						SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 					}
-					
+
 					return;
 				}
 			}
