@@ -37,7 +37,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     private final Set<UUID> users = new HashSet<>();
-    private final NamespacedKey elevatorKey = new NamespacedKey(SlimefunPlugin.instance, "elevator");
 
     public ElevatorPlate(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
@@ -125,7 +124,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             else {
                 line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(elevatorKey, player -> Slimefun.runSync(() -> {
+                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "floor" + i), player -> Slimefun.runSync(() -> {
                     users.add(player.getUniqueId());
 
                     float yaw = player.getEyeLocation().getYaw() + 180;
