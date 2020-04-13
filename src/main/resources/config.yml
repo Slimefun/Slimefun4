@@ -28,6 +28,7 @@ researches:
 
 URID:
   info-delay: 3000
+  cargo-network-tick-delay: 0
   custom-ticker-delay: 12
   enable-tickers: true
 

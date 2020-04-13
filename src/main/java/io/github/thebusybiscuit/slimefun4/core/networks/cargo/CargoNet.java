@@ -33,6 +33,8 @@ public class CargoNet extends ChestTerminalNetwork {
     private final Set<Location> outputNodes = new HashSet<>();
 
     private final Map<Location, Integer> roundRobin = new HashMap<>();
+    private final int tickDelay = SlimefunPlugin.getCfg().getInt("URID.cargo-network-tick-delay");
+    private int tickDelayThreshold = 0;
 
     public static CargoNet getNetworkFromLocation(Location l) {
         return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
@@ -175,6 +177,12 @@ public class CargoNet extends ChestTerminalNetwork {
         if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
             display();
         }
+
+        if (tickDelayThreshold < tickDelay) {
+            tickDelayThreshold++;
+            return;
+        }
+        tickDelayThreshold = 0;
 
         Set<Location> inputs = new HashSet<>();
         Set<Location> providers = new HashSet<>();
