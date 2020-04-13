@@ -40,7 +40,7 @@ public class CoolerListener implements Listener {
 
     @EventHandler
     public void onStarve(FoodLevelChangeEvent e) {
-        if (cooler.isDisabled()) {
+        if (cooler == null || cooler.isDisabled()) {
             return;
         }
 

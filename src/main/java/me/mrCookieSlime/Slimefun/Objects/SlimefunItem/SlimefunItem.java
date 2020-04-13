@@ -354,6 +354,7 @@ public class SlimefunItem implements Placeable {
             }
 
             SlimefunPlugin.getRegistry().getAllSlimefunItems().add(this);
+            SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
 
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".enabled", true);
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", useableInWorkbench);
@@ -397,7 +398,6 @@ public class SlimefunItem implements Placeable {
                 disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
 
                 SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
-                SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
                 loadItemHandlers();
             }
             else if (this instanceof VanillaItem) {

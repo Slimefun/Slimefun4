@@ -70,6 +70,16 @@ public class RecipeType implements Keyed {
         this.key = new NamespacedKey(SlimefunPlugin.instance, "null");
     }
 
+    /**
+     * @deprecated Use the constructor with {@link NamespacedKey} instead
+     * @param item
+     *            The {@link ItemStack} to use for this {@link RecipeType}
+     */
+    @Deprecated
+    public RecipeType(ItemStack item) {
+        this(item, "");
+    }
+
     public RecipeType(ItemStack item, String machine) {
         this.item = item;
         this.machine = machine;
@@ -99,20 +109,10 @@ public class RecipeType implements Keyed {
         }
     }
 
-    /**
-     * @deprecated Use the constructor with {@link NamespacedKey} instead
-     * @param item
-     *            The {@link ItemStack} to use for this {@link RecipeType}
-     */
-    @Deprecated
-    public RecipeType(ItemStack item) {
-        this(item, "");
-    }
-
     public RecipeType(NamespacedKey key, ItemStack item) {
         this.key = key;
         this.item = item;
-        this.machine = "";
+        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemID() : "";
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {

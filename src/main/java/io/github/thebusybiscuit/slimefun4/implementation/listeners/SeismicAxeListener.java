@@ -29,7 +29,7 @@ public class SeismicAxeListener implements Listener {
 
     @EventHandler
     public void onBlockFall(EntityChangeBlockEvent e) {
-        if (seismicAxe.isDisabled()) {
+        if (seismicAxe == null || seismicAxe.isDisabled()) {
             return;
         }
 

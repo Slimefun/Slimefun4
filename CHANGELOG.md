@@ -79,6 +79,7 @@
 * Fixed unpermitted items still showing up in the guide if researches are disabled
 * Fixed unpermitted items in the book guide triggering the search function
 * Fixed #1803
+* Fixed #1806
 
 ## Release Candidate 10 (28 Mar 2020)
 
