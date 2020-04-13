@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -163,7 +163,7 @@ public class Research implements Keyed {
         if (!isEnabled()) {
             return true;
         }
-        
+
         boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
         return creativeResearch || p.getLevel() >= cost;
     }
@@ -239,12 +239,12 @@ public class Research implements Keyed {
         migrate(id, path);
 
         if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {
-            Iterator<SlimefunItem> iterator = items.iterator();
-            while (iterator.hasNext()) {
-                SlimefunItem item = iterator.next();
-                if (item != null) item.setResearch(null);
-                iterator.remove();
+            for (SlimefunItem item : new ArrayList<>(items)) {
+                if (item != null) {
+                    item.setResearch(null);
+                }
             }
+
             return;
         }
 

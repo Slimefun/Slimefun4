@@ -80,6 +80,7 @@
 * Fixed unpermitted items in the book guide triggering the search function
 * Fixed #1803
 * Fixed #1806
+* Fixed #1807
 
 ## Release Candidate 10 (28 Mar 2020)
 
