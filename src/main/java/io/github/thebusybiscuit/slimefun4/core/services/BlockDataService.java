@@ -85,6 +85,8 @@ public class BlockDataService implements PersistentDataService, Keyed {
      */
     public boolean isTileEntity(Material type) {
         if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            // We can only store data on Tile Entities in 1.14+
+            // So we will just return false here in that case.
             return false;
         }
 
@@ -93,6 +95,7 @@ public class BlockDataService implements PersistentDataService, Keyed {
         case PLAYER_WALL_HEAD:
         case CHEST:
         case DISPENSER:
+        case BREWING_STAND:
         case DROPPER:
         case FURNACE:
         case BLAST_FURNACE:
@@ -103,6 +106,7 @@ public class BlockDataService implements PersistentDataService, Keyed {
         case ENCHANTING_TABLE:
         case DAYLIGHT_DETECTOR:
         case SMOKER:
+        case BARREL:
         case SPAWNER:
         case BEACON:
             return true;

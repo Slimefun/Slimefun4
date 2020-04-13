@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -44,7 +45,7 @@ public final class PostSetup {
 
         JsonParser parser = new JsonParser();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json")))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
             JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
             JsonObject json = element.getAsJsonObject();
 

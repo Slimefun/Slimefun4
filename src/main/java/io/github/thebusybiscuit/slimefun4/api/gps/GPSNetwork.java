@@ -10,7 +10,9 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +31,17 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+/**
+ * The {@link GPSNetwork} is a manager class for all {@link GPSTransmitter Transmitters} and waypoints.
+ * There can only be one instance of this class per {@link Server}.
+ * It is also responsible for teleportation and resource management.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see TeleportationManager
+ * @see ResourceManager
+ *
+ */
 public class GPSNetwork {
 
     private static final String WAYPOINTS_DIRECTORY = "data-storage/Slimefun/waypoints/";
@@ -40,11 +53,21 @@ public class GPSNetwork {
     private final TeleportationManager teleportation = new TeleportationManager(this);
     private final ResourceManager resourceManager = new ResourceManager(SlimefunPlugin.instance);
 
-    private final ItemStack deathpointIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWFlMzg1NWY5NTJjZDRhMDNjMTQ4YTk0NmUzZjgxMmE1OTU1YWQzNWNiY2I1MjYyN2VhNGFjZDQ3ZDMwODEifX19");
-    private final ItemStack netherIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDgzNTcxZmY1ODlmMWE1OWJiMDJiODA4MDBmYzczNjExNmUyN2MzZGNmOWVmZWJlZGU4Y2YxZmRkZSJ9fX0=");
-    private final ItemStack endIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzZjYWM1OWIyYWFlNDg5YWEwNjg3YjVkODAyYjI1NTVlYjE0YTQwYmQ2MmIyMWViMTE2ZmE1NjljZGI3NTYifX19");
-    private final ItemStack worldIcon = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0=");
+    private final ItemStack deathpointIcon = SkullItem.fromHash("1ae3855f952cd4a03c148a946e3f812a5955ad35cbcb52627ea4acd47d3081");
+    private final ItemStack netherIcon = SkullItem.fromHash("d83571ff589f1a59bb02b80800fc736116e27c3dcf9efebede8cf1fdde");
+    private final ItemStack endIcon = SkullItem.fromHash("c6cac59b2aae489aa0687b5d802b2555eb14a40bd62b21eb116fa569cdb756");
+    private final ItemStack worldIcon = SkullItem.fromHash("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56");
 
+    /**
+     * This method updates the status of a {@link GPSTransmitter}.
+     * 
+     * @param l
+     *            The {@link Location} of the {@link GPSTransmitter}
+     * @param uuid
+     *            The {@link UUID} who the {@link GPSTransmitter} belongs to
+     * @param online
+     *            Whether that {@link GPSTransmitter} is online
+     */
     public void updateTransmitter(Location l, UUID uuid, boolean online) {
         Set<Location> set = transmitters.computeIfAbsent(uuid, id -> new HashSet<>());
 
@@ -56,6 +79,16 @@ public class GPSNetwork {
         }
     }
 
+    /**
+     * This method calculates the GPS complexity for the given {@link UUID}.
+     * The complexity is determined by the Y level of each {@link GPSTransmitter}
+     * multiplied by the multiplier of that transmitter.
+     * 
+     * @param uuid
+     *            The {@link UUID} who to calculate it for
+     * 
+     * @return The network complexity for that {@link UUID}
+     */
     public int getNetworkComplexity(UUID uuid) {
         if (!transmitters.containsKey(uuid)) {
             return 0;
@@ -73,9 +106,22 @@ public class GPSNetwork {
         return level;
     }
 
+    /**
+     * This method returns the amount of {@link GPSTransmitter Transmitters} for the
+     * given {@link UUID}.
+     * 
+     * @param uuid
+     *            The {@link UUID} who these transmitters belong to
+     * 
+     * @return The amount of transmitters
+     */
     public int countTransmitters(UUID uuid) {
-        if (!transmitters.containsKey(uuid)) return 0;
-        else return transmitters.get(uuid).size();
+        if (!transmitters.containsKey(uuid)) {
+            return 0;
+        }
+        else {
+            return transmitters.get(uuid).size();
+        }
     }
 
     public void openTransmitterControlPanel(Player p) {
@@ -120,16 +166,29 @@ public class GPSNetwork {
         menu.open(p);
     }
 
-    public ItemStack getIcon(Map.Entry<String, Location> entry) {
-        Location l = entry.getValue();
-
-        if (entry.getKey().startsWith("player:death ")) {
+    /**
+     * This returns an icon for the given waypoint.
+     * The icon is dependent on the {@link Environment} of the waypoint's {@link World}.
+     * However if the name of this waypoint indicates that this is actually a deathmarker
+     * then a different texture will be used.
+     * 
+     * Otherwise it will return a globe, a nether or end sphere according to the {@link Environment}.
+     * 
+     * @param name
+     *            The name of a waypoint
+     * @param environment
+     *            The {@link Environment} of the waypoint's {@link World}
+     * 
+     * @return An icon for this waypoint
+     */
+    public ItemStack getIcon(String name, Environment environment) {
+        if (name.startsWith("player:death ")) {
             return deathpointIcon;
         }
-        else if (l.getWorld().getEnvironment() == Environment.NETHER) {
+        else if (environment == Environment.NETHER) {
             return netherIcon;
         }
-        else if (l.getWorld().getEnvironment() == Environment.THE_END) {
+        else if (environment == Environment.THE_END) {
             return endIcon;
         }
         else {
@@ -163,7 +222,7 @@ public class GPSNetwork {
             int slot = inventory[index];
 
             Location l = entry.getValue();
-            ItemStack globe = getIcon(entry);
+            ItemStack globe = getIcon(entry.getKey(), entry.getValue().getWorld().getEnvironment());
 
             menu.addItem(slot, new CustomItem(globe, entry.getKey().replace("player:death ", ""), "&8\u21E8 &7World: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
             menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
@@ -183,6 +242,15 @@ public class GPSNetwork {
         menu.open(p);
     }
 
+    /**
+     * This method returns a {@link Map} containing the names and {@link Location Locations}
+     * of all waypoints for the given {@link UUID}.
+     * 
+     * @param uuid
+     *            The {@link UUID} who these waypoints belong to
+     * 
+     * @return A {@link Map} with all names and {@link Location Locations} for waypoints
+     */
     public Map<String, Location> getWaypoints(UUID uuid) {
         Map<String, Location> map = new HashMap<>();
         Config cfg = new Config(WAYPOINTS_DIRECTORY + uuid.toString() + ".yml");
@@ -196,6 +264,15 @@ public class GPSNetwork {
         return map;
     }
 
+    /**
+     * This method will prompt the given {@link Player} to enter a name for a waypoint.
+     * After entering the name, it will be added to his waypoint list.
+     * 
+     * @param p
+     *            The {@link Player} who should get a new waypoint
+     * @param l
+     *            The {@link Location} of the new waypoint
+     */
     public void addWaypoint(Player p, Location l) {
         if ((getWaypoints(p.getUniqueId()).size() + 2) > inventory.length) {
             SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
@@ -208,6 +285,16 @@ public class GPSNetwork {
         ChatInput.waitForPlayer(SlimefunPlugin.instance, p, message -> addWaypoint(p, message, l));
     }
 
+    /**
+     * This method adds a new waypoint with the given name and {@link Location} for that {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player} to get the new waypoint
+     * @param name
+     *            The name of this waypoint
+     * @param l
+     *            The {@link Location} of this waypoint
+     */
     public void addWaypoint(Player p, String name, Location l) {
         if ((getWaypoints(p.getUniqueId()).size() + 2) > inventory.length) {
             SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
@@ -225,6 +312,15 @@ public class GPSNetwork {
         SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.added", true);
     }
 
+    /**
+     * This method returns a {@link Set} of {@link Location Locations} for all {@link GPSTransmitter Transmitters}
+     * owned by the given {@link UUID}.
+     * 
+     * @param uuid
+     *            The {@link UUID} owning those transmitters
+     * 
+     * @return A {@link Set} with all {@link Location Locations} of transmitters for this {@link UUID}
+     */
     public Set<Location> getTransmitters(UUID uuid) {
         return transmitters.getOrDefault(uuid, new HashSet<>());
     }

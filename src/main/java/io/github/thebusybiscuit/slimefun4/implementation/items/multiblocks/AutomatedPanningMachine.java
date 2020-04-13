@@ -28,7 +28,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
     private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();
 
     public AutomatedPanningMachine() {
-        super(Categories.MACHINES_1, SlimefunItems.AUTOMATED_PANNING_MACHINE, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[0], BlockFace.SELF);
+        super(Categories.BASIC_MACHINES, SlimefunItems.AUTOMATED_PANNING_MACHINE, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[0], BlockFace.SELF);
     }
 
     @Override

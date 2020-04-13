@@ -2,14 +2,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -45,8 +43,7 @@ public class VampireBladeListener implements Listener {
 
             if (blade.isItem(p.getInventory().getItemInMainHand())) {
                 if (Slimefun.hasUnlocked(p, blade, true)) {
-                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
+                    blade.heal(p);
                 }
                 else {
                     e.setCancelled(true);

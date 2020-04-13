@@ -46,7 +46,7 @@ class ContributionsConnector extends GitHubConnector {
     private final String role;
     private final int page;
 
-    public ContributionsConnector(GitHubService github, String prefix, int page, String repository, String role) {
+    ContributionsConnector(GitHubService github, String prefix, int page, String repository, String role) {
         super(github);
 
         this.prefix = prefix;

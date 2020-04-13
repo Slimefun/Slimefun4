@@ -9,9 +9,18 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * {@link MeatJerky} is just a piece of meat that gives some extra saturation.
+ * {@link MeatJerky} is available for all meat variants.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see MonsterJerky
+ *
+ */
 public class MeatJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-    private ItemSetting<Integer> saturation = new ItemSetting<>("saturation-level", 18);
+    private ItemSetting<Integer> saturation = new ItemSetting<>("saturation-level", 6);
 
     public MeatJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -21,7 +30,7 @@ public class MeatJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     @Override
     public ItemConsumptionHandler getItemHandler() {
-        return (e, p, item) -> p.setSaturation(saturation.getValue());
+        return (e, p, item) -> p.setSaturation(p.getSaturation() + saturation.getValue());
     }
 
 }

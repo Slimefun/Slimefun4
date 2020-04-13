@@ -3,16 +3,27 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link FortuneCookie} is a rather simple {@link SlimefunItem}, it's a cookie which
+ * sends the {@link Player} who ate it a random text message.
+ * The messages can be defined in the {@link LocalizationService}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     public FortuneCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

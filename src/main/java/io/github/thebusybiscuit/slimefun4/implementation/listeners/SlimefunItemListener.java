@@ -51,8 +51,13 @@ public class SlimefunItemListener implements Listener {
             if (event.useItem() != Result.DENY) {
                 Optional<SlimefunItem> optional = event.getSlimefunItem();
 
-                if (optional.isPresent() && Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
-                    itemUsed = optional.get().callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
+                if (optional.isPresent()) {
+                    if (Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
+                        itemUsed = optional.get().callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
+                    }
+                    else {
+                        event.setUseItem(Result.DENY);
+                    }
                 }
             }
 

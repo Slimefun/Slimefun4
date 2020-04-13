@@ -23,7 +23,7 @@ class GitHubTask implements Runnable {
 
     private final GitHubService gitHubService;
 
-    public GitHubTask(GitHubService github) {
+    GitHubTask(GitHubService github) {
         gitHubService = github;
     }
 

@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class EnhancedCraftingTable extends BackpackCrafter {
 
     public EnhancedCraftingTable() {
-        super(Categories.MACHINES_1, SlimefunItems.ENHANCED_CRAFTING_TABLE, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, new ItemStack[0], BlockFace.SELF);
+        super(Categories.BASIC_MACHINES, SlimefunItems.ENHANCED_CRAFTING_TABLE, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, new ItemStack[0], BlockFace.SELF);
     }
 
     @Override

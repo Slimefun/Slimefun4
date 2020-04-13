@@ -81,7 +81,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             randomizer.add(new ItemStack(Material.AIR), 100 - randomizer.sumWeights());
         }
     }
-    
+
     public ItemStack getRandomOutput() {
         return randomizer.getRandom();
     }
@@ -137,6 +137,11 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             super(key, defaultValue);
 
             this.output = output;
+        }
+
+        @Override
+        public boolean validateInput(Integer input) {
+            return super.validateInput(input) && input >= 0;
         }
 
         public ItemStack getOutput() {

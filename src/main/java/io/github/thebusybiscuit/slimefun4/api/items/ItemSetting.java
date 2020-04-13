@@ -39,6 +39,19 @@ public class ItemSetting<T> {
     }
 
     /**
+     * This method checks if a given input would be valid as a value for this
+     * {@link ItemSetting}. You can override this method to implement your own checks.
+     * 
+     * @param input
+     *            The input value to validate
+     * 
+     * @return Whether the given input was valid
+     */
+    public boolean validateInput(T input) {
+        return input != null;
+    }
+
+    /**
      * This method updates this {@link ItemSetting} with the given value.
      * Override this method to catch changes of a value.
      * A value may never be null.
@@ -47,8 +60,12 @@ public class ItemSetting<T> {
      *            The new value for this {@link ItemSetting}
      */
     public void update(T newValue) {
-        Validate.notNull(newValue, "An ItemSetting cannot have a null value!");
-        this.value = newValue;
+        if (validateInput(newValue)) {
+            this.value = newValue;
+        }
+        else {
+            throw new IllegalArgumentException("The passed value was not valid. (Maybe null?)");
+        }
 
         // Feel free to override this as necessary.
     }

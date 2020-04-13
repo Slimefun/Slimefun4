@@ -49,7 +49,8 @@ abstract class GitHubConnector {
             URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
 
             URLConnection connection = website.openConnection();
-            connection.setConnectTimeout(3000);
+            connection.setConnectTimeout(8000);
+            connection.addRequestProperty("Accept-Charset", "UTF-8");
             connection.addRequestProperty("User-Agent", "Slimefun 4 GitHub Agent (by TheBusyBiscuit)");
             connection.setDoOutput(true);
 

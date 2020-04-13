@@ -52,6 +52,7 @@ public class SeasonalCategory extends Category {
 
     @Override
     public boolean isHidden(Player p) {
+        // Hide this Category if the month differs
         if (month != LocalDate.now().getMonth()) {
             return true;
         }
