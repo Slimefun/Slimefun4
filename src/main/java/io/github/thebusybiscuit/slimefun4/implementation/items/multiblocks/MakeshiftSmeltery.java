@@ -27,7 +27,7 @@ public class MakeshiftSmeltery extends MultiBlockMachine {
     public MakeshiftSmeltery() {
         super(Categories.MACHINES_1, SlimefunItems.MAKESHIFT_SMELTERY, new ItemStack[]{
                 null, new ItemStack(Material.OAK_FENCE), null,
-                new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "发射器（朝上）"), new ItemStack(Material.BRICKS),
+                new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "发射器(朝上)"), new ItemStack(Material.BRICKS),
                 null, new ItemStack(Material.FLINT_AND_STEEL), null
         }, new ItemStack[0], BlockFace.DOWN);
     }
