@@ -67,6 +67,7 @@
 * Slimefun Guide runs much faster now and can better deal with many Categories and items
 * Lots of API improvements
 * Faulty addons are now identified more easily and will no longer break Slimefun's main content this quickly
+* You can no longer /sf give yourself a Multiblock
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
