@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -49,11 +48,16 @@ public class GitHubService {
     }
 
     private void addDefaultContributors() {
-        Contributor fuffles = new Contributor("Fuffles_");
-        fuffles.setContribution("&dSkull Texture Artist", 0);
-        contributors.put(fuffles.getName(), fuffles);
+        addContributor("Fuffles_", "&dArtist");
+        addContributor("IMS_Art", "&dArtist");
 
         new Translators(contributors);
+    }
+
+    private void addContributor(String name, String role) {
+        Contributor contributor = new Contributor(name);
+        contributor.setContribution(role, 0);
+        contributors.put(name, contributor);
     }
 
     private void loadConnectors(boolean logging) {
@@ -70,7 +74,13 @@ public class GitHubService {
         // TheBusyBiscuit/Slimefun4-Resourcepack
         connectors.add(new ContributionsConnector(this, "resourcepack", 1, "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
 
-        connectors.add(new GitHubConnector(this) {
+        // Issues and Pull Requests
+        connectors.add(new GitHubIssuesTracker(this, repository, (issues, pullRequests) -> {
+            this.issues = issues;
+            this.pullRequests = pullRequests;
+        }));
+
+        connectors.add(new GitHubConnector(this, repository) {
 
             @Override
             public void onSuccess(JsonElement element) {
@@ -81,11 +91,6 @@ public class GitHubService {
             }
 
             @Override
-            public String getRepository() {
-                return repository;
-            }
-
-            @Override
             public String getFileName() {
                 return "repo";
             }
@@ -93,42 +98,6 @@ public class GitHubService {
             @Override
             public String getURLSuffix() {
                 return "";
-            }
-        });
-
-        connectors.add(new GitHubConnector(this) {
-
-            @Override
-            public void onSuccess(JsonElement element) {
-                JsonArray array = element.getAsJsonArray();
-
-                int issueCount = 0;
-                int prCount = 0;
-
-                for (JsonElement elem : array) {
-                    JsonObject obj = elem.getAsJsonObject();
-
-                    if (obj.has("pull_request")) prCount++;
-                    else issueCount++;
-                }
-
-                issues = issueCount;
-                pullRequests = prCount;
-            }
-
-            @Override
-            public String getRepository() {
-                return repository;
-            }
-
-            @Override
-            public String getFileName() {
-                return "issues";
-            }
-
-            @Override
-            public String getURLSuffix() {
-                return "/issues";
             }
         });
     }

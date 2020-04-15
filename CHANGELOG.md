@@ -68,6 +68,8 @@
 * Lots of API improvements
 * Faulty addons are now identified more easily and will no longer break Slimefun's main content this quickly
 * You can no longer /sf give yourself a Multiblock
+* Addons have no longer access to Slimefuns default categories
+* Updated seasonal Categories to have better icons
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
@@ -82,6 +84,7 @@
 * Fixed #1803
 * Fixed #1806
 * Fixed #1807
+* Fixed Coolers accepting non-Juice items
 
 ## Release Candidate 10 (28 Mar 2020)
 

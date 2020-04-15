@@ -24,6 +24,7 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
     @Override
     public BlockPlaceHandler getItemHandler() {
         return (e, item) -> {
+            // We need to explicitly ignore the lore here
             if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
                 EntityType type = null;
 

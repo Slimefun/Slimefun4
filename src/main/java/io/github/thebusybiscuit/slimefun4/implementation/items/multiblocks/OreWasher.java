@@ -17,18 +17,16 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 
 public class OreWasher extends MultiBlockMachine {
     
     private final boolean legacyMode;
 
-	public OreWasher() {
-		super(
-				Categories.BASIC_MACHINES, 
-				SlimefunItems.ORE_WASHER, 
+	public OreWasher(Category category) {
+        super(category, SlimefunItems.ORE_WASHER, 
 				new ItemStack[] {null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null},
 				new ItemStack[] {
 						SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, 

@@ -17,9 +17,9 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 
@@ -27,8 +27,8 @@ public class OreCrusher extends MultiBlockMachine {
 
     private final DoubleOreSetting doubleOres = new DoubleOreSetting();
 
-    public OreCrusher() {
-        super(Categories.BASIC_MACHINES, SlimefunItems.ORE_CRUSHER, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS) }, new ItemStack[] { new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST, new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND), new ItemStack(Material.MAGMA_BLOCK, 4), SlimefunItems.SULFATE }, BlockFace.SELF);
+    public OreCrusher(Category category) {
+        super(category, SlimefunItems.ORE_CRUSHER, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS) }, new ItemStack[] { new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST, new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND), new ItemStack(Material.MAGMA_BLOCK, 4), SlimefunItems.SULFATE }, BlockFace.SELF);
 
         addItemSetting(doubleOres);
     }

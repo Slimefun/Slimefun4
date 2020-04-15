@@ -52,6 +52,10 @@ public class MultiBlock {
     public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
         this.item = item;
 
+        if (trigger != BlockFace.SELF && trigger != BlockFace.UP && trigger != BlockFace.DOWN) {
+            throw new IllegalArgumentException("Multiblock Blockface must be either UP, DOWN or SELF");
+        }
+
         this.blocks = build;
         this.trigger = trigger;
         this.isSymmetric = isSymmetric(build);

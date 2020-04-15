@@ -18,13 +18,11 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
- * See {@link Categories} for all built-in categories.
  * 
  * @author TheBusyBiscuit
  *
