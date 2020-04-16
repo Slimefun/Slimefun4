@@ -30,7 +30,7 @@ public class OreCrusher extends MultiBlockMachine {
 		super(
 				Categories.MACHINES_1,
 				SlimefunItems.ORE_CRUSHER,
-				new ItemStack[]{null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS)},
+				new ItemStack[]{null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "发射器(朝上)"), new ItemStack(Material.IRON_BARS)},
 				new ItemStack[]{
 						new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1),
 						SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST,

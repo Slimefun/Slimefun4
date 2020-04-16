@@ -26,23 +26,23 @@ public class Juicer extends MultiBlockMachine {
 		super(
                 Categories.MACHINES_1,
                 SlimefunItems.JUICER,
-                new ItemStack[]{null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
+                new ItemStack[]{null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "发射器(朝上)"), null},
                 new ItemStack[0],
                 BlockFace.SELF
         );
 	}
-	
+
 	@Override
 	public List<ItemStack> getDisplayRecipes() {
 		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public void onInteract(Player p, Block b) {
 		Block dispBlock = b.getRelative(BlockFace.DOWN);
 		Dispenser disp = (Dispenser) dispBlock.getState();
 		Inventory inv = disp.getInventory();
-		
+
 		for (ItemStack current : inv.getContents()) {
 			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
                 if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
@@ -58,12 +58,12 @@ public class Juicer extends MultiBlockMachine {
                         p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
 					}
 					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
-					
+
 					return;
 				}
 			}
 		}
-		
+
 		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
 	}
 
