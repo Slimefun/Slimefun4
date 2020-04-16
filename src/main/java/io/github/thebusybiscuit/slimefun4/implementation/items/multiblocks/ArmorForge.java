@@ -27,7 +27,7 @@ public class ArmorForge extends MultiBlockMachine {
         super(category, SlimefunItems.ARMOR_FORGE, new ItemStack[]{
                 null, null, null,
                 null, new ItemStack(Material.ANVIL), null,
-                null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null
+                null, new CustomItem(Material.DISPENSER, "发射器(朝上)"), null
         }, new ItemStack[0], BlockFace.SELF);
     }
 
