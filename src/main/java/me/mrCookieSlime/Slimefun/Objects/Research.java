@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -231,13 +231,10 @@ public class Research implements Keyed {
         migrate(id, path);
 
         if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {
-            Iterator<SlimefunItem> iterator = items.iterator();
-            while (iterator.hasNext()) {
-                SlimefunItem item = iterator.next();
+            for (SlimefunItem item : new ArrayList<>(items)) {
                 if (item != null) {
                     item.setResearch(null);
                 }
-                iterator.remove();
             }
             return;
         }

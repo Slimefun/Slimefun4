@@ -1,9 +1,14 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import java.util.Optional;
 
 /**
  * This {@link ItemHandler} is called whenever a {@link Player} interacts with
@@ -24,5 +29,15 @@ public interface MultiBlockInteractionHandler extends ItemHandler {
     @Override
     default Class<? extends ItemHandler> getIdentifier() {
         return MultiBlockInteractionHandler.class;
+    }
+
+    @Override
+    default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+        // Change this to "MultiBlockMachine" once SlimefunMachine was removed or deprecated
+        if (!(item instanceof SlimefunMachine)) {
+            return Optional.of(new IncompatibleItemHandlerException("Only class inheriting 'MultiBlockMachine' can have a MultiBlockInteractionHandler", item, this));
+        }
+
+        return Optional.empty();
     }
 }

@@ -3,9 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -22,8 +22,8 @@ import java.util.List;
 
 public class EnhancedCraftingTable extends BackpackCrafter {
 
-    public EnhancedCraftingTable() {
-        super(Categories.MACHINES_1, SlimefunItems.ENHANCED_CRAFTING_TABLE, new ItemStack[]{null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null}, new ItemStack[0], BlockFace.SELF);
+    public EnhancedCraftingTable(Category category) {
+        super(category, SlimefunItems.ENHANCED_CRAFTING_TABLE, new ItemStack[]{null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null}, new ItemStack[0], BlockFace.SELF);
     }
 
     @Override

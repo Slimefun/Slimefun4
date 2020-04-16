@@ -1,33 +1,49 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import org.bukkit.Sound;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * This {@link Listener} is exclusively used for the {@link VampireBlade}.
+ * It handles the {@link PotionEffect}
+ *
+ * @author TheBusyBiscuit
+ * @see VampireBlade
+ */
 public class VampireBladeListener implements Listener {
 
-    public VampireBladeListener(SlimefunPlugin plugin) {
+    private final VampireBlade blade;
+
+    public VampireBladeListener(SlimefunPlugin plugin, VampireBlade blade) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        this.blade = blade;
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player && ThreadLocalRandom.current().nextInt(100) < 45) {
+        if (blade == null || blade.isDisabled()) {
+            return;
+        }
+
+        if (e.getDamager() instanceof Player && ThreadLocalRandom.current().nextInt(100) < blade.getChance()) {
             Player p = (Player) e.getDamager();
 
-            if (SlimefunUtils.isItemSimilar(p.getInventory().getItemInMainHand(), SlimefunItems.BLADE_OF_VAMPIRES, true)) {
-                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
-                p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
+            if (blade.isItem(p.getInventory().getItemInMainHand())) {
+                if (Slimefun.hasUnlocked(p, blade, true)) {
+                    blade.heal(p);
+                } else {
+                    e.setCancelled(true);
+                }
             }
         }
     }

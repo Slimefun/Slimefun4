@@ -131,13 +131,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private void displayCategory(ChestMenu menu, Player p, PlayerProfile profile, Category category, int index) {
-        if (!(category instanceof LockedCategory)) {
-            menu.addItem(index, category.getItem(p));
-            menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                openCategory(profile, category, 1);
-                return false;
-            });
-        } else if (!isSurvivalMode() || ((LockedCategory) category).hasUnlocked(p, profile)) {
+        if (!(category instanceof LockedCategory) || !isSurvivalMode() || ((LockedCategory) category).hasUnlocked(p, profile)) {
             menu.addItem(index, category.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 openCategory(profile, category, 1);
@@ -231,11 +225,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                             return false;
                         });
 
-                        index++;
-                    } else {
-                        List<String> message = SlimefunPlugin.getPermissionsService().getLore(sfitem);
-                        menu.addItem(index, new CustomItem(Material.BARRIER, sfitem.getItemName(), message.toArray(new String[message.size()])));
-                        menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
                         index++;
                     }
                 } else {

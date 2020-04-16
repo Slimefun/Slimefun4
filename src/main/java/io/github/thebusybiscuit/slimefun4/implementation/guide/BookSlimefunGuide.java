@@ -51,13 +51,17 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         book.setTitle(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
 
         for (int i = 0; i < lines.size(); i = i + 10) {
-            ChatComponent page = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
-            page.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
+            ChatComponent page = new ChatComponent("");
 
-            page.setClickEvent(new ClickEvent(guideSearch, player -> PlayerProfile.get(player, profile -> Slimefun.runSync(() -> {
+            ChatComponent header = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
+            header.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
+
+            header.setClickEvent(new ClickEvent(guideSearch, player -> PlayerProfile.get(player, profile -> Slimefun.runSync(() -> {
                 SlimefunPlugin.getLocal().sendMessage(player, "guide.search.message");
                 ChatInput.waitForPlayer(SlimefunPlugin.instance, player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
             }, 1))));
+
+            page.append(header);
 
             for (int j = i; j < lines.size() && j < i + 10; j++) {
                 page.append(lines.get(j));
@@ -185,7 +189,10 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                     List<String> lore = new ArrayList<>();
                     lore.add(ChatColor.DARK_RED + ChatColor.stripColor(ItemUtils.getItemName(item.getItem())));
                     lore.add("");
-                    lore.addAll(SlimefunPlugin.getPermissionsService().getLore(item));
+
+                    for (String line : SlimefunPlugin.getPermissionsService().getLore(item)) {
+                        lore.add(ChatColors.color(line));
+                    }
 
                     component.setHoverEvent(new HoverEvent(lore));
                     lines.add(component);

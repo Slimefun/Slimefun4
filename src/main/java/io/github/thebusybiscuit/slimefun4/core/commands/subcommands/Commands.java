@@ -28,6 +28,5 @@ public final class Commands {
         commands.add(new DebugFishCommand(plugin, cmd));
         commands.add(new ReloadCommand(plugin, cmd));
         commands.add(new TransformCommand(plugin, cmd));
-        commands.add(new ElevatorCommand(plugin, cmd));
     }
 }

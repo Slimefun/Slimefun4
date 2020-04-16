@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.chat.json.*;
+import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
+import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
+import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
+import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -14,8 +17,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -27,7 +32,6 @@ import java.util.*;
 public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     private final Set<UUID> users = new HashSet<>();
-    private final NamespacedKey elevatorKey = new NamespacedKey(SlimefunPlugin.instance, "elevator");
 
     public ElevatorPlate(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
@@ -110,16 +114,26 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             Block block = floors.get(i);
             String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), "floor"));
-
             ChatComponent line;
 
             if (block.getY() == b.getY()) {
                 line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), ChatColor.RESET + floor, ""));
+                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.RESET + floor, ""));
             } else {
-                line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(ClickEventAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " "));
+                line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
+                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
+                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "floor" + i), player -> Slimefun.runSync(() -> {
+                    users.add(player.getUniqueId());
+
+                    float yaw = player.getEyeLocation().getYaw() + 180;
+
+                    if (yaw > 180) {
+                        yaw = -180 + (yaw - 180);
+                    }
+
+                    player.teleport(new Location(player.getWorld(), block.getX() + 0.5, block.getY() + 0.4, block.getZ() + 0.5, yaw, player.getEyeLocation().getPitch()));
+                    player.sendTitle(ChatColor.RESET + ChatColors.color(floor), " ", 20, 60, 20);
+                })));
             }
 
             page.append(line);
@@ -127,8 +141,9 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
         if (page != null) {
             book.addPage(page);
-            book.open(p);
         }
+
+        book.open(p);
     }
 
     public void openEditor(Player p, Block b) {

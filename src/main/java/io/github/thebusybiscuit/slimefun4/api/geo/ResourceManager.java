@@ -11,6 +11,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -24,9 +26,11 @@ import java.util.concurrent.ThreadLocalRandom;
  * You have to use the {@link ResourceManager} if you want to generate or consume a {@link GEOResource} too.
  *
  * @author TheBusyBiscuit
+ *
  * @see GEOResource
  * @see GEOMiner
  * @see GEOScanner
+ *
  */
 public class ResourceManager {
 
@@ -38,7 +42,7 @@ public class ResourceManager {
         config = new Config(plugin, "resources.yml");
     }
 
-    public void register(GEOResource resource) {
+    void register(GEOResource resource) {
         boolean enabled = config.getOrSetDefault(resource.getKey().toString().replace(':', '.') + ".enabled", true);
 
         if (enabled) {
@@ -81,6 +85,17 @@ public class ResourceManager {
         return value;
     }
 
+    /**
+     * This method will start a geo-scan at the given {@link Block} and display the result
+     * of that scan to the given {@link Player}.
+     * <p>
+     * Note that scans are always per {@link Chunk}, not per {@link Block}, the {@link Block}
+     * parameter only determines the {@link Location} that was clicked but it will still scan
+     * the entire {@link Chunk}.
+     *
+     * @param p     The {@link Player} who requested these results
+     * @param block The {@link Block} which the scan starts at
+     */
     public void scan(Player p, Block block) {
         if (SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
             SlimefunPlugin.getLocal().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));

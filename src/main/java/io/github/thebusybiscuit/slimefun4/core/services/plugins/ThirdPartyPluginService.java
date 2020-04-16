@@ -73,7 +73,7 @@ public class ThirdPartyPluginService {
                     String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
 
                     Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
-                    Slimefun.getLogger().log(Level.WARNING, "Failed to hook into WorldEdit v" + version, x);
+                    Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
                 }
             }
         });

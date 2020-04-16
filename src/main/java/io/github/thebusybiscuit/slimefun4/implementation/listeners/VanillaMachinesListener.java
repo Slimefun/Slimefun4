@@ -14,10 +14,18 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * This {@link Listener} prevents any {@link SlimefunItem} from being used in a vanilla
+ * machine like the workbench, grindstone, brewing stand or an anvil.
+ *
+ * @author TheBusyBiscuit
+ * @author NathanAdhitya
+ * @author Steve
+ * @author VoidAngel
+ */
 public class VanillaMachinesListener implements Listener {
 
     public VanillaMachinesListener(SlimefunPlugin plugin) {
@@ -26,6 +34,7 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGrindstone(InventoryClickEvent e) {
+        // The Grindstone was only ever added in MC 1.14
         if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
@@ -47,7 +56,7 @@ public class VanillaMachinesListener implements Listener {
 
             if (sfItem != null && !sfItem.isUseableInWorkbench()) {
                 e.setCancelled(true);
-                SlimefunPlugin.getLocal().sendMessage(e.getWhoClicked(), "workbench.not-enhanced", true);
+                SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
                 break;
             }
         }
@@ -69,13 +78,13 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler
     public void onAnvil(InventoryClickEvent e) {
-        if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
+        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.ANVIL && e.getWhoClicked() instanceof Player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
             if (!SlimefunUtils.isItemSimilar(item1, SlimefunItems.ELYTRA, true) && checkForUnallowedItems(item1, item2)) {
                 e.setCancelled(true);
-                SlimefunPlugin.getLocal().sendMessage(e.getWhoClicked(), "anvil.not-working", true);
+                SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
         }
     }
@@ -84,7 +93,7 @@ public class VanillaMachinesListener implements Listener {
     public void onPreBrew(InventoryClickEvent e) {
         Inventory inventory = e.getInventory();
 
-        if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) {
+        if (inventory.getType() == InventoryType.BREWING && e.getRawSlot() < inventory.getSize() && inventory.getHolder() instanceof BrewingStand) {
             e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
         }
     }
@@ -96,8 +105,11 @@ public class VanillaMachinesListener implements Listener {
             SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
             SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);
 
-            return (sfItem1 != null && !sfItem1.isDisabled()) || (sfItem2 != null && !sfItem2.isDisabled());
+            if ((sfItem1 != null && !sfItem1.isDisabled()) || (sfItem2 != null && !sfItem2.isDisabled())) {
+                return true;
+            }
         }
 
+        return false;
     }
 }

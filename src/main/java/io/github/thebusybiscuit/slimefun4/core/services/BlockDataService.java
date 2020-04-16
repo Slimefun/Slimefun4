@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -20,7 +21,7 @@ import java.util.Optional;
  *
  * @author TheBusyBiscuit
  */
-public class BlockDataService implements PersistentDataService {
+public class BlockDataService implements PersistentDataService, Keyed {
 
     private final NamespacedKey namespacedKey;
 
@@ -28,13 +29,16 @@ public class BlockDataService implements PersistentDataService {
         namespacedKey = new NamespacedKey(plugin, key);
     }
 
+    @Override
+    public NamespacedKey getKey() {
+        return namespacedKey;
+    }
+
     /**
      * This will store the given {@link String} inside the NBT data of the given {@link Block}
      *
-     * @param b
-     *            The {@link Block} in which to store the given value
-     * @param value
-     *            The value to store
+     * @param b     The {@link Block} in which to store the given value
+     * @param value The value to store
      */
     public void setBlockData(Block b, String value) {
         BlockState state = b.getState();
@@ -85,6 +89,7 @@ public class BlockDataService implements PersistentDataService {
             case CHEST:
             case DISPENSER:
             case DROPPER:
+            case BREWING_STAND:
             case FURNACE:
             case BLAST_FURNACE:
             case HOPPER:
@@ -94,6 +99,7 @@ public class BlockDataService implements PersistentDataService {
             case ENCHANTING_TABLE:
             case DAYLIGHT_DETECTOR:
             case SMOKER:
+            case BARREL:
             case SPAWNER:
             case BEACON:
                 return true;

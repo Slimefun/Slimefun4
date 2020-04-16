@@ -49,6 +49,10 @@ public class MultiBlock {
     public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
         this.item = item;
 
+        if (trigger != BlockFace.SELF && trigger != BlockFace.UP && trigger != BlockFace.DOWN) {
+            throw new IllegalArgumentException("Multiblock Blockface must be either UP, DOWN or SELF");
+        }
+
         this.blocks = build;
         this.trigger = trigger;
         this.isSymmetric = isSymmetric(build);
@@ -62,12 +66,12 @@ public class MultiBlock {
         return blocks[0] == blocks[2] && blocks[3] == blocks[5] && blocks[6] == blocks[8];
     }
 
-    public Material[] getBuild() {
-        return this.blocks;
+    public Material[] getStructure() {
+        return blocks;
     }
 
     public BlockFace getTriggerBlock() {
-        return this.trigger;
+        return trigger;
     }
 
     public void register() {
@@ -80,8 +84,8 @@ public class MultiBlock {
 
         MultiBlock mb = (MultiBlock) obj;
         if (trigger == mb.getTriggerBlock()) {
-            for (int i = 0; i < mb.getBuild().length; i++) {
-                if (!compareBlocks(blocks[i], mb.getBuild()[i])) {
+            for (int i = 0; i < mb.getStructure().length; i++) {
+                if (!compareBlocks(blocks[i], mb.getStructure()[i])) {
                     return false;
                 }
             }

@@ -85,16 +85,4 @@ public final class SlimefunManager {
     public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
         return SlimefunUtils.containsSimilarItem(inventory, itemStack, checkLore);
     }
-
-    /**
-     * Checks if an Item is soulbound.
-     *
-     * @param item The {@link ItemStack} to check
-     * @return Whether it is soulbound
-     * @deprecated Use {@link SlimefunUtils#isSoulbound(ItemStack)} instead.
-     */
-    @Deprecated
-    public static boolean isItemSoulbound(ItemStack item) {
-        return SlimefunUtils.isSoulbound(item);
-    }
 }

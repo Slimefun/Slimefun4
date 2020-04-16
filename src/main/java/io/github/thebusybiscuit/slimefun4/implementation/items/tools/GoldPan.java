@@ -132,6 +132,12 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
             this.output = output;
         }
 
+        @Override
+        public boolean validateInput(Integer input) {
+            return super.validateInput(input) && input >= 0;
+        }
+
+
         public ItemStack getOutput() {
             return output;
         }

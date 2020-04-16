@@ -1,8 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -16,7 +13,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -79,49 +75,39 @@ public class BlockListener implements Listener {
         }
         else {
             for (ItemHandler handler : SlimefunItem.getPublicItemHandlers(BlockPlaceHandler.class)) {
-                if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) break;
+                if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) {
+                    break;
+                }
             }
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockUnregister(BlockBreakEvent e) {
-        boolean allow = true;
-        List<ItemStack> drops = new ArrayList<>();
-        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        int fortune = getFortuneLevel(item, e.getBlock());
+        Block blockAbove = e.getBlock().getRelative(BlockFace.UP);
 
-        Block block2 = e.getBlock().getRelative(BlockFace.UP);
-
-        if (sensitiveMaterials.contains(block2.getType())) {
-            SlimefunItem sfItem = BlockStorage.check(e.getBlock().getRelative(BlockFace.UP));
-
-            if (sfItem == null && SlimefunPlugin.getBlockDataService().isTileEntity(block2.getType())) {
-                Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(block2);
-
-                if (blockData.isPresent()) {
-                    sfItem = SlimefunItem.getByID(blockData.get());
-                }
-            }
+        if (sensitiveMaterials.contains(blockAbove.getType())) {
+            SlimefunItem sfItem = BlockStorage.check(blockAbove);
 
             if (sfItem != null && !(sfItem instanceof HandledBlock)) {
                 SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 
                 if (blockHandler != null) {
-                    allow = blockHandler.onBreak(e.getPlayer(), block2, sfItem, UnregisterReason.PLAYER_BREAK);
-                }
-
-                if (allow) {
-                    block2.getWorld().dropItemNaturally(block2.getLocation(), BlockStorage.retrieve(block2));
-                    block2.setType(Material.AIR);
-                } else {
-                    e.setCancelled(true);
-                    return;
+                    if (blockHandler.onBreak(e.getPlayer(), blockAbove, sfItem, UnregisterReason.PLAYER_BREAK)) {
+                        blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), BlockStorage.retrieve(blockAbove));
+                        blockAbove.setType(Material.AIR);
+                    } else {
+                        e.setCancelled(true);
+                        return;
+                    }
                 }
             }
         }
 
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
+        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+        int fortune = getBonusDropsWithFortune(item, e.getBlock());
+        List<ItemStack> drops = new ArrayList<>();
 
         if (sfItem == null && SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
             Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(e.getBlock());
@@ -135,21 +121,18 @@ public class BlockListener implements Listener {
             SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 
             if (blockHandler != null) {
-                allow = blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK);
-            }
-            else {
+                if (blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK)) {
+                    drops.addAll(sfItem.getDrops());
+                    BlockStorage.clearBlockInfo(e.getBlock());
+                } else {
+                    e.setCancelled(true);
+                    return;
+                }
+            } else {
                 sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onBlockBreak(e, item, fortune, drops));
             }
-
-            if (allow) {
-                drops.addAll(sfItem.getDrops());
-                BlockStorage.clearBlockInfo(e.getBlock());
-            }
-            else {
-                e.setCancelled(true);
-                return;
-            }
         }
+
         if (item.getType() != Material.AIR) {
             for (ItemHandler handler : SlimefunItem.getPublicItemHandlers(BlockBreakHandler.class)) {
                 if (((BlockBreakHandler) handler).onBlockBreak(e, item, fortune, drops)) {
@@ -171,62 +154,33 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
         ItemStack item = e.getItemInHand();
 
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BASIC_CIRCUIT_BOARD, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
-
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, false)) e.setCancelled(true);
-
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, false)) e.setCancelled(true);
-
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.TINY_URANIUM, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, false)) e.setCancelled(true);
-
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.TINY_URANIUM, true)) e.setCancelled(true);
+        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, true)) e.setCancelled(true);
         else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CHRISTMAS_PRESENT, false)) {
-            e.setCancelled(true);
-
-            if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(item, false);
-            }
-
-            FireworkUtils.launchRandom(e.getPlayer(), 3);
-            List<ItemStack> gifts = new ArrayList<>();
-
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_HOT_CHOCOLATE, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CARAMEL_APPLE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_CAKE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_COOKIE, 8));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_PRESENT, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_EGG_NOG, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_MILK, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_CIDER, 1));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_FRUIT_CAKE, 4));
-            gifts.add(new CustomItem(SlimefunItems.CHRISTMAS_APPLE_PIE, 4));
-            gifts.add(new ItemStack(Material.EMERALD));
-
-            e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gifts.get(ThreadLocalRandom.current().nextInt(gifts.size())));
-        } else if (e.getBlock().getY() != e.getBlockAgainst().getY() && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false))) {
+        else if (e.getBlock().getY() != e.getBlockAgainst().getY() && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false))) {
             SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
             e.setCancelled(true);
         }
     }
 
-    private int getFortuneLevel(ItemStack item, Block b) {
+    private int getBonusDropsWithFortune(ItemStack item, Block b) {
         int fortune = 1;
 
         if (item != null && item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
             Random random = ThreadLocalRandom.current();
+            int fortuneLevel = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
 
-            fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
-            if (fortune <= 0) fortune = 1;
+            fortune = Math.max(1, random.nextInt(fortuneLevel + 2) - 1);
             fortune = (b.getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
         }
 

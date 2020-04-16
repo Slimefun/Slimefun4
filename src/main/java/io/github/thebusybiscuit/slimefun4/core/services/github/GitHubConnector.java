@@ -15,15 +15,15 @@ import java.util.logging.Level;
 abstract class GitHubConnector {
 
     protected File file;
+    protected String repository;
     protected final GitHubService github;
 
-    public GitHubConnector(GitHubService github) {
+    public GitHubConnector(GitHubService github, String repository) {
         this.github = github;
+        this.repository = repository;
     }
 
     public abstract String getFileName();
-
-    public abstract String getRepository();
 
     public abstract String getURLSuffix();
 
@@ -37,14 +37,15 @@ abstract class GitHubConnector {
         file = new File("plugins/Slimefun/cache/github/" + getFileName() + ".json");
 
         if (github.isLoggingEnabled()) {
-            Slimefun.getLogger().log(Level.INFO, "Retrieving {0}.json from GitHub...", this.getFileName());
+            Slimefun.getLogger().log(Level.INFO, "Retrieving {0}.json from GitHub...", getFileName());
         }
 
         try {
-            URL website = new URL("https://api.github.com/repos/" + this.getRepository() + this.getURLSuffix());
+            URL website = new URL("https://api.github.com/repos/" + repository + getURLSuffix());
 
             URLConnection connection = website.openConnection();
-            connection.setConnectTimeout(3000);
+            connection.setConnectTimeout(8000);
+            connection.addRequestProperty("Accept-Charset", "UTF-8");
             connection.addRequestProperty("User-Agent", "Slimefun 4 GitHub Agent (by TheBusyBiscuit)");
             connection.setDoOutput(true);
 

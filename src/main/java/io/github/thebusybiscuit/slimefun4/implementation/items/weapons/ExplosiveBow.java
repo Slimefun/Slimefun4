@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Sound;
@@ -8,8 +9,8 @@ import org.bukkit.util.Vector;
 
 public class ExplosiveBow extends SlimefunBow {
 
-    public ExplosiveBow(SlimefunItemStack item, ItemStack[] recipe) {
-        super(item, recipe);
+    public ExplosiveBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+        super(category, item, recipe);
     }
 
     @Override

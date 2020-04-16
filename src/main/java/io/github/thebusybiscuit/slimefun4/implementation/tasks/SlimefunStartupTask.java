@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -46,27 +48,6 @@ public class SlimefunStartupTask implements Runnable {
         }
 
         // Load all listeners that depend on items to be enabled
-
-        if (isEnabled("ANCIENT_ALTAR")) {
-            SlimefunPlugin.getAncientAltarListener().register(plugin);
-        }
-
-        if (isEnabled("GRAPPLING_HOOK")) {
-            SlimefunPlugin.getGrapplingHookListener().register(plugin);
-        }
-
-        if (isEnabled("BLADE_OF_VAMPIRES")) {
-            new VampireBladeListener(plugin);
-        }
-
-        if (isEnabled("COOLER")) {
-            new CoolerListener(plugin);
-        }
-
-        if (isEnabled("SEISMIC_AXE")) {
-            new SeismicAxeListener(plugin);
-        }
-
         if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
             new TeleporterListener(plugin);
         }

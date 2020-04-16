@@ -26,7 +26,9 @@ import java.util.logging.Level;
  * It is used for managing the {@link Language} of a {@link Player} and the entire {@link Server}.
  *
  * @author TheBusyBiscuit
+ *
  * @see Language
+ *
  */
 public class LocalizationService extends SlimefunLocalization implements PersistentDataService {
 
@@ -36,13 +38,16 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     private final Map<String, Language> languages = new LinkedHashMap<>();
     private final boolean translationsEnabled;
     private final SlimefunPlugin plugin;
+    private final String prefix;
     private final NamespacedKey languageKey;
     private final Language defaultLanguage;
 
-    public LocalizationService(SlimefunPlugin plugin, String serverDefaultLanguage) {
+    public LocalizationService(SlimefunPlugin plugin, String prefix, String serverDefaultLanguage) {
         super(plugin);
 
         this.plugin = plugin;
+        this.prefix = prefix;
+
         translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
         languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
         defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
@@ -56,14 +61,27 @@ public class LocalizationService extends SlimefunLocalization implements Persist
 
         if (hasLanguage(serverDefaultLanguage)) {
             setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
-        }
-        else {
+        } else {
             setLanguage("en", false);
             plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
         }
 
         Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
         save();
+    }
+
+    /**
+     * This method returns whether translations are enabled on this {@link Server}.
+     *
+     * @return Whether translations are enabled
+     */
+    public boolean isEnabled() {
+        return translationsEnabled;
+    }
+
+    @Override
+    public String getPrefix() {
+        return prefix;
     }
 
     @Override
@@ -87,12 +105,12 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         return containsResource("messages_" + language) || containsResource("researches_" + language) || containsResource("resources_" + language) || containsResource("categories_" + language) || containsResource("recipes_" + language);
     }
 
-    private boolean containsResource(String file) {
-        return plugin.getClass().getResource("/languages/" + file + ".yml") != null;
-    }
-
     public boolean isLanguageLoaded(String id) {
         return languages.containsKey(id);
+    }
+
+    private boolean containsResource(String file) {
+        return plugin.getClass().getResource("/languages/" + file + ".yml") != null;
     }
 
     @Override
@@ -119,7 +137,6 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         // Clearing out the old Language (if necessary)
         if (reset) {
             getConfig().clear();
-            setPrefix("&aSlimefun 4 &7> ");
         }
 
         defaultLanguage.setResearches(streamConfigFile("researches_" + language + ".yml", null));
@@ -163,6 +180,14 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         }
     }
 
+    /**
+     * This returns the progress of translation for any given {@link Language}.
+     * The progress is determined by the amount of translated strings divided by the amount
+     * of strings in the english {@link Language} file and multiplied by 100.0
+     *
+     * @param lang The {@link Language} to get the progress of
+     * @return A percentage {@code (0.0 - 100.0)} for the progress of translation of that {@link Language}
+     */
     public double getProgress(Language lang) {
         int defaultKeys = getTotalKeys(languages.get("en"));
         if (defaultKeys == 0) return 0;
@@ -203,9 +228,5 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + path + "\"");
             return null;
         }
-    }
-
-    public boolean isEnabled() {
-        return translationsEnabled;
     }
 }

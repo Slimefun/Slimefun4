@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -21,16 +22,24 @@ import java.util.*;
 
 public class GrapplingHookListener implements Listener {
 
+    private GrapplingHook grapplingHook;
+
     private final Map<UUID, Boolean> jumpState = new HashMap<>();
     private final Set<UUID> invulnerable = new HashSet<>();
     private final Map<UUID, Entity[]> temporaryEntities = new HashMap<>();
 
-    public void register(SlimefunPlugin plugin) {
+    public void register(SlimefunPlugin plugin, GrapplingHook grapplingHook) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        this.grapplingHook = grapplingHook;
     }
 
     @EventHandler
     public void onArrowHitEntity(EntityDamageByEntityEvent e) {
+        if (grapplingHook == null || grapplingHook.isDisabled()) {
+            return;
+        }
+
         if (e.getDamager() instanceof Arrow) {
             handleGrapplingHook((Arrow) e.getDamager());
         }
@@ -38,6 +47,10 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onArrowHit(ProjectileHitEvent e) {
+        if (grapplingHook == null || grapplingHook.isDisabled()) {
+            return;
+        }
+
         Slimefun.runSync(() -> {
             if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
                 handleGrapplingHook((Arrow) e.getEntity());
@@ -47,6 +60,10 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onArrowHit(EntityDamageEvent e) {
+        if (grapplingHook == null || grapplingHook.isDisabled()) {
+            return;
+        }
+
         if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerable.contains(e.getEntity().getUniqueId())) {
             e.setCancelled(true);
             invulnerable.remove(e.getEntity().getUniqueId());
@@ -57,7 +74,7 @@ public class GrapplingHookListener implements Listener {
         if (arrow != null && arrow.getShooter() instanceof Player && jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
             Player p = (Player) arrow.getShooter();
 
-            if (p.getGameMode() != GameMode.CREATIVE && jumpState.get(p.getUniqueId())) {
+            if (p.getGameMode() != GameMode.CREATIVE && (boolean) jumpState.get(p.getUniqueId())) {
                 arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK);
             }
 

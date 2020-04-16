@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,12 +18,17 @@ import java.util.Optional;
  * @author TheBusyBiscuit
  * @see SlimefunItemStack
  */
-public class CustomItemDataService implements PersistentDataService {
+public class CustomItemDataService implements PersistentDataService, Keyed {
 
     private final NamespacedKey namespacedKey;
 
     public CustomItemDataService(Plugin plugin, String key) {
         namespacedKey = new NamespacedKey(plugin, key);
+    }
+
+    @Override
+    public NamespacedKey getKey() {
+        return namespacedKey;
     }
 
     public void setItemData(ItemStack item, String id) {
@@ -42,5 +48,4 @@ public class CustomItemDataService implements PersistentDataService {
     public Optional<String> getItemData(ItemMeta meta) {
         return getString(meta, namespacedKey);
     }
-
 }

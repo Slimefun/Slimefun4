@@ -1,13 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 
-public class BasicCircuitBoard extends SlimefunItem {
+public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final ItemSetting<Boolean> dropSetting = new ItemSetting<>("drop-from-golems", true);
 
@@ -15,6 +17,11 @@ public class BasicCircuitBoard extends SlimefunItem {
         super(category, item, recipeType, recipe);
 
         addItemSetting(dropSetting);
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return PlayerRightClickEvent::cancel;
     }
 
     public boolean isDroppedFromGolems() {

@@ -58,7 +58,7 @@ public final class TeleportationManager {
             int slot = teleporterInventory[index];
 
             Location l = entry.getValue();
-            ItemStack globe = network.getIcon(entry);
+            ItemStack globe = network.getIcon(entry.getKey(), entry.getValue().getWorld().getEnvironment());
 
             menu.addItem(slot, new CustomItem(globe, entry.getKey().replace("player:death ", ""), "", "&8\u21E8 &7" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.world") + ": &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7" + SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.gui.time") + ": &r" + DoubleHandler.fixDouble(0.5 * getTeleportationTime(complexity, source, l)) + "s", "", "&8\u21E8 &c" + SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.gui.tooltip")));
             menu.addMenuClickHandler(slot, (pl, s, item, action) -> {

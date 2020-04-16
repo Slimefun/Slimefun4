@@ -99,7 +99,7 @@ public class Translators {
         addTranslator("mio9", EmbeddedLanguage.CHINESE_TAIWAN, true);
 
         // Translators - Arabic
-        addTranslator("mohkamfer", "citBabY", EmbeddedLanguage.ARABIC, false);
+        addTranslator("mohkamfer", "AgentBabbie", EmbeddedLanguage.ARABIC, false);
 
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);

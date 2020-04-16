@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
@@ -10,8 +11,8 @@ import org.bukkit.potion.PotionEffectType;
 
 public class IcyBow extends SlimefunBow {
 
-    public IcyBow(SlimefunItemStack item, ItemStack[] recipe) {
-        super(item, recipe);
+    public IcyBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+        super(category, item, recipe);
     }
 
     @Override

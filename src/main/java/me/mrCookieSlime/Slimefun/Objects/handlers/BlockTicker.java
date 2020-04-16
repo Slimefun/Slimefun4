@@ -19,6 +19,19 @@ public abstract class BlockTicker implements ItemHandler {
         }
     }
 
+    @Override
+    public Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+        if (!item.getItem().getType().isBlock()) {
+            return Optional.of(new IncompatibleItemHandlerException("Only Materials that are blocks can have a BlockTicker.", item, this));
+        }
+
+        if (item instanceof NotPlaceable) {
+            return Optional.of(new IncompatibleItemHandlerException("Only Slimefun items that are not marked as 'NotPlaceable' can have a BlockTicker.", item, this));
+        }
+
+        return Optional.empty();
+    }
+
     /**
      * This method must be overridden to define whether a Block
      * needs to be run on the main server thread (World Manipulation requires that)
@@ -29,6 +42,10 @@ public abstract class BlockTicker implements ItemHandler {
 
     /**
      * This method is called every tick for every block
+     *
+     * @param b    The {@link Block} that was ticked
+     * @param item The corresponding {@link SlimefunItem}
+     * @param data The data stored in this {@link Block}
      */
     public abstract void tick(Block b, SlimefunItem item, Config data);
 
@@ -51,12 +68,4 @@ public abstract class BlockTicker implements ItemHandler {
         unique = true;
     }
 
-    @Override
-    public Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
-        if (item instanceof NotPlaceable || !item.getItem().getType().isBlock()) {
-            return Optional.of(new IncompatibleItemHandlerException("Only blocks that are not marked as 'NotPlaceable' can have a BlockTicker.", item, this));
-        }
-
-        return Optional.empty();
-    }
 }

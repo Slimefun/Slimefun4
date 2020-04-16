@@ -10,8 +10,9 @@ import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +30,7 @@ import java.util.stream.IntStream;
  * Error reports get saved in the plugin folder.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class ErrorReport {
 
@@ -38,7 +40,7 @@ public class ErrorReport {
         Slimefun.runSync(() -> {
             file = getNewFile();
 
-            try (PrintStream stream = new PrintStream(file)) {
+            try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
                 stream.println();
                 stream.println("Java Environment:");
                 stream.println("  Operating System: " + System.getProperty("os.name"));
@@ -78,14 +80,14 @@ public class ErrorReport {
                 addon.getLogger().log(Level.WARNING, "");
                 addon.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
                 addon.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
-                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developers.");
+                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developer(s).");
 
                 if (addon.getBugTrackerURL() != null) {
-                    addon.getLogger().log(Level.WARNING, "Bug Tracker: " + addon.getBugTrackerURL());
+                    addon.getLogger().log(Level.WARNING, "Bug Tracker: {0}", addon.getBugTrackerURL());
                 }
 
                 addon.getLogger().log(Level.WARNING, "");
-            } catch (FileNotFoundException x) {
+            } catch (IOException x) {
                 addon.getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
             }
         });

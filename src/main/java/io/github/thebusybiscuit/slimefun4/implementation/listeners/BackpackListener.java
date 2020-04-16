@@ -37,8 +37,10 @@ import java.util.UUID;
  * @author AtomicScience
  * @author VoidAngel
  * @author John000708
+ *
  * @see SlimefunBackpack
  * @see PlayerBackpack
+ *
  */
 public class BackpackListener implements Listener {
 
@@ -69,42 +71,44 @@ public class BackpackListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onClick(InventoryClickEvent e) {
         ItemStack item = backpacks.get(e.getWhoClicked().getUniqueId());
 
         if (item != null) {
+            SlimefunItem backpack = SlimefunItem.getByItem(item);
+
             if (e.getClick() == ClickType.NUMBER_KEY) {
                 if (e.getClickedInventory().getType() != InventoryType.PLAYER) {
                     ItemStack hotbarItem = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
 
-                    if (hotbarItem != null && (hotbarItem.getType().toString().contains("SHULKER_BOX") || SlimefunItem.getByItem(hotbarItem) instanceof SlimefunBackpack)) {
+                    if (!isItemAllowed(hotbarItem, backpack)) {
                         e.setCancelled(true);
                     }
                 }
-            } else if (!isItemAllowed(e.getCurrentItem())) {
+            } else if (!isItemAllowed(e.getCurrentItem(), backpack)) {
                 e.setCancelled(true);
             }
         }
     }
 
-    private boolean isItemAllowed(ItemStack item) {
+    private boolean isItemAllowed(ItemStack item, SlimefunItem backpack) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
 
-        if (item.getType().toString().contains("SHULKER_BOX")) {
+        if (item.getType() == Material.SHULKER_BOX || item.getType().toString().endsWith("_SHULKER_BOX")) {
             return false;
         }
 
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
 
-        if (sfItem instanceof SlimefunBackpack) {
-            if (sfItem instanceof Cooler) {
-                return sfItem instanceof Juice;
-            } else {
-                return false;
-            }
+        if (slimefunItem instanceof SlimefunBackpack) {
+            return false;
+        }
+
+        if (backpack instanceof Cooler) {
+            return slimefunItem instanceof Juice;
         }
 
         return true;

@@ -243,14 +243,21 @@ public class SlimefunItem implements Placeable {
         return hidden;
     }
 
+    /**
+     * This method will forcefully hide this {@link SlimefunItem} from the {@link SlimefunGuide}.
+     *
+     * @param hidden Whether to hide this {@link SlimefunItem} or not
+     */
     public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+        if (this.hidden != hidden) {
+            this.hidden = hidden;
 
-        if (state == ItemState.ENABLED) {
-            if (hidden) {
-                category.remove(this);
-            } else {
-                category.add(this);
+            if (state == ItemState.ENABLED) {
+                if (hidden) {
+                    category.remove(this);
+                } else {
+                    category.add(this);
+                }
             }
         }
     }
@@ -335,6 +342,7 @@ public class SlimefunItem implements Placeable {
             }
 
             SlimefunPlugin.getRegistry().getAllSlimefunItems().add(this);
+            SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
 
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".enabled", true);
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", useableInWorkbench);
@@ -378,7 +386,6 @@ public class SlimefunItem implements Placeable {
                 disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
 
                 SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
-                SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
                 loadItemHandlers();
             } else if (this instanceof VanillaItem) {
                 state = ItemState.VANILLA_FALLBACK;
@@ -490,6 +497,7 @@ public class SlimefunItem implements Placeable {
      */
     public SlimefunItem setUseableInWorkbench(boolean useable) {
         this.useableInWorkbench = useable;
+
         return this;
     }
 

@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.Server;
 import org.bukkit.World;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.util.logging.Level;
  * This Service is responsible for disabling a {@link SlimefunItem} in a certain {@link World}.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class PerWorldSettingsService {
 
@@ -107,11 +109,26 @@ public class PerWorldSettingsService {
     }
 
     /**
+     * This method enables or disables the given {@link SlimefunItem} in the specified {@link World}.
+     *
+     * @param world   The {@link World} in which to disable or enable the given {@link SlimefunItem}
+     * @param item    The {@link SlimefunItem} to enable or disable
+     * @param enabled Whether the given {@link SlimefunItem} should be enabled in that world
+     */
+    public void setEnabled(World world, SlimefunItem item, boolean enabled) {
+        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorld);
+
+        if (enabled) {
+            items.remove(item.getID());
+        } else {
+            items.add(item.getID());
+        }
+    }
+
+    /**
      * This checks whether the given {@link World} is enabled or not.
      *
-     * @param world
-     *            The {@link World} to check
-     *
+     * @param world The {@link World} to check
      * @return Whether this {@link World} is enabled
      */
     public boolean isWorldEnabled(World world) {
@@ -131,6 +148,28 @@ public class PerWorldSettingsService {
      */
     public boolean isAddonEnabled(World world, SlimefunAddon addon) {
         return isWorldEnabled(world) && disabledAddons.getOrDefault(addon, Collections.emptySet()).contains(world.getName());
+    }
+
+    /**
+     * This will forcefully save the settings for that {@link World}.
+     * This should only be called if you altered the settings while the {@link Server} was still running.
+     * This writes to a {@link File} so it can be a heavy operation.
+     *
+     * @param world The {@link World} to save
+     */
+    public void save(World world) {
+        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorld);
+
+        Config config = new Config(plugin, "world-settings/" + world + ".yml");
+
+        for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+            if (item != null && item.getID() != null) {
+                String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
+                config.setValue(addon + '.' + item.getID(), !items.contains(item.getID()));
+            }
+        }
+
+        config.save();
     }
 
     private Set<String> loadWorld(String name) {

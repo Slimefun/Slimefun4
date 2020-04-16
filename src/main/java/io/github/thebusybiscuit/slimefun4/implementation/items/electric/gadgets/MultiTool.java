@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ChargableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
@@ -22,8 +22,8 @@ public class MultiTool extends ChargableItem {
     private final Map<UUID, Integer> selectedMode = new HashMap<>();
     private final List<MultiToolMode> modes = new ArrayList<>();
 
-    public MultiTool(SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String... items) {
-        super(Categories.TECH, item, recipeType, recipe);
+    public MultiTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String... items) {
+        super(category, item, recipeType, recipe);
 
         for (int i = 0; i < items.length; i++) {
             modes.add(new MultiToolMode(this, i, items[i]));

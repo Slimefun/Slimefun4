@@ -102,7 +102,7 @@ public class RecipeType implements Keyed {
     public RecipeType(NamespacedKey key, ItemStack item) {
         this.key = key;
         this.item = item;
-        this.machine = "";
+        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemID() : "";
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {

@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items;
+package io.github.thebusybiscuit.slimefun4.implementation.items.seasonal;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;

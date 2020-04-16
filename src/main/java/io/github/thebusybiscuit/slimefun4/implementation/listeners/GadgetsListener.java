@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
@@ -39,7 +40,7 @@ public class GadgetsListener implements Listener {
             }
 
             if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
-                new MagnetTask(p).scheduleRepeating(0, 8);
+                new MagnetTask(p, ((InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem()).getRadius()).scheduleRepeating(0, 8);
             }
         }
     }

@@ -44,7 +44,7 @@ public class MultiBlockListener implements Listener {
         for (MultiBlock mb : SlimefunPlugin.getRegistry().getMultiBlocks()) {
             Block center = b.getRelative(mb.getTriggerBlock());
 
-            if (compareMaterials(center, mb.getBuild(), mb.isSymmetric())) {
+            if (compareMaterials(center, mb.getStructure(), mb.isSymmetric())) {
                 multiblocks.add(mb);
             }
         }
