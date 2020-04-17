@@ -1,11 +1,9 @@
 package io.github.starwishsama.extra;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
 public class GithubBean {
 
     /**
@@ -43,7 +41,14 @@ public class GithubBean {
     private String changeLog;
     private List<AssetsBean> assets;
 
-    @Data
+    public String getTag_name() {
+        return tag_name;
+    }
+
+    public List<AssetsBean> getAssets() {
+        return assets;
+    }
+
     public static class AssetsBean {
         /**
          * url : https://api.github.com/repos/StarWishsama/Slimefun4/releases/assets/19399045
@@ -71,5 +76,9 @@ public class GithubBean {
         private String created_at;
         private String updated_at;
         private String browser_download_url;
+
+        public String getBrowser_download_url() {
+            return browser_download_url;
+        }
     }
 }
