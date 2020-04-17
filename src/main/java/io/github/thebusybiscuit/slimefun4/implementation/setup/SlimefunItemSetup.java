@@ -393,7 +393,9 @@ public final class SlimefunItemSetup {
 		new Smeltery(categories.basicMachines).register(plugin);
 		
 		new SlimefunItem(categories.basicMachines, SlimefunItems.IGNITION_CHAMBER, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {SlimefunItems.STEEL_PLATE, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.FLINT_AND_STEEL), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_PLATE, SlimefunItems.ELECTRIC_MOTOR, null, new ItemStack(Material.HOPPER), null})
+		new ItemStack[] {new ItemStack(Material.IRON_INGOT), new ItemStack(Material.FLINT_AND_STEEL),
+			new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.OBSERVER),
+			new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT), null})
 		.register(plugin);
 		
 		new PressureChamber(categories.basicMachines).register(plugin);
