@@ -10,6 +10,8 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.Categories;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 
@@ -30,24 +32,28 @@ import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 final class DefaultCategories {
 
     // Standard Categories
-    protected final Category weapons = me.mrCookieSlime.Slimefun.Lists.Categories.WEAPONS;
-    protected final Category tools = me.mrCookieSlime.Slimefun.Lists.Categories.TOOLS;
-    protected final Category usefulItems = me.mrCookieSlime.Slimefun.Lists.Categories.PORTABLE;
-    protected final Category food = me.mrCookieSlime.Slimefun.Lists.Categories.FOOD;
-    protected final Category basicMachines = me.mrCookieSlime.Slimefun.Lists.Categories.BASIC_MACHINES;
-    protected final Category armor = me.mrCookieSlime.Slimefun.Lists.Categories.ARMOR;
-    protected final Category magicalResources = me.mrCookieSlime.Slimefun.Lists.Categories.LUMPS_AND_MAGIC;
-    protected final Category magicalGadgets = me.mrCookieSlime.Slimefun.Lists.Categories.MAGIC;
-    protected final Category misc = me.mrCookieSlime.Slimefun.Lists.Categories.MISC;
-    protected final Category technicalGadgets = me.mrCookieSlime.Slimefun.Lists.Categories.TECH;
-    protected final Category resources = me.mrCookieSlime.Slimefun.Lists.Categories.RESOURCES;
-    protected final Category cargo = me.mrCookieSlime.Slimefun.Lists.Categories.CARGO;
-    protected final Category technicalComponents = me.mrCookieSlime.Slimefun.Lists.Categories.TECH_MISC;
-    protected final Category magicalArmor = me.mrCookieSlime.Slimefun.Lists.Categories.MAGIC_ARMOR;
+    protected final Category weapons = Categories.WEAPONS;
+    protected final Category tools = Categories.TOOLS;
+    protected final Category usefulItems = new Category(new NamespacedKey(SlimefunPlugin.instance, "items"), new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
+    protected final Category food = Categories.FOOD;
+    protected final Category basicMachines = Categories.BASIC_MACHINES;
+    protected final Category armor = Categories.ARMOR;
+
+    // Magical
+    protected final Category magicalResources = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_items"), new CustomItem(SlimefunItems.RUNE_ENDER, "&7Magical Items"), 2);
+    protected final Category magicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_gadgets"), new CustomItem(SlimefunItems.INFUSED_ELYTRA, "&7Magical Gadgets"), 3);
+    protected final Category magicalArmor = Categories.MAGIC_ARMOR;
+
+    // Resources and tech stuff
+    protected final Category misc = Categories.MISC;
+    protected final Category technicalComponents = new Category(new NamespacedKey(SlimefunPlugin.instance, "tech_misc"), new CustomItem(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
+    protected final Category technicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance, "technical_gadgets"), new CustomItem(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
+    protected final Category resources = new Category(new NamespacedKey(SlimefunPlugin.instance, "resources"), new CustomItem(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);
 
     // Locked Categories
-    protected final LockedCategory electricity = me.mrCookieSlime.Slimefun.Lists.Categories.ELECTRICITY;
-    protected final LockedCategory gps = me.mrCookieSlime.Slimefun.Lists.Categories.GPS;
+    protected final LockedCategory electricity = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());
+    protected final Category cargo = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
+    protected final LockedCategory gps = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "gps"), new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines.getKey());
 
     // Seasonal Categories
     protected final SeasonalCategory christmas = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "christmas"), Month.DECEMBER, 1, new CustomItem(SkullItem.fromHash("215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45"), ChatUtils.christmas("Christmas") + " &7(December only)"));

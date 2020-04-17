@@ -21,6 +21,7 @@ public final class SlimefunManager {
 
     private SlimefunManager() {}
 
+    @Deprecated
     public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, PotionEffect[][] effects, boolean magical, SlimefunAddon addon) {
         String[] components = new String[] { "_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS" };
         Category category = magical ? Categories.MAGIC_ARMOR : Categories.ARMOR;
@@ -41,6 +42,7 @@ public final class SlimefunManager {
         }
     }
 
+    @Deprecated
     public static void registerArmorSet(ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, SlimefunAddon addon) {
         String[] components = new String[] { "_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS" };
         Category cat = Categories.ARMOR;

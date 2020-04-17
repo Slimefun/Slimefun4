@@ -8,7 +8,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * 
- * @deprecated Yeah no idea what to say about this, it will be removed.
+ * @deprecated Yeah no idea what to say about this, it will probably be removed.
  *
  */
 @Deprecated

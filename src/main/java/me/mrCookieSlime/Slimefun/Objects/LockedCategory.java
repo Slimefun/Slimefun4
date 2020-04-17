@@ -66,6 +66,7 @@ public class LockedCategory extends Category {
     public LockedCategory(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
         Validate.noNullElements(parents, "A LockedCategory must not have any 'null' parents!");
+
         this.keys = parents;
     }
 
