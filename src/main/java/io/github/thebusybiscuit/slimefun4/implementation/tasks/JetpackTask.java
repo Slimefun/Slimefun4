@@ -23,7 +23,7 @@ public class JetpackTask extends PlayerTask {
     }
 
     @Override
-    public void executeTask() {
+    protected void executeTask() {
         float cost = 0.08F;
         float charge = ItemEnergy.getStoredEnergy(p.getInventory().getChestplate());
 

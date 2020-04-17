@@ -264,6 +264,7 @@ final class CargoUtils {
                 index++;
                 if (index > (items.size() - 1)) index = 0;
 
+                // Should probably replace this with a simple HashMap.
                 BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 
                 return SlimefunUtils.isItemSimilar(item, items.get(index), lore);

@@ -1,8 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -10,6 +8,10 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 
 /**
  * This {@link Event} is fired before an item is dropped by an {@link AncientAltar}.
@@ -38,6 +40,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
      */
     public AncientAltarCraftEvent(ItemStack output, Block block, Player player) {
         super(player);
+
         this.block = block;
         this.output = output;
     }
@@ -75,6 +78,10 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
      *            being the {@link ItemStack} you want to change the item to.
      */
     public void setItem(ItemStack output) {
+        if (output == null || output.getType() == Material.AIR) {
+            throw new IllegalArgumentException("An Ancient Altar cannot drop 'null' items");
+        }
+
         this.output = output;
     }
 
