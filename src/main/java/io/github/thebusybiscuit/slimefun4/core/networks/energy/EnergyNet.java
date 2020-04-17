@@ -208,18 +208,20 @@ public class EnergyNet extends Network {
             SlimefunItem item = BlockStorage.check(source);
             Config config = BlockStorage.getLocationInfo(source);
 
-            double energy = item.getEnergyTicker().generateEnergy(source, item, config);
+            if (item != null) {
+                double energy = item.getEnergyTicker().generateEnergy(source, item, config);
 
-            if (item.getEnergyTicker().explode(source)) {
-                exploded.add(source);
-                BlockStorage.clearBlockInfo(source);
+                if (item.getEnergyTicker().explode(source)) {
+                    exploded.add(source);
+                    BlockStorage.clearBlockInfo(source);
 
-                Slimefun.runSync(() -> {
-                    source.getBlock().setType(Material.LAVA);
-                    source.getWorld().createExplosion(source, 0F, false);
-                });
-            } else {
-                supply += energy;
+                    Slimefun.runSync(() -> {
+                        source.getBlock().setType(Material.LAVA);
+                        source.getWorld().createExplosion(source, 0F, false);
+                    });
+                } else {
+                    supply += energy;
+                }
             }
 
             SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
