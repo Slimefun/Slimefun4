@@ -129,11 +129,7 @@ public class BlockListener implements Listener {
             SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 
             if (blockHandler != null) {
-                if (blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK)) {
-                    drops.addAll(sfItem.getDrops());
-                    BlockStorage.clearBlockInfo(e.getBlock());
-                }
-                else {
+                if (!blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK)) {
                     e.setCancelled(true);
                     return;
                 }
@@ -141,6 +137,9 @@ public class BlockListener implements Listener {
             else {
                 sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onBlockBreak(e, item, fortune, drops));
             }
+
+            drops.addAll(sfItem.getDrops());
+            BlockStorage.clearBlockInfo(e.getBlock());
         }
 
         if (item.getType() != Material.AIR) {

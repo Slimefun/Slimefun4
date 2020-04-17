@@ -86,6 +86,7 @@
 * Fixed #1807
 * Fixed Coolers accepting non-Juice items
 * Fixed #1813
+* Fixed #1814
 
 ## Release Candidate 10 (28 Mar 2020)
 
