@@ -1,10 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
+import java.util.logging.Level;
+
 import org.apache.commons.lang.Validate;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This class represents a Setting for a {@link SlimefunItem} that can be modified via
@@ -124,6 +127,15 @@ public class ItemSetting<T> {
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
             this.value = (T) configuredValue;
+        }
+        else {
+            this.value = defaultValue;
+            String found = configuredValue == null ? "null" : configuredValue.getClass().getSimpleName();
+
+            Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
+            Slimefun.getLogger().log(Level.WARNING, "Please only use settings that are valid.");
+            Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
+            Slimefun.getLogger().log(Level.WARNING, "Expected \"{0}\" but found: \"{1}\"", new Object[] { defaultValue.getClass().getSimpleName(), found });
         }
     }
 

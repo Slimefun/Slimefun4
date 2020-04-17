@@ -10,9 +10,9 @@
     <version>4.3-UNOFFICIAL</version>
     
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!--  Bukkit properties -->
         <bukkit.version>1.15.2</bukkit.version>
