@@ -25,7 +25,7 @@ public class GrindStone extends MultiBlockMachine {
 		super(
 				category,
 				SlimefunItems.GRIND_STONE,
-				new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
+				new ItemStack[]{null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "发射器(朝上)"), null},
 				new ItemStack[]{
 						new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4),
 						new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4),
@@ -34,8 +34,8 @@ public class GrindStone extends MultiBlockMachine {
 						new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL),
 						new ItemStack(Material.ANDESITE), new ItemStack(Material.GRAVEL),
 						new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL),
-                        new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
-                        new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK,
+						new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
+						new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK,
 						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
 						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4),
 						new ItemStack(Material.PRISMARINE_BRICKS), new ItemStack(Material.PRISMARINE, 4),
