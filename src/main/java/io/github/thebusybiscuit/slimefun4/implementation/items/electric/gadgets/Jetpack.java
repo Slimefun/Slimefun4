@@ -13,6 +13,7 @@ public class Jetpack extends ChargableItem {
 
     public Jetpack(Category category, SlimefunItemStack item, ItemStack[] recipe, double thrust) {
         super(category, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+
         this.thrust = thrust;
     }
 

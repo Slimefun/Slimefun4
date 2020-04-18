@@ -56,6 +56,8 @@
 * Added "Magma Cream to Magma Blocks" recipe to the Electric Press
 * Added "Magma Blocks to Sulfate" recipe
 * You can now search for items from within the book variant of the Guide
+* GEO Scans now support endlessly many different resources
+* Added Output Chest support to the Composter
 
 #### Changes
 * Replaced GuideHandlers with FlexCategories
@@ -70,6 +72,9 @@
 * You can no longer /sf give yourself a Multiblock
 * Addons have no longer access to Slimefuns default categories
 * Updated seasonal Categories to have better icons
+* Even more performance improvements
+* Changed Ignition Chamber Recipe
+* GEO Miner is now 2 seconds faster
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
@@ -87,6 +92,7 @@
 * Fixed Coolers accepting non-Juice items
 * Fixed #1813
 * Fixed #1814
+* Fixed GEO Scanner being unable to deal with more than 28 different resources
 
 ## Release Candidate 10 (28 Mar 2020)
 

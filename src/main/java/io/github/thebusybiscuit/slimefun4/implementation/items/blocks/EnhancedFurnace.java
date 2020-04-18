@@ -70,15 +70,9 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
                     Furnace furnace = (Furnace) b.getState();
 
                     if (furnace.getCookTime() > 0) {
-                        int newCookTime = furnace.getCookTime() + getSpeed() * 10;
+                        int cookTime = furnace.getCookTime() + getSpeed() * 10;
 
-                        if (newCookTime > 200) {
-                            furnace.setCookTime((short) 188);
-                        }
-                        else {
-                            furnace.setCookTime((short) newCookTime);
-                        }
-
+                        furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal()));
                         furnace.update(true, false);
                     }
                 }

@@ -33,7 +33,7 @@ public interface MultiBlockInteractionHandler extends ItemHandler {
     default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
         // Change this to "MultiBlockMachine" once SlimefunMachine was removed or deprecated
         if (!(item instanceof SlimefunMachine)) {
-            return Optional.of(new IncompatibleItemHandlerException("Only class inheriting 'MultiBlockMachine' can have a MultiBlockInteractionHandler", item, this));
+            return Optional.of(new IncompatibleItemHandlerException("Only classes inheriting 'MultiBlockMachine' can have a MultiBlockInteractionHandler", item, this));
         }
 
         return Optional.empty();

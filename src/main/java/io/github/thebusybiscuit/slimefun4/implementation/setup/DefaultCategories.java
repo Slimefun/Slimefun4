@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
  * found in Slimefun itself.
  * 
  * Addons should use their own {@link Category} hence why the visible of this class was now
- * changed to package-private.
+ * changed to package-private. Only {@link SlimefunItemSetup} has access to this class.
  * 
  * @author TheBusyBiscuit
  * 
@@ -35,14 +35,14 @@ final class DefaultCategories {
     protected final Category weapons = Categories.WEAPONS;
     protected final Category tools = Categories.TOOLS;
     protected final Category usefulItems = new Category(new NamespacedKey(SlimefunPlugin.instance, "items"), new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
+    protected final Category basicMachines = new Category(new NamespacedKey(SlimefunPlugin.instance, "basic_machines"), new CustomItem(Material.CRAFTING_TABLE, "&7Basic Machines"), 1);
     protected final Category food = Categories.FOOD;
-    protected final Category basicMachines = Categories.BASIC_MACHINES;
-    protected final Category armor = Categories.ARMOR;
+    protected final Category armor = new Category(new NamespacedKey(SlimefunPlugin.instance, "armor"), new CustomItem(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, "&7Armor"), 2);
 
     // Magical
     protected final Category magicalResources = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_items"), new CustomItem(SlimefunItems.RUNE_ENDER, "&7Magical Items"), 2);
     protected final Category magicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_gadgets"), new CustomItem(SlimefunItems.INFUSED_ELYTRA, "&7Magical Gadgets"), 3);
-    protected final Category magicalArmor = Categories.MAGIC_ARMOR;
+    protected final Category magicalArmor = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_armor"), new CustomItem(SlimefunItems.ENDER_HELMET, "&7Magical Armor"), 2);
 
     // Resources and tech stuff
     protected final Category misc = Categories.MISC;

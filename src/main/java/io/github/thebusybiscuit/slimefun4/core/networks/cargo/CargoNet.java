@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -255,7 +254,9 @@ public class CargoNet extends ChestTerminalNetwork {
                         if (menu != null) {
                             menu.replaceExistingItem(previousSlot, stack);
                         }
-                        else {
+                        // This check is not exact but does perform some premature elimination
+                        // of Materials since all Containers are interactable.
+                        else if (inputTarget.get().getType().isInteractable()) {
                             BlockState state = inputTarget.get().getState();
 
                             if (state instanceof InventoryHolder) {

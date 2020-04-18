@@ -46,6 +46,18 @@ public abstract class FlexCategory extends Category {
      */
     public abstract boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
 
+    /**
+     * This method is called when a {@link Player} opens this {@link FlexCategory}.
+     * This is an abstract method which needs to be implemented in order to determine what this
+     * {@link FlexCategory} should actually do as it cannot hold any items.
+     * 
+     * @param p
+     *            The {@link Player} who wants to open this {@link FlexCategory}
+     * @param profile
+     *            The corresponding {@link PlayerProfile} for that {@link Player}
+     * @param layout
+     *            The current {@link SlimefunGuideLayout}
+     */
     public abstract void open(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
 
     @Override

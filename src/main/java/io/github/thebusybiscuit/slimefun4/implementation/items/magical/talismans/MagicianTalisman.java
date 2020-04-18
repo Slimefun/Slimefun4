@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
 import java.util.HashSet;
 import java.util.List;

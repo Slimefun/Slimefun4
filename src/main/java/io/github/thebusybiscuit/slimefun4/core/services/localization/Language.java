@@ -46,8 +46,8 @@ public final class Language {
         Validate.notNull(hash, "A Language must have a texture that is not null!");
 
         this.id = id;
+        this.item = SkullItem.fromHash(hash);
 
-        item = SkullItem.fromHash(hash);
         SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase(Locale.ROOT));
     }
 

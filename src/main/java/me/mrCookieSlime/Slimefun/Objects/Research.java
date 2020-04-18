@@ -291,6 +291,6 @@ public class Research implements Keyed {
 
     @Override
     public String toString() {
-        return "Research {" + id + ',' + name + "}";
+        return "Research (" + getKey() + ')';
     }
 }

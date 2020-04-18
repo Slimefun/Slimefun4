@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.EnderChest;

@@ -13,6 +13,7 @@ public class JetBoots extends ChargableItem {
 
     public JetBoots(Category category, SlimefunItemStack item, ItemStack[] recipe, double speed) {
         super(category, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+
         this.speed = speed;
     }
 

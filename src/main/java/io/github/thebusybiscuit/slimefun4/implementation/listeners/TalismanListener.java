@@ -31,9 +31,9 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicianTalisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicianTalisman.TalismanEnchantment;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Talisman;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman.TalismanEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
