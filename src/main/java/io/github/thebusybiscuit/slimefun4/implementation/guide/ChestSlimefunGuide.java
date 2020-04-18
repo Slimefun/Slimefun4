@@ -478,7 +478,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(recipeSlots[i], recipeItem, clickHandler);
 
             if (recipeItem != null && item instanceof MultiBlockMachine) {
-                for (Tag<Material> tag : MultiBlock.SUPPORTED_TAGS) {
+                for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
                     if (tag.isTagged(recipeItem.getType())) {
                         task.add(recipeSlots[i], tag);
                         break;

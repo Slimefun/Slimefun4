@@ -63,10 +63,10 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
         } else {
             setLanguage("en", false);
-            plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
+            plugin.getLogger().log(Level.WARNING, "无法识别指定的语言: \"{0}\"", serverDefaultLanguage);
         }
 
-        Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
+        Slimefun.getLogger().log(Level.INFO, "目前可用的语言: {0}", String.join(", ", languages.keySet()));
         save();
     }
 
