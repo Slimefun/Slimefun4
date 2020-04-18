@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
  * Cancelling this event will make the {@link AncientAltar} drop no item after the recipe is finished.
  *
  * @author Tweep
+ *
  * @see AncientAltar
  * @see AncientAltarTask
  * @see AncientAltarListener
@@ -35,6 +36,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
      */
     public AncientAltarCraftEvent(ItemStack output, Block block, Player player) {
         super(player);
+
         this.block = block;
         this.output = output;
     }
@@ -68,9 +70,14 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
     /**
      * This method will change the item that would be dropped by the {@link AncientAltar}
      *
-     * @param output being the {@link ItemStack} you want to change the item to.
+     * @param output
+     *            being the {@link ItemStack} you want to change the item to.
      */
     public void setItem(ItemStack output) {
+        if (output == null || output.getType() == Material.AIR) {
+            throw new IllegalArgumentException("An Ancient Altar cannot drop 'null' items");
+        }
+
         this.output = output;
     }
 

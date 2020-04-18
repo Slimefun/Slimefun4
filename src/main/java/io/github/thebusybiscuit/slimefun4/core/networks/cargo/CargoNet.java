@@ -167,7 +167,7 @@ public class CargoNet extends ChestTerminalNetwork {
             display();
         }
 
-        Set<Location> inputs = new HashSet<>();
+        Map<Location, Integer> inputs = new HashMap<>();
         Set<Location> providers = new HashSet<>();
 
         for (Location node : inputNodes) {
@@ -176,7 +176,7 @@ public class CargoNet extends ChestTerminalNetwork {
             if (frequency == 16) {
                 providers.add(node);
             } else if (frequency >= 0 && frequency < 16) {
-                inputs.add(node);
+                inputs.put(node, frequency);
             }
         }
 
@@ -187,7 +187,8 @@ public class CargoNet extends ChestTerminalNetwork {
 
         // All operations happen here: Everything gets iterated from the Input Nodes.
         // (Apart from ChestTerminal Buses)
-        for (Location input : inputs) {
+        for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
+            Location input = entry.getKey();
             Optional<Block> inputTarget = getAttachedBlock(input.getBlock());
 
             if (inputTarget.isPresent()) {
@@ -205,10 +206,10 @@ public class CargoNet extends ChestTerminalNetwork {
                 }
 
                 if (stack != null) {
-                    List<Location> outputs = output.get(getFrequency(input));
+                    List<Location> outputs = output.get(entry.getValue());
 
                     if (outputs != null) {
-                        List<Location> outputlist = new ArrayList<>(outputs);
+                        List<Location> outputlist = new LinkedList<>(outputs);
 
                         if (roundrobin) {
                             int index = roundRobin.getOrDefault(input, 0);
@@ -216,7 +217,6 @@ public class CargoNet extends ChestTerminalNetwork {
                             if (index < outputlist.size()) {
                                 for (int i = 0; i < index; i++) {
                                     Location temp = outputlist.get(0);
-                                    outputlist.remove(temp);
                                     outputlist.add(temp);
                                 }
 

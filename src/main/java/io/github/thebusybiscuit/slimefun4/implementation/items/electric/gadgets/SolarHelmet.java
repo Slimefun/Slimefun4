@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class SolarHelmet extends SlimefunItem {
 
-    private final ItemSetting<Float> chargeSetting = new ItemSetting<>("charge-amount", 0.1F);
+    private final ItemSetting<Double> chargeSetting = new ItemSetting<>("charge-amount", 0.1);
 
     public SolarHelmet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, null);
@@ -17,7 +17,7 @@ public class SolarHelmet extends SlimefunItem {
         addItemSetting(chargeSetting);
     }
 
-    public float getChargeAmount() {
+    public double getChargeAmount() {
         return chargeSetting.getValue();
     }
 

@@ -11,10 +11,10 @@ import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A {@link MultiBlock} represents a structure build in a {@link World}.
@@ -23,13 +23,15 @@ import java.util.Objects;
  *
  * @author TheBusyBiscuit
  * @author Liruxo
+ *
  * @see MultiBlockMachine
  * @see MultiBlockInteractionHandler
  * @see MultiBlockInteractEvent
+ *
  */
 public class MultiBlock {
 
-    public static final List<Tag<Material>> SUPPORTED_TAGS = new ArrayList<>();
+    private static final Set<Tag<Material>> SUPPORTED_TAGS = new HashSet<>();
 
     static {
         SUPPORTED_TAGS.add(Tag.LOGS);
@@ -39,6 +41,10 @@ public class MultiBlock {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
         }
+    }
+
+    public static Set<Tag<Material>> getSupportedTags() {
+        return SUPPORTED_TAGS;
     }
 
     private final SlimefunItem item;
@@ -74,15 +80,14 @@ public class MultiBlock {
         return trigger;
     }
 
-    public void register() {
-        SlimefunPlugin.getRegistry().getMultiBlocks().add(this);
-    }
-
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof MultiBlock)) return false;
+        if (!(obj instanceof MultiBlock)) {
+            return false;
+        }
 
         MultiBlock mb = (MultiBlock) obj;
+
         if (trigger == mb.getTriggerBlock()) {
             for (int i = 0; i < mb.getStructure().length; i++) {
                 if (!compareBlocks(blocks[i], mb.getStructure()[i])) {
@@ -110,12 +115,20 @@ public class MultiBlock {
                 }
             }
 
-            return b == a;
+            if (b != a) {
+                return false;
+            }
         }
 
         return true;
     }
 
+    /**
+     * This returns whether this {@link MultiBlock} is a symmetric structure or whether
+     * the left and right side differ.
+     *
+     * @return Whether this {@link MultiBlock} is a symmetric structure
+     */
     public boolean isSymmetric() {
         return isSymmetric;
     }

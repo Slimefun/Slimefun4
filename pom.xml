@@ -50,9 +50,15 @@
             <id>placeholderapi-repo</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <!-- WorldEdit -->
         <repository>
-            <id>plotsquared-repo</id>
-            <url>https://ci.athion.net/job/PlotSquared-Breaking/ws/mvn/</url>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <!-- PlotSquared -->
+        <repository>
+            <id>plotsquared</id>
+            <url>https://plotsquared.com/mvn/</url>
         </repository>
     </repositories>
 
@@ -230,7 +236,7 @@
         <!-- Third party plugin integrations -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
+            <artifactId>worldedit-core</artifactId>
             <version>7.1.0</version>
             <scope>provided</scope>
         </dependency>
@@ -248,10 +254,9 @@
         </dependency>
         <!-- PlotSquared API -->
         <dependency>
-            <groupId>com.github.intellectualsites.plotsquared</groupId>
-            <artifactId>PlotSquared-API</artifactId>
-            <version>4.488</version>
-            <scope>provided</scope>
+            <groupId>com.plotsquared</groupId>
+            <artifactId>PlotSquared</artifactId>
+            <version>5.1</version>
         </dependency>
 
         <!-- System dependency, this project has no maven repository -->
@@ -268,6 +273,11 @@
             <version>4.8.8.2</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Residence4.8.8.2.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-core</artifactId>
+            <version>7.0.0</version>
         </dependency>
     </dependencies>
 </project>

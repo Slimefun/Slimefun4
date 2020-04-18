@@ -31,25 +31,25 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
     }
 
     public Player getPlayer() {
-        return this.player;
+        return player;
     }
 
     public MultiBlock getMultiBlock() {
-        return this.multiBlock;
+        return multiBlock;
     }
 
     public Block getClickedBlock() {
-        return this.clickedBlock;
+        return clickedBlock;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        cancelled = cancel;
     }
 
 }
