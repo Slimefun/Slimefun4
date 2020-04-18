@@ -4,40 +4,50 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.SocketException;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class UpdateChecker {
-    private static List<GithubBean> getReleaseBean() {
+    private static List<GithubBean> getReleaseBean(){
         try {
             URL url = new URL("https://api.github.com/repos/StarWishsama/Slimefun4/releases");
-            BufferedInputStream bis = new BufferedInputStream(url.openStream());
-            String read = new String(readFully(bis), StandardCharsets.UTF_8);
-            return new GsonBuilder().serializeNulls().create().fromJson(read, new TypeToken<List<GithubBean>>() {
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn.setConnectTimeout(150_000);
+            conn.setReadTimeout(150_000);
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36");
+            conn.setRequestProperty("content-type", "application/json; charset=utf-8");
+            conn.connect();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String cache;
+            StringBuilder result = new StringBuilder();
+            for (cache = br.readLine(); cache != null; cache = br.readLine()) {
+                result.append(cache);
+            }
+
+            conn.disconnect();
+            return new GsonBuilder().serializeNulls().create().fromJson(result.toString().trim(), new TypeToken<List<GithubBean>>() {
             }.getType());
-        } catch (Exception e) {
-            if (e instanceof SocketException) {
+        } catch (Exception e){
+            e.printStackTrace();
+            /**if (e instanceof SocketException) {
                 Slimefun.getLogger().log(Level.WARNING, "连接至 Github 服务器出错");
             } else {
                 Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
-            }
+            }*/
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public static String getUpdateInfo() {
         List<GithubBean> bean = getReleaseBean();
-        if (bean != null) {
+        if (!bean.isEmpty()) {
             String[] splitVersion = SlimefunPlugin.getVersion().split("-");
             String version = splitVersion.length >= 3 ? splitVersion[2] : "未知";
 
@@ -53,15 +63,5 @@ public class UpdateChecker {
             }
         }
         return "无法获取到更新信息";
-    }
-
-    private static byte[] readFully(InputStream is) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = is.read(buf)) > 0) {
-            bos.write(buf, 0, len);
-        }
-        return bos.toByteArray();
     }
 }
