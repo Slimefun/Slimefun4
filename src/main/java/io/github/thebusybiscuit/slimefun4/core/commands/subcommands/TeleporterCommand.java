@@ -28,20 +28,35 @@ class TeleporterCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (args.length == 2) {
-            if (sender.hasPermission("slimefun.command.teleporter") && sender instanceof Player) {
-
-                @SuppressWarnings("deprecation")
-                OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
-
-                if (player.getName() != null) {
-                    SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+        if (sender instanceof Player) {
+            if (sender.hasPermission("slimefun.command.teleporter")) {
+                if (args.length == 1) {
+                    Player p = (Player) sender;
+                    SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, p.getUniqueId(), p.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
                 }
-                else SlimefunPlugin.getLocal().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
+                else if (args.length == 2) {
+
+                    @SuppressWarnings("deprecation")
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+
+                    if (player.getName() != null) {
+                        SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+                    }
+                    else {
+                        SlimefunPlugin.getLocal().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
+                    }
+                }
+                else {
+                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter [Player]"));
+                }
             }
-            else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission");
+            else {
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission");
+            }
         }
-        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter <Player>"));
+        else {
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players");
+        }
     }
 
 }

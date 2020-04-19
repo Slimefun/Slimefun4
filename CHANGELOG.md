@@ -76,6 +76,7 @@
 * Changed Ignition Chamber Recipe
 * GEO Miner is now 2 seconds faster
 * All Generators will now stop consuming fuel if no energy is needed
+* /sf teleporter will now open your own Teleporter Menu if you specify no Player
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
