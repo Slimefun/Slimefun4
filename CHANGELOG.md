@@ -75,6 +75,7 @@
 * Even more performance improvements
 * Changed Ignition Chamber Recipe
 * GEO Miner is now 2 seconds faster
+* All Generators will now stop consuming fuel if no energy is needed
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
@@ -93,6 +94,7 @@
 * Fixed #1813
 * Fixed #1814
 * Fixed GEO Scanner being unable to deal with more than 28 different resources
+* Fixed #893
 
 ## Release Candidate 10 (28 Mar 2020)
 
