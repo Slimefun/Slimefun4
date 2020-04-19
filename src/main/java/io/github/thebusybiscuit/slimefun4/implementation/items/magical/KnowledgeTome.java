@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
@@ -53,8 +52,9 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
                 }
 
                 PlayerProfile.get(p, profile -> PlayerProfile.fromUUID(uuid, owner -> {
-                    Set<Research> researches = owner.getResearches();
-                    researches.forEach(research -> research.unlock(p, true));
+                    for (Research research : owner.getResearches()) {
+                        research.unlock(p, true);
+                    }
                 }));
 
                 if (p.getGameMode() != GameMode.CREATIVE) {

@@ -24,7 +24,7 @@ public class PortableGEOScanner extends SimpleSlimefunItem<ItemUseHandler> {
             e.cancel();
 
             if (block.isPresent()) {
-                SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), block.get());
+                SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), block.get(), 0);
             }
         };
     }

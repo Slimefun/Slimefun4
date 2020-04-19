@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -17,7 +18,7 @@ import java.util.List;
 
 final class CargoUtils {
 
-    //Whitelist or blacklist slots
+    // Whitelist or blacklist slots
     private static final int[] SLOTS = {19, 20, 21, 28, 29, 30, 37, 38, 39};
 
     private CargoUtils() {
@@ -27,10 +28,12 @@ final class CargoUtils {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
+            ItemStackWrapper wrapper = new ItemStackWrapper(template);
+
             for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
                 ItemStack is = menu.getItemInSlot(slot);
 
-                if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
+                if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(node, is, -1)) {
                     if (is.getAmount() > template.getAmount()) {
                         menu.replaceExistingItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                         return template;
@@ -62,10 +65,12 @@ final class CargoUtils {
             maxSlot = 3;
         }
 
+        ItemStackWrapper wrapper = new ItemStackWrapper(template);
+
         for (int slot = minSlot; slot < maxSlot; slot++) {
             ItemStack is = inv.getContents()[slot];
 
-            if (SlimefunUtils.isItemSimilar(is, template, true) && matchesFilter(node, is, -1)) {
+            if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(node, is, -1)) {
                 if (is.getAmount() > template.getAmount()) {
                     inv.setItem(slot, new CustomItem(is, is.getAmount() - template.getAmount()));
                     return template;
@@ -126,13 +131,15 @@ final class CargoUtils {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
+            ItemStackWrapper wrapper = new ItemStackWrapper(stack);
+
             for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, stack)) {
                 ItemStack is = menu.getItemInSlot(slot) == null ? null : menu.getItemInSlot(slot).clone();
 
                 if (is == null) {
                     menu.replaceExistingItem(slot, stack.clone());
                     return null;
-                } else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+                } else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), wrapper, true) && is.getAmount() < is.getType().getMaxStackSize()) {
                     int amount = is.getAmount() + stack.getAmount();
 
                     if (amount > is.getType().getMaxStackSize()) {
@@ -162,9 +169,9 @@ final class CargoUtils {
         int minSlot = 0;
         int maxSlot = inv.getContents().length;
 
-        //Check if it is a normal furnace
+        // Check if it is a normal furnace
         if (inv instanceof FurnaceInventory) {
-            //Check if it is fuel or not
+            // Check if it is fuel or not
             if (stack.getType().isFuel()) {
                 minSlot = 1;
                 maxSlot = 2;
@@ -172,19 +179,21 @@ final class CargoUtils {
                 maxSlot = 1;
             }
         } else if (inv instanceof BrewerInventory) {
-            //Check if it goes in the potion slot,
+            // Check if it goes in the potion slot,
             if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
                 maxSlot = 3;
-                //The blaze powder slot,
+                // The blaze powder slot,
             } else if (stack.getType() == Material.BLAZE_POWDER) {
                 minSlot = 4;
                 maxSlot = 5;
             } else {
-                //Or the input
+                // Or the input
                 minSlot = 3;
                 maxSlot = 4;
             }
         }
+
+        ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
             ItemStack is = inv.getContents()[slot];
@@ -192,7 +201,7 @@ final class CargoUtils {
             if (is == null) {
                 inv.setItem(slot, stack.clone());
                 return null;
-            } else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), new CustomItem(stack, 1), true) && is.getAmount() < is.getType().getMaxStackSize()) {
+            } else if (SlimefunUtils.isItemSimilar(new CustomItem(is, 1), wrapper, true) && is.getAmount() < is.getType().getMaxStackSize()) {
                 int amount = is.getAmount() + stack.getAmount();
 
                 if (amount > is.getType().getMaxStackSize()) {
@@ -220,7 +229,7 @@ final class CargoUtils {
     }
 
     public static boolean matchesFilter(Block block, ItemStack item, int index) {
-        if (item == null) return false;
+        if (item == null || item.getType() == Material.AIR) return false;
 
         // Store the returned Config instance to avoid heavy calls
         Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
@@ -245,6 +254,7 @@ final class CargoUtils {
                 index++;
                 if (index > (items.size() - 1)) index = 0;
 
+                // Should probably replace this with a simple HashMap.
                 BlockStorage.addBlockInfo(block, "index", String.valueOf(index));
 
                 return SlimefunUtils.isItemSimilar(item, items.get(index), lore);

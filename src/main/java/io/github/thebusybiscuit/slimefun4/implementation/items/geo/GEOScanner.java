@@ -21,7 +21,7 @@ public class GEOScanner extends SimpleSlimefunItem<BlockUseHandler> {
             Block b = e.getClickedBlock().get();
 
             e.cancel();
-            SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), b);
+            SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), b, 0);
         };
     }
 }

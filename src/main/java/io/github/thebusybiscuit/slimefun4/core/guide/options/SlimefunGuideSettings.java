@@ -76,7 +76,7 @@ public final class SlimefunGuideSettings {
         });
 
         menu.addItem(2, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTk1MmQyYjNmMzUxYTZiMDQ4N2NjNTlkYjMxYmY1ZjI2NDExMzNlNWJhMDAwNmIxODU3NmU5OTZhMDI5M2U1MiJ9fX0="), "&c" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"), "", "&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(), "", "&7Slimefun is an open-source project", "&7and maintained by a large community.", "&7Here you can find them all", "", "&7\u21E8 &eClick to see our contributors"), (pl, slot, action, item) -> {
-            openCredits(pl, 0);
+            ContributorsMenu.open(pl, 0);
             return false;
         });
 
@@ -129,54 +129,6 @@ public final class SlimefunGuideSettings {
                 i++;
             }
         }
-    }
-
-    private static void openCredits(Player p, int page) {
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"));
-
-        menu.setEmptySlotsClickable(false);
-        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
-
-        ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 52);
-
-        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.settings"))));
-        menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-            openSettings(pl, p.getInventory().getItemInMainHand());
-            return false;
-        });
-
-        List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getGitHubService().getContributors().values());
-        contributors.sort(Comparator.comparingInt(Contributor::index));
-
-        int pages = (contributors.size() - 1) / 36 + 1;
-
-        for (int i = page * 36; i < contributors.size() && i < (page + 1) * 36; i++) {
-            Contributor contributor = contributors.get(i);
-            ItemStack skull = getContributorHead(p, contributor);
-
-            menu.addItem(i - page * 36 + 9, skull);
-            menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
-                if (contributor.getProfile() != null) {
-                    pl.closeInventory();
-                    ChatUtils.sendURL(pl, contributor.getProfile());
-                }
-                return false;
-            });
-        }
-
-        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
-        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
-            if (page > 0) openCredits(pl, page - 1);
-            return false;
-        });
-
-        menu.addItem(52, ChestMenuUtils.getNextButton(p, page + 1, pages));
-        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
-            if (page + 1 < pages) openCredits(pl, page + 1);
-            return false;
-        });
-
-        menu.open(p);
     }
 
     private static ItemStack getContributorHead(Player p, Contributor contributor) {

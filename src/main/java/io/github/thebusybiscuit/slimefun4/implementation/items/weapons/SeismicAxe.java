@@ -14,10 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
@@ -62,12 +59,12 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
                 }
 
                 for (Entity n : ground.getChunk().getEntities()) {
-                    if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
+                    if (n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
                         Vector vector = n.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.4);
                         vector.setY(0.9);
                         n.setVelocity(vector);
 
-                        if (p.getWorld().getPVP()) {
+                        if (n.getType() != EntityType.PLAYER || p.getWorld().getPVP()) {
                             EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
                             Bukkit.getPluginManager().callEvent(event);
 

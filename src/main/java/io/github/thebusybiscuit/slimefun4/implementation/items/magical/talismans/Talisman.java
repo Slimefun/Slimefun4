@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;

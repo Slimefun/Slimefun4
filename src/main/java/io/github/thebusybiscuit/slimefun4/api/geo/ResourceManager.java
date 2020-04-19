@@ -18,6 +18,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -34,7 +37,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class ResourceManager {
 
-    private final int[] backgroundSlots = {0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private final int[] backgroundSlots = {0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53};
     private final ItemStack chunkTexture = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ0OWI5MzE4ZTMzMTU4ZTY0YTQ2YWIwZGUxMjFjM2Q0MDAwMGUzMzMyYzE1NzQ5MzJiM2M4NDlkOGZhMGRjMiJ9fX0=");
     private final Config config;
 
@@ -95,8 +98,9 @@ public class ResourceManager {
      *
      * @param p     The {@link Player} who requested these results
      * @param block The {@link Block} which the scan starts at
+     * @param page  The page to display
      */
-    public void scan(Player p, Block block) {
+    public void scan(Player p, Block block, int page) {
         if (SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
             SlimefunPlugin.getLocal().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
             return;
@@ -112,10 +116,14 @@ public class ResourceManager {
         }
 
         menu.addItem(4, new CustomItem(chunkTexture, "&e" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
+        List<GEOResource> resources = new ArrayList<>(SlimefunPlugin.getRegistry().getGEOResources().values());
+        Collections.sort(resources, (a, b) -> a.getName(p).toLowerCase().compareTo(b.getName(p).toLowerCase()));
 
         int index = 10;
+        int pages = (resources.size() - 1) / 36 + 1;
 
-        for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
+        for (int i = page * 28; i < resources.size() && i < (page + 1) * 28; i++) {
+            GEOResource resource = resources.get(i);
             OptionalInt optional = getSupplies(resource, block.getWorld(), x, z);
             int supplies = optional.isPresent() ? optional.getAsInt() : generate(resource, block.getWorld(), x, z);
             String suffix = SlimefunPlugin.getLocal().getResourceString(p, supplies == 1 ? "tooltips.unit" : "tooltips.units");
@@ -133,6 +141,18 @@ public class ResourceManager {
                 index += 2;
             }
         }
+
+        menu.addItem(47, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
+        menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
+            if (page > 0) scan(pl, block, page - 1);
+            return false;
+        });
+
+        menu.addItem(51, ChestMenuUtils.getNextButton(p, page + 1, pages));
+        menu.addMenuClickHandler(51, (pl, slot, item, action) -> {
+            if (page + 1 < pages) scan(pl, block, page + 1);
+            return false;
+        });
 
         menu.open(p);
     }

@@ -36,6 +36,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
     private static final int[] BORDER = {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 53};
     private static final int[] OUTPUT_BORDER = {19, 20, 21, 22, 23, 24, 25, 28, 34, 37, 43, 46, 47, 48, 49, 50, 51, 52};
     private static final int[] OUTPUT_SLOTS = {29, 30, 31, 32, 33, 38, 39, 40, 41, 42};
+    private static final int PROCESSING_TIME = 14;
 
     public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -101,8 +102,6 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
     public int[] getOutputSlots() {
         return OUTPUT_SLOTS;
     }
-
-    public abstract int getProcessingTime();
 
     @Override
     public List<ItemStack> getDisplayRecipes() {
@@ -185,7 +184,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
                         int supplies = optional.getAsInt();
 
                         if (supplies > 0) {
-                            MachineRecipe r = new MachineRecipe(getProcessingTime() / getSpeed(), new ItemStack[0], new ItemStack[]{resource.getItem().clone()});
+                            MachineRecipe r = new MachineRecipe(PROCESSING_TIME / getSpeed(), new ItemStack[0], new ItemStack[]{resource.getItem().clone()});
                             if (!menu.fits(r.getOutput()[0], getOutputSlots())) return;
 
                             processing.put(b, r);
