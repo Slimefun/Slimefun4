@@ -27,18 +27,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
-    private final ItemSetting<List<String>> unbreakaleBlocks = new ItemSetting<>("unbreakable-blocks", Collections.singletonList("CHEST"));
+    private final ItemSetting<List<String>> unbreakableBlocks = new ItemSetting<>("unbreakable-blocks", new ArrayList<>());
 
     public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        addItemSetting(damageOnUse, unbreakaleBlocks);
+        addItemSetting(damageOnUse, unbreakableBlocks);
     }
 
     @Override
@@ -77,15 +77,14 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
     }
 
     private boolean isUnbreakable(String name) {
-        try {
-            return unbreakaleBlocks.getValue().contains(name);
-        } catch (Exception ignored) {
-            return false;
+        if (!unbreakableBlocks.getValue().isEmpty()) {
+            return unbreakableBlocks.getValue().contains(name);
         }
+        return false;
     }
 
     private void breakBlock(Player p, Block b, int fortune, List<ItemStack> drops) {
-        if (isUnbreakable(b.getType().name()) && ProtectionChecker.check(p, b, true) && b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+        if (!isUnbreakable(b.getType().name()) && ProtectionChecker.check(p, b, true) && b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
             SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
 
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());

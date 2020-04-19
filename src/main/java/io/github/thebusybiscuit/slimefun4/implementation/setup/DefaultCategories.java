@@ -43,9 +43,9 @@ final class DefaultCategories {
 
     // Resources and tech stuff
     protected final Category misc = Categories.MISC;
-    protected final Category technicalComponents = new Category(new NamespacedKey(SlimefunPlugin.instance, "tech_misc"), new CustomItem(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
+    protected final Category technicalComponents = Categories.TECH_MISC;
     protected final Category technicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance, "technical_gadgets"), new CustomItem(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
-    protected final Category resources = new Category(new NamespacedKey(SlimefunPlugin.instance, "resources"), new CustomItem(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);
+    protected final Category resources = Categories.RESOURCES;
 
     // Locked Categories
     protected final LockedCategory electricity = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());

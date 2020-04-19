@@ -257,6 +257,7 @@
             <groupId>com.plotsquared</groupId>
             <artifactId>PlotSquared</artifactId>
             <version>5.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- System dependency, this project has no maven repository -->
