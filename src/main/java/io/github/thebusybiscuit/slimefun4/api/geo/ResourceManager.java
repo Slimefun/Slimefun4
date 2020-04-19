@@ -102,8 +102,8 @@ public class ResourceManager {
      *            The {@link Player} who requested these results
      * @param block
      *            The {@link Block} which the scan starts at
-     * @param The
-     *            page to display
+     * @param page
+     *            The page to display
      */
     public void scan(Player p, Block block, int page) {
         if (SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {

@@ -1,5 +1,3 @@
-<details>
-  <summary>Table of contents</summary>
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -43,7 +41,6 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-</details>
 
 ## Release Candidate 11 (TBD)
 
@@ -98,6 +95,7 @@
 * Fixed #893
 
 ## Release Candidate 10 (28 Mar 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 
 #### Additions
 * Added some new charts to bStats
@@ -144,16 +142,19 @@
 * Fixed #1768
 
 ## Release Candidate 9 (07 Mar 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#9
 
 #### Fixes
 * Fixed Solar Generators not working
 
 ## Release Candidate 8 (06 Mar 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#8
 
 #### Fixes
 * Fixed bStats Metrics not sending properly
 
 ## Release Candidate 7 (06 Mar 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#7
 
 #### Additions
 * Added translations for Recipe Types
@@ -177,6 +178,7 @@
 * Fixed #1613
 
 ## Release Candidate 6 (16 Feb 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
 
 #### Additions
 * Added a new language: Japanese
@@ -195,6 +197,7 @@
 * Fixed magician talisman not being able to enchant books
 
 ## Release Candidate 5 (09 Feb 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 
 #### Additions
 * Aded preset messages.yml files

@@ -42,6 +42,9 @@ public class PerWorldSettingsService {
 
     /**
      * This method will forcefully load all currently active Worlds to load up their settings.
+     * 
+     * @param worlds
+     *            An {@link Iterable} of {@link World Worlds} to load
      */
     public void load(Iterable<World> worlds) {
         try {
