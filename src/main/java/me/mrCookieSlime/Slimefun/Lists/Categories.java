@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 
 /**
@@ -31,4 +32,6 @@ public final class Categories {
     // 兼容科技复兴
     public static final Category TECH_MISC = new Category(new NamespacedKey(SlimefunPlugin.instance, "tech_misc"), new CustomItem(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
     public static final Category RESOURCES = new Category(new NamespacedKey(SlimefunPlugin.instance, "resources"), new CustomItem(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);
+    // 兼容粘土科技
+    public static final Category BASIC_MACHINES = new Category(new NamespacedKey(SlimefunPlugin.instance, "basic_machines"), new CustomItem(Material.CRAFTING_TABLE, "&7Basic Machines"), 1);
 }
