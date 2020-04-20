@@ -106,6 +106,7 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
 
         facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, item.getType());
 
+
         if (dispenser.getInventory().containsAtLeast(item, 2)) {
             if (item.getType().name().contains("SHULKER_BOX")) {
                 removeItems(dispenser, item);
@@ -124,17 +125,28 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
     }
 
     private void removeItems(Dispenser dispenser, ItemStack itemStack) {
-        Map<Integer, ItemStack> unRemovedItems = dispenser.getInventory().removeItem(itemStack);
+        Map<Integer, ItemStack> unRemovedItems;
+        if (dispenser.getInventory().containsAtLeast(itemStack, 2)) {
+            unRemovedItems = dispenser.getInventory().removeItem(new CustomItem(itemStack, 1));
+        } else {
+            unRemovedItems = dispenser.getInventory().removeItem(itemStack);
+        }
+
         Inventory inv = dispenser.getInventory();
 
         if (!unRemovedItems.isEmpty()) {
             unRemovedItems.forEach((k, v) -> {
-                int size = itemStack.getAmount();
+                int amount = itemStack.getAmount();
                 for (int i = 0; i < inv.getSize(); i++) {
-                    if (inv.getItem(i) != null && v.getType().equals(inv.getItem(i).getType())) {
-                        if (size > 0) {
-                            inv.setItem(i, new CustomItem(itemStack, Math.max(0, itemStack.getAmount() - v.getAmount())));
-                            size--;
+                    ItemStack im = inv.getItem(i);
+                    if (im != null && im.getType() == v.getType()) {
+                        if (amount >= 0) {
+                            if (im.getAmount() - amount > 0) {
+                                inv.setItem(i, new CustomItem(im, im.getAmount() - amount));
+                            } else {
+                                inv.setItem(i, null);
+                            }
+                            amount = im.getAmount() - amount;
                         } else {
                             break;
                         }
