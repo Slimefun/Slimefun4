@@ -262,6 +262,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
             public double generateEnergy(Location l, SlimefunItem sf, Config data) {
                 BlockMenu menu = BlockStorage.getInventory(l);
                 BlockMenu port = getAccessPort(l);
+                int charge = ChargableBlock.getCharge(l);
 
                 if (isProcessing(l)) {
                     extraTick(l);
@@ -269,12 +270,8 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
                     if (timeleft > 0) {
                         int produced = getEnergyProduction();
-                        int space = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l);
+                        int space = ChargableBlock.getMaxCharge(l) - charge;
 
-                        if (space >= produced) {
-                            ChargableBlock.addCharge(l, getEnergyProduction());
-                            space -= produced;
-                        }
                         if (space >= produced || !"generator".equals(BlockStorage.getLocationInfo(l, "reactor-mode"))) {
                             progress.put(l, timeleft - 1);
 
@@ -313,15 +310,18 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                                         explode.add(l);
                                         return 0;
                                     }
-                                }
-                                else {
+                                } else {
                                     ReactorHologram.update(l, "&b\u2744 &7" + getPercentage(timeleft, processing.get(l).getTicks()) + "%");
                                 }
                             }
-
-                            return ChargableBlock.getCharge(l);
                         }
-                        return 0;
+
+                        if (space >= produced) {
+                            ChargableBlock.addCharge(l, getEnergyProduction());
+                            return charge + getEnergyProduction();
+                        } else {
+                            return charge;
+                        }
                     }
                     else {
                         menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -340,7 +340,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
                         progress.remove(l);
                         processing.remove(l);
-                        return 0;
+                        return charge;
                     }
                 }
                 else {
@@ -359,7 +359,8 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                         processing.put(l, fuel);
                         progress.put(l, fuel.getTicks());
                     }
-                    return 0;
+
+                    return charge;
                 }
             }
 

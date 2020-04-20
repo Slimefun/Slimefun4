@@ -141,6 +141,8 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
             @Override
             public double generateEnergy(Location l, SlimefunItem sf, Config data) {
                 BlockMenu inv = BlockStorage.getInventory(l);
+                boolean chargeable = ChargableBlock.isChargable(l);
+                int charge = chargeable ? ChargableBlock.getCharge(l) : 0;
 
                 if (isProcessing(l)) {
                     int timeleft = progress.get(l);
@@ -148,15 +150,14 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
                     if (timeleft > 0) {
                         ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                        if (ChargableBlock.isChargable(l)) {
-                            if (ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l) >= getEnergyProduction()) {
+                        if (chargeable) {
+                            if (ChargableBlock.getMaxCharge(l) - charge >= getEnergyProduction()) {
                                 ChargableBlock.addCharge(l, getEnergyProduction());
                                 progress.put(l, timeleft - 1);
-                                return ChargableBlock.getCharge(l);
+                                return charge + getEnergyProduction();
                             }
-                            return 0;
-                        }
-                        else {
+                            return charge;
+                        } else {
                             progress.put(l, timeleft - 1);
                             return getEnergyProduction();
                         }
@@ -172,7 +173,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
 
                         progress.remove(l);
                         processing.remove(l);
-                        return 0;
+                        return charge;
                     }
                 }
                 else {
@@ -187,7 +188,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
                         processing.put(l, fuel);
                         progress.put(l, fuel.getTicks());
                     }
-                    return 0;
+                    return charge;
                 }
             }
 
