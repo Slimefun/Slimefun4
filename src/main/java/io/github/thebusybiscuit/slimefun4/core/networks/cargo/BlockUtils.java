@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
+
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+
 final class BlockUtils {
 
     private BlockUtils() {}
