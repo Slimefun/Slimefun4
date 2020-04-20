@@ -140,13 +140,12 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
                 for (int i = 0; i < inv.getSize(); i++) {
                     ItemStack im = inv.getItem(i);
                     if (im != null && im.getType() == v.getType()) {
-                        if (amount >= 0) {
-                            if (im.getAmount() - amount > 0) {
-                                inv.setItem(i, new CustomItem(im, im.getAmount() - amount));
+                        if (amount > 0) {
+                            if (im.getAmount() - itemStack.getAmount() > 0) {
+                                inv.setItem(i, new CustomItem(im, im.getAmount() - itemStack.getAmount()));
                             } else {
                                 inv.setItem(i, null);
                             }
-                            amount = im.getAmount() - amount;
                         } else {
                             break;
                         }
