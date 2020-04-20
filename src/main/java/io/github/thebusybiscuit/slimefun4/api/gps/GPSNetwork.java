@@ -325,7 +325,7 @@ public class GPSNetwork {
         return transmitters.getOrDefault(uuid, new HashSet<>());
     }
 
-    public TeleportationManager getTeleleportationService() {
+    public TeleportationManager getTeleportationManager() {
         return teleportation;
     }
 

@@ -21,7 +21,7 @@ public class JetBootsTask extends PlayerTask {
     }
 
     @Override
-    public void executeTask() {
+    protected void executeTask() {
         float cost = 0.075F;
         float charge = ItemEnergy.getStoredEnergy(p.getInventory().getBoots());
         double accuracy = DoubleHandler.fixDouble(speed - 0.7);

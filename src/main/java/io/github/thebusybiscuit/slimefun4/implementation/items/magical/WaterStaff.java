@@ -7,9 +7,17 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link WaterStaff} is a magical {@link SlimefunItem}.
+ * When you right click it, any fire on your {@link Player} will be extinguished.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class WaterStaff extends SimpleSlimefunItem<ItemUseHandler> {
 
     public WaterStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

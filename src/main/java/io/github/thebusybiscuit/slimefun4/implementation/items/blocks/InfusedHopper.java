@@ -9,6 +9,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -21,10 +22,13 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
-    protected boolean silent = false;
+    private final ItemSetting<Boolean> silent = new ItemSetting<>("silent", false);
+    private final ItemSetting<Double> radius = new ItemSetting<>("radius", 3.5);
 
     public InfusedHopper(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        addItemSetting(silent, radius);
     }
 
     @Override
@@ -41,14 +45,15 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
                 Location l = b.getLocation().add(0.5, 1.2, 0.5);
                 boolean sound = false;
+                double range = radius.getValue();
 
-                for (Entity item : b.getWorld().getNearbyEntities(l, 3.5D, 3.5D, 3.5D, n -> isValidItem(l, n))) {
+                for (Entity item : b.getWorld().getNearbyEntities(l, range, range, range, n -> isValidItem(l, n))) {
                     item.setVelocity(new Vector(0, 0.1, 0));
                     item.teleport(l);
                     sound = true;
                 }
 
-                if (sound && !silent) {
+                if (sound && !silent.getValue().booleanValue()) {
                     b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
                 }
             }

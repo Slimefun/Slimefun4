@@ -5,13 +5,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
@@ -21,11 +25,13 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
 
+    private static final BlockFace[] outputFaces = { BlockFace.UP, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
     private final List<ItemStack> recipes;
 
     public Composter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -89,7 +95,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                                 }
                                 else {
                                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                    b.getWorld().dropItemNaturally(b.getRelative(BlockFace.UP).getLocation(), output);
+                                    pushItem(b, output.clone());
                                 }
                             }, j * 30L);
                         }
@@ -100,6 +106,39 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                 }
             }
         };
+    }
+
+    private void pushItem(Block b, ItemStack output) {
+        Optional<Inventory> outputChest = findOutputChest(b, output);
+
+        if (outputChest.isPresent()) {
+            outputChest.get().addItem(output);
+        }
+        else {
+            Location loc = b.getRelative(BlockFace.UP).getLocation();
+            b.getWorld().dropItemNaturally(loc, output);
+        }
+    }
+
+    private Optional<Inventory> findOutputChest(Block b, ItemStack output) {
+        for (BlockFace face : outputFaces) {
+            Block potentialOutput = b.getRelative(face);
+
+            if (potentialOutput.getType() == Material.CHEST) {
+                String id = BlockStorage.checkID(potentialOutput);
+
+                if (id != null && id.equals("OUTPUT_CHEST")) {
+                    // Found the output chest! Now, let's check if we can fit the product in it.
+                    Inventory inv = ((Chest) potentialOutput.getState()).getInventory();
+
+                    if (InvUtils.fits(inv, output)) {
+                        return Optional.of(inv);
+                    }
+                }
+            }
+        }
+
+        return Optional.empty();
     }
 
     private ItemStack getOutput(Player p, ItemStack input) {

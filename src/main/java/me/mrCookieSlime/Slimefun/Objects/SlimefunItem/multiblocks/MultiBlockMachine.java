@@ -5,6 +5,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
+import org.bukkit.block.data.type.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +18,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -31,7 +33,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see MultiBlock
  *
  */
-public abstract class MultiBlockMachine extends SlimefunMachine {
+public abstract class MultiBlockMachine extends SlimefunMachine implements NotPlaceable {
 
     private static final BlockFace[] outputFaces = { BlockFace.UP, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
 
@@ -60,11 +62,20 @@ public abstract class MultiBlockMachine extends SlimefunMachine {
 
     public abstract void onInteract(Player p, Block b);
 
-    // Overloaded method for finding a potential output chest. Fallbacks to the old system of putting the adding back
-    // into the dispenser.
-    // Optional last argument Inventory placeCheckerInv is for multiblock machines that create a dummy inventory to
-    // check if there's a space for the adding,
-    // i.e. Enhanced crafting table
+    /**
+     * Overloaded method for finding a potential output chest.
+     * Fallbacks to the old system of putting the adding back into the dispenser.
+     * Optional last argument Inventory placeCheckerInv is for a {@link MultiBlockMachine} that create
+     * a dummy inventory to check if there's a space for the adding, i.e. Enhanced crafting table
+     * 
+     * @param adding
+     *            The {@link ItemStack} that should be added
+     * @param dispBlock
+     *            The {@link Block} of our {@link Dispenser}
+     * @param dispInv
+     *            The {@link Inventory} of our {@link Dispenser}
+     * @return The target {@link Inventory}
+     */
     protected Inventory findOutputInventory(ItemStack adding, Block dispBlock, Inventory dispInv) {
         return findOutputInventory(adding, dispBlock, dispInv, dispInv);
     }

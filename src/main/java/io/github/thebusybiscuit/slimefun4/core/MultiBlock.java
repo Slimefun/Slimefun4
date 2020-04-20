@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -32,7 +32,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
  */
 public class MultiBlock {
 
-    public static final List<Tag<Material>> SUPPORTED_TAGS = new ArrayList<>();
+    private static final Set<Tag<Material>> SUPPORTED_TAGS = new HashSet<>();
 
     static {
         SUPPORTED_TAGS.add(Tag.LOGS);
@@ -44,6 +44,10 @@ public class MultiBlock {
         }
     }
 
+    public static Set<Tag<Material>> getSupportedTags() {
+        return SUPPORTED_TAGS;
+    }
+
     private final SlimefunItem item;
     private final Material[] blocks;
     private final BlockFace trigger;
@@ -51,6 +55,10 @@ public class MultiBlock {
 
     public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
         this.item = item;
+
+        if (trigger != BlockFace.SELF && trigger != BlockFace.UP && trigger != BlockFace.DOWN) {
+            throw new IllegalArgumentException("Multiblock Blockface must be either UP, DOWN or SELF");
+        }
 
         this.blocks = build;
         this.trigger = trigger;

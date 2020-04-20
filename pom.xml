@@ -10,9 +10,9 @@
     <version>4.3-UNOFFICIAL</version>
     
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!--  Bukkit properties -->
         <bukkit.version>1.15.2</bukkit.version>
@@ -86,7 +86,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.3</version>
                 
                 <configuration>
                 
@@ -102,7 +102,7 @@
                         </relocation>
                     </relocations>
                     
-                    <!-- Exclude unneeded metadata from shaded dependencies -->
+                    <!-- Exclude unneeded metadata files from shaded dependencies -->
                     <filters>
                     	<filter>
                     		<artifact>*:*</artifact>

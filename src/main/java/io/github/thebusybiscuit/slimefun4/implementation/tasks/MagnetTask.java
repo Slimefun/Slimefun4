@@ -38,7 +38,7 @@ public class MagnetTask extends PlayerTask {
     }
 
     @Override
-    public void executeTask() {
+    protected void executeTask() {
         boolean playSound = false;
 
         for (Entity n : p.getNearbyEntities(radius, radius, radius)) {

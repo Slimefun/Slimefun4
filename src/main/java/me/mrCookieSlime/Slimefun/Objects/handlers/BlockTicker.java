@@ -22,8 +22,12 @@ public abstract class BlockTicker implements ItemHandler {
 
     @Override
     public Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
-        if (item instanceof NotPlaceable || !item.getItem().getType().isBlock()) {
-            return Optional.of(new IncompatibleItemHandlerException("Only blocks that are not marked as 'NotPlaceable' can have a BlockTicker.", item, this));
+        if (!item.getItem().getType().isBlock()) {
+            return Optional.of(new IncompatibleItemHandlerException("Only Materials that are blocks can have a BlockTicker.", item, this));
+        }
+
+        if (item instanceof NotPlaceable) {
+            return Optional.of(new IncompatibleItemHandlerException("Only Slimefun items that are not marked as 'NotPlaceable' can have a BlockTicker.", item, this));
         }
 
         return Optional.empty();

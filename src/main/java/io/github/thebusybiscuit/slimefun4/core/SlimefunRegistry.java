@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
@@ -102,6 +103,14 @@ public class SlimefunRegistry {
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
     }
 
+    /**
+     * This returns whether auto-loading is enabled.
+     * Auto-Loading will automatically call {@link SlimefunItem#load()} when the item is registered.
+     * Normally that method is called after the {@link Server} finished starting up.
+     * But in the unusual scenario if a {@link SlimefunItem} is registered after that, this is gonna cover that.
+     * 
+     * @return Whether auto-loading is enabled
+     */
     public boolean isAutoLoadingEnabled() {
         return automaticallyLoadItems;
     }

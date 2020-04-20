@@ -75,12 +75,12 @@ public class SlimefunItemListener implements Listener {
                     if (!interactable) {
                         String id = optional.get().getID();
                         Player p = e.getPlayer();
-                        ItemStack item = event.getItem();
 
-                        if (BlockMenuPreset.isInventory(id) && !canPlaceCargoNodes(p, item, e.getClickedBlock().getRelative(e.getBlockFace()))) {
-                            e.setCancelled(true);
+                        if (BlockMenuPreset.isInventory(id)) { 
 
-                            if (!p.isSneaking() || item == null) {
+                            if (!p.isSneaking() || Material.AIR == event.getItem().getType()) {
+                                e.setCancelled(true);
+
                                 if (BlockStorage.hasUniversalInventory(id)) {
                                     UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
 

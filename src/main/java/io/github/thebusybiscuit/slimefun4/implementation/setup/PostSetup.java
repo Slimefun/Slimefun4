@@ -104,14 +104,13 @@ public final class PostSetup {
             sender.sendMessage(ChatColor.GREEN + " - Discord:      https://discord.gg/fsD4Bkh");
         }
         else {
-            sender.sendMessage(ChatColor.GREEN + " -- UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
+            sender.sendMessage(ChatColor.GREEN + " - UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
         }
 
         sender.sendMessage("");
 
         SlimefunPlugin.getItemCfg().save();
         SlimefunPlugin.getResearchCfg().save();
-
         SlimefunPlugin.getRegistry().setAutoLoadingMode(true);
     }
 

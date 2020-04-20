@@ -92,7 +92,7 @@ public class BlockStorage {
             return;
         }
 
-        Slimefun.getLogger().log(Level.INFO, "Loading Blocks for World \"" + w.getName() + "\"");
+        Slimefun.getLogger().log(Level.INFO, "Loading Blocks for World \"{0}\"", w.getName());
         Slimefun.getLogger().log(Level.INFO, "This may take a long time...");
 
         File dir = new File(PATH_BLOCKS + w.getName());
@@ -136,9 +136,8 @@ public class BlockStorage {
                                         // It should not be possible to have two blocks on the same location. Ignore the
                                         // new entry if a block is already present and print an error to the console.
 
-                                        Slimefun.getLogger().log(Level.INFO, "Ignoring duplicate block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
-                                        Slimefun.getLogger().log(Level.INFO, "Old block data: {0}", serializeBlockInfo(storage.get(l)));
-                                        Slimefun.getLogger().log(Level.INFO, "New block data ({0}): {1}", new Object[] { key, json });
+                                        Slimefun.getLogger().log(Level.INFO, "Ignoring duplicate block @ {0}, {1}, {2}", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ() });
+                                        Slimefun.getLogger().log(Level.INFO, "New: {0} | Old: {1}", new Object[] { key, serializeBlockInfo(storage.get(l)) });
                                         continue;
                                     }
 
@@ -156,7 +155,7 @@ public class BlockStorage {
                                 }
                             }
                             catch (Exception x) {
-                                Slimefun.getLogger().log(Level.WARNING, "Failed to load " + file.getName() + '(' + key + ") for Slimefun " + SlimefunPlugin.getVersion(), x);
+                                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to load " + file.getName() + '(' + key + ") for Slimefun " + SlimefunPlugin.getVersion());
                             }
                         }
                         done++;
@@ -189,7 +188,7 @@ public class BlockStorage {
                     }
                 }
                 catch (Exception x) {
-                    Slimefun.getLogger().log(Level.WARNING, "Failed to load " + chunks.getName() + " in World " + world.getName() + '(' + key + ") for Slimefun " + SlimefunPlugin.getVersion(), x);
+                    Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to load " + chunks.getName() + " in World " + world.getName() + '(' + key + ") for Slimefun " + SlimefunPlugin.getVersion());
                 }
             }
         }
@@ -213,7 +212,7 @@ public class BlockStorage {
                     }
                 }
                 catch (Exception x) {
-                    Slimefun.getLogger().log(Level.SEVERE, "An Error occured while loading this Inventory: " + file.getName(), x);
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while loading this Inventory: " + file.getName());
                 }
             }
         }
@@ -259,7 +258,7 @@ public class BlockStorage {
         if (computeChanges) computeChanges();
         if (changes == 0) return;
 
-        Slimefun.getLogger().log(Level.INFO, "Saving Blocks for World \"" + world.getName() + "\" (" + changes + " Change(s) queued)");
+        Slimefun.getLogger().log(Level.INFO, "Saving Blocks for World \"{0}\" ({1} Change(s) queued)", new Object[] { world.getName(), changes });
 
         Map<String, Config> cache = new HashMap<>(blocksCache);
 
@@ -269,8 +268,9 @@ public class BlockStorage {
 
             if (cfg.getKeys().isEmpty()) {
                 File file = cfg.getFile();
+
                 if (file.exists() && !file.delete()) {
-                    Slimefun.getLogger().log(Level.WARNING, "Could not delete File: " + file.getName());
+                    Slimefun.getLogger().log(Level.WARNING, "Could not delete File: {0}", file.getName());
                 }
             }
             else {
@@ -281,7 +281,7 @@ public class BlockStorage {
                     Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);
                 }
                 catch (IOException x) {
-                    Slimefun.getLogger().log(Level.SEVERE, "An Error occured while copying a temporary File for Slimefun " + SlimefunPlugin.getVersion(), x);
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while copying a temporary File for Slimefun " + SlimefunPlugin.getVersion());
                 }
             }
         }
@@ -374,12 +374,12 @@ public class BlockStorage {
         catch (Exception x) {
             Logger logger = Slimefun.getLogger();
             logger.log(Level.WARNING, x.getClass().getName());
-            logger.log(Level.WARNING, "Failed to parse BlockInfo for Block @ " + l.getBlockX() + ", " + l.getBlockY() + ", " + l.getBlockZ());
+            logger.log(Level.WARNING, "Failed to parse BlockInfo for Block @ {0}, {1}, {2}", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ() });
             logger.log(Level.WARNING, json);
             logger.log(Level.WARNING, "");
             logger.log(Level.WARNING, "IGNORE THIS ERROR UNLESS IT IS SPAMMING");
             logger.log(Level.WARNING, "");
-            logger.log(Level.SEVERE, "An Error occured while parsing Block Info for Slimefun " + SlimefunPlugin.getVersion(), x);
+            logger.log(Level.SEVERE, x, () -> "An Error occured while parsing Block Info for Slimefun " + SlimefunPlugin.getVersion());
             return null;
         }
     }
@@ -706,7 +706,7 @@ public class BlockStorage {
             return cfg == null ? new BlockInfoConfig() : cfg;
         }
         catch (Exception e) {
-            Slimefun.getLogger().log(Level.SEVERE, "Failed to parse ChunkInfo for Slimefun " + SlimefunPlugin.getVersion(), x);
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to parse ChunkInfo for Slimefun " + SlimefunPlugin.getVersion());
             return new BlockInfoConfig();
         }
     }

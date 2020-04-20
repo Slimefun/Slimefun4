@@ -43,7 +43,7 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
      * @return The {@link Player} who interacted with the {@link MultiBlock}
      */
     public Player getPlayer() {
-        return this.player;
+        return player;
     }
 
     /**
@@ -52,16 +52,21 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
      * @return The {@link MultiBlock} of this {@link MultiBlockInteractEvent}
      */
     public MultiBlock getMultiBlock() {
-        return this.multiBlock;
+        return multiBlock;
     }
 
+    /**
+     * This returns the specific {@link Block} that was interacted with.
+     * 
+     * @return The {@link Block} that was clicked
+     */
     public Block getClickedBlock() {
-        return this.clickedBlock;
+        return clickedBlock;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override

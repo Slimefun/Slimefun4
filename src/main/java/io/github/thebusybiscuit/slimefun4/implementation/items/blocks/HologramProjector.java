@@ -94,7 +94,7 @@ public class HologramProjector extends SimpleSlimefunItem<BlockUseHandler> {
 
         menu.open(p);
     }
-    
+
     private static ArmorStand getArmorStand(Block projector, boolean createIfNoneExists) {
         String nametag = BlockStorage.getLocationInfo(projector.getLocation(), "text");
         double offset = Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), "offset"));
@@ -117,7 +117,7 @@ public class HologramProjector extends SimpleSlimefunItem<BlockUseHandler> {
 
     private static void remove(Block b) {
         ArmorStand hologram = getArmorStand(b, false);
-        
+
         if (hologram != null) {
             hologram.remove();
         }

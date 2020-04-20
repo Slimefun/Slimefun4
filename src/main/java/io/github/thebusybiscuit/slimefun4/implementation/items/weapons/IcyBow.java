@@ -6,13 +6,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class IcyBow extends SlimefunBow {
 
-    public IcyBow(SlimefunItemStack item, ItemStack[] recipe) {
-        super(item, recipe);
+    public IcyBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+        super(category, item, recipe);
     }
 
     @Override

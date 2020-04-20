@@ -8,8 +8,8 @@ import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -32,8 +32,8 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
     private final int efficiency;
     private final int fortune;
 
-    public EnhancedFurnace(int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
-        super(Categories.BASIC_MACHINES, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
+    public EnhancedFurnace(Category category, int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
+        super(category, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
 
         this.speed = speed - 1;
         this.efficiency = efficiency - 1;
@@ -70,15 +70,9 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
                     Furnace furnace = (Furnace) b.getState();
 
                     if (furnace.getCookTime() > 0) {
-                        int newCookTime = furnace.getCookTime() + getSpeed() * 10;
+                        int cookTime = furnace.getCookTime() + getSpeed() * 10;
 
-                        if (newCookTime > 200) {
-                            furnace.setCookTime((short) 188);
-                        }
-                        else {
-                            furnace.setCookTime((short) newCookTime);
-                        }
-
+                        furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal()));
                         furnace.update(true, false);
                     }
                 }

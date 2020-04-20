@@ -97,7 +97,7 @@ public class ArmorTask implements Runnable {
         SlimefunItem item = SlimefunItem.getByItem(p.getInventory().getHelmet());
 
         if (item instanceof SolarHelmet && Slimefun.hasUnlocked(p, item, true) && hasSunlight(p)) {
-            ItemEnergy.chargeInventory(p, ((SolarHelmet) item).getChargeAmount());
+            ItemEnergy.chargeInventory(p, (float) ((SolarHelmet) item).getChargeAmount());
         }
     }
 

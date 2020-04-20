@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -184,7 +183,7 @@ public class CargoNet extends ChestTerminalNetwork {
         }
         tickDelayThreshold = 0;
 
-        Set<Location> inputs = new HashSet<>();
+        Map<Location, Integer> inputs = new HashMap<>();
         Set<Location> providers = new HashSet<>();
 
         for (Location node : inputNodes) {
@@ -194,7 +193,7 @@ public class CargoNet extends ChestTerminalNetwork {
                 providers.add(node);
             }
             else if (frequency >= 0 && frequency < 16) {
-                inputs.add(node);
+                inputs.put(node, frequency);
             }
         }
 
@@ -205,7 +204,8 @@ public class CargoNet extends ChestTerminalNetwork {
 
         // All operations happen here: Everything gets iterated from the Input Nodes.
         // (Apart from ChestTerminal Buses)
-        for (Location input : inputs) {
+        for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
+            Location input = entry.getKey();
             Optional<Block> attachedBlock = getAttachedBlock(input.getBlock());
             if (!attachedBlock.isPresent()) {
                 continue;
@@ -214,6 +214,7 @@ public class CargoNet extends ChestTerminalNetwork {
             Block inputTarget = attachedBlock.get();
             Config cfg = BlockStorage.getLocationInfo(input);
             boolean roundrobin = "true".equals(cfg.getString("round-robin"));
+
             ItemStackAndInteger slot = CargoUtils.withdraw(input.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
             if (slot == null) {
                 continue;
@@ -221,21 +222,19 @@ public class CargoNet extends ChestTerminalNetwork {
 
             ItemStack stack = slot.getItem();
             int previousSlot = slot.getInt();
-
-            List<Location> outputs = output.get(getFrequency(input));
+            List<Location> outputs = output.get(entry.getValue());
 
             if (outputs != null) {
-                List<Location> outputlist = new ArrayList<>(outputs);
+                List<Location> outputlist = new LinkedList<>(outputs);
 
                 if (roundrobin) {
                     int index = roundRobin.getOrDefault(input, 0);
 
-                    if (index < outputlist.size()) {
-                        for (int i = 0; i < index; i++) {
-                            Location temp = outputlist.get(0);
-                            outputlist.remove(temp);
-                            outputlist.add(temp);
-                        }
+                            if (index < outputlist.size()) {
+                                for (int i = 0; i < index; i++) {
+                                    Location temp = outputlist.remove(0);
+                                    outputlist.add(temp);
+                                }
 
                         index++;
                     }
@@ -271,8 +270,6 @@ public class CargoNet extends ChestTerminalNetwork {
                     }
                 }
             }
-
-
         }
 
         // Chest Terminal Code

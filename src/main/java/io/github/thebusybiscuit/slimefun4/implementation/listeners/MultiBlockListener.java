@@ -84,7 +84,7 @@ public class MultiBlockListener implements Listener {
     private boolean equals(Material a, Material b) {
         if (a == b) return true;
 
-        for (Tag<Material> tag : MultiBlock.SUPPORTED_TAGS) {
+        for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
             if (tag.isTagged(a) && tag.isTagged(b)) {
                 return true;
             }
