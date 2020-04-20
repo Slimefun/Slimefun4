@@ -1287,7 +1287,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE})
                 .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, SlimefunItems.COPPER_WIRE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.COPPER_WIRE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{null, null, null, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, null, null, null},
                 new CustomItem(SlimefunItems.COPPER_WIRE, 8))
                 .register(plugin);
@@ -2658,7 +2658,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{null, null, null, null, SlimefunItems.BUCKET_OF_OIL, null, null, null, null})
                 .register(plugin);
 
-        new RadioactiveItem(categories.resources, Radioactivity.MODERATE, SlimefunItems.NETHER_ICE, RecipeType.GEO_MINER,
+        new RadioactiveItem(categories.resources, Radioactivity.MODERATE, (SlimefunItemStack) SlimefunItems.NETHER_ICE, RecipeType.GEO_MINER,
                 new ItemStack[]{null, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
@@ -3013,7 +3013,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
+        new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
                 new ItemStack[]{SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null})
                 .register(plugin);
 

@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -30,7 +29,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -245,22 +243,14 @@ public class SlimefunItem implements Placeable {
         return hidden;
     }
 
-    /**
-     * This method will forcefully hide this {@link SlimefunItem} from the {@link SlimefunGuide}.
-     *
-     * @param hidden
-     *            Whether to hide this {@link SlimefunItem} or not
-     */
     public void setHidden(boolean hidden) {
-        if (this.hidden != hidden) {
-            this.hidden = hidden;
+        this.hidden = hidden;
 
-            if (state == ItemState.ENABLED) {
-                if (hidden) {
-                    category.remove(this);
-                } else {
-                    category.add(this);
-                }
+        if (state == ItemState.ENABLED) {
+            if (hidden) {
+                category.getItems().remove(this);
+            } else {
+                category.add(this);
             }
         }
     }
@@ -345,7 +335,6 @@ public class SlimefunItem implements Placeable {
             }
 
             SlimefunPlugin.getRegistry().getAllSlimefunItems().add(this);
-            SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
 
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".enabled", true);
             SlimefunPlugin.getItemCfg().setDefaultValue(id + ".can-be-used-in-workbenches", useableInWorkbench);
@@ -389,6 +378,7 @@ public class SlimefunItem implements Placeable {
                 disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
 
                 SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
+                SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
                 loadItemHandlers();
             } else if (this instanceof VanillaItem) {
                 state = ItemState.VANILLA_FALLBACK;
@@ -458,7 +448,7 @@ public class SlimefunItem implements Placeable {
     public void setCategory(Category category) {
         Validate.notNull(category, "'category' is not allowed to be null!");
 
-        this.category.remove(this);
+        this.category.getItems().remove(this);
         category.add(this);
 
         this.category = category;
@@ -500,7 +490,6 @@ public class SlimefunItem implements Placeable {
      */
     public SlimefunItem setUseableInWorkbench(boolean useable) {
         this.useableInWorkbench = useable;
-
         return this;
     }
 
@@ -758,7 +747,7 @@ public class SlimefunItem implements Placeable {
     }
 
     public static SlimefunItem getByItem(ItemStack item) {
-        if (item == null || item.getType() == Material.AIR) return null;
+        if (item == null) return null;
 
         if (item instanceof SlimefunItemStack) {
             return getByID(((SlimefunItemStack) item).getItemID());
@@ -774,22 +763,21 @@ public class SlimefunItem implements Placeable {
 
         // Quite expensive performance-wise
         // But necessary for supporting legacy items
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
-
         for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
-            if (sfi.isItem(wrapper)) {
+            if (sfi.isItem(item)) {
                 // If we have to loop all items for the given item, then at least
                 // set the id via PersistenDataAPI for future performance boosts
                 SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
+
                 return sfi;
             }
         }
 
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false)) {
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) {
             return getByID("BROKEN_SPAWNER");
         }
 
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.REPAIRED_SPAWNER, false)) {
+        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
             return getByID("REINFORCED_SPAWNER");
         }
 
