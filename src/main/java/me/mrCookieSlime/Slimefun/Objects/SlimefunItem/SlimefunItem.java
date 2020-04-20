@@ -780,8 +780,11 @@ public class SlimefunItem implements Placeable {
             return getByID(((SlimefunItemStack) item).getItemID());
         }
 
+        // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
+        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
         if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(wrapper);
 
             if (itemID.isPresent()) {
                 return getByID(itemID.get());
@@ -790,13 +793,12 @@ public class SlimefunItem implements Placeable {
 
         // Quite expensive performance-wise
         // But necessary for supporting legacy items
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
-
         for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
             if (sfi.isItem(wrapper)) {
                 // If we have to loop all items for the given item, then at least
                 // set the id via PersistenDataAPI for future performance boosts
                 SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
+
                 return sfi;
             }
         }
