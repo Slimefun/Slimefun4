@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,6 +29,8 @@ import org.bukkit.inventory.meta.Repairable;
 import java.util.*;
 
 public class AutoDisenchanter extends AContainer {
+
+    private final List<UUID> noticedPlayer = new LinkedList<>();
 
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -108,8 +111,19 @@ public class AutoDisenchanter extends AContainer {
                     int amount = 0;
 
                     for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
-                        enchantments.put(entry.getKey(), entry.getValue());
-                        amount++;
+                        if (entry.getValue() <= SlimefunPlugin.getCfg().getInt("options.enchanter-level-limit") || SlimefunPlugin.getCfg().getInt("options.enchanter-level-limit") == 0) {
+                            enchantments.put(entry.getKey(), entry.getValue());
+                            amount++;
+                        } else {
+                            if (!menu.toInventory().getViewers().isEmpty()) {
+                                HumanEntity p = menu.toInventory().getViewers().get(0);
+                                if (!noticedPlayer.contains(p.getUniqueId())) {
+                                    SlimefunPlugin.getLocal().sendMessage(p, "messages.above-limit-level", true);
+                                    noticedPlayer.add(p.getUniqueId());
+                                }
+                            }
+                            return;
+                        }
                     }
 
                     if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {

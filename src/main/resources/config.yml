@@ -8,7 +8,7 @@ options:
   # 是否启用粘液科技护甲效果
   enable-armor-effects: true
   # 插件前缀
-  chat-prefix: '&a&lSlimefun &7>'
+  chat-prefix: '&a&lSlimefun &7> '
   # 自动保存周期, 单位为分钟
   auto-save-delay-in-minutes: 10
   # 绿宝石附魔上限 (扩展选项)
@@ -25,7 +25,10 @@ options:
   # 请注意: 启用后只有从基座上把物品拿下才能拆除
   # 更新: 新版本关闭后也可以防止刷物品
   anti-altar-glitch: false
-  # 网络最大上限 (?)
+  # 限制附魔机/祛魔机可承载的附魔等级上限
+  # 设置为 0 关闭限制
+  enchanter-level-limit: 5
+  # 能源网络最大上限
   max-network-size: 150
   # 文本语言
   language: zh-CN

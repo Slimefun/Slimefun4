@@ -18,17 +18,16 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class AutoEnchanter extends AContainer {
 
     private final int emeraldEnchantsLimit;
+    private final List<UUID> noticedPlayer = new LinkedList<>();
 
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -98,8 +97,19 @@ public class AutoEnchanter extends AContainer {
 
                     for (Map.Entry<Enchantment, Integer> e : meta.getStoredEnchants().entrySet()) {
                         if (e.getKey().canEnchantItem(target)) {
-                            amount++;
-                            enchantments.put(e.getKey(), e.getValue());
+                            if (e.getValue() <= SlimefunPlugin.getCfg().getInt("options.enchanter-level-limit") || SlimefunPlugin.getCfg().getInt("options.enchanter-level-limit") == 0) {
+                                amount++;
+                                enchantments.put(e.getKey(), e.getValue());
+                            } else {
+                                if (!menu.toInventory().getViewers().isEmpty()) {
+                                    HumanEntity p = menu.toInventory().getViewers().get(0);
+                                    if (!noticedPlayer.contains(p.getUniqueId())) {
+                                        SlimefunPlugin.getLocal().sendMessage(menu.toInventory().getViewers().get(0), "messages.above-limit-level", true);
+                                        noticedPlayer.add(p.getUniqueId());
+                                    }
+                                }
+                                return;
+                            }
                         }
                     }
 
