@@ -10,6 +10,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.LivingEntity;
@@ -32,10 +33,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TalismanListener implements Listener {
@@ -160,23 +158,24 @@ public class TalismanListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-        List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
+        Block b = e.getBlock();
+        Collection<ItemStack> drops = b.getDrops(item);
         int fortune = 1;
         Random random = ThreadLocalRandom.current();
 
-        if (item.getType() != Material.AIR && item.getAmount() > 0 && ProtectionChecker.check(e.getPlayer(), e.getBlock(), true)) {
+        if (item.getType() != Material.AIR && item.getAmount() > 0 && ProtectionChecker.check(e.getPlayer(), b, true)) {
             if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                 fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
                 if (fortune <= 0) fortune = 1;
-                fortune = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
+                fortune = (b.getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (fortune + 1);
             }
 
-            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
+            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(b.getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
                 for (ItemStack drop : drops) {
                     if (!drop.getType().isBlock()) {
                         int amount = Math.max(1, (fortune * 2) - drop.getAmount());
                         SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.talisman." + ((Talisman) SlimefunItem.getByID(SlimefunItems.TALISMAN_MINER.getItemID())).getSuffix(), true);
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                        b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(drop, amount));
                     }
                 }
             }
