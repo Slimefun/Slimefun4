@@ -8,7 +8,7 @@
 
     <!-- Our default version will be UNOFFICIAL, this will prevent the auto updater -->
     <!-- from overriding our local test file -->
-    <version>4.3-NIGHTLY-200420</version>
+    <version>4.3-NIGHTLY-200421</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
