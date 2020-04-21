@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.starwishsama.extra.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -163,7 +164,7 @@ public class TalismanListener implements Listener {
         int fortune = 1;
         Random random = ThreadLocalRandom.current();
 
-        if (item.getType() != Material.AIR && item.getAmount() > 0 && ProtectionChecker.check(e.getPlayer(), b, true)) {
+        if (item.getType() != Material.AIR && item.getAmount() > 0 && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK) && ProtectionChecker.check(e.getPlayer(), b, true)) {
             if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
                 fortune = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
                 if (fortune <= 0) fortune = 1;
