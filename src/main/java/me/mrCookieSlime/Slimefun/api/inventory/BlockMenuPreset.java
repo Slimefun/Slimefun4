@@ -138,23 +138,24 @@ public abstract class BlockMenuPreset extends ChestMenu {
     }
 
     public Set<Integer> getInventorySlots() {
-        Set<Integer> empty = new HashSet<>();
+        Set<Integer> emptySlots = new HashSet<>();
 
         if (isSizeAutomaticallyInferred()) {
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < toInventory().getSize(); i++) {
                 if (!occupiedSlots.contains(i)) {
-                    empty.add(i);
+                    emptySlots.add(i);
                 }
             }
         }
         else {
-            for (int i = 0; i < toInventory().getSize(); i++) {
+            for (int i = 0; i < size; i++) {
                 if (!occupiedSlots.contains(i)) {
-                    empty.add(i);
+                    emptySlots.add(i);
                 }
             }
         }
-        return empty;
+        
+        return emptySlots;
     }
 
     protected void clone(DirtyChestMenu menu) {
