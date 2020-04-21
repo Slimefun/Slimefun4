@@ -68,6 +68,7 @@
 * Fixed GEO Scanner being unable to deal with more than 28 different resources
 * Fixed #893
 * Fixed #1798
+* Fixed #1490
 
 ## Release Candidate 10 (28 Mar 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
