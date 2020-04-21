@@ -32,7 +32,6 @@ public class CargoNet extends ChestTerminalNetwork {
     private final Set<Location> outputNodes = new HashSet<>();
 
     private final Map<Location, Integer> roundRobin = new HashMap<>();
-    private final int tickDelay = SlimefunPlugin.getCfg().getInt("URID.cargo-network-tick-delay");
     private int tickDelayThreshold = 0;
 
     public static CargoNet getNetworkFromLocation(Location l) {
@@ -177,11 +176,13 @@ public class CargoNet extends ChestTerminalNetwork {
             display();
         }
 
-        if (tickDelayThreshold < tickDelay) {
+        // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
+        // but it's based on 'custom-ticker-delay' config.
+        if (tickDelayThreshold < SlimefunPlugin.getCfg().getInt("URID.cargo-network-tick-delay")) {
             tickDelayThreshold++;
             return;
         }
-        tickDelayThreshold = 0;
+        tickDelayThreshold = 0; // reset, so we can start skipping again
 
         Map<Location, Integer> inputs = new HashMap<>();
         Set<Location> providers = new HashSet<>();
