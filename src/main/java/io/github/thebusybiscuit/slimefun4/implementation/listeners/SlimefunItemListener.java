@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -13,7 +12,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -76,7 +74,7 @@ public class SlimefunItemListener implements Listener {
                         String id = optional.get().getID();
                         Player p = e.getPlayer();
 
-                        if (BlockMenuPreset.isInventory(id)) { 
+                        if (BlockMenuPreset.isInventory(id)) {
 
                             if (!p.isSneaking() || Material.AIR == event.getItem().getType()) {
                                 e.setCancelled(true);
@@ -117,14 +115,6 @@ public class SlimefunItemListener implements Listener {
                 e.setUseItemInHand(event.useItem());
             }
         }
-    }
-
-    private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
-        return canPlaceBlock(p, b) && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
-    }
-
-    private boolean canPlaceBlock(Player p, Block relative) {
-        return p.isSneaking() && relative.getType() == Material.AIR;
     }
 
     @EventHandler
