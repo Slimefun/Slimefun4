@@ -254,19 +254,17 @@ public class CargoNet extends ChestTerminalNetwork {
                 }
             }
 
-            if (previousSlot > -1) {
-                DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+            DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
 
-                if (menu != null) {
-                    menu.replaceExistingItem(previousSlot, stack);
-                }
-                else if (BlockUtils.hasInventory(inputTarget)) {
-                    BlockState state = inputTarget.getState();
+            if (menu != null) {
+                menu.replaceExistingItem(previousSlot, stack);
+            }
+            else if (BlockUtils.hasInventory(inputTarget)) {
+                BlockState state = inputTarget.getState();
 
-                    if (state instanceof InventoryHolder) {
-                        Inventory inv = ((InventoryHolder) state).getInventory();
-                        inv.setItem(previousSlot, stack);
-                    }
+                if (state instanceof InventoryHolder) {
+                    Inventory inv = ((InventoryHolder) state).getInventory();
+                    inv.setItem(previousSlot, stack);
                 }
             }
         }
