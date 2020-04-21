@@ -6,6 +6,7 @@ import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -16,11 +17,15 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
 
-    private String inventoryTitle;
-    private Set<Integer> occupied = new HashSet<>();
-    private String id;
+    private final Set<Integer> occupiedSlots = new HashSet<>();
+    private final String inventoryTitle;
+    private final String id;
+
+    // -1 means "automatically update according to the contents"
     private int size = -1;
+
     private boolean universal;
+    private boolean locked;
 
     private ItemManipulationEvent event;
 
@@ -33,9 +38,16 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
         this.id = id;
         this.inventoryTitle = title;
-        this.init();
         this.universal = universal;
+        init();
+
         SlimefunPlugin.getRegistry().getMenuPresets().put(id, this);
+    }
+
+    private void checkIfLocked() {
+        if (locked) {
+            throw new UnsupportedOperationException("You cannot modify the BlockMenuPreset anymore, modify the individual instances instead.");
+        }
     }
 
     public abstract void init();
@@ -58,65 +70,98 @@ public abstract class BlockMenuPreset extends ChestMenu {
     }
 
     @Override
+    public void replaceExistingItem(int slot, ItemStack item) {
+        throw new UnsupportedOperationException("BlockMenuPreset does not support this method.");
+    }
+
+    @Override
     public ChestMenu addItem(int slot, ItemStack item) {
-        occupied.add(slot);
+        checkIfLocked();
+
+        occupiedSlots.add(slot);
         return super.addItem(slot, item);
     }
 
-    public ChestMenu setSize(int size) {
-        this.size = size;
-        return this;
+    @Override
+    public ChestMenu addMenuClickHandler(int slot, MenuClickHandler handler) {
+        checkIfLocked();
+        return super.addMenuClickHandler(slot, handler);
     }
 
+    public ChestMenu setSize(int size) {
+        checkIfLocked();
+
+        if (size % 9 == 0 && size >= 0 && size < 55) {
+            this.size = size;
+            return this;
+        }
+        else {
+            throw new IllegalArgumentException("The size of a BlockMenuPreset must be a multiple of 9 and within the bounds 0-54, received: " + size);
+        }
+    }
+
+    /**
+     * This method returns the size of this {@link BlockMenuPreset}.
+     * If the size has not been determined yet, this will return -1.
+     * 
+     * @return The size of this {@link BlockMenuPreset}
+     */
     public int getSize() {
         return size;
     }
 
+    private boolean isSizeAutomaticallyInferred() {
+        return size == -1;
+    }
+
+    /**
+     * This returns the title of this {@link BlockMenuPreset}, the title will
+     * be visible in every {@link InventoryView} for any menu created using this {@link BlockMenuPreset}.
+     * 
+     * @return The inventory title for this {@link BlockMenuPreset}
+     */
     public String getTitle() {
         return inventoryTitle;
     }
 
+    /**
+     * This method returns whether this {@link BlockMenuPreset} will spawn a {@link UniversalBlockMenu}.
+     * 
+     * @return Whether this {@link BlockMenuPreset} is universal
+     */
+    public boolean isUniversal() {
+        return universal;
+    }
+
     public Set<Integer> getPresetSlots() {
-        return occupied;
+        return occupiedSlots;
     }
 
     public Set<Integer> getInventorySlots() {
-        Set<Integer> empty = new HashSet<>();
+        Set<Integer> emptySlots = new HashSet<>();
 
-        if (size > -1) {
-            for (int i = 0; i < size; i++) {
-                if (!occupied.contains(i)) empty.add(i);
+        if (isSizeAutomaticallyInferred()) {
+            for (int i = 0; i < toInventory().getSize(); i++) {
+                if (!occupiedSlots.contains(i)) {
+                    emptySlots.add(i);
+                }
             }
         }
         else {
-            for (int i = 0; i < toInventory().getSize(); i++) {
-                if (!occupied.contains(i)) empty.add(i);
+            for (int i = 0; i < size; i++) {
+                if (!occupiedSlots.contains(i)) {
+                    emptySlots.add(i);
+                }
             }
         }
-        return empty;
-    }
-
-    public static BlockMenuPreset getPreset(String id) {
-        return id == null ? null : SlimefunPlugin.getRegistry().getMenuPresets().get(id);
-    }
-
-    public static boolean isInventory(String id) {
-        return SlimefunPlugin.getRegistry().getMenuPresets().containsKey(id);
-    }
-
-    public static boolean isUniversalInventory(String id) {
-        BlockMenuPreset preset = SlimefunPlugin.getRegistry().getMenuPresets().get(id);
-        return preset != null && preset.isUniversal();
-    }
-
-    public boolean isUniversal() {
-        return universal;
+        
+        return emptySlots;
     }
 
     protected void clone(DirtyChestMenu menu) {
         menu.setPlayerInventoryClickable(true);
 
-        for (int slot : occupied) {
+        for (int slot : occupiedSlots) {
             menu.addItem(slot, getItemInSlot(slot));
         }
 
@@ -137,7 +182,20 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
         menu.addMenuOpeningHandler(getMenuOpeningHandler());
         menu.addMenuCloseHandler(getMenuCloseHandler());
-        menu.registerEvent(this.event);
+        menu.registerEvent(event);
+    }
+
+    public void newInstance(BlockMenu menu, Location l) {
+        Slimefun.runSync(() -> {
+            locked = true;
+
+            try {
+                newInstance(menu, l.getBlock());
+            }
+            catch (Throwable x) {
+                getSlimefunItem().error("An eror occured while trying to create a BlockMenu", x);
+            }
+        });
     }
 
     /**
@@ -159,15 +217,17 @@ public abstract class BlockMenuPreset extends ChestMenu {
         return SlimefunItem.getByID(id);
     }
 
-    public void newInstance(BlockMenu menu, Location l) {
-        Slimefun.runSync(() -> {
-            try {
-                newInstance(menu, l.getBlock());
-            }
-            catch (Throwable x) {
-                getSlimefunItem().error("An eror occured while trying to create a BlockMenu", x);
-            }
-        });
+    public static BlockMenuPreset getPreset(String id) {
+        return id == null ? null : SlimefunPlugin.getRegistry().getMenuPresets().get(id);
+    }
+
+    public static boolean isInventory(String id) {
+        return SlimefunPlugin.getRegistry().getMenuPresets().containsKey(id);
+    }
+
+    public static boolean isUniversalInventory(String id) {
+        BlockMenuPreset preset = SlimefunPlugin.getRegistry().getMenuPresets().get(id);
+        return preset != null && preset.isUniversal();
     }
 
 }

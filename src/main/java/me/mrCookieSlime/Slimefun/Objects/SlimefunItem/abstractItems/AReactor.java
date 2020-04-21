@@ -320,7 +320,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
                         if (space >= produced) {
                             ChargableBlock.addCharge(l, getEnergyProduction());
-                            return charge + getEnergyProduction();
+                            return (double) (charge + getEnergyProduction());
                         }
                         else {
                             return charge;

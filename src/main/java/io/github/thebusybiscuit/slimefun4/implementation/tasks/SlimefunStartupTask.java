@@ -46,6 +46,7 @@ public class SlimefunStartupTask implements Runnable {
 
         // Load all worlds
         SlimefunPlugin.getWorldSettingsService().load(Bukkit.getWorlds());
+
         for (World world : Bukkit.getWorlds()) {
             new BlockStorage(world);
         }

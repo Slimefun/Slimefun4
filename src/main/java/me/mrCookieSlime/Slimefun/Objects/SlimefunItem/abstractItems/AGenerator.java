@@ -155,7 +155,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
                             if (ChargableBlock.getMaxCharge(l) - charge >= getEnergyProduction()) {
                                 ChargableBlock.addCharge(l, getEnergyProduction());
                                 progress.put(l, timeleft - 1);
-                                return charge + getEnergyProduction();
+                                return (double) (charge + getEnergyProduction());
                             }
 
                             return charge;

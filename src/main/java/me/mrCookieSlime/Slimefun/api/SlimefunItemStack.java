@@ -176,9 +176,7 @@ public class SlimefunItemStack extends CustomItem {
 
     @Override
     public ItemStack clone() {
-        SlimefunItemStack item = (SlimefunItemStack) super.clone();
-        item.id = getItemID();
-        return item;
+        return new SlimefunItemStack(id, this);
     }
 
     public Optional<String> getSkullTexture() {
