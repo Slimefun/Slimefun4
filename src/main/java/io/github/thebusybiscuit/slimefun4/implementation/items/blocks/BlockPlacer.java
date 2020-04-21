@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -19,13 +18,10 @@ import org.bukkit.Nameable;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
-import org.bukkit.inventory.BlockInventoryHolder;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
@@ -41,9 +37,15 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
     @Override
     public BlockDispenseHandler getItemHandler() {
         return (e, dispenser, facedBlock, machine) -> {
+            // Since vanilla Dispensers can already place Shulker boxes, we simply fallback
+            // to the vanilla behaviour.
+            if (isShulkerBox(e.getItem().getType())) {
+                return;
+            }
+
             e.setCancelled(true);
 
-            if (facedBlock.getType() == Material.AIR && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
+            if ((facedBlock.getType() == null || facedBlock.getType() == Material.AIR) && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
 
                 if (sfItem != null) {
@@ -55,6 +57,10 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
                 }
             }
         };
+    }
+
+    private boolean isShulkerBox(Material type) {
+        return type == Material.SHULKER_BOX || type.name().endsWith("_SHULKER_BOX");
     }
 
     private boolean isBlacklisted(Material type) {
@@ -83,75 +89,28 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
     private void placeBlock(ItemStack item, Block facedBlock, Dispenser dispenser) {
         facedBlock.setType(item.getType());
 
-        if (item.hasItemMeta() && item.getItemMeta() instanceof BlockStateMeta) {
-            BlockState itemBlockState = ((BlockStateMeta) item.getItemMeta()).getBlockState();
-            BlockState blockState = facedBlock.getState();
+        if (item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
 
-            if ((blockState instanceof Nameable) && item.getItemMeta().hasDisplayName()) {
-                ((Nameable) blockState).setCustomName(item.getItemMeta().getDisplayName());
-            }
+            if (meta.hasDisplayName()) {
+                BlockState blockState = facedBlock.getState();
 
-            // Update block state after changing name
-            blockState.update();
+                if ((blockState instanceof Nameable)) {
+                    ((Nameable) blockState).setCustomName(meta.getDisplayName());
+                }
 
-            // Changing the inventory of the block based on the inventory of the block's itemstack (Currently only
-            // applies to shulker boxes)
-            // Inventory has to be changed after blockState.update() as updating it will create a different Inventory
-            // for the object
-            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) && blockState instanceof BlockInventoryHolder) {
-                ((BlockInventoryHolder) blockState).getInventory().setContents(((BlockInventoryHolder) itemBlockState).getInventory().getContents());
+                // Update block state after changing name
+                blockState.update();
             }
 
         }
 
         facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, item.getType());
 
-
         if (dispenser.getInventory().containsAtLeast(item, 2)) {
-            if (item.getType().name().contains("SHULKER_BOX")) {
-                removeItems(dispenser, item);
-            } else {
-                dispenser.getInventory().removeItem(new CustomItem(item, 1));
-            }
+            dispenser.getInventory().removeItem(new CustomItem(item, 1));
         } else {
-            Slimefun.runSync(() -> {
-                if (item.getType().name().contains("SHULKER_BOX")) {
-                    removeItems(dispenser, item);
-                } else {
-                    dispenser.getInventory().removeItem(item);
-                }
-            }, 2L);
-        }
-    }
-
-    private void removeItems(Dispenser dispenser, ItemStack itemStack) {
-        Map<Integer, ItemStack> unRemovedItems;
-        if (dispenser.getInventory().containsAtLeast(itemStack, 2)) {
-            unRemovedItems = dispenser.getInventory().removeItem(new CustomItem(itemStack, 1));
-        } else {
-            unRemovedItems = dispenser.getInventory().removeItem(itemStack);
-        }
-
-        Inventory inv = dispenser.getInventory();
-
-        if (!unRemovedItems.isEmpty()) {
-            unRemovedItems.forEach((k, v) -> {
-                int amount = itemStack.getAmount();
-                for (int i = 0; i < inv.getSize(); i++) {
-                    ItemStack im = inv.getItem(i);
-                    if (im != null && im.getType() == v.getType()) {
-                        if (amount > 0) {
-                            if (im.getAmount() - itemStack.getAmount() > 0) {
-                                inv.setItem(i, new CustomItem(im, im.getAmount() - itemStack.getAmount()));
-                            } else {
-                                inv.setItem(i, null);
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-                }
-            });
+            Slimefun.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
         }
     }
 }
