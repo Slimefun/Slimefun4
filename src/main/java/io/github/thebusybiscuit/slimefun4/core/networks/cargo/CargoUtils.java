@@ -76,7 +76,7 @@ final class CargoUtils {
         ItemStackWrapper wrapper = new ItemStackWrapper(template);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack itemInSlot = contents[slot]; // Mapped into inventory
+            ItemStack itemInSlot = contents[slot]; // changes to this ItemStack is reflected into item in inventory
 
             if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true) && matchesFilter(node, itemInSlot, -1)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
@@ -160,14 +160,14 @@ final class CargoUtils {
                 return null;
             }
 
-            int inSlotMaxSize = itemInSlot.getType().getMaxStackSize();
-            int inSlotAmount = itemInSlot.getAmount();
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && inSlotAmount < inSlotMaxSize) {
-                int amount = inSlotAmount + stack.getAmount();
+            int maxStackSize = itemInSlot.getType().getMaxStackSize();
+            int currentAmount = itemInSlot.getAmount();
+            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && currentAmount < maxStackSize) {
+                int amount = currentAmount + stack.getAmount();
 
-                itemInSlot.setAmount(Math.max(amount, inSlotMaxSize));
-                if (amount > inSlotMaxSize) {
-                    stack.setAmount(amount - inSlotMaxSize);
+                itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                if (amount > maxStackSize) {
+                    stack.setAmount(amount - maxStackSize);
                 }
                 else {
                     stack = null;
@@ -217,7 +217,7 @@ final class CargoUtils {
         ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack itemInSlot = contents[slot];
+            ItemStack itemInSlot = contents[slot]; // changes to this ItemStack is reflected into item in inventory
 
             if (itemInSlot == null) {
                 inv.setItem(slot, stack);
@@ -236,7 +236,7 @@ final class CargoUtils {
                     }
 
                     itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                    inv.setItem(slot, itemInSlot);
+                    inv.setItem(slot, itemInSlot); // setting item in inventory will clone the ItemStack
                     return stack;
                 }
             }

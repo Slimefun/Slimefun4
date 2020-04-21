@@ -230,13 +230,11 @@ public class CargoNet extends ChestTerminalNetwork {
 
                 if (roundrobin) {
                     int index = roundRobin.getOrDefault(input, 0);
-
-                            if (index < outputlist.size()) {
-                                for (int i = 0; i < index; i++) {
-                                    Location temp = outputlist.remove(0);
-                                    outputlist.add(temp);
-                                }
-
+                    if (index < outputlist.size()) {
+                        for (int i = 0; i < index; i++) {
+                            Location temp = outputlist.remove(0);
+                            outputlist.add(temp);
+                        }
                         index++;
                     }
                     else {
@@ -256,7 +254,7 @@ public class CargoNet extends ChestTerminalNetwork {
                 }
             }
 
-            if (stack != null && previousSlot > -1) {
+            if (previousSlot > -1) {
                 DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
 
                 if (menu != null) {
