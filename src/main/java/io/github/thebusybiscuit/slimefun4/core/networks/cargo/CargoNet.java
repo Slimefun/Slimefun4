@@ -27,6 +27,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 public class CargoNet extends ChestTerminalNetwork {
 
     private static final int RANGE = 5;
+    private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("URID.cargo-network-tick-delay");
 
     private final Set<Location> inputNodes = new HashSet<>();
     private final Set<Location> outputNodes = new HashSet<>();
@@ -178,7 +179,7 @@ public class CargoNet extends ChestTerminalNetwork {
 
         // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
         // but it's based on 'custom-ticker-delay' config.
-        if (tickDelayThreshold < SlimefunPlugin.getCfg().getInt("URID.cargo-network-tick-delay")) {
+        if (tickDelayThreshold < TICK_DELAY) {
             tickDelayThreshold++;
             return;
         }
