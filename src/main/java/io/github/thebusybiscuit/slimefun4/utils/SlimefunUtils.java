@@ -116,37 +116,41 @@ public final class SlimefunUtils {
     }
 
     public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore) {
+        return isItemSimilar(item, sfitem, checkLore, true);
+    }
+
+    public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore, boolean checkAmount) {
         if (item == null) return sfitem == null;
         if (sfitem == null) return false;
+        if (item.getType() != sfitem.getType()) return false;
+        if (checkAmount && item.getAmount() < sfitem.getAmount()) return false;
 
-        if (item instanceof SlimefunItemStack && sfitem instanceof SlimefunItemStack) {
+        if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
             return ((SlimefunItemStack) item).getItemID().equals(((SlimefunItemStack) sfitem).getItemID());
         }
 
-        if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
-            if (!item.hasItemMeta() && !sfitem.hasItemMeta()) {
-                return true;
+        boolean sfItemHasMeta = sfitem.hasItemMeta();
+        if (item.hasItemMeta()) {
+            ItemMeta itemMeta = item.getItemMeta();
+            if (sfitem instanceof SlimefunItemStack) {
+                Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
+                if (id.isPresent()) {
+                    return id.get().equals(((SlimefunItemStack) sfitem).getItemID());
+                }
+
+                ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();
+                return equalsItemMeta(itemMeta, meta, checkLore);
             }
-            else {
-                ItemMeta itemMeta = item.getItemMeta();
 
-                if (sfitem instanceof SlimefunItemStack) {
-                    Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
-
-                    if (id.isPresent()) {
-                        return id.get().equals(((SlimefunItemStack) sfitem).getItemID());
-                    }
-
-                    ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();
-                    return equalsItemMeta(itemMeta, meta, checkLore);
-                }
-                else {
-                    ItemMeta sfitemMeta = sfitem.getItemMeta();
-                    return equalsItemMeta(itemMeta, sfitemMeta, checkLore);
-                }
+            if (sfItemHasMeta) {
+                return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
             }
         }
-        else return false;
+        else {
+            return !sfItemHasMeta;
+        }
+
+        return false;
     }
 
     private static boolean equalsItemMeta(ItemMeta itemMeta, ImmutableItemMeta meta, boolean checkLore) {

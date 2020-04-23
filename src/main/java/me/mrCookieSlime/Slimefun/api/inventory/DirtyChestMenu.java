@@ -112,9 +112,8 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public void replaceExistingItem(int slot, ItemStack item, boolean event) {
-        ItemStack previous = getItemInSlot(slot);
-
         if (event && this.event != null) {
+            ItemStack previous = getItemInSlot(slot);
             item = this.event.onEvent(slot, previous, item);
         }
 

@@ -27,11 +27,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 public class CargoNet extends ChestTerminalNetwork {
 
     private static final int RANGE = 5;
+    private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("URID.cargo-network-tick-delay");
 
     private final Set<Location> inputNodes = new HashSet<>();
     private final Set<Location> outputNodes = new HashSet<>();
 
     private final Map<Location, Integer> roundRobin = new HashMap<>();
+    private int tickDelayThreshold = 0;
 
     public static CargoNet getNetworkFromLocation(Location l) {
         return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
@@ -175,6 +177,14 @@ public class CargoNet extends ChestTerminalNetwork {
             display();
         }
 
+        // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
+        // but it's based on 'custom-ticker-delay' config.
+        if (tickDelayThreshold < TICK_DELAY) {
+            tickDelayThreshold++;
+            return;
+        }
+        tickDelayThreshold = 0; // reset, so we can start skipping again
+
         Map<Location, Integer> inputs = new HashMap<>();
         Set<Location> providers = new HashSet<>();
 
@@ -198,73 +208,64 @@ public class CargoNet extends ChestTerminalNetwork {
         // (Apart from ChestTerminal Buses)
         for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
             Location input = entry.getKey();
-            Optional<Block> inputTarget = getAttachedBlock(input.getBlock());
+            Optional<Block> attachedBlock = getAttachedBlock(input.getBlock());
+            if (!attachedBlock.isPresent()) {
+                continue;
+            }
 
-            if (inputTarget.isPresent()) {
-                int previousSlot = -1;
+            Block inputTarget = attachedBlock.get();
+            Config cfg = BlockStorage.getLocationInfo(input);
+            boolean roundrobin = "true".equals(cfg.getString("round-robin"));
 
-                Config cfg = BlockStorage.getLocationInfo(input);
-                boolean roundrobin = "true".equals(cfg.getString("round-robin"));
+            ItemStackAndInteger slot = CargoUtils.withdraw(input.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
+            if (slot == null) {
+                continue;
+            }
 
-                ItemStackAndInteger slot = CargoUtils.withdraw(input.getBlock(), inputTarget.get(), Integer.parseInt(cfg.getString("index")));
-                ItemStack stack = null;
+            ItemStack stack = slot.getItem();
+            int previousSlot = slot.getInt();
+            List<Location> outputs = output.get(entry.getValue());
 
-                if (slot != null) {
-                    stack = slot.getItem();
-                    previousSlot = slot.getInt();
+            if (outputs != null) {
+                List<Location> outputlist = new LinkedList<>(outputs);
+
+                if (roundrobin) {
+                    int index = roundRobin.getOrDefault(input, 0);
+                    if (index < outputlist.size()) {
+                        for (int i = 0; i < index; i++) {
+                            Location temp = outputlist.remove(0);
+                            outputlist.add(temp);
+                        }
+                        index++;
+                    }
+                    else {
+                        index = 1;
+                    }
+
+                    roundRobin.put(input, index);
                 }
 
-                if (stack != null) {
-                    List<Location> outputs = output.get(entry.getValue());
+                for (Location out : outputlist) {
+                    Optional<Block> target = getAttachedBlock(out.getBlock());
 
-                    if (outputs != null) {
-                        List<Location> outputlist = new LinkedList<>(outputs);
-
-                        if (roundrobin) {
-                            int index = roundRobin.getOrDefault(input, 0);
-
-                            if (index < outputlist.size()) {
-                                for (int i = 0; i < index; i++) {
-                                    Location temp = outputlist.remove(0);
-                                    outputlist.add(temp);
-                                }
-
-                                index++;
-                            }
-                            else {
-                                index = 1;
-                            }
-
-                            roundRobin.put(input, index);
-                        }
-
-                        for (Location out : outputlist) {
-                            Optional<Block> target = getAttachedBlock(out.getBlock());
-
-                            if (target.isPresent()) {
-                                stack = CargoUtils.insert(out.getBlock(), target.get(), stack, -1);
-                                if (stack == null) break;
-                            }
-                        }
+                    if (target.isPresent()) {
+                        stack = CargoUtils.insert(out.getBlock(), target.get(), stack, -1);
+                        if (stack == null) break;
                     }
+                }
+            }
 
-                    if (stack != null && previousSlot > -1) {
-                        DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget.get());
+            DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
 
-                        if (menu != null) {
-                            menu.replaceExistingItem(previousSlot, stack);
-                        }
-                        // This check is not exact but does perform some premature elimination
-                        // of Materials since all Containers are interactable.
-                        else if (inputTarget.get().getType().isInteractable()) {
-                            BlockState state = inputTarget.get().getState();
+            if (menu != null) {
+                menu.replaceExistingItem(previousSlot, stack);
+            }
+            else if (BlockUtils.hasInventory(inputTarget)) {
+                BlockState state = inputTarget.getState();
 
-                            if (state instanceof InventoryHolder) {
-                                Inventory inv = ((InventoryHolder) state).getInventory();
-                                inv.setItem(previousSlot, stack);
-                            }
-                        }
-                    }
+                if (state instanceof InventoryHolder) {
+                    Inventory inv = ((InventoryHolder) state).getInventory();
+                    inv.setItem(previousSlot, stack);
                 }
             }
         }
