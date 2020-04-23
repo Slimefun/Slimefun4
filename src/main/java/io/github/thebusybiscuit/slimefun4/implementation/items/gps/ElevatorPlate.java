@@ -120,7 +120,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                 line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.RESET + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.RESET + floor, ""));
             } else {
-                line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
+                line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.RESET + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
                 line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "floor" + i), player -> Slimefun.runSync(() -> {
                     users.add(player.getUniqueId());

@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -40,7 +41,9 @@ public class TeleporterListener implements Listener {
             }
         }
         else if (id.equals("ELEVATOR_PLATE")) {
-            ((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE")).open(e.getPlayer(), e.getClickedBlock());
+            if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.TRIDENT) {
+                ((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE")).open(e.getPlayer(), e.getClickedBlock());
+            }
         }
     }
 
