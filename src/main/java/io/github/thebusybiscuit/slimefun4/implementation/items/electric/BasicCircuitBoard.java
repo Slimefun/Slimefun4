@@ -5,11 +5,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 
-public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> {
+public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
     private final ItemSetting<Boolean> dropSetting = new ItemSetting<>("drop-from-golems", true);
 
