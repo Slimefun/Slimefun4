@@ -495,6 +495,7 @@ public class BlockStorage {
         }
 
         if (destroy) {
+//          Check again for drops here
             if (storage.hasInventory(l)) storage.clearInventory(l);
 
             UniversalBlockMenu universalInventory = getUniversalInventory(l);
