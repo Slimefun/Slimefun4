@@ -57,10 +57,10 @@ public class OreWasher extends MultiBlockMachine {
         Inventory inv = disp.getInventory();
 
         for (ItemStack current : inv.getContents()) {
-            if (current != null) {
+            if (current.getType() != Material.AIR) {
                 if (SlimefunUtils.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
                     ItemStack adding = getRandomDust();
-                    Inventory outputInv = null;
+                    Inventory outputInv;
 
                     if (!legacyMode) {
                         // This is a fancy way of checking if there is empty space in the inv; by checking if an unobtainable item could fit in it.
@@ -83,7 +83,7 @@ public class OreWasher extends MultiBlockMachine {
                     } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
                     return;
-                } else if (SlimefunUtils.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
+                } else if (SlimefunUtils.isItemSimilar(current, new ItemStack(Material.SAND, 2), false)) {
                     ItemStack adding = SlimefunItems.SALT;
                     Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
