@@ -100,13 +100,14 @@ abstract class Android extends SlimefunItem {
 
     public void openScript(Player p, Block b, String script) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-        String[] commands = PatternUtils.DASH.split(script);
 
         menu.addItem(0, new CustomItem(ScriptAction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             BlockStorage.getInventory(b).open(pl);
             return false;
         });
+
+        String[] commands = PatternUtils.DASH.split(script);
 
         for (int i = 1; i < commands.length; i++) {
             int index = i;
@@ -182,7 +183,6 @@ abstract class Android extends SlimefunItem {
 
         List<Config> scripts = getUploadedScripts();
 
-        int index = 0;
         int pages = (scripts.size() / 45) + 1;
 
         for (int i = 45; i < 54; i++) {
@@ -222,6 +222,7 @@ abstract class Android extends SlimefunItem {
             return false;
         });
 
+        int index = 0;
         int categoryIndex = 45 * (page - 1);
 
         for (int i = 0; i < 45; i++) {

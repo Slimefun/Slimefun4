@@ -186,7 +186,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         });
 
-        int index = 9;
         int pages = (category.getItems().size() - 1) / CATEGORY_SIZE + 1;
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
@@ -203,6 +202,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         });
 
+        int index = 9;
         int categoryIndex = CATEGORY_SIZE * (page - 1);
 
         for (int i = 0; i < CATEGORY_SIZE; i++) {
@@ -443,10 +443,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         Player p = profile.getPlayer();
         if (p == null) return;
 
-        ItemStack result = item.getRecipeOutput();
-        RecipeType recipeType = item.getRecipeType();
-        ItemStack[] recipe = item.getRecipe();
-
         ChestMenu menu = create(p);
         Optional<String> wiki = item.getWikipage();
 
@@ -465,6 +461,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             profile.getGuideHistory().add(item);
         }
 
+        ItemStack result = item.getRecipeOutput();
+        RecipeType recipeType = item.getRecipeType();
+        ItemStack[] recipe = item.getRecipe();
+
         displayItem(menu, profile, p, item, result, recipeType, recipe, task);
 
         if (item instanceof RecipeDisplayItem) {
@@ -479,8 +479,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, RecipeChoiceTask task) {
-        boolean isSlimefunRecipe = item instanceof SlimefunItem;
-
         addBackButton(menu, 0, p, profile);
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
@@ -494,6 +492,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             }
             return false;
         };
+
+        boolean isSlimefunRecipe = item instanceof SlimefunItem;
 
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);

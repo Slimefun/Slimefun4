@@ -230,33 +230,21 @@ public class CargoNet extends ChestTerminalNetwork {
             List<Location> outputs = output.get(entry.getValue());
 
             if (outputs != null) {
-                List<Location> outputlist = new LinkedList<>(outputs);
+                List<Location> outputList = new LinkedList<>(outputs);
 
                 if (roundrobin) {
-                    int index = roundRobin.getOrDefault(input, 0);
-
-                    if (index < outputlist.size()) {
-
-                        for (int i = 0; i < index; i++) {
-                            Location temp = outputlist.remove(0);
-                            outputlist.add(temp);
-                        }
-
-                        index++;
-                    }
-                    else {
-                        index = 1;
-                    }
-
-                    roundRobin.put(input, index);
+                    roundRobinSort(input, outputList);
                 }
 
-                for (Location out : outputlist) {
+                for (Location out : outputList) {
                     Optional<Block> target = getAttachedBlock(out.getBlock());
 
                     if (target.isPresent()) {
                         stack = CargoUtils.insert(out.getBlock(), target.get(), stack, -1);
-                        if (stack == null) break;
+
+                        if (stack == null) {
+                            break;
+                        }
                     }
                 }
             }
@@ -280,6 +268,24 @@ public class CargoNet extends ChestTerminalNetwork {
         if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
             updateTerminals(providers);
         }
+    }
+
+    private void roundRobinSort(Location input, List<Location> outputs) {
+        int index = roundRobin.getOrDefault(input, 0);
+
+        if (index < outputs.size()) {
+            for (int i = 0; i < index; i++) {
+                Location temp = outputs.remove(0);
+                outputs.add(temp);
+            }
+
+            index++;
+        }
+        else {
+            index = 1;
+        }
+
+        roundRobin.put(input, index);
     }
 
     private static int getFrequency(Location l) {

@@ -119,7 +119,8 @@ final class CargoUtils {
         ItemStackWrapper wrapper = new ItemStackWrapper(template);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack itemInSlot = contents[slot]; // changes to this ItemStack is reflected into item in inventory
+            // Changes to this ItemStack are synchronized with the Item in the Inventory
+            ItemStack itemInSlot = contents[slot];
 
             if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true) && matchesFilter(node, itemInSlot, -1)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
@@ -265,7 +266,8 @@ final class CargoUtils {
         ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack itemInSlot = contents[slot]; // changes to this ItemStack is reflected into item in inventory
+            // Changes to this ItemStack are synchronized with the Item in the Inventory
+            ItemStack itemInSlot = contents[slot];
 
             if (itemInSlot == null) {
                 inv.setItem(slot, stack);
@@ -273,6 +275,7 @@ final class CargoUtils {
             }
             else {
                 int maxStackSize = itemInSlot.getType().getMaxStackSize();
+
                 if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && itemInSlot.getAmount() < maxStackSize) {
                     int amount = itemInSlot.getAmount() + stack.getAmount();
 
@@ -284,7 +287,9 @@ final class CargoUtils {
                     }
 
                     itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                    inv.setItem(slot, itemInSlot); // setting item in inventory will clone the ItemStack
+                    // Setting item in inventory will clone the ItemStack
+                    inv.setItem(slot, itemInSlot);
+
                     return stack;
                 }
             }

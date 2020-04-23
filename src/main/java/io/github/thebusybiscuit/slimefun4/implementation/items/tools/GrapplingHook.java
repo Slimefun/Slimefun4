@@ -26,7 +26,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
     public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-        
+
         addItemSetting(despawnTicks);
     }
 
@@ -36,15 +36,15 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();
 
-            if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isJumping(uuid)) {
+            if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();
-
-                ItemStack item = e.getItem();
 
                 if (p.getInventory().getItemInOffHand().getType() == Material.BOW) {
                     // Cancel, to fix dupe #740
                     return;
                 }
+
+                ItemStack item = e.getItem();
 
                 if (item.getType() == Material.LEAD) {
                     item.setAmount(item.getAmount() - 1);

@@ -78,15 +78,15 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
         else {
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
-                    MachineRecipe r = new MachineRecipe(40, new ItemStack[0], new ItemStack[] { SlimefunItems.BUCKET_OF_FUEL });
-
                     if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) {
                         return;
                     }
 
+                    MachineRecipe recipe = new MachineRecipe(40, new ItemStack[0], new ItemStack[] { SlimefunItems.BUCKET_OF_FUEL });
+
                     menu.consumeItem(slot);
-                    processing.put(b, r);
-                    progress.put(b, r.getTicks());
+                    processing.put(b, recipe);
+                    progress.put(b, recipe.getTicks());
                     break;
                 }
             }

@@ -59,6 +59,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAcce
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.MultiTool;
@@ -89,7 +90,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricPress;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricSmeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectrifiedCrucible;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.EnergyRegulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.FluidPump;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.FoodComposter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.FoodFabricator;

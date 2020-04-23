@@ -71,6 +71,7 @@
 * Fixed #893
 * Fixed #1798
 * Fixed #1490
+* Fixed GPS Emergency Transmitters not working
 
 ## Release Candidate 10 (28 Mar 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10

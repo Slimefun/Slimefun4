@@ -42,8 +42,6 @@ final class ContributorsMenu {
         List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getGitHubService().getContributors().values());
         contributors.sort(Comparator.comparingInt(Contributor::index));
 
-        int pages = (contributors.size() - 1) / 36 + 1;
-
         for (int i = page * 36; i < contributors.size() && i < (page + 1) * 36; i++) {
             Contributor contributor = contributors.get(i);
             ItemStack skull = getContributorHead(p, contributor);
@@ -57,6 +55,8 @@ final class ContributorsMenu {
                 return false;
             });
         }
+
+        int pages = (contributors.size() - 1) / 36 + 1;
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {

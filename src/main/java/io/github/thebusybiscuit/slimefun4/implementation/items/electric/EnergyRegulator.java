@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -17,8 +17,8 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * The {@link EnergyRegulator} is a special type of {@link SlimefunItem}.
- * It serves as the heart of every {@link EnergyNet}.
+ * The {@link EnergyRegulator} is a special type of {@link SlimefunItem} which serves as the heart of every
+ * {@link EnergyNet}.
  * 
  * @author TheBusyBiscuit
  * 

@@ -4,13 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -26,20 +26,27 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class BackupService implements Runnable {
 
+    private static final int MAX_BACKUPS = 20;
+
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
+    private final File directory = new File("data-storage/Slimefun/block-backups");
+
     @Override
     public void run() {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+        List<File> backups = Arrays.asList(directory.listFiles());
 
-        File folder = new File("data-storage/Slimefun/block-backups");
-        List<File> backups = Arrays.asList(folder.listFiles());
-
-        if (backups.size() > 20) {
-            deleteOldBackups(format, backups);
+        if (backups.size() > MAX_BACKUPS) {
+            try {
+                deleteOldBackups(backups);
+            }
+            catch (IOException e) {
+                Slimefun.getLogger().log(Level.WARNING, "Could not delete an old backup", e);
+            }
         }
 
-        File file = new File("data-storage/Slimefun/block-backups/" + format.format(new Date()) + ".zip");
+        File file = new File(directory, format.format(LocalDateTime.now()) + ".zip");
 
-        if (!file.exists() || file.delete()) {
+        if (!file.exists()) {
             try {
                 if (file.createNewFile()) {
                     try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
@@ -126,20 +133,16 @@ public class BackupService implements Runnable {
         }
     }
 
-    private void deleteOldBackups(DateFormat format, List<File> backups) {
+    private void deleteOldBackups(List<File> backups) throws IOException {
         Collections.sort(backups, (a, b) -> {
-            try {
-                return (int) (format.parse(a.getName().replace(".zip", "")).getTime() - format.parse(b.getName().replace(".zip", "")).getTime());
-            }
-            catch (ParseException e) {
-                return 0;
-            }
+            LocalDateTime time1 = LocalDateTime.parse(a.getName().substring(0, a.getName().length() - 4), format);
+            LocalDateTime time2 = LocalDateTime.parse(b.getName().substring(0, b.getName().length() - 4), format);
+
+            return time2.compareTo(time1);
         });
 
-        for (int i = backups.size() - 20; i > 0; i--) {
-            if (!backups.get(i).delete()) {
-                Slimefun.getLogger().log(Level.WARNING, "Could not delete backup {0}", backups.get(i).getName());
-            }
+        for (int i = backups.size() - MAX_BACKUPS; i > 0; i--) {
+            Files.delete(backups.get(i).toPath());
         }
     }
 

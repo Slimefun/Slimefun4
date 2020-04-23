@@ -29,7 +29,7 @@ public class GrapplingHookListener implements Listener {
 
     private GrapplingHook grapplingHook;
 
-    private final Map<UUID, Boolean> jumpState = new HashMap<>();
+    private final Map<UUID, Boolean> grappleState = new HashMap<>();
     private final Set<UUID> invulnerable = new HashSet<>();
     private final Map<UUID, Entity[]> temporaryEntities = new HashMap<>();
 
@@ -76,10 +76,10 @@ public class GrapplingHookListener implements Listener {
     }
 
     private void handleGrapplingHook(Arrow arrow) {
-        if (arrow != null && arrow.getShooter() instanceof Player && jumpState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
+        if (arrow != null && arrow.getShooter() instanceof Player && grappleState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
             Player p = (Player) arrow.getShooter();
 
-            if (p.getGameMode() != GameMode.CREATIVE && (boolean) jumpState.get(p.getUniqueId())) {
+            if (p.getGameMode() != GameMode.CREATIVE && (boolean) grappleState.get(p.getUniqueId())) {
                 arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK);
             }
 
@@ -98,7 +98,7 @@ public class GrapplingHookListener implements Listener {
                 }
 
                 Slimefun.runSync(() -> {
-                    jumpState.remove(p.getUniqueId());
+                    grappleState.remove(p.getUniqueId());
                     temporaryEntities.remove(p.getUniqueId());
                 }, 20L);
             }
@@ -127,25 +127,25 @@ public class GrapplingHookListener implements Listener {
                 }
 
                 Slimefun.runSync(() -> {
-                    jumpState.remove(p.getUniqueId());
+                    grappleState.remove(p.getUniqueId());
                     temporaryEntities.remove(p.getUniqueId());
                 }, 20L);
             }
         }
     }
 
-    public boolean isJumping(UUID uuid) {
-        return jumpState.containsKey(uuid);
+    public boolean isGrappling(UUID uuid) {
+        return grappleState.containsKey(uuid);
     }
 
     public void addGrapplingHook(UUID uuid, Arrow arrow, Bat b, boolean state, long despawnTicks) {
-        jumpState.put(uuid, state);
+        grappleState.put(uuid, state);
         invulnerable.add(uuid);
         temporaryEntities.put(uuid, new Entity[] { b, arrow });
 
         // To fix issue #253
         Slimefun.runSync(() -> {
-            if (jumpState.containsKey(uuid)) {
+            if (grappleState.containsKey(uuid)) {
                 SlimefunPlugin.getBowListener().getBows().remove(uuid);
 
                 for (Entity n : temporaryEntities.get(uuid)) {
@@ -154,7 +154,7 @@ public class GrapplingHookListener implements Listener {
 
                 Slimefun.runSync(() -> {
                     invulnerable.remove(uuid);
-                    jumpState.remove(uuid);
+                    grappleState.remove(uuid);
                     temporaryEntities.remove(uuid);
                 }, 20L);
             }
