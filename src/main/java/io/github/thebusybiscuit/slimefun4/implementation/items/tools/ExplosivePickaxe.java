@@ -104,9 +104,10 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                 }
 
                 b.setType(Material.AIR);
-                damageItem(p, item);
+                
             }
-
+            
+            damageItem(p, item);
         }
     }
 
