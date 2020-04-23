@@ -50,6 +50,7 @@ public class GitHubService {
     private void addDefaultContributors() {
         addContributor("Fuffles_", "&dArtist");
         addContributor("IMS_Art", "&dArtist");
+        addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
         new Translators(contributors);
     }

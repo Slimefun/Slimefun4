@@ -5,9 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
 
 import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
 import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount.TooManyRequestsException;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link GitHubTask} represents a {@link Runnable} that is run every X minutes.
@@ -21,6 +26,8 @@ import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount.TooManyReque
  */
 class GitHubTask implements Runnable {
 
+    private static final int MAX_REQUESTS_PER_MINUTE = 12;
+
     private final GitHubService gitHubService;
 
     GitHubTask(GitHubService github) {
@@ -31,9 +38,14 @@ class GitHubTask implements Runnable {
     public void run() {
         gitHubService.getConnectors().forEach(GitHubConnector::pullFile);
 
+        grabTextures();
+    }
+
+    private void grabTextures() {
         // Store all queried usernames to prevent 429 responses for pinging the
         // same URL twice in one run.
         Map<String, String> skins = new HashMap<>();
+        int count = 0;
 
         for (Contributor contributor : gitHubService.getContributors().values()) {
             if (!contributor.hasTexture()) {
@@ -43,17 +55,32 @@ class GitHubTask implements Runnable {
                     }
                     else {
                         contributor.setTexture(grabTexture(skins, contributor.getMinecraftName()));
+                        count++;
+
+                        if (count >= MAX_REQUESTS_PER_MINUTE) {
+                            break;
+                        }
                     }
                 }
                 catch (IllegalArgumentException x) {
                     // There cannot be a texture found because it is not a valid MC username
                     contributor.setTexture(null);
                 }
-                catch (Exception x) {
+                catch (IOException | TooManyRequestsException x) {
                     // Too many requests
-                    break;
+                    Slimefun.getLogger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
+                    Slimefun.getLogger().log(Level.WARNING, "This usually means mojang.com is down or started to rate-limit this connection, this is not an error message!");
+
+                    // Retry after 2 minutes
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
+                    return;
                 }
             }
+        }
+
+        if (count >= MAX_REQUESTS_PER_MINUTE) {
+            // Slow down API requests and wait a minute after more than x requests were made
+            Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 60 * 20L);
         }
     }
 

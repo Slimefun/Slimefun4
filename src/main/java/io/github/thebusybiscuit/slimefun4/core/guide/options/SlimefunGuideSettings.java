@@ -73,7 +73,7 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
-        menu.addItem(2, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTk1MmQyYjNmMzUxYTZiMDQ4N2NjNTlkYjMxYmY1ZjI2NDExMzNlNWJhMDAwNmIxODU3NmU5OTZhMDI5M2U1MiJ9fX0="), "&c" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"), "", "&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(), "", "&7Slimefun is an open-source project", "&7and maintained by a large community.", "&7Here you can find them all", "", "&7\u21E8 &eClick to see our contributors"), (pl, slot, action, item) -> {
+        menu.addItem(2, new CustomItem(SkullItem.fromHash("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"), "&c" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"), "", "&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(), "", "&7Slimefun is an open-source project", "&7and maintained by a large community of people.", "&7Here you can see who helped shape the project.", "", "&7\u21E8 &eClick to see our contributors"), (pl, slot, action, item) -> {
             ContributorsMenu.open(pl, 0);
             return false;
         });

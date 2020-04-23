@@ -27,7 +27,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 public class CargoNet extends ChestTerminalNetwork {
 
     private static final int RANGE = 5;
-    private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("URID.cargo-network-tick-delay");
+    private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("networks.cargo-ticker-delay");
 
     private final Set<Location> inputNodes = new HashSet<>();
     private final Set<Location> outputNodes = new HashSet<>();
@@ -183,7 +183,9 @@ public class CargoNet extends ChestTerminalNetwork {
             tickDelayThreshold++;
             return;
         }
-        tickDelayThreshold = 0; // reset, so we can start skipping again
+
+        // Reset the internal threshold, so we can start skipping again
+        tickDelayThreshold = 0;
 
         Map<Location, Integer> inputs = new HashMap<>();
         Set<Location> providers = new HashSet<>();
@@ -208,6 +210,7 @@ public class CargoNet extends ChestTerminalNetwork {
         // (Apart from ChestTerminal Buses)
         for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
             Location input = entry.getKey();
+
             Optional<Block> attachedBlock = getAttachedBlock(input.getBlock());
             if (!attachedBlock.isPresent()) {
                 continue;
@@ -231,11 +234,14 @@ public class CargoNet extends ChestTerminalNetwork {
 
                 if (roundrobin) {
                     int index = roundRobin.getOrDefault(input, 0);
+
                     if (index < outputlist.size()) {
+
                         for (int i = 0; i < index; i++) {
                             Location temp = outputlist.remove(0);
                             outputlist.add(temp);
                         }
+
                         index++;
                     }
                     else {
@@ -260,7 +266,7 @@ public class CargoNet extends ChestTerminalNetwork {
             if (menu != null) {
                 menu.replaceExistingItem(previousSlot, stack);
             }
-            else if (BlockUtils.hasInventory(inputTarget)) {
+            else if (CargoUtils.hasInventory(inputTarget)) {
                 BlockState state = inputTarget.getState();
 
                 if (state instanceof InventoryHolder) {

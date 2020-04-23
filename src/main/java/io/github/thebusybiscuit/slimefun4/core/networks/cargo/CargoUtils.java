@@ -12,9 +12,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -27,11 +29,52 @@ final class CargoUtils {
 
     private CargoUtils() {}
 
+    public static boolean hasInventory(Block block) {
+        if (block == null) {
+            return false;
+        }
+
+        Material type = block.getType();
+
+        switch (type) {
+        case CHEST:
+        case TRAPPED_CHEST:
+        case FURNACE:
+        case DISPENSER:
+        case DROPPER:
+        case HOPPER:
+        case BREWING_STAND:
+        case SHULKER_BOX:
+            return true;
+        default:
+            break;
+        }
+
+        if (type.name().endsWith("_SHULKER_BOX")) {
+            return true;
+        }
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            switch (type) {
+            case BARREL:
+            case BLAST_FURNACE:
+            case SMOKER:
+                return true;
+            default:
+                break;
+            }
+        }
+
+        return false;
+    }
+
     public static ItemStack withdraw(Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
+
         if (menu == null) {
-            if (BlockUtils.hasInventory(target)) {
+            if (hasInventory(target)) {
                 BlockState state = target.getState();
+
                 if (state instanceof InventoryHolder) {
                     return withdrawFromVanillaInventory(node, template, ((InventoryHolder) state).getInventory());
                 }
@@ -106,7 +149,7 @@ final class CargoUtils {
                 }
             }
         }
-        else if (BlockUtils.hasInventory(target)) {
+        else if (hasInventory(target)) {
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
@@ -141,13 +184,16 @@ final class CargoUtils {
         if (!matchesFilter(node, stack, index)) return stack;
 
         DirtyChestMenu menu = getChestMenu(target);
+
         if (menu == null) {
-            if (BlockUtils.hasInventory(target)) {
+            if (hasInventory(target)) {
                 BlockState state = target.getState();
+
                 if (state instanceof InventoryHolder) {
                     return insertIntoVanillaInventory(stack, ((InventoryHolder) state).getInventory());
                 }
             }
+
             return stack;
         }
 
@@ -162,6 +208,7 @@ final class CargoUtils {
 
             int maxStackSize = itemInSlot.getType().getMaxStackSize();
             int currentAmount = itemInSlot.getAmount();
+
             if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && currentAmount < maxStackSize) {
                 int amount = currentAmount + stack.getAmount();
 
@@ -183,7 +230,7 @@ final class CargoUtils {
 
     private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
-    	int minSlot = 0;
+        int minSlot = 0;
         int maxSlot = contents.length;
 
         // Check if it is a normal furnace
@@ -198,17 +245,18 @@ final class CargoUtils {
             }
         }
         else if (inv instanceof BrewerInventory) {
-            // Check if it goes in the potion slot,
+
             if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
+                // Potions slot
                 maxSlot = 3;
-                // The blaze powder slot,
             }
             else if (stack.getType() == Material.BLAZE_POWDER) {
+                // Blaze Powder slot
                 minSlot = 4;
                 maxSlot = 5;
             }
             else {
-                // Or the input
+                // Input slot
                 minSlot = 3;
                 maxSlot = 4;
             }

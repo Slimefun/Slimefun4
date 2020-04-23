@@ -28,9 +28,12 @@ researches:
 
 URID:
   info-delay: 3000
-  cargo-network-tick-delay: 0
   custom-ticker-delay: 12
   enable-tickers: true
+
+networks:
+  max-size: 200
+  cargo-ticker-delay: 0
 
 items:
   talismans: true

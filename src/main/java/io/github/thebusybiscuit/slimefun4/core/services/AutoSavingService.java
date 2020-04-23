@@ -46,7 +46,7 @@ public class AutoSavingService {
      * This method saves every {@link PlayerProfile} in memory and removes profiles
      * that were markes for deletion.
      */
-    public void saveAllPlayers() {
+    private void saveAllPlayers() {
         Iterator<PlayerProfile> iterator = PlayerProfile.iterator();
         int players = 0;
 
@@ -71,7 +71,7 @@ public class AutoSavingService {
     /**
      * This method saves the data of every {@link Block} marked dirty by {@link BlockStorage}.
      */
-    public void saveAllBlocks() {
+    private void saveAllBlocks() {
         Set<BlockStorage> worlds = new HashSet<>();
 
         for (World world : Bukkit.getWorlds()) {

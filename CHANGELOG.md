@@ -48,6 +48,8 @@
 * GEO Miner is now 2 seconds faster
 * All Generators will now stop consuming fuel if no energy is needed
 * /sf teleporter will now open your own Teleporter Menu if you specify no Player
+* Added counter-measures against Players who design Cargo networks in a way that intentionally lags out servers
+* API requests to Mojang are now spread across a longer time period to prevent rate-limits
 
 #### Fixes
 * Fixed error message when clicking empty slots in the Slimefun Guide
