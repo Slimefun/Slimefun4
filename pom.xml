@@ -223,7 +223,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.13</version>
+            <version>0.14</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -274,11 +274,6 @@
             <version>4.8.8.2</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Residence4.8.8.2.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-core</artifactId>
-            <version>7.0.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -65,7 +65,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                                     }
 
                                     Block b = e.getBlock().getRelative(x, y, z);
-                                    breakBlock(e.getPlayer(), b, fortune, drops);
+                                    breakBlock(e.getPlayer(), b, fortune, drops, item);
                                 }
                             }
                         }
@@ -83,12 +83,13 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
         return false;
     }
 
-    private void breakBlock(Player p, Block b, int fortune, List<ItemStack> drops) {
+    private void breakBlock(Player p, Block b, int fortune, List<ItemStack> drops, ItemStack item) {
         if (!isUnbreakable(b.getType().name()) && ProtectionChecker.check(p, b, true) && b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
             SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
 
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
             SlimefunItem sfItem = BlockStorage.check(b);
+
 
             if (sfItem != null && !(sfItem instanceof HandledBlock)) {
                 SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
@@ -105,9 +106,9 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 
                 b.setType(Material.AIR);
             }
-
-            damageItem(p, item);
         }
+
+        damageItem(p, item);
     }
 
     @Override
