@@ -65,8 +65,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                                     }
 
                                     Block b = e.getBlock().getRelative(x, y, z);
-                                    breakBlock(e.getPlayer(), b, fortune, drops);
-                                    damageItem(e.getPlayer(), item);
+                                    breakBlock(e.getPlayer(), b, fortune, drops, item);
                                 }
                             }
                         }
@@ -105,6 +104,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                 }
 
                 b.setType(Material.AIR);
+                damageItem(p, item);
             }
 
         }
