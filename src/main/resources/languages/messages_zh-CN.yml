@@ -239,7 +239,7 @@ messages:
   no-iron-golem-heal: "&c这不是铁锭. 你不能用这个治疗铁傀儡!"
   no-permission: "&4你没有足够的权限做这个"
   no-pvp: "&c你不能在这里 PVP!"
-  not-enough-xp: "&4你没有足够的经验来解锁这个研究"
+  not-enough-xp: "&4你没有足够的经验或游戏币来解锁这个研究"
   no-tome-yourself: "&c你不能对你自己使用 &4学识巨著 &c..."
   not-online: "&4%player% &c不在线"
   not-researched: "&4你没有足够的学识来理解它"

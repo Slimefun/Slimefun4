@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.services.plugins.VaultHook;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -154,7 +155,11 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                             Research research = item.getResearch();
 
                             ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
-                            component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
+                            if (VaultHook.isUsable()) {
+                                component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> 单击解锁", "", ChatColor.GRAY + "需要 " + (research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply")) + " 游戏币"));
+                            } else {
+                                component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> 单击解锁", "", ChatColor.GRAY + "需要: " + ChatColor.AQUA.toString() + research.getCost() + " 级经验"));
+                            }
                             component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> {
                                 if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
                                     if (research.canUnlock(p)) {

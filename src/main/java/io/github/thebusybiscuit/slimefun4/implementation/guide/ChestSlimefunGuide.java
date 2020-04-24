@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.services.plugins.VaultHook;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -209,7 +210,11 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
                 if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
                     if (Slimefun.hasPermission(p, sfitem, false)) {
-                        menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + research.getCost() + " 级经验"));
+                        if (VaultHook.isUsable()) {
+                            menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + (research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply")) + " 游戏币"));
+                        } else {
+                            menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + research.getCost() + " 级经验"));
+                        }
                         menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                             if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
                                 if (research.canUnlock(pl)) {
