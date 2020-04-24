@@ -1,5 +1,5 @@
 # Slimefun 4
-For English version, [Click here](https://github.com/TheBusyBiscuit/Slimefun4)
+Looking for English Version? Please [Click here](https://github.com/TheBusyBiscuit/Slimefun4)
 
 ![目前版本](https://img.shields.io/github/v/release/StarWishSama/Slimefun4?include_prereleases)<br>
 ![编译状态](https://github.com/StarWishsama/Slimefun4/workflows/Java%20CI/badge.svg)
@@ -7,12 +7,23 @@ For English version, [Click here](https://github.com/TheBusyBiscuit/Slimefun4)
   <img src="https://img.shields.io/github/issues/StarWishsama/Slimefun4.svg?style=popout">
 </a> 
 
-Slimefun 是一个致力于提供模组般体验的插件. 它提供了你能想到的一切, 从背包到喷气背包!
-Slimefun 让每个玩家自己决定要在魔法还是科技方面发展<br>
-从魔杖到核反应堆，我们应有尽有.<br>
-我们还提供魔法祭坛，能源网络甚至物品运输系统.
+请 **不要** 在官方问题追踪器创建新问题! 
+如果你执意要这么做, 请在反馈时使用**官方**开发版并且使用**英语**
+如果不能, 请优先考虑在此处创建新问题.
 
-该项目最初始于2013年，此后一直发展.<br>
+魔改内容:
+* 粘液机器支持领地保护
+* 粘液方块支持领地/地皮保护
+* 支持使用游戏币解锁研究项目
+* 支持自定义附/祛魔机可使用的附魔等级上限
+* 修复了部分官方未修复的 Bug
+
+Slimefun 是一个致力于提供模组般体验的插件. 它提供了你能想到的一切, 从背包到喷气背包!
+Slimefun 让每个玩家可以自己决定在魔法或科技方面发展<br>
+从魔杖到核反应堆, 我们应有尽有.<br>
+不仅如此, 我们还有魔法祭坛, 能源网络甚至物品运输系统.
+
+该项目从2013年开始开发，此后一直发展.<br>
 从那时一个人开发插件到发展成一个拥有数千名参与者和100多个该项目贡献者的社区.<br>
 它目前添加了超过 **500 种新物品/合成配方** ([查看关于 Slimefun 的历史](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)).
 
@@ -46,7 +57,7 @@ Slimefun 4 可以在我们的构建页面 **免费下载**.<br>
   </a>
 </p>
 
-**注意**: "稳定" 打个引号是因为在发布前我们经过了测试. 但是它的更新十分缓慢而且开发版正在频繁更新, 因此出现的任何错误将在下一个重大更新之前得到修复. 
+**注意**: "稳定" 打个引号是因为在发布前我们经过了测试. 但因为开发版的频繁更新, 稳定版出现的任何错误将在下一个重大更新之前得到修复. 
 
 * [下载每夜版 | 已汉化](https://github.com/StarWishsama/Slimefun4/releases/latest)
 * [下载稳定版 | 无汉化](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)
@@ -70,7 +81,7 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 Slimefun 4 是一个社区型项目并且以
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE).协议开源<br>
 超过 100 个人已经为这个项目做出了贡献. 这些人真是太棒了.<br>
-们鼓励你通过提交 PR 的方式为 Slimefun 4 做出贡献, 你的贡献将会使插件保持活力 <3.
+我们鼓励通过提交 PR 的方式为 Slimefun 4 做出贡献, 你的贡献将会使插件保持活力 <3.
 
 <p align="center">
   <a href="https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors">
@@ -78,13 +89,13 @@ Slimefun 4 是一个社区型项目并且以
   </a>
 </p>
 
-### Pull requests
-这是一个开源的社区性项目, so **你的贡献将会使插件保持更新!**<br>
+### 合并请求
+这是一个开源的社区性项目, 所以**你的贡献将会使插件保持更新!**<br>
 这些 PR 可以是修复某些问题, 一些更改甚至是新增物品或玩法, 但请注意, 如果你想加入大量内容, 请考虑自己制作一个附属插件吧!
 
 ### 翻译
 Slimefun4 最近添加了多语言支持, 请注意这些多语言功能仍在 _开发中_.<br>
-所以目前并不是所有东西都能被翻译.<br>
+所以目前并不是所有东西 (尤其是物品) 都能被翻译.<br>
 [阅读更多...](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun)
 
 ## 免责声明
@@ -94,7 +105,8 @@ Slimefun4 使用多种系统收集你的使用信息或者自动下载最新版.
 你随时可以关闭自动更新 (汉化版默认禁用) 和数据收集.
 
 ### 自动更新
-出于众所周知的原因, 汉化版不提供任何自动更新服务. 但未来可能会加入更新提醒.
+出于众所周知的原因, 汉化版不提供任何自动更新服务. 
+现已加入更新提醒 ~~但未来可能会加入更新提醒~~
 
 ### Metrics 与统计
 Slimefun4 使用 [bStats](https://bstats.org/plugin/bukkit/Slimefun/4574) 收集关于此插件的用途的匿名信息.<br>
