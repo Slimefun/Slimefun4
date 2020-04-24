@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.services.plugins.VaultHook;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -8,6 +9,7 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -60,7 +62,12 @@ public interface SlimefunGuideImplementation {
             Slimefun.runSync(callback, 5L);
         } else {
             research.unlock(p, false);
-            p.setLevel(p.getLevel() - research.getCost());
+            if (VaultHook.isUsable()) {
+                EconomyResponse response = VaultHook.getEcon().withdrawPlayer(p, research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply"));
+                p.sendMessage(response.transactionSuccess() + " " + response.errorMessage);
+            } else {
+                p.setLevel(p.getLevel() - research.getCost());
+            }
             Slimefun.runSync(callback, 103L);
         }
     }

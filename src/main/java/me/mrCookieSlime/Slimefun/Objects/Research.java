@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.core.services.plugins.VaultHook;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -158,7 +159,11 @@ public class Research implements Keyed {
         }
 
         boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
-        return creativeResearch || p.getLevel() >= cost;
+        if (VaultHook.isUsable()) {
+            return creativeResearch || VaultHook.getEcon().getBalance(p) >= (cost * SlimefunPlugin.getCfg().getDouble("researches.money-multiply"));
+        } else {
+            return creativeResearch || p.getLevel() >= cost;
+        }
     }
 
     /**

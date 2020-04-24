@@ -52,6 +52,10 @@ public class ThirdPartyPluginService {
             category.register();
         }
 
+        if (SlimefunPlugin.getCfg().getBoolean("researches.use-money-unlock") && isPluginInstalled("Vault")) {
+            VaultHook.register();
+        }
+
         // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
         if (isPluginInstalled("WorldEdit")) {
             try {
@@ -64,6 +68,7 @@ public class ThirdPartyPluginService {
                 Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
             }
         }
+
 
         /*
          * These Items are not marked as soft-dependencies and

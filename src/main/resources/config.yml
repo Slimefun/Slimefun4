@@ -46,7 +46,12 @@ guide:
 researches:
   # 是否允许创造模式玩家免费解锁研究
   free-in-creative-mode: true
+  # 是否在解锁时燃放烟花
   enable-fireworks: true
+  # 是否使用游戏币替代使用经验解锁
+  use-money-unlock: false
+  # 经验自动转换到游戏币倍率
+  money-multiply: 25.0
 
 URID:
   info-delay: 3000
@@ -66,40 +71,40 @@ items:
 # 研究等级，可自行更改
 research-ranks:
   - Chicken
-- Cow
-- Spider
-- Villager
-- Beginner
-- Clumsy Student
-- Unskilled Student
-- Incompetent Student
-- Student
-- Clumsy Apprentice
-- Apprentice
-- Skilled Apprentice
-- Upcoming Mage
-- Excellent Mage
-- Young Magician
-- Incompetent Magician
-- Common Magician
-- Magician
-- Proficient Magician
-- Skilled Magician
-- Accustomed Magician
-- Great Magician
-- Clumsy Wizard
-- Wizard
-- Common Wizard
-- Skilled Wizard
-- Great Wizard
-- Impressive Wizard
-- Young Master
-- Clumsy Master
-- Upcoming Master
-- Competent Master
-- Master
-- Skilled Master
-- Excellent Master
-- Great Master
-- Proficient Master
-- The chosen One
+  - Cow
+  - Spider
+  - Villager
+  - Beginner
+  - Clumsy Student
+  - Unskilled Student
+  - Incompetent Student
+  - Student
+  - Clumsy Apprentice
+  - Apprentice
+  - Skilled Apprentice
+  - Upcoming Mage
+  - Excellent Mage
+  - Young Magician
+  - Incompetent Magician
+  - Common Magician
+  - Magician
+  - Proficient Magician
+  - Skilled Magician
+  - Accustomed Magician
+  - Great Magician
+  - Clumsy Wizard
+  - Wizard
+  - Common Wizard
+  - Skilled Wizard
+  - Great Wizard
+  - Impressive Wizard
+  - Young Master
+  - Clumsy Master
+  - Upcoming Master
+  - Competent Master
+  - Master
+  - Skilled Master
+  - Excellent Master
+  - Great Master
+  - Proficient Master
+  - The chosen One

@@ -52,6 +52,7 @@ public class SlimefunRegistry {
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
+    private boolean useMoneyUnlock;
 
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
@@ -91,6 +92,8 @@ public class SlimefunRegistry {
 
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
+
+        useMoneyUnlock = cfg.getBoolean("researches.use-money-unlock");
     }
 
     public boolean isAutoLoadingEnabled() {
@@ -256,4 +259,7 @@ public class SlimefunRegistry {
         return witherProofBlocks;
     }
 
+    public boolean isUseMoneyUnlock() {
+        return useMoneyUnlock;
+    }
 }
