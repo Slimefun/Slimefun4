@@ -32,7 +32,7 @@ public class AutoSavingService {
 
     }
 
-    public void saveAllPlayers() {
+    private void saveAllPlayers() {
         Iterator<PlayerProfile> iterator = PlayerProfile.iterator();
         int players = 0;
 
@@ -52,7 +52,7 @@ public class AutoSavingService {
         }
     }
 
-    public void saveAllBlocks() {
+    private void saveAllBlocks() {
         Set<BlockStorage> worlds = new HashSet<>();
 
         for (World world : Bukkit.getWorlds()) {

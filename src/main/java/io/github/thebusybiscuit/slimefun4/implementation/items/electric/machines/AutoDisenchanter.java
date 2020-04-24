@@ -86,7 +86,6 @@ public class AutoDisenchanter extends AContainer {
             Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
 
             for (int slot : getInputSlots()) {
-                ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
                 ItemStack item = menu.getItemInSlot(slot);
 
                 // Check if disenchantable
@@ -106,6 +105,7 @@ public class AutoDisenchanter extends AContainer {
                     return;
                 }
 
+                ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
                 // Disenchanting
                 if (item != null && target != null && target.getType() == Material.BOOK) {
                     int amount = 0;

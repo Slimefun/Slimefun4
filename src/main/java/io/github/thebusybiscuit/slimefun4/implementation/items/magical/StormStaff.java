@@ -50,7 +50,6 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
-            Player p = e.getPlayer();
             ItemStack item = e.getItem();
 
             if (!item.hasItemMeta()) return;
@@ -64,6 +63,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
 
             // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
             if (itemLore.size() < 6 && itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
+                Player p = e.getPlayer();
                 if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
                     // Get a target block with max. 30 blocks of distance
                     Location loc = p.getTargetBlock(null, 30).getLocation();

@@ -52,6 +52,19 @@ public class ThirdPartyPluginService {
             category.register();
         }
 
+        // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
+        if (isPluginInstalled("WorldEdit")) {
+            try {
+                Class.forName("com.sk89q.worldedit.extent.Extent");
+                new WorldEditHook();
+            } catch (Exception x) {
+                String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
+
+                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
+            }
+        }
+
         /*
          * These Items are not marked as soft-dependencies and
          * therefore need to be loaded after the Server has finished
@@ -63,19 +76,6 @@ public class ThirdPartyPluginService {
             }
 
             isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
-
-            // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-            if (isPluginInstalled("WorldEdit")) {
-                try {
-                    Class.forName("com.sk89q.worldedit.extent.Extent");
-                    new WorldEditHook();
-                } catch (Exception x) {
-                    String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
-
-                    Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
-                    Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
-                }
-            }
         });
     }
 

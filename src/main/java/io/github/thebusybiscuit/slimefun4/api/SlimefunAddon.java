@@ -1,11 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Collection;
+import java.util.Locale;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * This is a very basic interface that will be used to identify
@@ -64,6 +70,17 @@ public interface SlimefunAddon {
      */
     default Logger getLogger() {
         return getJavaPlugin().getLogger();
+    }
+
+    /**
+     * This returns a {@link Collection} holding every {@link Category} that can be directly
+     * linked to this {@link SlimefunAddon} based on its {@link NamespacedKey}.
+     *
+     * @return A {@link Collection} of every {@link Category} from this addon
+     */
+    default Collection<Category> getCategories() {
+        String namespace = getJavaPlugin().getName().toLowerCase(Locale.ROOT);
+        return SlimefunPlugin.getRegistry().getCategories().stream().filter(cat -> cat.getKey().getNamespace().equals(namespace)).collect(Collectors.toList());
     }
 
     /**

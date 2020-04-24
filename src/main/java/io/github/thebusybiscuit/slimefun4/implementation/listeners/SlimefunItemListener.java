@@ -25,7 +25,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
@@ -113,10 +112,6 @@ public class SlimefunItemListener implements Listener {
                 e.setUseItemInHand(event.useItem());
             }
         }
-    }
-
-    private boolean canPlaceCargoNodes(Player p, ItemStack item, Block b) {
-        return canPlaceBlock(p, b) && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, true) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, true));
     }
 
     private boolean canPlaceBlock(Player p, Block relative) {

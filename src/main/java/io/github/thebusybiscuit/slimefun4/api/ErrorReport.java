@@ -13,10 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -33,6 +34,8 @@ import java.util.stream.IntStream;
  *
  */
 public class ErrorReport {
+
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
 
     private File file;
 
@@ -145,7 +148,7 @@ public class ErrorReport {
     }
 
     private static File getNewFile() {
-        String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
+        String path = "plugins/Slimefun/error-reports/" + dateFormat.format(LocalDateTime.now());
         File newFile = new File(path + ".err");
 
         if (newFile.exists()) {

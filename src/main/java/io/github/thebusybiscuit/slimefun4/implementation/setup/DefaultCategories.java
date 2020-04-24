@@ -26,7 +26,7 @@ import java.time.Month;
  * @see LockedCategory
  * @see SeasonalCategory
  */
-final class DefaultCategories {
+class DefaultCategories {
 
     // Standard Categories
     protected final Category weapons = Categories.WEAPONS;

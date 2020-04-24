@@ -44,8 +44,10 @@ public final class SlimefunUtils {
      * This will prevent the given {@link Item} from being picked up.
      * This is useful for display items which the {@link AncientPedestal} uses.
      *
-     * @param item    The {@link Item} to prevent from being picked up
-     * @param context The context in which this {@link Item} was flagged
+     * @param item
+     *            The {@link Item} to prevent from being picked up
+     * @param context
+     *            The context in which this {@link Item} was flagged
      */
     public static void markAsNoPickup(Item item, String context) {
         item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance, context));
@@ -54,7 +56,8 @@ public final class SlimefunUtils {
     /**
      * This method checks whether the given {@link ItemStack} is considered {@link Soulbound}.
      *
-     * @param item The {@link ItemStack} to check for
+     * @param item
+     *            The {@link ItemStack} to check for
      * @return Whether the given item is soulbound
      */
     public static boolean isSoulbound(ItemStack item) {
@@ -100,34 +103,40 @@ public final class SlimefunUtils {
     }
 
     public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore) {
+        return isItemSimilar(item, sfitem, checkLore, true);
+    }
+
+    public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore, boolean checkAmount) {
         if (item == null) return sfitem == null;
         if (sfitem == null) return false;
+        if (item.getType() != sfitem.getType()) return false;
+        if (checkAmount && item.getAmount() < sfitem.getAmount()) return false;
 
-        if (item instanceof SlimefunItemStack && sfitem instanceof SlimefunItemStack) {
+        if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
             return ((SlimefunItemStack) item).getItemID().equals(((SlimefunItemStack) sfitem).getItemID());
         }
 
-        if (item.getType() == sfitem.getType() && item.getAmount() >= sfitem.getAmount()) {
-            if (!item.hasItemMeta() && !sfitem.hasItemMeta()) {
-                return true;
-            } else {
-                ItemMeta itemMeta = item.getItemMeta();
-
-                if (sfitem instanceof SlimefunItemStack) {
-                    Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
-
-                    if (id.isPresent()) {
-                        return id.get().equals(((SlimefunItemStack) sfitem).getItemID());
-                    }
-
-                    ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();
-                    return equalsItemMeta(itemMeta, meta, checkLore);
-                } else {
-                    ItemMeta sfitemMeta = sfitem.getItemMeta();
-                    return equalsItemMeta(itemMeta, sfitemMeta, checkLore);
+        boolean sfItemHasMeta = sfitem.hasItemMeta();
+        if (item.hasItemMeta()) {
+            ItemMeta itemMeta = item.getItemMeta();
+            if (sfitem instanceof SlimefunItemStack) {
+                Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
+                if (id.isPresent()) {
+                    return id.get().equals(((SlimefunItemStack) sfitem).getItemID());
                 }
+
+                ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();
+                return equalsItemMeta(itemMeta, meta, checkLore);
             }
-        } else return false;
+
+            if (sfItemHasMeta) {
+                return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
+            }
+        } else {
+            return !sfItemHasMeta;
+        }
+
+        return false;
     }
 
     private static boolean equalsItemMeta(ItemMeta itemMeta, ImmutableItemMeta meta, boolean checkLore) {
@@ -190,4 +199,5 @@ public final class SlimefunUtils {
 
         return string1.toString().equals(string2.toString());
     }
+
 }

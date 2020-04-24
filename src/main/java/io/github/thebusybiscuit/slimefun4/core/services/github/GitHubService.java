@@ -6,7 +6,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,7 +32,7 @@ public class GitHubService {
     private int pullRequests = 0;
     private int forks = 0;
     private int stars = 0;
-    private Date lastUpdate = new Date();
+    private LocalDateTime lastUpdate = LocalDateTime.now();
 
     public GitHubService(String repository) {
         this.repository = repository;
@@ -49,6 +49,7 @@ public class GitHubService {
     private void addDefaultContributors() {
         addContributor("Fuffles_", "&dArtist");
         addContributor("IMS_Art", "&dArtist");
+        addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
         new Translators(contributors);
     }
@@ -125,7 +126,7 @@ public class GitHubService {
         return pullRequests;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 

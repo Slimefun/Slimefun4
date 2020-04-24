@@ -3,7 +3,7 @@ package me.mrCookieSlime.Slimefun.api;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.stream.JsonWriter;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
@@ -36,6 +37,7 @@ public class BlockStorage {
 
     private static final String PATH_BLOCKS = "data-storage/Slimefun/stored-blocks/";
     private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
+    private static final String PATH_INVENTORIES = "data-storage/Slimefun/stored-inventories/";
 
     private final World world;
     private final Map<Location, Config> storage = new ConcurrentHashMap<>();
@@ -366,13 +368,20 @@ public class BlockStorage {
     }
 
     private static String serializeBlockInfo(Config cfg) {
-        JsonObject json = new JsonObject();
-
-        for (String key : cfg.getKeys()) {
-            json.add(key, new JsonPrimitive(cfg.getString(key)));
+        try {
+            StringWriter stringWriter = new StringWriter();
+            JsonWriter jsonWriter = new JsonWriter(stringWriter);
+            jsonWriter.setLenient(true);
+            jsonWriter.beginObject();
+            for (String key : cfg.getKeys()) {
+                jsonWriter.name(key).value(cfg.getString(key));
+            }
+            jsonWriter.endObject();
+            return stringWriter.toString();
+        } catch (IOException x) {
+            Slimefun.getLogger().log(Level.SEVERE, "An error occurred while serializing BlockInfo", x);
+            return null;
         }
-
-        return json.toString();
     }
 
     public static String getLocationInfo(Location l, String key) {
@@ -422,7 +431,7 @@ public class BlockStorage {
                     storage.loadUniversalInventory(BlockMenuPreset.getPreset(id));
                 }
             } else if (!storage.hasInventory(l)) {
-                File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
+                File file = new File(PATH_INVENTORIES + serializeLocation(l) + ".sfi");
 
                 if (file.exists())
                     storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(id), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
@@ -430,7 +439,7 @@ public class BlockStorage {
             }
         }
 
-        refreshCache(getStorage(l.getWorld()), l, id, serializeBlockInfo(cfg), updateTicker);
+        refreshCache(storage, l, id, serializeBlockInfo(cfg), updateTicker);
     }
 
     public static void setBlockInfo(Block b, String json, boolean updateTicker) {

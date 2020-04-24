@@ -49,9 +49,13 @@ researches:
   enable-fireworks: true
 
 URID:
-  info-delay: 3100
-  custom-ticker-delay: 15
+  info-delay: 3000
+  custom-ticker-delay: 10
   enable-tickers: true
+
+networks:
+  max-size: 200
+  cargo-ticker-delay: 0
 
 items:
   # 是否启用以下物品类别
@@ -61,7 +65,7 @@ items:
 
 # 研究等级，可自行更改
 research-ranks:
-- Chicken
+  - Chicken
 - Cow
 - Spider
 - Villager

@@ -108,13 +108,16 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
         int xp = 0;
 
         while (iterator.hasNext() && xp == 0) {
-            Entity n = iterator.next();
-            if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
+            Entity entity = iterator.next();
 
-            xp = getEXP(b) + ((ExperienceOrb) n).getExperience();
+            if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) {
+                return;
+            }
+
+            xp = getEXP(b) + ((ExperienceOrb) entity).getExperience();
 
             ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
-            n.remove();
+            entity.remove();
 
             int withdrawn = 0;
             BlockMenu menu = BlockStorage.getInventory(b);
@@ -125,6 +128,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
                     menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone(), getOutputSlots());
                 }
             }
+
             BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));
         }
     }

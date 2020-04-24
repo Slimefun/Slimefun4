@@ -39,7 +39,6 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-            String item = BlockStorage.checkID(block);
 
             AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
             Bukkit.getPluginManager().callEvent(event);
@@ -49,7 +48,8 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
             }
 
             // We only want to break non-Slimefun blocks
-            if (item == null) {
+            String blockId = BlockStorage.checkID(block);
+            if (blockId == null) {
                 for (ItemStack drop : drops) {
                     if (menu.fits(drop, getOutputSlots())) {
                         menu.pushItem(drop, getOutputSlots());
@@ -66,7 +66,6 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-            SlimefunItem item = BlockStorage.check(block);
 
             AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
             Bukkit.getPluginManager().callEvent(event);
@@ -76,7 +75,8 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
             }
 
             // We only want to break non-Slimefun blocks
-            if (item == null) {
+            SlimefunItem blockId = BlockStorage.check(block);
+            if (blockId == null) {
                 for (ItemStack drop : drops) {
                     if (menu.fits(drop, getOutputSlots())) {
                         menu.pushItem(drop, getOutputSlots());

@@ -120,7 +120,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Setting up Networks
             gpsNetwork = new GPSNetwork();
-            networkManager = new NetworkManager(config.getInt("options.max-network-size"));
+            networkManager = new NetworkManager(config.getInt("networks.max-size"));
 
             // Setting up bStats
             metricsService.start();

@@ -18,10 +18,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.OptionalInt;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -117,7 +114,7 @@ public class ResourceManager {
 
         menu.addItem(4, new CustomItem(chunkTexture, "&e" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
         List<GEOResource> resources = new ArrayList<>(SlimefunPlugin.getRegistry().getGEOResources().values());
-        Collections.sort(resources, (a, b) -> a.getName(p).toLowerCase().compareTo(b.getName(p).toLowerCase()));
+        Collections.sort(resources, Comparator.comparing(a -> a.getName(p).toLowerCase(Locale.ROOT)));
 
         int index = 10;
         int pages = (resources.size() - 1) / 36 + 1;
