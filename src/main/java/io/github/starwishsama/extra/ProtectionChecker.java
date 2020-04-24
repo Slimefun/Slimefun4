@@ -21,6 +21,9 @@ import org.bukkit.event.Listener;
 import java.util.UUID;
 import java.util.logging.Level;
 
+/**
+ * @author StarWishsama
+ */
 public class ProtectionChecker implements Listener {
     private static boolean resInstalled = false;
     private static boolean plotInstalled = false;
@@ -78,10 +81,8 @@ public class ProtectionChecker implements Listener {
             } else if (plotInstalled) {
                 Plot plot = Plot.getPlot(new Location(block.getWorld().getName(), block.getX(), block.getY(), block.getZ()));
                 if (plot != null) {
-                    return plot.getOwners().contains(p.getUniqueId()) || plot.isAdded(p.getUniqueId());
+                    return plot.isOwner(p.getUniqueId()) || plot.isAdded(p.getUniqueId());
                 }
-            } else {
-                return true;
             }
         }
         return true;

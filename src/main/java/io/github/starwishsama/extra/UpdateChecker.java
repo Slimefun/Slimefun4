@@ -13,6 +13,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author StarWishsama
+ */
 public class UpdateChecker {
     private static List<GithubBean> getReleaseBean(){
         try {
@@ -37,10 +40,10 @@ public class UpdateChecker {
         } catch (Exception e){
             e.printStackTrace();
             /**if (e instanceof SocketException) {
-                Slimefun.getLogger().log(Level.WARNING, "连接至 Github 服务器出错");
-            } else {
-                Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
-            }*/
+             Slimefun.getLogger().log(Level.WARNING, "连接至 Github 服务器出错");
+             } else {
+             Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
+             }*/
         }
         return new ArrayList<>();
     }
