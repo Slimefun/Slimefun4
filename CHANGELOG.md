@@ -19,6 +19,9 @@
 
 ## Release Candidate 12 (TBD)
 
+#### Fixes
+* Fixed #1824
+
 ## Release Candidate 11 (25 Apr 2020)
 
 #### Additions

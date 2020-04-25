@@ -531,10 +531,10 @@ public class SlimefunItem implements Placeable {
         if (item == null) return false;
 
         if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+            Optional<String> itemId = SlimefunPlugin.getItemDataService().getItemData(item);
 
-            if (itemID.isPresent()) {
-                return getID().equals(itemID.get());
+            if (itemId.isPresent()) {
+                return getID().equals(itemId.get());
             }
         }
 
