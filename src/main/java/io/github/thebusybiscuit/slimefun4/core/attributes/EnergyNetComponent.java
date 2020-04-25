@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -35,5 +36,34 @@ public interface EnergyNetComponent extends ItemAttribute {
      * @return The max amount of electricity this Block can store.
      */
     int getCapacity();
+
+    /**
+     * This method is used for internal purposes to register the component.
+     * You do not have to call this method yourself.
+     * 
+     * @param id
+     *            The id of the {@link SlimefunItem} this refers to
+     */
+    default void registerComponent(String id) {
+        switch (getEnergyComponentType()) {
+        case CONSUMER:
+            SlimefunPlugin.getRegistry().getEnergyConsumers().add(id);
+            break;
+        case CAPACITOR:
+            SlimefunPlugin.getRegistry().getEnergyCapacitors().add(id);
+            break;
+        case GENERATOR:
+            SlimefunPlugin.getRegistry().getEnergyGenerators().add(id);
+            break;
+        default:
+            break;
+        }
+
+        int capacity = getCapacity();
+
+        if (capacity > 0) {
+            SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+        }
+    }
 
 }

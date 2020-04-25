@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +15,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class SlimefunTabCompleter implements TabCompleter {
 
-    private static final int MAX_SUGGESTIONS = 50;
+    private static final int MAX_SUGGESTIONS = 80;
 
     private final SlimefunCommand command;
 
@@ -27,7 +26,7 @@ class SlimefunTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
-            return createReturnList(command.getTabArguments(), args[0]);
+            return createReturnList(command.getSubCommandNames(), args[0]);
         }
         else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
@@ -47,10 +46,12 @@ class SlimefunTabCompleter implements TabCompleter {
                 return createReturnList(suggestions, args[2]);
             }
             else {
+                // Returning null will make it fallback to the default arguments (all online players)
                 return null;
             }
         }
         else {
+            // Returning null will make it fallback to the default arguments (all online players)
             return null;
         }
     }
@@ -68,17 +69,17 @@ class SlimefunTabCompleter implements TabCompleter {
         if (string.equals("")) return list;
 
         String input = string.toLowerCase(Locale.ROOT);
-        List<String> returnList = new ArrayList<>();
+        List<String> returnList = new LinkedList<>();
 
         for (String item : list) {
-            if (item.contains(input)) {
+            if (item.toLowerCase(Locale.ROOT).contains(input)) {
                 returnList.add(item);
 
                 if (returnList.size() >= MAX_SUGGESTIONS) {
                     break;
                 }
             }
-            else if (item.equals(input)) {
+            else if (item.equalsIgnoreCase(input)) {
                 return Collections.emptyList();
             }
         }

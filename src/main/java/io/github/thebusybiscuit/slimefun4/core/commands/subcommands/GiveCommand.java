@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 
 class GiveCommand extends SubCommand {
 
@@ -41,16 +43,23 @@ class GiveCommand extends SubCommand {
                 if (player.isPresent()) {
                     Player p = player.get();
 
-                    SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase());
+                    SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase(Locale.ROOT));
                     if (sfItem != null) {
-                        int amount = parseAmount(args);
-
-                        if (amount > 0) {
-                            SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-                            p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
-                            SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+                        if (sfItem instanceof MultiBlockMachine) {
+                            SlimefunPlugin.getLocal().sendMessage(sender, "guide.cheat.no-multiblocks");
                         }
-                        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+                        else {
+                            int amount = parseAmount(args);
+
+                            if (amount > 0) {
+                                SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+                                p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
+                                SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+                            }
+                            else {
+                                SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+                            }
+                        }
                     }
                     else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
                 }

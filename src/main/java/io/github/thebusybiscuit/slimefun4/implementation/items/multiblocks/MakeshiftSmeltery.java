@@ -17,16 +17,16 @@ import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class MakeshiftSmeltery extends MultiBlockMachine {
 
-    public MakeshiftSmeltery() {
-        super(Categories.MACHINES_1, SlimefunItems.MAKESHIFT_SMELTERY, new ItemStack[] { 
+    public MakeshiftSmeltery(Category category) {
+        super(category, SlimefunItems.MAKESHIFT_SMELTERY, new ItemStack[] { 
               null, new ItemStack(Material.OAK_FENCE), null, 
               new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), 
               null, new ItemStack(Material.FLINT_AND_STEEL), null 

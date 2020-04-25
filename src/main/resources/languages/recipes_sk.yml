@@ -70,6 +70,16 @@ slimefun:
     - Vycrafti tento item ako je ukázané
     - pomocou  Food Fabricator
     name: Food Fabricator
+  freezer:
+    lore:
+    - Vycrafti tento item ako je ukázané
+    - pomocou Freezer
+    name: Freezer
+  geo_miner:
+    lore:
+    - Tento item môžeš získať
+    - pomocou GEO Miner
+    name: GEO Miner
   gold_pan:
     lore:
     - Použi Gold Pan na
@@ -105,6 +115,11 @@ slimefun:
     - 'Postav vo svete ako je '
     - ukázané. Tento recept sa necraftí.
     name: Multiblok
+  nuclear_reactor:
+    lore:
+    - Tento item je vedľajším produktom
+    - pri bežiacom Nuclear Reactor
+    name: Nuclear Reactor
   ore_crusher:
     lore:
     - Vycrafti tento item ako je ukázané
@@ -125,18 +140,19 @@ slimefun:
     - Vycrafti tento item ako je ukázané
     - pomocou Smeltery
     name: Smeltery
-  freezer:
-    name: Freezer
-    lore:
-    - Vycrafti tento item ako je ukázané
-    - pomocou Freezer
-  geo_miner:
-    name: GEO Miner
+  oil_pump:
+    name: Oil Pump
     lore:
     - Tento item môžeš získať
-    - pomocou GEO Miner
-  nuclear_reactor:
-    name: Nuclear Reactor
+    - pomocou Oil Pump
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
     lore:
-    - Tento item je vedľajším produktom
-    - pri bežiacom Nuclear Reactor
+    - Tento blok môžeš získať
+    - vyťažením spawneru
+    - pomocou Pickaxe of Containment
+  refinery:
+    name: Refinery
+    lore:
+    - Vycrafti tento item ako je ukázané
+    - pomocou Refinery

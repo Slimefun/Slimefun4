@@ -70,6 +70,16 @@ slimefun:
     - Crafte das Item wie gezeigt
     - in einem "Food Fabricator".
     name: Food Fabricator
+  freezer:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einem "Freezer".
+    name: Freezer
+  geo_miner:
+    lore:
+    - Dieses Item kann mittels eines
+    - '"GEO Miner" erhalten werden.'
+    name: GEO Miner
   gold_pan:
     lore:
     - Benutze eine "Gold Pan", um
@@ -105,6 +115,11 @@ slimefun:
     - Baue die gezeigte Struktur, wie
     - man sie sieht. Sie wird nicht gecraftet.
     name: Multiblock
+  nuclear_reactor:
+    lore:
+    - Dieses Item ist ein Nebenprodukt vom
+    - Betrieb eines "Nuclear Reactor".
+    name: Nuclear Reactor
   ore_crusher:
     lore:
     - Crafte das Item wie gezeigt
@@ -125,18 +140,19 @@ slimefun:
     - Crafte das Item wie gezeigt
     - in einer "Smeltery".
     name: Smeltery
-  freezer:
-    name: Freezer
+  oil_pump:
+    name: Oil Pump
+    lore:
+    - Dieses Item kann durch eine
+    - Oil Pump gewonnen werden
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
+    lore:
+    - Dieser Block kann durch das Abbauen
+    - eines Spawners mit der
+    - Pickaxe of Containment gewonnen werden
+  refinery:
+    name: Refinery
     lore:
     - Crafte das Item wie gezeigt
-    - in einem "Freezer".
-  geo_miner:
-    name: GEO Miner
-    lore:
-    - Dieses Item kann mittels eines
-    - '"GEO Miner" erhalten werden.'
-  nuclear_reactor:
-    name: Nuclear Reactor
-    lore:
-    - Dieses Item ist ein Nebenprodukt vom
-    - Betrieb eines "Nuclear Reactor".
+    - in einer "Refinery".

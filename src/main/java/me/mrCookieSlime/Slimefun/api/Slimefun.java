@@ -1,7 +1,5 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -10,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -27,55 +24,8 @@ public final class Slimefun {
 
     private Slimefun() {}
 
-    @Deprecated
-    public static void registerGuideHandler(GuideHandler handler) {
-        List<GuideHandler> handlers = SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(handler.getTier(), new ArrayList<>());
-        handlers.add(handler);
-        SlimefunPlugin.getRegistry().getGuideHandlers().put(handler.getTier(), handlers);
-    }
-
     public static Logger getLogger() {
         return SlimefunPlugin.instance.getLogger();
-    }
-
-    /**
-     * Returns the value associated to this key for the SlimefunItem corresponding to this id.
-     *
-     * @param id
-     *            the id of the SlimefunItem, not null
-     * @param key
-     *            the key of the value to get, not null
-     *
-     * @return the value associated to the key for the SlimefunItem corresponding to the id,
-     *         or null if it doesn't exist.
-     */
-    public static Object getItemValue(String id, String key) {
-        return getItemConfig().getValue(id + '.' + key);
-    }
-
-    /**
-     * Sets a default value associated to this key for the SlimefunItem corresponding to this id.
-     *
-     * @param id
-     *            the id of the SlimefunItem, not null
-     * @param key
-     *            the key of the value to set, not null
-     * @param value
-     *            the value to set, can be null
-     */
-    public static void setItemVariable(String id, String key, Object value) {
-        getItemConfig().setDefaultValue(id + '.' + key, value);
-    }
-
-    /**
-     * Returns the Config instance of Items.yml file.
-     * <p>
-     * It calls {@code SlimefunStartup#getItemCfg()}.
-     *
-     * @return the Items.yml Config instance.
-     */
-    public static Config getItemConfig() {
-        return SlimefunPlugin.getItemCfg();
     }
 
     /**
@@ -108,13 +58,7 @@ public final class Slimefun {
     }
 
     public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
-        Research research = new Research(key, id, name, cost);
-
-        for (ItemStack item : items) {
-            research.addItems(SlimefunItem.getByItem(item));
-        }
-
-        research.register();
+        registerResearch(new Research(key, id, name, cost), items);
     }
 
     /**
@@ -136,7 +80,10 @@ public final class Slimefun {
 
         if (sfItem != null) {
             if (sfItem.getState() == ItemState.DISABLED) {
-                if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                if (message) {
+                    SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                }
+
                 return false;
             }
 
@@ -185,6 +132,7 @@ public final class Slimefun {
                 return false;
             }
         }
+
         return false;
     }
 
@@ -209,7 +157,10 @@ public final class Slimefun {
             return true;
         }
         else {
-            if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.no-permission", true);
+            if (message) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.no-permission", true);
+            }
+
             return false;
         }
     }
@@ -249,33 +200,19 @@ public final class Slimefun {
     public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
         if (sfItem.isDisabled()) {
             if (message) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+            }
+
+            return false;
+        }
+        else if (!SlimefunPlugin.getWorldSettingsService().isEnabled(p.getWorld(), sfItem)) {
+            if (message) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
             }
 
             return false;
         }
-
-        String world = p.getWorld().getName();
-        if (SlimefunPlugin.getWhitelist().contains(world + ".enabled")) {
-            if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled")) {
-                if (!SlimefunPlugin.getWhitelist().contains(world + ".enabled-items." + sfItem.getID())) SlimefunPlugin.getWhitelist().setDefaultValue(world + ".enabled-items." + sfItem.getID(), true);
-                if (SlimefunPlugin.getWhitelist().getBoolean(world + ".enabled-items." + sfItem.getID())) return true;
-                else {
-                    if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-                    return false;
-                }
-            }
-            else {
-                if (message) SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
-                return false;
-            }
-        }
-        else return true;
-    }
-
-    @Deprecated
-    public static List<GuideHandler> getGuideHandlers(int tier) {
-        return SlimefunPlugin.getRegistry().getGuideHandlers().getOrDefault(tier, new ArrayList<>());
+        return true;
     }
 
     public static BukkitTask runSync(Runnable r) {

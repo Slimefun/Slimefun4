@@ -4,27 +4,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
 class ContributionsConnector extends GitHubConnector {
 
     // GitHub Bots that do not count as Contributors
     // (includes "invalid-email-address" because it is an invalid contributor)
-    private static final List<String> blacklist = Arrays.asList(
-        "invalid-email-address", 
-        "renovate-bot", 
-        "TheBusyBot", 
-        "ImgBotApp", 
-        "imgbot", 
-        "imgbot[bot]", 
-        "github-actions[bot]", 
-        "gitlocalize-app", 
-        "gitlocalize-app[bot]", 
-        "mt-gitlocalize"
-    );
+    private static final List<String> blacklist = Arrays.asList("invalid-email-address", "renovate-bot", "TheBusyBot", "ImgBotApp", "imgbot", "imgbot[bot]", "github-actions[bot]", "gitlocalize-app", "gitlocalize-app[bot]", "mt-gitlocalize");
 
     // Matches a GitHub name with a Minecraft name.
     private static final Map<String, String> aliases = new HashMap<>();
@@ -42,27 +34,25 @@ class ContributionsConnector extends GitHubConnector {
     }
 
     private final String prefix;
-    private final String repository;
     private final String role;
     private final int page;
 
-    public ContributionsConnector(GitHubService github, String prefix, int page, String repository, String role) {
-        super(github);
+    ContributionsConnector(GitHubService github, String prefix, int page, String repository, String role) {
+        super(github, repository);
 
         this.prefix = prefix;
         this.page = page;
-        this.repository = repository;
         this.role = role;
     }
 
     @Override
     public void onSuccess(JsonElement element) {
-        computeContributors(element.getAsJsonArray());
-    }
-
-    @Override
-    public String getRepository() {
-        return repository;
+        if (element.isJsonArray()) {
+            computeContributors(element.getAsJsonArray());
+        }
+        else {
+            Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", element);
+        }
     }
 
     @Override

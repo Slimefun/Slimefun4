@@ -11,6 +11,7 @@ import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -135,8 +136,11 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         return new CustomItem(item, meta -> {
             meta.setDisplayName(ChatColor.AQUA + config.getString(key.getNamespace() + "." + key.getKey() + ".name"));
             List<String> lore = config.getStringList(key.getNamespace() + "." + key.getKey() + ".lore");
-            lore.replaceAll(str -> ChatColor.GRAY + str);
+            lore.replaceAll(line -> ChatColor.GRAY + line);
             meta.setLore(lore);
+            
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         });
     }
 

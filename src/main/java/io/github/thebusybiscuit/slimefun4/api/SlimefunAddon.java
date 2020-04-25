@@ -1,10 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import java.util.Collection;
+import java.util.Locale;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -65,6 +72,38 @@ public interface SlimefunAddon {
      */
     default Logger getLogger() {
         return getJavaPlugin().getLogger();
+    }
+
+    /**
+     * This method checks whether the given String is the name of a dependency of this
+     * {@link SlimefunAddon}.
+     * It specifically checks whether the given String can be found in {@link PluginDescriptionFile#getDepend()}
+     * or {@link PluginDescriptionFile#getSoftDepend()}
+     * 
+     * @param dependency
+     *            The dependency to check for
+     * 
+     * @return Whether this {@link SlimefunAddon} depends on the given {@link Plugin}
+     */
+    default boolean hasDependency(String dependency) {
+        // Well... it cannot depend on itself but you get the idea.
+        if (getJavaPlugin().getName().equalsIgnoreCase(dependency)) {
+            return true;
+        }
+
+        PluginDescriptionFile description = getJavaPlugin().getDescription();
+        return description.getDepend().contains(dependency) || description.getSoftDepend().contains(dependency);
+    }
+
+    /**
+     * This returns a {@link Collection} holding every {@link Category} that can be directly
+     * linked to this {@link SlimefunAddon} based on its {@link NamespacedKey}.
+     * 
+     * @return A {@link Collection} of every {@link Category} from this addon
+     */
+    default Collection<Category> getCategories() {
+        String namespace = getJavaPlugin().getName().toLowerCase(Locale.ROOT);
+        return SlimefunPlugin.getRegistry().getCategories().stream().filter(cat -> cat.getKey().getNamespace().equals(namespace)).collect(Collectors.toList());
     }
 
 }

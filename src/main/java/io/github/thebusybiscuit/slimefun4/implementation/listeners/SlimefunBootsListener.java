@@ -14,6 +14,7 @@ import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,12 +27,22 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} is responsible for handling all boots provided by
+ * Slimefun, such as the Boots of the Stomper or any {@link SlimefunArmorPiece} that
+ * is a pair of boots and needs to listen to an {@link Event}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ *
+ */
 public class SlimefunBootsListener implements Listener {
 
     private final Map<String, Predicate<EntityDamageEvent>> cancelledEvents = new HashMap<>();

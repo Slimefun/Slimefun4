@@ -8,16 +8,26 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+/**
+ * This {@link Listener} prevents any {@link SlimefunItem} from being used in a vanilla
+ * machine like the workbench, grindstone, brewing stand or an anvil.
+ * 
+ * @author TheBusyBiscuit
+ * @author NathanAdhitya
+ * @author Steve
+ * @author VoidAngel
+ *
+ */
 public class VanillaMachinesListener implements Listener {
 
     public VanillaMachinesListener(SlimefunPlugin plugin) {
@@ -26,6 +36,11 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGrindstone(InventoryClickEvent e) {
+        // The Grindstone was only ever added in MC 1.14
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            return;
+        }
+
         if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.GRINDSTONE) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
@@ -65,7 +80,7 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler
     public void onAnvil(InventoryClickEvent e) {
-        if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
+        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.ANVIL && e.getWhoClicked() instanceof Player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
@@ -80,7 +95,7 @@ public class VanillaMachinesListener implements Listener {
     public void onPreBrew(InventoryClickEvent e) {
         Inventory inventory = e.getInventory();
 
-        if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) {
+        if (inventory.getType() == InventoryType.BREWING && e.getRawSlot() < inventory.getSize() && inventory.getHolder() instanceof BrewingStand) {
             e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
         }
     }

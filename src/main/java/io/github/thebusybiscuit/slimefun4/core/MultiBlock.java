@@ -1,15 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
@@ -29,12 +32,21 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
  */
 public class MultiBlock {
 
-    public static final List<Tag<Material>> SUPPORTED_TAGS = Arrays.asList(
-        Tag.LOGS,
-        Tag.WOODEN_TRAPDOORS,
-        Tag.WOODEN_FENCES,
-        Tag.WOODEN_SLABS
-    );
+    private static final Set<Tag<Material>> SUPPORTED_TAGS = new HashSet<>();
+
+    static {
+        SUPPORTED_TAGS.add(Tag.LOGS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
+        }
+    }
+
+    public static Set<Tag<Material>> getSupportedTags() {
+        return SUPPORTED_TAGS;
+    }
 
     private final SlimefunItem item;
     private final Material[] blocks;
@@ -43,6 +55,10 @@ public class MultiBlock {
 
     public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
         this.item = item;
+
+        if (trigger != BlockFace.SELF && trigger != BlockFace.UP && trigger != BlockFace.DOWN) {
+            throw new IllegalArgumentException("Multiblock Blockface must be either UP, DOWN or SELF");
+        }
 
         this.blocks = build;
         this.trigger = trigger;
@@ -57,22 +73,25 @@ public class MultiBlock {
         return blocks[0] == blocks[2] && blocks[3] == blocks[5] && blocks[6] == blocks[8];
     }
 
-    public Material[] getBuild() {
-        return this.blocks;
+    public Material[] getStructure() {
+        return blocks;
     }
 
     public BlockFace getTriggerBlock() {
-        return this.trigger;
+        return trigger;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof MultiBlock)) return false;
+        if (!(obj instanceof MultiBlock)) {
+            return false;
+        }
 
         MultiBlock mb = (MultiBlock) obj;
+
         if (trigger == mb.getTriggerBlock()) {
-            for (int i = 0; i < mb.getBuild().length; i++) {
-                if (!compareBlocks(blocks[i], mb.getBuild()[i])) {
+            for (int i = 0; i < mb.getStructure().length; i++) {
+                if (!compareBlocks(blocks[i], mb.getStructure()[i])) {
                     return false;
                 }
             }

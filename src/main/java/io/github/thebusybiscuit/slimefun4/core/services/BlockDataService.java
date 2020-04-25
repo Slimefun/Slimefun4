@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Optional;
 
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -10,7 +11,8 @@ import org.bukkit.block.TileState;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
@@ -21,12 +23,17 @@ import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
  * @author TheBusyBiscuit
  *
  */
-public class BlockDataService {
+public class BlockDataService implements PersistentDataService, Keyed {
 
     private final NamespacedKey namespacedKey;
 
     public BlockDataService(Plugin plugin, String key) {
         namespacedKey = new NamespacedKey(plugin, key);
+    }
+
+    @Override
+    public NamespacedKey getKey() {
+        return namespacedKey;
     }
 
     /**
@@ -41,7 +48,7 @@ public class BlockDataService {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            PersistentDataAPI.setString((TileState) state, namespacedKey, value);
+            setString((TileState) state, namespacedKey, value);
             state.update();
         }
     }
@@ -57,7 +64,7 @@ public class BlockDataService {
         BlockState state = b.getState();
 
         if (state instanceof TileState) {
-            return PersistentDataAPI.getOptionalString((TileState) state, namespacedKey);
+            return getString((TileState) state, namespacedKey);
         }
         else {
             return Optional.empty();
@@ -77,11 +84,18 @@ public class BlockDataService {
      * @return Whether the given {@link Material} is considered a Tile Entity
      */
     public boolean isTileEntity(Material type) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            // We can only store data on Tile Entities in 1.14+
+            // So we will just return false here in that case.
+            return false;
+        }
+
         switch (type) {
         case PLAYER_HEAD:
         case PLAYER_WALL_HEAD:
         case CHEST:
         case DISPENSER:
+        case BREWING_STAND:
         case DROPPER:
         case FURNACE:
         case BLAST_FURNACE:
@@ -92,6 +106,7 @@ public class BlockDataService {
         case ENCHANTING_TABLE:
         case DAYLIGHT_DETECTOR:
         case SMOKER:
+        case BARREL:
         case SPAWNER:
         case BEACON:
             return true;

@@ -9,9 +9,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -26,7 +26,15 @@ public class AutoSavingService {
 
     private int interval;
 
-    public void start(Plugin plugin, int interval) {
+    /**
+     * This method starts the {@link AutoSavingService} with the given interval.
+     * 
+     * @param plugin
+     *            The current instance of Slimefun
+     * @param interval
+     *            The interval in which to run this task
+     */
+    public void start(SlimefunPlugin plugin, int interval) {
         this.interval = interval;
 
         plugin.getServer().getScheduler().runTaskTimer(plugin, this::saveAllPlayers, 2000L, interval * 60L * 20L);
@@ -34,7 +42,11 @@ public class AutoSavingService {
 
     }
 
-    public void saveAllPlayers() {
+    /**
+     * This method saves every {@link PlayerProfile} in memory and removes profiles
+     * that were markes for deletion.
+     */
+    private void saveAllPlayers() {
         Iterator<PlayerProfile> iterator = PlayerProfile.iterator();
         int players = 0;
 
@@ -46,7 +58,9 @@ public class AutoSavingService {
                 profile.save();
             }
 
-            if (profile.isMarkedForDeletion()) iterator.remove();
+            if (profile.isMarkedForDeletion()) {
+                iterator.remove();
+            }
         }
 
         if (players > 0) {
@@ -54,7 +68,10 @@ public class AutoSavingService {
         }
     }
 
-    public void saveAllBlocks() {
+    /**
+     * This method saves the data of every {@link Block} marked dirty by {@link BlockStorage}.
+     */
+    private void saveAllBlocks() {
         Set<BlockStorage> worlds = new HashSet<>();
 
         for (World world : Bukkit.getWorlds()) {

@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
@@ -15,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -35,32 +37,12 @@ public class EnergyNet extends Network {
 
     private static final int RANGE = 6;
 
-    public static EnergyNetComponentType getComponent(Block b) {
-        return getComponent(b.getLocation());
-    }
-
-    public static EnergyNetComponentType getComponent(String id) {
-        if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) {
-            return EnergyNetComponentType.GENERATOR;
-        }
-
-        if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
-            return EnergyNetComponentType.CAPACITOR;
-        }
-
-        if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) {
-            return EnergyNetComponentType.CONSUMER;
-        }
-
-        return EnergyNetComponentType.NONE;
-    }
-
     public static EnergyNetComponentType getComponent(Location l) {
-        if (!BlockStorage.hasBlockInfo(l)) {
+        String id = BlockStorage.checkID(l);
+
+        if (id == null) {
             return EnergyNetComponentType.NONE;
         }
-
-        String id = BlockStorage.checkID(l);
 
         if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) {
             return EnergyNetComponentType.GENERATOR;
@@ -195,7 +177,9 @@ public class EnergyNet extends Network {
                         available = 0;
                     }
                 }
-                else ChargableBlock.setUnsafeCharge(battery, 0, true);
+                else {
+                    ChargableBlock.setUnsafeCharge(battery, 0, true);
+                }
             }
 
             for (Location source : generators) {
@@ -229,19 +213,32 @@ public class EnergyNet extends Network {
             SlimefunItem item = BlockStorage.check(source);
             Config config = BlockStorage.getLocationInfo(source);
 
-            double energy = item.getEnergyTicker().generateEnergy(source, item, config);
+            try {
+                GeneratorTicker generator = item.getEnergyTicker();
 
-            if (item.getEnergyTicker().explode(source)) {
-                exploded.add(source);
-                BlockStorage.clearBlockInfo(source);
+                if (generator != null) {
+                    double energy = generator.generateEnergy(source, item, config);
 
-                Slimefun.runSync(() -> {
-                    source.getBlock().setType(Material.LAVA);
-                    source.getWorld().createExplosion(source, 0F, false);
-                });
+                    if (generator.explode(source)) {
+                        exploded.add(source);
+                        BlockStorage.clearBlockInfo(source);
+
+                        Slimefun.runSync(() -> {
+                            source.getBlock().setType(Material.LAVA);
+                            source.getWorld().createExplosion(source, 0F, false);
+                        });
+                    }
+                    else {
+                        supply += energy;
+                    }
+                }
+                else {
+                    item.warn("This Item was marked as a 'GENERATOR' but has no 'GeneratorTicker' attached to it! This must be fixed.");
+                }
             }
-            else {
-                supply += energy;
+            catch (Throwable t) {
+                exploded.add(source);
+                new ErrorReport(t, source, item);
             }
 
             SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);

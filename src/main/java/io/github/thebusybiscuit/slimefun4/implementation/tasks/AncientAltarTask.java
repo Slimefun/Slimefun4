@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AncientAltarCraftEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +15,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
@@ -47,13 +50,15 @@ public class AncientAltarTask implements Runnable {
 
     private boolean running;
     private int stage;
+    private final Player player;
 
-    public AncientAltarTask(Block altar, ItemStack output, List<Block> pedestals, List<ItemStack> items) {
+    public AncientAltarTask(Block altar, ItemStack output, List<Block> pedestals, List<ItemStack> items, Player player) {
         this.dropLocation = altar.getLocation().add(0.5, 1.3, 0.5);
         this.altar = altar;
         this.output = output;
         this.pedestals = pedestals;
         this.items = items;
+        this.player = player;
 
         this.running = true;
         this.stage = 0;
@@ -140,10 +145,14 @@ public class AncientAltarTask implements Runnable {
 
     private void finish() {
         if (running) {
-            dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
-            dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
-            dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), output);
 
+            AncientAltarCraftEvent event = new AncientAltarCraftEvent(output, altar, player);
+            Bukkit.getPluginManager().callEvent(event);
+            if (!event.isCancelled()) {
+                dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
+                dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
+                dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), event.getItem());
+            }
             pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
             // This should re-enable altar blocks on craft completion.

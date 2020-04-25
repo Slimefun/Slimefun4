@@ -21,11 +21,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -33,25 +34,12 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class Smeltery extends MultiBlockMachine {
 
     private final BlockFace[] faces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
-    private int fireBreakingChance;
+    private final ItemSetting<Integer> fireBreakingChance = new ItemSetting<>("fire-breaking-chance", 34);
 
-    public Smeltery() {
-        super(Categories.MACHINES_1, SlimefunItems.SMELTERY, new ItemStack[] { 
-              null, new ItemStack(Material.NETHER_BRICK_FENCE), null, 
-              new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), 
-              null, new ItemStack(Material.FLINT_AND_STEEL), null 
-        }, 
-        new ItemStack[] { 
-              SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT) 
-        }, 
-        BlockFace.DOWN, new String[] { "chance.fireBreak" }, new Integer[] { 34 });
-    }
+    public Smeltery(Category category) {
+        super(category, SlimefunItems.SMELTERY, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, new ItemStack[] { SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT) }, BlockFace.DOWN);
 
-    @Override
-    public void postRegister() {
-        super.postRegister();
-
-        fireBreakingChance = (int) Slimefun.getItemValue(getID(), "chance.fireBreak");
+        addItemSetting(fireBreakingChance);
     }
 
     @Override
@@ -95,7 +83,7 @@ public class Smeltery extends MultiBlockMachine {
                 return;
             }
         }
-        
+
         SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
     }
 
@@ -110,7 +98,7 @@ public class Smeltery extends MultiBlockMachine {
         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
         p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
 
-        if (ThreadLocalRandom.current().nextInt(100) < fireBreakingChance) {
+        if (ThreadLocalRandom.current().nextInt(100) < fireBreakingChance.getValue()) {
             consumeFire(p, dispenser, b);
         }
     }

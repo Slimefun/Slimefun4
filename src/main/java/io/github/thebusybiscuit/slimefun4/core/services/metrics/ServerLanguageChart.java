@@ -10,8 +10,8 @@ class ServerLanguageChart extends SimplePie {
     ServerLanguageChart() {
         super("language", () -> {
             Language language = SlimefunPlugin.getLocal().getDefaultLanguage();
-            boolean supported = SlimefunPlugin.getLocal().isLanguageLoaded(language.getID());
-            return supported ? language.getID() : "Unsupported Language";
+            boolean supported = SlimefunPlugin.getLocal().isLanguageLoaded(language.getId());
+            return supported ? language.getId() : "Unsupported Language";
         });
     }
 

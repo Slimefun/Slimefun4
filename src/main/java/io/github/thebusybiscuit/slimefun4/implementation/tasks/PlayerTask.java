@@ -47,5 +47,5 @@ abstract class PlayerTask implements Runnable {
         return true;
     }
 
-    abstract void executeTask();
+    protected abstract void executeTask();
 }

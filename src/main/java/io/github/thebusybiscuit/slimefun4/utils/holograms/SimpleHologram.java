@@ -9,6 +9,12 @@ import org.bukkit.entity.EntityType;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This utility class provides a few static methods for modifying a simple Text-based Hologram.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public final class SimpleHologram {
 
     private SimpleHologram() {}

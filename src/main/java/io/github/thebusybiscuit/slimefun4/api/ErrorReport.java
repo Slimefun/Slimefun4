@@ -1,12 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.text.SimpleDateFormat;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -16,7 +18,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -35,13 +36,15 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class ErrorReport {
 
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
+
     private File file;
 
     public ErrorReport(Throwable throwable, SlimefunAddon addon, Consumer<PrintStream> printer) {
         Slimefun.runSync(() -> {
             file = getNewFile();
 
-            try (PrintStream stream = new PrintStream(file)) {
+            try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
                 stream.println();
                 stream.println("Java Environment:");
                 stream.println("  Operating System: " + System.getProperty("os.name"));
@@ -52,8 +55,8 @@ public class ErrorReport {
                 stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
                 stream.println();
                 stream.println("Slimefun Environment:");
-                stream.println("  CS-CoreLib v" + CSCoreLib.getLib().getDescription().getVersion());
-                stream.println("  Slimefun v" + SlimefunPlugin.instance.getDescription().getVersion());
+                stream.println("  CS-CoreLib v" + SlimefunPlugin.getCSCoreLibVersion());
+                stream.println("  Slimefun v" + SlimefunPlugin.getVersion());
                 stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
                 stream.println();
 
@@ -81,15 +84,15 @@ public class ErrorReport {
                 addon.getLogger().log(Level.WARNING, "");
                 addon.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
                 addon.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
-                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developers.");
+                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developer(s).");
 
                 if (addon.getBugTrackerURL() != null) {
-                    addon.getLogger().log(Level.WARNING, "Bug Tracker: " + addon.getBugTrackerURL());
+                    addon.getLogger().log(Level.WARNING, "Bug Tracker: {0}", addon.getBugTrackerURL());
                 }
 
                 addon.getLogger().log(Level.WARNING, "");
             }
-            catch (FileNotFoundException x) {
+            catch (IOException x) {
                 addon.getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
             }
         });
@@ -148,7 +151,7 @@ public class ErrorReport {
     }
 
     private static File getNewFile() {
-        String path = "plugins/Slimefun/error-reports/" + new SimpleDateFormat("yyyy-MM-dd-HH-mm").format(new Date());
+        String path = "plugins/Slimefun/error-reports/" + dateFormat.format(LocalDateTime.now());
         File newFile = new File(path + ".err");
 
         if (newFile.exists()) {

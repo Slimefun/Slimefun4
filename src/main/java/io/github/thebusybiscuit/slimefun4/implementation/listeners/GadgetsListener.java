@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
@@ -18,6 +19,19 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} is responsible for listening to the {@link PlayerToggleSneakEvent}
+ * to start tasks for various gadgets that are activated by pressing shift,
+ * like the {@link Jetpack} or {@link JetBoots}
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see JetpackTask
+ * @see JetBootsTask
+ * @see ParachuteTask
+ * @see MagnetTask
+ *
+ */
 public class GadgetsListener implements Listener {
 
     public GadgetsListener(SlimefunPlugin plugin) {
@@ -40,7 +54,7 @@ public class GadgetsListener implements Listener {
             }
 
             if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
-                new MagnetTask(p).scheduleRepeating(0, 8);
+                new MagnetTask(p, ((InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem()).getRadius()).scheduleRepeating(0, 8);
             }
         }
     }

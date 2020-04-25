@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import java.util.Locale;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -39,13 +42,21 @@ public final class Language {
      *            The hash of the skull texture to use
      */
     public Language(String id, String hash) {
-        this.id = id;
+        Validate.notNull(id, "A Language must have an id that is not null!");
+        Validate.notNull(hash, "A Language must have a texture that is not null!");
 
-        item = SkullItem.fromHash(hash);
-        SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase());
+        this.id = id;
+        this.item = SkullItem.fromHash(hash);
+
+        SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase(Locale.ROOT));
     }
 
-    public String getID() {
+    /**
+     * This returns the identifier of this {@link Language}.
+     * 
+     * @return The identifier of this {@link Language}
+     */
+    public String getId() {
         return id;
     }
 

@@ -51,6 +51,11 @@ public abstract class NuclearReactor extends AReactor {
     }
 
     @Override
+    public ItemStack getFuelIcon() {
+        return SlimefunItems.URANIUM;
+    }
+
+    @Override
     public void extraTick(Location l) {
         // This machine does not need to perform anything while ticking
         // The Nether Star Reactor uses this method to generate the Wither Effect

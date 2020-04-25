@@ -33,6 +33,7 @@ class StatsCommand extends SubCommand {
         if (args.length > 1) {
             if (sender.hasPermission("slimefun.stats.others") || sender instanceof ConsoleCommandSender) {
                 Optional<Player> player = PlayerList.findByName(args[1]);
+
                 if (player.isPresent()) {
                     PlayerProfile.get(player.get(), profile -> profile.sendStats(sender));
                 }

@@ -6,12 +6,14 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -29,10 +31,12 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
 
-    private boolean damageOnUse;
+    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
 
-    public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String[] keys, Object[] values) {
-        super(category, item, recipeType, recipe, keys, values);
+    public ExplosivePickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+
+        addItemSetting(damageOnUse);
     }
 
     @Override
@@ -54,45 +58,13 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                         for (int x = -1; x <= 1; x++) {
                             for (int y = -1; y <= 1; y++) {
                                 for (int z = -1; z <= 1; z++) {
+                                    // We can skip the center block since that will break as usual
                                     if (x == 0 && y == 0 && z == 0) {
                                         continue;
                                     }
 
                                     Block b = e.getBlock().getRelative(x, y, z);
-
-                                    if (b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-                                        SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
-
-                                        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-                                        SlimefunItem sfItem = BlockStorage.check(b);
-                                        boolean allow = false;
-
-                                        if (sfItem != null && !(sfItem instanceof HandledBlock)) {
-                                            SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
-
-                                            if (handler != null) {
-                                                allow = handler.onBreak(e.getPlayer(), b, sfItem, UnregisterReason.PLAYER_BREAK);
-                                            }
-
-                                            if (allow && b.getType() == Material.AIR) {
-                                                drops.add(BlockStorage.retrieve(b));
-                                            }
-                                        }
-                                        else if (b.getType() == Material.PLAYER_HEAD) {
-                                            b.breakNaturally();
-                                        }
-                                        else if (b.getType().name().endsWith("_SHULKER_BOX")) {
-                                            b.breakNaturally();
-                                        }
-                                        else {
-                                            for (ItemStack drop : b.getDrops(getItem())) {
-                                                b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune) : drop);
-                                            }
-                                            b.setType(Material.AIR);
-                                        }
-
-                                        damageItem(e.getPlayer(), item);
-                                    }
+                                    breakBlock(e.getPlayer(), b, fortune, drops);
                                 }
                             }
                         }
@@ -100,19 +72,45 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
 
                     return true;
                 }
-                else return false;
+                else {
+                    return false;
+                }
             }
         };
     }
 
-    @Override
-    public void postRegister() {
-        damageOnUse = ((boolean) Slimefun.getItemValue(getID(), "damage-on-use"));
+    private void breakBlock(Player p, Block b, int fortune, List<ItemStack> drops) {
+        if (b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+            SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
+
+            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+            SlimefunItem sfItem = BlockStorage.check(b);
+
+            if (sfItem != null && !(sfItem instanceof HandledBlock)) {
+                SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+
+                if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
+                    drops.add(BlockStorage.retrieve(b));
+                }
+            }
+            else if (b.getType() == Material.PLAYER_HEAD || b.getType().name().endsWith("_SHULKER_BOX")) {
+                b.breakNaturally();
+            }
+            else {
+                for (ItemStack drop : b.getDrops(getItem())) {
+                    b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune) : drop);
+                }
+
+                b.setType(Material.AIR);
+            }
+
+            damageItem(p, item);
+        }
     }
 
     @Override
     public boolean isDamageable() {
-        return damageOnUse;
+        return damageOnUse.getValue();
     }
 
 }

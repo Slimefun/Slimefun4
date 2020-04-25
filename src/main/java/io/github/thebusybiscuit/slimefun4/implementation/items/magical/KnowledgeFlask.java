@@ -22,6 +22,7 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
     public ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
+
             if (p.getLevel() >= 1 && (!e.getClickedBlock().isPresent() || !(e.getClickedBlock().get().getState() instanceof Container))) {
                 p.setLevel(p.getLevel() - 1);
                 p.getInventory().addItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone());

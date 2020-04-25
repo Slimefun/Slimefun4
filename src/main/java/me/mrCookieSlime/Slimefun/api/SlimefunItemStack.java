@@ -1,11 +1,14 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -19,6 +22,8 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -101,14 +106,14 @@ public class SlimefunItemStack extends CustomItem {
     }
 
     public SlimefunItemStack(String id, String texture, String name, String... lore) {
-        super(getSkull(texture), name, lore);
-        this.texture = getTexture(texture);
+        super(getSkull(id, texture), name, lore);
+        this.texture = getTexture(id, texture);
 
         setID(id);
     }
 
     public SlimefunItemStack(String id, String texture, String name, Consumer<ItemMeta> consumer) {
-        super(getSkull(texture), meta -> {
+        super(getSkull(id, texture), meta -> {
             if (name != null) {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
             }
@@ -116,19 +121,25 @@ public class SlimefunItemStack extends CustomItem {
             consumer.accept(meta);
         });
 
-        this.texture = getTexture(texture);
+        this.texture = getTexture(id, texture);
 
         setID(id);
     }
 
     public SlimefunItemStack(String id, String texture, Consumer<ItemMeta> consumer) {
-        super(getSkull(texture), consumer);
-        this.texture = getTexture(texture);
+        super(getSkull(id, texture), consumer);
+        this.texture = getTexture(id, texture);
 
         setID(id);
     }
 
     private void setID(String id) {
+        Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
+
+        if (SlimefunPlugin.instance == null) {
+            throw new PrematureCodeException("A SlimefunItemStack must never be be created before your Plugin was enabled.");
+        }
+
         this.id = id;
 
         ItemMeta meta = getItemMeta();
@@ -149,7 +160,7 @@ public class SlimefunItemStack extends CustomItem {
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
     public SlimefunItem getItem() {
-        return SlimefunItem.getByID(this.id);
+        return SlimefunItem.getByID(id);
     }
 
     public ImmutableItemMeta getImmutableMeta() {
@@ -165,28 +176,27 @@ public class SlimefunItemStack extends CustomItem {
 
     @Override
     public ItemStack clone() {
-        SlimefunItemStack item = (SlimefunItemStack) super.clone();
-        item.id = getItemID();
-        return item;
+        return new SlimefunItemStack(id, this);
     }
 
     public Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
     }
 
-    private static ItemStack getSkull(String texture) {
-        return SkullItem.fromBase64(getTexture(texture));
+    private static ItemStack getSkull(String id, String texture) {
+        return SkullItem.fromBase64(getTexture(id, texture));
     }
 
-    private static String getTexture(String texture) {
-        String base64 = texture;
-
-        // At this point we can be sure it's not a base64 encoded texture
-        if (!texture.startsWith("ey")) {
-            base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes());
+    private static String getTexture(String id, String texture) {
+        if (texture.startsWith("ey")) {
+            return texture;
         }
-
-        return base64;
+        else if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+            return Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
+        }
+        else {
+            throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
+        }
     }
 
 }

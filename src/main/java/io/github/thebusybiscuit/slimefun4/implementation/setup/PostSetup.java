@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,9 +14,7 @@ import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonElement;
@@ -46,7 +45,7 @@ public final class PostSetup {
 
         JsonParser parser = new JsonParser();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json")))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
             JsonElement element = parser.parse(reader.lines().collect(Collectors.joining("")));
             JsonObject json = element.getAsJsonObject();
 
@@ -60,20 +59,6 @@ public final class PostSetup {
         }
         catch (IOException e) {
             Slimefun.getLogger().log(Level.SEVERE, "Failed to load wiki.json file", e);
-        }
-    }
-
-    public static void setupItemSettings() {
-        for (World world : Bukkit.getWorlds()) {
-            SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
-        }
-
-        Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);
-
-        for (Enchantment enchantment : Enchantment.values()) {
-            for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
-                Slimefun.setItemVariable("MAGICIAN_TALISMAN", "allow-enchantments." + enchantment.getKey().getKey() + ".level." + i, true);
-            }
         }
     }
 
@@ -107,7 +92,8 @@ public final class PostSetup {
         sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + total + " Items and " + SlimefunPlugin.getRegistry().getResearches().size() + " Researches");
         sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " Items from Slimefun, " + (total - vanilla) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is maintained by community developers!");
+        sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is kept alive by a large community.");
+        sender.sendMessage(ChatColor.GREEN + "Consider helping us maintain this project by contributing on GitHub!");
 
         if (SlimefunPlugin.getUpdater().getBranch().isOfficial()) {
             sender.sendMessage("");
@@ -118,14 +104,14 @@ public final class PostSetup {
             sender.sendMessage(ChatColor.GREEN + " - Discord:      https://discord.gg/fsD4Bkh");
         }
         else {
-            sender.sendMessage(ChatColor.GREEN + " -- UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
+            sender.sendMessage(ChatColor.GREEN + " - UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
         }
 
         sender.sendMessage("");
 
         SlimefunPlugin.getItemCfg().save();
         SlimefunPlugin.getResearchCfg().save();
-        SlimefunPlugin.getWhitelist().save();
+        SlimefunPlugin.getRegistry().setAutoLoadingMode(true);
     }
 
     private static void loadAutomaticCraftingChamber() {

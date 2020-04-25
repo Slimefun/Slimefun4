@@ -25,6 +25,5 @@ public final class Commands {
         commands.add(new OpenGuideCommand(plugin, cmd));
         commands.add(new SearchCommand(plugin, cmd));
         commands.add(new DebugFishCommand(plugin, cmd));
-        commands.add(new ElevatorCommand(plugin, cmd));
     }
 }

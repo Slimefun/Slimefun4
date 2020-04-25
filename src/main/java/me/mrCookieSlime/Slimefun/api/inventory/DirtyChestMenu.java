@@ -37,11 +37,11 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public BlockMenuPreset getPreset() {
-        return this.preset;
+        return preset;
     }
 
     public boolean canOpen(Block b, Player p) {
-        return this.preset.canOpen(b, p);
+        return preset.canOpen(b, p);
     }
 
     public void close() {
@@ -70,6 +70,7 @@ public class DirtyChestMenu extends ChestMenu {
 
     public ItemStack pushItem(ItemStack item, int... slots) {
         int amount = item.getAmount();
+
         for (int slot : slots) {
             if (amount <= 0) break;
 
@@ -107,13 +108,12 @@ public class DirtyChestMenu extends ChestMenu {
 
     @Override
     public void replaceExistingItem(int slot, ItemStack item) {
-        this.replaceExistingItem(slot, item, true);
+        replaceExistingItem(slot, item, true);
     }
 
     public void replaceExistingItem(int slot, ItemStack item, boolean event) {
-        ItemStack previous = getItemInSlot(slot);
-
         if (event && this.event != null) {
+            ItemStack previous = getItemInSlot(slot);
             item = this.event.onEvent(slot, previous, item);
         }
 

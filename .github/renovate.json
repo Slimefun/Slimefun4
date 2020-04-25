@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "assignees": [
+  ],
+  "labels": [
+    "Dependency Update"
+  ]
+}

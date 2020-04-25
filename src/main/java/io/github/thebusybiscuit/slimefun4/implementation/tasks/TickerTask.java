@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +37,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TickerTask implements Runnable {
 
-    private final DecimalFormat decimalFormat = new DecimalFormat("#.###");
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private final ConcurrentMap<Location, Location> move = new ConcurrentHashMap<>();
     private final ConcurrentMap<Location, Boolean> delete = new ConcurrentHashMap<>();
     private final ConcurrentMap<Location, Long> blockTimings = new ConcurrentHashMap<>();
@@ -198,19 +199,19 @@ public class TickerTask implements Runnable {
     }
 
     public String getTime() {
-        return toMillis(time);
+        return toMillis(time, false);
     }
 
     public void info(CommandSender sender) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2== &aSlimefun Diagnostic Tool &2=="));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Halted: &e&l" + String.valueOf(halted).toUpperCase()));
+        sender.sendMessage(ChatColors.color("&2== &aSlimefun Diagnostic Tool &2=="));
+        sender.sendMessage(ChatColors.color("&6Halted: &e&l" + String.valueOf(halted).toUpperCase(Locale.ROOT)));
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Impact: &e" + toMillis(time)));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Chunks: &e" + chunks));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticked Machines: &e" + machines));
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Skipped Machines: &e" + skipped));
+        sender.sendMessage(ChatColors.color("&6Impact: &e" + toMillis(time, true)));
+        sender.sendMessage(ChatColors.color("&6Ticked Chunks: &e" + chunks));
+        sender.sendMessage(ChatColors.color("&6Ticked Machines: &e" + machines));
+        sender.sendMessage(ChatColors.color("&6Skipped Machines: &e" + skipped));
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Ticking Machines:"));
+        sender.sendMessage(ChatColors.color("&6Ticking Machines:"));
 
         List<Map.Entry<String, Long>> timings = machineCount.keySet().stream().map(key -> new AbstractMap.SimpleEntry<>(key, machineTimings.getOrDefault(key, 0L))).sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue())).collect(Collectors.toList());
 
@@ -222,8 +223,8 @@ public class TickerTask implements Runnable {
             for (Map.Entry<String, Long> entry : timings) {
                 int count = machineCount.get(entry.getKey());
 
-                if (entry.getValue() > 500_000) {
-                    builder.append("\n&c").append(entry.getKey()).append(" - ").append(count).append("x &7(").append(toMillis(entry.getValue())).append(", ").append(toMillis(entry.getValue() / count)).append(" avg/machine)");
+                if (entry.getValue() > 300_000) {
+                    builder.append("\n&c").append(entry.getKey()).append(" - ").append(count).append("x &7(").append(toMillis(entry.getValue(), true)).append(", ").append(toMillis(entry.getValue() / count, true)).append(" avg/machine)");
                 }
                 else hidden++;
             }
@@ -238,8 +239,8 @@ public class TickerTask implements Runnable {
 
             for (Map.Entry<String, Long> entry : timings) {
                 int count = machineCount.get(entry.getKey());
-                if (entry.getValue() > 500_000) {
-                    sender.sendMessage("  " + entry.getKey() + " - " + count + "x (" + toMillis(entry.getValue()) + ", " + toMillis(entry.getValue() / count) + " avg/machine)");
+                if (entry.getValue() > 300_000) {
+                    sender.sendMessage("  " + entry.getKey() + " - " + count + "x (" + toMillis(entry.getValue(), false) + ", " + toMillis(entry.getValue() / count, false) + " avg/machine)");
                 }
                 else hidden++;
             }
@@ -260,7 +261,7 @@ public class TickerTask implements Runnable {
             for (Map.Entry<String, Long> entry : timings) {
                 if (!chunksSkipped.contains(entry.getKey())) {
                     if (entry.getValue() > 0) {
-                        builder.append("\n&c").append(formatChunk(entry.getKey())).append(" - ").append(chunkItemCount.getOrDefault(entry.getKey(), 0)).append("x &7(").append(toMillis(entry.getValue())).append(')');
+                        builder.append("\n&c").append(formatChunk(entry.getKey())).append(" - ").append(chunkItemCount.getOrDefault(entry.getKey(), 0)).append("x &7(").append(toMillis(entry.getValue(), true)).append(')');
                     }
                     else hidden++;
                 }
@@ -277,7 +278,7 @@ public class TickerTask implements Runnable {
             for (Map.Entry<String, Long> entry : timings) {
                 if (!chunksSkipped.contains(entry.getKey())) {
                     if (entry.getValue() > 0) {
-                        sender.sendMessage("  " + formatChunk(entry.getKey()) + " - " + (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue()) + ")");
+                        sender.sendMessage("  " + formatChunk(entry.getKey()) + " - " + (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue(), false) + ")");
                     }
                     else hidden++;
                 }
@@ -301,7 +302,8 @@ public class TickerTask implements Runnable {
     }
 
     public long getTimings(Chunk c) {
-        return chunkTimings.getOrDefault(c.toString(), 0L);
+        String id = c.getWorld().getName() + ';' + c.getX() + ';' + c.getZ();
+        return chunkTimings.getOrDefault(id, 0L);
     }
 
     public void addBlockTimings(Location l, long time) {
@@ -316,8 +318,22 @@ public class TickerTask implements Runnable {
         halted = true;
     }
 
-    private String toMillis(long time) {
-        return decimalFormat.format(time / 1000000F) + "ms";
+    public String toMillis(long nanoseconds, boolean colors) {
+        String number = decimalFormat.format(nanoseconds / 1000000.0);
+
+        if (!colors) {
+            return number;
+        }
+        else {
+            String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
+
+            if (parts.length == 1) {
+                return parts[0];
+            }
+            else {
+                return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+            }
+        }
     }
 
     @Override

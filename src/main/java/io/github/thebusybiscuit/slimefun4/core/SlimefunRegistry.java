@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,7 +34,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
@@ -56,6 +58,7 @@ public class SlimefunRegistry {
     private final Set<UUID> researchingPlayers = new HashSet<>();
     private final KeyMap<Research> researchIds = new KeyMap<>();
 
+    private boolean automaticallyLoadItems;
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
@@ -72,9 +75,9 @@ public class SlimefunRegistry {
     private final Set<String> chargeableBlocks = new HashSet<>();
     private final Map<String, WitherProof> witherProofBlocks = new HashMap<>();
 
+    private final ConcurrentMap<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
     private final Map<String, BlockStorage> worlds = new HashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
-    private final Map<UUID, PlayerProfile> profiles = new HashMap<>();
     private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
     private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
     private final Map<String, Integer> capacities = new HashMap<>();
@@ -85,11 +88,10 @@ public class SlimefunRegistry {
 
     private final Map<String, Set<Location>> activeTickers = new HashMap<>();
 
-    private final Map<Integer, List<GuideHandler>> guideHandlers = new HashMap<>();
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
     public void load(Config cfg) {
-        boolean showVanillaRecipes = cfg.getBoolean("options.show-vanilla-recipes-in-guide");
+        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
 
         layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
         layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
@@ -97,11 +99,27 @@ public class SlimefunRegistry {
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
-        freeCreativeResearches = cfg.getBoolean("options.allow-free-creative-research");
-        researchFireworks = cfg.getBoolean("options.research-unlock-fireworks");
+        freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
+        researchFireworks = cfg.getBoolean("researches.enable-fireworks");
     }
 
-    public List<Category> getEnabledCategories() {
+    /**
+     * This returns whether auto-loading is enabled.
+     * Auto-Loading will automatically call {@link SlimefunItem#load()} when the item is registered.
+     * Normally that method is called after the {@link Server} finished starting up.
+     * But in the unusual scenario if a {@link SlimefunItem} is registered after that, this is gonna cover that.
+     * 
+     * @return Whether auto-loading is enabled
+     */
+    public boolean isAutoLoadingEnabled() {
+        return automaticallyLoadItems;
+    }
+
+    public void setAutoLoadingMode(boolean mode) {
+        automaticallyLoadItems = mode;
+    }
+
+    public List<Category> getCategories() {
         return categories;
     }
 
@@ -203,7 +221,7 @@ public class SlimefunRegistry {
         return universalInventories;
     }
 
-    public Map<UUID, PlayerProfile> getPlayerProfiles() {
+    public ConcurrentMap<UUID, PlayerProfile> getPlayerProfiles() {
         return profiles;
     }
 
@@ -229,11 +247,6 @@ public class SlimefunRegistry {
 
     public KeyMap<GEOResource> getGEOResources() {
         return geoResources;
-    }
-
-    @Deprecated
-    public Map<Integer, List<GuideHandler>> getGuideHandlers() {
-        return guideHandlers;
     }
 
     @Deprecated

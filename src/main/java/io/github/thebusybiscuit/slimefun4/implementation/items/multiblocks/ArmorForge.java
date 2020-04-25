@@ -16,16 +16,16 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class ArmorForge extends MultiBlockMachine {
 
-    public ArmorForge() {
-        super(Categories.MACHINES_1, SlimefunItems.ARMOR_FORGE, new ItemStack[] { 
+    public ArmorForge(Category category) {
+        super(category, SlimefunItems.ARMOR_FORGE, new ItemStack[] { 
               null, null, null, 
               null, new ItemStack(Material.ANVIL), null, 
               null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null 

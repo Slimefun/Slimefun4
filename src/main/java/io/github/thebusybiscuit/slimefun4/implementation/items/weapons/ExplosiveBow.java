@@ -4,13 +4,14 @@ import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class ExplosiveBow extends SlimefunBow {
 
-    public ExplosiveBow(SlimefunItemStack item, ItemStack[] recipe) {
-        super(item, recipe);
+    public ExplosiveBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
+        super(category, item, recipe);
     }
 
     @Override

@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.entity.EntityType;
@@ -52,7 +53,7 @@ public class BlockPhysicsListener implements Listener {
     @EventHandler
     public void onPistonExtend(BlockPistonExtendEvent e) {
         for (Block b : e.getBlocks()) {
-            if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+            if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                 e.setCancelled(true);
                 return;
             }
@@ -63,7 +64,7 @@ public class BlockPhysicsListener implements Listener {
     public void onPistonRetract(BlockPistonRetractEvent e) {
         if (e.isSticky()) {
             for (Block b : e.getBlocks()) {
-                if (BlockStorage.hasBlockInfo(b) || b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection()))) {
+                if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);
                     return;
                 }
@@ -71,13 +72,16 @@ public class BlockPhysicsListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onLiquidFlow(BlockFromToEvent e) {
         Block block = e.getToBlock();
-        String item = BlockStorage.checkID(block);
 
-        if (item != null) {
-            e.setCancelled(true);
+        if (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD || Tag.SAPLINGS.isTagged(block.getType())) {
+            String item = BlockStorage.checkID(block);
+
+            if (item != null) {
+                e.setCancelled(true);
+            }
         }
     }
 

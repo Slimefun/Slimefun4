@@ -1,12 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.Optional;
+
+import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
+/**
+ * This {@link Listener} removes a {@link PlayerProfile} from memory if the corresponding {@link Player}
+ * has left the {@link Server} or was kicked.
+ * 
+ * @author TheBusyBiscuit
+ * @author SoSeDiK
+ *
+ */
 public class PlayerProfileListener implements Listener {
 
     public PlayerProfileListener(SlimefunPlugin plugin) {
@@ -15,8 +28,21 @@ public class PlayerProfileListener implements Listener {
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
-        if (PlayerProfile.isLoaded(e.getPlayer().getUniqueId())) {
-            PlayerProfile.get(e.getPlayer()).markForDeletion();
+        Optional<PlayerProfile> profile = PlayerProfile.find(e.getPlayer());
+
+        // if we still have a profile of this Player in memory, delete it
+        if (profile.isPresent()) {
+            profile.get().markForDeletion();
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onKick(PlayerKickEvent e) {
+        Optional<PlayerProfile> profile = PlayerProfile.find(e.getPlayer());
+
+        // if we still have a profile of this Player in memory, delete it
+        if (profile.isPresent()) {
+            profile.get().markForDeletion();
         }
     }
 

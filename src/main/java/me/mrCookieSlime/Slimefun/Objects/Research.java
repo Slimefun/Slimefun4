@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
@@ -138,7 +138,7 @@ public class Research implements Keyed {
     public void addItems(SlimefunItem... items) {
         for (SlimefunItem item : items) {
             if (item != null) {
-                item.bindToResearch(this);
+                item.setResearch(this);
             }
         }
     }
@@ -163,9 +163,9 @@ public class Research implements Keyed {
         if (!isEnabled()) {
             return true;
         }
-        
+
         boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
-        return creativeResearch || p.getLevel() >= this.cost;
+        return creativeResearch || p.getLevel() >= cost;
     }
 
     /**
@@ -239,12 +239,12 @@ public class Research implements Keyed {
         migrate(id, path);
 
         if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {
-            Iterator<SlimefunItem> iterator = items.iterator();
-            while (iterator.hasNext()) {
-                SlimefunItem item = iterator.next();
-                if (item != null) item.bindToResearch(null);
-                iterator.remove();
+            for (SlimefunItem item : new ArrayList<>(items)) {
+                if (item != null) {
+                    item.setResearch(null);
+                }
             }
+
             return;
         }
 
@@ -291,6 +291,6 @@ public class Research implements Keyed {
 
     @Override
     public String toString() {
-        return "Research {" + id + ',' + name + "}";
+        return "Research (" + getKey() + ')';
     }
 }

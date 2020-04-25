@@ -13,7 +13,7 @@ public class AndroidInstance {
     }
 
     public ProgrammableAndroid getAndroid() {
-        return this.android;
+        return android;
     }
 
     public Block getBlock() {

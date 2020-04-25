@@ -52,6 +52,7 @@ public class RecipeType implements Keyed {
     public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
     public static final RecipeType FOOD_COMPOSTER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "food_composter"), SlimefunItems.FOOD_COMPOSTER);
     public static final RecipeType FREEZER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "freezer"), SlimefunItems.FREEZER);
+    public static final RecipeType REFINERY = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "refinery"), SlimefunItems.REFINERY);
 
     public static final RecipeType GEO_MINER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "geo_miner"), SlimefunItems.GEO_MINER);
     public static final RecipeType NUCLEAR_REACTOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance, "nuclear_reactor"), SlimefunItems.NUCLEAR_REACTOR);
@@ -74,7 +75,7 @@ public class RecipeType implements Keyed {
         this.machine = machine;
 
         if (machine.length() > 0) {
-            this.key = new NamespacedKey(SlimefunPlugin.instance, machine.toLowerCase());
+            this.key = new NamespacedKey(SlimefunPlugin.instance, machine.toLowerCase(Locale.ROOT));
         }
         else {
             this.key = new NamespacedKey(SlimefunPlugin.instance, "unknown");
@@ -98,20 +99,10 @@ public class RecipeType implements Keyed {
         }
     }
 
-    /**
-     * @deprecated Use the constructor with {@link NamespacedKey} instead
-     * @param item
-     *            The {@link ItemStack} to use for this {@link RecipeType}
-     */
-    @Deprecated
-    public RecipeType(ItemStack item) {
-        this(item, "");
-    }
-
     public RecipeType(NamespacedKey key, ItemStack item) {
         this.key = key;
         this.item = item;
-        this.machine = "";
+        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemID() : "";
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
@@ -151,7 +142,7 @@ public class RecipeType implements Keyed {
     }
 
     private static void registerMobDrop(ItemStack[] recipe, ItemStack output) {
-        String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase().replace(' ', '_');
+        String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase(Locale.ROOT).replace(' ', '_');
         EntityType entity = EntityType.valueOf(mob);
         Set<ItemStack> dropping = SlimefunPlugin.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
         dropping.add(output);

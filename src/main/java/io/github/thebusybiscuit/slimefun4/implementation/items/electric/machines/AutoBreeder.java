@@ -47,6 +47,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
                     }
                 }
             }
+
             return true;
         });
     }

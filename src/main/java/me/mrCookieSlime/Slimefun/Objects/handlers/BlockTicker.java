@@ -1,9 +1,13 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
+import java.util.Optional;
+
 import org.bukkit.block.Block;
 
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.NotPlaceable;
 
 public abstract class BlockTicker implements ItemHandler {
 
@@ -14,6 +18,19 @@ public abstract class BlockTicker implements ItemHandler {
             uniqueTick();
             unique = false;
         }
+    }
+
+    @Override
+    public Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+        if (!item.getItem().getType().isBlock()) {
+            return Optional.of(new IncompatibleItemHandlerException("Only Materials that are blocks can have a BlockTicker.", item, this));
+        }
+
+        if (item instanceof NotPlaceable) {
+            return Optional.of(new IncompatibleItemHandlerException("Only Slimefun items that are not marked as 'NotPlaceable' can have a BlockTicker.", item, this));
+        }
+
+        return Optional.empty();
     }
 
     /**

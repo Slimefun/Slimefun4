@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -99,13 +100,14 @@ abstract class Android extends SlimefunItem {
 
     public void openScript(Player p, Block b, String script) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-        String[] commands = PatternUtils.DASH.split(script);
 
         menu.addItem(0, new CustomItem(ScriptAction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             BlockStorage.getInventory(b).open(pl);
             return false;
         });
+
+        String[] commands = PatternUtils.DASH.split(script);
 
         for (int i = 1; i < commands.length; i++) {
             int index = i;
@@ -147,8 +149,7 @@ abstract class Android extends SlimefunItem {
                             j++;
                         }
                         builder.append(ScriptAction.REPEAT);
-                        BlockStorage.addBlockInfo(b, "script", builder.toString());
-
+                        setScript(b.getLocation(), builder.toString());
                         openScript(pl, b, builder.toString());
                     }
                     else if (action.isRightClicked()) {
@@ -161,7 +162,7 @@ abstract class Android extends SlimefunItem {
                         }
 
                         builder.append(ScriptAction.REPEAT);
-                        BlockStorage.addBlockInfo(b, "script", builder.toString());
+                        setScript(b.getLocation(), builder.toString());
 
                         openScript(pl, b, builder.toString());
                     }
@@ -182,7 +183,6 @@ abstract class Android extends SlimefunItem {
 
         List<Config> scripts = getUploadedScripts();
 
-        int index = 0;
         int pages = (scripts.size() / 45) + 1;
 
         for (int i = 45; i < 54; i++) {
@@ -222,6 +222,7 @@ abstract class Android extends SlimefunItem {
             return false;
         });
 
+        int index = 0;
         int categoryIndex = 45 * (page - 1);
 
         for (int i = 0; i < 45; i++) {
@@ -283,7 +284,7 @@ abstract class Android extends SlimefunItem {
                         script2.setValue("downloads", script2.getInt("downloads") + 1);
                         script2.save();
 
-                        BlockStorage.addBlockInfo(b, "script", script2.getString("code"));
+                        setScript(b.getLocation(), script2.getString("code"));
                         openScriptEditor(pl, b);
                     }
                     return false;
@@ -297,7 +298,7 @@ abstract class Android extends SlimefunItem {
     }
 
     private void uploadScript(Player p, Block b, int page) {
-        String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
+        String code = getScript(b.getLocation());
         int num = 1;
 
         for (Config script : getUploadedScripts()) {
@@ -339,7 +340,7 @@ abstract class Android extends SlimefunItem {
 
         menu.addItem(1, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-            openScript(pl, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
+            openScript(pl, b, getScript(b.getLocation()));
             return false;
         });
 
@@ -443,7 +444,7 @@ abstract class Android extends SlimefunItem {
             }
 
             builder.append("REPEAT");
-            BlockStorage.addBlockInfo(b, "script", builder.toString());
+            setScript(b.getLocation(), builder.toString());
 
             openScript(p, b, builder.toString());
             return false;
@@ -474,8 +475,16 @@ abstract class Android extends SlimefunItem {
         }
 
         builder.append("REPEAT");
-        BlockStorage.addBlockInfo(b, "script", builder.toString());
+        setScript(b.getLocation(), builder.toString());
 
         openScript(p, b, builder.toString());
+    }
+
+    protected String getScript(Location l) {
+        return BlockStorage.getLocationInfo(l, "script");
+    }
+
+    protected void setScript(Location l, String script) {
+        BlockStorage.addBlockInfo(l, "script", script);
     }
 }

@@ -88,7 +88,7 @@ public class Translators {
         addTranslator("PabloMarcendo", EmbeddedLanguage.DUTCH, true);
 
         // Translators - Polish
-        addTranslator("kbartek05", "kbartek_", EmbeddedLanguage.POLISH, true);
+        addTranslator("ascpixel", "kbartek_", EmbeddedLanguage.POLISH, true);
         addTranslator("Xylitus", EmbeddedLanguage.POLISH, true);
         addTranslator("Wirusiu", EmbeddedLanguage.POLISH, true);
         addTranslator("koloksk", EmbeddedLanguage.POLISH, true);
@@ -101,7 +101,7 @@ public class Translators {
         addTranslator("mio9", EmbeddedLanguage.CHINESE_TAIWAN, true);
 
         // Translators - Arabic
-        addTranslator("mohkamfer", "citBabY", EmbeddedLanguage.ARABIC, false);
+        addTranslator("mohkamfer", "AgentBabbie", EmbeddedLanguage.ARABIC, false);
 
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);

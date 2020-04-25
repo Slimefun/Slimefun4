@@ -15,6 +15,7 @@ Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons),
 * **[Discord Support Server](#discord)**
 * **[Bug Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues)**
 * **[Wiki](https://github.com/TheBusyBiscuit/Slimefun4/wiki)**
+* **[FAQ](https://github.com/TheBusyBiscuit/Slimefun4/wiki/FAQ)**
 
 ## Download Slimefun 4
 (See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))<br>
@@ -24,7 +25,7 @@ Here is a full summary of the differences between these two versions of Slimefun
 
 | | development builds | "stable" builds |
 | ------------------ | -------- | -------- |
-| **Supported Minecraft version(s)** | 1.14.X - 1.15.X | 1.14.X - 1.15.X |
+| **Supported Minecraft version(s)** | 1.13.X - 1.15.X | 1.14.X - 1.15.X |
 | **extensive testing before release** | :x: | :heavy_check_mark: |
 | **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
@@ -51,7 +52,7 @@ Development builds are uploaded automatically making the maintenance of a proper
 * [download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)
 
 ## Discord
-You can find Slimefun's community on Discord and connect with **over 1250** users of this plugin from all over the world.<br>
+You can find Slimefun's community on Discord and connect with **over 1500** users of this plugin from all over the world.<br>
 Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.<br>
 We are also hosting a community event every so often, join us to find out more.<br>
 **Important**: We do **not** accept bug reports on discord, please use our [Issue Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues) to submit bug reports!
@@ -75,10 +76,14 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 * [What is Slimefun?](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)
 * [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun)
 * [Addons for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons)
+* [How to create an Addon for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide)
 * [Getting Started](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Getting-Started)
+* [Common issues](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Common-Issues)
+* [Frequently Asked Questions](https://github.com/TheBusyBiscuit/Slimefun4/wiki/FAQ)
 * [Help us expand the Wiki!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Expanding-the-Wiki)
 * [Help us translate Slimefun!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun)
-* [Common issues](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Common-Issues)
+
+The wiki is entirely community-run, so if you find an article missing, feel free to write one and share it with others.
 
 ## Contributing to this project
 Slimefun 4 is an Open-Source project and licensed under

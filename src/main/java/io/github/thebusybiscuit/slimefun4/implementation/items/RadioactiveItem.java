@@ -41,7 +41,7 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive {
      */
     public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-
+        
         this.radioactivity = radioactivity;
     }
 

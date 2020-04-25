@@ -11,7 +11,7 @@ public class ParachuteTask extends PlayerTask {
     }
 
     @Override
-    void executeTask() {
+    protected void executeTask() {
         Vector vector = new Vector(0, 1, 0);
         vector.multiply(-0.1);
         p.setVelocity(vector);

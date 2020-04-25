@@ -16,9 +16,11 @@ import org.bukkit.inventory.EquipmentSlot;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
@@ -69,9 +71,12 @@ public class DebugFishListener implements Listener {
     }
 
     private void sendInfo(Player p, Block b) {
+        SlimefunItem item = BlockStorage.check(b);
+
         p.sendMessage(" ");
         p.sendMessage(ChatColors.color("&d" + b.getType() + " &e@ X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ()));
-        p.sendMessage(ChatColors.color("&dID: " + "&e" + BlockStorage.checkID(b)));
+        p.sendMessage(ChatColors.color("&dId: " + "&e" + item.getID()));
+        p.sendMessage(ChatColors.color("&dPlugin: " + "&e" + item.getAddon().getName()));
 
         if (b.getState() instanceof Skull) {
             p.sendMessage(ChatColors.color("&dSkull: " + enabledTooltip));
@@ -92,17 +97,19 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("&dInventory: " + disabledTooltip));
         }
 
-        if (BlockStorage.check(b).isTicking()) {
+        TickerTask ticker = SlimefunPlugin.getTicker();
+
+        if (item.isTicking()) {
             p.sendMessage(ChatColors.color("&dTicker: " + enabledTooltip));
             p.sendMessage(ChatColors.color("  &dAsync: &e" + (BlockStorage.check(b).getBlockTicker().isSynchronized() ? disabledTooltip : enabledTooltip)));
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(b) + "ns"));
-            p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + SlimefunPlugin.getTicker().getTimings(BlockStorage.checkID(b)) + "ns"));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(b.getChunk()) + "ns"));
+            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true)));
+            p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + ticker.toMillis(ticker.getTimings(BlockStorage.checkID(b)), true)));
+            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true)));
         }
-        else if (BlockStorage.check(b).getEnergyTicker() != null) {
+        else if (item.getEnergyTicker() != null) {
             p.sendMessage(ChatColors.color("&dTicking: " + "&3Indirect"));
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getTicker().getTimings(b) + "ns"));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getTicker().getTimings(b.getChunk()) + "ns"));
+            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true)));
+            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true)));
         }
         else {
             p.sendMessage(ChatColors.color("&dTicker: " + disabledTooltip));
@@ -117,7 +124,7 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("&dChargeable: " + disabledTooltip));
         }
 
-        p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(b)));
+        p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(b.getLocation())));
 
         p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(b)));
         p.sendMessage(" ");

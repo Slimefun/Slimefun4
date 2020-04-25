@@ -254,7 +254,7 @@ abstract class ChestTerminalNetwork extends Network {
                         handleWithdraw(blockMenu, items, l);
                     }
                 }
-                else {
+                else if (CargoUtils.hasInventory(target)) {
                     BlockState state = target.getState();
 
                     if (state instanceof InventoryHolder) {

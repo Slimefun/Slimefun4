@@ -66,10 +66,23 @@ public class PlayerRightClickEvent extends Event {
         return player;
     }
 
+    /**
+     * This method returns the {@link ItemStack} that was held in the hand of the {@link Player}.
+     * It will never return null, should there be no {@link ItemStack} then it will return
+     * {@code new ItemStack(Material.AIR)}.
+     * 
+     * @return The {@link ItemStack} that the {@link Player} right clicked with
+     */
     public ItemStack getItem() {
         return itemStack.orElse(new ItemStack(Material.AIR));
     }
 
+    /**
+     * This returns the hand that was used in this interaction.
+     * Can either be {@code EquipmentSlot.HAND} or {@code EquipmentSlot.OFF_HAND}.
+     * 
+     * @return The hand used in this {@link Event}
+     */
     public EquipmentSlot getHand() {
         return hand;
     }

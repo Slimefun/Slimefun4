@@ -4,17 +4,19 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Level;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
- * that are not a dependency or a {@link SlimefunAddon}.
+ * that are not necessarily a dependency or a {@link SlimefunAddon}.
  * 
  * Integration with these plugins happens inside Slimefun itself.
  * 
@@ -45,10 +47,26 @@ public class ThirdPartyPluginService {
             isPlaceholderAPIInstalled = true;
             new PlaceholderAPIHook().register();
         }
-        
+
         if (isPluginInstalled("EmeraldEnchants")) {
             isEmeraldEnchantsInstalled = true;
-            Slimefun.registerGuideHandler(new EmeraldEnchantsHook());
+            Plugin emeraldEnchants = plugin.getServer().getPluginManager().getPlugin("EmeraldEnchants");
+            FlexCategory category = new EmeraldEnchantsCategory(new NamespacedKey(emeraldEnchants, "enchantment_guide"));
+            category.register();
+        }
+
+        // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
+        if (isPluginInstalled("WorldEdit")) {
+            try {
+                Class.forName("com.sk89q.worldedit.extent.Extent");
+                new WorldEditHook();
+            }
+            catch (Throwable x) {
+                String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
+
+                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
+            }
         }
 
         /*
@@ -62,20 +80,6 @@ public class ThirdPartyPluginService {
             }
 
             isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
-
-            // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-            if (isPluginInstalled("WorldEdit")) {
-                try {
-                    Class.forName("com.sk89q.worldedit.extent.Extent");
-                    new WorldEditHook();
-                }
-                catch (Exception x) {
-                    String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
-
-                    Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
-                    Slimefun.getLogger().log(Level.WARNING, "Failed to hook into WorldEdit v" + version, x);
-                }
-            }
         });
     }
 

@@ -1,19 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.bukkit.plugin.Plugin;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This Service is responsible for grabbing every {@link Contributor} to this project
@@ -35,7 +33,7 @@ public class GitHubService {
     private int pullRequests = 0;
     private int forks = 0;
     private int stars = 0;
-    private Date lastUpdate = new Date();
+    private LocalDateTime lastUpdate = LocalDateTime.now();
 
     public GitHubService(String repository) {
         this.repository = repository;
@@ -45,16 +43,22 @@ public class GitHubService {
         loadConnectors(false);
     }
 
-    public void start(Plugin plugin) {
+    public void start(SlimefunPlugin plugin) {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
     }
 
     private void addDefaultContributors() {
-        Contributor fuffles = new Contributor("Fuffles_");
-        fuffles.setContribution("&dSkull Texture Artist", 0);
-        contributors.put(fuffles.getName(), fuffles);
+        addContributor("Fuffles_", "&dArtist");
+        addContributor("IMS_Art", "&dArtist");
+        addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
         new Translators(contributors);
+    }
+
+    private void addContributor(String name, String role) {
+        Contributor contributor = new Contributor(name);
+        contributor.setContribution(role, 0);
+        contributors.put(name, contributor);
     }
 
     private void loadConnectors(boolean logging) {
@@ -71,7 +75,13 @@ public class GitHubService {
         // TheBusyBiscuit/Slimefun4-Resourcepack
         connectors.add(new ContributionsConnector(this, "resourcepack", 1, "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
 
-        connectors.add(new GitHubConnector(this) {
+        // Issues and Pull Requests
+        connectors.add(new GitHubIssuesTracker(this, repository, (issues, pullRequests) -> {
+            this.issues = issues;
+            this.pullRequests = pullRequests;
+        }));
+
+        connectors.add(new GitHubConnector(this, repository) {
 
             @Override
             public void onSuccess(JsonElement element) {
@@ -82,11 +92,6 @@ public class GitHubService {
             }
 
             @Override
-            public String getRepository() {
-                return repository;
-            }
-
-            @Override
             public String getFileName() {
                 return "repo";
             }
@@ -94,42 +99,6 @@ public class GitHubService {
             @Override
             public String getURLSuffix() {
                 return "";
-            }
-        });
-
-        connectors.add(new GitHubConnector(this) {
-
-            @Override
-            public void onSuccess(JsonElement element) {
-                JsonArray array = element.getAsJsonArray();
-
-                int issueCount = 0;
-                int prCount = 0;
-
-                for (JsonElement elem : array) {
-                    JsonObject obj = elem.getAsJsonObject();
-
-                    if (obj.has("pull_request")) prCount++;
-                    else issueCount++;
-                }
-
-                issues = issueCount;
-                pullRequests = prCount;
-            }
-
-            @Override
-            public String getRepository() {
-                return repository;
-            }
-
-            @Override
-            public String getFileName() {
-                return "issues";
-            }
-
-            @Override
-            public String getURLSuffix() {
-                return "/issues";
             }
         });
     }
@@ -158,7 +127,7 @@ public class GitHubService {
         return pullRequests;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
