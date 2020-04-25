@@ -757,22 +757,6 @@ public class SlimefunItem implements Placeable {
         return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
     }
 
-    /**
-     * This gets an ItemStack from the SlimefunItem with that id.
-     * 
-     * @deprecated Please use {@link #getByID(String)} to obtain the {@link SlimefunItem} and then get the ItemStack
-     *             from that.
-     * 
-     * @param id
-     *            the item id
-     * @return The item
-     */
-    @Deprecated
-    public static ItemStack getItem(String id) {
-        SlimefunItem sfi = getByID(id);
-        return sfi == null ? null : sfi.getItem();
-    }
-
     public static SlimefunItem getByItem(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) return null;
 

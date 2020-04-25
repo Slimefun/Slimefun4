@@ -2,13 +2,15 @@ package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import com.google.gson.JsonElement;
@@ -84,7 +86,7 @@ abstract class GitHubConnector {
     }
 
     public void parseData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getFile()), StandardCharsets.UTF_8))) {
             StringBuilder builder = new StringBuilder();
 
             String line;
