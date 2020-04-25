@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 11 (24 Apr 2020)](#release-candidate-11-24-apr-2020)
+- [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
 - [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
 - [Release Candidate 9 (07 Mar 2020)](#release-candidate-9-07-mar-2020)
 - [Release Candidate 8 (06 Mar 2020)](#release-candidate-8-06-mar-2020)
@@ -16,14 +16,14 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 11 (24 Apr 2020)
+## Release Candidate 11 (25 Apr 2020)
 
 #### Additions
 * Added GEOResourceGenerationEvent
 * Added AncientAltarCraftEvent
 * Added SlimefunGuide-Options API
 * Added ItemSettings API
-* Added experimental 1.13 backwards compatibility
+* Added 1.13 backwards compatibility
 * Added "Magma Cream to Magma Blocks" recipe to the Electric Press
 * Added "Magma Blocks to Sulfate" recipe
 * You can now search for items from within the book variant of the Guide

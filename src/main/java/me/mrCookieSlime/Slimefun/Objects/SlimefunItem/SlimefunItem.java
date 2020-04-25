@@ -710,7 +710,7 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + ')';
+        return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
     }
 
     @Override

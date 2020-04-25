@@ -132,8 +132,10 @@ public final class SlimefunUtils {
         boolean sfItemHasMeta = sfitem.hasItemMeta();
         if (item.hasItemMeta()) {
             ItemMeta itemMeta = item.getItemMeta();
+
             if (sfitem instanceof SlimefunItemStack) {
                 Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
+
                 if (id.isPresent()) {
                     return id.get().equals(((SlimefunItemStack) sfitem).getItemID());
                 }
