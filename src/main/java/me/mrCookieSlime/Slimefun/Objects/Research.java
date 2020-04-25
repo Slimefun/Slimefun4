@@ -63,11 +63,14 @@ public class Research implements Keyed {
      *            The Cost in XP levels to unlock this {@link Research}
      * 
      */
-    public Research(NamespacedKey key, int id, String name, int defaultCost) {
+    public Research(NamespacedKey key, int id, String name, int defaultCost, SlimefunItem... items) {
         this.key = key;
         this.id = id;
         this.name = name;
         this.cost = defaultCost;
+        
+        if (items.length > 0)
+            this.addItems(items);
     }
 
     @Override
