@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 12 (TBD)](#release-candidate-12-tbd)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
 - [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
 - [Release Candidate 9 (07 Mar 2020)](#release-candidate-9-07-mar-2020)
