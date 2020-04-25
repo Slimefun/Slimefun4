@@ -135,12 +135,13 @@ public class Research implements Keyed {
      * @param items
      *            Instances of {@link SlimefunItem} to bind to this {@link Research}
      */
-    public void addItems(SlimefunItem... items) {
+    public Research addItems(SlimefunItem... items) {
         for (SlimefunItem item : items) {
             if (item != null) {
                 item.setResearch(this);
             }
         }
+        return this;
     }
 
     /**
