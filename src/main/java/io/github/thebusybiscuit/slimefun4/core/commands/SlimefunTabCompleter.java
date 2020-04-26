@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 class SlimefunTabCompleter implements TabCompleter {
 
@@ -30,7 +32,7 @@ class SlimefunTabCompleter implements TabCompleter {
         }
         else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
-                return createReturnList(SlimefunPlugin.getRegistry().getEnabledSlimefunItemIds(), args[2]);
+                return createReturnList(getSlimefunItems(), args[2]);
             }
             else if (args[0].equalsIgnoreCase("research")) {
                 Set<NamespacedKey> researches = SlimefunPlugin.getRegistry().getResearchIds().keySet();
@@ -66,7 +68,9 @@ class SlimefunTabCompleter implements TabCompleter {
      * @return Sublist if string is not empty
      */
     private List<String> createReturnList(List<String> list, String string) {
-        if (string.equals("")) return list;
+        if (string.length() == 0) {
+            return list;
+        }
 
         String input = string.toLowerCase(Locale.ROOT);
         List<String> returnList = new LinkedList<>();
@@ -85,6 +89,17 @@ class SlimefunTabCompleter implements TabCompleter {
         }
 
         return returnList;
+    }
+
+    private List<String> getSlimefunItems() {
+        List<SlimefunItem> items = SlimefunPlugin.getRegistry().getEnabledSlimefunItems();
+        List<String> list = new ArrayList<>(items.size());
+
+        for (SlimefunItem item : items) {
+            list.add(item.getID());
+        }
+
+        return list;
     }
 
 }

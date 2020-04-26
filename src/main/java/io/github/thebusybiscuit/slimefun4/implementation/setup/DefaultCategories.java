@@ -10,7 +10,6 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
@@ -32,11 +31,11 @@ import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 class DefaultCategories {
 
     // Standard Categories
-    protected final Category weapons = Categories.WEAPONS;
-    protected final Category tools = Categories.TOOLS;
+    protected final Category weapons = new Category(new NamespacedKey(SlimefunPlugin.instance, "weapons"), new CustomItem(SlimefunItems.BLADE_OF_VAMPIRES, "&7Weapons"), 1);
+    protected final Category tools = new Category(new NamespacedKey(SlimefunPlugin.instance, "tools"), new CustomItem(SlimefunItems.AUTO_SMELT_PICKAXE, "&7Tools"), 1);
     protected final Category usefulItems = new Category(new NamespacedKey(SlimefunPlugin.instance, "items"), new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
     protected final Category basicMachines = new Category(new NamespacedKey(SlimefunPlugin.instance, "basic_machines"), new CustomItem(Material.CRAFTING_TABLE, "&7Basic Machines"), 1);
-    protected final Category food = Categories.FOOD;
+    protected final Category food = new Category(new NamespacedKey(SlimefunPlugin.instance, "food"), new CustomItem(SlimefunItems.FORTUNE_COOKIE, "&7Food"), 2);
     protected final Category armor = new Category(new NamespacedKey(SlimefunPlugin.instance, "armor"), new CustomItem(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, "&7Armor"), 2);
 
     // Magical
@@ -45,7 +44,7 @@ class DefaultCategories {
     protected final Category magicalArmor = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_armor"), new CustomItem(SlimefunItems.ENDER_HELMET, "&7Magical Armor"), 2);
 
     // Resources and tech stuff
-    protected final Category misc = Categories.MISC;
+    protected final Category misc = new Category(new NamespacedKey(SlimefunPlugin.instance, "misc"), new CustomItem(SlimefunItems.CAN, "&7Miscellaneous"), 2);
     protected final Category technicalComponents = new Category(new NamespacedKey(SlimefunPlugin.instance, "tech_misc"), new CustomItem(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
     protected final Category technicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance, "technical_gadgets"), new CustomItem(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
     protected final Category resources = new Category(new NamespacedKey(SlimefunPlugin.instance, "resources"), new CustomItem(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);

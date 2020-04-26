@@ -601,6 +601,13 @@ public class SlimefunItem implements Placeable {
 
         for (ItemSetting<?> setting : settings) {
             if (setting != null) {
+                // Prevent two Item Settings with the same key
+                for (ItemSetting<?> existingSetting : itemSettings) {
+                    if (existingSetting.getKey().equals(setting.getKey())) {
+                        throw new IllegalArgumentException("This Item has already an ItemSetting with this key: " + setting.getKey());
+                    }
+                }
+
                 itemSettings.add(setting);
             }
         }
