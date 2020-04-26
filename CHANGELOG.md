@@ -19,6 +19,9 @@
 
 ## Release Candidate 12 (TBD)
 
+#### Changes
+* Bandages, Rags and Splints will no longer be consumed if your health is full and you are not on fire
+
 #### Fixes
 * Fixed #1824
 
