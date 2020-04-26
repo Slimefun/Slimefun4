@@ -7,7 +7,7 @@ on:
 jobs:
   comment:
     runs-on: ubuntu-latest
-    if: contains(github.event.issue_comment.comment, 'Duplicate of #')
+    if: contains(github.event.issue_comment.comment, 'Duplicate of ')
     steps:
       - name: Add label
         uses: maxkomarychev/octions/octions/issues/add-labels@master
