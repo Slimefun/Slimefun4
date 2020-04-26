@@ -13,5 +13,5 @@ jobs:
         uses: maxkomarychev/octions/octions/issues/add-labels@master
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
-          issue_number: ${{ github.event.comment.number }}
+          issue_number: ${{ github.event.issue.number }}
           labels: 'Duplicate'
