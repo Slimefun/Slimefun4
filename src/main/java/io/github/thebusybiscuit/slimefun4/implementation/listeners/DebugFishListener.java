@@ -115,7 +115,7 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("&dChargeable: " + disabledTooltip));
         }
 
-        p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(b)));
+        p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(b.getLocation())));
 
         p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(b)));
         p.sendMessage(" ");

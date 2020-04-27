@@ -1,12 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -24,31 +26,22 @@ import java.util.Set;
  *
  * @author meiamsome
  * @author TheBusyBiscuit
+ *
  * @see Network
  * @see EnergyNetComponent
  * @see EnergyNetComponentType
+ *
  */
 public class EnergyNet extends Network {
 
     private static final int RANGE = 6;
 
-    public static EnergyNetComponentType getComponent(Block b) {
-        return getComponent(b.getLocation());
-    }
-
-    public static EnergyNetComponentType getComponent(String id) {
-        if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) return EnergyNetComponentType.GENERATOR;
-        if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) return EnergyNetComponentType.CAPACITOR;
-        if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) return EnergyNetComponentType.CONSUMER;
-        return EnergyNetComponentType.NONE;
-    }
-
     public static EnergyNetComponentType getComponent(Location l) {
-        if (!BlockStorage.hasBlockInfo(l)) {
+        String id = BlockStorage.checkID(l);
+
+        if (id == null) {
             return EnergyNetComponentType.NONE;
         }
-
-        String id = BlockStorage.checkID(l);
 
         if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) {
             return EnergyNetComponentType.GENERATOR;
@@ -95,7 +88,10 @@ public class EnergyNet extends Network {
 
     @Override
     public NetworkComponent classifyLocation(Location l) {
-        if (regulator.equals(l)) return NetworkComponent.REGULATOR;
+        if (regulator.equals(l)) {
+            return NetworkComponent.REGULATOR;
+        }
+
         switch (getComponent(l)) {
             case CAPACITOR:
                 return NetworkComponent.CONNECTOR;
@@ -131,7 +127,7 @@ public class EnergyNet extends Network {
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4检测到连接至了多个能源调节器");
+            SimpleHologram.update(b, "&4检测到多个能源调节器");
             return;
         }
 
@@ -176,7 +172,9 @@ public class EnergyNet extends Network {
                         ChargableBlock.setUnsafeCharge(battery, available, true);
                         available = 0;
                     }
-                } else ChargableBlock.setUnsafeCharge(battery, 0, true);
+                } else {
+                    ChargableBlock.setUnsafeCharge(battery, 0, true);
+                }
             }
 
             for (Location source : generators) {
@@ -208,20 +206,29 @@ public class EnergyNet extends Network {
             SlimefunItem item = BlockStorage.check(source);
             Config config = BlockStorage.getLocationInfo(source);
 
-            if (item != null) {
-                double energy = item.getEnergyTicker().generateEnergy(source, item, config);
+            try {
+                GeneratorTicker generator = item.getEnergyTicker();
 
-                if (item.getEnergyTicker().explode(source)) {
-                    exploded.add(source);
-                    BlockStorage.clearBlockInfo(source);
+                if (generator != null) {
+                    double energy = generator.generateEnergy(source, item, config);
 
-                    Slimefun.runSync(() -> {
-                        source.getBlock().setType(Material.LAVA);
-                        source.getWorld().createExplosion(source, 0F, false);
-                    });
+                    if (generator.explode(source)) {
+                        exploded.add(source);
+                        BlockStorage.clearBlockInfo(source);
+
+                        Slimefun.runSync(() -> {
+                            source.getBlock().setType(Material.LAVA);
+                            source.getWorld().createExplosion(source, 0F, false);
+                        });
+                    } else {
+                        supply += energy;
+                    }
                 } else {
-                    supply += energy;
+                    item.warn("This Item was marked as a 'GENERATOR' but has no 'GeneratorTicker' attached to it! This must be fixed.");
                 }
+            } catch (Throwable t) {
+                exploded.add(source);
+                new ErrorReport(t, source, item);
             }
 
             SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);

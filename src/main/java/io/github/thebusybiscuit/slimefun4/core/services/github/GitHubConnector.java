@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 abstract class GitHubConnector {
@@ -77,7 +78,7 @@ abstract class GitHubConnector {
     }
 
     public void parseData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(getFile()), StandardCharsets.UTF_8))) {
             StringBuilder builder = new StringBuilder();
 
             String line;

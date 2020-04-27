@@ -257,8 +257,12 @@ public class BlockStorage {
             if (cfg.getKeys().isEmpty()) {
                 File file = cfg.getFile();
 
-                if (file.exists() && !file.delete()) {
-                    Slimefun.getLogger().log(Level.WARNING, "Could not delete File: {0}", file.getName());
+                if (file.exists()) {
+                    try {
+                        Files.delete(file.toPath());
+                    } catch (IOException e) {
+                        Slimefun.getLogger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
+                    }
                 }
             } else {
                 File tmpFile = new File(cfg.getFile().getParentFile(), cfg.getFile().getName() + ".tmp");

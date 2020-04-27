@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.logging.Level;
 
 public class BlockMenu extends DirtyChestMenu {
@@ -80,8 +82,12 @@ public class BlockMenu extends DirtyChestMenu {
     public void delete(Location l) {
         File file = new File("data-storage/Slimefun/stored-inventories/" + serializeLocation(l) + ".sfi");
 
-        if (file.exists() && !file.delete()) {
-            Slimefun.getLogger().log(Level.WARNING, "Could not delete file: {0}", file.getName());
+        if (file.exists()) {
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException e) {
+                Slimefun.getLogger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
+            }
         }
     }
 }
