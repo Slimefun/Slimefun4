@@ -577,6 +577,11 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new CustomItem(SlimefunItems.STEEL_INGOT, 8), null, null, null, null, null, null, null, null})
 		.register(plugin);
 
+		new SlimefunItem(categories.resources, SlimefunItems.LEAD_PLATE, RecipeType.COMPRESSOR, new ItemStack[] {
+			new CustomItem(SlimefunItems.LEAD_INGOT, 8), null, null, null, null, null, null, null, null
+		})
+		.register(plugin);
+
 		new SlimefunItem(categories.resources, (SlimefunItemStack) SlimefunItems.COMPRESSED_CARBON, RecipeType.COMPRESSOR,
 		new ItemStack[] {new CustomItem(SlimefunItems.CARBON, 4), null, null, null, null, null, null, null, null})
 		.register(plugin);
@@ -893,12 +898,20 @@ public final class SlimefunItemSetup {
 		.register(plugin);
 
 		new SlimefunArmorPiece(categories.armor, SlimefunItems.HAZMATSUIT_CHESTPLATE, RecipeType.ARMOR_FORGE,
-		new ItemStack[] {new ItemStack(Material.ORANGE_WOOL), null, new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), new ItemStack(Material.BLACK_WOOL), new ItemStack(Material.BLACK_WOOL)},
+		new ItemStack[] {
+		    SlimefunItems.LEAD_PLATE, null, SlimefunItems.LEAD_PLATE,
+			SlimefunItems.LEAD_PLATE, new ItemStack(Material.ORANGE_WOOL), SlimefunItems.LEAD_PLATE,
+			SlimefunItems.LEAD_PLATE, new ItemStack(Material.BLACK_WOOL), SlimefunItems.LEAD_PLATE
+		},
 		new PotionEffect[] {new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 300, 1)})
 		.register(plugin);
 
 		new SlimefunItem(categories.armor, SlimefunItems.HAZMATSUIT_LEGGINGS, RecipeType.ARMOR_FORGE,
-		new ItemStack[] {new ItemStack(Material.BLACK_WOOL), new ItemStack(Material.BLACK_WOOL), new ItemStack(Material.BLACK_WOOL), new ItemStack(Material.ORANGE_WOOL), null, new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.ORANGE_WOOL), null, new ItemStack(Material.ORANGE_WOOL)})
+		new ItemStack[] {
+			new ItemStack(Material.ORANGE_WOOL), new ItemStack(Material.BLACK_WOOL), new ItemStack(Material.ORANGE_WOOL),
+			SlimefunItems.LEAD_PLATE, null, SlimefunItems.LEAD_PLATE,
+			SlimefunItems.LEAD_PLATE, null, SlimefunItems.LEAD_PLATE
+		})
 		.register(plugin);
 
 		new SlimefunItem(categories.armor, SlimefunItems.RUBBER_BOOTS, RecipeType.ARMOR_FORGE,
