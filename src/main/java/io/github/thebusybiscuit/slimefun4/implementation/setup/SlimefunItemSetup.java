@@ -577,7 +577,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new CustomItem(SlimefunItems.STEEL_INGOT, 8), null, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new SlimefunItem(categories.resources, SlimefunItems.LEAD_PLATE, RecipeType.COMPRESSOR, new ItemStack[] {
+		new SlimefunItem(categories.misc, SlimefunItems.LEAD_PLATE, RecipeType.COMPRESSOR, new ItemStack[] {
 			new CustomItem(SlimefunItems.LEAD_INGOT, 8), null, null, null, null, null, null, null, null
 		})
 		.register(plugin);

@@ -330,6 +330,7 @@ public final class SlimefunItems {
     public static final ItemStack ADVANCED_CIRCUIT_BOARD = new SlimefunItemStack("ADVANCED_CIRCUIT_BOARD", Material.POWERED_RAIL, "&bAdvanced Circuit Board");
     public static final ItemStack WHEAT_FLOUR = new SlimefunItemStack("WHEAT_FLOUR", Material.SUGAR, "&rWheat Flour");
     public static final ItemStack STEEL_PLATE = new SlimefunItemStack("STEEL_PLATE", Material.PAPER, "&7&lSteel Plate");
+    public static final SlimefunItemStack LEAD_PLATE = new SlimefunItemStack("LEAD_PLATE", Material.PAPER, "&b&lLead Plate");
     public static final ItemStack BATTERY = new SlimefunItemStack("BATTERY", "6e2dda6ef6185d4dd6ea8684e97d39ba8ab037e25f75cdea6bd29df8eb34ee", "&6Battery");
     public static final ItemStack CARBON = new SlimefunItemStack("CARBON", "8b3a095b6b81e6b9853a19324eedf0bb9349417258dd173b8eff87a087aa", "&eCarbon");
     public static final ItemStack COMPRESSED_CARBON = new SlimefunItemStack("COMPRESSED_CARBON", "321d495165748d3116f99d6b5bd5d42eb8ba592bcdfad37fd95f9b6c04a3b", "&cCompressed Carbon");
@@ -404,7 +405,6 @@ public final class SlimefunItems {
     public static final ItemStack SILVER_INGOT = new SlimefunItemStack("SILVER_INGOT", Material.IRON_INGOT, "&bSilver Ingot");
     public static final ItemStack ALUMINUM_INGOT = new SlimefunItemStack("ALUMINUM_INGOT", Material.IRON_INGOT, "&bAluminum Ingot");
     public static final ItemStack LEAD_INGOT = new SlimefunItemStack("LEAD_INGOT", Material.IRON_INGOT, "&bLead Ingot");
-    public static final SlimefunItemStack LEAD_PLATE = new SlimefunItemStack("LEAD_PLATE", Material.PAPER, "&b&lLead Plate");
     public static final ItemStack ZINC_INGOT = new SlimefunItemStack("ZINC_INGOT", Material.IRON_INGOT, "&bZinc Ingot");
     public static final ItemStack MAGNESIUM_INGOT = new SlimefunItemStack("MAGNESIUM_INGOT", Material.IRON_INGOT, "&bMagnesium Ingot");
 
