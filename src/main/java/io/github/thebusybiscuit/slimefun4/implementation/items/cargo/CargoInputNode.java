@@ -180,7 +180,7 @@ public class CargoInputNode extends SlimefunItem {
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
-                    for (int slot : getInputSlots()) {
+                    for (int slot : slots) {
                         if (inv.getItemInSlot(slot) != null) {
                             b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
                             inv.replaceExistingItem(slot, null);
@@ -198,10 +198,6 @@ public class CargoInputNode extends SlimefunItem {
         }
 
         preset.addItem(2, new CustomItem(Material.PAPER, "&3物品", "", "&b放入所有你想添加至", "&b黑名单/白名单的物品"), ChestMenuUtils.getEmptyClickHandler());
-    }
-
-    public int[] getInputSlots() {
-        return new int[]{19, 20, 21, 28, 29, 30, 37, 38, 39};
     }
 
 }
