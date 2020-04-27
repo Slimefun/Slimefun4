@@ -36,7 +36,7 @@ abstract class ChestTerminalNetwork extends Network {
     private static final int[] TERMINAL_SLOTS = {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
     private static final int TERMINAL_OUT_SLOT = 17;
 
-    private final ItemStack terminalPlaceholderItem = new CustomItem(Material.BARRIER, "&4No Item cached");
+    private final ItemStack terminalPlaceholderItem = new CustomItem(Material.BARRIER, "&4没有物品缓存");
 
     protected final Set<Location> terminals = new HashSet<>();
     protected final Set<Location> imports = new HashSet<>();
@@ -271,7 +271,7 @@ abstract class ChestTerminalNetwork extends Network {
                     lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getInt())));
 
                     if (stack.getMaxStackSize() > 1)
-                        lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize() : item.getInt()) + ">"));
+                        lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (Math.min(item.getInt(), stack.getMaxStackSize())) + ">"));
                     else lore.add(ChatColors.color("&7<Left Click: Request 1>"));
 
                     lore.add("");
@@ -283,7 +283,7 @@ abstract class ChestTerminalNetwork extends Network {
                     stack.setItemMeta(im);
                     menu.replaceExistingItem(slot, stack);
                     menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-                        int amount = item.getInt() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getInt();
+                        int amount = Math.min(item.getInt(), item.getItem().getMaxStackSize());
                         itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
                         return false;
                     });

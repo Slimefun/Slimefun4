@@ -128,12 +128,10 @@ public class CargoInputNode extends SlimefunItem {
 
                 if (channel == 16) {
                     menu.replaceExistingItem(42, new CustomItem(SkullItem.fromHash("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&b信道 ID: &3" + (channel + 1)));
-                    menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
-                }
-                else {
+                } else {
                     menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&b信道 ID: &3" + (channel + 1)));
-                    menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
                 }
+                menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
 
                 menu.replaceExistingItem(43, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&b频道", "", "&e> 点击将频道ID减一"));
                 menu.addMenuClickHandler(43, (p, slot, item, action) -> {

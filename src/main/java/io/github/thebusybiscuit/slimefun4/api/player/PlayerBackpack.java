@@ -55,12 +55,14 @@ public class PlayerBackpack {
         this.profile = profile;
         this.id = id;
         this.cfg = profile.getConfig();
-        this.size = size;
+        if (size >= 9 && size <= 54) {
+            this.size = size;
 
-        cfg.setValue("backpacks." + id + ".size", size);
-        profile.markDirty();
+            cfg.setValue("backpacks." + id + ".size", size);
+            profile.markDirty();
 
-        inventory = Bukkit.createInventory(null, size, "背包 [" + size + " 格]");
+            inventory = Bukkit.createInventory(null, size, "背包 [" + size + " 格]");
+        }
     }
 
     public int getID() {
