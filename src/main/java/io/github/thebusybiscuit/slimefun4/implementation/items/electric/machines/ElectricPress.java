@@ -27,6 +27,7 @@ public abstract class ElectricPress extends AContainer implements RecipeDisplayI
 
         addRecipe(6, SlimefunItems.COPPER_INGOT, new CustomItem(SlimefunItems.COPPER_WIRE, 3));
         addRecipe(16, new CustomItem(SlimefunItems.STEEL_INGOT, 8), SlimefunItems.STEEL_PLATE);
+        addRecipe(16, new CustomItem(SlimefunItems.LEAD_INGOT, 8), SlimefunItems.LEAD_PLATE);
         addRecipe(18, new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE);
 
         addRecipe(8, new ItemStack(Material.NETHER_WART), new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2));
