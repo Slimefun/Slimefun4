@@ -209,7 +209,7 @@ public class CargoNet extends ChestTerminalNetwork {
 
             Block inputTarget = attachedBlock.get();
             Config cfg = BlockStorage.getLocationInfo(input);
-            boolean roundrobin = "true".equals(cfg.getString("round-robin"));
+            boolean roundRobin = cfg.getString("round-robin").equals("true");
 
             ItemStackAndInteger slot = CargoUtils.withdraw(input.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
             if (slot == null) {
@@ -223,7 +223,7 @@ public class CargoNet extends ChestTerminalNetwork {
             if (outputs != null) {
                 List<Location> outputList = new LinkedList<>(outputs);
 
-                if (roundrobin) {
+                if (roundRobin) {
                     roundRobinSort(input, outputList);
                 }
 

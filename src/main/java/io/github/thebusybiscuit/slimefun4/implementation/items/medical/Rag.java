@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -24,6 +25,11 @@ public class Rag extends SimpleSlimefunItem<ItemUseHandler> {
     public ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
+
+            // Player is neither burning nor injured
+            if (p.getFireTicks() <= 0 && p.getHealth() == p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()) {
+                return;
+            }
 
             if (p.getGameMode() != GameMode.CREATIVE) {
                 ItemUtils.consumeItem(e.getItem(), false);

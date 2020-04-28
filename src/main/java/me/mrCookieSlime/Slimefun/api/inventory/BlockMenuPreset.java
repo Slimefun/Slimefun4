@@ -5,6 +5,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -182,6 +183,8 @@ public abstract class BlockMenuPreset extends ChestMenu {
     }
 
     public void newInstance(BlockMenu menu, Location l) {
+        Validate.notNull(l, "Cannot create a new BlockMenu without a Location");
+
         Slimefun.runSync(() -> {
             locked = true;
 

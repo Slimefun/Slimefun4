@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -43,26 +42,20 @@ public class CargoManager extends SlimefunItem {
                 return false;
             }
 
-        }, new BlockUseHandler() {
+        }, (BlockUseHandler) e -> {
+            Optional<Block> block = e.getClickedBlock();
 
-            private String visualizerKey = "visualizer";
+            if (block.isPresent()) {
+                Player p = e.getPlayer();
+                Block b = block.get();
 
-            @Override
-            public void onRightClick(PlayerRightClickEvent e) {
-                Optional<Block> block = e.getClickedBlock();
-
-                if (block.isPresent()) {
-                    Player p = e.getPlayer();
-                    Block b = block.get();
-
-                    if (BlockStorage.getLocationInfo(b.getLocation(), visualizerKey) == null) {
-                        BlockStorage.addBlockInfo(b, visualizerKey, "disabled");
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c货运网络可视化: " + "&4\u2718"));
-                    }
-                    else {
-                        BlockStorage.addBlockInfo(b, visualizerKey, null);
-                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c货运网络可视化: " + "&2\u2714"));
-                    }
+                String visualizerKey = "visualizer";
+                if (BlockStorage.getLocationInfo(b.getLocation(), visualizerKey) == null) {
+                    BlockStorage.addBlockInfo(b, visualizerKey, "disabled");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c货运网络可视化: " + "&4\u2718"));
+                } else {
+                    BlockStorage.addBlockInfo(b, visualizerKey, null);
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c货运网络可视化: " + "&2\u2714"));
                 }
             }
         });

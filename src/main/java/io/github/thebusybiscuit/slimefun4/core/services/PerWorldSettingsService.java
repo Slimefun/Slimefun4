@@ -54,7 +54,7 @@ public class PerWorldSettingsService {
      *            The {@link World} to load
      */
     public void load(World world) {
-        disabledItems.putIfAbsent(world.getName(), loadWorld(world.getName()));
+        disabledItems.putIfAbsent(world.getName(), loadWorldFromConfig(world.getName()));
     }
 
     /**
@@ -99,7 +99,7 @@ public class PerWorldSettingsService {
      * @return Whether the given {@link SlimefunItem} is enabled in that {@link World}
      */
     public boolean isEnabled(World world, SlimefunItem item) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorld);
+        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorldFromConfig);
 
         if (disabledWorlds.contains(world.getName())) {
             return false;
@@ -116,7 +116,7 @@ public class PerWorldSettingsService {
      * @param enabled Whether the given {@link SlimefunItem} should be enabled in that world
      */
     public void setEnabled(World world, SlimefunItem item, boolean enabled) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorld);
+        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorldFromConfig);
 
         if (enabled) {
             items.remove(item.getID());
@@ -132,7 +132,7 @@ public class PerWorldSettingsService {
      * @return Whether this {@link World} is enabled
      */
     public boolean isWorldEnabled(World world) {
-        loadWorld(world.getName());
+        load(world);
         return !disabledWorlds.contains(world.getName());
     }
 
@@ -158,7 +158,7 @@ public class PerWorldSettingsService {
      * @param world The {@link World} to save
      */
     public void save(World world) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorld);
+        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorldFromConfig);
 
         Config config = new Config(plugin, "world-settings/" + world + ".yml");
 
@@ -172,7 +172,7 @@ public class PerWorldSettingsService {
         config.save();
     }
 
-    private Set<String> loadWorld(String name) {
+    private Set<String> loadWorldFromConfig(String name) {
         Optional<Set<String>> optional = disabledItems.get(name);
 
         if (optional.isPresent()) {

@@ -136,7 +136,6 @@ public class Research implements Keyed {
             }
         }
     }
-
     /**
      * Lists every {@link SlimefunItem} that is bound to this {@link Research}.
      *

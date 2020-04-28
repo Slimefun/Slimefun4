@@ -62,12 +62,18 @@ class GitHubTask implements Runnable {
                 } catch (IllegalArgumentException x) {
                     // There cannot be a texture found because it is not a valid MC username
                     contributor.setTexture(null);
-                } catch (IOException | TooManyRequestsException x) {
+                } catch (IOException x) {
                     // Too many requests
                     Slimefun.getLogger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[]{x.getClass().getSimpleName(), x.getMessage()});
                     Slimefun.getLogger().log(Level.WARNING, "This usually means mojang.com is down or started to rate-limit this connection, this is not an error message!");
 
-                    // Retry after 2 minutes
+                    // Retry after 2 minutes if it was rate-limiting
+                    if (x.getMessage().contains("429")) {
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
+                    }
+                    return;
+                } catch (TooManyRequestsException x) {
+                    Slimefun.getLogger().log(Level.WARNING, "Received a rate-limit from mojang.com, retrying in 2 minutes");
                     Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
                     return;
                 }

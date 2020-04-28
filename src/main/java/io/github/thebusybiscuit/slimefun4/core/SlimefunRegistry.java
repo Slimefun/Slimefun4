@@ -116,16 +116,6 @@ public class SlimefunRegistry {
         return enabledItems;
     }
 
-    public List<String> getEnabledSlimefunItemIds() {
-        List<String> list = new ArrayList<>(enabledItems.size());
-
-        for (SlimefunItem item : enabledItems) {
-            list.add(item.getID());
-        }
-
-        return list;
-    }
-
     public int countVanillaItems() {
         return (int) getEnabledSlimefunItems().stream().filter(item -> !item.isAddonItem()).count();
     }
