@@ -106,6 +106,8 @@ guide:
     - "&7Napiš do chatu co chceš vyhledat"
     message: "&bCo bys chtěl vyhledat?"
     name: "&7Hledat..."
+    tooltip: "&bKliknutím vyhledejte položku"
+    inventory: 'Hledání: %item%'
   title:
     addons: Addony pro Slimefun4
     bugs: Nahlášení chyb
@@ -125,6 +127,10 @@ guide:
     versions-notice: Tyto jsou velmi důležité při nahlašování chyb!
     wiki: Zobrazit tento předmět na oficiální SlimeFun Wiki
   locked: ZAMČENO
+  locked-category:
+  - Chcete-li odemknout tuto kategorii, budete
+  - 'je třeba odemknout všechny položky z '
+  - následující kategorie
 inventory:
   no-access: "&4Nemáš přístup k tomuto bloku"
 languages:
@@ -198,6 +204,10 @@ machines:
     invulnerability: "&b&lZískal jsi 30 sekund nezranitelnosti!"
     teleported: "&3Teleportace dokončena!"
     teleporting: "&3Teleportuji..."
+    gui:
+      title: Vaše waypointy
+      tooltip: Klikněte pro teleportaci
+      time: Předpokládaný čas
   unknown-material: "&eOmlouvám se, ale nepoznal jsem předmět v dispenseru. Dej tam
     něco, co znám."
   wrong-item: "&eOmlouvám se, ale nerozpoznal jsem předmět, se kterým jsi na mě kliknul.
