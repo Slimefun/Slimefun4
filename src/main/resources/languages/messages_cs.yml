@@ -161,6 +161,9 @@ languages:
   vi: Vietnamština
   zh-CN: Čínština (Čína)
   zh-TW: Čínština (Taiwan)
+  bg: Bulharština
+  ko: Korejština
+  tr: Turečtina
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altáři chybí podstavce &c(%pedestals% / 8)"
