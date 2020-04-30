@@ -57,7 +57,7 @@ public class OreWasher extends MultiBlockMachine {
         Inventory inv = disp.getInventory();
 
         for (ItemStack current : inv.getContents()) {
-            if (current.getType() != null) {
+            if (current != null && current.getType() != Material.AIR) {
                 if (SlimefunUtils.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
                     ItemStack adding = getRandomDust();
                     Inventory outputInv;
