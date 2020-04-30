@@ -641,6 +641,10 @@ public class BlockStorage {
     }
 
     public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
+        if (preset == null) {
+            return null;
+        }
+
         BlockMenu menu = new BlockMenu(preset, l);
         inventories.put(l, menu);
         return menu;

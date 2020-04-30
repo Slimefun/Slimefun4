@@ -29,9 +29,9 @@ public class MagicianTalisman extends Talisman {
         addItemSetting(enchantments.toArray(new ItemSetting[0]));
     }
 
-    public TalismanEnchantment getRandomEnchantment() {
-        List<TalismanEnchantment> enabled = enchantments.stream().filter(TalismanEnchantment::getValue).collect(Collectors.toList());
-        return enabled.get(ThreadLocalRandom.current().nextInt(enabled.size()));
+    public TalismanEnchantment getRandomEnchantment(ItemStack item) {
+        List<TalismanEnchantment> enabled = enchantments.stream().filter(e -> e.getEnchantment().canEnchantItem(item)).filter(TalismanEnchantment::getValue).collect(Collectors.toList());
+        return enabled.isEmpty() ? null : enabled.get(ThreadLocalRandom.current().nextInt(enabled.size()));
     }
 
     /**

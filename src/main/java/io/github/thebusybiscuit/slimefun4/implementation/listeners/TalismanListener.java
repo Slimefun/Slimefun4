@@ -185,8 +185,10 @@ public class TalismanListener implements Listener {
 
         if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
-            TalismanEnchantment enchantment = talisman.getRandomEnchantment();
-            e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
+            TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem());
+            if (enchantment != null) {
+                e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
+            }
         }
 
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
