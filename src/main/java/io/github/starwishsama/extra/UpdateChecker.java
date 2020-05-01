@@ -4,14 +4,17 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.StringUtils;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.SocketException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * @author StarWishsama
@@ -20,12 +23,11 @@ public class UpdateChecker {
     private static List<GithubBean> getReleaseBean(){
         try {
             URL url = new URL("https://api.github.com/repos/StarWishsama/Slimefun4/releases");
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-            conn.setConnectTimeout(150_000);
-            conn.setReadTimeout(150_000);
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36");
-            conn.setRequestProperty("content-type", "application/json; charset=utf-8");
-            conn.connect();
+            URLConnection conn = url.openConnection();
+            conn.setConnectTimeout(8000);
+            conn.addRequestProperty("Accept-Charset", "UTF-8");
+            conn.addRequestProperty("User-Agent", "Slimefun 4 Update Checker by StarWishsama");
+            conn.setDoOutput(true);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String cache;
@@ -34,16 +36,14 @@ public class UpdateChecker {
                 result.append(cache);
             }
 
-            conn.disconnect();
             return new GsonBuilder().serializeNulls().create().fromJson(result.toString().trim(), new TypeToken<List<GithubBean>>() {
             }.getType());
-        } catch (Exception e){
-            e.printStackTrace();
-            /**if (e instanceof SocketException) {
-             Slimefun.getLogger().log(Level.WARNING, "连接至 Github 服务器出错");
-             } else {
-             Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
-             }*/
+        } catch (Exception e) {
+            if (e instanceof SocketException) {
+                Slimefun.getLogger().log(Level.WARNING, "连接至 Github 服务器出错");
+            } else {
+                Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
+            }
         }
         return new ArrayList<>();
     }
