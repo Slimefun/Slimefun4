@@ -17,9 +17,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-public class EntityKillListener implements Listener {
+public class MobDropListener implements Listener {
 
-    public EntityKillListener(SlimefunPlugin plugin) {
+    public MobDropListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -37,7 +37,7 @@ public class EntityKillListener implements Listener {
                             continue;
                         }
 
-                        e.getDrops().add(drop);
+                        e.getDrops().add(drop.clone());
                     }
                 }
             }

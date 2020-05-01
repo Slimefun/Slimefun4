@@ -55,7 +55,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
@@ -197,7 +197,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new MultiBlockListener(this);
             new GadgetsListener(this);
             new DispenserListener(this);
-            new EntityKillListener(this);
+            new MobDropListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
             new ItemPickupListener(this);
