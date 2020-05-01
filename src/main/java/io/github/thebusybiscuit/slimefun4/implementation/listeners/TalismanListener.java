@@ -149,7 +149,7 @@ public class TalismanListener implements Listener {
             // Did the tool in our hand broke or was it an Armorpiece?
             if (!inv.getItem(inv.getHeldItemSlot()).equals(e.getBrokenItem())) {
                 for (int s : armorSlots) {
-                    if (e.getBrokenItem().equalst(inv.getItem(s))) {
+                    if (e.getBrokenItem().equals(inv.getItem(s))) {
                         slot = s;
                         break;
                     }
