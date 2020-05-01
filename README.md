@@ -23,33 +23,30 @@ Slimefun 4 can be downloaded **for free** on our builds page.<br>
 We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
 Here is a full summary of the differences between these two versions of Slimefun.
 
-| | development builds | "stable" builds |
+| | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Supported Minecraft version(s)** | 1.13.X - 1.15.X | 1.13.X - 1.15.X |
-| **extensive testing before release** | :x: | :heavy_check_mark: |
+| **Supported MC version(s)** | 1.13.X - 1.15.X | 1.13.X - 1.15.X |
+| **testing before release** | :x: | :heavy_check_mark: |
 | **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
-| **frequent updates & fast patches** | :heavy_check_mark: | :x: |
+| **frequent updates** | :heavy_check_mark: | :x: |
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
-| **Download link** | :package: **[download development build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable" build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
+| **Download link** | :package: **[download dev build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable" build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
-**We wholeheartedly recommend you to use development builds.**<br>
-But we can understand the use of "stable" builds if your server's livelihood heavily depends on Slimefun.<br>
-We do recommend you to keep on auto-updates to receive automatic patches and fixes for Slimefun.<br>
-If you worry about features from Slimefun breaking due to an update (rarely happens), then you may wanna use a "stable" build to be sure, but we will not provide any support for it on discord nor on our issue tracker.<br>
-Development builds are uploaded automatically making the maintenance of a proper change log very hard.
+**! We wholeheartedly recommend you to use development builds !**
+
+"Stable" builds do ___not___ receive frequent updates or fast patches. Therefore they will always contain many more bugs than the develoment builds. We will also ___not___ accept or review any bug reports from "stable" builds since they are basically just outdated development builds.<br>
+**Why use a "stable" build then?** While "stable" builds contain more bugs than development builds you can be sure that they will not include any game-breaking issues, development builds almost never contain such issues either. But if your server/business heavily depends on a version of Slimefun that you need to rely on, you are forgiven if you choose the "stable" branch.<br>
+**What exactly are these "stable" builds then and why do you put them in quotes?** "Stable" builds are literally just outdated development builds that seemed to run fine without any major issues. But they are not exactly bug-free hence why calling them stable would be hipocritical. However these builds can only really stay "stable" if enough people use the development builds to test them and report bugs. Otherwise potential issues may go unnoticed and slip into "stable" builds. Again, we really recommend you to choose the development builds. But since many people really wanted "stable" builds, they are now an option too.
+
+Whatever version of Slimefun you choose, we also recommend you to keep `auto-updates` enabled to receive automatic patches and fixes for Slimefun!
 
 <p align="center">
   <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
     <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
   </a>
 </p>
-
-**Important**: "stable" is in quotes because these builds have gone through a testing period before their release, they are safe to use. However due to this testing period, updates will happen very rarely, so any bugs that arise will not be fixed until the next major update. Development builds receive very frequent updates and patches, so these may (ironically) perform better than "stable" builds. We will also provide no support on discord nor the issue tracker for "stable" builds, as "stable" builds can be outdated by weeks or even months due to their infrequent update schedule.
-
-* [download development builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)
-* [download "stable" builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)
 
 ## Discord
 You can find Slimefun's community on Discord and connect with **over 1500** users of this plugin from all over the world.<br>
