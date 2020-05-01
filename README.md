@@ -25,14 +25,14 @@ Here is a full summary of the differences between these two versions of Slimefun
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Supported MC version(s)** | 1.13.X - 1.15.X | 1.13.X - 1.15.X |
+| **Minecraft version(s)** | 1.13.X - 1.15.X | 1.13.X - 1.15.X |
 | **testing before release** | :x: | :heavy_check_mark: |
 | **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
 | **frequent updates** | :heavy_check_mark: | :x: |
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
-| **Download link** | :package: **[download dev build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable" build](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
+| **Download link** | :package: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
 **! We wholeheartedly recommend you to use development builds !**
 
@@ -75,8 +75,8 @@ https://github.com/TheBusyBiscuit/Slimefun4/wiki
 * [Addons for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons)
 * [How to create an Addon for Slimefun 4](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide)
 * [Getting Started](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Getting-Started)
-* [Common issues](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Common-Issues)
 * [Frequently Asked Questions](https://github.com/TheBusyBiscuit/Slimefun4/wiki/FAQ)
+* [Common issues](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Common-Issues)
 * [Help us expand the Wiki!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Expanding-the-Wiki)
 * [Help us translate Slimefun!](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun)
 
@@ -103,7 +103,7 @@ Slimefun4 has recently added suport for translations, note that translations are
 So not everything may be available for translation yet.<br>
 [Read more...](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun)
 
-## Disclaimer
+## Disclaimers
 Slimefun4 uses various systems that collect usage information or download automatic updates as well as the latest information about the project.<br>
 We do __not__ collect any personal information from you but here is a full list of what services may collect or download other kinds of data.
 
