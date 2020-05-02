@@ -104,8 +104,18 @@ public class Translators {
         // Translators - Arabic
         addTranslator("mohkamfer", "AgentBabbie", EmbeddedLanguage.ARABIC, false);
 
+        // Translators - Hebrew
+        addTranslator("dhtdht020", EmbeddedLanguage.HEBREW, false);
+
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);
+
+        // Translators - Indonesian
+        addTranslator("diradho", EmbeddedLanguage.INDONESIAN, false);
+
+        // Translators - Thai
+        addTranslator("phoomin2012", EmbeddedLanguage.INDONESIAN, false);
+        addTranslator("film2860", EmbeddedLanguage.THAI, false);
 
         // Translators - Turkish
         addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
