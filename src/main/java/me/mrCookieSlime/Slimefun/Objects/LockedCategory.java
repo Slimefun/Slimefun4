@@ -3,13 +3,18 @@ package me.mrCookieSlime.Slimefun.Objects;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
 
 /**
  * Represents a {@link Category} that cannot be opened until the parent category/categories
@@ -25,7 +30,8 @@ import java.util.List;
  */
 public class LockedCategory extends Category {
 
-    private final List<Category> parents;
+    private final NamespacedKey[] keys;
+    private final Set<Category> parents = new HashSet<>();
 
     /**
      * The basic constructor for a LockedCategory.
@@ -35,7 +41,7 @@ public class LockedCategory extends Category {
      * @param item    The display item for this category
      * @param parents The parent categories for this category
      */
-    public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
+    public LockedCategory(NamespacedKey key, ItemStack item, NamespacedKey... parents) {
         this(key, item, 3, parents);
     }
 
@@ -52,20 +58,43 @@ public class LockedCategory extends Category {
      *            The parent categories for this category
      *
      */
-    public LockedCategory(NamespacedKey key, ItemStack item, int tier, Category... parents) {
+    public LockedCategory(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
-        this.parents = Arrays.asList(parents);
+        Validate.noNullElements(parents, "A LockedCategory must not have any 'null' parents!");
+        this.keys = parents;
+    }
+
+    @Override
+    public void register() {
+        super.register();
+
+        List<NamespacedKey> namespacedKeys = new ArrayList<>();
+
+        for (NamespacedKey key : keys) {
+            if (key != null) {
+                namespacedKeys.add(key);
+            }
+        }
+
+        for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
+            if (namespacedKeys.remove(category.getKey())) {
+                addParent(category);
+            }
+        }
+
+        for (NamespacedKey key : namespacedKeys) {
+            Slimefun.getLogger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[]{key, getKey()});
+        }
     }
 
     /**
      * Gets the list of parent categories for this {@link LockedCategory}.
      *
      * @return the list of parent categories
-     *
      * @see #addParent(Category)
      * @see #removeParent(Category)
      */
-    public List<Category> getParents() {
+    public Set<Category> getParents() {
         return parents;
     }
 

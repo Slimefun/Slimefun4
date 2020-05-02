@@ -16,9 +16,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
 
-public class EntityKillListener implements Listener {
+public class MobDropListener implements Listener {
 
-    public EntityKillListener(SlimefunPlugin plugin) {
+    public MobDropListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -36,7 +36,7 @@ public class EntityKillListener implements Listener {
                             continue;
                         }
 
-                        e.getDrops().add(drop);
+                        e.getDrops().add(drop.clone());
                     }
                 }
             }

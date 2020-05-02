@@ -7,7 +7,8 @@ import java.util.List;
 public class GithubBean {
     private String html_url;
     private int id;
-    private String tag_name;
+    @SerializedName("tag_name")
+    private String tagName;
     private String name;
     private boolean prerelease;
     @SerializedName("create_at")
@@ -18,8 +19,8 @@ public class GithubBean {
     private String changeLog;
     private List<AssetsBean> assets;
 
-    public String getTag_name() {
-        return tag_name;
+    public String getTagName() {
+        return tagName;
     }
 
     public List<AssetsBean> getAssets() {

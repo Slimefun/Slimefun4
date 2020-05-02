@@ -48,9 +48,9 @@ class DefaultCategories {
     protected final Category resources = Categories.RESOURCES;
 
     // Locked Categories
-    protected final LockedCategory electricity = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines);
-    protected final Category cargo = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines);
-    protected final LockedCategory gps = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "gps"), new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines);
+    protected final LockedCategory electricity = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());
+    protected final Category cargo = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
+    protected final LockedCategory gps = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance, "gps"), new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines.getKey());
 
     // Seasonal Categories
     protected final SeasonalCategory christmas = new SeasonalCategory(new NamespacedKey(SlimefunPlugin.instance, "christmas"), Month.DECEMBER, 1, new CustomItem(SkullItem.fromHash("215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45"), ChatUtils.christmas("Christmas") + " &7(December only)"));

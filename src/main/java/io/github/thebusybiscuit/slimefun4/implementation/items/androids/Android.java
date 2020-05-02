@@ -110,7 +110,7 @@ abstract class Android extends SlimefunItem {
                 int additional = commands.length == 54 ? 0 : 1;
 
                 if (additional == 1) {
-                    menu.addItem(i, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&7> 添加新命令"));
+                    menu.addItem(i, new CustomItem(SkullItem.fromHash("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"), "&7> 添加新命令"));
                     menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                         openScriptComponentEditor(pl, b, script, index);
                         return false;

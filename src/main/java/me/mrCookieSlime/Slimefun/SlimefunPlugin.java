@@ -148,7 +148,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new MultiBlockListener(this);
             new GadgetsListener(this);
             new DispenserListener(this);
-            new EntityKillListener(this);
+            new MobDropListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
             new ItemPickupListener(this);

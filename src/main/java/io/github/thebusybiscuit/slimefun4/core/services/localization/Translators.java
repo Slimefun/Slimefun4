@@ -63,6 +63,7 @@ public class Translators {
         addTranslator("Thezerix", EmbeddedLanguage.CZECH, true);
         addTranslator("IsLineCZ", EmbeddedLanguage.CZECH, true);
         addTranslator("MrFriggo", EmbeddedLanguage.CZECH, true);
+        addTranslator("100petr", EmbeddedLanguage.CZECH, true);
 
         // Translators - Russian
         addTranslator("SoSeDiK", EmbeddedLanguage.RUSSIAN, false);
