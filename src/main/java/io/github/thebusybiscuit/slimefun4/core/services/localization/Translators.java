@@ -114,7 +114,7 @@ public class Translators {
         addTranslator("diradho", EmbeddedLanguage.INDONESIAN, false);
 
         // Translators - Thai
-        addTranslator("phoomin2012", EmbeddedLanguage.INDONESIAN, false);
+        addTranslator("phoomin2012", EmbeddedLanguage.THAI, false);
         addTranslator("film2860", EmbeddedLanguage.THAI, false);
 
         // Translators - Turkish
