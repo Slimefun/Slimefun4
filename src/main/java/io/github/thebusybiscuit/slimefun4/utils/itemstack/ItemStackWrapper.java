@@ -21,7 +21,8 @@ public final class ItemStackWrapper extends ItemStack {
     private ItemMeta meta;
 
     public ItemStackWrapper(ItemStack item) {
-        super(item);
+        super(item.getType(), item.getAmount());
+        meta = item.getItemMeta();
     }
 
     @Override
@@ -30,10 +31,6 @@ public final class ItemStackWrapper extends ItemStack {
         // Since this class is immutable, we can simply let the super class create one copy
         // and then store that instead of creating a clone everytime.
         // This will significantly speed up any loop comparisons if used correctly.
-        if (meta == null) {
-            meta = super.getItemMeta();
-        }
-
         return meta;
     }
 
