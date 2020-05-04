@@ -15,7 +15,9 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
@@ -55,13 +57,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
@@ -103,6 +105,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
+
+    private final boolean isTestEnvironment;
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
@@ -139,9 +143,24 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final BackpackListener backpackListener = new BackpackListener();
     private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
+    public SlimefunPlugin() {
+        super();
+        isTestEnvironment = false;
+    }
+
+    public SlimefunPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
+        isTestEnvironment = true;
+    }
+
     @Override
     public void onEnable() {
-        if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+        if (isTestEnvironment) {
+            instance = this;
+            minecraftVersion = MinecraftVersion.UNIT_TEST;
+            local = new LocalizationService(this, "", null);
+        }
+        else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
@@ -339,7 +358,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         // Slimefun never loaded successfully, so we don't even bother doing stuff here
-        if (instance == null) {
+        if (instance == null || isTestEnvironment) {
             return;
         }
 

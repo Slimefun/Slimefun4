@@ -36,7 +36,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -539,9 +538,18 @@ public class SlimefunItem implements Placeable {
         }
 
         // Support for legacy items
-        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else return SlimefunUtils.isItemSimilar(item, this.item, true);
+        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) {
+            return true;
+        }
+        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) {
+            return true;
+        }
+        else if (id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER")) {
+            return SlimefunUtils.isItemSimilar(item, this.item, false);
+        }
+        else {
+            return SlimefunUtils.isItemSimilar(item, this.item, true);
+        }
     }
 
     /**
@@ -792,14 +800,6 @@ public class SlimefunItem implements Placeable {
 
                 return sfi;
             }
-        }
-
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false)) {
-            return getByID("BROKEN_SPAWNER");
-        }
-
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.REPAIRED_SPAWNER, false)) {
-            return getByID("REINFORCED_SPAWNER");
         }
 
         return null;
