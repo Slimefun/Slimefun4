@@ -170,6 +170,10 @@ languages:
   vi: ベトナム語
   zh-CN: 中国語（中国）
   zh-TW: 中国語（台湾）
+  hr: クロアチア語
+  mk: マケドニア語
+  sr: セルビア語
+  be: ベラルーシ語
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4祭壇にAncient Pedestalが不足しています &c(%pedestals% / 8)"
