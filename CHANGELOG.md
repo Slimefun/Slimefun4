@@ -19,6 +19,9 @@
 
 ## Release Candidate 12 (TBD)
 
+#### Additions
+* Added Ukrainian translations
+
 #### Changes
 * Bandages, Rags and Splints will no longer be consumed if your health is full and you are not on fire
 
