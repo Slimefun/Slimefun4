@@ -1,0 +1,160 @@
+---
+slimefun:
+  multiblock:
+    name: Multiblock
+    lore:
+    - Bygg den förevisade byggnaden
+    - som förevisad. Är den inte tillverkad.
+  enhanced_crafting_table:
+    name: Förbättrat Crafting Table
+    lore:
+    - Tillverka detta föremål som förevisat
+    - i ett Förbättrat Crafting Table.
+    - Ett vanligt Crafting Table räcker inte!
+  armor_forge:
+    name: Armor Forge
+    lore:
+    - 'Tillverka detta föremål som förevisat
+
+'
+    - med hjälp av en Rustnings Verkstad
+  grind_stone:
+    name: Slipsten
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Slipsten
+  smeltery:
+    name: Smältverk
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av ett Smältverk
+  ore_crusher:
+    name: Malmkrossare
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Ore Crusher
+  mob_drop:
+    name: Mob Drop
+    lore:
+    - Döda detta Mob för att
+    - få tag på detta föremål
+  gold_pan:
+    name: Guldvaskarpanna
+    lore:
+    - Använd en Guldvaskarpanna för att
+    - få tag på detta föremål
+  compressor:
+    name: Kompressor
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Kompressor
+  pressure_chamber:
+    name: Tryckkammare
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Tryckkammare
+  ore_washer:
+    name: Malm tvättare
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Malm tvättare
+  juicer:
+    name: Juicer
+    lore:
+    - Tillverka denna Juice som förevisat
+    - med hjälp av en Juicer
+  magic_workbench:
+    name: Magiskt Workbench
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av ett Magiskt Workbench
+  ancient_altar:
+    name: Antikt Altare
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av ett Antikt Altare.
+    - Kolla in ett Ancient Altar för att få mer info.
+  heated_pressure_chamber:
+    name: Uppvärmd Tryckkammare
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Uppvärmd Tryckkammare
+  food_fabricator:
+    name: Mat Fabrikator
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Mat Fabrikator
+  food_composter:
+    name: Mat Kompost
+    lore:
+    - Tillverka detta föremål som förevisat
+    - med hjälp av en Mat Kompost
+  freezer:
+    name: Frys
+    lore:
+    - Tillverka detta föremål som visat
+    - med hjälp av en Frys
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Detta föremål kan bli insamlat
+    - med hjälp av en GEO Miner
+  nuclear_reactor:
+    name: Kärnkraftsreaktor
+    lore:
+    - Detta föremål är en biprodukt
+    - från använding av en Kärnkraftsreaktor
+  oil_pump:
+    name: Olje Pump
+    lore:
+    - Detta föremål kan bli insamlat
+    - med hjälp av en Olje Pump
+  pickaxe_of_containment:
+    name: Pickaxe av Inneslutning
+    lore:
+    - Detta Block kan bli insamlat
+    - efter att ha huggit en Spawner med
+    - en Pickaxe av Inneslutning
+  refinery:
+    name: Raffinaderi
+    lore:
+    - Tillverka detta föremål som visat
+    - med användning av ett Raffinaderi
+minecraft:
+  shaped:
+    name: Format Tillverknings Recept
+    lore:
+    - Tillverka detta föremål som förevisat
+    - i ett vanligt Crafting Table
+    - Denna form är viktig.
+  shapeless:
+    name: Formlöst Tillverknings Recept
+    lore:
+    - Tillverka detta föremål som förevisat
+    - i ett vanligt Crafting Table
+    - Detta recept är formlöst.
+  furnace:
+    name: Ugns Recept
+    lore:
+    - Smält detta föremål i en Ugn
+    - för att tillverka ditt önskade föremål
+  blasting:
+    name: Smältugns Recept
+    lore:
+    - Smält detta föremål i en Smältugn
+    - för att tillverka ditt önskade föremål
+  smoking:
+    name: Smoker Recept
+    lore:
+    - Tillaga detta föremål i en Smoker
+    - för att tillverka ditt önskade föremål
+  campfire:
+    name: Lägerelds Recept
+    lore:
+    - Tillaga detta föremål över en Lägereld
+    - för att tillverka ditt önskade föremål
+  stonecutting:
+    name: Stenhuggar Recept
+    lore:
+    - Tillverka detta föremål som visat
+    - med hjälp av en stenhuggare
