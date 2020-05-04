@@ -295,7 +295,7 @@ public class CargoNet extends ChestTerminalNetwork {
         }
         catch (Exception x) {
             Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing Cargo Node Frequency "
-                + "(" l.geWorld().getName() " - " + l.getBlockX() + "," + l.getBlockY() + "," + l.getBlockZ() + ")", x);
+                + "(" + l.geWorld().getName() + " - " + l.getBlockX() + "," + l.getBlockY() + "," + l.getBlockZ() + ")", x);
             return 0;
         }
     }
