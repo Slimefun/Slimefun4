@@ -313,3 +313,7 @@ languages:
   bg: 'Bulgarian'
   ko: 'Korean'
   tr: 'Turkish'
+  hr: 'Croatian'
+  mk: 'Macedonian'
+  sr: 'Serbian'
+  be: 'Belarusian'
