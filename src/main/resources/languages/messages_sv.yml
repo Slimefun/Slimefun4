@@ -97,17 +97,22 @@ guide:
       lore: Klicka här för att lägga till din egen översättning
       name: "&aIs något som saknas?"
     updated: "&aDitt språk är nu inställt på: &b%lang%"
+  locked: LÅST
+  locked-category:
+  - För att låsa upp denna kategori måste du
+  - låsa upp alla föremål från de
+  - följande kategorierna
   pages:
     next: Nästa sida
     previous: Förra sidan
   search:
+    inventory: 'Söker efter: %item%'
     lore:
     - "&bVad vill du söka efter?"
     - "&7Skriv din sökterm i chatten"
     message: "&bVad vill du söka efter?"
     name: "&7Sök..."
     tooltip: "&bKlicka här för att söka efter ett föremål"
-    inventory: 'Söker efter: %item%'
   title:
     addons: Tilläg till Slimefun4
     bugs: Bugg Rapporter
@@ -126,16 +131,12 @@ guide:
       miner: Resurser du kan få med denna Gruvarbetare
     versions-notice: Dessa är väldigt viktiga när det kommer till att rapportera buggar!
     wiki: Visar detta föremål på den Officiella Slimefun Wikin
-  locked: LÅST
-  locked-category:
-  - För att låsa upp denna kategori måste du
-  - låsa upp alla föremål från de
-  - följande kategorierna
 inventory:
   no-access: "&4Du har inte tillåtelse att använda detta block"
 languages:
   af: Afrikaans
   ar: Arabiska
+  be: Vitryska
   bg: Bulgariska
   cs: Tjeckiska
   da: Danska
@@ -148,12 +149,14 @@ languages:
   fi: Finska
   fr: Franska
   he: Hebreiska
+  hr: Kroatiska
   hu: Ungerska
   id: Indonesiska
   it: Italienska
   ja: Japanska
   ko: Koreanska
   lv: Lettiska
+  mk: Makedonska
   ms: Malaysiska
   nl: Holländska
   'no': Norska
@@ -163,6 +166,7 @@ languages:
   ro: Romanska
   ru: Ryska
   sk: Slovakiska
+  sr: Serbiska
   sv: Svenska
   th: Thailändska
   tr: Turkiska
@@ -170,10 +174,6 @@ languages:
   vi: Vietnamesiska
   zh-CN: Chinesiska (China)
   zh-TW: Chinesiska (Taiwan)
-  hr: Kroatiska
-  mk: Makedonska
-  sr: Serbiska
-  be: Vitryska
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altaret är inte omgivet av det korrekta antalet piedestaler
@@ -205,13 +205,13 @@ machines:
     i det korrekta mönstret i automaten."
   TELEPORTER:
     cancelled: "&4Teleportation avslutad!"
+    gui:
+      time: Beräknad tid
+      title: Dina vägpunkter
+      tooltip: Klicka här för att teleportera
     invulnerability: "&b&lDu har fått 30 sekunder av osårbarhet"
     teleported: "&3Teleporterad!"
     teleporting: "&3Teleporterar..."
-    gui:
-      title: Dina vägpunkter
-      tooltip: Klicka här för att teleportera
-      time: Beräknad tid
   unknown-material: "&Jag kände tyvärr inte igen föremålet i min automat. Lägg in
     någonting som jag känner till."
   wrong-item: "&Jag kände tyvärr inte igen det föremål som du högerklickade mig med.
