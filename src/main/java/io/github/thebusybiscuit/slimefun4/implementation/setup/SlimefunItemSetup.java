@@ -3218,6 +3218,10 @@ public final class SlimefunItemSetup {
         new WitherAssembler(categories.electricity, SlimefunItems.WITHER_ASSEMBLER, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})
                 .register(plugin);
+
+        new OverClockUpper(categories.technicalGadgets, SlimefunItems.OVERCLOCK_UPPER, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[]{SlimefunItems.NETHER_ICE_COOLANT_CELL, null, SlimefunItems.NETHER_ICE_COOLANT_CELL, null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.NETHER_ICE_COOLANT_CELL, null, SlimefunItems.NETHER_ICE_COOLANT_CELL})
+                .register(plugin);
     }
 
     private static void registerArmorSet(Category category, ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, SlimefunAddon addon) {

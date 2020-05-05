@@ -149,7 +149,10 @@ public class RecipeType implements Keyed {
     }
 
     public static List<ItemStack> getRecipeInputs(SlimefunMachine machine) {
-        if (machine == null) return new ArrayList<>();
+        if (machine == null) {
+            return new ArrayList<>();
+        }
+
         List<ItemStack[]> recipes = machine.getRecipes();
         List<ItemStack> convertible = new ArrayList<>();
 

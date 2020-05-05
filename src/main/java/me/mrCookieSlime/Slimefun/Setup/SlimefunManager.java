@@ -4,6 +4,9 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * 向后兼容 有些小天才还在用这些方法
+ */
 public final class SlimefunManager {
 
     private SlimefunManager() {

@@ -27,7 +27,8 @@ public class OreCrusher extends MultiBlockMachine {
 	private final DoubleOreSetting doubleOres = new DoubleOreSetting();
 
 	public OreCrusher(Category category) {
-		super(category, SlimefunItems.ORE_CRUSHER, new ItemStack[]{null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "发射器(朝上)"), new ItemStack(Material.IRON_BARS)}, new ItemStack[]{new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST, new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND), new ItemStack(Material.MAGMA_BLOCK, 4), SlimefunItems.SULFATE}, BlockFace.SELF);
+		super(category, SlimefunItems.ORE_CRUSHER, new ItemStack[]{null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "发射器(朝上)"), new ItemStack(Material.IRON_BARS)},
+				new ItemStack[]{SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST, new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND), new ItemStack(Material.MAGMA_BLOCK, 4), SlimefunItems.SULFATE}, BlockFace.SELF);
 
 		addItemSetting(doubleOres);
 	}
@@ -75,7 +76,7 @@ public class OreCrusher extends MultiBlockMachine {
 		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
 	}
 
-	private class DoubleOreSetting extends ItemSetting<Boolean> {
+	private static class DoubleOreSetting extends ItemSetting<Boolean> {
 
 		private final ItemStack coal = new ItemStack(Material.COAL, 1);
 		private final ItemStack lapis = new ItemStack(Material.LAPIS_LAZULI, 7);
