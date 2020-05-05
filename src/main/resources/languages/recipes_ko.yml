@@ -110,13 +110,13 @@ slimefun:
   pickaxe_of_containment:
     name: 억제의 곡괭이
     lore:
-    - 
+    - 이 블록을 얻을 수 있습니다
     - 를 통해 스포너를 채굴하여
     - 억제의 곡괭이
   refinery:
     name: 정유 공장 (Refinery)
     lore:
-    - 
+    - 표시된대로이 아이템을 제작하십시오
     - 정유 공장 (Refinery) 을 사용하여
 minecraft:
   shaped:
