@@ -776,8 +776,6 @@ public final class SlimefunItems {
     public static final SlimefunItemStack MAGNESIUM_SALT = new SlimefunItemStack("MAGNESIUM_SALT", Material.SUGAR, "&c镁盐", "", "&7是一种能在镁发电机中使用的特殊燃料");
     public static final SlimefunItemStack MAGNESIUM_GENERATOR = new SlimefunItemStack("MAGNESIUM_GENERATOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&c镁发电机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.GENERATOR), LoreBuilder.powerBuffer(128), LoreBuilder.powerPerSecond(36));
 
-    public static final SlimefunItemStack OVERCLOCK_UPPER = new SlimefunItemStack("OVERCLOCK_UPPER", Material.NAME_TAG, "&a超频加速", "", "&7加速你的机器", "&b&mIntel Inside");
-
     static {
         INFUSED_ELYTRA.addUnsafeEnchantment(Enchantment.MENDING, 1);
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
