@@ -1,0 +1,105 @@
+---
+slimefun:
+  multiblock:
+    name: 멀티블럭
+    lore:
+    - 표시된 구조를 설치
+  enhanced_crafting_table:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 
+    - 일반 조합대로는 충분하지 않습니다!
+  armor_forge:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  grind_stone:
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+  smeltery:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  ore_crusher:
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+  mob_drop:
+    name: 몹 드롭
+    lore:
+    - 
+    - 이 아이템을 얻다
+  gold_pan:
+    lore:
+    - 
+    - 이 아이템을 얻다
+  compressor:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  pressure_chamber:
+    name: 압력 챔버
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+  ore_washer:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  juicer:
+    lore:
+    - 그림과 같이 주스를 만드십시오
+  magic_workbench:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  ancient_altar:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  heated_pressure_chamber:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  food_fabricator:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  food_composter:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  freezer:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+  geo_miner:
+    lore:
+    - 채굴 할 수있는 아이템
+  nuclear_reactor:
+    lore:
+    - 이 아이템은 부산물입니다
+minecraft:
+  shaped:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 일반 조합대에서
+    - 모양이 중요합니다.
+  shapeless:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 일반 조합대에서
+    - 이 조합법은 형태가 없습니다.
+  furnace:
+    name: 화로 조합법
+    lore:
+    - 이 아이템을 화로에서 제련
+    - 원하는 아이템을 만들기 위해
+  blasting:
+    name: 용광로 조합법
+    lore:
+    - 이 아이템을 용광로에서 제련
+    - 원하는 아이템을 만들기 위해
+  smoking:
+    name: 훈연기 조합법
+    lore:
+    - 이 아이템을 훈연기에서 훈연
+    - 원하는 아이템을 만들기 위해
+  campfire:
+    name: 캠프 파이어 조합법
+    lore:
+    - 이 아이템을 캠프 파이어 위에서 제련
+    - 원하는 아이템을 만들기 위해
+  stonecutting:
+    name: 석재 절단기 레시피
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+    - 석제 절단기를 사용하여
