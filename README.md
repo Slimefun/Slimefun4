@@ -1,7 +1,5 @@
-# Slimefun 4
-Slimefun is a plugin which aims to turn your Bukkit/Spigot Server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
-We got everything from magical wands to nuclear reactors.<br>
-We feature a magical altar, an electric power grid and even item transport systems.
+# Slimefun 4.5 Revision
+Slimefun is a plugin which aims to turn your Bukkit/Spigot Server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. This includes new revision features such as currency and other plugin integrations. Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
 
 This project originally started back in 2013 and has grown ever since.<br>
 From one single person working on this plugin back then, we grew to a community of thousands of players and over 100 of contributors to this project.<br>
@@ -11,13 +9,11 @@ But it also comes with a lot of Addons too!<br>
 Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons), you may find exactly what you were looking for.
 
 ## Quick navigation
-* **[Download Slimefun4](#download-slimefun-4)**
-* **[Discord Support Server](#discord)**
+* **[Download Slimefun4.2](#download-slimefun-4)** NDA Required for Development Branches
 * **[Bug Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues)**
-* **[Wiki](https://github.com/TheBusyBiscuit/Slimefun4/wiki)**
-* **[FAQ](https://github.com/TheBusyBiscuit/Slimefun4/wiki/FAQ)**
+* **Due to the fact this is an internal revision build, updates are rolling out to all Slimefun Revision-Compatible servers running Slimefun 4.
 
-## Download Slimefun 4
+## Download Slimefun 4.2
 (See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))<br>
 Slimefun 4 can be downloaded **for free** on our builds page.<br>
 We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
