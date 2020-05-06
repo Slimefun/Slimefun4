@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -76,12 +77,25 @@ public class TestIronGolemListener {
     public void testWithSlimefunIron() {
         SlimefunItem slimefunItem = SlimefunMocks.mockSlimefunItem("SLIMEFUN_IRON", new CustomItem(Material.IRON_INGOT, "&cSlimefun Iron"));
         slimefunItem.register(plugin);
+
         // The Event should be cancelled, we do not wanna use Slimefun Items for this
         PlayerInteractEntityEvent event = callIronGolemEvent(EquipmentSlot.HAND, slimefunItem.getItem());
         Assertions.assertTrue(event.isCancelled());
 
         PlayerInteractEntityEvent event2 = callIronGolemEvent(EquipmentSlot.OFF_HAND, slimefunItem.getItem());
         Assertions.assertTrue(event2.isCancelled());
+    }
+
+    @Test
+    public void testWithVanillaIron() {
+        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.IRON_INGOT, true);
+        item.register(plugin);
+
+        PlayerInteractEntityEvent event = callIronGolemEvent(EquipmentSlot.HAND, item.getItem());
+        Assertions.assertFalse(event.isCancelled());
+
+        PlayerInteractEntityEvent event2 = callIronGolemEvent(EquipmentSlot.OFF_HAND, item.getItem());
+        Assertions.assertFalse(event2.isCancelled());
     }
 
 }

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
@@ -36,6 +37,14 @@ public class TestSlimefunItemRegistration {
         item.register(plugin);
 
         Assertions.assertEquals(ItemState.ENABLED, item.getState());
+    }
+
+    @Test
+    public void testVanillaItemFallback() {
+        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.ACACIA_SIGN, false);
+        item.register(plugin);
+
+        Assertions.assertEquals(ItemState.VANILLA_FALLBACK, item.getState());
     }
 
     @Test

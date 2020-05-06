@@ -1,27 +1,39 @@
 package io.github.thebusybiscuit.slimefun4.tests.listeners;
 
+import org.apache.commons.lang.mutable.MutableObject;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.inventory.meta.EnchantedBookMetaMock;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class TestVanillaMachinesListener {
 
@@ -41,15 +53,127 @@ public class TestVanillaMachinesListener {
         MockBukkit.unmock();
     }
 
-    @Test
-    public void testGrindStoneWithoutSlimefunItems() {
+    private InventoryClickEvent mockGrindStoneEvent(ItemStack item) {
         Player player = server.addPlayer();
-        Inventory inv = SlimefunMocks.mockInventory(InventoryType.GRINDSTONE, new ItemStack(Material.ENCHANTED_BOOK), null);
+        Inventory inv = SlimefunMocks.mockInventory(InventoryType.GRINDSTONE, item, null);
         InventoryView view = player.openInventory(inv);
         InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 2, ClickType.LEFT, InventoryAction.PICKUP_ONE);
-        listener.onGrindstone(event);
 
+        listener.onGrindstone(event);
+        return event;
+    }
+
+    private CraftItemEvent mockCraftingEvent(ItemStack item) {
+        Recipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "test_recipe"), new ItemStack(Material.EMERALD));
+        Player player = server.addPlayer();
+
+        CraftingInventory inv = Mockito.mock(CraftingInventory.class);
+        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { item, null, null, null, null, null, null, null, null });
+
+        InventoryView view = player.openInventory(inv);
+        CraftItemEvent event = new CraftItemEvent(recipe, view, SlotType.RESULT, 9, ClickType.LEFT, InventoryAction.PICKUP_ALL);
+
+        listener.onCraft(event);
+        return event;
+    }
+
+    private PrepareItemCraftEvent mockPreCraftingEvent(ItemStack item) {
+        Player player = server.addPlayer();
+
+        CraftingInventory inv = Mockito.mock(CraftingInventory.class);
+        MutableObject result = new MutableObject(new ItemStack(Material.EMERALD));
+
+        Mockito.doAnswer(invocation -> {
+            ItemStack argument = invocation.getArgument(0);
+            result.setValue(argument);
+            return null;
+        }).when(inv).setResult(Mockito.any());
+
+        Mockito.when(inv.getResult()).thenAnswer(invocation -> result.getValue());
+        Mockito.when(inv.getContents()).thenReturn(new ItemStack[] { null, null, item, null, null, null, null, null, null });
+
+        InventoryView view = player.openInventory(inv);
+        PrepareItemCraftEvent event = new PrepareItemCraftEvent(inv, view, false);
+
+        listener.onPrepareCraft(event);
+        return event;
+    }
+
+    @Test
+    public void testGrindStoneWithoutSlimefunItems() {
+        InventoryClickEvent event = mockGrindStoneEvent(new ItemStack(Material.ENCHANTED_BOOK));
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
+    @Test
+    public void testGrindStoneWithSlimefunItems() {
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ENCHANTED_MOCK_BOOK", new CustomItem(Material.ENCHANTED_BOOK, "&6Mock"));
+        item.register(plugin);
+
+        InventoryClickEvent event = mockGrindStoneEvent(item.getItem());
+        Assertions.assertEquals(Result.DENY, event.getResult());
+    }
+
+    @Test
+    public void testGrindStoneWithVanillaItem() {
+        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.ENCHANTED_BOOK, true);
+        item.register(plugin);
+
+        InventoryClickEvent event = mockGrindStoneEvent(item.getItem());
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+
+    @Test
+    public void testGrindStoneWithSlimefunGuide() {
+        InventoryClickEvent event = mockGrindStoneEvent(SlimefunGuide.getItem(SlimefunGuideLayout.CHEST));
+        Assertions.assertEquals(Result.DENY, event.getResult());
+    }
+
+    @Test
+    public void testCraftEventWithoutSlimefunItems() {
+        CraftItemEvent event = mockCraftingEvent(new ItemStack(Material.DIAMOND));
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+
+    @Test
+    public void testCraftEventWithSlimefunItem() {
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCK_DIAMOND", new CustomItem(Material.DIAMOND, "&cMock Diamond"));
+        item.register(plugin);
+
+        CraftItemEvent event = mockCraftingEvent(item.getItem());
+        Assertions.assertEquals(Result.DENY, event.getResult());
+    }
+
+    @Test
+    public void testCraftEventWithVanillaItem() {
+        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.DIAMOND, true);
+        item.register(plugin);
+
+        CraftItemEvent event = mockCraftingEvent(item.getItem());
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+
+    @Test
+    public void testPreCraftEventWithoutSlimefunItems() {
+        PrepareItemCraftEvent event = mockPreCraftingEvent(new ItemStack(Material.DIAMOND));
+        Assertions.assertNotNull(event.getInventory().getResult());
+    }
+
+    @Test
+    public void testPreCraftEventWithSlimefunItem() {
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCK_DIAMOND2", new CustomItem(Material.DIAMOND, "&cMock Diamond"));
+        item.register(plugin);
+
+        PrepareItemCraftEvent event = mockPreCraftingEvent(item.getItem());
+        Assertions.assertNull(event.getInventory().getResult());
+    }
+
+    @Test
+    public void testPreCraftEventWithVanillaItem() {
+        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.GOLD_INGOT, true);
+        item.register(plugin);
+
+        PrepareItemCraftEvent event = mockPreCraftingEvent(item.getItem());
+        Assertions.assertNotNull(event.getInventory().getResult());
+    }
 }
