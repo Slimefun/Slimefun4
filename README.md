@@ -11,9 +11,9 @@ Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons),
 ## Quick navigation
 * **[Download Slimefun4.2](#download-slimefun-4)** NDA Required for Development Branches
 * **[Bug Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues)**
-* **Due to the fact this is an internal revision build, updates are rolling out to all Slimefun Revision-Compatible servers running Slimefun 4.
+* **Due to the fact this is an internal revision build, updates are rolling out to all Slimefun Revision-Compatible servers running Slimefun 4.**
 
-## Download Slimefun 4.2
+## Download Slimefun 4.5 Revision
 (See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))<br>
 Slimefun 4 can be downloaded **for free** on our builds page.<br>
 We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
