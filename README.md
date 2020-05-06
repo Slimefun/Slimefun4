@@ -3,26 +3,26 @@ Slimefun is a plugin which aims to turn your Bukkit/Spigot Server into a modpack
 
 This project originally started back in 2013 and has grown ever since.<br>
 From one single person working on this plugin back then, we grew to a community of thousands of players and over 100 of contributors to this project.<br>
-It currently adds over **500 new items and recipes** to Minecraft ([Read more about the history of this project](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)).
+It currently adds over **1000 new items and recipes** to Minecraft ([Read more about the history of this project](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)).
 
-But it also comes with a lot of Addons too!<br>
+But it also comes with a lot of original Slimefun 4 Addons too!<br>
 Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons), you may find exactly what you were looking for.
 
 ## Quick navigation
-* **[Download Slimefun4.2](#download-slimefun-4)** NDA Required for Development Branches
+* **[Download Slimefun 4.5 Revision](#download-slimefun-4r5)** NDA Required for Development Branches, all updates are processed automatically by default on already estabilished servers.
 * **[Bug Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues)**
 * **Due to the fact this is an internal revision build, updates are rolling out to all Slimefun Revision-Compatible servers running Slimefun 4.**
 
 ## Download Slimefun 4.5 Revision
-(See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))<br>
-Slimefun 4 can be downloaded **for free** on our builds page.<br>
-We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
+(See also: [How to install Slimefun 4 (Obsolete)](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))<br>
+Slimefun 4r5 can be downloaded **for free as an update to current servers** on your minecraft terminal.<br>
+We currently provide two versions of Slimefun, development builds (these reference nner source code and newest internal info, NDA required before proceeding.) and "stable" builds which are already rolled to all compatible servers.<br>
 Here is a full summary of the differences between these two versions of Slimefun.
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Minecraft version(s)** | 1.13.X - 1.15.X | 1.13.X - 1.15.X |
-| **testing before release** | :x: | :heavy_check_mark: |
+| **Minecraft version(s)** | 1.14.X - 1.15.X | 1.15.X - 1.16 Snapshot |
+| **testing before release** | :x: | :heavy_check_mark: NDA |
 | **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
@@ -30,34 +30,15 @@ Here is a full summary of the differences between these two versions of Slimefun
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
 | **Download link** | :package: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
-**! We wholeheartedly recommend you to use development builds !**
-
-"Stable" builds do ___not___ receive frequent updates or fast patches. Therefore they will always contain many more bugs than the develoment builds. We will also ___not___ accept or review any bug reports from "stable" builds since they are basically just outdated development builds.<br>
-**Why use a "stable" build then?** While "stable" builds contain more bugs than development builds you can be sure that they will not include any game-breaking issues, development builds almost never contain such issues either. But if your server/business heavily depends on a version of Slimefun that you need to rely on, you are forgiven if you choose the "stable" branch.<br>
+While "stable" builds contain more bugs than development builds you can be sure that they will not include any game-breaking issues, development builds almost never contain such issues either. But if your server/business heavily depends on a version of Slimefun that you need to rely on, you are forgiven if you choose the "stable" branch.<br>
 **What exactly are these "stable" builds then and why do you put them in quotes?** "Stable" builds are literally just outdated development builds that seemed to run fine without any major issues. But they are not exactly bug-free hence why calling them stable would be hipocritical. However these builds can only really stay "stable" if enough people use the development builds to test them and report bugs. Otherwise potential issues may go unnoticed and slip into "stable" builds. Again, we really recommend you to choose the development builds. But since many people really wanted "stable" builds, they are now an option too.
 
-Whatever version of Slimefun you choose, we also recommend you to keep `auto-updates` enabled to receive automatic patches and fixes for Slimefun!
+Whatever version of Slimefun you choose, we also recommend you to keep `auto-updates` enabled to receive automatic patches and fixes for Slimefun and renewal of your REVISION version!
 
 <p align="center">
   <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
     <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
   </a>
-</p>
-
-## Discord
-You can find Slimefun's community on Discord and connect with **over 1500** users of this plugin from all over the world.<br>
-Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.<br>
-We are also hosting a community event every so often, join us to find out more.<br>
-**Important**: We do **not** accept bug reports on discord, please use our [Issue Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues) to submit bug reports!
-
-Due to the sheer size of this discord server, we need to enforce some [important rules](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Discord-Rules).<br>
-Not following these rules can lead to a kick or even a ban from the server.
-
-<p align="center">
-  <a href="https://discord.gg/fsD4Bkh">
-    <img src="https://img.shields.io/discord/565557184348422174?color=7289DA&label=Discord&style=for-the-badge" alt="Discord Invite"/>
-  </a><br>
-  (Click the badge to join)
 </p>
 
 ## Wiki
@@ -83,6 +64,7 @@ Slimefun 4 is an Open-Source project and licensed under
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE).<br>
 Over 100 people have already contributed to this amazing project. You guys are awesome.<br>
 Please consider helping us maintain this project too, your engagement keeps the project alive <3.
+Slimefun 4.5 Revision is an in-development cycle update rolling out to all compatible severs. However newly rolled builds are falling under our NDA, this git only contains older and proofed versions.
 
 <p align="center">
   <a href="https://github.com/TheBusyBiscuit/Slimefun4/graphs/contributors">
@@ -91,7 +73,7 @@ Please consider helping us maintain this project too, your engagement keeps the 
 </p>
 
 ### Pull requests
-This is an open-source community project, so **your contributions keep this plugin alive!**<br>
+This is an open-source community project, but please keep in mind the updates already rolled to the Dev Builds! But so, **your contributions keep this plugin alive!**<br>
 Pull Requests can be fixes, changes or even additions, but please keep in mind that if you add too much content to Slimefun 4, you should maybe consider making an Addon for it instead ([Developer Guide](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide)).
 
 ### Translations
