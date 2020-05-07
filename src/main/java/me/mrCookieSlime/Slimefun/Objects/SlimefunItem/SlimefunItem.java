@@ -606,6 +606,9 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
+        Validate.notEmpty(settings, "You cannot add zero settings...");
+        Validate.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
+
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");
         }
