@@ -21,6 +21,7 @@
 
 #### Additions
 * Added Unit Tests
+* Added Ukrainian translations
 
 #### Changes
 * Little performance improvements

@@ -1,0 +1,158 @@
+---
+slimefun:
+  multiblock:
+    name: 멀티블럭
+    lore:
+    - 표시된 구조를 설치
+    - 보여진 바와 같이. 제작되지 않습니다.
+  enhanced_crafting_table:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 향상된 조합대(Enhanced Crafting Table) 내에서
+    - 일반 조합대로는 충분하지 않습니다!
+    name: '향상된 조합대 (Enhanced Crafting Table) '
+  armor_forge:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 갑옷 대장간 (Armor Forge) 사용
+    name: 갑옷 대장간 (Armor Forge
+  grind_stone:
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+    - 맷돌(Grind Stone) 사용
+    name: 맷돌 (Grind Stone)
+  smeltery:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 제련소 (Smeltery) 사용
+    name: 제련소 (Smeltery)
+  ore_crusher:
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+    - 광석 분쇄기 (Ore Crusher) 사용
+    name: 광석 분쇄기 (Ore Crusher)
+  mob_drop:
+    name: 몹 드롭
+    lore:
+    - 몹을 처치하여
+    - 이 아이템을 얻다
+  gold_pan:
+    lore:
+    - 골드 판 (Gold Pan) 사용
+    - 이 아이템을 얻다
+    name: 골드 판 (Gold Pan)
+  compressor:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 압축기(Compressor) 를 사용하여
+    name: 압축기 (Compressor)
+  pressure_chamber:
+    name: 압력 챔버
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+    - 압력 챔버를 사용하여
+  ore_washer:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 광물 세척기를 사용하여
+    name: 광물 세척기 (Ore Washer)
+  juicer:
+    lore:
+    - 그림과 같이 주스를 만드십시오
+    - 주스기 (Juicer) 를 사용하여
+    name: 주스기 (Juicer)
+  magic_workbench:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 마법 조합대 (Magic Workbench) 를 사용하여
+    name: 마법 조합대 (Magic Workbench)
+  ancient_altar:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 고대 제단 (Ancient Altar) 을 사용하여
+    - 자세한 정보는 고대 제단 (Ancient Altar) 을 찾아보십시오
+    name: 고대 제단 (Ancient Altar)
+  heated_pressure_chamber:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 가열 압력 챔버 (Heated Pressure Chamber) 를 사용하여
+    name: 가열 압력 챔버 (Heated Pressure Chamber)
+  food_fabricator:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 식품 제작기 (Food Fabricator) 를 사용하여
+    name: 식품 제작기 (Food Fabricator)
+  food_composter:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 식품 퇴비통 (Food Composter) 을 사용하여
+    name: 식품 퇴비통 (Food Composter)
+  freezer:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 냉동고 (Freezer) 를 사용하여
+    name: 냉동고 (Freezer)
+  geo_miner:
+    lore:
+    - 채굴 할 수있는 아이템
+    - GEO 마이너 (Geo Miner) 를 사용하여
+    name: GEO 마이너 (GEO Miner)
+  nuclear_reactor:
+    lore:
+    - 이 아이템은 부산물입니다
+    - 원자로 (Nuclear Reactor) 운영
+    name: 원자로 (Nuclear Reactor)
+  oil_pump:
+    name: 오일 펌프 (Oil Pump)
+    lore:
+    - 이 아이템은 수집 가능합니다.
+    - 오일 펌프 (Oil Pump) 를 사용하여
+  pickaxe_of_containment:
+    name: 억제의 곡괭이
+    lore:
+    - 이 블록을 얻을 수 있습니다
+    - 를 통해 스포너를 채굴하여
+    - 억제의 곡괭이
+  refinery:
+    name: 정유 공장 (Refinery)
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+    - 정유 공장 (Refinery) 을 사용하여
+minecraft:
+  shaped:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 일반 조합대에서
+    - 모양이 중요합니다.
+    name: 유형 조합 조합법
+  shapeless:
+    lore:
+    - 표시된대로 이 아이템을 제작하십시오
+    - 일반 조합대에서
+    - 이 조합법은 형태가 없습니다.
+    name: 무형 조합 조합법
+  furnace:
+    name: 화로 조합법
+    lore:
+    - 이 아이템을 화로에서 제련
+    - 원하는 아이템을 만들기 위해
+  blasting:
+    name: 용광로 조합법
+    lore:
+    - 이 아이템을 용광로에서 제련
+    - 원하는 아이템을 만들기 위해
+  smoking:
+    name: 훈연기 조합법
+    lore:
+    - 이 아이템을 훈연기에서 훈연
+    - 원하는 아이템을 만들기 위해
+  campfire:
+    name: 캠프 파이어 조합법
+    lore:
+    - 이 아이템을 캠프 파이어 위에서 제련
+    - 원하는 아이템을 만들기 위해
+  stonecutting:
+    name: 석재 절단기 레시피
+    lore:
+    - 표시된대로이 아이템을 제작하십시오
+    - 석제 절단기를 사용하여

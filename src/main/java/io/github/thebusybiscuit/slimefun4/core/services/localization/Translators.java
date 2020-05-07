@@ -72,6 +72,9 @@ public class Translators {
         addTranslator("KostaTV", EmbeddedLanguage.RUSSIAN, true);
         addTranslator("TomWiskis", "MrWiskis", EmbeddedLanguage.RUSSIAN, true);
         addTranslator("cyb3rm4n", "GP_CyberMan", EmbeddedLanguage.RUSSIAN, true);
+        
+        // Translators - Ukrainian
+        addTranslator("SoSeDiK", EmbeddedLanguage.UKRAINIAN, false);
 
         // Translators - Spanish
         addTranslator("Luu7", "_Luu", EmbeddedLanguage.SPANISH, true);
@@ -109,6 +112,10 @@ public class Translators {
 
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);
+
+        // Translators - Korean
+        addTranslator("kwonms871", EmbeddedLanguage.KOREAN, true);
+        addTranslator("yumjunstar", EmbeddedLanguage.KOREAN, true);
 
         // Translators - Indonesian
         addTranslator("diradho", EmbeddedLanguage.INDONESIAN, false);
