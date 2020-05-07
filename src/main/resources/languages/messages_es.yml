@@ -173,6 +173,10 @@ languages:
   vi: Vietnamita
   zh-CN: Chino (China)
   zh-TW: Chino (Taiwan)
+  hr: Croata
+  mk: Macedónio
+  sr: Serbio
+  be: Bielorruso
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4El Altar no está rodeado por la cantidad correcta de
