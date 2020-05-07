@@ -166,6 +166,20 @@ public class TestVanillaMachinesListener {
     }
 
     @Test
+    public void testCraftEventWithChangingSlimefunItem() {
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem("CHANGING_ITEM", new CustomItem(Material.DIAMOND, "&dChanging Diamond"));
+        item.register(plugin);
+
+        item.setUseableInWorkbench(true);
+        CraftItemEvent event = mockCraftingEvent(item.getItem());
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+
+        item.setUseableInWorkbench(false);
+        CraftItemEvent event2 = mockCraftingEvent(item.getItem());
+        Assertions.assertEquals(Result.DENY, event2.getResult());
+    }
+
+    @Test
     public void testCraftEventWithVanillaItem() {
         VanillaItem item = SlimefunMocks.mockVanillaItem(Material.DIAMOND, true);
         item.register(plugin);
