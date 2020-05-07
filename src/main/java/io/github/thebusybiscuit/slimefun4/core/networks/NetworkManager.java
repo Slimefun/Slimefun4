@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.api.network;
+package io.github.thebusybiscuit.slimefun4.core.networks;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 
 /**
