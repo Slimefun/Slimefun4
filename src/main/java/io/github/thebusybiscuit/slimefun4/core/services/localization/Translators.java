@@ -127,6 +127,12 @@ public class Translators {
         // Translators - Turkish
         addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
         addTranslator("LinoxGH", "ajan_12", EmbeddedLanguage.TURKISH, false);
+        
+        // Translators - Macedonian
+        addTranslator("TheSilentPro", EmbeddedLanguage.MACEDONIAN, true);
+        
+        // Translators - Bulgarian
+        addTranslator("DNBGlol", EmbeddedLanguage.BULGARIAN, true);
 
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
