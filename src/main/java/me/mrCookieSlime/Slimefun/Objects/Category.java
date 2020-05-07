@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -64,6 +65,9 @@ public class Category implements Keyed {
      *            the {@link SlimefunGuide}
      */
     public Category(NamespacedKey key, ItemStack item, int tier) {
+        Validate.notNull(key, "A Category's NamespacedKey must not be null!");
+        Validate.notNull(item, "A Category's ItemStack must not be null!");
+
         this.item = item;
         this.key = key;
 

@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.mockito.Mockito;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -16,7 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public final class SlimefunMocks {
 
-    private static final Category category = new Category(new NamespacedKey(SlimefunPlugin.instance, "test"), new ItemStack(Material.EMERALD));
+    private static final Category category = new Category(new NamespacedKey(SlimefunPlugin.instance, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
 
     private SlimefunMocks() {}
 
