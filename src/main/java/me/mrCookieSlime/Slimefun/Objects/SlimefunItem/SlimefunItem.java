@@ -128,7 +128,7 @@ public class SlimefunItem implements Placeable {
      *
      * @return the identifier of this {@link SlimefunItem}
      */
-    public String getID() {
+    public final String getID() {
         return id;
     }
 
@@ -576,6 +576,9 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
     public final void addItemHandler(ItemHandler... handlers) {
+        Validate.notEmpty(handlers, "You cannot add zero handlers...");
+        Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
+
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }

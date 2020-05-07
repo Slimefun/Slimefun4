@@ -63,6 +63,27 @@ public class TestVanillaMachinesListener {
         return event;
     }
 
+    private InventoryClickEvent mockAnvilEvent(ItemStack item) {
+        Player player = server.addPlayer();
+        Inventory inv = SlimefunMocks.mockInventory(InventoryType.ANVIL, item, null, new ItemStack(Material.IRON_CHESTPLATE));
+        InventoryView view = player.openInventory(inv);
+        InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 2, ClickType.LEFT, InventoryAction.PICKUP_ONE);
+
+        listener.onAnvil(event);
+        return event;
+    }
+
+    private InventoryClickEvent mockBrewingEvent(ItemStack item) {
+        Player player = server.addPlayer();
+        Inventory inv = SlimefunMocks.mockInventory(InventoryType.BREWING);
+        InventoryView view = player.openInventory(inv);
+        view.setCursor(item);
+        InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 1, ClickType.LEFT, InventoryAction.PICKUP_ONE);
+
+        listener.onPreBrew(event);
+        return event;
+    }
+
     private CraftItemEvent mockCraftingEvent(ItemStack item) {
         Recipe recipe = new ShapedRecipe(new NamespacedKey(plugin, "test_recipe"), new ItemStack(Material.EMERALD));
         Player player = server.addPlayer();
@@ -106,7 +127,7 @@ public class TestVanillaMachinesListener {
     }
 
     @Test
-    public void testGrindStoneWithSlimefunItems() {
+    public void testGrindStoneWithSlimefunItem() {
         SlimefunItem item = SlimefunMocks.mockSlimefunItem("ENCHANTED_MOCK_BOOK", new CustomItem(Material.ENCHANTED_BOOK, "&6Mock"));
         item.register(plugin);
 
@@ -175,5 +196,53 @@ public class TestVanillaMachinesListener {
 
         PrepareItemCraftEvent event = mockPreCraftingEvent(item.getItem());
         Assertions.assertNotNull(event.getInventory().getResult());
+    }
+    
+    @Test
+    public void testAnvilWithoutSlimefunItems() {
+        InventoryClickEvent event = mockAnvilEvent(new ItemStack(Material.IRON_SWORD));
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+
+    @Test
+    public void testAnvilWithSlimefunItem() {
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCKED_IRON_SWORD", new CustomItem(Material.IRON_SWORD, "&6Mock"));
+        item.register(plugin);
+
+        InventoryClickEvent event = mockAnvilEvent(item.getItem());
+        Assertions.assertEquals(Result.DENY, event.getResult());
+    }
+
+    @Test
+    public void testAnvilWithVanillaItem() {
+        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.IRON_SWORD, true);
+        item.register(plugin);
+
+        InventoryClickEvent event = mockAnvilEvent(item.getItem());
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+    
+    @Test
+    public void testBrewingWithoutSlimefunItems() {
+        InventoryClickEvent event = mockBrewingEvent(new ItemStack(Material.BLAZE_POWDER));
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+
+    @Test
+    public void testBrewingWithSlimefunItem() {
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCK_POWDER", new CustomItem(Material.BLAZE_POWDER, "&6Mock"));
+        item.register(plugin);
+
+        InventoryClickEvent event = mockBrewingEvent(item.getItem());
+        Assertions.assertEquals(Result.DENY, event.getResult());
+    }
+
+    @Test
+    public void testBrewingithVanillaItem() {
+        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.BLAZE_POWDER, true);
+        item.register(plugin);
+
+        InventoryClickEvent event = mockBrewingEvent(item.getItem());
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 }

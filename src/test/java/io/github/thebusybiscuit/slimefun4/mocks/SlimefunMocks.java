@@ -20,6 +20,10 @@ public final class SlimefunMocks {
 
     private SlimefunMocks() {}
 
+    public static Category getCategory() {
+        return category;
+    }
+
     public static Inventory mockInventory(InventoryType type, ItemStack... contents) {
         Inventory inv = Mockito.mock(Inventory.class);
 

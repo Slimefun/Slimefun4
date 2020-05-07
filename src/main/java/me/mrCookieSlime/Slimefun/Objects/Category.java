@@ -153,6 +153,18 @@ public class Category implements Keyed {
     }
 
     /**
+     * This method returns whether a given {@link SlimefunItem} exists in this {@link Category}.
+     * 
+     * @param item
+     *            The {@link SlimefunItem} to find
+     * 
+     * @return Whether the given {@link SlimefunItem} was found in this {@link Category}
+     */
+    public boolean contains(SlimefunItem item) {
+        return item != null && items.contains(item);
+    }
+
+    /**
      * Returns the tier of this {@link Category}.
      * The tier determines the position of this {@link Category} in the {@link SlimefunGuide}.
      * 

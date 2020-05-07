@@ -80,14 +80,14 @@ public class VanillaMachinesListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onAnvil(InventoryClickEvent e) {
         if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.ANVIL && e.getWhoClicked() instanceof Player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
             if (checkForUnallowedItems(item1, item2)) {
-                e.setCancelled(true);
+                e.setResult(Result.DENY);
                 SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
         }
@@ -98,7 +98,7 @@ public class VanillaMachinesListener implements Listener {
         Inventory inventory = e.getInventory();
 
         if (inventory.getType() == InventoryType.BREWING && e.getRawSlot() < inventory.getSize() && inventory.getHolder() instanceof BrewingStand) {
-            e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
+            e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
         }
     }
 
