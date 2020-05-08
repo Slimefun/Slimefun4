@@ -47,7 +47,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
     }
 
-    private void openBook(Player p, List<ChatComponent> lines, boolean backButton) {
+    private void openBook(Player p, PlayerProfile profile, List<ChatComponent> lines, boolean backButton) {
         CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
         book.setTitle(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
 
@@ -56,10 +56,10 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             ChatComponent header = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
             header.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
 
-            header.setClickEvent(new ClickEvent(guideSearch, player -> PlayerProfile.get(player, profile -> Slimefun.runSync(() -> {
+            header.setClickEvent(new ClickEvent(guideSearch, player -> Slimefun.runSync(() -> {
                 SlimefunPlugin.getLocal().sendMessage(player, "guide.search.message");
                 ChatInput.waitForPlayer(SlimefunPlugin.instance, player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
-            }, 1))));
+            }, 1)));
 
             page.append(header);
 
@@ -72,7 +72,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             if (backButton) {
                 ChatComponent button = new ChatComponent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"));
                 button.setHoverEvent(new HoverEvent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")));
-                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(PlayerProfile.get(pl), 1)));
+                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(profile, 1)));
                 page.append(button);
             }
 
@@ -132,7 +132,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
         }
 
-        openBook(p, lines, false);
+        openBook(p, profile, lines, false);
     }
 
     @Override
@@ -206,7 +206,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                 }
             }
 
-            openBook(p, lines, true);
+            openBook(p, profile, lines, true);
         }
         else {
             p.sendMessage(ChatColor.RED + "That Category is too big to open :/");

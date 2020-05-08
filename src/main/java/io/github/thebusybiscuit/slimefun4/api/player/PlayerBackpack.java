@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This class represents the instance of a {@link SlimefunBackpack} that is ready to
@@ -74,6 +75,11 @@ public class PlayerBackpack {
         return id;
     }
 
+    /**
+     * This returns the size of this {@link PlayerBackpack}.
+     * 
+     * @return The size of this {@link PlayerBackpack}
+     */
     public int getSize() {
         return size;
     }
@@ -90,9 +96,11 @@ public class PlayerBackpack {
      *            The players who this Backpack will be shown to
      */
     public void open(Player... players) {
-        for (Player p : players) {
-            p.openInventory(inventory);
-        }
+        Slimefun.runSync(() -> {
+            for (Player p : players) {
+                p.openInventory(inventory);
+            }
+        });
     }
 
     /**

@@ -53,10 +53,12 @@ public class BackpackListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
-        if (backpacks.containsKey(e.getPlayer().getUniqueId())) {
-            ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-            PlayerProfile.getBackpack(backpacks.get(e.getPlayer().getUniqueId())).markDirty();
-            backpacks.remove(e.getPlayer().getUniqueId());
+        Player p = ((Player) e.getPlayer());
+        ItemStack backpack = backpacks.remove(p.getUniqueId());
+
+        if (backpack != null) {
+            p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+            PlayerProfile.getBackpack(backpack, PlayerBackpack::markDirty);
         }
     }
 
@@ -140,9 +142,7 @@ public class BackpackListener implements Listener {
             p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
             backpacks.put(p.getUniqueId(), item);
 
-            Slimefun.runSync(() -> {
-                PlayerBackpack backpack = PlayerProfile.getBackpack(item);
-
+            PlayerProfile.getBackpack(item, backpack -> {
                 if (backpack != null) {
                     backpack.open(p);
                 }

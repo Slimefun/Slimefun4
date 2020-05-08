@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -79,28 +80,11 @@ public final class Slimefun {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem != null) {
-            if (sfItem.getState() == ItemState.DISABLED) {
-                if (message) {
-                    SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
-                }
-
-                return false;
-            }
-
-            if (isEnabled(p, item, message) && hasPermission(p, sfItem, message)) {
-                if (sfItem.getResearch() == null) return true;
-                else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) return true;
-                else {
-                    if (message && !(sfItem instanceof VanillaItem)) {
-                        SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
-                    }
-
-                    return false;
-                }
-            }
-            else return false;
+            return hasUnlocked(p, sfItem, message);
         }
-        else return true;
+        else {
+            return true;
+        }
     }
 
     /**
@@ -117,19 +101,33 @@ public final class Slimefun {
      *         <code>false</code> otherwise.
      */
     public static boolean hasUnlocked(Player p, SlimefunItem sfItem, boolean message) {
+        if (sfItem.getState() == ItemState.VANILLA_FALLBACK) {
+            return true;
+        }
+
         if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
             if (sfItem.getResearch() == null) {
                 return true;
             }
-            else if (PlayerProfile.get(p).hasUnlocked(sfItem.getResearch())) {
-                return true;
-            }
             else {
-                if (message && !(sfItem instanceof VanillaItem)) {
-                    SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
-                }
+                Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
-                return false;
+                if (!profile.isPresent()) {
+                    // We will return false since we cannot know the answer yet
+                    // But we will schedule the Profile for loading.
+                    PlayerProfile.request(p);
+                    return false;
+                }
+                else if (profile.get().hasUnlocked(sfItem.getResearch())) {
+                    return true;
+                }
+                else {
+                    if (message && !(sfItem instanceof VanillaItem)) {
+                        SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+                    }
+
+                    return false;
+                }
             }
         }
 
@@ -198,7 +196,10 @@ public final class Slimefun {
      *         <code>false</code> otherwise.
      */
     public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
-        if (sfItem.isDisabled()) {
+        if (sfItem.getState() == ItemState.VANILLA_FALLBACK) {
+            return true;
+        }
+        else if (sfItem.isDisabled()) {
             if (message) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
             }

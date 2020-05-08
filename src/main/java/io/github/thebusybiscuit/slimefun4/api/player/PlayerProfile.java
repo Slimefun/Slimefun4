@@ -67,10 +67,6 @@ public final class PlayerProfile {
         }
     }
 
-    private PlayerProfile(UUID uuid) {
-        this(Bukkit.getOfflinePlayer(uuid));
-    }
-
     public HashedArmorpiece[] getArmor() {
         return armor;
     }
@@ -230,62 +226,8 @@ public final class PlayerProfile {
         return guideHistory;
     }
 
-    /**
-     * This is now deprecated, use {@link #fromUUID(UUID, Consumer)} instead
-     *
-     * @param uuid
-     *            The UUID of the profile you are trying to retrieve.
-     * @return The PlayerProfile of this player
-     */
-    public static PlayerProfile fromUUID(UUID uuid) {
-        PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(uuid);
-
-        if (profile == null) {
-            profile = new PlayerProfile(uuid);
-            SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, profile);
-        }
-        else {
-            profile.markedForDeletion = false;
-        }
-
-        return profile;
-    }
-
     public static boolean fromUUID(UUID uuid, Consumer<PlayerProfile> callback) {
-        PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(uuid);
-
-        if (profile != null) {
-            callback.accept(profile);
-            return true;
-        }
-
-        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
-            PlayerProfile pp = new PlayerProfile(uuid);
-            SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
-            callback.accept(pp);
-        });
-        return false;
-    }
-
-    /**
-     * This is now deprecated, use {@link #get(OfflinePlayer, Consumer)} instead
-     *
-     * @param p
-     *            The player's profile you wish to retrieve
-     * @return The PlayerProfile of this player
-     */
-    public static PlayerProfile get(OfflinePlayer p) {
-        PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId());
-
-        if (profile == null) {
-            profile = new PlayerProfile(p);
-            SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), profile);
-        }
-        else {
-            profile.markedForDeletion = false;
-        }
-
-        return profile;
+        return get(Bukkit.getOfflinePlayer(uuid), callback);
     }
 
     /**
@@ -299,20 +241,44 @@ public final class PlayerProfile {
      * @return If the player was cached or not.
      */
     public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
-        PlayerProfile cached = SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId());
+        UUID uuid = p.getUniqueId();
+        PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(uuid);
 
-        if (cached != null) {
-            callback.accept(cached);
+        if (profile != null) {
+            callback.accept(profile);
             return true;
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
-            PlayerProfile profile = new PlayerProfile(p);
-            SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), profile);
-            callback.accept(profile);
+            PlayerProfile pp = new PlayerProfile(p);
+            SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
+            callback.accept(pp);
         });
-        
+
         return false;
+    }
+
+    /**
+     * This requests an instance of {@link PlayerProfile} to be loaded for the given {@link OfflinePlayer}.
+     * This method will return true if the {@link PlayerProfile} was already found.
+     * 
+     * @param p
+     *            The {@link OfflinePlayer} to request the {@link PlayerProfile} for.
+     * 
+     * @return Whether the {@link PlayerProfile} was already loaded
+     */
+    public static boolean request(OfflinePlayer p) {
+        if (!SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
+            // Should probably prevent multiple requests for the same profile in the future
+            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+                PlayerProfile pp = new PlayerProfile(p);
+                SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
+            });
+
+            return false;
+        }
+
+        return true;
     }
 
     public static Optional<PlayerProfile> find(OfflinePlayer p) {
@@ -323,8 +289,10 @@ public final class PlayerProfile {
         return SlimefunPlugin.getRegistry().getPlayerProfiles().values().iterator();
     }
 
-    public static PlayerBackpack getBackpack(ItemStack item) {
-        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) return null;
+    public static void getBackpack(ItemStack item, Consumer<PlayerBackpack> callback) {
+        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) {
+            return;
+        }
 
         OptionalInt id = OptionalInt.empty();
         String uuid = "";
@@ -341,11 +309,8 @@ public final class PlayerProfile {
         }
 
         if (id.isPresent()) {
-            PlayerProfile profile = fromUUID(UUID.fromString(uuid));
-            return profile.getBackpack(id.getAsInt());
-        }
-        else {
-            return null;
+            int number = id.getAsInt();
+            fromUUID(UUID.fromString(uuid), profile -> callback.accept(profile.getBackpack(number)));
         }
     }
 
