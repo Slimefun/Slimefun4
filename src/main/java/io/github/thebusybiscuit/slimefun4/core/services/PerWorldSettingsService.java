@@ -34,7 +34,7 @@ public class PerWorldSettingsService {
 
     private final SlimefunPlugin plugin;
 
-    private final OptionalMap<String, Set<String>> disabledItems = new OptionalMap<>(HashMap::new);
+    private final OptionalMap<UUID, Set<String>> disabledItems = new OptionalMap<>(HashMap::new);
     private final Map<SlimefunAddon, Set<String>> disabledAddons = new HashMap<>();
     private final Set<UUID> disabledWorlds = new HashSet<>();
 
@@ -68,7 +68,7 @@ public class PerWorldSettingsService {
      *            The {@link World} to load
      */
     public void load(World world) {
-        disabledItems.putIfAbsent(world.getName(), loadWorldFromConfig(world));
+        disabledItems.putIfAbsent(world.getUID(), loadWorldFromConfig(world));
     }
 
     /**
@@ -113,7 +113,7 @@ public class PerWorldSettingsService {
      * @return Whether the given {@link SlimefunItem} is enabled in that {@link World}
      */
     public boolean isEnabled(World world, SlimefunItem item) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), name -> loadWorldFromConfig(world));
+        Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         if (disabledWorlds.contains(world.getUID())) {
             return false;
@@ -133,7 +133,7 @@ public class PerWorldSettingsService {
      *            Whether the given {@link SlimefunItem} should be enabled in that world
      */
     public void setEnabled(World world, SlimefunItem item, boolean enabled) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), name -> loadWorldFromConfig(world));
+        Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         if (enabled) {
             items.remove(item.getID());
@@ -199,7 +199,7 @@ public class PerWorldSettingsService {
      *            The {@link World} to save
      */
     public void save(World world) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), name -> loadWorldFromConfig(world));
+        Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         Config config = new Config(plugin, "world-settings/" + world + ".yml");
 
@@ -215,7 +215,7 @@ public class PerWorldSettingsService {
 
     private Set<String> loadWorldFromConfig(World world) {
         String name = world.getName();
-        Optional<Set<String>> optional = disabledItems.get(name);
+        Optional<Set<String>> optional = disabledItems.get(world.getUID());
 
         if (optional.isPresent()) {
             return optional.get();
