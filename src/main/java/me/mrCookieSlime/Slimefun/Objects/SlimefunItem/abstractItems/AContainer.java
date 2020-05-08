@@ -165,6 +165,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         // Override this method to register your machine recipes
     }
 
+    public List<MachineRecipe> getMachineRecipes() {
+        return recipes;
+    }
+
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 
