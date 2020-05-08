@@ -102,7 +102,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  * @author TheBusyBiscuit
  *
  */
-public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
+public class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
 
@@ -118,7 +118,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
     private final CustomTextureService textureService = new CustomTextureService(this);
     private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
-    private final UpdaterService updaterService = new UpdaterService(this, getFile());
+    private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
     private final MetricsService metricsService = new MetricsService(this);
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
@@ -262,7 +262,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
-                textureService.register(registry.getAllSlimefunItems());
+                textureService.register(registry.getAllSlimefunItems(), true);
                 permissionsService.register(registry.getAllSlimefunItems());
                 recipeService.refresh();
             }), 0);

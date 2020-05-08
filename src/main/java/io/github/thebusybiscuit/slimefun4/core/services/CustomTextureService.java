@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import java.util.Collection;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -21,6 +24,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class CustomTextureService {
 
     private final Config config;
+
+    private String version = null;
     private boolean modified = false;
 
     public CustomTextureService(Plugin plugin) {
@@ -30,7 +35,18 @@ public class CustomTextureService {
         config.getConfiguration().options().copyHeader(true);
     }
 
-    public void register(Iterable<SlimefunItem> items) {
+    /**
+     * This method registers the given {@link SlimefunItem SlimefunItems} to this {@link CustomTextureService}.
+     * If saving is enabled, it will save them to the {@link Config} file.
+     * 
+     * @param items
+     *            The {@link SlimefunItem SlimefunItems} to register
+     * @param save
+     *            Whether to save this file
+     */
+    public void register(Collection<SlimefunItem> items, boolean save) {
+        Validate.notEmpty(items, "items must neither be null or empty.");
+
         config.setDefaultValue("SLIMEFUN_GUIDE", 0);
 
         config.setDefaultValue("_UI_BACKGROUND", 0);
@@ -53,11 +69,15 @@ public class CustomTextureService {
             }
         }
 
-        config.save();
+        version = config.getString("version");
+
+        if (save) {
+            config.save();
+        }
     }
 
     public String getVersion() {
-        return config.getString("version");
+        return version;
     }
 
     public boolean isActive() {
@@ -65,6 +85,7 @@ public class CustomTextureService {
     }
 
     public int getModelData(String id) {
+        Validate.notNull(id, "Cannot get the ModelData for 'null'");
         return config.getInt(id);
     }
 

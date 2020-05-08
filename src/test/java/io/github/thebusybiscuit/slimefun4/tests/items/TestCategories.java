@@ -130,8 +130,6 @@ public class TestCategories {
         Player player = server.addPlayer();
 
         Assertions.assertEquals(month, category.getMonth());
-        System.out.println(month);
-        System.out.println(category.getMonth());
         Assertions.assertFalse(category.isHidden(player));
 
         // Category with future Month

@@ -30,32 +30,47 @@ public class UpdaterService {
      * 
      * @param plugin
      *            The instance of Slimefun
+     * @param version
+     *            The current version of Slimefun
      * @param file
      *            The {@link File} of this {@link Plugin}
      */
-    public UpdaterService(SlimefunPlugin plugin, File file) {
+    public UpdaterService(SlimefunPlugin plugin, String version, File file) {
         this.plugin = plugin;
-        String version = plugin.getDescription().getVersion();
+        Updater autoUpdater = null;
 
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
-            updater = null;
             branch = SlimefunBranch.UNOFFICIAL;
         }
         else if (version.startsWith("DEV - ")) {
             // If we are using a development build, we want to switch to our custom
-            updater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
+            try {
+                autoUpdater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
+
+            }
+            catch (Exception x) {
+                plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
+            }
+
             branch = SlimefunBranch.DEVELOPMENT;
         }
         else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
-            updater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/stable", "RC - ");
+            try {
+                autoUpdater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/stable", "RC - ");
+            }
+            catch (Exception x) {
+                plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
+            }
+
             branch = SlimefunBranch.STABLE;
         }
         else {
-            updater = null;
             branch = SlimefunBranch.UNKNOWN;
         }
+
+        this.updater = autoUpdater;
     }
 
     /**
