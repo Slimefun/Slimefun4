@@ -87,7 +87,7 @@ public final class PostSetup {
         CommandSender sender = Bukkit.getConsoleSender();
 
         int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
-        int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
+        int vanilla = SlimefunPlugin.getRegistry().countNonAddonItems();
 
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
