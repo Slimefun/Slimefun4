@@ -37,7 +37,6 @@ public class TestResearches {
         Research research = new Research(key, 0, "Test", 100);
 
         Assertions.assertEquals(key, research.getKey());
-        Assertions.assertEquals(0, research.getID());
         Assertions.assertEquals(100, research.getCost());
 
         Assertions.assertFalse(Research.getResearch(null).isPresent());
