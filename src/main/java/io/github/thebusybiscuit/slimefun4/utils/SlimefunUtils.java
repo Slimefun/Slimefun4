@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
@@ -102,6 +103,18 @@ public final class SlimefunUtils {
                 return false;
             }
         }
+    }
+
+    /**
+     * This method checks whether the given {@link ItemStack} is radioactive.
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
+     * @return Whether this {@link ItemStack} is radioactive or not
+     */
+    public static boolean isRadioactive(ItemStack item) {
+        return SlimefunItem.getByItem(item) instanceof Radioactive;
     }
 
     public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {

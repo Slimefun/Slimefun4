@@ -18,9 +18,9 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player player;
-    private MultiBlock multiBlock;
-    private Block clickedBlock;
+    private final Player player;
+    private final MultiBlock multiBlock;
+    private final Block clickedBlock;
     private boolean cancelled;
 
     public HandlerList getHandlers() {
