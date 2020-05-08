@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;

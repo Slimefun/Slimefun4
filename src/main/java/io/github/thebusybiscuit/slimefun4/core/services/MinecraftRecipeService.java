@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -60,6 +61,10 @@ public class MinecraftRecipeService {
      * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
      */
     public Optional<ItemStack> getFurnaceOutput(ItemStack input) {
+        if (input == null) {
+            return Optional.empty();
+        }
+
         return snapshot.getRecipeOutput(MinecraftRecipe.FURNACE, input);
     }
 
@@ -75,6 +80,8 @@ public class MinecraftRecipeService {
      * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
      */
     public RecipeChoice[] getRecipeShape(Recipe recipe) {
+        Validate.notNull(recipe, "Recipe must not be null!");
+
         if (recipe instanceof ShapedRecipe) {
             List<RecipeChoice> choices = new LinkedList<>();
 

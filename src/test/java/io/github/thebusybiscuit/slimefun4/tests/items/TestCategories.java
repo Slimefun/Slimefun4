@@ -15,12 +15,15 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
+import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class TestCategories {
@@ -135,5 +138,29 @@ public class TestCategories {
         // Category with future Month
         SeasonalCategory category2 = new SeasonalCategory(category.getKey(), month.plus(6), 1, new CustomItem(Material.MILK_BUCKET, "&dSeasonal Test"));
         Assertions.assertTrue(category2.isHidden(player));
+    }
+
+    @Test
+    public void testFlexCategory() {
+        FlexCategory category = new FlexCategory(new NamespacedKey(plugin, "flex"), new CustomItem(Material.REDSTONE, "&4Weird flex but ok")) {
+
+            @Override
+            public void open(Player p, PlayerProfile profile, SlimefunGuideLayout layout) {
+                // Nothing
+            }
+
+            @Override
+            public boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideLayout layout) {
+                return true;
+            }
+        };
+
+        Player player = server.addPlayer();
+        Assertions.assertFalse(category.isHidden(player));
+
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.add(null));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.contains(null));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.remove(null));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> category.getItems());
     }
 }

@@ -2,29 +2,25 @@ package io.github.thebusybiscuit.slimefun4.tests.services;
 
 import java.io.File;
 
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestUpdaterService {
 
-    private static ServerMock server;
     private static SlimefunPlugin plugin;
 
     private final File file = new File("test.jar");
 
     @BeforeAll
     public static void load() {
-        server = MockBukkit.mock();
+        MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
@@ -20,12 +19,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class TextCustomTextureService {
 
-    private static ServerMock server;
     private static SlimefunPlugin plugin;
 
     @BeforeAll
     public static void load() {
-        server = MockBukkit.mock();
+        MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 

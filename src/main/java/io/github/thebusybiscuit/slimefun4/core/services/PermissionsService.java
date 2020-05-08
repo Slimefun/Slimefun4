@@ -33,7 +33,7 @@ public class PermissionsService {
         config.getConfiguration().options().copyHeader(true);
     }
 
-    public void register(Iterable<SlimefunItem> items) {
+    public void register(Iterable<SlimefunItem> items, boolean save) {
         for (SlimefunItem item : items) {
             if (item != null && item.getID() != null && !migrate(item)) {
                 config.setDefaultValue(item.getID() + ".permission", "none");
@@ -42,7 +42,9 @@ public class PermissionsService {
             }
         }
 
-        config.save();
+        if (save) {
+            config.save();
+        }
     }
 
     // Temporary migration method for the old system

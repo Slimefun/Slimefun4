@@ -12,18 +12,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestItemDataService {
 
-    private static ServerMock server;
     private static SlimefunPlugin plugin;
 
     @BeforeAll
     public static void load() {
-        server = MockBukkit.mock();
+        MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 

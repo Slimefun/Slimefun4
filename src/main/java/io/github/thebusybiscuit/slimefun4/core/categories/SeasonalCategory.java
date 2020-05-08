@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 
 /**
  * Represents a {@link Category} that is only displayed in the Guide during

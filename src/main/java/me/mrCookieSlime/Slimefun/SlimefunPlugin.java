@@ -263,7 +263,7 @@ public class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
                 textureService.register(registry.getAllSlimefunItems(), true);
-                permissionsService.register(registry.getAllSlimefunItems());
+                permissionsService.register(registry.getAllSlimefunItems(), true);
                 recipeService.refresh();
             }), 0);
 

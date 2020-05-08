@@ -5,9 +5,9 @@ import org.bukkit.block.EnderChest;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
