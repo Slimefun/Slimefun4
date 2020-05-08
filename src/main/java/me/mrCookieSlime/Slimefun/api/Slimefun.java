@@ -196,10 +196,7 @@ public final class Slimefun {
      *         <code>false</code> otherwise.
      */
     public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
-        if (sfItem.getState() == ItemState.VANILLA_FALLBACK) {
-            return true;
-        }
-        else if (sfItem.isDisabled()) {
+        if (sfItem.isDisabled()) {
             if (message) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
             }

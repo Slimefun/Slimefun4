@@ -68,6 +68,8 @@ public class TextCustomTextureService {
 
         ItemStack stack = new ItemStack(Material.DIAMOND);
         service.setTexture(stack, item.getID());
+
+        Assertions.assertTrue(stack.getItemMeta().hasCustomModelData());
         Assertions.assertEquals(300, stack.getItemMeta().getCustomModelData());
     }
 }

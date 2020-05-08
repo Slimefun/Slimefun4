@@ -20,7 +20,6 @@ import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -61,16 +60,17 @@ public class TestCategories {
 
     @Test
     public void testHidden() {
-        Category category = new Category(new NamespacedKey(plugin, "testCategory2"), new ItemStack(Material.BEACON));
+        Category category = new Category(new NamespacedKey(plugin, "hiddenCategory"), new ItemStack(Material.BEACON));
         Player player = server.addPlayer();
 
         // Empty Categories are also hidden
         Assertions.assertTrue(category.isHidden(player));
 
-        VanillaItem vanillaItem = SlimefunMocks.mockVanillaItem(Material.BEETROOT, false);
-        vanillaItem.setCategory(category);
-        vanillaItem.register(plugin);
-        vanillaItem.load();
+        SlimefunItem disabledItem = SlimefunMocks.mockSlimefunItem("DISABLED_CATEGORY_ITEM", new CustomItem(Material.BEETROOT, "&4Disabled"));
+        SlimefunPlugin.getItemCfg().setValue("DISABLED_CATEGORY_ITEM.enabled", false);
+        disabledItem.setCategory(category);
+        disabledItem.register(plugin);
+        disabledItem.load();
 
         // A disabled Item should also make the Category hide
         Assertions.assertTrue(category.isHidden(player));
