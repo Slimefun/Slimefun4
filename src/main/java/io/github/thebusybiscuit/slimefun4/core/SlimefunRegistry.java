@@ -24,11 +24,11 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
@@ -56,7 +56,6 @@ public class SlimefunRegistry {
     private final List<Research> researches = new LinkedList<>();
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = new HashSet<>();
-    private final KeyMap<Research> researchIds = new KeyMap<>();
 
     private boolean automaticallyLoadItems;
     private boolean enableResearches;
@@ -137,10 +136,6 @@ public class SlimefunRegistry {
 
     public List<Research> getResearches() {
         return researches;
-    }
-
-    public KeyMap<Research> getResearchIds() {
-        return researchIds;
     }
 
     public Set<UUID> getCurrentlyResearchingPlayers() {
