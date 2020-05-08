@@ -52,6 +52,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
@@ -213,6 +214,7 @@ public class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new SlimefunItemListener(this);
             new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
+            new CargoNodeListener(this);
             new MultiBlockListener(this);
             new GadgetsListener(this);
             new DispenserListener(this);
