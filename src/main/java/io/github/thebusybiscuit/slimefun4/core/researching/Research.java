@@ -195,29 +195,20 @@ public class Research implements Keyed {
 
         PlayerProfile.get(p, profile -> {
             if (!profile.hasUnlocked(this)) {
-                Runnable runnable = () -> {
-                    profile.setResearched(this, true);
-                    SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
-
-                    if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
-                        FireworkUtils.launchRandom(p, 1);
-                    }
-                };
-
                 Slimefun.runSync(() -> {
                     ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
                         if (instant) {
-                            runnable.run();
+                            finishResearch(p, profile);
                         }
                         else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
                             SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
                             playResearchAnimation(p);
 
                             Slimefun.runSync(() -> {
-                                runnable.run();
+                                finishResearch(p, profile);
                                 SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().remove(p.getUniqueId());
                             }, (RESEARCH_PROGRESS.length + 1) * 20L);
                         }
@@ -225,6 +216,15 @@ public class Research implements Keyed {
                 });
             }
         });
+    }
+
+    private void finishResearch(Player p, PlayerProfile profile) {
+        profile.setResearched(this, true);
+        SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
+
+        if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
+            FireworkUtils.launchRandom(p, 1);
+        }
     }
 
     private void playResearchAnimation(Player p) {
@@ -245,7 +245,6 @@ public class Research implements Keyed {
         SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
 
         String path = key.getNamespace() + '.' + key.getKey();
-        migrate(id, path);
 
         if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {
             for (SlimefunItem item : new ArrayList<>(items)) {
@@ -265,19 +264,6 @@ public class Research implements Keyed {
         enabled = true;
 
         SlimefunPlugin.getRegistry().getResearches().add(this);
-    }
-
-    // Temporary migration method from ids to Namespaced Keys.
-    private void migrate(int id, String path) {
-        if (SlimefunPlugin.getResearchCfg().contains(id + ".enabled")) {
-            SlimefunPlugin.getResearchCfg().setValue(path + ".enabled", SlimefunPlugin.getResearchCfg().getBoolean(id + ".enabled"));
-        }
-
-        if (SlimefunPlugin.getResearchCfg().contains(id + ".cost")) {
-            SlimefunPlugin.getResearchCfg().setValue(path + ".cost", SlimefunPlugin.getResearchCfg().getInt(id + ".cost"));
-        }
-
-        SlimefunPlugin.getResearchCfg().setValue(String.valueOf(id), null);
     }
 
     /**
