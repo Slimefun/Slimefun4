@@ -19,6 +19,7 @@ import org.bukkit.World;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -247,7 +248,9 @@ public class PerWorldSettingsService {
                     }
                 }
 
-                config.save();
+                if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+                    config.save();
+                }
             }
             else {
                 disabledWorlds.add(world.getUID());
