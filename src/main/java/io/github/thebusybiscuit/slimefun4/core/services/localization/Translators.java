@@ -102,12 +102,32 @@ public class Translators {
         // Translators - Arabic
         addTranslator("mohkamfer", "AgentBabbie", EmbeddedLanguage.ARABIC, false);
 
+        // Translators - Hebrew
+        addTranslator("dhtdht020", EmbeddedLanguage.HEBREW, false);
+
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);
+
+        // Translators - Korean
+        addTranslator("kwonms871", EmbeddedLanguage.KOREAN, true);
+        addTranslator("yumjunstar", EmbeddedLanguage.KOREAN, true);
+
+        // Translators - Indonesian
+        addTranslator("diradho", EmbeddedLanguage.INDONESIAN, false);
+
+        // Translators - Thai
+        addTranslator("phoomin2012", EmbeddedLanguage.THAI, false);
+        addTranslator("film2860", EmbeddedLanguage.THAI, false);
 
         // Translators - Turkish
         addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
         addTranslator("LinoxGH", "ajan_12", EmbeddedLanguage.TURKISH, false);
+
+        // Translators - Macedonian
+        addTranslator("TheSilentPro", EmbeddedLanguage.MACEDONIAN, true);
+
+        // Translators - Bulgarian
+        addTranslator("DNBGlol", EmbeddedLanguage.BULGARIAN, true);
 
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);

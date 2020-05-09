@@ -11,6 +11,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
@@ -22,10 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -172,7 +170,7 @@ public final class PostSetup {
 
     private static void loadSmelteryRecipes() {
         Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
-        if (smeltery != null) {
+        if (smeltery != null && !smeltery.isDisabled()) {
             ItemStack[] input = null;
 
             for (ItemStack[] recipe : smeltery.getRecipes()) {
@@ -200,6 +198,13 @@ public final class PostSetup {
                     }
 
                     input = null;
+                }
+            }
+
+            for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+                if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
+                    List<MachineRecipe> recipes = ((AContainer) item).getMachineRecipes();
+                    recipes.sort(Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
                 }
             }
         }

@@ -77,7 +77,7 @@ public final class TeleportationManager {
         teleporterUsers.add(uuid);
 
         int time = getTeleportationTime(complexity, source, destination);
-        updateProgress(uuid, 100 / time, 0, source, destination, resistance);
+        updateProgress(uuid, Math.max(1, 100 / time), 0, source, destination, resistance);
     }
 
     public int getTeleportationTime(int complexity, Location source, Location destination) {
@@ -92,7 +92,7 @@ public final class TeleportationManager {
             int distance = (int) source.distanceSquared(destination);
             return Math.min(distance, 100_000_000);
         } else {
-            return 100_000_000;
+            return 150_000_000;
         }
     }
 

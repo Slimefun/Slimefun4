@@ -101,8 +101,8 @@ public class LocalizationService extends SlimefunLocalization implements Persist
 
     @Override
     public boolean hasLanguage(String language) {
-        // Checks if our jar files contains any .yml file for this id
-        return containsResource("messages_" + language) || containsResource("researches_" + language) || containsResource("resources_" + language) || containsResource("categories_" + language) || containsResource("recipes_" + language);
+        // Checks if our jar files contains a messages.yml file for that language
+        return containsResource("messages_" + language);
     }
 
     public boolean isLanguageLoaded(String id) {
