@@ -28,9 +28,8 @@ public class CustomTextureService {
     private String version = null;
     private boolean modified = false;
 
-    public CustomTextureService(Plugin plugin) {
-        config = new Config(plugin, "item-models.yml");
-
+    public CustomTextureService(Plugin plugin, Config config) {
+        this.config = config;
         config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n0 means there is no data assigned to that item.\n\n" + "There is no official Slimefun resource pack at the moment.");
         config.getConfiguration().options().copyHeader(true);
     }

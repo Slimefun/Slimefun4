@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -34,7 +33,8 @@ public class TextCustomTextureService {
 
     @Test
     public void testInitialization() {
-        CustomTextureService service = new CustomTextureService(plugin);
+        Config config = new Config("plugins/temporary");
+        CustomTextureService service = new CustomTextureService(plugin, config);
         Assertions.assertFalse(service.isActive());
         Assertions.assertNull(service.getVersion());
 
@@ -51,12 +51,12 @@ public class TextCustomTextureService {
     }
 
     @Test
-    public void testSetTexture() throws NoSuchFieldException, IllegalAccessException {
-        CustomTextureService service = new CustomTextureService(plugin);
+    public void testSetTexture() {
+        Config config = new Config("plugins/temporary");
+        CustomTextureService service = new CustomTextureService(plugin, config);
         SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         String version = "Unit Test v1.0";
 
-        Config config = (Config) ReflectionUtils.getFieldValue(service, "config");
         config.setValue(item.getID(), 300);
         config.setValue("version", version);
 

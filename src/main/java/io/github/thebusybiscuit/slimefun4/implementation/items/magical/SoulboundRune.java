@@ -109,6 +109,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
      *            The {@link ItemStack} to apply this effect to
      */
     public void apply(ItemStack item) {
+        // Should rather use PersistentData here
         ItemMeta meta = item.getItemMeta();
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         lore.add(ChatColor.GRAY + "Soulbound");

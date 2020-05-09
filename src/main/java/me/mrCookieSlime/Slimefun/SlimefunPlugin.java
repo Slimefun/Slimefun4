@@ -117,7 +117,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
-    private final CustomTextureService textureService = new CustomTextureService(this);
+    private final CustomTextureService textureService = new CustomTextureService(this, new Config(this, "item-models.yml"));
     private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
     private final MetricsService metricsService = new MetricsService(this);

@@ -59,16 +59,14 @@ public class TestCategories {
         item.register(plugin);
         item.load();
 
+        Assertions.assertTrue(category.getItems().contains(item));
         Assertions.assertEquals(1, category.getItems().size());
 
         // Size must still be 1 since we disallow duplicates
         item.setCategory(category);
-        item.setCategory(category);
+
         Assertions.assertEquals(1, category.getItems().size());
-
         Assertions.assertThrows(IllegalArgumentException.class, () -> category.add(null));
-
-        Assertions.assertTrue(category.getItems().contains(item));
     }
 
     @Test
