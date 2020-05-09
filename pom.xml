@@ -114,13 +114,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M4</version>
-
-                <configuration>
-                    <includes>
-                        <include>src/test/java/io/github/thebusybiscuit/slimefun4/mocks/**.java</include>
-                        <include>src/test/java/io/github/thebusybiscuit/slimefun4/tests/**.java</include>
-                    </includes>
-                </configuration>
             </plugin>
 
             <!-- Sonarcloud Scanner -->
