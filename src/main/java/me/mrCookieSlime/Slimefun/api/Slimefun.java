@@ -4,13 +4,11 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
@@ -27,39 +25,6 @@ public final class Slimefun {
 
     public static Logger getLogger() {
         return SlimefunPlugin.instance.getLogger();
-    }
-
-    /**
-     * Registers this Research and automatically binds these ItemStacks to it.
-     * <p>
-     * This convenience method spares from doing the code below:
-     * 
-     * <pre>
-     *     {@code
-     *		Research r = new Research(7, "Glowstone Armor", 3);
-     *		r.addItems(SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_HELMET),
-     *		           SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_CHESTPLATE),
-     *		           SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_LEGGINGS),
-     *		           SlimefunItem.getByItem(SlimefunItems.GLOWSTONE_BOOTS));
-     *		r.register();
-     *     }*
-     * </pre>
-     * 
-     * @param research
-     *            the research to register, not null
-     * @param items
-     *            the items to bind, not null
-     */
-    public static void registerResearch(Research research, ItemStack... items) {
-        for (ItemStack item : items) {
-            research.addItems(SlimefunItem.getByItem(item));
-        }
-
-        research.register();
-    }
-
-    public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
-        registerResearch(new Research(key, id, name, cost), items);
     }
 
     /**
