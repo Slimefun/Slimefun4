@@ -49,6 +49,7 @@ public final class Slimefun {
      * @param items
      *            the items to bind, not null
      */
+    @Deprecated
     public static void registerResearch(Research research, ItemStack... items) {
         for (ItemStack item : items) {
             research.addItems(SlimefunItem.getByItem(item));
@@ -57,6 +58,7 @@ public final class Slimefun {
         research.register();
     }
 
+    @Deprecated
     public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
         registerResearch(new Research(key, id, name, cost), items);
     }
