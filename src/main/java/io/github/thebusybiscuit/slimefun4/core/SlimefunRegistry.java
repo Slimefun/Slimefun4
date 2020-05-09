@@ -130,10 +130,6 @@ public class SlimefunRegistry {
         return enabledItems;
     }
 
-    public int countNonAddonItems() {
-        return (int) getEnabledSlimefunItems().stream().filter(item -> !item.isAddonItem()).count();
-    }
-
     public List<Research> getResearches() {
         return researches;
     }

@@ -103,7 +103,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  * @author TheBusyBiscuit
  *
  */
-public class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
+public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
 

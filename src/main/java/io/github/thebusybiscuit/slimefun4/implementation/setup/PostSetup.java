@@ -87,13 +87,13 @@ public final class PostSetup {
         CommandSender sender = Bukkit.getConsoleSender();
 
         int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
-        int vanilla = SlimefunPlugin.getRegistry().countNonAddonItems();
+        int slimefunOnly = countNonAddonItems();
 
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + total + " Items and " + SlimefunPlugin.getRegistry().getResearches().size() + " Researches");
-        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " Items from Slimefun, " + (total - vanilla) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
+        sender.sendMessage(ChatColor.GREEN + "( " + slimefunOnly + " Items from Slimefun, " + (total - slimefunOnly) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is kept alive by a large community.");
         sender.sendMessage(ChatColor.GREEN + "Consider helping us maintain this project by contributing on GitHub!");
@@ -115,6 +115,10 @@ public final class PostSetup {
         SlimefunPlugin.getItemCfg().save();
         SlimefunPlugin.getResearchCfg().save();
         SlimefunPlugin.getRegistry().setAutoLoadingMode(true);
+    }
+
+    private static int countNonAddonItems() {
+        return (int) SlimefunPlugin.getRegistry().getEnabledSlimefunItems().stream().filter(item -> item.getAddon() instanceof SlimefunPlugin).count();
     }
 
     private static void loadAutomaticCraftingChamber() {

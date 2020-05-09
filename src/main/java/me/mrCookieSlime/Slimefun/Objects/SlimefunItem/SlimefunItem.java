@@ -276,15 +276,6 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * This method returns whether this {@link SlimefunItem} was added by an addon.
-     * 
-     * @return Whether this {@link SlimefunItem} was added by an addon.
-     */
-    public final boolean isAddonItem() {
-        return !(addon instanceof SlimefunPlugin);
-    }
-
-    /**
      * This method returns whether this {@link SlimefunItem} is disabled.
      * 
      * @return Whether this {@link SlimefunItem} is disabled.
