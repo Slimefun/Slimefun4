@@ -34,6 +34,8 @@
 * Fixed #1843
 * Fixed #1873
 * Fixed Electric Smeltery not prioritisting recipes
+* Fixed #1851
+* Fixed #1891
 
 ## Release Candidate 11 (25 Apr 2020)
 
