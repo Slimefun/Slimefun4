@@ -118,6 +118,7 @@
                 <configuration>
                     <includes>
                         <include>src/test/java/io/github/thebusybiscuit/slimefun4/mocks/**.java</include>
+                        <include>src/test/java/io/github/thebusybiscuit/slimefun4/tests/**.java</include>
                     </includes>
                 </configuration>
             </plugin>
