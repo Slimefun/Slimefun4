@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -11,6 +12,7 @@ import org.bukkit.scheduler.BukkitTask;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -25,6 +27,48 @@ public final class Slimefun {
 
     public static Logger getLogger() {
         return SlimefunPlugin.instance.getLogger();
+    }
+
+    /**
+     * Registers a research.
+     * 
+     * @deprecated The Research class was moved, this method is no longer valid. Please use
+     *             {@link io.github.thebusybiscuit.slimefun4.core.researching.Research#register()} instead.
+     * 
+     * @param research
+     *            The research
+     * @param items
+     *            The items
+     */
+    @Deprecated
+    public static void registerResearch(Research research, ItemStack... items) {
+        for (ItemStack item : items) {
+            research.addItems(SlimefunItem.getByItem(item));
+        }
+
+        research.register();
+    }
+
+    /**
+     * Registers a research.
+     * 
+     * @deprecated The Research class was moved, this method is no longer valid. Please use
+     *             {@link io.github.thebusybiscuit.slimefun4.core.researching.Research#register()} instead.
+     * 
+     * @param key
+     *            The key
+     * @param id
+     *            The id
+     * @param name
+     *            The name
+     * @param cost
+     *            The default cost
+     * @param items
+     *            The items
+     */
+    @Deprecated
+    public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
+        registerResearch(new Research(key, id, name, cost), items);
     }
 
     /**
