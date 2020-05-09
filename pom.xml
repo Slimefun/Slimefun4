@@ -27,6 +27,11 @@
 		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/TheBusyBiscuit/Slimefun4/issues</url>
+	</issueManagement>
+
 	<repositories>
 		<repository>
 			<id>paper-repo</id>
@@ -56,6 +61,8 @@
 
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+
 		<finalName>${project.name} v${project.version}</finalName>
 
 		<plugins>
