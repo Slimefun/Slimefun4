@@ -116,9 +116,9 @@
                 <version>3.0.0-M4</version>
 
                 <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${project.basedir}/target/classes</additionalClasspathElement>
-                    </additionalClasspathElements>
+                    <includes>
+                        <include>src/test/java/io/github/thebusybiscuit/slimefun4/mocks/**.java</include>
+                    </includes>
                 </configuration>
             </plugin>
 
