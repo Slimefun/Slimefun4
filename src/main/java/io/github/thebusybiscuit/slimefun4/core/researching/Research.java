@@ -11,6 +11,7 @@ import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -139,7 +140,7 @@ public class Research implements Keyed {
     }
 
     /**
-     * Bind the specified Slimefun items to this {@link Research}.
+     * Bind the specified {@link SlimefunItem SlimefunItems} to this {@link Research}.
      * 
      * @param items
      *            Instances of {@link SlimefunItem} to bind to this {@link Research}
@@ -150,6 +151,26 @@ public class Research implements Keyed {
                 item.setResearch(this);
             }
         }
+    }
+
+    /**
+     * Bind the specified ItemStacks to this {@link Research}.
+     * 
+     * @param items
+     *            Instances of {@link ItemStack} to bind to this {@link Research}
+     * 
+     * @return The current instance of {@link Research}
+     */
+    public Research addItems(ItemStack... items) {
+        for (ItemStack item : items) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+            if (sfItem != null) {
+                sfItem.setResearch(this);
+            }
+        }
+
+        return this;
     }
 
     /**
