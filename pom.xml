@@ -116,7 +116,9 @@
                 <version>3.0.0-M4</version>
 
                 <configuration>
-                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${project.basedir}/target/classes</additionalClasspathElement>
+                    </additionalClasspathElements>
                 </configuration>
             </plugin>
 
