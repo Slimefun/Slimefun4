@@ -4,12 +4,17 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>me.mrCookieSlime</groupId>
+    <groupId>io.github.thebusybiscuit</groupId>
     <artifactId>Slimefun</artifactId>
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
     <!-- from overriding our local test file -->
     <version>4.3-UNOFFICIAL</version>
+    <inceptionYear>2013</inceptionYear>
+    <packaging>jar</packaging>
+
+    <description>Slimefun is a Bukkit / Spigot plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
+    <url>https://github.com/TheBusyBiscuit/Slimefun4</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,6 +29,7 @@
         <sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
         <sonar.organization>thebusybiscuit-github</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.log.level>DEBUG</sonar.log.level>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
