@@ -33,7 +33,7 @@ public class TestItemHandlers {
 
     @Test
     public void testIllegalItemHandlers() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ITEM_HANDLER_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemHandler());
@@ -43,7 +43,7 @@ public class TestItemHandlers {
 
     @Test
     public void testItemHandler() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ITEM_HANDLER_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
 
         MockItemHandler handler = new MockItemHandler();
         item.addItemHandler(handler);

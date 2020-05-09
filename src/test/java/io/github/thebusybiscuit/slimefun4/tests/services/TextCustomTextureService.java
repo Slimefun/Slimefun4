@@ -38,7 +38,7 @@ public class TextCustomTextureService {
         Assertions.assertFalse(service.isActive());
         Assertions.assertNull(service.getVersion());
 
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("TEXTURE_TEST", new ItemStack(Material.LANTERN));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         service.register(Arrays.asList(null, item, null), false);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.register(null, false));
@@ -53,7 +53,7 @@ public class TextCustomTextureService {
     @Test
     public void testSetTexture() throws NoSuchFieldException, IllegalAccessException {
         CustomTextureService service = new CustomTextureService(plugin);
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("TEXTURE_TEST", new ItemStack(Material.LANTERN));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         String version = "Unit Test v1.0";
 
         Config config = (Config) ReflectionUtils.getFieldValue(service, "config");

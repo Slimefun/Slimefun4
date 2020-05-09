@@ -101,6 +101,13 @@ public class Category implements Keyed {
      *            the {@link SlimefunItem} that should be added to this {@link Category}
      */
     public void add(SlimefunItem item) {
+        Validate.notNull(item, "Cannot add null Items to a Category!");
+
+        if (items.contains(item)) {
+            // Ignore duplicate entries
+            return;
+        }
+
         items.add(item);
     }
 

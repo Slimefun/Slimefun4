@@ -11,13 +11,17 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class TestMultiBlocks {
 
+    private static SlimefunPlugin plugin;
+
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
+        plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 
     @AfterAll
@@ -27,7 +31,7 @@ public class TestMultiBlocks {
 
     @Test
     public void testInvalidConstructors() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> new MultiBlock(null, null, null));
 
@@ -39,7 +43,7 @@ public class TestMultiBlocks {
 
     @Test
     public void testValidConstructor() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
         MultiBlock multiblock = new MultiBlock(item, new Material[9], BlockFace.DOWN);
 
         Assertions.assertEquals(item, multiblock.getSlimefunItem());
@@ -49,7 +53,7 @@ public class TestMultiBlocks {
 
     @Test
     public void testSymmetry() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         MultiBlock multiblock = new MultiBlock(item, new Material[] { null, null, null, Material.DIAMOND_BLOCK, null, Material.DIAMOND_BLOCK, null, Material.DISPENSER, null }, BlockFace.DOWN);
 
@@ -62,7 +66,7 @@ public class TestMultiBlocks {
 
     @Test
     public void testEquality() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         MultiBlock multiblock = new MultiBlock(item, new Material[] { Material.BIRCH_WOOD, Material.BIRCH_WOOD, Material.BIRCH_WOOD, null, Material.CRAFTING_TABLE, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.BIRCH_WOOD }, BlockFace.DOWN);
 

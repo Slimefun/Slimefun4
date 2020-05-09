@@ -61,7 +61,7 @@ public class TestResearches {
     public void testResearchRegistration() {
         NamespacedKey key = new NamespacedKey(plugin, "testResearch");
         Research research = new Research(key, 1, "Test", 100);
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
         research.addItems(item, null);
         research.register();
 
@@ -80,7 +80,7 @@ public class TestResearches {
     public void testDisabledResearch() {
         NamespacedKey key = new NamespacedKey(plugin, "disabledResearch");
         Research research = new Research(key, 2, "Test", 100);
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
         research.addItems(item);
 
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);

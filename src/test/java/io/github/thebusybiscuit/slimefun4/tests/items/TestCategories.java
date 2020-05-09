@@ -43,18 +43,31 @@ public class TestCategories {
 
     @Test
     public void testCategoryGetters() {
-        Category category = SlimefunMocks.getCategory();
+        Category category = new Category(new NamespacedKey(plugin, "getter_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, category.getTier());
-        Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance, "test"), category.getKey());
-        Assertions.assertEquals("Test Category", category.getUnlocalizedName());
+        Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance, "getter_test"), category.getKey());
+        Assertions.assertEquals("Testing", category.getUnlocalizedName());
         Assertions.assertEquals(0, category.getItems().size());
+    }
 
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("CATEGORY_TEST_ITEM", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
+    @Test
+    public void testAddItem() {
+        Category category = new Category(new NamespacedKey(plugin, "items_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CATEGORY_ITEMS_TEST_ITEM", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
+        item.setCategory(category);
         item.register(plugin);
         item.load();
 
         Assertions.assertEquals(1, category.getItems().size());
+
+        // Size must still be 1 since we disallow duplicates
+        item.setCategory(category);
+        item.setCategory(category);
+        Assertions.assertEquals(1, category.getItems().size());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> category.add(null));
+
         Assertions.assertTrue(category.getItems().contains(item));
     }
 
@@ -66,7 +79,7 @@ public class TestCategories {
         // Empty Categories are also hidden
         Assertions.assertTrue(category.isHidden(player));
 
-        SlimefunItem disabledItem = SlimefunMocks.mockSlimefunItem("DISABLED_CATEGORY_ITEM", new CustomItem(Material.BEETROOT, "&4Disabled"));
+        SlimefunItem disabledItem = SlimefunMocks.mockSlimefunItem(plugin, "DISABLED_CATEGORY_ITEM", new CustomItem(Material.BEETROOT, "&4Disabled"));
         SlimefunPlugin.getItemCfg().setValue("DISABLED_CATEGORY_ITEM.enabled", false);
         disabledItem.setCategory(category);
         disabledItem.register(plugin);
@@ -75,7 +88,7 @@ public class TestCategories {
         // A disabled Item should also make the Category hide
         Assertions.assertTrue(category.isHidden(player));
 
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("CATEGORY_HIDDEN_TEST", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CATEGORY_HIDDEN_TEST", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
         item.setCategory(category);
         item.setHidden(true);
         item.register(plugin);
@@ -90,25 +103,33 @@ public class TestCategories {
 
     @Test
     public void testContains() {
-        Category category = SlimefunMocks.getCategory();
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("CATEGORY_TEST_ITEM_2", new CustomItem(Material.BOW, "&6Test Bow"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CATEGORY_TEST_ITEM_2", new CustomItem(Material.BOW, "&6Test Bow"));
         item.register(plugin);
         item.load();
 
+        Category category = item.getCategory();
+
         Assertions.assertTrue(category.contains(item));
         Assertions.assertFalse(category.contains(null));
-        Assertions.assertFalse(category.contains(SlimefunMocks.mockSlimefunItem("NULL", new ItemStack(Material.BEDROCK))));
+
+        // Unregistered Item
+        Assertions.assertFalse(category.contains(SlimefunMocks.mockSlimefunItem(plugin, "NULL", new ItemStack(Material.BEDROCK))));
     }
 
     @Test
     public void testLockedCategories() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
-        Category category = SlimefunMocks.getCategory();
-        LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
+        Category category = new Category(new NamespacedKey(plugin, "unlocked"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
+        category.register();
+
+        Category unregistered = new Category(new NamespacedKey(plugin, "unregistered"), new CustomItem(Material.EMERALD, "&5I am unregistered"));
+
+        LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey(), unregistered.getKey());
         locked.register();
 
         Assertions.assertTrue(locked.getParents().contains(category));
+        Assertions.assertFalse(locked.getParents().contains(unregistered));
 
         locked.removeParent(category);
         Assertions.assertFalse(locked.getParents().contains(category));
@@ -125,7 +146,7 @@ public class TestCategories {
         // Category with current Month
         Month month = LocalDate.now().getMonth();
         SeasonalCategory category = new SeasonalCategory(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItem(Material.NETHER_STAR, "&cSeasonal Test"));
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("SEASONAL_ITEM", new CustomItem(Material.NETHER_STAR, "&dSeasonal Test Star"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItem(Material.NETHER_STAR, "&dSeasonal Test Star"));
         item.setCategory(category);
         item.register(plugin);
         item.load();

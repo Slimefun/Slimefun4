@@ -32,7 +32,7 @@ public class TestItemSettings {
 
     @Test
     public void testIllegalItemSettings() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> new ItemSetting<>("prematureInvocation", "Hello world").getValue());
@@ -43,7 +43,7 @@ public class TestItemSettings {
 
     @Test
     public void testAddItemSetting() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ITEM_SETTINGS_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
         ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
 
         Assertions.assertTrue(setting.isType(String.class));
@@ -65,7 +65,7 @@ public class TestItemSettings {
 
     @Test
     public void testUpdateItemSetting() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ITEM_SETTINGS_TEST_3", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST_3", new CustomItem(Material.DIAMOND, "&cTest"));
         ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
 
         item.addItemSetting(setting);
@@ -81,7 +81,7 @@ public class TestItemSettings {
 
     @Test
     public void testAlreadyExistingItemSetting() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
 
         item.addItemSetting(new ItemSetting<>("test", "Hello World"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting(new ItemSetting<>("test", "Hello World")));

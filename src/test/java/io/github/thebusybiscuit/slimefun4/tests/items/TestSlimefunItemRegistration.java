@@ -39,7 +39,7 @@ public class TestSlimefunItemRegistration {
     @Test
     public void testSuccessfulRegistration() {
         String id = "TEST_ITEM";
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(id, new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, id, new CustomItem(Material.DIAMOND, "&cTest"));
 
         Assertions.assertEquals(ItemState.UNREGISTERED, item.getState());
 
@@ -53,7 +53,7 @@ public class TestSlimefunItemRegistration {
 
     @Test
     public void testDisabledItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("DISABLED_ITEM", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "DISABLED_ITEM", new CustomItem(Material.DIAMOND, "&cTest"));
         SlimefunPlugin.getItemCfg().setValue("DISABLED_ITEM.enabled", false);
         item.register(plugin);
 
@@ -63,7 +63,7 @@ public class TestSlimefunItemRegistration {
 
     @Test
     public void testWikiPages() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("WIKI_ITEM", new CustomItem(Material.BOOK, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "WIKI_ITEM", new CustomItem(Material.BOOK, "&cTest"));
         item.register(plugin);
 
         Assertions.assertFalse(item.getWikipage().isPresent());
@@ -81,7 +81,7 @@ public class TestSlimefunItemRegistration {
     @Disabled("This Test provokes a ClassNotFoundException")
     @Test
     public void testGetItemName() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ITEM_NAME_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_NAME_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
         Assertions.assertEquals(ChatColor.RED + "Test", item.getItemName());
@@ -89,7 +89,7 @@ public class TestSlimefunItemRegistration {
 
     @Test
     public void testVanillaItemFallback() {
-        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.ACACIA_SIGN, false);
+        VanillaItem item = SlimefunMocks.mockVanillaItem(plugin, Material.ACACIA_SIGN, false);
         item.register(plugin);
 
         Assertions.assertTrue(item.isUseableInWorkbench());
@@ -99,10 +99,10 @@ public class TestSlimefunItemRegistration {
 
     @Test
     public void testIdConflict() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
-        SlimefunItem item2 = SlimefunMocks.mockSlimefunItem("DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item2 = SlimefunMocks.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
         item2.register(plugin);
 
         Assertions.assertEquals(ItemState.ENABLED, item.getState());
@@ -111,7 +111,7 @@ public class TestSlimefunItemRegistration {
 
     @Test
     public void testRecipeOutput() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("RECIPE_OUTPUT_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "RECIPE_OUTPUT_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
         Assertions.assertEquals(item.getItem(), item.getRecipeOutput());
@@ -127,7 +127,7 @@ public class TestSlimefunItemRegistration {
     @Test
     public void testIsItem() {
         CustomItem item = new CustomItem(Material.BEACON, "&cItem Test");
-        SlimefunItem sfItem = SlimefunMocks.mockSlimefunItem("IS_ITEM_TEST", item);
+        SlimefunItem sfItem = SlimefunMocks.mockSlimefunItem(plugin, "IS_ITEM_TEST", item);
         sfItem.register(plugin);
 
         Assertions.assertTrue(sfItem.isItem(sfItem.getItem()));
@@ -143,14 +143,14 @@ public class TestSlimefunItemRegistration {
 
     @Test
     public void testCategoryRegistration() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("CATEGORY_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CATEGORY_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
         item.load();
 
         // null should not be a valid argument
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setCategory(null));
 
-        Category category = SlimefunMocks.getCategory();
+        Category category = item.getCategory();
         Category category2 = new Category(new NamespacedKey(plugin, "test2"), new CustomItem(Material.OBSIDIAN, "&6Test 2"));
 
         Assertions.assertTrue(category.contains(item));
@@ -165,12 +165,12 @@ public class TestSlimefunItemRegistration {
 
     @Test
     public void testHiddenItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("HIDDEN_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "HIDDEN_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.setHidden(true);
         item.register(plugin);
         item.load();
 
-        Category category = SlimefunMocks.getCategory();
+        Category category = item.getCategory();
 
         Assertions.assertTrue(item.isHidden());
         Assertions.assertFalse(category.contains(item));

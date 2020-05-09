@@ -128,7 +128,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testGrindStoneWithSlimefunItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("ENCHANTED_MOCK_BOOK", new CustomItem(Material.ENCHANTED_BOOK, "&6Mock"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ENCHANTED_MOCK_BOOK", new CustomItem(Material.ENCHANTED_BOOK, "&6Mock"));
         item.register(plugin);
 
         InventoryClickEvent event = mockGrindStoneEvent(item.getItem());
@@ -137,7 +137,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testGrindStoneWithVanillaItem() {
-        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.ENCHANTED_BOOK, true);
+        VanillaItem item = SlimefunMocks.mockVanillaItem(plugin, Material.ENCHANTED_BOOK, true);
         item.register(plugin);
 
         InventoryClickEvent event = mockGrindStoneEvent(item.getItem());
@@ -158,7 +158,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testCraftEventWithSlimefunItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCK_DIAMOND", new CustomItem(Material.DIAMOND, "&cMock Diamond"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MOCK_DIAMOND", new CustomItem(Material.DIAMOND, "&cMock Diamond"));
         item.register(plugin);
 
         CraftItemEvent event = mockCraftingEvent(item.getItem());
@@ -167,7 +167,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testCraftEventWithChangingSlimefunItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("CHANGING_ITEM", new CustomItem(Material.DIAMOND, "&dChanging Diamond"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CHANGING_ITEM", new CustomItem(Material.DIAMOND, "&dChanging Diamond"));
         item.register(plugin);
 
         item.setUseableInWorkbench(true);
@@ -181,7 +181,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testCraftEventWithVanillaItem() {
-        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.DIAMOND, true);
+        VanillaItem item = SlimefunMocks.mockVanillaItem(plugin, Material.DIAMOND, true);
         item.register(plugin);
 
         CraftItemEvent event = mockCraftingEvent(item.getItem());
@@ -196,7 +196,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testPreCraftEventWithSlimefunItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCK_DIAMOND2", new CustomItem(Material.DIAMOND, "&cMock Diamond"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MOCK_DIAMOND2", new CustomItem(Material.DIAMOND, "&cMock Diamond"));
         item.register(plugin);
 
         PrepareItemCraftEvent event = mockPreCraftingEvent(item.getItem());
@@ -205,13 +205,13 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testPreCraftEventWithVanillaItem() {
-        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.GOLD_INGOT, true);
+        VanillaItem item = SlimefunMocks.mockVanillaItem(plugin, Material.GOLD_INGOT, true);
         item.register(plugin);
 
         PrepareItemCraftEvent event = mockPreCraftingEvent(item.getItem());
         Assertions.assertNotNull(event.getInventory().getResult());
     }
-    
+
     @Test
     public void testAnvilWithoutSlimefunItems() {
         InventoryClickEvent event = mockAnvilEvent(new ItemStack(Material.IRON_SWORD));
@@ -220,7 +220,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testAnvilWithSlimefunItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCKED_IRON_SWORD", new CustomItem(Material.IRON_SWORD, "&6Mock"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MOCKED_IRON_SWORD", new CustomItem(Material.IRON_SWORD, "&6Mock"));
         item.register(plugin);
 
         InventoryClickEvent event = mockAnvilEvent(item.getItem());
@@ -229,13 +229,13 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testAnvilWithVanillaItem() {
-        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.IRON_SWORD, true);
+        VanillaItem item = SlimefunMocks.mockVanillaItem(plugin, Material.IRON_SWORD, true);
         item.register(plugin);
 
         InventoryClickEvent event = mockAnvilEvent(item.getItem());
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
-    
+
     @Test
     public void testBrewingWithoutSlimefunItems() {
         InventoryClickEvent event = mockBrewingEvent(new ItemStack(Material.BLAZE_POWDER));
@@ -244,7 +244,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testBrewingWithSlimefunItem() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem("MOCK_POWDER", new CustomItem(Material.BLAZE_POWDER, "&6Mock"));
+        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "MOCK_POWDER", new CustomItem(Material.BLAZE_POWDER, "&6Mock"));
         item.register(plugin);
 
         InventoryClickEvent event = mockBrewingEvent(item.getItem());
@@ -253,7 +253,7 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testBrewingithVanillaItem() {
-        VanillaItem item = SlimefunMocks.mockVanillaItem(Material.BLAZE_POWDER, true);
+        VanillaItem item = SlimefunMocks.mockVanillaItem(plugin, Material.BLAZE_POWDER, true);
         item.register(plugin);
 
         InventoryClickEvent event = mockBrewingEvent(item.getItem());
