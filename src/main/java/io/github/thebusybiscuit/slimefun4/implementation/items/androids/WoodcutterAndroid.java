@@ -60,7 +60,9 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
                             log.setType(Material.AIR);
                         }
                     }
-
+                    else {
+                        return true;
+                    }
                 }
 
                 return false;
