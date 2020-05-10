@@ -180,7 +180,7 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static void consumeItem(Inventory inv, Talisman talisman, Player p, ItemStack talismantype) {
+    private static void consumeItem(Inventory inv, Talisman talisman, ItemStack talismantype) {
         if (talisman.isConsumable()) {
             inv.removeItem(talismantype);
         }
