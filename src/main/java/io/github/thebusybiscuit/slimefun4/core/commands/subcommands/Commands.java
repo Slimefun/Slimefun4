@@ -8,7 +8,8 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class Commands {
 
-    private Commands() {}
+    private Commands() {
+    }
 
     public static void addCommands(SlimefunCommand cmd, Collection<SubCommand> commands) {
         SlimefunPlugin plugin = cmd.getPlugin();
@@ -25,6 +26,6 @@ public final class Commands {
         commands.add(new OpenGuideCommand(plugin, cmd));
         commands.add(new SearchCommand(plugin, cmd));
         commands.add(new DebugFishCommand(plugin, cmd));
-        commands.add(new BackpackCommand(plugin,cmd));
+        commands.add(new BackpackCommand(plugin, cmd));
     }
 }

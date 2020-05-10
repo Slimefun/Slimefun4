@@ -45,8 +45,10 @@ guide:
     no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
 
   backpack:
+    invalid-id: '&4The id must be a non-negative integer!'
     player-never-joined: '&4No player with that name has ever joined the server!'
     backpack-does-not-exist: '&4That backpack does not exist!'
+    restored-backpack-given: 'Backpack restored successfully! Added to your inventory!'
   
   pages:
     previous: 'Previous page'
