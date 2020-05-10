@@ -155,7 +155,7 @@ public class Talisman extends SlimefunItem {
     }
 
     private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman, ItemStack talismantype) {
-        consumeItem(inv, talisman, p, talismantype);
+        consumeItem(inv, talisman, talismantype);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
         sendMessage(p, talisman);
