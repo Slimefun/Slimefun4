@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
-import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
+import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -38,7 +38,7 @@ public class TextCustomTextureService {
         Assertions.assertFalse(service.isActive());
         Assertions.assertNull(service.getVersion());
 
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         service.register(Arrays.asList(null, item, null), false);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.register(null, false));
@@ -54,7 +54,7 @@ public class TextCustomTextureService {
     public void testSetTexture() {
         Config config = new Config("plugins/temporary");
         CustomTextureService service = new CustomTextureService(plugin, config);
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         String version = "Unit Test v1.0";
 
         config.setValue(item.getID(), 300);

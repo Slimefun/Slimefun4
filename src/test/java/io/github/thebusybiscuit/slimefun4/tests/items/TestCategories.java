@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
+import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -54,7 +54,7 @@ public class TestCategories {
     @Test
     public void testAddItem() {
         Category category = new Category(new NamespacedKey(plugin, "items_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CATEGORY_ITEMS_TEST_ITEM", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_ITEMS_TEST_ITEM", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
         item.setCategory(category);
         item.register(plugin);
         item.load();
@@ -77,7 +77,7 @@ public class TestCategories {
         // Empty Categories are also hidden
         Assertions.assertTrue(category.isHidden(player));
 
-        SlimefunItem disabledItem = SlimefunMocks.mockSlimefunItem(plugin, "DISABLED_CATEGORY_ITEM", new CustomItem(Material.BEETROOT, "&4Disabled"));
+        SlimefunItem disabledItem = TestUtilities.mockSlimefunItem(plugin, "DISABLED_CATEGORY_ITEM", new CustomItem(Material.BEETROOT, "&4Disabled"));
         SlimefunPlugin.getItemCfg().setValue("DISABLED_CATEGORY_ITEM.enabled", false);
         disabledItem.setCategory(category);
         disabledItem.register(plugin);
@@ -86,7 +86,7 @@ public class TestCategories {
         // A disabled Item should also make the Category hide
         Assertions.assertTrue(category.isHidden(player));
 
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CATEGORY_HIDDEN_TEST", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_HIDDEN_TEST", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
         item.setCategory(category);
         item.setHidden(true);
         item.register(plugin);
@@ -101,7 +101,7 @@ public class TestCategories {
 
     @Test
     public void testContains() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "CATEGORY_TEST_ITEM_2", new CustomItem(Material.BOW, "&6Test Bow"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST_ITEM_2", new CustomItem(Material.BOW, "&6Test Bow"));
         item.register(plugin);
         item.load();
 
@@ -111,7 +111,7 @@ public class TestCategories {
         Assertions.assertFalse(category.contains(null));
 
         // Unregistered Item
-        Assertions.assertFalse(category.contains(SlimefunMocks.mockSlimefunItem(plugin, "NULL", new ItemStack(Material.BEDROCK))));
+        Assertions.assertFalse(category.contains(TestUtilities.mockSlimefunItem(plugin, "NULL", new ItemStack(Material.BEDROCK))));
     }
 
     @Test
@@ -144,7 +144,7 @@ public class TestCategories {
         // Category with current Month
         Month month = LocalDate.now().getMonth();
         SeasonalCategory category = new SeasonalCategory(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItem(Material.NETHER_STAR, "&cSeasonal Test"));
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItem(Material.NETHER_STAR, "&dSeasonal Test Star"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "SEASONAL_ITEM", new CustomItem(Material.NETHER_STAR, "&dSeasonal Test Star"));
         item.setCategory(category);
         item.register(plugin);
         item.load();

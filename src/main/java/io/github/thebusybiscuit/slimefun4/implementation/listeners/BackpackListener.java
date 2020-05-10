@@ -133,7 +133,7 @@ public class BackpackListener implements Listener {
         List<String> lore = item.getItemMeta().getLore();
         for (int line = 0; line < lore.size(); line++) {
             if (lore.get(line).equals(ChatColors.color("&7ID: <ID>"))) {
-                setBackpackId(p, item, line, profile.createBackpack(size).getID());
+                setBackpackId(p, item, line, profile.createBackpack(size).getId());
                 break;
             }
         }
@@ -153,7 +153,7 @@ public class BackpackListener implements Listener {
         }
     }
 
-    public static void setBackpackId(Player p, ItemStack item, int line, int id) {
+    public void setBackpackId(Player p, ItemStack item, int line, int id) {
         ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + id));

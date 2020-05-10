@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
+import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -61,7 +61,7 @@ public class TestResearches {
     public void testResearchRegistration() {
         NamespacedKey key = new NamespacedKey(plugin, "testResearch");
         Research research = new Research(key, 1, "Test", 100);
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
         research.addItems(item, null);
         research.register();
 
@@ -80,7 +80,7 @@ public class TestResearches {
     public void testDisabledResearch() {
         NamespacedKey key = new NamespacedKey(plugin, "disabledResearch");
         Research research = new Research(key, 2, "Test", 100);
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
         research.addItems(item);
 
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);

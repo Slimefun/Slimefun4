@@ -18,7 +18,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
-import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
+import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -75,7 +75,7 @@ public class TestIronGolemListener {
 
     @Test
     public void testWithSlimefunIron() {
-        SlimefunItem slimefunItem = SlimefunMocks.mockSlimefunItem(plugin, "SLIMEFUN_IRON", new CustomItem(Material.IRON_INGOT, "&cSlimefun Iron"));
+        SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, "SLIMEFUN_IRON", new CustomItem(Material.IRON_INGOT, "&cSlimefun Iron"));
         slimefunItem.register(plugin);
 
         // The Event should be cancelled, we do not wanna use Slimefun Items for this
@@ -88,7 +88,7 @@ public class TestIronGolemListener {
 
     @Test
     public void testWithVanillaIron() {
-        VanillaItem item = SlimefunMocks.mockVanillaItem(plugin, Material.IRON_INGOT, true);
+        VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.IRON_INGOT, true);
         item.register(plugin);
 
         PlayerInteractEntityEvent event = callIronGolemEvent(EquipmentSlot.HAND, item.getItem());

@@ -96,10 +96,11 @@ public class GuideHistory {
 
     private <T> void refresh(T object, int page) {
         Validate.notNull(object, "Cannot add a null Entry to the GuideHistory!");
+        Validate.isTrue(page >= 0, "page must not be negative!");
 
         GuideEntry<?> lastEntry = getLastEntry(false);
 
-        if (lastEntry != null && lastEntry.getIndexedObject() == object) {
+        if (lastEntry != null && lastEntry.getIndexedObject().equals(object)) {
             lastEntry.setPage(page);
         }
         else {

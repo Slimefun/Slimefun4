@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.mocks.MockItemHandler;
-import io.github.thebusybiscuit.slimefun4.mocks.SlimefunMocks;
+import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
@@ -33,7 +33,7 @@ public class TestItemHandlers {
 
     @Test
     public void testIllegalItemHandlers() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemHandler());
@@ -43,7 +43,7 @@ public class TestItemHandlers {
 
     @Test
     public void testItemHandler() {
-        SlimefunItem item = SlimefunMocks.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_HANDLER_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
 
         MockItemHandler handler = new MockItemHandler();
         item.addItemHandler(handler);
