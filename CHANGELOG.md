@@ -26,6 +26,7 @@
 #### Changes
 * Little performance improvements
 * Bandages, Rags and Splints will no longer be consumed if your health is full and you are not on fire
+* Player Profiles (researches and stuff) are now loaded completely asynchronously
 
 #### Fixes
 * Fixed #1824
@@ -36,6 +37,7 @@
 * Fixed Electric Smeltery not prioritisting recipes
 * Fixed #1851
 * Fixed #1891
+* Fixed #1893
 
 ## Release Candidate 11 (25 Apr 2020)
 
