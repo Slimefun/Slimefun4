@@ -182,6 +182,7 @@ public class Talisman extends SlimefunItem {
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
         sendMessage(p, talisman);
+
     }
 
     private static void applyTalismanEffects(Player p, Talisman talisman) {
