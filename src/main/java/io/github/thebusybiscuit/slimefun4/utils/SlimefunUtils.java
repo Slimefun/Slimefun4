@@ -2,15 +2,18 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nonnull;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
@@ -35,6 +38,8 @@ public final class SlimefunUtils {
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
     private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
     private static final String NO_PICKUP_METADATA = "no_pickup";
+
+    private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance, "soulbound");
 
     private SlimefunUtils() {}
 
@@ -75,6 +80,9 @@ public final class SlimefunUtils {
             return false;
         }
         else {
+            if (PersistentDataAPI.getOptionalBoolean(item.getItemMeta(), SOULBOUND_KEY).isPresent())
+                return true;
+
             SlimefunItem backpack = SlimefunItems.BOUND_BACKPACK.getItem();
 
             if (backpack != null && backpack.isItem(item)) {
@@ -102,6 +110,16 @@ public final class SlimefunUtils {
                 return false;
             }
         }
+    }
+
+    public static void setSoulbound(@Nonnull ItemStack item) {
+        final ItemMeta meta = item.getItemMeta();
+        final List<String> lore = meta.getLore();
+        lore.add(SOULBOUND_LORE);
+        meta.setLore(lore);
+
+        PersistentDataAPI.setBoolean(item.getItemMeta(), SOULBOUND_KEY, true);
+        item.setItemMeta(meta);
     }
 
     public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
