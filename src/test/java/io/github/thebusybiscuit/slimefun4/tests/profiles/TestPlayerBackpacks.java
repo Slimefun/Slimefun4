@@ -2,7 +2,9 @@ package io.github.thebusybiscuit.slimefun4.tests.profiles;
 
 import java.util.Optional;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -82,4 +84,31 @@ public class TestPlayerBackpacks {
         Assertions.assertFalse(profile.getBackpack(500).isPresent());
     }
 
+    @Test
+    public void testLoadBackpackFromFile() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        profile.getConfig().setValue("backpacks.50.size", 27);
+
+        for (int i = 0; i < 27; i++) {
+            profile.getConfig().setValue("backpacks.50.contents." + i, new ItemStack(Material.DIAMOND));
+        }
+
+        Optional<PlayerBackpack> optional = profile.getBackpack(50);
+        Assertions.assertTrue(optional.isPresent());
+
+        PlayerBackpack backpack = optional.get();
+        Assertions.assertEquals(50, backpack.getId());
+        Assertions.assertEquals(27, backpack.getSize());
+        Assertions.assertEquals(-1, backpack.getInventory().firstEmpty());
+
+        backpack.getInventory().setItem(1, new ItemStack(Material.NETHER_STAR));
+
+        Assertions.assertEquals(new ItemStack(Material.DIAMOND), profile.getConfig().getItem("backpacks.50.contents.1"));
+
+        // Saving should write it to the Config file
+        backpack.save();
+        Assertions.assertEquals(new ItemStack(Material.NETHER_STAR), profile.getConfig().getItem("backpacks.50.contents.1"));
+    }
 }
