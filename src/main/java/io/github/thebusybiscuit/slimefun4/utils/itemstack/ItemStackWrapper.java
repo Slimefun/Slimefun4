@@ -21,7 +21,7 @@ public final class ItemStackWrapper extends ItemStack {
     private ItemMeta meta;
 
     public ItemStackWrapper(ItemStack item) {
-        super(item.getType(), item.getAmount());
+        super(item.getType());
         meta = item.getItemMeta();
     }
 
@@ -41,7 +41,7 @@ public final class ItemStackWrapper extends ItemStack {
 
     @Override
     public boolean equals(Object obj) {
-        throw new UnsupportedOperationException("ItemStackWrapper do not allow .equals()");
+        throw new UnsupportedOperationException("ItemStackWrappers do not allow .equals()");
     }
 
     @Override
