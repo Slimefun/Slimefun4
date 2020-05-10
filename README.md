@@ -23,8 +23,6 @@ Slimefun 4 can be downloaded **for free** on our builds page.<br>
 We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
 Here is a full summary of the differences between different versions of Slimefun.
 
-<center>
-
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
 | **Minecraft version(s)** | :video_game: 1.13.X - 1.15.X | :video_game: 1.13.X - 1.15.X |
@@ -35,8 +33,6 @@ Here is a full summary of the differences between different versions of Slimefun
 | **frequent updates** | :heavy_check_mark: | :x: |
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
 | **Download link** | :package: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
-
-</center>
 
 **! We wholeheartedly recommend you to use development builds !**
 
@@ -104,13 +100,9 @@ Pull Requests can be fixes, changes or even additions, but please keep in mind t
 ### Code Quality
 Slimefun uses [Sonarcloud.io](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) to monitor Code Quality.
 
-<center>
-
 | [Overall Maintainability](https://sonarcloud.io/documentation/user-guide/metric-definitions/#maintainability) | "Code Smells" | "Technical Debt" | Test Coverage |
 | ---- | ---- | ---- | ---- |
 | [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=code_smells)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) | [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=sqale_index)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) | [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=coverage)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) |
-
-</center>
 
 ##### "Code Smells"
 Code Smells are portions of the source code that are confusing, lack documentation or are just done very badly in general. These code smells should be held to a bare minimum.
