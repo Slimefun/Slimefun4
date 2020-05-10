@@ -39,6 +39,8 @@ public class JetpackTask extends PlayerTask {
 
             p.setVelocity(vector);
         }
-        else Bukkit.getScheduler().cancelTask(id);
+        else {
+            Bukkit.getScheduler().cancelTask(id);
+        }
     }
 }

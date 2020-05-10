@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.tests.items;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bukkit.Material;
@@ -10,10 +13,13 @@ import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.mocks.MockItemHandler;
 import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 
 public class TestItemHandlers {
@@ -59,5 +65,38 @@ public class TestItemHandlers {
         AtomicBoolean bool2 = new AtomicBoolean(false);
         Assertions.assertFalse(item.callItemHandler(ItemUseHandler.class, x -> bool2.set(true)));
         Assertions.assertFalse(bool2.get());
+    }
+
+    @Test
+    public void testBowShootHandler() {
+        BowShootHandler handler = (e, n) -> {};
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "NOT_A_BOW", new CustomItem(Material.KELP, "&bNot a bow!"));
+
+        Optional<IncompatibleItemHandlerException> exception = handler.validate(item);
+        Assertions.assertTrue(exception.isPresent());
+
+        SlimefunItem bow = TestUtilities.mockSlimefunItem(plugin, "A_BOW", new CustomItem(Material.BOW, "&bA bow!"));
+        Optional<IncompatibleItemHandlerException> exception2 = handler.validate(bow);
+        Assertions.assertFalse(exception2.isPresent());
+    }
+
+    @Test
+    public void testPublicHandler() {
+        ItemHandler handler = new MockItemHandler() {
+
+            @Override
+            public boolean isPrivate() {
+                return false;
+            }
+        };
+
+        Assertions.assertFalse(handler.isPrivate());
+
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PUBLIC_HANDLER_TEST", new CustomItem(Material.KELP, "&bHappy kelp"));
+        item.addItemHandler(handler);
+        item.register(plugin);
+
+        Map<Class<? extends ItemHandler>, Set<ItemHandler>> handlers = SlimefunPlugin.getRegistry().getPublicItemHandlers();
+        Assertions.assertTrue(handlers.get(handler.getIdentifier()).contains(handler));
     }
 }

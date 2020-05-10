@@ -110,6 +110,21 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
+    public void testRecipe() {
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_TEST", new CustomItem(Material.DIAMOND, "&dAnother one bites the test"));
+
+        ItemStack[] recipe = { null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null };
+        item.setRecipe(recipe);
+        item.register(plugin);
+
+        Assertions.assertArrayEquals(recipe, item.getRecipe());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.setRecipe(null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.setRecipe(new ItemStack[3]));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.setRecipe(new ItemStack[20]));
+    }
+
+    @Test
     public void testRecipeOutput() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_OUTPUT_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);

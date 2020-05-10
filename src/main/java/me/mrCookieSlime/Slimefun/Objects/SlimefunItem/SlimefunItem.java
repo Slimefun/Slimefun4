@@ -447,8 +447,8 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipe(ItemStack[] recipe) {
-        if (recipe == null || recipe.length < 9) {
-            throw new IllegalArgumentException("Cannot set a recipe shorter than 9 elements.");
+        if (recipe == null || recipe.length != 9) {
+            throw new IllegalArgumentException("Recipes must be of length 9");
         }
 
         this.recipe = recipe;
@@ -722,7 +722,12 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        if (addon == null) {
+            return getClass().getSimpleName() + " - '" + id + "'";
+        }
+        else {
+            return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        }
     }
 
     @Override
