@@ -5,6 +5,7 @@ import java.util.logging.Level;
 
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
@@ -99,6 +100,17 @@ public class UpdaterService {
             plugin.getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun to any official sources.");
             printBorder();
         }
+    }
+
+    /**
+     * This returns whether the {@link Updater} is enabled or not.
+     * This includes the {@link Config} setting but also whether or not we are running an
+     * official or unofficial build.
+     * 
+     * @return Whether the {@link Updater} is enabled
+     */
+    public boolean isEnabled() {
+        return SlimefunPlugin.getCfg().getBoolean("options.auto-update") && updater != null;
     }
 
     /**
