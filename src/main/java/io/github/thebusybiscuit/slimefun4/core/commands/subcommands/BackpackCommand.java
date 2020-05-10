@@ -35,7 +35,8 @@ class BackpackCommand extends SubCommand {
             return;
         }
         if (args.length != 3) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack <Player> <ID>"));
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true,
+                    msg -> msg.replace("%usage%", "/sf backpack <Player> <ID>"));
             return;
         }
 
