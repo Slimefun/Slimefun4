@@ -139,14 +139,14 @@ public class Talisman extends SlimefunItem {
 
         if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
             if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
-                activateTalisman(e, p, p.getInventory(), talisman);
+                activateTalisman(e, p, p.getInventory(), talisman, talisman.getItem());
                 return true;
             }
             else return false;
         }
         else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
             if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
-                activateTalisman(e, p, p.getEnderChest(), talisman);
+                activateTalisman(e, p, p.getEnderChest(), talisman, talisman.upgrade());
                 return true;
             }
             else return false;
@@ -154,11 +154,12 @@ public class Talisman extends SlimefunItem {
         else return false;
     }
 
-    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman) {
-        consumeItem(inv, talisman);
+    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman, ItemStack talismantype) {
+        consumeItem(inv, talisman, p, talismantype);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
         sendMessage(p, talisman);
+
     }
 
     private static void applyTalismanEffects(Player p, Talisman talisman) {
@@ -179,9 +180,9 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static void consumeItem(Inventory inv, Talisman talisman) {
+    private static void consumeItem(Inventory inv, Talisman talisman, Player p, ItemStack talismantype) {
         if (talisman.isConsumable()) {
-            inv.removeItem(talisman.getItem());
+            inv.removeItem(talismantype);
         }
     }
 
