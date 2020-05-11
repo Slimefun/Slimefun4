@@ -1,21 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
-import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.List;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 class BackpackCommand extends SubCommand {
 
@@ -44,19 +41,23 @@ class BackpackCommand extends SubCommand {
             SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
             return;
         }
+
         if (args.length != 3) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true,
-                    msg -> msg.replace("%usage%", "/sf backpack <Player> <ID>"));
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack <Player> <ID>"));
             return;
         }
 
-        final Player p = (Player) sender;
+        Player p = (Player) sender;
         if (!PatternUtils.NUMERIC.matcher(args[2]).matches()) {
             SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.invalid-id");
             return;
         }
-        final int id = Integer.parseInt(args[2]);
-        final OfflinePlayer owner = Bukkit.getOfflinePlayer(args[1]);
+
+        int id = Integer.parseInt(args[2]);
+
+        @SuppressWarnings("deprecation")
+        OfflinePlayer owner = Bukkit.getOfflinePlayer(args[1]);
+
         if (!owner.hasPlayedBefore()) {
             SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.player-never-joined");
             return;
@@ -67,6 +68,7 @@ class BackpackCommand extends SubCommand {
                 SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.backpack-does-not-exist");
                 return;
             }
+
             Slimefun.runSync(() -> {
                 ItemStack item = SlimefunItems.RESTORED_BACKPACK.clone();
                 SlimefunPlugin.getBackpackListener().setBackpackId(p, item, 2, id);

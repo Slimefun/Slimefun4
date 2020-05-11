@@ -2,14 +2,17 @@ package io.github.thebusybiscuit.slimefun4.tests.researches;
 
 import java.util.Optional;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
@@ -18,11 +21,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class TestResearches {
 
+    private static ServerMock server;
     private static SlimefunPlugin plugin;
 
     @BeforeAll
     public static void load() {
-        MockBukkit.mock();
+        server = MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 
@@ -101,6 +105,68 @@ public class TestResearches {
         SlimefunPlugin.getRegistry().setResearchingEnabled(false);
         Assertions.assertFalse(research.isEnabled());
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+    }
+
+    @Test
+    public void testAddItems() {
+        NamespacedKey key = new NamespacedKey(plugin, "addItemsResearch");
+        Research research = new Research(key, 17, "Test", 100);
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_ITEMS_TEST", new CustomItem(Material.LAPIS_LAZULI, "&9Adding items is fun"));
+        item.register(plugin);
+
+        research.addItems(item.getItem(), null);
+
+        Assertions.assertTrue(research.getAffectedItems().contains(item));
+        Assertions.assertEquals(research, item.getResearch());
+    }
+
+    @Test
+    public void testPlayerCanUnlockDisabledResearch() {
+        SlimefunPlugin.getRegistry().setResearchingEnabled(false);
+
+        Player player = server.addPlayer();
+        NamespacedKey key = new NamespacedKey(plugin, "disabledUnlockableResearch");
+        Research research = new Research(key, 567, "Test", 100);
+
+        Assertions.assertTrue(research.canUnlock(player));
+
+        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+    }
+
+    @Test
+    public void testFreeCreativeResearch() {
+        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+
+        Player player = server.addPlayer();
+        NamespacedKey key = new NamespacedKey(plugin, "freeCreativeResearch");
+        Research research = new Research(key, 153, "Test", 100);
+
+        SlimefunPlugin.getRegistry().setFreeCreativeResearchingEnabled(false);
+
+        player.setGameMode(GameMode.SURVIVAL);
+        Assertions.assertFalse(research.canUnlock(player));
+
+        player.setGameMode(GameMode.CREATIVE);
+        Assertions.assertFalse(research.canUnlock(player));
+
+        SlimefunPlugin.getRegistry().setFreeCreativeResearchingEnabled(true);
+
+        player.setGameMode(GameMode.SURVIVAL);
+        Assertions.assertFalse(research.canUnlock(player));
+
+        player.setGameMode(GameMode.CREATIVE);
+        Assertions.assertTrue(research.canUnlock(player));
+    }
+
+    @Test
+    public void testUnlockableResearch() {
+        Player player = server.addPlayer();
+        NamespacedKey key = new NamespacedKey(plugin, "freeCreativeResearch");
+        Research research = new Research(key, 235, "Test", 4);
+
+        Assertions.assertFalse(research.canUnlock(player));
+        player.setLevel(8);
+        Assertions.assertTrue(research.canUnlock(player));
     }
 
 }

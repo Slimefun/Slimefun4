@@ -20,8 +20,9 @@
 ## Release Candidate 12 (TBD)
 
 #### Additions
-* Added Unit Tests
 * Added Ukrainian translations
+* Added /sf backpack to restore lost backpacks
+* Added automated Unit Tests
 
 #### Changes
 * Little performance improvements

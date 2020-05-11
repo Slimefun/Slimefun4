@@ -150,6 +150,10 @@ public class SlimefunRegistry {
         return enableResearches;
     }
 
+    public void setFreeCreativeResearchingEnabled(boolean enabled) {
+        freeCreativeResearches = enabled;
+    }
+
     public boolean isFreeCreativeResearchingEnabled() {
         return freeCreativeResearches;
     }

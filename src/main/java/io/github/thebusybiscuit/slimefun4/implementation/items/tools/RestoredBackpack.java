@@ -21,13 +21,14 @@ import org.bukkit.inventory.ItemStack;
 public class RestoredBackpack extends SlimefunBackpack {
 
     /**
-     *  This will create a new {@link SlimefunBackpack} with the given arguments.
+     * This will create a new {@link SlimefunBackpack} with the given arguments.
      *
      * @param category
      *            the category to bind this {@link SlimefunBackpack} to
      */
     public RestoredBackpack(Category category) {
         super(54, category, SlimefunItems.RESTORED_BACKPACK, RecipeType.NULL, new ItemStack[9]);
+
         this.hidden = true;
     }
 }
