@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
@@ -114,7 +115,7 @@ public final class SlimefunUtils {
 
     public static void setSoulbound(@Nonnull ItemStack item) {
         final ItemMeta meta = item.getItemMeta();
-        final List<String> lore = meta.getLore();
+        final List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         lore.add(SOULBOUND_LORE);
         meta.setLore(lore);
 

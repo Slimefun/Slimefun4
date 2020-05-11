@@ -63,25 +63,20 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                     ItemStack ench = ((Item) entity).getItemStack();
                     Item ent = (Item) entity;
 
+                    SlimefunUtils.setSoulbound(ench);
+
                     if (ench.getAmount() == 1) {
                         e.setCancelled(true);
-
-                        ItemMeta enchMeta = ench.getItemMeta();
 
                         // This lightning is just an effect, it deals no damage.
                         l.getWorld().strikeLightningEffect(l);
 
                         Slimefun.runSync(() -> {
-
                             // Being sure entities are still valid and not picked up or whatsoever.
                             if (i.isValid() && ent.isValid()) {
 
                                 l.getWorld().createExplosion(l, 0.0F);
                                 l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
-
-                                SlimefunUtils.setSoulbound(ench);
-
-                                ench.setItemMeta(enchMeta);
 
                                 ent.remove();
                                 i.remove();
