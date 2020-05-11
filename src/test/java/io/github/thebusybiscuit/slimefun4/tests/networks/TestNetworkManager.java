@@ -34,6 +34,12 @@ public class TestNetworkManager {
     }
 
     @Test
+    public void testIllegalNetworkSize() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(-100));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(0));
+    }
+
+    @Test
     public void testGetMaxNetworkSize() {
         int size = 50;
         NetworkManager manager = new NetworkManager(size);

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Server;
 
@@ -34,6 +35,7 @@ public class NetworkManager {
      *            The maximum amount of nodes a {@link Network} can have
      */
     public NetworkManager(int maxStepSize) {
+        Validate.isTrue(maxStepSize > 0, "The maximal Network size must be above zero!");
         maxNodes = maxStepSize;
     }
 

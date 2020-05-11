@@ -182,7 +182,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Setting up Networks
             gpsNetwork = new GPSNetwork();
-            networkManager = new NetworkManager(config.getInt("networks.max-size"));
+
+            int networkSize = config.getInt("networks.max-size");
+
+            if (networkSize < 1) {
+                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
+                networkSize = 1;
+            }
+
+            networkManager = new NetworkManager(networkSize);
 
             // Setting up bStats
             metricsService.start();
