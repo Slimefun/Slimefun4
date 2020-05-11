@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HiddenBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.RestoredBackpack;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -1203,7 +1204,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K, new ItemStack(Material.LEATHER), SlimefunItems.GILDED_BACKPACK, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K})
 		.register(plugin);
 
-		new HiddenBackpack(54, categories.usefulItems, SlimefunItems.RESTORED_BACKPACK).register(plugin);
+		new RestoredBackpack(categories.usefulItems, SlimefunItems.RESTORED_BACKPACK).register(plugin);
 
 		new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.MAGNET, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.NICKEL_INGOT, SlimefunItems.ALUMINUM_DUST, SlimefunItems.IRON_DUST, SlimefunItems.COBALT_INGOT, null, null, null, null, null})

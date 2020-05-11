@@ -47,30 +47,25 @@ class BackpackCommand extends SubCommand {
 
         final Player p = (Player) sender;
         if (!PatternUtils.NUMERIC.matcher(args[2]).matches()) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "guide.backpack.invalid-id");
+            SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.invalid-id");
             return;
         }
         final int id = Integer.parseInt(args[2]);
         final OfflinePlayer owner = Bukkit.getOfflinePlayer(args[1]);
         if (!owner.hasPlayedBefore()) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "guide.backpack.player-never-joined");
+            SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.player-never-joined");
             return;
         }
 
         PlayerProfile.get(owner, profile -> {
             if (!profile.getBackpack(id).isPresent()) {
-                SlimefunPlugin.getLocal().sendMessage(sender, "guide.backpack.backpack-does-not-exist");
+                SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.backpack-does-not-exist");
                 return;
             }
             Slimefun.runSync(() -> {
                 ItemStack item = SlimefunItems.RESTORED_BACKPACK;
-                ItemMeta meta = item.getItemMeta();
-                List lore = meta.getLore();
-                lore.set(2, ChatColor.GRAY + "ID: " + profile.getUUID().toString() + "#" + id);
-                meta.setLore(lore);
-                item.setItemMeta(meta);
-                p.getInventory().addItem(item);
-                SlimefunPlugin.getLocal().sendMessage(sender, "guide.backpack.restored-backpack-given");
+                SlimefunPlugin.getBackpackListener().setBackpackId(p, item, 2, id);
+                SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.restored-backpack-given");
             });
         });
     }

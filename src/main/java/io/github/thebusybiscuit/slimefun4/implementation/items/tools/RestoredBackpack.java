@@ -5,10 +5,10 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 
-public class HiddenBackpack extends SlimefunBackpack {
+public class RestoredBackpack extends SlimefunBackpack {
 
-    public HiddenBackpack(int size, Category category, SlimefunItemStack item) {
-        super(size, category, item, RecipeType.NULL, new ItemStack[9]);
+    public RestoredBackpack(Category category, SlimefunItemStack item) {
+        super(54, category, item, RecipeType.NULL, new ItemStack[9]);
         this.hidden = true;
     }
 }
