@@ -1,23 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.List;
 
 class BackpackCommand extends SubCommand {
 
@@ -37,7 +30,7 @@ class BackpackCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player) || !sender.hasPermission("slimefun.command.backpack")) {
+        if (!(sender instanceof Player) || !(sender.hasPermission("slimefun.command.backpack"))) {
             SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
             return;
         }
@@ -48,12 +41,13 @@ class BackpackCommand extends SubCommand {
         }
 
         final Player p = (Player) sender;
-        if (!PatternUtils.NUMERIC.matcher(args[2]).matches()) {
+        final String ownerName = args[1];
+        if (!PatternUtils.NUMERIC.matcher(args[2]).matches()){
             SlimefunPlugin.getLocal().sendMessage(sender, "guide.backpack.invalid-id");
             return;
         }
         final int id = Integer.parseInt(args[2]);
-        final OfflinePlayer owner = Bukkit.getOfflinePlayer(args[1]);
+        final OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerName);
         if (!owner.hasPlayedBefore()) {
             SlimefunPlugin.getLocal().sendMessage(sender, "guide.backpack.player-never-joined");
             return;
@@ -65,13 +59,7 @@ class BackpackCommand extends SubCommand {
                 return;
             }
             Slimefun.runSync(() -> {
-                ItemStack item = SlimefunItems.RESTORED_BACKPACK;
-                ItemMeta meta = item.getItemMeta();
-                List lore = meta.getLore();
-                lore.set(2, ChatColor.GRAY + "ID: " + profile.getUUID().toString() + "#" + id);
-                meta.setLore(lore);
-                item.setItemMeta(meta);
-                p.getInventory().addItem(item);
+                p.getInventory().addItem(SlimefunItems.RESTORED_BACKPACK);
                 SlimefunPlugin.getLocal().sendMessage(sender, "guide.backpack.restored-backpack-given");
             });
         });
