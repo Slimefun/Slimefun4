@@ -2,7 +2,6 @@ commands:
   help: Displays this help screen
   cheat: Allows you to cheat Items
   give: Give somebody some Slimefun Items
-  backpack: Retrieve an existing backpack
   guide: Gives yourself a Slimefun Guide
   timings: Lag-Info about your Server
   teleporter: See other Player's Waypoints
@@ -17,6 +16,7 @@ commands:
     reset-target: '&cYour Knowledge has been reset'
 
   backpack:
+    description: Retrieve an existing backpack
     invalid-id: '&4The backpack id must be a non-negative number!'
     player-never-joined: '&4No player with that name has ever joined the server!'
     backpack-does-not-exist: '&4That backpack does not exist!'
