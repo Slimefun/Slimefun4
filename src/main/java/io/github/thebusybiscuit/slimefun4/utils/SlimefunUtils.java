@@ -113,6 +113,13 @@ public final class SlimefunUtils {
         }
     }
 
+    /**
+     * Set an {@link ItemStack} to be Soulbound. This will add the {@link #SOULBOUND_LORE} and 
+     * add a {@link NamespacedKey} to the item so it can be quickly identified by {@link #isSoulbound(ItemStack)}.
+     * 
+     * @param item The {@link ItemStack} you want to make Soulbound.
+     * @see #isSoulbound(ItemStack)
+     */
     public static void setSoulbound(@Nonnull ItemStack item) {
         final ItemMeta meta = item.getItemMeta();
         final List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
