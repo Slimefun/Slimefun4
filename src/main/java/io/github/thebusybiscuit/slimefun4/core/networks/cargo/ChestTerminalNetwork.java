@@ -27,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -54,7 +55,7 @@ abstract class ChestTerminalNetwork extends Network {
     private final Set<ItemRequest> itemRequests = new HashSet<>();
 
     protected ChestTerminalNetwork(Location regulator) {
-        super(regulator);
+        super(SlimefunPlugin.getNetworkManager(), regulator);
     }
 
     protected static Optional<Block> getAttachedBlock(Block block) {

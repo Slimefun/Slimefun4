@@ -12,7 +12,6 @@ import org.bukkit.Particle.DustOptions;
 
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -63,15 +62,28 @@ public abstract class Network {
     protected Location regulator;
     private Queue<Location> nodeQueue = new ArrayDeque<>();
 
-    protected Set<Location> connectedLocations = new HashSet<>();
-    protected Set<Location> regulatorNodes = new HashSet<>();
-    protected Set<Location> connectorNodes = new HashSet<>();
-    protected Set<Location> terminusNodes = new HashSet<>();
+    private final NetworkManager manager;
+    protected final Set<Location> connectedLocations = new HashSet<>();
+    protected final Set<Location> regulatorNodes = new HashSet<>();
+    protected final Set<Location> connectorNodes = new HashSet<>();
+    protected final Set<Location> terminusNodes = new HashSet<>();
 
-    protected Network(Location regulator) {
+    protected Network(NetworkManager manager, Location regulator) {
+        this.manager = manager;
         this.regulator = regulator;
+
         connectedLocations.add(regulator);
         nodeQueue.add(regulator.clone());
+    }
+
+    /**
+     * This returns the size of this {@link Network}. It is equivalent to the amount
+     * of {@link Location Locations} connected to this {@link Network}.
+     * 
+     * @return The size of this {@link Network}
+     */
+    public int getSize() {
+        return regulatorNodes.size() + connectorNodes.size() + terminusNodes.size();
     }
 
     protected void addLocationToNetwork(Location l) {
@@ -80,16 +92,23 @@ public abstract class Network {
         }
 
         connectedLocations.add(l.clone());
-        handleLocationUpdate(l);
+        markDirty(l);
     }
 
-    public void handleLocationUpdate(Location l) {
+    /**
+     * This method marks the given {@link Location} as dirty and adds it to a {@link Queue}
+     * to handle this update.
+     * 
+     * @param l
+     *            The {@link Location} to update
+     */
+    public void markDirty(Location l) {
         if (regulator.equals(l)) {
-            SlimefunPlugin.getNetworkManager().unregisterNetwork(this);
-            return;
+            manager.unregisterNetwork(this);
         }
-
-        nodeQueue.add(l.clone());
+        else {
+            nodeQueue.add(l.clone());
+        }
     }
 
     /**
@@ -118,7 +137,7 @@ public abstract class Network {
     }
 
     private void discoverStep() {
-        int maxSteps = SlimefunPlugin.getNetworkManager().getMaxSize();
+        int maxSteps = manager.getMaxSize();
         int steps = 0;
 
         while (nodeQueue.peek() != null) {
@@ -129,7 +148,7 @@ public abstract class Network {
             if (classification != currentAssignment) {
                 if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR) {
                     // Requires a complete rebuild of the network, so we just throw the current one away.
-                    SlimefunPlugin.getNetworkManager().unregisterNetwork(this);
+                    manager.unregisterNetwork(this);
                     return;
                 }
                 else if (currentAssignment == NetworkComponent.TERMINUS) {

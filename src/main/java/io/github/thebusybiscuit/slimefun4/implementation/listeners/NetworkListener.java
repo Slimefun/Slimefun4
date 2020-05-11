@@ -23,8 +23,8 @@ public class NetworkListener implements Listener {
 
     private final NetworkManager manager;
 
-    public NetworkListener(SlimefunPlugin plugin) {
-        manager = SlimefunPlugin.getNetworkManager();
+    public NetworkListener(SlimefunPlugin plugin, NetworkManager manager) {
+        this.manager = manager;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -34,7 +34,7 @@ public class NetworkListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onPlaceBreak(BlockPlaceEvent e) {
+    public void onBlockPlace(BlockPlaceEvent e) {
         manager.handleAllNetworkLocationUpdate(e.getBlock().getLocation());
     }
 }

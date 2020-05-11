@@ -36,18 +36,20 @@ public class CargoNet extends ChestTerminalNetwork {
     private int tickDelayThreshold = 0;
 
     public static CargoNet getNetworkFromLocation(Location l) {
-        return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
+        return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);
     }
 
     public static CargoNet getNetworkFromLocationOrCreate(Location l) {
-        CargoNet cargoNetwork = getNetworkFromLocation(l);
+        Optional<CargoNet> cargoNetwork = SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
 
-        if (cargoNetwork == null) {
-            cargoNetwork = new CargoNet(l);
-            SlimefunPlugin.getNetworkManager().registerNetwork(cargoNetwork);
+        if (cargoNetwork.isPresent()) {
+            return cargoNetwork.get();
         }
-
-        return cargoNetwork;
+        else {
+            CargoNet network = new CargoNet(l);
+            SlimefunPlugin.getNetworkManager().registerNetwork(network);
+            return network;
+        }
     }
 
     protected CargoNet(Location l) {
