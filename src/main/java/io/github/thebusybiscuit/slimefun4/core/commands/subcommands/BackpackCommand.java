@@ -29,6 +29,11 @@ class BackpackCommand extends SubCommand {
     }
 
     @Override
+    protected String getDescription() {
+        return "commands.backpack.description";
+    }
+
+    @Override
     public boolean isHidden() {
         return false;
     }
