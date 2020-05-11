@@ -532,14 +532,9 @@ public class SlimefunItem implements Placeable {
         if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) {
             return true;
         }
-        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) {
-            return true;
-        }
-        else if (id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER")) {
-            return SlimefunUtils.isItemSimilar(item, this.item, false);
-        }
         else {
-            return SlimefunUtils.isItemSimilar(item, this.item, true);
+            boolean loreInsensitive = this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+            return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
         }
     }
 

@@ -34,7 +34,7 @@ public class TextCustomTextureService {
     @Test
     public void testInitialization() {
         Config config = new Config("plugins/temporary");
-        CustomTextureService service = new CustomTextureService(plugin, config);
+        CustomTextureService service = new CustomTextureService(config);
         Assertions.assertFalse(service.isActive());
         Assertions.assertNull(service.getVersion());
 
@@ -53,7 +53,7 @@ public class TextCustomTextureService {
     @Test
     public void testSetTexture() {
         Config config = new Config("plugins/temporary");
-        CustomTextureService service = new CustomTextureService(plugin, config);
+        CustomTextureService service = new CustomTextureService(config);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         String version = "Unit Test v1.0";
 
