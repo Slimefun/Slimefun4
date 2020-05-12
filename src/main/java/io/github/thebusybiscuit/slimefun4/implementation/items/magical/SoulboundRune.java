@@ -68,6 +68,8 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                     ItemStack target = ((Item) entity).getItemStack();
                     Item targetItem = (Item) entity;
 
+                    SlimefunUtils.setSoulbound(target, true);
+
                     if (target.getAmount() == 1) {
                         e.setCancelled(true);
 
@@ -80,8 +82,6 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                                 l.getWorld().createExplosion(l, 0.0F);
                                 l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
-
-                                apply(target);
 
                                 targetItem.remove();
                                 droppedItem.remove();

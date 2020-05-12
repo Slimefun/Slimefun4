@@ -1,16 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nonnull;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
@@ -36,6 +40,8 @@ public final class SlimefunUtils {
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
     private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
     private static final String NO_PICKUP_METADATA = "no_pickup";
+
+    private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance, "soulbound");
 
     private SlimefunUtils() {}
 
@@ -76,6 +82,11 @@ public final class SlimefunUtils {
             return false;
         }
         else {
+            final ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
+
+            if (meta != null && PersistentDataAPI.hasBoolean(meta, SOULBOUND_KEY))
+                return true;
+
             SlimefunItem backpack = SlimefunItems.BOUND_BACKPACK.getItem();
 
             if (backpack != null && backpack.isItem(item)) {
@@ -95,9 +106,8 @@ public final class SlimefunUtils {
                 if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
                     return true;
                 }
-                else if (item.hasItemMeta()) {
-                    ItemMeta im = item.getItemMeta();
-                    return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
+                else if (meta != null) {
+                    return (meta.hasLore() && meta.getLore().contains(SOULBOUND_LORE));
                 }
 
                 return false;
@@ -105,6 +115,36 @@ public final class SlimefunUtils {
         }
     }
 
+     /**
+     * Toggles an {@link ItemStack} to be Soulbound.<br>
+     * If true is passed, this will add the {@link #SOULBOUND_LORE} and
+     * add a {@link NamespacedKey} to the item so it can be quickly identified
+     * by {@link #isSoulbound(ItemStack)}.<br>
+     * If false is passed, this will remove the
+     *
+     * @param item The {@link ItemStack} you want to add/remove Soulbound from.
+     * @param soulbound If they item should be soulbound.
+     * @see #isSoulbound(ItemStack)
+     */
+    public static void setSoulbound(@Nonnull ItemStack item, boolean soulbound) {
+        final ItemMeta meta = item.getItemMeta();
+        // Already soulbound
+        if (PersistentDataAPI.hasBoolean(meta, SOULBOUND_KEY)) return;
+
+        final List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+
+        if (soulbound) {
+            PersistentDataAPI.setBoolean(meta, SOULBOUND_KEY, true);
+            lore.add(SOULBOUND_LORE);
+        } else {
+            PersistentDataAPI.remove(meta, SOULBOUND_KEY);
+            lore.remove(SOULBOUND_LORE);
+        }
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+    }
+  
     /**
      * This method checks whether the given {@link ItemStack} is radioactive.
      * 
