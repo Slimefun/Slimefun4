@@ -83,9 +83,9 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                                 l.getWorld().createExplosion(l, 0.0F);
                                 l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
 
-                                ent.remove();
-                                i.remove();
-                                l.getWorld().dropItemNaturally(l, ench);
+                                targetItem.remove();
+                                droppedItem.remove();
+                                l.getWorld().dropItemNaturally(l, target);
 
                                 SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.success", true);
                             }
