@@ -81,7 +81,9 @@ public final class SlimefunUtils {
             return false;
         }
         else {
-            if (PersistentDataAPI.getOptionalBoolean(item.getItemMeta(), SOULBOUND_KEY).isPresent())
+            final ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
+
+            if (meta != null && PersistentDataAPI.hasBoolean(meta, SOULBOUND_KEY))
                 return true;
 
             SlimefunItem backpack = SlimefunItems.BOUND_BACKPACK.getItem();
@@ -103,9 +105,8 @@ public final class SlimefunUtils {
                 if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
                     return true;
                 }
-                else if (item.hasItemMeta()) {
-                    ItemMeta im = item.getItemMeta();
-                    return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
+                else if (meta != null) {
+                    return (meta.hasLore() && meta.getLore().contains(SOULBOUND_LORE));
                 }
 
                 return false;
@@ -120,13 +121,19 @@ public final class SlimefunUtils {
      * @param item The {@link ItemStack} you want to make Soulbound.
      * @see #isSoulbound(ItemStack)
      */
-    public static void setSoulbound(@Nonnull ItemStack item) {
+    public static void setSoulbound(@Nonnull ItemStack item, boolean soulbound) {
         final ItemMeta meta = item.getItemMeta();
+        // Already soulbound
+        if (PersistentDataAPI.hasBoolean(meta, SOULBOUND_KEY)) return;
+
         final List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         lore.add(SOULBOUND_LORE);
         meta.setLore(lore);
 
-        PersistentDataAPI.setBoolean(item.getItemMeta(), SOULBOUND_KEY, true);
+        if (soulbound)
+            PersistentDataAPI.setBoolean(meta, SOULBOUND_KEY, true);
+        else
+            PersistentDataAPI.remove(meta, SOULBOUND_KEY);
         item.setItemMeta(meta);
     }
 
