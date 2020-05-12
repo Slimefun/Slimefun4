@@ -39,22 +39,22 @@ public class CoolerListener implements Listener {
     }
 
     @EventHandler
-    public void onStarve(FoodLevelChangeEvent e) {
+    public void onHungerLoss(FoodLevelChangeEvent e) {
         if (cooler == null || cooler.isDisabled()) {
             return;
         }
 
-        if (e.getFoodLevel() < ((Player) e.getEntity()).getFoodLevel()) {
-            Player p = (Player) e.getEntity();
+        Player p = (Player) e.getEntity();
 
+        if (e.getFoodLevel() < p.getFoodLevel()) {
             for (ItemStack item : p.getInventory().getContents()) {
                 if (cooler.isItem(item)) {
                     if (Slimefun.hasUnlocked(p, cooler, true)) {
-                        PlayerBackpack backpack = PlayerProfile.getBackpack(item);
-
-                        if (backpack != null && consumeJuice(p, backpack)) {
-                            break;
-                        }
+                        PlayerProfile.getBackpack(item, backpack -> {
+                            if (backpack != null) {
+                                Slimefun.runSync(() -> consumeJuice(p, backpack));
+                            }
+                        });
                     }
                     else {
                         return;

@@ -87,7 +87,7 @@ public final class SlimefunGuide {
         if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
             return;
         }
-        
+
         Optional<PlayerProfile> optional = PlayerProfile.find(p);
 
         if (optional.isPresent()) {

@@ -9,8 +9,8 @@ import io.github.thebusybiscuit.cscorelib2.players.PlayerList;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 
 class ResearchCommand extends SubCommand {
 

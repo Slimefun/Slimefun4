@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -64,6 +66,9 @@ public class Category implements Keyed {
      *            the {@link SlimefunGuide}
      */
     public Category(NamespacedKey key, ItemStack item, int tier) {
+        Validate.notNull(key, "A Category's NamespacedKey must not be null!");
+        Validate.notNull(item, "A Category's ItemStack must not be null!");
+
         this.item = item;
         this.key = key;
 
@@ -96,6 +101,13 @@ public class Category implements Keyed {
      *            the {@link SlimefunItem} that should be added to this {@link Category}
      */
     public void add(SlimefunItem item) {
+        Validate.notNull(item, "Cannot add null Items to a Category!");
+
+        if (items.contains(item)) {
+            // Ignore duplicate entries
+            return;
+        }
+
         items.add(item);
     }
 
@@ -150,6 +162,18 @@ public class Category implements Keyed {
      */
     public List<SlimefunItem> getItems() {
         return items;
+    }
+
+    /**
+     * This method returns whether a given {@link SlimefunItem} exists in this {@link Category}.
+     * 
+     * @param item
+     *            The {@link SlimefunItem} to find
+     * 
+     * @return Whether the given {@link SlimefunItem} was found in this {@link Category}
+     */
+    public boolean contains(SlimefunItem item) {
+        return item != null && items.contains(item);
     }
 
     /**

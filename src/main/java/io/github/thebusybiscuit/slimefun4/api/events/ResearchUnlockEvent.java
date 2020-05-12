@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import me.mrCookieSlime.Slimefun.Objects.Research;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 
 /**
  * This {@link Event} is called whenever a {@link Player} unlocks a {@link Research}.

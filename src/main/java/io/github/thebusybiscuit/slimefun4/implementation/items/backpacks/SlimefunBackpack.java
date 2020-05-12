@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;

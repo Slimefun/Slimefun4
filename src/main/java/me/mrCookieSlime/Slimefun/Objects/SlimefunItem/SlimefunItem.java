@@ -28,17 +28,16 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
@@ -129,7 +128,7 @@ public class SlimefunItem implements Placeable {
      *
      * @return the identifier of this {@link SlimefunItem}
      */
-    public String getID() {
+    public final String getID() {
         return id;
     }
 
@@ -274,15 +273,6 @@ public class SlimefunItem implements Placeable {
                 }
             }
         }
-    }
-
-    /**
-     * This method returns whether this {@link SlimefunItem} was added by an addon.
-     * 
-     * @return Whether this {@link SlimefunItem} was added by an addon.
-     */
-    public final boolean isAddonItem() {
-        return !(addon instanceof SlimefunPlugin);
     }
 
     /**
@@ -457,8 +447,8 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipe(ItemStack[] recipe) {
-        if (recipe == null || recipe.length < 9) {
-            throw new IllegalArgumentException("Cannot set a recipe shorter than 9 elements.");
+        if (recipe == null || recipe.length != 9) {
+            throw new IllegalArgumentException("Recipes must be of length 9");
         }
 
         this.recipe = recipe;
@@ -539,9 +529,13 @@ public class SlimefunItem implements Placeable {
         }
 
         // Support for legacy items
-        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else return SlimefunUtils.isItemSimilar(item, this.item, true);
+        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) {
+            return true;
+        }
+        else {
+            boolean loreInsensitive = this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+            return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
+        }
     }
 
     /**
@@ -568,6 +562,9 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
     public final void addItemHandler(ItemHandler... handlers) {
+        Validate.notEmpty(handlers, "You cannot add zero handlers...");
+        Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
+
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }
@@ -595,6 +592,9 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
+        Validate.notEmpty(settings, "You cannot add zero settings...");
+        Validate.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
+
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");
         }
@@ -717,7 +717,12 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        if (addon == null) {
+            return getClass().getSimpleName() + " - '" + id + "'";
+        }
+        else {
+            return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        }
     }
 
     @Override
@@ -792,14 +797,6 @@ public class SlimefunItem implements Placeable {
 
                 return sfi;
             }
-        }
-
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false)) {
-            return getByID("BROKEN_SPAWNER");
-        }
-
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.REPAIRED_SPAWNER, false)) {
-            return getByID("REINFORCED_SPAWNER");
         }
 
         return null;
