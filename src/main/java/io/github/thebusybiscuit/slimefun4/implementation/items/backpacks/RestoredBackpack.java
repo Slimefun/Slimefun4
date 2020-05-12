@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
