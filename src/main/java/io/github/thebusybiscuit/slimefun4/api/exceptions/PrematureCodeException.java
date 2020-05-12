@@ -5,7 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 /**
  * A {@link PrematureCodeException} is thrown when a {@link SlimefunAddon} tried
  * to access Slimefun code before Slimefun was enabled.
- * Always let your code inside onEnable() or later, never on class initialization.
+ * Always let your code run inside onEnable() or later, never on class initialization.
  * 
  * @author TheBusyBiscuit
  *

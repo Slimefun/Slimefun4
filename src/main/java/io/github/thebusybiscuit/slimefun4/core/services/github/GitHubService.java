@@ -35,6 +35,12 @@ public class GitHubService {
     private int stars = 0;
     private LocalDateTime lastUpdate = LocalDateTime.now();
 
+    /**
+     * This creates a new {@link GitHubService} for the given repository.
+     * 
+     * @param repository
+     *            The repository to create this {@link GitHubService} for
+     */
     public GitHubService(String repository) {
         this.repository = repository;
 
@@ -70,10 +76,10 @@ public class GitHubService {
         connectors.add(new ContributionsConnector(this, "code2", 2, repository, "developer"));
 
         // TheBusyBiscuit/Slimefun4-Wiki
-        connectors.add(new ContributionsConnector(this, "wiki", 1, "TheBusyBiscuit/Slimefun4-wiki", "wiki"));
+        connectors.add(new ContributionsConnector(this, "wiki", 1, "Slimefun/Slimefun-wiki", "wiki"));
 
         // TheBusyBiscuit/Slimefun4-Resourcepack
-        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
+        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "Slimefun/Resourcepack", "resourcepack"));
 
         // Issues and Pull Requests
         connectors.add(new GitHubIssuesTracker(this, repository, (issues, pullRequests) -> {
@@ -103,35 +109,74 @@ public class GitHubService {
         });
     }
 
-    public Set<GitHubConnector> getConnectors() {
+    protected Set<GitHubConnector> getConnectors() {
         return connectors;
     }
 
+    protected boolean isLoggingEnabled() {
+        return logging;
+    }
+
+    /**
+     * This returns the {@link Contributor Contributors} to this project.
+     * 
+     * @return A {@link ConcurrentMap} containing all {@link Contributor Contributors}
+     */
     public ConcurrentMap<String, Contributor> getContributors() {
         return contributors;
     }
 
+    /**
+     * This returns the amount of forks of our repository
+     * 
+     * @return The amount of forks
+     */
     public int getForks() {
         return forks;
     }
 
+    /**
+     * This method returns the amount of stargazers of the repository.
+     * 
+     * @return The amount of people who starred the repository
+     */
     public int getStars() {
         return stars;
     }
 
-    public int getIssues() {
+    /**
+     * This returns the amount of open Issues on our repository.
+     * 
+     * @return The amount of open issues
+     */
+    public int getOpenissues() {
         return issues;
     }
 
-    public int getPullRequests() {
+    /**
+     * Returns the id of Slimefun's GitHub Repository. (e.g. "TheBusyBiscuit/Slimefun4").
+     * 
+     * @return The id of our GitHub Repository
+     */
+    public String getRepository() {
+        return repository;
+    }
+
+    /**
+     * This method returns the amount of pending pull requests.
+     * 
+     * @return The amount of pending pull requests
+     */
+    public int getPendingPullRequests() {
         return pullRequests;
     }
 
+    /**
+     * This returns the date and time of the last commit to this repository.
+     * 
+     * @return A {@link LocalDateTime} object representing the date and time of the latest commit
+     */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
-    }
-
-    public boolean isLoggingEnabled() {
-        return logging;
     }
 }

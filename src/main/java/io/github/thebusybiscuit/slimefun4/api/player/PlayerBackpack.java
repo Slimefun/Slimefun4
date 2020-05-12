@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This class represents the instance of a {@link SlimefunBackpack} that is ready to
@@ -59,25 +60,53 @@ public class PlayerBackpack {
      *            The size of this Backpack
      */
     public PlayerBackpack(PlayerProfile profile, int id, int size) {
+        if (size < 9 || size > 54 || size % 9 != 0) {
+            throw new IllegalArgumentException("Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]");
+        }
+
         this.profile = profile;
         this.id = id;
         this.cfg = profile.getConfig();
         this.size = size;
 
         cfg.setValue("backpacks." + id + ".size", size);
-        profile.markDirty();
+        markDirty();
 
         inventory = Bukkit.createInventory(null, size, "Backpack [" + size + " Slots]");
     }
 
-    public int getID() {
+    /**
+     * This returns the id of this {@link PlayerBackpack}
+     * 
+     * @return The id of this {@link PlayerBackpack}
+     */
+    public int getId() {
         return id;
     }
 
+    /**
+     * This method returns the {@link PlayerProfile} this {@link PlayerBackpack} belongs to
+     * 
+     * @return The owning {@link PlayerProfile}
+     */
+    public PlayerProfile getOwner() {
+        return profile;
+    }
+
+    /**
+     * This returns the size of this {@link PlayerBackpack}.
+     * 
+     * @return The size of this {@link PlayerBackpack}
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * This method returns the {@link Inventory} of this {@link PlayerBackpack}
+     * 
+     * @return The {@link Inventory} of this {@link PlayerBackpack}
+     */
     public Inventory getInventory() {
         return inventory;
     }
@@ -90,9 +119,11 @@ public class PlayerBackpack {
      *            The players who this Backpack will be shown to
      */
     public void open(Player... players) {
-        for (Player p : players) {
-            p.openInventory(inventory);
-        }
+        Slimefun.runSync(() -> {
+            for (Player p : players) {
+                p.openInventory(inventory);
+            }
+        });
     }
 
     /**
@@ -102,6 +133,10 @@ public class PlayerBackpack {
      *            The new size for this Backpack
      */
     public void setSize(int size) {
+        if (size < 9 || size > 54 || size % 9 != 0) {
+            throw new IllegalArgumentException("Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]");
+        }
+
         this.size = size;
         cfg.setValue("backpacks." + id + ".size", size);
 

@@ -20,9 +20,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -160,25 +158,6 @@ public class BlockListener implements Listener {
                     }
                 }
             }
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockPlace(BlockPlaceEvent e) {
-        ItemStack item = e.getItemInHand();
-
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ADVANCED_CIRCUIT_BOARD, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.COMPRESSED_CARBON, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARBON_CHUNK, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.ANDROID_MEMORY_CORE, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.LAVA_CRYSTAL, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.TINY_URANIUM, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.SMALL_URANIUM, true)) e.setCancelled(true);
-        else if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) e.setCancelled(true);
-        else if (e.getBlock().getY() != e.getBlockAgainst().getY() && (SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false))) {
-            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
-            e.setCancelled(true);
         }
     }
 

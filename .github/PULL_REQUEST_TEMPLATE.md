@@ -1,5 +1,5 @@
 ## Description
-<!-- Please explain your changes in detail. -->
+<!-- Please explain what you changed/added and why you did it in detail. -->
 
 ## Changes
 <!-- Please list all the changes you have made. -->
@@ -9,8 +9,10 @@
 <!-- Syntax: "Resolves #000" -->
 
 ## Checklist
-<!-- After posting your issue, please check the boxes below if they apply -->
+<!-- Here is a little checklist you should follow. -->
+<!-- You can click those check boxes after you posted your issue. -->
 - [ ] I have fully tested the proposed changes and promise that they will not break everything into chaos.
 - [ ] I have also tested the proposed changes in combination with various popular addons and can confirm my changes do not break them.
 - [ ] I followed the existing code standards and didn't mess up the formatting.
 - [ ] I did my best to add documentation to any public classes or methods I added.
+- [ ] I added sufficient Unit Tests to cover my code.

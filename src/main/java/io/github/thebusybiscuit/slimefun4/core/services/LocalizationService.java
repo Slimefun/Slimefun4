@@ -48,28 +48,34 @@ public class LocalizationService extends SlimefunLocalization implements Persist
 
         this.plugin = plugin;
         this.prefix = prefix;
-
-        translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
         languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
-        defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
 
-        defaultLanguage.setMessages(getConfig().getConfiguration());
+        if (serverDefaultLanguage != null) {
+            translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
+            
+            defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
+            defaultLanguage.setMessages(getConfig().getConfiguration());
 
-        loadEmbeddedLanguages();
+            loadEmbeddedLanguages();
 
-        String language = getConfig().getString(LANGUAGE_PATH);
-        if (language == null) language = serverDefaultLanguage;
+            String language = getConfig().getString(LANGUAGE_PATH);
+            if (language == null) language = serverDefaultLanguage;
 
-        if (hasLanguage(serverDefaultLanguage)) {
-            setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
+            if (hasLanguage(serverDefaultLanguage)) {
+                setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
+            }
+            else {
+                setLanguage("en", false);
+                plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
+            }
+
+            Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
+            save();
         }
         else {
-            setLanguage("en", false);
-            plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
+            translationsEnabled = false;
+            defaultLanguage = null;
         }
-
-        Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
-        save();
     }
 
     /**

@@ -10,6 +10,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -40,17 +41,21 @@ public class IronGolemListener implements Listener {
                 item = inv.getItemInOffHand();
             }
 
-            if (item != null && item.getType() == Material.IRON_INGOT && SlimefunItem.getByItem(item) != null) {
-                e.setCancelled(true);
-                SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
+            if (item != null && item.getType() == Material.IRON_INGOT) {
+                SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-                // This is just there to update the Inventory...
-                // Somehow cancelling it isn't enough.
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    inv.setItemInMainHand(item);
-                }
-                else if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    inv.setItemInOffHand(item);
+                if (sfItem != null && !(sfItem instanceof VanillaItem)) {
+                    e.setCancelled(true);
+                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
+
+                    // This is just there to update the Inventory...
+                    // Somehow cancelling it isn't enough.
+                    if (e.getHand() == EquipmentSlot.HAND) {
+                        inv.setItemInMainHand(item);
+                    }
+                    else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+                        inv.setItemInOffHand(item);
+                    }
                 }
             }
         }

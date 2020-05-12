@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.Server;
@@ -18,6 +19,7 @@ import org.bukkit.World;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -32,9 +34,9 @@ public class PerWorldSettingsService {
 
     private final SlimefunPlugin plugin;
 
-    private final OptionalMap<String, Set<String>> disabledItems = new OptionalMap<>(HashMap::new);
+    private final OptionalMap<UUID, Set<String>> disabledItems = new OptionalMap<>(HashMap::new);
     private final Map<SlimefunAddon, Set<String>> disabledAddons = new HashMap<>();
-    private final Set<String> disabledWorlds = new HashSet<>();
+    private final Set<UUID> disabledWorlds = new HashSet<>();
 
     public PerWorldSettingsService(SlimefunPlugin plugin) {
         this.plugin = plugin;
@@ -66,7 +68,7 @@ public class PerWorldSettingsService {
      *            The {@link World} to load
      */
     public void load(World world) {
-        disabledItems.putIfAbsent(world.getName(), loadWorldFromConfig(world.getName()));
+        disabledItems.putIfAbsent(world.getUID(), loadWorldFromConfig(world));
     }
 
     /**
@@ -111,9 +113,9 @@ public class PerWorldSettingsService {
      * @return Whether the given {@link SlimefunItem} is enabled in that {@link World}
      */
     public boolean isEnabled(World world, SlimefunItem item) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorldFromConfig);
+        Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
-        if (disabledWorlds.contains(world.getName())) {
+        if (disabledWorlds.contains(world.getUID())) {
             return false;
         }
 
@@ -131,13 +133,32 @@ public class PerWorldSettingsService {
      *            Whether the given {@link SlimefunItem} should be enabled in that world
      */
     public void setEnabled(World world, SlimefunItem item, boolean enabled) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorldFromConfig);
+        Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         if (enabled) {
             items.remove(item.getID());
         }
         else {
             items.add(item.getID());
+        }
+    }
+
+    /**
+     * This method enables or disables the given {@link World}.
+     * 
+     * @param world
+     *            The {@link World} to enable or disable
+     * @param enabled
+     *            Whether this {@link World} should be enabled or not
+     */
+    public void setEnabled(World world, boolean enabled) {
+        load(world);
+
+        if (enabled) {
+            disabledWorlds.remove(world.getUID());
+        }
+        else {
+            disabledWorlds.add(world.getUID());
         }
     }
 
@@ -151,7 +172,8 @@ public class PerWorldSettingsService {
      */
     public boolean isWorldEnabled(World world) {
         load(world);
-        return !disabledWorlds.contains(world.getName());
+
+        return !disabledWorlds.contains(world.getUID());
     }
 
     /**
@@ -177,7 +199,7 @@ public class PerWorldSettingsService {
      *            The {@link World} to save
      */
     public void save(World world) {
-        Set<String> items = disabledItems.computeIfAbsent(world.getName(), this::loadWorldFromConfig);
+        Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         Config config = new Config(plugin, "world-settings/" + world + ".yml");
 
@@ -191,8 +213,9 @@ public class PerWorldSettingsService {
         config.save();
     }
 
-    private Set<String> loadWorldFromConfig(String name) {
-        Optional<Set<String>> optional = disabledItems.get(name);
+    private Set<String> loadWorldFromConfig(World world) {
+        String name = world.getName();
+        Optional<Set<String>> optional = disabledItems.get(world.getUID());
 
         if (optional.isPresent()) {
             return optional.get();
@@ -225,10 +248,12 @@ public class PerWorldSettingsService {
                     }
                 }
 
-                config.save();
+                if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+                    config.save();
+                }
             }
             else {
-                disabledWorlds.add(name);
+                disabledWorlds.add(world.getUID());
             }
 
             return items;

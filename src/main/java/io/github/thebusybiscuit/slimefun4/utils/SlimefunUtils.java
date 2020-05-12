@@ -16,6 +16,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
@@ -114,11 +115,15 @@ public final class SlimefunUtils {
         }
     }
 
-    /**
-     * Set an {@link ItemStack} to be Soulbound. This will add the {@link #SOULBOUND_LORE} and 
-     * add a {@link NamespacedKey} to the item so it can be quickly identified by {@link #isSoulbound(ItemStack)}.
-     * 
-     * @param item The {@link ItemStack} you want to make Soulbound.
+     /**
+     * Toggles an {@link ItemStack} to be Soulbound.<br>
+     * If true is passed, this will add the {@link #SOULBOUND_LORE} and
+     * add a {@link NamespacedKey} to the item so it can be quickly identified
+     * by {@link #isSoulbound(ItemStack)}.<br>
+     * If false is passed, this will remove the
+     *
+     * @param item The {@link ItemStack} you want to add/remove Soulbound from.
+     * @param soulbound If they item should be soulbound.
      * @see #isSoulbound(ItemStack)
      */
     public static void setSoulbound(@Nonnull ItemStack item, boolean soulbound) {
@@ -127,14 +132,29 @@ public final class SlimefunUtils {
         if (PersistentDataAPI.hasBoolean(meta, SOULBOUND_KEY)) return;
 
         final List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-        lore.add(SOULBOUND_LORE);
-        meta.setLore(lore);
 
-        if (soulbound)
+        if (soulbound) {
             PersistentDataAPI.setBoolean(meta, SOULBOUND_KEY, true);
-        else
+            lore.add(SOULBOUND_LORE);
+        } else {
             PersistentDataAPI.remove(meta, SOULBOUND_KEY);
+            lore.remove(SOULBOUND_LORE);
+        }
+
+        meta.setLore(lore);
         item.setItemMeta(meta);
+    }
+  
+    /**
+     * This method checks whether the given {@link ItemStack} is radioactive.
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
+     * @return Whether this {@link ItemStack} is radioactive or not
+     */
+    public static boolean isRadioactive(ItemStack item) {
+        return SlimefunItem.getByItem(item) instanceof Radioactive;
     }
 
     public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
