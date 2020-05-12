@@ -11,6 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
@@ -75,7 +76,10 @@ public class AutoEnchanter extends AContainer {
             }
             else {
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-                pushItems(b, processing.get(b).getOutput());
+
+                for (ItemStack item : processing.get(b).getOutput()) {
+                    menu.pushItem(item, getOutputSlots());
+                }
 
                 progress.remove(b);
                 processing.remove(b);
@@ -138,7 +142,9 @@ public class AutoEnchanter extends AContainer {
             }
 
             if (recipe != null) {
-                if (!fits(b, recipe.getOutput())) return;
+                if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
+                    return;
+                }
 
                 for (int slot : getInputSlots()) {
                     menu.consumeItem(slot);
