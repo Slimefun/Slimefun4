@@ -1,21 +1,13 @@
-name: Java CI
+name: Discord Webhook
 
 on:
   push:
-    branches:
-    - master
-    paths:
-    - 'src/**'
-    - 'pom.xml'
-  pull_request:
-    branches:
-    - master
     paths:
     - 'src/**'
     - 'pom.xml'
 
 jobs:
-  build:
+  report:
 
     runs-on: ubuntu-latest
 
@@ -26,5 +18,8 @@ jobs:
       uses: actions/setup-java@master
       with:
         java-version: 1.8
-    - name: Build with Maven
-      run: mvn package --file pom.xml
+    - name: Run Discord Webhook
+      uses: Slimefun/discord-webhook@master
+      with:
+        id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+        token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
