@@ -5,13 +5,12 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -35,14 +34,14 @@ class SlimefunTabCompleter implements TabCompleter {
                 return createReturnList(getSlimefunItems(), args[2]);
             }
             else if (args[0].equalsIgnoreCase("research")) {
-                Set<NamespacedKey> researches = SlimefunPlugin.getRegistry().getResearchIds().keySet();
+                List<Research> researches = SlimefunPlugin.getRegistry().getResearches();
                 List<String> suggestions = new LinkedList<>();
 
                 suggestions.add("all");
                 suggestions.add("reset");
 
-                for (NamespacedKey key : researches) {
-                    suggestions.add(key.toString().toLowerCase(Locale.ROOT));
+                for (Research research : researches) {
+                    suggestions.add(research.getKey().toString().toLowerCase(Locale.ROOT));
                 }
 
                 return createReturnList(suggestions, args[2]);

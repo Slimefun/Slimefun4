@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -59,19 +60,17 @@ public class EnergyNet extends Network {
         return EnergyNetComponentType.NONE;
     }
 
-    public static EnergyNet getNetworkFromLocation(Location l) {
-        return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
-    }
-
     public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
-        EnergyNet energyNetwork = getNetworkFromLocation(l);
+        Optional<EnergyNet> cargoNetwork = SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
 
-        if (energyNetwork == null) {
-            energyNetwork = new EnergyNet(l);
-            SlimefunPlugin.getNetworkManager().registerNetwork(energyNetwork);
+        if (cargoNetwork.isPresent()) {
+            return cargoNetwork.get();
         }
-
-        return energyNetwork;
+        else {
+            EnergyNet network = new EnergyNet(l);
+            SlimefunPlugin.getNetworkManager().registerNetwork(network);
+            return network;
+        }
     }
 
     private final Set<Location> generators = new HashSet<>();
@@ -79,7 +78,7 @@ public class EnergyNet extends Network {
     private final Set<Location> consumers = new HashSet<>();
 
     protected EnergyNet(Location l) {
-        super(l);
+        super(SlimefunPlugin.getNetworkManager(), l);
     }
 
     @Override
