@@ -20,7 +20,7 @@ public class AncientPedestal extends SlimefunItem {
 
             Item stack = listener.findItem(b);
             if (SlimefunPlugin.getCfg().getBoolean("options.anti-altar-glitch")) {
-                if (stack == null && listener.isUsing(b, stack.getLocation())) {
+                if (stack == null && listener.isUsing(b, b.getLocation())) {
                     return true;
                 } else {
                     SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use");
