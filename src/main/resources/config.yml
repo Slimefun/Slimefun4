@@ -15,7 +15,7 @@ options:
   legacy-ore-grinder: true
   language: en
   enable-translations: true
-
+  
 guide:
   default-view-book: false
   show-vanilla-recipes: true
