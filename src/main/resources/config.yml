@@ -6,7 +6,7 @@ options:
   
   auto-update: true
   chat-prefix: '&a&lSlimefun 4 &7>'
-  armor-update-interval: -1
+  armor-update-interval: 10
   enable-armor-effects: true
   auto-save-delay-in-minutes: 10
   emerald-enchantment-limit: 2
