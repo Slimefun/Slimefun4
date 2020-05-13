@@ -1,4 +1,4 @@
-name: Java CI
+name: Discord Webhook
 
 on:
   push:
