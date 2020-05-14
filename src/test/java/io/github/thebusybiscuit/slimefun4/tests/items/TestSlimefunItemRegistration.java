@@ -20,6 +20,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TestSlimefunItemRegistration {
 
@@ -154,6 +155,7 @@ public class TestSlimefunItemRegistration {
         Assertions.assertFalse(sfItem.isItem(new CustomItem(Material.REDSTONE, "&cTest")));
 
         Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
+        Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getID(), item)));
     }
 
     @Test

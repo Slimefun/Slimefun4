@@ -32,6 +32,7 @@ public class TestItemStackWrapper {
         ItemStackWrapper wrapper = new ItemStackWrapper(item);
 
         Assertions.assertEquals(item.getType(), wrapper.getType());
+        Assertions.assertEquals(item.hasItemMeta(), wrapper.hasItemMeta());
         Assertions.assertEquals(item.getItemMeta(), wrapper.getItemMeta());
         Assertions.assertTrue(SlimefunUtils.isItemSimilar(wrapper, item, true));
     }
@@ -45,6 +46,9 @@ public class TestItemStackWrapper {
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.setAmount(3));
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.setItemMeta(item.getItemMeta()));
         Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.addUnsafeEnchantment(null, 1));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.hashCode());
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.clone());
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> wrapper.equals(wrapper));
     }
 
 }
