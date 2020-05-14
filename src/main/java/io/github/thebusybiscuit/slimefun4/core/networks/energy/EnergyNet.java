@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -221,6 +222,8 @@ public class EnergyNet extends Network {
                     if (generator.explode(source)) {
                         exploded.add(source);
                         BlockStorage.clearBlockInfo(source);
+                        AReactor.processing.remove(source);
+                        AReactor.progress.remove(source);
 
                         Slimefun.runSync(() -> {
                             source.getBlock().setType(Material.LAVA);
