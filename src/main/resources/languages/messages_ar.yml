@@ -170,6 +170,10 @@ languages:
   vi: الفتنامية
   zh-CN: الصينية (الصين)
   zh-TW: الصينية (تايوان)
+  hr: الكرواتية
+  mk: المقدونية
+  sr: الصربية
+  be: البالاروسية
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4الهيكل غير محوط بعدد أعمدة كافي &c(%pedestals% / 8)"
