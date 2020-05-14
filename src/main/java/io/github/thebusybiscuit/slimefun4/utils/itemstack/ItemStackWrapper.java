@@ -18,11 +18,18 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 public final class ItemStackWrapper extends ItemStack {
 
-    private ItemMeta meta;
+    private final ItemMeta meta;
+    private final boolean hasItemMeta;
 
     public ItemStackWrapper(ItemStack item) {
         super(item.getType());
         meta = item.getItemMeta();
+        hasItemMeta = item.hasItemMeta();
+    }
+
+    @Override
+    public boolean hasItemMeta() {
+        return hasItemMeta;
     }
 
     @Override

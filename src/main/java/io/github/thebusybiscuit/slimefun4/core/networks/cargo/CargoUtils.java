@@ -29,7 +29,7 @@ final class CargoUtils {
 
     private CargoUtils() {}
 
-    public static boolean hasInventory(Block block) {
+    protected static boolean hasInventory(Block block) {
         if (block == null) {
             return false;
         }
@@ -68,7 +68,7 @@ final class CargoUtils {
         return false;
     }
 
-    public static ItemStack withdraw(Block node, Block target, ItemStack template) {
+    protected static ItemStack withdraw(Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu == null) {
@@ -103,7 +103,7 @@ final class CargoUtils {
         return null;
     }
 
-    private static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
+    protected static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
@@ -137,7 +137,7 @@ final class CargoUtils {
         return null;
     }
 
-    public static ItemStackAndInteger withdraw(Block node, Block target, int index) {
+    protected static ItemStackAndInteger withdraw(Block node, Block target, int index) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -181,7 +181,7 @@ final class CargoUtils {
         return null;
     }
 
-    public static ItemStack insert(Block node, Block target, ItemStack stack, int index) {
+    protected static ItemStack insert(Block node, Block target, ItemStack stack, int index) {
         if (!matchesFilter(node, stack, index)) return stack;
 
         DirtyChestMenu menu = getChestMenu(target);
@@ -246,7 +246,6 @@ final class CargoUtils {
             }
         }
         else if (inv instanceof BrewerInventory) {
-
             if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
                 // Potions slot
                 maxSlot = 3;
@@ -298,7 +297,7 @@ final class CargoUtils {
         return stack;
     }
 
-    public static DirtyChestMenu getChestMenu(Block block) {
+    protected static DirtyChestMenu getChestMenu(Block block) {
         if (BlockStorage.hasInventory(block)) {
             return BlockStorage.getInventory(block);
         }
@@ -306,7 +305,7 @@ final class CargoUtils {
         return BlockStorage.getUniversalInventory(block);
     }
 
-    public static boolean matchesFilter(Block block, ItemStack item, int index) {
+    protected static boolean matchesFilter(Block block, ItemStack item, int index) {
         if (item == null || item.getType() == Material.AIR) return false;
 
         // Store the returned Config instance to avoid heavy calls
