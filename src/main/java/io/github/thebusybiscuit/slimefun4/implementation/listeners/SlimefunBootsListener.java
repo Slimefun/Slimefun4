@@ -4,10 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Effect;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EnderPearl;
@@ -64,6 +61,15 @@ public class SlimefunBootsListener implements Listener {
         cancelledEvents.put("SLIME_BOOTS", e -> e.getCause() == DamageCause.FALL);
 
         cancelledEvents.put("SLIME_STEEL_BOOTS", e -> e.getCause() == DamageCause.FALL);
+
+        cancelledEvents.put("BEE_BOOTS", e -> {
+            if (e.getCause() == DamageCause.FALL) {
+                e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.BLOCK_HONEY_BLOCK_FALL, 1f, 2f);
+                return true;
+            }
+
+            return false;
+        });
     }
 
     private void stomp(EntityDamageEvent e) {
