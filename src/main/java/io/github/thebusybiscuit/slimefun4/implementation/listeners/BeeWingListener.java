@@ -15,6 +15,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+/**
+ * This {@link Listener} is responsible for the slow falling effect given to the player
+ * When Nearing the ground.
+ *
+ * @author beSnow
+ */
 public class BeeWingListener implements Listener {
 
     public BeeWingListener(SlimefunPlugin plugin) {
