@@ -9,38 +9,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemConsumeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -100,7 +69,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  * This is the main class of Slimefun.
  * This is where all the magic starts, take a look around.
  * Feel like home.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -200,8 +169,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             if (config.getBoolean("options.auto-update")) {
                 getLogger().log(Level.INFO, "Starting Auto-Updater...");
                 updaterService.start();
-            }
-            else {
+            } else {
                 updaterService.disable();
             }
 
@@ -238,7 +206,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new FireworksListener(this);
             new WitherListener(this);
             new IronGolemListener(this);
-            new BeeWingListener(this);
 
             // Item-specific Listeners
             new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
@@ -270,6 +237,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Clear the Slimefun Guide History upon Player Leaving
             new PlayerProfileListener(this);
+
+            // Listeners that only need to function in at least Minecraft version 1.15.X
+            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+                new BeeWingListener(this);
+        }
 
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
@@ -325,7 +297,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method checks for the {@link MinecraftVersion} of the {@link Server}.
      * If the version is unsupported, a warning will be printed to the console.
-     * 
+     *
      * @return Whether the {@link MinecraftVersion} is unsupported
      */
     private boolean isVersionUnsupported() {
@@ -488,7 +460,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This returns the version of Slimefun that is currently installed.
-     * 
+     *
      * @return The currently installed version of Slimefun
      */
     public static String getVersion() {
@@ -501,7 +473,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This returns the {@link LocalizationService} of Slimefun.
-     * 
+     *
      * @return The {@link LocalizationService} of Slimefun
      */
     public static LocalizationService getLocal() {
@@ -539,7 +511,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns the {@link UpdaterService} of Slimefun.
      * It is used to handle automatic updates.
-     * 
+     *
      * @return The {@link UpdaterService} for Slimefun
      */
     public static UpdaterService getUpdater() {
@@ -549,7 +521,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns the {@link GitHubService} of Slimefun.
      * It is used to retrieve data from GitHub repositories.
-     * 
+     *
      * @return The {@link GitHubService} for Slimefun
      */
     public static GitHubService getGitHubService() {
@@ -583,9 +555,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns a {@link Set} of every {@link Plugin} that lists Slimefun
      * as a required or optional dependency.
-     * 
+     *
      * We will just assume this to be a list of our addons.
-     * 
+     *
      * @return A {@link Set} of every {@link Plugin} that is dependent on Slimefun
      */
     public static Set<Plugin> getInstalledAddons() {
@@ -594,7 +566,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * The {@link Command} that was added by Slimefun.
-     * 
+     *
      * @return Slimefun's command
      */
     public static SlimefunCommand getCommand() {
@@ -603,7 +575,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This returns the currently installed version of Minecraft.
-     * 
+     *
      * @return The current version of Minecraft
      */
     public static MinecraftVersion getMinecraftVersion() {

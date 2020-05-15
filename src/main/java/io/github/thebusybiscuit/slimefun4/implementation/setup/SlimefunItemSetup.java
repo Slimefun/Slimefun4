@@ -3353,22 +3353,24 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})
 		.register(plugin);
 
-        new SlimefunItem(categories.magicalArmor, SlimefunItems.BEE_HELMET, RecipeType.ARMOR_FORGE,
-        new ItemStack[]{SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), null, null, null})
-        .register(plugin);
+		if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+			new SlimefunItem(categories.magicalArmor, SlimefunItems.BEE_HELMET, RecipeType.ARMOR_FORGE,
+			new ItemStack[]{SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), null, null, null})
+			.register(plugin);
 
-        new SlimefunItem(categories.magicalArmor, SlimefunItems.BEE_WINGS, RecipeType.ARMOR_FORGE,
-        new ItemStack[]{SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.ELYTRA), new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK)})
-        .register(plugin);
+			new SlimefunItem(categories.magicalArmor, SlimefunItems.BEE_WINGS, RecipeType.ARMOR_FORGE,
+			new ItemStack[]{SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.ELYTRA), new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK)})
+			.register(plugin);
 
-        new SlimefunItem(categories.magicalArmor, SlimefunItems.BEE_LEGGINGS, RecipeType.ARMOR_FORGE,
-        new ItemStack[]{SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK)})
-        .register(plugin);
+			new SlimefunItem(categories.magicalArmor, SlimefunItems.BEE_LEGGINGS, RecipeType.ARMOR_FORGE,
+			new ItemStack[]{SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), SlimefunItems.GOLD_8K, new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK), new ItemStack(Material.HONEYCOMB_BLOCK), null, new ItemStack(Material.HONEYCOMB_BLOCK)})
+			.register(plugin);
 
-        new SlimefunArmorPiece(categories.magicalArmor, SlimefunItems.BEE_BOOTS, RecipeType.ARMOR_FORGE,
-        new ItemStack[]{null, null, null, SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), null, new ItemStack(Material.HONEY_BLOCK)},
-        new PotionEffect[]{new PotionEffect(PotionEffectType.JUMP, 300, 2)})
-        .register(plugin);
+			new SlimefunArmorPiece(categories.magicalArmor, SlimefunItems.BEE_BOOTS, RecipeType.ARMOR_FORGE,
+			new ItemStack[]{null, null, null, SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), null, new ItemStack(Material.HONEY_BLOCK)},
+			new PotionEffect[]{new PotionEffect(PotionEffectType.JUMP, 300, 2)})
+			.register(plugin);
+		}
 	}
 	
 	private static void registerArmorSet(Category category, ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, SlimefunAddon addon) {
