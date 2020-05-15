@@ -53,9 +53,6 @@ public class Research implements Keyed {
      * {@link #addItems(SlimefunItem...)}. Once you're finished, call {@link #register()}
      * to register it.
      * 
-     * To speed up, directly setup the research by calling
-     * {@link Slimefun#registerResearch(Research, org.bukkit.inventory.ItemStack...)}.
-     * 
      * @param key
      *            A unique identifier for this {@link Research}
      * @param id

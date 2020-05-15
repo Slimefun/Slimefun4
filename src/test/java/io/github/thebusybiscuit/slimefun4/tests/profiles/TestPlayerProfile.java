@@ -116,6 +116,11 @@ public class TestPlayerProfile {
     }
 
     @Test
+    public void testNullPlayerGetProfile() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PlayerProfile.get(null, p -> {}));
+    }
+
+    @Test
     public void testHashCode() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
