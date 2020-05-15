@@ -123,7 +123,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
         if (n.isValid() && n instanceof Animals) {
             Animals animal = (Animals) n;
 
-            return animal.isAdult() && !animal.isLoveMode();
+            return animal.isAdult() && animal.canBreed() && !animal.isLoveMode();
         }
 
         return false;
