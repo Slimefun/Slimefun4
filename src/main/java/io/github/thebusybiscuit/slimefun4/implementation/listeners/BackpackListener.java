@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -153,7 +154,7 @@ public class BackpackListener implements Listener {
         }
     }
 
-    public void setBackpackId(Player p, ItemStack item, int line, int id) {
+    public void setBackpackId(OfflinePlayer p, ItemStack item, int line, int id) {
         ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + id));

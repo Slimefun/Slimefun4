@@ -69,7 +69,7 @@ class BackpackCommand extends SubCommand {
             }
             Slimefun.runSync(() -> {
                 ItemStack item = SlimefunItems.RESTORED_BACKPACK.clone();
-                SlimefunPlugin.getBackpackListener().setBackpackId(p, item, 2, id);
+                SlimefunPlugin.getBackpackListener().setBackpackId(owner, item, 2, id);
                 p.getInventory().addItem(item);
                 SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.restored-backpack-given");
             });
