@@ -237,7 +237,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new FireworksListener(this);
             new WitherListener(this);
             new IronGolemListener(this);
-            new BeeWingListener(this);
 
             // Item-specific Listeners
             new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
@@ -269,6 +268,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Clear the Slimefun Guide History upon Player Leaving
             new PlayerProfileListener(this);
+
+            // Listeners that only need to function in at least Minecraft version 1.15.X
+            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+                new BeeWingListener(this);
+            }
 
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
