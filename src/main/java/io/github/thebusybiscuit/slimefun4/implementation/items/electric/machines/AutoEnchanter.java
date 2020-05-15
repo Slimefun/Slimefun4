@@ -86,60 +86,7 @@ public class AutoEnchanter extends AContainer {
             }
         }
         else {
-            MachineRecipe recipe = null;
-
-            for (int slot : getInputSlots()) {
-                ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
-
-                // Check if the item is enchantable
-                SlimefunItem sfTarget = SlimefunItem.getByItem(target);
-                if (sfTarget != null && !sfTarget.isEnchantable()) return;
-
-                ItemStack item = menu.getItemInSlot(slot);
-
-                // Enchant
-                if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
-                    Map<Enchantment, Integer> enchantments = new HashMap<>();
-                    Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
-                    int amount = 0;
-                    int specialAmount = 0;
-                    EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-
-                    for (Map.Entry<Enchantment, Integer> e : meta.getStoredEnchants().entrySet()) {
-                        if (e.getKey().canEnchantItem(target)) {
-                            amount++;
-                            enchantments.put(e.getKey(), e.getValue());
-                        }
-                    }
-
-                    if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
-                        for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                            if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
-                                amount++;
-                                specialAmount++;
-                                emeraldEnchantments.add(enchantment);
-                            }
-                        }
-                        specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
-                    }
-
-                    if (amount > 0 && specialAmount <= emeraldEnchantsLimit) {
-                        ItemStack newItem = target.clone();
-                        newItem.setAmount(1);
-
-                        for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                            newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
-                        }
-
-                        for (ItemEnchantment ench : emeraldEnchantments) {
-                            EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), ench.getLevel());
-                        }
-
-                        recipe = new MachineRecipe(75 * amount, new ItemStack[] { target, item }, new ItemStack[] { newItem, new ItemStack(Material.BOOK) });
-                    }
-                    break;
-                }
-            }
+            MachineRecipe recipe = findRecipe(menu);
 
             if (recipe != null) {
                 if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
@@ -154,6 +101,66 @@ public class AutoEnchanter extends AContainer {
                 progress.put(b, recipe.getTicks());
             }
         }
+    }
+
+    private MachineRecipe findRecipe(BlockMenu menu) {
+        for (int slot : getInputSlots()) {
+            ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
+
+            // Check if the item is enchantable
+            SlimefunItem sfTarget = SlimefunItem.getByItem(target);
+            if (sfTarget != null && !sfTarget.isEnchantable()) {
+                return null;
+            }
+
+            ItemStack item = menu.getItemInSlot(slot);
+
+            // Enchant
+            if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
+                Map<Enchantment, Integer> enchantments = new HashMap<>();
+                Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
+                int amount = 0;
+                int specialAmount = 0;
+                EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+
+                for (Map.Entry<Enchantment, Integer> e : meta.getStoredEnchants().entrySet()) {
+                    if (e.getKey().canEnchantItem(target)) {
+                        amount++;
+                        enchantments.put(e.getKey(), e.getValue());
+                    }
+                }
+
+                if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
+                    for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+                        if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
+                            amount++;
+                            specialAmount++;
+                            emeraldEnchantments.add(enchantment);
+                        }
+                    }
+                    specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
+                }
+
+                if (amount > 0 && specialAmount <= emeraldEnchantsLimit) {
+                    ItemStack newItem = target.clone();
+                    newItem.setAmount(1);
+
+                    for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+                        newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
+                    }
+
+                    for (ItemEnchantment ench : emeraldEnchantments) {
+                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), ench.getLevel());
+                    }
+
+                    return new MachineRecipe(75 * amount, new ItemStack[] { target, item }, new ItemStack[] { newItem, new ItemStack(Material.BOOK) });
+                }
+
+                return null;
+            }
+        }
+
+        return null;
     }
 
     @Override
