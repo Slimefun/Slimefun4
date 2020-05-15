@@ -84,7 +84,7 @@ public class BlockDataService implements PersistentDataService, Keyed {
      * @return Whether the given {@link Material} is considered a Tile Entity
      */
     public boolean isTileEntity(Material type) {
-        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+        if (type == null || !SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             // We can only store data on Tile Entities in 1.14+
             // So we will just return false here in that case.
             return false;
