@@ -22,6 +22,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mockito;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -144,9 +146,10 @@ public class TestVanillaMachinesListener {
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 
-    @Test
-    public void testGrindStoneWithSlimefunGuide() {
-        InventoryClickEvent event = mockGrindStoneEvent(SlimefunGuide.getItem(SlimefunGuideLayout.CHEST));
+    @ParameterizedTest
+    @EnumSource(SlimefunGuideLayout.class)
+    public void testGrindStoneWithSlimefunGuide(SlimefunGuideLayout layout) {
+        InventoryClickEvent event = mockGrindStoneEvent(SlimefunGuide.getItem(layout));
         Assertions.assertEquals(Result.DENY, event.getResult());
     }
 
