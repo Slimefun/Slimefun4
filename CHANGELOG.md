@@ -42,6 +42,7 @@
 * Fixed #1897
 * Fixed #1908
 * Fixed #1903
+* Fixed Organic Food/Fertilizer not being recognized
 
 ## Release Candidate 11 (25 Apr 2020)
 
