@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 
 /**
  * This {@link Listener} is responsible for the slow falling effect given to the player
- * When Nearing the ground.
+ * When Nearing the ground when using the Bee Wings.
  *
  * @author beSnow
  */
@@ -27,16 +28,27 @@ public class BeeWingListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onApproachGround(PlayerMoveEvent e) {
         Player player = e.getPlayer();
-        ItemStack helmet = e.getPlayer().getInventory().getChestplate();
-        if (!SlimefunUtils.isItemSimilar(helmet, SlimefunItems.BEE_WINGS, true) && !Slimefun.hasUnlocked(e.getPlayer(), helmet, true)) return;
         if (!player.isGliding()) return;
-        if (getDistanceToGround(player) == 0) return; //More accurate than Entity#isOnGround()
+        if (player.isOnGround()) return;
+        ItemStack helmet = player.getInventory().getChestplate();
+        if (!SlimefunUtils.isItemSimilar(helmet, SlimefunItems.BEE_WINGS, true) && !Slimefun.hasUnlocked(player, helmet, true))
+            return;
 
-        if (getDistanceToGround(player) <= 6)
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 30, 0));
+        double playerDistanceToHighestBlock = (player.getLocation().getY() - player.getWorld().getHighestBlockYAt(player.getLocation(), HeightMap.WORLD_SURFACE));
+
+        // getDistanceToGround will only fire when playerDistanceToHighestBlock is negative (which happens when a player is flying under an existing structure)
+        if (playerDistanceToHighestBlock < 0) {
+            if (getDistanceToGround(player) > 6) return;
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
+            return;
+        }
+
+        if (playerDistanceToHighestBlock <= 6) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
+        }
     }
 
     private static int getDistanceToGround(Entity e) {
@@ -51,4 +63,3 @@ public class BeeWingListener implements Listener {
         return distance;
     }
 }
-
