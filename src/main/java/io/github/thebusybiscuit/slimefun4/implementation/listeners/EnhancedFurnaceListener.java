@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import org.bukkit.block.Furnace;
 import org.bukkit.event.EventHandler;
@@ -28,10 +27,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class EnhancedFurnaceListener implements Listener {
 
-    // This will throttle the spam a bit, enough to irritate Server Owners so they report it
-    // but low enough to not cause them to rage quit
-    private long lastWarning = 0;
-
     public EnhancedFurnaceListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -43,12 +38,7 @@ public class EnhancedFurnaceListener implements Listener {
         if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
             int burnTime = e.getBurnTime();
             int newBurnTime = ((EnhancedFurnace) furnace).getFuelEfficiency() * burnTime;
-            e.setBurnTime(newBurnTime);
-
-            if (e.getBurnTime() < burnTime && lastWarning + TimeUnit.MINUTES.toMillis(10) < System.currentTimeMillis()) {
-                lastWarning = System.currentTimeMillis();
-                throw new IllegalStateException("Enhanced Furnace tried to increase burn time but actually decreased it: " + burnTime + " > " + e.getBurnTime() + " (supposed to be " + newBurnTime + ")");
-            }
+            e.setBurnTime(Math.min(newBurnTime, Short.MAX_VALUE));
         }
     }
 
