@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 class GitHubTask implements Runnable {
 
-    private static final int MAX_REQUESTS_PER_MINUTE = 12;
+    private static final int MAX_REQUESTS_PER_MINUTE = 10;
 
     private final GitHubService gitHubService;
 
@@ -71,9 +71,9 @@ class GitHubTask implements Runnable {
                     Slimefun.getLogger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
                     Slimefun.getLogger().log(Level.WARNING, "This usually means mojang.com is down or started to rate-limit this connection, this is not an error message!");
 
-                    // Retry after 2 minutes if it was rate-limiting
+                    // Retry after 4 minutes if it was rate-limiting
                     if (x.getMessage().contains("429")) {
-                        Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 4 * 60 * 20L);
                     }
                     return;
                 }

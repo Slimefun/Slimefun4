@@ -35,10 +35,10 @@ public final class SlimefunItems {
     private SlimefunItems() {}
 
     /* Items */
-    public static final ItemStack PORTABLE_CRAFTER = new SlimefunItemStack("PORTABLE_CRAFTER", "72ec4a4bd8a58f8361f8a0303e2199d33d624ea5f92f7cb3414fee95e2d861", "&6Portable Crafter", "&a&oA portable Crafting Table", "", "&eRight Click&7 to open");
-    public static final ItemStack PORTABLE_DUSTBIN = new SlimefunItemStack("PORTABLE_DUSTBIN", "32d41042ce99147cc38cac9e46741576e7ee791283e6fac8d3292cae2935f1f", "&6Portable Dustbin", "&rYour portable Item-Destroyer", "", "&eRight Click&7 to open");
-    public static final ItemStack ENDER_BACKPACK = new SlimefunItemStack("ENDER_BACKPACK", "2a3b34862b9afb63cf8d5779966d3fba70af82b04e83f3eaf6449aeba", "&6Ender Backpack", "&a&oA portable Ender Chest", "", "&eRight Click&7 to open");
-    public static final ItemStack MAGIC_EYE_OF_ENDER = new SlimefunItemStack("MAGIC_EYE_OF_ENDER", Material.ENDER_EYE, "&6&lMagic Eye of Ender", "&4&lRequires full Ender Armor", "", "&7&eRight Click&7 to shoot an Ender Pearl");
+    public static final SlimefunItemStack PORTABLE_CRAFTER = new SlimefunItemStack("PORTABLE_CRAFTER", "72ec4a4bd8a58f8361f8a0303e2199d33d624ea5f92f7cb3414fee95e2d861", "&6Portable Crafter", "&a&oA portable Crafting Table", "", "&eRight Click&7 to open");
+    public static final SlimefunItemStack PORTABLE_DUSTBIN = new SlimefunItemStack("PORTABLE_DUSTBIN", "32d41042ce99147cc38cac9e46741576e7ee791283e6fac8d3292cae2935f1f", "&6Portable Dustbin", "&rYour portable Item-Destroyer", "", "&eRight Click&7 to open");
+    public static final SlimefunItemStack ENDER_BACKPACK = new SlimefunItemStack("ENDER_BACKPACK", "2a3b34862b9afb63cf8d5779966d3fba70af82b04e83f3eaf6449aeba", "&6Ender Backpack", "&a&oA portable Ender Chest", "", "&eRight Click&7 to open");
+    public static final SlimefunItemStack MAGIC_EYE_OF_ENDER = new SlimefunItemStack("MAGIC_EYE_OF_ENDER", Material.ENDER_EYE, "&6&lMagic Eye of Ender", "&4&lRequires full Ender Armor", "", "&7&eRight Click&7 to shoot an Ender Pearl");
     public static final ItemStack BROKEN_SPAWNER = new SlimefunItemStack("BROKEN_SPAWNER", Material.SPAWNER, "&cBroken Spawner", "&7Type: &b<Type>", "", "&cFractured, must be repaired in an Ancient Altar");
     public static final ItemStack REPAIRED_SPAWNER = new SlimefunItemStack("REINFORCED_SPAWNER", Material.SPAWNER, "&bReinforced Spawner", "&7Type: &b<Type>");
     public static final SlimefunItemStack INFERNAL_BONEMEAL = new SlimefunItemStack("INFERNAL_BONEMEAL", Material.BONE_MEAL, "&4Infernal Bonemeal", "", "&cSpeeds up the Growth of", "&cNether Warts as well");
@@ -50,7 +50,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack GRAPPLING_HOOK = new SlimefunItemStack("GRAPPLING_HOOK", Material.LEAD, "&6Grappling Hook", "", "&7&eRight Click&7 to use");
     public static final SlimefunItemStack SOLAR_HELMET = new SlimefunItemStack("SOLAR_HELMET", Material.IRON_HELMET, "&bSolar Helmet", "", "&a&oCharges held Items and Armor");
     public static final SlimefunItemStack CLOTH = new SlimefunItemStack("CLOTH", Material.PAPER, "&bCloth");
-    public static final ItemStack CAN = new SlimefunItemStack("CAN", "94da97f080e395b842c4cc82a840823d4dbd8ca688a206853e5783e4bfdc012", "&rTin Can");
+    public static final SlimefunItemStack CAN = new SlimefunItemStack("CAN", "94da97f080e395b842c4cc82a840823d4dbd8ca688a206853e5783e4bfdc012", "&rTin Can");
     public static final SlimefunItemStack NIGHT_VISION_GOGGLES = new SlimefunItemStack("NIGHT_VISION_GOGGLES", Material.LEATHER_HELMET, Color.BLACK, "&aNight Vision Goggles", "", "&9+ Night Vision");
     public static final SlimefunItemStack FARMER_SHOES = new SlimefunItemStack("FARMER_SHOES", Material.LEATHER_BOOTS, Color.YELLOW, "&eFarmer Shoes", "", "&6&oPrevents you from trampling your Crops");
     public static final SlimefunItemStack INFUSED_MAGNET = new SlimefunItemStack("INFUSED_MAGNET", "aba8ebc4c6a81730947499bf7e1d5e73fed6c1bb2c051e96d35eb16d24610e7", "&aInfused Magnet", "", "&rMagical infused Magnets", "&rattract nearby Items", "&ras long as it is somewhere in", "&ryour Inventory", "", "&7Hold &eShift&7 to pick up nearby Items");
@@ -347,9 +347,9 @@ public final class SlimefunItems {
     public static final ItemStack BUTTER = new SlimefunItemStack("BUTTER", "b66b19f7d635d03473891df33017c549363209a8f6328a8542c213d08525e", "&rButter");
     public static final SlimefunItemStack DUCT_TAPE = new SlimefunItemStack("DUCT_TAPE", "b2faaceab6384fff5ed24bb44a4af2f584eb1382729ecd93a5369acfd6654", "&8Duct Tape", "", "&rYou can repair Items using this", "&rin an Auto-Anvil");
     public static final ItemStack HEAVY_CREAM = new SlimefunItemStack("HEAVY_CREAM", Material.SNOWBALL, "&rHeavy Cream");
-    public static final ItemStack CRUSHED_ORE = new SlimefunItemStack("CRUSHED_ORE", Material.GUNPOWDER, "&6Crushed Ore");
-    public static final ItemStack PULVERIZED_ORE = new SlimefunItemStack("PULVERIZED_ORE", Material.GUNPOWDER, "&6Pulverized Ore");
-    public static final ItemStack PURE_ORE_CLUSTER = new SlimefunItemStack("PURE_ORE_CLUSTER", Material.GUNPOWDER, "&6Pure Ore Cluster");
+    public static final SlimefunItemStack CRUSHED_ORE = new SlimefunItemStack("CRUSHED_ORE", Material.GUNPOWDER, "&6Crushed Ore");
+    public static final SlimefunItemStack PULVERIZED_ORE = new SlimefunItemStack("PULVERIZED_ORE", Material.GUNPOWDER, "&6Pulverized Ore");
+    public static final SlimefunItemStack PURE_ORE_CLUSTER = new SlimefunItemStack("PURE_ORE_CLUSTER", Material.GUNPOWDER, "&6Pure Ore Cluster");
     public static final ItemStack SMALL_URANIUM = new SlimefunItemStack("SMALL_URANIUM", "c8b29afa6d6dc923e2e1324bf8192750f7bdbddc689632a2b6c18d9fe7a5e", "&cSmall Chunk of Uranium", "", LoreBuilder.radioactive(Radioactivity.MODERATE), LoreBuilder.HAZMAT_SUIT_REQUIRED);
     public static final ItemStack TINY_URANIUM = new SlimefunItemStack("TINY_URANIUM", "c8b29afa6d6dc923e2e1324bf8192750f7bdbddc689632a2b6c18d9fe7a5e", "&cTiny Pile of Uranium", "", LoreBuilder.radioactive(Radioactivity.LOW));
 
@@ -652,12 +652,12 @@ public final class SlimefunItems {
     public static final SlimefunItemStack ANDROID_INTERFACE_FUEL = new SlimefunItemStack("ANDROID_INTERFACE_FUEL", Material.DISPENSER, "&7Android Interface &c(Fuel)", "", "&rItems stored in this Interface", "&rwill be inserted into an Android's Fuel Slot", "&rwhen its Script tells them to do so");
     public static final SlimefunItemStack ANDROID_INTERFACE_ITEMS = new SlimefunItemStack("ANDROID_INTERFACE_ITEMS", Material.DISPENSER, "&7Android Interface &9(Items)", "", "&rItems stored in an Android's Inventory", "&rwill be inserted into this Interface", "&rwhen its Script tells them to do so");
 
-    public static final ItemStack GPS_GEO_SCANNER = new SlimefunItemStack("GPS_GEO_SCANNER", "2ad8cfeb387a56e3e5bcf85345d6a417b242293887db3ce3ba91fa409b254b86", "&bGPS Geo-Scanner", "", "&rScans a Chunk for natural Resources", "&rsuch as &8Oil");
-    public static final ItemStack PORTABLE_GEO_SCANNER = new SlimefunItemStack("PORTABLE_GEO_SCANNER", Material.CLOCK, "&bPortable Geo-Scanner", "", "&rScans a Chunk for natural Resources", "", "&eRight Click&7 to scan");
-    public static final ItemStack GEO_MINER = new SlimefunItemStack("GEO_MINER", "a37741f764dd3dd7adaeb43b63d3959eb70e5eb28f15d6b34cab34a1d1f60387", "&6GEO Miner", "", "&eMines up resources from the chunk", "&eThese Resources cannot be mined with a pickaxe", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7Speed: 1x", LoreBuilder.powerPerSecond(48), "", "&c&l! &cMake sure to Geo-Scan the Chunk first");
-    public static final ItemStack OIL_PUMP = new SlimefunItemStack("OIL_PUMP", "afe1a040a425e31a46d4f9a9b9806fa2f0c47ee84711cc1932fd8ab32b2d038", "&rOil Pump", "", "&7Pumps up Oil and fills it into Buckets", "", "&c&l! &cMake sure to Geo-Scan the Chunk first");
-    public static final ItemStack BUCKET_OF_OIL = new SlimefunItemStack("BUCKET_OF_OIL", "6ce04b41d19ec7927f982a63a94a3d79f78ecec33363051fde0831bfabdbd", "&rBucket of Oil");
-    public static final ItemStack BUCKET_OF_FUEL = new SlimefunItemStack("BUCKET_OF_FUEL", "a84ddca766725b8b97413f259c3f7668070f6ae55483a90c8e5525394f9c099", "&rBucket of Fuel");
+    public static final SlimefunItemStack GPS_GEO_SCANNER = new SlimefunItemStack("GPS_GEO_SCANNER", "2ad8cfeb387a56e3e5bcf85345d6a417b242293887db3ce3ba91fa409b254b86", "&bGPS Geo-Scanner", "", "&rScans a Chunk for natural Resources", "&rsuch as &8Oil");
+    public static final SlimefunItemStack PORTABLE_GEO_SCANNER = new SlimefunItemStack("PORTABLE_GEO_SCANNER", Material.CLOCK, "&bPortable Geo-Scanner", "", "&rScans a Chunk for natural Resources", "", "&eRight Click&7 to scan");
+    public static final SlimefunItemStack GEO_MINER = new SlimefunItemStack("GEO_MINER", "a37741f764dd3dd7adaeb43b63d3959eb70e5eb28f15d6b34cab34a1d1f60387", "&6GEO Miner", "", "&eMines up resources from the chunk", "&eThese Resources cannot be mined with a pickaxe", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7Speed: 1x", LoreBuilder.powerPerSecond(48), "", "&c&l! &cMake sure to Geo-Scan the Chunk first");
+    public static final SlimefunItemStack OIL_PUMP = new SlimefunItemStack("OIL_PUMP", "afe1a040a425e31a46d4f9a9b9806fa2f0c47ee84711cc1932fd8ab32b2d038", "&rOil Pump", "", "&7Pumps up Oil and fills it into Buckets", "", "&c&l! &cMake sure to Geo-Scan the Chunk first");
+    public static final SlimefunItemStack BUCKET_OF_OIL = new SlimefunItemStack("BUCKET_OF_OIL", "6ce04b41d19ec7927f982a63a94a3d79f78ecec33363051fde0831bfabdbd", "&rBucket of Oil");
+    public static final SlimefunItemStack BUCKET_OF_FUEL = new SlimefunItemStack("BUCKET_OF_FUEL", "a84ddca766725b8b97413f259c3f7668070f6ae55483a90c8e5525394f9c099", "&rBucket of Fuel");
 
     public static final SlimefunItemStack REFINERY = new SlimefunItemStack("REFINERY", Material.PISTON, "&cRefinery", "", "&rRefines Oil to create Fuel");
     public static final SlimefunItemStack COMBUSTION_REACTOR = new SlimefunItemStack("COMBUSTION_REACTOR", "9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730", "&cCombustion Reactor", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.GENERATOR), LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(24));
