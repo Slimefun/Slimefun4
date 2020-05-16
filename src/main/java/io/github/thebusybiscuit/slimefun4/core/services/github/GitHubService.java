@@ -63,7 +63,7 @@ public class GitHubService {
         addContributor("IMS_Art", "&dArtist");
         addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
-        new Translators(contributors);
+        new Translators(this);
     }
 
     private void addContributor(String name, String role) {
@@ -73,10 +73,11 @@ public class GitHubService {
         contributors.put(name, contributor);
     }
 
-    protected void addContributor(String name, String profile, String role, int commits) {
+    public Contributor addContributor(String name, String profile, String role, int commits) {
         Contributor contributor = contributors.computeIfAbsent(name, key -> new Contributor(name, profile));
         contributor.setContribution(role, commits);
         contributor.setUniqueId(uuidCache.getUUID(name));
+        return contributor;
     }
 
     private void loadConnectors(boolean logging) {

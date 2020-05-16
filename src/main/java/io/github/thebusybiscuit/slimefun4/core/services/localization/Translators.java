@@ -1,8 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
-import java.util.concurrent.ConcurrentMap;
-
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
+import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 
 /**
  * This class holds all {@link Translators} of this project.
@@ -15,11 +14,11 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
  */
 public class Translators {
 
-    private final ConcurrentMap<String, Contributor> contributors;
+    private final GitHubService github;
 
     // We maybe should switch to a json file in our resources folder at some point.
-    public Translators(ConcurrentMap<String, Contributor> contributors) {
-        this.contributors = contributors;
+    public Translators(GitHubService github) {
+        this.github = github;
 
         // Translators - German
         addTranslator("TheBusyBiscuit", EmbeddedLanguage.GERMAN, false);
@@ -72,7 +71,7 @@ public class Translators {
         addTranslator("KostaTV", EmbeddedLanguage.RUSSIAN, true);
         addTranslator("TomWiskis", "MrWiskis", EmbeddedLanguage.RUSSIAN, true);
         addTranslator("cyb3rm4n", "GP_CyberMan", EmbeddedLanguage.RUSSIAN, true);
-        
+
         // Translators - Ukrainian
         addTranslator("SoSeDiK", EmbeddedLanguage.UKRAINIAN, false);
 
@@ -123,14 +122,15 @@ public class Translators {
         // Translators - Thai
         addTranslator("phoomin2012", EmbeddedLanguage.THAI, false);
         addTranslator("film2860", EmbeddedLanguage.THAI, false);
+        addTranslator("Rafrael17k", EmbeddedLanguage.THAI, false);
 
         // Translators - Turkish
         addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
         addTranslator("LinoxGH", "ajan_12", EmbeddedLanguage.TURKISH, false);
-        
+
         // Translators - Macedonian
         addTranslator("TheSilentPro", EmbeddedLanguage.MACEDONIAN, true);
-        
+
         // Translators - Bulgarian
         addTranslator("DNBGlol", EmbeddedLanguage.BULGARIAN, true);
 
@@ -144,9 +144,8 @@ public class Translators {
         addTranslator(name, name, lang, lock);
     }
 
-    private void addTranslator(String name, String alias, EmbeddedLanguage lang, boolean lock) {
-        Contributor contributor = contributors.computeIfAbsent(name, user -> new Contributor(alias, "https://github.com/" + user));
-        contributor.setContribution("translator," + lang.getId(), 0);
+    private void addTranslator(String username, String minecraftName, EmbeddedLanguage lang, boolean lock) {
+        Contributor contributor = github.addContributor(minecraftName, "https://github.com/" + username, "translator," + lang.getId(), 0);
 
         if (lock) {
             contributor.lock();
