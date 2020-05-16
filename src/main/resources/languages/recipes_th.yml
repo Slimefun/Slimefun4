@@ -81,6 +81,7 @@ slimefun:
     name: Food Fabricator
     lore:
     - คราฟไอเท็มนี้ตามที่แสดง
+    - ใช้ Food Fabricator
   food_composter:
     name: Food Composter
     lore:
@@ -101,6 +102,22 @@ slimefun:
     lore:
     - ไอเทมนี้เป็นผลพลอยได้
     - ของการใช้ Nuclear Reactor
+  oil_pump:
+    name: Oil Pump
+    lore:
+    - ไอเท็มสามารถรวมกันได้
+    - โดยการใช้ Oil Pump
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
+    lore:
+    - สามารถเก็บบล็อค
+    - Spawner โดยการขุดด้วย
+    - Pickaxe of Containment
+  refinery:
+    name: Refinery
+    lore:
+    - คราฟไอเท็มตามที่แสดง
+    - โดยใช้ Refinery
 minecraft:
   shaped:
     name: สูตรคราฟคงตัว
