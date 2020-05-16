@@ -46,6 +46,7 @@
 * Fixed #1883
 * Fixed #1829
 * Fixed some mojang.com connection errors
+* Fixed some very weird SkullMeta serialization problems in 1.15
 
 ## Release Candidate 11 (25 Apr 2020)
 
