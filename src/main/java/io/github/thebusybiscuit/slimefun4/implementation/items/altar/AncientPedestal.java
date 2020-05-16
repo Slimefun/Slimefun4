@@ -28,7 +28,7 @@ public class AncientPedestal extends SlimefunItem {
                 }
             } else {
                 if (stack != null) {
-                    if (listener.isUsing(b, stack.getLocation())) {
+                    if (!listener.isUsing(b, stack.getLocation())) {
                         return false;
                     }
                     stack.removeMetadata("item_placed", SlimefunPlugin.instance);
