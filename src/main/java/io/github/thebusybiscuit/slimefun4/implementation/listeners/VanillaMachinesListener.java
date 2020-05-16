@@ -8,6 +8,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -34,8 +35,9 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGrindstone(InventoryClickEvent e) {
+        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
         // The Grindstone was only ever added in MC 1.14
-        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+        if ((minecraftVersion != MinecraftVersion.UNIT_TEST && !minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14))) {
             return;
         }
 
@@ -44,7 +46,7 @@ public class VanillaMachinesListener implements Listener {
             ItemStack item2 = e.getInventory().getContents()[1];
 
             if (checkForUnallowedItems(item1, item2)) {
-                e.setCancelled(true);
+                e.setResult(Event.Result.DENY);
             }
         }
     }

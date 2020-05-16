@@ -10,6 +10,12 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  */
 public enum MinecraftVersion {
     /**
+     * This is a very special state that represents the environment being a Unit
+     * Test and not an actual running Minecraft Server. This constant stands at
+     * the very top because it is the one with the least features.
+     */
+    UNIT_TEST("Unit Test Environment"),
+    /**
      * This constant represents Minecraft (Java Edition) Version 1.14
      * (The Update Aquatic)
      */

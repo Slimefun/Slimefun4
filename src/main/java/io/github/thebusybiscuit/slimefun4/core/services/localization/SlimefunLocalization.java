@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -82,11 +83,13 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     public String getMessage(Player p, String key) {
         Language language = getLanguage(p);
+        if (language == null) return "语言设置错误";
         return language.getMessages().getString(key);
     }
 
     public List<String> getMessages(Player p, String key) {
         Language language = getLanguage(p);
+        if (language == null) return Arrays.asList("语言设置错误");
         return language.getMessages().getStringList(key);
     }
 

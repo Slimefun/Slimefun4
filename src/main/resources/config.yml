@@ -28,8 +28,6 @@ options:
   # 限制附魔机/祛魔机可承载的附魔等级上限
   # 设置为 0 关闭限制
   enchanter-level-limit: 0
-  # 能源网络最大上限
-  max-network-size: 150
   # 文本语言
   language: zh-CN
   # 启用多语言功能

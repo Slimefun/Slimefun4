@@ -47,27 +47,32 @@ public class LocalizationService extends SlimefunLocalization implements Persist
 
         this.plugin = plugin;
         this.prefix = prefix;
-
-        translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
         languageKey = new NamespacedKey(plugin, LANGUAGE_PATH);
-        defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
 
-        defaultLanguage.setMessages(getConfig().getConfiguration());
+        if (serverDefaultLanguage != null) {
+            translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
 
-        loadEmbeddedLanguages();
+            defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
+            defaultLanguage.setMessages(getConfig().getConfiguration());
 
-        String language = getConfig().getString(LANGUAGE_PATH);
-        if (language == null) language = serverDefaultLanguage;
+            loadEmbeddedLanguages();
 
-        if (hasLanguage(serverDefaultLanguage)) {
-            setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
+            String language = getConfig().getString(LANGUAGE_PATH);
+            if (language == null) language = serverDefaultLanguage;
+
+            if (hasLanguage(serverDefaultLanguage)) {
+                setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
+            } else {
+                setLanguage("en", false);
+                plugin.getLogger().log(Level.WARNING, "无法识别指定的语言: \"{0}\"", serverDefaultLanguage);
+            }
+
+            Slimefun.getLogger().log(Level.INFO, "可用的语言类型: {0}", String.join(", ", languages.keySet()));
+            save();
         } else {
-            setLanguage("en", false);
-            plugin.getLogger().log(Level.WARNING, "无法识别指定的语言: \"{0}\"", serverDefaultLanguage);
+            translationsEnabled = false;
+            defaultLanguage = null;
         }
-
-        Slimefun.getLogger().log(Level.INFO, "目前可用的语言: {0}", String.join(", ", languages.keySet()));
-        save();
     }
 
     /**
@@ -154,7 +159,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
             getConfig().getConfiguration().setDefaults(config);
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file: \"" + path + "\"");
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "无法加载多语言文件: \"" + path + "\"");
         }
 
         save();

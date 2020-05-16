@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -514,9 +513,15 @@ public class SlimefunItem implements Placeable {
         }
 
         // Support for legacy items
-        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else return SlimefunUtils.isItemSimilar(item, this.item, true);
+        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) {
+            return true;
+        } else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) {
+            return true;
+        } else if (id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER")) {
+            return SlimefunUtils.isItemSimilar(item, this.item, false);
+        } else {
+            return SlimefunUtils.isItemSimilar(item, this.item, true);
+        }
     }
 
     /**
@@ -568,6 +573,9 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
+        Validate.notEmpty(settings, "You cannot add zero settings...");
+        Validate.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
+
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");
         }
@@ -777,14 +785,6 @@ public class SlimefunItem implements Placeable {
 
                 return sfi;
             }
-        }
-
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.BROKEN_SPAWNER, false)) {
-            return getByID("BROKEN_SPAWNER");
-        }
-
-        if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-            return getByID("REINFORCED_SPAWNER");
         }
 
         return null;
