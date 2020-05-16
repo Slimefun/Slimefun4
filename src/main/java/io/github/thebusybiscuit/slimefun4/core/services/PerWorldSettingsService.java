@@ -201,7 +201,7 @@ public class PerWorldSettingsService {
     public void save(World world) {
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
-        Config config = new Config(plugin, "world-settings/" + world + ".yml");
+        Config config = getConfig(world);
 
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             if (item != null && item.getID() != null) {
@@ -222,7 +222,7 @@ public class PerWorldSettingsService {
         }
         else {
             Set<String> items = new LinkedHashSet<>();
-            Config config = new Config(plugin, "world-settings/" + name + ".yml");
+            Config config = getConfig(world);
 
             config.getConfiguration().options().header("This file is used to disable certain items in a particular world.\nYou can set any item to 'false' to disable it in the world '" + name + "'.\nYou can also disable an entire addon from Slimefun by setting the respective\nvalue of 'enabled' for that Addon.\n\nItems which are disabled in this world will not show up in the Slimefun Guide.\nYou won't be able to use these items either. Using them will result in a warning message.");
             config.getConfiguration().options().copyHeader(true);
@@ -258,6 +258,10 @@ public class PerWorldSettingsService {
 
             return items;
         }
+    }
+
+    private Config getConfig(World world) {
+        return new Config(plugin, "world-settings/" + world.getName() + ".yml");
     }
 
 }
