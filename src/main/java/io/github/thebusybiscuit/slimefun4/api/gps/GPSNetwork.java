@@ -17,11 +17,13 @@ import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.events.WaypointCreateEvent;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -273,7 +275,7 @@ public class GPSNetwork {
      * @param l
      *            The {@link Location} of the new waypoint
      */
-    public void addWaypoint(Player p, Location l) {
+    public void createWaypoint(Player p, Location l) {
         if ((getWaypoints(p.getUniqueId()).size() + 2) > inventory.length) {
             SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
             return;
@@ -301,15 +303,19 @@ public class GPSNetwork {
             return;
         }
 
-        Config cfg = new Config(WAYPOINTS_DIRECTORY + p.getUniqueId().toString() + ".yml");
-        String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', name)).toUpperCase(Locale.ROOT).replace(' ', '_');
+        WaypointCreateEvent event = new WaypointCreateEvent(p, name, l, name.startsWith("player:death "));
+        Bukkit.getPluginManager().callEvent(event);
+        if (!event.isCancelled()) {
+            Config cfg = new Config(WAYPOINTS_DIRECTORY + p.getUniqueId().toString() + ".yml");
+            String id = ChatColor.stripColor(ChatColors.color(name)).toUpperCase(Locale.ROOT).replace(' ', '_');
 
-        cfg.setValue(id, l);
-        cfg.setValue(id + ".name", name);
-        cfg.save();
+            cfg.setValue(id, l);
+            cfg.setValue(id + ".name", name);
+            cfg.save();
 
-        p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
-        SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.added", true);
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
+            SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.added", true);
+        }
     }
 
     /**

@@ -23,6 +23,7 @@
 * Added Ukrainian translations
 * Added /sf backpack to restore lost backpacks
 * Added automated Unit Tests
+* Added WaypointCreateEvent
 
 #### Changes
 * Little performance improvements
