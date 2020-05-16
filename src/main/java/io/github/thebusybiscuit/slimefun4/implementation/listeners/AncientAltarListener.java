@@ -64,6 +64,11 @@ public class AncientAltarListener implements Listener {
         this.altar = altar;
     }
 
+    /**
+     * This returns all {@link AncientAltar Altars} that are currently in use.
+     * 
+     * @return A {@link Set} of every {@link AncientAltar} currently in use
+     */
     public Set<Location> getAltarsInUse() {
         return altarsInUse;
     }
@@ -170,7 +175,7 @@ public class AncientAltarListener implements Listener {
                                 ItemUtils.consumeItem(p.getInventory().getItemInMainHand(), false);
                             }
 
-                            Slimefun.runSync(new AncientAltarTask(b, result, pedestals, consumed, p), 10L);
+                            Slimefun.runSync(new AncientAltarTask(b, altar.getSpeed(), result, pedestals, consumed, p), 10L);
                         }
                         else {
                             altars.remove(b);

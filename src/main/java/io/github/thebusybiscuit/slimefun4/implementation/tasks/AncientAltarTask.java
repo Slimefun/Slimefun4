@@ -40,6 +40,7 @@ public class AncientAltarTask implements Runnable {
     private final AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
 
     private final Block altar;
+    private final int speed;
     private final Location dropLocation;
     private final ItemStack output;
     private final List<Block> pedestals;
@@ -52,8 +53,9 @@ public class AncientAltarTask implements Runnable {
     private int stage;
     private final Player player;
 
-    public AncientAltarTask(Block altar, ItemStack output, List<Block> pedestals, List<ItemStack> items, Player player) {
+    public AncientAltarTask(Block altar, int speed, ItemStack output, List<Block> pedestals, List<ItemStack> items, Player player) {
         this.dropLocation = altar.getLocation().add(0.5, 1.3, 0.5);
+        this.speed = speed;
         this.altar = altar;
         this.output = output;
         this.pedestals = pedestals;
@@ -88,7 +90,7 @@ public class AncientAltarTask implements Runnable {
         }
 
         this.stage += 1;
-        Slimefun.runSync(this, 8);
+        Slimefun.runSync(this, speed);
     }
 
     private boolean checkLockedItems() {
@@ -148,11 +150,13 @@ public class AncientAltarTask implements Runnable {
 
             AncientAltarCraftEvent event = new AncientAltarCraftEvent(output, altar, player);
             Bukkit.getPluginManager().callEvent(event);
+
             if (!event.isCancelled()) {
                 dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
                 dropLocation.getWorld().playEffect(dropLocation, Effect.STEP_SOUND, Material.EMERALD_BLOCK);
                 dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), event.getItem());
             }
+
             pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
 
             // This should re-enable altar blocks on craft completion.
