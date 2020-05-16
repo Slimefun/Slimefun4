@@ -74,7 +74,7 @@ public class OreWasher extends MultiBlockMachine {
 
                     return;
                 }
-                else if (SlimefunUtils.isItemSimilar(current, new ItemStack(Material.SAND, 4), false)) {
+                else if (SlimefunUtils.isItemSimilar(current, new ItemStack(Material.SAND, 2), false)) {
                     ItemStack output = SlimefunItems.SALT;
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
@@ -82,7 +82,7 @@ public class OreWasher extends MultiBlockMachine {
                         ItemStack removing = current.clone();
                         removing.setAmount(2);
                         inv.removeItem(removing);
-                        outputInv.addItem(output);
+                        outputInv.addItem(output.clone());
                         p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
                         p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
                     }
@@ -98,7 +98,7 @@ public class OreWasher extends MultiBlockMachine {
                         ItemStack removing = current.clone();
                         removing.setAmount(1);
                         inv.removeItem(removing);
-                        outputInv.addItem(output);
+                        outputInv.addItem(output.clone());
                         p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
                         p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
                     }
@@ -111,6 +111,11 @@ public class OreWasher extends MultiBlockMachine {
         SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
     }
 
+    /**
+     * This returns a random dust item from Slimefun.
+     * 
+     * @return A randomly picked dust item
+     */
     public ItemStack getRandomDust() {
         int index = ThreadLocalRandom.current().nextInt(shownRecipes.size() / 2);
         return shownRecipes.get(index * 2 + 1).clone();
