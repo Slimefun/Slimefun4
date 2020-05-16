@@ -28,6 +28,7 @@
 * Little performance improvements
 * Bandages, Rags and Splints will no longer be consumed if your health is full and you are not on fire
 * Player Profiles (researches and stuff) are now loaded completely asynchronously
+* The Infused Magnet can no longer be placed down
 
 #### Fixes
 * Fixed #1824
