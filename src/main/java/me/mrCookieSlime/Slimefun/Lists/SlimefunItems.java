@@ -65,15 +65,14 @@ public final class SlimefunItems {
 
     /* Backpacks */
     public static final ItemStack BACKPACK_SMALL = new SlimefunItemStack("SMALL_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&eSmall Backpack", "", "&7Size: &e9", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
-    public static final ItemStack BACKPACK_MEDIUM = new SlimefunItemStack("MEDIUM_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&eBackpack", "", "&7Size: &e18", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
-    public static final ItemStack BACKPACK_LARGE = new SlimefunItemStack("LARGE_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&eLarge Backpack", "", "&7Size: &e27", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
-    public static final ItemStack WOVEN_BACKPACK = new SlimefunItemStack("WOVEN_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&eWoven Backpack", "", "&7Size: &e36", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
-    public static final ItemStack GILDED_BACKPACK = new SlimefunItemStack("GILDED_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&eGilded Backpack", "", "&7Size: &e45", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
-    public static final ItemStack RADIANT_BACKPACK = new SlimefunItemStack("RADIANT_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&eRadiant Backpack", "", "&7Size: &e54 (Double chest)", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+    public static final ItemStack BACKPACK_MEDIUM = new SlimefunItemStack("MEDIUM_BACKPACK", BACKPACK_SMALL, "&eBackpack", "", "&7Size: &e18", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+    public static final ItemStack BACKPACK_LARGE = new SlimefunItemStack("LARGE_BACKPACK", BACKPACK_SMALL, "&eLarge Backpack", "", "&7Size: &e27", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+    public static final ItemStack WOVEN_BACKPACK = new SlimefunItemStack("WOVEN_BACKPACK", BACKPACK_SMALL, "&eWoven Backpack", "", "&7Size: &e36", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+    public static final ItemStack GILDED_BACKPACK = new SlimefunItemStack("GILDED_BACKPACK", BACKPACK_SMALL, "&eGilded Backpack", "", "&7Size: &e45", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
+    public static final ItemStack RADIANT_BACKPACK = new SlimefunItemStack("RADIANT_BACKPACK", BACKPACK_SMALL, "&eRadiant Backpack", "", "&7Size: &e54 (Double chest)", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
     public static final SlimefunItemStack BOUND_BACKPACK = new SlimefunItemStack("BOUND_BACKPACK", "2a3b34862b9afb63cf8d5779966d3fba70af82b04e83f3eaf6449aeba", "&cSoulbound Backpack", "", "&7Size: &e36", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
     public static final SlimefunItemStack COOLER = new SlimefunItemStack("COOLER", "d4c1572584eb5de229de9f5a4f779d0aacbaffd33bcb33eb4536a6a2bc6a1", "&bCooler", "&rAllows you to store Juices/Smoothies", "&rand automatically consumes them when you are hungry", "&rand you have this in your Inventory", "", "&7Size: &e27", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
-    public static final SlimefunItemStack RESTORED_BACKPACK = new SlimefunItemStack("RESTORED_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&eRestored Backpack", "", "&7Retrieve your lost items", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
-
+    public static final SlimefunItemStack RESTORED_BACKPACK = new SlimefunItemStack("RESTORED_BACKPACK", "9c3681bf8a2738232fb305597f7e2a34a3a5c1356705249e9a365b0bcd04705a", "&eRestored Backpack", "", "&7Retrieve your lost items", "&7ID: <ID>", "", "&7&eRight Click&7 to open");
 
     /* Jetpacks */
     public static final SlimefunItemStack DURALUMIN_JETPACK = new SlimefunItemStack("DURALUMIN_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9Electric Jetpack &7- &eI", "", "&8\u21E8 &7Material: &bDuralumin", "&c&o&8\u21E8 &e\u26A1 &70 / 20 J", "&8\u21E8 &7Thrust: &c0.35", "", "&7Hold &eShift&7 to use");
