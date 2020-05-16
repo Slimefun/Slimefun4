@@ -1,14 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -26,6 +30,7 @@ public class GitHubService {
     private final String repository;
     private final Set<GitHubConnector> connectors;
     private final ConcurrentMap<String, Contributor> contributors;
+    private final Config uuidCache = new Config("plugins/Slimefun/cache/github/uuids.yml");
 
     private boolean logging = false;
 
@@ -64,7 +69,14 @@ public class GitHubService {
     private void addContributor(String name, String role) {
         Contributor contributor = new Contributor(name);
         contributor.setContribution(role, 0);
+        contributor.setUniqueId(uuidCache.getUUID(name));
         contributors.put(name, contributor);
+    }
+
+    protected void addContributor(String name, String profile, String role, int commits) {
+        Contributor contributor = contributors.computeIfAbsent(name, key -> new Contributor(name, profile));
+        contributor.setContribution(role, commits);
+        contributor.setUniqueId(uuidCache.getUUID(name));
     }
 
     private void loadConnectors(boolean logging) {
@@ -178,5 +190,21 @@ public class GitHubService {
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
+    }
+
+    /**
+     * This will store the {@link UUID} of all {@link Contributor Contributors} in memory
+     * in a {@link File} to save requests the next time we iterate over them.
+     */
+    protected void saveUUIDCache() {
+        for (Contributor contributor : contributors.values()) {
+            Optional<UUID> uuid = contributor.getUniqueId();
+
+            if (uuid.isPresent()) {
+                uuidCache.setValue(contributor.getName(), uuid.get());
+            }
+        }
+
+        uuidCache.save();
     }
 }
