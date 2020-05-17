@@ -55,12 +55,17 @@ public class TestResearchUnlocking {
     public void testUnlock(boolean instant) throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
         Player player = server.addPlayer();
-        Research research = new Research(new NamespacedKey(plugin, "instant_unlock"), 1842, "Instant", 500);
+        Research research = new Research(new NamespacedKey(plugin, "unlock_me"), 1842, "Unlock me", 500);
 
         Player p = awaitUnlock(player, research, instant);
         Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
-        server.getPluginManager().assertEventFired(ResearchUnlockEvent.class);
+        server.getPluginManager().assertEventFired(ResearchUnlockEvent.class, event -> {
+            Assertions.assertEquals(player, event.getPlayer());
+            Assertions.assertEquals(research, event.getResearch());
+            Assertions.assertFalse(event.isCancelled());
+            return true;
+        });
         Assertions.assertEquals(player, p);
         Assertions.assertTrue(profile.isPresent());
         Assertions.assertTrue(profile.get().hasUnlocked(research));
