@@ -95,10 +95,12 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
+        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, this::canBreed)) {
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-                    if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
+                    if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) {
+                        return;
+                    }
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                     inv.consumeItem(slot);
@@ -109,6 +111,16 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
                 }
             }
         }
+    }
+
+    private boolean canBreed(Entity n) {
+        if (n.isValid() && n instanceof Animals) {
+            Animals animal = (Animals) n;
+
+            return animal.isAdult() && !animal.isLoveMode();
+        }
+
+        return false;
     }
 
 }

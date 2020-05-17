@@ -15,6 +15,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPede
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.EnderBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SoulboundBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
@@ -252,7 +256,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{null, null, null, null, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkwOTFkNzllYTBmNTllZjdlZjk0ZDdiYmE2ZTVmMTdmMmY3ZDQ1NzJjNDRmOTBmNzZjNDgxOWE3MTQifX19"), "&aIron Golem"), null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK)})
                 .register(plugin);
 
@@ -443,7 +447,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new ItemStack(Material.NETHERRACK, 16), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.resources, (SlimefunItemStack) SlimefunItems.CARBON, RecipeType.COMPRESSOR,
+        new UnplaceableBlock(categories.resources, (SlimefunItemStack) SlimefunItems.CARBON, RecipeType.COMPRESSOR,
                 new ItemStack[]{new ItemStack(Material.COAL, 8), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
@@ -455,11 +459,11 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new CustomItem(SlimefunItems.STEEL_INGOT, 8), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.resources, (SlimefunItemStack) SlimefunItems.COMPRESSED_CARBON, RecipeType.COMPRESSOR,
+        new UnplaceableBlock(categories.resources, (SlimefunItemStack) SlimefunItems.COMPRESSED_CARBON, RecipeType.COMPRESSOR,
                 new ItemStack[]{new CustomItem(SlimefunItems.CARBON, 4), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.resources, (SlimefunItemStack) SlimefunItems.CARBON_CHUNK, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.resources, (SlimefunItemStack) SlimefunItems.CARBON_CHUNK, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, new ItemStack(Material.FLINT), SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON})
                 .register(plugin);
 
@@ -641,7 +645,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.SOLAR_PANEL, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.MEDIUM_CAPACITOR, null, SlimefunItems.MEDIUM_CAPACITOR})
                 .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, (SlimefunItemStack) SlimefunItems.LAVA_CRYSTAL, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.magicalResources, (SlimefunItemStack) SlimefunItems.LAVA_CRYSTAL, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.RUNE_FIRE, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1, new ItemStack(Material.BLAZE_POWDER), SlimefunItems.MAGIC_LUMP_1})
                 .register(plugin);
 
@@ -795,7 +799,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.PULVERIZED_ORE, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.misc, (SlimefunItemStack) SlimefunItems.TINY_URANIUM, RecipeType.ORE_CRUSHER,
+        new UnplaceableBlock(categories.misc, (SlimefunItemStack) SlimefunItems.TINY_URANIUM, RecipeType.ORE_CRUSHER,
                 new ItemStack[]{SlimefunItems.PURE_ORE_CLUSTER, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
@@ -888,56 +892,52 @@ public final class SlimefunItemSetup {
         SlimefunMachine miner = new SlimefunMachine(categories.basicMachines, SlimefunItems.DIGITAL_MINER, "DIGITAL_MINER",
                 new ItemStack[]{SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.DISPENSER), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.HOPPER), new ItemStack(Material.IRON_BLOCK)},
                 new ItemStack[0], BlockFace.SELF);
-        miner.addItemHandler(new MultiBlockInteractionHandler() {
+        miner.addItemHandler((MultiBlockInteractionHandler) (p, mb, b) -> {
+            if (mb.equals(((SlimefunMachine) SlimefunItem.getByID("DIGITAL_MINER")).getMultiBlock())) {
+                p.sendMessage(ChatColor.DARK_RED + "这台机器很快就会被移除!");
+                if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
+                    Block chestBlock = b.getRelative(BlockFace.UP);
 
-            @Override
-            public boolean onInteract(Player p, MultiBlock mb, Block b) {
-                if (mb.equals(((SlimefunMachine) SlimefunItem.getByID("DIGITAL_MINER")).getMultiBlock())) {
-                    p.sendMessage(ChatColor.DARK_RED + "THIS MACHINE WILL SOON BE REMOVED!");
-                    if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
-                        Block chestBlock = b.getRelative(BlockFace.UP);
+                    if (!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL")) &&
+                            !(BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))) {
+                        return false;
+                    }
 
-                        if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL")) &&
-                                !(BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))) {
-                            return false;
-                        }
+                    Chest chest = (Chest) chestBlock.getState();
+                    Inventory inv = chest.getInventory();
+                    List<Location> ores = new ArrayList<>();
 
-                        Chest chest = (Chest) chestBlock.getState();
-                        Inventory inv = chest.getInventory();
-                        List<Location> ores = new ArrayList<>();
-
-                        for (int x = b.getX() - 4; x <= b.getX() + 4; x++) {
-                            for (int z = b.getZ() - 4; z <= b.getZ() + 4; z++) {
-                                for (int y = b.getY(); y > 0; y--) {
-                                    if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
-                                        ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
-                                    }
+                    for (int x = b.getX() - 4; x <= b.getX() + 4; x++) {
+                        for (int z = b.getZ() - 4; z <= b.getZ() + 4; z++) {
+                            for (int y = b.getY(); y > 0; y--) {
+                                if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
+                                    ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
                                 }
                             }
                         }
-                        if (!ores.isEmpty()) {
-                            Material ore = ores.get(0).getBlock().getType();
-                            ItemStack adding = new ItemStack(ore);
-                            ores.get(0).getBlock().setType(Material.AIR);
-                            ores.clear();
-                            if (InvUtils.fits(inv, adding)) {
-                                for (int i = 0; i < 4; i++) {
-                                    int j = i;
-                                    Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-                                        if (j < 3) {
-                                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-                                        } else {
-                                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                            inv.addItem(adding);
-                                        }
-                                    }, i * 20L);
-                                }
-                            } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
-                        } else SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores", true);
                     }
-                    return true;
-                } else return false;
-            }
+                    if (!ores.isEmpty()) {
+                        Material ore = ores.get(0).getBlock().getType();
+                        ItemStack adding = new ItemStack(ore);
+                        ores.get(0).getBlock().setType(Material.AIR);
+                        ores.clear();
+                        if (InvUtils.fits(inv, adding)) {
+                            for (int i = 0; i < 4; i++) {
+                                int j = i;
+                                Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+                                    if (j < 3) {
+                                        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
+                                    } else {
+                                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                                        inv.addItem(adding);
+                                    }
+                                }, i * 20L);
+                            }
+                        } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    } else SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores", true);
+                }
+                return true;
+            } else return false;
         });
         miner.register(plugin);
 
@@ -951,7 +951,7 @@ public final class SlimefunItemSetup {
             @Override
             public boolean onInteract(Player p, MultiBlock mb, Block b) {
                 if (mb.equals(((SlimefunMachine) SlimefunItem.getByID("ADVANCED_DIGITAL_MINER")).getMultiBlock())) {
-                    p.sendMessage(ChatColor.DARK_RED + "THIS MACHINE WILL SOON BE REMOVED!");
+                    p.sendMessage(ChatColor.DARK_RED + "这台机器很快就要被移除!");
                     if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
                         Block chestBlock = b.getRelative(BlockFace.UP);
 
@@ -1071,6 +1071,8 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K, new ItemStack(Material.LEATHER), SlimefunItems.GILDED_BACKPACK, new ItemStack(Material.LEATHER), SlimefunItems.GOLD_24K, null, SlimefunItems.GOLD_24K})
                 .register(plugin);
 
+        new RestoredBackpack(categories.usefulItems).register(plugin);
+
         new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.MAGNET, RecipeType.SMELTERY,
                 new ItemStack[]{SlimefunItems.NICKEL_INGOT, SlimefunItems.ALUMINUM_DUST, SlimefunItems.IRON_DUST, SlimefunItems.COBALT_INGOT, null, null, null, null, null})
                 .register(plugin);
@@ -1091,7 +1093,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_AIR, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_EARTH, SlimefunItems.NECROTIC_SKULL, SlimefunItems.RUNE_FIRE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_WATER, SlimefunItems.ENDER_LUMP_3})
                 .register(plugin);
 
-        new SoulboundBackpack(36, categories.usefulItems, SlimefunItems.BOUND_BACKPACK,
+        new SoulboundBackpack(36, categories.usefulItems, SlimefunItems.BOUND_BACKPACK, RecipeType.MAGIC_WORKBENCH,
                 new ItemStack[]{SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.WOVEN_BACKPACK, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2})
                 .register(plugin);
 
@@ -1215,7 +1217,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.magicalResources, (SlimefunItemStack) SlimefunItems.BROKEN_SPAWNER, new RecipeType(new NamespacedKey(plugin, "pickaxe_of_containment"), SlimefunItems.PICKAXE_OF_CONTAINMENT),
+        new UnplaceableBlock(categories.magicalResources, (SlimefunItemStack) SlimefunItems.BROKEN_SPAWNER, new RecipeType(new NamespacedKey(plugin, "pickaxe_of_containment"), SlimefunItems.PICKAXE_OF_CONTAINMENT),
                 new ItemStack[]{null, null, null, null, new ItemStack(Material.SPAWNER), null, null, null, null})
                 .register(plugin);
 
@@ -2077,7 +2079,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{null, null, null, null, SlimefunItems.BUCKET_OF_OIL, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.ANDROID_MEMORY_CORE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.technicalComponents, SlimefunItems.ANDROID_MEMORY_CORE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.TIN_DUST, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT})
                 .register(plugin);
 

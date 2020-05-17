@@ -57,7 +57,7 @@ public class SlimefunStartupTask implements Runnable {
         }
 
         if (isEnabled("ENERGY_REGULATOR", "CARGO_MANAGER")) {
-            new NetworkListener(plugin);
+            new NetworkListener(plugin, SlimefunPlugin.getNetworkManager());
         }
     }
 

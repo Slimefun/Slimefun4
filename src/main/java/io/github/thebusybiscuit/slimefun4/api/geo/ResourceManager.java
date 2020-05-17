@@ -35,7 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ResourceManager {
 
     private final int[] backgroundSlots = {0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53};
-    private final ItemStack chunkTexture = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ0OWI5MzE4ZTMzMTU4ZTY0YTQ2YWIwZGUxMjFjM2Q0MDAwMGUzMzMyYzE1NzQ5MzJiM2M4NDlkOGZhMGRjMiJ9fX0=");
+    private final ItemStack chunkTexture = SkullItem.fromHash("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2");
     private final Config config;
 
     public ResourceManager(SlimefunPlugin plugin) {
@@ -43,7 +43,8 @@ public class ResourceManager {
     }
 
     void register(GEOResource resource) {
-        boolean enabled = config.getOrSetDefault(resource.getKey().toString().replace(':', '.') + ".enabled", true);
+        String key = resource.getKey().getNamespace() + '.' + resource.getKey().getKey();
+        boolean enabled = config.getOrSetDefault(key + ".enabled", true);
 
         if (enabled) {
             SlimefunPlugin.getRegistry().getGEOResources().add(resource);

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.Plugin;
 
@@ -45,10 +46,16 @@ public class MinecraftRecipeService {
      * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
      */
     public Optional<ItemStack> getFurnaceOutput(ItemStack input) {
+        if (input == null) {
+            return Optional.empty();
+        }
+
         return snapshot.getRecipeOutput(MinecraftRecipe.FURNACE, input);
     }
 
     public RecipeChoice[] getRecipeShape(Recipe recipe) {
+        Validate.notNull(recipe, "Recipe must not be null!");
+
         if (recipe instanceof ShapedRecipe) {
             List<RecipeChoice> choices = new LinkedList<>();
 

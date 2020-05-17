@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.metrics;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bstats.bukkit.Metrics.DrilldownPie;
 
@@ -14,7 +15,7 @@ class SlimefunVersionChart extends DrilldownPie {
             Map<String, Integer> innerMap = new HashMap<>();
 
             innerMap.put(SlimefunPlugin.getVersion(), 1);
-            outerMap.put(SlimefunPlugin.getUpdater().getBranch().getName(), innerMap);
+            outerMap.put(SlimefunBranch.UNOFFICIAL.getName(), innerMap);
 
             return outerMap;
         });

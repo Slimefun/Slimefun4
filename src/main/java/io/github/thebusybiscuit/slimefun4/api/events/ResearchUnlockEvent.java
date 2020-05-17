@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import me.mrCookieSlime.Slimefun.Objects.Research;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;

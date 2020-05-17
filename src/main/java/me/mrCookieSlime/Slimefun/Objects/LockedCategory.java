@@ -1,123 +1,19 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
- * Represents a {@link Category} that cannot be opened until the parent category/categories
- * are fully unlocked.
- * <p>
- * See {@link Category} for the complete documentation.
- *
- * @author TheBusyBiscuit
- *
- * @see Category
- * @see SeasonalCategory
- *
+ * @deprecated Moved to io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory
  */
-public class LockedCategory extends Category {
+@Deprecated
+public class LockedCategory extends io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory {
 
-    private final List<Category> parents;
-
-    /**
-     * The basic constructor for a LockedCategory.
-     * Like {@link Category}, the default tier is automatically set to 3.
-     *
-     * @param key     A unique identifier for this category
-     * @param item    The display item for this category
-     * @param parents The parent categories for this category
-     */
-    public LockedCategory(NamespacedKey key, ItemStack item, Category... parents) {
+    public LockedCategory(NamespacedKey key, ItemStack item, NamespacedKey... parents) {
         this(key, item, 3, parents);
     }
 
-    /**
-     * The constructor for a LockedCategory.
-     *
-     * @param key
-     *            A unique identifier for this category
-     * @param item
-     *            The display item for this category
-     * @param tier
-     *            The tier of this category
-     * @param parents
-     *            The parent categories for this category
-     *
-     */
-    public LockedCategory(NamespacedKey key, ItemStack item, int tier, Category... parents) {
-        super(key, item, tier);
-        this.parents = Arrays.asList(parents);
-    }
-
-    /**
-     * Gets the list of parent categories for this {@link LockedCategory}.
-     *
-     * @return the list of parent categories
-     *
-     * @see #addParent(Category)
-     * @see #removeParent(Category)
-     */
-    public List<Category> getParents() {
-        return parents;
-    }
-
-    /**
-     * Adds a parent {@link Category} to this {@link LockedCategory}.
-     *
-     * @param category
-     *            The {@link Category} to add as a parent
-     *
-     * @see #getParents()
-     * @see #removeParent(Category)
-     */
-    public void addParent(Category category) {
-        if (category == this || category == null) {
-            throw new IllegalArgumentException("Category '" + item.getItemMeta().getDisplayName() + "' cannot be a parent of itself or have a 'null' parent.");
-        }
-
-        parents.add(category);
-    }
-
-    /**
-     * Removes a {@link Category} from the parents of this {@link LockedCategory}.
-     *
-     * @param category
-     *            The {@link Category} to remove from the parents of this {@link LockedCategory}
-     *
-     * @see #getParents()
-     * @see #addParent(Category)
-     */
-    public void removeParent(Category category) {
-        parents.remove(category);
-    }
-
-    /**
-     * Checks if the {@link Player} has fully unlocked all parent categories.
-     *
-     * @param p
-     *            The {@link Player} to check
-     * @param profile
-     *            The {@link PlayerProfile} that belongs to the given {@link Player}
-     * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
-     */
-    public boolean hasUnlocked(Player p, PlayerProfile profile) {
-        for (Category category : parents) {
-            for (SlimefunItem item : category.getItems()) {
-                // Should we replace this all with Slimefun.hasUnlocked() ?
-                if (Slimefun.isEnabled(p, item, false) && Slimefun.hasPermission(p, item, false) && item.getResearch() != null && !profile.hasUnlocked(item.getResearch())) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+    public LockedCategory(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
+        super(key, item, tier, parents);
     }
 }

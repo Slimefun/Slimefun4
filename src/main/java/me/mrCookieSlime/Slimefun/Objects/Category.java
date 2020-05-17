@@ -1,11 +1,13 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -59,6 +61,9 @@ public class Category implements Keyed {
      *            the {@link SlimefunGuide}
      */
     public Category(NamespacedKey key, ItemStack item, int tier) {
+        Validate.notNull(key, "A Category's NamespacedKey must not be null!");
+        Validate.notNull(item, "A Category's ItemStack must not be null!");
+
         this.item = item;
         this.key = key;
 
@@ -90,6 +95,13 @@ public class Category implements Keyed {
      * @param item the {@link SlimefunItem} that should be added to this {@link Category}
      */
     public void add(SlimefunItem item) {
+        Validate.notNull(item, "Cannot add null Items to a Category!");
+
+        if (items.contains(item)) {
+            // Ignore duplicate entries
+            return;
+        }
+
         items.add(item);
     }
 

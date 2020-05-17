@@ -3,9 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -52,10 +52,12 @@ public class BackpackListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
-        if (backpacks.containsKey(e.getPlayer().getUniqueId())) {
-            ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
-            PlayerProfile.getBackpack(backpacks.get(e.getPlayer().getUniqueId())).markDirty();
-            backpacks.remove(e.getPlayer().getUniqueId());
+        Player p = ((Player) e.getPlayer());
+        ItemStack backpack = backpacks.remove(p.getUniqueId());
+
+        if (backpack != null) {
+            p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+            PlayerProfile.getBackpack(backpack, PlayerBackpack::markDirty);
         }
     }
 
@@ -128,7 +130,7 @@ public class BackpackListener implements Listener {
         List<String> lore = item.getItemMeta().getLore();
         for (int line = 0; line < lore.size(); line++) {
             if (lore.get(line).equals(ChatColors.color("&7ID: <ID>"))) {
-                setBackpackId(p, item, line, profile.createBackpack(size).getID());
+                setBackpackId(p, item, line, profile.createBackpack(size).getId());
                 break;
             }
         }
@@ -137,9 +139,7 @@ public class BackpackListener implements Listener {
             p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
             backpacks.put(p.getUniqueId(), item);
 
-            Slimefun.runSync(() -> {
-                PlayerBackpack backpack = PlayerProfile.getBackpack(item);
-
+            PlayerProfile.getBackpack(item, backpack -> {
                 if (backpack != null) {
                     backpack.open(p);
                 }
@@ -149,7 +149,7 @@ public class BackpackListener implements Listener {
         }
     }
 
-    public static void setBackpackId(Player p, ItemStack item, int line, int id) {
+    public void setBackpackId(Player p, ItemStack item, int line, int id) {
         ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         lore.set(line, lore.get(line).replace("<ID>", p.getUniqueId() + "#" + id));

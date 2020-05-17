@@ -33,11 +33,6 @@ public class MetricsService {
     public void start() {
         Metrics metrics = new Metrics(plugin, 4574);
 
-        if (SlimefunPlugin.getUpdater().getBranch().isOfficial()) {
-            // We really do not need this data if it is an unofficially modified build...
-            metrics.addCustomChart(new AutoUpdaterChart());
-        }
-
         metrics.addCustomChart(new ResourcePackChart());
         metrics.addCustomChart(new SlimefunVersionChart());
         metrics.addCustomChart(new ServerLanguageChart());

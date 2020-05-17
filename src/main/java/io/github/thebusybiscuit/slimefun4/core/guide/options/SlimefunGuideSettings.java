@@ -101,7 +101,7 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
-        menu.addItem(49, new CustomItem(Material.REDSTONE_TORCH, "&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.bugs"), "", "&7&oBug 反馈请附上详细信息, 请不要到官方的 Issue 反馈!", "", "&7开启的问题: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7待合并的提交请求: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 &e单击反馈 Bug"), (pl, slot, item, action) -> {
+        menu.addItem(49, new CustomItem(Material.REDSTONE_TORCH, "&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.bugs"), "", "&7&oBug 反馈请附上详细信息, 请不要到官方的 Issue 反馈!", "", "&7开启的问题: &a" + SlimefunPlugin.getGitHubService().getOpenissues(), "&7待合并的提交请求: &a" + SlimefunPlugin.getGitHubService().getPendingPullRequests(), "", "&7\u21E8 &e单击反馈 Bug"), (pl, slot, item, action) -> {
             pl.closeInventory();
             ChatUtils.sendURL(pl, "https://github.com/StarWishsama/Slimefun4/issues");
             return false;

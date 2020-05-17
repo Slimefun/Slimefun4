@@ -1,19 +1,14 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Array;
 import java.util.function.Consumer;
@@ -60,36 +55,4 @@ public interface InventoryBlock {
             }
         };
     }
-
-    @Deprecated
-    default Inventory inject(Block b) {
-        int size = getOutputSlots().length;
-        Inventory inv = Bukkit.createInventory(null, ((int) Math.ceil(size / 9F)) * 9);
-
-        for (int i = 0; i < inv.getSize(); i++) {
-            if (i < size) {
-                inv.setItem(i, BlockStorage.getInventory(b).getItemInSlot(getOutputSlots()[i]));
-            } else {
-                inv.setItem(i, new CustomItem(Material.COMMAND_BLOCK, " &4ALL YOUR PLACEHOLDERS ARE BELONG TO US"));
-            }
-        }
-
-        return inv;
-    }
-
-    @Deprecated
-    default boolean fits(Block b, ItemStack... items) {
-        return inject(b).addItem(items).isEmpty();
-    }
-
-    @Deprecated
-    default void pushItems(Block b, ItemStack... items) {
-        Inventory inv = inject(b);
-        inv.addItem(items);
-
-        for (int i = 0; i < getOutputSlots().length; i++) {
-            BlockStorage.getInventory(b).replaceExistingItem(getOutputSlots()[i], inv.getItem(i));
-        }
-    }
-
 }

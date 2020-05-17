@@ -13,14 +13,14 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
@@ -255,15 +255,6 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * This method returns whether this {@link SlimefunItem} was added by an addon.
-     *
-     * @return Whether this {@link SlimefunItem} was added by an addon.
-     */
-    public final boolean isAddonItem() {
-        return !(addon instanceof SlimefunPlugin);
-    }
-
-    /**
      * This method returns whether this {@link SlimefunItem} is disabled.
      *
      * @return Whether this {@link SlimefunItem} is disabled.
@@ -432,8 +423,8 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipe(ItemStack[] recipe) {
-        if (recipe == null || recipe.length < 9) {
-            throw new IllegalArgumentException("Cannot set a recipe shorter than 9 elements.");
+        if (recipe == null || recipe.length != 9) {
+            throw new IllegalArgumentException("Recipes must be of length 9");
         }
 
         this.recipe = recipe;
@@ -515,12 +506,9 @@ public class SlimefunItem implements Placeable {
         // Support for legacy items
         if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) {
             return true;
-        } else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) {
-            return true;
-        } else if (id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER")) {
-            return SlimefunUtils.isItemSimilar(item, this.item, false);
         } else {
-            return SlimefunUtils.isItemSimilar(item, this.item, true);
+            boolean loreInsensitive = this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+            return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
         }
     }
 
@@ -697,7 +685,11 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        if (addon == null) {
+            return getClass().getSimpleName() + " - '" + id + "'";
+        } else {
+            return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        }
     }
 
     @Override

@@ -14,15 +14,22 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This {@link Listener} is responsible for enforcing the "fuel efficiency" and "fortune" policies
  * of an {@link EnhancedFurnace}.
  *
  * @author TheBusyBiscuit
+ *
  * @see EnhancedFurnace
+ *
  */
 public class EnhancedFurnaceListener implements Listener {
+
+    // This will throttle the spam a bit, enough to irritate Server Owners so they report it
+    // but low enough to not cause them to rage quit
+    private long lastWarning = 0;
 
     public EnhancedFurnaceListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -33,7 +40,14 @@ public class EnhancedFurnaceListener implements Listener {
         SlimefunItem furnace = BlockStorage.check(e.getBlock());
 
         if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
-            e.setBurnTime(((EnhancedFurnace) furnace).getFuelEfficiency() * e.getBurnTime());
+            int burnTime = e.getBurnTime();
+            int newBurnTime = ((EnhancedFurnace) furnace).getFuelEfficiency() * burnTime;
+            e.setBurnTime(newBurnTime);
+
+            if (e.getBurnTime() < burnTime && lastWarning + TimeUnit.MINUTES.toMillis(10) < System.currentTimeMillis()) {
+                lastWarning = System.currentTimeMillis();
+                throw new IllegalStateException("Enhanced Furnace tried to increase burn time but actually decreased it: " + burnTime + " > " + e.getBurnTime() + " (supposed to be " + newBurnTime + ")");
+            }
         }
     }
 

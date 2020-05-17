@@ -10,15 +10,15 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
+import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.VaultHook;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.LockedCategory;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -47,7 +47,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun 指南 &7(书本界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开 设置 / 关于");
     }
 
-    private void openBook(Player p, List<ChatComponent> lines, boolean backButton) {
+    private void openBook(Player p, PlayerProfile profile, List<ChatComponent> lines, boolean backButton) {
         CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
         book.setTitle(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
 
@@ -57,10 +57,10 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             ChatComponent header = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
             header.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
 
-            header.setClickEvent(new ClickEvent(guideSearch, player -> PlayerProfile.get(player, profile -> Slimefun.runSync(() -> {
+            header.setClickEvent(new ClickEvent(guideSearch, player -> Slimefun.runSync(() -> {
                 SlimefunPlugin.getLocal().sendMessage(player, "guide.search.message");
                 ChatInput.waitForPlayer(SlimefunPlugin.instance, player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
-            }, 1))));
+            }, 1)));
 
             page.append(header);
 
@@ -73,7 +73,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             if (backButton) {
                 ChatComponent button = new ChatComponent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"));
                 button.setHoverEvent(new HoverEvent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")));
-                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(PlayerProfile.get(pl), 1)));
+                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(profile, 1)));
                 page.append(button);
             }
 
@@ -131,7 +131,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
         }
 
-        openBook(p, lines, false);
+        openBook(p, profile, lines, false);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                 }
             }
 
-            openBook(p, lines, true);
+            openBook(p, profile, lines, true);
         } else {
             p.sendMessage(ChatColor.RED + "That Category is too big to open :/");
         }

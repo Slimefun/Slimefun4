@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.core.services.localization;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -75,7 +74,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     protected void loadEmbeddedLanguages() {
         for (EmbeddedLanguage lang : EmbeddedLanguage.values()) {
-            if (lang.isReadyForRelease() || SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.STABLE) {
+            if (lang.isReadyForRelease()) {
                 addLanguage(lang.getId(), lang.getTexture());
             }
         }

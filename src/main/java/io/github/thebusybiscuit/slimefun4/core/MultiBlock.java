@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
@@ -34,12 +35,14 @@ public class MultiBlock {
     private static final Set<Tag<Material>> SUPPORTED_TAGS = new HashSet<>();
 
     static {
-        SUPPORTED_TAGS.add(Tag.LOGS);
-        SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
-        SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
+        if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+            SUPPORTED_TAGS.add(Tag.LOGS);
+            SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
+            SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
+            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+                SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
+            }
         }
     }
 
@@ -53,12 +56,17 @@ public class MultiBlock {
     private final boolean isSymmetric;
 
     public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
-        this.item = item;
+        Validate.notNull(item, "A MultiBlock reuquires a SlimefunItem!");
+
+        if (build == null || build.length != 9) {
+            throw new IllegalArgumentException("MultiBlocks must have a length of 9!");
+        }
 
         if (trigger != BlockFace.SELF && trigger != BlockFace.UP && trigger != BlockFace.DOWN) {
             throw new IllegalArgumentException("Multiblock Blockface must be either UP, DOWN or SELF");
         }
 
+        this.item = item;
         this.blocks = build;
         this.trigger = trigger;
         this.isSymmetric = isSymmetric(build);
@@ -88,7 +96,7 @@ public class MultiBlock {
 
         MultiBlock mb = (MultiBlock) obj;
 
-        if (trigger == mb.getTriggerBlock()) {
+        if (trigger == mb.getTriggerBlock() && isSymmetric == mb.isSymmetric) {
             for (int i = 0; i < mb.getStructure().length; i++) {
                 if (!compareBlocks(blocks[i], mb.getStructure()[i])) {
                     return false;

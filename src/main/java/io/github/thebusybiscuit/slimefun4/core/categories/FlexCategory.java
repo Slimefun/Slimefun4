@@ -51,4 +51,14 @@ public abstract class FlexCategory extends Category {
         throw new UnsupportedOperationException("A FlexCategory has no items!");
     }
 
+    @Override
+    public final boolean contains(SlimefunItem item) {
+        throw new UnsupportedOperationException("A FlexCategory has no items!");
+    }
+
+    @Override
+    public final void remove(SlimefunItem item) {
+        throw new UnsupportedOperationException("A FlexCategory has no items, so there is nothing remove!");
+    }
+
 }

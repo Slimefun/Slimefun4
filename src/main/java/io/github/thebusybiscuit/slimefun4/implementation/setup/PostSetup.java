@@ -75,18 +75,18 @@ public final class PostSetup {
         CommandSender sender = Bukkit.getConsoleSender();
 
         int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
-        int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
+        int slimefunOnly = countNonAddonItems();
 
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "成功加载了 " + total + " 个物品和 " + SlimefunPlugin.getRegistry().getResearches().size() + " 个研究");
-        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " 物品来自本体, " + (total - vanilla) + " 个物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 扩展 )");
+        sender.sendMessage(ChatColor.GREEN + "( " + slimefunOnly + " 物品来自本体, " + (total - slimefunOnly) + " 个物品来自 " + SlimefunPlugin.getInstalledAddons().size() + " 扩展 )");
         sender.sendMessage("");
 
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + " - 源码:      https://github.com/StarWishsama/Slimefun4");
-        sender.sendMessage(ChatColor.GREEN + " - Bug 反馈:  https://github.com/TheBusyBiscuit/Slimefun4/issues");
+        sender.sendMessage(ChatColor.GREEN + " - Bug 反馈:  https://github.com/StarWishsama/Slimefun4/issues");
 
         sender.sendMessage("");
 
@@ -94,6 +94,10 @@ public final class PostSetup {
         SlimefunPlugin.getResearchCfg().save();
 
         SlimefunPlugin.getRegistry().setAutoLoadingMode(true);
+    }
+
+    private static int countNonAddonItems() {
+        return (int) SlimefunPlugin.getRegistry().getEnabledSlimefunItems().stream().filter(item -> item.getAddon() instanceof SlimefunPlugin).count();
     }
 
     private static void loadAutomaticCraftingChamber() {

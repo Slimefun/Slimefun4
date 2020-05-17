@@ -5,9 +5,11 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.Plugin;
+
+import java.util.Collection;
 
 /**
  * This Service is responsible for applying custom model data to any {@link SlimefunItemStack}
@@ -15,20 +17,32 @@ import org.bukkit.plugin.Plugin;
  * We simply use {@link ItemMeta#setCustomModelData(Integer)} for this.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class CustomTextureService {
 
     private final Config config;
+
+    private String version = null;
     private boolean modified = false;
 
-    public CustomTextureService(Plugin plugin) {
-        config = new Config(plugin, "item-models.yml");
+    public CustomTextureService(Config config) {
+        this.config = config;
 
-        config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n\n" + "There is no official Slimefun resource pack at the moment.");
+        config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n0 means there is no data assigned to that item.\n\n" + "There is no official Slimefun resource pack at the moment.");
         config.getConfiguration().options().copyHeader(true);
     }
 
-    public void register(Iterable<SlimefunItem> items) {
+    /**
+     * This method registers the given {@link SlimefunItem SlimefunItems} to this {@link CustomTextureService}.
+     * If saving is enabled, it will save them to the {@link Config} file.
+     *
+     * @param items The {@link SlimefunItem SlimefunItems} to register
+     * @param save  Whether to save this file
+     */
+    public void register(Collection<SlimefunItem> items, boolean save) {
+        Validate.notEmpty(items, "items must neither be null or empty.");
+
         config.setDefaultValue("SLIMEFUN_GUIDE", 0);
 
         config.setDefaultValue("_UI_BACKGROUND", 0);
@@ -51,11 +65,15 @@ public class CustomTextureService {
             }
         }
 
-        config.save();
+        version = config.getString("version");
+
+        if (save) {
+            config.save();
+        }
     }
 
     public String getVersion() {
-        return config.getString("version");
+        return version;
     }
 
     public boolean isActive() {
@@ -63,6 +81,7 @@ public class CustomTextureService {
     }
 
     public int getModelData(String id) {
+        Validate.notNull(id, "Cannot get the ModelData for 'null'");
         return config.getInt(id);
     }
 

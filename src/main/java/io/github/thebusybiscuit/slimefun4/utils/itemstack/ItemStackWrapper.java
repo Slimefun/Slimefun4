@@ -17,11 +17,13 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 public final class ItemStackWrapper extends ItemStack {
 
-    private ItemMeta meta;
+    private final ItemMeta meta;
+    private final boolean hasItemMeta;
 
     public ItemStackWrapper(ItemStack item) {
-        super(item.getType(), item.getAmount());
+        super(item.getType());
         meta = item.getItemMeta();
+        hasItemMeta = item.hasItemMeta();
     }
 
     @Override
@@ -35,13 +37,18 @@ public final class ItemStackWrapper extends ItemStack {
     }
 
     @Override
+    public boolean hasItemMeta() {
+        return hasItemMeta;
+    }
+
+    @Override
     public int getAmount() {
         return 1;
     }
 
     @Override
     public boolean equals(Object obj) {
-        throw new UnsupportedOperationException("ItemStackWrapper do not allow .equals()");
+        throw new UnsupportedOperationException("ItemStackWrappers do not allow .equals()");
     }
 
     @Override

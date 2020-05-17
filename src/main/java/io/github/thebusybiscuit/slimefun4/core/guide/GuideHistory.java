@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,6 +31,7 @@ public class GuideHistory {
      * @param profile The {@link PlayerProfile} this {@link GuideHistory} was made for
      */
     public GuideHistory(PlayerProfile profile) {
+        Validate.notNull(profile, "Cannot create a GuideHistory without a PlayerProfile!");
         this.profile = profile;
     }
 
@@ -45,8 +47,10 @@ public class GuideHistory {
      * Should the {@link Category} already be the last element in this {@link GuideHistory},
      * then the entry will be overridden with the new page.
      *
-     * @param category The {@link Category} that should be added to this {@link GuideHistory}
-     * @param page     The current page of the {@link Category} that should be stored
+     * @param category
+     *            The {@link Category} that should be added to this {@link GuideHistory}
+     * @param page
+     *            The current page of the {@link Category} that should be stored
      */
     public void add(Category category, int page) {
         refresh(category, page);
@@ -57,8 +61,10 @@ public class GuideHistory {
      * Should the {@link ItemStack} already be the last element in this {@link GuideHistory},
      * then the entry will be overridden with the new page.
      *
-     * @param item The {@link ItemStack} that should be added to this {@link GuideHistory}
-     * @param page The current page of the recipes of this {@link ItemStack}
+     * @param item
+     *            The {@link ItemStack} that should be added to this {@link GuideHistory}
+     * @param page
+     *            The current page of the recipes of this {@link ItemStack}
      */
     public void add(ItemStack item, int page) {
         refresh(item, page);
@@ -67,25 +73,32 @@ public class GuideHistory {
     /**
      * This method stores the given {@link SlimefunItem} in this {@link GuideHistory}.
      *
-     * @param item The {@link SlimefunItem} that should be added to this {@link GuideHistory}
+     * @param item
+     *            The {@link SlimefunItem} that should be added to this {@link GuideHistory}
      */
     public void add(SlimefunItem item) {
+        Validate.notNull(item, "Cannot add a nonexisting SlimefunItem to the GuideHistory!");
         queue.add(new GuideEntry<>(item, 0));
     }
 
     /**
      * This method stores the given search term in this {@link GuideHistory}.
      *
-     * @param searchTerm The term that the {@link Player} searched for
+     * @param searchTerm
+     *            The term that the {@link Player} searched for
      */
     public void add(String searchTerm) {
+        Validate.notNull(searchTerm, "Cannot add an empty Search Term to the GuideHistory!");
         queue.add(new GuideEntry<>(searchTerm, 0));
     }
 
     private <T> void refresh(T object, int page) {
+        Validate.notNull(object, "Cannot add a null Entry to the GuideHistory!");
+        Validate.isTrue(page >= 0, "page must not be negative!");
+
         GuideEntry<?> lastEntry = getLastEntry(false);
 
-        if (lastEntry != null && lastEntry.getIndexedObject() == object) {
+        if (lastEntry != null && lastEntry.getIndexedObject().equals(object)) {
             lastEntry.setPage(page);
         } else {
             queue.add(new GuideEntry<>(object, page));
@@ -105,7 +118,8 @@ public class GuideHistory {
      * Retrieves the last page in the {@link SlimefunGuide} that was visited by a {@link Player}.
      * Optionally also rewinds the history back to that entry.
      *
-     * @param remove Whether to remove the current entry so it moves back to the entry returned.
+     * @param remove
+     *            Whether to remove the current entry so it moves back to the entry returned.
      * @return The last Guide Entry that was saved to the given Players guide history.
      */
     private GuideEntry<?> getLastEntry(boolean remove) {
@@ -120,8 +134,8 @@ public class GuideHistory {
      * This method opens the last opened entry to the associated {@link PlayerProfile}
      * of this {@link GuideHistory}.
      *
-     * @param guide    The {@link SlimefunGuideImplementation} to use
-     * @param survival Whether the entry should be opened in survival or creative mode
+     * @param guide
+     *            The {@link SlimefunGuideImplementation} to use
      */
     public void openLastEntry(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(false);
@@ -132,11 +146,11 @@ public class GuideHistory {
      * This method opens the previous entry to the associated {@link PlayerProfile}.
      * More precisely, it will remove the last entry and open the second-last entry
      * to the {@link Player}.
-     * <p>
+     *
      * It can be thought of as a "back" button. Since that is what this is used for.
      *
-     * @param guide    The {@link SlimefunGuideImplementation} to use
-     * @param survival Whether the entry should be opened in survival or creative mode
+     * @param guide
+     *            The {@link SlimefunGuideImplementation} to use
      */
     public void goBack(SlimefunGuideImplementation guide) {
         GuideEntry<?> entry = getLastEntry(true);

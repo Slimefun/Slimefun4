@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.network;
 
+import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -17,8 +17,10 @@ import java.util.Set;
  * An abstract Network class to manage networks in a stateful way
  *
  * @author meiamsome
+ *
  * @see NetworkListener
  * @see NetworkManager
+ *
  */
 public abstract class Network {
 
@@ -26,7 +28,7 @@ public abstract class Network {
      * This method returns the range of the {@link Network}.
      * The range determines how far the {@link Network} will search for
      * nearby nodes from any given node.
-     * <p>
+     *
      * It basically translates to the maximum distance between nodes.
      *
      * @return the range of this {@link Network}
@@ -42,20 +44,41 @@ public abstract class Network {
      */
     public abstract NetworkComponent classifyLocation(Location l);
 
+    /**
+     * This method is called whenever a {@link Location} in this {@link Network} changes
+     * its classification.
+     *
+     * @param l    The {@link Location} that is changing its classification
+     * @param from The {@link NetworkComponent} this {@link Location} was previously classified as
+     * @param to   The {@link NetworkComponent} this {@link Location} is changing to
+     */
     public abstract void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
     protected Location regulator;
     private Queue<Location> nodeQueue = new ArrayDeque<>();
 
-    protected Set<Location> connectedLocations = new HashSet<>();
-    protected Set<Location> regulatorNodes = new HashSet<>();
-    protected Set<Location> connectorNodes = new HashSet<>();
-    protected Set<Location> terminusNodes = new HashSet<>();
+    private final NetworkManager manager;
+    protected final Set<Location> connectedLocations = new HashSet<>();
+    protected final Set<Location> regulatorNodes = new HashSet<>();
+    protected final Set<Location> connectorNodes = new HashSet<>();
+    protected final Set<Location> terminusNodes = new HashSet<>();
 
-    protected Network(Location regulator) {
+    protected Network(NetworkManager manager, Location regulator) {
+        this.manager = manager;
         this.regulator = regulator;
+
         connectedLocations.add(regulator);
         nodeQueue.add(regulator.clone());
+    }
+
+    /**
+     * This returns the size of this {@link Network}. It is equivalent to the amount
+     * of {@link Location Locations} connected to this {@link Network}.
+     *
+     * @return The size of this {@link Network}
+     */
+    public int getSize() {
+        return regulatorNodes.size() + connectorNodes.size() + terminusNodes.size();
     }
 
     protected void addLocationToNetwork(Location l) {
@@ -64,16 +87,21 @@ public abstract class Network {
         }
 
         connectedLocations.add(l.clone());
-        handleLocationUpdate(l);
+        markDirty(l);
     }
 
-    public void handleLocationUpdate(Location l) {
+    /**
+     * This method marks the given {@link Location} as dirty and adds it to a {@link Queue}
+     * to handle this update.
+     *
+     * @param l The {@link Location} to update
+     */
+    public void markDirty(Location l) {
         if (regulator.equals(l)) {
-            SlimefunPlugin.getNetworkManager().unregisterNetwork(this);
-            return;
+            manager.unregisterNetwork(this);
+        } else {
+            nodeQueue.add(l.clone());
         }
-
-        nodeQueue.add(l.clone());
     }
 
     /**
@@ -89,7 +117,8 @@ public abstract class Network {
     private NetworkComponent getCurrentClassification(Location l) {
         if (regulatorNodes.contains(l)) {
             return NetworkComponent.REGULATOR;
-        } else if (connectorNodes.contains(l)) {
+        }
+        else if (connectorNodes.contains(l)) {
             return NetworkComponent.CONNECTOR;
         } else if (terminusNodes.contains(l)) {
             return NetworkComponent.TERMINUS;
@@ -99,7 +128,7 @@ public abstract class Network {
     }
 
     private void discoverStep() {
-        int maxSteps = SlimefunPlugin.getNetworkManager().getMaxSize();
+        int maxSteps = manager.getMaxSize();
         int steps = 0;
 
         while (nodeQueue.peek() != null) {
@@ -110,7 +139,7 @@ public abstract class Network {
             if (classification != currentAssignment) {
                 if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR) {
                     // Requires a complete rebuild of the network, so we just throw the current one away.
-                    SlimefunPlugin.getNetworkManager().unregisterNetwork(this);
+                    manager.unregisterNetwork(this);
                     return;
                 } else if (currentAssignment == NetworkComponent.TERMINUS) {
                     terminusNodes.remove(l);
@@ -128,6 +157,7 @@ public abstract class Network {
 
                 onClassificationChange(l, currentAssignment, classification);
             }
+
             steps += 1;
 
             if (steps >= maxSteps) {
@@ -152,6 +182,10 @@ public abstract class Network {
         discoverNeighbors(l, 0.0, 0.0, -1.0);
     }
 
+    /**
+     * This method runs the network visualizer which displays a {@link Particle} on
+     * every {@link Location} that this {@link Network} can connect to.
+     */
     public void display() {
         Slimefun.runSync(() -> {
             DustOptions options = new DustOptions(Color.BLUE, 2F);

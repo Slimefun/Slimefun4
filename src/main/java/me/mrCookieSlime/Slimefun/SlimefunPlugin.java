@@ -9,10 +9,10 @@ import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
-import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.services.*;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
@@ -75,9 +75,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
-    private final CustomTextureService textureService = new CustomTextureService(this);
+    private final CustomTextureService textureService = new CustomTextureService(new Config(this, "item-models.yml"));
     private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
-    private final UpdaterService updaterService = new UpdaterService();
     private final MetricsService metricsService = new MetricsService(this);
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
@@ -139,7 +138,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Setting up Networks
             gpsNetwork = new GPSNetwork();
-            networkManager = new NetworkManager(config.getInt("networks.max-size"));
+
+            int networkSize = config.getInt("networks.max-size");
+
+            if (networkSize < 1) {
+                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
+                networkSize = 1;
+            }
+
+            networkManager = new NetworkManager(networkSize);
 
             // Setting up bStats
             metricsService.start();
@@ -164,6 +171,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new SlimefunItemListener(this);
             new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
+            new CargoNodeListener(this);
             new MultiBlockListener(this);
             new GadgetsListener(this);
             new DispenserListener(this);
@@ -215,8 +223,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
-                textureService.register(registry.getAllSlimefunItems());
-                permissionsService.register(registry.getAllSlimefunItems());
+                textureService.register(registry.getAllSlimefunItems(), true);
+                permissionsService.register(registry.getAllSlimefunItems(), true);
                 recipeService.refresh();
             }), 0);
 
@@ -467,16 +475,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static PerWorldSettingsService getWorldSettingsService() {
         return instance.worldSettingsService;
-    }
-
-    /**
-     * This method returns the {@link UpdaterService} of Slimefun.
-     * It is used to handle automatic updates.
-     *
-     * @return The {@link UpdaterService} for Slimefun
-     */
-    public static UpdaterService getUpdater() {
-        return instance.updaterService;
     }
 
     /**
