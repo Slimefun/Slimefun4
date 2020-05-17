@@ -290,13 +290,6 @@
             <artifactId>MockBukkit</artifactId>
             <version>v1.15-d69d9ca9cb-1</version>
             <scope>test</scope>
-            <exclusions>
-                <!-- We're using JUnit 5, no need to inherit JUnit 4 -->
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
