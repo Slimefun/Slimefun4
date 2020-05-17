@@ -7,7 +7,6 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
@@ -206,7 +205,6 @@ public class TalismanListener implements Listener {
                 for (ItemStack drop : drops) {
                     if (!drop.getType().isBlock()) {
                         int amount = Math.max(1, (dropAmount * 2) - drop.getAmount());
-                        SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.talisman." + ((Talisman) SlimefunItem.getByID(SlimefunItems.TALISMAN_MINER.getItemID())).getSuffix(), true);
                         b.getWorld().dropItemNaturally(b.getLocation(), new CustomItem(drop, amount));
                     }
                 }

@@ -108,7 +108,8 @@ public class Category implements Keyed {
     /**
      * Removes the given {@link SlimefunItem} from this {@link Category}.
      *
-     * @param item the {@link SlimefunItem} that should be removed from this {@link Category}
+     * @param item
+     *            the {@link SlimefunItem} that should be removed from this {@link Category}
      */
     public void remove(SlimefunItem item) {
         items.remove(item);
@@ -118,7 +119,8 @@ public class Category implements Keyed {
      * This method returns a localized display item of this {@link Category}
      * for the specified {@link Player}.
      *
-     * @param p The Player to create this {@link ItemStack} for
+     * @param p
+     *            The Player to create this {@link ItemStack} for
      * @return A localized display item for this {@link Category}
      */
     public ItemStack getItem(Player p) {
@@ -153,6 +155,16 @@ public class Category implements Keyed {
      */
     public List<SlimefunItem> getItems() {
         return items;
+    }
+
+    /**
+     * This method returns whether a given {@link SlimefunItem} exists in this {@link Category}.
+     *
+     * @param item The {@link SlimefunItem} to find
+     * @return Whether the given {@link SlimefunItem} was found in this {@link Category}
+     */
+    public boolean contains(SlimefunItem item) {
+        return item != null && items.contains(item);
     }
 
     /**
