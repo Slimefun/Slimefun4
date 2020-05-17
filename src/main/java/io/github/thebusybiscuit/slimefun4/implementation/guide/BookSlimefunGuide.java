@@ -165,7 +165,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                             openCategory(profile, category, page);
                                         }
                                         else {
-                                            unlockItem(p, item, () -> openCategory(profile, category, page));
+                                            unlockItem(p, item, pl -> openCategory(profile, category, page));
                                         }
                                     }
                                     else SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);

@@ -229,7 +229,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                                     openCategory(profile, category, page);
                                 }
                                 else {
-                                    unlockItem(pl, sfitem, () -> openCategory(profile, category, page));
+                                    unlockItem(pl, sfitem, player -> openCategory(profile, category, page));
                                 }
                             }
                             else {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -196,14 +197,28 @@ public class Research implements Keyed {
     }
 
     /**
+     * This unlocks this {@link Research} for the given {@link Player} without any form of callback.
+     * 
+     * @param p
+     *            The {@link Player} who should unlock this {@link Research}
+     * @param instant
+     *            Whether to unlock it instantly
+     */
+    public void unlock(Player p, boolean instant) {
+        unlock(p, instant, pl -> {});
+    }
+
+    /**
      * Unlocks this {@link Research} for the specified {@link Player}.
      * 
      * @param p
      *            The {@link Player} for which to unlock this {@link Research}
      * @param instant
-     *            Whether to unlock the research instantly
+     *            Whether to unlock this {@link Research} instantly
+     * @param callback
+     *            A callback which will be run when the {@link Research} animation completed
      */
-    public void unlock(Player p, boolean instant) {
+    public void unlock(Player p, boolean instant, Consumer<Player> callback) {
         if (!instant) {
             Slimefun.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
@@ -219,14 +234,14 @@ public class Research implements Keyed {
 
                     if (!event.isCancelled()) {
                         if (instant) {
-                            finishResearch(p, profile);
+                            finishResearch(p, profile, callback);
                         }
                         else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
                             SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
                             playResearchAnimation(p);
 
                             Slimefun.runSync(() -> {
-                                finishResearch(p, profile);
+                                finishResearch(p, profile, callback);
                                 SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().remove(p.getUniqueId());
                             }, (RESEARCH_PROGRESS.length + 1) * 20L);
                         }
@@ -236,9 +251,10 @@ public class Research implements Keyed {
         });
     }
 
-    private void finishResearch(Player p, PlayerProfile profile) {
+    private void finishResearch(Player p, PlayerProfile profile, Consumer<Player> callback) {
         profile.setResearched(this, true);
         SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
+        callback.accept(p);
 
         if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
             FireworkUtils.launchRandom(p, 1);
