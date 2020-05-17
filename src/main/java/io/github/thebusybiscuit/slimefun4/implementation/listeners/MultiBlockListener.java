@@ -38,7 +38,9 @@ public class MultiBlockListener implements Listener {
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
-        if (e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getHand() != EquipmentSlot.HAND) return;
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK || e.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
 
         Player p = e.getPlayer();
         Block b = e.getClickedBlock();
@@ -57,7 +59,7 @@ public class MultiBlockListener implements Listener {
 
             MultiBlock mb = multiblocks.getLast();
             mb.getSlimefunItem().callItemHandler(MultiBlockInteractionHandler.class, handler -> handler.onInteract(p, mb, b));
-            Bukkit.getPluginManager().callEvent(new MultiBlockInteractEvent(p, mb, b));
+            Bukkit.getPluginManager().callEvent(new MultiBlockInteractEvent(p, mb, b, e.getBlockFace()));
         }
     }
 
