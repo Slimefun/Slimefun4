@@ -225,13 +225,11 @@ public class Research implements Keyed {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)).replace("%progress%", "0%"));
             }, 10L);
         }
-
         PlayerProfile.get(p, profile -> {
             if (!profile.hasUnlocked(this)) {
                 Slimefun.runSync(() -> {
                     ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
                     Bukkit.getPluginManager().callEvent(event);
-
                     if (!event.isCancelled()) {
                         if (instant) {
                             finishResearch(p, profile, callback);
@@ -255,7 +253,7 @@ public class Research implements Keyed {
         profile.setResearched(this, true);
         SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
         callback.accept(p);
-
+        
         if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
             FireworkUtils.launchRandom(p, 1);
         }
