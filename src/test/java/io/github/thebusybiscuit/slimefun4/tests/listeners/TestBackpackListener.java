@@ -18,12 +18,9 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TestBackpackListener {
 
@@ -84,14 +81,6 @@ public class TestBackpackListener {
 
         latch.await(2, TimeUnit.SECONDS);
         return ref.get();
-    }
-
-    private class MockBackpack extends SlimefunBackpack {
-
-        public MockBackpack(Category category, String id) {
-            super(BACKPACK_SIZE, category, new SlimefunItemStack(id, Material.CHEST, "&4Mock Backpack", id, "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open"), null, new ItemStack[9]);
-        }
-
     }
 
 }

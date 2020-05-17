@@ -104,7 +104,7 @@ public class SlimefunItem implements Placeable {
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
-        // Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
+        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.category = category;
         this.item = item;
