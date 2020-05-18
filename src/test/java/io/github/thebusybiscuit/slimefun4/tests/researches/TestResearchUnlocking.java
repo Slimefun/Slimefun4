@@ -7,9 +7,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -22,17 +22,17 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestResearchUnlocking {
 
-    private static ServerMock server;
-    private static SlimefunPlugin plugin;
+    private ServerMock server;
+    private SlimefunPlugin plugin;
 
-    @BeforeAll
-    public static void load() throws InterruptedException {
+    @BeforeEach
+    public void load() throws InterruptedException {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 
-    @AfterAll
-    public static void unload() {
+    @AfterEach
+    public void unload() {
         MockBukkit.unmock();
     }
 
@@ -61,11 +61,12 @@ public class TestResearchUnlocking {
         Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
         server.getPluginManager().assertEventFired(ResearchUnlockEvent.class, event -> {
-            Assertions.assertEquals(player, event.getPlayer());
+            Assertions.assertEquals(p, event.getPlayer());
             Assertions.assertEquals(research, event.getResearch());
             Assertions.assertFalse(event.isCancelled());
             return true;
         });
+
         Assertions.assertEquals(player, p);
         Assertions.assertTrue(profile.isPresent());
         Assertions.assertTrue(profile.get().hasUnlocked(research));

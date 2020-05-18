@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.tests.listeners;
 import org.apache.commons.lang.mutable.MutableObject;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.ClickType;
@@ -78,10 +79,12 @@ public class TestVanillaMachinesListener {
     private InventoryClickEvent mockBrewingEvent(ItemStack item) {
         Player player = server.addPlayer();
         Inventory inv = TestUtilities.mockInventory(InventoryType.BREWING);
+        Mockito.when(inv.getHolder()).thenReturn(Mockito.mock(BrewingStand.class));
+        Mockito.when(inv.getSize()).thenReturn(5);
+
         InventoryView view = player.openInventory(inv);
         view.setCursor(item);
         InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 1, ClickType.LEFT, InventoryAction.PICKUP_ONE);
-
         listener.onPreBrew(event);
         return event;
     }
@@ -242,12 +245,12 @@ public class TestVanillaMachinesListener {
     @Test
     public void testBrewingWithoutSlimefunItems() {
         InventoryClickEvent event = mockBrewingEvent(new ItemStack(Material.BLAZE_POWDER));
-        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+        Assertions.assertEquals(Result.ALLOW, event.getResult());
     }
 
     @Test
     public void testBrewingWithSlimefunItem() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_POWDER", new CustomItem(Material.BLAZE_POWDER, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_POWDER", new CustomItem(Material.BLAZE_POWDER, "&6Magic Mock Powder"));
         item.register(plugin);
 
         InventoryClickEvent event = mockBrewingEvent(item.getItem());
@@ -260,6 +263,6 @@ public class TestVanillaMachinesListener {
         item.register(plugin);
 
         InventoryClickEvent event = mockBrewingEvent(item.getItem());
-        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+        Assertions.assertEquals(Result.ALLOW, event.getResult());
     }
 }

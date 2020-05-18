@@ -2,14 +2,12 @@ package io.github.thebusybiscuit.slimefun4.tests.items;
 
 import java.util.Optional;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -77,15 +75,6 @@ public class TestSlimefunItemRegistration {
         Optional<String> wiki = item.getWikipage();
         Assertions.assertTrue(wiki.isPresent());
         Assertions.assertEquals("https://github.com/TheBusyBiscuit/Slimefun4/wiki/Test", wiki.get());
-    }
-
-    @Disabled("This Test provokes a ClassNotFoundException")
-    @Test
-    public void testGetItemName() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_NAME_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
-        item.register(plugin);
-
-        Assertions.assertEquals(ChatColor.RED + "Test", item.getItemName());
     }
 
     @Test
