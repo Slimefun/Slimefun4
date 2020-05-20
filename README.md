@@ -4,7 +4,7 @@ We got everything from magical wands to nuclear reactors.<br>
 We feature a magical altar, an electric power grid and even item transport systems.
 
 This project originally started back in 2013 and has grown ever since.<br>
-From one single person working on this plugin back then, we grew to a community of thousands of players and over 100 of contributors to this project.<br>
+From one single person working on this plugin back then, we grew to a community of thousands of players and over 100 contributors to this project.<br>
 It currently adds over **500 new items and recipes** to Minecraft ([Read more about the history of this project](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Slimefun-in-a-nutshell)).
 
 But it also comes with a lot of Addons too!<br>
