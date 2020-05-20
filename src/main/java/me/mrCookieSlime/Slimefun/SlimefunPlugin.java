@@ -107,7 +107,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
 
-    private final boolean isTestEnvironment;
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
@@ -146,19 +145,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public SlimefunPlugin() {
         super();
-        isTestEnvironment = false;
     }
 
     public SlimefunPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
         super(loader, description, dataFolder, file);
-        isTestEnvironment = true;
+        minecraftVersion = MinecraftVersion.UNIT_TEST;
     }
 
     @Override
     public void onEnable() {
-        if (isTestEnvironment) {
+        if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             instance = this;
-            minecraftVersion = MinecraftVersion.UNIT_TEST;
             local = new LocalizationService(this, "", null);
         }
         else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
@@ -368,7 +365,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         // Slimefun never loaded successfully, so we don't even bother doing stuff here
-        if (instance == null || isTestEnvironment) {
+        if (instance == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
             return;
         }
 
