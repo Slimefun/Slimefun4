@@ -23,8 +23,10 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.events.WaypointCreateEvent;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -331,10 +333,22 @@ public class GPSNetwork {
         return transmitters.getOrDefault(uuid, new HashSet<>());
     }
 
+    /**
+     * This returns the {@link TeleportationManager} for this {@link GPSNetwork}.
+     * It is responsible for all actions that relate to the {@link Teleporter}.
+     * 
+     * @return The {@link TeleportationManager} for this {@link GPSNetwork}
+     */
     public TeleportationManager getTeleportationManager() {
         return teleportation;
     }
 
+    /**
+     * This returns the {@link ResourceManager} for this {@link GPSNetwork}.
+     * Use this to access {@link GEOResource GEOResources}.
+     * 
+     * @return The {@link ResourceManager} for this {@link GPSNetwork}
+     */
     public ResourceManager getResourceManager() {
         return resourceManager;
     }
