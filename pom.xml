@@ -288,7 +288,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit</artifactId>
-            <version>v1.15-431f3a3fbc-1</version>
+            <version>v1.15-c9f97a74a7-1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -316,7 +316,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.1.0</version>
+            <version>7.2.0-SNAPSHOT</version>
             <scope>provided</scope>
             <exclusions>
                 <!-- This one is ignored because it pops up everytime -->
