@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
@@ -172,6 +176,38 @@ public final class SlimefunUtils {
      */
     public static boolean isRadioactive(ItemStack item) {
         return SlimefunItem.getByItem(item) instanceof Radioactive;
+    }
+
+    /**
+     * This method returns an {@link ItemStack} for the given texture.
+     * The result will be a Player Head with this texture.
+     * 
+     * @param texture
+     *            The texture for this head (base64 or hash)
+     * @return An {@link ItemStack} with this Head texture
+     */
+    public static ItemStack getCustomHead(String texture) {
+        if (SlimefunPlugin.instance == null) {
+            throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
+        }
+
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            // com.mojang.authlib.GameProfile does not exist in a Test Environment
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+
+        String base64 = texture;
+
+        if (!texture.startsWith("ey")) {
+            if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+                base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
+            }
+            else {
+                throw new IllegalArgumentException("The provided texture (" + texture + ") does not seem to be a valid texture String!");
+            }
+        }
+
+        return SkullItem.fromBase64(base64);
     }
 
     public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {

@@ -19,8 +19,8 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -52,7 +52,7 @@ public final class TeleportationManager {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(4, new CustomItem(SkullItem.fromHash("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56"), ChatColor.YELLOW + SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.gui.title")));
+        menu.addItem(4, new CustomItem(SlimefunUtils.getCustomHead("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56"), ChatColor.YELLOW + SlimefunPlugin.getLocal().getMessage(p, "machines.TELEPORTER.gui.title")));
         menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
         Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);

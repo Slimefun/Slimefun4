@@ -22,11 +22,11 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.events.WaypointCreateEvent;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -55,10 +55,10 @@ public class GPSNetwork {
     private final TeleportationManager teleportation = new TeleportationManager(this);
     private final ResourceManager resourceManager = new ResourceManager(SlimefunPlugin.instance);
 
-    private final ItemStack deathpointIcon = SkullItem.fromHash("1ae3855f952cd4a03c148a946e3f812a5955ad35cbcb52627ea4acd47d3081");
-    private final ItemStack netherIcon = SkullItem.fromHash("d83571ff589f1a59bb02b80800fc736116e27c3dcf9efebede8cf1fdde");
-    private final ItemStack endIcon = SkullItem.fromHash("c6cac59b2aae489aa0687b5d802b2555eb14a40bd62b21eb116fa569cdb756");
-    private final ItemStack worldIcon = SkullItem.fromHash("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56");
+    private final ItemStack deathpointIcon = SlimefunUtils.getCustomHead("1ae3855f952cd4a03c148a946e3f812a5955ad35cbcb52627ea4acd47d3081");
+    private final ItemStack netherIcon = SlimefunUtils.getCustomHead("d83571ff589f1a59bb02b80800fc736116e27c3dcf9efebede8cf1fdde");
+    private final ItemStack endIcon = SlimefunUtils.getCustomHead("c6cac59b2aae489aa0687b5d802b2555eb14a40bd62b21eb116fa569cdb756");
+    private final ItemStack worldIcon = SlimefunUtils.getCustomHead("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56");
 
     /**
      * This method updates the status of a {@link GPSTransmitter}.

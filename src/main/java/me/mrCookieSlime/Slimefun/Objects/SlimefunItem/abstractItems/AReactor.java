@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
@@ -82,7 +81,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
-                    menu.replaceExistingItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
+                    menu.replaceExistingItem(4, new CustomItem(SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730"), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
                     menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "reactor-mode", "production");
                         newInstance(menu, b);

@@ -22,9 +22,9 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -116,7 +116,7 @@ abstract class Android extends SlimefunItem {
                 int additional = commands.length == 54 ? 0 : 1;
 
                 if (additional == 1) {
-                    menu.addItem(i, new CustomItem(SkullItem.fromHash("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"), "&7> Add new Command"));
+                    menu.addItem(i, new CustomItem(SlimefunUtils.getCustomHead("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"), "&7> Add new Command"));
                     menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                         openScriptComponentEditor(pl, b, script, index);
                         return false;
@@ -200,7 +200,7 @@ abstract class Android extends SlimefunItem {
             return false;
         });
 
-        menu.addItem(48, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
+        menu.addItem(48, new CustomItem(SlimefunUtils.getCustomHead("105a2cab8b68ea57e3af992a36e47c8ff9aa87cc8776281966f8c3cf31a38"), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
         menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
             uploadScript(pl, b, page);
             return false;
@@ -216,7 +216,7 @@ abstract class Android extends SlimefunItem {
             return false;
         });
 
-        menu.addItem(53, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
+        menu.addItem(53, new CustomItem(SlimefunUtils.getCustomHead("185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e"), "&6> Back", "", "&7Return to the Android's interface"));
         menu.addMenuClickHandler(53, (pl, slot, item, action) -> {
             openScriptEditor(pl, b);
             return false;
@@ -338,25 +338,25 @@ abstract class Android extends SlimefunItem {
     public void openScriptEditor(Player p, Block b) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
 
-        menu.addItem(1, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdits your current Script"));
+        menu.addItem(1, new CustomItem(SlimefunUtils.getCustomHead("d9bf6db4aeda9d8822b9f736538e8c18b9a4844f84eb45504adfbfee87eb"), "&2> Edit Script", "", "&aEdits your current Script"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             openScript(pl, b, getScript(b.getLocation()));
             return false;
         });
 
-        menu.addItem(3, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTcxZDg5NzljMTg3OGEwNTk4N2E3ZmFmMjFiNTZkMWI3NDRmOWQwNjhjNzRjZmZjZGUxZWExZWRhZDU4NTIifX19"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"));
+        menu.addItem(3, new CustomItem(SlimefunUtils.getCustomHead("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"));
         menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
             openScript(pl, b, "START-TURN_LEFT-REPEAT");
             return false;
         });
 
-        menu.addItem(5, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAxNTg2ZTM5ZjZmZmE2M2I0ZmIzMDFiNjVjYTdkYThhOTJmNzM1M2FhYWI4OWQzODg2NTc5MTI1ZGZiYWY5In19fQ=="), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"));
+        menu.addItem(5, new CustomItem(SlimefunUtils.getCustomHead("c01586e39f6ffa63b4fb301b65ca7da8a92f7353aaab89d3886579125dfbaf9"), "&6> Download a Script", "", "&eDownload a Script from the Server", "&eYou can edit or simply use it"));
         menu.addMenuClickHandler(5, (pl, slot, item, action) -> {
             openScriptDownloader(pl, b, 1);
             return false;
         });
 
-        menu.addItem(8, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTE4NWM5N2RiYjgzNTNkZTY1MjY5OGQyNGI2NDMyN2I3OTNhM2YzMmE5OGJlNjdiNzE5ZmJlZGFiMzVlIn19fQ=="), "&6> Back", "", "&7Return to the Android's interface"));
+        menu.addItem(8, new CustomItem(SlimefunUtils.getCustomHead("a185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e"), "&6> Back", "", "&7Return to the Android's interface"));
         menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
             BlockStorage.getInventory(b).open(p);
             return false;
@@ -434,7 +434,7 @@ abstract class Android extends SlimefunItem {
 
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
-        menu.addItem(9, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&rDo nothing"), (pl, slot, item, action) -> {
+        menu.addItem(9, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&rDo nothing"), (pl, slot, item, action) -> {
             int i = 0;
             StringBuilder builder = new StringBuilder("START-");
 

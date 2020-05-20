@@ -10,8 +10,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -81,7 +81,7 @@ public class CargoInputNode extends SlimefunItem {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "round-robin") == null || BlockStorage.getLocationInfo(b.getLocation(), "round-robin").equals("false")) {
-                    menu.replaceExistingItem(24, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+                    menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
                     menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "round-robin", "true");
                         newInstance(menu, b);
@@ -89,7 +89,7 @@ public class CargoInputNode extends SlimefunItem {
                     });
                 }
                 else {
-                    menu.replaceExistingItem(24, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+                    menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
                     menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "round-robin", "false");
                         newInstance(menu, b);
@@ -114,7 +114,7 @@ public class CargoInputNode extends SlimefunItem {
                     });
                 }
 
-                menu.replaceExistingItem(41, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
+                menu.replaceExistingItem(41, new CustomItem(SlimefunUtils.getCustomHead("f2599bd986659b8ce2c4988525c94e19ddd39fad08a38284a197f1b70675acc"), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
                 menu.addMenuClickHandler(41, (p, slot, item, action) -> {
                     int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
                     if (channel < 0) {
@@ -129,7 +129,7 @@ public class CargoInputNode extends SlimefunItem {
                 int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0 : (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
 
                 if (channel == 16) {
-                    menu.replaceExistingItem(42, new CustomItem(SkullItem.fromHash("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&bChannel ID: &3" + (channel + 1)));
+                    menu.replaceExistingItem(42, new CustomItem(SlimefunUtils.getCustomHead("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&bChannel ID: &3" + (channel + 1)));
                     menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
                 }
                 else {
@@ -137,7 +137,7 @@ public class CargoInputNode extends SlimefunItem {
                     menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
                 }
 
-                menu.replaceExistingItem(43, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
+                menu.replaceExistingItem(43, new CustomItem(SlimefunUtils.getCustomHead("c2f910c47da042e4aa28af6cc81cf48ac6caf37dab35f88db993accb9dfe516"), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
                 menu.addMenuClickHandler(43, (p, slot, item, action) -> {
                     int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
 

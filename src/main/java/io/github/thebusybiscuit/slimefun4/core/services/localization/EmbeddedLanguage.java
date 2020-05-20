@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * This enum holds info about a {@link Language} that is embedded in our resources folder.
  * Every enum constant holds the key of that {@link Language} as well as a texture hash
- * for the {@link SkullItem} to display.
+ * for the {@link ItemStack} to display.
  * 
  * @author TheBusyBiscuit
  * 

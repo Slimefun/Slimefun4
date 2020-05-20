@@ -17,11 +17,11 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -40,7 +40,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class ResourceManager {
 
     private final int[] backgroundSlots = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53 };
-    private final ItemStack chunkTexture = SkullItem.fromHash("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2");
+    private final ItemStack chunkTexture = SlimefunUtils.getCustomHead("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2");
     private final Config config;
 
     public ResourceManager(SlimefunPlugin plugin) {

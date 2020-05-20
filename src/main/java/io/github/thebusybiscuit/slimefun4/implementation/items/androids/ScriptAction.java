@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 enum ScriptAction {
 
@@ -58,7 +58,7 @@ enum ScriptAction {
 
     ScriptAction(AndroidType type, String texture) {
         this.type = type;
-        this.item = SkullItem.fromHash(texture);
+        this.item = SlimefunUtils.getCustomHead(texture);
     }
 
     public ItemStack getItem() {

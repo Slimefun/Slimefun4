@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
@@ -19,6 +18,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
@@ -73,7 +73,7 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
-        menu.addItem(2, new CustomItem(SkullItem.fromHash("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"), "&c" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"), "", "&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(), "", "&7Slimefun is an open-source project", "&7and maintained by a large community of people.", "&7Here you can see who helped shape the project.", "", "&7\u21E8 &eClick to see our contributors"), (pl, slot, action, item) -> {
+        menu.addItem(2, new CustomItem(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"), "&c" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"), "", "&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(), "", "&7Slimefun is an open-source project", "&7and maintained by a large community of people.", "&7Here you can see who helped shape the project.", "", "&7\u21E8 &eClick to see our contributors"), (pl, slot, action, item) -> {
             ContributorsMenu.open(pl, 0);
             return false;
         });

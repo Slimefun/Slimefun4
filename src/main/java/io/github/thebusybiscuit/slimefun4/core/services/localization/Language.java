@@ -8,9 +8,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
@@ -46,7 +46,7 @@ public final class Language {
         Validate.notNull(hash, "A Language must have a texture that is not null!");
 
         this.id = id;
-        this.item = SkullItem.fromHash(hash);
+        this.item = SlimefunUtils.getCustomHead(hash);
 
         SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase(Locale.ROOT));
     }
