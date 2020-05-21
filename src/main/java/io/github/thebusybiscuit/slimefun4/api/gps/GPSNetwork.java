@@ -276,7 +276,6 @@ public class GPSNetwork {
      *            The {@link Location} of this waypoint
      */
     public void addWaypoint(Player p, String name, Location l) {
-        System.out.println(name);
         PlayerProfile.get(p, profile -> {
             if ((profile.getWaypoints().size() + 2) > inventory.length) {
                 SlimefunPlugin.getLocal().sendMessage(p, "gps.waypoint.max", true);
