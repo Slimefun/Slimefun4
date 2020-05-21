@@ -52,6 +52,7 @@
 * Fixed some very weird SkullMeta serialization problems in 1.15
 * Fixed #1914
 * Fixed file errors with PerWorldSettingsService
+* Fixed ChestTerminals deleting items from Cargo networks (TheBusyBiscuit/ChestTerminal#25)
 
 ## Release Candidate 11 (25 Apr 2020)
 

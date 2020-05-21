@@ -29,6 +29,15 @@ final class CargoUtils {
 
     private CargoUtils() {}
 
+    /**
+     * This is a performance-saving shortcut to quickly test whether a given
+     * {@link Block} might be an {@link InventoryHolder} or not.
+     * 
+     * @param block
+     *            The {@link Block} to check
+     * 
+     * @return Whether this {@link Block} represents a {@link BlockState} that is an {@link InventoryHolder}
+     */
     static boolean hasInventory(Block block) {
         if (block == null) {
             return false;
@@ -79,6 +88,7 @@ final class CargoUtils {
                     return withdrawFromVanillaInventory(node, template, ((InventoryHolder) state).getInventory());
                 }
             }
+
             return null;
         }
 
@@ -90,7 +100,7 @@ final class CargoUtils {
             if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(node, is, -1)) {
                 if (is.getAmount() > template.getAmount()) {
                     is.setAmount(is.getAmount() - template.getAmount());
-                    menu.replaceExistingItem(slot, is);
+                    menu.replaceExistingItem(slot, is.clone());
                     return template;
                 }
                 else {
@@ -128,8 +138,9 @@ final class CargoUtils {
                     return template;
                 }
                 else {
-                    itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
-                    return itemInSlot;
+                    ItemStack clone = itemInSlot.clone();
+                    itemInSlot.setAmount(0);
+                    return clone;
                 }
             }
         }
