@@ -178,7 +178,6 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         String prefix = addPrefix ? getPrefix() : "";
 
         if (sender instanceof Player) {
-            System.out.println(function.apply(getMessage((Player) sender, key)));
             sender.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) sender, key))));
         }
         else {
