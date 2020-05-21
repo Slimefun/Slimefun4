@@ -66,6 +66,19 @@ public class TestWaypoints {
     }
 
     @Test
+    public void testWaypointAlreadyExisting() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        Waypoint waypoint = new Waypoint(profile, "test", player.getLocation(), "Testing");
+        profile.addWaypoint(waypoint);
+
+        Assertions.assertEquals(1, profile.getWaypoints().size());
+        Assertions.assertThrows(IllegalArgumentException.class, () -> profile.addWaypoint(waypoint));
+        Assertions.assertEquals(1, profile.getWaypoints().size());
+    }
+
+    @Test
     public void testTooManyWaypoints() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
@@ -87,5 +100,33 @@ public class TestWaypoints {
 
         network.addWaypoint(player, "Hello world", player.getLocation());
         server.getPluginManager().assertEventFired(WaypointCreateEvent.class, event -> event.getPlayer() == player);
+    }
+
+    @Test
+    public void testWaypointComparison() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        Waypoint waypoint = new Waypoint(profile, "waypoint", player.getLocation(), "Test");
+        Waypoint same = new Waypoint(profile, "waypoint", player.getLocation(), "Test");
+        Waypoint different = new Waypoint(profile, "waypoint_nope", player.getLocation(), "Test2");
+
+        Assertions.assertEquals(waypoint, same);
+        Assertions.assertEquals(waypoint.hashCode(), same.hashCode());
+
+        Assertions.assertNotEquals(waypoint, different);
+        Assertions.assertNotEquals(waypoint.hashCode(), different.hashCode());
+    }
+
+    @Test
+    public void testIsDeathpoint() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        Waypoint waypoint = new Waypoint(profile, "waypoint", player.getLocation(), "Some Waypoint");
+        Waypoint deathpoint = new Waypoint(profile, "deathpoint", player.getLocation(), "player:death I died");
+
+        Assertions.assertFalse(waypoint.isDeathpoint());
+        Assertions.assertTrue(deathpoint.isDeathpoint());
     }
 }

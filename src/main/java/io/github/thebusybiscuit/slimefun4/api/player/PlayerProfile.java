@@ -204,6 +204,12 @@ public final class PlayerProfile {
     public void addWaypoint(Waypoint waypoint) {
         Validate.notNull(waypoint, "Cannot add a 'null' waypoint!");
 
+        for (Waypoint wp : waypoints) {
+            if (wp.getId().equals(waypoint.getId())) {
+                throw new IllegalArgumentException("A Waypoint with that id already exists for this Player");
+            }
+        }
+
         if (waypoints.size() < 21) {
             waypoints.add(waypoint);
 
