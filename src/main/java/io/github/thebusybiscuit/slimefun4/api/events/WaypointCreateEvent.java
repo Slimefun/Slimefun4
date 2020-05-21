@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.gps.TeleportationManager;
+import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 
 /**
  * A {@link WaypointCreateEvent} is called when a {@link Player} creates a new waypoint.
@@ -18,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.gps.TeleportationManager;
  * 
  * @see GPSNetwork
  * @see TeleportationManager
+ * @see Waypoint
  *
  */
 public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
@@ -38,7 +40,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
         return handlers;
     }
 
-    public WaypointCreateEvent(Player player, String name, Location location, boolean deathpoint) {
+    public WaypointCreateEvent(Player player, String name, Location location) {
         super(player);
 
         Validate.notNull(location, "Location must not be null!");
@@ -46,7 +48,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
 
         this.location = location;
         this.name = name;
-        this.deathpoint = deathpoint;
+        this.deathpoint = name.startsWith("player:death ");
     }
 
     /**

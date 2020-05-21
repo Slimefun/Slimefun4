@@ -462,7 +462,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
             });
         }
 
-        ItemStack generator = SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730=");
+        ItemStack generator = SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730");
 
         if (getTier() == 1) {
             preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on solid Fuel", "&re.g. Coal, Wood, etc..."), ChestMenuUtils.getEmptyClickHandler());
