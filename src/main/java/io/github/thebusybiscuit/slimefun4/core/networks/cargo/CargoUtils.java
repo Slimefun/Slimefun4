@@ -380,7 +380,7 @@ final class CargoUtils {
      *
      * @return The slot indexes for the whutelist/blacklist section.
      */
-    public static int[] getSlots() {
+    public static int[] getWhitelistBlacklistSlots() {
         return SLOTS;
     }
 }

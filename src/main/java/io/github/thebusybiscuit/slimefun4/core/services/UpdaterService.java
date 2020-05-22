@@ -25,7 +25,7 @@ public class UpdaterService {
     private final SlimefunPlugin plugin;
     private final Updater updater;
     private final SlimefunBranch branch;
-    private final int buildNum;
+    private final int buildNumber;
 
     /**
      * This will create a new {@link UpdaterService} for the given {@link SlimefunPlugin}.
@@ -45,7 +45,7 @@ public class UpdaterService {
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
             branch = SlimefunBranch.UNOFFICIAL;
-            this.buildNum = -1;
+            this.buildNumber = -1;
         }
         else if (version.startsWith("DEV - ")) {
             // If we are using a development build, we want to switch to our custom
@@ -58,7 +58,7 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.DEVELOPMENT;
-            this.buildNum = NumberUtils.getInt(version.substring(6, version.indexOf(' ', 6)), -1);
+            this.buildNumber = NumberUtils.getInt(version.substring(6, version.indexOf(' ', 6)), -1);
         }
         else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
@@ -70,11 +70,11 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.STABLE;
-            this.buildNum = NumberUtils.getInt(version.substring(5, version.indexOf(' ', 5)), -1);
+            this.buildNumber = NumberUtils.getInt(version.substring(5, version.indexOf(' ', 5)), -1);
         }
         else {
             branch = SlimefunBranch.UNKNOWN;
-            this.buildNum = -1;
+            this.buildNumber = -1;
         }
 
         this.updater = autoUpdater;
@@ -98,8 +98,8 @@ public class UpdaterService {
      *
      * @return The build number of this Slimefun.
      */
-    public int getBuildNum() {
-        return buildNum;
+    public int getBuildNumber() {
+        return buildNumber;
     }
 
     /**

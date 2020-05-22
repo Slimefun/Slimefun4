@@ -34,7 +34,7 @@ public class TestUpdaterService {
         UpdaterService service = new UpdaterService(plugin, "DEV - 131 (git 123456)", file);
         Assertions.assertEquals(SlimefunBranch.DEVELOPMENT, service.getBranch());
         Assertions.assertTrue(service.getBranch().isOfficial());
-        Assertions.assertEquals(131, service.getBuildNum());
+        Assertions.assertEquals(131, service.getBuildNumber());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class TestUpdaterService {
         UpdaterService service = new UpdaterService(plugin, "RC - 6 (git 123456)", file);
         Assertions.assertEquals(SlimefunBranch.STABLE, service.getBranch());
         Assertions.assertTrue(service.getBranch().isOfficial());
-        Assertions.assertEquals(6, service.getBuildNum());
+        Assertions.assertEquals(6, service.getBuildNumber());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class TestUpdaterService {
         UpdaterService service = new UpdaterService(plugin, "4.20 UNOFFICIAL", file);
         Assertions.assertEquals(SlimefunBranch.UNOFFICIAL, service.getBranch());
         Assertions.assertFalse(service.getBranch().isOfficial());
-        Assertions.assertEquals(-1, service.getBuildNum());
+        Assertions.assertEquals(-1, service.getBuildNumber());
     }
 
     @Test
@@ -58,6 +58,6 @@ public class TestUpdaterService {
         UpdaterService service = new UpdaterService(plugin, "I am special", file);
         Assertions.assertEquals(SlimefunBranch.UNKNOWN, service.getBranch());
         Assertions.assertFalse(service.getBranch().isOfficial());
-        Assertions.assertEquals(-1, service.getBuildNum());
+        Assertions.assertEquals(-1, service.getBuildNumber());
     }
 }
