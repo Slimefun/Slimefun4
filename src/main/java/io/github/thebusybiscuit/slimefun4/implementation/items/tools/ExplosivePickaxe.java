@@ -1,13 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -55,6 +59,7 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                         e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
                         e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
 
+                        List<Block> blocks = new ArrayList<>();
                         for (int x = -1; x <= 1; x++) {
                             for (int y = -1; y <= 1; y++) {
                                 for (int z = -1; z <= 1; z++) {
@@ -63,10 +68,15 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                                         continue;
                                     }
 
-                                    Block b = e.getBlock().getRelative(x, y, z);
-                                    breakBlock(e.getPlayer(), item, b, fortune, drops);
+                                    blocks.add(e.getBlock().getRelative(x, y, z));
                                 }
                             }
+                        }
+
+                        BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(e.getBlock(), blocks, 0);
+                        Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
+                        if (!blockExplodeEvent.isCancelled()) {
+                            blockExplodeEvent.blockList().forEach(b -> breakBlock(e.getPlayer(), item, b, fortune, drops));
                         }
                     }
 

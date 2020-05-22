@@ -1,12 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
@@ -57,6 +61,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
                         e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
                         e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
 
+                        List<Block> blocks = new ArrayList<>();
                         for (int x = -1; x <= 1; x++) {
                             for (int y = -1; y <= 1; y++) {
                                 for (int z = -1; z <= 1; z++) {
@@ -64,24 +69,30 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
                                         continue;
                                     }
 
-                                    Block b = e.getBlock().getRelative(x, y, z);
-
-                                    if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-                                        SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
-
-                                        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-
-                                        for (ItemStack drop : b.getDrops(getItem())) {
-                                            if (drop != null) {
-                                                b.getWorld().dropItemNaturally(b.getLocation(), drop);
-                                            }
-                                        }
-
-                                        b.setType(Material.AIR);
-                                        damageItem(e.getPlayer(), item);
-                                    }
+                                    blocks.add(e.getBlock().getRelative(x, y, z));
                                 }
                             }
+                        }
+
+                        BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(e.getBlock(), blocks, 0);
+                        Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
+                        if (!blockExplodeEvent.isCancelled()) {
+                            blockExplodeEvent.blockList().forEach(b -> {
+                                if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+                                    SlimefunPlugin.getProtectionManager().logAction(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK);
+
+                                    b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+
+                                    for (ItemStack drop : b.getDrops(getItem())) {
+                                        if (drop != null) {
+                                            b.getWorld().dropItemNaturally(b.getLocation(), drop);
+                                        }
+                                    }
+
+                                    b.setType(Material.AIR);
+                                    damageItem(e.getPlayer(), item);
+                                }
+                            });
                         }
                     }
 
