@@ -58,7 +58,7 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.DEVELOPMENT;
-            this.buildNum = NumberUtils.getInt(version.substring(6, version.indexOf(' ', 6) + 1), -1);
+            this.buildNum = NumberUtils.getInt(version.substring(6, version.indexOf(' ', 6)), -1);
         }
         else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
@@ -70,7 +70,7 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.STABLE;
-            this.buildNum = NumberUtils.getInt(version.substring(5, version.indexOf(' ', 5) + 1), -1);
+            this.buildNum = NumberUtils.getInt(version.substring(5, version.indexOf(' ', 5)), -1);
         }
         else {
             branch = SlimefunBranch.UNKNOWN;
