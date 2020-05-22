@@ -374,4 +374,13 @@ final class CargoUtils {
         }
     }
 
+    /**
+     * Get the whitelist/blacklist slots in a Cargo Input Node. If you wish to access the items
+     * in the cargo (without hardcoding the slots in case of change) then you can use this method.
+     *
+     * @return The slot indexes for the whutelist/blacklist section.
+     */
+    public static int[] getWhitelistBlacklistSlots() {
+        return SLOTS;
+    }
 }
