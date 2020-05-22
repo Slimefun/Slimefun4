@@ -72,6 +72,11 @@ public class BlockMenu extends DirtyChestMenu {
         this.save(l);
     }
 
+    public void reload() {
+        this.preset.clone(this);
+        this.getContents();
+    }
+
     public Block getBlock() {
         return this.location.getBlock();
     }

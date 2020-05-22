@@ -374,4 +374,7 @@ final class CargoUtils {
         }
     }
 
+    public static int[] getSlots() {
+        return SLOTS;
+    }
 }
