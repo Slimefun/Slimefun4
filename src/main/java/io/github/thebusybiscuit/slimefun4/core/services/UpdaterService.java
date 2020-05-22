@@ -9,13 +9,14 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This Class represents our {@link Updater} Service.
  * If enabled, it will automatically connect to https://thebusybiscuit.github.io/builds/
  * to check for updates and to download them automatically.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -24,11 +25,12 @@ public class UpdaterService {
     private final SlimefunPlugin plugin;
     private final Updater updater;
     private final SlimefunBranch branch;
+    private final int buildNum;
 
     /**
      * This will create a new {@link UpdaterService} for the given {@link SlimefunPlugin}.
      * The {@link File} should be the result of the getFile() operation of that {@link Plugin}.
-     * 
+     *
      * @param plugin
      *            The instance of Slimefun
      * @param version
@@ -43,6 +45,7 @@ public class UpdaterService {
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
             branch = SlimefunBranch.UNOFFICIAL;
+            this.buildNum = -1;
         }
         else if (version.startsWith("DEV - ")) {
             // If we are using a development build, we want to switch to our custom
@@ -55,6 +58,7 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.DEVELOPMENT;
+            this.buildNum = NumberUtils.getInt(version.substring(6, version.indexOf(' ', 6) + 1), -1);
         }
         else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
@@ -66,9 +70,11 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.STABLE;
+            this.buildNum = NumberUtils.getInt(version.substring(5, version.indexOf(' ', 5) + 1), -1);
         }
         else {
             branch = SlimefunBranch.UNKNOWN;
+            this.buildNum = -1;
         }
 
         this.updater = autoUpdater;
@@ -78,11 +84,22 @@ public class UpdaterService {
      * This method returns the branch the current build of Slimefun is running on.
      * This can be used to determine whether we are dealing with an official build
      * or a build that was unofficially modified.
-     * 
+     *
      * @return The branch this build of Slimefun is on.
      */
     public SlimefunBranch getBranch() {
         return branch;
+    }
+
+    /**
+     * This method returns the build number that this is running on (or -1 if unofficial).
+     * You should combine the usage with {@link #getBranch()} in order to properly see if this is
+     * a development or stable build number.
+     *
+     * @return The build number of this Slimefun.
+     */
+    public int getBuildNum() {
+        return buildNum;
     }
 
     /**
@@ -106,7 +123,7 @@ public class UpdaterService {
      * This returns whether the {@link Updater} is enabled or not.
      * This includes the {@link Config} setting but also whether or not we are running an
      * official or unofficial build.
-     * 
+     *
      * @return Whether the {@link Updater} is enabled
      */
     public boolean isEnabled() {
