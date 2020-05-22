@@ -651,6 +651,12 @@ public class BlockStorage {
         return menu;
     }
 
+    /**
+     * Reload a BlockMenu based on the preset. This method is solely for if you wish to reload
+     * based on data from the preset.
+     *
+     * @param l The location of the Block.
+     */
     public void reloadInventory(@Nonnull Location l) {
         final BlockMenu menu = this.inventories.get(l);
         if (menu != null)
