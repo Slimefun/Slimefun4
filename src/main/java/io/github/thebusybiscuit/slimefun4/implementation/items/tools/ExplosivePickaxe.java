@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -72,12 +73,10 @@ public class ExplosivePickaxe extends SimpleSlimefunItem<BlockBreakHandler> impl
                             }
                         }
 
-                        EntityExplodeEvent entityExplodeEvent = new EntityExplodeEvent(e.getPlayer(), e.getBlock().getLocation(), blocks, 0);
-                        Bukkit.getServer().getPluginManager().callEvent(entityExplodeEvent);
-                        if (!entityExplodeEvent.isCancelled()) {
-                            entityExplodeEvent.blockList().forEach(b -> {
-                                breakBlock(e.getPlayer(), item, b, fortune, drops);
-                            });
+                        BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(e.getBlock(), blocks, 0);
+                        Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
+                        if (!blockExplodeEvent.isCancelled()) {
+                            blockExplodeEvent.blockList().forEach(b -> breakBlock(e.getPlayer(), item, b, fortune, drops));
                         }
                     }
 
