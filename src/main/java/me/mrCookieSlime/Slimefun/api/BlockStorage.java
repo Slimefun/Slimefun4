@@ -1,5 +1,6 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -648,6 +649,18 @@ public class BlockStorage {
         BlockMenu menu = new BlockMenu(preset, l);
         inventories.put(l, menu);
         return menu;
+    }
+
+    /**
+     * Reload a BlockMenu based on the preset. This method is solely for if you wish to reload
+     * based on data from the preset.
+     *
+     * @param l The location of the Block.
+     */
+    public void reloadInventory(@Nonnull Location l) {
+        final BlockMenu menu = this.inventories.get(l);
+        if (menu != null)
+            menu.reload();
     }
 
     public void loadUniversalInventory(BlockMenuPreset preset) {
