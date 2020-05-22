@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestWaypoints {
 
@@ -21,6 +22,7 @@ public class TestWaypoints {
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
+        MockBukkit.load(SlimefunPlugin.class);
     }
 
     @AfterAll

@@ -25,6 +25,7 @@ public class TestPlayerProfile {
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
+        MockBukkit.load(SlimefunPlugin.class);
     }
 
     @AfterAll
