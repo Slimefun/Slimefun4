@@ -26,7 +26,9 @@ public class MagicianTalisman extends Talisman {
             }
         }
 
-        addItemSetting(enchantments.toArray(new ItemSetting[0]));
+        if (!enchantments.isEmpty()) {
+            addItemSetting(enchantments.toArray(new ItemSetting[0]));
+        }
     }
 
     public TalismanEnchantment getRandomEnchantment(ItemStack item) {

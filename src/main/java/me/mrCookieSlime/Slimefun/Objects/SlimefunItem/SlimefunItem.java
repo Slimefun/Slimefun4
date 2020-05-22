@@ -116,6 +116,11 @@ public class SlimefunItem implements Placeable {
 
     // Previously deprecated constructor, now only for internal purposes
     protected SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(item, "'item' is not allowed to be null!");
+        Validate.notNull(id, "'id' is not allowed to be null!");
+        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
+
         this.category = category;
         this.item = item;
         this.id = id;

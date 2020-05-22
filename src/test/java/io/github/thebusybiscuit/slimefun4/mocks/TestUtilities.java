@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -44,7 +45,7 @@ public final class TestUtilities {
 
     public static VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
         Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
-        VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), null, new ItemStack[9]);
+        VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
         SlimefunPlugin.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;
     }

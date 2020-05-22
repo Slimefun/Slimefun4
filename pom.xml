@@ -288,7 +288,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit</artifactId>
-            <version>v1.15-c9f97a74a7-1</version>
+            <version>v1.15-593aa2e63c-1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
