@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
+import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -62,6 +63,10 @@ public final class TestUtilities {
 
         latch.await(2, TimeUnit.SECONDS);
         return ref.get();
+    }
+
+    public static void registerDefaultTags(ServerMock server) {
+        // Add Tag<Material> defaults
     }
 
 }

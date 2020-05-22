@@ -298,12 +298,7 @@ public class CargoNet extends ChestTerminalNetwork {
             return Integer.parseInt(str);
         }
         catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE,
-                x,
-                () -> "An Error occurred while parsing a Cargo Node Frequency ("
-                    + l.getWorld().getName() + " - " + l.getBlockX() + "," + l.getBlockY() + "," +
-                    + l.getBlockZ() + ")"
-            );
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + l.getWorld().getName() + " - " + l.getBlockX() + "," + l.getBlockY() + "," + +l.getBlockZ() + ")");
             return 0;
         }
     }

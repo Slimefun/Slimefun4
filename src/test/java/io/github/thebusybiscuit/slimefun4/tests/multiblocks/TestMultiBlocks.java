@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
@@ -20,7 +21,8 @@ public class TestMultiBlocks {
 
     @BeforeAll
     public static void load() {
-        MockBukkit.mock();
+        ServerMock server = MockBukkit.mock();
+        TestUtilities.registerDefaultTags(server);
         plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 

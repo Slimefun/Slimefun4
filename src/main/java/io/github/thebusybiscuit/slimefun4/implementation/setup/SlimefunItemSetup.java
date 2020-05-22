@@ -203,6 +203,8 @@ public final class SlimefunItemSetup {
     private static final Material BLACK_DYE;
     private static final Material GREEN_DYE;
     
+    private static boolean alreadyRan = false;
+    
     static {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             RED_DYE = Material.RED_DYE;
@@ -221,6 +223,11 @@ public final class SlimefunItemSetup {
 	private SlimefunItemSetup() {}
 
 	public static void setup(SlimefunPlugin plugin) {
+	    if (alreadyRan) {
+	        throw new UnsupportedOperationException("Slimefun Items can only be registered once!");
+	    }
+
+	    alreadyRan = true;
 	    DefaultCategories categories = new DefaultCategories();
 	    
 		new SlimefunItem(categories.weapons, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,

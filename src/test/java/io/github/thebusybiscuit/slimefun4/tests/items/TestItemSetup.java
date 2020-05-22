@@ -32,5 +32,8 @@ public class TestItemSetup {
         // Item amount is variable, so we can't test for that.
         // We are really only concerned about any runtime exceptions here.
         Assertions.assertDoesNotThrow(() -> SlimefunItemSetup.setup(plugin));
+
+        // Running it a second time should NOT be allowed.
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> SlimefunItemSetup.setup(plugin));
     }
 }
