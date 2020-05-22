@@ -69,7 +69,7 @@ public class ExplosiveShovel extends SimpleSlimefunItem<BlockBreakHandler> imple
                                         continue;
                                     }
 
-                                   blocks.add(e.getBlock().getRelative(x, y, z));
+                                    blocks.add(e.getBlock().getRelative(x, y, z));
                                 }
                             }
                         }
