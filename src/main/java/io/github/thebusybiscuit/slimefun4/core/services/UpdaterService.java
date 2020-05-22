@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import java.io.File;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -25,7 +26,6 @@ public class UpdaterService {
     private final SlimefunPlugin plugin;
     private final Updater updater;
     private final SlimefunBranch branch;
-    private final int buildNumber;
 
     /**
      * This will create a new {@link UpdaterService} for the given {@link SlimefunPlugin}.
@@ -45,7 +45,6 @@ public class UpdaterService {
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
             branch = SlimefunBranch.UNOFFICIAL;
-            this.buildNumber = -1;
         }
         else if (version.startsWith("DEV - ")) {
             // If we are using a development build, we want to switch to our custom
@@ -58,7 +57,6 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.DEVELOPMENT;
-            this.buildNumber = NumberUtils.getInt(version.substring(6, version.indexOf(' ', 6)), -1);
         }
         else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
@@ -70,11 +68,9 @@ public class UpdaterService {
             }
 
             branch = SlimefunBranch.STABLE;
-            this.buildNumber = NumberUtils.getInt(version.substring(5, version.indexOf(' ', 5)), -1);
         }
         else {
             branch = SlimefunBranch.UNKNOWN;
-            this.buildNumber = -1;
         }
 
         this.updater = autoUpdater;
@@ -99,7 +95,10 @@ public class UpdaterService {
      * @return The build number of this Slimefun.
      */
     public int getBuildNumber() {
-        return buildNumber;
+        if (PatternUtils.NUMERIC.matcher(this.updater.getLocalVersion()).matches())
+            return Integer.parseInt(this.updater.getLocalVersion());
+
+        return -1;
     }
 
     /**
