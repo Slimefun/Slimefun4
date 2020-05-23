@@ -198,13 +198,8 @@ public final class SlimefunUtils {
 
         String base64 = texture;
 
-        if (!texture.startsWith("ey")) {
-            if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
-                base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
-            }
-            else {
-                throw new IllegalArgumentException("The provided texture (" + texture + ") does not seem to be a valid texture String!");
-            }
+        if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+            base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
         }
 
         return SkullItem.fromBase64(base64);

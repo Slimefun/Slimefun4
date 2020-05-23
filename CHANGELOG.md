@@ -57,6 +57,7 @@
 * Fixed ChestTerminals deleting items from Cargo networks (TheBusyBiscuit/ChestTerminal#25)
 * Fixed #1926
 * Fixed #1933
+* Fixed random errors because of Mojang's new player heads backend (Why... Mojang... why?)
 
 ## Release Candidate 11 (25 Apr 2020)
 
