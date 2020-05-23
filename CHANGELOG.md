@@ -24,6 +24,7 @@
 * Added /sf backpack to restore lost backpacks
 * Added automated Unit Tests
 * Added WaypointCreateEvent
+* Added an option to call an explosion event when using explosive tools
 
 #### Changes
 * Little performance improvements
@@ -55,6 +56,7 @@
 * Fixed file errors with PerWorldSettingsService
 * Fixed ChestTerminals deleting items from Cargo networks (TheBusyBiscuit/ChestTerminal#25)
 * Fixed #1926
+* Fixed #1933
 
 ## Release Candidate 11 (25 Apr 2020)
 
