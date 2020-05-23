@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,29 +24,26 @@ public class SoulboundListener implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDeathEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+    public void onDamage(PlayerDeathEvent e) {
+        Player p = e.getEntity();
 
-            for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
-                ItemStack item = p.getInventory().getItem(slot);
+        for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
+            ItemStack item = p.getInventory().getItem(slot);
 
-                // Store soulbound items for later retrieval
-                if (SlimefunUtils.isSoulbound(item)) {
-                    storeItem(p.getUniqueId(), slot, item);
-                }
+            // Store soulbound items for later retrieval
+            if (SlimefunUtils.isSoulbound(item)) {
+                storeItem(p.getUniqueId(), slot, item);
             }
+        }
 
-            // Remove soulbound items from our drops
-            Iterator<ItemStack> drops = e.getDrops().iterator();
-            while (drops.hasNext()) {
-                ItemStack item = drops.next();
+        // Remove soulbound items from our drops
+        Iterator<ItemStack> drops = e.getDrops().iterator();
+        while (drops.hasNext()) {
+            ItemStack item = drops.next();
 
-                if (SlimefunUtils.isSoulbound(item)) {
-                    drops.remove();
-                }
+            if (SlimefunUtils.isSoulbound(item)) {
+                drops.remove();
             }
-
         }
     }
 

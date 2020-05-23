@@ -180,6 +180,11 @@ public class SlimefunItemStack extends CustomItem {
         return new SlimefunItemStack(id, this);
     }
 
+    @Override
+    public String toString() {
+        return "SlimefunItemStack (" + id + ')';
+    }
+
     public Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
     }
