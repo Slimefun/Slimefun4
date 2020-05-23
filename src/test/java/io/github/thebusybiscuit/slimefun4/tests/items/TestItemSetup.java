@@ -3,11 +3,12 @@ package io.github.thebusybiscuit.slimefun4.tests.items;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
+import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestItemSetup {
@@ -16,8 +17,9 @@ public class TestItemSetup {
 
     @BeforeAll
     public static void load() {
-        MockBukkit.mock();
+        ServerMock server = MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
+        TestUtilities.registerDefaultTags(server);
     }
 
     @AfterAll
@@ -26,8 +28,7 @@ public class TestItemSetup {
     }
 
     @Test
-    @Disabled("org.bukkit.Tag is not implemented in MockBukkit")
-    public void testNoExceptions() {
+    public void testForExceptions() {
         // Not really ideal but still important to test.
         // Item amount is variable, so we can't test for that.
         // We are really only concerned about any runtime exceptions here.

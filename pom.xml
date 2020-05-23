@@ -288,7 +288,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit</artifactId>
-            <version>v1.15-593aa2e63c-1</version>
+            <version>v1.15-742f0ba511-1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -302,7 +302,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.20.3</version>
+            <version>0.20.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

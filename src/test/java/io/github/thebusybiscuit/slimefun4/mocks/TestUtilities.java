@@ -66,7 +66,16 @@ public final class TestUtilities {
     }
 
     public static void registerDefaultTags(ServerMock server) {
-        // Add Tag<Material> defaults
+        // We really don't need these to be accurate, just fill them with some examples
+        // that approximate the actual content
+        server.createMaterialTag(NamespacedKey.minecraft("logs"), Material.OAK_LOG, Material.STRIPPED_OAK_LOG, Material.OAK_WOOD, Material.STRIPPED_OAK_WOOD, Material.ACACIA_LOG, Material.STRIPPED_ACACIA_LOG, Material.ACACIA_WOOD, Material.STRIPPED_ACACIA_WOOD);
+        server.createMaterialTag(NamespacedKey.minecraft("wooden_trapdoors"), Material.OAK_TRAPDOOR, Material.BIRCH_TRAPDOOR, Material.SPRUCE_TRAPDOOR, Material.JUNGLE_TRAPDOOR, Material.ACACIA_TRAPDOOR, Material.DARK_OAK_TRAPDOOR);
+        server.createMaterialTag(NamespacedKey.minecraft("wooden_slabs"), Material.OAK_SLAB, Material.BIRCH_SLAB, Material.JUNGLE_SLAB, Material.SPRUCE_SLAB, Material.ACACIA_SLAB, Material.DARK_OAK_SLAB);
+        server.createMaterialTag(NamespacedKey.minecraft("wooden_fences"), Material.OAK_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE, Material.SPRUCE_FENCE, Material.ACACIA_FENCE, Material.DARK_OAK_FENCE);
+        server.createMaterialTag(NamespacedKey.minecraft("planks"), Material.OAK_PLANKS, Material.BIRCH_PLANKS, Material.SPRUCE_PLANKS, Material.JUNGLE_PLANKS, Material.ACACIA_PLANKS, Material.DARK_OAK_PLANKS);
+        server.createMaterialTag(NamespacedKey.minecraft("small_flowers"), Material.POPPY, Material.DANDELION, Material.AZURE_BLUET, Material.LILY_OF_THE_VALLEY);
+        server.createMaterialTag(NamespacedKey.minecraft("leaves"), Material.OAK_LEAVES, Material.BIRCH_LEAVES, Material.SPRUCE_LEAVES, Material.JUNGLE_LEAVES, Material.ACACIA_LEAVES, Material.DARK_OAK_LEAVES);
+        server.createMaterialTag(NamespacedKey.minecraft("saplings"), Material.OAK_SAPLING, Material.BIRCH_SAPLING, Material.SPRUCE_SAPLING, Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING);
     }
 
 }
