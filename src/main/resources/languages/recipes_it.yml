@@ -120,6 +120,11 @@ slimefun:
     - Questo elemento è un sottoprodotto
     - di reazione da Nuclear Reactor
     name: Nuclear Reactor
+  oil_pump:
+    lore:
+    - Questo elemento può essere raccolto
+    - usando una Oil Pump
+    name: Oil Pump
   ore_crusher:
     lore:
     - Crafta l'elemento come indicato
@@ -130,29 +135,24 @@ slimefun:
     - Crafta l'elemento come indicato
     - usando un Ore Washer
     name: Ore Washer
+  pickaxe_of_containment:
+    lore:
+    - Questo blocco può essere ottenuto
+    - rompendo uno Spawner con
+    - il Pickaxe of Containment
+    name: Pickaxe of Containment
   pressure_chamber:
     lore:
     - Crafta l'elemento come indicato
     - usando una Pressure Chamber
     name: Pressure Chamber
+  refinery:
+    lore:
+    - Crafta questo elemento come indicato
+    - usando una Refinery
+    name: Refinery
   smeltery:
     lore:
     - Crafta l'elemento come indicato
     - usando una Smeltery
     name: Smeltery
-  oil_pump:
-    name: Oil Pump
-    lore:
-    - Questo elemento può essere raccolto
-    - usando una Oil Pump
-  pickaxe_of_containment:
-    name: Pickaxe of Containment
-    lore:
-    - Questo blocco può essere ottenuto
-    - rompendo uno Spawner con
-    - il Pickaxe of Containment
-  refinery:
-    name: Refinery
-    lore:
-    - Crafta questo elemento come indicato
-    - usando una Refinery
