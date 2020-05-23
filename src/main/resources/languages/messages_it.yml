@@ -129,6 +129,8 @@ guide:
       miner: Risorse che puoi ottenere con questo Miner
     versions-notice: Questi sono molto importanti quando stai reportando dei bugs!
     wiki: Visualizza questo elemento sulla Wiki ufficiale di Slimefun
+  cheat:
+    no-multiblocks: "&4Non puoi cheattare i Multiblocchi, devi costruirli nel mondo!"
 inventory:
   no-access: "&4Non ti è permesso accedere a questo blocco"
 languages:
@@ -168,6 +170,10 @@ languages:
   vi: Vietnamese
   zh-CN: Cinese (Cina)
   zh-TW: Cinese (Taiwan)
+  hr: Croato
+  mk: Macedone
+  sr: Serbo
+  be: Bielorusso
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'altare non è circondato dalla quantità necessaria di
@@ -281,6 +287,7 @@ messages:
   disabled-item: "&4& lQuesto oggetto è stato disabilitato! Come l'hai ottenuto?"
   radiation: "&4Sei stato esposto a radiazioni mortali! &cSbarazzati dell'oggetto
     radioattivo o equipaggia la tuta completa di hazmat!"
+  diet-cookie: "&e Stai iniziando a sentirti molto leggero..."
 miner:
   no-ores: "&eScusa, non sono riuscito a trovare nessun minerale nelle vicinanze!"
 anvil:
