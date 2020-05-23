@@ -57,6 +57,9 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         items.add(new ItemStack(Material.OBSIDIAN, 1));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
+        items.add(new ItemStack(Material.TERRACOTTA, 12));
+        items.add(new ItemStack(Material.LAVA_BUCKET));
+
         for (Material leave : MaterialCollections.getAllLeaves()) {
             items.add(new ItemStack(leave, 16));
             items.add(new ItemStack(Material.WATER_BUCKET));

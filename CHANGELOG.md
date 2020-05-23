@@ -31,6 +31,7 @@
 * Player Profiles (researches and stuff) are now loaded completely asynchronously
 * The Infused Magnet can no longer be placed down
 * AncientAltar speed can now be changed internally (not available for server owners yet)
+* Finished Italian translations
 
 #### Fixes
 * Fixed #1824
@@ -53,6 +54,7 @@
 * Fixed #1914
 * Fixed file errors with PerWorldSettingsService
 * Fixed ChestTerminals deleting items from Cargo networks (TheBusyBiscuit/ChestTerminal#25)
+* Fixed #1926
 
 ## Release Candidate 11 (25 Apr 2020)
 
