@@ -33,6 +33,11 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
         this.size = size;
     }
 
+    /**
+     * This returns the size of this {@link SlimefunBackpack}.
+     * 
+     * @return The size of this backpack
+     */
     public int getSize() {
         return size;
     }

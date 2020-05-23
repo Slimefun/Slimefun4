@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
+package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

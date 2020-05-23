@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -93,7 +94,7 @@ public class TestSlimefunItemRegistration {
         item.register(plugin);
 
         SlimefunItem item2 = TestUtilities.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
-        item2.register(plugin);
+        Assertions.assertThrows(IdConflictException.class, () -> item2.register(plugin));
 
         Assertions.assertEquals(ItemState.ENABLED, item.getState());
         Assertions.assertEquals(ItemState.UNREGISTERED, item2.getState());
