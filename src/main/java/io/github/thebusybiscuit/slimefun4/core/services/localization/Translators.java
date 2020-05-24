@@ -113,7 +113,7 @@ public class Translators {
         addTranslator("dhtdht020", EmbeddedLanguage.HEBREW, false);
 
         // Translators - Japanese
-        addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);
+        addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, false);
 
         // Translators - Korean
         addTranslator("kwonms871", EmbeddedLanguage.KOREAN, true);
