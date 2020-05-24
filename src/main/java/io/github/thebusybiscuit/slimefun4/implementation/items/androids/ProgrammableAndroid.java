@@ -250,7 +250,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 if (getAndroidType().isType(part.getRequiredType())) {
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-                    double damage = getTier() < 2 ? 20D : 4D * getTier();
+                    double damage = getTier() >= 3 ? 20D : 4D * getTier();
 
                     switch (part) {
                     case GO_DOWN:
