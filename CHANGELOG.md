@@ -59,6 +59,7 @@
 * Fixed #1933
 * Fixed random errors because of Mojang's new player heads backend (Why... Mojang... why?)
 * Fixed Butcher Androids doing incorrect amounts of damage
+* Fixed #1935
 
 ## Release Candidate 11 (25 Apr 2020)
 
