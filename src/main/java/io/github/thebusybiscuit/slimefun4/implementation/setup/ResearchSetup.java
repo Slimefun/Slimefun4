@@ -20,9 +20,17 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public final class ResearchSetup {
 
+    private static boolean alreadyRan = false;
+
     private ResearchSetup() {}
 
     public static void setupResearches() {
+        if (alreadyRan) {
+            throw new UnsupportedOperationException("Researches can only be registered once!");
+        }
+
+        alreadyRan = true;
+
         register("walking_sticks", 0, "Walking Sticks", 1, SlimefunItems.GRANDMAS_WALKING_STICK, SlimefunItems.GRANDPAS_WALKING_STICK);
         register("portable_crafter", 1, "Portable Crafter", 1, SlimefunItems.PORTABLE_CRAFTER);
         register("fortune_cookie", 2, "Fortune Cookie", 1, SlimefunItems.FORTUNE_COOKIE);
