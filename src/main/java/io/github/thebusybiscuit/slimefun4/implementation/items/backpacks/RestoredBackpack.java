@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
