@@ -44,6 +44,14 @@ public interface SlimefunGuideImplementation {
      */
     ItemStack getItem();
 
+    /**
+     * This method returns whether this {@link SlimefunGuideImplementation} is meant
+     * for Survival Mode.
+     * 
+     * @return Whether this is a survival mode implementation
+     */
+    boolean isSurvivalMode();
+
     void openMainMenu(PlayerProfile profile, int page);
 
     void openCategory(PlayerProfile profile, Category category, int page);

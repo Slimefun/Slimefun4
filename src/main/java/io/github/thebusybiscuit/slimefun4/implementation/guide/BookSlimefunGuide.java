@@ -43,6 +43,11 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
+    public boolean isSurvivalMode() {
+        return true;
+    }
+
+    @Override
     public ItemStack getItem() {
         return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Book GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
     }

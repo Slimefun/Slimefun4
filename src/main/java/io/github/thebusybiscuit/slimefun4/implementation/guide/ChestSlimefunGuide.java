@@ -75,7 +75,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun Guide &7(Chest GUI)", "", "&eRight Click &8\u21E8 &7Browse Items", "&eShift + Right Click &8\u21E8 &7Open Settings / Credits");
     }
 
-    protected boolean isSurvivalMode() {
+    @Override
+    public boolean isSurvivalMode() {
         return true;
     }
 

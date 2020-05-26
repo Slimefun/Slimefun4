@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.tests.services;
 
 import java.io.File;
 
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,7 +11,6 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import org.mockito.Mock;
 
 public class TestUpdaterService {
 
