@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import me.mrCookieSlime.Slimefun.Objects.Research;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 
 /**
  * This {@link Event} is called whenever a {@link Player} unlocks a {@link Research}.
@@ -37,16 +37,16 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
     }
 
     public Player getPlayer() {
-        return this.player;
+        return player;
     }
 
     public Research getResearch() {
-        return this.research;
+        return research;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override

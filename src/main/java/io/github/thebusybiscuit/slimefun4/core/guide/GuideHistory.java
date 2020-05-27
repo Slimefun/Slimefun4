@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 import java.util.Deque;
 import java.util.LinkedList;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,6 +33,7 @@ public class GuideHistory {
      *            The {@link PlayerProfile} this {@link GuideHistory} was made for
      */
     public GuideHistory(PlayerProfile profile) {
+        Validate.notNull(profile, "Cannot create a GuideHistory without a PlayerProfile!");
         this.profile = profile;
     }
 
@@ -77,6 +79,7 @@ public class GuideHistory {
      *            The {@link SlimefunItem} that should be added to this {@link GuideHistory}
      */
     public void add(SlimefunItem item) {
+        Validate.notNull(item, "Cannot add a nonexisting SlimefunItem to the GuideHistory!");
         queue.add(new GuideEntry<>(item, 0));
     }
 
@@ -87,13 +90,17 @@ public class GuideHistory {
      *            The term that the {@link Player} searched for
      */
     public void add(String searchTerm) {
+        Validate.notNull(searchTerm, "Cannot add an empty Search Term to the GuideHistory!");
         queue.add(new GuideEntry<>(searchTerm, 0));
     }
 
     private <T> void refresh(T object, int page) {
+        Validate.notNull(object, "Cannot add a null Entry to the GuideHistory!");
+        Validate.isTrue(page >= 0, "page must not be negative!");
+
         GuideEntry<?> lastEntry = getLastEntry(false);
 
-        if (lastEntry != null && lastEntry.getIndexedObject() == object) {
+        if (lastEntry != null && lastEntry.getIndexedObject().equals(object)) {
             lastEntry.setPage(page);
         }
         else {
@@ -163,11 +170,14 @@ public class GuideHistory {
         else if (entry.getIndexedObject() instanceof SlimefunItem) {
             guide.displayItem(profile, (SlimefunItem) entry.getIndexedObject(), false);
         }
+        else if (entry.getIndexedObject() instanceof ItemStack) {
+            guide.displayItem(profile, (ItemStack) entry.getIndexedObject(), entry.getPage(), false);
+        }
         else if (entry.getIndexedObject() instanceof String) {
             guide.openSearch(profile, (String) entry.getIndexedObject(), false);
         }
-        else if (entry.getIndexedObject() instanceof ItemStack) {
-            guide.displayItem(profile, (ItemStack) entry.getIndexedObject(), entry.getPage(), false);
+        else {
+            throw new IllegalStateException("Unknown GuideHistory entry: " + entry.getIndexedObject());
         }
     }
 

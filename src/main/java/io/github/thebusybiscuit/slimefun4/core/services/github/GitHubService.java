@@ -1,14 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -26,6 +30,7 @@ public class GitHubService {
     private final String repository;
     private final Set<GitHubConnector> connectors;
     private final ConcurrentMap<String, Contributor> contributors;
+    private final Config uuidCache = new Config("plugins/Slimefun/cache/github/uuids.yml");
 
     private boolean logging = false;
 
@@ -35,6 +40,12 @@ public class GitHubService {
     private int stars = 0;
     private LocalDateTime lastUpdate = LocalDateTime.now();
 
+    /**
+     * This creates a new {@link GitHubService} for the given repository.
+     * 
+     * @param repository
+     *            The repository to create this {@link GitHubService} for
+     */
     public GitHubService(String repository) {
         this.repository = repository;
 
@@ -52,13 +63,21 @@ public class GitHubService {
         addContributor("IMS_Art", "&dArtist");
         addContributor("nahkd123", "&aWinner of the 2020 Addon Jam");
 
-        new Translators(contributors);
+        new Translators(this);
     }
 
     private void addContributor(String name, String role) {
         Contributor contributor = new Contributor(name);
         contributor.setContribution(role, 0);
+        contributor.setUniqueId(uuidCache.getUUID(name));
         contributors.put(name, contributor);
+    }
+
+    public Contributor addContributor(String name, String profile, String role, int commits) {
+        Contributor contributor = contributors.computeIfAbsent(name, key -> new Contributor(name, profile));
+        contributor.setContribution(role, commits);
+        contributor.setUniqueId(uuidCache.getUUID(name));
+        return contributor;
     }
 
     private void loadConnectors(boolean logging) {
@@ -70,10 +89,10 @@ public class GitHubService {
         connectors.add(new ContributionsConnector(this, "code2", 2, repository, "developer"));
 
         // TheBusyBiscuit/Slimefun4-Wiki
-        connectors.add(new ContributionsConnector(this, "wiki", 1, "TheBusyBiscuit/Slimefun4-wiki", "wiki"));
+        connectors.add(new ContributionsConnector(this, "wiki", 1, "Slimefun/Slimefun-wiki", "wiki"));
 
         // TheBusyBiscuit/Slimefun4-Resourcepack
-        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "TheBusyBiscuit/Slimefun4-Resourcepack", "resourcepack"));
+        connectors.add(new ContributionsConnector(this, "resourcepack", 1, "Slimefun/Resourcepack", "resourcepack"));
 
         // Issues and Pull Requests
         connectors.add(new GitHubIssuesTracker(this, repository, (issues, pullRequests) -> {
@@ -103,35 +122,90 @@ public class GitHubService {
         });
     }
 
-    public Set<GitHubConnector> getConnectors() {
+    protected Set<GitHubConnector> getConnectors() {
         return connectors;
     }
 
+    protected boolean isLoggingEnabled() {
+        return logging;
+    }
+
+    /**
+     * This returns the {@link Contributor Contributors} to this project.
+     * 
+     * @return A {@link ConcurrentMap} containing all {@link Contributor Contributors}
+     */
     public ConcurrentMap<String, Contributor> getContributors() {
         return contributors;
     }
 
+    /**
+     * This returns the amount of forks of our repository
+     * 
+     * @return The amount of forks
+     */
     public int getForks() {
         return forks;
     }
 
+    /**
+     * This method returns the amount of stargazers of the repository.
+     * 
+     * @return The amount of people who starred the repository
+     */
     public int getStars() {
         return stars;
     }
 
-    public int getIssues() {
+    /**
+     * This returns the amount of open Issues on our repository.
+     * 
+     * @return The amount of open issues
+     */
+    public int getOpenissues() {
         return issues;
     }
 
-    public int getPullRequests() {
+    /**
+     * Returns the id of Slimefun's GitHub Repository. (e.g. "TheBusyBiscuit/Slimefun4").
+     * 
+     * @return The id of our GitHub Repository
+     */
+    public String getRepository() {
+        return repository;
+    }
+
+    /**
+     * This method returns the amount of pending pull requests.
+     * 
+     * @return The amount of pending pull requests
+     */
+    public int getPendingPullRequests() {
         return pullRequests;
     }
 
+    /**
+     * This returns the date and time of the last commit to this repository.
+     * 
+     * @return A {@link LocalDateTime} object representing the date and time of the latest commit
+     */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public boolean isLoggingEnabled() {
-        return logging;
+    /**
+     * This will store the {@link UUID} of all {@link Contributor Contributors} in memory
+     * in a {@link File} to save requests the next time we iterate over them.
+     */
+    protected void saveUUIDCache() {
+        for (Contributor contributor : contributors.values()) {
+            Optional<UUID> uuid = contributor.getUniqueId();
+
+            if (uuid.isPresent()) {
+                uuidCache.setValue(contributor.getName(), uuid.get());
+            }
+        }
+
+        uuidCache.save();
     }
 }

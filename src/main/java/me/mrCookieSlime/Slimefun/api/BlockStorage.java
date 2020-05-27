@@ -15,10 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -28,6 +24,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
@@ -269,8 +270,13 @@ public class BlockStorage {
             if (cfg.getKeys().isEmpty()) {
                 File file = cfg.getFile();
 
-                if (file.exists() && !file.delete()) {
-                    Slimefun.getLogger().log(Level.WARNING, "Could not delete File: {0}", file.getName());
+                if (file.exists()) {
+                    try {
+                        Files.delete(file.toPath());
+                    }
+                    catch (IOException e) {
+                        Slimefun.getLogger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
+                    }
                 }
             }
             else {
@@ -383,7 +389,6 @@ public class BlockStorage {
             return null;
         }
     }
-
 
     private static String serializeBlockInfo(Config cfg) {
         try {
@@ -636,9 +641,28 @@ public class BlockStorage {
     }
 
     public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
+        if (preset == null) {
+            return null;
+        }
+
         BlockMenu menu = new BlockMenu(preset, l);
         inventories.put(l, menu);
         return menu;
+    }
+
+    /**
+     * Reload a BlockMenu based on the preset. This method is solely for if you wish to reload
+     * based on data from the preset.
+     *
+     * @param l
+     *            The location of the Block.
+     */
+    public void reloadInventory(Location l) {
+        BlockMenu menu = this.inventories.get(l);
+
+        if (menu != null) {
+            menu.reload();
+        }
     }
 
     public void loadUniversalInventory(BlockMenuPreset preset) {

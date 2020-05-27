@@ -36,7 +36,9 @@ public class EnhancedFurnaceListener implements Listener {
         SlimefunItem furnace = BlockStorage.check(e.getBlock());
 
         if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
-            e.setBurnTime(((EnhancedFurnace) furnace).getFuelEfficiency() * e.getBurnTime());
+            int burnTime = e.getBurnTime();
+            int newBurnTime = ((EnhancedFurnace) furnace).getFuelEfficiency() * burnTime;
+            e.setBurnTime(Math.min(newBurnTime, Short.MAX_VALUE));
         }
     }
 

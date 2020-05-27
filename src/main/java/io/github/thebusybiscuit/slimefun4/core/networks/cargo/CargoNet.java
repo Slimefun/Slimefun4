@@ -36,18 +36,20 @@ public class CargoNet extends ChestTerminalNetwork {
     private int tickDelayThreshold = 0;
 
     public static CargoNet getNetworkFromLocation(Location l) {
-        return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
+        return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);
     }
 
     public static CargoNet getNetworkFromLocationOrCreate(Location l) {
-        CargoNet cargoNetwork = getNetworkFromLocation(l);
+        Optional<CargoNet> cargoNetwork = SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
 
-        if (cargoNetwork == null) {
-            cargoNetwork = new CargoNet(l);
-            SlimefunPlugin.getNetworkManager().registerNetwork(cargoNetwork);
+        if (cargoNetwork.isPresent()) {
+            return cargoNetwork.get();
         }
-
-        return cargoNetwork;
+        else {
+            CargoNet network = new CargoNet(l);
+            SlimefunPlugin.getNetworkManager().registerNetwork(network);
+            return network;
+        }
     }
 
     protected CargoNet(Location l) {
@@ -210,57 +212,10 @@ public class CargoNet extends ChestTerminalNetwork {
         // (Apart from ChestTerminal Buses)
         for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
             Location input = entry.getKey();
-
             Optional<Block> attachedBlock = getAttachedBlock(input.getBlock());
-            if (!attachedBlock.isPresent()) {
-                continue;
-            }
 
-            Block inputTarget = attachedBlock.get();
-            Config cfg = BlockStorage.getLocationInfo(input);
-            boolean roundrobin = "true".equals(cfg.getString("round-robin"));
-
-            ItemStackAndInteger slot = CargoUtils.withdraw(input.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
-            if (slot == null) {
-                continue;
-            }
-
-            ItemStack stack = slot.getItem();
-            int previousSlot = slot.getInt();
-            List<Location> outputs = output.get(entry.getValue());
-
-            if (outputs != null) {
-                List<Location> outputList = new LinkedList<>(outputs);
-
-                if (roundrobin) {
-                    roundRobinSort(input, outputList);
-                }
-
-                for (Location out : outputList) {
-                    Optional<Block> target = getAttachedBlock(out.getBlock());
-
-                    if (target.isPresent()) {
-                        stack = CargoUtils.insert(out.getBlock(), target.get(), stack, -1);
-
-                        if (stack == null) {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
-
-            if (menu != null) {
-                menu.replaceExistingItem(previousSlot, stack);
-            }
-            else if (CargoUtils.hasInventory(inputTarget)) {
-                BlockState state = inputTarget.getState();
-
-                if (state instanceof InventoryHolder) {
-                    Inventory inv = ((InventoryHolder) state).getInventory();
-                    inv.setItem(previousSlot, stack);
-                }
+            if (attachedBlock.isPresent()) {
+                routeItems(input, attachedBlock.get(), entry.getValue(), output);
             }
         }
 
@@ -270,10 +225,59 @@ public class CargoNet extends ChestTerminalNetwork {
         }
     }
 
+    private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
+        Config cfg = BlockStorage.getLocationInfo(inputNode);
+        boolean roundrobin = "true".equals(cfg.getString("round-robin"));
+
+        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
+        if (slot == null) {
+            return;
+        }
+
+        ItemStack stack = slot.getItem();
+        int previousSlot = slot.getInt();
+        List<Location> outputs = outputNodes.get(frequency);
+
+        if (outputs != null) {
+            List<Location> outputList = new LinkedList<>(outputs);
+
+            if (roundrobin) {
+                roundRobinSort(inputNode, outputList);
+            }
+
+            for (Location output : outputList) {
+                Optional<Block> target = getAttachedBlock(output.getBlock());
+
+                if (target.isPresent()) {
+                    stack = CargoUtils.insert(output.getBlock(), target.get(), stack, -1);
+
+                    if (stack == null) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+
+        if (menu != null) {
+            menu.replaceExistingItem(previousSlot, stack);
+        }
+        else if (CargoUtils.hasInventory(inputTarget)) {
+            BlockState state = inputTarget.getState();
+
+            if (state instanceof InventoryHolder) {
+                Inventory inv = ((InventoryHolder) state).getInventory();
+                inv.setItem(previousSlot, stack);
+            }
+        }
+    }
+
     private void roundRobinSort(Location input, List<Location> outputs) {
         int index = roundRobin.getOrDefault(input, 0);
 
         if (index < outputs.size()) {
+            // Not ideal but actually not bad performance-wise over more elegant alternatives
             for (int i = 0; i < index; i++) {
                 Location temp = outputs.remove(0);
                 outputs.add(temp);
@@ -294,7 +298,7 @@ public class CargoNet extends ChestTerminalNetwork {
             return Integer.parseInt(str);
         }
         catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a Cargo Node Frequency", x);
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + l.getWorld().getName() + " - " + l.getBlockX() + "," + l.getBlockY() + "," + +l.getBlockZ() + ")");
             return 0;
         }
     }

@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
- * This interface is used to defer calls to Peristent Data and make sure they are only called
+ * This interface is used to defer calls to Persistent Data and make sure they are only called
  * if the {@link MinecraftVersion} supports it.
  * 
  * @author TheBusyBiscuit

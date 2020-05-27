@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -30,6 +31,9 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
 
     private static final int ENERGY_CONSUMPTION = 60;
+
+    // We wanna strip the Slimefun Item id here
+    private static final ItemStack organicFood = new ItemStackWrapper(SlimefunItems.ORGANIC_FOOD);
 
     public AutoBreeder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -97,10 +101,12 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, n -> n instanceof Animals && n.isValid() && ((Animals) n).isAdult() && !((Animals) n).isLoveMode())) {
+        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, this::canBreed)) {
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), SlimefunItems.ORGANIC_FOOD, false)) {
-                    if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFood, false)) {
+                    if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) {
+                        return;
+                    }
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                     inv.consumeItem(slot);
@@ -111,6 +117,16 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
                 }
             }
         }
+    }
+
+    private boolean canBreed(Entity n) {
+        if (n.isValid() && n instanceof Animals) {
+            Animals animal = (Animals) n;
+
+            return animal.isAdult() && animal.canBreed() && !animal.isLoveMode();
+        }
+
+        return false;
     }
 
 }

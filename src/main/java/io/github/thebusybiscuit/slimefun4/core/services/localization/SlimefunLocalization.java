@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -85,11 +87,13 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     public String getMessage(Player p, String key) {
         Language language = getLanguage(p);
+        if (language == null) return "NO LANGUAGE FOUND";
         return language.getMessages().getString(key);
     }
 
     public List<String> getMessages(Player p, String key) {
         Language language = getLanguage(p);
+        if (language == null) return Arrays.asList("NO LANGUAGE FOUND");
         return language.getMessages().getStringList(key);
     }
 
@@ -138,7 +142,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
             List<String> lore = config.getStringList(key.getNamespace() + "." + key.getKey() + ".lore");
             lore.replaceAll(line -> ChatColor.GRAY + line);
             meta.setLore(lore);
-            
+
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         });
@@ -167,6 +171,10 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     @Override
     public void sendMessage(CommandSender sender, String key, boolean addPrefix, UnaryOperator<String> function) {
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            return;
+        }
+
         String prefix = addPrefix ? getPrefix() : "";
 
         if (sender instanceof Player) {

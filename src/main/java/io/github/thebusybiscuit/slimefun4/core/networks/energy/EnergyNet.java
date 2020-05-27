@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -16,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -59,19 +61,17 @@ public class EnergyNet extends Network {
         return EnergyNetComponentType.NONE;
     }
 
-    public static EnergyNet getNetworkFromLocation(Location l) {
-        return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
-    }
-
     public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
-        EnergyNet energyNetwork = getNetworkFromLocation(l);
+        Optional<EnergyNet> cargoNetwork = SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
 
-        if (energyNetwork == null) {
-            energyNetwork = new EnergyNet(l);
-            SlimefunPlugin.getNetworkManager().registerNetwork(energyNetwork);
+        if (cargoNetwork.isPresent()) {
+            return cargoNetwork.get();
         }
-
-        return energyNetwork;
+        else {
+            EnergyNet network = new EnergyNet(l);
+            SlimefunPlugin.getNetworkManager().registerNetwork(network);
+            return network;
+        }
     }
 
     private final Set<Location> generators = new HashSet<>();
@@ -79,7 +79,7 @@ public class EnergyNet extends Network {
     private final Set<Location> consumers = new HashSet<>();
 
     protected EnergyNet(Location l) {
-        super(l);
+        super(SlimefunPlugin.getNetworkManager(), l);
     }
 
     @Override
@@ -222,6 +222,8 @@ public class EnergyNet extends Network {
                     if (generator.explode(source)) {
                         exploded.add(source);
                         BlockStorage.clearBlockInfo(source);
+                        AReactor.processing.remove(source);
+                        AReactor.progress.remove(source);
 
                         Slimefun.runSync(() -> {
                             source.getBlock().setType(Material.LAVA);

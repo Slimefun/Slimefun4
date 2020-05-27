@@ -56,7 +56,9 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
                                 log.setType(sapling.get());
                             }
                         }
-                        else log.setType(Material.AIR);
+                        else {
+                            log.setType(Material.AIR);
+                        }
                     }
 
                 }

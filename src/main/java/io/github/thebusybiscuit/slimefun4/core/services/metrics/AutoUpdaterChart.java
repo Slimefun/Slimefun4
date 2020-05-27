@@ -8,7 +8,7 @@ class AutoUpdaterChart extends SimplePie {
 
     AutoUpdaterChart() {
         super("auto_updates", () -> {
-            boolean enabled = SlimefunPlugin.getCfg().getBoolean("options.auto-update");
+            boolean enabled = SlimefunPlugin.getUpdater().isEnabled();
             return enabled ? "enabled" : "disabled";
         });
     }

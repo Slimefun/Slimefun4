@@ -12,6 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
@@ -165,6 +166,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         // Override this method to register your machine recipes
     }
 
+    public List<MachineRecipe> getMachineRecipes() {
+        return recipes;
+    }
+
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 
@@ -282,7 +287,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             }
 
             if (r != null) {
-                if (!fits(b, r.getOutput())) {
+                if (!InvUtils.fitAll(inv.toInventory(), r.getOutput(), getOutputSlots())) {
                     return;
                 }
 

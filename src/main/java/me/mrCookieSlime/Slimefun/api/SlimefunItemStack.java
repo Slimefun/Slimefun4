@@ -22,6 +22,7 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -179,11 +180,20 @@ public class SlimefunItemStack extends CustomItem {
         return new SlimefunItemStack(id, this);
     }
 
+    @Override
+    public String toString() {
+        return "SlimefunItemStack (" + id + ')';
+    }
+
     public Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
     }
 
     private static ItemStack getSkull(String id, String texture) {
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+
         return SkullItem.fromBase64(getTexture(id, texture));
     }
 

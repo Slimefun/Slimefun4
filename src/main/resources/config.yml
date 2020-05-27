@@ -13,10 +13,9 @@ options:
   legacy-ore-washer: false
   legacy-dust-washer: false
   legacy-ore-grinder: true
-  max-network-size: 200
   language: en
   enable-translations: true
-
+  
 guide:
   default-view-book: false
   show-vanilla-recipes: true

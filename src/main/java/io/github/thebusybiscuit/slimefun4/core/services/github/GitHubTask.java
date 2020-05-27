@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 class GitHubTask implements Runnable {
 
-    private static final int MAX_REQUESTS_PER_MINUTE = 12;
+    private static final int MAX_REQUESTS_PER_MINUTE = 16;
 
     private final GitHubService gitHubService;
 
@@ -54,8 +54,9 @@ class GitHubTask implements Runnable {
                         contributor.setTexture(skins.get(contributor.getMinecraftName()));
                     }
                     else {
-                        contributor.setTexture(grabTexture(skins, contributor.getMinecraftName()));
-                        count++;
+                        contributor.setTexture(grabTexture(skins, contributor));
+
+                        count += contributor.getUniqueId().isPresent() ? 1 : 2;
 
                         if (count >= MAX_REQUESTS_PER_MINUTE) {
                             break;
@@ -66,30 +67,59 @@ class GitHubTask implements Runnable {
                     // There cannot be a texture found because it is not a valid MC username
                     contributor.setTexture(null);
                 }
-                catch (IOException | TooManyRequestsException x) {
+                catch (IOException x) {
                     // Too many requests
                     Slimefun.getLogger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
                     Slimefun.getLogger().log(Level.WARNING, "This usually means mojang.com is down or started to rate-limit this connection, this is not an error message!");
 
-                    // Retry after 2 minutes
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
-                    return;
+                    // Retry after 5 minutes if it was rate-limiting
+                    if (x.getMessage().contains("429")) {
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 5 * 60 * 20L);
+                    }
+
+                    count = 0;
+                    break;
+                }
+                catch (TooManyRequestsException x) {
+                    Slimefun.getLogger().log(Level.WARNING, "Received a rate-limit from mojang.com, retrying in 4 minutes");
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 4 * 60 * 20L);
+
+                    count = 0;
+                    break;
                 }
             }
         }
 
         if (count >= MAX_REQUESTS_PER_MINUTE) {
             // Slow down API requests and wait a minute after more than x requests were made
-            Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 60 * 20L);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
         }
+
+        for (GitHubConnector connector : gitHubService.getConnectors()) {
+            if (connector instanceof ContributionsConnector && !((ContributionsConnector) connector).hasFinished()) {
+                return;
+            }
+        }
+
+        // We only wanna save this if all Connectors finished already
+        // This will run multiple times but thats okay, this way we get as much data as possible stored
+        gitHubService.saveUUIDCache();
     }
 
-    private String grabTexture(Map<String, String> skins, String username) throws TooManyRequestsException, IOException {
-        Optional<UUID> uuid = MinecraftAccount.getUUID(username);
+    private String grabTexture(Map<String, String> skins, Contributor contributor) throws TooManyRequestsException, IOException {
+        Optional<UUID> uuid = contributor.getUniqueId();
+
+        if (!uuid.isPresent()) {
+            uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
+
+            if (uuid.isPresent()) {
+                contributor.setUniqueId(uuid.get());
+            }
+        }
 
         if (uuid.isPresent()) {
             Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
-            skins.put(username, skin.orElse(""));
+            skins.put(contributor.getMinecraftName(), skin.orElse(""));
             return skin.orElse(null);
         }
         else {

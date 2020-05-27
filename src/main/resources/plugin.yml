@@ -7,7 +7,7 @@ website: https://github.com/TheBusyBiscuit/Slimefun4
 main: me.mrCookieSlime.Slimefun.SlimefunPlugin
 softdepend: [CS-CoreLib, PlaceholderAPI, WorldEdit, EmeraldEnchants]
 
-api-version: 1.13
+api-version: '1.13'
 
 commands:
   slimefun:
@@ -36,6 +36,9 @@ permissions:
     default: op
   slimefun.command.versions:
     description: Allows you to do /sf versions
+    default: op
+  slimefun.command.backpack:
+    description: Allows you to do /sf backpack
     default: op
   slimefun.command.guide:
     description: Allows you to obtain the Slimefun guide book

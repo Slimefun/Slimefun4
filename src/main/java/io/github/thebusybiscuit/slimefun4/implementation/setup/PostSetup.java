@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class PostSetup {
@@ -84,13 +87,13 @@ public final class PostSetup {
         CommandSender sender = Bukkit.getConsoleSender();
 
         int total = SlimefunPlugin.getRegistry().getEnabledSlimefunItems().size();
-        int vanilla = SlimefunPlugin.getRegistry().countVanillaItems();
+        int slimefunOnly = countNonAddonItems();
 
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "######################### - Slimefun v" + SlimefunPlugin.getVersion() + " - #########################");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + total + " Items and " + SlimefunPlugin.getRegistry().getResearches().size() + " Researches");
-        sender.sendMessage(ChatColor.GREEN + "( " + vanilla + " Items from Slimefun, " + (total - vanilla) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
+        sender.sendMessage(ChatColor.GREEN + "( " + slimefunOnly + " Items from Slimefun, " + (total - slimefunOnly) + " Items from " + SlimefunPlugin.getInstalledAddons().size() + " Addons )");
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is kept alive by a large community.");
         sender.sendMessage(ChatColor.GREEN + "Consider helping us maintain this project by contributing on GitHub!");
@@ -112,6 +115,10 @@ public final class PostSetup {
         SlimefunPlugin.getItemCfg().save();
         SlimefunPlugin.getResearchCfg().save();
         SlimefunPlugin.getRegistry().setAutoLoadingMode(true);
+    }
+
+    private static int countNonAddonItems() {
+        return (int) SlimefunPlugin.getRegistry().getEnabledSlimefunItems().stream().filter(item -> item.getAddon() instanceof SlimefunPlugin).count();
     }
 
     private static void loadAutomaticCraftingChamber() {
@@ -190,7 +197,8 @@ public final class PostSetup {
 
     private static void loadSmelteryRecipes() {
         Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
-        if (smeltery != null) {
+
+        if (smeltery != null && !smeltery.isDisabled()) {
             ItemStack[] input = null;
 
             for (ItemStack[] recipe : smeltery.getRecipes()) {
@@ -220,6 +228,13 @@ public final class PostSetup {
                     }
 
                     input = null;
+                }
+            }
+
+            for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+                if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
+                    List<MachineRecipe> recipes = ((AContainer) item).getMachineRecipes();
+                    Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
                 }
             }
         }

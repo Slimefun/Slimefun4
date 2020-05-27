@@ -42,8 +42,9 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     @Override
     public ItemDropHandler getItemHandler() {
-        return (e, p, i) -> {
-            ItemStack item = i.getItemStack();
+        return (e, p, droppedItem) -> {
+            ItemStack item = droppedItem.getItemStack();
+
             if (isItem(item)) {
 
                 if (!Slimefun.hasUnlocked(p, SlimefunItems.RUNE_SOULBOUND, true)) {
@@ -52,42 +53,39 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
                 Slimefun.runSync(() -> {
                     // Being sure the entity is still valid and not picked up or whatsoever.
-                    if (!i.isValid()) return;
+                    if (!droppedItem.isValid()) {
+                        return;
+                    }
 
-                    Location l = i.getLocation();
+                    Location l = droppedItem.getLocation();
                     Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5, this::findCompatibleItem);
 
-                    if (entites.isEmpty()) return;
+                    if (entites.isEmpty()) {
+                        return;
+                    }
 
                     Entity entity = entites.stream().findFirst().get();
-                    ItemStack ench = ((Item) entity).getItemStack();
-                    Item ent = (Item) entity;
+                    ItemStack target = ((Item) entity).getItemStack();
+                    Item targetItem = (Item) entity;
 
-                    if (ench.getAmount() == 1) {
+                    SlimefunUtils.setSoulbound(target, true);
+
+                    if (target.getAmount() == 1) {
                         e.setCancelled(true);
-
-                        ItemMeta enchMeta = ench.getItemMeta();
-                        List<String> lore = enchMeta.hasLore() ? enchMeta.getLore() : new ArrayList<>();
 
                         // This lightning is just an effect, it deals no damage.
                         l.getWorld().strikeLightningEffect(l);
 
                         Slimefun.runSync(() -> {
-
                             // Being sure entities are still valid and not picked up or whatsoever.
-                            if (i.isValid() && ent.isValid()) {
+                            if (droppedItem.isValid() && targetItem.isValid() && target.getAmount() == 1) {
 
                                 l.getWorld().createExplosion(l, 0.0F);
                                 l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
 
-                                lore.add(ChatColor.GRAY + "Soulbound");
-
-                                enchMeta.setLore(lore);
-                                ench.setItemMeta(enchMeta);
-
-                                ent.remove();
-                                i.remove();
-                                l.getWorld().dropItemNaturally(l, ench);
+                                targetItem.remove();
+                                droppedItem.remove();
+                                l.getWorld().dropItemNaturally(l, target);
 
                                 SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.success", true);
                             }
@@ -102,6 +100,22 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
             }
             return false;
         };
+    }
+
+    /**
+     * This method applies the {@link Soulbound} effect onto a given {@link ItemStack}.
+     * 
+     * @param item
+     *            The {@link ItemStack} to apply this effect to
+     */
+    public void apply(ItemStack item) {
+        // Should rather use PersistentData here
+        ItemMeta meta = item.getItemMeta();
+        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        lore.add(ChatColor.GRAY + "Soulbound");
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
     }
 
     private boolean findCompatibleItem(Entity n) {

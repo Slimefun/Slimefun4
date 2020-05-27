@@ -15,7 +15,9 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
@@ -24,10 +26,10 @@ import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
-import io.github.thebusybiscuit.slimefun4.api.network.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
@@ -50,18 +52,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityKillListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
@@ -103,6 +106,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     public static SlimefunPlugin instance;
+
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
@@ -112,9 +116,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
-    private final CustomTextureService textureService = new CustomTextureService(this);
+    private final CustomTextureService textureService = new CustomTextureService(new Config(this, "item-models.yml"));
     private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
-    private final UpdaterService updaterService = new UpdaterService(this, getFile());
+    private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
     private final MetricsService metricsService = new MetricsService(this);
     private final AutoSavingService autoSavingService = new AutoSavingService();
     private final BackupService backupService = new BackupService();
@@ -139,9 +143,23 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final BackpackListener backpackListener = new BackpackListener();
     private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
+    public SlimefunPlugin() {
+        super();
+    }
+
+    public SlimefunPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
+        minecraftVersion = MinecraftVersion.UNIT_TEST;
+    }
+
     @Override
     public void onEnable() {
-        if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+        if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
+            instance = this;
+            local = new LocalizationService(this, "", null);
+            gpsNetwork = new GPSNetwork();
+        }
+        else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
@@ -162,7 +180,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Setting up Networks
             gpsNetwork = new GPSNetwork();
-            networkManager = new NetworkManager(config.getInt("networks.max-size"));
+
+            int networkSize = config.getInt("networks.max-size");
+
+            if (networkSize < 1) {
+                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
+                networkSize = 1;
+            }
+
+            networkManager = new NetworkManager(networkSize);
 
             // Setting up bStats
             metricsService.start();
@@ -194,10 +220,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new SlimefunItemListener(this);
             new SlimefunItemConsumeListener(this);
             new BlockPhysicsListener(this);
+            new CargoNodeListener(this);
             new MultiBlockListener(this);
             new GadgetsListener(this);
             new DispenserListener(this);
-            new EntityKillListener(this);
+            new MobDropListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
             new ItemPickupListener(this);
@@ -243,8 +270,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
-                textureService.register(registry.getAllSlimefunItems());
-                permissionsService.register(registry.getAllSlimefunItems());
+                textureService.register(registry.getAllSlimefunItems(), true);
+                permissionsService.register(registry.getAllSlimefunItems(), true);
                 recipeService.refresh();
             }), 0);
 
@@ -339,7 +366,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         // Slimefun never loaded successfully, so we don't even bother doing stuff here
-        if (instance == null) {
+        if (instance == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
             return;
         }
 

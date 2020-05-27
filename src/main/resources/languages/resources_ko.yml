@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: GEO 스캔 결과
+  chunk: 스캔 한 청크
+  world: 월드
+  unit: 단위
+  units: 단위
+resources:
+  slimefun:
+    salt: 소금
+    uranium: 우라늄
+    oil: 오일
+    nether_ice: 네더 얼음
+  slimefunorechunks:
+    iron_ore_chunk: 철광석 덩어리
+    gold_ore_chunk: 금광석 덩어리
+    copper_ore_chunk: 구리 광석 덩어리
+    tin_ore_chunk: 주석 광석 덩어리
+    silver_ore_chunk: 은 광석 덩어리
+    aluminum_ore_chunk: 알루미늄 광석 덩어리
+    lead_ore_chunk: 납 광석 덩어리
+    zinc_ore_chunk: 아연 광석 덩어리
+    nickel_ore_chunk: 니켈 광석 덩어리
+    cobalt_ore_chunk: 코발트 광석 덩어리

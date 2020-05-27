@@ -29,7 +29,16 @@ final class CargoUtils {
 
     private CargoUtils() {}
 
-    public static boolean hasInventory(Block block) {
+    /**
+     * This is a performance-saving shortcut to quickly test whether a given
+     * {@link Block} might be an {@link InventoryHolder} or not.
+     * 
+     * @param block
+     *            The {@link Block} to check
+     * 
+     * @return Whether this {@link Block} represents a {@link BlockState} that is an {@link InventoryHolder}
+     */
+    static boolean hasInventory(Block block) {
         if (block == null) {
             return false;
         }
@@ -68,7 +77,7 @@ final class CargoUtils {
         return false;
     }
 
-    public static ItemStack withdraw(Block node, Block target, ItemStack template) {
+    static ItemStack withdraw(Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu == null) {
@@ -79,6 +88,7 @@ final class CargoUtils {
                     return withdrawFromVanillaInventory(node, template, ((InventoryHolder) state).getInventory());
                 }
             }
+
             return null;
         }
 
@@ -90,7 +100,7 @@ final class CargoUtils {
             if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(node, is, -1)) {
                 if (is.getAmount() > template.getAmount()) {
                     is.setAmount(is.getAmount() - template.getAmount());
-                    menu.replaceExistingItem(slot, is);
+                    menu.replaceExistingItem(slot, is.clone());
                     return template;
                 }
                 else {
@@ -103,7 +113,7 @@ final class CargoUtils {
         return null;
     }
 
-    private static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
+    static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
@@ -128,8 +138,9 @@ final class CargoUtils {
                     return template;
                 }
                 else {
-                    itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
-                    return itemInSlot;
+                    ItemStack clone = itemInSlot.clone();
+                    itemInSlot.setAmount(0);
+                    return clone;
                 }
             }
         }
@@ -137,7 +148,7 @@ final class CargoUtils {
         return null;
     }
 
-    public static ItemStackAndInteger withdraw(Block node, Block target, int index) {
+    static ItemStackAndInteger withdraw(Block node, Block target, int index) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -181,7 +192,7 @@ final class CargoUtils {
         return null;
     }
 
-    public static ItemStack insert(Block node, Block target, ItemStack stack, int index) {
+    static ItemStack insert(Block node, Block target, ItemStack stack, int index) {
         if (!matchesFilter(node, stack, index)) return stack;
 
         DirtyChestMenu menu = getChestMenu(target);
@@ -229,7 +240,7 @@ final class CargoUtils {
         return stack;
     }
 
-    private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
+    static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
@@ -246,7 +257,6 @@ final class CargoUtils {
             }
         }
         else if (inv instanceof BrewerInventory) {
-
             if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
                 // Potions slot
                 maxSlot = 3;
@@ -298,7 +308,7 @@ final class CargoUtils {
         return stack;
     }
 
-    public static DirtyChestMenu getChestMenu(Block block) {
+    static DirtyChestMenu getChestMenu(Block block) {
         if (BlockStorage.hasInventory(block)) {
             return BlockStorage.getInventory(block);
         }
@@ -306,7 +316,7 @@ final class CargoUtils {
         return BlockStorage.getUniversalInventory(block);
     }
 
-    public static boolean matchesFilter(Block block, ItemStack item, int index) {
+    static boolean matchesFilter(Block block, ItemStack item, int index) {
         if (item == null || item.getType() == Material.AIR) return false;
 
         // Store the returned Config instance to avoid heavy calls
@@ -364,4 +374,13 @@ final class CargoUtils {
         }
     }
 
+    /**
+     * Get the whitelist/blacklist slots in a Cargo Input Node. If you wish to access the items
+     * in the cargo (without hardcoding the slots in case of change) then you can use this method.
+     *
+     * @return The slot indexes for the whitelist/blacklist section.
+     */
+    public static int[] getWhitelistBlacklistSlots() {
+        return SLOTS;
+    }
 }

@@ -37,6 +37,8 @@ class ContributionsConnector extends GitHubConnector {
     private final String role;
     private final int page;
 
+    private boolean finished = false;
+
     ContributionsConnector(GitHubService github, String prefix, int page, String repository, String role) {
         super(github, repository);
 
@@ -45,14 +47,29 @@ class ContributionsConnector extends GitHubConnector {
         this.role = role;
     }
 
+    /**
+     * This returns whether this {@link ContributionsConnector} has finished its task.
+     * 
+     * @return Whether it is finished
+     */
+    public boolean hasFinished() {
+        return finished;
+    }
+
     @Override
     public void onSuccess(JsonElement element) {
+        finished = true;
         if (element.isJsonArray()) {
             computeContributors(element.getAsJsonArray());
         }
         else {
             Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", element);
         }
+    }
+
+    @Override
+    public void onFailure() {
+        finished = true;
     }
 
     @Override
@@ -74,9 +91,7 @@ class ContributionsConnector extends GitHubConnector {
             String profile = object.get("html_url").getAsString();
 
             if (!blacklist.contains(name)) {
-                Contributor contributor = github.getContributors().computeIfAbsent(name, key -> new Contributor(aliases.getOrDefault(name, name), profile));
-
-                contributor.setContribution(role, commits);
+                github.addContributor(aliases.getOrDefault(name, name), profile, role, commits);
             }
         }
     }

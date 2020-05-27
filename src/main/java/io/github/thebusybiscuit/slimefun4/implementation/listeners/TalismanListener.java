@@ -149,7 +149,7 @@ public class TalismanListener implements Listener {
             // Did the tool in our hand broke or was it an Armorpiece?
             if (!inv.getItem(inv.getHeldItemSlot()).equals(e.getBrokenItem())) {
                 for (int s : armorSlots) {
-                    if (inv.getItem(s).equals(e.getBrokenItem())) {
+                    if (e.getBrokenItem().equals(inv.getItem(s))) {
                         slot = s;
                         break;
                     }
@@ -185,8 +185,10 @@ public class TalismanListener implements Listener {
 
         if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
-            TalismanEnchantment enchantment = talisman.getRandomEnchantment();
-            e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
+            TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem());
+            if (enchantment != null) {
+                e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
+            }
         }
 
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {

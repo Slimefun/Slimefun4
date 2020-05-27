@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talisman
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.ChatColor;
@@ -19,11 +20,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -31,6 +32,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Talisman extends SlimefunItem {
 
     protected static final Category TALISMANS_CATEGORY = new Category(new NamespacedKey(SlimefunPlugin.instance, "talismans"), new CustomItem(SlimefunItems.TALISMAN, "&7Talismans - &aTier I"), 2);
+
+    private final SlimefunItemStack enderTalisman;
 
     protected final String suffix;
     protected final boolean consumable;
@@ -58,43 +61,51 @@ public class Talisman extends SlimefunItem {
         this.suffix = messageSuffix;
         this.effects = effects;
         this.chance = chance;
-    }
 
-    public String getSuffix() {
-        return suffix;
+        if (!(this instanceof EnderTalisman)) {
+            String name = "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName());
+            List<String> lore = new ArrayList<>();
+            lore.add("&7&oEnder Infused");
+            lore.add("");
+
+            for (String line : getItem().getItemMeta().getLore()) {
+                lore.add(line);
+            }
+
+            enderTalisman = new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), name, lore.toArray(new String[0]));
+        }
+        else {
+            enderTalisman = null;
+        }
     }
 
     public boolean isConsumable() {
         return consumable;
     }
 
-    public boolean isEventCancelled() {
-        return cancel;
+    public int getChance() {
+        return chance;
     }
 
     public PotionEffect[] getEffects() {
         return effects;
     }
 
-    public int getChance() {
-        return chance;
+    protected String getMessageSuffix() {
+        return suffix;
     }
 
-    public SlimefunItemStack upgrade() {
-        List<String> lore = new ArrayList<>();
-        lore.add("&7&oEnder Infused");
-        lore.add("");
+    protected boolean isEventCancelled() {
+        return cancel;
+    }
 
-        for (String line : getItem().getItemMeta().getLore()) {
-            lore.add(line);
-        }
-
-        return new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName()), lore.toArray(new String[lore.size()]));
+    private SlimefunItemStack getEnderVariant() {
+        return enderTalisman;
     }
 
     @Override
     public void postRegister() {
-        EnderTalisman talisman = new EnderTalisman(this);
+        EnderTalisman talisman = new EnderTalisman(this, getEnderVariant());
         talisman.register(addon);
     }
 
@@ -105,16 +116,16 @@ public class Talisman extends SlimefunItem {
     }
 
     protected void createEnderTalisman() {
-        EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(upgrade());
-        Research research = Research.getByID(112);
+        EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(getEnderVariant());
+        Optional<Research> research = Research.getResearch(new NamespacedKey(SlimefunPlugin.instance, "ender_talismans"));
 
-        if (talisman != null && research != null) {
-            talisman.setResearch(research);
+        if (talisman != null && research.isPresent()) {
+            talisman.setResearch(research.get());
         }
     }
 
     private static boolean hasMessage(Talisman talisman) {
-        return !("").equalsIgnoreCase(talisman.getSuffix());
+        return !("").equalsIgnoreCase(talisman.getMessageSuffix());
     }
 
     public static boolean checkFor(Event e, SlimefunItemStack stack) {
@@ -137,28 +148,41 @@ public class Talisman extends SlimefunItem {
             return false;
         }
 
-        if (p.getInventory().containsAtLeast(talisman.getItem(), 1)) {
-            if (Slimefun.hasUnlocked(p, talisman.getItem(), true)) {
-                activateTalisman(e, p, p.getInventory(), talisman);
+        ItemStack talismanItem = talisman.getItem();
+
+        if (p.getInventory().containsAtLeast(talismanItem, 1)) {
+            if (Slimefun.hasUnlocked(p, talismanItem, true)) {
+                activateTalisman(e, p, p.getInventory(), talisman, talismanItem);
                 return true;
             }
-            else return false;
-        }
-        else if (p.getEnderChest().containsAtLeast(talisman.upgrade(), 1)) {
-            if (Slimefun.hasUnlocked(p, talisman.upgrade(), true)) {
-                activateTalisman(e, p, p.getEnderChest(), talisman);
-                return true;
+            else {
+                return false;
             }
-            else return false;
         }
-        else return false;
+        else {
+            ItemStack enderTalisman = talisman.getEnderVariant();
+
+            if (p.getEnderChest().containsAtLeast(enderTalisman, 1)) {
+                if (Slimefun.hasUnlocked(p, enderTalisman, true)) {
+                    activateTalisman(e, p, p.getEnderChest(), talisman, enderTalisman);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
     }
 
-    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman) {
-        consumeItem(inv, talisman);
+    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman, ItemStack talismanItem) {
+        consumeItem(inv, talisman, talismanItem);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
         sendMessage(p, talisman);
+
     }
 
     private static void applyTalismanEffects(Player p, Talisman talisman) {
@@ -175,22 +199,32 @@ public class Talisman extends SlimefunItem {
 
     private static void sendMessage(Player p, Talisman talisman) {
         if (hasMessage(talisman)) {
-            SlimefunPlugin.getLocal().sendMessage(p, "messages.talisman." + talisman.getSuffix(), true);
+            SlimefunPlugin.getLocal().sendMessage(p, "messages.talisman." + talisman.getMessageSuffix(), true);
         }
     }
 
-    private static void consumeItem(Inventory inv, Talisman talisman) {
+    private static void consumeItem(Inventory inv, Talisman talisman, ItemStack talismanItem) {
         if (talisman.isConsumable()) {
-            inv.removeItem(talisman.getItem());
+            inv.removeItem(talismanItem);
         }
     }
 
     private static Player getPlayerByEventType(Event e) {
-        if (e instanceof EntityDeathEvent) return ((EntityDeathEvent) e).getEntity().getKiller();
-        else if (e instanceof BlockBreakEvent) return ((BlockBreakEvent) e).getPlayer();
-        else if (e instanceof PlayerEvent) return ((PlayerEvent) e).getPlayer();
-        else if (e instanceof EntityEvent) return (Player) ((EntityEvent) e).getEntity();
-        else if (e instanceof EnchantItemEvent) return ((EnchantItemEvent) e).getEnchanter();
+        if (e instanceof EntityDeathEvent) {
+            return ((EntityDeathEvent) e).getEntity().getKiller();
+        }
+        else if (e instanceof BlockBreakEvent) {
+            return ((BlockBreakEvent) e).getPlayer();
+        }
+        else if (e instanceof PlayerEvent) {
+            return ((PlayerEvent) e).getPlayer();
+        }
+        else if (e instanceof EntityEvent) {
+            return (Player) ((EntityEvent) e).getEntity();
+        }
+        else if (e instanceof EnchantItemEvent) {
+            return ((EnchantItemEvent) e).getEnchanter();
+        }
 
         return null;
     }

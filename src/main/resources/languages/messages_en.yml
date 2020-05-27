@@ -14,6 +14,13 @@ commands:
     description: Unlock/Reset researches for a player
     reset: '&cYou have reset %player%''s Knowledge'
     reset-target: '&cYour Knowledge has been reset'
+
+  backpack:
+    description: Retrieve an existing backpack
+    invalid-id: '&4The backpack id must be a non-negative number!'
+    player-never-joined: '&4No player with that name has ever joined the server!'
+    backpack-does-not-exist: '&4That backpack does not exist!'
+    restored-backpack-given: '&bBackpack restored successfully! Added to your inventory!'
     
 guide:
   locked: 'LOCKED'
@@ -313,3 +320,7 @@ languages:
   bg: 'Bulgarian'
   ko: 'Korean'
   tr: 'Turkish'
+  hr: 'Croatian'
+  mk: 'Macedonian'
+  sr: 'Serbian'
+  be: 'Belarusian'

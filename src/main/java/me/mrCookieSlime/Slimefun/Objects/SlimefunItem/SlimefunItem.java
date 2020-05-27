@@ -17,28 +17,29 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
@@ -117,6 +118,11 @@ public class SlimefunItem implements Placeable {
 
     // Previously deprecated constructor, now only for internal purposes
     protected SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
+        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(item, "'item' is not allowed to be null!");
+        Validate.notNull(id, "'id' is not allowed to be null!");
+        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
+
         this.category = category;
         this.item = item;
         this.id = id;
@@ -129,7 +135,7 @@ public class SlimefunItem implements Placeable {
      *
      * @return the identifier of this {@link SlimefunItem}
      */
-    public String getID() {
+    public final String getID() {
         return id;
     }
 
@@ -277,15 +283,6 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * This method returns whether this {@link SlimefunItem} was added by an addon.
-     * 
-     * @return Whether this {@link SlimefunItem} was added by an addon.
-     */
-    public final boolean isAddonItem() {
-        return !(addon instanceof SlimefunPlugin);
-    }
-
-    /**
      * This method returns whether this {@link SlimefunItem} is disabled.
      * 
      * @return Whether this {@link SlimefunItem} is disabled.
@@ -303,7 +300,7 @@ public class SlimefunItem implements Placeable {
      * This method returns the {@link SlimefunAddon} that registered this
      * {@link SlimefunItem}. If this Item is from Slimefun itself, the current
      * instance of {@link SlimefunPlugin} will be returned.
-     * Use an instanceof check or {@link SlimefunItem#isAddonItem()} to account for that.
+     * Use an instanceof check to account for that.
      * 
      * @return The {@link SlimefunAddon} that registered this {@link SlimefunItem}
      */
@@ -457,8 +454,8 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipe(ItemStack[] recipe) {
-        if (recipe == null || recipe.length < 9) {
-            throw new IllegalArgumentException("Cannot set a recipe shorter than 9 elements.");
+        if (recipe == null || recipe.length != 9) {
+            throw new IllegalArgumentException("Recipes must be of length 9");
         }
 
         this.recipe = recipe;
@@ -531,17 +528,21 @@ public class SlimefunItem implements Placeable {
         if (item == null) return false;
 
         if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
+            Optional<String> itemId = SlimefunPlugin.getItemDataService().getItemData(item);
 
-            if (itemID.isPresent()) {
-                return getID().equals(itemID.get());
+            if (itemId.isPresent()) {
+                return getID().equals(itemId.get());
             }
         }
 
         // Support for legacy items
-        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else if (this instanceof SlimefunBackpack && SlimefunUtils.isItemSimilar(item, this.item, false)) return true;
-        else return SlimefunUtils.isItemSimilar(item, this.item, true);
+        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) {
+            return true;
+        }
+        else {
+            boolean loreInsensitive = this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+            return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
+        }
     }
 
     /**
@@ -568,6 +569,9 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
     public final void addItemHandler(ItemHandler... handlers) {
+        Validate.notEmpty(handlers, "You cannot add zero handlers...");
+        Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
+
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }
@@ -595,12 +599,22 @@ public class SlimefunItem implements Placeable {
      *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
+        Validate.notEmpty(settings, "You cannot add zero settings...");
+        Validate.noNullElements(settings, "You cannot add any 'null' ItemSettings!");
+
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemSetting after the SlimefunItem was registered.");
         }
 
         for (ItemSetting<?> setting : settings) {
             if (setting != null) {
+                // Prevent two Item Settings with the same key
+                for (ItemSetting<?> existingSetting : itemSettings) {
+                    if (existingSetting.getKey().equals(setting.getKey())) {
+                        throw new IllegalArgumentException("This Item has already an ItemSetting with this key: " + setting.getKey());
+                    }
+                }
+
                 itemSettings.add(setting);
             }
         }
@@ -657,6 +671,14 @@ public class SlimefunItem implements Placeable {
      * @return This item's name in {@link ItemStack} form
      */
     public final String getItemName() {
+        if (item instanceof SlimefunItemStack) {
+            Optional<String> name = ((SlimefunItemStack) item).getImmutableMeta().getDisplayName();
+
+            if (name.isPresent()) {
+                return name.get();
+            }
+        }
+
         return ItemUtils.getItemName(item);
     }
 
@@ -710,7 +732,12 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        if (addon == null) {
+            return getClass().getSimpleName() + " - '" + id + "'";
+        }
+        else {
+            return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
+        }
     }
 
     @Override
@@ -751,26 +778,15 @@ public class SlimefunItem implements Placeable {
         }
 
         addon.getLogger().log(Level.SEVERE, message, throwable);
+
+        // We definitely want to re-throw them during Unit Tests
+        if (throwable instanceof RuntimeException && SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            throw (RuntimeException) throwable;
+        }
     }
 
     public static SlimefunItem getByID(String id) {
         return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
-    }
-
-    /**
-     * This gets an ItemStack from the SlimefunItem with that id.
-     * 
-     * @deprecated Please use {@link #getByID(String)} to obtain the {@link SlimefunItem} and then get the ItemStack
-     *             from that.
-     * 
-     * @param id
-     *            the item id
-     * @return The item
-     */
-    @Deprecated
-    public static ItemStack getItem(String id) {
-        SlimefunItem sfi = getByID(id);
-        return sfi == null ? null : sfi.getItem();
     }
 
     public static SlimefunItem getByItem(ItemStack item) {
@@ -801,14 +817,6 @@ public class SlimefunItem implements Placeable {
 
                 return sfi;
             }
-        }
-
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false)) {
-            return getByID("BROKEN_SPAWNER");
-        }
-
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.REPAIRED_SPAWNER, false)) {
-            return getByID("REINFORCED_SPAWNER");
         }
 
         return null;

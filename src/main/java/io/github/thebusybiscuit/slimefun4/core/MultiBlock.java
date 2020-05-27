@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.World;
@@ -54,12 +55,17 @@ public class MultiBlock {
     private final boolean isSymmetric;
 
     public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
-        this.item = item;
+        Validate.notNull(item, "A MultiBlock requires a SlimefunItem!");
+
+        if (build == null || build.length != 9) {
+            throw new IllegalArgumentException("MultiBlocks must have a length of 9!");
+        }
 
         if (trigger != BlockFace.SELF && trigger != BlockFace.UP && trigger != BlockFace.DOWN) {
             throw new IllegalArgumentException("Multiblock Blockface must be either UP, DOWN or SELF");
         }
 
+        this.item = item;
         this.blocks = build;
         this.trigger = trigger;
         this.isSymmetric = isSymmetric(build);
@@ -89,7 +95,7 @@ public class MultiBlock {
 
         MultiBlock mb = (MultiBlock) obj;
 
-        if (trigger == mb.getTriggerBlock()) {
+        if (trigger == mb.getTriggerBlock() && isSymmetric == mb.isSymmetric) {
             for (int i = 0; i < mb.getStructure().length; i++) {
                 if (!compareBlocks(blocks[i], mb.getStructure()[i])) {
                     return false;

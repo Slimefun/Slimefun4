@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
 - [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
 - [Release Candidate 9 (07 Mar 2020)](#release-candidate-9-07-mar-2020)
@@ -15,6 +16,50 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Release Candidate 12 (27 May 2020)
+
+#### Additions
+* Added Ukrainian translations
+* Added /sf backpack to restore lost backpacks
+* Added automated Unit Tests
+* Added WaypointCreateEvent
+* Added an option to call an explosion event when using explosive tools
+
+#### Changes
+* Little performance improvements
+* Bandages, Rags and Splints will no longer be consumed if your health is full and you are not on fire
+* Player Profiles (researches and stuff) are now loaded completely asynchronously
+* The Infused Magnet can no longer be placed down
+* AncientAltar speed can now be changed internally (not available for server owners yet)
+* Finished Italian translations
+
+#### Fixes
+* Fixed #1824
+* Fixed #1833
+* Fixed #1834
+* Fixed #1843
+* Fixed #1873
+* Fixed Electric Smeltery not prioritisting recipes
+* Fixed #1851
+* Fixed #1891
+* Fixed #1893
+* Fixed #1897
+* Fixed #1908
+* Fixed #1903
+* Fixed Organic Food/Fertilizer not being recognized
+* Fixed #1883
+* Fixed #1829
+* Fixed some mojang.com connection errors
+* Fixed some very weird SkullMeta serialization problems in 1.15
+* Fixed #1914
+* Fixed file errors with PerWorldSettingsService
+* Fixed ChestTerminals deleting items from Cargo networks (TheBusyBiscuit/ChestTerminal#25)
+* Fixed #1926
+* Fixed #1933
+* Fixed random errors because of Mojang's new player heads backend (Why... Mojang... why?)
+* Fixed Butcher Androids doing incorrect amounts of damage
+* Fixed #1935
 
 ## Release Candidate 11 (25 Apr 2020)
 

@@ -25,7 +25,6 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
@@ -83,7 +82,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                menu.replaceExistingItem(15, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAxYzdiNTcyNjE3ODk3NGIzYjNhMDFiNDJhNTkwZTU0MzY2MDI2ZmQ0MzgwOGYyYTc4NzY0ODg0M2E3ZjVhIn19fQ=="), "&aStart/Continue"));
+                menu.replaceExistingItem(15, new CustomItem(SlimefunUtils.getCustomHead("e01c7b5726178974b3b3a01b42a590e54366026fd43808f2a787648843a7f5a"), "&aStart/Continue"));
                 menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                     SlimefunPlugin.getLocal().sendMessage(p, "android.started", true);
                     BlockStorage.addBlockInfo(b, "paused", "false");
@@ -91,14 +90,14 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
                     return false;
                 });
 
-                menu.replaceExistingItem(17, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYxMzlmZDFjNTY1NGU1NmU5ZTRlMmM4YmU3ZWIyYmQ1YjQ5OWQ2MzM2MTY2NjNmZWVlOTliNzQzNTJhZDY0In19fQ=="), "&4Pause"));
+                menu.replaceExistingItem(17, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&4Pause"));
                 menu.addMenuClickHandler(17, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
                     SlimefunPlugin.getLocal().sendMessage(p, "android.stopped", true);
                     return false;
                 });
 
-                menu.replaceExistingItem(16, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
+                menu.replaceExistingItem(16, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&bMemory Core", "", "&8\u21E8 &7Click to open the Script Editor"));
                 menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
                     SlimefunPlugin.getLocal().sendMessage(p, "android.stopped", true);
@@ -251,7 +250,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 if (getAndroidType().isType(part.getRequiredType())) {
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-                    double damage = getTier() < 2 ? 20D : 4D * getTier();
+                    double damage = getTier() >= 3 ? 20D : 4D * getTier();
 
                     switch (part) {
                     case GO_DOWN:
@@ -463,7 +462,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
             });
         }
 
-        ItemStack generator = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==");
+        ItemStack generator = SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730");
 
         if (getTier() == 1) {
             preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on solid Fuel", "&re.g. Coal, Wood, etc..."), ChestMenuUtils.getEmptyClickHandler());

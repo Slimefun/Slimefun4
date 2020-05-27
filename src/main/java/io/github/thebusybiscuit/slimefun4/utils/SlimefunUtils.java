@@ -1,23 +1,32 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -33,8 +42,10 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public final class SlimefunUtils {
 
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
-    private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
     private static final String NO_PICKUP_METADATA = "no_pickup";
+
+    private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance, "soulbound");
+    private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
 
     private SlimefunUtils() {}
 
@@ -75,33 +86,123 @@ public final class SlimefunUtils {
             return false;
         }
         else {
-            SlimefunItem backpack = SlimefunItems.BOUND_BACKPACK.getItem();
+            ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
-            if (backpack != null && backpack.isItem(item)) {
-                return !backpack.isDisabled();
-            }
-            else {
-                ItemStack strippedItem = item.clone();
+            if (meta != null && SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+                PersistentDataContainer container = meta.getPersistentDataContainer();
 
-                if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
-                    for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(strippedItem, enchantment.getEnchantment(), 0);
-                    }
-                }
-
-                SlimefunItem sfItem = SlimefunItem.getByItem(strippedItem);
-
-                if (sfItem instanceof Soulbound && !sfItem.isDisabled()) {
+                if (container.has(SOULBOUND_KEY, PersistentDataType.BYTE)) {
                     return true;
                 }
-                else if (item.hasItemMeta()) {
-                    ItemMeta im = item.getItemMeta();
-                    return (im.hasLore() && im.getLore().contains(SOULBOUND_LORE));
-                }
+            }
 
-                return false;
+            if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
+                // We wanna operate on a copy now
+                item = item.clone();
+
+                for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
+                    EmeraldEnchants.getInstance().getRegistry().applyEnchantment(item, enchantment.getEnchantment(), 0);
+                }
+            }
+
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+            if (sfItem instanceof Soulbound) {
+                return !sfItem.isDisabled();
+            }
+            else if (meta != null) {
+                return meta.hasLore() && meta.getLore().contains(SOULBOUND_LORE);
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * Toggles an {@link ItemStack} to be Soulbound.<br>
+     * If true is passed, this will add the {@link #SOULBOUND_LORE} and
+     * add a {@link NamespacedKey} to the item so it can be quickly identified
+     * by {@link #isSoulbound(ItemStack)}.<br>
+     * If false is passed, this property will be removed.
+     *
+     * @param item
+     *            The {@link ItemStack} you want to add/remove Soulbound from.
+     * @param makeSoulbound
+     *            If they item should be soulbound.
+     * 
+     * @see #isSoulbound(ItemStack)
+     */
+    public static void setSoulbound(ItemStack item, boolean makeSoulbound) {
+        if (item == null || item.getType() == Material.AIR) {
+            throw new IllegalArgumentException("A soulbound item cannot be null or air!");
+        }
+
+        boolean isSoulbound = isSoulbound(item);
+        ItemMeta meta = item.getItemMeta();
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+
+            if (makeSoulbound && !isSoulbound) {
+                container.set(SOULBOUND_KEY, PersistentDataType.BYTE, (byte) 1);
+            }
+
+            if (!makeSoulbound && isSoulbound) {
+                container.remove(SOULBOUND_KEY);
             }
         }
+
+        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+
+        if (makeSoulbound && !isSoulbound) {
+            lore.add(SOULBOUND_LORE);
+        }
+
+        if (!makeSoulbound && isSoulbound) {
+            lore.remove(SOULBOUND_LORE);
+        }
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+    }
+
+    /**
+     * This method checks whether the given {@link ItemStack} is radioactive.
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
+     * @return Whether this {@link ItemStack} is radioactive or not
+     */
+    public static boolean isRadioactive(ItemStack item) {
+        return SlimefunItem.getByItem(item) instanceof Radioactive;
+    }
+
+    /**
+     * This method returns an {@link ItemStack} for the given texture.
+     * The result will be a Player Head with this texture.
+     * 
+     * @param texture
+     *            The texture for this head (base64 or hash)
+     * @return An {@link ItemStack} with this Head texture
+     */
+    public static ItemStack getCustomHead(String texture) {
+        if (SlimefunPlugin.instance == null) {
+            throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
+        }
+
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            // com.mojang.authlib.GameProfile does not exist in a Test Environment
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+
+        String base64 = texture;
+
+        if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+            base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
+        }
+
+        return SkullItem.fromBase64(base64);
     }
 
     public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
