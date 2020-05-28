@@ -118,6 +118,8 @@ public class Translators {
         // Translators - Korean
         addTranslator("kwonms871", EmbeddedLanguage.KOREAN, true);
         addTranslator("yumjunstar", EmbeddedLanguage.KOREAN, true);
+        addTranslator("BlWon", EmbeddedLanguage.KOREAN, true);
+        addTranslator("20181241", EmbeddedLanguage.KOREAN, true);
 
         // Translators - Indonesian
         addTranslator("diradho", EmbeddedLanguage.INDONESIAN, false);

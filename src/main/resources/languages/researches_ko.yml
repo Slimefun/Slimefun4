@@ -19,9 +19,7 @@ slimefun:
   lumps: 덩어리 및 마법
   ender_backpack: 엔더 가방
   ender_armor: 엔더 갑옷
-  magic_eye_of_ender: '엔더의 마법 눈
-
-'
+  magic_eye_of_ender: 엔더의 마법 눈
   magic_sugar: 마법 설탕
   monster_jerky: 몬스터 육포
   slime_armor: 슬라임 갑옷
@@ -30,12 +28,8 @@ slimefun:
   advanced_circuit_board: 고급 회로 기판
   smeltery: 제련소
   steel: 철강 시대
-  misc_power_items: '중요한 전원 관련 항목
-
-'
-  battery: '첫 번째 배터리
-
-'
+  misc_power_items: 중요한 전원 관련 항목
+  battery: 첫 번째 배터리
   steel_plate: 강철 도금
   parachute: 낙하산
   grappling_hook: 갈고리 훅
@@ -43,24 +37,16 @@ slimefun:
   multitools: 멀티 툴
   solar_panel_and_helmet: 태양 광 발전
   grind_stone: 맷돌
-  magical_book_cover: '마법책 바인딩
-
-'
-  slimefun_metals: '새로운 금속
-
-'
+  magical_book_cover: 마법책 바인딩
+  slimefun_metals: 새로운 금속
   ore_crusher: 광석 더블링
   bronze: 청동 제작
   alloys: 고급 합금
   compressor_and_carbon: 탄소 제작
-  gilded_iron_armor: '금빛 철갑옷
-
-'
+  gilded_iron_armor: 금빛 철갑옷
   synthetic_diamond: 인조 다이아몬드
   synthetic_sapphire: 인조 사파이어
-  damascus_steel: '다마스쿠스 강
-
-'
+  damascus_steel: 다마스쿠스 강
   damascus_steel_armor: 다마스쿠스 강 갑옷
   reinforced_alloy: 강화 합금
   carbonado: 블랙 다이아몬드
@@ -110,14 +96,10 @@ slimefun:
   ender_talismans: 엔더 부적
   nickel_and_cobalt: 더 많은 광석
   magnet: 자기금속
-  infused_magnet: '인퓨즈드 자석
-
-'
+  infused_magnet: 인퓨즈드 자석
   cobalt_pickaxe: 빠른 곡괭이
   essence_of_afterlife: 네크로망시
-  bound_backpack: 'Soulbound 스토리지
-
-'
+  bound_backpack: Soulbound 스토리지
   jetboots: 제트 부츠
   armored_jetboots: 기갑 제트 부츠
   pickaxe_of_vein_mining: 베인마이닝 곡괭이
@@ -131,9 +113,7 @@ slimefun:
   special_bows: 로빈 후드
   tome_of_knowledge_sharing: 친구들과 공유
   flask_of_knowledge: XP 스토리지
-  hardened_glass: '지속적 폭발
-
-'
+  hardened_glass: 지속적 폭발
   golden_apple_juice: 황금 물약
   cooler: 휴대용 음료
   ancient_altar: 고대 제단
@@ -173,9 +153,7 @@ slimefun:
   cargo_nodes: 화물 설정
   better_food_fabricator: 업그레이드 된 식품 제조
   reactor_access_port: 원자로 상호 작용
-  boosted_uranium: '네버엔딩 서클
-
-'
+  boosted_uranium: 네버엔딩 서클
   trash_can: 폐물
   advanced_output_node: 고급 출력 노드
   high_tier_carbon_press: 궁극의 탄소 프레스
@@ -184,9 +162,7 @@ slimefun:
   better_electric_crucibles: 뜨거운 도가니
   advanced_electric_smeltery: 고급 전기 제련소
   blistering_ingots: 맹렬한 방사능
-  copper_wire: '얇아진 전도성
-
-'
+  copper_wire: 얇아진 전도성
   radiant_backpack: 빛나는 배낭
   auto_drier: 건조한 날
   diet_cookie: 다이어트 쿠키
