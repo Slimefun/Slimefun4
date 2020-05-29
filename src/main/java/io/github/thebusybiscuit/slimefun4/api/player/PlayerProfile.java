@@ -87,10 +87,22 @@ public final class PlayerProfile {
         }
     }
 
+    /**
+     * This method provides a fast way to access the armor of a {@link Player}.
+     * It returns a cached version, represented by {@link HashedArmorpiece}.
+     * 
+     * @return The cached armor for this {@link Player}
+     */
     public HashedArmorpiece[] getArmor() {
         return armor;
     }
 
+    /**
+     * This returns the {@link Config} which is used to store the data.
+     * Only intended for internal usage.
+     * 
+     * @return The {@link Config} associated with this {@link PlayerProfile}
+     */
     public Config getConfig() {
         return configFile;
     }

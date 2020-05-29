@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 13 (TBD)](#release-candidate-13-tbd)
 - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
 - [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
@@ -21,6 +22,7 @@
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
+* Fixed #1942
 
 ## Release Candidate 12 (27 May 2020)
 
