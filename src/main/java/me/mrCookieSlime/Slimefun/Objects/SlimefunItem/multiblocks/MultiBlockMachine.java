@@ -1,5 +1,10 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -15,7 +20,9 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
@@ -33,18 +40,64 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see MultiBlock
  *
  */
-public abstract class MultiBlockMachine extends SlimefunMachine implements NotPlaceable {
+public abstract class MultiBlockMachine extends SlimefunMachine implements NotPlaceable, RecipeDisplayItem {
 
     private static final BlockFace[] outputFaces = { BlockFace.UP, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
 
+    protected final List<ItemStack[]> recipes;
+    protected final List<ItemStack> displayRecipes;
+    protected final MultiBlock multiblock;
+
     public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-        super(category, item, recipe, machineRecipes, trigger);
+        super(category, item, RecipeType.MULTIBLOCK, recipe);
+        this.recipes = new ArrayList<>();
+        this.displayRecipes = new ArrayList<>();
+        this.displayRecipes.addAll(Arrays.asList(machineRecipes));
+        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+    }
+
+    public List<ItemStack[]> getRecipes() {
+        return recipes;
+    }
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return displayRecipes;
+    }
+
+    public MultiBlock getMultiBlock() {
+        return multiblock;
+    }
+
+    public void addRecipe(ItemStack[] input, ItemStack output) {
+        Validate.notNull(output, "Recipes must have an Output!");
+
+        recipes.add(input);
+        recipes.add(new ItemStack[] { output });
     }
 
     @Override
     public void register(SlimefunAddon addon) {
         addItemHandler(getInteractionHandler());
         super.register(addon);
+    }
+
+    @Override
+    public void postRegister() {
+        SlimefunPlugin.getRegistry().getMultiBlocks().add(multiblock);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+
+        for (ItemStack recipeItem : displayRecipes) {
+            SlimefunItem item = SlimefunItem.getByItem(recipeItem);
+
+            if (item == null || !item.isDisabled()) {
+                recipes.add(new ItemStack[] { recipeItem });
+            }
+        }
     }
 
     protected MultiBlockInteractionHandler getInteractionHandler() {
@@ -112,6 +165,24 @@ public abstract class MultiBlockMachine extends SlimefunMachine implements NotPl
         }
 
         return null;
+    }
+
+    private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
+        List<Material> materials = new ArrayList<>();
+
+        for (ItemStack item : items) {
+            if (item == null) {
+                materials.add(null);
+            }
+            else if (item.getType() == Material.FLINT_AND_STEEL) {
+                materials.add(Material.FIRE);
+            }
+            else {
+                materials.add(item.getType());
+            }
+        }
+
+        return materials.toArray(new Material[0]);
     }
 
 }

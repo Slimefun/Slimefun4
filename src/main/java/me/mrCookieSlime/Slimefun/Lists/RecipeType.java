@@ -92,7 +92,7 @@ public class RecipeType implements Keyed {
         this.consumer = callback;
 
         if (item instanceof SlimefunItemStack) {
-            this.machine = ((SlimefunItemStack) item).getItemID();
+            this.machine = ((SlimefunItemStack) item).getItemId();
         }
         else {
             this.machine = "";
@@ -102,7 +102,7 @@ public class RecipeType implements Keyed {
     public RecipeType(NamespacedKey key, ItemStack item) {
         this.key = key;
         this.item = item;
-        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemID() : "";
+        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemId() : "";
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
@@ -149,6 +149,7 @@ public class RecipeType implements Keyed {
         SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
     }
 
+    @Deprecated
     public static List<ItemStack> getRecipeInputs(SlimefunMachine machine) {
         if (machine == null) return new ArrayList<>();
         List<ItemStack[]> recipes = machine.getRecipes();
@@ -161,6 +162,7 @@ public class RecipeType implements Keyed {
         return convertible;
     }
 
+    @Deprecated
     public static List<ItemStack[]> getRecipeInputList(SlimefunMachine machine) {
         if (machine == null) return new ArrayList<>();
 
@@ -188,11 +190,13 @@ public class RecipeType implements Keyed {
         return convertible;
     }
 
+    @Deprecated
     public static ItemStack getRecipeOutput(SlimefunMachine machine, ItemStack input) {
         List<ItemStack[]> recipes = machine.getRecipes();
         return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0].clone();
     }
 
+    @Deprecated
     public static ItemStack getRecipeOutputList(SlimefunMachine machine, ItemStack[] input) {
         List<ItemStack[]> recipes = machine.getRecipes();
         return recipes.get((recipes.indexOf(input) + 1))[0];

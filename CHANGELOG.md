@@ -17,6 +17,11 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 13 (TBD)
+
+#### Fixes
+* Fixed Ore Washer recipes showing up twice
+
 ## Release Candidate 12 (27 May 2020)
 
 #### Additions
