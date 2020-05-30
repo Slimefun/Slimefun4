@@ -23,6 +23,7 @@
 #### Additions
 * Added Dried Kelp Blocks recipe to the Electric Press
 * Added Bone Blocks recipe to the Electric Press
+* Added thai translations
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice

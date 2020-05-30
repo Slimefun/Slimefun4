@@ -128,6 +128,7 @@ public class Translators {
         addTranslator("phoomin2012", EmbeddedLanguage.THAI, false);
         addTranslator("film2860", EmbeddedLanguage.THAI, false);
         addTranslator("Rafrael17k", EmbeddedLanguage.THAI, false);
+        addTranslator("Cupjok", EmbeddedLanguage.THAI, false);
 
         // Translators - Turkish
         addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
