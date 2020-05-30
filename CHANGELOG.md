@@ -20,6 +20,10 @@
 
 ## Release Candidate 13 (TBD)
 
+#### Additions
+* Added Dried Kelp Blocks recipe to the Electric Press
+* Added Bone Blocks recipe to the Electric Press
+
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
 * Fixed #1942
