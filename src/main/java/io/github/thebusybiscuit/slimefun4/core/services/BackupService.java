@@ -66,62 +66,41 @@ public class BackupService implements Runnable {
     }
 
     private void createBackup(ZipOutputStream output) throws IOException {
-        byte[] buffer = new byte[1024];
 
         for (File folder : new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
-            for (File file : folder.listFiles()) {
-                ZipEntry entry = new ZipEntry("stored-blocks/" + folder.getName() + '/' + file.getName());
-                output.putNextEntry(entry);
-
-                try (FileInputStream input = new FileInputStream(file)) {
-                    int length;
-
-                    while ((length = input.read(buffer)) > 0) {
-                        output.write(buffer, 0, length);
-                    }
-                }
-
-                output.closeEntry();
-            }
+            addDirectory(output, folder, "stored-blocks/" + folder.getName());
         }
 
-        for (File file : new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
-            ZipEntry entry = new ZipEntry("universal-inventories/" + file.getName());
-            output.putNextEntry(entry);
-
-            try (FileInputStream input = new FileInputStream(file)) {
-                int length;
-
-                while ((length = input.read(buffer)) > 0) {
-                    output.write(buffer, 0, length);
-                }
-            }
-
-            output.closeEntry();
-        }
-
-        for (File file : new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
-            ZipEntry entry = new ZipEntry("stored-inventories/" + file.getName());
-            output.putNextEntry(entry);
-
-            try (FileInputStream input = new FileInputStream(file)) {
-                int length;
-
-                while ((length = input.read(buffer)) > 0) {
-                    output.write(buffer, 0, length);
-                }
-            }
-
-            output.closeEntry();
-        }
+        addDirectory(output, new File("data-storage/Slimefun/universal-inventories/"), "universal-inventories");
+        addDirectory(output, new File("data-storage/Slimefun/stored-inventories/"), "stored-inventories");
 
         File chunks = new File("data-storage/Slimefun/stored-chunks/chunks.sfc");
 
         if (chunks.exists()) {
+            byte[] buffer = new byte[1024];
             ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
             output.putNextEntry(entry);
 
             try (FileInputStream input = new FileInputStream(chunks)) {
+                int length;
+
+                while ((length = input.read(buffer)) > 0) {
+                    output.write(buffer, 0, length);
+                }
+            }
+
+            output.closeEntry();
+        }
+    }
+
+    private void addDirectory(ZipOutputStream output, File directory, String zipPath) throws IOException {
+        byte[] buffer = new byte[1024];
+
+        for (File file : directory.listFiles()) {
+            ZipEntry entry = new ZipEntry(zipPath + '/' + file.getName());
+            output.putNextEntry(entry);
+
+            try (FileInputStream input = new FileInputStream(file)) {
                 int length;
 
                 while ((length = input.read(buffer)) > 0) {

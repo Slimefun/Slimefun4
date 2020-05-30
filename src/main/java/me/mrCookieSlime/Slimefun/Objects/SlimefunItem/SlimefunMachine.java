@@ -23,18 +23,14 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 @Deprecated
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
-    private MultiBlock multiblock;
+    private final MultiBlock multiblock;
 
     protected SlimefunMachine(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+        multiblock = null;
     }
 
-    protected SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-        super(category, item, RecipeType.MULTIBLOCK, recipe);
-        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
-    }
-
-    public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+    public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, BlockFace trigger) {
         super(category, item, id, RecipeType.MULTIBLOCK, recipe);
         this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
     }
