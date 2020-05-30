@@ -1,0 +1,90 @@
+---
+commands:
+  help: แสดงหน้าต่างช่วยเหลือ
+  give: มอบไอเท็ม Slimefun ให้ใครบางคน
+  guide: ให้คู่มือ Slimefun ให้ตัวคุณเอง
+  versions: แสดง Addons ที่ติดตั้งทั้งหมด
+  open_guide: เปิดคู่มือของ Slimefun โดยไม่ใช้หนังสือ
+  stats: แสดงสถิติบางอย่างเกี่ยวกับผู้เล่น
+  research:
+    reset-target: "&cความรู้ของคุณได้รับการรีเซ็ตแล้ว"
+guide:
+  search:
+    message: "&bคุณต้องการค้นหาอะไร?"
+    name: "&7ค้นหา..."
+    tooltip: "&bคลิกเพื่อค้นหาไอเทม"
+    inventory: 'ค้นหา: %item%'
+  title:
+    main: คู่มือ Slimefun
+    settings: ตั้งค่า & แสดงค่าต่างๆ
+    credits: ผู้มีส่วนร่วมใน Slimefun4
+    addons: Addons สำหรับ Slimefun4
+    bugs: รายงานบัค
+  credits:
+    roles:
+      developer: "&6นักพัฒนา"
+      wiki: "&3คนแก้ไข Wiki"
+      resourcepack: "&cผู้สร้างสรรค์ Resourcepack"
+      translator: "&9นักแปล"
+  pages:
+    previous: ย้อนกลับ
+    next: หน้าต่อไป
+  languages:
+    translations:
+      name: "&aมีบางอย่างหายไปหรือไม่?"
+    select: คลิกเพื่อเลือกภาษานี้
+    select-default: คลิกเพื่อเลือกภาษาหลัก
+    selected-language: 'เลือกตอนนี้:'
+  tooltips:
+    open-category: คลิกเพื่อเปิด
+    recipes:
+      generator: ประเภทเชื้อเพลิงที่ใช้งานได้
+      gold-pan: ทรัพยากรที่จะได้รับ
+  back:
+    title: กลับ
+    guide: กลับไปยังคู่มือ Slimefun
+    settings: กลับไปยังหน้าตั้งค่า
+  locked: ล็อค
+messages:
+  unlocked: '&bคุณได้ปลดล็อค &7"%research%"'
+  only-players: "&4คำสั่งนี้สำหรับผู้เล่นเท่านั้น"
+  unknown-player: "&4ไม่รู้จักผู้เล่น: &c%player%"
+  no-permission: "&4คุณต้องได้รับ permission เพื่อกระทำสิ่งนี้"
+  not-online: "&4%player% &cไม่ได้ออนไลน์!"
+  not-valid-item: "&4%item% &cไม่ใช่ไอเทมที่ถูกต้อง!"
+  not-valid-amount: "&4%amount% &cไม่ใช่จำนวนที่ถูกต้อง : ตัวเลขควรมากกว่า 0!"
+  given-item: '&bคุณได้เสก &7"%item%&7" &ax%amount%'
+  give-item: '&bคุณได้เสก &7"%item%&7" &ax%amount% ให้กับ %player%'
+  hungry: "&cคุณหิวเกินไปจะทำเช่นนั้น!"
+  disabled-in-world: "&4&lไอเทมใช้งานในโลกนี้"
+  cannot-place: "&cคุณไม่สามารถวางไอเทมตรงนี้ได้!"
+  no-pvp: "&cคุณไม่สามารถต่อสู้ได้ที่นี่!"
+  opening-guide: "&bกำลังเปิดคู่มือ อาจใช้เวลาซักพัก..."
+  link-prompt: "&eคลิกตรงนี้:"
+  diet-cookie: "&eคุณเริ่มรู้สึกถึงความนุ่ม..."
+  fortune-cookie:
+  - "&7ช่วยด้วย ฉันติดอยู่ในโรงงานคุ้กกี้!"
+  - "&7คุณจะตายพรุ่งนี้...    โดย Creeper"
+  - "&7ในบางช่วงของชีวิต สิ่งแย่ๆก็เกิดขึ้น!!!"
+  - 
+  - 
+  - 
+  - 
+  - "&742 คำตอบคือ 42"
+machines:
+  ELEVATOR:
+    no-destinations: "&4ไม่พบจุดหมาย"
+    pick-a-floor: "&3- เลือกชั้น -"
+    current-floor: "&eคุณกำลังอยู่ที่ชั้น:"
+    click-to-teleport: "&eคลิก &7ไปยังชั้น:"
+  TELEPORTER:
+    gui:
+      tooltip: คลิกเพื่อ teleport
+      time: เวลาโดยประมาณ
+android:
+  scripts:
+    instructions:
+      WAIT: "&eรอ 0.5s"
+      CATCH_FISH: "&bจับปลา"
+    uploaded:
+    - "&bอัพโหลด..."
