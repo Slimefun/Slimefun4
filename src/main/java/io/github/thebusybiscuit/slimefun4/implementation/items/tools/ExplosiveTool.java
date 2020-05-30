@@ -23,7 +23,6 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.HandledBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
@@ -108,7 +107,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
             SlimefunItem sfItem = BlockStorage.check(b);
 
-            if (sfItem != null && !(sfItem instanceof HandledBlock)) {
+            if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
                 SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 
                 if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
