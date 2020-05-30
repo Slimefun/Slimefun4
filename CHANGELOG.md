@@ -27,6 +27,7 @@
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
 * Fixed #1942
+* Fixed #1943
 
 ## Release Candidate 12 (27 May 2020)
 

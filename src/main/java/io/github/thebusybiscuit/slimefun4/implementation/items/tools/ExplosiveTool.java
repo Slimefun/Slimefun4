@@ -118,8 +118,13 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
                 b.breakNaturally();
             }
             else {
+                boolean applyFortune = b.getType().name().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE;
+
                 for (ItemStack drop : b.getDrops(getItem())) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), (b.getType().toString().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE) ? new CustomItem(drop, fortune) : drop);
+                    // For some reason this check is necessary with Paper
+                    if (drop != null && drop.getType() != Material.AIR) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
+                    }
                 }
 
                 b.setType(Material.AIR);
