@@ -8,6 +8,12 @@ commands:
   stats: แสดงสถิติบางอย่างเกี่ยวกับผู้เล่น
   research:
     reset-target: "&cความรู้ของคุณได้รับการรีเซ็ตแล้ว"
+    description: ปลดล็อก / รีเซ็ต การค้นหาสำหรับผู้เล่น
+    reset: "&cคุณได้รีเซ็ตความรู้ของ %player% แล้ว"
+  cheat: ช่วยให้คุณสามารถโกงไอเทม
+  timings: ข้อมูลเกี่ยวกับความแลคของเซิฟเวอร์คุณ
+  teleporter: ดู Waypoint ของผู้เล่นคนอื่น
+  search: ค้นหาคำแนะนำของคุณเพื่อหาคำที่กำหนด
 guide:
   search:
     message: "&bคุณต้องการค้นหาอะไร?"
@@ -20,12 +26,15 @@ guide:
     credits: ผู้มีส่วนร่วมใน Slimefun4
     addons: Addons สำหรับ Slimefun4
     bugs: รายงานบัค
+    languages: เลือกภาษาที่คุณต้องการ
   credits:
     roles:
       developer: "&6นักพัฒนา"
       wiki: "&3คนแก้ไข Wiki"
       resourcepack: "&cผู้สร้างสรรค์ Resourcepack"
       translator: "&9นักแปล"
+    commit: ผูกมัด
+    commits: ผู้ทำ
   pages:
     previous: ย้อนกลับ
     next: หน้าต่อไป
@@ -35,6 +44,7 @@ guide:
     select: คลิกเพื่อเลือกภาษานี้
     select-default: คลิกเพื่อเลือกภาษาหลัก
     selected-language: 'เลือกตอนนี้:'
+    updated: "&aคุณได้เปลี่ยนการตั้งค่าภาษาเป็น: &b%lang%"
   tooltips:
     open-category: คลิกเพื่อเปิด
     recipes:
@@ -45,6 +55,8 @@ guide:
     guide: กลับไปยังคู่มือ Slimefun
     settings: กลับไปยังหน้าตั้งค่า
   locked: ล็อค
+  cheat:
+    no-multiblocks: "&4คุณไม่สามารถโกงของใน Multiblocks ของคุณได้ คุณต้องสร้างมันขึ้นมาเอง!"
 messages:
   unlocked: '&bคุณได้ปลดล็อค &7"%research%"'
   only-players: "&4คำสั่งนี้สำหรับผู้เล่นเท่านั้น"
@@ -71,6 +83,10 @@ messages:
   - 
   - 
   - "&742 คำตอบคือ 42"
+  not-researched: "&4คุณมีความรู้ไม่เพียงพอที่จะเข้าใจสิ่งนี้"
+  not-enough-xp: "&4คุณมี XP ไม่เพียงพอที่จะปลดล็อก"
+  usage: "&4วิธีใช้: &c%usage%"
+  not-valid-research: "&4%research% &cนี้ไม่ใช่คำสำหรับการค้นหา!"
 machines:
   ELEVATOR:
     no-destinations: "&4ไม่พบจุดหมาย"
@@ -81,6 +97,9 @@ machines:
     gui:
       tooltip: คลิกเพื่อ teleport
       time: เวลาโดยประมาณ
+    teleporting: "&3กำลังเทเลพอต..."
+    teleported: "&3เทเลพอตสำเร็จ!"
+    cancelled: "&3เทเลพอตสำเร็จ!"
 android:
   scripts:
     instructions:
