@@ -1,22 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Dispenser;
 import org.bukkit.block.Dropper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -30,13 +24,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Smeltery extends MultiBlockMachine {
+public class Smeltery extends AbstractSmeltery {
 
     private final BlockFace[] faces = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
     private final ItemSetting<Integer> fireBreakingChance = new ItemSetting<>("fire-breaking-chance", 34);
 
     public Smeltery(Category category) {
-        super(category, SlimefunItems.SMELTERY, new ItemStack[]{null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "发射器(朝上)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null}, new ItemStack[]{SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, BlockFace.DOWN);
+        super(category, SlimefunItems.SMELTERY, new ItemStack[]{null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null}, new ItemStack[]{SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, BlockFace.DOWN);
+
         addItemSetting(fireBreakingChance);
     }
 
@@ -57,46 +52,11 @@ public class Smeltery extends MultiBlockMachine {
     }
 
     @Override
-    public void onInteract(Player p, Block b) {
-        Block dispBlock = b.getRelative(BlockFace.DOWN);
-        Dispenser disp = (Dispenser) dispBlock.getState();
-        Inventory inv = disp.getInventory();
-        List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
-
-        for (int i = 0; i < inputs.size(); i++) {
-            if (canCraft(inv, inputs, i)) {
-                ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
-
-                if (Slimefun.hasUnlocked(p, output, true)) {
-                    Inventory outputInv = findOutputInventory(output, dispBlock, inv);
-
-                    if (outputInv != null) {
-                        craft(p, dispBlock, b, inv, inputs.get(i), output, outputInv);
-                    } else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
-                    }
-                }
-
-                return;
-            }
-        }
-
-        SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
-    }
-
-    private void craft(Player p, Block dispenser, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
-        for (ItemStack removing : recipe) {
-            if (removing != null) {
-                InvUtils.removeItem(inv, removing.getAmount(), true, stack -> SlimefunUtils.isItemSimilar(stack, removing, true));
-            }
-        }
-
-        outputInv.addItem(output);
-        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
-        p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+    protected void craft(Player p, Block b, Inventory inv, ItemStack[] recipe, ItemStack output, Inventory outputInv) {
+        super.craft(p, b, inv, recipe, output, outputInv);
 
         if (ThreadLocalRandom.current().nextInt(100) < fireBreakingChance.getValue()) {
-            consumeFire(p, dispenser, b);
+            consumeFire(p, b.getRelative(BlockFace.DOWN), b);
         }
     }
 
@@ -128,20 +88,6 @@ public class Smeltery extends MultiBlockMachine {
             fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
             fire.setType(Material.AIR);
         }
-    }
-
-    private boolean canCraft(Inventory inv, List<ItemStack[]> inputs, int i) {
-        for (ItemStack converting : inputs.get(i)) {
-            if (converting != null) {
-                for (int j = 0; j < inv.getContents().length; j++) {
-                    if (j == (inv.getContents().length - 1) && !SlimefunUtils.isItemSimilar(converting, inv.getContents()[j], true)) {
-                        return false;
-                    } else if (SlimefunUtils.isItemSimilar(inv.getContents()[j], converting, true)) break;
-                }
-            }
-        }
-
-        return true;
     }
 
     private Inventory findIgnitionChamber(Block b) {

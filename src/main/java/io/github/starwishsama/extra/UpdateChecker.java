@@ -42,7 +42,7 @@ public class UpdateChecker {
             if (e instanceof SocketException) {
                 Slimefun.getLogger().log(Level.WARNING, "连接至 Github 服务器出错");
             } else {
-                Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常", e);
+                Slimefun.getLogger().log(Level.WARNING, "在获取更新时发生了异常");
             }
         }
         return new ArrayList<>();
@@ -50,6 +50,7 @@ public class UpdateChecker {
 
     public static String getUpdateInfo() {
         List<GithubBean> bean = getReleaseBean();
+
         if (!bean.isEmpty()) {
             String[] splitVersion = SlimefunPlugin.getVersion().split("-");
             String version = splitVersion.length >= 3 ? splitVersion[2] : "";
@@ -65,6 +66,7 @@ public class UpdateChecker {
                 }
             }
         }
+
         return "无法获取到更新信息";
     }
 }

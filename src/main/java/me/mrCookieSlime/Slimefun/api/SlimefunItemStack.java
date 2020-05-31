@@ -194,4 +194,9 @@ public class SlimefunItemStack extends CustomItem {
         }
     }
 
+    @Override
+    public String toString() {
+        return "SlimefunItemStack (" + id + ')';
+    }
+
 }

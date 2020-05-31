@@ -8,11 +8,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuid
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.function.Consumer;
 
 /**
  * This interface is used for the different implementations that add behaviour
@@ -44,6 +44,14 @@ public interface SlimefunGuideImplementation {
      */
     ItemStack getItem();
 
+    /**
+     * This method returns whether this {@link SlimefunGuideImplementation} is meant
+     * for Survival Mode.
+     *
+     * @return Whether this is a survival mode implementation
+     */
+    boolean isSurvivalMode();
+
     void openMainMenu(PlayerProfile profile, int page);
 
     void openCategory(PlayerProfile profile, Category category, int page);
@@ -54,21 +62,18 @@ public interface SlimefunGuideImplementation {
 
     void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory);
 
-    default void unlockItem(Player p, SlimefunItem sfitem, Runnable callback) {
+    default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         Research research = sfitem.getResearch();
 
         if (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) {
-            research.unlock(p, true);
-            Slimefun.runSync(callback, 5L);
+            research.unlock(p, true, callback);
         } else {
-            research.unlock(p, false);
             if (VaultHook.isUsable()) {
-                EconomyResponse response = VaultHook.getEcon().withdrawPlayer(p, research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply"));
-                p.sendMessage(response.transactionSuccess() + " " + response.errorMessage);
+                VaultHook.getEcon().withdrawPlayer(p, research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply"));
             } else {
                 p.setLevel(p.getLevel() - research.getCost());
             }
-            Slimefun.runSync(callback, 103L);
+            research.unlock(p, false, callback);
         }
     }
 

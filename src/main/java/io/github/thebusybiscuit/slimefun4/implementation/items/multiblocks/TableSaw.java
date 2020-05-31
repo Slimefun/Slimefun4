@@ -22,22 +22,20 @@ import java.util.Optional;
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
  * you to turn Logs into Wooden Planks.
- * <p>
+ *
  * It also replaced the old "Saw Mill" from earlier versions.
  *
  * @author dniym
+ *
  * @see MultiBlockMachine
+ *
  */
 public class TableSaw extends MultiBlockMachine {
 
     private final List<ItemStack> displayRecipes = new ArrayList<>();
 
     public TableSaw(Category category) {
-        super(category, SlimefunItems.TABLE_SAW, new ItemStack[]{
-                null, null, null,
-                new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB),
-                null, new ItemStack(Material.IRON_BLOCK), null
-        }, new ItemStack[0], BlockFace.SELF);
+        super(category, SlimefunItems.TABLE_SAW, new ItemStack[]{null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null}, new ItemStack[0], BlockFace.SELF);
 
         for (Material log : Tag.LOGS.getValues()) {
             Optional<Material> planks = MaterialConverter.getPlanksFromLog(log);

@@ -18,7 +18,7 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
     }
 
     @Override
-    protected boolean isSurvivalMode() {
+    public boolean isSurvivalMode() {
         return false;
     }
 

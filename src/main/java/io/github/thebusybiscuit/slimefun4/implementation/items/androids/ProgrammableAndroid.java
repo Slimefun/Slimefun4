@@ -244,7 +244,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 if (getAndroidType().isType(part.getRequiredType())) {
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-                    double damage = getTier() < 2 ? 20D : 4D * getTier();
+                    double damage = getTier() >= 3 ? 20D : 4D * getTier();
 
                     switch (part) {
                         case GO_DOWN:
@@ -453,7 +453,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
             });
         }
 
-        ItemStack generator = SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==");
+        ItemStack generator = SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730");
 
         if (getTier() == 1) {
             preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&r机器人需要固体燃料", "&r例如煤炭, 原木等..."), ChestMenuUtils.getEmptyClickHandler());

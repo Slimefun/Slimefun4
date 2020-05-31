@@ -55,4 +55,10 @@ public final class NumberUtils {
         return timeleft + seconds + "秒";
     }
 
+    public static int getInt(String str, int defaultVal) {
+        if (PatternUtils.NUMERIC.matcher(str).matches())
+            return Integer.parseInt(str);
+
+        return defaultVal;
+    }
 }

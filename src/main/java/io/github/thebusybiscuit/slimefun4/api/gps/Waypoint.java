@@ -1,0 +1,83 @@
+package io.github.thebusybiscuit.slimefun4.api.gps;
+
+import io.github.thebusybiscuit.slimefun4.api.events.WaypointCreateEvent;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
+
+/**
+ * A {@link Waypoint} represents a named {@link Location} that was created by a {@link Player}.
+ * It can be used via a {@link Teleporter}.
+ *
+ * @author TheBusyBiscuit
+ * @see WaypointCreateEvent
+ * @see GPSNetwork
+ * @see TeleportationManager
+ * @see Teleporter
+ */
+public class Waypoint {
+
+    private final PlayerProfile profile;
+    private final String id;
+    private String name;
+    private Location location;
+
+    public Waypoint(PlayerProfile profile, String id, Location l, String name) {
+        Validate.notNull(profile, "Profile must never be null!");
+        Validate.notNull(id, "id must never be null!");
+        Validate.notNull(l, "Location must never be null!");
+        Validate.notNull(name, "Name must never be null!");
+
+        this.profile = profile;
+        this.id = id;
+        this.location = l;
+        this.name = name;
+    }
+
+    public PlayerProfile getOwner() {
+        return profile;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public boolean isDeathpoint() {
+        return name.startsWith("player:death ");
+    }
+
+    public ItemStack getIcon() {
+        return SlimefunPlugin.getGPSNetwork().getIcon(name, location.getWorld().getEnvironment());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(profile.getUUID(), id, name, location);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Waypoint)) {
+            return false;
+        }
+
+        Waypoint waypoint = (Waypoint) obj;
+
+        return profile.getUUID().equals(waypoint.getOwner().getUUID()) && id.equals(waypoint.getId()) && location.equals(waypoint.getLocation()) && name.equals(waypoint.getName());
+    }
+
+}

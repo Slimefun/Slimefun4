@@ -249,7 +249,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.20.3</version>
+            <version>0.20.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -262,9 +262,17 @@
         <!-- Third party plugin integrations -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-core</artifactId>
+            <artifactId>worldedit-bukkit</artifactId>
             <version>7.1.0</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- This one is ignored because it pops up everytime -->
+                <!-- I try to import File... yes, I want the java.io one... -->
+                <exclusion>
+                    <groupId>de.schlichtherle</groupId>
+                    <artifactId>truezip</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>

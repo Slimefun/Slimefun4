@@ -69,7 +69,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun 指南 &7(箱子界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开 设置 / 关于");
     }
 
-    protected boolean isSurvivalMode() {
+    @Override
+    public boolean isSurvivalMode() {
         return true;
     }
 
@@ -221,7 +222,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                                     if (profile.hasUnlocked(research)) {
                                         openCategory(profile, category, page);
                                     } else {
-                                        unlockItem(pl, sfitem, () -> openCategory(profile, category, page));
+                                        unlockItem(pl, sfitem, player -> openCategory(profile, category, page));
                                     }
                                 } else {
                                     SlimefunPlugin.getLocal().sendMessage(pl, "messages.not-enough-xp", true);

@@ -5,7 +5,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,21 +22,20 @@ public class SoulboundListener implements Listener {
     }
 
     @EventHandler
-    public void onDamage(EntityDeathEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
+    public void onDamage(PlayerDeathEvent e) {
+        Player p = e.getEntity();
 
-            for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
-                ItemStack item = p.getInventory().getItem(slot);
+        for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
+            ItemStack item = p.getInventory().getItem(slot);
 
-                if (SlimefunUtils.isSoulbound(item)) {
-                    storeItem(p.getUniqueId(), slot, item);
-                }
+            // Store soulbound items for later retrieval
+            if (SlimefunUtils.isSoulbound(item)) {
+                storeItem(p.getUniqueId(), slot, item);
             }
-
-            e.getDrops().removeIf(SlimefunUtils::isSoulbound);
-
         }
+
+        // Remove soulbound items from our drops
+        e.getDrops().removeIf(SlimefunUtils::isSoulbound);
     }
 
     @EventHandler

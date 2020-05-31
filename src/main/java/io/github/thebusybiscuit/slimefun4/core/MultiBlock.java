@@ -35,14 +35,12 @@ public class MultiBlock {
     private static final Set<Tag<Material>> SUPPORTED_TAGS = new HashSet<>();
 
     static {
-        if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
-            SUPPORTED_TAGS.add(Tag.LOGS);
-            SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
-            SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
+        SUPPORTED_TAGS.add(Tag.LOGS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
 
-            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-                SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
-            }
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
         }
     }
 
@@ -56,7 +54,7 @@ public class MultiBlock {
     private final boolean isSymmetric;
 
     public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
-        Validate.notNull(item, "A MultiBlock reuquires a SlimefunItem!");
+        Validate.notNull(item, "A MultiBlock requires a SlimefunItem!");
 
         if (build == null || build.length != 9) {
             throw new IllegalArgumentException("MultiBlocks must have a length of 9!");

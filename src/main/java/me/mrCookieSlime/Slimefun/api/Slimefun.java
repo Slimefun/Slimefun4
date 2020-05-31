@@ -1,9 +1,10 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
@@ -208,10 +209,20 @@ public final class Slimefun {
     }
 
     public static BukkitTask runSync(Runnable r) {
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            r.run();
+            return null;
+        }
+
         return Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
     }
 
     public static BukkitTask runSync(Runnable r, long delay) {
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            r.run();
+            return null;
+        }
+
         return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
     }
 }

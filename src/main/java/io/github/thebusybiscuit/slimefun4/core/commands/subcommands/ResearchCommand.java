@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 
 class ResearchCommand extends SubCommand {
 
@@ -72,8 +73,10 @@ class ResearchCommand extends SubCommand {
         Optional<Research> research = getResearchFromString(input);
 
         if (research.isPresent()) {
-            research.get().unlock(p, true);
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(p)));
+            research.get().unlock(p, true, player -> {
+                UnaryOperator<String> variables = msg -> msg.replace(PLACEHOLDER_PLAYER, player.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(player));
+                SlimefunPlugin.getLocal().sendMessage(player, "messages.give-research", true, variables);
+            });
         }
         else {
             SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));

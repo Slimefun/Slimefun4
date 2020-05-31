@@ -2,14 +2,16 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.Placeable;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
@@ -92,7 +94,7 @@ public class SlimefunItem implements Placeable {
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
-        // Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
+        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.category = category;
         this.item = item;
@@ -632,6 +634,14 @@ public class SlimefunItem implements Placeable {
      * @return This item's name in {@link ItemStack} form
      */
     public final String getItemName() {
+        if (item instanceof SlimefunItemStack) {
+            Optional<String> name = ((SlimefunItemStack) item).getImmutableMeta().getDisplayName();
+
+            if (name.isPresent()) {
+                return name.get();
+            }
+        }
+
         return ItemUtils.getItemName(item);
     }
 
@@ -722,7 +732,7 @@ public class SlimefunItem implements Placeable {
      *            The {@link Throwable} to throw as a stacktrace.
      */
     public void error(String message, Throwable throwable) {
-        addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
+        addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[]{id, addon.getName(), addon.getPluginVersion()});
 
         if (addon.getBugTrackerURL() != null) {
             // We can prompt the server operator to report it to the addon's bug tracker
@@ -730,6 +740,11 @@ public class SlimefunItem implements Placeable {
         }
 
         addon.getLogger().log(Level.SEVERE, message, throwable);
+
+        // We definitely want to re-throw them during Unit Tests
+        if (throwable instanceof RuntimeException && SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            throw (RuntimeException) throwable;
+        }
     }
 
     public static SlimefunItem getByID(String id) {

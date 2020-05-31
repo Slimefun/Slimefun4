@@ -58,7 +58,7 @@ public class ProtectionChecker implements Listener {
         plotInstalled = plugin.getServer().getPluginManager().getPlugin("PlotSquared") != null;
     }
 
-    public static boolean check(Player p, Block block, boolean isBreak) {
+    public static boolean check(Player p, Block block, boolean isBreakBlock) {
         if (p != null && block != null) {
             if (p.isOp()) {
                 return true;
@@ -69,7 +69,7 @@ public class ProtectionChecker implements Listener {
                     if (res.getOwnerUUID() == p.getUniqueId()) {
                         return true;
                     }
-                    if (!isBreak && !perms.playerHas(p, Flags.use, true)) {
+                    if (!isBreakBlock && !perms.playerHas(p, Flags.use, true)) {
                         SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
                         return false;
                     }

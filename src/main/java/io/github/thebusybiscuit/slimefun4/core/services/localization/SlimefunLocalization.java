@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services.localization;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Localization;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -164,9 +165,14 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     @Override
     public void sendMessage(CommandSender sender, String key, boolean addPrefix, UnaryOperator<String> function) {
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            return;
+        }
+
         String prefix = addPrefix ? getPrefix() : "";
 
         if (sender instanceof Player) {
+            System.out.println(function.apply(getMessage((Player) sender, key)));
             sender.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) sender, key))));
         } else {
             sender.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + function.apply(getMessage(key)))));

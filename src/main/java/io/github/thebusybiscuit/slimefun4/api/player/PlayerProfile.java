@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
@@ -11,6 +14,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,21 +30,23 @@ import java.util.stream.IntStream;
  * It also holds the backpacks of a {@link Player}.
  *
  * @author TheBusyBiscuit
- *
  * @see Research
+ * @see Waypoint
  * @see PlayerBackpack
- *
  */
 public final class PlayerProfile {
 
     private final UUID uuid;
     private final String name;
-    private final Config cfg;
+
+    private final Config configFile;
+    private final Config waypointsFile;
 
     private boolean dirty = false;
     private boolean markedForDeletion = false;
 
     private final Set<Research> researches = new HashSet<>();
+    private final List<Waypoint> waypoints = new ArrayList<>();
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final GuideHistory guideHistory = new GuideHistory(this);
 
@@ -50,11 +56,20 @@ public final class PlayerProfile {
         this.uuid = p.getUniqueId();
         this.name = p.getName();
 
-        cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
+        configFile = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
+        waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
 
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (cfg.contains("researches." + research.getID())) {
+            if (configFile.contains("researches." + research.getID())) {
                 researches.add(research);
+            }
+        }
+
+        for (String key : waypointsFile.getKeys()) {
+            if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
+                String waypointName = waypointsFile.getString(key + ".name");
+                Location loc = waypointsFile.getLocation(key);
+                waypoints.add(new Waypoint(this, key, loc, waypointName));
             }
         }
     }
@@ -64,7 +79,7 @@ public final class PlayerProfile {
     }
 
     public Config getConfig() {
-        return cfg;
+        return configFile;
     }
 
     /**
@@ -103,7 +118,8 @@ public final class PlayerProfile {
             backpack.save();
         }
 
-        cfg.save();
+        waypointsFile.save();
+        configFile.save();
         dirty = false;
     }
 
@@ -119,10 +135,10 @@ public final class PlayerProfile {
         dirty = true;
 
         if (unlock) {
-            cfg.setValue("researches." + research.getID(), true);
+            configFile.setValue("researches." + research.getID(), true);
             researches.add(research);
         } else {
-            cfg.setValue("researches." + research.getID(), null);
+            configFile.setValue("researches." + research.getID(), null);
             researches.remove(research);
         }
     }
@@ -149,7 +165,56 @@ public final class PlayerProfile {
      * @return A {@code Hashset<Research>} of all Researches this {@link Player} has unlocked
      */
     public Set<Research> getResearches() {
-        return researches;
+        return ImmutableSet.copyOf(researches);
+    }
+
+    /**
+     * This returns a {@link List} of all {@link Waypoint Waypoints} belonging to this
+     * {@link PlayerProfile}.
+     *
+     * @return A {@link List} containing every {@link Waypoint}
+     */
+    public List<Waypoint> getWaypoints() {
+        return ImmutableList.copyOf(waypoints);
+    }
+
+    /**
+     * This adds the given {@link Waypoint} to the {@link List} of {@link Waypoint Waypoints}
+     * of this {@link PlayerProfile}.
+     *
+     * @param waypoint The {@link Waypoint} to add
+     */
+    public void addWaypoint(Waypoint waypoint) {
+        Validate.notNull(waypoint, "Cannot add a 'null' waypoint!");
+
+        for (Waypoint wp : waypoints) {
+            if (wp.getId().equals(waypoint.getId())) {
+                throw new IllegalArgumentException("A Waypoint with that id already exists for this Player");
+            }
+        }
+
+        if (waypoints.size() < 21) {
+            waypoints.add(waypoint);
+
+            waypointsFile.setValue(waypoint.getId(), waypoint.getLocation());
+            waypointsFile.setValue(waypoint.getId() + ".name", waypoint.getName());
+            markDirty();
+        }
+    }
+
+    /**
+     * This removes the given {@link Waypoint} from the {@link List} of {@link Waypoint Waypoints}
+     * of this {@link PlayerProfile}.
+     *
+     * @param waypoint The {@link Waypoint} to remove
+     */
+    public void removeWaypoint(Waypoint waypoint) {
+        Validate.notNull(waypoint, "Cannot remove a 'null' waypoint!");
+
+        if (waypoints.remove(waypoint)) {
+            waypointsFile.setValue(waypoint.getId(), null);
+            markDirty();
+        }
     }
 
     /**
@@ -168,7 +233,7 @@ public final class PlayerProfile {
     }
 
     public PlayerBackpack createBackpack(int size) {
-        IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !cfg.contains("backpacks." + i + ".size"));
+        IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !configFile.contains("backpacks." + i + ".size"));
         int id = stream.findFirst().getAsInt();
 
         PlayerBackpack backpack = new PlayerBackpack(this, id, size);
@@ -186,7 +251,7 @@ public final class PlayerProfile {
 
         if (backpack != null) {
             return Optional.of(backpack);
-        } else if (cfg.contains("backpacks." + id + ".size")) {
+        } else if (configFile.contains("backpacks." + id + ".size")) {
             backpack = new PlayerBackpack(this, id);
             backpacks.put(id, backpack);
             return Optional.of(backpack);
@@ -246,8 +311,11 @@ public final class PlayerProfile {
     /**
      * Get the PlayerProfile for a player asynchronously.
      *
-     * @param p        The player who's profile to retrieve
-     * @param callback The callback with the PlayerProfile
+     * @param p
+     *            The player who's profile to retrieve
+     * @param callback
+     *            The callback with the PlayerProfile
+     *
      * @return If the player was cached or not.
      */
     public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
@@ -298,7 +366,9 @@ public final class PlayerProfile {
      * The result of this method is an {@link Optional}, if no {@link PlayerProfile} was found, an empty
      * {@link Optional} will be returned.
      *
-     * @param p The {@link OfflinePlayer} to get the {@link PlayerProfile} for
+     * @param p
+     *            The {@link OfflinePlayer} to get the {@link PlayerProfile} for
+     *
      * @return An {@link Optional} describing the result
      */
     public static Optional<PlayerProfile> find(OfflinePlayer p) {
@@ -333,7 +403,9 @@ public final class PlayerProfile {
             fromUUID(UUID.fromString(uuid), profile -> {
                 Optional<PlayerBackpack> backpack = profile.getBackpack(number);
 
-                backpack.ifPresent(callback);
+                if (backpack.isPresent()) {
+                    callback.accept(backpack.get());
+                }
             });
         }
     }

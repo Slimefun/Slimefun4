@@ -28,21 +28,21 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
     }
 
     public Player getPlayer() {
-        return this.player;
+        return player;
     }
 
     public Research getResearch() {
-        return this.research;
+        return research;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        cancelled = cancel;
     }
 
 }

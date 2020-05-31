@@ -47,6 +47,11 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aSlimefun 指南 &7(书本界面)", "", "&e右键 &8\u21E8 &7浏览物品", "&eShift + 右键 &8\u21E8 &7打开 设置 / 关于");
     }
 
+    @Override
+    public boolean isSurvivalMode() {
+        return true;
+    }
+
     private void openBook(Player p, PlayerProfile profile, List<ChatComponent> lines, boolean backButton) {
         CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
         book.setTitle(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
@@ -166,7 +171,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                                         if (profile.hasUnlocked(research)) {
                                             openCategory(profile, category, page);
                                         } else {
-                                            unlockItem(p, item, () -> openCategory(profile, category, page));
+                                            unlockItem(p, item, player1 -> openCategory(profile, category, page));
                                         }
                                     } else SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
                                 }

@@ -164,10 +164,12 @@ public class GuideHistory {
             guide.openCategory(profile, (Category) entry.getIndexedObject(), entry.getPage());
         } else if (entry.getIndexedObject() instanceof SlimefunItem) {
             guide.displayItem(profile, (SlimefunItem) entry.getIndexedObject(), false);
-        } else if (entry.getIndexedObject() instanceof String) {
-            guide.openSearch(profile, (String) entry.getIndexedObject(), false);
         } else if (entry.getIndexedObject() instanceof ItemStack) {
             guide.displayItem(profile, (ItemStack) entry.getIndexedObject(), entry.getPage(), false);
+        } else if (entry.getIndexedObject() instanceof String) {
+            guide.openSearch(profile, (String) entry.getIndexedObject(), false);
+        } else {
+            throw new IllegalStateException("Unknown GuideHistory entry: " + entry.getIndexedObject());
         }
     }
 

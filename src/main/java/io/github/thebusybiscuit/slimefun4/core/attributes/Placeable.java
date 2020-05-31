@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.api.items;
+package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

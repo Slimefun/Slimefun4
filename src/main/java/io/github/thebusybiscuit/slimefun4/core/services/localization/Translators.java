@@ -138,6 +138,10 @@ public class Translators {
         addTranslator("G4stavoM1ster", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("yurinogueira", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Sakanas", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
+
+        addTranslator("ThatsCube", EmbeddedLanguage.ITALIAN, true);
+        addTranslator("alessandrobasi", EmbeddedLanguage.ITALIAN, true);
+        addTranslator("dracrus", EmbeddedLanguage.ITALIAN, true);
     }
 
     private void addTranslator(String name, EmbeddedLanguage lang, boolean lock) {
