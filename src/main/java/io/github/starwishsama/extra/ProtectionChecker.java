@@ -62,13 +62,16 @@ public class ProtectionChecker implements Listener {
         if (p != null && block != null) {
             if (p.isOp()) {
                 return true;
-            } else if (resInstalled) {
+            }
+
+            if (resInstalled) {
                 ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
                 if (res != null) {
                     ResidencePermissions perms = res.getPermissions();
                     if (res.getOwnerUUID() == p.getUniqueId()) {
                         return true;
                     }
+
                     if (!isBreakBlock && !perms.playerHas(p, Flags.use, true)) {
                         SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
                         return false;
@@ -78,7 +81,9 @@ public class ProtectionChecker implements Listener {
                             || perms.playerHas(p, Flags.place, true)
                             || perms.playerHas(p, Flags.build, true);
                 }
-            } else if (plotInstalled) {
+            }
+
+            if (plotInstalled) {
                 Plot plot = Plot.getPlot(new Location(block.getWorld().getName(), block.getX(), block.getY(), block.getZ()));
                 if (plot != null) {
                     return plot.isOwner(p.getUniqueId()) || plot.isAdded(p.getUniqueId());
