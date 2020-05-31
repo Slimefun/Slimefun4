@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
@@ -43,7 +43,7 @@ public final class Language {
         Validate.notNull(hash, "A Language must have a texture that is not null!");
 
         this.id = id;
-        this.item = SkullItem.fromHash(hash);
+        this.item = SlimefunUtils.getCustomHead(hash);
 
         SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase(Locale.ROOT));
     }

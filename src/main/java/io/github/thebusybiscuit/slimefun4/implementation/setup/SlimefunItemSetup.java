@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
@@ -43,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.Christma
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.*;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.*;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -251,7 +251,7 @@ public final class SlimefunItemSetup {
                 new PotionEffect[]{new PotionEffect(PotionEffectType.JUMP, 300, 5)})
                 .register(plugin);
 
-        new SwordOfBeheading(categories.weapons, (SlimefunItemStack) SlimefunItems.SWORD_OF_BEHEADING, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SwordOfBeheading(categories.weapons, SlimefunItems.SWORD_OF_BEHEADING, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{null, new ItemStack(Material.EMERALD), null, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.EMERALD), SlimefunItems.MAGIC_LUMP_2, null, new ItemStack(Material.BLAZE_ROD), null})
                 .register(plugin);
 
@@ -260,7 +260,7 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         new BasicCircuitBoard(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.BASIC_CIRCUIT_BOARD, RecipeType.MOB_DROP,
-                new ItemStack[]{null, null, null, null, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkwOTFkNzllYTBmNTllZjdlZjk0ZDdiYmE2ZTVmMTdmMmY3ZDQ1NzJjNDRmOTBmNzZjNDgxOWE3MTQifX19"), "&aIron Golem"), null, null, null, null})
+                new ItemStack[]{null, null, null, null, new CustomItem(SlimefunUtils.getCustomHead("89091d79ea0f59ef7ef94d7bba6e5f17f2f7d4572c44f90f76c4819a714"), "&aIron Golem"), null, null, null, null})
                 .register(plugin);
 
         new UnplaceableBlock(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,

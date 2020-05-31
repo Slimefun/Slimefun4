@@ -2,11 +2,11 @@ package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Sound;
@@ -70,7 +70,7 @@ final class ContributorsMenu {
     }
 
     private static ItemStack getContributorHead(Player p, Contributor contributor) {
-        ItemStack skull = SkullItem.fromBase64(contributor.getTexture());
+        ItemStack skull = SlimefunUtils.getCustomHead(contributor.getTexture());
 
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         meta.setDisplayName(contributor.getDisplayName());
