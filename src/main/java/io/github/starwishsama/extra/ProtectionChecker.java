@@ -31,11 +31,9 @@ public class ProtectionChecker implements Listener {
     @EventHandler
     public void onAndroidInteract(AndroidMineEvent e) {
         if (e != null) {
-            Block android = e.getAndroid().getBlock();
-            Block block = e.getBlock();
-            Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(android)));
+            Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(e.getAndroid().getBlock())));
 
-            if (!check(p, block, true)) {
+            if (!check(p, e.getBlock(), true)) {
                 e.setCancelled(true);
                 SlimefunPlugin.getLocal().sendMessage(p, "android.no-permission");
             }
@@ -45,12 +43,15 @@ public class ProtectionChecker implements Listener {
     public ProtectionChecker(SlimefunPlugin plugin) {
         checkInstallStatus(plugin);
 
-        if (resInstalled || plotInstalled) {
-            plugin.getServer().getPluginManager().registerEvents(this, plugin);
-            plugin.getLogger().log(Level.INFO, "检测到领地/地皮插件, 相关功能已开启");
-        } else {
+        if (!resInstalled && !plotInstalled) {
             plugin.getLogger().log(Level.WARNING, "未检测到领地/地皮插件, 相关功能将自动关闭");
+            return;
         }
+
+        if (resInstalled) plugin.getLogger().log(Level.INFO, "检测到领地插件, 相关功能已开启");
+        if (plotInstalled) plugin.getLogger().log(Level.INFO, "检测到地皮插件, 相关功能已开启");
+
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     public static void checkInstallStatus(SlimefunPlugin plugin) {
@@ -58,6 +59,14 @@ public class ProtectionChecker implements Listener {
         plotInstalled = plugin.getServer().getPluginManager().getPlugin("PlotSquared") != null;
     }
 
+    /**
+     * 检查是否可以在领地/地皮内破坏/交互方块
+     *
+     * @param p            玩家
+     * @param block        被破坏的方块
+     * @param isBreakBlock 是否在破坏方块
+     * @return 是否可以破坏
+     */
     public static boolean check(Player p, Block block, boolean isBreakBlock) {
         if (p != null && block != null) {
             if (p.isOp()) {
@@ -72,9 +81,13 @@ public class ProtectionChecker implements Listener {
                         return true;
                     }
 
-                    if (!isBreakBlock && !perms.playerHas(p, Flags.use, true)) {
-                        SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
-                        return false;
+                    if (!isBreakBlock) {
+                        if (!perms.playerHas(p, Flags.use, true)) {
+                            SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
+                            return false;
+                        } else {
+                            return true;
+                        }
                     }
 
                     return perms.playerHas(p, Flags.destroy, true)
@@ -93,7 +106,7 @@ public class ProtectionChecker implements Listener {
         return true;
     }
 
-    private static UUID getOwnerByJson(String json) {
+    public static UUID getOwnerByJson(String json) {
         if (json != null) {
             JsonElement element = new JsonParser().parse(json);
             if (!element.isJsonNull()) {
