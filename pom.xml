@@ -8,7 +8,7 @@
 
     <!-- Our default version will be UNOFFICIAL, this will prevent the auto updater -->
     <!-- from overriding our local test file -->
-    <version>4.3-NIGHTLY-200517</version>
+    <version>4.3-NIGHTLY-200531</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -249,7 +249,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.20</version>
+            <version>0.20.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

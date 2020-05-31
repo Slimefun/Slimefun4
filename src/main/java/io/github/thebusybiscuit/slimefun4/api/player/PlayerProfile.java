@@ -251,6 +251,8 @@ public final class PlayerProfile {
      * @return If the player was cached or not.
      */
     public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
+        Validate.notNull(p, "Cannot get a PlayerProfile for: null!");
+
         UUID uuid = p.getUniqueId();
         PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(uuid);
 

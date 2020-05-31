@@ -46,23 +46,22 @@ class BackpackCommand extends SubCommand {
             return;
         }
 
-        Player p = (Player) sender;
         if (!PatternUtils.NUMERIC.matcher(args[2]).matches()) {
             SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.invalid-id");
             return;
         }
 
-        int id = Integer.parseInt(args[2]);
-
         @SuppressWarnings("deprecation")
-        OfflinePlayer owner = Bukkit.getOfflinePlayer(args[1]);
+        OfflinePlayer backpackOwner = Bukkit.getOfflinePlayer(args[1]);
 
-        if (!owner.hasPlayedBefore()) {
+        if (!backpackOwner.hasPlayedBefore()) {
             SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.player-never-joined");
             return;
         }
 
-        PlayerProfile.get(owner, profile -> {
+        int id = Integer.parseInt(args[2]);
+
+        PlayerProfile.get(backpackOwner, profile -> {
             if (!profile.getBackpack(id).isPresent()) {
                 SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.backpack-does-not-exist");
                 return;
@@ -70,8 +69,8 @@ class BackpackCommand extends SubCommand {
 
             Slimefun.runSync(() -> {
                 ItemStack item = SlimefunItems.RESTORED_BACKPACK.clone();
-                SlimefunPlugin.getBackpackListener().setBackpackId(p, item, 2, id);
-                p.getInventory().addItem(item);
+                SlimefunPlugin.getBackpackListener().setBackpackId(backpackOwner, item, 2, id);
+                ((Player) sender).getInventory().addItem(item);
                 SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.restored-backpack-given");
             });
         });

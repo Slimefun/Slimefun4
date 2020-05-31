@@ -3,10 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services.github;
 import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
 import org.bukkit.ChatColor;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -26,9 +23,11 @@ public class Contributor {
     private final String githubUsername;
     private final String minecraftUsername;
     private final String profileLink;
+
     private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
     private final ComputedOptional<String> headTexture = ComputedOptional.createNew();
 
+    private Optional<UUID> uuid = Optional.empty();
     private boolean locked = false;
 
     public Contributor(String username, String profile) {
@@ -93,6 +92,25 @@ public class Contributor {
      */
     public int getContributions(String role) {
         return contributions.getOrDefault(role, 0);
+    }
+
+    /**
+     * This method sets the {@link UUID} for this {@link Contributor}.
+     *
+     * @param uuid The {@link UUID} for this {@link Contributor}
+     */
+    public void setUniqueId(UUID uuid) {
+        this.uuid = uuid == null ? Optional.empty() : Optional.of(uuid);
+    }
+
+    /**
+     * This returns the {@link UUID} for this {@link Contributor}.
+     * This {@link UUID} may be loaded from a cache.
+     *
+     * @return The {@link UUID} of this {@link Contributor}
+     */
+    public Optional<UUID> getUniqueId() {
+        return uuid;
     }
 
     /**

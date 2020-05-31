@@ -25,7 +25,7 @@ final class CargoUtils {
     private CargoUtils() {
     }
 
-    protected static boolean hasInventory(Block block) {
+    static boolean hasInventory(Block block) {
         if (block == null) {
             return false;
         }
@@ -64,7 +64,7 @@ final class CargoUtils {
         return false;
     }
 
-    protected static ItemStack withdraw(Block node, Block target, ItemStack template) {
+    static ItemStack withdraw(Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu == null) {
@@ -98,7 +98,7 @@ final class CargoUtils {
         return null;
     }
 
-    protected static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
+    static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
@@ -130,7 +130,7 @@ final class CargoUtils {
         return null;
     }
 
-    protected static ItemStackAndInteger withdraw(Block node, Block target, int index) {
+    static ItemStackAndInteger withdraw(Block node, Block target, int index) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -172,7 +172,7 @@ final class CargoUtils {
         return null;
     }
 
-    protected static ItemStack insert(Block node, Block target, ItemStack stack, int index) {
+    static ItemStack insert(Block node, Block target, ItemStack stack, int index) {
         if (!matchesFilter(node, stack, index)) return stack;
 
         DirtyChestMenu menu = getChestMenu(target);
@@ -219,7 +219,7 @@ final class CargoUtils {
         return stack;
     }
 
-    private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
+    static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
@@ -281,7 +281,7 @@ final class CargoUtils {
         return stack;
     }
 
-    protected static DirtyChestMenu getChestMenu(Block block) {
+    static DirtyChestMenu getChestMenu(Block block) {
         if (BlockStorage.hasInventory(block)) {
             return BlockStorage.getInventory(block);
         }
@@ -289,7 +289,7 @@ final class CargoUtils {
         return BlockStorage.getUniversalInventory(block);
     }
 
-    protected static boolean matchesFilter(Block block, ItemStack item, int index) {
+    static boolean matchesFilter(Block block, ItemStack item, int index) {
         if (item == null || item.getType() == Material.AIR) return false;
 
         // Store the returned Config instance to avoid heavy calls

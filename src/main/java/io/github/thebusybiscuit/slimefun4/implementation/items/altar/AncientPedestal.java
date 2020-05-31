@@ -16,28 +16,20 @@ public class AncientPedestal extends SlimefunItem {
 
         SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
             AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
-            
+
 
             Item stack = listener.findItem(b);
-            if (SlimefunPlugin.getCfg().getBoolean("options.anti-altar-glitch")) {
-                if (stack == null && !listener.isUsing(b, stack.getLocation())) {
-                    return true;
-                } else {
+            if (stack != null) {
+                if (listener.isUsing(b, stack.getLocation())) {
                     SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use");
                     return false;
                 }
-            } else {
-                if (stack != null) {
-                    if (!listener.isUsing(b, stack.getLocation())) {
-                        return false;
-                    }
 
-                    stack.removeMetadata("item_placed", SlimefunPlugin.instance);
-                    b.getWorld().dropItem(b.getLocation(), listener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
-                    stack.remove();
-                }
-                return true;
+                stack.removeMetadata("item_placed", SlimefunPlugin.instance);
+                b.getWorld().dropItem(b.getLocation(), listener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
+                stack.remove();
             }
+            return true;
         });
     }
 }

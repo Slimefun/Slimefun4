@@ -19,7 +19,7 @@ enum EmbeddedLanguage {
     SPANISH("es", true, "32bd4521983309e0ad76c1ee29874287957ec3d96f8d889324da8c887e485ea8"),
     RUSSIAN("ru", true, "16eafef980d6117dabe8982ac4b4509887e2c4621f6a8fe5c9b735a83d775ad"),
     POLISH("pl", false, "921b2af8d2322282fce4a1aa4f257a52b68e27eb334f4a181fd976bae6d8eb"),
-    UKRANIAN("uk", false, "28b9f52e36aa5c7caaa1e7f26ea97e28f635e8eac9aef74cec97f465f5a6b51"),
+    UKRAINIAN("uk", true, "28b9f52e36aa5c7caaa1e7f26ea97e28f635e8eac9aef74cec97f465f5a6b51"),
     BELARUSIAN("be", false, "8c12eaf0d83e97e2bace652d0d23e74908ee766894361271f00c22ea82d25b02"),
     SWEDISH("sv", true, "e910904bff9c86f6ed47688e9429c26e8d9c5d5743bd3ebb8e6f5040be192998"),
     DUTCH("nl", false, "c23cf210edea396f2f5dfbced69848434f93404eefeabf54b23c073b090adf"),
