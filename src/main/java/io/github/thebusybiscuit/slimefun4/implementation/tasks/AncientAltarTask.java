@@ -129,8 +129,7 @@ public class AncientAltarTask implements Runnable {
 
             itemLock.remove(item);
             item.remove();
-
-            pedestal.removeMetadata("item_placed", SlimefunPlugin.instance);
+            item.removeMetadata("no_pickup", SlimefunPlugin.instance);
         }
     }
 

@@ -56,6 +56,7 @@ public class ButcherAndroidListener implements Listener {
                 ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
                 exp.setExperience(1 + ThreadLocalRandom.current().nextInt(6));
             }, 1L);
+            e.getEntity().removeMetadata("android_killer", SlimefunPlugin.instance);
         }
     }
 
