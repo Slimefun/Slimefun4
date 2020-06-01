@@ -27,6 +27,8 @@
 
 #### Changes
 * Fixed a few memory leaks
+* Removed Digital Miner
+* Removed Advanced Digital Miner
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
