@@ -29,11 +29,12 @@ Here is a full summary of the differences between the two different versions of 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
 | **Minecraft version(s)** | :video_game: 1.13.X - 1.15.X | :video_game: 1.13.X - 1.15.X |
+| **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
+| **frequent updates** | :heavy_check_mark: | :x: |
 | **testing before release** | :x: | :heavy_check_mark: |
 | **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
-| **frequent updates** | :heavy_check_mark: | :x: |
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
 | **Download link** | :package: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
@@ -41,13 +42,15 @@ Here is a full summary of the differences between the two different versions of 
 <details>
   <summary>Here's why...</summary>
   
-"Stable" builds do not receive frequent updates or fast patches. As time goes on, bugs are fixed but it will take some time until these fixes make it into a "stable" build. We will also not accept or review any bug reports from "stable" builds. They are in fact just old development builds that seemed to run fine without any __major__ issues.<br>
-**Why use a "stable" build then?** While "stable" builds most definitely contain more bugs than development builds due to their very slow update schedule. you can be sure that they will not include __game-breaking__ issues, but rest assured that development builds almost never contain such issues either. If your server or buesiness however heavily depends on a version of Slimefun that does not change/update a lot, you are forgiven if you choose the "stable" branch. But development builds will hold the best experience in terms of features and bug fixes.<br>
-**What exactly are these "stable" builds then and why do you put them in quotes?** "Stable" builds are literally just outdated development builds that seemed to run fine without any major issues. But they are not exactly bug-free hence why actually calling them stable would be hypocritical. However these builds can only really stay "stable" if there are enough people using development builds to report bugs. Otherwise potential issues may go unnoticed and slip into "stable" builds. Again, we really recommend you to choose the development builds. But since many people really wanted "stable" builds, they are now an option too.
+"Stable" builds do not receive frequent updates or fast patches. As time goes on, bugs are fixed but it will take some time until these fixes make it into a "stable" build. We will also not accept or review any bug reports from "stable" builds. They are in fact just old development builds that seemed to run fine without any __major__ issues.
+
+**Why use a "stable" build then?**<br>
+While "stable" builds most definitely contain more bugs than development builds due to their very slow update schedule. you can be sure that they will not include __game-breaking__ issues, but rest assured that development builds almost never contain such issues either. If your server or buesiness however heavily depends on a version of Slimefun that does not change/update a lot, you are forgiven if you choose the "stable" branch. But development builds will hold the best experience in terms of features and bug fixes.
+
+**What exactly are these "stable" builds then and why do you put them in quotes?**<br>
+"Stable" builds are literally just outdated development builds that seemed to run fine without any major issues. But they are not exactly bug-free hence why actually calling them stable would be hypocritical. However these builds can only really stay "stable" if there are enough people using development builds to report bugs. Otherwise potential issues may go unnoticed and slip into "stable" builds. Again, we really recommend you to choose the development builds. But since many people really wanted "stable" builds, they are now an option too.
 
 </details>
-
-Anyway, whatever version of Slimefun you choose, we really recommend you to keep `auto-updates` enabled to receive automatic patches and fixes for Slimefun!
 
 ## Discord
 You can find Slimefun's community on Discord and connect with **over 1800** users of this plugin from all over the world.<br>
