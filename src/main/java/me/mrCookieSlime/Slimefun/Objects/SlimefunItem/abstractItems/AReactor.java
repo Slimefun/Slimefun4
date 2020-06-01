@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -53,7 +54,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
 
-    private static final BlockFace[] cooling = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
+    private static final BlockFace[] coolantBlocks = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
 
     private static final int[] border = { 0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23 };
     private static final int[] border_1 = { 9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47 };
@@ -276,44 +277,19 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                             progress.put(l, timeleft - 1);
 
                             Slimefun.runSync(() -> {
-                                if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) {
+                                // We will pick a surrounding block at random and see if this is water.
+                                // If it isn't, then we will make it explode.
+                                BlockFace randomNeighbour = coolantBlocks[ThreadLocalRandom.current().nextInt(coolantBlocks.length)];
+                                if (l.getBlock().getRelative(randomNeighbour).getType() != Material.WATER) {
                                     explode.add(l);
                                 }
                             });
 
                             ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                            if (needsCooling()) {
-                                boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;
-
-                                if (coolant) {
-                                    if (port != null) {
-                                        for (int slot : getCoolantSlots()) {
-                                            if (SlimefunUtils.isItemSimilar(port.getItemInSlot(slot), getCoolant(), true)) {
-                                                port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getCoolantSlots()));
-                                            }
-                                        }
-                                    }
-
-                                    boolean explosion = true;
-
-                                    for (int slot : getCoolantSlots()) {
-                                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), getCoolant(), true)) {
-                                            menu.consumeItem(slot);
-                                            ReactorHologram.update(l, "&b\u2744 &7100%");
-                                            explosion = false;
-                                            break;
-                                        }
-                                    }
-
-                                    if (explosion) {
-                                        explode.add(l);
-                                        return 0;
-                                    }
-                                }
-                                else {
-                                    ReactorHologram.update(l, "&b\u2744 &7" + getPercentage(timeleft, processing.get(l).getTicks()) + "%");
-                                }
+                            if (needsCooling() && !isProperlyCooled(l, menu, port, timeleft)) {
+                                explode.add(l);
+                                return 0;
                             }
                         }
 
@@ -383,6 +359,49 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                 return explosion;
             }
         };
+    }
+
+    /**
+     * This method cools the given {@link AReactor}.
+     * 
+     * @param reactor
+     *            The {@link Location} of this {@link AReactor}
+     * @param menu
+     *            The {@link Inventory} of this {@link AReactor}
+     * @param port
+     *            The {@link ReactorAccessPort}, if available
+     * @param timeleft
+     *            The time left
+     * 
+     * @return Whether the {@link AReactor} was successfully cooled, if not it should explode
+     */
+    private boolean isProperlyCooled(Location reactor, BlockMenu menu, BlockMenu port, int timeleft) {
+        boolean coolant = (processing.get(reactor).getTicks() - timeleft) % 25 == 0;
+
+        if (coolant) {
+            if (port != null) {
+                for (int slot : getCoolantSlots()) {
+                    if (SlimefunUtils.isItemSimilar(port.getItemInSlot(slot), getCoolant(), true)) {
+                        port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getCoolantSlots()));
+                    }
+                }
+            }
+
+            for (int slot : getCoolantSlots()) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), getCoolant(), true)) {
+                    menu.consumeItem(slot);
+                    ReactorHologram.update(reactor, "&b\u2744 &7100%");
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        else {
+            ReactorHologram.update(reactor, "&b\u2744 &7" + getPercentage(timeleft, processing.get(reactor).getTicks()) + "%");
+        }
+
+        return true;
     }
 
     private float getPercentage(int time, int total) {
