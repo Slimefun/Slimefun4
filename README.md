@@ -20,10 +20,11 @@ Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons),
 * **[FAQ](https://github.com/TheBusyBiscuit/Slimefun4/wiki/FAQ)**
 
 ## Download Slimefun 4
-(See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))<br>
+(See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))
+
 Slimefun 4 can be downloaded **for free** on our builds page.<br>
-We currently provide two versions of Slimefun, development builds and "stable" builds.<br>
-Here is a full summary of the differences between different versions of Slimefun.
+We currently provide two distinct versions of Slimefun, development builds and "stable" builds.<br>
+Here is a full summary of the differences between the two different versions of Slimefun.
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
@@ -36,7 +37,7 @@ Here is a full summary of the differences between different versions of Slimefun
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
 | **Download link** | :package: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
-**! We wholeheartedly recommend you to use development builds !**
+**! We wholeheartedly recommend you to use development builds, they receive the most updates!**
 <details>
   <summary>Here's why...</summary>
   
@@ -47,12 +48,6 @@ Here is a full summary of the differences between different versions of Slimefun
 </details>
 
 Anyway, whatever version of Slimefun you choose, we really recommend you to keep `auto-updates` enabled to receive automatic patches and fixes for Slimefun!
-
-<p align="center">
-  <a href="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/">
-    <img src="https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/badge.svg" alt="Build Server"/>
-  </a>
-</p>
 
 ## Discord
 You can find Slimefun's community on Discord and connect with **over 1800** users of this plugin from all over the world.<br>
