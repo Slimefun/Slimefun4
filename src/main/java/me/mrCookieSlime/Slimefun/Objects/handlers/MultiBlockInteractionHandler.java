@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 
 /**
@@ -31,8 +30,7 @@ public interface MultiBlockInteractionHandler extends ItemHandler {
 
     @Override
     default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
-        // Change this to "MultiBlockMachine" once SlimefunMachine was removed or deprecated
-        if (!(item instanceof SlimefunMachine)) {
+        if (!(item instanceof MultiBlockMachine)) {
             return Optional.of(new IncompatibleItemHandlerException("Only classes inheriting 'MultiBlockMachine' can have a MultiBlockInteractionHandler", item, this));
         }
 

@@ -37,6 +37,7 @@
 * Fixed Nuclear Reactors accepting Lava as coolant
 
 ## Release Candidate 12 (27 May 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 
 #### Additions
 * Added Ukrainian translations
@@ -81,6 +82,7 @@
 * Fixed #1935
 
 ## Release Candidate 11 (25 Apr 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 
 #### Additions
 * Added GEOResourceGenerationEvent
