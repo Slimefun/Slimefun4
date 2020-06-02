@@ -31,10 +31,10 @@ Here is a full summary of the differences between the two different versions of 
 | **Minecraft version(s)** | :video_game: 1.13.X - 1.15.X | :video_game: 1.13.X - 1.15.X |
 | **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
 | **frequent updates** | :heavy_check_mark: | :x: |
-| **testing before release** | :x: | :heavy_check_mark: |
 | **latest content** | :heavy_check_mark: | :x: |
 | **Discord support** | :heavy_check_mark: | :x: |
 | **Bug Reports** | :heavy_check_mark: | :x: |
+| **testing before release** | :x: | :heavy_check_mark: |
 | **change logs** | :x: | :memo: **[change log](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
 | **Download link** | :package: **[download latest](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)** | :package: **[download "stable"](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)** |
 
@@ -117,22 +117,26 @@ _Please contact us on [Discord](#discord) before working on any code smells. Som
 Technical Debt is basically an estimate for how long it would take to fix all issues and code smells.
 
 ##### Test Coverage
-Slimefun now also uses Automated Tests to determine whether an update could break something. The coverage shows how much these tests cover. Higher coverage means less breaking changes and in turn better and more reliable builds.
-Due to this being a very huge project though, getting to `100% coverage` is probably impossible. But increasing that number even slightly still helps. So feel free to write Unit Tests for Slimefun and place them in the [/src/test/java/](https://github.com/TheBusyBiscuit/Slimefun4/tree/master/src/test/java) folder.
-
+Slimefun now also uses Automated Tests to determine whether an update could break something. The coverage shows how much these tests cover. Higher coverage means less breaking changes and as a result also better and more reliable builds.
+Due to this being a very huge project though, getting to `100% coverage` is probably close to impossible. But increasing that number even slightly still helps. So feel free to write Unit Tests for Slimefun and place them in the [/src/test/java/](https://github.com/TheBusyBiscuit/Slimefun4/tree/master/src/test/java) folder.
 
 ## Disclaimers
 Slimefun4 uses various systems that collect usage information or download automatic updates as well as the latest information about the project.
-We do not collect any personal information from you but there are some services that may gather or download some data.
+We do not collect any personal information from you but there are some services that may gather or download some form of data.
 
 You can opt-out of the Auto-Updater and stats collection at any time.
 
-#### Auto-Updates
+<details>
+  <summary>Automatic updates</summary>
+  
 Slimefun4 uses an Auto-Updater which connects to https://thebusybiscuit.github.io/builds/ to check for and download updates.<br>
 This behaviour is enabled by default but can be turned off under `/plugins/Slimefun/config.yml`.<br>
 We highly recommend you to keep this on at any time though, as you could be missing out on important patches.
+</details>
 
-#### Metrics and Statistics
+<details>
+  <summary>Metrics and Statistics</summary>
+  
 Slimefun4 uses [bStats](https://bstats.org/plugin/bukkit/Slimefun/4574) to collect anonymous information about the usage of this plugin.<br>
 This is solely for statistical purposes, as we are interested in how Servers/Players use this plugin.<br>
 All available data is anonymous and aggregated, at no point can we see individual server or player information.<br>
@@ -140,10 +144,13 @@ All of the collected data is publicly accessible: https://bstats.org/plugin/bukk
 
 You can also disable this behaviour under `/plugins/bStats/config.yml`.<br>
 For more info see [bStats' Privacy Policy](https://bstats.org/privacy-policy)
+</details>
 
-#### GitHub Integration
+<details>
+  <summary>GitHub Integration</summary>
+  
 Lastly, Slimefun4 connects to https://api.github.com/ to gather information about this open-source project.<br>
-No information about your Minecraft Server is sent to GitHub.
+No information about you or your Minecraft Server is sent to GitHub.
 
 This information includes (but is not limited to)
 * list of contributors, their username and profile link (from the repositories `TheBusyBiscuit/Slimefun4`, `Slimefun/Slimefun-Wiki` and `Slimefun/Resourcepack`)
@@ -153,6 +160,7 @@ This information includes (but is not limited to)
 * amount of forks of this repository
 * amount of code-bytes in this repository
 * date of the last commit to this repository
+</details>
 
 Additionally the plugin connects to https://mojang.com/ to retrieve the Minecraft skins of our contributors (if possible).<br>
-Note that this project is not associated with Mojang AB.
+Note that Slimefun is not associated with `Mojang Studios` or Minecraft.
