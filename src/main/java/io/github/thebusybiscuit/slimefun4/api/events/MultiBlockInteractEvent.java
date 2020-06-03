@@ -8,7 +8,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 
 /**
  * This {@link Event} is called when a {@link Player} interacts with a {@link MultiBlock}.

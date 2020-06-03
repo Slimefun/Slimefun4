@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core;
+package io.github.thebusybiscuit.slimefun4.core.multiblocks;
 
 import java.util.Arrays;
 import java.util.HashSet;
