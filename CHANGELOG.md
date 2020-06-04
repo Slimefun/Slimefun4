@@ -24,6 +24,7 @@
 * Added Dried Kelp Blocks recipe to the Electric Press
 * Added Bone Blocks recipe to the Electric Press
 * Added thai translations
+* Dried Kelp Blocks can now be used in the Coal Generator
 
 #### Changes
 * Fixed a few memory leaks
