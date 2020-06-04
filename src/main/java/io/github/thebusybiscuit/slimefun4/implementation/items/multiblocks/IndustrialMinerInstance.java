@@ -26,6 +26,14 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This represents a running instance of an {@link IndustrialMiner}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see IndustrialMiner
+ *
+ */
 class IndustrialMinerInstance implements Runnable {
 
     private final IndustrialMiner miner;
@@ -125,16 +133,16 @@ class IndustrialMinerInstance implements Runnable {
         queue.thenRun(7, () -> setPistonState(pistons[1], false));
 
         queue.thenRun(3, () -> setPistonState(pistons[0], true));
-        queue.thenRun(4, () -> setPistonState(pistons[0], false));
+        queue.thenRun(5, () -> setPistonState(pistons[0], false));
 
         queue.thenRun(2, () -> setPistonState(pistons[1], true));
-        queue.thenRun(3, () -> setPistonState(pistons[1], false));
+        queue.thenRun(4, () -> setPistonState(pistons[1], false));
 
         queue.thenRun(1, () -> setPistonState(pistons[0], true));
         queue.thenRun(3, () -> setPistonState(pistons[0], false));
 
         queue.thenRun(1, () -> setPistonState(pistons[1], true));
-        queue.thenRun(3, () -> setPistonState(pistons[1], false));
+        queue.thenRun(2, () -> setPistonState(pistons[1], false));
 
         queue.thenRun(1, this);
         queue.execute(SlimefunPlugin.instance);
@@ -158,7 +166,7 @@ class IndustrialMinerInstance implements Runnable {
             queue.thenRun(() -> {
                 Block furnace = chest.getRelative(BlockFace.DOWN);
                 furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, Material.STONE);
-                
+
                 for (int y = height; y > 0; y--) {
                     Block b = start.getWorld().getBlockAt(x, y, z);
 
@@ -176,7 +184,7 @@ class IndustrialMinerInstance implements Runnable {
                         ores++;
 
                         // Repeat the same column when we hit an ore.
-                        Slimefun.runSync(this, 5);
+                        Slimefun.runSync(this, 3);
                         return;
                     }
                 }
@@ -216,7 +224,7 @@ class IndustrialMinerInstance implements Runnable {
             return;
         }
 
-        Slimefun.runSync(this, 5);
+        Slimefun.runSync(this, 4);
     }
 
     private boolean push(ItemStack outcome) {
@@ -280,7 +288,7 @@ class IndustrialMinerInstance implements Runnable {
         try {
             // Smoke Particles around the Chest for dramatic effect
             Location particleLoc = chest.getLocation().clone().add(0, -1, 0);
-            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, particleLoc, 16, 1, 1, 1, 0);
+            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, particleLoc, 20, 0.7, 0.7, 0.7, 0);
 
             if (block.getType() == Material.MOVING_PISTON) {
                 // Yeah it isn't really cool when this happens
@@ -307,7 +315,7 @@ class IndustrialMinerInstance implements Runnable {
                             block.getRelative(BlockFace.UP).setType(Material.AIR);
                         }
 
-                        block.getWorld().playSound(block.getLocation(), extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT, 0.2F, 1F);
+                        block.getWorld().playSound(block.getLocation(), extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT, 0.1F, 1F);
                     }
                     else {
                         // The pistons must be facing upwards

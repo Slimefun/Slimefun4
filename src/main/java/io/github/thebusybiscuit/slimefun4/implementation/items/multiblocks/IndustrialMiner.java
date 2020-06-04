@@ -35,6 +35,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * long-time deprecated Digital Miner.</i>
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see IndustrialMinerInstance
  *
  */
 public class IndustrialMiner extends MultiBlockMachine {
