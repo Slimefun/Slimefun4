@@ -135,6 +135,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Autom
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Compressor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Juicer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MagicWorkbench;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
@@ -1021,6 +1022,8 @@ public final class SlimefunItemSetup {
 		.register(plugin);
 
 		new AutomatedPanningMachine(categories.basicMachines).register(plugin);
+		
+		new IndustrialMiner(categories.basicMachines, SlimefunItems.INDUSTRIAL_MINER, Material.IRON_BLOCK, false, 3).register(plugin);
 
 		new SlimefunItem(categories.magicalArmor, SlimefunItems.BOOTS_OF_THE_STOMPER, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})

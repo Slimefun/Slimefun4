@@ -25,6 +25,7 @@
 * Added Bone Blocks recipe to the Electric Press
 * Added thai translations
 * Dried Kelp Blocks can now be used in the Coal Generator
+* Added Industrial Miner
 
 #### Changes
 * Fixed a few memory leaks

@@ -122,6 +122,16 @@ public class MultiBlock {
                 }
             }
 
+            // This ensures that the Industrial Miner is still recognized while operating
+            if (a == Material.PISTON) {
+                return a == b || b == Material.MOVING_PISTON;
+            }
+
+            // This ensures that the Industrial Miner is still recognized while operating
+            if (b == Material.PISTON) {
+                return a == b || a == Material.MOVING_PISTON;
+            }
+
             if (b != a) {
                 return false;
             }
