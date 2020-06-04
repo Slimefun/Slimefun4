@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -530,6 +531,16 @@ public final class SlimefunItems {
 
     public static final SlimefunItemStack INDUSTRIAL_MINER = new SlimefunItemStack("INDUSTRIAL_MINER", Material.GOLDEN_PICKAXE, "&bIndustrial Miner", "", "&rThis Multiblock will mine any Ores", "&rin a 7x7 area underneath it.", "&rPlace coal or similar in its chest", "&rto fuel this machine.");
     public static final SlimefunItemStack ADVANCED_INDUSTRIAL_MINER = new SlimefunItemStack("ADVANCED_INDUSTRIAL_MINER", Material.DIAMOND_PICKAXE, "&cAdvanced Industrial Miner", "", "&rThis Multiblock will mine any Ores", "&rin a 11x11 area underneath it.", "&rPlace a bucket of fuel or lava in", "&r its chest to fuel this machine.");
+
+    static {
+        ItemMeta meta = INDUSTRIAL_MINER.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        INDUSTRIAL_MINER.setItemMeta(meta);
+
+        ItemMeta meta2 = ADVANCED_INDUSTRIAL_MINER.getItemMeta();
+        meta2.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        ADVANCED_INDUSTRIAL_MINER.setItemMeta(meta2);
+    }
 
     /* Machines */
     public static final SlimefunItemStack COMPOSTER = new SlimefunItemStack("COMPOSTER", Material.CAULDRON, "&aComposter", "", "&a&oCan convert various Materials over Time...");
