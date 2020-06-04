@@ -263,6 +263,8 @@ public final class ResearchSetup {
         register("kelp_cookie", 254, "Tasty Kelp", 4, SlimefunItems.KELP_COOKIE);
         register("makeshift_smeltery", 255, "Improvised Smeltery", 6, SlimefunItems.MAKESHIFT_SMELTERY);
         register("tree_growth_accelerator", 256, "Faster Trees", 18, SlimefunItems.TREE_GROWTH_ACCELERATOR);
+        register("industrial_miner", 95, "Industrial Mining", 28, SlimefunItems.INDUSTRIAL_MINER);
+        register("advanced_industrial_miner", 98, "Better Mining", 36, SlimefunItems.ADVANCED_INDUSTRIAL_MINER);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
