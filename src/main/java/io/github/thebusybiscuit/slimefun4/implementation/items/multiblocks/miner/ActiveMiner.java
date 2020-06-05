@@ -287,6 +287,11 @@ class ActiveMiner implements Runnable {
 
                     if (fuelType.test(item)) {
                         ItemUtils.consumeItem(item, false);
+
+                        if (miner instanceof AdvancedIndustrialMiner) {
+                            inv.addItem(new ItemStack(Material.BUCKET));
+                        }
+
                         return fuelType.getTicks();
                     }
                 }
