@@ -530,7 +530,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack AUTOMATED_PANNING_MACHINE = new SlimefunItemStack("AUTOMATED_PANNING_MACHINE", Material.BOWL, "&eAutomated Panning Machine", "", "&rA MultiBlock Version of the Gold Pan", "&rand Nether Gold Pan combined in one machine.");
 
     public static final SlimefunItemStack INDUSTRIAL_MINER = new SlimefunItemStack("INDUSTRIAL_MINER", Material.GOLDEN_PICKAXE, "&bIndustrial Miner", "", "&rThis Multiblock will mine any Ores", "&rin a 7x7 area underneath it.", "&rPlace coal or similar in its chest", "&rto fuel this machine.");
-    public static final SlimefunItemStack ADVANCED_INDUSTRIAL_MINER = new SlimefunItemStack("ADVANCED_INDUSTRIAL_MINER", Material.DIAMOND_PICKAXE, "&cAdvanced Industrial Miner", "", "&rThis Multiblock will mine any Ores", "&rin a 11x11 area underneath it.", "&rPlace a bucket of fuel or lava in", "&rits chest to fuel this machine.");
+    public static final SlimefunItemStack ADVANCED_INDUSTRIAL_MINER = new SlimefunItemStack("ADVANCED_INDUSTRIAL_MINER", Material.DIAMOND_PICKAXE, "&cAdvanced Industrial Miner", "", "&rThis Multiblock will mine any Ores", "&rin a 11x11 area underneath it.", "&rPlace a bucket of fuel or lava in", "", "&a+ Silk Touch", "&rits chest to fuel this machine.");
 
     static {
         ItemMeta meta = INDUSTRIAL_MINER.getItemMeta();
