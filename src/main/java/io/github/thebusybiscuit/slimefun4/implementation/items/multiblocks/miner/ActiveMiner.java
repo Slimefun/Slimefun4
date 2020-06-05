@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
+package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -34,7 +34,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @see IndustrialMiner
  *
  */
-class IndustrialMinerInstance implements Runnable {
+class ActiveMiner implements Runnable {
 
     private final IndustrialMiner miner;
     private final UUID owner;
@@ -53,7 +53,7 @@ class IndustrialMinerInstance implements Runnable {
     private int x;
     private int z;
 
-    public IndustrialMinerInstance(IndustrialMiner miner, UUID owner, Block chest, Block[] pistons, Location start, Location end) {
+    public ActiveMiner(IndustrialMiner miner, UUID owner, Block chest, Block[] pistons, Location start, Location end) {
         this.miner = miner;
         this.owner = owner;
 
@@ -118,6 +118,8 @@ class IndustrialMinerInstance implements Runnable {
             return;
         }
 
+        // This is our warm up animation
+        // The pistons will push after another in decreasing intervals
         TaskQueue queue = new TaskQueue();
 
         queue.thenRun(4, () -> setPistonState(pistons[0], true));
@@ -151,6 +153,7 @@ class IndustrialMinerInstance implements Runnable {
     @Override
     public void run() {
         if (!running) {
+            // Don't continue if the machine has stopped
             return;
         }
 
@@ -175,7 +178,7 @@ class IndustrialMinerInstance implements Runnable {
                         return;
                     }
 
-                    if (b.getType().name().endsWith("_ORE") && push(miner.getOutcome(b.getType()))) {
+                    if (miner.canMine(b.getType()) && push(miner.getOutcome(b.getType()))) {
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
                         furnace.getWorld().playSound(furnace.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.2F, 1F);
 
@@ -184,7 +187,7 @@ class IndustrialMinerInstance implements Runnable {
                         ores++;
 
                         // Repeat the same column when we hit an ore.
-                        Slimefun.runSync(this, 3);
+                        Slimefun.runSync(this, 4);
                         return;
                     }
                 }
@@ -212,6 +215,7 @@ class IndustrialMinerInstance implements Runnable {
             z++;
         }
         else {
+            // The Miner has finished
             stop();
 
             Player p = Bukkit.getPlayer(owner);
@@ -224,20 +228,31 @@ class IndustrialMinerInstance implements Runnable {
             return;
         }
 
-        Slimefun.runSync(this, 4);
+        Slimefun.runSync(this, 5);
     }
 
-    private boolean push(ItemStack outcome) {
+    /**
+     * This refuels the {@link IndustrialMiner} and pushes the given {@link ItemStack} to
+     * its {@link Chest}.
+     * 
+     * @param item
+     *            The {@link ItemStack} to push to the {@link Chest}.
+     * 
+     * @return Whether the operation was successful
+     */
+    private boolean push(ItemStack item) {
         if (fuel < 1) {
+            // Restock fuel
             fuel = consumeFuel();
         }
 
+        // Check if there is enough fuel to run
         if (fuel > 0) {
             if (chest.getType() == Material.CHEST) {
                 Inventory inv = ((Chest) chest.getState()).getBlockInventory();
 
-                if (InvUtils.fits(inv, outcome)) {
-                    inv.addItem(outcome);
+                if (InvUtils.fits(inv, item)) {
+                    inv.addItem(item);
                     return true;
                 }
                 else {

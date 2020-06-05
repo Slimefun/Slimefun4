@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
+package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,12 +36,12 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * 
  * @author TheBusyBiscuit
  * 
- * @see IndustrialMinerInstance
+ * @see ActiveMiner
  *
  */
 public class IndustrialMiner extends MultiBlockMachine {
 
-    protected final Map<Location, IndustrialMinerInstance> activeMiners = new HashMap<>();
+    protected final Map<Location, ActiveMiner> activeMiners = new HashMap<>();
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
 
     private final int range;
@@ -182,7 +182,7 @@ public class IndustrialMiner extends MultiBlockMachine {
         Location start = b.getLocation().clone().add(-mod, -1, -mod);
         Location end = b.getLocation().clone().add(mod, -1, mod);
 
-        IndustrialMinerInstance instance = new IndustrialMinerInstance(this, p.getUniqueId(), chest, pistons, start, end);
+        ActiveMiner instance = new ActiveMiner(this, p.getUniqueId(), chest, pistons, start, end);
         instance.start(b);
     }
 
@@ -195,6 +195,18 @@ public class IndustrialMiner extends MultiBlockMachine {
         else {
             return new Block[] { chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST) };
         }
+    }
+
+    /**
+     * This returns whether this {@link IndustrialMiner} can mine the given {@link Material}.
+     * 
+     * @param type
+     *            The {@link Material} to check
+     * 
+     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
+     */
+    public boolean canMine(Material type) {
+        return type.name().endsWith("_ORE");
     }
 
 }

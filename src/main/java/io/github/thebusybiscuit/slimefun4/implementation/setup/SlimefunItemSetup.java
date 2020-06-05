@@ -135,7 +135,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Autom
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Compressor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Juicer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MagicWorkbench;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
@@ -144,6 +143,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWa
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.PressureChamber;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.TableSaw;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.ChristmasPresent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePickaxe;
