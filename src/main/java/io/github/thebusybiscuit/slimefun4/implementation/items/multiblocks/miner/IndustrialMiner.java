@@ -36,6 +36,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * 
  * @author TheBusyBiscuit
  * 
+ * @see AdvancedIndustrialMiner
  * @see ActiveMiner
  *
  */

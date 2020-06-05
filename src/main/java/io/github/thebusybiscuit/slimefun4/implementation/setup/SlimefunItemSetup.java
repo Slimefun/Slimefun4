@@ -143,6 +143,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWa
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.PressureChamber;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.TableSaw;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.AdvancedIndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.ChristmasPresent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
@@ -1024,6 +1025,7 @@ public final class SlimefunItemSetup {
 		new AutomatedPanningMachine(categories.basicMachines).register(plugin);
 		
 		new IndustrialMiner(categories.basicMachines, SlimefunItems.INDUSTRIAL_MINER, Material.IRON_BLOCK, false, 3).register(plugin);
+		new AdvancedIndustrialMiner(categories.basicMachines, SlimefunItems.ADVANCED_INDUSTRIAL_MINER).register(plugin);
 
 		new SlimefunItem(categories.magicalArmor, SlimefunItems.BOOTS_OF_THE_STOMPER, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})

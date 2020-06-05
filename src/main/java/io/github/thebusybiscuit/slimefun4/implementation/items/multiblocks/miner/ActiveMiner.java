@@ -32,6 +32,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author TheBusyBiscuit
  * 
  * @see IndustrialMiner
+ * @see AdvancedIndustrialMiner
  *
  */
 class ActiveMiner implements Runnable {
