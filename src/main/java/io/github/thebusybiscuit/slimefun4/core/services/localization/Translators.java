@@ -111,6 +111,7 @@ public class Translators {
 
         // Translators - Hebrew
         addTranslator("dhtdht020", EmbeddedLanguage.HEBREW, false);
+        addTranslator("Eylonnn", EmbeddedLanguage.HEBREW, false);
 
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, false);
