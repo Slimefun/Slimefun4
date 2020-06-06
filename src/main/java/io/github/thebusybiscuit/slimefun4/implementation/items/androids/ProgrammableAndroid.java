@@ -21,6 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -40,6 +41,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public abstract class ProgrammableAndroid extends Android implements InventoryBlock, RecipeDisplayItem {
 
@@ -239,7 +241,16 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 boolean refresh = true;
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
-                ScriptAction part = ScriptAction.valueOf(script[index]);
+                ScriptAction part = null;
+                try {
+                    part = ScriptAction.valueOf(script[index]);
+                } catch (NullPointerException e) {
+                    int finalIndex = index;
+                    String location = "(" + b.getLocation().getX() + ", " + b.getLocation().getY() + ", " + b.getLocation().getZ() + ")";
+                    Slimefun.getLogger().log(Level.SEVERE, e, () -> "在获取机器人脚本动作时出现了问题\n动作为 " + script[finalIndex] + "\n机器人位置在 " + location);
+                    BlockStorage.addBlockInfo(b, "paused", "true");
+                    return;
+                }
 
                 if (getAndroidType().isType(part.getRequiredType())) {
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
