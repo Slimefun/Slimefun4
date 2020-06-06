@@ -1296,7 +1296,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE, SlimefunItems.COPPER_WIRE})
                 .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.COPPER_WIRE, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SlimefunItem(categories.technicalComponents, SlimefunItems.COPPER_WIRE, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[]{null, null, null, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, null, null, null},
                 new CustomItem(SlimefunItems.COPPER_WIRE, 8))
                 .register(plugin);
