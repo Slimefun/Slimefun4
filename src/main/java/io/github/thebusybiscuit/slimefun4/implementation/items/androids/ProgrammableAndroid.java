@@ -241,7 +241,7 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
 
                 boolean refresh = true;
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
-                ScriptAction part = null;
+                ScriptAction part;
                 try {
                     part = ScriptAction.valueOf(script[index]);
                 } catch (NullPointerException e) {
