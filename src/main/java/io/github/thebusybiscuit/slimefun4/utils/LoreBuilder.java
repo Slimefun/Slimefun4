@@ -35,4 +35,8 @@ public final class LoreBuilder {
         return "&8\u21E8 &e\u26A1 &7" + power + " J" + suffix;
     }
 
+    public static String powerCharged(int charge, int capacity) {
+        return "&c&o&8\u21E8 &e\u26A1 &7" + charge + " / " + capacity + " J";
+    }
+
 }

@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
@@ -11,66 +12,43 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-// This class will be deprecated at some point too, we now got MultiBlockMachine.java
+/**
+ * @deprecated Please use {@link MultiBlockMachine} instead.
+ */
+@Deprecated
 public class SlimefunMachine extends SlimefunItem implements RecipeDisplayItem {
 
-    protected final List<ItemStack[]> recipes;
-    protected final List<ItemStack> shownRecipes;
-    protected final MultiBlock multiblock;
+    private final MultiBlock multiblock;
 
-    protected SlimefunMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-        super(category, item, RecipeType.MULTIBLOCK, recipe);
-        this.recipes = new ArrayList<>();
-        this.shownRecipes = new ArrayList<>();
-        this.shownRecipes.addAll(Arrays.asList(machineRecipes));
-        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+    protected SlimefunMachine(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+        multiblock = null;
     }
 
-    @Deprecated
-    public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
+    public SlimefunMachine(Category category, ItemStack item, String id, ItemStack[] recipe, BlockFace trigger) {
         super(category, item, id, RecipeType.MULTIBLOCK, recipe);
-        this.recipes = new ArrayList<>();
-        this.shownRecipes = new ArrayList<>();
-        this.shownRecipes.addAll(Arrays.asList(machineRecipes));
         this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
     }
 
     public List<ItemStack[]> getRecipes() {
-        return recipes;
+        return new ArrayList<>();
     }
 
     @Override
     public List<ItemStack> getDisplayRecipes() {
-        return shownRecipes;
+        return new ArrayList<>();
     }
 
     public void addRecipe(ItemStack[] input, ItemStack output) {
-        if (output == null) {
-            throw new IllegalArgumentException("Recipes must have an Output!");
-        }
-
-        recipes.add(input);
-        recipes.add(new ItemStack[]{output});
+        // Moved to MultiblockMachine
     }
 
     @Override
     public void postRegister() {
-        SlimefunPlugin.getRegistry().getMultiBlocks().add(multiblock);
-    }
-
-    @Override
-    public void load() {
-        super.load();
-
-        for (ItemStack recipeItem : shownRecipes) {
-            SlimefunItem item = SlimefunItem.getByItem(recipeItem);
-
-            if (item == null || !item.isDisabled()) {
-                recipes.add(new ItemStack[]{recipeItem});
-            }
+        if (multiblock != null) {
+            SlimefunPlugin.getRegistry().getMultiBlocks().add(multiblock);
         }
     }
 

@@ -23,11 +23,13 @@ import java.util.stream.Collectors;
 public class OreWasher extends MultiBlockMachine {
 
     private final boolean legacyMode;
+    private final ItemStack[] dusts;
 
     public OreWasher(Category category) {
-        super(category, SlimefunItems.ORE_WASHER, new ItemStack[]{null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null}, new ItemStack[]{SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.GOLD_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.COPPER_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.TIN_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.ZINC_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.ALUMINUM_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.LEAD_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.SILVER_DUST}, BlockFace.SELF);
+        super(category, SlimefunItems.ORE_WASHER, new ItemStack[]{null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null}, new ItemStack[0], BlockFace.SELF);
 
         legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-washer");
+        dusts = new ItemStack[]{SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.TIN_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.MAGNESIUM_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST};
     }
 
     @Override
@@ -106,8 +108,8 @@ public class OreWasher extends MultiBlockMachine {
     }
 
     public ItemStack getRandomDust() {
-        int index = ThreadLocalRandom.current().nextInt(shownRecipes.size() / 2);
-        return shownRecipes.get(index * 2 + 1).clone();
+        int index = ThreadLocalRandom.current().nextInt(dusts.length);
+        return dusts[index].clone();
     }
 
 }

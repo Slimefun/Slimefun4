@@ -200,7 +200,7 @@ public final class SlimefunUtils {
         if (checkAmount && item.getAmount() < sfitem.getAmount()) return false;
 
         if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
-            return ((SlimefunItemStack) item).getItemID().equals(((SlimefunItemStack) sfitem).getItemID());
+            return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId());
         }
 
         boolean sfItemHasMeta = sfitem.hasItemMeta();
@@ -209,7 +209,7 @@ public final class SlimefunUtils {
             if (sfitem instanceof SlimefunItemStack) {
                 Optional<String> id = SlimefunPlugin.getItemDataService().getItemData(itemMeta);
                 if (id.isPresent()) {
-                    return id.get().equals(((SlimefunItemStack) sfitem).getItemID());
+                    return id.get().equals(((SlimefunItemStack) sfitem).getItemId());
                 }
 
                 ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();

@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import io.github.starwishsama.extra.UpdateChecker;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
@@ -37,8 +36,6 @@ class VersionsCommand extends SubCommand {
             sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + SlimefunPlugin.getCSCoreLibVersion()));
             sender.sendMessage(ChatColors.color("&aSlimefun &2v" + SlimefunPlugin.getVersion()));
             sender.sendMessage("");
-
-            sender.sendMessage(UpdateChecker.getUpdateInfo());
 
             Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();
             sender.sendMessage(ChatColors.color("&7已安装的扩展 &8(" + addons.size() + ")"));

@@ -31,17 +31,18 @@ public class AutoEnchanter extends AContainer {
 
     private final List<UUID> noticedPlayer = new LinkedList<>();
 
-    private int limit = SlimefunPlugin.getCfg().getInt("options.enchanter-level-limit");
+    private final int limit;
 
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
+        limit = SlimefunPlugin.getCfg().getInt("options.enchanter-level-limit");
         emeraldEnchantsLimit = SlimefunPlugin.getCfg().getInt("options.emerald-enchantment-limit");
     }
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.AUTO_ENCHANTER.getItem().getItemName();
+        return SlimefunItems.AUTO_ENCHANTER.clone().getItemMeta().getDisplayName();
     }
 
     @Override
@@ -72,8 +73,9 @@ public class AutoEnchanter extends AContainer {
                 if (ChargableBlock.isChargable(b)) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
-                } else progress.put(b, timeleft - 1);
+                }
+
+                progress.put(b, timeleft - 1);
             } else {
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
 

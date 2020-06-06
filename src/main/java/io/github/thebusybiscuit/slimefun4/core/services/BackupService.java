@@ -11,7 +11,6 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -22,6 +21,7 @@ import java.util.zip.ZipOutputStream;
  * This Service creates a Backup of your Slimefun world data on every server shutdown.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class BackupService implements Runnable {
 
@@ -38,7 +38,7 @@ public class BackupService implements Runnable {
             try {
                 deleteOldBackups(backups);
             } catch (IOException e) {
-                Slimefun.getLogger().log(Level.WARNING, "Could not delete an old backup", e);
+                Slimefun.getLogger().log(Level.WARNING, "无法删除旧的备份文件", e);
             }
         }
 
@@ -51,9 +51,9 @@ public class BackupService implements Runnable {
                         createBackup(output);
                     }
 
-                    Slimefun.getLogger().log(Level.INFO, "Backed up Slimefun data to: {0}", file.getName());
+                    Slimefun.getLogger().log(Level.INFO, "已备份 Slimefun 数据到: {0}", file.getName());
                 } else {
-                    Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: {0}", file.getName());
+                    Slimefun.getLogger().log(Level.WARNING, "无法创建备份文件: {0}", file.getName());
                 }
             } catch (IOException x) {
                 Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
@@ -62,58 +62,18 @@ public class BackupService implements Runnable {
     }
 
     private void createBackup(ZipOutputStream output) throws IOException {
-        byte[] buffer = new byte[1024];
 
         for (File folder : new File("data-storage/Slimefun/stored-blocks/").listFiles()) {
-            for (File file : folder.listFiles()) {
-                ZipEntry entry = new ZipEntry("stored-blocks/" + folder.getName() + '/' + file.getName());
-                output.putNextEntry(entry);
-
-                try (FileInputStream input = new FileInputStream(file)) {
-                    int length;
-
-                    while ((length = input.read(buffer)) > 0) {
-                        output.write(buffer, 0, length);
-                    }
-                }
-
-                output.closeEntry();
-            }
+            addDirectory(output, folder, "stored-blocks/" + folder.getName());
         }
 
-        for (File file : new File("data-storage/Slimefun/universal-inventories/").listFiles()) {
-            ZipEntry entry = new ZipEntry("universal-inventories/" + file.getName());
-            output.putNextEntry(entry);
-
-            try (FileInputStream input = new FileInputStream(file)) {
-                int length;
-
-                while ((length = input.read(buffer)) > 0) {
-                    output.write(buffer, 0, length);
-                }
-            }
-
-            output.closeEntry();
-        }
-
-        for (File file : new File("data-storage/Slimefun/stored-inventories/").listFiles()) {
-            ZipEntry entry = new ZipEntry("stored-inventories/" + file.getName());
-            output.putNextEntry(entry);
-
-            try (FileInputStream input = new FileInputStream(file)) {
-                int length;
-
-                while ((length = input.read(buffer)) > 0) {
-                    output.write(buffer, 0, length);
-                }
-            }
-
-            output.closeEntry();
-        }
+        addDirectory(output, new File("data-storage/Slimefun/universal-inventories/"), "universal-inventories");
+        addDirectory(output, new File("data-storage/Slimefun/stored-inventories/"), "stored-inventories");
 
         File chunks = new File("data-storage/Slimefun/stored-chunks/chunks.sfc");
 
         if (chunks.exists()) {
+            byte[] buffer = new byte[1024];
             ZipEntry entry = new ZipEntry("stored-chunks/chunks.sfc");
             output.putNextEntry(entry);
 
@@ -129,8 +89,27 @@ public class BackupService implements Runnable {
         }
     }
 
+    private void addDirectory(ZipOutputStream output, File directory, String zipPath) throws IOException {
+        byte[] buffer = new byte[1024];
+
+        for (File file : directory.listFiles()) {
+            ZipEntry entry = new ZipEntry(zipPath + '/' + file.getName());
+            output.putNextEntry(entry);
+
+            try (FileInputStream input = new FileInputStream(file)) {
+                int length;
+
+                while ((length = input.read(buffer)) > 0) {
+                    output.write(buffer, 0, length);
+                }
+            }
+
+            output.closeEntry();
+        }
+    }
+
     private void deleteOldBackups(List<File> backups) throws IOException {
-        Collections.sort(backups, (a, b) -> {
+        backups.sort((a, b) -> {
             LocalDateTime time1 = LocalDateTime.parse(a.getName().substring(0, a.getName().length() - 4), format);
             LocalDateTime time2 = LocalDateTime.parse(b.getName().substring(0, b.getName().length() - 4), format);
 

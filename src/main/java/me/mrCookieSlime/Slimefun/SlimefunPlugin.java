@@ -1,7 +1,7 @@
 package me.mrCookieSlime.Slimefun;
 
 import io.github.starwishsama.extra.ProtectionChecker;
-import io.github.starwishsama.extra.UpdateChecker;
+import io.github.starwishsama.extra.SlimefunUpdater;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
@@ -83,6 +83,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private LocalizationService local;
+    private SlimefunUpdater updater;
 
     private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
@@ -241,8 +242,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun 完成加载, 耗时 {0}", getStartupTime(timestamp));
 
-            if (config.getBoolean("options.update-check")) {
-                getLogger().log(Level.INFO, UpdateChecker.getUpdateInfo());
+            if (config.getBoolean("options.auto-update")) {
+                updater = new SlimefunUpdater();
+                Bukkit.getServer().getScheduler().runTaskAsynchronously(instance, updater::checkUpdate);
             }
 
         } else {
@@ -550,6 +552,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public String getBugTrackerURL() {
         return "https://github.com/StarWishsama/Slimefun4/issues";
+    }
+
+    @Override
+    public File getFile() {
+        return super.getFile();
     }
 
 }

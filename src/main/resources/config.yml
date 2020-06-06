@@ -1,8 +1,6 @@
 options:
-  # 自动更新
-  auto-update: false
-  # Github 更新检查
-  update-check: true
+  # Github 新版本自动更新
+  auto-update: true
   # 装备状态更新周期
   armor-update-interval: 10
   # 是否启用粘液科技护甲效果

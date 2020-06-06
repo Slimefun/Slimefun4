@@ -48,7 +48,10 @@ public final class TeleportationManager {
             int index = 0;
 
             for (Waypoint waypoint : profile.getWaypoints()) {
-                if (index >= teleporterInventory.length) break;
+                if (index >= teleporterInventory.length) {
+                    break;
+                }
+
                 int slot = teleporterInventory[index];
 
                 Location l = waypoint.getLocation();
@@ -62,7 +65,7 @@ public final class TeleportationManager {
                 index++;
             }
 
-            menu.open(p);
+            Slimefun.runSync(() -> menu.open(p));
         });
     }
 

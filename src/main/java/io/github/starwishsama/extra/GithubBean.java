@@ -5,12 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class GithubBean {
-    private String html_url;
+    @SerializedName("html_url")
+    private String htmlUrl;
     private int id;
     @SerializedName("tag_name")
     private String tagName;
     private String name;
-    private boolean prerelease;
+    @SerializedName("prerelease")
+    private boolean isPreRelease;
     @SerializedName("create_at")
     private String createTime;
     @SerializedName("published_at")
@@ -30,17 +32,33 @@ public class GithubBean {
     public static class AssetsBean {
         private String url;
         private String name;
-        private Object label;
-        private String content_type;
+        @SerializedName("content_type")
+        private String contentType;
         private String state;
         private int size;
-        private int download_count;
-        private String created_at;
-        private String updated_at;
-        private String browser_download_url;
+        @SerializedName("download_count")
+        private int downloadCount;
+        @SerializedName("created_at")
+        private String createTime;
+        @SerializedName("updated_at")
+        private String updateTime;
+        @SerializedName("browser_download_url")
+        private String downloadUrl;
 
-        public String getBrowser_download_url() {
-            return browser_download_url;
+        public String getDownloadUrl() {
+            return downloadUrl;
         }
+
+        public int getSize() {
+            return size;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public boolean isEmptyBean() {
+        return assets != null;
     }
 }

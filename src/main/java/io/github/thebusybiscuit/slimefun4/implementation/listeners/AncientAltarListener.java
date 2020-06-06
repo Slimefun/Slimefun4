@@ -81,7 +81,7 @@ public class AncientAltarListener implements Listener {
 
         String id = slimefunBlock.get().getID();
 
-        if (id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemID())) {
+        if (id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemId())) {
             e.cancel();
             usePedestal(b, e.getPlayer());
         } else if (id.equals("ANCIENT_ALTAR")) {
@@ -208,7 +208,7 @@ public class AncientAltarListener implements Listener {
         if (pedestal.getType() == Material.DISPENSER) {
             String id = BlockStorage.checkID(pedestal);
 
-            if (id != null && id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemID())) {
+            if (id != null && id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemId())) {
                 SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
                 e.setCancelled(true);
             }
@@ -259,7 +259,7 @@ public class AncientAltarListener implements Listener {
 
     private List<Block> getPedestals(Block altar) {
         List<Block> list = new ArrayList<>();
-        String id = SlimefunItems.ANCIENT_PEDESTAL.getItemID();
+        String id = SlimefunItems.ANCIENT_PEDESTAL.getItemId();
 
         if (BlockStorage.check(altar.getRelative(2, 0, -2), id)) {
             list.add(altar.getRelative(2, 0, -2));

@@ -98,7 +98,7 @@ public class SlimefunItem implements Placeable {
 
         this.category = category;
         this.item = item;
-        this.id = item.getItemID();
+        this.id = item.getItemId();
         this.recipeType = recipeType;
         this.recipe = recipe;
         this.recipeOutput = recipeOutput;
@@ -771,7 +771,7 @@ public class SlimefunItem implements Placeable {
         if (item == null) return null;
 
         if (item instanceof SlimefunItemStack) {
-            return getByID(((SlimefunItemStack) item).getItemID());
+            return getByID(((SlimefunItemStack) item).getItemId());
         }
 
         if (item.hasItemMeta()) {

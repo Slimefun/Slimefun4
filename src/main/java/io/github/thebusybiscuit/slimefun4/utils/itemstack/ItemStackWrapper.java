@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -79,6 +80,25 @@ public final class ItemStackWrapper extends ItemStack {
     @Override
     public void addUnsafeEnchantment(Enchantment ench, int level) {
         throw new UnsupportedOperationException("ItemStackWrappers are immutable and not indended for actual usage.");
+    }
+
+    /**
+     * This creates an {@link ItemStackWrapper} array from a given {@link ItemStack} array.
+     *
+     * @param items The array of {@link ItemStack ItemStacks} to transform
+     * @return An {@link ItemStackWrapper} array
+     */
+    public static ItemStackWrapper[] wrapArray(ItemStack[] items) {
+        Validate.notNull(items, "The array must not be null!");
+        ItemStackWrapper[] array = new ItemStackWrapper[items.length];
+
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null) {
+                array[i] = new ItemStackWrapper(items[i]);
+            }
+        }
+
+        return array;
     }
 
 }

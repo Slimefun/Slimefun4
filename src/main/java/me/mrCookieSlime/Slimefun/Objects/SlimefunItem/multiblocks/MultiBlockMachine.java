@@ -5,6 +5,8 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
@@ -13,14 +15,20 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
+import org.bukkit.block.data.type.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A {@link MultiBlockMachine} is a {@link SlimefunItem} that is built in the {@link World}.
@@ -29,18 +37,64 @@ import org.bukkit.inventory.ItemStack;
  * @author TheBusyBiscuit
  * @see MultiBlock
  */
-public abstract class MultiBlockMachine extends SlimefunMachine implements NotPlaceable {
+public abstract class MultiBlockMachine extends SlimefunMachine implements NotPlaceable, RecipeDisplayItem {
 
     private static final BlockFace[] outputFaces = {BlockFace.UP, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
 
+    protected final List<ItemStack[]> recipes;
+    protected final List<ItemStack> displayRecipes;
+    protected final MultiBlock multiblock;
+
     public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
-        super(category, item, recipe, machineRecipes, trigger);
+        super(category, item, RecipeType.MULTIBLOCK, recipe);
+        this.recipes = new ArrayList<>();
+        this.displayRecipes = new ArrayList<>();
+        this.displayRecipes.addAll(Arrays.asList(machineRecipes));
+        this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+    }
+
+    public List<ItemStack[]> getRecipes() {
+        return recipes;
+    }
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return displayRecipes;
+    }
+
+    public MultiBlock getMultiBlock() {
+        return multiblock;
+    }
+
+    public void addRecipe(ItemStack[] input, ItemStack output) {
+        Validate.notNull(output, "Recipes must have an Output!");
+
+        recipes.add(input);
+        recipes.add(new ItemStack[]{output});
     }
 
     @Override
     public void register(SlimefunAddon addon) {
         addItemHandler(getInteractionHandler());
         super.register(addon);
+    }
+
+    @Override
+    public void postRegister() {
+        SlimefunPlugin.getRegistry().getMultiBlocks().add(multiblock);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+
+        for (ItemStack recipeItem : displayRecipes) {
+            SlimefunItem item = SlimefunItem.getByItem(recipeItem);
+
+            if (item == null || !item.isDisabled()) {
+                recipes.add(new ItemStack[]{recipeItem});
+            }
+        }
     }
 
     protected MultiBlockInteractionHandler getInteractionHandler() {
@@ -57,11 +111,20 @@ public abstract class MultiBlockMachine extends SlimefunMachine implements NotPl
 
     public abstract void onInteract(Player p, Block b);
 
-    // Overloaded method for finding a potential output chest. Fallbacks to the old system of putting the adding back
-    // into the dispenser.
-    // Optional last argument Inventory placeCheckerInv is for multiblock machines that create a dummy inventory to
-    // check if there's a space for the adding,
-    // i.e. Enhanced crafting table
+    /**
+     * Overloaded method for finding a potential output chest.
+     * Fallbacks to the old system of putting the adding back into the dispenser.
+     * Optional last argument Inventory placeCheckerInv is for a {@link MultiBlockMachine} that create
+     * a dummy inventory to check if there's a space for the adding, i.e. Enhanced crafting table
+     *
+     * @param adding
+     *            The {@link ItemStack} that should be added
+     * @param dispBlock
+     *            The {@link Block} of our {@link Dispenser}
+     * @param dispInv
+     *            The {@link Inventory} of our {@link Dispenser}
+     * @return The target {@link Inventory}
+     */
     protected Inventory findOutputInventory(ItemStack adding, Block dispBlock, Inventory dispInv) {
         return findOutputInventory(adding, dispBlock, dispInv, dispInv);
     }
@@ -97,6 +160,22 @@ public abstract class MultiBlockMachine extends SlimefunMachine implements NotPl
         }
 
         return null;
+    }
+
+    private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
+        List<Material> materials = new ArrayList<>();
+
+        for (ItemStack item : items) {
+            if (item == null) {
+                materials.add(null);
+            } else if (item.getType() == Material.FLINT_AND_STEEL) {
+                materials.add(Material.FIRE);
+            } else {
+                materials.add(item.getType());
+            }
+        }
+
+        return materials.toArray(new Material[0]);
     }
 
 }

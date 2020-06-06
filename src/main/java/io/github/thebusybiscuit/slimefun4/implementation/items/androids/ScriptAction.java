@@ -67,5 +67,4 @@ enum ScriptAction {
     public AndroidType getRequiredType() {
         return type;
     }
-
 }
