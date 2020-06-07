@@ -84,8 +84,8 @@ public class SlimefunUpdater {
                 if (current >= latest && splitVersion.length == 3) {
                     Slimefun.getLogger().info(ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion()));
                 } else {
-                    String updateInfo = "&e有更新了 &7| &b" + bean.getTagName() + " 现已发布\n&a正在自动下载更新中, 下载完成后重启服务器生效";
-                    Slimefun.getLogger().info(ChatColors.color(updateInfo));
+                    String updateInfo = "有更新了 &7| &b" + bean.getTagName() + " 现已发布\n正在自动下载更新中, 下载完成后重启服务器生效";
+                    Slimefun.getLogger().info(updateInfo);
                     UpdateDownloader.downloadUpdate(getCache().getAssets().get(0).getDownloadUrl(), getCache().getAssets().get(0).getName());
                 }
             }

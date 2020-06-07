@@ -242,7 +242,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun 完成加载, 耗时 {0}", getStartupTime(timestamp));
 
-            if (config.getBoolean("options.auto-update")) {
+            if (config.getBoolean("options.auto-update") || config.getBoolean("options.update-check")) {
                 updater = new SlimefunUpdater();
                 Bukkit.getServer().getScheduler().runTaskAsynchronously(instance, updater::checkUpdate);
             }
