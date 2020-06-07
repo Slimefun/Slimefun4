@@ -24,6 +24,7 @@ import java.util.List;
  * Unlike the other Staves, it has a limited amount of uses.
  *
  * @author Linox
+ *
  */
 public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
 
@@ -61,9 +62,10 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
             ItemMeta sfItemMeta = sfItem.getItemMeta();
             List<String> sfItemLore = sfItemMeta.getLore();
 
+            Player p = e.getPlayer();
+
             // Index 1 and 3 in SlimefunItems.STAFF_STORM has lores with words and stuff so we check for them.
             if (itemLore.size() < 6 && itemLore.get(1).equals(sfItemLore.get(1)) && itemLore.get(3).equals(sfItemLore.get(3))) {
-                Player p = e.getPlayer();
                 if (p.getFoodLevel() >= 4 || p.getGameMode() == GameMode.CREATIVE) {
                     // Get a target block with max. 30 blocks of distance
                     Location loc = p.getTargetBlock(null, 30).getLocation();
@@ -86,7 +88,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
                                 item.setAmount(0);
                             } else {
                                 currentUses--;
-                                itemMeta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, --currentUses);
+                                itemMeta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, currentUses);
                                 itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&7还可以使用 &e" + currentUses + " 次"));
                                 itemMeta.setLore(itemLore);
                                 item.setItemMeta(itemMeta);
