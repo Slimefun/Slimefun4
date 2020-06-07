@@ -2667,7 +2667,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{null, null, null, null, SlimefunItems.BUCKET_OF_OIL, null, null, null, null})
                 .register(plugin);
 
-        new RadioactiveItem(categories.resources, Radioactivity.MODERATE, (SlimefunItemStack) SlimefunItems.NETHER_ICE, RecipeType.GEO_MINER,
+        new RadioactiveItem(categories.resources, Radioactivity.MODERATE, SlimefunItems.NETHER_ICE, RecipeType.GEO_MINER,
                 new ItemStack[]{null, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
@@ -3022,7 +3022,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[]{new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
                 .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
+        new SlimefunItem(categories.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
                 new ItemStack[]{SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null})
                 .register(plugin);
 
