@@ -180,8 +180,8 @@ public class IndustrialMiner extends MultiBlockMachine {
         Block[] pistons = findPistons(chest);
 
         int mod = getRange();
-        Location start = b.getLocation().clone().add(-mod, -1, -mod);
-        Location end = b.getLocation().clone().add(mod, -1, mod);
+        Block start = b.getRelative(-mod, -1, -mod);
+        Block end = b.getRelative(mod, -1, mod);
 
         ActiveMiner instance = new ActiveMiner(this, p.getUniqueId(), chest, pistons, start, end);
         instance.start(b);

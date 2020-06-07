@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
@@ -47,26 +48,26 @@ class ActiveMiner implements Runnable {
     private final Block chest;
     private final Block[] pistons;
 
-    private final Location start;
-    private final Location end;
+    private final BlockPosition start;
+    private final BlockPosition end;
     private final int height;
 
     private int x;
     private int z;
 
-    public ActiveMiner(IndustrialMiner miner, UUID owner, Block chest, Block[] pistons, Location start, Location end) {
+    public ActiveMiner(IndustrialMiner miner, UUID owner, Block chest, Block[] pistons, Block start, Block end) {
         this.miner = miner;
         this.owner = owner;
 
         this.chest = chest;
         this.pistons = pistons;
 
-        this.start = start;
-        this.end = end;
+        this.start = new BlockPosition(start);
+        this.end = new BlockPosition(end);
 
-        this.height = start.getBlockY();
-        this.x = start.getBlockX();
-        this.z = start.getBlockZ();
+        this.height = start.getY();
+        this.x = start.getX();
+        this.z = start.getZ();
     }
 
     /**
@@ -158,16 +159,16 @@ class ActiveMiner implements Runnable {
             return;
         }
 
-        try {
-            TaskQueue queue = new TaskQueue();
+        TaskQueue queue = new TaskQueue();
 
-            queue.thenRun(1, () -> setPistonState(pistons[0], true));
-            queue.thenRun(3, () -> setPistonState(pistons[0], false));
+        queue.thenRun(1, () -> setPistonState(pistons[0], true));
+        queue.thenRun(3, () -> setPistonState(pistons[0], false));
 
-            queue.thenRun(1, () -> setPistonState(pistons[1], true));
-            queue.thenRun(3, () -> setPistonState(pistons[1], false));
+        queue.thenRun(1, () -> setPistonState(pistons[1], true));
+        queue.thenRun(3, () -> setPistonState(pistons[1], false));
 
-            queue.thenRun(() -> {
+        queue.thenRun(() -> {
+            try {
                 Block furnace = chest.getRelative(BlockFace.DOWN);
                 furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, Material.STONE);
 
@@ -194,25 +195,25 @@ class ActiveMiner implements Runnable {
                 }
 
                 nextColumn();
-            });
+            }
+            catch (Exception e) {
+                Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occured while running an Industrial Miner at " + new BlockPosition(chest));
+                stop();
+            }
+        });
 
-            queue.execute(SlimefunPlugin.instance);
-        }
-        catch (Exception e) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while running an Industrial Miner", e);
-            stop();
-        }
+        queue.execute(SlimefunPlugin.instance);
     }
 
     /**
      * This advanced the {@link IndustrialMiner} to the next column
      */
     private void nextColumn() {
-        if (x < end.getBlockX()) {
+        if (x < end.getX()) {
             x++;
         }
-        else if (z < end.getBlockZ()) {
-            x = start.getBlockX();
+        else if (z < end.getZ()) {
+            x = start.getX();
             z++;
         }
         else {
@@ -354,7 +355,7 @@ class ActiveMiner implements Runnable {
             }
         }
         catch (Exception e) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Error occured while moving a Piston for an Industrial Miner", e);
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occured while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
             stop();
         }
     }
