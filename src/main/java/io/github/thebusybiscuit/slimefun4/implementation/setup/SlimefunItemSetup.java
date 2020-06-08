@@ -130,6 +130,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Medicine;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Rag;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Splint;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Vitamins;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.ArmorForge;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.AutomatedPanningMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Compressor;
@@ -2803,43 +2805,37 @@ public final class SlimefunItemSetup {
 
 		}.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.WHEAT_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.WHEAT), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.WHEAT_ORGANIC_FOOD, Material.WHEAT)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.CARROT_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.CARROT), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.CARROT_ORGANIC_FOOD, Material.CARROT)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.POTATO_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.POTATO), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.POTATO_ORGANIC_FOOD, Material.POTATO)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.SEEDS_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.WHEAT_SEEDS), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.SEEDS_ORGANIC_FOOD, Material.WHEAT_SEEDS)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.BEETROOT_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.BEETROOT), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.BEETROOT_ORGANIC_FOOD, Material.BEETROOT)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.MELON_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.MELON), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.MELON_ORGANIC_FOOD, Material.MELON_SLICE)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.APPLE_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.APPLE), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.APPLE_ORGANIC_FOOD, Material.APPLE)
 		.register(plugin);
 
 		if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-		    new SlimefunItem(categories.misc, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		    new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.SWEET_BERRIES), null, null, null, null, null, null, null})
+		    new OrganicFood(categories.misc, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, Material.SWEET_BERRIES)
 		    .register(plugin);
 		}
 
-		new SlimefunItem(categories.misc, SlimefunItems.KELP_ORGANIC_FOOD, RecipeType.FOOD_FABRICATOR,
-		new ItemStack[] {SlimefunItems.CAN, new ItemStack(Material.DRIED_KELP), null, null, null, null, null, null, null})
+		new OrganicFood(categories.misc, SlimefunItems.KELP_ORGANIC_FOOD, Material.DRIED_KELP)
 		.register(plugin);
+
+        new OrganicFood(categories.misc, SlimefunItems.COCOA_ORGANIC_FOOD, Material.COCOA_BEANS)
+        .register(plugin);
 
 		new AutoBreeder(categories.electricity, SlimefunItems.AUTO_BREEDER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_18K, SlimefunItems.CAN, SlimefunItems.GOLD_18K, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.HAY_BLOCK), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.LEAD_INGOT})
@@ -2897,41 +2893,35 @@ public final class SlimefunItemSetup {
 
 		}.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.WHEAT_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.WHEAT_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.WHEAT_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.CARROT_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.CARROT_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.CARROT_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.POTATO_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.POTATO_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.POTATO_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.SEEDS_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.SEEDS_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.SEEDS_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.BEETROOT_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.BEETROOT_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.BEETROOT_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.MELON_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.MELON_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.MELON_FERTILIZER, SlimefunItems.MELON_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.APPLE_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.APPLE_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.APPLE_FERTILIZER, SlimefunItems.APPLE_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.SWEET_BERRIES_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.SWEET_BERRIES_FERTILIZER, SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD)
 		.register(plugin);
 
-		new SlimefunItem(categories.misc, SlimefunItems.KELP_FERTILIZER, RecipeType.FOOD_COMPOSTER,
-		new ItemStack[] {SlimefunItems.KELP_ORGANIC_FOOD, null, null, null, null, null, null, null, null})
+		new OrganicFertilizer(categories.misc, SlimefunItems.KELP_FERTILIZER, SlimefunItems.KELP_ORGANIC_FOOD)
 		.register(plugin);
+
+        new OrganicFertilizer(categories.misc, SlimefunItems.COCOA_FERTILIZER, SlimefunItems.COCOA_ORGANIC_FOOD)
+        .register(plugin);
 
 		new CropGrowthAccelerator(categories.electricity, SlimefunItems.CROP_GROWTH_ACCELERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.PROGRAMMABLE_ANDROID_FARMER, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ANIMAL_GROWTH_ACCELERATOR, SlimefunItems.ELECTRO_MAGNET}) {

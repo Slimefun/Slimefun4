@@ -24,14 +24,18 @@
 * Added Dried Kelp Blocks recipe to the Electric Press
 * Added Bone Blocks recipe to the Electric Press
 * Added thai translations
-* Dried Kelp Blocks can now be used in the Coal Generator
 * Added Industrial Miner
 * Added Advanced Industrial Miner
+* Added Cocoa Organic Food
+* Added Cocoa Fertilizer
 
 #### Changes
 * Fixed a few memory leaks
 * Removed Digital Miner
 * Removed Advanced Digital Miner
+* Dried Kelp Blocks can now be used in the Coal Generator
+* Crafting Organic Food/Fertilizer yields more output now
+* Organic Food (Melon) now uses Melon Slices instead of Melon blocks
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
