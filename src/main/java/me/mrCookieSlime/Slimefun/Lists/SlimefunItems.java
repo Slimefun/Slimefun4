@@ -720,6 +720,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack APPLE_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_APPLE", ORGANIC_FOOD, "&aOrganic Food", "&7Content: &9Apple");
     public static final SlimefunItemStack SWEET_BERRIES_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_SWEET_BERRIES", ORGANIC_FOOD, "&aOrganic Food", "&7Content: &9Sweet Berries");
     public static final SlimefunItemStack KELP_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_KELP", ORGANIC_FOOD, "&aOrganic Food", "&7Content: &9Dried Kelp");
+    public static final SlimefunItemStack COCOA_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_COCOA", ORGANIC_FOOD, "&aOrganic Food", "&7Content: &9Cocoa Beans");
 
     public static final SlimefunItemStack FERTILIZER = new SlimefunItemStack("FERTILIZER", "b439e3f5acbee9be4c4259289d6d9f35c635ffa661114687b3ea6dda8c79", "&aOrganic Fertilizer", "&7Content: &9???");
     public static final SlimefunItemStack WHEAT_FERTILIZER = new SlimefunItemStack("FERTILIZER_WHEAT", FERTILIZER, "&aOrganic Fertilizer", "&7Content: &9Wheat");
@@ -731,6 +732,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack APPLE_FERTILIZER = new SlimefunItemStack("FERTILIZER_APPLE", FERTILIZER, "&aOrganic Fertilizer", "&7Content: &9Apple");
     public static final SlimefunItemStack SWEET_BERRIES_FERTILIZER = new SlimefunItemStack("FERTILIZER_SWEET_BERRIES", FERTILIZER, "&aOrganic Fertilizer", "&7Content: &9Sweet Berries");
     public static final SlimefunItemStack KELP_FERTILIZER = new SlimefunItemStack("FERTILIZER_KELP", FERTILIZER, "&aOrganic Fertilizer", "&7Content: &9Dried Kelp");
+    public static final SlimefunItemStack COCOA_FERTILIZER = new SlimefunItemStack("FERTILIZER_COCOA", FERTILIZER, "&aOrganic Fertilizer", "&7Content: &9Cocoa beans");
 
     public static final SlimefunItemStack ANIMAL_GROWTH_ACCELERATOR = new SlimefunItemStack("ANIMAL_GROWTH_ACCELERATOR", Material.HAY_BLOCK, "&bAnimal Growth Accelerator", "", "&rRuns on &aOrganic Food", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(28));
     public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR = new SlimefunItemStack("CROP_GROWTH_ACCELERATOR", Material.LIME_TERRACOTTA, "&aCrop Growth Accelerator", "", "&rRuns on &aOrganic Fertilizer", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7Radius: 7x7", "&8\u21E8 &7Speed: &a3/time", LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(50));

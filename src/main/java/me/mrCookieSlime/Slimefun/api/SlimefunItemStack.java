@@ -88,6 +88,11 @@ public class SlimefunItemStack extends CustomItem {
         setID(id);
     }
 
+    public SlimefunItemStack(SlimefunItemStack item, int amount) {
+        this(item.getItemId(), item);
+        setAmount(amount);
+    }
+
     public SlimefunItemStack(String id, ItemStack item, Consumer<ItemMeta> consumer) {
         super(item, consumer);
 

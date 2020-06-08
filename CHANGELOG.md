@@ -24,9 +24,12 @@
 * Added Dried Kelp Blocks recipe to the Electric Press
 * Added Bone Blocks recipe to the Electric Press
 * Added thai translations
+* Added Cocoa Organic Food
+* Added Cocoa Fertilizer
 
 #### Changes
 * Fixed a few memory leaks
+* Crafting Organic Food/Fertilizer yields more output now
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
