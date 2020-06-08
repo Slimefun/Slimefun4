@@ -2968,7 +2968,7 @@ public final class SlimefunItemSetup {
 		new OrganicFood(categories.misc, SlimefunItems.BEETROOT_ORGANIC_FOOD, Material.BEETROOT)
 		.register(plugin);
 
-		new OrganicFood(categories.misc, SlimefunItems.MELON_ORGANIC_FOOD, Material.MELON)
+		new OrganicFood(categories.misc, SlimefunItems.MELON_ORGANIC_FOOD, Material.MELON_SLICE)
 		.register(plugin);
 
 		new OrganicFood(categories.misc, SlimefunItems.APPLE_ORGANIC_FOOD, Material.APPLE)

@@ -30,6 +30,7 @@
 #### Changes
 * Fixed a few memory leaks
 * Crafting Organic Food/Fertilizer yields more output now
+* Organic Food (Melon) now uses Melon Slices instead of Melon blocks
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
