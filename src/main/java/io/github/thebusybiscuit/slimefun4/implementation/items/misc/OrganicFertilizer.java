@@ -9,7 +9,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OrganicFertilizer extends SlimefunItem {
 
-    private static final int OUTPUT = 2;
+    public static final int OUTPUT = 2;
 
     public OrganicFertilizer(Category category, SlimefunItemStack item, SlimefunItemStack ingredient) {
         super(category, item, RecipeType.FOOD_COMPOSTER, new ItemStack[] { ingredient, null, null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));

@@ -11,7 +11,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OrganicFood extends SlimefunItem {
 
-    private static final int OUTPUT = 2;
+    public static final int OUTPUT = 2;
 
     public OrganicFood(Category category, SlimefunItemStack item, Material ingredient) {
         super(category, item, RecipeType.FOOD_FABRICATOR, new ItemStack[] { SlimefunItems.CAN, new ItemStack(ingredient), null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT));
