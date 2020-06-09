@@ -92,6 +92,9 @@ public class Translators {
         addTranslator("Dr4gonD", "DragonD", EmbeddedLanguage.DUTCH, true);
         addTranslator("svr333", EmbeddedLanguage.DUTCH, false);
         addTranslator("PabloMarcendo", EmbeddedLanguage.DUTCH, true);
+        
+        // Translators - Danish
+        addTranslator("Mini-kun", EmbeddedLanguage.DANISH, true);
 
         // Translators - Polish
         addTranslator("ascpixel", "kbartek_", EmbeddedLanguage.POLISH, true);
