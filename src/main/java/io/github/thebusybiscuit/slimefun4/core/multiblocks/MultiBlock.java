@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core;
+package io.github.thebusybiscuit.slimefun4.core.multiblocks;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -120,6 +120,16 @@ public class MultiBlock {
                 if (tag.isTagged(b)) {
                     return tag.isTagged(a);
                 }
+            }
+
+            // This ensures that the Industrial Miner is still recognized while operating
+            if (a == Material.PISTON) {
+                return a == b || b == Material.MOVING_PISTON;
+            }
+
+            // This ensures that the Industrial Miner is still recognized while operating
+            if (b == Material.PISTON) {
+                return a == b || a == Material.MOVING_PISTON;
             }
 
             if (b != a) {

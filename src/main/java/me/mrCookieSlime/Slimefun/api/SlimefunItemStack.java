@@ -205,7 +205,7 @@ public class SlimefunItemStack extends CustomItem {
 
     @Override
     public String toString() {
-        return "SlimefunItemStack (" + id + ')';
+        return "SlimefunItemStack (" + id + (getAmount() > 1 ? (" x " + getAmount()) : "") + ')';
     }
 
     public Optional<String> getSkullTexture() {

@@ -117,10 +117,8 @@ public final class ResearchSetup {
         register("table_saw", 92, "Table Saw", 4, SlimefunItems.TABLE_SAW);
         register("slime_steel_armor", 93, "Slimy Steel Armor", 27, SlimefunItems.SLIME_HELMET_STEEL, SlimefunItems.SLIME_CHESTPLATE_STEEL, SlimefunItems.SLIME_LEGGINGS_STEEL, SlimefunItems.SLIME_BOOTS_STEEL);
         register("blade_of_vampires", 94, "Blade of Vampires", 26, SlimefunItems.BLADE_OF_VAMPIRES);
-        register("digital_miner", 95, "Lazy Mining", 40, SlimefunItems.DIGITAL_MINER);
         register("water_staff", 96, "Water Staff", 8, SlimefunItems.STAFF_WATER);
         register("24k_gold_block", 97, "Golden City", 19, SlimefunItems.GOLD_24K_BLOCK);
-        register("advanced_digital_miner", 98, "Advanced Mining 101", 42, SlimefunItems.ADVANCED_DIGITAL_MINER);
         register("composter", 99, "Composting Dirt", 3, SlimefunItems.COMPOSTER);
         register("farmer_shoes", 100, "Farmer Shoes", 4, SlimefunItems.FARMER_SHOES);
         register("explosive_tools", 101, "Explosive Tools", 30, SlimefunItems.EXPLOSIVE_PICKAXE, SlimefunItems.EXPLOSIVE_SHOVEL);
@@ -265,6 +263,8 @@ public final class ResearchSetup {
         register("kelp_cookie", 254, "Tasty Kelp", 4, SlimefunItems.KELP_COOKIE);
         register("makeshift_smeltery", 255, "Improvised Smeltery", 6, SlimefunItems.MAKESHIFT_SMELTERY);
         register("tree_growth_accelerator", 256, "Faster Trees", 18, SlimefunItems.TREE_GROWTH_ACCELERATOR);
+        register("industrial_miner", 95, "Industrial Mining", 28, SlimefunItems.INDUSTRIAL_MINER);
+        register("advanced_industrial_miner", 98, "Better Mining", 36, SlimefunItems.ADVANCED_INDUSTRIAL_MINER);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {

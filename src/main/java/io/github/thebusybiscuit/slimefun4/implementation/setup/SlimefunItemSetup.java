@@ -3,28 +3,16 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Chest;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.items.RadioactiveItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -40,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.Programm
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.WoodcutterAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.EnderBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
@@ -107,7 +96,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.BirthdayCake;
-import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.FortuneCookie;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
@@ -157,6 +145,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWa
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.PressureChamber;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.TableSaw;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.AdvancedIndustrialMiner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.ChristmasPresent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.seasonal.EasterEgg;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePickaxe;
@@ -178,17 +168,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAx
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.RainbowTicker;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -1019,142 +1004,6 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.WITHER_SKELETON_SKULL), null, null, new ItemStack(Material.BLAZE_ROD), null})
 		.register(plugin);
 
-		SlimefunMachine miner = new SlimefunMachine(categories.basicMachines, SlimefunItems.DIGITAL_MINER, "DIGITAL_MINER",
-		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.DISPENSER), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.HOPPER), new ItemStack(Material.IRON_BLOCK)},
-		BlockFace.SELF);
-		miner.addItemHandler(new MultiBlockInteractionHandler() {
-
-			@Override
-			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				if (mb.equals(((SlimefunMachine) SlimefunItem.getByID("DIGITAL_MINER")).getMultiBlock())) {
-					p.sendMessage(ChatColor.DARK_RED + "THIS MACHINE WILL SOON BE REMOVED!");
-					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, SlimefunItems.DIGITAL_MINER, true)) {
-						Block chestBlock = b.getRelative(BlockFace.UP);
-
-						if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL")) &&
-								!(BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))) {
-							return false;
-						}
-
-						Chest chest = (Chest) chestBlock.getState();
-						Inventory inv = chest.getInventory();
-						List<Location> ores = new ArrayList<>();
-
-						for (int x = b.getX() - 4; x <= b.getX() + 4; x++) {
-							for (int z = b.getZ() - 4; z <= b.getZ() + 4; z++) {
-								for (int y = b.getY(); y > 0; y--) {
-									if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
-										ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
-									}
-								}
-							}
-						}
-						if (!ores.isEmpty()) {
-							Material ore = ores.get(0).getBlock().getType();
-							ItemStack adding = new ItemStack(ore);
-							ores.get(0).getBlock().setType(Material.AIR);
-							ores.clear();
-							if (InvUtils.fits(inv, adding)) {
-								for (int i = 0; i < 4; i++) {
-									int j = i;
-									Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-										if (j < 3) {
-											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-										} 
-										else {
-											p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-											inv.addItem(adding);
-										}
-									}, i*20L);
-								}
-							}
-							else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
-						}
-						else SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores", true);
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
-		miner.register(plugin);
-
-		SlimefunMachine advancedMiner = new SlimefunMachine(categories.basicMachines, SlimefunItems.ADVANCED_DIGITAL_MINER, "ADVANCED_DIGITAL_MINER",
-		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.DISPENSER), SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.HOPPER), SlimefunItems.GOLD_24K_BLOCK},
-		BlockFace.SELF);
-		advancedMiner.addItemHandler(new MultiBlockInteractionHandler() {
-			// Determines the drops an Advanced Digital Miner will get
-			private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
-			
-			@Override
-			public boolean onInteract(Player p, MultiBlock mb, Block b) {
-				if (mb.equals(((SlimefunMachine) SlimefunItem.getByID("ADVANCED_DIGITAL_MINER")).getMultiBlock())) {
-					p.sendMessage(ChatColor.DARK_RED + "THIS MACHINE WILL SOON BE REMOVED!");
-					if (CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true) && Slimefun.hasUnlocked(p, SlimefunItems.ADVANCED_DIGITAL_MINER, true)) {
-						Block chestBlock = b.getRelative(BlockFace.UP);
-
-						if(!(BlockStorage.check(chestBlock.getRelative(BlockFace.WEST), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.EAST), "SOLAR_PANEL")) &&
-								!(BlockStorage.check(chestBlock.getRelative(BlockFace.NORTH), "SOLAR_PANEL") && BlockStorage.check(chestBlock.getRelative(BlockFace.SOUTH), "SOLAR_PANEL"))) {
-							return false;
-						}
-
-						Chest chest = (Chest) chestBlock.getState();
-						Inventory inv = chest.getInventory();
-						List<Location> ores = new ArrayList<>();
-
-						for (int x = b.getX() - 6; x <= b.getX() + 6; x++) {
-							for (int z = b.getZ() - 6; z <= b.getZ() + 6; z++) {
-								for (int y = b.getY(); y > 0; y--) {
-									if (b.getWorld().getBlockAt(x, y, z).getType().toString().endsWith("_ORE")) {
-										ores.add(b.getWorld().getBlockAt(x, y, z).getLocation());
-									}
-								}
-							}
-						}
-						if (!ores.isEmpty()) {
-							Material ore = ores.get(0).getBlock().getType();
-							ItemStack drop = new ItemStack(ore);
-							
-							if (ore == Material.COAL_ORE)  drop = new ItemStack(Material.COAL, 4);
-							else if (ore == Material.IRON_ORE) drop = new CustomItem(SlimefunItems.IRON_DUST, 2);
-							else if (ore == Material.GOLD_ORE)  drop = new CustomItem(SlimefunItems.GOLD_DUST, 2);
-							else if (ore == Material.REDSTONE_ORE)  drop = new ItemStack(Material.REDSTONE, 8);
-							else if (ore == Material.NETHER_QUARTZ_ORE)  drop = new ItemStack(Material.QUARTZ, 4);
-							else if (ore == Material.LAPIS_ORE)  drop = new ItemStack(Material.LAPIS_LAZULI, 12);
-							else {
-								for (ItemStack drops : ores.get(0).getBlock().getDrops(effectivePickaxe)) {
-									if (!drops.getType().isBlock()) drop = new CustomItem(drops, 2);
-								}
-							}
-							
-							final ItemStack adding = drop;
-							ores.get(0).getBlock().setType(Material.AIR);
-							ores.clear();
-							if (InvUtils.fits(inv, adding)) {
-								for (int i = 0; i < 4; i++) {
-									int j = i;
-									Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
-										if (j < 3) {
-											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
-										} 
-										else {
-											p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-											inv.addItem(adding);
-										}
-									}, i*20L);
-								}
-							}
-							else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
-						}
-						else SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores", true);
-					}
-					return true;
-				}
-				else return false;
-			}
-		});
-		advancedMiner.register(plugin);
-
 		new SlimefunItem(categories.misc, (SlimefunItemStack) SlimefunItems.GOLD_24K_BLOCK, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K, SlimefunItems.GOLD_24K})
 		.register(plugin);
@@ -1176,6 +1025,9 @@ public final class SlimefunItemSetup {
 		.register(plugin);
 
 		new AutomatedPanningMachine(categories.basicMachines).register(plugin);
+		
+		new IndustrialMiner(categories.basicMachines, SlimefunItems.INDUSTRIAL_MINER, Material.IRON_BLOCK, false, 3).register(plugin);
+		new AdvancedIndustrialMiner(categories.basicMachines, SlimefunItems.ADVANCED_INDUSTRIAL_MINER).register(plugin);
 
 		new SlimefunItem(categories.magicalArmor, SlimefunItems.BOOTS_OF_THE_STOMPER, RecipeType.ARMOR_FORGE,
 		new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})

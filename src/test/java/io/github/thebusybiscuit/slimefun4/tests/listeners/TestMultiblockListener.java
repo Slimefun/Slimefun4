@@ -18,7 +18,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
-import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.mocks.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
