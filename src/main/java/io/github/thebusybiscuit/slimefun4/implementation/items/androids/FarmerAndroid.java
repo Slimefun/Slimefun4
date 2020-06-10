@@ -7,6 +7,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -28,9 +29,13 @@ public abstract class FarmerAndroid extends ProgrammableAndroid {
     }
 
     private boolean isFullGrown(Block block) {
-        if (!(block.getBlockData() instanceof Ageable)) return false;
+        BlockData data = block.getBlockData();
 
-        Ageable ageable = ((Ageable) block.getBlockData());
+        if (!(data instanceof Ageable)) {
+            return false;
+        }
+
+        Ageable ageable = (Ageable) data;
         return ageable.getAge() >= ageable.getMaximumAge();
     }
 
@@ -51,7 +56,7 @@ public abstract class FarmerAndroid extends ProgrammableAndroid {
 
     private ItemStack getDropFromCrop(Material crop) {
         Random random = ThreadLocalRandom.current();
-        
+
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) && crop == Material.SWEET_BERRY_BUSH) {
             return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
         }

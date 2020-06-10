@@ -47,29 +47,41 @@ class GiveCommand extends SubCommand {
                     SlimefunItem sfItem = SlimefunItem.getByID(args[2].toUpperCase(Locale.ROOT));
 
                     if (sfItem != null) {
-                        if (sfItem instanceof MultiBlockMachine) {
-                            SlimefunPlugin.getLocal().sendMessage(sender, "guide.cheat.no-multiblocks");
-                        }
-                        else {
-                            int amount = parseAmount(args);
-
-                            if (amount > 0) {
-                                SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-                                p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
-                                SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-                            }
-                            else {
-                                SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
-                            }
-                        }
+                        giveItem(sender, p, sfItem, args);
                     }
-                    else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
+                    else {
+                        SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
+                    }
                 }
-                else SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+                else {
+                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+                }
             }
-            else SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+            else {
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+            }
         }
-        else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+        else {
+            SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+        }
+    }
+
+    private void giveItem(CommandSender sender, Player p, SlimefunItem sfItem, String[] args) {
+        if (sfItem instanceof MultiBlockMachine) {
+            SlimefunPlugin.getLocal().sendMessage(sender, "guide.cheat.no-multiblocks");
+        }
+        else {
+            int amount = parseAmount(args);
+
+            if (amount > 0) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+                p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+            }
+            else {
+                SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+            }
+        }
     }
 
     private int parseAmount(String[] args) {

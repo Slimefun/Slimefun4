@@ -19,6 +19,8 @@ import org.bukkit.inventory.meta.ItemMeta;
  */
 public final class ItemStackWrapper extends ItemStack {
 
+    private static final String ERROR_MESSAGE = "ItemStackWrappers are immutable and not indended for actual usage.";
+
     private final ItemMeta meta;
     private final boolean hasItemMeta;
 
@@ -49,37 +51,37 @@ public final class ItemStackWrapper extends ItemStack {
 
     @Override
     public boolean equals(Object obj) {
-        throw new UnsupportedOperationException("ItemStackWrappers do not allow .equals()");
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     @Override
     public int hashCode() {
-        throw new UnsupportedOperationException("You cannot hash an ItemStackWrapper");
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     @Override
     public ItemStack clone() {
-        throw new UnsupportedOperationException("You cannot clone an ItemStackWrapper");
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     @Override
     public void setType(Material type) {
-        throw new UnsupportedOperationException("ItemStackWrappers are immutable and not indended for actual usage.");
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     @Override
     public void setAmount(int amount) {
-        throw new UnsupportedOperationException("ItemStackWrappers are immutable and not indended for actual usage.");
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     @Override
     public boolean setItemMeta(ItemMeta itemMeta) {
-        throw new UnsupportedOperationException("ItemStackWrappers are immutable and not indended for actual usage.");
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     @Override
     public void addUnsafeEnchantment(Enchantment ench, int level) {
-        throw new UnsupportedOperationException("ItemStackWrappers are immutable and not indended for actual usage.");
+        throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
     /**

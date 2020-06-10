@@ -57,19 +57,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
                         e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
                         e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
-                        List<Block> blocks = new ArrayList<>();
-                        for (int x = -1; x <= 1; x++) {
-                            for (int y = -1; y <= 1; y++) {
-                                for (int z = -1; z <= 1; z++) {
-                                    // We can skip the center block since that will break as usual
-                                    if (x == 0 && y == 0 && z == 0) {
-                                        continue;
-                                    }
-
-                                    blocks.add(e.getBlock().getRelative(x, y, z));
-                                }
-                            }
-                        }
+                        List<Block> blocks = findBlocks(e.getBlock());
 
                         if (callExplosionEvent.getValue().booleanValue()) {
                             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(e.getBlock(), blocks, 0);
@@ -93,6 +81,25 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
                 }
             }
         };
+    }
+
+    private List<Block> findBlocks(Block b) {
+        List<Block> blocks = new ArrayList<>(26);
+
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    // We can skip the center block since that will break as usual
+                    if (x == 0 && y == 0 && z == 0) {
+                        continue;
+                    }
+
+                    blocks.add(b.getRelative(x, y, z));
+                }
+            }
+        }
+
+        return blocks;
     }
 
     @Override
