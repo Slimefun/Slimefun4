@@ -148,11 +148,11 @@ slimefun:
   pickaxe_of_containment:
     name: Pickaxe of Containment
     lore:
-    - 
+    - Spawner có thể thu được
     - bằng cách đập với
     - Pickaxe of Containment
   refinery:
     name: Refinery
     lore:
-    - 
+    - Chế tạo vật phẩm này như hình
     - sử dụng Refinery
