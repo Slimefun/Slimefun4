@@ -4,6 +4,7 @@ minecraft:
     lore:
     - Nung vật phẩm này trong một lò nung phản ứng
     - để chế tạo vật phẩm mình muốn
+    name: Công thức lò nung phản ứng
   campfire:
     lore:
     - Nung vật phẩm này trên một lửa trại
@@ -138,6 +139,7 @@ slimefun:
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng Smeltery
+    name: Smeltery
   oil_pump:
     name: Oil Pump
     lore:
