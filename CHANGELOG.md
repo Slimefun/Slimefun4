@@ -29,6 +29,7 @@
 * Added Cocoa Organic Food
 * Added Cocoa Fertilizer
 * Added a configurable limit to the Pickaxe of Vein Mining
+* Added Gold Ingot to Dust recipe to the Electric Ingot Pulverizer
 
 #### Changes
 * Fixed a few memory leaks
@@ -38,6 +39,7 @@
 * Crafting Organic Food/Fertilizer yields more output now
 * Organic Food (Melon) now uses Melon Slices instead of Melon blocks
 * The Seismic Axe now skips the first two blocks to clear your field of view
+* Small performance improvements
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
