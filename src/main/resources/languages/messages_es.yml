@@ -62,6 +62,12 @@ commands:
   teleporter: Ve los  Waypoints de otros jugadores.
   timings: Información del lag de tu servidor.
   versions: Lista los Addons instalados.
+  backpack:
+    description: Obtén una copia de una mochila existente
+    invalid-id: "&4¡El ID ha de ser un número positivo!"
+    player-never-joined: "&4¡Ningún jugador con ese nombre pudo ser encontrado!"
+    backpack-does-not-exist: "&4¡La mochila especificada no existe!"
+    restored-backpack-given: "&a¡Tu mochila ha sido restaurada y añadida a tu inventario!"
 gps:
   deathpoint: "&4Punto de Muerte &7%date%"
   geo:
@@ -221,6 +227,16 @@ machines:
     Por favor coloca algo que si conozca."
   wrong-item: "&eLo siento, no puedo reconocer el objeto con el que me has hecho clic.
     Revisa las recetas y mira que objetos puedes usar."
+  INDUSTRIAL_MINER:
+    no-fuel: "&c¡Tu Industrial Miner se ha quedado sin combustible! Pon combustible
+      en el cofre de encima."
+    piston-facing: "&c¡Tu Industrial Miner requiere pistones para mirar hacia arriba!"
+    piston-space: "&c¡Los dos pistones han de tener un bloque de aire encima de ellos!"
+    destroyed: "&cAl parecer tu Industrial Miner ha sido destruido..."
+    already-running: "&c¡Este Industrial Miner ya está en funcionamiento!"
+    full-chest: "&c¡El cofre de tu Industrial Miner está lleno!"
+    no-permission: "&4¡No tienes permisos para operar un Industrial Miner aquí!"
+    finished: "&e?¡Tu Industrial Miner ha acabado! ¡Obtuvo un total de %ores% mineral(es)!"
 messages:
   cannot-place: "&c¡No puedes colocar ese bloque ahí!"
   diet-cookie: "&eEmpiezas a sentirte muy ligero ..."
