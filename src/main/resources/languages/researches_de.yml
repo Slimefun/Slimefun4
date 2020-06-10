@@ -16,6 +16,7 @@ slimefun:
   angel_talisman: Talisman des Engels
   animal_growth_accelerator: Wachstumsboost
   anvil_talisman: Talisman des Ambosses
+  armored_jetboots: Gepanzerte Raketenstiefel
   armored_jetpack: Gepanzertes Jetpack
   armor_forge: Rüstungsherstellung
   auto_anvil: Automatischer Amboss
@@ -44,6 +45,7 @@ slimefun:
   boosted_uranium: Starkes Uran
   boots_of_the_stomper: Stampfende Stiefel
   bound_armor: Rüstung zum Behalten
+  bound_backpack: Ein treuer Rucksack
   bound_tools: Werkzeuge zum Behalten
   bound_weapons: Waffen zum Behalten
   bronze: Bronze
@@ -149,6 +151,7 @@ slimefun:
   magic_workbench: Magische Werkbank
   magnesium_generator: Energie durch Magnesium
   magnet: Magneten
+  makeshift_smeltery: Improvisierter Schmelzofen
   meat_jerky: Dörrfleisch
   miner_talisman: Talisman der Mine
   misc_power_items: Items mit Energie
@@ -215,6 +218,7 @@ slimefun:
   totem_of_undying: Das Totem der Untoten
   trash_can: Mülltonne
   traveller_talisman: Talisman des Wanderers
+  tree_growth_accelerator: Schnelle Bäume
   uranium: Radioaktives Material
   walking_sticks: Gehstöcke
   warrior_talisman: Talisman des Kriegers
@@ -228,7 +232,5 @@ slimefun:
   wizard_talisman: Talisman des Zauberers
   woven_backpack: Stoff-Rucksack
   xp_collector: Erfahrungssammler
-  bound_backpack: Ein treuer Rucksack
-  armored_jetboots: Gepanzerte Raketenstiefel
-  makeshift_smeltery: Improvisierter Schmelzofen
-  tree_growth_accelerator: Schnelle Bäume
+  industrial_miner: Industrielle Erzförderung
+  advanced_industrial_miner: Verbesserter Erzabbau
