@@ -151,6 +151,7 @@ slimefun:
   magic_workbench: Magisk Arbetsbänk
   magnesium_generator: Kraft från Magnesium
   magnet: Magnetiska Metaller
+  makeshift_smeltery: Improviserat Smältverk
   meat_jerky: Meat Jerky
   miner_talisman: Gruvarbetarens Talisman
   misc_power_items: Viktiga kraft-relaterade Föremål
@@ -217,6 +218,7 @@ slimefun:
   totem_of_undying: Totem of Undying
   trash_can: Sopor
   traveller_talisman: Resenärens Talisman
+  tree_growth_accelerator: Snabbare Träd
   uranium: Radioaktiv
   walking_sticks: Käppar
   warrior_talisman: Krigarens Talisman
@@ -230,5 +232,5 @@ slimefun:
   wizard_talisman: Trollkarlens Talisman
   woven_backpack: Vävd Ryggsäck
   xp_collector: XP Förvarare
-  makeshift_smeltery: Improviserat Smältverk
-  tree_growth_accelerator: Snabbare Träd
+  industrial_miner: Industrilellt Gruvarbete
+  advanced_industrial_miner: Förbättrat Gruvarbete
