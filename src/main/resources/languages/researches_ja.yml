@@ -151,6 +151,7 @@ slimefun:
   magic_workbench: 魔法の作業台
   magnesium_generator: マグネシウム発電所
   magnet: 磁性金属
+  makeshift_smeltery: 間に合わせの製錬所
   meat_jerky: ジャーキー
   miner_talisman: 採掘者のタリスマン
   misc_power_items: エネルギーコア
@@ -217,6 +218,7 @@ slimefun:
   totem_of_undying: 不死のトーテム
   trash_can: ごみ処理施設
   traveller_talisman: 探索者のタリスマン
+  tree_growth_accelerator: １ニョッキ！２ニョッキ！
   uranium: 放射性物質
   walking_sticks: 転ばぬ先の杖
   warrior_talisman: 戦士のタリスマン
@@ -230,5 +232,5 @@ slimefun:
   wizard_talisman: 魔術師のタリスマン
   woven_backpack: バックパックⅡ
   xp_collector: 経験値回収
-  makeshift_smeltery: 間に合わせの製錬所
-  tree_growth_accelerator: １ニョッキ！２ニョッキ！
+  industrial_miner: 工業的採掘
+  advanced_industrial_miner: よりよい採掘
