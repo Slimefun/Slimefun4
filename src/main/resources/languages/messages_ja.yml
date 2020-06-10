@@ -61,6 +61,12 @@ commands:
   teleporter: 指定したプレイヤーのウェイポイントを表示
   timings: サーバの負荷状況を表示
   versions: バージョンについて
+  backpack:
+    description: 生成済みのバックパックを取り出します
+    invalid-id: "&4IDは非負整数にしてください！"
+    player-never-joined: "&4その名前のプレイヤーが見つかりません！"
+    backpack-does-not-exist: "&4指定したバックパックは存在しません！"
+    restored-backpack-given: "&aバックパックが返還されました！"
 gps:
   deathpoint: "&4死亡地点 &7%date%"
   geo:
@@ -136,6 +142,7 @@ inventory:
 languages:
   af: アフリカーンス語
   ar: アラビア語
+  be: ベラルーシ語
   bg: ブルガリア語
   cs: チェコ語
   da: デンマーク語
@@ -148,12 +155,14 @@ languages:
   fi: フィンランド語
   fr: フランス語
   he: ヘブライ語
+  hr: クロアチア語
   hu: ハンガリー語
   id: インドネシア語
   it: イタリア語
   ja: 日本語
   ko: 韓国語
   lv: ラトビア語
+  mk: マケドニア語
   ms: マレー語
   nl: オランダ語
   'no': ノルウェー語
@@ -163,6 +172,7 @@ languages:
   ro: ルーマニア語
   ru: ロシア語
   sk: スロバキア語
+  sr: セルビア語
   sv: スウェーデン語
   th: タイ語
   tr: トルコ語
@@ -170,10 +180,6 @@ languages:
   vi: ベトナム語
   zh-CN: 中国語（中国）
   zh-TW: 中国語（台湾）
-  hr: クロアチア語
-  mk: マケドニア語
-  sr: セルビア語
-  be: ベラルーシ語
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4祭壇にAncient Pedestalが不足しています &c(%pedestals% / 8)"
@@ -212,6 +218,15 @@ machines:
     teleporting: "&3テレポート中…"
   unknown-material: "&eアイテムを識別できません、レシピ通りに配置してください"
   wrong-item: "&eそのアイテムは識別できません、レシピから正しいアイテムを確認してください"
+  INDUSTRIAL_MINER:
+    no-fuel: "&cIndustrial Minerは燃料切れです！上のチェストに燃料を補充してください。"
+    piston-facing: "&cIndustrial Minerのピストンは上向きに設置してください！"
+    piston-space: "&cピストンの可動するスペースが必要です！"
+    destroyed: "&cIndustrial Minerは破壊されました。"
+    already-running: "&cこのIndustrial Minerは稼働中です！"
+    full-chest: "&cIndustrial Minerのチェストが一杯です！"
+    no-permission: "&4Industrial Minerを使う権限がありません！"
+    finished: "&eIndustrial Minerの稼働完了！合計で%ores%個の鉱石を入手しました！"
 messages:
   cannot-place: "&cこの場所には設置できません"
   diet-cookie: "&e体が軽くなったように感じる…"
