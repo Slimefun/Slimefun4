@@ -10,7 +10,7 @@ jobs:
     
     steps:
     - name: Label when approved
-      uses: pullreminders/label-when-approved-action@master
+      uses: abinoda/label-when-approved-action@1.0.5
       env:
         APPROVALS: "1"
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
