@@ -102,7 +102,7 @@ slimefun:
     name: Juicer
   magic_workbench:
     lore:
-    - 
+    - Chế tạo vật phẩm này như hình
     - sử dụng Magic Workbench
     name: Magic Workbench
   mob_drop:
