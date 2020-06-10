@@ -241,7 +241,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.LEAD_INGOT, new ItemStack(Material.HOPPER), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.CHEST), SlimefunItems.LEAD_INGOT, null, SlimefunItems.LEAD_INGOT, null})
 		.register(plugin);
 		
-		new EnhancedCraftingTable(categories.basicMachines).register(plugin);
+		new EnhancedCraftingTable(categories.basicMachines, SlimefunItems.ENHANCED_CRAFTING_TABLE).register(plugin);
 
 		new PortableDustbin(categories.usefulItems, SlimefunItems.PORTABLE_DUSTBIN, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT)})
@@ -276,13 +276,13 @@ public final class SlimefunItemSetup {
 		new CustomItem(SlimefunItems.KELP_COOKIE, 2))
 		.register(plugin);
 
-		new GrindStone(categories.basicMachines).register(plugin);
-		new ArmorForge(categories.basicMachines).register(plugin);
+		new GrindStone(categories.basicMachines, SlimefunItems.GRIND_STONE).register(plugin);
+		new ArmorForge(categories.basicMachines, SlimefunItems.ARMOR_FORGE).register(plugin);
 		
-		OreCrusher oreCrusher = new OreCrusher(categories.basicMachines);
+		OreCrusher oreCrusher = new OreCrusher(categories.basicMachines, SlimefunItems.ORE_CRUSHER);
         oreCrusher.register(plugin);
 		
-		new Compressor(categories.basicMachines).register(plugin);
+		new Compressor(categories.basicMachines, SlimefunItems.COMPRESSOR).register(plugin);
 
 		new SlimefunItem(categories.magicalResources, (SlimefunItemStack) SlimefunItems.MAGIC_LUMP_1, RecipeType.GRIND_STONE,
 		new ItemStack[] {new ItemStack(Material.NETHER_WART), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
@@ -387,14 +387,14 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {new ItemStack(Material.GRAVEL), null, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new MakeshiftSmeltery(categories.basicMachines).register(plugin);
-		new Smeltery(categories.basicMachines).register(plugin);
+		new MakeshiftSmeltery(categories.basicMachines, SlimefunItems.MAKESHIFT_SMELTERY).register(plugin);
+		new Smeltery(categories.basicMachines, SlimefunItems.SMELTERY).register(plugin);
 		
 		new SlimefunItem(categories.basicMachines, SlimefunItems.IGNITION_CHAMBER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.IRON_INGOT), new ItemStack(Material.FLINT_AND_STEEL), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.OBSERVER), null})
 		.register(plugin);
 		
-		new PressureChamber(categories.basicMachines).register(plugin);
+		new PressureChamber(categories.basicMachines, SlimefunItems.PRESSURE_CHAMBER).register(plugin);
 
 		new SlimefunItem(categories.technicalComponents, (SlimefunItemStack) SlimefunItems.BATTERY, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT, SlimefunItems.ZINC_INGOT, SlimefunItems.SULFATE, SlimefunItems.COPPER_INGOT})
@@ -646,7 +646,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, null, SlimefunItems.HOOK, null, SlimefunItems.CHAIN, null, SlimefunItems.CHAIN, null, null})
 		.register(plugin);
 
-		new MagicWorkbench(categories.basicMachines).register(plugin);
+		new MagicWorkbench(categories.basicMachines, SlimefunItems.MAGIC_WORKBENCH).register(plugin);
 
 		new SlimefunItem(categories.magicalGadgets, SlimefunItems.STAFF_ELEMENTAL, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, new ItemStack(Material.STICK), SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.MAGIC_LUMP_3, null, null})
@@ -697,7 +697,7 @@ public final class SlimefunItemSetup {
 		"PORTABLE_CRAFTER", "MAGIC_EYE_OF_ENDER", "STAFF_ELEMENTAL_WIND", "GRAPPLING_HOOK", "GOLD_PAN", "NETHER_GOLD_PAN")
 		.register(plugin);
 
-		new OreWasher(categories.basicMachines).register(plugin);
+		new OreWasher(categories.basicMachines, SlimefunItems.ORE_WASHER).register(plugin);
 
 		new SlimefunItem(categories.resources, (SlimefunItemStack) SlimefunItems.GOLD_24K, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_22K, null, null, null, null, null, null, null})
@@ -979,7 +979,7 @@ public final class SlimefunItemSetup {
 		.register(plugin);
         
 		if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-		    new TableSaw(categories.basicMachines).register(plugin);
+		    new TableSaw(categories.basicMachines, SlimefunItems.TABLE_SAW).register(plugin);
 		}
 
 		new SlimefunItem(categories.magicalArmor, SlimefunItems.SLIME_HELMET_STEEL, RecipeType.ARMOR_FORGE,
@@ -1024,7 +1024,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, SlimefunItems.SYNTHETIC_DIAMOND, null, null, new ItemStack(Material.TNT), null, null, SlimefunItems.FERROSILICON, null})
 		.register(plugin);
 
-		new AutomatedPanningMachine(categories.basicMachines).register(plugin);
+		new AutomatedPanningMachine(categories.basicMachines, SlimefunItems.AUTOMATED_PANNING_MACHINE).register(plugin);
 		
 		new IndustrialMiner(categories.basicMachines, SlimefunItems.INDUSTRIAL_MINER, Material.IRON_BLOCK, false, 3).register(plugin);
 		new AdvancedIndustrialMiner(categories.basicMachines, SlimefunItems.ADVANCED_INDUSTRIAL_MINER).register(plugin);
@@ -1183,7 +1183,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null, null, new ItemStack(Material.DIAMOND_BOOTS), null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
 		.register(plugin);
 
-		new Juicer(categories.basicMachines).register(plugin);
+		new Juicer(categories.basicMachines, SlimefunItems.JUICER).register(plugin);
 
 		new Juice(categories.food, SlimefunItems.APPLE_JUICE, RecipeType.JUICER,
 		new ItemStack[] {new ItemStack(Material.APPLE), null, null, null, null, null, null, null, null})

@@ -21,14 +21,15 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class AutomatedPanningMachine extends MultiBlockMachine {
 
     private final GoldPan goldPan = (GoldPan) SlimefunItems.GOLD_PAN.getItem();
     private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();
 
-    public AutomatedPanningMachine(Category category) {
-        super(category, SlimefunItems.AUTOMATED_PANNING_MACHINE, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[0], BlockFace.SELF);
+    public AutomatedPanningMachine(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[0], BlockFace.SELF);
     }
 
     @Override

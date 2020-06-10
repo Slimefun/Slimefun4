@@ -16,9 +16,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
@@ -33,24 +33,24 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMach
  */
 public class TableSaw extends MultiBlockMachine {
 
-    private final List<ItemStack> displayRecipes = new ArrayList<>();
+    private final List<ItemStack> displayedRecipes = new ArrayList<>();
 
-    public TableSaw(Category category) {
-        super(category, SlimefunItems.TABLE_SAW, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, new ItemStack[0], BlockFace.SELF);
+    public TableSaw(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, new ItemStack[0], BlockFace.SELF);
 
         for (Material log : Tag.LOGS.getValues()) {
             Optional<Material> planks = MaterialConverter.getPlanksFromLog(log);
 
             if (planks.isPresent()) {
-                displayRecipes.add(new ItemStack(log));
-                displayRecipes.add(new ItemStack(planks.get(), 8));
+                displayedRecipes.add(new ItemStack(log));
+                displayedRecipes.add(new ItemStack(planks.get(), 8));
             }
         }
     }
 
     @Override
     public List<ItemStack> getDisplayRecipes() {
-        return displayRecipes;
+        return displayedRecipes;
     }
 
     @Override
