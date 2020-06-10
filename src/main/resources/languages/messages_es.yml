@@ -139,6 +139,7 @@ inventory:
 languages:
   af: Africano
   ar: Árabe
+  be: Bielorruso
   bg: Búlgaro
   cs: Checo
   da: Danés
@@ -151,12 +152,14 @@ languages:
   fi: Finés
   fr: Francés
   he: Hebreo
+  hr: Croata
   hu: Húngaro
   id: Indonesio
   it: Italiano
   ja: Japonés
   ko: Coreano
   lv: Letón
+  mk: Macedónio
   ms: Malayo
   nl: Holandés
   'no': Noruego
@@ -166,6 +169,7 @@ languages:
   ro: Rumano
   ru: Ruso
   sk: Esloveno
+  sr: Serbio
   sv: Sueco
   th: Tailandés
   tr: Turco
@@ -173,10 +177,6 @@ languages:
   vi: Vietnamita
   zh-CN: Chino (China)
   zh-TW: Chino (Taiwan)
-  hr: Croata
-  mk: Macedónio
-  sr: Serbio
-  be: Bielorruso
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4El Altar no está rodeado por la cantidad correcta de
