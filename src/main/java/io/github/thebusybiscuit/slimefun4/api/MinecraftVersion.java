@@ -76,8 +76,11 @@ public enum MinecraftVersion {
      * This method checks whether this {@link MinecraftVersion} is newer or equal to
      * the given {@link MinecraftVersion},
      * 
+     * An unknown version will default to {@literal false}.
+     * 
      * @param version
      *            The {@link MinecraftVersion} to compare
+     * 
      * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
      */
     public boolean isAtLeast(MinecraftVersion version) {
@@ -85,7 +88,25 @@ public enum MinecraftVersion {
             return false;
         }
 
-        return ordinal() >= version.ordinal();
+        return this.ordinal() >= version.ordinal();
+    }
+
+    /**
+     * This checks whether this {@link MinecraftVersion} is older than the specified {@link MinecraftVersion}.
+     * 
+     * An unknown version will default to {@literal true}.
+     * 
+     * @param version
+     *            The {@link MinecraftVersion} to compare
+     * 
+     * @return Whether this {@link MinecraftVersion} is older than the given one
+     */
+    public boolean isBefore(MinecraftVersion version) {
+        if (this == UNKNOWN) {
+            return true;
+        }
+
+        return version.ordinal() > this.ordinal();
     }
 
 }

@@ -37,14 +37,18 @@ public class TestResearches {
 
     @Test
     public void testResearchGetters() {
-        NamespacedKey key = new NamespacedKey(plugin, "test");
+        NamespacedKey key = new NamespacedKey(plugin, "getter_test");
         Research research = new Research(key, 0, "Test", 100);
+        research.register();
 
         Assertions.assertEquals(key, research.getKey());
         Assertions.assertEquals(100, research.getCost());
 
         Assertions.assertFalse(Research.getResearch(null).isPresent());
-        Assertions.assertFalse(Research.getResearch(key).isPresent());
+        Assertions.assertFalse(Research.getResearch(new NamespacedKey(plugin, "null")).isPresent());
+
+        Assertions.assertTrue(Research.getResearch(key).isPresent());
+        Assertions.assertEquals(research, Research.getResearch(key).get());
     }
 
     @Test
