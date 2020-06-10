@@ -56,7 +56,7 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
         // this is an extra recipe on top of PostSetup.loadSmelteryRecipes() for converting Vanilla Gold Ingot to Slimefun gold dust
         registerRecipe(3,
                 new ItemStack(Material.GOLD_INGOT),
-                new ItemStack(SlimefunItems.GOLD_DUST));
+                SlimefunItems.GOLD_DUST);
     }
 
     @Override
