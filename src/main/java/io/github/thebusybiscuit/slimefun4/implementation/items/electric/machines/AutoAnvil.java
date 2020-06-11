@@ -81,14 +81,10 @@ public abstract class AutoAnvil extends AContainer {
 
                 if (item != null && item.getType().getMaxDurability() > 0 && ((Damageable) item.getItemMeta()).getDamage() > 0) {
                     if (SlimefunUtils.isItemSimilar(target, SlimefunItems.DUCT_TAPE, true)) {
-                        ItemStack newItem = item.clone();
-                        short durability = (short) (((Damageable) newItem.getItemMeta()).getDamage() - (item.getType().getMaxDurability() / getRepairFactor()));
-                        if (durability < 0) durability = 0;
-                        ItemMeta meta = newItem.getItemMeta();
-                        ((Damageable) meta).setDamage(durability);
-                        newItem.setItemMeta(meta);
-                        recipe = new MachineRecipe(30, new ItemStack[] { target, item }, new ItemStack[] { newItem });
+                        ItemStack repaired = repair(item);
+                        recipe = new MachineRecipe(30, new ItemStack[] { target, item }, new ItemStack[] { repaired });
                     }
+
                     break;
                 }
             }
@@ -104,6 +100,22 @@ public abstract class AutoAnvil extends AContainer {
                 progress.put(b, recipe.getTicks());
             }
         }
+    }
+
+    private ItemStack repair(ItemStack item) {
+        ItemStack repaired = item.clone();
+        ItemMeta meta = repaired.getItemMeta();
+
+        short maxDurability = item.getType().getMaxDurability();
+        short durability = (short) (((Damageable) meta).getDamage() - (maxDurability / getRepairFactor()));
+
+        if (durability < 0) {
+            durability = 0;
+        }
+
+        ((Damageable) meta).setDamage(durability);
+        repaired.setItemMeta(meta);
+        return repaired;
     }
 
 }

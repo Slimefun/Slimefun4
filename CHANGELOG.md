@@ -39,6 +39,7 @@
 * Crafting Organic Food/Fertilizer yields more output now
 * Organic Food (Melon) now uses Melon Slices instead of Melon blocks
 * The Seismic Axe now skips the first two blocks to clear your field of view
+* Auto Disenchanting is now a tiny bit faster
 * Small performance improvements
 
 #### Fixes

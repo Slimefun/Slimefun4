@@ -252,14 +252,14 @@ public final class PlayerProfile {
      * The profile can then be removed from RAM.
      */
     public void markForDeletion() {
-        this.markedForDeletion = true;
+        markedForDeletion = true;
     }
 
     /**
      * Call this method if this Profile has unsaved changes.
      */
     public void markDirty() {
-        this.dirty = true;
+        dirty = true;
     }
 
     public PlayerBackpack createBackpack(int size) {
