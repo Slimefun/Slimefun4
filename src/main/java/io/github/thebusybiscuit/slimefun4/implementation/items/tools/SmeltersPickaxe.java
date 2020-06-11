@@ -38,11 +38,11 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> imple
 
             @Override
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-                if (!Slimefun.hasUnlocked(e.getPlayer(), SmeltersPickaxe.this, true)) {
-                    return true;
-                }
-
                 if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && isItem(item)) {
+                    if (!Slimefun.hasUnlocked(e.getPlayer(), SmeltersPickaxe.this, true)) {
+                        return true;
+                    }
+
                     if (BlockStorage.hasBlockInfo(e.getBlock())) {
                         return true;
                     }

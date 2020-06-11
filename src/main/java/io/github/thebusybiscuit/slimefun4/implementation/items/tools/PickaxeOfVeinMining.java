@@ -59,11 +59,11 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
 
             @Override
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-                if (!Slimefun.hasUnlocked(e.getPlayer(), PickaxeOfVeinMining.this, true)) {
-                    return true;
-                }
-
                 if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && isItem(item)) {
+                    if (!Slimefun.hasUnlocked(e.getPlayer(), PickaxeOfVeinMining.this, true)) {
+                        return true;
+                    }
+
                     List<Block> blocks = Vein.find(e.getBlock(), maxBlocks.getValue(), MaterialCollections.getAllOres());
                     breakBlocks(e.getPlayer(), blocks, fortune);
                     return true;
