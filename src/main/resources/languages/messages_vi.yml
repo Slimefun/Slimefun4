@@ -61,6 +61,13 @@ commands:
   teleporter: Xem các điểm dịch chuyển của người chơi khác
   timings: Thông tin Lag về máy chủ của bạn
   versions: Liệt kê tất cả các tiện ích mở rộng đã cài đặt
+  backpack:
+    description: Lấy bản sao của một ba lô đã có sẵn
+    invalid-id: "&4ID phải là số nguyên dương!"
+    player-never-joined: "&4Không tìm thấy người chơi với tên như vậy!"
+    backpack-does-not-exist: "&4Không tìm thấy ba lô đó!"
+    restored-backpack-given: "&aBa lô của bạn được khôi phục và được thêm vào túi
+      đồ của bạn!"
 gps:
   deathpoint: "&4Điểm chết &7%date%"
   geo:
@@ -172,6 +179,10 @@ languages:
   vi: Tiếng Việt
   zh-CN: Tiếng Trung (Trung Quốc)
   zh-TW: Tiếng Trung Quốc (Đài Loan)
+  hr: Tiếng Croatia
+  mk: Tiếng Slovak
+  sr: Tiếng Serbia
+  be: Tiếng Bêlarut
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Bàn thờ không được bao quanh bởi số lượng cần thiết của
@@ -216,6 +227,17 @@ machines:
     Vui lòng đặt thứ gì đó trong đó mà tôi biết."
   wrong-item: "&eXin lỗi, tôi không thể nhận ra vật phẩm mà bạn nhấp chuột phải vào
     tôi. Kiểm tra Công Thức và xem những vật phẩm nào bạn có thể sử dụng."
+  INDUSTRIAL_MINER:
+    no-fuel: "&cMáy đào công nghiệp của bạn hết nhiên liệu! Bỏ nhiên liệu vào rương
+      ở trên."
+    piston-facing: "&cMáy đào công nghiệp của bạn cần 2 pít-tông hướng lên trên!"
+    piston-space: "&cHai cái pít-tông cần được hướng lên trên!"
+    destroyed: "&cMáy đào công nghiệp của bạn có vẻ như bị phá hủy."
+    already-running: "&cMáy đào công nghiệp này đang chạy!"
+    full-chest: "&cRương của máy đào công nghiệp đã đầy!"
+    no-permission: "&4Có vẻ như bạn không có quyền để sử dụng máy đào ở đây!"
+    finished: "&eMáy đào công nghiệp của bạn đã chạy xong! Nó đã đào được %ores% khoáng
+      sản(s)!"
 messages:
   cannot-place: "&cBạn không thể đặt khối ở đó!"
   diet-cookie: "&eBạn đang bắt đầu cảm thấy rất nhẹ..."
