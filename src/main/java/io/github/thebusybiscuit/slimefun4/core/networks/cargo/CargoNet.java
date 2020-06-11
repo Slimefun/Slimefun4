@@ -228,7 +228,7 @@ public class CargoNet extends ChestTerminalNetwork {
     private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
         Config cfg = BlockStorage.getLocationInfo(inputNode);
 
-        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
+        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget);
         if (slot == null) {
             return;
         }
@@ -249,7 +249,7 @@ public class CargoNet extends ChestTerminalNetwork {
                 Optional<Block> target = getAttachedBlock(output.getBlock());
 
                 if (target.isPresent()) {
-                    stack = CargoUtils.insert(output.getBlock(), target.get(), stack, -1);
+                    stack = CargoUtils.insert(output.getBlock(), target.get(), stack);
 
                     if (stack == null) {
                         break;
