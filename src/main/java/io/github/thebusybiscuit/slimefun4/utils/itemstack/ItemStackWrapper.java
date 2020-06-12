@@ -27,9 +27,11 @@ public final class ItemStackWrapper extends ItemStack {
     public ItemStackWrapper(ItemStack item) {
         super(item.getType());
         hasItemMeta = item.hasItemMeta();
+
         if (hasItemMeta) {
             meta = item.getItemMeta();
-        } else {
+        }
+        else {
             meta = null;
         }
     }
@@ -46,8 +48,9 @@ public final class ItemStackWrapper extends ItemStack {
         // and then store that instead of creating a clone everytime.
         // This will significantly speed up any loop comparisons if used correctly.
         if (meta == null) {
-            throw new UnsupportedOperationException("#hasItemMeta() must be checked prior to this call");
-        } else {
+            throw new UnsupportedOperationException("This ItemStack has no ItemMeta! Make sure to check ItemStack#hasItemMeta() before accessing this method!");
+        }
+        else {
             return meta;
         }
     }
