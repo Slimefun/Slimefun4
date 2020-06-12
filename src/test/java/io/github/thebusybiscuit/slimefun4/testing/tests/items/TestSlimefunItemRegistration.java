@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -128,6 +129,22 @@ public class TestSlimefunItemRegistration {
 
         item.setRecipeOutput(item.getItem());
         Assertions.assertEquals(item.getItem(), item.getRecipeOutput());
+    }
+
+    @Test
+    public void testRecipeType() {
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_TYPE_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        item.register(plugin);
+
+        Assertions.assertNotNull(item.getRecipeType());
+
+        item.setRecipeType(RecipeType.ENHANCED_CRAFTING_TABLE);
+        Assertions.assertEquals(RecipeType.ENHANCED_CRAFTING_TABLE, item.getRecipeType());
+
+        item.setRecipeType(RecipeType.NULL);
+        Assertions.assertEquals(RecipeType.NULL, item.getRecipeType());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.setRecipeType(null));
     }
 
     @Test
