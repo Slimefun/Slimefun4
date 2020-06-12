@@ -45,14 +45,10 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
     }
 
     public Optional<String> getItemData(ItemStack item) {
-        if (!item.hasItemMeta()) {
+        if (item == null || !item.hasItemMeta()) {
             return Optional.empty();
         }
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return Optional.empty();
-        }
-        return getItemData(meta);
+        return getItemData(item.getItemMeta());
     }
 
     public Optional<String> getItemData(ItemMeta meta) {
