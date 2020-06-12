@@ -22,9 +22,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Rotatable;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -200,7 +198,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     public void openScript(Player p, Block b, String script) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
 
-        menu.addItem(0, new CustomItem(ScriptAction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+        menu.addItem(0, new CustomItem(Instruction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             BlockStorage.getInventory(b).open(pl);
             return false;
@@ -222,21 +220,21 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                     });
                 }
 
-                menu.addItem(i + additional, new CustomItem(ScriptAction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+                menu.addItem(i + additional, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
                 menu.addMenuClickHandler(i + additional, (pl, slot, item, action) -> {
                     BlockStorage.getInventory(b).open(pl);
                     return false;
                 });
             }
             else {
-                ItemStack stack = ScriptAction.valueOf(commands[i]).getItem();
-                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + ScriptAction.valueOf(commands[i]).name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
+                ItemStack stack = Instruction.valueOf(commands[i]).getItem();
+                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + Instruction.valueOf(commands[i]).name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     if (action.isRightClicked() && action.isShiftClicked()) {
                         if (commands.length == 54) return false;
 
                         int j = 0;
-                        StringBuilder builder = new StringBuilder(ScriptAction.START + "-");
+                        StringBuilder builder = new StringBuilder(Instruction.START + "-");
 
                         for (String command : commands) {
                             if (j > 0) {
@@ -247,20 +245,20 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                             }
                             j++;
                         }
-                        builder.append(ScriptAction.REPEAT);
+                        builder.append(Instruction.REPEAT);
                         setScript(b.getLocation(), builder.toString());
                         openScript(pl, b, builder.toString());
                     }
                     else if (action.isRightClicked()) {
                         int j = 0;
-                        StringBuilder builder = new StringBuilder(ScriptAction.START + "-");
+                        StringBuilder builder = new StringBuilder(Instruction.START + "-");
 
                         for (String command : commands) {
                             if (j != index && j > 0 && j < commands.length - 1) builder.append(command).append('-');
                             j++;
                         }
 
-                        builder.append(ScriptAction.REPEAT);
+                        builder.append(Instruction.REPEAT);
                         setScript(b.getLocation(), builder.toString());
 
                         openScript(pl, b, builder.toString());
@@ -337,10 +335,10 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 String author = (op != null && op.getName() != null) ? op.getName() : script.getString("author_name");
 
                 if (script.getString("author").equals(p.getUniqueId().toString())) {
-                    menu.addItem(index, new CustomItem(this.getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Downloads: &r" + script.getInt("downloads"), "&7Rating: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7| &4\u2639 " + getScriptRating(script, false), "", "&eLeft Click &rto download this Script", "&4(This will override your current Script)"));
+                    menu.addItem(index, new CustomItem(getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Downloads: &r" + script.getInt("downloads"), "&7Rating: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7| &4\u2639 " + getScriptRating(script, false), "", "&eLeft Click &rto download this Script", "&4(This will override your current Script)"));
                 }
                 else {
-                    menu.addItem(index, new CustomItem(this.getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Downloads: &r" + script.getInt("downloads"), "&7Rating: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7| &4\u2639 " + getScriptRating(script, false), "", "&eLeft Click &rto download this Script", "&4(This will override your current Script)", "&eShift + Left Click &rto leave a positive Rating", "&eShift + Right Click &rto leave a negative Rating"));
+                    menu.addItem(index, new CustomItem(getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Downloads: &r" + script.getInt("downloads"), "&7Rating: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7| &4\u2639 " + getScriptRating(script, false), "", "&eLeft Click &rto download this Script", "&4(This will override your current Script)", "&eShift + Left Click &rto leave a positive Rating", "&eShift + Right Click &rto leave a negative Rating"));
                 }
 
                 menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
@@ -481,7 +479,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             if (!mainDirectory.exists()) mainDirectory.mkdirs();
 
             for (File script : mainDirectory.listFiles()) {
-                if (script.getName().endsWith("sfs")) {
+                if (script.getName().endsWith(".sfs")) {
                     scripts.add(new Config(script));
                 }
             }
@@ -492,11 +490,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         return scripts;
     }
 
-    protected List<ScriptAction> getAccessibleScriptParts() {
-        List<ScriptAction> list = new ArrayList<>();
+    protected List<Instruction> getAccessibleScriptParts() {
+        List<Instruction> list = new ArrayList<>();
 
-        for (ScriptAction part : ScriptAction.values()) {
-            if (part != ScriptAction.START && part != ScriptAction.REPEAT && getAndroidType().isType(part.getRequiredType())) {
+        for (Instruction part : Instruction.values()) {
+            if (part != Instruction.START && part != Instruction.REPEAT && getAndroidType().isType(part.getRequiredType())) {
                 list.add(part);
             }
         }
@@ -516,15 +514,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     protected String getScriptRatingPercentage(Config script) {
-        String progress = String.valueOf(getScriptRating(script));
-        if (Float.parseFloat(progress) < 16.0F) progress = "&4" + progress + "&r% ";
-        else if (Float.parseFloat(progress) < 32.0F) progress = "&c" + progress + "&r% ";
-        else if (Float.parseFloat(progress) < 48.0F) progress = "&6" + progress + "&r% ";
-        else if (Float.parseFloat(progress) < 64.0F) progress = "&e" + progress + "&r% ";
-        else if (Float.parseFloat(progress) < 80.0F) progress = "&2" + progress + "&r% ";
-        else progress = "&a" + progress + "&r% ";
-
-        return progress;
+        float percentage = getScriptRating(script);
+        return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.RESET + "% ";
     }
 
     protected void openScriptComponentEditor(Player p, Block b, String script, int index) {
@@ -550,7 +541,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         });
 
         int i = 10;
-        for (ScriptAction part : getAccessibleScriptParts()) {
+        for (Instruction part : getAccessibleScriptParts()) {
             menu.addItem(i, new CustomItem(part.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + part.name())), (pl, slot, item, action) -> {
                 addInstruction(pl, b, index, part, commands);
                 return false;
@@ -561,7 +552,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         menu.open(p);
     }
 
-    private void addInstruction(Player p, Block b, int index, ScriptAction part, String[] commands) {
+    private void addInstruction(Player p, Block b, int index, Instruction part, String[] commands) {
         int j = 0;
         StringBuilder builder = new StringBuilder("START-");
 
@@ -671,107 +662,30 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 String[] script = PatternUtils.DASH.split(BlockStorage.getLocationInfo(b.getLocation(), "script"));
 
                 int index = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "index")) + 1;
-                if (index >= script.length) index = 0;
+                if (index >= script.length) {
+                    index = 0;
+                }
 
                 boolean refresh = true;
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
-                ScriptAction part = ScriptAction.valueOf(script[index]);
+                Instruction instruction = Instruction.valueOf(script[index]);
 
-                if (getAndroidType().isType(part.getRequiredType())) {
+                if (getAndroidType().isType(instruction.getRequiredType())) {
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
-                    double damage = getTier() >= 3 ? 20D : 4D * getTier();
 
-                    switch (part) {
-                    case GO_DOWN:
-                        move(b, face, b.getRelative(BlockFace.DOWN));
-                        break;
-                    case GO_FORWARD:
-                        move(b, face, b.getRelative(face));
-                        break;
-                    case GO_UP:
-                        move(b, face, b.getRelative(BlockFace.UP));
-                        break;
+                    switch (instruction) {
                     case REPEAT:
                         BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
-                        break;
-                    case TURN_LEFT:
-                        int indexLeft = POSSIBLE_ROTATIONS.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) - 1;
-                        if (indexLeft < 0) indexLeft = POSSIBLE_ROTATIONS.size() - 1;
-
-                        Rotatable rotatableLeft = (Rotatable) b.getBlockData();
-                        rotatableLeft.setRotation(POSSIBLE_ROTATIONS.get(indexLeft));
-                        b.setBlockData(rotatableLeft);
-                        BlockStorage.addBlockInfo(b, "rotation", POSSIBLE_ROTATIONS.get(indexLeft).toString());
-
-                        break;
-                    case TURN_RIGHT:
-                        int indexRight = POSSIBLE_ROTATIONS.indexOf(BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) + 1;
-                        if (indexRight == POSSIBLE_ROTATIONS.size()) indexRight = 0;
-
-                        Rotatable rotatableRight = (Rotatable) b.getBlockData();
-                        rotatableRight.setRotation(POSSIBLE_ROTATIONS.get(indexRight));
-                        b.setBlockData(rotatableRight);
-                        BlockStorage.addBlockInfo(b, "rotation", POSSIBLE_ROTATIONS.get(indexRight).toString());
-
-                        break;
-                    case DIG_FORWARD:
-                        mine(b, menu, b.getRelative(face));
-                        break;
-                    case DIG_UP:
-                        mine(b, menu, b.getRelative(BlockFace.UP));
-                        break;
-                    case DIG_DOWN:
-                        mine(b, menu, b.getRelative(BlockFace.DOWN));
-                        break;
-                    case CATCH_FISH:
-                        fish(b, menu);
-                        break;
-                    case MOVE_AND_DIG_FORWARD:
-                        movedig(b, menu, face, b.getRelative(face));
-                        break;
-                    case MOVE_AND_DIG_UP:
-                        movedig(b, menu, face, b.getRelative(BlockFace.UP));
-                        break;
-                    case MOVE_AND_DIG_DOWN:
-                        movedig(b, menu, face, b.getRelative(BlockFace.DOWN));
-                        break;
-                    case INTERFACE_ITEMS:
-                        depositItems(menu, b.getRelative(face));
-                        break;
-                    case INTERFACE_FUEL:
-                        refuel(menu, b.getRelative(face));
-                        break;
-                    case FARM_FORWARD:
-                        farm(menu, b.getRelative(face));
-                        break;
-                    case FARM_DOWN:
-                        farm(menu, b.getRelative(BlockFace.DOWN));
-                        break;
-                    case FARM_EXOTIC_FORWARD:
-                        exoticFarm(menu, b.getRelative(face));
-                        break;
-                    case FARM_EXOTIC_DOWN:
-                        exoticFarm(menu, b.getRelative(BlockFace.DOWN));
                         break;
                     case CHOP_TREE:
                         refresh = chopTree(b, menu, face);
                         break;
-                    case ATTACK_MOBS_ANIMALS:
-                        killEntities(b, damage, e -> true);
-                        break;
-                    case ATTACK_MOBS:
-                        killEntities(b, damage, e -> e instanceof Monster);
-                        break;
-                    case ATTACK_ANIMALS:
-                        killEntities(b, damage, e -> e instanceof Animals);
-                        break;
-                    case ATTACK_ANIMALS_ADULT:
-                        killEntities(b, damage, e -> e instanceof Animals && e instanceof org.bukkit.entity.Ageable && ((org.bukkit.entity.Ageable) e).isAdult());
-                        break;
                     default:
+                        instruction.execute(this, b, menu, face);
                         break;
                     }
                 }
+
                 if (refresh) {
                     BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
                 }
@@ -779,7 +693,26 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
     }
 
-    private void depositItems(BlockMenu menu, Block facedBlock) {
+    protected void rotate(Block b, int mod) {
+        BlockFace current = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+        int index = POSSIBLE_ROTATIONS.indexOf(current) + mod;
+
+        if (index == POSSIBLE_ROTATIONS.size()) {
+            index = 0;
+        }
+        else if (index < 0) {
+            index = POSSIBLE_ROTATIONS.size() - 1;
+        }
+
+        BlockFace rotation = POSSIBLE_ROTATIONS.get(index);
+
+        Rotatable rotatatable = (Rotatable) b.getBlockData();
+        rotatatable.setRotation(rotation);
+        b.setBlockData(rotatatable);
+        BlockStorage.addBlockInfo(b, "rotation", rotation.name());
+    }
+
+    protected void depositItems(BlockMenu menu, Block facedBlock) {
         if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_ITEMS")) {
             Dispenser d = (Dispenser) facedBlock.getState();
 
@@ -800,26 +733,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
     }
 
-    private void consumeFuel(Block b, BlockMenu menu) {
-        ItemStack item = menu.getItemInSlot(43);
-
-        if (item != null) {
-            for (MachineFuel fuel : fuelTypes) {
-                if (fuel.test(item)) {
-                    menu.consumeItem(43);
-
-                    if (getTier() == 2) {
-                        menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
-                    }
-
-                    BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (fuel.getTicks() * this.getFuelEfficiency())));
-                    break;
-                }
-            }
-        }
-    }
-
-    private void refuel(BlockMenu menu, Block facedBlock) {
+    protected void refuel(BlockMenu menu, Block facedBlock) {
         if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_FUEL")) {
             Dispenser d = (Dispenser) facedBlock.getState();
 
@@ -852,6 +766,25 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
 
         return false;
+    }
+
+    private void consumeFuel(Block b, BlockMenu menu) {
+        ItemStack item = menu.getItemInSlot(43);
+
+        if (item != null) {
+            for (MachineFuel fuel : fuelTypes) {
+                if (fuel.test(item)) {
+                    menu.consumeItem(43);
+
+                    if (getTier() == 2) {
+                        menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
+                    }
+
+                    BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (fuel.getTicks() * this.getFuelEfficiency())));
+                    break;
+                }
+            }
+        }
     }
 
     private void constructMenu(BlockMenuPreset preset) {
@@ -916,7 +849,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
     }
 
-    protected void killEntities(Block b, double damage, Predicate<Entity> predicate) {
+    protected void attack(Block b, Predicate<LivingEntity> predicate) {
         throw new UnsupportedOperationException("Non-butcher Android tried to butcher!");
     }
 
@@ -924,11 +857,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         throw new UnsupportedOperationException("Non-fishing Android tried to fish!");
     }
 
-    protected void mine(Block b, BlockMenu menu, Block block) {
+    protected void dig(Block b, BlockMenu menu, Block block) {
         throw new UnsupportedOperationException("Non-mining Android tried to mine!");
     }
 
-    protected void movedig(Block b, BlockMenu menu, BlockFace face, Block block) {
+    protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
         throw new UnsupportedOperationException("Non-mining Android tried to mine!");
     }
 
