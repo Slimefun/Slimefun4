@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.backpacks;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ public class TestEnderBackpack implements SlimefunItemTest<EnderBackpack> {
         Player player = server.addPlayer();
         EnderBackpack backpack = registerSlimefunItem(plugin, "TEST_ENDER_BACKPACK");
 
-        simulateNormalRightClick(player, backpack);
+        simulateRightClick(player, backpack);
 
         // We expect the Enderchest to be open now
         Assertions.assertEquals(player.getEnderChest(), player.getOpenInventory().getTopInventory());
