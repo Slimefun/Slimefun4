@@ -45,7 +45,11 @@ public final class ItemStackWrapper extends ItemStack {
         // Since this class is immutable, we can simply let the super class create one copy
         // and then store that instead of creating a clone everytime.
         // This will significantly speed up any loop comparisons if used correctly.
-        return meta;
+        if (meta == null) {
+            throw new UnsupportedOperationException("#hasItemMeta() must be checked prior to this call");
+        } else {
+            return meta;
+        }
     }
 
     @Override
