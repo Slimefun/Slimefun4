@@ -228,7 +228,9 @@ slimefun:
   wind_staff: 风之法杖
   wither_assembler: 自动化击杀凋零
   wither_proof_glass: 防凋零玻璃
+  wither_proof_obsidian: 防凋零黑曜石
   wizard_talisman: 巫师护身符
   woven_backpack: 编织背包
   xp_collector: 经验收集器
-  wither_proof_obsidian: 防凋零黑曜石
+  industrial_miner: 工业采矿
+  advanced_industrial_miner: 进阶采矿
