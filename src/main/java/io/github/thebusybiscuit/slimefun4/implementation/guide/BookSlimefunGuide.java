@@ -151,48 +151,12 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         else if (category.getItems().size() < 250) {
             profile.getGuideHistory().add(category, page);
 
-            List<ChatComponent> lines = new LinkedList<>();
+            List<ChatComponent> items = new LinkedList<>();
 
             for (SlimefunItem item : category.getItems()) {
                 if (Slimefun.hasPermission(p, item, false)) {
                     if (Slimefun.isEnabled(p, item, false)) {
-                        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, item.getID().toLowerCase(Locale.ROOT));
-
-                        if (!Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
-                            Research research = item.getResearch();
-
-                            ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
-                            component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
-                            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> {
-                                if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
-                                    if (research.canUnlock(p)) {
-                                        if (profile.hasUnlocked(research)) {
-                                            openCategory(profile, category, page);
-                                        }
-                                        else {
-                                            unlockItem(p, item, pl -> openCategory(profile, category, page));
-                                        }
-                                    }
-                                    else SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
-                                }
-                            })));
-
-                            lines.add(component);
-                        }
-                        else {
-                            ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, item.getItemName()) + "\n");
-
-                            List<String> lore = new ArrayList<>();
-                            lore.add(item.getItemName());
-
-                            if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
-                                lore.addAll(item.getItem().getItemMeta().getLore());
-                            }
-
-                            component.setHoverEvent(new HoverEvent(lore));
-                            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> displayItem(profile, item, true))));
-                            lines.add(component);
-                        }
+                        appendSlimefunItem(category, page, p, profile, item, items);
                     }
                 }
                 else {
@@ -207,14 +171,56 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                     }
 
                     component.setHoverEvent(new HoverEvent(lore));
-                    lines.add(component);
+                    items.add(component);
                 }
             }
 
-            openBook(p, profile, lines, true);
+            openBook(p, profile, items, true);
         }
         else {
             p.sendMessage(ChatColor.RED + "That Category is too big to open :/");
+        }
+    }
+
+    private void appendSlimefunItem(Category category, int page, Player p, PlayerProfile profile, SlimefunItem item, List<ChatComponent> items) {
+        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, item.getID().toLowerCase(Locale.ROOT));
+
+        if (!Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
+            Research research = item.getResearch();
+
+            ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
+            component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
+            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> {
+                if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
+                    if (research.canUnlock(p)) {
+                        if (profile.hasUnlocked(research)) {
+                            openCategory(profile, category, page);
+                        }
+                        else {
+                            unlockItem(p, item, pl -> openCategory(profile, category, page));
+                        }
+                    }
+                    else {
+                        SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
+                    }
+                }
+            })));
+
+            items.add(component);
+        }
+        else {
+            ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, item.getItemName()) + "\n");
+
+            List<String> lore = new ArrayList<>();
+            lore.add(item.getItemName());
+
+            if (item.getItem().hasItemMeta() && item.getItem().getItemMeta().hasLore()) {
+                lore.addAll(item.getItem().getItemMeta().getLore());
+            }
+
+            component.setHoverEvent(new HoverEvent(lore));
+            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> displayItem(profile, item, true))));
+            items.add(component);
         }
     }
 
