@@ -57,8 +57,8 @@
         </repository>
         <!-- PlotSquared -->
         <repository>
-            <id>plotsquared</id>
-            <url>https://plotsquared.com/mvn/</url>
+            <id>IntellectualSites</id>
+            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -289,7 +289,7 @@
         <dependency>
             <groupId>com.plotsquared</groupId>
             <artifactId>PlotSquared</artifactId>
-            <version>5.1</version>
+            <version>5.11.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -310,9 +310,9 @@
         <dependency>
             <groupId>com.bekvon.bukkit</groupId>
             <artifactId>residence</artifactId>
-            <version>4.8.8.2</version>
+            <version>4.9.0.6</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Residence4.8.8.2.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Residence4.9.0.6.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
