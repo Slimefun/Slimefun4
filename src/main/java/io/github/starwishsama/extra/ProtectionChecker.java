@@ -31,11 +31,9 @@ public class ProtectionChecker implements Listener {
     private static boolean plotInstalled = false;
 
     @EventHandler
-    public void onAndroidInteract(AndroidMineEvent e) {
+    public void onAndroidMine(AndroidMineEvent e) {
         if (e != null) {
             Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(e.getAndroid().getBlock())));
-
-            Bukkit.broadcastMessage(p.getName());
 
             if (!check(p, e.getBlock(), true)) {
                 e.setCancelled(true);
@@ -81,7 +79,6 @@ public class ProtectionChecker implements Listener {
                 ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
                 if (res != null) {
                     ResidencePermissions perms = res.getPermissions();
-                    p.sendMessage(perms.listPlayerFlags(p.getName()));
 
                     if (res.getOwnerUUID() == p.getUniqueId()) {
                         return true;
