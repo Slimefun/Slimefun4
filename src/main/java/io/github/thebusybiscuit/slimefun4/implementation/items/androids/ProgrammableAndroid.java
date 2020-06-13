@@ -1,21 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import org.bukkit.Bukkit;
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -31,7 +28,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
-import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
@@ -40,6 +36,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -182,7 +179,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         addItemHandler(new BlockTicker() {
 
             @Override
-            public void tick(Block b, SlimefunItem item, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config data) {
+            public void tick(Block b, SlimefunItem item, Config data) {
                 if (b != null) {
                     ProgrammableAndroid.this.tick(b);
                 }
@@ -241,7 +238,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                                 if (j == index) {
                                     builder.append(commands[j]).append('-').append(commands[j]).append('-');
                                 }
-                                else if (j < commands.length - 1) builder.append(command).append('-');
+                                else if (j < commands.length - 1) {
+                                    builder.append(command).append('-');
+                                }
                             }
                             j++;
                         }
@@ -278,8 +277,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         ChestMenu menu = new ChestMenu("Android Scripts");
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
 
-        List<Config> scripts = getUploadedScripts();
-
+        List<Script> scripts = Script.getUploadedScripts(getAndroidType());
         int pages = (scripts.size() / 45) + 1;
 
         for (int i = 45; i < 54; i++) {
@@ -287,26 +285,30 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
         }
 
-        menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Previous Page", "", "&7(" + page + " / " + pages + ")"));
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
             int next = page - 1;
-            if (next < 1) next = pages;
+            if (next < 1) {
+                next = pages;
+            }
             if (next != page) {
                 openScriptDownloader(pl, b, next);
             }
             return false;
         });
 
-        menu.addItem(48, new CustomItem(SlimefunUtils.getCustomHead("105a2cab8b68ea57e3af992a36e47c8ff9aa87cc8776281966f8c3cf31a38"), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Database"));
+        menu.addItem(48, new CustomItem(SlimefunUtils.getCustomHead("105a2cab8b68ea57e3af992a36e47c8ff9aa87cc8776281966f8c3cf31a38"), "&eUpload a Script", "", "&6Click &7to upload your Android's Script", "&7to the Server's database"));
         menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
             uploadScript(pl, b, page);
             return false;
         });
 
-        menu.addItem(50, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8", "", "&7(" + page + " / " + pages + ")"));
+        menu.addItem(50, ChestMenuUtils.getNextButton(p, page, pages));
         menu.addMenuClickHandler(50, (pl, slot, item, action) -> {
             int next = page + 1;
-            if (next > pages) next = 1;
+            if (next > pages) {
+                next = 1;
+            }
             if (next != page) {
                 openScriptDownloader(pl, b, next);
             }
@@ -329,61 +331,42 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 break;
             }
             else {
-                Config script = scripts.get(target);
+                Script script = scripts.get(target);
+                List<String> lore = new LinkedList<>();
+                lore.add("&7by &r" + script.getAuthor());
+                lore.add("");
+                lore.add("&7Downloads: &r" + script.getDownloads());
+                lore.add("&7Rating: " + getScriptRatingPercentage(script));
+                lore.add("&a" + script.getUpvotes() + " \u263A &7| &4\u2639 " + script.getDownvotes());
+                lore.add("");
+                lore.add("&eLeft Click &rto download this Script");
+                lore.add("&4(This will override your current Script)");
 
-                OfflinePlayer op = Bukkit.getOfflinePlayer(script.getUUID("author"));
-                String author = (op != null && op.getName() != null) ? op.getName() : script.getString("author_name");
-
-                if (script.getString("author").equals(p.getUniqueId().toString())) {
-                    menu.addItem(index, new CustomItem(getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Downloads: &r" + script.getInt("downloads"), "&7Rating: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7| &4\u2639 " + getScriptRating(script, false), "", "&eLeft Click &rto download this Script", "&4(This will override your current Script)"));
+                if (script.canRate(p)) {
+                    lore.add("&eShift + Left Click &rto leave a positive Rating");
+                    lore.add("&eShift + Right Click &rto leave a negative Rating");
                 }
-                else {
-                    menu.addItem(index, new CustomItem(getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Downloads: &r" + script.getInt("downloads"), "&7Rating: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7| &4\u2639 " + getScriptRating(script, false), "", "&eLeft Click &rto download this Script", "&4(This will override your current Script)", "&eShift + Left Click &rto leave a positive Rating", "&eShift + Right Click &rto leave a negative Rating"));
-                }
 
-                menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                    Config script2 = new Config(script.getFile());
-
+                ItemStack item = new CustomItem(getItem(), "&b" + script.getName(), lore.toArray(new String[0]));
+                menu.addItem(index, item, (player, slot, stack, action) -> {
                     if (action.isShiftClicked()) {
-                        if (script2.getString("author").equals(pl.getUniqueId().toString())) {
-                            SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.rating.own", true);
+                        if (script.isAuthor(player)) {
+                            SlimefunPlugin.getLocal().sendMessage(player, "android.scripts.rating.own", true);
                         }
-                        else if (action.isRightClicked()) {
-                            if (!script2.getStringList("rating.negative").contains(pl.getUniqueId().toString()) && !script2.getStringList("rating.positive").contains(pl.getUniqueId().toString())) {
-                                List<String> list = script2.getStringList("rating.negative");
-                                list.add(p.getUniqueId().toString());
-
-                                script2.setValue("rating.negative", list);
-                                script2.save();
-
-                                openScriptDownloader(pl, b, page);
-                            }
-                            else {
-                                SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.rating.already", true);
-                            }
+                        else if (script.canRate(player)) {
+                            script.rate(player, !action.isRightClicked());
+                            openScriptDownloader(player, b, page);
                         }
                         else {
-                            if (!script2.getStringList("rating.negative").contains(pl.getUniqueId().toString()) && !script2.getStringList("rating.positive").contains(pl.getUniqueId().toString())) {
-                                List<String> list = script2.getStringList("rating.positive");
-                                list.add(pl.getUniqueId().toString());
-
-                                script2.setValue("rating.positive", list);
-                                script2.save();
-
-                                openScriptDownloader(pl, b, page);
-                            }
-                            else {
-                                SlimefunPlugin.getLocal().sendMessage(pl, "android.scripts.rating.already", true);
-                            }
+                            SlimefunPlugin.getLocal().sendMessage(player, "android.scripts.rating.already", true);
                         }
                     }
                     else if (!action.isRightClicked()) {
-                        script2.setValue("downloads", script2.getInt("downloads") + 1);
-                        script2.save();
-
-                        setScript(b.getLocation(), script2.getString("code"));
-                        openScriptEditor(pl, b);
+                        script.download();
+                        setScript(b.getLocation(), script.getSourceCode());
+                        openScriptEditor(player, b);
                     }
+
                     return false;
                 });
 
@@ -396,37 +379,25 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
     private void uploadScript(Player p, Block b, int page) {
         String code = getScript(b.getLocation());
-        int num = 1;
+        int nextId = 1;
 
-        for (Config script : getUploadedScripts()) {
-            if (script.getString("author").equals(p.getUniqueId().toString())) {
-                num++;
+        for (Script script : Script.getUploadedScripts(getAndroidType())) {
+            if (script.isAuthor(p)) {
+                nextId++;
             }
 
-            if (script.getString("code").equals(code)) {
+            if (script.getSourceCode().equals(code)) {
                 SlimefunPlugin.getLocal().sendMessage(p, "android.scripts.already-uploaded", true);
                 return;
             }
         }
 
-        int id = num;
-
         p.closeInventory();
         SlimefunPlugin.getLocal().sendMessages(p, "android.scripts.enter-name");
+        int id = nextId;
 
         ChatInput.waitForPlayer(SlimefunPlugin.instance, p, msg -> {
-            Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
-
-            script.setValue("author", p.getUniqueId().toString());
-            script.setValue("author_name", p.getName());
-            script.setValue("name", ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', msg)));
-            script.setValue("code", code);
-            script.setValue("downloads", 0);
-            script.setValue("android", getAndroidType().toString());
-            script.setValue("rating.positive", new ArrayList<String>());
-            script.setValue("rating.negative", new ArrayList<String>());
-            script.save();
-
+            Script.upload(p, getAndroidType(), id, msg, code);
             SlimefunPlugin.getLocal().sendMessages(p, "android.scripts.uploaded");
             openScriptDownloader(p, b, page);
         });
@@ -462,39 +433,15 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         menu.open(p);
     }
 
-    protected List<Config> getUploadedScripts() {
-        List<Config> scripts = new ArrayList<>();
-
-        File directory = new File("plugins/Slimefun/scripts/" + getAndroidType().toString());
-        if (!directory.exists()) directory.mkdirs();
-
-        for (File script : directory.listFiles()) {
-            if (script.getName().endsWith("sfs")) {
-                scripts.add(new Config(script));
-            }
-        }
-
-        if (getAndroidType() != AndroidType.NONE) {
-            File mainDirectory = new File("plugins/Slimefun/scripts/NONE");
-            if (!mainDirectory.exists()) mainDirectory.mkdirs();
-
-            for (File script : mainDirectory.listFiles()) {
-                if (script.getName().endsWith(".sfs")) {
-                    scripts.add(new Config(script));
-                }
-            }
-        }
-
-        Collections.sort(scripts, Comparator.comparingInt(script -> -(getScriptRating(script, true) + 1 - getScriptRating(script, false))));
-
-        return scripts;
-    }
-
-    protected List<Instruction> getAccessibleScriptParts() {
+    protected List<Instruction> getValidScriptInstructions() {
         List<Instruction> list = new ArrayList<>();
 
         for (Instruction part : Instruction.values()) {
-            if (part != Instruction.START && part != Instruction.REPEAT && getAndroidType().isType(part.getRequiredType())) {
+            if (part == Instruction.START || part == Instruction.REPEAT) {
+                continue;
+            }
+
+            if (getAndroidType().isType(part.getRequiredType())) {
                 list.add(part);
             }
         }
@@ -502,19 +449,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         return list;
     }
 
-    protected float getScriptRating(Config script) {
-        int positive = getScriptRating(script, true) + 1;
-        int negative = getScriptRating(script, false);
-        return Math.round((positive / (double) (positive + negative)) * 100.0F) / 100.0F;
-    }
-
-    protected int getScriptRating(Config script, boolean positive) {
-        if (positive) return script.getStringList("rating.positive").size();
-        else return script.getStringList("rating.negative").size();
-    }
-
-    protected String getScriptRatingPercentage(Config script) {
-        float percentage = getScriptRating(script);
+    protected String getScriptRatingPercentage(Script script) {
+        float percentage = script.getRating();
         return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.RESET + "% ";
     }
 
@@ -529,7 +465,10 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             StringBuilder builder = new StringBuilder("START-");
 
             for (String command : commands) {
-                if (i != index && i > 0 && i < commands.length - 1) builder.append(command).append('-');
+                if (i != index && i > 0 && i < commands.length - 1) {
+                    builder.append(command).append('-');
+                }
+
                 i++;
             }
 
@@ -541,7 +480,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         });
 
         int i = 10;
-        for (Instruction part : getAccessibleScriptParts()) {
+        for (Instruction part : getValidScriptInstructions()) {
             menu.addItem(i, new CustomItem(part.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + part.name())), (pl, slot, item, action) -> {
                 addInstruction(pl, b, index, part, commands);
                 return false;
@@ -607,6 +546,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
             registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
         }
+    }
+
+    public void registerFuelType(MachineFuel fuel) {
+        Validate.notNull(fuel, "Cannot register null as a Fuel type");
+        fuelTypes.add(fuel);
     }
 
     @Override
@@ -829,10 +773,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         for (ItemStack item : items) {
             inv.pushItem(item, getOutputSlots());
         }
-    }
-
-    public void registerFuelType(MachineFuel fuel) {
-        fuelTypes.add(fuel);
     }
 
     protected void move(Block b, BlockFace face, Block block) {

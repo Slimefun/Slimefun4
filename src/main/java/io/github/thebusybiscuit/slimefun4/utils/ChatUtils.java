@@ -29,6 +29,10 @@ public final class ChatUtils {
         sender.sendMessage(ChatColors.color("&7&o" + url));
         sender.sendMessage("");
     }
+    
+    public static String removeColorCodes(String string) {
+        return ChatColor.stripColor(ChatColors.color(string));
+    }
 
     public static String crop(ChatColor color, String string) {
         if (ChatColor.stripColor(color + string).length() > 19) {
