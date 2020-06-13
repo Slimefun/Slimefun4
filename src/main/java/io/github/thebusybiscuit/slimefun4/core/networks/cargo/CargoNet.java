@@ -216,9 +216,7 @@ public class CargoNet extends ChestTerminalNetwork {
     }
 
     private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
-        Config cfg = BlockStorage.getLocationInfo(inputNode);
-
-        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget, Integer.parseInt(cfg.getString("index")));
+        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget);
         if (slot == null) {
             return;
         }
@@ -228,24 +226,7 @@ public class CargoNet extends ChestTerminalNetwork {
         List<Location> outputs = outputNodes.get(frequency);
 
         if (outputs != null) {
-            List<Location> outputList = new LinkedList<>(outputs);
-            boolean roundrobin = "true".equals(cfg.getString("round-robin"));
-
-            if (roundrobin) {
-                roundRobinSort(inputNode, outputList);
-            }
-
-            for (Location output : outputList) {
-                Optional<Block> target = getAttachedBlock(output.getBlock());
-
-                if (target.isPresent()) {
-                    stack = CargoUtils.insert(output.getBlock(), target.get(), stack, -1);
-
-                    if (stack == null) {
-                        break;
-                    }
-                }
-            }
+            stack = distributeItem(stack, inputNode, outputs);
         }
 
         DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
@@ -262,14 +243,47 @@ public class CargoNet extends ChestTerminalNetwork {
         }
     }
 
-    private void roundRobinSort(Location input, List<Location> outputs) {
-        int index = roundRobin.getOrDefault(input, 0);
+    private ItemStack distributeItem(ItemStack stack, Location inputNode, List<Location> outputNodes) {
+        ItemStack item = stack;
 
-        if (index < outputs.size()) {
+        Deque<Location> destinations = new LinkedList<>(outputNodes);
+        Config cfg = BlockStorage.getLocationInfo(inputNode);
+        boolean roundrobin = "true".equals(cfg.getString("round-robin"));
+
+        if (roundrobin) {
+            roundRobinSort(inputNode, destinations);
+        }
+
+        for (Location output : destinations) {
+            Optional<Block> target = getAttachedBlock(output.getBlock());
+
+            if (target.isPresent()) {
+                item = CargoUtils.insert(output.getBlock(), target.get(), item);
+
+                if (item == null) {
+                    break;
+                }
+            }
+        }
+
+        return item;
+    }
+
+    /**
+     * This method sorts a given {@link Deque} of output node locations using a semi-accurate
+     * round-robin method.
+     *
+     * @param inputNode   The {@link Location} of the input node
+     * @param outputNodes A {@link Deque} of {@link Location Locations} of the output nodes
+     */
+    private void roundRobinSort(Location inputNode, Deque<Location> outputNodes) {
+        int index = roundRobin.getOrDefault(inputNode, 0);
+
+        if (index < outputNodes.size()) {
             // Not ideal but actually not bad performance-wise over more elegant alternatives
             for (int i = 0; i < index; i++) {
-                Location temp = outputs.remove(0);
-                outputs.add(temp);
+                Location temp = outputNodes.removeFirst();
+                outputNodes.add(temp);
             }
 
             index++;
@@ -277,20 +291,23 @@ public class CargoNet extends ChestTerminalNetwork {
             index = 1;
         }
 
-        roundRobin.put(input, index);
+        roundRobin.put(inputNode, index);
     }
 
-    private static int getFrequency(Location l) {
+    /**
+     * This method returns the frequency a given node is set to.
+     * Should there be an {@link Exception} to this method it will fall back to zero in
+     * order to protect the integrity of the {@link CargoNet}.
+     *
+     * @param node The {@link Location} of our cargo node
+     * @return The frequency of the given node
+     */
+    private static int getFrequency(Location node) {
         try {
-            String str = BlockStorage.getLocationInfo(l).getString("frequency");
+            String str = BlockStorage.getLocationInfo(node).getString("frequency");
             return Integer.parseInt(str);
         } catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE,
-                    x,
-                    () -> "An Error occurred while parsing a Cargo Node Frequency ("
-                            + l.getWorld().getName() + " - " + l.getBlockX() + "," + l.getBlockY() + "," +
-                            +l.getBlockZ() + ")"
-            );
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
             return 0;
         }
     }

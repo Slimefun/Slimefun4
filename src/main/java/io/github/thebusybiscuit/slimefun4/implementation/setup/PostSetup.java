@@ -174,31 +174,17 @@ public final class PostSetup {
 
     private static void loadSmelteryRecipes() {
         Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
+
         if (smeltery != null && !smeltery.isDisabled()) {
+            MakeshiftSmeltery makeshiftSmeltery = ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem());
             ItemStack[] input = null;
 
-            for (ItemStack[] recipe : smeltery.getRecipes()) {
+            for (ItemStack[] output : smeltery.getRecipes()) {
                 if (input == null) {
-                    input = recipe;
+                    input = output;
                 } else {
-                    if (input[0] != null && recipe[0] != null) {
-                        List<ItemStack> inputs = new ArrayList<>();
-
-                        for (ItemStack item : input) {
-                            if (item != null) {
-                                inputs.add(item);
-                            }
-                        }
-
-                        // We want to exclude Dust to Ingot Recipes
-                        if (inputs.size() == 1 && isDust(inputs.get(0))) {
-                            ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem()).addRecipe(new ItemStack[]{inputs.get(0)}, recipe[0]);
-
-                            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{inputs.get(0)}, new ItemStack[]{recipe[0]});
-                            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{recipe[0]}, new ItemStack[]{inputs.get(0)});
-                        } else {
-                            registerMachineRecipe("ELECTRIC_SMELTERY", 12, inputs.toArray(new ItemStack[0]), new ItemStack[]{recipe[0]});
-                        }
+                    if (input[0] != null && output[0] != null) {
+                        addSmelteryRecipe(input, output, makeshiftSmeltery);
                     }
 
                     input = null;
@@ -208,9 +194,30 @@ public final class PostSetup {
             for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
                 if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
                     List<MachineRecipe> recipes = ((AContainer) item).getMachineRecipes();
-                    recipes.sort(Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
+                    Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
                 }
             }
+        }
+    }
+
+    private static void addSmelteryRecipe(ItemStack[] input, ItemStack[] output, MakeshiftSmeltery makeshiftSmeltery) {
+        List<ItemStack> ingredients = new ArrayList<>();
+
+        // Filter out 'null' items
+        for (ItemStack item : input) {
+            if (item != null) {
+                ingredients.add(item);
+            }
+        }
+
+        // We want to redirect Dust to Ingot Recipes
+        if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
+            makeshiftSmeltery.addRecipe(new ItemStack[]{ingredients.get(0)}, output[0]);
+
+            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]});
+            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)});
+        } else {
+            registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
         }
     }
 

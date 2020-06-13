@@ -78,7 +78,7 @@ abstract class ChestTerminalNetwork extends Network {
                             Optional<Block> target = getAttachedBlock(l.getBlock());
 
                             if (target.isPresent()) {
-                                requestedItem = CargoUtils.insert(l.getBlock(), target.get(), requestedItem, -1);
+                                requestedItem = CargoUtils.insert(l.getBlock(), target.get(), requestedItem);
 
                                 if (requestedItem == null) {
                                     menu.replaceExistingItem(request.getSlot(), null);
@@ -152,7 +152,7 @@ abstract class ChestTerminalNetwork extends Network {
                 Optional<Block> target = getAttachedBlock(bus.getBlock());
 
                 if (target.isPresent()) {
-                    ItemStackAndInteger stack = CargoUtils.withdraw(bus.getBlock(), target.get(), -1);
+                    ItemStackAndInteger stack = CargoUtils.withdraw(bus.getBlock(), target.get());
 
                     if (stack != null) {
                         menu.replaceExistingItem(17, stack.getItem());
@@ -174,7 +174,7 @@ abstract class ChestTerminalNetwork extends Network {
                 Optional<Block> target = getAttachedBlock(bus.getBlock());
 
                 if (target.isPresent()) {
-                    menu.replaceExistingItem(17, CargoUtils.insert(bus.getBlock(), target.get(), menu.getItemInSlot(17), -1));
+                    menu.replaceExistingItem(17, CargoUtils.insert(bus.getBlock(), target.get(), menu.getItemInSlot(17)));
                 }
             }
 
@@ -303,7 +303,7 @@ abstract class ChestTerminalNetwork extends Network {
         for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) blockMenu, ItemTransportFlow.WITHDRAW, null)) {
             ItemStack is = blockMenu.getItemInSlot(slot);
 
-            if (is != null && CargoUtils.matchesFilter(l.getBlock(), is, -1)) {
+            if (is != null && CargoUtils.matchesFilter(l.getBlock(), is)) {
                 boolean add = true;
 
                 for (ItemStackAndInteger item : items) {
@@ -327,7 +327,7 @@ abstract class ChestTerminalNetwork extends Network {
     }
 
     private void filter(ItemStack is, List<ItemStackAndInteger> items, Location l) {
-        if (is != null && CargoUtils.matchesFilter(l.getBlock(), is, -1)) {
+        if (is != null && CargoUtils.matchesFilter(l.getBlock(), is)) {
             boolean add = true;
 
             for (ItemStackAndInteger item : items) {

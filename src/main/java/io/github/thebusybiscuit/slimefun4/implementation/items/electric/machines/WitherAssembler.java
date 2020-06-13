@@ -29,8 +29,15 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * The {@link WitherAssembler} is an electrical machine that can automatically spawn
+ * a {@link Wither} if the required ingredients have been provided.
+ *
+ * @author TheBusyBiscuit
+ */
 public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 4096;
@@ -44,7 +51,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
     public WitherAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), item.getItemMeta().getDisplayName()) {
+        new BlockMenuPreset(getID(), "&5凋零汇编机") {
 
             @Override
             public void init() {
@@ -54,14 +61,14 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
-                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7是否启用: &4\u2718", "", "&e> 单击启用机器"));
+                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7机器状态: &4\u2718", "", "&e> 单击开机"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "enabled", "true");
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7是否启用: &2\u2714", "", "&e> 单击关闭机器"));
+                    menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7机器状态: &2\u2714", "", "&e> 单击关机"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "enabled", "false");
                         newInstance(menu, b);
@@ -71,9 +78,9 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
                 double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F : Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 
-                menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7生成高度: &3比机器高 " + offset + " 格方块", "", "&r左键: &7+0.1", "&r右键: &7-0.1"));
+                menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7生成高度: &3" + offset + " 格方块", "", "&r左键: &7+0.1", "&r右键: &7-0.1"));
                 menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-                    double offsetv = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
+                    double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
                     BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
                     newInstance(menu, b);
                     return false;
@@ -147,9 +154,9 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
             preset.addItem(i, new CustomItem(Material.BROWN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(1, new CustomItem(Material.WITHER_SKELETON_SKULL, "&7凋零骷髅头颅槽", "", "&r这里可以放入凋零骷髅头颅"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(7, new CustomItem(Material.SOUL_SAND, "&7灵魂沙槽", "", "&r这里可以放入灵魂沙"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(13, new CustomItem(Material.CLOCK, "&7冷却时间: &b30 秒", "", "&r这台机器需要等待半分钟才能操作", "&r所以请给它点时间!"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, new CustomItem(Material.WITHER_SKELETON_SKULL, "&7凋零骷髅头槽", "", "&r可以放入凋零骷髅头"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(7, new CustomItem(Material.SOUL_SAND, "&7灵魂沙槽", "", "&r可以放入灵魂沙"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(13, new CustomItem(Material.CLOCK, "&7冷却: &b30s", "", "&r这台机器需要半分钟的时间进行操作", "&r所以给它点时间吧!"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     public int[] getInputSlots() {
@@ -180,66 +187,18 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
+                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
+                    return;
+                }
 
-                if (lifetime % 60 == 0) {
-                    if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
-
-                    int soulsand = 0;
-                    int skulls = 0;
-
+                if (lifetime % 60 == 0 && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
                     BlockMenu menu = BlockStorage.getInventory(b);
 
-                    for (int slot : getSoulSandSlots()) {
-                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-                            soulsand = soulsand + menu.getItemInSlot(slot).getAmount();
+                    boolean soulsand = findResource(menu, Material.SOUL_SAND, 4, getSoulSandSlots());
+                    boolean skulls = findResource(menu, Material.WITHER_SKELETON_SKULL, 3, getWitherSkullSlots());
 
-                            if (soulsand > 3) {
-                                soulsand = 4;
-                                break;
-                            }
-                        }
-                    }
-
-                    for (int slot : getWitherSkullSlots()) {
-                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
-                            skulls = skulls + menu.getItemInSlot(slot).getAmount();
-
-                            if (skulls > 2) {
-                                skulls = 3;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (soulsand > 3 && skulls > 2) {
-                        for (int slot : getSoulSandSlots()) {
-                            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-                                int amount = menu.getItemInSlot(slot).getAmount();
-
-                                if (amount >= soulsand) {
-                                    menu.consumeItem(slot, soulsand);
-                                    break;
-                                } else {
-                                    soulsand = soulsand - amount;
-                                    menu.replaceExistingItem(slot, null);
-                                }
-                            }
-                        }
-
-                        for (int slot : getWitherSkullSlots()) {
-                            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
-                                int amount = menu.getItemInSlot(slot).getAmount();
-
-                                if (amount >= skulls) {
-                                    menu.consumeItem(slot, skulls);
-                                    break;
-                                } else {
-                                    skulls = skulls - amount;
-                                    menu.replaceExistingItem(slot, null);
-                                }
-                            }
-                        }
+                    if (soulsand && skulls) {
+                        consumeResources(menu);
 
                         ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                         double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
@@ -259,6 +218,55 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
                 return false;
             }
         };
+    }
+
+    private boolean findResource(BlockMenu menu, Material resource, int required, int[] slots) {
+        int found = 0;
+
+        for (int slot : slots) {
+            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(resource), true)) {
+                found += menu.getItemInSlot(slot).getAmount();
+
+                if (found > required) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void consumeResources(BlockMenu inv) {
+        int soulsand = 4;
+        int skulls = 3;
+
+        for (int slot : getSoulSandSlots()) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+                int amount = inv.getItemInSlot(slot).getAmount();
+
+                if (amount >= soulsand) {
+                    inv.consumeItem(slot, soulsand);
+                    break;
+                } else {
+                    soulsand -= amount;
+                    inv.replaceExistingItem(slot, null);
+                }
+            }
+        }
+
+        for (int slot : getWitherSkullSlots()) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+                int amount = inv.getItemInSlot(slot).getAmount();
+
+                if (amount >= skulls) {
+                    inv.consumeItem(slot, skulls);
+                    break;
+                } else {
+                    skulls -= amount;
+                    inv.replaceExistingItem(slot, null);
+                }
+            }
+        }
     }
 
 }

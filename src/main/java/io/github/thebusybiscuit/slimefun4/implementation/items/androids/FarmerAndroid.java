@@ -10,6 +10,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
@@ -27,9 +28,14 @@ public abstract class FarmerAndroid extends ProgrammableAndroid {
     }
 
     private boolean isFullGrown(Block block) {
-        if (!(block.getBlockData() instanceof Ageable)) return false;
+        BlockData data = block.getBlockData();
 
-        Ageable ageable = ((Ageable) block.getBlockData());
+        if (!(data instanceof Ageable)) {
+            return false;
+        }
+
+        Ageable ageable = (Ageable) data;
+
         return ageable.getAge() >= ageable.getMaximumAge();
     }
 

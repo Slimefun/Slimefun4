@@ -32,33 +32,19 @@ public class PermissionsService {
 
     public void register(Iterable<SlimefunItem> items, boolean save) {
         for (SlimefunItem item : items) {
-            if (item != null && item.getID() != null && !migrate(item)) {
-                config.setDefaultValue(item.getID() + ".permission", "none");
+            if (item != null && item.getID() != null) {
+                String path = item.getID() + ".permission";
+
+                config.setDefaultValue(path, "none");
                 config.setDefaultValue(item.getID() + ".lore", new String[]{"&rYou do not have the permission", "&rto access this item."});
-                permissions.put(item.getID(), config.getString(item.getID() + ".permission"));
+
+                permissions.put(item.getID(), config.getString(path));
             }
         }
 
         if (save) {
             config.save();
         }
-    }
-
-    // Temporary migration method for the old system
-    private boolean migrate(SlimefunItem item) {
-        String permission = SlimefunPlugin.getItemCfg().getString(item.getID() + ".required-permission");
-
-        if (permission != null) {
-            config.setDefaultValue(item.getID() + ".permission", permission.length() == 0 ? "none" : permission);
-            config.setDefaultValue(item.getID() + ".lore", SlimefunPlugin.getItemCfg().getString(item.getID() + ".no-permission-tooltip"));
-            permissions.put(item.getID(), config.getString(item.getID() + ".permission"));
-
-            SlimefunPlugin.getItemCfg().setValue(item.getID() + ".required-permission", null);
-            SlimefunPlugin.getItemCfg().setValue(item.getID() + ".no-permission-tooltip", null);
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -84,7 +70,9 @@ public class PermissionsService {
      * It actually returns an {@link Optional}, {@link Optional#empty()} means that there was no
      * {@link Permission} set for the given {@link SlimefunItem}
      *
-     * @param item The {@link SlimefunItem} to retrieve the {@link Permission} for.
+     * @param item
+     *            The {@link SlimefunItem} to retrieve the {@link Permission} for.
+     *
      * @return An {@link Optional} holding the {@link Permission} as a {@link String} or an empty {@link Optional}
      */
     public Optional<String> getPermission(SlimefunItem item) {
@@ -100,8 +88,10 @@ public class PermissionsService {
     /**
      * This method sets the {@link Permission} for a given {@link SlimefunItem}.
      *
-     * @param item       The {@link SlimefunItem} to modify
-     * @param permission The {@link Permission} to set
+     * @param item
+     *            The {@link SlimefunItem} to modify
+     * @param permission
+     *            The {@link Permission} to set
      */
     public void setPermission(SlimefunItem item, String permission) {
         Validate.notNull(item, "You cannot set the permission for null");

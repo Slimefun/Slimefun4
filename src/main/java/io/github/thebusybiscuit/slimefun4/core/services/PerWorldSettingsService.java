@@ -134,8 +134,10 @@ public class PerWorldSettingsService {
     /**
      * This method enables or disables the given {@link World}.
      *
-     * @param world   The {@link World} to enable or disable
-     * @param enabled Whether this {@link World} should be enabled or not
+     * @param world
+     *            The {@link World} to enable or disable
+     * @param enabled
+     *            Whether this {@link World} should be enabled or not
      */
     public void setEnabled(World world, boolean enabled) {
         load(world);
@@ -213,24 +215,7 @@ public class PerWorldSettingsService {
             config.setDefaultValue("enabled", true);
 
             if (config.getBoolean("enabled")) {
-                for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-                    if (item != null && item.getID() != null) {
-                        String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
-                        config.setDefaultValue(addon + ".enabled", true);
-                        config.setDefaultValue(addon + '.' + item.getID(), true);
-
-                        boolean isAddonDisabled = config.getBoolean(addon + ".enabled");
-
-                        if (isAddonDisabled) {
-                            Set<String> blacklist = disabledAddons.computeIfAbsent(plugin, key -> new HashSet<>());
-                            blacklist.add(name);
-                        }
-
-                        if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getID())) {
-                            items.add(item.getID());
-                        }
-                    }
-                }
+                loadItemsFromWorldConfig(name, config, items);
 
                 if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
                     config.save();
@@ -240,6 +225,27 @@ public class PerWorldSettingsService {
             }
 
             return items;
+        }
+    }
+
+    private void loadItemsFromWorldConfig(String worldName, Config config, Set<String> items) {
+        for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+            if (item != null && item.getID() != null) {
+                String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
+                config.setDefaultValue(addon + ".enabled", true);
+                config.setDefaultValue(addon + '.' + item.getID(), true);
+
+                boolean isAddonDisabled = config.getBoolean(addon + ".enabled");
+
+                if (isAddonDisabled) {
+                    Set<String> blacklist = disabledAddons.computeIfAbsent(plugin, key -> new HashSet<>());
+                    blacklist.add(worldName);
+                }
+
+                if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getID())) {
+                    items.add(item.getID());
+                }
+            }
         }
     }
 

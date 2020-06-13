@@ -34,8 +34,11 @@ class GitHubIssuesTracker extends GitHubConnector {
             for (JsonElement elem : array) {
                 JsonObject obj = elem.getAsJsonObject();
 
-                if (obj.has("pull_request")) pullRequests++;
-                else issues++;
+                if (obj.has("pull_request")) {
+                    pullRequests++;
+                } else {
+                    issues++;
+                }
             }
 
             callback.update(issues, pullRequests);
