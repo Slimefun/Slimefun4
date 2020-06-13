@@ -63,6 +63,12 @@ commands:
     Sunucunuz Hakkında Gecikme Bilgisini
     gösterir
   versions: Yüklü tüm Eklentileri listeler
+  backpack:
+    description: Varolan bir sırt çantasının kopyasını elde et
+    invalid-id: "&4Id negatif olmayan bir numara olmalı!"
+    player-never-joined: "&4Bu adda bir oyuncu bulunamadı!"
+    backpack-does-not-exist: "&4Böyle bir sırt çantası yok."
+    restored-backpack-given: "&aSırt çantanız bulundu ve envanterinize teslim edildi!"
 gps:
   deathpoint: "&4Ölüm Noktası &7%date%"
   geo:
@@ -100,17 +106,22 @@ guide:
       lore: Kendi çevirinizi eklemek için tıklayın
       name: "&aBir şeyler mi eksik?"
     updated: "&aDiliniz başarıyla ayarlandı: &b%lang%"
+  locked: KİLİTLİ
+  locked-category:
+  - Bu kategoriyi açmak için
+  - aşağıdaki kategorilerde bulunan
+  - bütün eşyaları açın
   pages:
     next: Sonraki sayfa
     previous: Önceki sayfa
   search:
+    inventory: 'Eşya aranıyor: %item%'
     lore:
     - "&bNe aramak istersiniz?"
     - "&7Arama teriminizi sohbete yazınız."
     message: "&bNe aramak istersiniz?"
     name: "&7Ara..."
     tooltip: "&bBir eşyayı aramak için tıklayın"
-    inventory: 'Eşya aranıyor: %item%'
   title:
     addons: Slimefun4 için Eklentiler
     bugs: Hata Raporları
@@ -129,11 +140,6 @@ guide:
       miner: Bu madenciyle elde edebileceğin kaynaklar
     versions-notice: Hata bildirirken bunlar çok önemlidir!
     wiki: Bu eşyayı Slimefun Wikisinde görüntüle
-  locked: KİLİTLİ
-  locked-category:
-  - Bu kategoriyi açmak için
-  - aşağıdaki kategorilerde bulunan
-  - bütün eşyaları açın
 inventory:
   no-access: "&4Bu bloğa erişmenize izin verilmiyor"
 languages:
@@ -173,6 +179,10 @@ languages:
   vi: Vietnamca
   zh-CN: Çince (Çin)
   zh-TW: Çince (Tayvan)
+  hr: Hırvatça
+  mk: Makedonca
+  sr: Sırpça
+  be: Belarusça
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altar, gerekli Sütun miktarı ile çevrili değil &c(%pedestals%
@@ -206,17 +216,26 @@ machines:
     doğru şekilde yerleştirin."
   TELEPORTER:
     cancelled: "&4Işınlanma İptal Edildi!"
+    gui:
+      time: Tahmini süre
+      title: Yer noktaların
+      tooltip: Işınlanmak için tıklayın
     invulnerability: "&b&l30 saniye boyunca dokunulmazsın!"
     teleported: "&3Işınlanıldı!"
     teleporting: "&3Işınlanılıyor..."
-    gui:
-      title: Yer noktaların
-      tooltip: Işınlanmak için tıklayın
-      time: Tahmini süre
   unknown-material: "&eÜzgünüm, fırlatıcıdaki Eşyayı tanıyamadım. Lütfen bildiğim
     bir şey koy."
   wrong-item: "&eÜzgünüm, bana sağ tıkladığınız Eşyayı tanıyamadım. Tarifleri kontrol
     edin ve hangi Eşyaları kullanabileceğinizi görün."
+  INDUSTRIAL_MINER:
+    no-fuel: "&cIndustrial Miner'ınızın yakıtı bitti! Yukarıdaki sandığa yakıt koyun."
+    piston-facing: "&cIndustrial Miner'ınızın pistonu yukarıya bakmalı!"
+    piston-space: "&cHer iki pistonun da üstü boş olmalı!"
+    destroyed: "&cIndustrial Miner'ınız yok edilmiş."
+    already-running: "&cBu Industrial Miner zaten çalışıyor!"
+    full-chest: "&cIndustrial Miner'ınızın sandığı dolu!"
+    no-permission: "&4Bir Industrial Miner kullanmak için yetkili değilsin!"
+    finished: "&eIndustrial Miner'ınızın işi bitti! Toplamda %ores% kadar maden buldu!"
 messages:
   cannot-place: "&cBu bloğu oraya yerleştiremezsiniz!"
   diet-cookie: "&eKendinizi çok hafif hissetmeye başlıyorsunuz..."
