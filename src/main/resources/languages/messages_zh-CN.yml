@@ -176,6 +176,10 @@ languages:
   vi: 越南文
   zh-CN: 简体中文 (中国)
   zh-TW: 繁体中文 (台湾)
+  hr: 克罗地亚语
+  mk: 马其顿语
+  sr: 塞尔维亚语
+  be: 白俄罗斯语
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)"
