@@ -200,11 +200,11 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
     }
 
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
-        for (MachineFuel recipe : fuelTypes) {
+        for (MachineFuel fuel : fuelTypes) {
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
-                    found.put(slot, recipe.getInput().getAmount());
-                    return recipe;
+                if (fuel.test(menu.getItemInSlot(slot))) {
+                    found.put(slot, fuel.getInput().getAmount());
+                    return fuel;
                 }
             }
         }

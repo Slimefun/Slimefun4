@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,8 +16,8 @@ import java.util.List;
 
 public class MakeshiftSmeltery extends AbstractSmeltery {
 
-    public MakeshiftSmeltery(Category category) {
-        super(category, SlimefunItems.MAKESHIFT_SMELTERY, new ItemStack[]{null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null}, new ItemStack[0], BlockFace.DOWN);
+    public MakeshiftSmeltery(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[]{null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null}, new ItemStack[0], BlockFace.DOWN);
     }
 
     @Override

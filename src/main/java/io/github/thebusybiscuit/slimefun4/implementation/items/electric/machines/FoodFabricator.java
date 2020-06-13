@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -18,16 +19,18 @@ public abstract class FoodFabricator extends AContainer {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.WHEAT)}, new ItemStack[]{SlimefunItems.WHEAT_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.CARROT)}, new ItemStack[]{SlimefunItems.CARROT_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.POTATO)}, new ItemStack[]{SlimefunItems.POTATO_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.WHEAT_SEEDS)}, new ItemStack[]{SlimefunItems.SEEDS_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.BEETROOT)}, new ItemStack[]{SlimefunItems.BEETROOT_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.MELON)}, new ItemStack[]{SlimefunItems.MELON_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.APPLE)}, new ItemStack[]{SlimefunItems.APPLE_ORGANIC_FOOD});
-        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.DRIED_KELP)}, new ItemStack[]{SlimefunItems.KELP_ORGANIC_FOOD});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.WHEAT)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.WHEAT_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.CARROT)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.CARROT_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.POTATO)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.POTATO_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.WHEAT_SEEDS)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.SEEDS_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.BEETROOT)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.BEETROOT_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.MELON_SLICE)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.MELON_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.APPLE)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.APPLE_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.DRIED_KELP)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.KELP_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+        registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.COCOA_BEANS)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.COCOA_ORGANIC_FOOD, OrganicFood.OUTPUT)});
+
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.SWEET_BERRIES)}, new ItemStack[]{SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD});
+            registerRecipe(12, new ItemStack[]{SlimefunItems.CAN, new ItemStack(Material.SWEET_BERRIES)}, new ItemStack[]{new SlimefunItemStack(SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD, OrganicFood.OUTPUT)});
         }
     }
 
@@ -43,7 +46,7 @@ public abstract class FoodFabricator extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return item.getItemMeta().getDisplayName();
+        return item.clone().getItemMeta().getDisplayName();
     }
 
 }

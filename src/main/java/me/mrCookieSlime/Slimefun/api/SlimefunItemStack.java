@@ -88,6 +88,11 @@ public class SlimefunItemStack extends CustomItem {
         setID(id);
     }
 
+    public SlimefunItemStack(SlimefunItemStack item, int amount) {
+        this(item.getItemId(), item);
+        setAmount(amount);
+    }
+
     public SlimefunItemStack(String id, Material type, String name, Consumer<ItemMeta> consumer) {
         super(type, meta -> {
             if (name != null) {
@@ -213,7 +218,7 @@ public class SlimefunItemStack extends CustomItem {
 
     @Override
     public String toString() {
-        return "SlimefunItemStack (" + id + ')';
+        return "SlimefunItemStack (" + id + (getAmount() > 1 ? (" x " + getAmount()) : "") + ')';
     }
 
 }

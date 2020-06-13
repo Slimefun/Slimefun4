@@ -3,10 +3,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 
 public class Juicer extends MultiBlockMachine {
 
-	public Juicer(Category category) {
+	public Juicer(Category category, SlimefunItemStack item) {
 		super(
 				category,
-				SlimefunItems.JUICER,
+				item,
 				new ItemStack[]{null, new ItemStack(Material.GLASS), null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, null, new CustomItem(Material.DISPENSER, "发射器(朝上)"), null},
 				new ItemStack[0],
 				BlockFace.SELF

@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -26,8 +27,8 @@ public class OreCrusher extends MultiBlockMachine {
 
 	private final DoubleOreSetting doubleOres = new DoubleOreSetting();
 
-	public OreCrusher(Category category) {
-		super(category, SlimefunItems.ORE_CRUSHER, new ItemStack[]{
+	public OreCrusher(Category category, SlimefunItemStack item) {
+		super(category, item, new ItemStack[]{
 						null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.IRON_BARS)}
 				, new ItemStack[]{SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST, new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND), new ItemStack(Material.MAGMA_BLOCK, 4), SlimefunItems.SULFATE}, BlockFace.SELF);
 

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
+import io.github.starwishsama.extra.VaultHook;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;

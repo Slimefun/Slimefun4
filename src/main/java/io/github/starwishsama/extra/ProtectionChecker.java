@@ -22,7 +22,9 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 /**
- * @author StarWishsama
+ * 保护插件权限检查器
+ *
+ * @author Nameless
  */
 public class ProtectionChecker implements Listener {
     private static boolean resInstalled = false;
@@ -32,6 +34,8 @@ public class ProtectionChecker implements Listener {
     public void onAndroidInteract(AndroidMineEvent e) {
         if (e != null) {
             Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(e.getAndroid().getBlock())));
+
+            Bukkit.broadcastMessage(p.getName());
 
             if (!check(p, e.getBlock(), true)) {
                 e.setCancelled(true);
@@ -77,6 +81,8 @@ public class ProtectionChecker implements Listener {
                 ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
                 if (res != null) {
                     ResidencePermissions perms = res.getPermissions();
+                    p.sendMessage(perms.listPlayerFlags(p.getName()));
+
                     if (res.getOwnerUUID() == p.getUniqueId()) {
                         return true;
                     }
@@ -98,6 +104,7 @@ public class ProtectionChecker implements Listener {
 
             if (plotInstalled) {
                 Plot plot = Plot.getPlot(new Location(block.getWorld().getName(), block.getX(), block.getY(), block.getZ()));
+
                 if (plot != null) {
                     return plot.isOwner(p.getUniqueId()) || plot.isAdded(p.getUniqueId());
                 }

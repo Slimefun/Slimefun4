@@ -4,6 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Github API Java bean
+ *
+ * @author Nameless
+ */
 public class GithubBean {
     @SerializedName("html_url")
     private String htmlUrl;

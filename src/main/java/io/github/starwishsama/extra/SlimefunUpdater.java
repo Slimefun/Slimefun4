@@ -9,9 +9,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
@@ -20,13 +18,65 @@ import java.util.List;
 import java.util.logging.Level;
 
 /**
- * @author StarWishsama
+ * @author Nameless
  */
 public class SlimefunUpdater {
 
     private GithubBean updateInfoCache;
     private final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    private static final String downloadDir = SlimefunPlugin.instance.getServer().getUpdateFolder();
+    private static final String browserUA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36";
 
+    /**
+     * 下载文件
+     *
+     * @param address  下载地址
+     * @param fileName 下载文件的名称
+     */
+    public static void downloadUpdate(String address, String fileName) {
+        try {
+            URL url = new URL(address);
+            HttpURLConnection conn = (HttpURLConnection) (url.openConnection());
+            conn.setConnectTimeout(5_000);
+            conn.setReadTimeout(5_000);
+            conn.setDoOutput(true);
+            conn.setRequestProperty("User-Agent", browserUA);
+
+            long completeFileSize = conn.getContentLength();
+
+            BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
+            File saveDir = new File(downloadDir.replace("update", "plugins"));
+            File file = new File(saveDir, fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            BufferedOutputStream bos = new BufferedOutputStream(fos, 1024);
+            byte[] data = new byte[1024];
+            long downloadedFileSize = 0;
+            int x;
+            while ((x = in.read(data, 0, 1024)) >= 0) {
+                downloadedFileSize += x;
+                final int currentProgress = (int) ((((double) downloadedFileSize) / ((double) completeFileSize)) * 100d);
+                if (currentProgress % 10 == 0) {
+                    Slimefun.getLogger().info("下载中, 进度 " + currentProgress + "%");
+                }
+                bos.write(data, 0, x);
+            }
+
+            bos.close();
+            in.close();
+            fos.close();
+
+            SlimefunPlugin.instance.getFile().deleteOnExit();
+            Slimefun.getLogger().info(ChatColors.color("&a自动更新已完成, 重启服务端后即可更新到最新版本"));
+        } catch (Exception e) {
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "在下载时发生了错误");
+        }
+    }
+
+    /**
+     * 使用 Github API 获取 Releases 信息
+     *
+     * @return Github Beans
+     */
     private List<GithubBean> getReleaseBean() {
         try {
             URL url = new URL("https://api.github.com/repos/StarWishsama/Slimefun4/releases");
@@ -60,6 +110,11 @@ public class SlimefunUpdater {
         return new ArrayList<>();
     }
 
+    /**
+     * 获取最新版本的信息
+     *
+     * @return 最新的 Bean
+     */
     private GithubBean getGithubBean() {
         List<GithubBean> beans = getReleaseBean();
 
@@ -71,6 +126,9 @@ public class SlimefunUpdater {
         return null;
     }
 
+    /**
+     * 检查更新
+     */
     public void checkUpdate() {
         GithubBean bean = getCache();
 
@@ -86,13 +144,12 @@ public class SlimefunUpdater {
                 } else {
                     String updateInfo = "有更新了 | " + bean.getTagName() + " 现已发布\n正在自动下载更新中, 下载完成后重启服务器生效";
                     Slimefun.getLogger().info(updateInfo);
-                    UpdateDownloader.downloadUpdate(getCache().getAssets().get(0).getDownloadUrl(), getCache().getAssets().get(0).getName());
-                    return;
+                    downloadUpdate(getCache().getAssets().get(0).getDownloadUrl(), getCache().getAssets().get(0).getName());
                 }
             }
+        } else {
+            Slimefun.getLogger().info("无法获取到更新信息");
         }
-
-        Slimefun.getLogger().info("无法获取到更新信息");
     }
 
     private GithubBean getCache() {

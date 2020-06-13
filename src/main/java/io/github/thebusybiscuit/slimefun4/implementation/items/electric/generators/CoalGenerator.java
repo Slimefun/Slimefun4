@@ -22,6 +22,7 @@ public abstract class CoalGenerator extends AGenerator {
     protected void registerDefaultFuelTypes() {
         registerFuel(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
         registerFuel(new MachineFuel(12, new ItemStack(Material.BLAZE_ROD)));
+        registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
         // Coals
         registerFuel(new MachineFuel(8, new ItemStack(Material.COAL)));

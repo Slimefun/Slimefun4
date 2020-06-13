@@ -6,6 +6,7 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -29,8 +30,8 @@ public class Smeltery extends AbstractSmeltery {
     private final BlockFace[] faces = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
     private final ItemSetting<Integer> fireBreakingChance = new ItemSetting<>("fire-breaking-chance", 34);
 
-    public Smeltery(Category category) {
-        super(category, SlimefunItems.SMELTERY, new ItemStack[]{null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null}, new ItemStack[]{SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, BlockFace.DOWN);
+    public Smeltery(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[]{null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null}, new ItemStack[]{SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT)}, BlockFace.DOWN);
 
         addItemSetting(fireBreakingChance);
     }

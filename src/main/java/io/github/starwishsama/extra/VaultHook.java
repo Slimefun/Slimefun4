@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.services.plugins;
+package io.github.starwishsama.extra;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -8,7 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import java.util.logging.Level;
 
 /**
- * @author StarWishsama
+ * @author Nameless
  */
 public class VaultHook {
     private static Economy econ = null;

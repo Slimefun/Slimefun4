@@ -285,25 +285,6 @@ public class Research implements Keyed {
     }
 
     /**
-     * Attempts to get a {@link Research} with the given ID.
-     *
-     * @deprecated Numeric Research Ids are fading out, please use {@link #getResearch(NamespacedKey)} instead.
-     *
-     * @param id
-     *            ID of the research to get
-     * @return {@link Research} if found, or null
-     */
-    @Deprecated
-    public static Research getByID(int id) {
-        for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (research.getID() == id) {
-                return research;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Attempts to get a {@link Research} with the given {@link NamespacedKey}.
      *
      * @param key

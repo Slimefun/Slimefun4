@@ -6,15 +6,12 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  * This enum holds all versions of Minecraft that we currently support.
  *
  * @author TheBusyBiscuit
+ *
  * @see SlimefunPlugin
+ *
  */
 public enum MinecraftVersion {
-    /**
-     * This is a very special state that represents the environment being a Unit
-     * Test and not an actual running Minecraft Server. This constant stands at
-     * the very top because it is the one with the least features.
-     */
-    UNIT_TEST("Unit Test Environment"),
+
     /**
      * This constant represents Minecraft (Java Edition) Version 1.14
      * (The Update Aquatic)
@@ -37,7 +34,13 @@ public enum MinecraftVersion {
      * This constant represents an exceptional state in which we were unable
      * to identify the Minecraft Version we are using
      */
-    UNKNOWN("Unknown");
+    UNKNOWN("Unknown"),
+
+    /**
+     * This is a very special state that represents the environment being a Unit
+     * Test and not an actual running Minecraft Server.
+     */
+    UNIT_TEST("Unit Test Environment");
 
     private final String name;
     private final String prefix;
@@ -71,7 +74,11 @@ public enum MinecraftVersion {
      * This method checks whether this {@link MinecraftVersion} is newer or equal to
      * the given {@link MinecraftVersion},
      *
-     * @param version The {@link MinecraftVersion} to compare
+     * An unknown version will default to {@literal false}.
+     *
+     * @param version
+     *            The {@link MinecraftVersion} to compare
+     *
      * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
      */
     public boolean isAtLeast(MinecraftVersion version) {
@@ -79,7 +86,23 @@ public enum MinecraftVersion {
             return false;
         }
 
-        return ordinal() >= version.ordinal();
+        return this.ordinal() >= version.ordinal();
+    }
+
+    /**
+     * This checks whether this {@link MinecraftVersion} is older than the specified {@link MinecraftVersion}.
+     * <p>
+     * An unknown version will default to {@literal true}.
+     *
+     * @param version The {@link MinecraftVersion} to compare
+     * @return Whether this {@link MinecraftVersion} is older than the given one
+     */
+    public boolean isBefore(MinecraftVersion version) {
+        if (this == UNKNOWN) {
+            return true;
+        }
+
+        return version.ordinal() > this.ordinal();
     }
 
 }

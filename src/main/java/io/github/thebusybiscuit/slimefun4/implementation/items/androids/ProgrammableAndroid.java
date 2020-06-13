@@ -378,15 +378,15 @@ public abstract class ProgrammableAndroid extends Android implements InventoryBl
         ItemStack item = menu.getItemInSlot(43);
 
         if (item != null) {
-            for (MachineFuel recipe : recipes) {
-                if (SlimefunUtils.isItemSimilar(item, recipe.getInput(), true)) {
+            for (MachineFuel fuel : recipes) {
+                if (fuel.test(item)) {
                     menu.consumeItem(43);
 
                     if (getTier() == 2) {
                         menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                     }
 
-                    BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (recipe.getTicks() * this.getFuelEfficiency())));
+                    BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (fuel.getTicks() * this.getFuelEfficiency())));
                     break;
                 }
             }

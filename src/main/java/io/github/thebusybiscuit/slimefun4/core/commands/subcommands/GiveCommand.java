@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.players.PlayerList;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -70,7 +71,7 @@ class GiveCommand extends SubCommand {
         int amount = 1;
 
         if (args.length == 4) {
-            if (args[3].chars().allMatch(Character::isDigit)) {
+            if (PatternUtils.NUMERIC.matcher(args[3]).matches()) {
                 amount = Integer.parseInt(args[3]);
             } else {
                 return 0;

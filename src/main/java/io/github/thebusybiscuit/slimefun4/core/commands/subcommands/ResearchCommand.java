@@ -39,7 +39,7 @@ class ResearchCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (args.length == 3) {
-            if (sender.hasPermission("slimefun.cheat.researches") || !(sender instanceof Player)) {
+            if (!(sender instanceof Player) || sender.hasPermission("slimefun.cheat.researches")) {
                 Optional<Player> player = PlayerList.findByName(args[1]);
 
                 if (player.isPresent()) {
