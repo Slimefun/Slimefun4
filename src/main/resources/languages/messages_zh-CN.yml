@@ -67,6 +67,8 @@ commands:
     player-never-joined: "&4找不到叫这个名字的玩家!"
     backpack-does-not-exist: "&4你指定的背包不存在!"
     restored-backpack-given: "&a你的背包已被恢复并且已经放入了你的物品栏!"
+  reload: 重载配置文件
+  transform: 将物品转换为英文物品
 gps:
   deathpoint: "&4死亡地点 &7%date%"
   geo:
@@ -228,6 +230,8 @@ machines:
     no-permission: "&4你没有权限在此操作此工业矿机!"
     finished: "&e你的工业矿机采矿已完成! 总共开采了 %ores% 个矿石!"
 messages:
+  above-limit-level: "&c你要附魔或祛魔的物品附魔等级超过上限!"
+  not-right-item: "&c目前支持转换的方块: 已修复的刷怪笼"
   cannot-place: "&c你不能在这里放置方块!"
   diet-cookie: "&e你感觉变轻了..."
   disabled-in-world: "&4&l这个物品在此世界已被禁用"
