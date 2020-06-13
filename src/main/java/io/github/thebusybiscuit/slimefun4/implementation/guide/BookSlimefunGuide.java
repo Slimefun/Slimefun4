@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
-import io.github.starwishsama.extra.VaultHook;
+import io.github.starwishsama.extra.VaultHelper;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
@@ -160,7 +160,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                             Research research = item.getResearch();
 
                             ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
-                            if (VaultHook.isUsable()) {
+                            if (VaultHelper.isUsable()) {
                                 component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> 单击解锁", "", ChatColor.GRAY + "需要 " + (research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply")) + " 游戏币"));
                             } else {
                                 component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> 单击解锁", "", ChatColor.GRAY + "需要: " + ChatColor.AQUA.toString() + research.getCost() + " 级经验"));

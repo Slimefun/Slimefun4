@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
-import io.github.starwishsama.extra.VaultHook;
+import io.github.starwishsama.extra.VaultHelper;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
@@ -68,8 +68,8 @@ public interface SlimefunGuideImplementation {
         if (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
-            if (VaultHook.isUsable()) {
-                VaultHook.getEcon().withdrawPlayer(p, research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply"));
+            if (VaultHelper.isUsable()) {
+                VaultHelper.getEcon().withdrawPlayer(p, research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply"));
             } else {
                 p.setLevel(p.getLevel() - research.getCost());
             }

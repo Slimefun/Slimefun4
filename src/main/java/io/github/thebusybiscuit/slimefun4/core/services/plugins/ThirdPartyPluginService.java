@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
-import io.github.starwishsama.extra.VaultHook;
+import io.github.starwishsama.extra.VaultHelper;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -54,7 +54,7 @@ public class ThirdPartyPluginService {
         }
 
         if (SlimefunPlugin.getCfg().getBoolean("researches.use-money-unlock") && isPluginInstalled("Vault")) {
-            VaultHook.register();
+            VaultHelper.register();
         }
 
         // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent

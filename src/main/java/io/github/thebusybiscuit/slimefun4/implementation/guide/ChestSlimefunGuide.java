@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
-import io.github.starwishsama.extra.VaultHook;
+import io.github.starwishsama.extra.VaultHelper;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -211,7 +211,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
                 if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
                     if (Slimefun.hasPermission(p, sfitem, false)) {
-                        if (VaultHook.isUsable()) {
+                        if (VaultHelper.isUsable()) {
                             menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + (research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply")) + " 游戏币"));
                         } else {
                             menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + research.getCost() + " 级经验"));

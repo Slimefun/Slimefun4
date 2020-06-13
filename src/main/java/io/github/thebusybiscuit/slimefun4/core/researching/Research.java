@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.researching;
 
-import io.github.starwishsama.extra.VaultHook;
+import io.github.starwishsama.extra.VaultHelper;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
@@ -183,8 +183,8 @@ public class Research implements Keyed {
         }
 
         boolean expOrMoney;
-        if (VaultHook.isUsable()) {
-            expOrMoney = VaultHook.getEcon().getBalance(p) >= this.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply");
+        if (VaultHelper.isUsable()) {
+            expOrMoney = VaultHelper.getEcon().getBalance(p) >= this.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply");
         } else {
             expOrMoney = p.getLevel() >= cost;
         }
