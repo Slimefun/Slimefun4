@@ -175,6 +175,7 @@ languages:
   hr: Chorvatština
   sr: Srbština
   be: Běloruština
+  mk: Makedonština
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altáři chybí podstavce &c(%pedestals% / 8)"
