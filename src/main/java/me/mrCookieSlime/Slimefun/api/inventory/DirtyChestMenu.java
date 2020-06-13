@@ -41,7 +41,7 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public boolean canOpen(Block b, Player p) {
-        return preset.canOpen(b, p) && ProtectionChecker.check(p, b, false);
+        return preset.canOpen(b, p) && ProtectionChecker.canInteract(p, b, ProtectionChecker.InteractType.INTERACT);
     }
 
     public void close() {

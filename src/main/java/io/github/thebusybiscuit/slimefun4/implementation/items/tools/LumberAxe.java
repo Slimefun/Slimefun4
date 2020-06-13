@@ -62,7 +62,7 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
                     }
 
                     for (Block b : logs) {
-                        if (ProtectionChecker.check(e.getPlayer(), b, true) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
+                        if (ProtectionChecker.canInteract(e.getPlayer(), b, ProtectionChecker.InteractType.DESTROY) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
                             breakLog(b);
                         }
                     }

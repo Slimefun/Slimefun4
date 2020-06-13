@@ -81,7 +81,7 @@ public class SlimefunUpdater {
         try {
             URL url = new URL("https://api.github.com/repos/StarWishsama/Slimefun4/releases");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(8_000);
+            conn.setConnectTimeout(5_000);
             conn.addRequestProperty("Accept-Charset", "UTF-8");
             conn.addRequestProperty("User-Agent", "Slimefun 4 Update Checker by StarWishsama");
             conn.setDoOutput(true);
