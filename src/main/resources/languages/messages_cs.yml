@@ -61,6 +61,10 @@ commands:
   versions: Seznam všech nainstalovaných doplňků
   backpack:
     player-never-joined: "&4Hráče s tímto jménem nelze nalézt!"
+    description: Načíst kopii existujícího batohu
+    invalid-id: "&4Id nesmí být záporné!"
+    backpack-does-not-exist: "&4Určený batoh neexistuje!"
+    restored-backpack-given: "&aTvůj batoh byl obnoven a navrácen do tvého inventáře!"
 gps:
   geo:
     scan-required: "&4GEO-Scan je požadován! &cProzkoumejte tento chunk pomocí GEO-Scanneru!"
@@ -168,6 +172,9 @@ languages:
   vi: Vietnamština
   zh-CN: Čínština (Čína)
   zh-TW: Čínština (Taiwan)
+  hr: Chorvatština
+  sr: Srbština
+  be: Běloruština
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altáři chybí podstavce &c(%pedestals% / 8)"
@@ -210,6 +217,15 @@ machines:
   ignition-chamber-no-flint: "&cIgnition Chamberu chybí křesadlo."
   ANCIENT_PEDESTAL:
     obstructed: "&4Podstavce jsou zablokované! &cOdstraň cokoliv nad podstavcema!"
+  INDUSTRIAL_MINER:
+    no-fuel: "&cTvému průmyslovému horníku došlo palivo! Vložte palivo do bedny nad."
+    piston-facing: "&cTvůj průmyslový horník potřebuje píst směřující nahoru!"
+    piston-space: "&cDva písty potřebují prázdný blok nad nimi!"
+    destroyed: "&cZdá se, váš průmysloví horník byl rozbit."
+    already-running: "&cTento průmyslový horník již běží!"
+    full-chest: "&cBedna vašeho průmyslového horníka je plná!"
+    no-permission: "&4Zdá se, nemáte oprávnění používat průmyslového horníka zde!"
+    finished: "&eVáš průmysloví horník dokončil práci! Získal %ores% hornin!"
 messages:
   cannot-place: "&cZde nemůžeš položit blok!"
   diet-cookie: "&eZačínáš se cítit velice lehký..."
