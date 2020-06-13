@@ -33,7 +33,11 @@ public final class ReactorHologram {
     public static void update(Location l, String name) {
         Slimefun.runSync(() -> {
             ArmorStand hologram = getArmorStand(l, true);
-            if (!hologram.isCustomNameVisible()) hologram.setCustomNameVisible(true);
+
+            if (!hologram.isCustomNameVisible()) {
+                hologram.setCustomNameVisible(true);
+            }
+
             hologram.setCustomName(ChatColors.color(name));
         });
     }

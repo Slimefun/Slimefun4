@@ -181,17 +181,17 @@ public final class Script {
     }
 
     public static void upload(Player p, AndroidType androidType, int id, String name, String code) {
-        Config script = new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + String.valueOf(id) + ".sfs");
+        Config config = new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + String.valueOf(id) + ".sfs");
 
-        script.setValue("author", p.getUniqueId().toString());
-        script.setValue("author_name", p.getName());
-        script.setValue("name", ChatUtils.removeColorCodes(name));
-        script.setValue("code", code);
-        script.setValue("downloads", 0);
-        script.setValue("android", androidType.name());
-        script.setValue("rating.positive", new ArrayList<String>());
-        script.setValue("rating.negative", new ArrayList<String>());
-        script.save();
+        config.setValue("author", p.getUniqueId().toString());
+        config.setValue("author_name", p.getName());
+        config.setValue("name", ChatUtils.removeColorCodes(name));
+        config.setValue("code", code);
+        config.setValue("downloads", 0);
+        config.setValue("android", androidType.name());
+        config.setValue("rating.positive", new ArrayList<String>());
+        config.setValue("rating.negative", new ArrayList<String>());
+        config.save();
     }
 
 }

@@ -88,13 +88,19 @@ public class AncientAltarListener implements Listener {
         }
 
         Optional<Block> blockOptional = e.getClickedBlock();
-        if (!blockOptional.isPresent()) return;
+        if (!blockOptional.isPresent()) {
+            return;
+        }
 
         Block b = blockOptional.get();
-        if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) return;
+        if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) {
+            return;
+        }
 
         Optional<SlimefunItem> slimefunBlock = e.getSlimefunBlock();
-        if (!slimefunBlock.isPresent()) return;
+        if (!slimefunBlock.isPresent()) {
+            return;
+        }
 
         String id = slimefunBlock.get().getID();
 
@@ -124,7 +130,9 @@ public class AncientAltarListener implements Listener {
         Item stack = findItem(pedestal);
 
         if (stack == null) {
-            if (p.getInventory().getItemInMainHand().getType() == Material.AIR) return;
+            if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
+                return;
+            }
 
             if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
                 SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
