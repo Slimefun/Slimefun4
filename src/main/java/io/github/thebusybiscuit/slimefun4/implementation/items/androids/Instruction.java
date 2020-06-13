@@ -141,9 +141,9 @@ enum Instruction {
 
     private final ItemStack item;
     private final AndroidType type;
-    private final AndroidConsumer method;
+    private final AndroidAction method;
 
-    Instruction(AndroidType type, String texture, AndroidConsumer method) {
+    Instruction(AndroidType type, String texture, AndroidAction method) {
         this.type = type;
         this.item = SlimefunUtils.getCustomHead(texture);
         this.method = method;

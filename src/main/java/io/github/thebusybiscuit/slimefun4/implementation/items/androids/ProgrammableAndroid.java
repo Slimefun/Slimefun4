@@ -61,6 +61,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     private static final List<BlockFace> POSSIBLE_ROTATIONS = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private static final int[] OUTPUT_BORDER = { 10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41 };
+    private static final String DEFAULT_SCRIPT = "START-TURN_LEFT-REPEAT";
 
     protected final Set<MachineFuel> fuelTypes = new HashSet<>();
     protected final String texture;
@@ -126,7 +127,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
                 BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-                BlockStorage.addBlockInfo(b, "script", "START-TURN_LEFT-REPEAT");
+                BlockStorage.addBlockInfo(b, "script", DEFAULT_SCRIPT);
                 BlockStorage.addBlockInfo(b, "index", "0");
                 BlockStorage.addBlockInfo(b, "fuel", "0");
                 BlockStorage.addBlockInfo(b, "rotation", p.getFacing().getOppositeFace().toString());
@@ -379,6 +380,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
     private void uploadScript(Player p, Block b, int page) {
         String code = getScript(b.getLocation());
+
+        if (code == null) {
+            return;
+        }
+
         int nextId = 1;
 
         for (Script script : Script.getUploadedScripts(getAndroidType())) {
@@ -414,7 +420,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
         menu.addItem(3, new CustomItem(SlimefunUtils.getCustomHead("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"), "&4> Create new Script", "", "&cDeletes your current Script", "&cand creates a blank one"));
         menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
-            openScript(pl, b, "START-TURN_LEFT-REPEAT");
+            openScript(pl, b, DEFAULT_SCRIPT);
             return false;
         });
 
@@ -510,7 +516,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     protected String getScript(Location l) {
-        return BlockStorage.getLocationInfo(l, "script");
+        String script = BlockStorage.getLocationInfo(l, "script");
+        return script != null ? script : DEFAULT_SCRIPT;
     }
 
     protected void setScript(Location l, String script) {

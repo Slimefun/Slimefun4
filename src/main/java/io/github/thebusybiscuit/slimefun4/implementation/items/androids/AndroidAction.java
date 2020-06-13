@@ -6,7 +6,7 @@ import org.bukkit.block.BlockFace;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @FunctionalInterface
-interface AndroidConsumer {
+interface AndroidAction {
 
     void perform(ProgrammableAndroid android, Block b, BlockMenu inventory, BlockFace face);
 

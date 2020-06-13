@@ -48,6 +48,7 @@
 * Fixed #1943
 * Fixed Nuclear Reactors accepting Lava as coolant
 * Fixed #1971
+* Fixed #1976
 
 ## Release Candidate 12 (27 May 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12

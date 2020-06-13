@@ -6,13 +6,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class Script {
 
@@ -21,10 +24,15 @@ public final class Script {
     private final String author;
     private final String code;
 
-    protected Script(Config config) {
+    private Script(Config config) {
+        Validate.notNull(config);
+
         this.config = config;
         this.name = config.getString("name");
         this.code = config.getString("code");
+
+        Validate.notNull(name);
+        Validate.notNull(code);
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(config.getUUID("author"));
         this.author = player.getName() != null ? player.getName() : config.getString("author_name");
@@ -152,32 +160,38 @@ public final class Script {
     public static List<Script> getUploadedScripts(AndroidType androidType) {
         List<Script> scripts = new LinkedList<>();
 
-        File directory = new File("plugins/Slimefun/scripts/" + androidType.name());
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        for (File script : directory.listFiles()) {
-            if (script.getName().endsWith("sfs")) {
-                scripts.add(new Script(new Config(script)));
-            }
-        }
+        loadScripts(scripts, androidType);
 
         if (androidType != AndroidType.NONE) {
-            File mainDirectory = new File("plugins/Slimefun/scripts/NONE");
-            if (!mainDirectory.exists()) {
-                mainDirectory.mkdirs();
-            }
-
-            for (File script : mainDirectory.listFiles()) {
-                if (script.getName().endsWith(".sfs")) {
-                    scripts.add(new Script(new Config(script)));
-                }
-            }
+            loadScripts(scripts, AndroidType.NONE);
         }
 
         Collections.sort(scripts, Comparator.comparingInt(script -> -script.getUpvotes() + 1 - script.getDownvotes()));
         return scripts;
+    }
+
+    private static void loadScripts(List<Script> scripts, AndroidType type) {
+        File directory = new File("plugins/Slimefun/scripts/" + type.name());
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        for (File file : directory.listFiles()) {
+            if (file.getName().endsWith(".sfs")) {
+                try {
+                    Config config = new Config(file);
+
+                    // Some older versions somehow allowed null values to slip in here sometimes
+                    // So we need this check for compatibility with older scripts
+                    if (config.contains("code") && config.contains("author")) {
+                        scripts.add(new Script(config));
+                    }
+                }
+                catch (Exception x) {
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while trying to load Android Script '" + file.getName() + "'");
+                }
+            }
+        }
     }
 
     public static void upload(Player p, AndroidType androidType, int id, String name, String code) {
