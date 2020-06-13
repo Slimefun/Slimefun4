@@ -68,6 +68,7 @@ public class Translators {
         addTranslator("IsLineCZ", EmbeddedLanguage.CZECH, true);
         addTranslator("MrFriggo", EmbeddedLanguage.CZECH, true);
         addTranslator("100petr", EmbeddedLanguage.CZECH, true);
+        addTranslator("frfole", EmbeddedLanguage.CZECH, true);
 
         // Translators - Russian
         addTranslator("SoSeDiK", EmbeddedLanguage.RUSSIAN, false);
@@ -92,7 +93,7 @@ public class Translators {
         addTranslator("Dr4gonD", "DragonD", EmbeddedLanguage.DUTCH, true);
         addTranslator("svr333", EmbeddedLanguage.DUTCH, false);
         addTranslator("PabloMarcendo", EmbeddedLanguage.DUTCH, true);
-        
+
         // Translators - Danish
         addTranslator("Mini-kun", EmbeddedLanguage.DANISH, true);
 
@@ -104,6 +105,8 @@ public class Translators {
 
         // Translators - Chinese (China)
         addTranslator("StarWishsama", "StarWish_Sama", EmbeddedLanguage.CHINESE_CHINA, false);
+        addTranslator("Rothes", EmbeddedLanguage.CHINESE_CHINA, true);
+        addTranslator("Chihsiao", EmbeddedLanguage.CHINESE_CHINA, true);
 
         // Translators - Chinese (Taiwan)
         addTranslator("BrineYT", "HeroBrineKing", EmbeddedLanguage.CHINESE_TAIWAN, true);
