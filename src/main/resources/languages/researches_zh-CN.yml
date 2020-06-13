@@ -151,6 +151,7 @@ slimefun:
   magic_workbench: 魔法工作台
   magnesium_generator: 来自镁的能量
   magnet: 磁性金属
+  makeshift_smeltery: 临时冶炼炉
   meat_jerky: 肉干
   miner_talisman: 矿工护身符
   misc_power_items: 与能源有关的物品
@@ -217,6 +218,7 @@ slimefun:
   totem_of_undying: 不死图腾
   trash_can: 垃圾桶
   traveller_talisman: 旅行者护身符
+  tree_growth_accelerator: 树木生长加速器
   uranium: 辐射
   walking_sticks: 拐杖
   warrior_talisman: 战士护身符
@@ -230,5 +232,5 @@ slimefun:
   wizard_talisman: 巫师护身符
   woven_backpack: 编织背包
   xp_collector: 经验收集器
-  makeshift_smeltery: 临时冶炼炉
-  tree_growth_accelerator: 树木生长加速器
+  industrial_miner: 工业采矿
+  advanced_industrial_miner: 进阶采矿
