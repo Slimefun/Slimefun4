@@ -203,36 +203,42 @@ public class EnergyNet extends Network {
         for (Location source : generators) {
             long timestamp = System.currentTimeMillis();
             SlimefunItem item = BlockStorage.check(source);
-            Config config = BlockStorage.getLocationInfo(source);
 
-            try {
-                GeneratorTicker generator = item.getEnergyTicker();
+            if (item != null) {
+                Config config = BlockStorage.getLocationInfo(source);
 
-                if (generator != null) {
-                    double energy = generator.generateEnergy(source, item, config);
+                try {
+                    GeneratorTicker generator = item.getEnergyTicker();
 
-                    if (generator.explode(source)) {
-                        exploded.add(source);
-                        BlockStorage.clearBlockInfo(source);
-                        AReactor.processing.remove(source);
-                        AReactor.progress.remove(source);
+                    if (generator != null) {
+                        double energy = generator.generateEnergy(source, item, config);
 
-                        Slimefun.runSync(() -> {
-                            source.getBlock().setType(Material.LAVA);
-                            source.getWorld().createExplosion(source, 0F, false);
-                        });
+                        if (generator.explode(source)) {
+                            exploded.add(source);
+                            BlockStorage.clearBlockInfo(source);
+                            AReactor.processing.remove(source);
+                            AReactor.progress.remove(source);
+
+                            Slimefun.runSync(() -> {
+                                source.getBlock().setType(Material.LAVA);
+                                source.getWorld().createExplosion(source, 0F, false);
+                            });
+                        } else {
+                            supply += energy;
+                        }
                     } else {
-                        supply += energy;
+                        item.warn("This Item was marked as a 'GENERATOR' but has no 'GeneratorTicker' attached to it! This must be fixed.");
                     }
-                } else {
-                    item.warn("This Item was marked as a 'GENERATOR' but has no 'GeneratorTicker' attached to it! This must be fixed.");
+                } catch (Throwable t) {
+                    exploded.add(source);
+                    new ErrorReport(t, source, item);
                 }
-            } catch (Throwable t) {
-                exploded.add(source);
-                new ErrorReport(t, source, item);
-            }
 
-            SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
+                SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
+            } else {
+                // This block seems to be gone now, better remove it to be extra safe
+                exploded.add(source);
+            }
         }
 
         generators.removeAll(exploded);

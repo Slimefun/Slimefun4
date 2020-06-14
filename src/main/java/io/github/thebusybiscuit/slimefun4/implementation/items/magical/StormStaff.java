@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -41,7 +42,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
         ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
 
-        lore.set(4, ChatColor.translateAlternateColorCodes('&', "&7还可以使用 &e" + MAX_USES + " 次"));
+        lore.set(4, ChatColors.color("&7还可以使用 &e" + MAX_USES + " 次"));
 
         im.setLore(lore);
         item.setItemMeta(im);
@@ -89,7 +90,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
                             } else {
                                 currentUses--;
                                 itemMeta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, currentUses);
-                                itemLore.set(4, ChatColor.translateAlternateColorCodes('&', "&7还可以使用 &e" + currentUses + " 次"));
+                                itemLore.set(4, ChatColors.color("&7还可以使用 &e" + currentUses + " 次"));
                                 itemMeta.setLore(itemLore);
                                 item.setItemMeta(itemMeta);
                             }

@@ -12,7 +12,8 @@ import java.util.function.Consumer;
 
 public final class ChatUtils {
 
-    private ChatUtils() {}
+    private ChatUtils() {
+    }
 
     public static void sendURL(CommandSender sender, String url) {
         sender.sendMessage("");
@@ -21,11 +22,14 @@ public final class ChatUtils {
         sender.sendMessage("");
     }
 
+    public static String removeColorCodes(String string) {
+        return ChatColor.stripColor(ChatColors.color(string));
+    }
+
     public static String crop(ChatColor color, String string) {
         if (ChatColor.stripColor(color + string).length() > 19) {
             return (color + ChatColor.stripColor(string)).substring(0, 18) + "...";
-        }
-        else {
+        } else {
             return color + ChatColor.stripColor(string);
         }
     }

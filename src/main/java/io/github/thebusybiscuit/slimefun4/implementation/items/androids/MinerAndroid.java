@@ -35,7 +35,7 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
     }
 
     @Override
-    protected void mine(Block b, BlockMenu menu, Block block) {
+    protected void dig(Block b, BlockMenu menu, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
@@ -62,7 +62,7 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
     }
 
     @Override
-    protected void movedig(Block b, BlockMenu menu, BlockFace face, Block block) {
+    protected void moveAndDig(Block b, BlockMenu menu, BlockFace face, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {

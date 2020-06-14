@@ -35,6 +35,9 @@ public class Translators {
         // Translators - Italian
         addTranslator("xXDOTTORXx", EmbeddedLanguage.ITALIAN, true);
         addTranslator("Sfiguz7", EmbeddedLanguage.ITALIAN, false);
+        addTranslator("ThatsCube", EmbeddedLanguage.ITALIAN, true);
+        addTranslator("alessandrobasi", EmbeddedLanguage.ITALIAN, true);
+        addTranslator("dracrus", EmbeddedLanguage.ITALIAN, true);
 
         // Translators - Latvian
         addTranslator("AgnisT", "NIKNAIZ", EmbeddedLanguage.LATVIAN, true);
@@ -65,6 +68,7 @@ public class Translators {
         addTranslator("IsLineCZ", EmbeddedLanguage.CZECH, true);
         addTranslator("MrFriggo", EmbeddedLanguage.CZECH, true);
         addTranslator("100petr", EmbeddedLanguage.CZECH, true);
+        addTranslator("frfole", EmbeddedLanguage.CZECH, true);
 
         // Translators - Russian
         addTranslator("SoSeDiK", EmbeddedLanguage.RUSSIAN, false);
@@ -90,6 +94,9 @@ public class Translators {
         addTranslator("svr333", EmbeddedLanguage.DUTCH, false);
         addTranslator("PabloMarcendo", EmbeddedLanguage.DUTCH, true);
 
+        // Translators - Danish
+        addTranslator("Mini-kun", EmbeddedLanguage.DANISH, true);
+
         // Translators - Polish
         addTranslator("ascpixel", "kbartek_", EmbeddedLanguage.POLISH, true);
         addTranslator("Xylitus", EmbeddedLanguage.POLISH, true);
@@ -98,6 +105,8 @@ public class Translators {
 
         // Translators - Chinese (China)
         addTranslator("StarWishsama", "StarWish_Sama", EmbeddedLanguage.CHINESE_CHINA, false);
+        addTranslator("Rothes", EmbeddedLanguage.CHINESE_CHINA, true);
+        addTranslator("Chihsiao", EmbeddedLanguage.CHINESE_CHINA, true);
 
         // Translators - Chinese (Taiwan)
         addTranslator("BrineYT", "HeroBrineKing", EmbeddedLanguage.CHINESE_TAIWAN, true);
@@ -108,13 +117,16 @@ public class Translators {
 
         // Translators - Hebrew
         addTranslator("dhtdht020", EmbeddedLanguage.HEBREW, false);
+        addTranslator("Eylonnn", EmbeddedLanguage.HEBREW, false);
 
         // Translators - Japanese
-        addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, true);
+        addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, false);
 
         // Translators - Korean
         addTranslator("kwonms871", EmbeddedLanguage.KOREAN, true);
         addTranslator("yumjunstar", EmbeddedLanguage.KOREAN, true);
+        addTranslator("BlWon", EmbeddedLanguage.KOREAN, true);
+        addTranslator("20181241", EmbeddedLanguage.KOREAN, true);
 
         // Translators - Indonesian
         addTranslator("diradho", EmbeddedLanguage.INDONESIAN, false);
@@ -123,6 +135,7 @@ public class Translators {
         addTranslator("phoomin2012", EmbeddedLanguage.THAI, false);
         addTranslator("film2860", EmbeddedLanguage.THAI, false);
         addTranslator("Rafrael17k", EmbeddedLanguage.THAI, false);
+        addTranslator("Cupjok", EmbeddedLanguage.THAI, false);
 
         // Translators - Turkish
         addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
@@ -138,10 +151,6 @@ public class Translators {
         addTranslator("G4stavoM1ster", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("yurinogueira", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Sakanas", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
-
-        addTranslator("ThatsCube", EmbeddedLanguage.ITALIAN, true);
-        addTranslator("alessandrobasi", EmbeddedLanguage.ITALIAN, true);
-        addTranslator("dracrus", EmbeddedLanguage.ITALIAN, true);
     }
 
     private void addTranslator(String name, EmbeddedLanguage lang, boolean lock) {

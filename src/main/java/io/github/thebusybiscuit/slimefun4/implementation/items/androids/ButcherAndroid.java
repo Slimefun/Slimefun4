@@ -30,10 +30,11 @@ public abstract class ButcherAndroid extends ProgrammableAndroid {
     }
 
     @Override
-    protected void killEntities(Block b, double damage, Predicate<Entity> predicate) {
+    protected void attack(Block b, Predicate<LivingEntity> predicate) {
+        double damage = getTier() >= 3 ? 20D : 4D * getTier();
         double radius = 4.0 + getTier();
 
-        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test(n))) {
+        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test((LivingEntity) n))) {
             boolean attack = false;
 
             switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {

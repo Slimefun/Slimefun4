@@ -704,7 +704,7 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public Collection<ItemStack> getDrops() {
-        return Arrays.asList(item.clone());
+        return Collections.singletonList(item.clone());
     }
 
     @Override
