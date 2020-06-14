@@ -46,7 +46,7 @@ public final class ItemStackWrapper extends ItemStack {
         // and then store that instead of creating a clone everytime.
         // This will significantly speed up any loop comparisons if used correctly.
         if (meta == null) {
-            throw new UnsupportedOperationException("#hasItemMeta() must be checked prior to this call");
+            throw new UnsupportedOperationException("This ItemStack has no ItemMeta! Make sure to check ItemStack#hasItemMeta() before accessing this method!");
         } else {
             return meta;
         }

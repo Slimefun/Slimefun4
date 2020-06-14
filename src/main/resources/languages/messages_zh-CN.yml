@@ -45,7 +45,7 @@ anvil:
   not-working: "&4你不能在铁砧里使用 Slimefun 的物品"
 backpack:
   already-open: "&c抱歉, 这个背包已在别处打开了!"
-  no-stack: "&c你不能往背包里放入背包"
+  no-stack: "&c你不能同时手持两个背包"
 commands:
   give: 给某人 Slimefun 物品
   guide: 给你自己一本 Slimefun 指南
