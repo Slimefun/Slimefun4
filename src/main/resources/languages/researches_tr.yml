@@ -151,6 +151,7 @@ slimefun:
   magic_workbench: Sihirli Üretim Masası
   magnesium_generator: Magnezyum Elektriği
   magnet: Manyetik Metaller
+  makeshift_smeltery: Doğaçlama Dökümhane
   meat_jerky: Yağsız Et
   miner_talisman: Madenci Tılsımı
   misc_power_items: Güçle ilgili önemli eşyalar
@@ -217,6 +218,7 @@ slimefun:
   totem_of_undying: Ölümsüzlük Totemi
   trash_can: Çöp
   traveller_talisman: Gezgin Tılsımı
+  tree_growth_accelerator: Daha Hızlı Ağaçlar
   uranium: Radyoaktif
   walking_sticks: Bastonlar
   warrior_talisman: Savaşçı Tılsımı
@@ -230,5 +232,5 @@ slimefun:
   wizard_talisman: Büyücü Tılsımı
   woven_backpack: Dokuma Sırt Çantası
   xp_collector: XP Toplayıcı
-  makeshift_smeltery: Doğaçlama Dökümhane
-  tree_growth_accelerator: Daha Hızlı Ağaçlar
+  industrial_miner: Endüstriyel Madencilik
+  advanced_industrial_miner: Gelişmiş Madencilik
