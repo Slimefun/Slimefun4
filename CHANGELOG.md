@@ -62,6 +62,7 @@
 * Fixed #1992
 * Possibly fixed #1951
 * Fixed tab completion for /sf give showing players instead of amounts
+* Fixed #1993
 
 ## Release Candidate 12 (27 May 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12

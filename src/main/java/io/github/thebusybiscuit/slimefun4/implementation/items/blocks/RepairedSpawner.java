@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import org.bukkit.ChatColor;
 import org.bukkit.block.CreatureSpawner;
@@ -25,18 +26,12 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
     public BlockPlaceHandler getItemHandler() {
         return (e, item) -> {
             // We need to explicitly ignore the lore here
-            if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-                EntityType type = null;
+            if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false, false)) {
+                Optional<EntityType> entity = getEntityType(item);
 
-                for (String line : item.getItemMeta().getLore()) {
-                    if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
-                        type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
-                    }
-                }
-
-                if (type != null) {
+                if (entity.isPresent()) {
                     CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-                    spawner.setSpawnedType(type);
+                    spawner.setSpawnedType(entity.get());
                     spawner.update(true, false);
                 }
 
@@ -46,6 +41,24 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
                 return false;
             }
         };
+    }
+
+    /**
+     * This method tries to obtain an {@link EntityType} from a given {@link ItemStack}.
+     * The provided {@link ItemStack} must be a {@link RepairedSpawner} item.
+     * 
+     * @param item
+     * @return
+     */
+    public Optional<EntityType> getEntityType(ItemStack item) {
+        for (String line : item.getItemMeta().getLore()) {
+            if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
+                EntityType type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
+                return Optional.of(type);
+            }
+        }
+
+        return Optional.empty();
     }
 
 }
