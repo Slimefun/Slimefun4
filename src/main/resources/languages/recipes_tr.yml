@@ -120,6 +120,11 @@ slimefun:
     - Bu eşya Nuclear Reactor'ın
     - bir yan ürünüdür
     name: Nuclear Reactor
+  oil_pump:
+    lore:
+    - Bu eşyayı Oil Pump kullanarak
+    - elde edin
+    name: Oil Pump
   ore_crusher:
     lore:
     - Bu eşyayı Ore Crusher kullanarak
@@ -130,29 +135,24 @@ slimefun:
     - Bu eşyayı Ore Washer kullanarak
     - gösterildiği gibi üretin.
     name: Ore Washer
+  pickaxe_of_containment:
+    lore:
+    - Bu bloku Pickaxe of Containment kullanarak
+    - ve bir Spawner kırarak
+    - elde edin
+    name: Pickaxe of Containment
   pressure_chamber:
     lore:
     - Bu eşyayı Pressure Chamber kullanarak
     - gösterildiği gibi üretin.
     name: Pressure Chamber
+  refinery:
+    lore:
+    - Bu eşyayı Refinery kullanarak
+    - üretin
+    name: Refinery
   smeltery:
     lore:
     - Bu eşyayı Smeltery kullanarak
     - gösterildiği gibi üretin.
     name: Smeltery
-  oil_pump:
-    name: Oil Pump
-    lore:
-    - Bu eşyayı Oil Pump kullanarak
-    - elde edin
-  pickaxe_of_containment:
-    name: Pickaxe of Containment
-    lore:
-    - Bu bloku Pickaxe of Containment kullanarak
-    - ve bir Spawner kırarak
-    - elde edin
-  refinery:
-    name: Refinery
-    lore:
-    - Bu eşyayı Refinery kullanarak
-    - üretin
