@@ -2,11 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang.Validate;
@@ -63,7 +61,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     private static final int[] OUTPUT_BORDER = { 10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41 };
     private static final String DEFAULT_SCRIPT = "START-TURN_LEFT-REPEAT";
 
-    protected final Set<MachineFuel> fuelTypes = new HashSet<>();
+    protected final List<MachineFuel> fuelTypes = new ArrayList<>();
     protected final String texture;
 
     public ProgrammableAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -172,6 +170,25 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
      * @return The type of this {@link ProgrammableAndroid}
      */
     public abstract AndroidType getAndroidType();
+
+    /**
+     * This returns the {@link AndroidFuelSource} for this {@link ProgrammableAndroid}.
+     * It determines what kind of fuel is required to run it.
+     * 
+     * @return The required type of fuel
+     */
+    public AndroidFuelSource getFuelSource() {
+        switch (getTier()) {
+        case 1:
+            return AndroidFuelSource.SOLID;
+        case 2:
+            return AndroidFuelSource.LIQUID;
+        case 3:
+            return AndroidFuelSource.NUCLEAR;
+        default:
+            throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
+        }
+    }
 
     @Override
     public void preRegister() {
@@ -533,7 +550,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     private void registerDefaultFuelTypes() {
-        if (getTier() == 1) {
+        switch (getFuelSource()) {
+        case SOLID:
             registerFuelType(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
             registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
             registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
@@ -551,16 +569,20 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             for (Material mat : Tag.PLANKS.getValues()) {
                 registerFuelType(new MachineFuel(1, new ItemStack(mat)));
             }
-        }
-        else if (getTier() == 2) {
+
+            break;
+        case LIQUID:
             registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
             registerFuelType(new MachineFuel(200, SlimefunItems.BUCKET_OF_OIL));
             registerFuelType(new MachineFuel(500, SlimefunItems.BUCKET_OF_FUEL));
-        }
-        else {
+            break;
+        case NUCLEAR:
             registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
             registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
             registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
+            break;
+        default:
+            throw new IllegalStateException("Unhandled Fuel Source: " + getFuelSource());
         }
     }
 
@@ -740,7 +762,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 if (fuel.test(item)) {
                     menu.consumeItem(43);
 
-                    if (getTier() == 2) {
+                    if (getFuelSource() == AndroidFuelSource.LIQUID) {
                         menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                     }
 
@@ -774,17 +796,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             });
         }
 
-        ItemStack generator = SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730");
-
-        if (getTier() == 1) {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on solid Fuel", "&re.g. Coal, Wood, etc..."), ChestMenuUtils.getEmptyClickHandler());
-        }
-        else if (getTier() == 2) {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on liquid Fuel", "&re.g. Lava, Oil, Fuel, etc..."), ChestMenuUtils.getEmptyClickHandler());
-        }
-        else {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &cFuel Input &8\u21E9", "", "&rThis Android runs on radioactive Fuel", "&re.g. Uranium, Neptunium or Boosted Uranium"), ChestMenuUtils.getEmptyClickHandler());
-        }
+        preset.addItem(34, getFuelSource().getItem(), ChestMenuUtils.getEmptyClickHandler());
     }
 
     public void addItems(Block b, ItemStack... items) {

@@ -46,6 +46,8 @@
 * Auto Disenchanting is now a tiny bit faster
 * Small performance improvements
 * Dried Kelp Blocks can now be used as fuel for Tier 1 Androids
+* Androids now have a seperate category in the Slimefun Guide
+* Android Interface recipes now require steel ingots
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
@@ -59,6 +61,7 @@
 * Fixed a missing texture in the Android Script Editor
 * Fixed #1992
 * Possibly fixed #1951
+* Fixed tab completion for /sf give showing players instead of amounts
 
 ## Release Candidate 12 (27 May 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
