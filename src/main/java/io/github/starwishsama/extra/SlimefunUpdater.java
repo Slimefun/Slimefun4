@@ -50,14 +50,11 @@ public class SlimefunUpdater {
             FileOutputStream fos = new FileOutputStream(file);
             BufferedOutputStream bos = new BufferedOutputStream(fos, 1024);
             byte[] data = new byte[1024];
-            long downloadedFileSize = 0;
+            //long downloadedFileSize = 0;
             int x;
             while ((x = in.read(data, 0, 1024)) >= 0) {
-                downloadedFileSize += x;
-                final int currentProgress = (int) ((((double) downloadedFileSize) / ((double) completeFileSize)) * 100d);
-                if (currentProgress % 10 == 0) {
-                    Slimefun.getLogger().info("下载中, 进度 " + currentProgress + "%");
-                }
+                //downloadedFileSize += x;
+                //final int currentProgress = (int) ((((double) downloadedFileSize) / ((double) completeFileSize)) * 100d);
                 bos.write(data, 0, x);
             }
 
