@@ -195,7 +195,7 @@ public final class Script {
     }
 
     public static void upload(Player p, AndroidType androidType, int id, String name, String code) {
-        Config config = new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + String.valueOf(id) + ".sfs");
+        Config config = new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + id + ".sfs");
 
         config.setValue("author", p.getUniqueId().toString());
         config.setValue("author_name", p.getName());

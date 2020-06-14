@@ -625,6 +625,10 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                     BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
 
                     switch (instruction) {
+                    case START:
+                    case WAIT:
+                        // Just "waiting" here which means we do nothing
+                        break;
                     case REPEAT:
                         BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
                         break;

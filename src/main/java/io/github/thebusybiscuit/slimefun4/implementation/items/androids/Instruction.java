@@ -162,7 +162,7 @@ enum Instruction {
     }
 
     public void execute(ProgrammableAndroid android, Block b, BlockMenu inventory, BlockFace face) {
-        Validate.notNull(method, "This Instruction must be executed manually!");
+        Validate.notNull(method, "Instruction '" + name() + "' must be executed manually!");
         method.perform(android, b, inventory, face);
     }
 
