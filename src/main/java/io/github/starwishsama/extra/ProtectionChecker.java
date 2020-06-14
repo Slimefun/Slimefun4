@@ -87,6 +87,7 @@ public class ProtectionChecker implements Listener {
                         case DESTROY:
                             return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.build, true);
                         case PLACE:
+                        case MOVE:
                             return perms.playerHas(p, Flags.place, true) || perms.playerHas(p, Flags.build, true);
                         case INTERACT:
                             if (!perms.playerHas(p, Flags.use, true)) {
@@ -122,6 +123,6 @@ public class ProtectionChecker implements Listener {
     }
 
     public enum InteractType {
-        DESTROY, PLACE, INTERACT
+        DESTROY, PLACE, INTERACT, MOVE
     }
 }

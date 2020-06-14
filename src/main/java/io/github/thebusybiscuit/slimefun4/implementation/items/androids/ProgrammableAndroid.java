@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import io.github.starwishsama.extra.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -62,7 +63,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         texture = item.getSkullTexture().orElse(null);
         registerDefaultFuelTypes();
 
-        new BlockMenuPreset(getID(), "Programmable Android") {
+        new BlockMenuPreset(getID(), "可编程式机器人") {
 
             @Override
             public void init() {
@@ -606,7 +607,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             ItemStack item = fuel.getInput().clone();
             ItemMeta im = item.getItemMeta();
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColors.color("&8\u21E8 &7Lasts " + NumberUtils.getTimeLeft(fuel.getTicks() / 2)));
+            lore.add(ChatColors.color("&8\u21E8 &7剩余 " + NumberUtils.getTimeLeft(fuel.getTicks() / 2)));
             im.setLore(lore);
             item.setItemMeta(im);
             list.add(item);
@@ -875,6 +876,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     protected void move(Block b, BlockFace face, Block block) {
+        Player p = Bukkit.getPlayer(ProtectionChecker.getOwnerByJson(BlockStorage.getBlockInfoAsJson(b.getLocation())));
+
+        if (p != null && !ProtectionChecker.canInteract(p, block, ProtectionChecker.InteractType.MOVE)) {
+            BlockStorage.addBlockInfo(b, "paused", "false");
+            SlimefunPlugin.getLocal().sendMessage(p, "messages.android-no-permission", true);
+            return;
+        }
+
         if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)) {
             block.setType(Material.PLAYER_HEAD);
             Rotatable blockData = (Rotatable) block.getBlockData();

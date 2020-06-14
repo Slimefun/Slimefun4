@@ -232,6 +232,7 @@ machines:
 messages:
   above-limit-level: "&c你要附魔或祛魔的物品附魔等级超过上限!"
   not-right-item: "&c目前支持转换的方块: 已修复的刷怪笼"
+  android-no-permission: "&c你的机器人在某个你没有权限的领地/地皮中无法工作, 机器人已自动暂停运行."
   cannot-place: "&c你不能在这里放置方块!"
   diet-cookie: "&e你感觉变轻了..."
   disabled-in-world: "&4&l这个物品在此世界已被禁用"
