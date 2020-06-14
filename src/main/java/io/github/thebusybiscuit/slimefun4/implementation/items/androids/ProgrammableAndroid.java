@@ -193,7 +193,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         });
     }
 
-    public void openScript(Player p, Block b, String script) {
+    public void openScript(Player p, Block b, String sourceCode) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
 
         menu.addItem(0, new CustomItem(Instruction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
@@ -202,76 +202,113 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             return false;
         });
 
-        String[] commands = PatternUtils.DASH.split(script);
+        String[] script = PatternUtils.DASH.split(sourceCode);
 
-        for (int i = 1; i < commands.length; i++) {
+        for (int i = 1; i < script.length; i++) {
             int index = i;
 
-            if (i == commands.length - 1) {
-                int additional = commands.length == 54 ? 0 : 1;
+            if (i == script.length - 1) {
+                boolean hasFreeSlot = script.length < 54;
 
-                if (additional == 1) {
+                if (hasFreeSlot) {
                     menu.addItem(i, new CustomItem(SlimefunUtils.getCustomHead("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"), "&7> Add new Command"));
                     menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-                        openScriptComponentEditor(pl, b, script, index);
+                        editInstruction(pl, b, script, index);
                         return false;
                     });
                 }
 
-                menu.addItem(i + additional, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
-                menu.addMenuClickHandler(i + additional, (pl, slot, item, action) -> {
+                int slot = i + (hasFreeSlot ? 1 : 0);
+                menu.addItem(slot, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
+                menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     BlockStorage.getInventory(b).open(pl);
                     return false;
                 });
             }
             else {
-                ItemStack stack = Instruction.valueOf(commands[i]).getItem();
-                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + Instruction.valueOf(commands[i]).name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
+                ItemStack stack = Instruction.valueOf(script[i]).getItem();
+                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + Instruction.valueOf(script[i]).name()), "", "&7\u21E8 &eLeft Click &7to edit", "&7\u21E8 &eRight Click &7to delete", "&7\u21E8 &eShift + Right Click &7to duplicate"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     if (action.isRightClicked() && action.isShiftClicked()) {
-                        if (commands.length == 54) return false;
-
-                        int j = 0;
-                        StringBuilder builder = new StringBuilder(Instruction.START + "-");
-
-                        for (String command : commands) {
-                            if (j > 0) {
-                                if (j == index) {
-                                    builder.append(commands[j]).append('-').append(commands[j]).append('-');
-                                }
-                                else if (j < commands.length - 1) {
-                                    builder.append(command).append('-');
-                                }
-                            }
-                            j++;
+                        if (script.length == 54) {
+                            return false;
                         }
-                        builder.append(Instruction.REPEAT);
-                        setScript(b.getLocation(), builder.toString());
-                        openScript(pl, b, builder.toString());
+
+                        String code = duplicateInstruction(script, index);
+                        setScript(b.getLocation(), code);
+                        openScript(pl, b, code);
                     }
                     else if (action.isRightClicked()) {
-                        int j = 0;
-                        StringBuilder builder = new StringBuilder(Instruction.START + "-");
-
-                        for (String command : commands) {
-                            if (j != index && j > 0 && j < commands.length - 1) builder.append(command).append('-');
-                            j++;
-                        }
-
-                        builder.append(Instruction.REPEAT);
-                        setScript(b.getLocation(), builder.toString());
-
-                        openScript(pl, b, builder.toString());
+                        String code = deleteInstruction(script, index);
+                        setScript(b.getLocation(), code);
+                        openScript(pl, b, code);
                     }
                     else {
-                        openScriptComponentEditor(pl, b, script, index);
+                        editInstruction(pl, b, script, index);
                     }
+
                     return false;
                 });
             }
         }
 
         menu.open(p);
+    }
+
+    private String addInstruction(String[] script, int index, Instruction instruction) {
+        int i = 0;
+        StringBuilder builder = new StringBuilder(Instruction.START + "-");
+
+        for (String current : script) {
+            if (i > 0) {
+                if (i == index) {
+                    builder.append(instruction).append('-');
+                }
+                else if (i < script.length - 1) {
+                    builder.append(current).append('-');
+                }
+            }
+            i++;
+        }
+
+        builder.append(Instruction.REPEAT.name());
+        return builder.toString();
+    }
+
+    private String duplicateInstruction(String[] script, int index) {
+        int i = 0;
+        StringBuilder builder = new StringBuilder(Instruction.START + "-");
+
+        for (String instruction : script) {
+            if (i > 0) {
+                if (i == index) {
+                    builder.append(script[i]).append('-').append(script[i]).append('-');
+                }
+                else if (i < script.length - 1) {
+                    builder.append(instruction).append('-');
+                }
+            }
+            i++;
+        }
+
+        builder.append(Instruction.REPEAT.name());
+        return builder.toString();
+    }
+
+    private String deleteInstruction(String[] script, int index) {
+        int i = 0;
+        StringBuilder builder = new StringBuilder(Instruction.START.name() + '-');
+
+        for (String instruction : script) {
+            if (i != index && i > 0 && i < script.length - 1) {
+                builder.append(instruction).append('-');
+            }
+
+            i++;
+        }
+
+        builder.append(Instruction.REPEAT.name());
+        return builder.toString();
     }
 
     protected void openScriptDownloader(Player p, Block b, int page) {
@@ -316,7 +353,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             return false;
         });
 
-        menu.addItem(53, new CustomItem(SlimefunUtils.getCustomHead("185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e"), "&6> Back", "", "&7Return to the Android's interface"));
+        menu.addItem(53, new CustomItem(SlimefunUtils.getCustomHead("a185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e"), "&6> Back", "", "&7Return to the Android's interface"));
         menu.addMenuClickHandler(53, (pl, slot, item, action) -> {
             openScriptEditor(pl, b);
             return false;
@@ -460,59 +497,30 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.RESET + "% ";
     }
 
-    protected void openScriptComponentEditor(Player p, Block b, String script, int index) {
+    protected void editInstruction(Player p, Block b, String[] script, int index) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-        String[] commands = PatternUtils.DASH.split(script);
-
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
         menu.addItem(9, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&rDo nothing"), (pl, slot, item, action) -> {
-            int i = 0;
-            StringBuilder builder = new StringBuilder("START-");
-
-            for (String command : commands) {
-                if (i != index && i > 0 && i < commands.length - 1) {
-                    builder.append(command).append('-');
-                }
-
-                i++;
-            }
-
-            builder.append("REPEAT");
-            setScript(b.getLocation(), builder.toString());
-
-            openScript(p, b, builder.toString());
+            String code = deleteInstruction(script, index);
+            setScript(b.getLocation(), code);
+            openScript(p, b, code);
             return false;
         });
 
         int i = 10;
-        for (Instruction part : getValidScriptInstructions()) {
-            menu.addItem(i, new CustomItem(part.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + part.name())), (pl, slot, item, action) -> {
-                addInstruction(pl, b, index, part, commands);
+        for (Instruction instruction : getValidScriptInstructions()) {
+            menu.addItem(i, new CustomItem(instruction.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + instruction.name())), (pl, slot, item, action) -> {
+                String code = addInstruction(script, index, instruction);
+                setScript(b.getLocation(), code);
+                openScript(p, b, code);
                 return false;
             });
+
             i++;
         }
 
         menu.open(p);
-    }
-
-    private void addInstruction(Player p, Block b, int index, Instruction part, String[] commands) {
-        int j = 0;
-        StringBuilder builder = new StringBuilder("START-");
-
-        for (String command : commands) {
-            if (j > 0) {
-                if (j == index) builder.append(part).append('-');
-                else if (j < commands.length - 1) builder.append(command).append('-');
-            }
-            j++;
-        }
-
-        builder.append("REPEAT");
-        setScript(b.getLocation(), builder.toString());
-
-        openScript(p, b, builder.toString());
     }
 
     protected String getScript(Location l) {
@@ -528,6 +536,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         if (getTier() == 1) {
             registerFuelType(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
             registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
+            registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
             // Coal & Charcoal
             registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));

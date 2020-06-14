@@ -30,6 +30,10 @@
 * Added Cocoa Fertilizer
 * Added a configurable limit to the Pickaxe of Vein Mining
 * Added Gold Ingot to Dust recipe to the Electric Ingot Pulverizer
+* Added Saddles to possible fishing loot for the Fishing Android
+* Added Name tags to possible fishing loot for the Fishing Android
+* Added Nautilus Shell to possible fishing loot for the Fishing Android
+* Added Bamboo to possible fishing loot for the Fishing Android
 
 #### Changes
 * Fixed a few memory leaks
@@ -41,6 +45,7 @@
 * The Seismic Axe now skips the first two blocks to clear your field of view
 * Auto Disenchanting is now a tiny bit faster
 * Small performance improvements
+* Dried Kelp Blocks can now be used as fuel for Tier 1 Androids
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
@@ -50,6 +55,9 @@
 * Fixed #1971
 * Fixed #1976
 * Fixed #1988
+* Fixed #1985
+* Fixed a missing texture in the Android Script Editor
+* Fixed #1992
 
 ## Release Candidate 12 (27 May 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12

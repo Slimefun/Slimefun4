@@ -127,19 +127,21 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
+        // getting the currently placed item
         Item stack = findItem(pedestal);
 
         if (stack == null) {
+            // Check if the Item in hand is valid
             if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
-                return;
-            }
+                // Check for pedestal obstructions
+                if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
+                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
+                    return;
+                }
 
-            if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
-                return;
+                // place the item onto the pedestal
+                insertItem(p, pedestal);
             }
-
-            insertItem(p, pedestal);
         }
         else if (!removedItems.contains(stack.getUniqueId())) {
             UUID uuid = stack.getUniqueId();
