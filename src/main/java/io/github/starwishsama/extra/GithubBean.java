@@ -62,8 +62,4 @@ public class GithubBean {
             return name;
         }
     }
-
-    public boolean isEmptyBean() {
-        return assets != null;
-    }
 }
