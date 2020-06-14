@@ -24,15 +24,15 @@ android:
       GO_FORWARD: "&7向前走"
       GO_UP: "&7向上走"
       INTERFACE_FUEL: "&c从面前的容器中拿出燃料"
+      INTERFACE_ITEMS: "&9将物品栏里的物品放入面前的容器"
       MOVE_AND_DIG_DOWN: "&b向下挖并移动"
       MOVE_AND_DIG_FORWARD: "&b向前挖并移动"
       MOVE_AND_DIG_UP: "&b向上挖并移动"
+      REPEAT: "&9重复运行脚本"
       START: "&2运行脚本"
       TURN_LEFT: "&7左转"
       TURN_RIGHT: "&7右转"
       WAIT: "&e等待 0.5s"
-      REPEAT: "&9重复运行脚本"
-      INTERFACE_ITEMS: "&9将物品栏里的物品放入面前的容器"
     rating:
       already: "&4你已经给这个脚本留下评价了!"
       own: "&4你不能评价你自己的脚本!"
@@ -45,10 +45,18 @@ anvil:
   not-working: "&4你不能在铁砧里使用 Slimefun 的物品"
 backpack:
   already-open: "&c抱歉, 这个背包已在别处打开了!"
-  no-stack: "&c你不能往背包里放入背包"
+  no-stack: "&c你不能同时手持两个背包"
 commands:
+  backpack:
+    backpack-does-not-exist: "&4你指定的背包不存在!"
+    description: 获取你其中一个背包的拷贝
+    invalid-id: "&4背包 ID 必须为非负数!"
+    player-never-joined: "&4找不到叫这个名字的玩家!"
+    restored-backpack-given: "&a你的背包已被恢复并且已经放入了你的物品栏!"
+  cheat: 使用作弊模式获取 Slimefun 的物品
   give: 给某人 Slimefun 物品
   guide: 给你自己一本 Slimefun 指南
+  help: 展示此帮助页面
   open_guide: 使用命令打开 Slimefun 指南
   research:
     description: 解锁/重置玩家的研究
@@ -59,14 +67,6 @@ commands:
   teleporter: 查看其他玩家的公开传送点
   timings: 查看关于 Slimefun 的耗能信息
   versions: 列出已安装的扩展插件
-  help: 展示此帮助页面
-  cheat: 使用作弊模式获取 Slimefun 的物品
-  backpack:
-    description: 获取你其中一个背包的拷贝
-    invalid-id: "&4背包 ID 必须为非负数!"
-    player-never-joined: "&4找不到叫这个名字的玩家!"
-    backpack-does-not-exist: "&4你指定的背包不存在!"
-    restored-backpack-given: "&a你的背包已被恢复并且已经放入了你的物品栏!"
 gps:
   deathpoint: "&4死亡地点 &7%date%"
   geo:
@@ -84,6 +84,8 @@ guide:
     guide: 返回 Slimefun 指南
     settings: 返回设置面板
     title: 返回
+  cheat:
+    no-multiblocks: "&4你不能在作弊模式下直接获得多方块结构的机器, 你必须自己建造!"
   credits:
     commit: 提交
     commits: 提交次数
@@ -135,13 +137,12 @@ guide:
       miner: 此采矿机可以获得的资源
     versions-notice: 在反馈问题时这些很重要!
     wiki: 在官方 Slimefun 维基上查看此物品
-  cheat:
-    no-multiblocks: "&4你不能在作弊模式下直接获得多方块结构的机器, 你必须自己建造!"
 inventory:
   no-access: "&4你没有权限使用这个方块"
 languages:
   af: 南非语
   ar: 阿拉伯语
+  be: 白俄罗斯语
   bg: 保加利亚语
   cs: 捷克语
   da: 丹麦语
@@ -154,12 +155,14 @@ languages:
   fi: 芬兰语
   fr: 法语
   he: 希伯来语
+  hr: 克罗地亚语
   hu: 匈牙利语
   id: 印尼语
   it: 意大利语
   ja: 日语
   ko: 韩语
   lv: 拉脱维亚语
+  mk: 马其顿语
   ms: 马来西亚语
   nl: 荷兰语
   'no': 挪威语
@@ -169,6 +172,7 @@ languages:
   ro: 罗马尼亚语
   ru: 俄语
   sk: 斯洛伐克文
+  sr: 塞尔维亚语
   sv: 瑞典语
   th: 泰语
   tr: 土耳其语
@@ -176,10 +180,6 @@ languages:
   vi: 越南文
   zh-CN: 简体中文 (中国)
   zh-TW: 繁体中文 (台湾)
-  hr: 克罗地亚语
-  mk: 马其顿语
-  sr: 塞尔维亚语
-  be: 白俄罗斯语
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)"
@@ -205,7 +205,17 @@ machines:
     enter-text: "&7请写下想显示在全息文本上的话. &r(支持颜色代码)"
     inventory-title: 全息图像编辑器
   ignition-chamber-no-flint: "&c自动点火机缺少打火石."
+  INDUSTRIAL_MINER:
+    already-running: "&c这个工业矿机正在运行!"
+    destroyed: "&c你的工业矿机被拆除了."
+    finished: "&e你的工业矿机采矿已完成! 总共开采了 %ores% 个矿石!"
+    full-chest: "&c你的工业矿机的箱子已经满了!"
+    no-fuel: "&c你的工业矿机没有燃料了! 将燃料放入它上面的箱子里."
+    no-permission: "&4你没有权限在此操作此工业矿机!"
+    piston-facing: "&c你的工业矿机需要放置一个向上的活塞!"
+    piston-space: "&c两个活塞的上方需要没有方块阻挡!"
   in-use: "&c这个机器正在被其他玩家使用."
+  pattern-not-found: "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成配方, 请检查发射器里放置物品的顺序."
   TELEPORTER:
     cancelled: "&4传送被取消!"
     gui:
@@ -215,22 +225,13 @@ machines:
     invulnerability: "&b&l你获得了 30 秒的无敌效果!"
     teleported: "&3传送成功!"
     teleporting: "&3传送中..."
-  wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
-  pattern-not-found: "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成配方, 请检查发射器里放置物品的顺序."
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成配方放置物品."
-  INDUSTRIAL_MINER:
-    no-fuel: "&c你的工业矿机没有燃料了! 将燃料放入它上面的箱子里."
-    piston-facing: "&c你的工业矿机需要放置一个向上的活塞!"
-    piston-space: "&c两个活塞的上方需要没有方块阻挡!"
-    destroyed: "&c你的工业矿机被拆除了."
-    already-running: "&c这个工业矿机正在运行!"
-    full-chest: "&c你的工业矿机的箱子已经满了!"
-    no-permission: "&4你没有权限在此操作此工业矿机!"
-    finished: "&e你的工业矿机采矿已完成! 总共开采了 %ores% 个矿石!"
+  wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
 messages:
   cannot-place: "&c你不能在这里放置方块!"
   diet-cookie: "&e你感觉变轻了..."
   disabled-in-world: "&4&l这个物品在此世界已被禁用"
+  disabled-item: "&4&l这个物品已经被禁用了! 你是怎么得到它的?"
   fire-extinguish: "&7你灭掉了身上的火"
   fortune-cookie:
   - "&7救救我! 我被困在了幸运饼干工厂里!"
@@ -244,6 +245,7 @@ messages:
   - "&7一天一 Walshy, 麻烦远离我."
   - "&7永远不要直接往下挖!"
   give-item: '&b成功给予玩家 %player% &a%amount% &7"%item%&7"'
+  given-item: '&b你获得了 &a%amount% &7"%item%&7"'
   give-research: '&b你成功解锁了玩家 %player% 的研究 &7"%research%&7"'
   hungry: "&c你太饿了, 先吃点东西再试试吧!"
   link-prompt: "&e单击此处:"
@@ -257,15 +259,18 @@ messages:
   not-online: "&4%player% &c不在线"
   not-researched: "&4你没有足够的学识来理解它"
   not-valid-amount: "&4%amount% &ci不是一个有效的数字 : 它必须大于 0!"
+  not-valid-item: "&4%item% &c不是一个有效的物品名!"
   not-valid-research: "&4%research% &c不是一个有效的研究名!"
   only-players: "&4这个指令只能在游戏内使用"
+  opening-backpack: "&b正在打开背包, 请稍等...."
+  opening-guide: "&b正在打开指南书, 请稍等..."
   radiation: "&4你已经暴露在致命的辐射之下! &c快把辐射物品丢掉或者穿上防化服!"
   research:
     progress: "&7你开始慢慢理解研究 &b%research% &e(%progress%)"
     start: "&7古老的灵魂正向你诉说神秘的话语!"
   soulbound-rune:
-    success: "&a物品绑定成功! 在你死亡后此物品将不会掉落."
     fail: "&c一次只能灵魂绑定一个物品."
+    success: "&a物品绑定成功! 在你死亡后此物品将不会掉落."
   talisman:
     angel: "&a&o你的护身符使你在信仰之跃时不受伤害"
     anvil: "&a&o你的护身符使你的工具免于损坏"
@@ -275,19 +280,14 @@ messages:
     lava: "&a&o你的护身符将你从岩浆中救了出来"
     magician: "&a&o你的护身符赠送了你额外的附魔"
     miner: "&a&o你的护身符使矿物双倍掉落了"
-    whirlwind: "&a&o你的护身符反弹了所有的弹射物"
-    wizard: "&a&o你的护身符使一个附魔的等级提高了, 同时其他附魔等级将会下降"
-    water: "&a&o你的护身符使你免于溺水"
     traveller: "&a&o你的护身符让你跑起来更快了"
     warrior: "&a&o你的护身符使你在一段时间内变强了"
+    water: "&a&o你的护身符使你免于溺水"
+    whirlwind: "&a&o你的护身符反弹了所有的弹射物"
+    wizard: "&a&o你的护身符使一个附魔的等级提高了, 同时其他附魔等级将会下降"
   unknown-player: "&4未知玩家: &c%player%"
   unlocked: '&b成功解锁研究 &7"%research%"'
   usage: "&4用法: &c%usage%"
-  not-valid-item: "&4%item% &c不是一个有效的物品名!"
-  given-item: '&b你获得了 &a%amount% &7"%item%&7"'
-  disabled-item: "&4&l这个物品已经被禁用了! 你是怎么得到它的?"
-  opening-guide: "&b正在打开指南书, 请稍等..."
-  opening-backpack: "&b正在打开背包, 请稍等...."
 miner:
   no-ores: "&e抱歉, 周围找不到矿石了!"
 workbench:
