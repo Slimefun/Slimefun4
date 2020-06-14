@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.StringUtils;
 
+import javax.net.ssl.SSLException;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
@@ -65,6 +66,11 @@ public class SlimefunUpdater {
             SlimefunPlugin.instance.getFile().deleteOnExit();
             Slimefun.getLogger().info(ChatColors.color("&a自动更新已完成, 重启服务端后即可更新到最新版本"));
         } catch (Exception e) {
+            if (e.getCause() instanceof SSLException) {
+                Slimefun.getLogger().log(Level.SEVERE, e, () -> "在下载时发生了错误: 连接超时");
+                return;
+            }
+
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "在下载时发生了错误");
         }
     }
