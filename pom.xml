@@ -57,8 +57,8 @@
         </repository>
         <!-- PlotSquared -->
         <repository>
-            <id>IntellectualSites</id>
-            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
+            <id>plotsquared</id>
+            <url>https://plotsquared.com/mvn/</url>
         </repository>
     </repositories>
 
