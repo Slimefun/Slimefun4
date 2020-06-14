@@ -35,6 +35,9 @@ public class SlimefunUpdater {
      * @param fileName 下载文件的名称
      */
     public static void downloadUpdate(String address, String fileName) {
+        File saveDir = new File(downloadDir.replace("update", "plugins"));
+        File file = new File(saveDir, fileName);
+
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) (url.openConnection());
@@ -43,11 +46,9 @@ public class SlimefunUpdater {
             conn.setDoOutput(true);
             conn.setRequestProperty("User-Agent", browserUA);
 
-            long completeFileSize = conn.getContentLength();
+            //long completeFileSize = conn.getContentLength();
 
             BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
-            File saveDir = new File(downloadDir.replace("update", "plugins"));
-            File file = new File(saveDir, fileName);
             FileOutputStream fos = new FileOutputStream(file);
             BufferedOutputStream bos = new BufferedOutputStream(fos, 1024);
             byte[] data = new byte[1024];
@@ -66,6 +67,8 @@ public class SlimefunUpdater {
             SlimefunPlugin.instance.getFile().deleteOnExit();
             Slimefun.getLogger().info(ChatColors.color("&a自动更新已完成, 重启服务端后即可更新到最新版本"));
         } catch (Exception e) {
+            file.delete();
+
             if (e.getCause() instanceof SSLException) {
                 Slimefun.getLogger().log(Level.SEVERE, e, () -> "在下载时发生了错误: 连接超时");
                 return;
