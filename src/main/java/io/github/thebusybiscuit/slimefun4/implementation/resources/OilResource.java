@@ -91,7 +91,7 @@ class OilResource implements GEOResource {
 
     @Override
     public ItemStack getItem() {
-        return SlimefunItems.BUCKET_OF_OIL.clone();
+        return SlimefunItems.OIL_BUCKET.clone();
     }
 
     @Override

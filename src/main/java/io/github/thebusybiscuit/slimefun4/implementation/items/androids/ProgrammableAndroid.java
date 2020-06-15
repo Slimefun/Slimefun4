@@ -573,8 +573,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             break;
         case LIQUID:
             registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
-            registerFuelType(new MachineFuel(200, SlimefunItems.BUCKET_OF_OIL));
-            registerFuelType(new MachineFuel(500, SlimefunItems.BUCKET_OF_FUEL));
+            registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
+            registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
             break;
         case NUCLEAR:
             registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));

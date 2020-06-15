@@ -64,7 +64,7 @@ public class TestResourceRegistration {
     @Test
     public void testOilResource() {
         NamespacedKey key = new NamespacedKey(plugin, "oil");
-        GEOResource resource = testResource(key, "Oil", SlimefunItems.BUCKET_OF_OIL, false, 8);
+        GEOResource resource = testResource(key, "Oil", SlimefunItems.OIL_BUCKET, false, 8);
 
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER));
 

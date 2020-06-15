@@ -40,7 +40,7 @@ public class TestCargoNodeListener {
     }
 
     @ParameterizedTest
-    @SlimefunItemsSource(items = { "CARGO_INPUT", "CARGO_OUTPUT", "CARGO_OUTPUT_ADVANCED" })
+    @SlimefunItemsSource(items = { "CARGO_INPUT_NODE", "CARGO_OUTPUT_NODE", "CARGO_OUTPUT_NODE_2" })
     public void testSidePlacement(ItemStack item) {
         Player player = server.addPlayer();
         Location l = new Location(player.getWorld(), 190, 50, 400);
@@ -53,7 +53,7 @@ public class TestCargoNodeListener {
     }
 
     @ParameterizedTest
-    @SlimefunItemsSource(items = { "CARGO_INPUT", "CARGO_OUTPUT", "CARGO_OUTPUT_ADVANCED" })
+    @SlimefunItemsSource(items = { "CARGO_INPUT_NODE", "CARGO_OUTPUT_NODE", "CARGO_OUTPUT_NODE_2" })
     public void testInvalidPlacement(ItemStack item) {
         Player player = server.addPlayer();
         Location l = new Location(player.getWorld(), 190, 50, 400);

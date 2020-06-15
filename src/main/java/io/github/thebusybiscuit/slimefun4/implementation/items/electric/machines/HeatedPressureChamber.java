@@ -92,7 +92,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 
     @Override
     protected void registerDefaultRecipes() {
-        registerRecipe(45, new ItemStack[] { SlimefunItems.BUCKET_OF_OIL }, new ItemStack[] { new CustomItem(SlimefunItems.PLASTIC_SHEET, 8) });
+        registerRecipe(45, new ItemStack[] { SlimefunItems.OIL_BUCKET }, new ItemStack[] { new CustomItem(SlimefunItems.PLASTIC_SHEET, 8) });
         registerRecipe(30, new ItemStack[] { SlimefunItems.GOLD_24K, SlimefunItems.URANIUM }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT });
         registerRecipe(30, new ItemStack[] { SlimefunItems.BLISTERING_INGOT, SlimefunItems.CARBONADO }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2 });
         registerRecipe(60, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_2, new ItemStack(Material.NETHER_STAR) }, new ItemStack[] { SlimefunItems.BLISTERING_INGOT_3 });

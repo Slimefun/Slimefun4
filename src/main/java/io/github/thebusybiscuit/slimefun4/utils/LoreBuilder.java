@@ -38,4 +38,8 @@ public final class LoreBuilder {
         return "&c&o&8\u21E8 &e\u26A1 &7" + charge + " / " + capacity + " J";
     }
 
+    public static String material(String material) {
+        return "&8\u21E8 &7Material: &b" + material;
+    }
+
 }

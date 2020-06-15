@@ -168,7 +168,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
                     else {
                         ItemStack fuel = processing.get(l).getInput();
 
-                        if (SlimefunUtils.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_FUEL, true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
+                        if (SlimefunUtils.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.FUEL_BUCKET, true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.OIL_BUCKET, true)) {
                             inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                         }
 

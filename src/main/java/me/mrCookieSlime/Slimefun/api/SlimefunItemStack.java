@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.utils.CustomHeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -116,6 +117,10 @@ public class SlimefunItemStack extends CustomItem {
         this.texture = getTexture(id, texture);
 
         setID(id);
+    }
+
+    public SlimefunItemStack(String id, CustomHeadTexture head, String name, String... lore) {
+        this(id, head.getTexture(), name, lore);
     }
 
     public SlimefunItemStack(String id, String texture, String name, Consumer<ItemMeta> consumer) {

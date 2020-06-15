@@ -32,8 +32,8 @@ public class CargoNodeListener implements Listener {
     }
 
     private boolean isCargoNode(ItemStack item) {
-        return SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) 
-            || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) 
-            || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false);
+        return SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT_NODE, false) 
+            || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_NODE, false) 
+            || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_NODE_2, false);
     }
 }

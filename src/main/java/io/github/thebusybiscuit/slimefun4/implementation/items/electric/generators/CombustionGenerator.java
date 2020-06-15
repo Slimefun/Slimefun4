@@ -18,8 +18,8 @@ public abstract class CombustionGenerator extends AGenerator {
 
     @Override
     protected void registerDefaultFuelTypes() {
-        registerFuel(new MachineFuel(30, SlimefunItems.BUCKET_OF_OIL));
-        registerFuel(new MachineFuel(90, SlimefunItems.BUCKET_OF_FUEL));
+        registerFuel(new MachineFuel(30, SlimefunItems.OIL_BUCKET));
+        registerFuel(new MachineFuel(90, SlimefunItems.FUEL_BUCKET));
     }
 
     @Override

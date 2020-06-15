@@ -30,10 +30,15 @@ public enum AndroidFuelSource {
 
     private final String[] lore;
 
-    private AndroidFuelSource(String... lore) {
+    AndroidFuelSource(String... lore) {
         this.lore = lore;
     }
 
+    /**
+     * This returns a display {@link ItemStack} for this {@link AndroidFuelSource}.
+     * 
+     * @return An {@link ItemStack} to display
+     */
     public ItemStack getItem() {
         return new CustomItem(SlimefunItems.COAL_GENERATOR, "&8\u21E9 &cFuel Input &8\u21E9", lore);
     }
