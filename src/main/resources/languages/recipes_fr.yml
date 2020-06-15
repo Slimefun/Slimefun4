@@ -128,10 +128,31 @@ slimefun:
   freezer:
     name: Freezer
     lore:
-    - 
+    - Fabriquez cet objet comme indiqué
     - à l'aide d'un Freezer
   oil_pump:
     name: Pompe à pétrole
     lore:
-    - 
+    - Cet objet peut être collecté
     - en utilisant une pompe à pétrole
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Cet objet peut être collecté
+    - en utilisant un GEO Miner
+  nuclear_reactor:
+    name: Réacteur nucléaire
+    lore:
+    - Cet objet est un sous-produit
+    - de l'exploitation d'un réacteur nucléaire
+  pickaxe_of_containment:
+    name: Pioche de confinement
+    lore:
+    - Ce bloc peut être obtenu
+    - en minant un Spawner avec
+    - la Pioche de confinement
+  refinery:
+    name: Raffinerie
+    lore:
+    - Fabriquer cet objet comme indiqué
+    - en utilisant une raffinerie
