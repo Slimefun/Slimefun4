@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -11,9 +12,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.metadata.FixedMetadataValue;
-
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public final class FireworkUtils {
 
@@ -23,9 +21,9 @@ public final class FireworkUtils {
 
     public static void launchFirework(Location l, Color color) {
         Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
-        fw.setMetadata("no_fireworks_damage", new FixedMetadataValue(SlimefunPlugin.instance, true));
-
         FireworkMeta meta = fw.getFireworkMeta();
+
+        meta.setDisplayName(ChatColor.GREEN + "Slimefun Research");
         FireworkEffect effect = getRandomEffect(ThreadLocalRandom.current(), color);
         meta.addEffect(effect);
         meta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
@@ -34,9 +32,9 @@ public final class FireworkUtils {
 
     public static Firework createFirework(Location l, Color color) {
         Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
-        fw.setMetadata("no_fireworks_damage", new FixedMetadataValue(SlimefunPlugin.instance, true));
-
         FireworkMeta meta = fw.getFireworkMeta();
+
+        meta.setDisplayName(ChatColor.GREEN + "Slimefun Research");
         FireworkEffect effect = FireworkEffect.builder().flicker(ThreadLocalRandom.current().nextBoolean()).withColor(color).with(ThreadLocalRandom.current().nextInt(3) + 1 == 1 ? Type.BALL : Type.BALL_LARGE).trail(ThreadLocalRandom.current().nextBoolean()).build();
         meta.addEffect(effect);
         meta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);

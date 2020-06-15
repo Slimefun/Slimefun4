@@ -86,6 +86,19 @@ public class TestMultiBlocks {
     }
 
     @Test
+    public void testEqualWithMovingPistons() {
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PISTON_MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
+
+        // Some Pistons are moving but that should not interefere with the Multiblock
+        MultiBlock multiblock = new MultiBlock(item, new Material[] { Material.PISTON, Material.MOVING_PISTON, Material.PISTON, null, Material.CRAFTING_TABLE, null, Material.PISTON, Material.STONE, Material.PISTON }, BlockFace.DOWN);
+        MultiBlock multiblock2 = new MultiBlock(item, new Material[] { Material.MOVING_PISTON, Material.PISTON, Material.MOVING_PISTON, null, Material.CRAFTING_TABLE, null, Material.PISTON, Material.STONE, Material.PISTON }, BlockFace.DOWN);
+        MultiBlock multiblock3 = new MultiBlock(item, new Material[] { Material.PISTON, Material.PISTON, Material.STICKY_PISTON, null, Material.CRAFTING_TABLE, null, Material.PISTON, Material.STONE, Material.PISTON }, BlockFace.DOWN);
+
+        Assertions.assertTrue(multiblock.equals(multiblock2));
+        Assertions.assertFalse(multiblock.equals(multiblock3));
+    }
+
+    @Test
     public void testNotEqual() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 

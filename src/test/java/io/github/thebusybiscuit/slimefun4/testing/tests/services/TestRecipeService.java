@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.services;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
@@ -46,6 +48,9 @@ public class TestRecipeService {
         FurnaceRecipe recipe = new FurnaceRecipe(key, result, new MaterialChoice(Material.DIAMOND), 1, 2);
         server.addRecipe(recipe);
 
+        // The Snapshot has not been taken, so it should fallback to an empty array
+        Assertions.assertEquals(0, service.getRecipesFor(result).length);
+
         service.refresh();
 
         Recipe[] recipes = service.getRecipesFor(result);
@@ -71,6 +76,9 @@ public class TestRecipeService {
         MaterialChoice materials = new MaterialChoice(Material.DIRT, Material.COBBLESTONE);
         FurnaceRecipe recipe = new FurnaceRecipe(key, result, materials, 1, 2);
         server.addRecipe(recipe);
+
+        // The Snapshot has not been taken, so it should fallback to an empty Optional
+        Assertions.assertFalse(service.getFurnaceOutput(new ItemStack(Material.DIRT)).isPresent());
 
         service.refresh();
 
@@ -135,5 +143,19 @@ public class TestRecipeService {
         service.refresh();
 
         Assertions.assertArrayEquals(new RecipeChoice[] { choice }, service.getRecipeShape(recipe));
+    }
+
+    @Test
+    public void testSubscriptions() {
+        MinecraftRecipeService service = new MinecraftRecipeService(plugin);
+        AtomicReference<RecipeSnapshot> reference = new AtomicReference<>();
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.subscribe(null));
+
+        service.subscribe(reference::set);
+        service.refresh();
+
+        // The callback was executed
+        Assertions.assertNotNull(reference.get());
     }
 }

@@ -36,7 +36,6 @@
 * Added Bamboo to possible fishing loot for the Fishing Android
 
 #### Changes
-* Fixed a few memory leaks
 * Removed Digital Miner
 * Removed Advanced Digital Miner
 * Dried Kelp Blocks can now be used in the Coal Generator
@@ -52,6 +51,7 @@
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
 * Fixed #1942
+* Fixed a few memory leaks
 * Fixed #1943
 * Fixed Nuclear Reactors accepting Lava as coolant
 * Fixed #1971
@@ -64,6 +64,7 @@
 * Fixed tab completion for /sf give showing players instead of amounts
 * Fixed #1993
 * Fixed #1907
+* Fixed research fireworks still dealing damage sometimes
 
 ## Release Candidate 12 (27 May 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
