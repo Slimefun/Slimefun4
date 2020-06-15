@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.support.AnnotationConsumer;
 
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 public class SlimefunItemsProvider implements ArgumentsProvider, AnnotationConsumer<SlimefunItemsSource> {
 

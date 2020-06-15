@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 /**
  * This enum covers all different fuel sources a {@link ProgrammableAndroid} can have.

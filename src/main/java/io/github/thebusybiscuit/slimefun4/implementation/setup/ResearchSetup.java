@@ -5,8 +5,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -235,7 +235,7 @@ public final class ResearchSetup {
         register("high_tier_carbon_press", 225, "Ultimate Carbon Press", 32, SlimefunItems.CARBON_PRESS_3);
         register("wither_assembler", 226, "Automated Wither Killer", 35, SlimefunItems.WITHER_ASSEMBLER);
         register("better_heated_pressure_chamber", 227, "Upgraded Heated Pressure Chamber", 20, SlimefunItems.HEATED_PRESSURE_CHAMBER_2);
-        register("elytra", 228, "Elytras", 20, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA);
+        register("elytra", 228, "Elytras", 20, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.ELYTRA));
         register("special_elytras", 229, "Special Elytras", 30, SlimefunItems.INFUSED_ELYTRA, SlimefunItems.SOULBOUND_ELYTRA);
         register("electric_crucible", 230, "Electrified Crucible", 26, SlimefunItems.ELECTRIFIED_CRUCIBLE);
         register("better_electric_crucibles", 231, "Hot Crucibles", 30, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.ELECTRIFIED_CRUCIBLE_3);
@@ -255,7 +255,7 @@ public final class ResearchSetup {
         register("soulbound_rune", 246, "Soulbound Rune", 60, SlimefunItems.RUNE_SOULBOUND);
         register("geo_miner", 247, "GEO-Miner", 24, SlimefunItems.GEO_MINER);
         register("lightning_rune", 248, "Lightning Rune", 24, SlimefunItems.RUNE_LIGHTNING);
-        register("totem_of_undying", 249, "Totem of Undying", 36, SlimefunItems.TOTEM_OF_UNDYING);
+        register("totem_of_undying", 249, "Totem of Undying", 36, new ItemStack(Material.TOTEM_OF_UNDYING));
         register("charging_bench", 250, "Charging Bench", 8, SlimefunItems.CHARGING_BENCH);
         register("nether_gold_pan", 251, "Nether Gold Pan", 8, SlimefunItems.NETHER_GOLD_PAN);
         register("electric_press", 252, "Electric Press", 16, SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);
