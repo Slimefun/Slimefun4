@@ -68,10 +68,14 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
                     progress.put(b, timeleft - 1);
                 }
-                else progress.put(b, timeleft - 1);
+                else {
+                    progress.put(b, timeleft - 1);
+                }
             }
             else if (ChargableBlock.isChargable(b)) {
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    return;
+                }
                 ChargableBlock.addCharge(b, -getEnergyConsumption());
 
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -83,11 +87,21 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
         }
         else {
             for (int slot : getInputSlots()) {
-                if (process(b, menu, slot)) {
+                if (hasFreeSlot(menu) && process(b, menu, slot)) {
                     break;
                 }
             }
         }
+    }
+
+    private boolean hasFreeSlot(BlockMenu menu) {
+        for (int slot : getOutputSlots()) {
+            if (menu.getItemInSlot(slot) == null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean process(Block b, BlockMenu menu, int slot) {
