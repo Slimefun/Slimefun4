@@ -110,12 +110,12 @@ guide:
     next: Page suivante
     previous: Page précédente
   search:
+    inventory: 'Rechercher: %item%'
     lore:
     - "&bQue souhaitez-vous rechercher?"
     - "&7Entrez votre terme de recherche dans le chat"
     message: "&bQue souhaitez-vous rechercher?"
     name: "&7Rechercher..."
-    inventory: 'Rechercher: %item%'
     tooltip: "&bCliquez pour rechercher un objet"
   title:
     addons: Extensions de Slimefun4
