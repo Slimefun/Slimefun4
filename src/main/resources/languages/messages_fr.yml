@@ -62,6 +62,13 @@ commands:
   teleporter: Affiche les waypoints d'un autre joueur
   timings: Informations sur la latence de votre serveur
   versions: Affiche toutes les extensions  installées
+  backpack:
+    description: Récupérer une copie d'un sac à dos existant
+    invalid-id: "&4L'id ne peut pas être un nombre négatif!"
+    player-never-joined: "&4Aucun joueur portant ce nom n'a été trouvé!"
+    backpack-does-not-exist: "&4Le sac à dos spécifié n'existe pas!"
+    restored-backpack-given: "&aVotre sac à dos a été restauré et a été ajouté à votre
+      inventaire!"
 gps:
   deathpoint: "&4Lieu de votre mort &7%date%"
   geo:
@@ -175,6 +182,10 @@ languages:
   vi: Vietnamien
   zh-CN: Chinois (Chine)
   zh-TW: Chinois (Taiwan)
+  hr: Croate
+  mk: Macédonien
+  sr: Serbe
+  be: Biélorusse
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4L'autel n'est pas entouré du bon nombre de piédestaux
@@ -221,6 +232,19 @@ machines:
     y placer quelque chose que je connais."
   wrong-item: "&eDésolé, je ne reconnais pas l'objet avec lequel vous avez cliqué.
     Consultez le guide pour savoir quels objets vous pouvez utiliser."
+  INDUSTRIAL_MINER:
+    no-fuel: "&cVotre Mineur Industriel manque de carburant! Mettez votre carburant
+      dans le coffre au-dessus."
+    piston-facing: "&cVotre mineur industriel a besoin que les pistons soient tournés
+      vers le haut!"
+    piston-space: "&cLes deux pistons doivent avoir un bloc vide au-dessus d'eux!"
+    destroyed: "&cVotre mineur industriel semble avoir été détruit."
+    already-running: "&cCe mineur industriel est déjà en marche!"
+    full-chest: "&cLe coffre de votre mineur industriel est plein!"
+    no-permission: "&4Vous ne semblez pas avoir la permission d'utiliser un mineur
+      industriel ici!"
+    finished: "&eYour Industrial Miner a terminé! Il a obtenu un total de %minerais%
+      minerai(s)!"
 messages:
   cannot-place: "&cVous ne pouvez pas placer ce bloc là !"
   diet-cookie: "&eVous vous sentez léger comme une plume..."
