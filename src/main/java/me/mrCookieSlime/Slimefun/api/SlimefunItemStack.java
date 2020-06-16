@@ -39,13 +39,13 @@ public class SlimefunItemStack extends CustomItem {
     public SlimefunItemStack(String id, Material type, String name, String... lore) {
         super(type, name, lore);
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, Material type, Color color, String name, String... lore) {
         super(new ItemStack(type), color, name, lore);
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, Color color, PotionEffect effect, String name, String... lore) {
@@ -74,19 +74,19 @@ public class SlimefunItemStack extends CustomItem {
             }
         });
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, ItemStack item, String name, String... lore) {
         super(item, name, lore);
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, ItemStack item) {
         super(item);
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(SlimefunItemStack item, int amount) {
@@ -97,7 +97,7 @@ public class SlimefunItemStack extends CustomItem {
     public SlimefunItemStack(String id, ItemStack item, Consumer<ItemMeta> consumer) {
         super(item, consumer);
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, Material type, String name, Consumer<ItemMeta> consumer) {
@@ -109,14 +109,14 @@ public class SlimefunItemStack extends CustomItem {
             consumer.accept(meta);
         });
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, String texture, String name, String... lore) {
         super(getSkull(id, texture), name, lore);
         this.texture = getTexture(id, texture);
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, CustomHeadTexture head, String name, String... lore) {
@@ -134,17 +134,17 @@ public class SlimefunItemStack extends CustomItem {
 
         this.texture = getTexture(id, texture);
 
-        setID(id);
+        setItemId(id);
     }
 
     public SlimefunItemStack(String id, String texture, Consumer<ItemMeta> consumer) {
         super(getSkull(id, texture), consumer);
         this.texture = getTexture(id, texture);
 
-        setID(id);
+        setItemId(id);
     }
 
-    private void setID(String id) {
+    private void setItemId(String id) {
         Validate.notNull(id, "The Item id must never be null!");
         Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 

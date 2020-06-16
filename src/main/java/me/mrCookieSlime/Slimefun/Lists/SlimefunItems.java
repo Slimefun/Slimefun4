@@ -16,9 +16,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 @Deprecated
 public final class SlimefunItems {
 
-    private SlimefunItems() {
-
-    }
+    private SlimefunItems() {}
 
     public static final SlimefunItemStack PORTABLE_CRAFTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PORTABLE_CRAFTER;
     public static final SlimefunItemStack PORTABLE_DUSTBIN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PORTABLE_DUSTBIN;
