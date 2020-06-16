@@ -190,68 +190,18 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                if (BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) return;
+                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
+                    return;
+                }
 
-                if (lifetime % 60 == 0) {
-                    if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return;
-
-                    int soulsand = 0;
-                    int skulls = 0;
-
+                if (lifetime % 60 == 0 && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
                     BlockMenu menu = BlockStorage.getInventory(b);
 
-                    for (int slot : getSoulSandSlots()) {
-                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-                            soulsand = soulsand + menu.getItemInSlot(slot).getAmount();
+                    boolean soulsand = findResource(menu, Material.SOUL_SAND, 4, getSoulSandSlots());
+                    boolean skulls = findResource(menu, Material.WITHER_SKELETON_SKULL, 3, getWitherSkullSlots());
 
-                            if (soulsand > 3) {
-                                soulsand = 4;
-                                break;
-                            }
-                        }
-                    }
-
-                    for (int slot : getWitherSkullSlots()) {
-                        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
-                            skulls = skulls + menu.getItemInSlot(slot).getAmount();
-
-                            if (skulls > 2) {
-                                skulls = 3;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (soulsand > 3 && skulls > 2) {
-                        for (int slot : getSoulSandSlots()) {
-                            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
-                                int amount = menu.getItemInSlot(slot).getAmount();
-
-                                if (amount >= soulsand) {
-                                    menu.consumeItem(slot, soulsand);
-                                    break;
-                                }
-                                else {
-                                    soulsand = soulsand - amount;
-                                    menu.replaceExistingItem(slot, null);
-                                }
-                            }
-                        }
-
-                        for (int slot : getWitherSkullSlots()) {
-                            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
-                                int amount = menu.getItemInSlot(slot).getAmount();
-
-                                if (amount >= skulls) {
-                                    menu.consumeItem(slot, skulls);
-                                    break;
-                                }
-                                else {
-                                    skulls = skulls - amount;
-                                    menu.replaceExistingItem(slot, null);
-                                }
-                            }
-                        }
+                    if (soulsand && skulls) {
+                        consumeResources(menu);
 
                         ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                         double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
@@ -271,6 +221,57 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
                 return false;
             }
         };
+    }
+
+    private boolean findResource(BlockMenu menu, Material resource, int required, int[] slots) {
+        int found = 0;
+
+        for (int slot : slots) {
+            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(resource), true)) {
+                found += menu.getItemInSlot(slot).getAmount();
+
+                if (found > required) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void consumeResources(BlockMenu inv) {
+        int soulsand = 4;
+        int skulls = 3;
+
+        for (int slot : getSoulSandSlots()) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+                int amount = inv.getItemInSlot(slot).getAmount();
+
+                if (amount >= soulsand) {
+                    inv.consumeItem(slot, soulsand);
+                    break;
+                }
+                else {
+                    soulsand -= amount;
+                    inv.replaceExistingItem(slot, null);
+                }
+            }
+        }
+
+        for (int slot : getWitherSkullSlots()) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.WITHER_SKELETON_SKULL), true)) {
+                int amount = inv.getItemInSlot(slot).getAmount();
+
+                if (amount >= skulls) {
+                    inv.consumeItem(slot, skulls);
+                    break;
+                }
+                else {
+                    skulls -= amount;
+                    inv.replaceExistingItem(slot, null);
+                }
+            }
+        }
     }
 
 }

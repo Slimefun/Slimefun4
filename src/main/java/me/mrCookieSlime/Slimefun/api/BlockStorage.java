@@ -391,16 +391,18 @@ public class BlockStorage {
     }
 
     private static String serializeBlockInfo(Config cfg) {
-        try {
-            StringWriter stringWriter = new StringWriter();
-            JsonWriter jsonWriter = new JsonWriter(stringWriter);
-            jsonWriter.setLenient(true);
-            jsonWriter.beginObject();
+        StringWriter string = new StringWriter();
+
+        try (JsonWriter writer = new JsonWriter(string)) {
+            writer.setLenient(true);
+            writer.beginObject();
+
             for (String key : cfg.getKeys()) {
-                jsonWriter.name(key).value(cfg.getString(key));
+                writer.name(key).value(cfg.getString(key));
             }
-            jsonWriter.endObject();
-            return stringWriter.toString();
+
+            writer.endObject();
+            return string.toString();
         }
         catch (IOException x) {
             Slimefun.getLogger().log(Level.SEVERE, "An error occurred while serializing BlockInfo", x);

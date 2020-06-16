@@ -6,8 +6,8 @@ import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 
 class OilResource implements GEOResource {
 
@@ -91,7 +91,7 @@ class OilResource implements GEOResource {
 
     @Override
     public ItemStack getItem() {
-        return SlimefunItems.BUCKET_OF_OIL.clone();
+        return SlimefunItems.OIL_BUCKET.clone();
     }
 
     @Override

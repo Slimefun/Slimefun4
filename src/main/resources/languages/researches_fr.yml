@@ -151,6 +151,7 @@ slimefun:
   magic_workbench: Etablie magique
   magnesium_generator: Puissance du magnésium
   magnet: Métaux magnétiques
+  makeshift_smeltery: Fonderie improvisée
   meat_jerky: Viande séché
   miner_talisman: Talisman du Mineur
   misc_power_items: Composants électriques importants
@@ -217,6 +218,7 @@ slimefun:
   totem_of_undying: Totem d'invulnérabilité
   trash_can: Poubelle
   traveller_talisman: Talisman du Voyageur
+  tree_growth_accelerator: Arbres à croissance accélérée
   uranium: Radioactif
   walking_sticks: Bâtons de marche
   warrior_talisman: Talisman du Guerrier
@@ -230,5 +232,5 @@ slimefun:
   wizard_talisman: Talisman du Sorcier
   woven_backpack: Sac-à-dos tissé
   xp_collector: Récolteur d'expérience
-  makeshift_smeltery: Fonderie improvisée
-  tree_growth_accelerator: Arbres à croissance accélérée
+  industrial_miner: Exploitation minière industrielle
+  advanced_industrial_miner: Exploitation minière améliorée

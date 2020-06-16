@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,12 +13,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -25,7 +28,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 final class CargoUtils {
 
     // Whitelist or blacklist slots
-    private static final int[] SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
+    private static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
 
     private CargoUtils() {}
 
@@ -97,7 +100,7 @@ final class CargoUtils {
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
             ItemStack is = menu.getItemInSlot(slot);
 
-            if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(node, is, -1)) {
+            if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(node, is)) {
                 if (is.getAmount() > template.getAmount()) {
                     is.setAmount(is.getAmount() - template.getAmount());
                     menu.replaceExistingItem(slot, is.clone());
@@ -132,7 +135,7 @@ final class CargoUtils {
             // Changes to this ItemStack are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true) && matchesFilter(node, itemInSlot, -1)) {
+            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true) && matchesFilter(node, itemInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return template;
@@ -148,14 +151,14 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStackAndInteger withdraw(Block node, Block target, int index) {
+    static ItemStackAndInteger withdraw(Block node, Block target) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
             for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
                 ItemStack is = menu.getItemInSlot(slot);
 
-                if (matchesFilter(node, is, index)) {
+                if (matchesFilter(node, is)) {
                     menu.replaceExistingItem(slot, null);
                     return new ItemStackAndInteger(is, slot);
                 }
@@ -182,7 +185,7 @@ final class CargoUtils {
                 for (int slot = minSlot; slot < maxSlot; slot++) {
                     ItemStack is = contents[slot];
 
-                    if (matchesFilter(node, is, index)) {
+                    if (matchesFilter(node, is)) {
                         inv.setItem(slot, null);
                         return new ItemStackAndInteger(is, slot);
                     }
@@ -192,8 +195,10 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStack insert(Block node, Block target, ItemStack stack, int index) {
-        if (!matchesFilter(node, stack, index)) return stack;
+    static ItemStack insert(Block node, Block target, ItemStack stack) {
+        if (!matchesFilter(node, stack)) {
+            return stack;
+        }
 
         DirtyChestMenu menu = getChestMenu(target);
 
@@ -316,61 +321,66 @@ final class CargoUtils {
         return BlockStorage.getUniversalInventory(block);
     }
 
-    static boolean matchesFilter(Block block, ItemStack item, int index) {
-        if (item == null || item.getType() == Material.AIR) return false;
+    static boolean matchesFilter(Block block, ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) {
+            return false;
+        }
 
         // Store the returned Config instance to avoid heavy calls
         Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
-        if (blockInfo.getString("id").equals("CARGO_NODE_OUTPUT")) return true;
+        String id = blockInfo.getString("id");
 
-        BlockMenu menu = BlockStorage.getInventory(block.getLocation());
-        if (menu == null) return false;
+        if (id.equals("CARGO_NODE_OUTPUT")) {
+            return true;
+        }
 
-        boolean lore = "true".equals(blockInfo.getString("filter-lore"));
-
-        if ("whitelist".equals(blockInfo.getString("filter-type"))) {
-            List<ItemStack> templateItems = new ArrayList<>();
-
-            for (int slot : SLOTS) {
-                ItemStack template = menu.getItemInSlot(slot);
-                if (template != null) {
-                    templateItems.add(template);
-                }
-            }
-
-            if (templateItems.isEmpty()) {
+        try {
+            BlockMenu menu = BlockStorage.getInventory(block.getLocation());
+            if (menu == null) {
                 return false;
             }
 
-            if (index >= 0) {
-                index++;
-                if (index > (templateItems.size() - 1)) index = 0;
+            boolean lore = "true".equals(blockInfo.getString("filter-lore"));
+            ItemStackWrapper wrapper = new ItemStackWrapper(item);
 
-                // Should probably replace this with a simple HashMap.
-                blockInfo.setValue("index", String.valueOf(index));
-                BlockStorage.setBlockInfo(block, blockInfo, false);
+            if ("whitelist".equals(blockInfo.getString("filter-type"))) {
+                List<ItemStack> templateItems = new LinkedList<>();
 
-                return SlimefunUtils.isItemSimilar(item, templateItems.get(index), lore);
-            }
-            else {
+                for (int slot : FILTER_SLOTS) {
+                    ItemStack template = menu.getItemInSlot(slot);
+
+                    if (template != null) {
+                        templateItems.add(template);
+                    }
+                }
+
+                if (templateItems.isEmpty()) {
+                    return false;
+                }
+
                 for (ItemStack stack : templateItems) {
-                    if (SlimefunUtils.isItemSimilar(item, stack, lore)) {
+                    if (SlimefunUtils.isItemSimilar(wrapper, stack, lore)) {
                         return true;
                     }
                 }
 
                 return false;
             }
-        }
-        else {
-            for (int slot : SLOTS) {
-                ItemStack itemInSlot = menu.getItemInSlot(slot);
-                if (itemInSlot != null && SlimefunUtils.isItemSimilar(item, itemInSlot, lore, false)) {
-                    return false;
-                }
-            }
+            else {
+                for (int slot : FILTER_SLOTS) {
+                    ItemStack itemInSlot = menu.getItemInSlot(slot);
 
-            return true;
+                    if (itemInSlot != null && SlimefunUtils.isItemSimilar(wrapper, itemInSlot, lore, false)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+        catch (Exception x) {
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while trying to filter items for a Cargo Node (" + id + ") at " + new BlockPosition(block));
+            return false;
         }
     }
 
@@ -381,6 +391,6 @@ final class CargoUtils {
      * @return The slot indexes for the whitelist/blacklist section.
      */
     public static int[] getWhitelistBlacklistSlots() {
-        return SLOTS;
+        return FILTER_SLOTS;
     }
 }

@@ -14,21 +14,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class OreWasher extends MultiBlockMachine {
 
     private final boolean legacyMode;
+    private final ItemStack[] dusts;
 
-    public OreWasher(Category category) {
-        super(category, SlimefunItems.ORE_WASHER, new ItemStack[] { null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[] { SlimefunItems.SIFTED_ORE, SlimefunItems.IRON_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.GOLD_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.COPPER_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.TIN_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.ZINC_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.ALUMINUM_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.LEAD_DUST, SlimefunItems.SIFTED_ORE, SlimefunItems.SILVER_DUST }, BlockFace.SELF);
+    public OreWasher(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[] { null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[0], BlockFace.SELF);
 
         legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-washer");
+        dusts = new ItemStack[] { SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.TIN_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.MAGNESIUM_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST };
     }
 
     @Override
@@ -42,9 +44,9 @@ public class OreWasher extends MultiBlockMachine {
         Dispenser disp = (Dispenser) dispBlock.getState();
         Inventory inv = disp.getInventory();
 
-        for (ItemStack current : inv.getContents()) {
-            if (current != null) {
-                if (SlimefunUtils.isItemSimilar(current, SlimefunItems.SIFTED_ORE, true)) {
+        for (ItemStack input : inv.getContents()) {
+            if (input != null) {
+                if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true)) {
                     ItemStack output = getRandomDust();
                     Inventory outputInv = null;
 
@@ -59,50 +61,31 @@ public class OreWasher extends MultiBlockMachine {
                         ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
                         outputInv = findOutputInventory(dummyAdding, dispBlock, inv);
                     }
-                    else outputInv = findOutputInventory(output, dispBlock, inv);
+                    else {
+                        outputInv = findOutputInventory(output, dispBlock, inv);
+                    }
+
+                    removeItem(p, b, inv, outputInv, input, output, 1);
 
                     if (outputInv != null) {
-                        ItemStack removing = current.clone();
-                        removing.setAmount(1);
-                        inv.removeItem(removing);
-                        outputInv.addItem(output);
-                        p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-                        p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-                        if (InvUtils.fits(outputInv, SlimefunItems.STONE_CHUNK)) outputInv.addItem(SlimefunItems.STONE_CHUNK);
+                        outputInv.addItem(SlimefunItems.STONE_CHUNK);
                     }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
 
                     return;
                 }
-                else if (SlimefunUtils.isItemSimilar(current, new ItemStack(Material.SAND, 2), false)) {
+                else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {
                     ItemStack output = SlimefunItems.SALT;
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
-                    if (outputInv != null) {
-                        ItemStack removing = current.clone();
-                        removing.setAmount(2);
-                        inv.removeItem(removing);
-                        outputInv.addItem(output.clone());
-                        p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-                        p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    removeItem(p, b, inv, outputInv, input, output, 2);
 
                     return;
                 }
-                else if (SlimefunUtils.isItemSimilar(current, SlimefunItems.PULVERIZED_ORE, true)) {
+                else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
                     ItemStack output = SlimefunItems.PURE_ORE_CLUSTER;
                     Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
-                    if (outputInv != null) {
-                        ItemStack removing = current.clone();
-                        removing.setAmount(1);
-                        inv.removeItem(removing);
-                        outputInv.addItem(output.clone());
-                        p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
-                        p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
-                    }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    removeItem(p, b, inv, outputInv, input, output, 1);
 
                     return;
                 }
@@ -111,14 +94,29 @@ public class OreWasher extends MultiBlockMachine {
         SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
     }
 
+    private void removeItem(Player p, Block b, Inventory inputInv, Inventory outputInv, ItemStack input, ItemStack output, int amount) {
+        if (outputInv != null) {
+            ItemStack removing = input.clone();
+            removing.setAmount(amount);
+            inputInv.removeItem(removing);
+            outputInv.addItem(output.clone());
+
+            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.WATER);
+            b.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1, 1);
+        }
+        else {
+            SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+        }
+    }
+
     /**
      * This returns a random dust item from Slimefun.
      * 
      * @return A randomly picked dust item
      */
     public ItemStack getRandomDust() {
-        int index = ThreadLocalRandom.current().nextInt(shownRecipes.size() / 2);
-        return shownRecipes.get(index * 2 + 1).clone();
+        int index = ThreadLocalRandom.current().nextInt(dusts.length);
+        return dusts[index].clone();
     }
 
 }

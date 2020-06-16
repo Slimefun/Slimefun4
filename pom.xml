@@ -151,7 +151,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.4</version>
 
                 <configuration>
 
@@ -274,7 +274,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>8081bb4fe4</version>
+            <version>4a7fce5202</version>
             <scope>provided</scope>
         </dependency>
 
@@ -288,7 +288,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit</artifactId>
-            <version>v1.15-c79a603b7c-1</version>
+            <version>v1.15-d952559324-1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -302,7 +302,7 @@
         <dependency>
             <groupId>com.github.thebusybiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.20.4</version>
+            <version>0.21</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

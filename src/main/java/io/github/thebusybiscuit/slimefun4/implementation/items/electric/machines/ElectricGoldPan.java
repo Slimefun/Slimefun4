@@ -9,11 +9,11 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -68,10 +68,14 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
                     progress.put(b, timeleft - 1);
                 }
-                else progress.put(b, timeleft - 1);
+                else {
+                    progress.put(b, timeleft - 1);
+                }
             }
             else if (ChargableBlock.isChargable(b)) {
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    return;
+                }
                 ChargableBlock.addCharge(b, -getEnergyConsumption());
 
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -83,11 +87,21 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
         }
         else {
             for (int slot : getInputSlots()) {
-                if (process(b, menu, slot)) {
+                if (hasFreeSlot(menu) && process(b, menu, slot)) {
                     break;
                 }
             }
         }
+    }
+
+    private boolean hasFreeSlot(BlockMenu menu) {
+        for (int slot : getOutputSlots()) {
+            if (menu.getItemInSlot(slot) == null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean process(Block b, BlockMenu menu, int slot) {

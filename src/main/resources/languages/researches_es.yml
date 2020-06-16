@@ -25,6 +25,7 @@ slimefun:
   auto_enchanting: Encantar y Desencantar Automático
   automated_crafting_chamber: Crafteo Automatizado
   automated_panning_machine: Gold Pan Automatizado
+  automatic_ignition_chamber: Cámara de Ignición Automática
   backpacks: Mochilas
   basic_circuit_board: Placa de Circuito Básico
   battery: Tu primera Batería
@@ -39,6 +40,7 @@ slimefun:
   better_solar_generators: Paneles Solares Mejorados
   bio_reactor: Reactor Biológico
   blade_of_vampires: Espada Vampírica
+  blistering_ingots: Radiación Burbujeante
   block_placer: Colocador de Bloques
   boosted_uranium: Círculo Interminable
   boots_of_the_stomper: Botas del Mamút
@@ -73,6 +75,7 @@ slimefun:
   damascus_steel_armor: Armadura de Damasco
   diet_cookie: Galleta Dietética
   duct_tape: Cinta Adhesiva
+  electric_crucible: Crisól Electrificado
   electric_furnaces: Horno Eléctrico
   electric_ingot_machines: Fabricación Eléctrica de Lingotes
   electric_motor: Calentando Motores
@@ -89,6 +92,7 @@ slimefun:
   ender_backpack: Mochila Ender
   ender_talismans: Talismán de Ender
   energized_gps_transmitter: Transmisor de Punta
+  energized_solar_generator: Energía Solar a Tiempo Completo
   energy_regulator: Redes Energéticas 101
   enhanced_furnace: Horno Mejorado
   essence_of_afterlife: Necromancia
@@ -147,6 +151,7 @@ slimefun:
   magic_workbench: Mesa de Trabajo Mágica
   magnesium_generator: Poder de Magnesio
   magnet: Metales Magnéticos
+  makeshift_smeltery: Fundición Improvisada
   meat_jerky: Carne Seca
   miner_talisman: Talismán del Minero
   misc_power_items: Objetos importantes relacionados con la energía
@@ -159,11 +164,13 @@ slimefun:
   nether_star_reactor: Reactor de Estrella del Nether
   nickel_and_cobalt: Aún más Minerales
   night_vision_googles: Lentes de Visión Nocturna
+  nuclear_reactor: Planta de Energía Nuclear
   oil: Aceite
   ore_crusher: Duplicador de Minerales
   ore_washer: Tamizador
   organic_fertilizer: Fertilizante Orgánico
   organic_food: Comida Organica
+  output_chest: Cofre de Salida de Máquinas Básicas
   parachute: Paracaídas
   pickaxe_of_containment: Pico de Contención
   pickaxe_of_the_seeker: Pico del Buscador
@@ -211,6 +218,7 @@ slimefun:
   totem_of_undying: Tótem de la Inmortalidad
   trash_can: Basurero
   traveller_talisman: Talismán del Explorador
+  tree_growth_accelerator: Árboles Veloces
   uranium: Radioactivo
   walking_sticks: Bastones
   warrior_talisman: Talismán del Guerrero
@@ -224,11 +232,5 @@ slimefun:
   wizard_talisman: Talismán del Hechizero
   woven_backpack: Mochila Tejida
   xp_collector: Recolector de EXP
-  energized_solar_generator: Energía Solar a Tiempo Completo
-  nuclear_reactor: Planta de Energía Nuclear
-  electric_crucible: Crisól Electrificado
-  blistering_ingots: Radiación Burbujeante
-  automatic_ignition_chamber: Cámara de Ignición Automática
-  output_chest: Cofre de Salida de Máquinas Básicas
-  makeshift_smeltery: Fundición Improvisada
-  tree_growth_accelerator: Árboles Veloces
+  industrial_miner: Minería Industrial
+  advanced_industrial_miner: Minería Mejorada

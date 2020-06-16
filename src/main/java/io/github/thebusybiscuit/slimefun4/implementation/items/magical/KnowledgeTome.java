@@ -11,6 +11,7 @@ import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
@@ -39,7 +40,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
             List<String> lore = im.getLore();
 
             if (lore.get(1).isEmpty()) {
-                lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
+                lore.set(0, ChatColors.color("&7Owner: &b" + p.getName()));
                 lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
                 im.setLore(lore);
                 item.setItemMeta(im);

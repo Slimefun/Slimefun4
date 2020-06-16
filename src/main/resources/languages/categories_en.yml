@@ -5,6 +5,7 @@ slimefun:
   food: 'Food'
   basic_machines: 'Basic Machines'
   electricity: 'Energy and Electricity'
+  androids: 'Programmable Androids'
   gps: 'GPS-based Machines'
   armor: 'Armor'
   magical_items: 'Magical Items'

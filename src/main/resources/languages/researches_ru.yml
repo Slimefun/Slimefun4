@@ -133,6 +133,7 @@ slimefun:
   infernal_bonemeal: Незеритовая костная мука
   infused_hopper: Заряженная воронка
   infused_magnet: Магнит?
+  jetboots: Реактивные ботинки
   jetpacks: Реактивные ранцы
   juicer: Вкусные напитки
   kelp_cookie: Вкусная водоросль
@@ -231,4 +232,5 @@ slimefun:
   wizard_talisman: Талисман волшебника
   woven_backpack: Тканевой рюкзак
   xp_collector: Собиратель опыта
-  jetboots: Реактивные ботинки
+  industrial_miner: Промышленная добыча
+  advanced_industrial_miner: Улучшенная добыча

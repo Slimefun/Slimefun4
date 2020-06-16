@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
 import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
@@ -37,12 +38,15 @@ public class Contributor {
     private boolean locked = false;
 
     public Contributor(String username, String profile) {
+        Validate.notNull(username, "Username must never be null!");
+        Validate.notNull(profile, "The profile link must never be null!");
         githubUsername = profile.substring(profile.lastIndexOf('/') + 1);
         minecraftUsername = username;
         profileLink = profile;
     }
 
     public Contributor(String username) {
+        Validate.notNull(username, "Username must never be null!");
         githubUsername = username;
         minecraftUsername = username;
         profileLink = null;

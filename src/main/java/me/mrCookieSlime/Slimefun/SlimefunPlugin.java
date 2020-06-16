@@ -43,8 +43,9 @@ import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
-import io.github.thebusybiscuit.slimefun4.implementation.items.food.Cooler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
@@ -87,7 +88,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
@@ -158,6 +158,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             instance = this;
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
+            command.register();
         }
         else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();

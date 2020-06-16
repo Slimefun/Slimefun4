@@ -38,7 +38,7 @@ public class MagicSugar extends SimpleSlimefunItem<ItemUseHandler> {
                 ItemUtils.consumeItem(e.getItem(), false);
             }
 
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
+            p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 600, 3));
         };
     }

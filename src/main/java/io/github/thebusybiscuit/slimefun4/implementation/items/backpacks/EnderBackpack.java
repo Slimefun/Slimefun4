@@ -22,7 +22,7 @@ public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements
         return e -> {
             Player p = e.getPlayer();
             p.openInventory(p.getEnderChest());
-            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1, 1);
+            p.playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
             e.cancel();
         };
     }

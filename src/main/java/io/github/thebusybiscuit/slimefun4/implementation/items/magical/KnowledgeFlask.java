@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import org.bukkit.Sound;
-import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -23,14 +23,13 @@ public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
         return e -> {
             Player p = e.getPlayer();
 
-            if (p.getLevel() >= 1 && (!e.getClickedBlock().isPresent() || !(e.getClickedBlock().get().getState() instanceof Container))) {
+            if (p.getLevel() >= 1 && (!e.getClickedBlock().isPresent() || !(e.getClickedBlock().get().getType().isInteractable()))) {
                 p.setLevel(p.getLevel() - 1);
                 p.getInventory().addItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone());
 
                 p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
 
-                ItemStack item = e.getItem();
-                item.setAmount(item.getAmount() - 1);
+                ItemUtils.consumeItem(e.getItem(), false);
                 e.cancel();
             }
         };

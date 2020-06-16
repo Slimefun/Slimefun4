@@ -253,7 +253,7 @@ public class Research implements Keyed {
         profile.setResearched(this, true);
         SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
         callback.accept(p);
-        
+
         if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
             FireworkUtils.launchRandom(p, 1);
         }
@@ -296,25 +296,6 @@ public class Research implements Keyed {
         enabled = true;
 
         SlimefunPlugin.getRegistry().getResearches().add(this);
-    }
-
-    /**
-     * Attempts to get a {@link Research} with the given ID.
-     * 
-     * @deprecated Numeric Research Ids are fading out, please use {@link #getResearch(NamespacedKey)} instead.
-     * 
-     * @param id
-     *            ID of the research to get
-     * @return {@link Research} if found, or null
-     */
-    @Deprecated
-    public static Research getByID(int id) {
-        for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (research.getID() == id) {
-                return research;
-            }
-        }
-        return null;
     }
 
     /**

@@ -1,10 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Server;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -29,6 +32,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuid
 public class MinecraftRecipeService {
 
     private final Plugin plugin;
+    private final List<Consumer<RecipeSnapshot>> subscriptions = new LinkedList<>();
+
     private RecipeSnapshot snapshot;
 
     /**
@@ -49,6 +54,23 @@ public class MinecraftRecipeService {
      */
     public void refresh() {
         snapshot = new RecipeSnapshot(plugin);
+
+        for (Consumer<RecipeSnapshot> subscriber : subscriptions) {
+            subscriber.accept(snapshot);
+        }
+    }
+
+    /**
+     * This method subscribes to the underlying {@link RecipeSnapshot}.
+     * When the {@link Server} has finished loading and a {@link Collection} of all
+     * {@link Recipe Recipes} is created, the given callback will be run.
+     * 
+     * @param subscription
+     *            A callback to run when the {@link RecipeSnapshot} has been created.
+     */
+    public void subscribe(Consumer<RecipeSnapshot> subscription) {
+        Validate.notNull(subscription, "Callback must not be null!");
+        subscriptions.add(subscription);
     }
 
     /**
@@ -61,7 +83,7 @@ public class MinecraftRecipeService {
      * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
      */
     public Optional<ItemStack> getFurnaceOutput(ItemStack input) {
-        if (input == null) {
+        if (snapshot == null || input == null) {
             return Optional.empty();
         }
 
@@ -114,7 +136,7 @@ public class MinecraftRecipeService {
      * @return An array of {@link Recipe Recipes} to craft the given {@link ItemStack}
      */
     public Recipe[] getRecipesFor(ItemStack item) {
-        if (item == null) {
+        if (snapshot == null || item == null) {
             return new Recipe[0];
         }
         else {

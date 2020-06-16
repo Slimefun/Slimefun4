@@ -61,6 +61,13 @@ commands:
   teleporter: Erlaubt es dir Wegpunkte anderer Spieler anzusehen
   timings: Zeigt einige Informationen über die Performance
   versions: Eine Liste aller installierter Addons
+  backpack:
+    description: Gibt eine Kopie eines existierenden Rucksacks
+    invalid-id: "&4Die id muss eine nicht-negative ganze Zahl sein!"
+    player-never-joined: "&4Es konnte kein Spieler mit diesem Namen gefunden werden!"
+    backpack-does-not-exist: "&4Der angegebene Rucksack konnte nicht gefunden werden!"
+    restored-backpack-given: "&aDein Rucksack wurde erfolgreich wiederhergestellt
+      und deinem Inventar hinzugefügt!"
 gps:
   deathpoint: "&4Todespunkt &7%date%"
   geo:
@@ -139,6 +146,7 @@ inventory:
 languages:
   af: Afrikaans
   ar: Arabisch
+  be: Belarusisch
   bg: Bulgarisch
   cs: Tschechisch
   da: Dänisch
@@ -151,12 +159,14 @@ languages:
   fi: Finnisch
   fr: Französisch
   he: Hebräisch
+  hr: Kroatisch
   hu: Ungarisch
   id: Indonesisch
   it: Italienisch
   ja: Japanisch
   ko: Koreanisch
   lv: Lettisch
+  mk: Mazedonisch
   ms: Malaiisch
   nl: Niederländisch
   'no': Norwegisch
@@ -166,6 +176,7 @@ languages:
   ro: Rumänisch
   ru: Russisch
   sk: Slowakisch
+  sr: Serbisch
   sv: Schwedisch
   th: Thailändisch
   tr: Türkisch
@@ -173,10 +184,6 @@ languages:
   vi: Vietnamesisch
   zh-CN: Chinesisch (China)
   zh-TW: Chinesisch (Taiwan)
-  hr: Kroatisch
-  mk: Mazedonisch
-  sr: Serbisch
-  be: Belarusisch
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Es fehlen einige Sockel des Altars &c(%pedestals% / 8)"
@@ -221,6 +228,18 @@ machines:
     nicht, probier ein anderes Item aus."
   wrong-item: "&eEs tut mir leid, aber ich erkenne das Item in deiner Hand nicht,
     probier ein anderes Item aus."
+  INDUSTRIAL_MINER:
+    no-fuel: "&cDein Industrial Miner hat keinen Treibstoff mehr! Platziere den benötigten
+      Treibstoff in die Kiste."
+    piston-facing: "&cEinIndustrial Miner erfordert Kolben, die nach oben zeigen!"
+    piston-space: "&cDie Blöcke über den Kolben müssen leer bleiben!"
+    destroyed: "&cDein Industrial Miner scheint zerstört worden zu sein."
+    already-running: "&cDieser Industrial Miner wird bereits verwendet!"
+    full-chest: "&cDie Kiste deines Industrial Miner ist vollgelaufen!"
+    no-permission: "&4Du scheinst nicht die benötigten Rechte zu haben, um in diesem
+      Gebiet einen Industrial Miner zu verwenden."
+    finished: "&eDein Industrial Miner ist fertig! Es wurde(n) insgesamt %ores% Erz(e)
+      gefunden!"
 messages:
   cannot-place: "&cDu kannst hier keine Blöcke platzieren!"
   diet-cookie: "&eDu beginnst dich sehr leicht zu fühlen..."

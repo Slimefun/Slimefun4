@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
+import org.apache.commons.lang.Validate;
+
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
@@ -69,6 +71,7 @@ public enum MinecraftVersion {
      * @return Whether the version matches with this one
      */
     public boolean matches(String version) {
+        Validate.notNull(version, "The input version must not be null!");
         return version.startsWith(prefix);
     }
 
@@ -76,16 +79,41 @@ public enum MinecraftVersion {
      * This method checks whether this {@link MinecraftVersion} is newer or equal to
      * the given {@link MinecraftVersion},
      * 
+     * An unknown version will default to {@literal false}.
+     * 
      * @param version
      *            The {@link MinecraftVersion} to compare
+     * 
      * @return Whether this {@link MinecraftVersion} is newer or equal to the given {@link MinecraftVersion}
      */
     public boolean isAtLeast(MinecraftVersion version) {
+        Validate.notNull(version, "A Minecraft version cannot be null!");
+
         if (this == UNKNOWN) {
             return false;
         }
 
-        return ordinal() >= version.ordinal();
+        return this.ordinal() >= version.ordinal();
+    }
+
+    /**
+     * This checks whether this {@link MinecraftVersion} is older than the specified {@link MinecraftVersion}.
+     * 
+     * An unknown version will default to {@literal true}.
+     * 
+     * @param version
+     *            The {@link MinecraftVersion} to compare
+     * 
+     * @return Whether this {@link MinecraftVersion} is older than the given one
+     */
+    public boolean isBefore(MinecraftVersion version) {
+        Validate.notNull(version, "A Minecraft version cannot be null!");
+
+        if (this == UNKNOWN) {
+            return true;
+        }
+
+        return version.ordinal() > this.ordinal();
     }
 
 }

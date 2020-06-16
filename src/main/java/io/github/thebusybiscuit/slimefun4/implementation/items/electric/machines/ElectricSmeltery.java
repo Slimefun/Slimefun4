@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -56,18 +56,30 @@ public abstract class ElectricSmeltery extends AContainer {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-                if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
+                if (flow == ItemTransportFlow.WITHDRAW) {
+                    return getOutputSlots();
+                }
 
-                List<Integer> slots = new ArrayList<>();
+                int fullSlots = 0;
+                List<Integer> slots = new LinkedList<>();
 
                 for (int slot : getInputSlots()) {
-                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
+                    ItemStack stack = menu.getItemInSlot(slot);
+                    if (stack != null && SlimefunUtils.isItemSimilar(stack, item, true)) {
+                        if (stack.getAmount() < stack.getMaxStackSize()) {
+                            fullSlots++;
+                        }
+
                         slots.add(slot);
                     }
                 }
 
                 if (slots.isEmpty()) {
                     return getInputSlots();
+                }
+                else if (fullSlots == slots.size()) {
+                    // All slots with that item are already full
+                    return new int[0];
                 }
                 else {
                     Collections.sort(slots, compareSlots(menu));

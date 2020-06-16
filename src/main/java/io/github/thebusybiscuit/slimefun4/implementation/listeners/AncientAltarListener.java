@@ -30,13 +30,13 @@ import org.bukkit.util.Vector;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -88,17 +88,23 @@ public class AncientAltarListener implements Listener {
         }
 
         Optional<Block> blockOptional = e.getClickedBlock();
-        if (!blockOptional.isPresent()) return;
+        if (!blockOptional.isPresent()) {
+            return;
+        }
 
         Block b = blockOptional.get();
-        if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) return;
+        if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) {
+            return;
+        }
 
         Optional<SlimefunItem> slimefunBlock = e.getSlimefunBlock();
-        if (!slimefunBlock.isPresent()) return;
+        if (!slimefunBlock.isPresent()) {
+            return;
+        }
 
         String id = slimefunBlock.get().getID();
 
-        if (id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemID())) {
+        if (id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemId())) {
             e.cancel();
             usePedestal(b, e.getPlayer());
         }
@@ -121,17 +127,21 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
+        // getting the currently placed item
         Item stack = findItem(pedestal);
 
         if (stack == null) {
-            if (p.getInventory().getItemInMainHand().getType() == Material.AIR) return;
+            // Check if the Item in hand is valid
+            if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
+                // Check for pedestal obstructions
+                if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
+                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
+                    return;
+                }
 
-            if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
-                return;
+                // place the item onto the pedestal
+                insertItem(p, pedestal);
             }
-
-            insertItem(p, pedestal);
         }
         else if (!removedItems.contains(stack.getUniqueId())) {
             UUID uuid = stack.getUniqueId();
@@ -227,7 +237,7 @@ public class AncientAltarListener implements Listener {
         if (pedestal.getType() == Material.DISPENSER) {
             String id = BlockStorage.checkID(pedestal);
 
-            if (id != null && id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemID())) {
+            if (id != null && id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemId())) {
                 SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
                 e.setCancelled(true);
             }
@@ -279,7 +289,7 @@ public class AncientAltarListener implements Listener {
 
     private List<Block> getPedestals(Block altar) {
         List<Block> list = new ArrayList<>();
-        String id = SlimefunItems.ANCIENT_PEDESTAL.getItemID();
+        String id = SlimefunItems.ANCIENT_PEDESTAL.getItemId();
 
         if (BlockStorage.check(altar.getRelative(2, 0, -2), id)) {
             list.add(altar.getRelative(2, 0, -2));

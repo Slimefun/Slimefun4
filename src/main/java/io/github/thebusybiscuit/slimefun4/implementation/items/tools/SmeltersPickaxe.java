@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,23 +39,20 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> imple
             @Override
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
                 if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && isItem(item)) {
-                    if (BlockStorage.hasBlockInfo(e.getBlock())) return true;
-                    if (!Slimefun.hasUnlocked(e.getPlayer(), SmeltersPickaxe.this, true)) return true;
+                    if (!Slimefun.hasUnlocked(e.getPlayer(), SmeltersPickaxe.this, true)) {
+                        return true;
+                    }
+
+                    if (BlockStorage.hasBlockInfo(e.getBlock())) {
+                        return true;
+                    }
 
                     Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
 
                     for (ItemStack drop : blockDrops) {
-                        if (drop != null) {
-                            ItemStack output = drop;
-                            output.setAmount(fortune);
-
-                            Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getFurnaceOutput(drop);
-                            if (furnaceOutput.isPresent()) {
-                                e.getBlock().getWorld().playEffect(e.getBlock().getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-                                output.setType(furnaceOutput.get().getType());
-                            }
-
-                            drops.add(output);
+                        if (drop != null && drop.getType() != Material.AIR) {
+                            smelt(e.getBlock(), drop, fortune);
+                            drops.add(drop);
                         }
                     }
 
@@ -64,6 +63,16 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> imple
                 else return false;
             }
         };
+    }
+
+    private void smelt(Block b, ItemStack drop, int fortune) {
+        Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getFurnaceOutput(drop);
+
+        if (furnaceOutput.isPresent()) {
+            b.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
+            drop.setType(furnaceOutput.get().getType());
+            drop.setAmount(fortune);
+        }
     }
 
     @Override

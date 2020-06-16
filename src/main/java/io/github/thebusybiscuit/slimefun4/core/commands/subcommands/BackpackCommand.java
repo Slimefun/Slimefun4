@@ -9,9 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 class BackpackCommand extends SubCommand {
@@ -55,7 +55,7 @@ class BackpackCommand extends SubCommand {
         @SuppressWarnings("deprecation")
         OfflinePlayer backpackOwner = Bukkit.getOfflinePlayer(args[1]);
 
-        if (!backpackOwner.hasPlayedBefore()) {
+        if (!(backpackOwner instanceof Player) && !backpackOwner.hasPlayedBefore()) {
             SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.player-never-joined");
             return;
         }

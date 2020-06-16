@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
 - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
 - [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
@@ -17,7 +18,59 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 13 (16 Jun 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
+
+#### Additions
+* Added Dried Kelp Blocks recipe to the Electric Press
+* Added Bone Blocks recipe to the Electric Press
+* Added thai translations
+* Added Industrial Miner
+* Added Advanced Industrial Miner
+* Added Cocoa Organic Food
+* Added Cocoa Fertilizer
+* Added a configurable limit to the Pickaxe of Vein Mining
+* Added Gold Ingot to Dust recipe to the Electric Ingot Pulverizer
+* Added Saddles to possible fishing loot for the Fishing Android
+* Added Name tags to possible fishing loot for the Fishing Android
+* Added Nautilus Shell to possible fishing loot for the Fishing Android
+* Added Bamboo to possible fishing loot for the Fishing Android
+
+#### Changes
+* Removed Digital Miner
+* Removed Advanced Digital Miner
+* Dried Kelp Blocks can now be used in the Coal Generator
+* Crafting Organic Food/Fertilizer yields more output now
+* Organic Food (Melon) now uses Melon Slices instead of Melon blocks
+* The Seismic Axe now skips the first two blocks to clear your field of view
+* Auto Disenchanting is now a tiny bit faster
+* Small performance improvements
+* Dried Kelp Blocks can now be used as fuel for Tier 1 Androids
+* Androids now have a seperate category in the Slimefun Guide
+* Android Interface recipes now require steel ingots
+* Changed and unified a couple of tooltips
+* Changed tooltip on jetpacks and jet boots to say "Crouch" instead of "Hold Shift"
+
+#### Fixes
+* Fixed Ore Washer recipes showing up twice
+* Fixed #1942
+* Fixed a few memory leaks
+* Fixed #1943
+* Fixed Nuclear Reactors accepting Lava as coolant
+* Fixed #1971
+* Fixed #1976
+* Fixed #1988
+* Fixed #1985
+* Fixed a missing texture in the Android Script Editor
+* Fixed #1992
+* Possibly fixed #1951
+* Fixed tab completion for /sf give showing players instead of amounts
+* Fixed #1993
+* Fixed #1907
+* Fixed research fireworks still dealing damage sometimes
+
 ## Release Candidate 12 (27 May 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 
 #### Additions
 * Added Ukrainian translations
@@ -62,6 +115,7 @@
 * Fixed #1935
 
 ## Release Candidate 11 (25 Apr 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 
 #### Additions
 * Added GEOResourceGenerationEvent

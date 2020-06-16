@@ -8,6 +8,10 @@ public final class LoreBuilder {
 
     public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4Hazmat Suit required!";
 
+    public static final String RIGHT_CLICK_TO_USE = "&eRight Click&7 to use";
+    public static final String RIGHT_CLICK_TO_OPEN = "&eRight Click&7 to open";
+    public static final String CROUCH_TO_USE = "&eCrouch&7 to use";
+
     private LoreBuilder() {}
 
     public static String radioactive(Radioactivity radioactivity) {
@@ -32,6 +36,14 @@ public final class LoreBuilder {
 
     public static String power(int power, String suffix) {
         return "&8\u21E8 &e\u26A1 &7" + power + " J" + suffix;
+    }
+
+    public static String powerCharged(int charge, int capacity) {
+        return "&c&o&8\u21E8 &e\u26A1 &7" + charge + " / " + capacity + " J";
+    }
+
+    public static String material(String material) {
+        return "&8\u21E8 &7Material: &b" + material;
     }
 
 }

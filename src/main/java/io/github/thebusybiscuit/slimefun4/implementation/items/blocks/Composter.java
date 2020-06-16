@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -26,7 +27,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
@@ -86,19 +86,19 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                     ItemStack output = getOutput(p, input);
 
                     if (output != null) {
-                        for (int j = 1; j < 12; j++) {
-                            int index = j;
+                        TaskQueue tasks = new TaskQueue();
 
-                            Slimefun.runSync(() -> {
-                                if (index < 11) {
-                                    b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType().isBlock() ? input.getType() : Material.HAY_BLOCK);
-                                }
-                                else {
-                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                    pushItem(b, output.clone());
-                                }
-                            }, j * 30L);
-                        }
+                        tasks.thenRepeatEvery(30, 10, () -> {
+                            Material material = input.getType().isBlock() ? input.getType() : Material.HAY_BLOCK;
+                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, material);
+                        });
+
+                        tasks.thenRun(20, () -> {
+                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                            pushItem(b, output.clone());
+                        });
+
+                        tasks.execute(SlimefunPlugin.instance);
                     }
                     else {
                         SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);

@@ -29,7 +29,10 @@ public final class SimpleHologram {
     public static void remove(Block b) {
         Slimefun.runSync(() -> {
             ArmorStand hologram = getArmorStand(b, false);
-            if (hologram != null) hologram.remove();
+
+            if (hologram != null) {
+                hologram.remove();
+            }
         });
     }
 

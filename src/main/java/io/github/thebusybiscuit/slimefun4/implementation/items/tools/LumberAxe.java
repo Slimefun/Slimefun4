@@ -25,7 +25,18 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link LumberAxe} is a powerful tool which can chop entire trees.
+ * Breaking a log will result in all attached logs being broken as well.
+ * Similarly stripping a log will strip all attached logs too.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
+
+    private static final int MAX_BROKEN = 100;
+    private static final int MAX_STRIPPED = 20;
 
     public LumberAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -49,7 +60,7 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
                         return true;
                     }
 
-                    List<Block> logs = Vein.find(e.getBlock(), 100, b -> MaterialCollections.getAllLogs().contains(b.getType()));
+                    List<Block> logs = Vein.find(e.getBlock(), MAX_BROKEN, b -> MaterialCollections.getAllLogs().contains(b.getType()));
 
                     if (logs.contains(e.getBlock())) {
                         logs.remove(e.getBlock());
@@ -57,13 +68,7 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
 
                     for (Block b : logs) {
                         if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
-                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-
-                            for (ItemStack drop : b.getDrops(getItem())) {
-                                b.getWorld().dropItemNaturally(b.getLocation(), drop);
-                            }
-
-                            b.setType(Material.AIR);
+                            breakLog(b);
                         }
                     }
 
@@ -81,23 +86,15 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
                 Block block = e.getClickedBlock().get();
 
                 if (isUnstrippedLog(block)) {
-                    List<Block> logs = Vein.find(block, 20, this::isUnstrippedLog);
+                    List<Block> logs = Vein.find(block, MAX_STRIPPED, this::isUnstrippedLog);
 
                     if (logs.contains(block)) {
                         logs.remove(block);
                     }
 
                     for (Block b : logs) {
-                        Material type = b.getType();
-
                         if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
-                            b.getWorld().playSound(b.getLocation(), Sound.ITEM_AXE_STRIP, 1, 1);
-                            Axis axis = ((Orientable) b.getBlockData()).getAxis();
-                            b.setType(Material.valueOf("STRIPPED_" + type.name()));
-                            
-                            Orientable orientable = (Orientable) b.getBlockData();
-                            orientable.setAxis(axis);
-                            b.setBlockData(orientable);
+                            stripLog(b);
                         }
                     }
                 }
@@ -107,6 +104,26 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
 
     private boolean isUnstrippedLog(Block block) {
         return Tag.LOGS.isTagged(block.getType()) && !block.getType().name().startsWith("STRIPPED_");
+    }
+
+    private void stripLog(Block b) {
+        b.getWorld().playSound(b.getLocation(), Sound.ITEM_AXE_STRIP, 1, 1);
+        Axis axis = ((Orientable) b.getBlockData()).getAxis();
+        b.setType(Material.valueOf("STRIPPED_" + b.getType().name()));
+
+        Orientable orientable = (Orientable) b.getBlockData();
+        orientable.setAxis(axis);
+        b.setBlockData(orientable);
+    }
+
+    private void breakLog(Block b) {
+        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+
+        for (ItemStack drop : b.getDrops(getItem())) {
+            b.getWorld().dropItemNaturally(b.getLocation(), drop);
+        }
+
+        b.setType(Material.AIR);
     }
 
 }

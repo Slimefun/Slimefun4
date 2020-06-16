@@ -19,11 +19,11 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class RecipeType implements Keyed {
@@ -92,7 +92,7 @@ public class RecipeType implements Keyed {
         this.consumer = callback;
 
         if (item instanceof SlimefunItemStack) {
-            this.machine = ((SlimefunItemStack) item).getItemID();
+            this.machine = ((SlimefunItemStack) item).getItemId();
         }
         else {
             this.machine = "";
@@ -102,7 +102,7 @@ public class RecipeType implements Keyed {
     public RecipeType(NamespacedKey key, ItemStack item) {
         this.key = key;
         this.item = item;
-        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemID() : "";
+        this.machine = item instanceof SlimefunItemStack ? ((SlimefunItemStack) item).getItemId() : "";
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
@@ -149,7 +149,8 @@ public class RecipeType implements Keyed {
         SlimefunPlugin.getRegistry().getMobDrops().put(entity, dropping);
     }
 
-    public static List<ItemStack> getRecipeInputs(SlimefunMachine machine) {
+    @Deprecated
+    public static List<ItemStack> getRecipeInputs(MultiBlockMachine machine) {
         if (machine == null) return new ArrayList<>();
         List<ItemStack[]> recipes = machine.getRecipes();
         List<ItemStack> convertible = new ArrayList<>();
@@ -161,7 +162,8 @@ public class RecipeType implements Keyed {
         return convertible;
     }
 
-    public static List<ItemStack[]> getRecipeInputList(SlimefunMachine machine) {
+    @Deprecated
+    public static List<ItemStack[]> getRecipeInputList(MultiBlockMachine machine) {
         if (machine == null) return new ArrayList<>();
 
         List<ItemStack[]> recipes = machine.getRecipes();
@@ -188,12 +190,14 @@ public class RecipeType implements Keyed {
         return convertible;
     }
 
-    public static ItemStack getRecipeOutput(SlimefunMachine machine, ItemStack input) {
+    @Deprecated
+    public static ItemStack getRecipeOutput(MultiBlockMachine machine, ItemStack input) {
         List<ItemStack[]> recipes = machine.getRecipes();
         return recipes.get(((getRecipeInputs(machine).indexOf(input) * 2) + 1))[0].clone();
     }
 
-    public static ItemStack getRecipeOutputList(SlimefunMachine machine, ItemStack[] input) {
+    @Deprecated
+    public static ItemStack getRecipeOutputList(MultiBlockMachine machine, ItemStack[] input) {
         List<ItemStack[]> recipes = machine.getRecipes();
         return recipes.get((recipes.indexOf(input) + 1))[0];
     }
