@@ -48,6 +48,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 * Dried Kelp Blocks can now be used as fuel for Tier 1 Androids
 * Androids now have a seperate category in the Slimefun Guide
 * Android Interface recipes now require steel ingots
+* Changed and unified a couple of tooltips
+* Changed tooltip on jetpacks and jet boots to say "Crouch" instead of "Hold Shift"
 
 #### Fixes
 * Fixed Ore Washer recipes showing up twice
