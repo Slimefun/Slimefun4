@@ -20,6 +20,9 @@
 
 ## Release Candidate 14 (TBD)
 
+#### Changes
+* Coolant Cells now last twice as long
+
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 

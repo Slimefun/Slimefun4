@@ -43,24 +43,7 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
                 log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 
                 if (SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-                    ItemStack drop = new ItemStack(log.getType());
-
-                    if (menu.fits(drop, getOutputSlots())) {
-                        menu.pushItem(drop, getOutputSlots());
-                        log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
-
-                        if (log.getY() == b.getRelative(face).getY()) {
-                            Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
-
-                            if (sapling.isPresent()) {
-                                log.setType(sapling.get());
-                            }
-                        }
-                        else {
-                            log.setType(Material.AIR);
-                        }
-                    }
-
+                    breakLog(log, b, menu, face);
                 }
 
                 return false;
@@ -68,6 +51,26 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
         }
 
         return true;
+    }
+
+    private void breakLog(Block log, Block android, BlockMenu menu, BlockFace face) {
+        ItemStack drop = new ItemStack(log.getType());
+
+        if (menu.fits(drop, getOutputSlots())) {
+            menu.pushItem(drop, getOutputSlots());
+            log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+
+            if (log.getY() == android.getRelative(face).getY()) {
+                Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
+
+                if (sapling.isPresent()) {
+                    log.setType(sapling.get());
+                }
+            }
+            else {
+                log.setType(Material.AIR);
+            }
+        }
     }
 
 }

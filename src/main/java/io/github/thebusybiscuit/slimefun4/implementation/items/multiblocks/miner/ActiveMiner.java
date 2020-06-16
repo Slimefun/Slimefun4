@@ -319,25 +319,13 @@ class ActiveMiner implements Runnable {
             else if (block.getType() == Material.PISTON) {
                 Block above = block.getRelative(BlockFace.UP);
 
+                // Check if the above block is valid
                 if (above.isEmpty() || above.getType() == Material.PISTON_HEAD) {
                     Piston piston = (Piston) block.getBlockData();
 
+                    // Check if the piston is actually facing upwards
                     if (piston.getFacing() == BlockFace.UP) {
-                        piston.setExtended(extended);
-                        block.setBlockData(piston, false);
-
-                        // Updating the Piston Head
-                        if (extended) {
-                            PistonHead head = (PistonHead) Material.PISTON_HEAD.createBlockData();
-                            head.setFacing(BlockFace.UP);
-
-                            block.getRelative(BlockFace.UP).setBlockData(head, false);
-                        }
-                        else {
-                            block.getRelative(BlockFace.UP).setType(Material.AIR);
-                        }
-
-                        block.getWorld().playSound(block.getLocation(), extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT, 0.1F, 1F);
+                        setExtended(block, piston, extended);
                     }
                     else {
                         // The pistons must be facing upwards
@@ -358,6 +346,24 @@ class ActiveMiner implements Runnable {
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occured while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
             stop();
         }
+    }
+
+    private void setExtended(Block block, Piston piston, boolean extended) {
+        piston.setExtended(extended);
+        block.setBlockData(piston, false);
+
+        // Updating the Piston Head
+        if (extended) {
+            PistonHead head = (PistonHead) Material.PISTON_HEAD.createBlockData();
+            head.setFacing(BlockFace.UP);
+
+            block.getRelative(BlockFace.UP).setBlockData(head, false);
+        }
+        else {
+            block.getRelative(BlockFace.UP).setType(Material.AIR);
+        }
+
+        block.getWorld().playSound(block.getLocation(), extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT, 0.1F, 1F);
     }
 
 }

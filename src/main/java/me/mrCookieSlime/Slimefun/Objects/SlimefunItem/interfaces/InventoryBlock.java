@@ -14,6 +14,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+// This interface should be reconsidered and moved at some point too
 public interface InventoryBlock {
 
     /**

@@ -1,30 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 
     public Refinery(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    protected void registerDefaultRecipes() {
+        registerRecipe(40, SlimefunItems.OIL_BUCKET, SlimefunItems.FUEL_BUCKET);
     }
 
     @Override
@@ -40,57 +34,6 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
     @Override
     public String getMachineIdentifier() {
         return "REFINERY";
-    }
-
-    @Override
-    public List<ItemStack> getDisplayRecipes() {
-        return Arrays.asList(SlimefunItems.OIL_BUCKET, SlimefunItems.FUEL_BUCKET);
-    }
-
-    @Override
-    protected void tick(Block b) {
-        BlockMenu menu = BlockStorage.getInventory(b);
-
-        if (isProcessing(b)) {
-            int timeleft = progress.get(b);
-
-            if (timeleft > 0) {
-                ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
-
-                if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
-                        return;
-                    }
-
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
-                }
-                else progress.put(b, timeleft - 1);
-            }
-            else {
-                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-                menu.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
-
-                progress.remove(b);
-                processing.remove(b);
-            }
-        }
-        else {
-            for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.OIL_BUCKET, true)) {
-                    if (!menu.fits(SlimefunItems.FUEL_BUCKET, getOutputSlots())) {
-                        return;
-                    }
-
-                    MachineRecipe recipe = new MachineRecipe(40, new ItemStack[0], new ItemStack[] { SlimefunItems.FUEL_BUCKET });
-
-                    menu.consumeItem(slot);
-                    processing.put(b, recipe);
-                    progress.put(b, recipe.getTicks());
-                    break;
-                }
-            }
-        }
     }
 
 }
