@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -233,47 +234,7 @@ abstract class ChestTerminalNetwork extends Network {
     }
 
     protected void updateTerminals(Set<Location> providers) {
-        List<ItemStackAndInteger> items = new ArrayList<>();
-
-        for (Location l : providers) {
-            Optional<Block> block = getAttachedBlock(l.getBlock());
-
-            if (block.isPresent()) {
-                Block target = block.get();
-                UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
-
-                if (menu != null) {
-                    for (int slot : menu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) menu, ItemTransportFlow.WITHDRAW, null)) {
-                        ItemStack is = menu.getItemInSlot(slot);
-                        filter(is, items, l);
-                    }
-                }
-                else if (BlockStorage.hasInventory(target)) {
-                    BlockMenu blockMenu = BlockStorage.getInventory(target);
-                    Config cfg = BlockStorage.getLocationInfo(target.getLocation());
-
-                    if (cfg.getString("id").startsWith("BARREL_") && cfg.getString("storedItems") != null) {
-                        gatherItemsFromBarrel(l, cfg, blockMenu, items);
-                    }
-                    else {
-                        handleWithdraw(blockMenu, items, l);
-                    }
-                }
-                else if (CargoUtils.hasInventory(target)) {
-                    BlockState state = target.getState();
-
-                    if (state instanceof InventoryHolder) {
-                        Inventory inv = ((InventoryHolder) state).getInventory();
-
-                        for (ItemStack is : inv.getContents()) {
-                            filter(is, items, l);
-                        }
-                    }
-                }
-            }
-        }
-
-        Collections.sort(items, Comparator.comparingInt(item -> -item.getInt()));
+        List<ItemStackAndInteger> items = findAvailableItems(providers);
 
         for (Location l : terminals) {
             BlockMenu menu = BlockStorage.getInventory(l);
@@ -320,6 +281,51 @@ abstract class ChestTerminalNetwork extends Network {
                 }
             }
         }
+    }
+
+    private List<ItemStackAndInteger> findAvailableItems(Set<Location> providers) {
+        List<ItemStackAndInteger> items = new LinkedList<>();
+
+        for (Location l : providers) {
+            Optional<Block> block = getAttachedBlock(l.getBlock());
+
+            if (block.isPresent()) {
+                Block target = block.get();
+                UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
+
+                if (menu != null) {
+                    for (int slot : menu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) menu, ItemTransportFlow.WITHDRAW, null)) {
+                        ItemStack is = menu.getItemInSlot(slot);
+                        filter(is, items, l);
+                    }
+                }
+                else if (BlockStorage.hasInventory(target)) {
+                    BlockMenu blockMenu = BlockStorage.getInventory(target);
+                    Config cfg = BlockStorage.getLocationInfo(target.getLocation());
+
+                    if (cfg.getString("id").startsWith("BARREL_") && cfg.getString("storedItems") != null) {
+                        gatherItemsFromBarrel(l, cfg, blockMenu, items);
+                    }
+                    else {
+                        handleWithdraw(blockMenu, items, l);
+                    }
+                }
+                else if (CargoUtils.hasInventory(target)) {
+                    BlockState state = target.getState();
+
+                    if (state instanceof InventoryHolder) {
+                        Inventory inv = ((InventoryHolder) state).getInventory();
+
+                        for (ItemStack is : inv.getContents()) {
+                            filter(is, items, l);
+                        }
+                    }
+                }
+            }
+        }
+
+        Collections.sort(items, Comparator.comparingInt(item -> -item.getInt()));
+        return items;
     }
 
     private void gatherItemsFromBarrel(Location l, Config cfg, BlockMenu blockMenu, List<ItemStackAndInteger> items) {
