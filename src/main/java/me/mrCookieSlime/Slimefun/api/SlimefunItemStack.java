@@ -172,18 +172,6 @@ public class SlimefunItemStack extends CustomItem {
     }
 
     /**
-     * Returns the id that was given to this {@link SlimefunItemStack}.
-     * 
-     * @deprecated Renamed to {@link #getItemId()}
-     * 
-     * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
-     */
-    @Deprecated
-    public String getItemID() {
-        return id;
-    }
-
-    /**
      * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}. Null if no item is found.
      *
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
