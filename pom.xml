@@ -55,11 +55,6 @@
             <id>enginehub</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
-        <!-- PlotSquared -->
-        <repository>
-            <id>IntellectualSites</id>
-            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
-        </repository>
     </repositories>
 
     <build>
@@ -218,18 +213,6 @@
             <version>5.5.1</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit</artifactId>
-            <version>v1.15-d69d9ca9cb-1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.3.3</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Shaded packages -->
         <dependency>
@@ -250,6 +233,7 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.1.0</version>
+            <scope>provided</scope>
             <exclusions>
                 <!-- This one is ignored because it pops up everytime -->
                 <!-- I try to import File... yes, I want the java.io one... -->
@@ -270,16 +254,6 @@
             <artifactId>EmeraldEnchants2</artifactId>
             <version>3cd370b5d8</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.plotsquared</groupId>
-            <artifactId>PlotSquared</artifactId>
-            <version>5.11.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.plotsquared</groupId>
-            <artifactId>PlotSquared-Bukkit</artifactId>
-            <version>5.11.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
