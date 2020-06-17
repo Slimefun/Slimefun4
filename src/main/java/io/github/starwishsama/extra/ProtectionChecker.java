@@ -68,12 +68,13 @@ public class ProtectionChecker implements Listener {
             }
 
             ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
-            if (res != null) {
-                ResidencePermissions perms = res.getPermissions();
 
+            if (res != null) {
                 if (res.getOwnerUUID() == p.getUniqueId()) {
                     return true;
                 }
+
+                ResidencePermissions perms = res.getPermissions();
 
                 switch (action) {
                     case BREAK_BLOCK:
@@ -84,8 +85,6 @@ public class ProtectionChecker implements Listener {
                         if (!perms.playerHas(p, Flags.use, true)) {
                             SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
                             return false;
-                        } else {
-                            return true;
                         }
                 }
             }
