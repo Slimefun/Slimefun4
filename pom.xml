@@ -8,7 +8,7 @@
 
     <!-- Our default version will be UNOFFICIAL, this will prevent the auto updater -->
     <!-- from overriding our local test file -->
-    <version>4.3-WEEKLY-200614</version>
+    <version>4.3-NIGHTLY-200617</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -57,8 +57,8 @@
         </repository>
         <!-- PlotSquared -->
         <repository>
-            <id>plotsquared</id>
-            <url>https://plotsquared.com/mvn/</url>
+            <id>IntellectualSites</id>
+            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -250,7 +250,6 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.1.0</version>
-            <scope>provided</scope>
             <exclusions>
                 <!-- This one is ignored because it pops up everytime -->
                 <!-- I try to import File... yes, I want the java.io one... -->
@@ -275,8 +274,12 @@
         <dependency>
             <groupId>com.plotsquared</groupId>
             <artifactId>PlotSquared</artifactId>
-            <version>5.1</version>
-            <scope>provided</scope>
+            <version>5.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.plotsquared</groupId>
+            <artifactId>PlotSquared-Bukkit</artifactId>
+            <version>5.11.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
