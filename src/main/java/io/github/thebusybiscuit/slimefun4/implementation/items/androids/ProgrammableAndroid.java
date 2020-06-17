@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -762,7 +763,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     protected void move(Block b, BlockFace face, Block block) {
         Player p = Bukkit.getPlayer(ProtectionChecker.getOwnerByJson(BlockStorage.getBlockInfoAsJson(b.getLocation())));
 
-        if (p != null && !ProtectionChecker.canInteract(p, block, ProtectionChecker.InteractType.MOVE)) {
+        if (p != null && !ProtectionChecker.canInteract(p, block, ProtectableAction.PLACE_BLOCK)) {
             BlockStorage.addBlockInfo(b, "paused", "false");
             SlimefunPlugin.getLocal().sendMessage(p, "messages.android-no-permission", true);
             return;

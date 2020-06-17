@@ -7,6 +7,7 @@ import com.bekvon.bukkit.residence.protection.ResidencePermissions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -32,7 +33,7 @@ public class ProtectionChecker implements Listener {
         if (e != null) {
             Player p = Bukkit.getPlayer(getOwnerByJson(BlockStorage.getBlockInfoAsJson(e.getAndroid().getBlock())));
 
-            if (!canInteract(p, e.getBlock(), InteractType.DESTROY)) {
+            if (!canInteract(p, e.getBlock(), ProtectableAction.BREAK_BLOCK)) {
                 e.setCancelled(true);
                 SlimefunPlugin.getLocal().sendMessage(p, "android.no-permission");
             }
@@ -55,16 +56,17 @@ public class ProtectionChecker implements Listener {
     /**
      * 检查是否可以在领地/地皮内破坏/交互方块
      *
-     * @param p     玩家
-     * @param block 被破坏的方块
-     * @param type  交互类型
+     * @param p      玩家
+     * @param block  被破坏的方块
+     * @param action 交互类型
      * @return 是否可以破坏
      */
-    public static boolean canInteract(Player p, Block block, InteractType type) {
+    public static boolean canInteract(Player p, Block block, ProtectableAction action) {
         if (p != null && block != null && resInstalled) {
             if (p.isOp()) {
                 return true;
             }
+
             ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
             if (res != null) {
                 ResidencePermissions perms = res.getPermissions();
@@ -73,13 +75,12 @@ public class ProtectionChecker implements Listener {
                     return true;
                 }
 
-                switch (type) {
-                    case DESTROY:
+                switch (action) {
+                    case BREAK_BLOCK:
                         return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.build, true);
-                    case PLACE:
-                    case MOVE:
+                    case PLACE_BLOCK:
                         return perms.playerHas(p, Flags.place, true) || perms.playerHas(p, Flags.build, true);
-                    case INTERACT:
+                    case ACCESS_INVENTORIES:
                         if (!perms.playerHas(p, Flags.use, true)) {
                             SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
                             return false;
@@ -101,9 +102,5 @@ public class ProtectionChecker implements Listener {
             }
         }
         return null;
-    }
-
-    public enum InteractType {
-        DESTROY, PLACE, INTERACT, MOVE
     }
 }

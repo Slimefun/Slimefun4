@@ -108,7 +108,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
 
     protected void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
         if (!isUnbreakable(b.getType().name())
-                && ProtectionChecker.canInteract(p, b, ProtectionChecker.InteractType.DESTROY)
+                && ProtectionChecker.canInteract(p, b, ProtectableAction.BREAK_BLOCK)
                 && b.getType() != Material.AIR
                 && !b.isLiquid()
                 && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType())

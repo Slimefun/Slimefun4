@@ -192,7 +192,7 @@ public class TalismanListener implements Listener {
 
         if (item.getType() != Material.AIR && item.getAmount() > 0
                 && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)
-                && ProtectionChecker.canInteract(e.getPlayer(), b, ProtectionChecker.InteractType.DESTROY)) {
+                && ProtectionChecker.canInteract(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
             Collection<ItemStack> drops = b.getDrops(item);
             int dropAmount = 1;
 
