@@ -149,11 +149,16 @@ public abstract class HeatedPressureChamber extends AContainer {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
                 if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                        return;
+                    }
+
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
                     progress.put(b, timeleft - 1);
                 }
-                else progress.put(b, timeleft - 1);
+                else {
+                    progress.put(b, timeleft - 1);
+                }
             }
             else {
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -192,11 +197,13 @@ public abstract class HeatedPressureChamber extends AContainer {
                     }
                 }
             }
-            
+
             if (found.size() == recipe.getInput().length) {
                 return recipe;
             }
-            else found.clear();
+            else {
+                found.clear();
+            }
         }
 
         return null;

@@ -38,8 +38,8 @@ public class AdvancedCargoOutputNode extends AbstractCargoNode {
                 BlockStorage.addBlockInfo(b, "index", "0");
                 BlockStorage.addBlockInfo(b, FREQUENCY, "0");
                 BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
-                BlockStorage.addBlockInfo(b, "filter-lore", "true");
-                BlockStorage.addBlockInfo(b, "filter-durability", "false");
+                BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(true));
+                BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(false));
             }
 
             @Override
@@ -87,10 +87,10 @@ public class AdvancedCargoOutputNode extends AbstractCargoNode {
             });
         }
 
-        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
+        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals(String.valueOf(false))) {
             menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-durability", "true");
+                BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });
@@ -103,16 +103,16 @@ public class AdvancedCargoOutputNode extends AbstractCargoNode {
 
             menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-durability", "false");
+                BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(false));
                 updateBlockMenu(menu, b);
                 return false;
             });
         }
 
-        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
+        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals(String.valueOf(true))) {
             menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-lore", "false");
+                BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(false));
                 updateBlockMenu(menu, b);
                 return false;
             });
@@ -120,7 +120,7 @@ public class AdvancedCargoOutputNode extends AbstractCargoNode {
         else {
             menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-lore", "true");
+                BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });

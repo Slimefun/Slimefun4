@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -61,7 +62,7 @@ public class DebugFishListener implements Listener {
                 if (p.isSneaking()) {
                     Block b = e.getClickedBlock().getRelative(e.getBlockFace());
                     b.setType(Material.PLAYER_HEAD);
-                    SkullBlock.setFromBase64(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTllYjlkYTI2Y2YyZDMzNDEzOTdhN2Y0OTEzYmEzZDM3ZDFhZDEwZWFlMzBhYjI1ZmEzOWNlYjg0YmMifX19");
+                    SkullBlock.setFromHash(b, HeadTexture.UNKNOWN.getTexture());
                 }
                 else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
                     sendInfo(p, e.getClickedBlock());

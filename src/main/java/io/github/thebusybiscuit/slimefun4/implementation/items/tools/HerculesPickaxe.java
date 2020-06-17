@@ -36,7 +36,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                     if (!Slimefun.hasUnlocked(e.getPlayer(), HerculesPickaxe.this, true)) {
                         return true;
                     }
-                    
+
                     if (e.getBlock().getType() == Material.IRON_ORE) {
                         drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
                     }
@@ -48,6 +48,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                             drops.add(new CustomItem(drop, drop.getAmount() * 2));
                         }
                     }
+
                     return true;
                 }
                 else return false;

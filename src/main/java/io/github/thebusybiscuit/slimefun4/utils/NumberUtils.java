@@ -58,8 +58,9 @@ public final class NumberUtils {
     }
 
     public static int getInt(String str, int defaultVal) {
-        if (PatternUtils.NUMERIC.matcher(str).matches())
+        if (PatternUtils.NUMERIC.matcher(str).matches()) {
             return Integer.parseInt(str);
+        }
 
         return defaultVal;
     }

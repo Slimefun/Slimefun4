@@ -120,7 +120,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+        if (ChargableBlock.getCharge(b) >= getEnergyConsumption()) {
             for (int x = -getRadius(); x <= getRadius(); x++) {
                 for (int z = -getRadius(); z <= getRadius(); z++) {
                     Block block = b.getRelative(x, 0, z);

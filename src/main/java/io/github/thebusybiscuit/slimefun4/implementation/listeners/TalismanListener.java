@@ -37,8 +37,8 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman.TalismanEnchantment;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.TalismanEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -186,6 +186,7 @@ public class TalismanListener implements Listener {
         if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
             TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem());
+
             if (enchantment != null) {
                 e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
             }
@@ -194,9 +195,9 @@ public class TalismanListener implements Listener {
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
             Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
-            for (Enchantment en : enchantments) {
+            for (Enchantment enchantment : enchantments) {
                 if (random.nextInt(100) < 40) {
-                    e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
+                    e.getEnchantsToAdd().put(enchantment, random.nextInt(3) + 1);
                 }
             }
 

@@ -29,7 +29,7 @@ public final class ChatUtils {
         sender.sendMessage(ChatColors.color("&7&o" + url));
         sender.sendMessage("");
     }
-    
+
     public static String removeColorCodes(String string) {
         return ChatColor.stripColor(ChatColors.color(string));
     }
@@ -51,9 +51,21 @@ public final class ChatUtils {
         ChatInput.waitForPlayer(SlimefunPlugin.instance, p, callback);
     }
 
+    /**
+     * This converts a given {@link String} to a human-friendly version.
+     * This can be used to convert enum constants to easier to read words with
+     * spaces and upper case word starts.
+     * 
+     * For example:
+     * {@code ENUM_CONSTANT: Enum Constant}
+     * 
+     * @param string
+     *            The {@link String} to convert
+     * 
+     * @return A human-friendly version of the given {@link String}
+     */
     public static String humanize(String string) {
         StringBuilder builder = new StringBuilder();
-
         String[] segments = string.toLowerCase(Locale.ROOT).split("_");
 
         builder.append(Character.toUpperCase(segments[0].charAt(0))).append(segments[0].substring(1));

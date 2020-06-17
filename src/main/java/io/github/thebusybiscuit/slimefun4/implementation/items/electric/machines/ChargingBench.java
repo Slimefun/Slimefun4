@@ -41,41 +41,46 @@ public class ChargingBench extends AContainer {
 
     @Override
     protected void tick(Block b) {
-        if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+        if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+            return;
+        }
 
-        BlockMenu menu = BlockStorage.getInventory(b);
+        BlockMenu inv = BlockStorage.getInventory(b);
 
         for (int slot : getInputSlots()) {
-            ItemStack stack = menu.getItemInSlot(slot);
+            ItemStack item = inv.getItemInSlot(slot);
 
-            if (ItemEnergy.getMaxEnergy(stack) > 0) {
-                if (ItemEnergy.getStoredEnergy(stack) < ItemEnergy.getMaxEnergy(stack)) {
-
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    float rest = ItemEnergy.addStoredEnergy(stack, getEnergyConsumption() / 2F);
-
-                    if (rest > 0F) {
-                        if (menu.fits(stack, getOutputSlots())) {
-                            menu.pushItem(stack, getOutputSlots());
-                            menu.replaceExistingItem(slot, null);
-                        }
-                        else {
-                            menu.replaceExistingItem(slot, stack);
-                        }
-                    }
-                    else {
-                        menu.replaceExistingItem(slot, stack);
-                    }
-                }
-                else if (menu.fits(stack, getOutputSlots())) {
-                    menu.pushItem(stack, getOutputSlots());
-                    menu.replaceExistingItem(slot, null);
-                }
-                else {
-                    menu.replaceExistingItem(slot, stack);
-                }
+            if (ItemEnergy.getMaxEnergy(item) > 0) {
+                charge(b, inv, slot, item);
                 return;
             }
+        }
+    }
+
+    private void charge(Block b, BlockMenu inv, int slot, ItemStack item) {
+        if (ItemEnergy.getStoredEnergy(item) < ItemEnergy.getMaxEnergy(item)) {
+            ChargableBlock.addCharge(b, -getEnergyConsumption());
+            float rest = ItemEnergy.addStoredEnergy(item, getEnergyConsumption() / 2F);
+
+            if (rest > 0F) {
+                if (inv.fits(item, getOutputSlots())) {
+                    inv.pushItem(item, getOutputSlots());
+                    inv.replaceExistingItem(slot, null);
+                }
+                else {
+                    inv.replaceExistingItem(slot, item);
+                }
+            }
+            else {
+                inv.replaceExistingItem(slot, item);
+            }
+        }
+        else if (inv.fits(item, getOutputSlots())) {
+            inv.pushItem(item, getOutputSlots());
+            inv.replaceExistingItem(slot, null);
+        }
+        else {
+            inv.replaceExistingItem(slot, item);
         }
     }
 

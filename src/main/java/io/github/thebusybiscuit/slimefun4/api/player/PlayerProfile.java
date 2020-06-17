@@ -12,6 +12,7 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang.Validate;
@@ -35,6 +36,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * A class that can store a Player's {@link Research} progress for caching purposes.
@@ -79,10 +81,15 @@ public final class PlayerProfile {
         }
 
         for (String key : waypointsFile.getKeys()) {
-            if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
-                String waypointName = waypointsFile.getString(key + ".name");
-                Location loc = waypointsFile.getLocation(key);
-                waypoints.add(new Waypoint(this, key, loc, waypointName));
+            try {
+                if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
+                    String waypointName = waypointsFile.getString(key + ".name");
+                    Location loc = waypointsFile.getLocation(key);
+                    waypoints.add(new Waypoint(this, key, loc, waypointName));
+                }
+            }
+            catch (Exception x) {
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
             }
         }
     }

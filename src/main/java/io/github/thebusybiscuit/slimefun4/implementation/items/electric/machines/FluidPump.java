@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -94,27 +95,20 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     protected void tick(Block b) {
         Block fluid = b.getRelative(BlockFace.DOWN);
-        ItemStack output = null;
+        Optional<ItemStack> bucket = getBucket(fluid);
 
-        if (fluid.getType() == Material.LAVA) {
-            output = new ItemStack(Material.LAVA_BUCKET);
-        }
-        else if (fluid.getType() == Material.WATER) {
-            output = new ItemStack(Material.WATER_BUCKET);
-        }
-
-        if (output != null && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
+        if (bucket.isPresent() && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
             BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-                    if (!menu.fits(output, getOutputSlots())) {
+                    if (!menu.fits(bucket.get(), getOutputSlots())) {
                         return;
                     }
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                     menu.consumeItem(slot);
-                    menu.pushItem(output, getOutputSlots());
+                    menu.pushItem(bucket.get(), getOutputSlots());
 
                     if (fluid.getType() == Material.WATER) {
                         fluid.setType(Material.AIR);
@@ -128,6 +122,17 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                 }
             }
         }
+    }
+
+    private Optional<ItemStack> getBucket(Block fluid) {
+        if (fluid.getType() == Material.LAVA) {
+            return Optional.of(new ItemStack(Material.LAVA_BUCKET));
+        }
+        else if (fluid.getType() == Material.WATER) {
+            return Optional.of(new ItemStack(Material.WATER_BUCKET));
+        }
+
+        return Optional.empty();
     }
 
     @Override

@@ -190,7 +190,9 @@ public class AncientAltarListener implements Listener {
                         else {
                             altars.remove(b);
 
-                            pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                            for (Block block : pedestals) {
+                                altarsInUse.remove(block.getLocation());
+                            }
 
                             // Item not unlocked, no longer in use.
                             altarsInUse.remove(b.getLocation());
@@ -200,7 +202,9 @@ public class AncientAltarListener implements Listener {
                         altars.remove(b);
                         SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
-                        pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                        for (Block block : pedestals) {
+                            altarsInUse.remove(block.getLocation());
+                        }
 
                         // Bad recipe, no longer in use.
                         altarsInUse.remove(b.getLocation());
@@ -210,7 +214,9 @@ public class AncientAltarListener implements Listener {
                     altars.remove(b);
                     SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 
-                    pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                    for (Block block : pedestals) {
+                        altarsInUse.remove(block.getLocation());
+                    }
 
                     // Unknown catalyst, no longer in use
                     altarsInUse.remove(b.getLocation());

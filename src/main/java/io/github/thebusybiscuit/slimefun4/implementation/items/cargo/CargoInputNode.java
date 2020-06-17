@@ -38,9 +38,9 @@ public class CargoInputNode extends AbstractCargoNode {
                 BlockStorage.addBlockInfo(b, "index", "0");
                 BlockStorage.addBlockInfo(b, FREQUENCY, "0");
                 BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
-                BlockStorage.addBlockInfo(b, "filter-lore", "true");
-                BlockStorage.addBlockInfo(b, "filter-durability", "false");
-                BlockStorage.addBlockInfo(b, "round-robin", "false");
+                BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(true));
+                BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(false));
+                BlockStorage.addBlockInfo(b, "round-robin", String.valueOf(false));
             }
 
             @Override
@@ -88,10 +88,10 @@ public class CargoInputNode extends AbstractCargoNode {
             });
         }
 
-        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
+        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals(String.valueOf(false))) {
             menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-durability", "true");
+                BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });
@@ -104,16 +104,16 @@ public class CargoInputNode extends AbstractCargoNode {
 
             menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-durability", "false");
+                BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(false));
                 updateBlockMenu(menu, b);
                 return false;
             });
         }
 
-        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "round-robin") == null || BlockStorage.getLocationInfo(b.getLocation(), "round-robin").equals("false")) {
+        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "round-robin") == null || BlockStorage.getLocationInfo(b.getLocation(), "round-robin").equals(String.valueOf(false))) {
             menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "round-robin", "true");
+                BlockStorage.addBlockInfo(b, "round-robin", String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });
@@ -121,16 +121,16 @@ public class CargoInputNode extends AbstractCargoNode {
         else {
             menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "round-robin", "false");
+                BlockStorage.addBlockInfo(b, "round-robin", String.valueOf(false));
                 updateBlockMenu(menu, b);
                 return false;
             });
         }
 
-        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
+        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals(String.valueOf(true))) {
             menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-lore", "false");
+                BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(false));
                 updateBlockMenu(menu, b);
                 return false;
             });
@@ -138,7 +138,7 @@ public class CargoInputNode extends AbstractCargoNode {
         else {
             menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, "filter-lore", "true");
+                BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });

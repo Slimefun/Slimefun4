@@ -83,54 +83,43 @@ public class GrapplingHookListener implements Listener {
                 arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK);
             }
 
-            if (p.getLocation().distance(arrow.getLocation()) < 3.0D) {
-                if (arrow.getLocation().getY() > p.getLocation().getY()) {
-                    p.setVelocity(new Vector(0.0D, 0.25D, 0.0D));
-                }
-                else {
-                    p.setVelocity(arrow.getLocation().toVector().subtract(p.getLocation().toVector()));
-                }
+            Vector velocity = new Vector(0.0, 0.2, 0.0);
 
-                for (Entity n : temporaryEntities.get(p.getUniqueId())) {
-                    if (n.isValid()) {
-                        n.remove();
-                    }
+            if (p.getLocation().distance(arrow.getLocation()) < 3.0) {
+                if (arrow.getLocation().getY() <= p.getLocation().getY()) {
+                    velocity = arrow.getLocation().toVector().subtract(p.getLocation().toVector());
                 }
-
-                Slimefun.runSync(() -> {
-                    grappleState.remove(p.getUniqueId());
-                    temporaryEntities.remove(p.getUniqueId());
-                }, 20L);
             }
             else {
                 Location l = p.getLocation();
-                l.setY(l.getY() + 0.5D);
+                l.setY(l.getY() + 0.5);
                 p.teleport(l);
 
-                double g = -0.08D;
+                double g = -0.08;
                 double d = arrow.getLocation().distance(l);
                 double t = d;
-                double vX = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getX() - l.getX()) / t;
-                double vY = (1.0D + 0.04D * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
-                double vZ = (1.0D + 0.08000000000000001D * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
+                double vX = (1.0 + 0.08 * t) * (arrow.getLocation().getX() - l.getX()) / t;
+                double vY = (1.0 + 0.04 * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
+                double vZ = (1.0 + 0.08 * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
 
-                Vector v = p.getVelocity();
-
-                v.setX(vX);
-                v.setY(vY);
-                v.setZ(vZ);
-
-                p.setVelocity(v);
-
-                for (Entity n : temporaryEntities.get(p.getUniqueId())) {
-                    if (n.isValid()) n.remove();
-                }
-
-                Slimefun.runSync(() -> {
-                    grappleState.remove(p.getUniqueId());
-                    temporaryEntities.remove(p.getUniqueId());
-                }, 20L);
+                velocity = p.getVelocity();
+                velocity.setX(vX);
+                velocity.setY(vY);
+                velocity.setZ(vZ);
             }
+
+            p.setVelocity(velocity);
+
+            for (Entity n : temporaryEntities.get(p.getUniqueId())) {
+                if (n.isValid()) {
+                    n.remove();
+                }
+            }
+
+            Slimefun.runSync(() -> {
+                grappleState.remove(p.getUniqueId());
+                temporaryEntities.remove(p.getUniqueId());
+            }, 20L);
         }
     }
 
@@ -149,7 +138,9 @@ public class GrapplingHookListener implements Listener {
                 SlimefunPlugin.getBowListener().getBows().remove(uuid);
 
                 for (Entity n : temporaryEntities.get(uuid)) {
-                    if (n.isValid()) n.remove();
+                    if (n.isValid()) {
+                        n.remove();
+                    }
                 }
 
                 Slimefun.runSync(() -> {

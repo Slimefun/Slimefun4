@@ -112,7 +112,7 @@ public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBloc
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) {
+        if (ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
             for (int x = -RADIUS; x <= RADIUS; x++) {
                 for (int z = -RADIUS; z <= RADIUS; z++) {
                     Block block = b.getRelative(x, 0, z);

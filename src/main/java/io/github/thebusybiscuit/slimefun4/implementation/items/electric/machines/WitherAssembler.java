@@ -62,10 +62,10 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
+                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals(String.valueOf(false))) {
                     menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", "true");
+                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(true));
                         newInstance(menu, b);
                         return false;
                     });
@@ -73,7 +73,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
                 else {
                     menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", "false");
+                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
                         newInstance(menu, b);
                         return false;
                     });
@@ -116,7 +116,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
                 BlockStorage.addBlockInfo(b, "offset", "3.0");
-                BlockStorage.addBlockInfo(b, "enabled", "false");
+                BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
             }
 
             @Override
@@ -190,7 +190,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
+                if (String.valueOf(false).equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
                     return;
                 }
 

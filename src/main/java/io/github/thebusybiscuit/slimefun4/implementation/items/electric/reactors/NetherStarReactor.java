@@ -34,7 +34,7 @@ public abstract class NetherStarReactor extends AReactor {
 
     @Override
     public String getInventoryTitle() {
-        return "&fNether Star Reactor";
+        return "Nether Star Reactor";
     }
 
     @Override
