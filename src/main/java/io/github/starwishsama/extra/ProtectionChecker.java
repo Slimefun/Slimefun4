@@ -7,7 +7,6 @@ import com.bekvon.bukkit.residence.protection.ResidencePermissions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.plotsquared.core.plot.Plot;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -27,7 +26,6 @@ import java.util.logging.Level;
  */
 public class ProtectionChecker implements Listener {
     private static boolean resInstalled = false;
-    private static boolean plotInstalled = false;
 
     @EventHandler
     public void onAndroidMine(AndroidMineEvent e) {
@@ -42,22 +40,16 @@ public class ProtectionChecker implements Listener {
     }
 
     public ProtectionChecker(SlimefunPlugin plugin) {
-        checkInstallStatus(plugin);
+        resInstalled = plugin.getServer().getPluginManager().getPlugin("Residence") != null;
 
-        if (!resInstalled && !plotInstalled) {
-            plugin.getLogger().log(Level.WARNING, "未检测到领地/地皮插件, 相关功能将自动关闭");
+        if (!resInstalled) {
+            plugin.getLogger().log(Level.WARNING, "未检测到领地插件, 相关功能将自动关闭");
             return;
         }
 
-        if (resInstalled) plugin.getLogger().log(Level.INFO, "检测到领地插件, 相关功能已开启");
-        if (plotInstalled) plugin.getLogger().log(Level.INFO, "检测到地皮插件, 相关功能已开启");
+        plugin.getLogger().log(Level.INFO, "检测到领地插件, 相关功能已开启");
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
-    public static void checkInstallStatus(SlimefunPlugin plugin) {
-        resInstalled = plugin.getServer().getPluginManager().getPlugin("Residence") != null;
-        plotInstalled = plugin.getServer().getPluginManager().getPlugin("PlotSquared") != null;
     }
 
     /**
@@ -69,42 +61,31 @@ public class ProtectionChecker implements Listener {
      * @return 是否可以破坏
      */
     public static boolean canInteract(Player p, Block block, InteractType type) {
-        if (p != null && block != null) {
+        if (p != null && block != null && resInstalled) {
             if (p.isOp()) {
                 return true;
             }
+            ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
+            if (res != null) {
+                ResidencePermissions perms = res.getPermissions();
 
-            if (resInstalled) {
-                ClaimedResidence res = Residence.getInstance().getResidenceManager().getByLoc(block.getLocation());
-                if (res != null) {
-                    ResidencePermissions perms = res.getPermissions();
-
-                    if (res.getOwnerUUID() == p.getUniqueId()) {
-                        return true;
-                    }
-
-                    switch (type) {
-                        case DESTROY:
-                            return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.build, true);
-                        case PLACE:
-                        case MOVE:
-                            return perms.playerHas(p, Flags.place, true) || perms.playerHas(p, Flags.build, true);
-                        case INTERACT:
-                            if (!perms.playerHas(p, Flags.use, true)) {
-                                SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
-                                return false;
-                            } else {
-                                return true;
-                            }
-                    }
+                if (res.getOwnerUUID() == p.getUniqueId()) {
+                    return true;
                 }
-            }
 
-            if (plotInstalled) {
-                Plot plot = Plot.getPlot(new com.plotsquared.core.location.Location(block.getWorld().getName(), block.getX(), block.getY(), block.getZ()));
-
-                if (plot != null) {
-                    return plot.isOwner(p.getUniqueId()) || plot.isAdded(p.getUniqueId());
+                switch (type) {
+                    case DESTROY:
+                        return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.build, true);
+                    case PLACE:
+                    case MOVE:
+                        return perms.playerHas(p, Flags.place, true) || perms.playerHas(p, Flags.build, true);
+                    case INTERACT:
+                        if (!perms.playerHas(p, Flags.use, true)) {
+                            SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
+                            return false;
+                        } else {
+                            return true;
+                        }
                 }
             }
         }
