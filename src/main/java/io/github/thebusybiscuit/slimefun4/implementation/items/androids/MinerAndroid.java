@@ -38,7 +38,8 @@ public abstract class MinerAndroid extends ProgrammableAndroid {
     protected void dig(Block b, BlockMenu menu, Block block) {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
-        if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty() && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+        if (!MaterialCollections.getAllUnbreakableBlocks().contains(block.getType()) && !drops.isEmpty()
+                && SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
 
             AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
             Bukkit.getPluginManager().callEvent(event);

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import io.github.starwishsama.extra.ProtectionChecker;
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
@@ -13,8 +14,10 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -40,8 +43,11 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
             if (!list.isEmpty()) {
                 Block log = list.get(list.size() - 1);
                 log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
+                OfflinePlayer p = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
 
-                if (SlimefunPlugin.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"))), log.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+                if (SlimefunPlugin.getProtectionManager().hasPermission(p, log.getLocation(), ProtectableAction.BREAK_BLOCK)
+                        && ProtectionChecker.canInteract((Player) p, log, ProtectableAction.BREAK_BLOCK)
+                ) {
                     ItemStack drop = new ItemStack(log.getType());
 
                     if (menu.fits(drop, getOutputSlots())) {
