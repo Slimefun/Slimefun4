@@ -48,7 +48,9 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
      * The provided {@link ItemStack} must be a {@link RepairedSpawner} item.
      * 
      * @param item
-     * @return
+     *            The {@link ItemStack} to extract the {@link EntityType} from
+     * 
+     * @return An {@link Optional} describing the result
      */
     public Optional<EntityType> getEntityType(ItemStack item) {
         for (String line : item.getItemMeta().getLore()) {

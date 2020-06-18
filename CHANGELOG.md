@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 14 (TBD)](#release-candidate-14-tbd)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
 - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
@@ -22,6 +23,9 @@
 
 #### Changes
 * Coolant Cells now last twice as long
+
+#### Fixes
+* Fixed #2005
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.inventory.BrewerInventory;
@@ -254,8 +255,12 @@ final class CargoUtils {
         if (inv instanceof FurnaceInventory) {
             // Check if it is fuel or not
             if (stack.getType().isFuel()) {
-                minSlot = 1;
                 maxSlot = 2;
+
+                // Any non-smeltable items should not land in the upper slot
+                if (!isSmeltable(stack, true)) {
+                    minSlot = 1;
+                }
             }
             else {
                 maxSlot = 1;
@@ -311,6 +316,28 @@ final class CargoUtils {
         }
 
         return stack;
+    }
+
+    /**
+     * This method checks if a given {@link ItemStack} is smeltable or not.
+     * The lazy-option is a performance-saver since actually calculating this can be quite expensive.
+     * For the current applicational purposes a quick check for any wooden logs is sufficient.
+     * Otherwise the "lazyness" can be turned off in the future.
+     * 
+     * @param stack
+     *            The {@link ItemStack} to test
+     * @param lazy
+     *            Whether or not to perform a "lazy" but performance-saving check
+     * 
+     * @return Whether the given {@link ItemStack} can be smelted or not
+     */
+    private static boolean isSmeltable(ItemStack stack, boolean lazy) {
+        if (lazy) {
+            return stack != null && Tag.LOGS.isTagged(stack.getType());
+        }
+        else {
+            return SlimefunPlugin.getMinecraftRecipes().isSmeltable(stack);
+        }
     }
 
     static DirtyChestMenu getChestMenu(Block block) {

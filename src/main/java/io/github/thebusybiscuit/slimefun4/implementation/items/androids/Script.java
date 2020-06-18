@@ -83,10 +83,12 @@ public final class Script {
 
     /**
      * This method checks whether a given {@link Player} is able to leave a rating for this {@link Script}.
-     * 
+     * A {@link Player} is unable to rate his own {@link Script} or a {@link Script} he already rated before.
      * 
      * @param p
-     * @return
+     *            The {@link Player} to check for
+     * 
+     * @return Whether the given {@link Player} is able to rate this {@link Script}
      */
     public boolean canRate(Player p) {
         if (isAuthor(p)) {
