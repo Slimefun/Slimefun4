@@ -2,11 +2,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -45,31 +45,34 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
         return SlimefunItems.ELECTRIC_GOLD_PAN.clone().getItemMeta().getDisplayName();
     }
 
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.DIAMOND_SHOVEL);
-	}
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.DIAMOND_SHOVEL);
+    }
 
-	public abstract int getSpeed();
+    public abstract int getSpeed();
 
-	@Override
-	protected void tick(Block b) {
-		BlockMenu menu = BlockStorage.getInventory(b);
+    @Override
+    protected void tick(Block b) {
+        BlockMenu menu = BlockStorage.getInventory(b);
 
-		if (isProcessing(b)) {
-			int timeleft = progress.get(b);
+        if (isProcessing(b)) {
+            int timeleft = progress.get(b);
 
-			if (timeleft > 0 && getSpeed() < 10) {
-				ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+            if (timeleft > 0 && getSpeed() < 10) {
+                ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-				if (ChargableBlock.isChargable(b)) {
-					if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
-					progress.put(b, timeleft - 1);
-				}
-				else progress.put(b, timeleft - 1);
-			} else if (ChargableBlock.isChargable(b)) {
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                if (ChargableBlock.isChargable(b)) {
+                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                    ChargableBlock.addCharge(b, -getEnergyConsumption());
+                    progress.put(b, timeleft - 1);
+                } else {
+                    progress.put(b, timeleft - 1);
+                }
+            } else if (ChargableBlock.isChargable(b)) {
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    return;
+                }
                 ChargableBlock.addCharge(b, -getEnergyConsumption());
 
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -80,15 +83,25 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
             }
         } else {
             for (int slot : getInputSlots()) {
-                if (process(b, menu, slot)) {
+                if (hasFreeSlot(menu) && process(b, menu, slot)) {
                     break;
                 }
             }
         }
-	}
+    }
 
-	private boolean process(Block b, BlockMenu menu, int slot) {
-		if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
+    private boolean hasFreeSlot(BlockMenu menu) {
+        for (int slot : getOutputSlots()) {
+            if (menu.getItemInSlot(slot) == null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean process(Block b, BlockMenu menu, int slot) {
+        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
             ItemStack output = goldPan.getRandomOutput();
 
             MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[]{output});
@@ -114,8 +127,8 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
             return true;
         }
 
-		return false;
-	}
+        return false;
+    }
 
 	@Override
 	public String getMachineIdentifier() {

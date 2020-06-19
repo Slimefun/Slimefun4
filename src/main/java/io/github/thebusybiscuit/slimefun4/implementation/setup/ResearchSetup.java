@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
@@ -82,8 +82,8 @@ public final class ResearchSetup {
         register("gold_carats", 54, "Pure Gold", 7, SlimefunItems.GOLD_4K, SlimefunItems.GOLD_6K, SlimefunItems.GOLD_8K, SlimefunItems.GOLD_10K, SlimefunItems.GOLD_12K, SlimefunItems.GOLD_14K, SlimefunItems.GOLD_16K, SlimefunItems.GOLD_18K, SlimefunItems.GOLD_20K, SlimefunItems.GOLD_22K, SlimefunItems.GOLD_24K);
         register("silicon", 55, "Silicon Valley", 12, SlimefunItems.SILICON, SlimefunItems.FERROSILICON);
         register("fire_staff", 56, "Fire Staff", 2, SlimefunItems.STAFF_FIRE);
-        register("smelters_pickaxe", 57, "Smelters Pickaxe", 17, SlimefunItems.AUTO_SMELT_PICKAXE);
-        register("common_talisman", 58, "Common Talisman", 14, SlimefunItems.TALISMAN);
+        register("smelters_pickaxe", 57, "Smelters Pickaxe", 17, SlimefunItems.SMELTERS_PICKAXE);
+        register("common_talisman", 58, "Common Talisman", 14, SlimefunItems.COMMON_TALISMAN);
         register("anvil_talisman", 59, "Talisman of the Anvil", 18, SlimefunItems.TALISMAN_ANVIL);
         register("miner_talisman", 60, "Talisman of the Miner", 18, SlimefunItems.TALISMAN_MINER);
         register("hunter_talisman", 61, "Talisman of the Hunter", 18, SlimefunItems.TALISMAN_HUNTER);
@@ -102,7 +102,7 @@ public final class ResearchSetup {
         register("whirlwind_talisman", 75, "Talisman of the Whirlwind", 19, SlimefunItems.TALISMAN_WHIRLWIND);
         register("wizard_talisman", 76, "Talisman of the Wizard", 22, SlimefunItems.TALISMAN_WIZARD);
         register("lumber_axe", 77, "Lumber Axe", 21, SlimefunItems.LUMBER_AXE);
-        register("hazmat_suit", 79, "Hazmat Suit", 21, SlimefunItems.SCUBA_HELMET, SlimefunItems.HAZMATSUIT_CHESTPLATE, SlimefunItems.HAZMATSUIT_LEGGINGS, SlimefunItems.RUBBER_BOOTS);
+        register("hazmat_suit", 79, "Hazmat Suit", 21, SlimefunItems.SCUBA_HELMET, SlimefunItems.HAZMAT_CHESTPLATE, SlimefunItems.HAZMAT_LEGGINGS, SlimefunItems.RUBBER_BOOTS);
         register("uranium", 80, "Radioactive", 30, SlimefunItems.TINY_URANIUM, SlimefunItems.SMALL_URANIUM, SlimefunItems.URANIUM);
         register("crushed_ore", 81, "Ore Purification", 25, SlimefunItems.CRUSHED_ORE, SlimefunItems.PULVERIZED_ORE, SlimefunItems.PURE_ORE_CLUSTER);
         register("redstone_alloy", 84, "Redstone Alloy", 16, SlimefunItems.REDSTONE_ALLOY);
@@ -160,8 +160,8 @@ public final class ResearchSetup {
         register("cooler", 150, "Portable Beverages", 24, SlimefunItems.COOLING_UNIT, SlimefunItems.COOLER);
         register("ancient_altar", 151, "Ancient Altar", 15, SlimefunItems.ANCIENT_PEDESTAL, SlimefunItems.ANCIENT_ALTAR);
         register("wither_proof_obsidian", 152, "Wither-Proof Obsidian", 21, SlimefunItems.WITHER_PROOF_OBSIDIAN);
-        register("ancient_runes", 155, "Elemental Runes", 15, SlimefunItems.BLANK_RUNE, SlimefunItems.RUNE_EARTH, SlimefunItems.RUNE_WATER, SlimefunItems.RUNE_AIR, SlimefunItems.RUNE_FIRE);
-        register("special_runes", 156, "Purple Runes", 18, SlimefunItems.RUNE_ENDER, SlimefunItems.RUNE_RAINBOW);
+        register("ancient_runes", 155, "Elemental Runes", 15, SlimefunItems.BLANK_RUNE, SlimefunItems.EARTH_RUNE, SlimefunItems.WATER_RUNE, SlimefunItems.AIR_RUNE, SlimefunItems.FIRE_RUNE);
+        register("special_runes", 156, "Purple Runes", 18, SlimefunItems.ENDER_RUNE, SlimefunItems.RAINBOW_RUNE);
         register("infernal_bonemeal", 157, "Infernal Bonemeal", 12, SlimefunItems.INFERNAL_BONEMEAL);
         register("rainbow_blocks", 158, "Rainbow Blocks", 24, SlimefunItems.RAINBOW_CLAY, SlimefunItems.RAINBOW_GLASS, SlimefunItems.RAINBOW_GLASS_PANE, SlimefunItems.RAINBOW_WOOL, SlimefunItems.RAINBOW_CONCRETE, SlimefunItems.RAINBOW_GLAZED_TERRACOTTA);
         register("infused_hopper", 159, "Infused Hopper", 22, SlimefunItems.INFUSED_HOPPER);
@@ -169,8 +169,8 @@ public final class ResearchSetup {
         register("duct_tape", 161, "Duct Tape", 14, SlimefunItems.DUCT_TAPE);
         register("plastic_sheet", 162, "Plastic", 25, SlimefunItems.PLASTIC_SHEET);
         register("android_memory_core", 163, "Memory Core", 28, SlimefunItems.ANDROID_MEMORY_CORE);
-        register("oil", 164, "Oil", 30, SlimefunItems.BUCKET_OF_OIL, SlimefunItems.OIL_PUMP);
-        register("fuel", 165, "Fuel", 30, SlimefunItems.BUCKET_OF_FUEL, SlimefunItems.REFINERY);
+        register("oil", 164, "Oil", 30, SlimefunItems.OIL_BUCKET, SlimefunItems.OIL_PUMP);
+        register("fuel", 165, "Fuel", 30, SlimefunItems.FUEL_BUCKET, SlimefunItems.REFINERY);
         register("hologram_projector", 166, "Holograms", 36, SlimefunItems.HOLOGRAM_PROJECTOR);
         register("capacitors", 167, "Tier 1 Capacitors", 25, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.BIG_CAPACITOR);
         register("high_tier_capacitors", 168, "Tier 2 Capacitors", 32, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.CARBONADO_EDGED_CAPACITOR);
@@ -193,7 +193,7 @@ public final class ResearchSetup {
         register("teleporter_activation_plates", 184, "Teleporter Activation", 36, SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL, SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED);
         register("better_solar_generators", 185, "Upgraded Solar Generators", 28, SlimefunItems.SOLAR_GENERATOR_2, SlimefunItems.SOLAR_GENERATOR_3);
         register("better_gps_transmitters", 186, "Upgraded Transmitters", 36, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.GPS_TRANSMITTER_3);
-        register("elevator", 187, "Elevators", 28, SlimefunItems.ELEVATOR);
+        register("elevator", 187, "Elevators", 28, SlimefunItems.ELEVATOR_PLATE);
         register("energized_solar_generator", 188, "Full-Time Solar Power", 44, SlimefunItems.SOLAR_GENERATOR_4);
         register("energized_gps_transmitter", 189, "Top Tier Transmitter", 44, SlimefunItems.GPS_TRANSMITTER_4);
         register("energy_regulator", 190, "Energy Networks 101", 6, SlimefunItems.ENERGY_REGULATOR);
@@ -204,15 +204,15 @@ public final class ResearchSetup {
         register("advanced_butcher_android", 195, "Advanced Androids - Butcher", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_BUTCHER);
         register("advanced_fisherman_android", 196, "Advanced Androids - Fisherman", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN);
         register("animal_growth_accelerator", 197, "Animal Growth Manipulation", 32, SlimefunItems.ANIMAL_GROWTH_ACCELERATOR);
-        register("xp_collector", 198, "XP Collector", 36, SlimefunItems.XP_COLLECTOR);
+        register("xp_collector", 198, "XP Collector", 36, SlimefunItems.EXP_COLLECTOR);
         register("organic_fertilizer", 199, "Organic Fertilizer", 36, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.CARROT_FERTILIZER, SlimefunItems.POTATO_FERTILIZER, SlimefunItems.SEEDS_FERTILIZER, SlimefunItems.BEETROOT_FERTILIZER, SlimefunItems.MELON_FERTILIZER, SlimefunItems.APPLE_FERTILIZER, SlimefunItems.SWEET_BERRIES_FERTILIZER, SlimefunItems.KELP_FERTILIZER);
         register("crop_growth_accelerator", 200, "Crop Growth Acceleration", 40, SlimefunItems.CROP_GROWTH_ACCELERATOR);
         register("better_crop_growth_accelerator", 201, "Upgraded Crop Growth Accelerator", 44, SlimefunItems.CROP_GROWTH_ACCELERATOR_2);
         register("reactor_essentials", 202, "Reactor Essentials", 36, SlimefunItems.REACTOR_COOLANT_CELL, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM);
         register("nuclear_reactor", 203, "Nuclear Power Plant", 48, SlimefunItems.NUCLEAR_REACTOR);
         register("freezer", 204, "Mr Freeze", 20, SlimefunItems.FREEZER);
-        register("cargo_basics", 205, "Cargo Basics", 30, SlimefunItems.CARGO_MOTOR, SlimefunItems.CARGO_MANAGER, SlimefunItems.CARGO_NODE);
-        register("cargo_nodes", 206, "Cargo Setup", 30, SlimefunItems.CARGO_INPUT, SlimefunItems.CARGO_OUTPUT);
+        register("cargo_basics", 205, "Cargo Basics", 30, SlimefunItems.CARGO_MOTOR, SlimefunItems.CARGO_MANAGER, SlimefunItems.CARGO_CONNECTOR_NODE);
+        register("cargo_nodes", 206, "Cargo Setup", 30, SlimefunItems.CARGO_INPUT_NODE, SlimefunItems.CARGO_OUTPUT_NODE);
         register("electric_ingot_machines", 207, "Electric Ingot Fabrication", 18, SlimefunItems.ELECTRIC_GOLD_PAN, SlimefunItems.ELECTRIC_DUST_WASHER, SlimefunItems.ELECTRIC_INGOT_FACTORY);
         register("high_tier_electric_ingot_machines", 209, "Super Fast Ingot Fabrication", 32, SlimefunItems.ELECTRIC_GOLD_PAN_3, SlimefunItems.ELECTRIC_DUST_WASHER_3, SlimefunItems.ELECTRIC_INGOT_FACTORY_3, SlimefunItems.ELECTRIC_ORE_GRINDER_2);
         register("automated_crafting_chamber", 210, "Automated Crafting", 20, SlimefunItems.AUTOMATED_CRAFTING_CHAMBER);
@@ -222,7 +222,7 @@ public final class ResearchSetup {
         register("better_freezer", 214, "Upgraded Freezer", 29, SlimefunItems.FREEZER_2);
         register("boosted_uranium", 215, "Never-Ending Circle", 30, SlimefunItems.BOOSTED_URANIUM);
         register("trash_can", 216, "Trash", 8, SlimefunItems.TRASH_CAN);
-        register("advanced_output_node", 217, "Advanced Output Node", 24, SlimefunItems.CARGO_OUTPUT_ADVANCED);
+        register("advanced_output_node", 217, "Advanced Output Node", 24, SlimefunItems.CARGO_OUTPUT_NODE_2);
         register("carbon_press", 218, "Carbon Press", 28, SlimefunItems.CARBON_PRESS);
         register("electric_smeltery", 219, "Electric Smeltery", 28, SlimefunItems.ELECTRIC_SMELTERY);
         register("better_electric_furnace", 220, "Upgraded Electric Furnace", 20, SlimefunItems.ELECTRIC_FURNACE_2, SlimefunItems.ELECTRIC_FURNACE_3);
@@ -233,7 +233,7 @@ public final class ResearchSetup {
         register("high_tier_carbon_press", 225, "Ultimate Carbon Press", 32, SlimefunItems.CARBON_PRESS_3);
         register("wither_assembler", 226, "Automated Wither Killer", 35, SlimefunItems.WITHER_ASSEMBLER);
         register("better_heated_pressure_chamber", 227, "Upgraded Heated Pressure Chamber", 20, SlimefunItems.HEATED_PRESSURE_CHAMBER_2);
-        register("elytra", 228, "Elytras", 20, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA);
+        register("elytra", 228, "Elytras", 20, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.ELYTRA));
         register("special_elytras", 229, "Special Elytras", 30, SlimefunItems.INFUSED_ELYTRA, SlimefunItems.SOULBOUND_ELYTRA);
         register("electric_crucible", 230, "Electrified Crucible", 26, SlimefunItems.ELECTRIFIED_CRUCIBLE);
         register("better_electric_crucibles", 231, "Hot Crucibles", 30, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.ELECTRIFIED_CRUCIBLE_3);
@@ -250,10 +250,10 @@ public final class ResearchSetup {
         register("auto_drier", 243, "A Dry Day", 15, SlimefunItems.AUTO_DRIER);
         register("diet_cookie", 244, "Diet Cookie", 3, SlimefunItems.DIET_COOKIE);
         register("storm_staff", 245, "Storm Staff", 30, SlimefunItems.STAFF_STORM);
-        register("soulbound_rune", 246, "Soulbound Rune", 60, SlimefunItems.RUNE_SOULBOUND);
+        register("soulbound_rune", 246, "Soulbound Rune", 60, SlimefunItems.SOULBOUND_RUNE);
         register("geo_miner", 247, "GEO-Miner", 24, SlimefunItems.GEO_MINER);
-        register("lightning_rune", 248, "Lightning Rune", 24, SlimefunItems.RUNE_LIGHTNING);
-        register("totem_of_undying", 249, "Totem of Undying", 36, SlimefunItems.TOTEM_OF_UNDYING);
+        register("lightning_rune", 248, "Lightning Rune", 24, SlimefunItems.LIGHTNING_RUNE);
+        register("totem_of_undying", 249, "Totem of Undying", 36, new ItemStack(Material.TOTEM_OF_UNDYING));
         register("charging_bench", 250, "Charging Bench", 8, SlimefunItems.CHARGING_BENCH);
         register("nether_gold_pan", 251, "Nether Gold Pan", 8, SlimefunItems.NETHER_GOLD_PAN);
         register("electric_press", 252, "Electric Press", 16, SlimefunItems.ELECTRIC_PRESS, SlimefunItems.ELECTRIC_PRESS_2);

@@ -2,8 +2,8 @@ package me.mrCookieSlime.Slimefun.Objects.handlers;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -17,11 +18,14 @@ import org.bukkit.Material;
 import org.bukkit.Nameable;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
@@ -46,11 +50,12 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
             e.setCancelled(true);
 
             if ((facedBlock.getType() == null || facedBlock.getType() == Material.AIR) && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
-                SlimefunItem sfItem = SlimefunItem.getByItem(e.getItem());
+                SlimefunItem item = SlimefunItem.getByItem(e.getItem());
 
-                if (sfItem != null) {
-                    if (!SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(sfItem.getID())) {
-                        placeSlimefunBlock(sfItem, e.getItem(), facedBlock, dispenser);
+                if (item != null) {
+                    // Check if this Item can even be placed down
+                    if (!(item instanceof NotPlaceable) && !SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(item.getID())) {
+                        placeSlimefunBlock(item, e.getItem(), facedBlock, dispenser);
                     }
                 } else {
                     placeBlock(e.getItem(), facedBlock, dispenser);
@@ -73,15 +78,24 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
         return false;
     }
 
-    private void placeSlimefunBlock(SlimefunItem sfItem, ItemStack item, Block facedBlock, Dispenser dispenser) {
-        facedBlock.setType(item.getType());
-        BlockStorage.store(facedBlock, sfItem.getID());
-        facedBlock.getWorld().playEffect(facedBlock.getLocation(), Effect.STEP_SOUND, item.getType());
+    private void placeSlimefunBlock(SlimefunItem sfItem, ItemStack item, Block block, Dispenser dispenser) {
+        block.setType(item.getType());
+        BlockStorage.store(block, sfItem.getID());
+        block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, item.getType());
+
+        if (item.getType() == Material.SPAWNER && sfItem instanceof RepairedSpawner) {
+            Optional<EntityType> entity = ((RepairedSpawner) sfItem).getEntityType(item);
+
+            if (entity.isPresent()) {
+                CreatureSpawner spawner = (CreatureSpawner) block.getState();
+                spawner.setSpawnedType(entity.get());
+                spawner.update(true, false);
+            }
+        }
 
         if (dispenser.getInventory().containsAtLeast(item, 2)) {
             dispenser.getInventory().removeItem(new CustomItem(item, 1));
-        }
-        else {
+        } else {
             Slimefun.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
         }
     }

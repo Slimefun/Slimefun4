@@ -2,8 +2,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -22,16 +24,26 @@ public abstract class FisherAndroid extends ProgrammableAndroid {
         super(category, item, recipeType, recipe);
 
         for (Material fish : MaterialCollections.getAllFishItems()) {
-            fishingLoot.add(new ItemStack(fish), 20);
+            fishingLoot.add(new ItemStack(fish), 25);
         }
 
         fishingLoot.add(new ItemStack(Material.BONE), 10);
         fishingLoot.add(new ItemStack(Material.STRING), 10);
+        fishingLoot.add(new ItemStack(Material.INK_SAC), 8);
         fishingLoot.add(new ItemStack(Material.KELP), 6);
         fishingLoot.add(new ItemStack(Material.STICK), 5);
-        fishingLoot.add(new ItemStack(Material.INK_SAC), 4);
         fishingLoot.add(new ItemStack(Material.ROTTEN_FLESH), 3);
         fishingLoot.add(new ItemStack(Material.LEATHER), 2);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            fishingLoot.add(new ItemStack(Material.BAMBOO), 3);
+        }
+
+        // "loot"
+        fishingLoot.add(new ItemStack(Material.SADDLE), 1);
+        fishingLoot.add(new ItemStack(Material.NAME_TAG), 1);
+        fishingLoot.add(new ItemStack(Material.NAUTILUS_SHELL), 1);
+
     }
 
     @Override
@@ -44,7 +56,7 @@ public abstract class FisherAndroid extends ProgrammableAndroid {
         Block water = b.getRelative(BlockFace.DOWN);
 
         if (water.getType() == Material.WATER) {
-            water.getWorld().playSound(water.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+            water.getWorld().playSound(water.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 0.3F, 0.7F);
 
             if (ThreadLocalRandom.current().nextInt(100) < 10 * getTier()) {
                 ItemStack drop = fishingLoot.getRandom();

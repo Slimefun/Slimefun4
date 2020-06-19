@@ -154,6 +154,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             for (SlimefunItem item : category.getItems()) {
                 if (Slimefun.hasPermission(p, item, false)) {
                     if (Slimefun.isEnabled(p, item, false)) {
+                        appendSlimefunItem(category, page, p, profile, item, items);
                     }
                 } else {
                     ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.DARK_RED, ItemUtils.getItemName(item.getItem())) + "\n");

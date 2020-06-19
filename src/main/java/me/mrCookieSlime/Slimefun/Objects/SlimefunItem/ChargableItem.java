@@ -6,7 +6,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 
 // We need to refactor this class some day...
+// Add some methods or whatever, make it useful
 // (And also fix the typo in the name)
+@Deprecated
 public class ChargableItem extends SlimefunItem {
 
     public ChargableItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

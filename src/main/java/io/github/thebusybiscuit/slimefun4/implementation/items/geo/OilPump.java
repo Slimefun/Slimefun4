@@ -4,10 +4,10 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -68,7 +68,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
     @Override
     public List<ItemStack> getDisplayRecipes() {
-        return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.BUCKET_OF_OIL);
+        return Arrays.asList(new ItemStack(Material.BUCKET), SlimefunItems.OIL_BUCKET);
     }
 
     @Override
@@ -100,22 +100,20 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
                 ChargableBlock.addCharge(b, -getEnergyConsumption());
 
                 progress.put(b, timeleft - 1);
-            }
-            else {
+            } else {
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-                inv.pushItem(SlimefunItems.BUCKET_OF_OIL, getOutputSlots());
+                inv.pushItem(SlimefunItems.OIL_BUCKET, getOutputSlots());
 
                 progress.remove(b);
                 processing.remove(b);
             }
-        }
-        else if (inv.fits(SlimefunItems.BUCKET_OF_OIL, getOutputSlots())) {
+        } else if (inv.fits(SlimefunItems.OIL_BUCKET, getOutputSlots())) {
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
                     OptionalInt supplies = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {
-                        MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[]{SlimefunItems.BUCKET_OF_OIL});
+                        MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[]{SlimefunItems.OIL_BUCKET});
 
                         inv.consumeItem(slot);
                         processing.put(b, r);

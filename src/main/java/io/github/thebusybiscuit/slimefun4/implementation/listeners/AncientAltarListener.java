@@ -3,12 +3,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -110,16 +110,21 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
+        // getting the currently placed item
         Item stack = findItem(pedestal);
+
         if (stack == null) {
-            if (p.getInventory().getItemInMainHand().getType() == Material.AIR) return;
+            // Check if the Item in hand is valid
+            if (p.getInventory().getItemInMainHand().getType() == Material.AIR) {
+                // Check for pedestal obstructions
+                if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
+                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
+                    return;
+                }
 
-            if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
-                return;
+                // place the item onto the pedestal
+                insertItem(p, pedestal);
             }
-
-            insertItem(p, pedestal);
         } else if (!removedItems.contains(stack.getUniqueId())) {
             UUID uuid = stack.getUniqueId();
             removedItems.add(uuid);

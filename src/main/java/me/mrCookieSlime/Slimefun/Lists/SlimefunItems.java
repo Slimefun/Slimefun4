@@ -1,807 +1,517 @@
 package me.mrCookieSlime.Slimefun.Lists;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * This class was moved to {@link io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems}.
+ * All fields there are now finally of type {@link SlimefunItemStack}.
+ *
+ * @author TheBusyBiscuit
+ * @deprecated Moved to {@link io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems}. Use that instead.
+ */
+@Deprecated
 public final class SlimefunItems {
 
     private SlimefunItems() {
+
     }
 
-    /*		 Items 		*/
-    public static final SlimefunItemStack PORTABLE_CRAFTER = new SlimefunItemStack("PORTABLE_CRAFTER", "72ec4a4bd8a58f8361f8a0303e2199d33d624ea5f92f7cb3414fee95e2d861", "&6便携工作台", "&a&o一个便携式的工作台", "", "&e右键&7 打开");
-    public static final SlimefunItemStack PORTABLE_DUSTBIN = new SlimefunItemStack("PORTABLE_DUSTBIN", "32d41042ce99147cc38cac9e46741576e7ee791283e6fac8d3292cae2935f1f", "&6便携垃圾箱", "&r轻松的消除多余的物品", "", "&e右键&7 打开");
-    public static final SlimefunItemStack ENDER_BACKPACK = new SlimefunItemStack("ENDER_BACKPACK", "2a3b34862b9afb63cf8d5779966d3fba70af82b04e83f3eaf6449aeba", "&6末影背包", "&a&o便携式末影箱", "", "&e右键&7 打开");
-    public static final SlimefunItemStack MAGIC_EYE_OF_ENDER = new SlimefunItemStack("MAGIC_EYE_OF_ENDER", Material.ENDER_EYE, "&6&l魔法末影之眼", "&4&l需要全套末影护甲", "", "&7&e右键&7 以射出一颗末影珍珠");
-    public static final SlimefunItemStack BROKEN_SPAWNER = new SlimefunItemStack("BROKEN_SPAWNER", Material.SPAWNER, "&c已损坏的刷怪笼", "&7类型: &b<类型>", "", "&c已损坏, 需要在古代祭坛中修复");
-    public static final SlimefunItemStack REPAIRED_SPAWNER = new SlimefunItemStack("REINFORCED_SPAWNER", Material.SPAWNER, "&b已修复的刷怪笼", "&7类型: &b<类型>");
-    public static final SlimefunItemStack INFERNAL_BONEMEAL = new SlimefunItemStack("INFERNAL_BONEMEAL", Material.BONE_MEAL, "&4地狱骨粉", "", "&c加速地狱疣的生长速度");
+    public static final SlimefunItemStack PORTABLE_CRAFTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PORTABLE_CRAFTER;
+    public static final SlimefunItemStack PORTABLE_DUSTBIN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PORTABLE_DUSTBIN;
+    public static final SlimefunItemStack ENDER_BACKPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_BACKPACK;
+    public static final SlimefunItemStack MAGIC_EYE_OF_ENDER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGIC_EYE_OF_ENDER;
+    public static final SlimefunItemStack BROKEN_SPAWNER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BROKEN_SPAWNER;
+    public static final SlimefunItemStack REPAIRED_SPAWNER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REPAIRED_SPAWNER;
+    public static final SlimefunItemStack INFERNAL_BONEMEAL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.INFERNAL_BONEMEAL;
+    public static final SlimefunItemStack GOLD_PAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_PAN;
+    public static final SlimefunItemStack NETHER_GOLD_PAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NETHER_GOLD_PAN;
+    public static final SlimefunItemStack PARACHUTE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PARACHUTE;
+    public static final SlimefunItemStack GRAPPLING_HOOK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GRAPPLING_HOOK;
+    public static final SlimefunItemStack SOLAR_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLAR_HELMET;
+    public static final SlimefunItemStack CLOTH = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CLOTH;
+    public static final SlimefunItemStack CAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CAN;
+    public static final SlimefunItemStack NIGHT_VISION_GOGGLES = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NIGHT_VISION_GOGGLES;
+    public static final SlimefunItemStack FARMER_SHOES = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FARMER_SHOES;
+    public static final SlimefunItemStack INFUSED_MAGNET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.INFUSED_MAGNET;
+    public static final SlimefunItemStack RAG = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAG;
+    public static final SlimefunItemStack BANDAGE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BANDAGE;
+    public static final SlimefunItemStack SPLINT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SPLINT;
+    public static final SlimefunItemStack VITAMINS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.VITAMINS;
+    public static final SlimefunItemStack MEDICINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MEDICINE;
+    public static final SlimefunItemStack FLASK_OF_KNOWLEDGE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FLASK_OF_KNOWLEDGE;
+    public static final SlimefunItemStack FILLED_FLASK_OF_KNOWLEDGE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE;
+    public static final SlimefunItemStack BACKPACK_SMALL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BACKPACK_SMALL;
+    public static final SlimefunItemStack BACKPACK_MEDIUM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BACKPACK_MEDIUM;
+    public static final SlimefunItemStack BACKPACK_LARGE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BACKPACK_LARGE;
+    public static final SlimefunItemStack WOVEN_BACKPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WOVEN_BACKPACK;
+    public static final SlimefunItemStack GILDED_BACKPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_BACKPACK;
+    public static final SlimefunItemStack RADIANT_BACKPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RADIANT_BACKPACK;
+    public static final SlimefunItemStack BOUND_BACKPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BOUND_BACKPACK;
+    public static final SlimefunItemStack COOLER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COOLER;
+    public static final SlimefunItemStack RESTORED_BACKPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RESTORED_BACKPACK;
+    public static final SlimefunItemStack DURALUMIN_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DURALUMIN_JETPACK;
+    public static final SlimefunItemStack SOLDER_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLDER_JETPACK;
+    public static final SlimefunItemStack BILLON_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BILLON_JETPACK;
+    public static final SlimefunItemStack STEEL_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STEEL_JETPACK;
+    public static final SlimefunItemStack DAMASCUS_STEEL_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_JETPACK;
+    public static final SlimefunItemStack REINFORCED_ALLOY_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_JETPACK;
+    public static final SlimefunItemStack CARBONADO_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBONADO_JETPACK;
+    public static final SlimefunItemStack ARMORED_JETPACK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ARMORED_JETPACK;
+    public static final SlimefunItemStack DURALUMIN_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DURALUMIN_JETBOOTS;
+    public static final SlimefunItemStack SOLDER_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLDER_JETBOOTS;
+    public static final SlimefunItemStack BILLON_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BILLON_JETBOOTS;
+    public static final SlimefunItemStack STEEL_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STEEL_JETBOOTS;
+    public static final SlimefunItemStack DAMASCUS_STEEL_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_JETBOOTS;
+    public static final SlimefunItemStack REINFORCED_ALLOY_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_JETBOOTS;
+    public static final SlimefunItemStack CARBONADO_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBONADO_JETBOOTS;
+    public static final SlimefunItemStack ARMORED_JETBOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ARMORED_JETBOOTS;
+    public static final SlimefunItemStack DURALUMIN_MULTI_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DURALUMIN_MULTI_TOOL;
+    public static final SlimefunItemStack SOLDER_MULTI_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLDER_MULTI_TOOL;
+    public static final SlimefunItemStack BILLON_MULTI_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BILLON_MULTI_TOOL;
+    public static final SlimefunItemStack STEEL_MULTI_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STEEL_MULTI_TOOL;
+    public static final SlimefunItemStack DAMASCUS_STEEL_MULTI_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL;
+    public static final SlimefunItemStack REINFORCED_ALLOY_MULTI_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL;
+    public static final SlimefunItemStack CARBONADO_MULTI_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBONADO_MULTI_TOOL;
+    public static final SlimefunItemStack FORTUNE_COOKIE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FORTUNE_COOKIE;
+    public static final SlimefunItemStack DIET_COOKIE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DIET_COOKIE;
+    public static final SlimefunItemStack MAGIC_SUGAR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGIC_SUGAR;
+    public static final SlimefunItemStack MONSTER_JERKY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MONSTER_JERKY;
+    public static final SlimefunItemStack APPLE_JUICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.APPLE_JUICE;
+    public static final SlimefunItemStack MELON_JUICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MELON_JUICE;
+    public static final SlimefunItemStack CARROT_JUICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARROT_JUICE;
+    public static final SlimefunItemStack PUMPKIN_JUICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PUMPKIN_JUICE;
+    public static final SlimefunItemStack SWEET_BERRY_JUICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SWEET_BERRY_JUICE;
+    public static final SlimefunItemStack GOLDEN_APPLE_JUICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLDEN_APPLE_JUICE;
+    public static final SlimefunItemStack BEEF_JERKY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BEEF_JERKY;
+    public static final SlimefunItemStack PORK_JERKY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PORK_JERKY;
+    public static final SlimefunItemStack CHICKEN_JERKY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHICKEN_JERKY;
+    public static final SlimefunItemStack MUTTON_JERKY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MUTTON_JERKY;
+    public static final SlimefunItemStack RABBIT_JERKY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RABBIT_JERKY;
+    public static final SlimefunItemStack FISH_JERKY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FISH_JERKY;
+    public static final SlimefunItemStack KELP_COOKIE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.KELP_COOKIE;
+    public static final SlimefunItemStack CHRISTMAS_MILK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_MILK;
+    public static final SlimefunItemStack CHRISTMAS_CHOCOLATE_MILK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_CHOCOLATE_MILK;
+    public static final SlimefunItemStack CHRISTMAS_EGG_NOG = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_EGG_NOG;
+    public static final SlimefunItemStack CHRISTMAS_APPLE_CIDER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_APPLE_CIDER;
+    public static final SlimefunItemStack CHRISTMAS_COOKIE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_COOKIE;
+    public static final SlimefunItemStack CHRISTMAS_FRUIT_CAKE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_FRUIT_CAKE;
+    public static final SlimefunItemStack CHRISTMAS_APPLE_PIE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_APPLE_PIE;
+    public static final SlimefunItemStack CHRISTMAS_HOT_CHOCOLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_HOT_CHOCOLATE;
+    public static final SlimefunItemStack CHRISTMAS_CAKE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_CAKE;
+    public static final SlimefunItemStack CHRISTMAS_CARAMEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_CARAMEL;
+    public static final SlimefunItemStack CHRISTMAS_CARAMEL_APPLE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_CARAMEL_APPLE;
+    public static final SlimefunItemStack CHRISTMAS_CHOCOLATE_APPLE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_CHOCOLATE_APPLE;
+    public static final SlimefunItemStack CHRISTMAS_PRESENT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHRISTMAS_PRESENT;
+    public static final SlimefunItemStack EASTER_EGG = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EASTER_EGG;
+    public static final SlimefunItemStack EASTER_CARROT_PIE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EASTER_CARROT_PIE;
+    public static final SlimefunItemStack EASTER_APPLE_PIE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EASTER_APPLE_PIE;
+    public static final SlimefunItemStack GRANDMAS_WALKING_STICK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GRANDMAS_WALKING_STICK;
+    public static final SlimefunItemStack GRANDPAS_WALKING_STICK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GRANDPAS_WALKING_STICK;
+    public static final SlimefunItemStack SWORD_OF_BEHEADING = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SWORD_OF_BEHEADING;
+    public static final SlimefunItemStack BLADE_OF_VAMPIRES = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BLADE_OF_VAMPIRES;
+    public static final SlimefunItemStack SEISMIC_AXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SEISMIC_AXE;
+    public static final SlimefunItemStack EXPLOSIVE_BOW = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EXPLOSIVE_BOW;
+    public static final SlimefunItemStack ICY_BOW = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ICY_BOW;
+    public static final SlimefunItemStack AUTO_SMELT_PICKAXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SMELTERS_PICKAXE;
+    public static final SlimefunItemStack LUMBER_AXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LUMBER_AXE;
+    public static final SlimefunItemStack PICKAXE_OF_CONTAINMENT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PICKAXE_OF_CONTAINMENT;
+    public static final SlimefunItemStack HERCULES_PICKAXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HERCULES_PICKAXE;
+    public static final SlimefunItemStack EXPLOSIVE_PICKAXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EXPLOSIVE_PICKAXE;
+    public static final SlimefunItemStack EXPLOSIVE_SHOVEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EXPLOSIVE_SHOVEL;
+    public static final SlimefunItemStack PICKAXE_OF_THE_SEEKER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PICKAXE_OF_THE_SEEKER;
+    public static final SlimefunItemStack COBALT_PICKAXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COBALT_PICKAXE;
+    public static final SlimefunItemStack PICKAXE_OF_VEIN_MINING = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PICKAXE_OF_VEIN_MINING;
+    public static final SlimefunItemStack GLOWSTONE_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GLOWSTONE_HELMET;
+    public static final SlimefunItemStack GLOWSTONE_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GLOWSTONE_CHESTPLATE;
+    public static final SlimefunItemStack GLOWSTONE_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GLOWSTONE_LEGGINGS;
+    public static final SlimefunItemStack GLOWSTONE_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GLOWSTONE_BOOTS;
+    public static final SlimefunItemStack ENDER_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_HELMET;
+    public static final SlimefunItemStack ENDER_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_CHESTPLATE;
+    public static final SlimefunItemStack ENDER_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_LEGGINGS;
+    public static final SlimefunItemStack ENDER_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_BOOTS;
+    public static final SlimefunItemStack SLIME_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_HELMET;
+    public static final SlimefunItemStack SLIME_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_CHESTPLATE;
+    public static final SlimefunItemStack SLIME_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_LEGGINGS;
+    public static final SlimefunItemStack SLIME_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_BOOTS;
+    public static final SlimefunItemStack CACTUS_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CACTUS_HELMET;
+    public static final SlimefunItemStack CACTUS_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CACTUS_CHESTPLATE;
+    public static final SlimefunItemStack CACTUS_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CACTUS_LEGGINGS;
+    public static final SlimefunItemStack CACTUS_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CACTUS_BOOTS;
+    public static final SlimefunItemStack DAMASCUS_STEEL_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_HELMET;
+    public static final SlimefunItemStack DAMASCUS_STEEL_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_CHESTPLATE;
+    public static final SlimefunItemStack DAMASCUS_STEEL_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_LEGGINGS;
+    public static final SlimefunItemStack DAMASCUS_STEEL_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_BOOTS;
+    public static final SlimefunItemStack REINFORCED_ALLOY_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_HELMET;
+    public static final SlimefunItemStack REINFORCED_ALLOY_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_CHESTPLATE;
+    public static final SlimefunItemStack REINFORCED_ALLOY_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_LEGGINGS;
+    public static final SlimefunItemStack REINFORCED_ALLOY_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_BOOTS;
+    public static final SlimefunItemStack SCUBA_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SCUBA_HELMET;
+    public static final SlimefunItemStack HAZMATSUIT_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HAZMAT_CHESTPLATE;
+    public static final SlimefunItemStack HAZMATSUIT_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HAZMAT_LEGGINGS;
+    public static final SlimefunItemStack RUBBER_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RUBBER_BOOTS;
+    public static final SlimefunItemStack GILDED_IRON_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_HELMET;
+    public static final SlimefunItemStack GILDED_IRON_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_CHESTPLATE;
+    public static final SlimefunItemStack GILDED_IRON_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_LEGGINGS;
+    public static final SlimefunItemStack GILDED_IRON_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_BOOTS;
+    public static final SlimefunItemStack GOLD_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_HELMET;
+    public static final SlimefunItemStack GOLD_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_CHESTPLATE;
+    public static final SlimefunItemStack GOLD_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_LEGGINGS;
+    public static final SlimefunItemStack GOLD_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_BOOTS;
+    public static final SlimefunItemStack SLIME_HELMET_STEEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_HELMET_STEEL;
+    public static final SlimefunItemStack SLIME_CHESTPLATE_STEEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_CHESTPLATE_STEEL;
+    public static final SlimefunItemStack SLIME_LEGGINGS_STEEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_LEGGINGS_STEEL;
+    public static final SlimefunItemStack SLIME_BOOTS_STEEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_BOOTS_STEEL;
+    public static final SlimefunItemStack BOOTS_OF_THE_STOMPER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BOOTS_OF_THE_STOMPER;
+    public static final ItemStack MAGIC_LUMP_1 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGIC_LUMP_1;
+    public static final ItemStack MAGIC_LUMP_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGIC_LUMP_2;
+    public static final ItemStack MAGIC_LUMP_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGIC_LUMP_3;
+    public static final ItemStack ENDER_LUMP_1 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_LUMP_1;
+    public static final ItemStack ENDER_LUMP_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_LUMP_2;
+    public static final ItemStack ENDER_LUMP_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_LUMP_3;
+    public static final SlimefunItemStack MAGICAL_BOOK_COVER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGICAL_BOOK_COVER;
+    public static final ItemStack BASIC_CIRCUIT_BOARD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BASIC_CIRCUIT_BOARD;
+    public static final ItemStack ADVANCED_CIRCUIT_BOARD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ADVANCED_CIRCUIT_BOARD;
+    public static final ItemStack WHEAT_FLOUR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WHEAT_FLOUR;
+    public static final ItemStack STEEL_PLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STEEL_PLATE;
+    public static final ItemStack BATTERY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BATTERY;
+    public static final ItemStack CARBON = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBON;
+    public static final ItemStack COMPRESSED_CARBON = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COMPRESSED_CARBON;
+    public static final ItemStack CARBON_CHUNK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBON_CHUNK;
+    public static final SlimefunItemStack STEEL_THRUSTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STEEL_THRUSTER;
+    public static final ItemStack POWER_CRYSTAL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.POWER_CRYSTAL;
+    public static final SlimefunItemStack CHAIN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHAIN;
+    public static final ItemStack HOOK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HOOK;
+    public static final ItemStack SIFTED_ORE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SIFTED_ORE;
+    public static final ItemStack STONE_CHUNK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STONE_CHUNK;
+    public static final SlimefunItemStack LAVA_CRYSTAL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LAVA_CRYSTAL;
+    public static final ItemStack SALT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SALT;
+    public static final ItemStack CHEESE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHEESE;
+    public static final ItemStack BUTTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BUTTER;
+    public static final SlimefunItemStack DUCT_TAPE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DUCT_TAPE;
+    public static final ItemStack HEAVY_CREAM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HEAVY_CREAM;
+    public static final SlimefunItemStack CRUSHED_ORE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CRUSHED_ORE;
+    public static final SlimefunItemStack PULVERIZED_ORE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PULVERIZED_ORE;
+    public static final SlimefunItemStack PURE_ORE_CLUSTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PURE_ORE_CLUSTER;
+    public static final SlimefunItemStack SMALL_URANIUM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SMALL_URANIUM;
+    public static final SlimefunItemStack TINY_URANIUM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TINY_URANIUM;
+    public static final ItemStack MAGNET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGNET;
+    public static final ItemStack NECROTIC_SKULL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NECROTIC_SKULL;
+    public static final ItemStack ESSENCE_OF_AFTERLIFE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ESSENCE_OF_AFTERLIFE;
+    public static final ItemStack ELECTRO_MAGNET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRO_MAGNET;
+    public static final ItemStack HEATING_COIL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HEATING_COIL;
+    public static final ItemStack COOLING_UNIT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COOLING_UNIT;
+    public static final ItemStack ELECTRIC_MOTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_MOTOR;
+    public static final ItemStack CARGO_MOTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARGO_MOTOR;
+    public static final SlimefunItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION;
+    public static final SlimefunItemStack TOME_OF_KNOWLEDGE_SHARING = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TOME_OF_KNOWLEDGE_SHARING;
+    public static final ItemStack HARDENED_GLASS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HARDENED_GLASS;
+    public static final SlimefunItemStack WITHER_PROOF_OBSIDIAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WITHER_PROOF_OBSIDIAN;
+    public static final SlimefunItemStack WITHER_PROOF_GLASS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WITHER_PROOF_GLASS;
+    public static final ItemStack REINFORCED_PLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_PLATE;
+    public static final SlimefunItemStack ANCIENT_PEDESTAL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ANCIENT_PEDESTAL;
+    public static final SlimefunItemStack ANCIENT_ALTAR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ANCIENT_ALTAR;
+    public static final SlimefunItemStack COPPER_WIRE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COPPER_WIRE;
+    public static final SlimefunItemStack RAINBOW_WOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_WOOL;
+    public static final SlimefunItemStack RAINBOW_GLASS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS;
+    public static final SlimefunItemStack RAINBOW_CLAY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CLAY;
+    public static final SlimefunItemStack RAINBOW_GLASS_PANE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS_PANE;
+    public static final SlimefunItemStack RAINBOW_CONCRETE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CONCRETE;
+    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLAZED_TERRACOTTA;
+    public static final SlimefunItemStack RAINBOW_WOOL_XMAS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_WOOL_XMAS;
+    public static final SlimefunItemStack RAINBOW_GLASS_XMAS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS_XMAS;
+    public static final SlimefunItemStack RAINBOW_CLAY_XMAS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CLAY_XMAS;
+    public static final SlimefunItemStack RAINBOW_GLASS_PANE_XMAS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS_PANE_XMAS;
+    public static final SlimefunItemStack RAINBOW_CONCRETE_XMAS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CONCRETE_XMAS;
+    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA_XMAS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_XMAS;
+    public static final SlimefunItemStack RAINBOW_WOOL_VALENTINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_WOOL_VALENTINE;
+    public static final SlimefunItemStack RAINBOW_GLASS_VALENTINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS_VALENTINE;
+    public static final SlimefunItemStack RAINBOW_CLAY_VALENTINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CLAY_VALENTINE;
+    public static final SlimefunItemStack RAINBOW_GLASS_PANE_VALENTINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS_PANE_VALENTINE;
+    public static final SlimefunItemStack RAINBOW_CONCRETE_VALENTINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CONCRETE_VALENTINE;
+    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA_VALENTINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_VALENTINE;
+    public static final SlimefunItemStack RAINBOW_WOOL_HALLOWEEN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_WOOL_HALLOWEEN;
+    public static final SlimefunItemStack RAINBOW_GLASS_HALLOWEEN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS_HALLOWEEN;
+    public static final SlimefunItemStack RAINBOW_CLAY_HALLOWEEN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CLAY_HALLOWEEN;
+    public static final SlimefunItemStack RAINBOW_GLASS_PANE_HALLOWEEN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLASS_PANE_HALLOWEEN;
+    public static final SlimefunItemStack RAINBOW_CONCRETE_HALLOWEEN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_CONCRETE_HALLOWEEN;
+    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN;
+    public static final ItemStack COPPER_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COPPER_INGOT;
+    public static final ItemStack TIN_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TIN_INGOT;
+    public static final ItemStack SILVER_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SILVER_INGOT;
+    public static final ItemStack ALUMINUM_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ALUMINUM_INGOT;
+    public static final ItemStack LEAD_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LEAD_INGOT;
+    public static final ItemStack ZINC_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ZINC_INGOT;
+    public static final ItemStack MAGNESIUM_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGNESIUM_INGOT;
+    public static final ItemStack STEEL_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STEEL_INGOT;
+    public static final ItemStack BRONZE_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BRONZE_INGOT;
+    public static final ItemStack DURALUMIN_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DURALUMIN_INGOT;
+    public static final ItemStack BILLON_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BILLON_INGOT;
+    public static final ItemStack BRASS_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BRASS_INGOT;
+    public static final ItemStack ALUMINUM_BRASS_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ALUMINUM_BRASS_INGOT;
+    public static final ItemStack ALUMINUM_BRONZE_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ALUMINUM_BRONZE_INGOT;
+    public static final ItemStack CORINTHIAN_BRONZE_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CORINTHIAN_BRONZE_INGOT;
+    public static final ItemStack SOLDER_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLDER_INGOT;
+    public static final ItemStack DAMASCUS_STEEL_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DAMASCUS_STEEL_INGOT;
+    public static final ItemStack HARDENED_METAL_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HARDENED_METAL_INGOT;
+    public static final ItemStack REINFORCED_ALLOY_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_ALLOY_INGOT;
+    public static final ItemStack FERROSILICON = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FERROSILICON;
+    public static final ItemStack GILDED_IRON = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON;
+    public static final ItemStack REDSTONE_ALLOY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REDSTONE_ALLOY;
+    public static final ItemStack NICKEL_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NICKEL_INGOT;
+    public static final ItemStack COBALT_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COBALT_INGOT;
+    public static final ItemStack GOLD_4K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_4K;
+    public static final ItemStack GOLD_6K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_6K;
+    public static final ItemStack GOLD_8K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_8K;
+    public static final ItemStack GOLD_10K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_10K;
+    public static final ItemStack GOLD_12K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_12K;
+    public static final ItemStack GOLD_14K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_14K;
+    public static final ItemStack GOLD_16K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_16K;
+    public static final ItemStack GOLD_18K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_18K;
+    public static final ItemStack GOLD_20K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_20K;
+    public static final ItemStack GOLD_22K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_22K;
+    public static final ItemStack GOLD_24K = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_24K;
+    public static final ItemStack IRON_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.IRON_DUST;
+    public static final ItemStack GOLD_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_DUST;
+    public static final ItemStack TIN_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TIN_DUST;
+    public static final ItemStack COPPER_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COPPER_DUST;
+    public static final ItemStack SILVER_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SILVER_DUST;
+    public static final ItemStack ALUMINUM_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ALUMINUM_DUST;
+    public static final ItemStack LEAD_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LEAD_DUST;
+    public static final ItemStack ZINC_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ZINC_DUST;
+    public static final ItemStack MAGNESIUM_DUST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGNESIUM_DUST;
+    public static final ItemStack SULFATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SULFATE;
+    public static final ItemStack SILICON = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SILICON;
+    public static final ItemStack GOLD_24K_BLOCK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_24K_BLOCK;
+    public static final ItemStack SYNTHETIC_DIAMOND = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SYNTHETIC_DIAMOND;
+    public static final ItemStack SYNTHETIC_EMERALD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SYNTHETIC_EMERALD;
+    public static final ItemStack SYNTHETIC_SAPPHIRE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SYNTHETIC_SAPPHIRE;
+    public static final ItemStack CARBONADO = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBONADO;
+    public static final ItemStack RAW_CARBONADO = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAW_CARBONADO;
+    public static final SlimefunItemStack URANIUM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.URANIUM;
+    public static final SlimefunItemStack NEPTUNIUM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NEPTUNIUM;
+    public static final SlimefunItemStack PLUTONIUM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PLUTONIUM;
+    public static final SlimefunItemStack BOOSTED_URANIUM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BOOSTED_URANIUM;
+    public static final SlimefunItemStack TALISMAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COMMON_TALISMAN;
+    public static final SlimefunItemStack ENDER_TALISMAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_TALISMAN;
+    public static final SlimefunItemStack TALISMAN_ANVIL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_ANVIL;
+    public static final SlimefunItemStack TALISMAN_MINER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_MINER;
+    public static final SlimefunItemStack TALISMAN_HUNTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_HUNTER;
+    public static final SlimefunItemStack TALISMAN_LAVA = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_LAVA;
+    public static final SlimefunItemStack TALISMAN_WATER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_WATER;
+    public static final SlimefunItemStack TALISMAN_ANGEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_ANGEL;
+    public static final SlimefunItemStack TALISMAN_FIRE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_FIRE;
+    public static final SlimefunItemStack TALISMAN_MAGICIAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_MAGICIAN;
+    public static final SlimefunItemStack TALISMAN_TRAVELLER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_TRAVELLER;
+    public static final SlimefunItemStack TALISMAN_WARRIOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_WARRIOR;
+    public static final SlimefunItemStack TALISMAN_KNIGHT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_KNIGHT;
+    public static final SlimefunItemStack TALISMAN_WHIRLWIND = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_WHIRLWIND;
+    public static final SlimefunItemStack TALISMAN_WIZARD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TALISMAN_WIZARD;
+    public static final SlimefunItemStack STAFF_ELEMENTAL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STAFF_ELEMENTAL;
+    public static final SlimefunItemStack STAFF_WIND = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STAFF_WIND;
+    public static final SlimefunItemStack STAFF_FIRE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STAFF_FIRE;
+    public static final SlimefunItemStack STAFF_WATER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STAFF_WATER;
+    public static final SlimefunItemStack STAFF_STORM = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.STAFF_STORM;
+    public static final SlimefunItemStack ENHANCED_CRAFTING_TABLE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_CRAFTING_TABLE;
+    public static final SlimefunItemStack GRIND_STONE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GRIND_STONE;
+    public static final SlimefunItemStack ARMOR_FORGE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ARMOR_FORGE;
+    public static final SlimefunItemStack MAKESHIFT_SMELTERY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAKESHIFT_SMELTERY;
+    public static final SlimefunItemStack SMELTERY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SMELTERY;
+    public static final SlimefunItemStack ORE_CRUSHER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ORE_CRUSHER;
+    public static final SlimefunItemStack COMPRESSOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COMPRESSOR;
+    public static final SlimefunItemStack PRESSURE_CHAMBER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PRESSURE_CHAMBER;
+    public static final SlimefunItemStack MAGIC_WORKBENCH = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGIC_WORKBENCH;
+    public static final SlimefunItemStack ORE_WASHER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ORE_WASHER;
+    public static final SlimefunItemStack TABLE_SAW = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TABLE_SAW;
+    public static final SlimefunItemStack JUICER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.JUICER;
+    public static final SlimefunItemStack AUTOMATED_PANNING_MACHINE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTOMATED_PANNING_MACHINE;
+    public static final SlimefunItemStack INDUSTRIAL_MINER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.INDUSTRIAL_MINER;
+    public static final SlimefunItemStack ADVANCED_INDUSTRIAL_MINER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ADVANCED_INDUSTRIAL_MINER;
+    public static final SlimefunItemStack COMPOSTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COMPOSTER;
+    public static final SlimefunItemStack CRUCIBLE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CRUCIBLE;
+    public static final SlimefunItemStack OUTPUT_CHEST = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.OUTPUT_CHEST;
+    public static final SlimefunItemStack IGNITION_CHAMBER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.IGNITION_CHAMBER;
+    public static final SlimefunItemStack HOLOGRAM_PROJECTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HOLOGRAM_PROJECTOR;
+    public static final ItemStack SOLAR_PANEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLAR_PANEL;
+    public static final SlimefunItemStack ENHANCED_FURNACE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE;
+    public static final SlimefunItemStack ENHANCED_FURNACE_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_2;
+    public static final SlimefunItemStack ENHANCED_FURNACE_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_3;
+    public static final SlimefunItemStack ENHANCED_FURNACE_4 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_4;
+    public static final SlimefunItemStack ENHANCED_FURNACE_5 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_5;
+    public static final SlimefunItemStack ENHANCED_FURNACE_6 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_6;
+    public static final SlimefunItemStack ENHANCED_FURNACE_7 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_7;
+    public static final SlimefunItemStack ENHANCED_FURNACE_8 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_8;
+    public static final SlimefunItemStack ENHANCED_FURNACE_9 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_9;
+    public static final SlimefunItemStack ENHANCED_FURNACE_10 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_10;
+    public static final SlimefunItemStack ENHANCED_FURNACE_11 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENHANCED_FURNACE_11;
+    public static final SlimefunItemStack REINFORCED_FURNACE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REINFORCED_FURNACE;
+    public static final SlimefunItemStack CARBONADO_EDGED_FURNACE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBONADO_EDGED_FURNACE;
+    public static final SlimefunItemStack BLOCK_PLACER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BLOCK_PLACER;
+    public static final SlimefunItemStack SOULBOUND_SWORD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_SWORD;
+    public static final SlimefunItemStack SOULBOUND_BOW = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_BOW;
+    public static final SlimefunItemStack SOULBOUND_PICKAXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_PICKAXE;
+    public static final SlimefunItemStack SOULBOUND_AXE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_AXE;
+    public static final SlimefunItemStack SOULBOUND_SHOVEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_SHOVEL;
+    public static final SlimefunItemStack SOULBOUND_HOE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_HOE;
+    public static final SlimefunItemStack SOULBOUND_TRIDENT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_TRIDENT;
+    public static final SlimefunItemStack SOULBOUND_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_HELMET;
+    public static final SlimefunItemStack SOULBOUND_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_CHESTPLATE;
+    public static final SlimefunItemStack SOULBOUND_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_LEGGINGS;
+    public static final SlimefunItemStack SOULBOUND_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_BOOTS;
+    public static final SlimefunItemStack BLANK_RUNE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BLANK_RUNE;
+    public static final ItemStack RUNE_AIR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AIR_RUNE;
+    public static final ItemStack RUNE_WATER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WATER_RUNE;
+    public static final ItemStack RUNE_FIRE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FIRE_RUNE;
+    public static final ItemStack RUNE_EARTH = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EARTH_RUNE;
+    public static final ItemStack RUNE_ENDER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENDER_RUNE;
+    public static final SlimefunItemStack RUNE_RAINBOW = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RAINBOW_RUNE;
+    public static final SlimefunItemStack RUNE_LIGHTNING = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LIGHTNING_RUNE;
+    public static final SlimefunItemStack RUNE_SOULBOUND = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_RUNE;
+    public static final SlimefunItemStack SOLAR_GENERATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLAR_GENERATOR;
+    public static final SlimefunItemStack SOLAR_GENERATOR_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLAR_GENERATOR_2;
+    public static final SlimefunItemStack SOLAR_GENERATOR_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLAR_GENERATOR_3;
+    public static final SlimefunItemStack SOLAR_GENERATOR_4 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLAR_GENERATOR_4;
+    public static final ItemStack COAL_GENERATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COAL_GENERATOR;
+    public static final ItemStack COAL_GENERATOR_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COAL_GENERATOR_2;
+    public static final ItemStack LAVA_GENERATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LAVA_GENERATOR;
+    public static final ItemStack LAVA_GENERATOR_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LAVA_GENERATOR_2;
+    public static final ItemStack ELECTRIC_FURNACE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_FURNACE;
+    public static final ItemStack ELECTRIC_FURNACE_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_FURNACE_2;
+    public static final ItemStack ELECTRIC_FURNACE_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_FURNACE_3;
+    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_ORE_GRINDER;
+    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_ORE_GRINDER_2;
+    public static final SlimefunItemStack ELECTRIC_INGOT_PULVERIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_INGOT_PULVERIZER;
+    public static final SlimefunItemStack AUTO_DRIER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTO_DRIER;
+    public static final SlimefunItemStack AUTO_ENCHANTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTO_ENCHANTER;
+    public static final SlimefunItemStack AUTO_DISENCHANTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTO_DISENCHANTER;
+    public static final SlimefunItemStack AUTO_ANVIL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTO_ANVIL;
+    public static final SlimefunItemStack AUTO_ANVIL_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTO_ANVIL_2;
+    public static final SlimefunItemStack BIO_REACTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BIO_REACTOR;
+    public static final SlimefunItemStack MULTIMETER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MULTIMETER;
+    public static final ItemStack SMALL_CAPACITOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SMALL_CAPACITOR;
+    public static final ItemStack MEDIUM_CAPACITOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MEDIUM_CAPACITOR;
+    public static final ItemStack BIG_CAPACITOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BIG_CAPACITOR;
+    public static final ItemStack LARGE_CAPACITOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.LARGE_CAPACITOR;
+    public static final ItemStack CARBONADO_EDGED_CAPACITOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBONADO_EDGED_CAPACITOR;
+    public static final ItemStack PROGRAMMABLE_ANDROID = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID;
+    public static final ItemStack PROGRAMMABLE_ANDROID_FARMER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_FARMER;
+    public static final ItemStack PROGRAMMABLE_ANDROID_MINER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_MINER;
+    public static final ItemStack PROGRAMMABLE_ANDROID_WOODCUTTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_WOODCUTTER;
+    public static final ItemStack PROGRAMMABLE_ANDROID_BUTCHER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_BUTCHER;
+    public static final ItemStack PROGRAMMABLE_ANDROID_FISHERMAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_FISHERMAN;
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_2;
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FISHERMAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_2_FISHERMAN;
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FARMER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER;
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_BUTCHER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_2_BUTCHER;
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_3;
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_FISHERMAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_3_FISHERMAN;
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_BUTCHER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PROGRAMMABLE_ANDROID_3_BUTCHER;
+    public static final ItemStack GPS_TRANSMITTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_TRANSMITTER;
+    public static final ItemStack GPS_TRANSMITTER_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_TRANSMITTER_2;
+    public static final ItemStack GPS_TRANSMITTER_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_TRANSMITTER_3;
+    public static final ItemStack GPS_TRANSMITTER_4 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_TRANSMITTER_4;
+    public static final SlimefunItemStack GPS_MARKER_TOOL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_MARKER_TOOL;
+    public static final SlimefunItemStack GPS_CONTROL_PANEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_CONTROL_PANEL;
+    public static final SlimefunItemStack GPS_EMERGENCY_TRANSMITTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_EMERGENCY_TRANSMITTER;
+    public static final SlimefunItemStack ANDROID_INTERFACE_FUEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ANDROID_INTERFACE_FUEL;
+    public static final SlimefunItemStack ANDROID_INTERFACE_ITEMS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ANDROID_INTERFACE_ITEMS;
+    public static final SlimefunItemStack GPS_GEO_SCANNER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_GEO_SCANNER;
+    public static final SlimefunItemStack PORTABLE_GEO_SCANNER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PORTABLE_GEO_SCANNER;
+    public static final SlimefunItemStack GEO_MINER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GEO_MINER;
+    public static final SlimefunItemStack OIL_PUMP = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.OIL_PUMP;
+    public static final SlimefunItemStack BUCKET_OF_OIL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.OIL_BUCKET;
+    public static final SlimefunItemStack BUCKET_OF_FUEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FUEL_BUCKET;
+    public static final SlimefunItemStack REFINERY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REFINERY;
+    public static final SlimefunItemStack COMBUSTION_REACTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COMBUSTION_REACTOR;
+    public static final SlimefunItemStack ANDROID_MEMORY_CORE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ANDROID_MEMORY_CORE;
+    public static final SlimefunItemStack GPS_TELEPORTER_PYLON = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_TELEPORTER_PYLON;
+    public static final SlimefunItemStack GPS_TELEPORTATION_MATRIX = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_TELEPORTATION_MATRIX;
+    public static final SlimefunItemStack GPS_ACTIVATION_DEVICE_SHARED = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED;
+    public static final SlimefunItemStack GPS_ACTIVATION_DEVICE_PERSONAL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL;
+    public static final SlimefunItemStack ELEVATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELEVATOR_PLATE;
+    public static final SlimefunItemStack INFUSED_HOPPER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.INFUSED_HOPPER;
+    public static final ItemStack PLASTIC_SHEET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.PLASTIC_SHEET;
+    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HEATED_PRESSURE_CHAMBER;
+    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HEATED_PRESSURE_CHAMBER_2;
+    public static final SlimefunItemStack ELECTRIC_SMELTERY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_SMELTERY;
+    public static final SlimefunItemStack ELECTRIC_SMELTERY_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_SMELTERY_2;
+    public static final SlimefunItemStack ELECTRIC_PRESS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_PRESS;
+    public static final SlimefunItemStack ELECTRIC_PRESS_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_PRESS_2;
+    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIFIED_CRUCIBLE;
+    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIFIED_CRUCIBLE_2;
+    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIFIED_CRUCIBLE_3;
+    public static final SlimefunItemStack CARBON_PRESS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBON_PRESS;
+    public static final SlimefunItemStack CARBON_PRESS_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBON_PRESS_2;
+    public static final SlimefunItemStack CARBON_PRESS_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARBON_PRESS_3;
+    public static final ItemStack BLISTERING_INGOT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BLISTERING_INGOT;
+    public static final ItemStack BLISTERING_INGOT_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BLISTERING_INGOT_2;
+    public static final ItemStack BLISTERING_INGOT_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BLISTERING_INGOT_3;
+    public static final SlimefunItemStack ENERGY_REGULATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENERGY_REGULATOR;
+    public static final SlimefunItemStack DEBUG_FISH = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.DEBUG_FISH;
+    public static final SlimefunItemStack NETHER_ICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NETHER_ICE;
+    public static final SlimefunItemStack ENRICHED_NETHER_ICE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ENRICHED_NETHER_ICE;
+    public static final SlimefunItemStack NETHER_ICE_COOLANT_CELL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NETHER_ICE_COOLANT_CELL;
+    public static final ItemStack CARGO_MANAGER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARGO_MANAGER;
+    public static final ItemStack CARGO_NODE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARGO_CONNECTOR_NODE;
+    public static final ItemStack CARGO_INPUT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARGO_INPUT_NODE;
+    public static final ItemStack CARGO_OUTPUT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARGO_OUTPUT_NODE;
+    public static final ItemStack CARGO_OUTPUT_ADVANCED = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARGO_OUTPUT_NODE_2;
+    public static final SlimefunItemStack AUTO_BREEDER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTO_BREEDER;
+    public static final SlimefunItemStack ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ORGANIC_FOOD;
+    public static final SlimefunItemStack WHEAT_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WHEAT_ORGANIC_FOOD;
+    public static final SlimefunItemStack CARROT_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARROT_ORGANIC_FOOD;
+    public static final SlimefunItemStack POTATO_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.POTATO_ORGANIC_FOOD;
+    public static final SlimefunItemStack SEEDS_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SEEDS_ORGANIC_FOOD;
+    public static final SlimefunItemStack BEETROOT_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BEETROOT_ORGANIC_FOOD;
+    public static final SlimefunItemStack MELON_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MELON_ORGANIC_FOOD;
+    public static final SlimefunItemStack APPLE_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.APPLE_ORGANIC_FOOD;
+    public static final SlimefunItemStack SWEET_BERRIES_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SWEET_BERRIES_ORGANIC_FOOD;
+    public static final SlimefunItemStack KELP_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.KELP_ORGANIC_FOOD;
+    public static final SlimefunItemStack COCOA_ORGANIC_FOOD = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COCOA_ORGANIC_FOOD;
+    public static final SlimefunItemStack FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FERTILIZER;
+    public static final SlimefunItemStack WHEAT_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WHEAT_FERTILIZER;
+    public static final SlimefunItemStack CARROT_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CARROT_FERTILIZER;
+    public static final SlimefunItemStack POTATO_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.POTATO_FERTILIZER;
+    public static final SlimefunItemStack SEEDS_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SEEDS_FERTILIZER;
+    public static final SlimefunItemStack BEETROOT_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.BEETROOT_FERTILIZER;
+    public static final SlimefunItemStack MELON_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MELON_FERTILIZER;
+    public static final SlimefunItemStack APPLE_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.APPLE_FERTILIZER;
+    public static final SlimefunItemStack SWEET_BERRIES_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SWEET_BERRIES_FERTILIZER;
+    public static final SlimefunItemStack KELP_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.KELP_FERTILIZER;
+    public static final SlimefunItemStack COCOA_FERTILIZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.COCOA_FERTILIZER;
+    public static final SlimefunItemStack ANIMAL_GROWTH_ACCELERATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ANIMAL_GROWTH_ACCELERATOR;
+    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CROP_GROWTH_ACCELERATOR;
+    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CROP_GROWTH_ACCELERATOR_2;
+    public static final SlimefunItemStack TREE_GROWTH_ACCELERATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TREE_GROWTH_ACCELERATOR;
+    public static final SlimefunItemStack FOOD_FABRICATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FOOD_FABRICATOR;
+    public static final SlimefunItemStack FOOD_FABRICATOR_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FOOD_FABRICATOR_2;
+    public static final SlimefunItemStack FOOD_COMPOSTER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FOOD_COMPOSTER;
+    public static final SlimefunItemStack FOOD_COMPOSTER_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FOOD_COMPOSTER_2;
+    public static final SlimefunItemStack XP_COLLECTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EXP_COLLECTOR;
+    public static final SlimefunItemStack REACTOR_COOLANT_CELL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REACTOR_COOLANT_CELL;
+    public static final SlimefunItemStack NUCLEAR_REACTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NUCLEAR_REACTOR;
+    public static final SlimefunItemStack NETHERSTAR_REACTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NETHERSTAR_REACTOR;
+    public static final SlimefunItemStack REACTOR_ACCESS_PORT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REACTOR_ACCESS_PORT;
+    public static final SlimefunItemStack FREEZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FREEZER;
+    public static final SlimefunItemStack FREEZER_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FREEZER_2;
+    public static final SlimefunItemStack ELECTRIC_GOLD_PAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_GOLD_PAN;
+    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_GOLD_PAN_2;
+    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_GOLD_PAN_3;
+    public static final SlimefunItemStack ELECTRIC_DUST_WASHER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_DUST_WASHER;
+    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_DUST_WASHER_2;
+    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_DUST_WASHER_3;
+    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_INGOT_FACTORY;
+    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_INGOT_FACTORY_2;
+    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_3 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELECTRIC_INGOT_FACTORY_3;
+    public static final SlimefunItemStack AUTOMATED_CRAFTING_CHAMBER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.AUTOMATED_CRAFTING_CHAMBER;
+    public static final SlimefunItemStack FLUID_PUMP = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FLUID_PUMP;
+    public static final SlimefunItemStack CHARGING_BENCH = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CHARGING_BENCH;
+    public static final SlimefunItemStack WITHER_ASSEMBLER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.WITHER_ASSEMBLER;
+    public static final SlimefunItemStack TRASH_CAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TRASH_CAN;
+    public static final SlimefunItemStack ELYTRA_SCALE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.ELYTRA_SCALE;
+    public static final SlimefunItemStack INFUSED_ELYTRA = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.INFUSED_ELYTRA;
+    public static final SlimefunItemStack SOULBOUND_ELYTRA = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOULBOUND_ELYTRA;
+    public static final SlimefunItemStack MAGNESIUM_SALT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGNESIUM_SALT;
+    public static final SlimefunItemStack MAGNESIUM_GENERATOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.MAGNESIUM_GENERATOR;
 
-    /*		 Gadgets 		*/
-    public static final SlimefunItemStack GOLD_PAN = new SlimefunItemStack("GOLD_PAN", Material.BOWL, "&6淘金盘", "&a&o可以获得各种各样的矿物", "", "&7&e右键&7 从沙砾中淘金");
-    public static final SlimefunItemStack NETHER_GOLD_PAN = new SlimefunItemStack("NETHER_GOLD_PAN", Material.BOWL, "&4下界淘金盘", "", "&7&e右键&7 从灵魂沙中淘金");
-    public static final SlimefunItemStack PARACHUTE = new SlimefunItemStack("PARACHUTE", Material.LEATHER_CHESTPLATE, Color.WHITE, "&r&l降落伞", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack GRAPPLING_HOOK = new SlimefunItemStack("GRAPPLING_HOOK", Material.LEAD, "&6抓钩", "", "&7&e右键&7 使用");
-    public static final SlimefunItemStack SOLAR_HELMET = new SlimefunItemStack("SOLAR_HELMET", Material.IRON_HELMET, "&b太阳能头盔", "", "&a&o为你拿着的物品和装备充电");
-    public static final SlimefunItemStack CLOTH = new SlimefunItemStack("CLOTH", Material.PAPER, "&b布");
-    public static final SlimefunItemStack CAN = new SlimefunItemStack("CAN", "94da97f080e395b842c4cc82a840823d4dbd8ca688a206853e5783e4bfdc012", "&r锡罐");
-    public static final SlimefunItemStack NIGHT_VISION_GOGGLES = new SlimefunItemStack("NIGHT_VISION_GOGGLES", Material.LEATHER_HELMET, Color.BLACK, "&a夜视眼镜", "", "&9+ 夜视效果");
-    public static final SlimefunItemStack FARMER_SHOES = new SlimefunItemStack("FARMER_SHOES", Material.LEATHER_BOOTS, Color.YELLOW, "&e农夫的靴子", "", "&6&o能够防止你踩坏农田");
-    public static final SlimefunItemStack INFUSED_MAGNET = new SlimefunItemStack("INFUSED_MAGNET", "aba8ebc4c6a81730947499bf7e1d5e73fed6c1bb2c051e96d35eb16d24610e7", "&a吸入磁铁", "", "&r注入了魔法的磁铁", "&r能够将附近的物品", "&r放入你的背包", "", "&7按住 &eShift&7 吸取周围的物品");
-    public static final SlimefunItemStack RAG = new SlimefunItemStack("RAG", Material.PAPER, "&c破布", "", "&a1级医疗供给", "", "&r恢复2点血量", "&r可以熄灭身上的火", "", "&7&e右键&7 使用");
-    public static final SlimefunItemStack BANDAGE = new SlimefunItemStack("BANDAGE", Material.PAPER, "&c绷带", "", "&a2级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "", "&7&e右键&7 使用");
-    public static final SlimefunItemStack SPLINT = new SlimefunItemStack("SPLINT", Material.STICK, "&c夹板", "", "&a1级医疗供给", "", "&r恢复2点血量", "", "&7&e右键&7 使用");
-    public static final SlimefunItemStack VITAMINS = new SlimefunItemStack("VITAMINS", Material.NETHER_WART, "&c维他命", "", "&a3级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "&r治愈中毒/凋零/辐射的负面效果", "", "&7&e右键&7 使用");
-    public static final SlimefunItemStack MEDICINE = new SlimefunItemStack("MEDICINE", Material.POTION, Color.RED, "&c药物", "", "&a3级医疗供给", "", "&r恢复4点血量", "&r可以熄灭身上的火", "&r治愈中毒/凋零/辐射的负面效果", "", "&7&e右键&7 饮用");
-
-    public static final SlimefunItemStack FLASK_OF_KNOWLEDGE = new SlimefunItemStack("FLASK_OF_KNOWLEDGE", Material.GLASS_BOTTLE, "&c学识之瓶", "", "&r允许你将经验储存在瓶子里", "&7需要消耗 &a1 个等级");
-    public static final SlimefunItemStack FILLED_FLASK_OF_KNOWLEDGE = new SlimefunItemStack("FILLED_FLASK_OF_KNOWLEDGE", Material.EXPERIENCE_BOTTLE, "&a学识之瓶");
-
-    /*		Backpacks		*/
-    public static final SlimefunItemStack BACKPACK_SMALL = new SlimefunItemStack("SMALL_BACKPACK", "40cb1e67b512ab2d4bf3d7ace0eaaf61c32cd4681ddc3987ceb326706a33fa", "&e小型背包", "", "&7大小: &e9", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack BACKPACK_MEDIUM = new SlimefunItemStack("MEDIUM_BACKPACK", BACKPACK_SMALL, "&e普通背包", "", "&7大小: &e18", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack BACKPACK_LARGE = new SlimefunItemStack("LARGE_BACKPACK", BACKPACK_SMALL, "&e中型背包", "", "&7大小: &e27", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack WOVEN_BACKPACK = new SlimefunItemStack("WOVEN_BACKPACK", BACKPACK_SMALL, "&e编织背包", "", "&7大小: &e36", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack GILDED_BACKPACK = new SlimefunItemStack("GILDED_BACKPACK", BACKPACK_SMALL, "&e镀金背包", "", "&7大小: &e45", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack RADIANT_BACKPACK = new SlimefunItemStack("RADIANT_BACKPACK", BACKPACK_SMALL, "&e金光闪闪的背包", "", "&7大小: &e54 (大箱子)", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack BOUND_BACKPACK = new SlimefunItemStack("BOUND_BACKPACK", "2a3b34862b9afb63cf8d5779966d3fba70af82b04e83f3eaf6449aeba", "&c灵魂绑定背包", "", "&7大小: &e36", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack COOLER = new SlimefunItemStack("COOLER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjMTU3MjU4NGViNWRlMjI5ZGU5ZjVhNGY3NzlkMGFhY2JhZmZkMzNiY2IzM2ViNDUzNmE2YTJiYzZhMSJ9fX0=", "&b小冰柜", "&r可以储存果汁和冰沙", "&r当小冰柜在你的物品栏里时", "&r在你饥饿时将会自动消耗里面的食物", "", "&7大小: &e27", "&7ID: <ID>", "", "&7&e右键&7 打开");
-    public static final SlimefunItemStack RESTORED_BACKPACK = new SlimefunItemStack("RESTORED_BACKPACK", "9c3681bf8a2738232fb305597f7e2a34a3a5c1356705249e9a365b0bcd04705a", "&e背包恢复器", "", "&7重新获取你丢失背包里的物品", "&7ID: <ID>", "", "&7&e右键&7 打开");
-
-    /*		 Jetpacks		*/
-    public static final SlimefunItemStack DURALUMIN_JETPACK = new SlimefunItemStack("DURALUMIN_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eI", "", "&8\u21E8 &7材料: &b硬铝", LoreBuilder.powerCharged(0, 20), "&8\u21E8 &7推力: &c0.35", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack SOLDER_JETPACK = new SlimefunItemStack("SOLDER_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eII", "", "&8\u21E8 &7材料: &b焊锡", LoreBuilder.powerCharged(0, 30), "&8\u21E8 &7推力: &c0.4", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack BILLON_JETPACK = new SlimefunItemStack("BILLON_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eIII", "", "&8\u21E8 &7材料: &b银铜合金", LoreBuilder.powerCharged(0, 45), "&8\u21E8 &7推力: &c0.45", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack STEEL_JETPACK = new SlimefunItemStack("STEEL_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eIV", "", "&8\u21E8 &7材料: &b钢", LoreBuilder.powerCharged(0, 60), "&8\u21E8 &7推力: &c0.5", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack DAMASCUS_STEEL_JETPACK = new SlimefunItemStack("DAMASCUS_STEEL_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eV", "", "&8\u21E8 &7材料: &b大马士革钢", LoreBuilder.powerCharged(0, 75), "&8\u21E8 &7推力: &c0.55", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack REINFORCED_ALLOY_JETPACK = new SlimefunItemStack("REINFORCED_ALLOY_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eVI", "", "&8\u21E8 &7材料: &b强化合金", LoreBuilder.powerCharged(0, 100), "&8\u21E8 &7推力: &c0.6", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack CARBONADO_JETPACK = new SlimefunItemStack("CARBONADO_JETPACK", Material.LEATHER_CHESTPLATE, Color.BLACK, "&9电力喷气背包 &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", LoreBuilder.powerCharged(0, 150), "&8\u21E8 &7推力: &c0.7", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack ARMORED_JETPACK = new SlimefunItemStack("ARMORED_JETPACK", Material.IRON_CHESTPLATE, "&9装甲喷气背包", "&8\u21E8 &7材料: &b钢", "", LoreBuilder.powerCharged(0, 50), "&8\u21E8 &7推力: &c0.45", "", "&7按住 &eShift&7 使用");
-
-    /*		 Jetboots		*/
-    public static final SlimefunItemStack DURALUMIN_JETBOOTS = new SlimefunItemStack("DURALUMIN_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eI", "", "&8\u21E8 &7材料: &b硬铝", LoreBuilder.powerCharged(0, 20), "&8\u21E8 &7速度: &a0.35", "&8\u21E8 &7准确度: &c50%", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack SOLDER_JETBOOTS = new SlimefunItemStack("SOLDER_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eII", "", "&8\u21E8 &7材料: &b焊锡", LoreBuilder.powerCharged(0, 30), "&8\u21E8 &7速度: &a0.4", "&8\u21E8 &7准确度: &660%", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack BILLON_JETBOOTS = new SlimefunItemStack("BILLON_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eIII", "", "&8\u21E8 &7材料: &b银铜合金", LoreBuilder.powerCharged(0, 40), "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &665%", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack STEEL_JETBOOTS = new SlimefunItemStack("STEEL_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eIV", "", "&8\u21E8 &7材料: &b钢", LoreBuilder.powerCharged(0, 50), "&8\u21E8 &7速度: &a0.5", "&8\u21E8 &7准确度: &e70%", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack DAMASCUS_STEEL_JETBOOTS = new SlimefunItemStack("DAMASCUS_STEEL_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eV", "", "&8\u21E8 &7材料: &b大马士革钢", LoreBuilder.powerCharged(0, 75), "&8\u21E8 &7速度: &a0.55", "&8\u21E8 &7准确度: &a75%", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack REINFORCED_ALLOY_JETBOOTS = new SlimefunItemStack("REINFORCED_ALLOY_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eVI", "", "&8\u21E8 &7材料: &b强化合金", LoreBuilder.powerCharged(0, 100), "&8\u21E8 &7速度: &a0.6", "&8\u21E8 &7准确度: &c80%", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack CARBONADO_JETBOOTS = new SlimefunItemStack("CARBONADO_JETBOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&9喷气靴 &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", LoreBuilder.powerCharged(0, 125), "&8\u21E8 &7速度: &a0.7", "&8\u21E8 &7准确度: &c99.9%", "", "&7按住 &eShift&7 使用");
-    public static final SlimefunItemStack ARMORED_JETBOOTS = new SlimefunItemStack("ARMORED_JETBOOTS", Material.IRON_BOOTS, "&9装甲喷气靴", "", "&8\u21E8 &7材料: &b钢", LoreBuilder.powerCharged(0, 50), "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &e70%", "", "&7按住 &eShift&7 使用");
-
-    /*		 Multi Tools		*/
-    public static final SlimefunItemStack DURALUMIN_MULTI_TOOL = new SlimefunItemStack("DURALUMIN_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eI", "", "&8\u21E8 &7材料: &b硬铝", LoreBuilder.powerCharged(0, 20), "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-    public static final SlimefunItemStack SOLDER_MULTI_TOOL = new SlimefunItemStack("SOLDER_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eII", "", "&8\u21E8 &7材料: &b焊锡", LoreBuilder.powerCharged(0, 30), "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-    public static final SlimefunItemStack BILLON_MULTI_TOOL = new SlimefunItemStack("BILLON_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eIII", "", "&8\u21E8 &7材料: &b银铜合金", LoreBuilder.powerCharged(0, 40), "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-    public static final SlimefunItemStack STEEL_MULTI_TOOL = new SlimefunItemStack("STEEL_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eIV", "", "&8\u21E8 &7材料: &b钢", LoreBuilder.powerCharged(0, 50), "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-    public static final SlimefunItemStack DAMASCUS_STEEL_MULTI_TOOL = new SlimefunItemStack("DAMASCUS_STEEL_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eV", "", "&8\u21E8 &7材料: &b大马士革钢", LoreBuilder.powerCharged(0, 60), "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-    public static final SlimefunItemStack REINFORCED_ALLOY_MULTI_TOOL = new SlimefunItemStack("REINFORCED_ALLOY_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eVI", "", "&8\u21E8 &7材料: &b强化合金", LoreBuilder.powerCharged(0, 75), "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-    public static final SlimefunItemStack CARBONADO_MULTI_TOOL = new SlimefunItemStack("CARBONADO_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eVII", "", "&8\u21E8 &7材料: &b黑金刚石", LoreBuilder.powerCharged(0, 100), "", "&7&e右键&7 使用", "&7按住 &eShift + 右键&7 以更改模式");
-
-    static {
-        ItemMeta duralumin = DURALUMIN_MULTI_TOOL.getItemMeta();
-        duralumin.setUnbreakable(true);
-        DURALUMIN_MULTI_TOOL.setItemMeta(duralumin);
-
-        ItemMeta solder = SOLDER_MULTI_TOOL.getItemMeta();
-        solder.setUnbreakable(true);
-        SOLDER_MULTI_TOOL.setItemMeta(solder);
-
-        ItemMeta billon = BILLON_MULTI_TOOL.getItemMeta();
-        billon.setUnbreakable(true);
-        BILLON_MULTI_TOOL.setItemMeta(billon);
-
-        ItemMeta steel = STEEL_MULTI_TOOL.getItemMeta();
-        steel.setUnbreakable(true);
-        STEEL_MULTI_TOOL.setItemMeta(steel);
-
-        ItemMeta damascus = DAMASCUS_STEEL_MULTI_TOOL.getItemMeta();
-        damascus.setUnbreakable(true);
-        DAMASCUS_STEEL_MULTI_TOOL.setItemMeta(damascus);
-
-        ItemMeta reinforced = REINFORCED_ALLOY_MULTI_TOOL.getItemMeta();
-        reinforced.setUnbreakable(true);
-        REINFORCED_ALLOY_MULTI_TOOL.setItemMeta(reinforced);
-
-        ItemMeta carbonado = CARBONADO_MULTI_TOOL.getItemMeta();
-        carbonado.setUnbreakable(true);
-        CARBONADO_MULTI_TOOL.setItemMeta(carbonado);
-    }
-
-    /*		 Food 		*/
-    public static final SlimefunItemStack FORTUNE_COOKIE = new SlimefunItemStack("FORTUNE_COOKIE", Material.COOKIE, "&6幸运饼干", "", "&a&o告诉你未来发生的事 :o");
-    public static final SlimefunItemStack DIET_COOKIE = new SlimefunItemStack("DIET_COOKIE", Material.COOKIE, "&6减肥曲奇", "", "&a一个非常&o轻&r&a的曲奇");
-    public static final SlimefunItemStack MAGIC_SUGAR = new SlimefunItemStack("MAGIC_SUGAR", Material.SUGAR, "&6魔法糖", "", "&a&o感受赫尔墨斯的力量!");
-    public static final SlimefunItemStack MONSTER_JERKY = new SlimefunItemStack("MONSTER_JERKY", Material.ROTTEN_FLESH, "&6怪物肉干", "", "&a&o提神抗饥饿");
-    public static final SlimefunItemStack APPLE_JUICE = new SlimefunItemStack("APPLE_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&c苹果汁", "", "&7&o恢复 &b&o" + "3.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack MELON_JUICE = new SlimefunItemStack("MELON_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&c西瓜汁", "", "&7&o恢复 &b&o" + "3.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack CARROT_JUICE = new SlimefunItemStack("CARROT_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&6胡萝卜汁", "", "&7&o恢复 &b&o" + "3.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack PUMPKIN_JUICE = new SlimefunItemStack("PUMPKIN_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&6南瓜汁", "", "&7&o恢复 &b&o" + "3.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack SWEET_BERRY_JUICE = new SlimefunItemStack("SWEET_BERRY_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0), "&c浆果汁", "", "&7&o恢复 &b&o" + "3.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack GOLDEN_APPLE_JUICE = new SlimefunItemStack("GOLDEN_APPLE_JUICE", Color.YELLOW, new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0), "&b金苹果汁");
-
-    public static final SlimefunItemStack BEEF_JERKY = new SlimefunItemStack("BEEF_JERKY", Material.COOKED_BEEF, "&6牛肉干", "", "&r横扫饥饿!");
-    public static final SlimefunItemStack PORK_JERKY = new SlimefunItemStack("PORK_JERKY", Material.COOKED_PORKCHOP, "&6猪肉干", "", "&r横扫饥饿!");
-    public static final SlimefunItemStack CHICKEN_JERKY = new SlimefunItemStack("CHICKEN_JERKY", Material.COOKED_CHICKEN, "&6鸡肉干", "", "&r横扫饥饿!");
-    public static final SlimefunItemStack MUTTON_JERKY = new SlimefunItemStack("MUTTON_JERKY", Material.COOKED_MUTTON, "&6羊肉干", "", "&r横扫饥饿!");
-    public static final SlimefunItemStack RABBIT_JERKY = new SlimefunItemStack("RABBIT_JERKY", Material.COOKED_RABBIT, "&6兔肉干", "", "&r横扫饥饿!");
-    public static final SlimefunItemStack FISH_JERKY = new SlimefunItemStack("FISH_JERKY", Material.COOKED_COD, "&6鱼干", "", "&r横扫饥饿!");
-    public static final SlimefunItemStack KELP_COOKIE = new SlimefunItemStack("KELP_COOKIE", Material.COOKIE, "&2海带曲奇");
-
-    /*		Christmas		*/
-    public static final SlimefunItemStack CHRISTMAS_MILK = new SlimefunItemStack("CHRISTMAS_MILK", Color.WHITE, new PotionEffect(PotionEffectType.SATURATION, 5, 0), "&6一杯牛奶", "", "&7&o恢复 &b&o" + "2.5" + " &7&o的饥饿值");
-    public static final SlimefunItemStack CHRISTMAS_CHOCOLATE_MILK = new SlimefunItemStack("CHRISTMAS_CHOCOLATE_MILK", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 12, 0), "&6巧克力牛奶", "", "&7&o恢复 &b&o" + "3.5" + " &7&o的饥饿值");
-    public static final SlimefunItemStack CHRISTMAS_EGG_NOG = new SlimefunItemStack("CHRISTMAS_EGG_NOG", Color.GRAY, new PotionEffect(PotionEffectType.SATURATION, 7, 0), "&a蛋酒", "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack CHRISTMAS_APPLE_CIDER = new SlimefunItemStack("CHRISTMAS_APPLE_CIDER", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "&c苹果酒", "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack CHRISTMAS_COOKIE = new SlimefunItemStack("CHRISTMAS_COOKIE", Material.COOKIE, ChatUtils.christmas("圣诞曲奇"));
-    public static final SlimefunItemStack CHRISTMAS_FRUIT_CAKE = new SlimefunItemStack("CHRISTMAS_FRUIT_CAKE", Material.PUMPKIN_PIE, ChatUtils.christmas("水果蛋糕"));
-    public static final SlimefunItemStack CHRISTMAS_APPLE_PIE = new SlimefunItemStack("CHRISTMAS_APPLE_PIE", Material.PUMPKIN_PIE, "&r苹果派");
-    public static final SlimefunItemStack CHRISTMAS_HOT_CHOCOLATE = new SlimefunItemStack("CHRISTMAS_HOT_CHOCOLATE", Color.MAROON, new PotionEffect(PotionEffectType.SATURATION, 14, 0), "&6热可可", "", "&7&o恢复 &b&o" + "7.0" + " &7&o的饥饿值");
-    public static final SlimefunItemStack CHRISTMAS_CAKE = new SlimefunItemStack("CHRISTMAS_CAKE", Material.PUMPKIN_PIE, ChatUtils.christmas("圣诞蛋糕"));
-    public static final SlimefunItemStack CHRISTMAS_CARAMEL = new SlimefunItemStack("CHRISTMAS_CARAMEL", Material.BRICK, "&6焦糖");
-    public static final SlimefunItemStack CHRISTMAS_CARAMEL_APPLE = new SlimefunItemStack("CHRISTMAS_CARAMEL_APPLE", Material.APPLE, "&6焦糖苹果");
-    public static final SlimefunItemStack CHRISTMAS_CHOCOLATE_APPLE = new SlimefunItemStack("CHRISTMAS_CHOCOLATE_APPLE", Material.APPLE, "&6巧克力苹果");
-    public static final SlimefunItemStack CHRISTMAS_PRESENT = new SlimefunItemStack("CHRISTMAS_PRESENT", Material.CHEST, ChatUtils.christmas("圣诞礼物"), "&7来自 &emrCookieSlime &7的礼物", "&7收件人: &e你", "", "&e右键&7 拆开");
-
-    /*		Easter			*/
-    public static final SlimefunItemStack EASTER_EGG = new SlimefunItemStack("EASTER_EGG", Material.EGG, "&r复活节彩蛋", "&b惊喜!");
-    public static final SlimefunItemStack EASTER_CARROT_PIE = new SlimefunItemStack("CARROT_PIE", Material.PUMPKIN_PIE, "&6胡萝卜派");
-    public static final SlimefunItemStack EASTER_APPLE_PIE = new SlimefunItemStack("EASTER_APPLE_PIE", Material.PUMPKIN_PIE, "&r苹果派");
-
-    /*		 Weapons 		*/
-    public static final SlimefunItemStack GRANDMAS_WALKING_STICK = new SlimefunItemStack("GRANDMAS_WALKING_STICK", Material.STICK, "&7奶奶的拐杖");
-    public static final SlimefunItemStack GRANDPAS_WALKING_STICK = new SlimefunItemStack("GRANDPAS_WALKING_STICK", Material.STICK, "&7爷爷的拐杖");
-    public static final SlimefunItemStack SWORD_OF_BEHEADING = new SlimefunItemStack("SWORD_OF_BEHEADING", Material.IRON_SWORD, "&6处决之剑", "&7斩首处决 II", "", "&r有几率砍下生物的头", "&r(提高掉落凋灵骷髅头的几率)");
-    public static final SlimefunItemStack BLADE_OF_VAMPIRES = new SlimefunItemStack("BLADE_OF_VAMPIRES", Material.GOLDEN_SWORD, "&c吸血鬼之刀", "&7生命窃取 I", "", "&r在攻击时有 45% 的几率", "使自己恢复 2 点血量");
-    public static final SlimefunItemStack SEISMIC_AXE = new SlimefunItemStack("SEISMIC_AXE", Material.IRON_AXE, "&a地震斧", "", "&7&o制造一场地震...", "", "&7&e右键&7 使用");
-
-    static {
-        GRANDMAS_WALKING_STICK.addUnsafeEnchantment(Enchantment.KNOCKBACK, 2);
-        GRANDPAS_WALKING_STICK.addUnsafeEnchantment(Enchantment.KNOCKBACK, 5);
-
-        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
-        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DURABILITY, 4);
-        BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
-    }
-
-    /*		Bows		*/
-    public static final SlimefunItemStack EXPLOSIVE_BOW = new SlimefunItemStack("EXPLOSIVE_BOW", Material.BOW, "&c爆裂之弓", "&r被爆裂之弓射出的箭击中将会飞上天");
-    public static final SlimefunItemStack ICY_BOW = new SlimefunItemStack("ICY_BOW", Material.BOW, "&b冰封之弓", "&r被此弓射出的箭击中", "&r将会因寒冷而无法移动 (2秒内)");
-
-    /*		 Tools		*/
-    public static final SlimefunItemStack AUTO_SMELT_PICKAXE = new SlimefunItemStack("SMELTERS_PICKAXE", Material.DIAMOND_PICKAXE, "&6熔炉镐", "&c&l自动熔炼", "", "&9在挖矿时有时运效果");
-    public static final SlimefunItemStack LUMBER_AXE = new SlimefunItemStack("LUMBER_AXE", Material.DIAMOND_AXE, "&6伐木斧", "&a&o砍倒整棵树木...");
-    public static final SlimefunItemStack PICKAXE_OF_CONTAINMENT = new SlimefunItemStack("PICKAXE_OF_CONTAINMENT", Material.IRON_PICKAXE, "&c刷怪笼之镐", "", "&9可以获取刷怪笼");
-    public static final SlimefunItemStack HERCULES_PICKAXE = new SlimefunItemStack("HERCULES_PICKAXE", Material.IRON_PICKAXE, "&9赫拉克勒斯之镐", "", "&r它如此强大", "&r因此能自动将挖到的矿物变为粉末...");
-    public static final SlimefunItemStack EXPLOSIVE_PICKAXE = new SlimefunItemStack("EXPLOSIVE_PICKAXE", Material.DIAMOND_PICKAXE, "&e爆炸稿", "", "&r允许你在一瞬间挖掘矿物", "", "&9在挖矿时有时运效果");
-    public static final SlimefunItemStack EXPLOSIVE_SHOVEL = new SlimefunItemStack("EXPLOSIVE_SHOVEL", Material.DIAMOND_SHOVEL, "&e爆炸铲", "", "&r让你一下子就能挖掉很多方块");
-    public static final SlimefunItemStack PICKAXE_OF_THE_SEEKER = new SlimefunItemStack("PICKAXE_OF_THE_SEEKER", Material.DIAMOND_PICKAXE, "&a寻矿稿", "&r使用时将会指出你附近的矿物", "&r但可能它会受到损伤", "", "&7&e右键&7 以寻找四周的矿物");
-    public static final SlimefunItemStack COBALT_PICKAXE = new SlimefunItemStack("COBALT_PICKAXE", Material.IRON_PICKAXE, "&9钴镐");
-    public static final SlimefunItemStack PICKAXE_OF_VEIN_MINING = new SlimefunItemStack("PICKAXE_OF_VEIN_MINING", Material.DIAMOND_PICKAXE, "&e矿脉镐", "", "&r这个镐子将会挖出", "&r整个矿脉的矿物...");
-
-    static {
-        HERCULES_PICKAXE.addUnsafeEnchantment(Enchantment.DURABILITY, 5);
-        HERCULES_PICKAXE.addUnsafeEnchantment(Enchantment.DIG_SPEED, 3);
-
-        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DIG_SPEED, 6);
-    }
-
-    /*		 Armor 		*/
-    public static final SlimefunItemStack GLOWSTONE_HELMET = new SlimefunItemStack("GLOWSTONE_HELMET", Material.LEATHER_HELMET, Color.YELLOW, "&e&l萤石头盔", "", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果");
-    public static final SlimefunItemStack GLOWSTONE_CHESTPLATE = new SlimefunItemStack("GLOWSTONE_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.YELLOW, "&e&l萤石胸甲", "", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果");
-    public static final SlimefunItemStack GLOWSTONE_LEGGINGS = new SlimefunItemStack("GLOWSTONE_LEGGINGS", Material.LEATHER_LEGGINGS, Color.YELLOW, "&e&l萤石护腿", "", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果");
-    public static final SlimefunItemStack GLOWSTONE_BOOTS = new SlimefunItemStack("GLOWSTONE_BOOTS", Material.LEATHER_BOOTS, Color.YELLOW, "&e&l萤石靴子", "", "&a&o像太阳一样闪耀!", "", "&9+ 夜视效果");
-
-    public static final SlimefunItemStack ENDER_HELMET = new SlimefunItemStack("ENDER_HELMET", Material.LEATHER_HELMET, Color.fromRGB(28, 25, 112), "&5&l末影头盔", "", "&a&o任意移动");
-    public static final SlimefunItemStack ENDER_CHESTPLATE = new SlimefunItemStack("ENDER_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.fromRGB(28, 25, 112), "&5&l末影胸甲", "", "&a&o任意移动");
-    public static final SlimefunItemStack ENDER_LEGGINGS = new SlimefunItemStack("ENDER_LEGGINGS", Material.LEATHER_LEGGINGS, Color.fromRGB(28, 25, 112), "&5&l末影护腿", "", "&a&o任意移动");
-    public static final SlimefunItemStack ENDER_BOOTS = new SlimefunItemStack("ENDER_BOOTS", Material.LEATHER_BOOTS, Color.fromRGB(28, 25, 112), "&5&l末影靴子", "", "&a&o任意移动", "", "&9+ 使用末影珍珠时无伤害");
-
-    public static final SlimefunItemStack SLIME_HELMET = new SlimefunItemStack("SLIME_HELMET", Material.LEATHER_HELMET, Color.LIME, "&a&l史莱姆头盔", "", "&a&o有弹性的感觉");
-    public static final SlimefunItemStack SLIME_CHESTPLATE = new SlimefunItemStack("SLIME_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.LIME, "&a&l史莱姆胸甲", "", "&a&o有弹性的感觉");
-    public static final SlimefunItemStack SLIME_LEGGINGS = new SlimefunItemStack("SLIME_LEGGINGS", Material.LEATHER_LEGGINGS, Color.LIME, "&a&l史莱姆护腿", "", "&a&o有弹性的感觉", "", "&9+ 速度");
-    public static final SlimefunItemStack SLIME_BOOTS = new SlimefunItemStack("SLIME_BOOTS", Material.LEATHER_BOOTS, Color.LIME, "&a&l史莱姆靴子", "", "&a&o有弹性的感觉", "", "&9+ 跳跃提升", "&9+ 减免摔落伤害");
-
-    public static final SlimefunItemStack CACTUS_HELMET = new SlimefunItemStack("CACTUS_HELMET", Material.LEATHER_HELMET, Color.GREEN, "&2仙人掌头盔");
-    public static final SlimefunItemStack CACTUS_CHESTPLATE = new SlimefunItemStack("CACTUS_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.GREEN, "&2仙人掌胸甲");
-    public static final SlimefunItemStack CACTUS_LEGGINGS = new SlimefunItemStack("CACTUS_LEGGINGS", Material.LEATHER_LEGGINGS, Color.GREEN, "&2仙人掌护腿");
-    public static final SlimefunItemStack CACTUS_BOOTS = new SlimefunItemStack("CACTUS_BOOTS", Material.LEATHER_BOOTS, Color.GREEN, "&2仙人掌靴子");
-
-    public static final SlimefunItemStack DAMASCUS_STEEL_HELMET = new SlimefunItemStack("DAMASCUS_STEEL_HELMET", Material.IRON_HELMET, "&7大马士革钢头盔");
-    public static final SlimefunItemStack DAMASCUS_STEEL_CHESTPLATE = new SlimefunItemStack("DAMASCUS_STEEL_CHESTPLATE", Material.IRON_CHESTPLATE, "&7大马士革钢胸甲");
-    public static final SlimefunItemStack DAMASCUS_STEEL_LEGGINGS = new SlimefunItemStack("DAMASCUS_STEEL_LEGGINGS", Material.IRON_LEGGINGS, "&7大马士革钢护腿");
-    public static final SlimefunItemStack DAMASCUS_STEEL_BOOTS = new SlimefunItemStack("DAMASCUS_STEEL_BOOTS", Material.IRON_BOOTS, "&7大马士革钢靴子");
-
-    public static final SlimefunItemStack REINFORCED_ALLOY_HELMET = new SlimefunItemStack("REINFORCED_ALLOY_HELMET", Material.IRON_HELMET, "&b强化合金头盔");
-    public static final SlimefunItemStack REINFORCED_ALLOY_CHESTPLATE = new SlimefunItemStack("REINFORCED_ALLOY_CHESTPLATE", Material.IRON_CHESTPLATE, "&b强化合金胸甲");
-    public static final SlimefunItemStack REINFORCED_ALLOY_LEGGINGS = new SlimefunItemStack("REINFORCED_ALLOY_LEGGINGS", Material.IRON_LEGGINGS, "&b强化合金护腿");
-    public static final SlimefunItemStack REINFORCED_ALLOY_BOOTS = new SlimefunItemStack("REINFORCED_ALLOY_BOOTS", Material.IRON_BOOTS, "&b强化合金靴子");
-
-    public static final SlimefunItemStack SCUBA_HELMET = new SlimefunItemStack("SCUBA_HELMET", Material.LEATHER_HELMET, Color.ORANGE, "&c潜水头盔", "", "&b让你能够在水下呼吸", "&4&o防化套装的一部分");
-    public static final SlimefunItemStack HAZMATSUIT_CHESTPLATE = new SlimefunItemStack("HAZMAT_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.ORANGE, "&c防化服", "", "&b让你能在火焰中行走", "&4&o防化套装的一部分");
-    public static final SlimefunItemStack HAZMATSUIT_LEGGINGS = new SlimefunItemStack("HAZMAT_LEGGINGS", Material.LEATHER_LEGGINGS, Color.ORANGE, "&c防化护腿", "", "&4&o防化套装的一部分");
-    public static final SlimefunItemStack RUBBER_BOOTS = new SlimefunItemStack("RUBBER_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&c橡胶靴", "", "&4&o防化套装的一部分");
-
-    public static final SlimefunItemStack GILDED_IRON_HELMET = new SlimefunItemStack("GILDED_IRON_HELMET", Material.GOLDEN_HELMET, "&6镀金铁头盔");
-    public static final SlimefunItemStack GILDED_IRON_CHESTPLATE = new SlimefunItemStack("GILDED_IRON_CHESTPLATE", Material.GOLDEN_CHESTPLATE, "&6镀金铁胸甲");
-    public static final SlimefunItemStack GILDED_IRON_LEGGINGS = new SlimefunItemStack("GILDED_IRON_LEGGINGS", Material.GOLDEN_LEGGINGS, "&6镀金铁护腿");
-    public static final SlimefunItemStack GILDED_IRON_BOOTS = new SlimefunItemStack("GILDED_IRON_BOOTS", Material.GOLDEN_BOOTS, "&6镀金铁靴子");
-
-    public static final SlimefunItemStack GOLD_HELMET = new SlimefunItemStack("GOLD_12K_HELMET", Material.GOLDEN_HELMET, "&6金头盔", "&912克拉");
-    public static final SlimefunItemStack GOLD_CHESTPLATE = new SlimefunItemStack("GOLD_12K_CHESTPLATE", Material.GOLDEN_CHESTPLATE, "&6金胸甲", "&912克拉");
-    public static final SlimefunItemStack GOLD_LEGGINGS = new SlimefunItemStack("GOLD_12K_LEGGINGS", Material.GOLDEN_LEGGINGS, "&6金护腿", "&912克拉");
-    public static final SlimefunItemStack GOLD_BOOTS = new SlimefunItemStack("GOLD_12K_BOOTS", Material.GOLDEN_BOOTS, "&6金靴子", "&912克拉");
-
-    public static final SlimefunItemStack SLIME_HELMET_STEEL = new SlimefunItemStack("SLIME_STEEL_HELMET", Material.IRON_HELMET, "&a&l史莱姆头盔", "&7&o已强化", "", "&a&o有弹性的感觉");
-    public static final SlimefunItemStack SLIME_CHESTPLATE_STEEL = new SlimefunItemStack("SLIME_STEEL_CHESTPLATE", Material.IRON_CHESTPLATE, "&a&l史莱姆胸甲", "&7&o已强化", "", "&a&o有弹性的感觉");
-    public static final SlimefunItemStack SLIME_LEGGINGS_STEEL = new SlimefunItemStack("SLIME_STEEL_LEGGINGS", Material.IRON_LEGGINGS, "&a&l史莱姆护腿", "&7&o已强化", "", "&a&o有弹性的感觉", "", "&9+ 速度");
-    public static final SlimefunItemStack SLIME_BOOTS_STEEL = new SlimefunItemStack("SLIME_STEEL_BOOTS", Material.IRON_BOOTS, "&a&l史莱姆靴子", "&7&o已强化", "", "&a&o有弹性的感觉", "", "&9+ 跳跃提升", "&9+ 减免摔落伤害");
-
-    public static final SlimefunItemStack BOOTS_OF_THE_STOMPER = new SlimefunItemStack("BOOTS_OF_THE_STOMPER", Material.LEATHER_BOOTS, Color.AQUA, "&b践踏者之靴", "", "&9你受到的所有摔落伤害", "&9将转给附近的生物/玩家", "", "&9+ 减免摔落伤害");
-
-    static {
-        Map<Enchantment, Integer> cactus = new HashMap<>();
-        cactus.put(Enchantment.THORNS, 3);
-        cactus.put(Enchantment.DURABILITY, 6);
-
-        CACTUS_HELMET.addUnsafeEnchantments(cactus);
-        CACTUS_CHESTPLATE.addUnsafeEnchantments(cactus);
-        CACTUS_LEGGINGS.addUnsafeEnchantments(cactus);
-        CACTUS_BOOTS.addUnsafeEnchantments(cactus);
-
-        Map<Enchantment, Integer> damascus = new HashMap<>();
-        damascus.put(Enchantment.DURABILITY, 5);
-        damascus.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
-
-        DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_LEGGINGS.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascus);
-
-        Map<Enchantment, Integer> reinforced = new HashMap<>();
-        reinforced.put(Enchantment.DURABILITY, 9);
-        reinforced.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
-
-        REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
-
-        Map<Enchantment, Integer> gilded = new HashMap<>();
-        gilded.put(Enchantment.DURABILITY, 6);
-        gilded.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
-
-        GILDED_IRON_HELMET.addUnsafeEnchantments(gilded);
-        GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gilded);
-        GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gilded);
-        GILDED_IRON_BOOTS.addUnsafeEnchantments(gilded);
-
-        GOLD_HELMET.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLD_CHESTPLATE.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLD_LEGGINGS.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        GOLD_BOOTS.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-
-        Map<Enchantment, Integer> slime = new HashMap<>();
-        slime.put(Enchantment.DURABILITY, 4);
-        slime.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
-
-        SLIME_HELMET_STEEL.addUnsafeEnchantments(slime);
-        SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slime);
-        SLIME_LEGGINGS_STEEL.addUnsafeEnchantments(slime);
-        SLIME_BOOTS_STEEL.addUnsafeEnchantments(slime);
-    }
-
-    /*		 Misc 		*/
-    public static final ItemStack MAGIC_LUMP_1 = new SlimefunItemStack("MAGIC_LUMP_1", Material.GOLD_NUGGET, "&6魔法因子 &7- &eI", "", "&c&o等级: I");
-    public static final ItemStack MAGIC_LUMP_2 = new SlimefunItemStack("MAGIC_LUMP_2", Material.GOLD_NUGGET, "&6魔法因子 &7- &eII", "", "&c&o等级: II");
-    public static final ItemStack MAGIC_LUMP_3 = new SlimefunItemStack("MAGIC_LUMP_3", Material.GOLD_NUGGET, "&6魔法因子 &7- &eIII", "", "&c&o等级: III");
-    public static final ItemStack ENDER_LUMP_1 = new SlimefunItemStack("ENDER_LUMP_1", Material.GOLD_NUGGET, "&5末影因子 &7- &eI", "", "&c&o等级: I");
-    public static final ItemStack ENDER_LUMP_2 = new SlimefunItemStack("ENDER_LUMP_2", Material.GOLD_NUGGET, "&5末影因子 &7- &eII", "", "&c&o等级: II");
-    public static final ItemStack ENDER_LUMP_3 = new SlimefunItemStack("ENDER_LUMP_3", Material.GOLD_NUGGET, "&5末影因子 &7- &eIII", "", "&c&o等级: III");
-    public static final SlimefunItemStack MAGICAL_BOOK_COVER = new SlimefunItemStack("MAGICAL_BOOK_COVER", Material.PAPER, "&6魔法书皮", "", "&a&o用于各种魔法书");
-    public static final ItemStack BASIC_CIRCUIT_BOARD = new SlimefunItemStack("BASIC_CIRCUIT_BOARD", Material.ACTIVATOR_RAIL, "&b基础电路板");
-    public static final ItemStack ADVANCED_CIRCUIT_BOARD = new SlimefunItemStack("ADVANCED_CIRCUIT_BOARD", Material.POWERED_RAIL, "&b高级电路板");
-    public static final ItemStack WHEAT_FLOUR = new SlimefunItemStack("WHEAT_FLOUR", Material.SUGAR, "&r小麦粉");
-    public static final ItemStack STEEL_PLATE = new SlimefunItemStack("STEEL_PLATE", Material.PAPER, "&7&l钢板");
-    public static final ItemStack BATTERY = new SlimefunItemStack("BATTERY", "6e2dda6ef6185d4dd6ea8684e97d39ba8ab037e25f75cdea6bd29df8eb34ee", "&6电池");
-    public static final ItemStack CARBON = new SlimefunItemStack("CARBON", "8b3a095b6b81e6b9853a19324eedf0bb9349417258dd173b8eff87a087aa", "&e碳");
-    public static final ItemStack COMPRESSED_CARBON = new SlimefunItemStack("COMPRESSED_CARBON", "321d495165748d3116f99d6b5bd5d42eb8ba592bcdfad37fd95f9b6c04a3b", "&c压缩碳");
-    public static final ItemStack CARBON_CHUNK = new SlimefunItemStack("CARBON_CHUNK", "321d495165748d3116f99d6b5bd5d42eb8ba592bcdfad37fd95f9b6c04a3b", "&4碳块");
-    public static final SlimefunItemStack STEEL_THRUSTER = new SlimefunItemStack("STEEL_THRUSTER", Material.BUCKET, "&7&l钢推进器");
-    public static final ItemStack POWER_CRYSTAL = new SlimefunItemStack("POWER_CRYSTAL", "53c1b036b6e03517b285a811bd85e73f5abfdacc1ddf90dff962e180934e3", "&c&l能量水晶");
-    public static final SlimefunItemStack CHAIN = new SlimefunItemStack("CHAIN", Material.STRING, "&b锁链");
-    public static final ItemStack HOOK = new SlimefunItemStack("HOOK", Material.FLINT, "&b钩子");
-    public static final ItemStack SIFTED_ORE = new SlimefunItemStack("SIFTED_ORE", Material.GUNPOWDER, "&6筛矿");
-    public static final ItemStack STONE_CHUNK = new SlimefunItemStack("STONE_CHUNK", "ce8f5adb14d6c9f6b810d027543f1a8c1f417e2fed993c97bcd89c74f5e2e8", "&6石块");
-    public static final SlimefunItemStack LAVA_CRYSTAL = new SlimefunItemStack("LAVA_CRYSTAL", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNhZDhlZTg0OWVkZjA0ZWQ5YTI2Y2EzMzQxZjYwMzNiZDc2ZGNjNDIzMWVkMWVhNjNiNzU2NTc1MWIyN2FjIn19fQ==", "&4岩浆水晶");
-    public static final ItemStack SALT = new SlimefunItemStack("SALT", Material.SUGAR, "&r盐");
-    public static final ItemStack CHEESE = new SlimefunItemStack("CHEESE", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRmZWJiYzE1ZDFkNGNjNjJiZWRjNWQ3YTJiNmYwZjQ2Y2Q1YjA2OTZhODg0ZGU3NWUyODllMzVjYmI1M2EwIn19fQ==", "&r黄油");
-    public static final ItemStack BUTTER = new SlimefunItemStack("BUTTER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY2YjE5ZjdkNjM1ZDAzNDczODkxZGYzMzAxN2M1NDkzNjMyMDlhOGY2MzI4YTg1NDJjMjEzZDA4NTI1ZSJ9fX0=", "&r奶酪");
-    public static final SlimefunItemStack DUCT_TAPE = new SlimefunItemStack("DUCT_TAPE", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjJmYWFjZWFiNjM4NGZmZjVlZDI0YmI0NGE0YWYyZjU4NGViMTM4MjcyOWVjZDkzYTUzNjlhY2ZkNjY1NCJ9fX0=", "&8强力胶布", "", "&r可以用这个在自动铁砧里", "&r修复物品");
-    public static final ItemStack HEAVY_CREAM = new SlimefunItemStack("HEAVY_CREAM", Material.SNOWBALL, "&r浓奶油");
-    public static final SlimefunItemStack CRUSHED_ORE = new SlimefunItemStack("CRUSHED_ORE", Material.GUNPOWDER, "&6已粉碎的矿石");
-    public static final SlimefunItemStack PULVERIZED_ORE = new SlimefunItemStack("PULVERIZED_ORE", Material.GUNPOWDER, "&6粉末状的矿石");
-    public static final SlimefunItemStack PURE_ORE_CLUSTER = new SlimefunItemStack("PURE_ORE_CLUSTER", Material.GUNPOWDER, "&6纯矿簇");
-    public static final SlimefunItemStack SMALL_URANIUM = new SlimefunItemStack("SMALL_URANIUM", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhiMjlhZmE2ZDZkYzkyM2UyZTEzMjRiZjgxOTI3NTBmN2JkYmRkYzY4OTYzMmEyYjZjMThkOWZlN2E1ZSJ9fX0=", "&c一小堆铀", "", LoreBuilder.radioactive(Radioactivity.LOW), "&4&o不需要防化套装");
-    public static final SlimefunItemStack TINY_URANIUM = new SlimefunItemStack("TINY_URANIUM", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhiMjlhZmE2ZDZkYzkyM2UyZTEzMjRiZjgxOTI3NTBmN2JkYmRkYzY4OTYzMmEyYjZjMThkOWZlN2E1ZSJ9fX0=", "&c一小块铀", "", LoreBuilder.radioactive(Radioactivity.MODERATE), "&4&o需要防化套装");
-
-    public static final ItemStack MAGNET = new SlimefunItemStack("MAGNET", "aba8ebc4c6a81730947499bf7e1d5e73fed6c1bb2c051e96d35eb16d24610e7", "&c磁铁");
-    public static final ItemStack NECROTIC_SKULL = new SlimefunItemStack("NECROTIC_SKULL", Material.WITHER_SKELETON_SKULL, "&c坏死颅骨");
-    public static final ItemStack ESSENCE_OF_AFTERLIFE = new SlimefunItemStack("ESSENCE_OF_AFTERLIFE", Material.GUNPOWDER, "&4来世精华");
-    public static final ItemStack ELECTRO_MAGNET = new SlimefunItemStack("ELECTRO_MAGNET", "aba8ebc4c6a81730947499bf7e1d5e73fed6c1bb2c051e96d35eb16d24610e7", "&c电磁铁");
-    public static final ItemStack HEATING_COIL = new SlimefunItemStack("HEATING_COIL", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2UzYmM0ODkzYmE0MWEzZjczZWUyODE3NGNkZjRmZWY2YjE0NWU0MWZlNmM4MmNiN2JlOGQ4ZTk3NzFhNSJ9fX0=", "&c加热线圈");
-    public static final ItemStack COOLING_UNIT = new SlimefunItemStack("COOLING_UNIT", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0YmFkODZjOTlkZjc4MGM4ODlhMTA5OGY3NzY0OGVhZDczODVjYzFkZGIwOTNkYTVhN2Q4YzRjMmFlNTRkIn19fQ==", "&b冷却装置");
-    public static final ItemStack ELECTRIC_MOTOR = new SlimefunItemStack("ELECTRIC_MOTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNiY2EwMTJmNjdlNTRkZTlhZWU3MmZmNDI0ZTA1NmMyYWU1OGRlNWVhY2M5NDlhYjJiY2Q5NjgzY2VjIn19fQ==", "&c电动马达");
-    public static final ItemStack CARGO_MOTOR = new SlimefunItemStack("CARGO_MOTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNiY2EwMTJmNjdlNTRkZTlhZWU3MmZmNDI0ZTA1NmMyYWU1OGRlNWVhY2M5NDlhYjJiY2Q5NjgzY2VjIn19fQ==", "&3货运马达");
-    public static final SlimefunItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new SlimefunItemStack("SCROLL_OF_DIMENSIONAL_TELEPOSITION", Material.PAPER, "&6维度传送卷轴", "", "&c这个卷轴可以便携地创建", "&c一个临时的黑洞", "&c将附近的实体都传送至", "&c另一个维度上", "&c所有东西都反转了", "", "&r就是说: 让实体转180°");
-    public static final SlimefunItemStack TOME_OF_KNOWLEDGE_SHARING = new SlimefunItemStack("TOME_OF_KNOWLEDGE_SHARING", Material.BOOK, "&6知识共享之书", "&7主人: &bNone", "", "&e右键&7 以绑定你的所有研究", "", "", "&e右键&7 以获得前任主人的所有研究");
-    public static final ItemStack HARDENED_GLASS = new SlimefunItemStack("HARDENED_GLASS", Material.LIGHT_GRAY_STAINED_GLASS, "&7钢化玻璃", "", "&r可以抵抗爆炸");
-    public static final SlimefunItemStack WITHER_PROOF_OBSIDIAN = new SlimefunItemStack("WITHER_PROOF_OBSIDIAN", Material.OBSIDIAN, "&5防凋零黑曜石", "", "&r可以抵抗爆炸和", "&r凋零的攻击");
-    public static final SlimefunItemStack WITHER_PROOF_GLASS = new SlimefunItemStack("WITHER_PROOF_GLASS", Material.PURPLE_STAINED_GLASS, "&5防凋零玻璃", "", "&r可以抵抗爆炸和", "&r凋零的攻击");
-    public static final ItemStack REINFORCED_PLATE = new SlimefunItemStack("REINFORCED_PLATE", Material.PAPER, "&7钢筋板");
-    public static final SlimefunItemStack ANCIENT_PEDESTAL = new SlimefunItemStack("ANCIENT_PEDESTAL", Material.DISPENSER, "&d古代基座", "", "&5古代祭坛的一部分");
-    public static final SlimefunItemStack ANCIENT_ALTAR = new SlimefunItemStack("ANCIENT_ALTAR", Material.ENCHANTING_TABLE, "&d古代祭坛", "", "&5在世界里建造祭坛", "&5并用古老的仪式合成物品");
-    public static final SlimefunItemStack COPPER_WIRE = new SlimefunItemStack("COPPER_WIRE", Material.STRING, "&6铜线", "", "&6电子配件中的重要组成部分");
-
-    public static final SlimefunItemStack RAINBOW_WOOL = new SlimefunItemStack("RAINBOW_WOOL", Material.WHITE_WOOL, "&5彩虹羊毛", "", "&d轮番展现彩虹的颜色!");
-    public static final SlimefunItemStack RAINBOW_GLASS = new SlimefunItemStack("RAINBOW_GLASS", Material.WHITE_STAINED_GLASS, "&5彩虹玻璃", "", "&d轮番展现彩虹的颜色!");
-    public static final SlimefunItemStack RAINBOW_CLAY = new SlimefunItemStack("RAINBOW_CLAY", Material.WHITE_TERRACOTTA, "&5彩虹粘土块", "", "&d轮番展现彩虹的颜色!");
-    public static final SlimefunItemStack RAINBOW_GLASS_PANE = new SlimefunItemStack("RAINBOW_GLASS_PANE", Material.WHITE_STAINED_GLASS_PANE, "&5彩虹玻璃板", "", "&d轮番展现彩虹的颜色!");
-    public static final SlimefunItemStack RAINBOW_CONCRETE = new SlimefunItemStack("RAINBOW_CONCRETE", Material.WHITE_CONCRETE, "&5彩虹混凝土", "", "&d轮番展现彩虹的颜色!");
-    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA = new SlimefunItemStack("RAINBOW_GLAZED_TERRACOTTA", Material.WHITE_GLAZED_TERRACOTTA, "&5Rainbow Glazed Terracotta", "", "&d轮番展现彩虹的颜色!");
-
-    public static final SlimefunItemStack RAINBOW_WOOL_XMAS = new SlimefunItemStack("RAINBOW_WOOL_XMAS", Material.WHITE_WOOL, "&5彩虹羊毛 &7(圣诞节版)", "", ChatUtils.christmas("< 圣诞节版 >"));
-    public static final SlimefunItemStack RAINBOW_GLASS_XMAS = new SlimefunItemStack("RAINBOW_GLASS_XMAS", Material.WHITE_STAINED_GLASS, "&5彩虹玻璃 &7(圣诞节版)", "", ChatUtils.christmas("< 圣诞节版 >"));
-    public static final SlimefunItemStack RAINBOW_CLAY_XMAS = new SlimefunItemStack("RAINBOW_CLAY_XMAS", Material.WHITE_TERRACOTTA, "&5彩虹粘土块 &7(圣诞节版)", "", ChatUtils.christmas("< 圣诞节版 >"));
-    public static final SlimefunItemStack RAINBOW_GLASS_PANE_XMAS = new SlimefunItemStack("RAINBOW_GLASS_PANE_XMAS", Material.WHITE_STAINED_GLASS_PANE, "&5彩虹玻璃板 &7(圣诞节版)", "", ChatUtils.christmas("< 圣诞节版 >"));
-    public static final SlimefunItemStack RAINBOW_CONCRETE_XMAS = new SlimefunItemStack("RAINBOW_CONCRETE_XMAS", Material.WHITE_CONCRETE, "&5彩虹混凝土 &7(圣诞节版)", "", ChatUtils.christmas("< 圣诞节版 >"));
-    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA_XMAS = new SlimefunItemStack("RAINBOW_GLAZED_TERRACOTTA_XMAS", Material.WHITE_GLAZED_TERRACOTTA, "&5彩虹带釉陶瓦 &7(圣诞节版)", "", ChatUtils.christmas("< 圣诞节版 >"));
-
-    public static final SlimefunItemStack RAINBOW_WOOL_VALENTINE = new SlimefunItemStack("RAINBOW_WOOL_VALENTINE", Material.PINK_WOOL, "&5彩虹羊毛 &7(情人节版)", "", "&d< 情人节版 >");
-    public static final SlimefunItemStack RAINBOW_GLASS_VALENTINE = new SlimefunItemStack("RAINBOW_GLASS_VALENTINE", Material.PINK_STAINED_GLASS, "&5彩虹玻璃 &7(情人节版)", "", "&d< 情人节版 >");
-    public static final SlimefunItemStack RAINBOW_CLAY_VALENTINE = new SlimefunItemStack("RAINBOW_CLAY_VALENTINE", Material.PINK_TERRACOTTA, "&5彩虹粘土块 &7(情人节版)", "", "&d< 情人节版 >");
-    public static final SlimefunItemStack RAINBOW_GLASS_PANE_VALENTINE = new SlimefunItemStack("RAINBOW_GLASS_PANE_VALENTINE", Material.PINK_STAINED_GLASS_PANE, "&5彩虹玻璃板 &7(情人节版)", "", "&d< 情人节版 >");
-    public static final SlimefunItemStack RAINBOW_CONCRETE_VALENTINE = new SlimefunItemStack("RAINBOW_CONCRETE_VALENTINE", Material.PINK_CONCRETE, "&5彩虹混凝土 &7(情人节版)", "", "&d< 情人节版 >");
-    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA_VALENTINE = new SlimefunItemStack("RAINBOW_GLAZED_TERRACOTTA_VALENTINE", Material.PINK_GLAZED_TERRACOTTA, "&5彩虹带釉陶瓦 &7(情人节版)", "", "&d< 情人节版 >");
-
-    public static final SlimefunItemStack RAINBOW_WOOL_HALLOWEEN = new SlimefunItemStack("RAINBOW_WOOL_HALLOWEEN", Material.ORANGE_WOOL, "&5彩虹羊毛 &7(万圣节版)", "", "&6< 万圣节版 >");
-    public static final SlimefunItemStack RAINBOW_GLASS_HALLOWEEN = new SlimefunItemStack("RAINBOW_GLASS_HALLOWEEN", Material.ORANGE_STAINED_GLASS, "&5彩虹玻璃 &7(万圣节版)", "", "&6< 万圣节版 >");
-    public static final SlimefunItemStack RAINBOW_CLAY_HALLOWEEN = new SlimefunItemStack("RAINBOW_CLAY_HALLOWEEN", Material.ORANGE_TERRACOTTA, "&5彩虹粘土块 &7(万圣节版)", "", "&6< 万圣节版 >");
-    public static final SlimefunItemStack RAINBOW_GLASS_PANE_HALLOWEEN = new SlimefunItemStack("RAINBOW_GLASS_PANE_HALLOWEEN", Material.ORANGE_STAINED_GLASS_PANE, "&5彩虹玻璃板 &7(万圣节版)", "", "&6< 万圣节版 >");
-    public static final SlimefunItemStack RAINBOW_CONCRETE_HALLOWEEN = new SlimefunItemStack("RAINBOW_CONCRETE_HALLOWEEN", Material.ORANGE_CONCRETE, "&5彩虹混凝土 &7(万圣节版)", "", "&6< 万圣节版 >");
-    public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN = new SlimefunItemStack("RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN", Material.ORANGE_GLAZED_TERRACOTTA, "&5彩虹带釉陶瓦a &7(万圣节版)", "", "&6< 万圣节版 >");
-
-    /*		锭 		*/
-    public static final ItemStack COPPER_INGOT = new SlimefunItemStack("COPPER_INGOT", Material.BRICK, "&b铜锭");
-    public static final ItemStack TIN_INGOT = new SlimefunItemStack("TIN_INGOT", Material.IRON_INGOT, "&b锡锭");
-    public static final ItemStack SILVER_INGOT = new SlimefunItemStack("SILVER_INGOT", Material.IRON_INGOT, "&b银锭");
-    public static final ItemStack ALUMINUM_INGOT = new SlimefunItemStack("ALUMINUM_INGOT", Material.IRON_INGOT, "&b铝锭");
-    public static final ItemStack LEAD_INGOT = new SlimefunItemStack("LEAD_INGOT", Material.IRON_INGOT, "&b铅锭");
-    public static final ItemStack ZINC_INGOT = new SlimefunItemStack("ZINC_INGOT", Material.IRON_INGOT, "&b锌锭");
-    public static final ItemStack MAGNESIUM_INGOT = new SlimefunItemStack("MAGNESIUM_INGOT", Material.IRON_INGOT, "&b镁锭");
-
-    /*		Alloy (Carbon + Iron)	*/
-    public static final ItemStack STEEL_INGOT = new SlimefunItemStack("STEEL_INGOT", Material.IRON_INGOT, "&b钢锭");
-    /*		Alloy (Copper + Tin)	*/
-    public static final ItemStack BRONZE_INGOT = new SlimefunItemStack("BRONZE_INGOT", Material.BRICK, "&b青铜锭");
-    /*		Alloy (Copper + Aluminum)	*/
-    public static final ItemStack DURALUMIN_INGOT = new SlimefunItemStack("DURALUMIN_INGOT", Material.IRON_INGOT, "&b硬铝锭");
-    /*		Alloy (Copper + Silver)	*/
-    public static final ItemStack BILLON_INGOT = new SlimefunItemStack("BILLON_INGOT", Material.IRON_INGOT, "&b银铜合金锭");
-    /*		Alloy (Copper + Zinc)	*/
-    public static final ItemStack BRASS_INGOT = new SlimefunItemStack("BRASS_INGOT", Material.GOLD_INGOT, "&b黄铜锭");
-    /*		Alloy (Aluminum + Brass)	*/
-    public static final ItemStack ALUMINUM_BRASS_INGOT = new SlimefunItemStack("ALUMINUM_BRASS_INGOT", Material.GOLD_INGOT, "&b铝黄铜锭");
-    /*		Alloy (Aluminum + Bronze)	*/
-    public static final ItemStack ALUMINUM_BRONZE_INGOT = new SlimefunItemStack("ALUMINUM_BRONZE_INGOT", Material.GOLD_INGOT, "&b铝青铜锭");
-    /*		Alloy (Gold + Silver + Copper)	*/
-    public static final ItemStack CORINTHIAN_BRONZE_INGOT = new SlimefunItemStack("CORINTHIAN_BRONZE_INGOT", Material.GOLD_INGOT, "&b科林斯青铜锭");
-    /*		Alloy (Lead + Tin)	*/
-    public static final ItemStack SOLDER_INGOT = new SlimefunItemStack("SOLDER_INGOT", Material.IRON_INGOT, "&b焊锡锭");
-    /*		Alloy (Steel + Iron + Carbon)	*/
-    public static final ItemStack DAMASCUS_STEEL_INGOT = new SlimefunItemStack("DAMASCUS_STEEL_INGOT", Material.IRON_INGOT, "&b大马士革钢锭");
-    /*		Alloy (大马士革钢 + 硬铝 + Compressed Carbon + Aluminium Bronze)	*/
-    public static final ItemStack HARDENED_METAL_INGOT = new SlimefunItemStack("HARDENED_METAL_INGOT", Material.IRON_INGOT, "&b&l硬化金属");
-    /*		Alloy (Hardened Metal + Corinthian Bronze + Solder + Billon + 大马士革钢)	*/
-    public static final ItemStack REINFORCED_ALLOY_INGOT = new SlimefunItemStack("REINFORCED_ALLOY_INGOT", Material.IRON_INGOT, "&b&l强化合金锭");
-    /*		Alloy (Iron + Silicon)		*/
-    public static final ItemStack FERROSILICON = new SlimefunItemStack("FERROSILICON", Material.IRON_INGOT, "&b硅铁");
-    /*		Alloy (Iron + Gold)			*/
-    public static final ItemStack GILDED_IRON = new SlimefunItemStack("GILDED_IRON", Material.GOLD_INGOT, "&6&l镀金铁锭");
-    /*		Alloy (Redston + Ferrosilicon)	*/
-    public static final ItemStack REDSTONE_ALLOY = new SlimefunItemStack("REDSTONE_ALLOY", Material.BRICK, "&c红石合金锭");
-    /*		Alloy (Iron + Copper)		*/
-    public static final ItemStack NICKEL_INGOT = new SlimefunItemStack("NICKEL_INGOT", Material.IRON_INGOT, "&b镍锭");
-    /*		Alloy (Nickel + Iron + Copper)		*/
-    public static final ItemStack COBALT_INGOT = new SlimefunItemStack("COBALT_INGOT", Material.IRON_INGOT, "&9钴锭");
-
-    /*		Gold		*/
-    public static final ItemStack GOLD_4K = new SlimefunItemStack("GOLD_4K", Material.GOLD_INGOT, "&r金锭 &7(4克拉)");
-    public static final ItemStack GOLD_6K = new SlimefunItemStack("GOLD_6K", Material.GOLD_INGOT, "&r金锭 &7(6克拉)");
-    public static final ItemStack GOLD_8K = new SlimefunItemStack("GOLD_8K", Material.GOLD_INGOT, "&r金锭 &7(8克拉)");
-    public static final ItemStack GOLD_10K = new SlimefunItemStack("GOLD_10K", Material.GOLD_INGOT, "&r金锭 &7(10克拉)");
-    public static final ItemStack GOLD_12K = new SlimefunItemStack("GOLD_12K", Material.GOLD_INGOT, "&r金锭 &7(12克拉)");
-    public static final ItemStack GOLD_14K = new SlimefunItemStack("GOLD_14K", Material.GOLD_INGOT, "&r金锭 &7(14克拉)");
-    public static final ItemStack GOLD_16K = new SlimefunItemStack("GOLD_16K", Material.GOLD_INGOT, "&r金锭 &7(16克拉)");
-    public static final ItemStack GOLD_18K = new SlimefunItemStack("GOLD_18K", Material.GOLD_INGOT, "&r金锭 &7(18克拉)");
-    public static final ItemStack GOLD_20K = new SlimefunItemStack("GOLD_20K", Material.GOLD_INGOT, "&r金锭 &7(20克拉)");
-    public static final ItemStack GOLD_22K = new SlimefunItemStack("GOLD_22K", Material.GOLD_INGOT, "&r金锭 &7(22克拉)");
-    public static final ItemStack GOLD_24K = new SlimefunItemStack("GOLD_24K", Material.GOLD_INGOT, "&r金锭 &7(24克拉)");
-
-    /*		 Dusts 		*/
-    public static final ItemStack IRON_DUST = new SlimefunItemStack("IRON_DUST", Material.GUNPOWDER, "&6铁粉");
-    public static final ItemStack GOLD_DUST = new SlimefunItemStack("GOLD_DUST", Material.GLOWSTONE_DUST, "&6金粉");
-    public static final ItemStack TIN_DUST = new SlimefunItemStack("TIN_DUST", Material.SUGAR, "&6锡粉");
-    public static final ItemStack COPPER_DUST = new SlimefunItemStack("COPPER_DUST", Material.GLOWSTONE_DUST, "&6铜粉");
-    public static final ItemStack SILVER_DUST = new SlimefunItemStack("SILVER_DUST", Material.SUGAR, "&6银粉");
-    public static final ItemStack ALUMINUM_DUST = new SlimefunItemStack("ALUMINUM_DUST", Material.SUGAR, "&6铝粉");
-    public static final ItemStack LEAD_DUST = new SlimefunItemStack("LEAD_DUST", Material.GUNPOWDER, "&6铅粉");
-    public static final ItemStack SULFATE = new SlimefunItemStack("SULFATE", Material.GLOWSTONE_DUST, "&6硫酸盐");
-    public static final ItemStack ZINC_DUST = new SlimefunItemStack("ZINC_DUST", Material.SUGAR, "&6锌粉");
-    public static final ItemStack MAGNESIUM_DUST = new SlimefunItemStack("MAGNESIUM_DUST", Material.SUGAR, "&6镁");
-    public static final ItemStack SILICON = new SlimefunItemStack("SILICON", Material.FIREWORK_STAR, "&6硅");
-    public static final ItemStack GOLD_24K_BLOCK = new SlimefunItemStack("GOLD_24K_BLOCK", Material.GOLD_BLOCK, "&r&r金块 &7(24克拉)");
-
-    /*		 Gems 		*/
-    public static final ItemStack SYNTHETIC_DIAMOND = new SlimefunItemStack("SYNTHETIC_DIAMOND", Material.DIAMOND, "&b人造钻石", "", "&r可以在工作台中作为钻石使用");
-    public static final ItemStack SYNTHETIC_EMERALD = new SlimefunItemStack("SYNTHETIC_EMERALD", Material.EMERALD, "&b人造绿宝石", "", "&r可以用来和村民交易");
-    public static final ItemStack SYNTHETIC_SAPPHIRE = new SlimefunItemStack("SYNTHETIC_SAPPHIRE", "e35032f4d7d01de8ec99d89f8723012d4e74fa73022c4facf1b57c7ff6ff0", "&b人造蓝宝石", "", "&r可以在工作台中作为青金石使用");
-    public static final ItemStack CARBONADO = new SlimefunItemStack("CARBONADO", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTJmNGIxNTc3ZjUxNjBjNjg5MzE3MjU3MWM0YTcxZDhiMzIxY2RjZWFhMDMyYzZlMGUzYjYwZTBiMzI4ZmEifX19", "&b&l黑金刚石", "", "&7&o\"黑色钻石\"");
-    public static final ItemStack RAW_CARBONADO = new SlimefunItemStack("RAW_CARBONADO", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWI0OWU2ZWMxMDc3MWU4OTkyMjVhZWE3M2NkOGNmMDM2ODRmNDExZDE0MTVjNzMyM2M5M2NiOTQ3NjIzMCJ9fX0=", "&b黑金刚石原矿");
-
-    public static final SlimefunItemStack URANIUM = new SlimefunItemStack("URANIUM", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhiMjlhZmE2ZDZkYzkyM2UyZTEzMjRiZjgxOTI3NTBmN2JkYmRkYzY4OTYzMmEyYjZjMThkOWZlN2E1ZSJ9fX0=", "&4铀", "", LoreBuilder.radioactive(Radioactivity.HIGH), "&4&o需要防化套装");
-    public static final SlimefunItemStack NEPTUNIUM = new SlimefunItemStack("NEPTUNIUM", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGVkZWE2YmZkMzdlNDlkZTQzZjE1NGZlNmZjYTYxN2Q0MTI5ZTYxYjk1NzU5YTNkNDlhMTU5MzVhMWMyZGNmMCJ9fX0=", "&a镎", "", LoreBuilder.radioactive(Radioactivity.HIGH), "&4&o需要防化套装");
-    public static final SlimefunItemStack PLUTONIUM = new SlimefunItemStack("PLUTONIUM", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjVjZjkxYjczODg2NjVhNmQ3YzFiNjAyNmJkYjIzMjJjNmQyNzg5OTdhNDQ0Nzg2NzdjYmNjMTVmNzYxMjRmIn19fQ==", "&7钚", "", LoreBuilder.radioactive(Radioactivity.VERY_HIGH), "&4&o需要防化套装");
-    public static final SlimefunItemStack BOOSTED_URANIUM = new SlimefunItemStack("BOOSTED_URANIUM", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjgzN2NhMTJmMjIyZjQ3ODcxOTZhMTdiOGFiNjU2OTg1Zjg0MDRjNTA3NjdhZGJjYjZlN2YxNDI1NGZlZSJ9fX0=", "&2高纯度铀", "", LoreBuilder.radioactive(Radioactivity.VERY_HIGH), "&4&o需要防化套装");
-
-    /*		Talisman		*/
-    public static final SlimefunItemStack TALISMAN = new SlimefunItemStack("COMMON_TALISMAN", Material.EMERALD, "&6普通护身符");
-    public static final SlimefunItemStack ENDER_TALISMAN = new SlimefunItemStack("ENDER_TALISMAN", Material.EMERALD, "&5末影护身符");
-
-    public static final SlimefunItemStack TALISMAN_ANVIL = new SlimefunItemStack("ANVIL_TALISMAN", Material.EMERALD, "&a铁砧护身符", "", "&r每个护身符可以防止", "&r一个工具因耐久不足而损坏", "&r然后就会被消耗", "", "&4&l警告:", "&4由于过于强大的工具的复杂性", "&4此护身符不能修复过于强大的工具");
-    public static final SlimefunItemStack TALISMAN_MINER = new SlimefunItemStack("MINER_TALISMAN", Material.EMERALD, "&a矿工护身符", "", "&r当这个护身符在你的背包里时", "&r将有 20% 的几率双倍掉落", "&r你挖出的矿物");
-    public static final SlimefunItemStack TALISMAN_HUNTER = new SlimefunItemStack("HUNTER_TALISMAN", Material.EMERALD, "&a猎人护身符", "", "&r当这个护身符在你的背包里时", "&r将有 20% 的几率双倍掉落", "&r你杀死的生物的掉落物");
-    public static final SlimefunItemStack TALISMAN_LAVA = new SlimefunItemStack("LAVA_TALISMAN", Material.EMERALD, "&a岩浆行者护身符", "", "&r当这个护身符在你的背包里时", "&r获得火焰保护效果", "&r仅在你行走在岩浆上时可用", "&r然后就会被消耗");
-    public static final SlimefunItemStack TALISMAN_WATER = new SlimefunItemStack("WATER_TALISMAN", Material.EMERALD, "&a潜水者护身符", "", "&r当这个护身符在你的背包里时", "&r一旦你即将溺水而死", "&r护身符将会给予你水下呼吸", "&r然后就会被消耗");
-    public static final SlimefunItemStack TALISMAN_ANGEL = new SlimefunItemStack("ANGEL_TALISMAN", Material.EMERALD, "&a天使护身符", "", "&r当这个护身符在你的背包里时", "&r有 75% 的几率减免你的摔落伤害");
-    public static final SlimefunItemStack TALISMAN_FIRE = new SlimefunItemStack("FIRE_TALISMAN", Material.EMERALD, "&a消防员护身符", "", "&r当这个护身符在你的背包里时", "&r在你着火时", "&r给予你防火效果", "&r然后就会被消耗");
-    public static final SlimefunItemStack TALISMAN_MAGICIAN = new SlimefunItemStack("MAGICIAN_TALISMAN", Material.EMERALD, "&a魔法师护身符", "", "&r当这个护身符在你的背包里时", "&r在附魔时有 80% 的几率", "&r得到一个额外的附魔");
-    public static final SlimefunItemStack TALISMAN_TRAVELLER = new SlimefunItemStack("TRAVELLER_TALISMAN", Material.EMERALD, "&a旅行者护身符", "", "&r当这个护身符在你的背包里时", "&r在你开始疾跑时有 60% 的几率", "&r给予你速度效果");
-    public static final SlimefunItemStack TALISMAN_WARRIOR = new SlimefunItemStack("WARRIOR_TALISMAN", Material.EMERALD, "&a战士护身符", "", "&r当这个护身符在你的背包里时", "&r你被攻击后将会获得力量3的效果", "&r然后就会被消耗");
-    public static final SlimefunItemStack TALISMAN_KNIGHT = new SlimefunItemStack("KNIGHT_TALISMAN", Material.EMERALD, "&a骑士护身符", "", "&r当这个护身符在你的背包里时", "&r在你被攻击后", "&r有 30% 的几率获得五秒的生命恢复", "&r然后就会被消耗");
-    public static final SlimefunItemStack TALISMAN_WHIRLWIND = new SlimefunItemStack("WHIRLWIND_TALISMAN", Material.EMERALD, "&a旋风护身符", "", "&r当这个护身符在你的背包里时", "&r将有 60% 的几率", "&r反弹所有冲向你的弹射物");
-    public static final SlimefunItemStack TALISMAN_WIZARD = new SlimefunItemStack("WIZARD_TALISMAN", Material.EMERALD, "&a巫师护身符", "", "&r当这个护身符在你的背包里时", "&r在你附魔时可获得时运4/5", "&r但它也可能降低该物品", "&r其他附魔的等级");
-
-    /*		Staves		*/
-    public static final SlimefunItemStack STAFF_ELEMENTAL = new SlimefunItemStack("STAFF_ELEMENTAL", Material.STICK, "&6元素法杖");
-    public static final SlimefunItemStack STAFF_WIND = new SlimefunItemStack("STAFF_ELEMENTAL_WIND", Material.STICK, "&6元素法杖 &7- &b&o风", "", "&7元素: &b&o风", "", "&7&e右键&7 以将你吹飞");
-    public static final SlimefunItemStack STAFF_FIRE = new SlimefunItemStack("STAFF_ELEMENTAL_FIRE", Material.STICK, "&6元素法杖 &7- &c&o火", "", "&7元素: &c&o火", "", "&c让火焰净化一切!");
-    public static final SlimefunItemStack STAFF_WATER = new SlimefunItemStack("STAFF_ELEMENTAL_WATER", Material.STICK, "&6元素法杖 &7- &1&o水", "", "&7元素: &1&o水", "", "&7&e右键&7 以灭掉你身上的火");
-    public static final SlimefunItemStack STAFF_STORM = new SlimefunItemStack("STAFF_ELEMENTAL_STORM", Material.STICK, "&6元素法杖 &7- &8&o雷", "", "&7元素: &8&o雷", "", "&e右键&7 召唤一道闪电", "&7剩余 &e" + StormStaff.MAX_USES + " 次");
-
-    static {
-        STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
-        STAFF_FIRE.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 5);
-        STAFF_WATER.addUnsafeEnchantment(Enchantment.WATER_WORKER, 1);
-        STAFF_STORM.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-    }
-
-    /*		 Machines 		*/
-    public static final SlimefunItemStack GRIND_STONE = new SlimefunItemStack("GRIND_STONE", Material.DISPENSER, "&b磨石", "", "&a&o更高效的磨物品");
-    public static final SlimefunItemStack ARMOR_FORGE = new SlimefunItemStack("ARMOR_FORGE", Material.ANVIL, "&6盔甲锻造台", "", "&a&o给你创造强大防具的力量");
-    public static final SlimefunItemStack MAKESHIFT_SMELTERY;
-    public static final SlimefunItemStack SMELTERY = new SlimefunItemStack("SMELTERY", Material.FURNACE, "&6冶炼炉", "", "&a能够冶炼金属的高温炉");
-    public static final SlimefunItemStack IGNITION_CHAMBER = new SlimefunItemStack("IGNITION_CHAMBER", Material.DROPPER, "&4自动点火机", "&r以防你的冶炼炉失去火焰", "&r把打火石放入后", "&r放置于冶炼炉的发射器旁边");
-    public static final SlimefunItemStack ORE_CRUSHER = new SlimefunItemStack("ORE_CRUSHER", Material.DISPENSER, "&b矿石粉碎机", "", "&a&o粉碎矿石并且得到双倍的矿粉");
-    public static final SlimefunItemStack COMPRESSOR = new SlimefunItemStack("COMPRESSOR", Material.PISTON, "&b压缩机", "", "&a压缩物品");
-    public static final SlimefunItemStack PRESSURE_CHAMBER = new SlimefunItemStack("PRESSURE_CHAMBER", Material.GLASS, "&b压力机", "", "&a压缩更多的物品");
-    public static final SlimefunItemStack MAGIC_WORKBENCH = new SlimefunItemStack("MAGIC_WORKBENCH", Material.CRAFTING_TABLE, "&6魔法工作台", "", "&d给物品注入魔法能量");
-    public static final SlimefunItemStack ORE_WASHER = new SlimefunItemStack("ORE_WASHER", Material.CAULDRON, "&6洗矿机", "", "&a&o清洗筛矿变成过滤矿石", "&a&o并且给你一些小石块");
-    public static final SlimefunItemStack TABLE_SAW;
-    public static final SlimefunItemStack COMPOSTER = new SlimefunItemStack("COMPOSTER", Material.CAULDRON, "&a搅拌机", "", "&a&o随着时间的推移可以转换各种材料...");
-    public static final SlimefunItemStack ENHANCED_CRAFTING_TABLE = new SlimefunItemStack("ENHANCED_CRAFTING_TABLE", Material.CRAFTING_TABLE, "&e高级工作台", "", "&a&o一个原始的工作台", "&a&o无法承受强大的力量...");
-    public static final SlimefunItemStack CRUCIBLE = new SlimefunItemStack("CRUCIBLE", Material.CAULDRON, "&c坩埚", "", "&a&o用来把物品变为液体");
-    public static final SlimefunItemStack JUICER = new SlimefunItemStack("JUICER", Material.GLASS_BOTTLE, "&a榨汁机", "", "&a让你创造美味的果汁");
-
-    public static final SlimefunItemStack INDUSTRIAL_MINER = new SlimefunItemStack("INDUSTRIAL_MINER", Material.GOLDEN_PICKAXE, "&b工业矿机", "", "&r工业矿机能够开采其下方 7x7", "&r的范围内的所有矿物.", "&r将煤炭或其他燃料放入", "&r机器的箱子中为它添加燃料.");
-    public static final SlimefunItemStack ADVANCED_INDUSTRIAL_MINER = new SlimefunItemStack("ADVANCED_INDUSTRIAL_MINER", Material.DIAMOND_PICKAXE, "&c进阶工业矿机", "", "&r进阶工业矿机能够开采其下方 11x11", "&r的范围中的所有矿物.", "&r将燃油或岩浆放入机器的箱子中", "&r为它添加燃料.", "", "&a+ 精准采集");
-
-    static {
-        ItemMeta meta = INDUSTRIAL_MINER.getItemMeta();
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        INDUSTRIAL_MINER.setItemMeta(meta);
-
-        ItemMeta meta2 = ADVANCED_INDUSTRIAL_MINER.getItemMeta();
-        meta2.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        ADVANCED_INDUSTRIAL_MINER.setItemMeta(meta2);
-    }
-
-    public static final ItemStack SOLAR_PANEL = new SlimefunItemStack("SOLAR_PANEL", Material.DAYLIGHT_DETECTOR, "&b太阳能板", "", "&a&o将阳光变为能量");
-
-    @Deprecated
-    public static final ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&b挖矿机", "", "&4已过时", "&c这个物品即将被移除!");
-
-    @Deprecated
-    public static final ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6高级挖矿机", "", "&4已过时", "&c这个物品即将被移除!");
-
-    public static final SlimefunItemStack AUTOMATED_PANNING_MACHINE = new SlimefunItemStack("AUTOMATED_PANNING_MACHINE", Material.BOWL, "&a自动淘金机", "", "&a&o升级版淘金筛");
-    public static final SlimefunItemStack OUTPUT_CHEST = new SlimefunItemStack("OUTPUT_CHEST", Material.CHEST, "&4物品输出箱", "", "&c&o将它放在基础机械的发射器旁边", "&c&o做出的物品会放入箱子里面");
-    public static final SlimefunItemStack HOLOGRAM_PROJECTOR = new SlimefunItemStack("HOLOGRAM_PROJECTOR", Material.QUARTZ_SLAB, "&b全息投影仪", "", "&r投影出可编辑的全息文字");
-
-    /*		 Enhanced Furnaces 		*/
-    public static final SlimefunItemStack ENHANCED_FURNACE = new SlimefunItemStack("ENHANCED_FURNACE", Material.FURNACE, "&7强化熔炉 - &eI", "", "&7燃烧速度: &e1x", "&7燃料效率: &e1x", "&7产物翻倍倍数: &e1x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_2 = new SlimefunItemStack("ENHANCED_FURNACE_2", Material.FURNACE, "&7强化熔炉 - &eII", "", "&7燃烧速度: &e2x", "&7燃料效率: &e1x", "&7产物翻倍倍数: &e1x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_3 = new SlimefunItemStack("ENHANCED_FURNACE_3", Material.FURNACE, "&7强化熔炉 - &eIII", "", "&7燃烧速度: &e2x", "&7燃料效率: &e2x", "&7产物翻倍倍数: &e1x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_4 = new SlimefunItemStack("ENHANCED_FURNACE_4", Material.FURNACE, "&7强化熔炉 - &eIV", "", "&7燃烧速度: &e3x", "&7燃料效率: &e2x", "&7产物翻倍倍数: &e1x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_5 = new SlimefunItemStack("ENHANCED_FURNACE_5", Material.FURNACE, "&7强化熔炉 - &eV", "", "&7燃烧速度: &e3x", "&7燃料效率: &e2x", "&7产物翻倍倍数: &e2x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_6 = new SlimefunItemStack("ENHANCED_FURNACE_6", Material.FURNACE, "&7强化熔炉 - &eVI", "", "&7燃烧速度: &e3x", "&7燃料效率: &e3x", "&7产物翻倍倍数: &e2x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_7 = new SlimefunItemStack("ENHANCED_FURNACE_7", Material.FURNACE, "&7强化熔炉 - &eVII", "", "&7燃烧速度: &e4x", "&7燃料效率: &e3x", "&7产物翻倍倍数: &e2x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_8 = new SlimefunItemStack("ENHANCED_FURNACE_8", Material.FURNACE, "&7强化熔炉 - &eVIII", "", "&7燃烧速度: &e4x", "&7燃料效率: &e4x", "&7产物翻倍倍数: &e2x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_9 = new SlimefunItemStack("ENHANCED_FURNACE_9", Material.FURNACE, "&7强化熔炉 - &eIX", "", "&7燃烧速度: &e5x", "&7燃料效率: &e4x", "&7产物翻倍倍数: &e2x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_10 = new SlimefunItemStack("ENHANCED_FURNACE_10", Material.FURNACE, "&7强化熔炉 - &eX", "", "&7燃烧速度: &e5x", "&7燃料效率: &e5x", "&7产物翻倍倍数: &e2x");
-    public static final SlimefunItemStack ENHANCED_FURNACE_11 = new SlimefunItemStack("ENHANCED_FURNACE_11", Material.FURNACE, "&7强化熔炉 - &eXI", "", "&7燃烧速度: &e5x", "&7燃料效率: &e5x", "&7产物翻倍倍数: &e3x");
-    public static final SlimefunItemStack REINFORCED_FURNACE = new SlimefunItemStack("REINFORCED_FURNACE", Material.FURNACE, "&7强化合金熔炉", "", "&7燃烧速度: &e10x", "&7燃料效率: &e10x", "&7产物翻倍倍数: &e3x");
-    public static final SlimefunItemStack CARBONADO_EDGED_FURNACE = new SlimefunItemStack("CARBONADO_EDGED_FURNACE", Material.FURNACE, "&7黑金刚石镶边熔炉", "", "&7燃烧速度: &e20x", "&7燃料效率: &e10x", "&7产物翻倍倍数: &e3x");
-
-    public static final SlimefunItemStack BLOCK_PLACER = new SlimefunItemStack("BLOCK_PLACER", Material.DISPENSER, "&a方块放置机", "", "&r所有在这个发射器内的方块", "&r都会被自动放置");
-
-    /*		Soulbound Items		*/
-    public static final SlimefunItemStack SOULBOUND_SWORD = new SlimefunItemStack("SOULBOUND_SWORD", Material.DIAMOND_SWORD, "&c灵魂绑定剑");
-    public static final SlimefunItemStack SOULBOUND_BOW = new SlimefunItemStack("SOULBOUND_BOW", Material.BOW, "&c灵魂绑定弓");
-    public static final SlimefunItemStack SOULBOUND_PICKAXE = new SlimefunItemStack("SOULBOUND_PICKAXE", Material.DIAMOND_PICKAXE, "&c灵魂绑定镐");
-    public static final SlimefunItemStack SOULBOUND_AXE = new SlimefunItemStack("SOULBOUND_AXE", Material.DIAMOND_AXE, "&c灵魂绑定斧");
-    public static final SlimefunItemStack SOULBOUND_SHOVEL = new SlimefunItemStack("SOULBOUND_SHOVEL", Material.DIAMOND_SHOVEL, "&c灵魂绑定铲");
-    public static final SlimefunItemStack SOULBOUND_HOE = new SlimefunItemStack("SOULBOUND_HOE", Material.DIAMOND_HOE, "&c灵魂绑定锄");
-
-    public static final SlimefunItemStack SOULBOUND_HELMET = new SlimefunItemStack("SOULBOUND_HELMET", Material.DIAMOND_HELMET, "&c灵魂绑定头盔");
-    public static final SlimefunItemStack SOULBOUND_CHESTPLATE = new SlimefunItemStack("SOULBOUND_CHESTPLATE", Material.DIAMOND_CHESTPLATE, "&c灵魂绑定胸甲");
-    public static final SlimefunItemStack SOULBOUND_LEGGINGS = new SlimefunItemStack("SOULBOUND_LEGGINGS", Material.DIAMOND_LEGGINGS, "&c灵魂绑定护腿");
-    public static final SlimefunItemStack SOULBOUND_BOOTS = new SlimefunItemStack("SOULBOUND_BOOTS", Material.DIAMOND_BOOTS, "&c灵魂绑定靴子");
-    public static final SlimefunItemStack SOULBOUND_TRIDENT = new SlimefunItemStack("SOULBOUND_TRIDENT", Material.TRIDENT, "&c灵魂绑定三叉戟");
-
-    /*		Runes				*/
-    /* Runes */
-    public static final SlimefunItemStack BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", new ColoredFireworkStar(Color.BLACK, "&8空白符文"));
-
-    public static final SlimefunItemStack RUNE_AIR = new SlimefunItemStack("ANCIENT_RUNE_AIR", new ColoredFireworkStar(Color.AQUA, "&7古代符文 &8&l[&b&l气&8&l]"));
-    public static final SlimefunItemStack RUNE_WATER = new SlimefunItemStack("ANCIENT_RUNE_WATER", new ColoredFireworkStar(Color.BLUE, "&7古代符文 &8&l[&1&l水&8&l]"));
-    public static final SlimefunItemStack RUNE_FIRE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", new ColoredFireworkStar(Color.RED, "&7古代符文 &8&l[&4&l火&8&l]"));
-    public static final SlimefunItemStack RUNE_EARTH = new SlimefunItemStack("ANCIENT_RUNE_EARTH", new ColoredFireworkStar(Color.fromRGB(112, 47, 7), "&7古代符文 &8&l[&c&l地&8&l]"));
-    public static final SlimefunItemStack RUNE_ENDER = new SlimefunItemStack("ANCIENT_RUNE_ENDER", new ColoredFireworkStar(Color.PURPLE, "&7古代符文 &8&l[&5&l末影&8&l]"));
-
-    public static final SlimefunItemStack RUNE_RAINBOW = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", new ColoredFireworkStar(Color.FUCHSIA, "&7古代符文 &8&l[&d&l虹&8&l]"));
-    public static final SlimefunItemStack RUNE_LIGHTNING = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", new ColoredFireworkStar(Color.fromRGB(255, 255, 95), "&7古代符文 &8&l[&e&l雷&8&l]"));
-    public static final SlimefunItemStack RUNE_SOULBOUND = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", new ColoredFireworkStar(Color.fromRGB(47, 0, 117), "&7古代符文 &8&l[&5&l灵魂绑定&8&l]", "&e先把你要绑定的物品丢到地上", "&e然后把这个符文丢向那个物品", "&5就能灵魂绑定 &e那个物品.", " ", "&e建议你在 &6重要 &e物品上使用.", " ", "&e绑定后的物品死亡后不会掉落."));
-
-    /*		Electricity			*/
-    public static final SlimefunItemStack SOLAR_GENERATOR = new SlimefunItemStack("SOLAR_GENERATOR", Material.DAYLIGHT_DETECTOR, "&b太阳能发电机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(4));
-    public static final SlimefunItemStack SOLAR_GENERATOR_2 = new SlimefunItemStack("SOLAR_GENERATOR_2", Material.DAYLIGHT_DETECTOR, "&c高级太阳能发电机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(16));
-    public static final SlimefunItemStack SOLAR_GENERATOR_3 = new SlimefunItemStack("SOLAR_GENERATOR_3", Material.DAYLIGHT_DETECTOR, "&4黑金刚石太阳能发电机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(64));
-    public static final SlimefunItemStack SOLAR_GENERATOR_4 = new SlimefunItemStack("SOLAR_GENERATOR_4", Material.DAYLIGHT_DETECTOR, "&e充能太阳能发电机", "", "&9可以在夜间工作", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(256), " (日间)", LoreBuilder.powerPerSecond(128), " (夜间)");
-
-    public static final ItemStack COAL_GENERATOR = new SlimefunItemStack("COAL_GENERATOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&c煤发电机", "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.GENERATOR), LoreBuilder.powerBuffer(64), LoreBuilder.powerPerSecond(16));
-    public static final ItemStack COAL_GENERATOR_2 = new SlimefunItemStack("COAL_GENERATOR_2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&c煤发电机", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.GENERATOR), LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(30));
-
-    public static final ItemStack LAVA_GENERATOR = new SlimefunItemStack("LAVA_GENERATOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&4岩浆发电机", "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.GENERATOR), LoreBuilder.powerBuffer(512), LoreBuilder.powerPerSecond(20));
-    public static final ItemStack LAVA_GENERATOR_2 = new SlimefunItemStack("LAVA_GENERATOR_2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&4岩浆发电机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.GENERATOR), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(40));
-
-    public static final ItemStack ELECTRIC_FURNACE = new SlimefunItemStack("ELECTRIC_FURNACE", Material.FURNACE, "&c电炉", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(4));
-    public static final ItemStack ELECTRIC_FURNACE_2 = new SlimefunItemStack("ELECTRIC_FURNACE_2", Material.FURNACE, "&c电炉 &7- &eII", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerPerSecond(6));
-    public static final ItemStack ELECTRIC_FURNACE_3 = new SlimefunItemStack("ELECTRIC_FURNACE_3", Material.FURNACE, "&c电炉 &7- &eIII", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 4x", LoreBuilder.powerPerSecond(10));
-
-    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER = new SlimefunItemStack("ELECTRIC_ORE_GRINDER", Material.FURNACE, "&c电力碎矿机", "", "&r矿物粉碎机与磨石的完美结合", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(12));
-    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER_2 = new SlimefunItemStack("ELECTRIC_ORE_GRINDER_2", Material.FURNACE, "&c电力碎矿机 &7(&eII&7)", "", "&r矿物粉碎机与磨石的完美结合", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 4x", LoreBuilder.powerPerSecond(30));
-    public static final SlimefunItemStack ELECTRIC_INGOT_PULVERIZER = new SlimefunItemStack("ELECTRIC_INGOT_PULVERIZER", Material.FURNACE, "&c电力打粉机", "", "&r将锭变为粉", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(14));
-    public static final SlimefunItemStack AUTO_DRIER;
-    public static final SlimefunItemStack AUTO_ENCHANTER = new SlimefunItemStack("AUTO_ENCHANTER", Material.ENCHANTING_TABLE, "&5自动附魔机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(18));
-    public static final SlimefunItemStack AUTO_DISENCHANTER = new SlimefunItemStack("AUTO_DISENCHANTER", Material.ENCHANTING_TABLE, "&5自动祛魔机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(18));
-    public static final SlimefunItemStack AUTO_ANVIL = new SlimefunItemStack("AUTO_ANVIL", Material.IRON_BLOCK, "&7自动铁砧", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7可修复百分比: 10%", LoreBuilder.powerPerSecond(24));
-    public static final SlimefunItemStack AUTO_ANVIL_2 = new SlimefunItemStack("AUTO_ANVIL_2", Material.IRON_BLOCK, "&7自动铁砧 Mk.II", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7可修复百分比: 25%", LoreBuilder.powerPerSecond(32));
-
-    public static final SlimefunItemStack BIO_REACTOR = new SlimefunItemStack("BIO_REACTOR", Material.LIME_TERRACOTTA, "&2生物反应器", "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.GENERATOR), "&8\u21E8 &e\u26A1 &7128 J 可储存", LoreBuilder.powerPerSecond(8));
-    public static final SlimefunItemStack MULTIMETER = new SlimefunItemStack("MULTIMETER", Material.CLOCK, "&e万用表", "", "&r查看机器中储存的能量");
-
-    public static final ItemStack SMALL_CAPACITOR = new SlimefunItemStack("SMALL_CAPACITOR", "91361e576b493cbfdfae328661cedd1add55fab4e5eb418b92cebf6275f8bb4", "&a小型储能电容", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.CAPACITOR), "&8\u21E8 &e\u26A1 &7128 J 可储存");
-    public static final ItemStack MEDIUM_CAPACITOR = new SlimefunItemStack("MEDIUM_CAPACITOR", "91361e576b493cbfdfae328661cedd1add55fab4e5eb418b92cebf6275f8bb4", "&a中型储能电容", "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.CAPACITOR), LoreBuilder.powerBuffer(512));
-    public static final ItemStack BIG_CAPACITOR = new SlimefunItemStack("BIG_CAPACITOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ==", "&a大型储能电容", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.CAPACITOR), LoreBuilder.powerBuffer(1024));
-    public static final ItemStack LARGE_CAPACITOR = new SlimefunItemStack("LARGE_CAPACITOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ==", "&a巨型储能电容", "", LoreBuilder.machine(MachineTier.GOOD, MachineType.CAPACITOR), LoreBuilder.powerBuffer(8192));
-    public static final ItemStack CARBONADO_EDGED_CAPACITOR = new SlimefunItemStack("CARBONADO_EDGED_CAPACITOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTEzNjFlNTc2YjQ5M2NiZmRmYWUzMjg2NjFjZWRkMWFkZDU1ZmFiNGU1ZWI0MThiOTJjZWJmNjI3NWY4YmI0In19fQ==", "&a黑金刚石镶边储能电容", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.CAPACITOR), LoreBuilder.powerBuffer(65536));
-
-    /*		Robots				*/
-    public static final ItemStack PROGRAMMABLE_ANDROID = new SlimefunItemStack("PROGRAMMABLE_ANDROID", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUwM2NiN2VkODQ1ZTdhNTA3ZjU2OWFmYzY0N2M0N2FjNDgzNzcxNDY1YzlhNjc5YTU0NTk0Yzc2YWZiYSJ9fX0=", "&c可编程式机器人 &7(普通)", "", "&8\u21E8 &7功能: 无", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final ItemStack PROGRAMMABLE_ANDROID_FARMER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_FARMER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjlkMzMzNTdlODQxODgyM2JmNzgzZGU5MmRlODAyOTFiNGViZDM5MmFlYzg3MDY2OThlMDY4OTZkNDk4ZjYifX19", "&c可编程式机器人 &7(农夫)", "", "&8\u21E8 &7功能: 耕作", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final ItemStack PROGRAMMABLE_ANDROID_MINER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_MINER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTYzOGEyODU0MWFiM2FlMGE3MjNkNTU3ODczOGUwODc1ODM4OGVjNGMzMzI0N2JkNGNhMTM0ODJhZWYzMzQifX19", "&c可编程式机器人 &7(矿工)", "", "&8\u21E8 &7功能: 挖矿", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final ItemStack PROGRAMMABLE_ANDROID_WOODCUTTER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_WOODCUTTER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDMyYTgxNDUxMDE0MjIwNTE2OWExYWQzMmYwYTc0NWYxOGU5Y2I2YzY2ZWU2NGVjYTJlNjViYWJkZWY5ZmYifX19", "&c可编程式机器人 &7(樵夫)", "", "&8\u21E8 &7功能: 伐木", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final ItemStack PROGRAMMABLE_ANDROID_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_BUTCHER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2I0NzJkZjBhZDlhM2JlODhmMmU1ZDVkNDIyZDAyYjExNmQ2NGQ4ZGYxNDc1ZWQzMmU1NDZhZmM4NGIzMSJ9fX0=", "&c可编程式机器人 &7(屠夫)", "", "&8\u21E8 &7功能: 屠宰", "&8\u21E8 &7伤害: 4", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final ItemStack PROGRAMMABLE_ANDROID_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_FISHERMAN", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQ1ZTg3MzNhNzMxMTQzMzNiOThiMzYwMTc1MTI0MTcyMmY0NzEzZTFhMWE1ZDM2ZmJiMTMyNDkzZjFjNyJ9fX0=", "&c可编程式机器人 &7(渔夫)", "", "&8\u21E8 &7功能: 钓鱼", "&8\u21E8 &7成功几率: 10%", "&8\u21E8 &7燃料效率: 1.0x");
-
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2 = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUwM2NiN2VkODQ1ZTdhNTA3ZjU2OWFmYzY0N2M0N2FjNDgzNzcxNDY1YzlhNjc5YTU0NTk0Yzc2YWZiYSJ9fX0=", "&c高级可编程式机器人 &7(普通)", "", "&8\u21E8 &7功能: 无", "&8\u21E8 &7燃料效率: 1.5x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_FISHERMAN", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQ1ZTg3MzNhNzMxMTQzMzNiOThiMzYwMTc1MTI0MTcyMmY0NzEzZTFhMWE1ZDM2ZmJiMTMyNDkzZjFjNyJ9fX0=", "&c高级可编程式机器人 &7(渔夫)", "", "&8\u21E8 &7功能: 钓鱼", "&8\u21E8 &7成功几率: 20%", "&8\u21E8 &7燃料效率: 1.5x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FARMER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_FARMER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjlkMzMzNTdlODQxODgyM2JmNzgzZGU5MmRlODAyOTFiNGViZDM5MmFlYzg3MDY2OThlMDY4OTZkNDk4ZjYifX19", "&c高级可编程式机器人 &7(农夫)", "", "&8\u21E8 &7功能: 耕作", "&8\u21E8 &7燃料效率: 1.5x", "&8\u21E8 &7可以收割异域花园内的植物");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_BUTCHER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2I0NzJkZjBhZDlhM2JlODhmMmU1ZDVkNDIyZDAyYjExNmQ2NGQ4ZGYxNDc1ZWQzMmU1NDZhZmM4NGIzMSJ9fX0=", "&c高级可编程式机器人 &7(屠夫)", "", "&8\u21E8 &7功能: 屠宰", "&8\u21E8 &7伤害: 8", "&8\u21E8 &7燃料效率: 1.5x");
-
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3 = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzUwM2NiN2VkODQ1ZTdhNTA3ZjU2OWFmYzY0N2M0N2FjNDgzNzcxNDY1YzlhNjc5YTU0NTk0Yzc2YWZiYSJ9fX0=", "&e可授权式可编程式机器人 &7(普通)", "", "&8\u21E8 &7功能: 无", "&8\u21E8 &7燃料效率: 3.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3_FISHERMAN", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzQ1ZTg3MzNhNzMxMTQzMzNiOThiMzYwMTc1MTI0MTcyMmY0NzEzZTFhMWE1ZDM2ZmJiMTMyNDkzZjFjNyJ9fX0=", "&e可授权式可编程式机器人 &7(渔夫)", "", "&8\u21E8 &7功能: 钓鱼", "&8\u21E8 &7成功几率: 30%", "&8\u21E8 &7燃料效率: 8.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3_BUTCHER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2I0NzJkZjBhZDlhM2JlODhmMmU1ZDVkNDIyZDAyYjExNmQ2NGQ4ZGYxNDc1ZWQzMmU1NDZhZmM4NGIzMSJ9fX0=", "&e可授权式可编程式机器人 &7(屠夫)", "", "&8\u21E8 &7功能: 屠宰", "&8\u21E8 &7伤害: 20", "&8\u21E8 &7燃料效率: 8.0x");
-
-    /*		       GPS		       */
-    public static final ItemStack GPS_TRANSMITTER = new SlimefunItemStack("GPS_TRANSMITTER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0=", "&bGPS 发射器", "", LoreBuilder.powerBuffer(16), LoreBuilder.powerPerSecond(2));
-    public static final ItemStack GPS_TRANSMITTER_2 = new SlimefunItemStack("GPS_TRANSMITTER_2", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0=", "&c高级 GPS 发射器", "", LoreBuilder.powerBuffer(64), LoreBuilder.powerPerSecond(6));
-    public static final ItemStack GPS_TRANSMITTER_3 = new SlimefunItemStack("GPS_TRANSMITTER_3", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0=", "&4黑金刚石 GPS 发射器", "", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(22));
-    public static final ItemStack GPS_TRANSMITTER_4 = new SlimefunItemStack("GPS_TRANSMITTER_4", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0=", "&e充能 GPS 发射器", "", LoreBuilder.powerBuffer(1024), "&8\u21E8 &e\u26A1 &792 J/s");
-
-    public static final SlimefunItemStack GPS_MARKER_TOOL = new SlimefunItemStack("GPS_MARKER_TOOL", Material.REDSTONE_TORCH, "&bGPS 设置路径点工具", "", "&r允许你在放置标记工具的位置", "&r设置一个传送点并命名");
-    public static final SlimefunItemStack GPS_CONTROL_PANEL = new SlimefunItemStack("GPS_CONTROL_PANEL", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ==", "&bGPS 控制面板", "", "&r允许你追踪你的 GPS 卫星", "&r并且管理已有的路径点");
-    public static final SlimefunItemStack GPS_EMERGENCY_TRANSMITTER = new SlimefunItemStack("GPS_EMERGENCY_TRANSMITTER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0=", "&cGPS 应急发射器", "", "&r当你死亡的时候", "&r如果应急发射器在你的背包内", "&r将会自动把你的死亡位置设为路径点");
-
-    public static final SlimefunItemStack ANDROID_INTERFACE_FUEL = new SlimefunItemStack("ANDROID_INTERFACE_FUEL", Material.DISPENSER, "&7机器人交互接口 &c(燃料)", "", "&r当脚本告诉它这样做时", "&r储存在交互接口的物品", "&r将会被放入机器人的燃料槽");
-    public static final SlimefunItemStack ANDROID_INTERFACE_ITEMS = new SlimefunItemStack("ANDROID_INTERFACE_ITEMS", Material.DISPENSER, "&7机器人交互接口 &9(物品)", "", "&r当脚本告诉它该这样做时", "&r储存在机器人物品栏的物品", "&r将会被放入交互界面");
-
-    public static final SlimefunItemStack GPS_GEO_SCANNER = new SlimefunItemStack("GPS_GEO_SCANNER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmFkOGNmZWIzODdhNTZlM2U1YmNmODUzNDVkNmE0MTdiMjQyMjkzODg3ZGIzY2UzYmE5MWZhNDA5YjI1NGI4NiJ9fX0=", "&bGPS 地形扫描器", "", "&r扫描一个区块中有多少自然资源", "&r例如 &8原油");
-    public static final SlimefunItemStack PORTABLE_GEO_SCANNER = new SlimefunItemStack("PORTABLE_GEO_SCANNER", Material.CLOCK, "&b便携式资源扫描器", "", "&r扫描出区块中的自然资源", "", "&e右键&7 扫描");
-    public static final SlimefunItemStack GEO_MINER = new SlimefunItemStack("GEO_MINER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTM3NzQxZjc2NGRkM2RkN2FkYWViNDNiNjNkMzk1OWViNzBlNWViMjhmMTVkNmIzNGNhYjM0YTFkMWY2MDM4NyJ9fX0=", "&6GEO 矿机", "", "&e从区块中开采出资源", "&e可以开采出不能被矿镐挖出的资源", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(48), "", "&c&l! &c确保你已经进行了 GEO 地形扫描");
-    public static final SlimefunItemStack OIL_PUMP = new SlimefunItemStack("OIL_PUMP", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWZlMWEwNDBhNDI1ZTMxYTQ2ZDRmOWE5Yjk4MDZmYTJmMGM0N2VlODQ3MTFjYzE5MzJmZDhhYjMyYjJkMDM4In19fQ==", "&r原油泵", "", "&7泵出原油并把它装进桶里", "", "&c&l! &c请先对所在区块进行地形扫描");
-    public static final SlimefunItemStack BUCKET_OF_OIL = new SlimefunItemStack("BUCKET_OF_OIL", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNlMDRiNDFkMTllYzc5MjdmOTgyYTYzYTk0YTNkNzlmNzhlY2VjMzMzNjMwNTFmZGUwODMxYmZhYmRiZCJ9fX0=", "&r原油桶");
-    public static final SlimefunItemStack BUCKET_OF_FUEL = new SlimefunItemStack("BUCKET_OF_FUEL", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTg0ZGRjYTc2NjcyNWI4Yjk3NDEzZjI1OWMzZjc2NjgwNzBmNmFlNTU0ODNhOTBjOGU1NTI1Mzk0ZjljMDk5In19fQ==", "&r燃料桶");
-
-    public static final SlimefunItemStack REFINERY = new SlimefunItemStack("REFINERY", Material.PISTON, "&c精炼机", "", "&r将原油提炼为燃油");
-    public static final SlimefunItemStack COMBUSTION_REACTOR = new SlimefunItemStack("COMBUSTION_REACTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&c燃烧反应机", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.GENERATOR), LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(24));
-    public static final SlimefunItemStack ANDROID_MEMORY_CORE = new SlimefunItemStack("ANDROID_MEMORY_CORE", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19", "&b机器人内存核心");
-
-    public static final SlimefunItemStack GPS_TELEPORTER_PYLON = new SlimefunItemStack("GPS_TELEPORTER_PYLON", Material.PURPLE_STAINED_GLASS, "&5GPS 传送塔", "", "&7传送器组件");
-    public static final SlimefunItemStack GPS_TELEPORTATION_MATRIX = new SlimefunItemStack("GPS_TELEPORTATION_MATRIX", Material.IRON_BLOCK, "&bGPS 传送矩阵", "", "&r这是 GPS 传送的主要零件", "&r这个矩阵允许玩家传送至", "&r已设置的路径点");
-    public static final SlimefunItemStack GPS_ACTIVATION_DEVICE_SHARED = new SlimefunItemStack("GPS_ACTIVATION_DEVICE_SHARED", Material.STONE_PRESSURE_PLATE, "&rGPS 激活设备 &3(公共)", "", "&r把它放在传送矩阵上", "&r并且踩下这个踏板以选择", "&r要传送的路径点");
-    public static final SlimefunItemStack GPS_ACTIVATION_DEVICE_PERSONAL = new SlimefunItemStack("GPS_ACTIVATION_DEVICE_PERSONAL", Material.STONE_PRESSURE_PLATE, "&rGPS 激活设备 &a(私人)", "", "&r把它放在传送矩阵上", "&r并且踩下这个踏板以选择", "&r要传送的路径点", "", "&r这种激活装置仅允许", "&r放置它的人使用");
-
-    public static final SlimefunItemStack ELEVATOR = new SlimefunItemStack("ELEVATOR_PLATE", Material.STONE_PRESSURE_PLATE, "&b电梯板", "", "&r在每一层放置电梯板", "&r你就能够在每一层之间传送.", "", "&e右键电梯板&7 以为此层命名");
-
-    public static final SlimefunItemStack INFUSED_HOPPER = new SlimefunItemStack("INFUSED_HOPPER", Material.HOPPER, "&5吸入漏斗", "", "&r自动吸入在漏斗附近", "&r7x7x7 范围内的所有物品");
-
-    public static final ItemStack PLASTIC_SHEET = new SlimefunItemStack("PLASTIC_SHEET", Material.PAPER, "&r塑料纸");
-
-    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER = new SlimefunItemStack("HEATED_PRESSURE_CHAMBER", Material.LIGHT_GRAY_STAINED_GLASS, "&c加热压力舱", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(10));
-    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER_2 = new SlimefunItemStack("HEATED_PRESSURE_CHAMBER_2", Material.LIGHT_GRAY_STAINED_GLASS, "&c加热压力舱 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 5x", LoreBuilder.powerPerSecond(44));
-
-    public static final SlimefunItemStack ELECTRIC_SMELTERY = new SlimefunItemStack("ELECTRIC_SMELTERY", Material.FURNACE, "&c电力冶炼炉", "", "&4仅支持合金, 不能将粉冶炼成锭", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(20));
-    public static final SlimefunItemStack ELECTRIC_SMELTERY_2 = new SlimefunItemStack("ELECTRIC_SMELTERY_2", Material.FURNACE, "&c电力冶炼炉 &7- &eII", "", "&4仅支持合金, 不能将粉冶炼成锭", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", LoreBuilder.powerPerSecond(40));
-
-    public static final SlimefunItemStack ELECTRIC_PRESS = new SlimefunItemStack("ELECTRIC_PRESS", "8d5cf92bc79ec19f4106441affff1406a1367010dcafb197dd94cfca1a6de0fc", "&e压缩机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(16));
-    public static final SlimefunItemStack ELECTRIC_PRESS_2 = new SlimefunItemStack("ELECTRIC_PRESS_2", "8d5cf92bc79ec19f4106441affff1406a1367010dcafb197dd94cfca1a6de0fc", "&e压缩机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", LoreBuilder.powerPerSecond(40));
-
-    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE", Material.RED_TERRACOTTA, "&c电动坩埚", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(48));
-    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_2 = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE_2", Material.RED_TERRACOTTA, "&c电动坩埚 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", "&8\u21E8 &e\u26A1 &780 J/s");
-    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_3 = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE_3", Material.RED_TERRACOTTA, "&c电动坩埚 &7- &eIII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 4x", "&8\u21E8 &e\u26A1 &7120 J/s");
-
-    public static final SlimefunItemStack CARBON_PRESS = new SlimefunItemStack("CARBON_PRESS", Material.BLACK_STAINED_GLASS, "&c碳压机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(20));
-    public static final SlimefunItemStack CARBON_PRESS_2 = new SlimefunItemStack("CARBON_PRESS_2", Material.BLACK_STAINED_GLASS, "&c碳压机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", "&8\u21E8 &e\u26A1 &750 J/s");
-    public static final SlimefunItemStack CARBON_PRESS_3 = new SlimefunItemStack("CARBON_PRESS_3", Material.BLACK_STAINED_GLASS, "&c碳压机 &7- &eIII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 15x", "&8\u21E8 &e\u26A1 &7180 J/s");
-
-    public static final ItemStack BLISTERING_INGOT = new SlimefunItemStack("BLISTERING_INGOT", Material.GOLD_INGOT, "&6起泡锭 &7(33%)", "", LoreBuilder.radioactive(Radioactivity.HIGH), "&4&o需要防化套装");
-    public static final ItemStack BLISTERING_INGOT_2 = new SlimefunItemStack("BLISTERING_INGOT_2", Material.GOLD_INGOT, "&6起泡锭 &7(66%)", "", LoreBuilder.radioactive(Radioactivity.HIGH), "&4&o需要防化套装");
-    public static final ItemStack BLISTERING_INGOT_3 = new SlimefunItemStack("BLISTERING_INGOT_3", Material.GOLD_INGOT, "&6起泡锭", "", LoreBuilder.radioactive(Radioactivity.HIGH), "&4&o需要防化套装");
-
-    public static final SlimefunItemStack ENERGY_REGULATOR = new SlimefunItemStack("ENERGY_REGULATOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc4ZjJiN2U1ZTc1NjM5ZWE3ZmI3OTZjMzVkMzY0YzRkZjI4YjQyNDNlNjZiNzYyNzdhYWRjZDYyNjEzMzcifX19", "&6能源调节器", "", "&r能源网络的核心部分");
-    public static final SlimefunItemStack DEBUG_FISH = new SlimefunItemStack("DEBUG_FISH", Material.SALMON, "&3这鱼多少钱?", "", "&e右键 &r任意方块以查看它的方块数据", "&e左键 &r破坏方块", "&eShift + 左键 &r任意方块以清除它的方块数据", "&eShift + 右键 &r放置一个占位符方块");
-
-    public static final SlimefunItemStack NETHER_ICE = new SlimefunItemStack("NETHER_ICE", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2NlMmRhZDliYWY3ZWFiYTdlODBkNGQwZjlmYWMwYWFiMDFhNzZiMTJmYjcxYzNkMmFmMmExNmZkZDRjNzM4MyJ9fX0=", "&e下界冰", "", "&e辐射等级: 中等", "&4&o需要防化套装");
-    public static final SlimefunItemStack ENRICHED_NETHER_ICE = new SlimefunItemStack("ENRICHED_NETHER_ICE", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2M4MThhYTEzYWFiYzcyOTQ4MzhkMjFjYWFjMDU3ZTk3YmQ4Yzg5NjQxYTBjMGY4YTU1NDQyZmY0ZTI3In19fQ==", "&e浓缩下界冰", "", "&2辐射等级: 极高", "&4&o需要防化套装");
-    public static final SlimefunItemStack NETHER_ICE_COOLANT_CELL = new SlimefunItemStack("NETHER_ICE_COOLANT_CELL", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQzY2Q0MTI1NTVmODk3MDE2MjEzZTVkNmM3NDMxYjQ0OGI5ZTU2NDRlMWIxOWVjNTFiNTMxNmYzNTg0MGUwIn19fQ==", "&6下界冰冷却剂");
-
-    // Cargo
-    public static final ItemStack CARGO_MANAGER = new SlimefunItemStack("CARGO_MANAGER", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTUxMGJjODUzNjJhMTMwYTZmZjlkOTFmZjExZDZmYTQ2ZDdkMTkxMmEzNDMxZjc1MTU1OGVmM2M0ZDljMiJ9fX0=", "&6货运管理器", "", "&r物品传输网络的核心组件");
-    public static final ItemStack CARGO_NODE = new SlimefunItemStack("CARGO_NODE", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMDdiN2VmNmZkNzg2NDg2NWMzMWMxZGM4N2JlZDI0YWI1OTczNTc5ZjVjNjYzOGZlY2I4ZGVkZWI0NDNmZjAifX19", "&7货运节点 &c(连接器)", "", "&r货运连接管道");
-    public static final ItemStack CARGO_INPUT = new SlimefunItemStack("CARGO_NODE_INPUT", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTZkMWMxYTY5YTNkZTlmZWM5NjJhNzdiZjNiMmUzNzZkZDI1Yzg3M2EzZDhmMTRmMWRkMzQ1ZGFlNGM0In19fQ==", "&7货运节点 &c(输入)", "", "&r货运输入管道");
-    public static final ItemStack CARGO_OUTPUT = new SlimefunItemStack("CARGO_NODE_OUTPUT", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTViMjFmZDQ4MGMxYzQzYmYzYjlmODQyYzg2OWJkYzNiYzVhY2MyNTk5YmYyZWI2YjhhMWM5NWRjZTk3OGYifX19", "&7货运节点 &c(输出)", "", "&r货运输出管道");
-    public static final ItemStack CARGO_OUTPUT_ADVANCED = new SlimefunItemStack("CARGO_NODE_OUTPUT_ADVANCED", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTViMjFmZDQ4MGMxYzQzYmYzYjlmODQyYzg2OWJkYzNiYzVhY2MyNTk5YmYyZWI2YjhhMWM5NWRjZTk3OGYifX19", "&6高级货运节点 &c(输出)", "", "&r货运输出管道");
-
-    public static final SlimefunItemStack AUTO_BREEDER = new SlimefunItemStack("AUTO_BREEDER", Material.HAY_BLOCK, "&e自动喂食机", "", "&r需要 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), "&8\u21E8 &e\u26A1 &760 J/个动物");
-
-    public static final ItemStack ORGANIC_FOOD = new CustomItem(new CustomItem(SkullItem.fromBase64("b439e3f5acbee9be4c4259289d6d9f35c635ffa661114687b3ea6dda8c79"), "&a有机食物", "&7内含 &9X"));
-    public static final SlimefunItemStack WHEAT_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_WHEAT", ORGANIC_FOOD, "&a有机食物", "&7内含 &9小麦");
-    public static final SlimefunItemStack CARROT_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_CARROT", ORGANIC_FOOD, "&a有机食物", "&7内含 &9胡萝卜");
-    public static final SlimefunItemStack POTATO_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_POTATO", ORGANIC_FOOD, "&a有机食物", "&7内含 &9土豆");
-    public static final SlimefunItemStack SEEDS_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_SEEDS", ORGANIC_FOOD, "&a有机食物", "&7内含 &9小麦种子");
-    public static final SlimefunItemStack BEETROOT_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_BEETROOT", ORGANIC_FOOD, "&a有机食物", "&7内含 &9甜菜");
-    public static final SlimefunItemStack MELON_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_MELON", ORGANIC_FOOD, "&a有机食物", "&7内含 &9西瓜");
-    public static final SlimefunItemStack APPLE_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_APPLE", ORGANIC_FOOD, "&a有机食物", "&7内含 &9苹果");
-    public static final SlimefunItemStack SWEET_BERRIES_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_SWEET_BERRIES", ORGANIC_FOOD, "&a有机食物", "&7内含 &9浆果");
-    public static final SlimefunItemStack KELP_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_KELP", "b439e3f5acbee9be4c4259289d6d9f35c635ffa661114687b3ea6dda8c79", "&a有机食物", "&7内含 &9干海带");
-    public static final SlimefunItemStack COCOA_ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD_COCOA", ORGANIC_FOOD, "&a有机食物", "&7内含 &9可可豆");
-
-    public static final ItemStack FERTILIZER = new CustomItem(SkullItem.fromBase64("b439e3f5acbee9be4c4259289d6d9f35c635ffa661114687b3ea6dda8c79"), "&a有机肥料", "&7内含 &9X");
-    public static final SlimefunItemStack WHEAT_FERTILIZER = new SlimefunItemStack("FERTILIZER_WHEAT", FERTILIZER, "&a有机肥料", "&7内含 &9小麦");
-    public static final SlimefunItemStack CARROT_FERTILIZER = new SlimefunItemStack("FERTILIZER_CARROT", FERTILIZER, "&a有机肥料", "&7内含 &9胡萝卜");
-    public static final SlimefunItemStack POTATO_FERTILIZER = new SlimefunItemStack("FERTILIZER_POTATO", FERTILIZER, "&a有机肥料", "&7内含 &9土豆");
-    public static final SlimefunItemStack SEEDS_FERTILIZER = new SlimefunItemStack("FERTILIZER_SEEDS", FERTILIZER, "&a有机肥料", "&7内含 &9小麦种子");
-    public static final SlimefunItemStack BEETROOT_FERTILIZER = new SlimefunItemStack("FERTILIZER_BEETROOT", FERTILIZER, "&a有机肥料", "&7内含 &9甜菜");
-    public static final SlimefunItemStack MELON_FERTILIZER = new SlimefunItemStack("FERTILIZER_MELON", FERTILIZER, "&a有机肥料", "&7内含 &9西瓜");
-    public static final SlimefunItemStack APPLE_FERTILIZER = new SlimefunItemStack("FERTILIZER_APPLE", FERTILIZER, "&a有机肥料", "&7内含 &9苹果");
-    public static final SlimefunItemStack SWEET_BERRIES_FERTILIZER = new SlimefunItemStack("FERTILIZER_SWEET_BERRIES", FERTILIZER, "&a有机肥料", "&7内含 &9浆果");
-    public static final SlimefunItemStack KELP_FERTILIZER = new SlimefunItemStack("FERTILIZER_KELP", FERTILIZER, "&a有机肥料", "&7内含 &9干海带");
-    public static final SlimefunItemStack COCOA_FERTILIZER = new SlimefunItemStack("FERTILIZER_COCOA", FERTILIZER, "&a有机肥料", "&7内含 &9可可豆");
-
-    public static final SlimefunItemStack ANIMAL_GROWTH_ACCELERATOR = new SlimefunItemStack("ANIMAL_GROWTH_ACCELERATOR", Material.HAY_BLOCK, "&b动物生长加速器", "", "&r需要 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(28));
-    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR = new SlimefunItemStack("CROP_GROWTH_ACCELERATOR", Material.LIME_TERRACOTTA, "&a作物生长加速器", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7半径: 7x7", "&8\u21E8 &7速度: &a3/次", LoreBuilder.powerBuffer(1024), "&8\u21E8 &e\u26A1 &750 J/s");
-    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR_2 = new SlimefunItemStack("CROP_GROWTH_ACCELERATOR_2", Material.LIME_TERRACOTTA, "&a作物生长加速器 &7(&eII&7)", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7半径: 9x9", "&8\u21E8 &7速度: &a4/次", LoreBuilder.powerBuffer(1024), "&8\u21E8 &e\u26A1 &760 J/s");
-    public static final SlimefunItemStack TREE_GROWTH_ACCELERATOR = new SlimefunItemStack("TREE_GROWTH_ACCELERATOR", Material.BROWN_TERRACOTTA, "&a树木生长加速器", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7半径: 9x9", "&8\u21E8 &7速度: &a4/次", LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(48));
-
-    public static final SlimefunItemStack FOOD_FABRICATOR = new SlimefunItemStack("FOOD_FABRICATOR", Material.GREEN_STAINED_GLASS, "&c食品加工机", "", "&r可制造 &a有机食物", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(14));
-    public static final SlimefunItemStack FOOD_FABRICATOR_2 = new SlimefunItemStack("FOOD_FABRICATOR_2", Material.GREEN_STAINED_GLASS, "&c食品加工机 &7(&eII&7)", "", "&r可制造 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 6x", LoreBuilder.powerBuffer(512), LoreBuilder.powerPerSecond(48));
-
-    public static final SlimefunItemStack FOOD_COMPOSTER = new SlimefunItemStack("FOOD_COMPOSTER", Material.GREEN_TERRACOTTA, "&c食品堆肥器", "", "&r可制造 &a有机肥料", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(16));
-    public static final SlimefunItemStack FOOD_COMPOSTER_2 = new SlimefunItemStack("FOOD_COMPOSTER_2", Material.GREEN_TERRACOTTA, "&c食品堆肥器 &7(&eII&7)", "", "&r可制造 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 10x", LoreBuilder.powerBuffer(512), "&8\u21E8 &e\u26A1 &752 J/s");
-
-    public static final SlimefunItemStack XP_COLLECTOR = new SlimefunItemStack("XP_COLLECTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc2MmExNWIwNDY5MmEyZTRiM2ZiMzY2M2JkNGI3ODQzNGRjZTE3MzJiOGViMWM3YTlmN2MwZmJmNmYifX19", "&a经验收集器", "", "&r收集附近的经验并储存它们", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(20));
-    public static final SlimefunItemStack REACTOR_COOLANT_CELL = new SlimefunItemStack("REACTOR_COLLANT_CELL", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGU0MDczYmU0MGNiM2RlYjMxMGEwYmU5NTliNGNhYzY4ZTgyNTM3MjcyOGZhZmI2YzI5NzNlNGU3YzMzIn19fQ==", "&b反应堆冷却剂");
-
-    public static final SlimefunItemStack NUCLEAR_REACTOR = new SlimefunItemStack("NUCLEAR_REACTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&2核反应堆", "", "&r需要冷却剂!", "&8\u21E8 &b必须被水包围", "&8\u21E8 &b必须使用反应堆冷却剂工作", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), "&8\u21E8 &e\u26A1 &716384 J 可储存", "&8\u21E8 &e\u26A1 &7500 J/s");
-    public static final SlimefunItemStack NETHERSTAR_REACTOR = new SlimefunItemStack("NETHERSTAR_REACTOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&f下界之星反应堆", "", "&f需要下界之星", "&8\u21E8 &b必须被水包围", "&8\u21E8 &b必须使用下界之星冷却剂工作", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), "&8\u21E8 &e\u26A1 &732768 J 可储存", "&8\u21E8 &e\u26A1 &71024 J/s", "&8\u21E8 &4会导致附近的生物获得凋零效果");
-    public static final SlimefunItemStack REACTOR_ACCESS_PORT = new SlimefunItemStack("REACTOR_ACCESS_PORT", Material.CYAN_TERRACOTTA, "&2反应堆访问接口", "", "&r允许你通过货运节点来访问反应堆", "&r也可以用于储存", "", "&8\u21E8 &c必须 &e放置在反应堆上方的第三格处");
-
-    public static final SlimefunItemStack FREEZER = new SlimefunItemStack("FREEZER", Material.LIGHT_BLUE_STAINED_GLASS, "&b冰箱", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(18));
-    public static final SlimefunItemStack FREEZER_2 = new SlimefunItemStack("FREEZER_2", Material.LIGHT_BLUE_STAINED_GLASS, "&b冰箱 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(30));
-
-    public static final SlimefunItemStack ELECTRIC_GOLD_PAN = new SlimefunItemStack("ELECTRIC_GOLD_PAN", Material.BROWN_TERRACOTTA, "&6电动淘金机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(2));
-    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_2 = new SlimefunItemStack("ELECTRIC_GOLD_PAN_2", Material.BROWN_TERRACOTTA, "&6电动淘金机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", LoreBuilder.powerPerSecond(4));
-    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_3 = new SlimefunItemStack("ELECTRIC_GOLD_PAN_3", Material.BROWN_TERRACOTTA, "&6电动淘金机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 10x", LoreBuilder.powerPerSecond(14));
-
-    public static final SlimefunItemStack ELECTRIC_DUST_WASHER = new SlimefunItemStack("ELECTRIC_DUST_WASHER", Material.BLUE_STAINED_GLASS, "&3电动洗矿机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(6));
-    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_2 = new SlimefunItemStack("ELECTRIC_DUST_WASHER_2", Material.BLUE_STAINED_GLASS, "&3电动洗矿机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerPerSecond(10));
-    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_3 = new SlimefunItemStack("ELECTRIC_DUST_WASHER_3", Material.BLUE_STAINED_GLASS, "&3电动洗矿机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 10x", LoreBuilder.powerPerSecond(30));
-
-    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY", Material.RED_TERRACOTTA, "&c电动铸锭机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(8));
-    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_2 = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY_2", Material.RED_TERRACOTTA, "&c电动铸锭机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerPerSecond(14));
-    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_3 = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY_3", Material.RED_TERRACOTTA, "&c电动铸锭机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 8x", LoreBuilder.powerPerSecond(40));
-
-    public static final SlimefunItemStack AUTOMATED_CRAFTING_CHAMBER = new SlimefunItemStack("AUTOMATED_CRAFTING_CHAMBER", Material.CRAFTING_TABLE, "&6自动合成机", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &710 J/个物品");
-    public static final SlimefunItemStack FLUID_PUMP = new SlimefunItemStack("FLUID_PUMP", Material.BLUE_TERRACOTTA, "&9流体泵", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &732 J/个方块");
-    public static final SlimefunItemStack CHARGING_BENCH = new SlimefunItemStack("CHARGING_BENCH", Material.CRAFTING_TABLE, "&6充电台", "", "&r能够给物品充电, 比如喷气背包", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &7128 J 可储存", "&8\u21E8 &e\u26A1 &7能源损失率: &c50%");
-
-    public static final SlimefunItemStack WITHER_ASSEMBLER = new SlimefunItemStack("WITHER_ASSEMBLER", Material.OBSIDIAN, "&5凋零汇编器", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7冷却时间: &b30 秒", "&8\u21E8 &e\u26A1 &74096 J 可储存", "&8\u21E8 &e\u26A1 &74096 J/个凋灵");
-
-    public static final SlimefunItemStack TRASH_CAN = new SlimefunItemStack("TRASH_CAN_BLOCK", "32d41042ce99147cc38cac9e46741576e7ee791283e6fac8d3292cae2935f1f", "&3垃圾箱", "", "&r将不需要的物品放入可以消除");
-
-    public static final ItemStack ELYTRA = new ItemStack(Material.ELYTRA);
-    public static final SlimefunItemStack ELYTRA_SCALE = new SlimefunItemStack("ELYTRA_SCALE", Material.FEATHER, "&b鞘翅鳞片");
-    public static final SlimefunItemStack INFUSED_ELYTRA = new SlimefunItemStack("INFUSED_ELYTRA", Material.ELYTRA, "&5鞘翅 (经验修补)");
-    public static final SlimefunItemStack SOULBOUND_ELYTRA = new SlimefunItemStack("SOULBOUND_ELYTRA", Material.ELYTRA, "&c鞘翅 (灵魂绑定)");
-
-    public static final ItemStack TOTEM_OF_UNDYING = new ItemStack(Material.TOTEM_OF_UNDYING);
-
-    public static final SlimefunItemStack MAGNESIUM_SALT = new SlimefunItemStack("MAGNESIUM_SALT", Material.SUGAR, "&c镁盐", "", "&7是一种能在镁发电机中使用的特殊燃料");
-    public static final SlimefunItemStack MAGNESIUM_GENERATOR = new SlimefunItemStack("MAGNESIUM_GENERATOR", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ==", "&c镁发电机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.GENERATOR), LoreBuilder.powerBuffer(128), LoreBuilder.powerPerSecond(36));
-
-    static {
-        INFUSED_ELYTRA.addUnsafeEnchantment(Enchantment.MENDING, 1);
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            MAKESHIFT_SMELTERY = new SlimefunItemStack("MAKESHIFT_SMELTERY", Material.BLAST_FURNACE, "&e简易冶炼炉", "", "&r简易版的冶炼炉", "&r只能将矿物粉末熔炼成锭");
-            TABLE_SAW = new SlimefunItemStack("TABLE_SAW", Material.STONECUTTER, "&6台锯", "", "&a&o从1个木头里获得8个木板", "&a&o(支持所有的原木)");
-            AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.SMOKER, "&e自动烘干机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(10));
-        } else {
-            MAKESHIFT_SMELTERY = new SlimefunItemStack("MAKESHIFT_SMELTERY", Material.FURNACE, "&e简易冶炼炉", "", "&r简易版的冶炼炉", "&r只能将矿物粉末熔炼成锭");
-            TABLE_SAW = null;
-            AUTO_DRIER = null;
-        }
-    }
 }

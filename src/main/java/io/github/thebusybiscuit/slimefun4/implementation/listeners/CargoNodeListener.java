@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,8 +30,8 @@ public class CargoNodeListener implements Listener {
     }
 
     private boolean isCargoNode(ItemStack item) {
-        return SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false)
-                || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false)
-                || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false);
+        return SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT_NODE, false)
+                || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_NODE, false)
+                || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_NODE_2, false);
     }
 }

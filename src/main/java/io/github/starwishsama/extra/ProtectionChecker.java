@@ -76,11 +76,15 @@ public class ProtectionChecker implements Listener {
 
                 ResidencePermissions perms = res.getPermissions();
 
+                if (perms.playerHas(p, Flags.admin, true)) {
+                    return true;
+                }
+
                 switch (action) {
                     case BREAK_BLOCK:
                         return perms.playerHas(p, Flags.destroy, true) || perms.playerHas(p, Flags.build, true);
                     case PLACE_BLOCK:
-                        return perms.playerHas(p, Flags.place, true) || perms.playerHas(p, Flags.build, true);
+                        return perms.playerHas(p, Flags.place, true) || perms.playerHas(p, Flags.build, true) || !perms.playerHas(p, Flags.move, true);
                     case ACCESS_INVENTORIES:
                         if (!perms.playerHas(p, Flags.use, true)) {
                             SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");

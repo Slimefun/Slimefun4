@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
@@ -17,7 +18,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -54,7 +54,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     private static final int[] OUTPUT_BORDER = {10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41};
     private static final String DEFAULT_SCRIPT = "START-TURN_LEFT-REPEAT";
 
-    protected final Set<MachineFuel> fuelTypes = new HashSet<>();
+    protected final List<MachineFuel> fuelTypes = new ArrayList<>();
     protected final String texture;
 
     public ProgrammableAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -164,6 +164,25 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
      */
     public abstract AndroidType getAndroidType();
 
+    /**
+     * This returns the {@link AndroidFuelSource} for this {@link ProgrammableAndroid}.
+     * It determines what kind of fuel is required to run it.
+     *
+     * @return The required type of fuel
+     */
+    public AndroidFuelSource getFuelSource() {
+        switch (getTier()) {
+            case 1:
+                return AndroidFuelSource.SOLID;
+            case 2:
+                return AndroidFuelSource.LIQUID;
+            case 3:
+                return AndroidFuelSource.NUCLEAR;
+            default:
+                throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
+        }
+    }
+
     @Override
     public void preRegister() {
         super.preRegister();
@@ -184,7 +203,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         });
     }
 
-    public void openScript(Player p, Block b, String script) {
+    public void openScript(Player p, Block b, String sourceCode) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
 
         menu.addItem(0, new CustomItem(Instruction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
@@ -193,72 +212,109 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             return false;
         });
 
-        String[] commands = PatternUtils.DASH.split(script);
+        String[] script = PatternUtils.DASH.split(sourceCode);
 
-        for (int i = 1; i < commands.length; i++) {
+        for (int i = 1; i < script.length; i++) {
             int index = i;
 
-            if (i == commands.length - 1) {
-                int additional = commands.length == 54 ? 0 : 1;
+            if (i == script.length - 1) {
+                boolean hasFreeSlot = script.length < 54;
 
-                if (additional == 1) {
+                if (hasFreeSlot) {
                     menu.addItem(i, new CustomItem(SlimefunUtils.getCustomHead("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"), "&7> 添加新命令"));
                     menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
-                        openScriptComponentEditor(pl, b, script, index);
+                        editInstruction(pl, b, script, index);
                         return false;
                     });
                 }
 
-                menu.addItem(i + additional, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
-                menu.addMenuClickHandler(i + additional, (pl, slot, item, action) -> {
+                int slot = i + (hasFreeSlot ? 1 : 0);
+
+                menu.addItem(slot, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
+                menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     BlockStorage.getInventory(b).open(pl);
                     return false;
                 });
             } else {
-                ItemStack stack = Instruction.valueOf(commands[i]).getItem();
-                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + Instruction.valueOf(commands[i]).name()), "", "&7\u21E8 &e左键 &7编辑", "&7\u21E8 &e右键 &7删除", "&7\u21E8 &eShift + 右键 &7复制"));
+                ItemStack stack = Instruction.valueOf(script[i]).getItem();
+                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + Instruction.valueOf(script[i]).name()), "", "&7\u21E8 &e左键 &7编辑", "&7\u21E8 &e右键 &7删除", "&7\u21E8 &eShift + 右键 &7复制"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     if (action.isRightClicked() && action.isShiftClicked()) {
-                        if (commands.length == 54) return false;
-
-                        int j = 0;
-                        StringBuilder builder = new StringBuilder(Instruction.START + "-");
-
-                        for (String command : commands) {
-                            if (j > 0) {
-                                if (j == index) {
-                                    builder.append(commands[j]).append('-').append(commands[j]).append('-');
-                                } else if (j < commands.length - 1) {
-                                    builder.append(command).append('-');
-                                }
-                            }
-                            j++;
+                        if (script.length == 54) {
+                            return false;
                         }
-                        builder.append(Instruction.REPEAT);
-                        setScript(b.getLocation(), builder.toString());
-                        openScript(pl, b, builder.toString());
+
+                        String code = duplicateInstruction(script, index);
+                        setScript(b.getLocation(), code);
+                        openScript(pl, b, code);
                     } else if (action.isRightClicked()) {
-                        int j = 0;
-                        StringBuilder builder = new StringBuilder(Instruction.START + "-");
-
-                        for (String command : commands) {
-                            if (j != index && j > 0 && j < commands.length - 1) builder.append(command).append('-');
-                            j++;
-                        }
-
-                        builder.append(Instruction.REPEAT);
-                        setScript(b.getLocation(), builder.toString());
-
-                        openScript(pl, b, builder.toString());
+                        String code = deleteInstruction(script, index);
+                        setScript(b.getLocation(), code);
+                        openScript(pl, b, code);
                     } else {
-                        openScriptComponentEditor(pl, b, script, index);
+                        editInstruction(pl, b, script, index);
                     }
+
                     return false;
                 });
             }
         }
 
         menu.open(p);
+    }
+
+    private String addInstruction(String[] script, int index, Instruction instruction) {
+        int i = 0;
+        StringBuilder builder = new StringBuilder(Instruction.START + "-");
+
+        for (String current : script) {
+            if (i > 0) {
+                if (i == index) {
+                    builder.append(instruction).append('-');
+                } else if (i < script.length - 1) {
+                    builder.append(current).append('-');
+                }
+            }
+            i++;
+        }
+
+        builder.append(Instruction.REPEAT.name());
+        return builder.toString();
+    }
+
+    private String duplicateInstruction(String[] script, int index) {
+        int i = 0;
+        StringBuilder builder = new StringBuilder(Instruction.START + "-");
+
+        for (String instruction : script) {
+            if (i > 0) {
+                if (i == index) {
+                    builder.append(script[i]).append('-').append(script[i]).append('-');
+                } else if (i < script.length - 1) {
+                    builder.append(instruction).append('-');
+                }
+            }
+            i++;
+        }
+
+        builder.append(Instruction.REPEAT.name());
+        return builder.toString();
+    }
+
+    private String deleteInstruction(String[] script, int index) {
+        int i = 0;
+        StringBuilder builder = new StringBuilder(Instruction.START.name() + '-');
+
+        for (String instruction : script) {
+            if (i != index && i > 0 && i < script.length - 1) {
+                builder.append(instruction).append('-');
+            }
+
+            i++;
+        }
+
+        builder.append(Instruction.REPEAT.name());
+        return builder.toString();
     }
 
     protected void openScriptDownloader(Player p, Block b, int page) {
@@ -302,7 +358,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             return false;
         });
 
-        menu.addItem(53, new CustomItem(SlimefunUtils.getCustomHead("185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e"), "&6> 返回", "", "&7返回机器人控制面板"));
+        menu.addItem(53, new CustomItem(SlimefunUtils.getCustomHead("a185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e"), "&6> 返回", "", "&7返回机器人控制面板"));
         menu.addMenuClickHandler(53, (pl, slot, item, action) -> {
             openScriptEditor(pl, b);
             return false;
@@ -442,37 +498,26 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         return list;
     }
 
-    protected void openScriptComponentEditor(Player p, Block b, String script, int index) {
+    protected void editInstruction(Player p, Block b, String[] script, int index) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
-        String[] commands = PatternUtils.DASH.split(script);
-
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
         menu.addItem(9, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&r什么也不做"), (pl, slot, item, action) -> {
-            int i = 0;
-            StringBuilder builder = new StringBuilder("START-");
-
-            for (String command : commands) {
-                if (i != index && i > 0 && i < commands.length - 1) {
-                    builder.append(command).append('-');
-                }
-
-                i++;
-            }
-
-            builder.append("REPEAT");
-            setScript(b.getLocation(), builder.toString());
-
-            openScript(p, b, builder.toString());
+            String code = deleteInstruction(script, index);
+            setScript(b.getLocation(), code);
+            openScript(p, b, code);
             return false;
         });
 
         int i = 10;
-        for (Instruction part : getValidScriptInstructions()) {
-            menu.addItem(i, new CustomItem(part.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + part.name())), (pl, slot, item, action) -> {
-                addInstruction(pl, b, index, part, commands);
+        for (Instruction instruction : getValidScriptInstructions()) {
+            menu.addItem(i, new CustomItem(instruction.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + instruction.name())), (pl, slot, item, action) -> {
+                String code = addInstruction(script, index, instruction);
+                setScript(b.getLocation(), code);
+                openScript(p, b, code);
                 return false;
             });
+
             i++;
         }
 
@@ -507,32 +552,38 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     private void registerDefaultFuelTypes() {
-        if (getTier() == 1) {
-            registerFuelType(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
-            registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
+        switch (getFuelSource()) {
+            case SOLID:
+                registerFuelType(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
+                registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
+                registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
-            // Coal & Charcoal
-            registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
-            registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
+                // Coal & Charcoal
+                registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
+                registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
 
-            // Logs
-            for (Material mat : Tag.LOGS.getValues()) {
-                registerFuelType(new MachineFuel(2, new ItemStack(mat)));
-            }
+                // Logs
+                for (Material mat : Tag.LOGS.getValues()) {
+                    registerFuelType(new MachineFuel(2, new ItemStack(mat)));
+                }
 
-            // Wooden Planks
-            for (Material mat : Tag.PLANKS.getValues()) {
-                registerFuelType(new MachineFuel(1, new ItemStack(mat)));
-            }
-        }
-        else if (getTier() == 2) {
-            registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
-            registerFuelType(new MachineFuel(200, SlimefunItems.BUCKET_OF_OIL));
-            registerFuelType(new MachineFuel(500, SlimefunItems.BUCKET_OF_FUEL));
-        } else {
-            registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
-            registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
-            registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
+                // Wooden Planks
+                for (Material mat : Tag.PLANKS.getValues()) {
+                    registerFuelType(new MachineFuel(1, new ItemStack(mat)));
+                }
+                break;
+            case LIQUID:
+                registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
+                registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
+                registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
+                break;
+            case NUCLEAR:
+                registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
+                registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
+                registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
+                break;
+            default:
+                throw new IllegalStateException("无法处理的燃料资源: " + getFuelSource());
         }
     }
 
@@ -671,7 +722,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 if (fuel.test(item)) {
                     menu.consumeItem(43);
 
-                    if (getTier() == 2) {
+                    if (getFuelSource() == AndroidFuelSource.LIQUID) {
                         menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                     }
 
@@ -739,17 +790,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             });
         }
 
-        ItemStack generator = SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730");
-
-        if (getTier() == 1) {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这类机器人需要固态燃料", "&r例如煤, 原木等..."), ChestMenuUtils.getEmptyClickHandler());
-        }
-        else if (getTier() == 2) {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这类机器人需要液态燃料", "&r例如岩浆, 原油, 燃油等..."), ChestMenuUtils.getEmptyClickHandler());
-        }
-        else {
-            preset.addItem(34, new CustomItem(generator, "&8\u21E9 &c燃料输入口 &8\u21E9", "", "&r这类机器人需要放射性燃料", "&r例如铀, 镎或强化铀"), ChestMenuUtils.getEmptyClickHandler());
-        }
+        preset.addItem(34, getFuelSource().getItem(), ChestMenuUtils.getEmptyClickHandler());
     }
 
     public void addItems(Block b, ItemStack... items) {

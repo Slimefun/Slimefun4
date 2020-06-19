@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -42,7 +43,21 @@ public class ResourceManager {
         config = new Config(plugin, "resources.yml");
     }
 
+    /**
+     * This method registers the given {@link GEOResource}.
+     * It may never be called directly, use {@link GEOResource#register()} instead.
+     *
+     * @param resource The {@link GEOResource} to register
+     */
     void register(GEOResource resource) {
+        Validate.notNull(resource, "Cannot register null as a GEO-Resource");
+        Validate.notNull(resource.getKey(), "GEO-Resources must have a NamespacedKey which is not null");
+
+        // Resources may only be registered once
+        if (SlimefunPlugin.getRegistry().getGEOResources().containsKey(resource.getKey())) {
+            throw new IllegalArgumentException("GEO-Resource \"" + resource.getKey() + "\" has already been registered!");
+        }
+
         String key = resource.getKey().getNamespace() + '.' + resource.getKey().getKey();
         boolean enabled = config.getOrSetDefault(key + ".enabled", true);
 

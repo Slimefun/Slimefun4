@@ -35,28 +35,23 @@ public class SlimefunUpdater {
      * @param fileName 下载文件的名称
      */
     public static void downloadUpdate(String address, String fileName) {
-        File saveDir = new File(downloadDir.replace("update", "plugins"));
-        File file = new File(saveDir, fileName);
+        File file = new File(downloadDir.replace("update", "plugins"), fileName);
 
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) (url.openConnection());
             conn.setConnectTimeout(5_000);
             conn.setReadTimeout(5_000);
+            conn.setInstanceFollowRedirects(true);
             conn.setDoOutput(true);
             conn.setRequestProperty("User-Agent", browserUA);
-
-            //long completeFileSize = conn.getContentLength();
 
             BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
             FileOutputStream fos = new FileOutputStream(file);
             BufferedOutputStream bos = new BufferedOutputStream(fos, 1024);
             byte[] data = new byte[1024];
-            //long downloadedFileSize = 0;
             int x;
             while ((x = in.read(data, 0, 1024)) >= 0) {
-                //downloadedFileSize += x;
-                //final int currentProgress = (int) ((((double) downloadedFileSize) / ((double) completeFileSize)) * 100d);
                 bos.write(data, 0, x);
             }
 

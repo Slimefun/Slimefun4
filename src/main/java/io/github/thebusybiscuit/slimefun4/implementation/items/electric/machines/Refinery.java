@@ -2,10 +2,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
@@ -43,7 +43,7 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 
     @Override
     public List<ItemStack> getDisplayRecipes() {
-        return Arrays.asList(SlimefunItems.BUCKET_OF_OIL, SlimefunItems.BUCKET_OF_FUEL);
+        return Arrays.asList(SlimefunItems.OIL_BUCKET, SlimefunItems.FUEL_BUCKET);
     }
 
     @Override
@@ -73,12 +73,12 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
             }
         } else {
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.BUCKET_OF_OIL, true)) {
-                    if (!menu.fits(SlimefunItems.BUCKET_OF_FUEL, getOutputSlots())) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.OIL_BUCKET, true)) {
+                    if (!menu.fits(SlimefunItems.FUEL_BUCKET, getOutputSlots())) {
                         return;
                     }
 
-                    MachineRecipe recipe = new MachineRecipe(40, new ItemStack[0], new ItemStack[]{SlimefunItems.BUCKET_OF_FUEL});
+                    MachineRecipe recipe = new MachineRecipe(40, new ItemStack[0], new ItemStack[]{SlimefunItems.FUEL_BUCKET});
 
                     menu.consumeItem(slot);
                     processing.put(b, recipe);

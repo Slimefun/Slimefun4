@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World.Environment;

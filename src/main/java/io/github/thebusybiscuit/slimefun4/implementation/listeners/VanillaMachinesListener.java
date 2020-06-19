@@ -2,13 +2,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -26,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
  * @author NathanAdhitya
  * @author Steve
  * @author VoidAngel
+ *
  */
 public class VanillaMachinesListener implements Listener {
 
@@ -35,9 +35,9 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGrindstone(InventoryClickEvent e) {
-        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
         // The Grindstone was only ever added in MC 1.14
-        if ((minecraftVersion != MinecraftVersion.UNIT_TEST && !minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14))) {
+        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
+        if (!minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
 
@@ -46,9 +46,10 @@ public class VanillaMachinesListener implements Listener {
             ItemStack item2 = e.getInventory().getContents()[1];
 
             if (checkForUnallowedItems(item1, item2)) {
-                e.setResult(Event.Result.DENY);
+                e.setResult(Result.DENY);
             }
         }
+
     }
 
     @EventHandler
@@ -57,7 +58,7 @@ public class VanillaMachinesListener implements Listener {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
             if (sfItem != null && !sfItem.isUseableInWorkbench()) {
-                e.setCancelled(true);
+                e.setResult(Result.DENY);
                 SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
                 break;
             }
@@ -78,14 +79,14 @@ public class VanillaMachinesListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onAnvil(InventoryClickEvent e) {
         if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.ANVIL && e.getWhoClicked() instanceof Player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
-            if (!SlimefunUtils.isItemSimilar(item1, SlimefunItems.ELYTRA, true) && checkForUnallowedItems(item1, item2)) {
-                e.setCancelled(true);
+            if (checkForUnallowedItems(item1, item2)) {
+                e.setResult(Result.DENY);
                 SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
         }
@@ -96,7 +97,7 @@ public class VanillaMachinesListener implements Listener {
         Inventory inventory = e.getInventory();
 
         if (inventory.getType() == InventoryType.BREWING && e.getRawSlot() < inventory.getSize() && inventory.getHolder() instanceof BrewingStand) {
-            e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
+            e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
         }
     }
 
@@ -107,11 +108,15 @@ public class VanillaMachinesListener implements Listener {
             SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
             SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);
 
-            if ((sfItem1 != null && !sfItem1.isDisabled()) || (sfItem2 != null && !sfItem2.isDisabled())) {
+            if (isUnallowed(sfItem1) || isUnallowed(sfItem2)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private boolean isUnallowed(SlimefunItem item) {
+        return item != null && !(item instanceof VanillaItem) && !item.isDisabled();
     }
 }
