@@ -152,17 +152,10 @@ public class SlimefunUpdater {
     private boolean isOldVersion(String current, String versionToCompare) {
         Validate.notEmpty(current, "Current version code can't be null!");
         Validate.notEmpty(versionToCompare, "Compare version code can't be empty!");
-        int currentVersion;
-        int comparedVersion;
-        int splitLocation = 1;
-
-        if (branch == SlimefunBranch.STABLE) {
-            splitLocation = 2;
-        }
 
         try {
-            currentVersion = Integer.parseInt(current.split(" ")[splitLocation]);
-            comparedVersion = Integer.parseInt(versionToCompare.split(" ")[splitLocation]);
+            int currentVersion = Integer.parseInt(current.split(" ")[2]);
+            int comparedVersion = Integer.parseInt(versionToCompare.split(" ")[2]);
             return currentVersion >= comparedVersion;
         } catch (NumberFormatException e) {
             return false;
