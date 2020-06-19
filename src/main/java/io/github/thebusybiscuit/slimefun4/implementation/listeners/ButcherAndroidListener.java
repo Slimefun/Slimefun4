@@ -31,18 +31,21 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class ButcherAndroidListener implements Listener {
 
+    private static final String METADATA_KEY = "android_killer";
+
     public ButcherAndroidListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
-        if (e.getEntity().hasMetadata("android_killer")) {
-            AndroidInstance obj = (AndroidInstance) e.getEntity().getMetadata("android_killer").get(0).value();
+        if (e.getEntity().hasMetadata(METADATA_KEY)) {
+            AndroidInstance obj = (AndroidInstance) e.getEntity().getMetadata(METADATA_KEY).get(0).value();
 
             Slimefun.runSync(() -> {
                 List<ItemStack> items = new ArrayList<>();
 
+                // Collect any nearby dropped items
                 for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
                     if (n instanceof Item && n.isValid() && !SlimefunUtils.hasNoPickupFlag((Item) n)) {
                         items.add(((Item) n).getItemStack());
@@ -56,19 +59,30 @@ public class ButcherAndroidListener implements Listener {
                 ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
                 exp.setExperience(1 + ThreadLocalRandom.current().nextInt(6));
             }, 1L);
-            e.getEntity().removeMetadata("android_killer", SlimefunPlugin.instance);
+
+            // Removing metadata to prevent memory leaks
+            e.getEntity().removeMetadata(METADATA_KEY, SlimefunPlugin.instance);
         }
     }
 
-    private void addExtraDrops(List<ItemStack> items, EntityType entityType) {
+    /**
+     * Some items are not dropped by default. Wither Skeleton Skulls but for some weird reason
+     * even Blaze rods...
+     * 
+     * @param drops
+     *            The {@link List} of item drops
+     * @param entityType
+     *            The {@link EntityType} of the killed entity
+     */
+    private void addExtraDrops(List<ItemStack> drops, EntityType entityType) {
         Random random = ThreadLocalRandom.current();
 
         if (entityType == EntityType.WITHER_SKELETON && random.nextInt(250) < 2) {
-            items.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+            drops.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
         }
 
         if (entityType == EntityType.BLAZE) {
-            items.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(1)));
+            drops.add(new ItemStack(Material.BLAZE_ROD, 1 + random.nextInt(1)));
         }
     }
 }

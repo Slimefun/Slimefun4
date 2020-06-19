@@ -61,7 +61,7 @@ public class ThirdPartyPluginService {
                 Class.forName("com.sk89q.worldedit.extent.Extent");
                 new WorldEditHook();
             }
-            catch (Throwable x) {
+            catch (Exception | LinkageError x) {
                 String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
 
                 Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");

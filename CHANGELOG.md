@@ -21,8 +21,12 @@
 
 ## Release Candidate 14 (TBD)
 
+#### Additions
+* Added a starting sound for the Ancient Altar
+
 #### Changes
 * Coolant Cells now last twice as long
+* Small performance improvements
 
 #### Fixes
 * Fixed #2005

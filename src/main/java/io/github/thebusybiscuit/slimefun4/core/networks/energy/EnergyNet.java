@@ -196,7 +196,9 @@ public class EnergyNet extends Network {
                             available = 0;
                         }
                     }
-                    else ChargableBlock.setUnsafeCharge(source, 0, false);
+                    else {
+                        ChargableBlock.setUnsafeCharge(source, 0, false);
+                    }
                 }
             }
 
@@ -240,7 +242,7 @@ public class EnergyNet extends Network {
                         item.warn("This Item was marked as a 'GENERATOR' but has no 'GeneratorTicker' attached to it! This must be fixed.");
                     }
                 }
-                catch (Throwable t) {
+                catch (Exception | LinkageError t) {
                     exploded.add(source);
                     new ErrorReport(t, source, item);
                 }

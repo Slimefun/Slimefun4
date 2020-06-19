@@ -1,16 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -29,6 +28,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * {@link SoulboundItem}. It is also one of the very few utilisations of {@link ItemDropHandler}.
  * 
  * @author Linox
+ * @author Walshy
+ * @author TheBusyBiscuit
  * 
  * @see ItemDropHandler
  * @see Soulbound
@@ -36,65 +37,22 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
 
+    private static final double RANGE = 1.5;
+
     public SoulboundRune(Category category, SlimefunItemStack item, RecipeType type, ItemStack[] recipe) {
         super(category, item, type, recipe);
     }
 
     @Override
     public ItemDropHandler getItemHandler() {
-        return (e, p, droppedItem) -> {
-            ItemStack item = droppedItem.getItemStack();
-
-            if (isItem(item)) {
+        return (e, p, item) -> {
+            if (isItem(item.getItemStack())) {
 
                 if (!Slimefun.hasUnlocked(p, SlimefunItems.SOULBOUND_RUNE, true)) {
                     return true;
                 }
 
-                Slimefun.runSync(() -> {
-                    // Being sure the entity is still valid and not picked up or whatsoever.
-                    if (!droppedItem.isValid()) {
-                        return;
-                    }
-
-                    Location l = droppedItem.getLocation();
-                    Collection<Entity> entites = l.getWorld().getNearbyEntities(l, 1.5, 1.5, 1.5, this::findCompatibleItem);
-
-                    if (entites.isEmpty()) {
-                        return;
-                    }
-
-                    Entity entity = entites.stream().findFirst().get();
-                    ItemStack target = ((Item) entity).getItemStack();
-                    Item targetItem = (Item) entity;
-
-                    SlimefunUtils.setSoulbound(target, true);
-
-                    if (target.getAmount() == 1) {
-                        e.setCancelled(true);
-
-                        // This lightning is just an effect, it deals no damage.
-                        l.getWorld().strikeLightningEffect(l);
-
-                        Slimefun.runSync(() -> {
-                            // Being sure entities are still valid and not picked up or whatsoever.
-                            if (droppedItem.isValid() && targetItem.isValid() && target.getAmount() == 1) {
-
-                                l.getWorld().createExplosion(l, 0.0F);
-                                l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1F);
-
-                                targetItem.remove();
-                                droppedItem.remove();
-                                l.getWorld().dropItemNaturally(l, target);
-
-                                SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.success", true);
-                            }
-                        }, 10L);
-                    }
-                    else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.fail", true);
-                    }
-                }, 20L);
+                Slimefun.runSync(() -> activate(p, e, item), 20L);
 
                 return true;
             }
@@ -102,20 +60,47 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         };
     }
 
-    /**
-     * This method applies the {@link Soulbound} effect onto a given {@link ItemStack}.
-     * 
-     * @param item
-     *            The {@link ItemStack} to apply this effect to
-     */
-    public void apply(ItemStack item) {
-        // Should rather use PersistentData here
-        ItemMeta meta = item.getItemMeta();
-        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-        lore.add(ChatColor.GRAY + "Soulbound");
+    private void activate(Player p, PlayerDropItemEvent e, Item item) {
+        // Being sure the entity is still valid and not picked up or whatsoever.
+        if (!item.isValid()) {
+            return;
+        }
 
-        meta.setLore(lore);
-        item.setItemMeta(meta);
+        Location l = item.getLocation();
+        Collection<Entity> entites = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
+        Optional<Entity> optional = entites.stream().findFirst();
+
+        if (optional.isPresent()) {
+            Item entity = (Item) optional.get();
+            ItemStack target = entity.getItemStack();
+
+            SlimefunUtils.setSoulbound(target, true);
+
+            if (target.getAmount() == 1) {
+                e.setCancelled(true);
+
+                // This lightning is just an effect, it deals no damage.
+                l.getWorld().strikeLightningEffect(l);
+
+                Slimefun.runSync(() -> {
+                    // Being sure entities are still valid and not picked up or whatsoever.
+                    if (item.isValid() && entity.isValid() && target.getAmount() == 1) {
+
+                        l.getWorld().createExplosion(l, 0);
+                        l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1);
+
+                        entity.remove();
+                        item.remove();
+                        l.getWorld().dropItemNaturally(l, target);
+
+                        SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.success", true);
+                    }
+                }, 10L);
+            }
+            else {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.fail", true);
+            }
+        }
     }
 
     private boolean findCompatibleItem(Entity n) {

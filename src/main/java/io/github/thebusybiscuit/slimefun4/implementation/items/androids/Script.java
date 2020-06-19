@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
@@ -30,11 +31,15 @@ public final class Script {
         this.config = config;
         this.name = config.getString("name");
         this.code = config.getString("code");
+        String author = config.getString("author");
 
         Validate.notNull(name);
         Validate.notNull(code);
+        Validate.notNull(author);
+        Validate.notNull(config.getStringList("rating.positive"));
+        Validate.notNull(config.getStringList("rating.negative"));
 
-        OfflinePlayer player = Bukkit.getOfflinePlayer(config.getUUID("author"));
+        OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(author));
         this.author = player.getName() != null ? player.getName() : config.getString("author_name");
     }
 

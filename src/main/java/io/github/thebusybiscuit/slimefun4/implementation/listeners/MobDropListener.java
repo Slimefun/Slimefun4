@@ -33,7 +33,7 @@ public class MobDropListener implements Listener {
             if (customDrops != null && !customDrops.isEmpty()) {
                 for (ItemStack drop : customDrops) {
                     if (Slimefun.hasUnlocked(p, drop, true)) {
-                        if (SlimefunUtils.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((BasicCircuitBoard) SlimefunItem.getByID("BASIC_CIRCUIT_BOARD")).isDroppedFromGolems()) {
+                        if (SlimefunUtils.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem()).isDroppedFromGolems()) {
                             continue;
                         }
 

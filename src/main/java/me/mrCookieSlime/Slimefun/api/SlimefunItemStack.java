@@ -172,12 +172,32 @@ public class SlimefunItemStack extends CustomItem {
     }
 
     /**
-     * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}. Null if no item is found.
+     * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}.
+     * Null if no item is found.
      *
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
     public SlimefunItem getItem() {
         return SlimefunItem.getByID(id);
+    }
+
+    /**
+     * This method returns the associated {@link SlimefunItem} and casts it to the provided
+     * {@link Class}.
+     * 
+     * If no item was found or the found {@link SlimefunItem} is not of the requested type,
+     * the method will return null.
+     * 
+     * @param <T>
+     *            The type of {@link SlimefunItem} to cast this to
+     * @param type
+     *            The {@link Class} of the target {@link SlimefunItem}
+     * 
+     * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
+     */
+    public <T extends SlimefunItem> T getItem(Class<T> type) {
+        SlimefunItem item = getItem();
+        return type.isInstance(item) ? type.cast(item) : null;
     }
 
     public ImmutableItemMeta getImmutableMeta() {

@@ -18,9 +18,11 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * Provides a few convenience methods.
+ * Provides a few static convenience methods.
  *
- * @since 4.0
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * @author Poslovitch
  */
 public final class Slimefun {
 

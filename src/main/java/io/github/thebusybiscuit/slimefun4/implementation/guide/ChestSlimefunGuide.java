@@ -95,7 +95,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     public void openMainMenu(PlayerProfile profile, int page) {
         Player p = profile.getPlayer();
-        if (p == null) return;
+
+        if (p == null) {
+            return;
+        }
 
         if (isSurvivalMode()) {
             profile.getGuideHistory().clear();
@@ -167,7 +170,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     public void openCategory(PlayerProfile profile, Category category, int page) {
         Player p = profile.getPlayer();
-        if (p == null) return;
+
+        if (p == null) {
+            return;
+        }
 
         if (category instanceof FlexCategory) {
             ((FlexCategory) category).open(p, profile, getLayout());
@@ -258,7 +264,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                                 }
                             }
                         }
-                        catch (Throwable x) {
+                        catch (Exception | LinkageError x) {
                             printErrorMessage(pl, x);
                         }
 
@@ -276,7 +282,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     public void openSearch(PlayerProfile profile, String input, boolean addToHistory) {
         Player p = profile.getPlayer();
-        if (p == null) return;
+
+        if (p == null) {
+            return;
+        }
 
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.search.inventory").replace("%item%", ChatUtils.crop(ChatColor.RESET, input)));
         String searchTerm = input.toLowerCase(Locale.ROOT);
@@ -294,7 +303,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             String itemName = ChatColor.stripColor(item.getItemName()).toLowerCase(Locale.ROOT);
 
-            if (index == 44) break;
+            if (index == 44) {
+                break;
+            }
 
             if (!itemName.isEmpty() && (itemName.equals(searchTerm) || itemName.contains(searchTerm))) {
                 ItemStack itemstack = new CustomItem(item.getItem(), meta -> {
@@ -303,6 +314,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
                     if (category != null) {
                         ItemStack categoryItem = category.getItem(p);
+
                         if (categoryItem != null && categoryItem.hasItemMeta() && categoryItem.getItemMeta().hasDisplayName()) {
                             lore = Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.RESET + categoryItem.getItemMeta().getDisplayName());
                         }
@@ -322,7 +334,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                             displayItem(profile, item, true);
                         }
                     }
-                    catch (Throwable x) {
+                    catch (Exception | LinkageError x) {
                         printErrorMessage(pl, x);
                     }
 
@@ -339,9 +351,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     public void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory) {
         Player p = profile.getPlayer();
-        if (p == null) return;
 
-        if (item == null || item.getType() == Material.AIR) return;
+        if (p == null || item == null || item.getType() == Material.AIR) {
+            return;
+        }
 
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
@@ -488,7 +501,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                     displayItem(profile, itemstack, 0, true);
                 }
             }
-            catch (Throwable x) {
+            catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
             }
             return false;
@@ -530,8 +543,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         menu.addItem(7, ChestMenuUtils.getSearchButton(p));
         menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
             pl.closeInventory();
-            SlimefunPlugin.getLocal().sendMessage(pl, "guide.search.message");
 
+            SlimefunPlugin.getLocal().sendMessage(pl, "guide.search.message");
             ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, msg -> SlimefunGuide.openSearch(profile, msg, isSurvivalMode(), isSurvivalMode()));
 
             return false;
@@ -571,7 +584,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     private static ItemStack getDisplayItem(Player p, boolean isSlimefunRecipe, ItemStack item) {
         if (isSlimefunRecipe) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-            if (slimefunItem == null) return item;
+
+            if (slimefunItem == null) {
+                return item;
+            }
 
             String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission";
             return Slimefun.hasUnlocked(p, slimefunItem, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", lore);
@@ -642,7 +658,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
             // We want to clone this item to avoid corrupting the original
             // but we wanna make sure no stupid addon creator sneaked some nulls in here
-            if (item != null) item = item.clone();
+            if (item != null) {
+                item = item.clone();
+            }
 
             menu.replaceExistingItem(slot, item);
 

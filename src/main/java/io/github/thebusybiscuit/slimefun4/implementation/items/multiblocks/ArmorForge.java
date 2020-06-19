@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -49,8 +48,11 @@ public class ArmorForge extends MultiBlockMachine {
                     if (outputInv != null) {
                         craft(p, output, inv, outputInv);
                     }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    else {
+                        SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    }
                 }
+                
                 return;
             }
         }
@@ -71,6 +73,7 @@ public class ArmorForge extends MultiBlockMachine {
     private void craft(Player p, ItemStack output, Inventory inv, Inventory outputInv) {
         for (int j = 0; j < 9; j++) {
             ItemStack item = inv.getContents()[j];
+            
             if (item != null && item.getType() != Material.AIR) {
                 ItemUtils.consumeItem(item, true);
             }
@@ -79,7 +82,7 @@ public class ArmorForge extends MultiBlockMachine {
         for (int j = 0; j < 4; j++) {
             int current = j;
 
-            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+            Slimefun.runSync(() -> {
                 if (current < 3) {
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
                 }

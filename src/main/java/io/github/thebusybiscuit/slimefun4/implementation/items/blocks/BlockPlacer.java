@@ -42,9 +42,9 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
     @Override
     public BlockDispenseHandler getItemHandler() {
         return (e, dispenser, facedBlock, machine) -> {
-            // Since vanilla Dispensers can already place Shulker boxes, we simply fallback
-            // to the vanilla behaviour.
             if (isShulkerBox(e.getItem().getType())) {
+                // Since vanilla Dispensers can already place Shulker boxes, we
+                // simply fallback to the vanilla behaviour.
                 return;
             }
 

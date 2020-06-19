@@ -61,8 +61,12 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-                else return getOutputSlots();
+                if (flow == ItemTransportFlow.INSERT) {
+                    return getInputSlots();
+                }
+                else {
+                    return getOutputSlots();
+                }
             }
         };
     }
@@ -97,9 +101,11 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    return;
+                }
 
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
                 progress.put(b, timeleft - 1);
             }
             else {
@@ -112,7 +118,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
         }
         else if (inv.fits(SlimefunItems.OIL_BUCKET, getOutputSlots())) {
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true, false)) {
                     OptionalInt supplies = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {

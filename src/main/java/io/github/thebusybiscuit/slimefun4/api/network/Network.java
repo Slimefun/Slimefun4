@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -68,7 +69,18 @@ public abstract class Network {
     protected final Set<Location> connectorNodes = new HashSet<>();
     protected final Set<Location> terminusNodes = new HashSet<>();
 
+    /**
+     * This constructs a new {@link Network} at the given {@link Location}.
+     * 
+     * @param manager
+     *            The {@link NetworkManager} instance
+     * @param regulator
+     *            The {@link Location} marking the regulator of this {@link Network}.
+     */
     protected Network(NetworkManager manager, Location regulator) {
+        Validate.notNull(manager, "A NetworkManager must be provided");
+        Validate.notNull(regulator, "No regulator was specified");
+
         this.manager = manager;
         this.regulator = regulator;
 

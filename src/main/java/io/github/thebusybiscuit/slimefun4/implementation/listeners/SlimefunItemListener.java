@@ -47,64 +47,11 @@ public class SlimefunItemListener implements Listener {
             boolean itemUsed = e.getHand() == EquipmentSlot.OFF_HAND;
 
             if (event.useItem() != Result.DENY) {
-                Optional<SlimefunItem> optional = event.getSlimefunItem();
-
-                if (optional.isPresent()) {
-                    if (Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
-                        itemUsed = optional.get().callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
-                    }
-                    else {
-                        event.setUseItem(Result.DENY);
-                    }
-                }
+                rightClickItem(e, event, itemUsed);
             }
 
-            if (!itemUsed && event.useBlock() != Result.DENY) {
-                Optional<SlimefunItem> optional = event.getSlimefunBlock();
-
-                if (optional.isPresent()) {
-                    if (!Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
-                        e.setCancelled(true);
-                        return;
-                    }
-
-                    boolean interactable = optional.get().callItemHandler(BlockUseHandler.class, handler -> handler.onRightClick(event));
-
-                    if (!interactable) {
-                        String id = optional.get().getID();
-                        Player p = e.getPlayer();
-
-                        if (BlockMenuPreset.isInventory(id)) {
-
-                            if (!p.isSneaking() || Material.AIR == event.getItem().getType()) {
-                                e.setCancelled(true);
-
-                                if (BlockStorage.hasUniversalInventory(id)) {
-                                    UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
-
-                                    if (menu.canOpen(e.getClickedBlock(), p)) {
-                                        menu.open(p);
-                                    }
-                                    else {
-                                        SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
-                                    }
-                                }
-                                else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
-                                    BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
-
-                                    if (menu.canOpen(e.getClickedBlock(), p)) {
-                                        menu.open(p);
-                                    }
-                                    else {
-                                        SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
-                                    }
-                                }
-                            }
-
-                            return;
-                        }
-                    }
-                }
+            if (!itemUsed && event.useBlock() != Result.DENY && !rightClickBlock(e, event)) {
+                return;
             }
 
             if (e.useInteractedBlock() != Result.DENY) {
@@ -113,6 +60,73 @@ public class SlimefunItemListener implements Listener {
 
             if (e.useItemInHand() != Result.DENY) {
                 e.setUseItemInHand(event.useItem());
+            }
+        }
+    }
+
+    private boolean rightClickItem(PlayerInteractEvent e, PlayerRightClickEvent event, boolean defaultValue) {
+        Optional<SlimefunItem> optional = event.getSlimefunItem();
+
+        if (optional.isPresent()) {
+            if (Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
+                return optional.get().callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
+            }
+            else {
+                event.setUseItem(Result.DENY);
+            }
+        }
+
+        return defaultValue;
+    }
+
+    private boolean rightClickBlock(PlayerInteractEvent e, PlayerRightClickEvent event) {
+        Optional<SlimefunItem> optional = event.getSlimefunBlock();
+
+        if (optional.isPresent()) {
+            if (!Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
+                e.setCancelled(true);
+                return false;
+            }
+
+            boolean interactable = optional.get().callItemHandler(BlockUseHandler.class, handler -> handler.onRightClick(event));
+
+            if (!interactable) {
+                String id = optional.get().getID();
+                Player p = e.getPlayer();
+
+                if (BlockMenuPreset.isInventory(id)) {
+                    openInventory(p, id, e, event);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private void openInventory(Player p, String id, PlayerInteractEvent e, PlayerRightClickEvent event) {
+        if (!p.isSneaking() || Material.AIR == event.getItem().getType()) {
+            e.setCancelled(true);
+
+            if (BlockStorage.hasUniversalInventory(id)) {
+                UniversalBlockMenu menu = BlockStorage.getUniversalInventory(id);
+
+                if (menu.canOpen(e.getClickedBlock(), p)) {
+                    menu.open(p);
+                }
+                else {
+                    SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+                }
+            }
+            else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
+                BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
+
+                if (menu.canOpen(e.getClickedBlock(), p)) {
+                    menu.open(p);
+                }
+                else {
+                    SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+                }
             }
         }
     }

@@ -711,7 +711,7 @@ public class SlimefunItem implements Placeable {
             try {
                 callable.accept(c.cast(handler.get()));
             }
-            catch (Throwable x) {
+            catch (Exception | LinkageError x) {
                 error("Could not pass \"" + c.getSimpleName() + "\" for " + toString(), x);
             }
 

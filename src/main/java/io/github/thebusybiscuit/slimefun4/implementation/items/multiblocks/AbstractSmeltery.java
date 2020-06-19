@@ -49,7 +49,9 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
                     if (outputInv != null) {
                         craft(p, b, inv, inputs.get(i), output, outputInv);
                     }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    else {
+                        SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    }
                 }
 
                 return;

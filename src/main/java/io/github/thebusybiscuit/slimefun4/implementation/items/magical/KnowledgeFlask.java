@@ -9,9 +9,17 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link KnowledgeFlask} is a magical {@link SlimefunItem} which allows you to store
+ * experience levels in a bottle when you right click.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class KnowledgeFlask extends SimpleSlimefunItem<ItemUseHandler> {
 
     public KnowledgeFlask(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {

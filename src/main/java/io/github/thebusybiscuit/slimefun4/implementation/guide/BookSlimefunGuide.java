@@ -90,7 +90,10 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     public void openMainMenu(PlayerProfile profile, int page) {
         Player p = profile.getPlayer();
-        if (p == null) return;
+
+        if (p == null) {
+            return;
+        }
 
         List<ChatComponent> lines = new LinkedList<>();
         int tier = 0;
@@ -143,7 +146,10 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     public void openCategory(PlayerProfile profile, Category category, int page) {
         Player p = profile.getPlayer();
-        if (p == null) return;
+
+        if (p == null) {
+            return;
+        }
 
         if (category instanceof FlexCategory) {
             ((FlexCategory) category).open(p, profile, getLayout());

@@ -112,13 +112,16 @@ public class SlimefunBootsListener implements Listener {
 
     @EventHandler
     public void onTrample(PlayerInteractEvent e) {
-        if (e.getAction() != Action.PHYSICAL) return;
-        if (e.getClickedBlock() == null) return;
-        if (e.getClickedBlock().getType() != Material.FARMLAND) return;
+        if (e.getAction() == Action.PHYSICAL) {
+            Block b = e.getClickedBlock();
 
-        ItemStack boots = e.getPlayer().getInventory().getBoots();
-        if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
-            e.setCancelled(true);
+            if (b != null && b.getType() == Material.FARMLAND) {
+                ItemStack boots = e.getPlayer().getInventory().getBoots();
+
+                if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
+                    e.setCancelled(true);
+                }
+            }
         }
     }
 }

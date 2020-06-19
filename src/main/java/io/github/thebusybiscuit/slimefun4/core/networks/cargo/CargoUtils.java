@@ -44,6 +44,7 @@ final class CargoUtils {
      */
     static boolean hasInventory(Block block) {
         if (block == null) {
+            // No block, no inventory
             return false;
         }
 

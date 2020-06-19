@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -20,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Compressor extends MultiBlockMachine {
@@ -75,7 +75,7 @@ public class Compressor extends MultiBlockMachine {
         for (int i = 0; i < 4; i++) {
             int j = i;
             
-            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+            Slimefun.runSync(() -> {
                 if (j < 3) {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
                 } 

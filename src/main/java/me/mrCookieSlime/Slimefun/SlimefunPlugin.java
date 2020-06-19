@@ -449,7 +449,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         try {
             SlimefunItemSetup.setup(this);
         }
-        catch (Throwable x) {
+        catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
         }
     }
@@ -458,7 +458,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         try {
             ResearchSetup.setupResearches();
         }
-        catch (Throwable x) {
+        catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
         }
     }

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -53,7 +54,8 @@ abstract class ChestTerminalNetwork extends Network {
     protected final Set<Location> imports = new HashSet<>();
     protected final Set<Location> exports = new HashSet<>();
 
-    private final Set<ItemRequest> itemRequests = new HashSet<>();
+    // This represents a Queue of requests to handle
+    private final Queue<ItemRequest> itemRequests = new LinkedList<>();
 
     protected ChestTerminalNetwork(Location regulator) {
         super(SlimefunPlugin.getNetworkManager(), regulator);
@@ -213,7 +215,9 @@ abstract class ChestTerminalNetwork extends Network {
                     int index = Integer.parseInt(BlockStorage.getLocationInfo(bus, "index"));
 
                     index++;
-                    if (index > (items.size() - 1)) index = 0;
+                    if (index > (items.size() - 1)) {
+                        index = 0;
+                    }
 
                     BlockStorage.addBlockInfo(bus, "index", String.valueOf(index));
                     itemRequests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
@@ -233,11 +237,18 @@ abstract class ChestTerminalNetwork extends Network {
         }
     }
 
+    /**
+     * This method updates every terminal on the network with {@link ItemStack ItemStacks}
+     * found in any provider of the network.
+     * 
+     * @param providers
+     *            A {@link Set} of providers to this {@link ChestTerminalNetwork}
+     */
     protected void updateTerminals(Set<Location> providers) {
         List<ItemStackAndInteger> items = findAvailableItems(providers);
 
         for (Location l : terminals) {
-            BlockMenu menu = BlockStorage.getInventory(l);
+            BlockMenu terminal = BlockStorage.getInventory(l);
             int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
 
             if (!items.isEmpty() && items.size() < (page - 1) * TERMINAL_SLOTS.length + 1) {
@@ -247,39 +258,49 @@ abstract class ChestTerminalNetwork extends Network {
 
             for (int i = 0; i < TERMINAL_SLOTS.length; i++) {
                 int slot = TERMINAL_SLOTS[i];
-
-                if (items.size() > i + (TERMINAL_SLOTS.length * (page - 1))) {
-                    ItemStackAndInteger item = items.get(i + (TERMINAL_SLOTS.length * (page - 1)));
-
-                    ItemStack stack = item.getItem().clone();
-                    ItemMeta im = stack.getItemMeta();
-                    List<String> lore = new ArrayList<>();
-                    lore.add("");
-                    lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getInt())));
-
-                    if (stack.getMaxStackSize() > 1) lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + (item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize() : item.getInt()) + ">"));
-                    else lore.add(ChatColors.color("&7<Left Click: Request 1>"));
-
-                    lore.add("");
-                    if (im.hasLore()) {
-                        lore.addAll(im.getLore());
-                    }
-
-                    im.setLore(lore);
-                    stack.setItemMeta(im);
-                    menu.replaceExistingItem(slot, stack);
-                    menu.addMenuClickHandler(slot, (p, sl, is, action) -> {
-                        int amount = item.getInt() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getInt();
-                        itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
-                        return false;
-                    });
-
-                }
-                else {
-                    menu.replaceExistingItem(slot, terminalPlaceholderItem);
-                    menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
-                }
+                int index = i + (TERMINAL_SLOTS.length * (page - 1));
+                updateTerminal(l, terminal, slot, index, items);
             }
+        }
+    }
+
+    private void updateTerminal(Location l, BlockMenu terminal, int slot, int index, List<ItemStackAndInteger> items) {
+        if (items.size() > index) {
+            ItemStackAndInteger item = items.get(index);
+
+            ItemStack stack = item.getItem().clone();
+            ItemMeta im = stack.getItemMeta();
+            List<String> lore = new ArrayList<>();
+            lore.add("");
+            lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getInt())));
+
+            if (stack.getMaxStackSize() > 1) {
+                int amount = item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize() : item.getInt();
+                lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + amount + ">"));
+            }
+            else {
+                lore.add(ChatColors.color("&7<Left Click: Request 1>"));
+            }
+
+            lore.add("");
+
+            if (im.hasLore()) {
+                lore.addAll(im.getLore());
+            }
+
+            im.setLore(lore);
+            stack.setItemMeta(im);
+            terminal.replaceExistingItem(slot, stack);
+            terminal.addMenuClickHandler(slot, (p, sl, is, action) -> {
+                int amount = item.getInt() > item.getItem().getMaxStackSize() ? item.getItem().getMaxStackSize() : item.getInt();
+                itemRequests.add(new ItemRequest(l, 44, new CustomItem(item.getItem(), action.isRightClicked() ? amount : 1), ItemTransportFlow.WITHDRAW));
+                return false;
+            });
+
+        }
+        else {
+            terminal.replaceExistingItem(slot, terminalPlaceholderItem);
+            terminal.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         }
     }
 
