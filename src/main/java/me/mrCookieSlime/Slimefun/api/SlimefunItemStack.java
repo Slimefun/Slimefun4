@@ -138,15 +138,6 @@ public class SlimefunItemStack extends CustomItem {
         setItemId(id);
     }
 
-
-    /**
-     * Use SlimefunItemStack#setItemId instead.
-     */
-    @Deprecated
-    private void setID(String id) {
-        setItemId(id);
-    }
-
     private void setItemId(String id) {
         Validate.notNull(id, "The Item id must never be null!");
         Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
@@ -173,18 +164,7 @@ public class SlimefunItemStack extends CustomItem {
     public String getItemId() {
         return id;
     }
-
-    /**
-     * Returns the id that was given to this {@link SlimefunItemStack}.
-     *
-     * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
-     * @deprecated Renamed to {@link #getItemId()}
-     */
-    @Deprecated
-    public String getItemID() {
-        return id;
-    }
-
+    
     /**
      * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}. Null if no item is found.
      *

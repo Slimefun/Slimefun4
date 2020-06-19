@@ -9,7 +9,7 @@ public final class LoreBuilder {
     public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4需要防化服!";
     public static final String RIGHT_CLICK_TO_USE = "&e右键&7 使用";
     public static final String RIGHT_CLICK_TO_OPEN = "&e右键&7 打开";
-    public static final String CROUCH_TO_USE = "&e按下 Shift&7 使用";
+    public static final String CROUCH_TO_USE = "&e按住 &eShift&7 使用";
 
     private LoreBuilder() {
     }
