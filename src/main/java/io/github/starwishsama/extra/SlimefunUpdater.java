@@ -5,9 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.net.ssl.SSLException;
 import java.io.*;
@@ -27,6 +29,7 @@ public class SlimefunUpdater {
     private final Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
     private static final String downloadDir = SlimefunPlugin.instance.getServer().getUpdateFolder();
     private static final String browserUA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36";
+    private static SlimefunBranch branch;
 
     /**
      * 下载文件
@@ -134,26 +137,50 @@ public class SlimefunUpdater {
         GithubBean bean = getCache();
 
         if (bean != null) {
-            String[] splitVersion = SlimefunPlugin.getVersion().split("-");
-            String version = splitVersion.length >= 3 ? splitVersion[2] : "";
-
-            int latest = Integer.parseInt(bean.getTagName().split("-")[1]);
-            if (!version.isEmpty() && StringUtils.isNumeric(version)) {
-                int current = Integer.parseInt(version);
-                if (current >= latest && splitVersion.length == 3) {
-                    Slimefun.getLogger().info(ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion()));
-                } else {
-                    String updateInfo = "有更新了 | " + bean.getTagName() + " 现已发布\n正在自动下载更新中, 下载完成后重启服务器生效";
-                    Slimefun.getLogger().info(updateInfo);
-                    downloadUpdate(getCache().getAssets().get(0).getDownloadUrl(), getCache().getAssets().get(0).getName());
-                }
+            if (isOldVersion(SlimefunPlugin.getVersion(), bean.getTagName())) {
+                String updateInfo = "有更新了 | " + bean.getTagName() + " 现已发布\n正在自动下载更新中, 下载完成后重启服务器生效";
+                Slimefun.getLogger().info(updateInfo);
+                downloadUpdate(getCache().getAssets().get(0).getDownloadUrl(), getCache().getAssets().get(0).getName());
+            } else {
+                Slimefun.getLogger().info(ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion()));
             }
         } else {
             Slimefun.getLogger().info("无法获取到更新信息");
         }
     }
 
+    private boolean isOldVersion(String current, String versionToCompare) {
+        Validate.notEmpty(current, "Current version code can't be null!");
+        Validate.notEmpty(versionToCompare, "Compare version code can't be empty!");
+        int currentVersion;
+        int comparedVersion;
+        int splitLocation = 1;
+
+        if (branch == SlimefunBranch.STABLE) {
+            splitLocation = 2;
+        }
+
+        try {
+            currentVersion = Integer.parseInt(current.split(" ")[splitLocation]);
+            comparedVersion = Integer.parseInt(versionToCompare.split(" ")[splitLocation]);
+            return currentVersion >= comparedVersion;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     private GithubBean getCache() {
         return updateInfoCache == null ? getGithubBean() : updateInfoCache;
+    }
+
+    public static void autoSelectBranch(JavaPlugin plugin) {
+        String version = plugin.getDescription().getVersion();
+
+        if (version.contains("RC")) {
+            branch = SlimefunBranch.STABLE;
+            return;
+        }
+
+        branch = SlimefunBranch.DEVELOPMENT;
     }
 }

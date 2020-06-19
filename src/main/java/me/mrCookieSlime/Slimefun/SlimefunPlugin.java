@@ -141,7 +141,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             int networkSize = config.getInt("networks.max-size");
 
             if (networkSize < 1) {
-                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
+                getLogger().log(Level.WARNING, "你的 'networks.max-size' 设置选项设置错误! 它必须大于 1, 你设置为了: {0}", networkSize);
                 networkSize = 1;
             }
 
@@ -150,7 +150,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Setting up bStats
             metricsService.start();
 
-            // 汉化版不提供自动更新服务
+            // 魔改的自动更新服务
+            // 自动选择分支
+            SlimefunUpdater.autoSelectBranch(this);
 
             // Registering all GEO Resources
             getLogger().log(Level.INFO, "加载矿物资源...");
