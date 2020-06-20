@@ -229,7 +229,7 @@ public class EnergyNet extends Network {
                     } else {
                         item.warn("This Item was marked as a 'GENERATOR' but has no 'GeneratorTicker' attached to it! This must be fixed.");
                     }
-                } catch (Throwable t) {
+                } catch (Exception | LinkageError t) {
                     exploded.add(source);
                     new ErrorReport(t, source, item);
                 }

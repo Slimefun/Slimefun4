@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactor
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
@@ -44,7 +43,7 @@ public abstract class NuclearReactor extends AReactor {
 
     @Override
     public ItemStack getProgressBar() {
-        return SlimefunUtils.getCustomHead("a3ad8ee849edf04ed9a26ca3341f6033bd76dcc4231ed1ea63b7565751b27ac");
+        return SlimefunItems.LAVA_CRYSTAL;
     }
 
     @Override

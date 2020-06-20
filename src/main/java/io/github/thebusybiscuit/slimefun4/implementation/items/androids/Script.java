@@ -9,10 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 
 public final class Script {
@@ -28,11 +25,15 @@ public final class Script {
         this.config = config;
         this.name = config.getString("name");
         this.code = config.getString("code");
+        String author = config.getString("author");
 
         Validate.notNull(name);
         Validate.notNull(code);
+        Validate.notNull(author);
+        Validate.notNull(config.getStringList("rating.positive"));
+        Validate.notNull(config.getStringList("rating.negative"));
 
-        OfflinePlayer player = Bukkit.getOfflinePlayer(config.getUUID("author"));
+        OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(author));
         this.author = player.getName() != null ? player.getName() : config.getString("author_name");
     }
 
@@ -79,9 +80,10 @@ public final class Script {
 
     /**
      * This method checks whether a given {@link Player} is able to leave a rating for this {@link Script}.
+     * A {@link Player} is unable to rate his own {@link Script} or a {@link Script} he already rated before.
      *
-     * @param p
-     * @return
+     * @param p The {@link Player} to check for
+     * @return Whether the given {@link Player} is able to rate this {@link Script}
      */
     public boolean canRate(Player p) {
         if (isAuthor(p)) {

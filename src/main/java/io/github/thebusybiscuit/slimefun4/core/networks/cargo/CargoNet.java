@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
+import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -17,6 +18,20 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.logging.Level;
 
+/**
+ * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
+ * It is also an extension of {@link ChestTerminalNetwork} which provides methods to deal
+ * with the addon ChestTerminal.
+ *
+ * @author meiamsome
+ * @author Poslovitch
+ * @author John000708
+ * @author BigBadE
+ * @author SoSeDiK
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * @author DNx5
+ */
 public class CargoNet extends ChestTerminalNetwork {
 
     private static final int RANGE = 5;
@@ -44,6 +59,11 @@ public class CargoNet extends ChestTerminalNetwork {
         }
     }
 
+    /**
+     * This constructs a new {@link CargoNet} at the given {@link Location}.
+     *
+     * @param l The {@link Location} marking the manager of this {@link Network}.
+     */
     protected CargoNet(Location l) {
         super(l);
     }
@@ -111,7 +131,7 @@ public class CargoNet extends ChestTerminalNetwork {
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4已连接到多个货运网络管理器");
+            SimpleHologram.update(b, "&4检测到连接到了多个货运网络节点");
             return;
         }
 
@@ -127,7 +147,9 @@ public class CargoNet extends ChestTerminalNetwork {
             Set<Location> destinations = new HashSet<>();
 
             List<Location> output16 = output.get(16);
-            if (output16 != null) destinations.addAll(output16);
+            if (output16 != null) {
+                destinations.addAll(output16);
+            }
 
             Slimefun.runSync(() -> run(b, destinations, output));
         }
@@ -273,8 +295,10 @@ public class CargoNet extends ChestTerminalNetwork {
      * This method sorts a given {@link Deque} of output node locations using a semi-accurate
      * round-robin method.
      *
-     * @param inputNode   The {@link Location} of the input node
-     * @param outputNodes A {@link Deque} of {@link Location Locations} of the output nodes
+     * @param inputNode
+     *            The {@link Location} of the input node
+     * @param outputNodes
+     *            A {@link Deque} of {@link Location Locations} of the output nodes
      */
     private void roundRobinSort(Location inputNode, Deque<Location> outputNodes) {
         int index = roundRobin.getOrDefault(inputNode, 0);
@@ -297,15 +321,17 @@ public class CargoNet extends ChestTerminalNetwork {
     /**
      * This method returns the frequency a given node is set to.
      * Should there be an {@link Exception} to this method it will fall back to zero in
-     * order to protect the integrity of the {@link CargoNet}.
+     * order to preserve the integrity of the {@link CargoNet}.
      *
-     * @param node The {@link Location} of our cargo node
+     * @param node
+     *            The {@link Location} of our cargo node
+     *
      * @return The frequency of the given node
      */
     private static int getFrequency(Location node) {
         try {
             String str = BlockStorage.getLocationInfo(node).getString("frequency");
-            return Integer.parseInt(str);
+            return str == null ? 0 : Integer.parseInt(str);
         } catch (Exception x) {
             Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
             return 0;

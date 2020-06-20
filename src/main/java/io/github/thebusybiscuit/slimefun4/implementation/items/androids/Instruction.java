@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.apache.commons.lang.Validate;
@@ -16,124 +17,124 @@ import java.util.function.Predicate;
 enum Instruction {
 
     // Start and End Parts
-    START(AndroidType.NONE, "4ae29422db4047efdb9bac2cdae5a0719eb772fccc88a66d912320b343c341"),
-    REPEAT(AndroidType.NONE, "bc8def67a12622ead1decd3d89364257b531896d87e469813131ca235b5c7"),
-    WAIT(AndroidType.NONE, "2ee174f41e594e64ea3141c07daf7acf1fa045c230b2b0b0fb3da163db22f455"),
+    START(AndroidType.NONE, HeadTexture.SCRIPT_START),
+    REPEAT(AndroidType.NONE, HeadTexture.SCRIPT_REPEAT),
+    WAIT(AndroidType.NONE, HeadTexture.SCRIPT_WAIT),
 
     // Movement
-    GO_FORWARD(AndroidType.NON_FIGHTER, "d9bf6db4aeda9d8822b9f736538e8c18b9a4844f84eb45504adfbfee87eb", (android, b, inv, face) -> {
+    GO_FORWARD(AndroidType.NON_FIGHTER, HeadTexture.SCRIPT_FORWARD, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
         android.move(b, face, target);
     }),
 
-    GO_UP(AndroidType.NON_FIGHTER, "105a2cab8b68ea57e3af992a36e47c8ff9aa87cc8776281966f8c3cf31a38", (android, b, inv, face) -> {
+    GO_UP(AndroidType.NON_FIGHTER, HeadTexture.SCRIPT_UP, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.UP);
         android.move(b, face, target);
     }),
 
-    GO_DOWN(AndroidType.NON_FIGHTER, "c01586e39f6ffa63b4fb301b65ca7da8a92f7353aaab89d3886579125dfbaf9", (android, b, inv, face) -> {
+    GO_DOWN(AndroidType.NON_FIGHTER, HeadTexture.SCRIPT_DOWN, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.DOWN);
         android.move(b, face, target);
     }),
 
     // Directions
-    TURN_LEFT(AndroidType.NONE, "a185c97dbb8353de652698d24b64327b793a3f32a98be67b719fbedab35e", (android, b, inv, face) -> {
+    TURN_LEFT(AndroidType.NONE, HeadTexture.SCRIPT_LEFT, (android, b, inv, face) -> {
         int mod = -1;
         android.rotate(b, mod);
     }),
 
-    TURN_RIGHT(AndroidType.NONE, "31c0ededd7115fc1b23d51ce966358b27195daf26ebb6e45a66c34c69c34091", (android, b, inv, face) -> {
+    TURN_RIGHT(AndroidType.NONE, HeadTexture.SCRIPT_RIGHT, (android, b, inv, face) -> {
         int mod = 1;
         android.rotate(b, mod);
     }),
 
     // Action - Pickaxe
-    DIG_UP(AndroidType.MINER, "2e6ce011ac9a7a75b2fcd408ad21a3ac1722f6e2eed8781cafd12552282b88", (android, b, inv, face) -> {
+    DIG_UP(AndroidType.MINER, HeadTexture.SCRIPT_DIG_UP, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.UP);
         android.dig(b, inv, target);
     }),
 
-    DIG_FORWARD(AndroidType.MINER, "b6ea2135838461534372f2da6c862d21cd5f3d2c7119f2bb674bbd42791", (android, b, inv, face) -> {
+    DIG_FORWARD(AndroidType.MINER, HeadTexture.SCRIPT_DIG_FORWARD, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
         android.dig(b, inv, target);
     }),
 
-    DIG_DOWN(AndroidType.MINER, "8d862024108c785bc0ef7199ec77c402dbbfcc624e9f41f83d8aed8b39fd13", (android, b, inv, face) -> {
+    DIG_DOWN(AndroidType.MINER, HeadTexture.SCRIPT_DIG_DOWN, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.DOWN);
         android.dig(b, inv, target);
     }),
 
-    MOVE_AND_DIG_UP(AndroidType.MINER, "2e6ce011ac9a7a75b2fcd408ad21a3ac1722f6e2eed8781cafd12552282b88", (android, b, inv, face) -> {
+    MOVE_AND_DIG_UP(AndroidType.MINER, HeadTexture.SCRIPT_DIG_UP, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.UP);
         android.moveAndDig(b, inv, face, target);
     }),
 
-    MOVE_AND_DIG_FORWARD(AndroidType.MINER, "b6ea2135838461534372f2da6c862d21cd5f3d2c7119f2bb674bbd42791", (android, b, inv, face) -> {
+    MOVE_AND_DIG_FORWARD(AndroidType.MINER, HeadTexture.SCRIPT_DIG_FORWARD, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
         android.moveAndDig(b, inv, face, target);
     }),
 
-    MOVE_AND_DIG_DOWN(AndroidType.MINER, "8d862024108c785bc0ef7199ec77c402dbbfcc624e9f41f83d8aed8b39fd13", (android, b, inv, face) -> {
+    MOVE_AND_DIG_DOWN(AndroidType.MINER, HeadTexture.SCRIPT_DIG_DOWN, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.DOWN);
         android.moveAndDig(b, inv, face, target);
     }),
 
     // Action - Sword
-    ATTACK_MOBS_ANIMALS(AndroidType.FIGHTER, "c7e6c40f68b775f2efcd7bd9916b327869dcf27e24c855d0a18e07ac04fe1", (android, b, inv, face) -> {
+    ATTACK_MOBS_ANIMALS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> true;
         android.attack(b, predicate);
     }),
 
-    ATTACK_MOBS(AndroidType.FIGHTER, "c7e6c40f68b775f2efcd7bd9916b327869dcf27e24c855d0a18e07ac04fe1", (android, b, inv, face) -> {
+    ATTACK_MOBS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> e instanceof Monster;
         android.attack(b, predicate);
     }),
 
-    ATTACK_ANIMALS(AndroidType.FIGHTER, "c7e6c40f68b775f2efcd7bd9916b327869dcf27e24c855d0a18e07ac04fe1", (android, b, inv, face) -> {
+    ATTACK_ANIMALS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> e instanceof Animals;
         android.attack(b, predicate);
     }),
 
-    ATTACK_ANIMALS_ADULT(AndroidType.FIGHTER, "c7e6c40f68b775f2efcd7bd9916b327869dcf27e24c855d0a18e07ac04fe1", (android, b, inv, face) -> {
+    ATTACK_ANIMALS_ADULT(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> e instanceof Animals && e instanceof Ageable && ((Ageable) e).isAdult();
         android.attack(b, predicate);
     }),
 
     // Action - Axe
-    CHOP_TREE(AndroidType.WOODCUTTER, "64ba49384dba7b7acdb4f70e9361e6d57cbbcbf720cf4f16c2bb83e4557"),
+    CHOP_TREE(AndroidType.WOODCUTTER, HeadTexture.SCRIPT_CHOP_TREE),
 
     // Action - Fishing Rod
-    CATCH_FISH(AndroidType.FISHERMAN, "fd4fde511f4454101e4a2a72bc86f12985dfcda76b64bb24dc63a9fa9e3a3", (android, b, inv, face) -> android.fish(b, inv)),
+    CATCH_FISH(AndroidType.FISHERMAN, HeadTexture.SCRIPT_FISH, (android, b, inv, face) -> android.fish(b, inv)),
 
     // Action - Hoe
-    FARM_FORWARD(AndroidType.FARMER, "4de9a522c3d9e7d85f3d82c375dc37fecc856dbd801eb3bcedc1165198bf", (android, b, inv, face) -> {
+    FARM_FORWARD(AndroidType.FARMER, HeadTexture.SCRIPT_FARM_FORWARD, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
         android.farm(inv, target);
     }),
 
-    FARM_DOWN(AndroidType.FARMER, "2d4296b333d25319af3f33051797f9e6d821cd19a014fb7137beb86a4e9e96", (android, b, inv, face) -> {
+    FARM_DOWN(AndroidType.FARMER, HeadTexture.SCRIPT_FARM_DOWN, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.DOWN);
         android.farm(inv, target);
     }),
 
     // Action - ExoticGarden
-    FARM_EXOTIC_FORWARD(AndroidType.ADVANCED_FARMER, "4de9a522c3d9e7d85f3d82c375dc37fecc856dbd801eb3bcedc1165198bf", (android, b, inv, face) -> {
+    FARM_EXOTIC_FORWARD(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_FORWARD, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
         android.exoticFarm(inv, target);
     }),
 
-    FARM_EXOTIC_DOWN(AndroidType.ADVANCED_FARMER, "2d4296b333d25319af3f33051797f9e6d821cd19a014fb7137beb86a4e9e96", (android, b, inv, face) -> {
+    FARM_EXOTIC_DOWN(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_DOWN, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.DOWN);
         android.exoticFarm(inv, target);
     }),
 
     // Action - Interface
-    INTERFACE_ITEMS(AndroidType.NONE, "90a4dbf6625c42be57a8ba2c330954a76bdf22785540e87a5c9672685238ec", (android, b, inv, face) -> {
+    INTERFACE_ITEMS(AndroidType.NONE, HeadTexture.SCRIPT_PUSH_ITEMS, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
         android.depositItems(inv, target);
     }),
 
-    INTERFACE_FUEL(AndroidType.NONE, "2432f5282a50745b912be14deda581bd4a09b977a3c32d7e9578491fee8fa7", (android, b, inv, face) -> {
+    INTERFACE_FUEL(AndroidType.NONE, HeadTexture.SCRIPT_PULL_FUEL, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
         android.refuel(inv, target);
     });
@@ -142,14 +143,14 @@ enum Instruction {
     private final AndroidType type;
     private final AndroidAction method;
 
-    Instruction(AndroidType type, String texture, AndroidAction method) {
+    Instruction(AndroidType type, HeadTexture head, AndroidAction method) {
         this.type = type;
-        this.item = SlimefunUtils.getCustomHead(texture);
+        this.item = SlimefunUtils.getCustomHead(head.getTexture());
         this.method = method;
     }
 
-    Instruction(AndroidType type, String texture) {
-        this(type, texture, null);
+    Instruction(AndroidType type, HeadTexture head) {
+        this(type, head, null);
     }
 
     public ItemStack getItem() {

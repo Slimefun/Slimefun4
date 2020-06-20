@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -16,6 +17,7 @@ import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -31,6 +33,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+/**
+ * This {@link Listener} is responsible for handling all boots provided by
+ * Slimefun, such as the Boots of the Stomper or any {@link SlimefunArmorPiece} that
+ * is a pair of boots and needs to listen to an {@link Event}.
+ *
+ * @author TheBusyBiscuit
+ * @author Walshy
+ */
 public class SlimefunBootsListener implements Listener {
 
     private final Map<String, Predicate<EntityDamageEvent>> cancelledEvents = new HashMap<>();
@@ -100,13 +110,16 @@ public class SlimefunBootsListener implements Listener {
 
     @EventHandler
     public void onTrample(PlayerInteractEvent e) {
-        if (e.getAction() != Action.PHYSICAL) return;
-        if (e.getClickedBlock() == null) return;
-        if (e.getClickedBlock().getType() != Material.FARMLAND) return;
+        if (e.getAction() == Action.PHYSICAL) {
+            Block b = e.getClickedBlock();
 
-        ItemStack boots = e.getPlayer().getInventory().getBoots();
-        if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
-            e.setCancelled(true);
+            if (b != null && b.getType() == Material.FARMLAND) {
+                ItemStack boots = e.getPlayer().getInventory().getBoots();
+
+                if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
+                    e.setCancelled(true);
+                }
+            }
         }
     }
 }

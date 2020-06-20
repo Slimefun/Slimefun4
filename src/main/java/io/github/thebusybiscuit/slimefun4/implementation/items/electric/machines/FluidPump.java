@@ -28,14 +28,15 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
+
+    private static final int ENERGY_CONSUMPTION = 32;
 
     private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
     private final int[] inputBorder = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
     private final int[] outputBorder = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
-
-    private static final int ENERGY_CONSUMPTION = 32;
 
     public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -93,26 +94,20 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     protected void tick(Block b) {
         Block fluid = b.getRelative(BlockFace.DOWN);
-        ItemStack output = null;
+        Optional<ItemStack> bucket = getBucket(fluid);
 
-        if (fluid.getType() == Material.LAVA) {
-            output = new ItemStack(Material.LAVA_BUCKET);
-        } else if (fluid.getType() == Material.WATER) {
-            output = new ItemStack(Material.WATER_BUCKET);
-        }
-
-        if (output != null && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
+        if (bucket.isPresent() && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
             BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-                    if (!menu.fits(output, getOutputSlots())) {
+                    if (!menu.fits(bucket.get(), getOutputSlots())) {
                         return;
                     }
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                     menu.consumeItem(slot);
-                    menu.pushItem(output, getOutputSlots());
+                    menu.pushItem(bucket.get(), getOutputSlots());
 
                     if (fluid.getType() == Material.WATER) {
                         fluid.setType(Material.AIR);
@@ -125,6 +120,16 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                 }
             }
         }
+    }
+
+    private Optional<ItemStack> getBucket(Block fluid) {
+        if (fluid.getType() == Material.LAVA) {
+            return Optional.of(new ItemStack(Material.LAVA_BUCKET));
+        } else if (fluid.getType() == Material.WATER) {
+            return Optional.of(new ItemStack(Material.WATER_BUCKET));
+        }
+
+        return Optional.empty();
     }
 
     @Override

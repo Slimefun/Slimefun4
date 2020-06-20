@@ -30,6 +30,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
+    private static final String DATA_KEY = "floor";
 
     private final Set<UUID> users = new HashSet<>();
 
@@ -40,7 +41,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "floor", "&r一楼");
+                BlockStorage.addBlockInfo(b, DATA_KEY, "&r一楼");
                 BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
             }
 
@@ -113,7 +114,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             }
 
             Block block = floors.get(i);
-            String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), "floor"));
+            String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
             ChatComponent line;
 
             if (block.getY() == b.getY()) {
@@ -122,7 +123,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             } else {
                 line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.RESET + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "floor" + i), player -> Slimefun.runSync(() -> {
+                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, DATA_KEY + i), player -> Slimefun.runSync(() -> {
                     users.add(player.getUniqueId());
 
                     float yaw = player.getEyeLocation().getYaw() + 180;
@@ -149,7 +150,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     public void openEditor(Player p, Block b) {
         ChestMenu menu = new ChestMenu("电梯设置");
 
-        menu.addItem(4, new CustomItem(Material.NAME_TAG, "&7楼层名 &e(单击编辑)", "", "&r" + ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), "floor"))));
+        menu.addItem(4, new CustomItem(Material.NAME_TAG, "&7楼层名 &e(单击编辑)", "", "&r" + ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY))));
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             pl.closeInventory();
             pl.sendMessage("");
@@ -157,7 +158,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             pl.sendMessage("");
 
             ChatUtils.awaitInput(pl, message -> {
-                BlockStorage.addBlockInfo(b, "floor", message.replace(ChatColor.COLOR_CHAR, '&'));
+                BlockStorage.addBlockInfo(b, DATA_KEY, message.replace(ChatColor.COLOR_CHAR, '&'));
 
                 pl.sendMessage("");
                 SlimefunPlugin.getLocal().sendMessage(p, "machines.ELEVATOR.named", msg -> msg.replace("%floor%", message));

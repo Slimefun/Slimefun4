@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAlta
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -84,8 +85,8 @@ public class AncientAltarListener implements Listener {
         if (id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemId())) {
             e.cancel();
             usePedestal(b, e.getPlayer());
-        } else if (id.equals("ANCIENT_ALTAR")) {
-            if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR, true) || altarsInUse.contains(b.getLocation())) {
+        } else if (id.equals(SlimefunItems.ANCIENT_ALTAR.getItemId())) {
+            if (!Slimefun.hasUnlocked(e.getPlayer(), SlimefunItems.ANCIENT_ALTAR.getItem(), true) || altarsInUse.contains(b.getLocation())) {
                 e.cancel();
                 return;
             }
@@ -155,9 +156,9 @@ public class AncientAltarListener implements Listener {
                         }
                     }
 
-                    ItemStack result = getRecipeOutput(catalyst, input);
-                    if (result != null) {
-                        if (Slimefun.hasUnlocked(p, result, true)) {
+                    Optional<ItemStack> result = getRecipeOutput(catalyst, input);
+                    if (result.isPresent()) {
+                        if (Slimefun.hasUnlocked(p, result.get(), true)) {
                             List<ItemStack> consumed = new ArrayList<>();
                             consumed.add(catalyst);
 
@@ -165,11 +166,14 @@ public class AncientAltarListener implements Listener {
                                 ItemUtils.consumeItem(p.getInventory().getItemInMainHand(), false);
                             }
 
-                            Slimefun.runSync(new AncientAltarTask(b, altar.getSpeed(), result, pedestals, consumed, p), 10L);
+                            b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
+                            Slimefun.runSync(new AncientAltarTask(b, altar.getSpeed(), result.get(), pedestals, consumed, p), 10L);
                         } else {
                             altars.remove(b);
 
-                            pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                            for (Block block : pedestals) {
+                                altarsInUse.remove(block.getLocation());
+                            }
 
                             // Item not unlocked, no longer in use.
                             altarsInUse.remove(b.getLocation());
@@ -178,7 +182,9 @@ public class AncientAltarListener implements Listener {
                         altars.remove(b);
                         SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
-                        pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                        for (Block block : pedestals) {
+                            altarsInUse.remove(block.getLocation());
+                        }
 
                         // Bad recipe, no longer in use.
                         altarsInUse.remove(b.getLocation());
@@ -187,7 +193,9 @@ public class AncientAltarListener implements Listener {
                     altars.remove(b);
                     SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 
-                    pedestals.forEach(block -> altarsInUse.remove(block.getLocation()));
+                    for (Block block : pedestals) {
+                        altarsInUse.remove(block.getLocation());
+                    }
 
                     // Unknown catalyst, no longer in use
                     altarsInUse.remove(b.getLocation());
@@ -294,25 +302,30 @@ public class AncientAltarListener implements Listener {
         return list;
     }
 
-    public ItemStack getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
-        if (input.size() != 8) return null;
+    public Optional<ItemStack> getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
+        if (input.size() != 8) {
+            return Optional.empty();
+        }
 
-        if (SlimefunUtils.isItemSimilar(catalyst, SlimefunItems.BROKEN_SPAWNER, false)) {
-            if (checkRecipe(SlimefunItems.BROKEN_SPAWNER, input) == null) {
-                return null;
+        ItemStackWrapper wrapper = new ItemStackWrapper(catalyst);
+        List<ItemStackWrapper> items = ItemStackWrapper.wrapList(input);
+
+        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false)) {
+            if (!checkRecipe(SlimefunItems.BROKEN_SPAWNER, items).isPresent()) {
+                return Optional.empty();
             }
 
             ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
             ItemMeta im = spawner.getItemMeta();
-            im.setLore(Arrays.asList(catalyst.getItemMeta().getLore().get(0)));
+            im.setLore(Arrays.asList(wrapper.getItemMeta().getLore().get(0)));
             spawner.setItemMeta(im);
-            return spawner;
+            return Optional.of(spawner);
         }
 
-        return checkRecipe(catalyst, input);
+        return checkRecipe(wrapper, items);
     }
 
-    private ItemStack checkRecipe(ItemStack catalyst, List<ItemStack> items) {
+    private Optional<ItemStack> checkRecipe(ItemStack catalyst, List<ItemStackWrapper> items) {
         for (AltarRecipe recipe : altarRecipes) {
             if (SlimefunUtils.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
                 for (int i = 0; i < 8; i++) {
@@ -321,7 +334,7 @@ public class AncientAltarListener implements Listener {
                             if (!SlimefunUtils.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
                                 break;
                             } else if (j == 7) {
-                                return recipe.getOutput();
+                                return Optional.of(recipe.getOutput());
                             }
                         }
                     }
@@ -329,7 +342,7 @@ public class AncientAltarListener implements Listener {
             }
         }
 
-        return null;
+        return Optional.empty();
     }
 
 }

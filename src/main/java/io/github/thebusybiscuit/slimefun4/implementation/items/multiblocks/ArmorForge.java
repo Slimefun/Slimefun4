@@ -9,7 +9,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -77,7 +76,7 @@ public class ArmorForge extends MultiBlockMachine {
         for (int j = 0; j < 4; j++) {
             int current = j;
 
-            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+            Slimefun.runSync(() -> {
                 if (current < 3) {
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
                 } else {

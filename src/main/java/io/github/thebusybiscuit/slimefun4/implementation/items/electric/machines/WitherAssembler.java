@@ -60,27 +60,27 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
+                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals(String.valueOf(false))) {
                     menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7机器状态: &4\u2718", "", "&e> 单击开机"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", "true");
+                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(true));
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
                     menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7机器状态: &2\u2714", "", "&e> 单击关机"));
                     menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", "false");
+                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
                         newInstance(menu, b);
                         return false;
                     });
                 }
 
-                double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F : Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
+                double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F : Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 
                 menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7生成高度: &3" + offset + " 格方块", "", "&r左键: &7+0.1", "&r右键: &7-0.1"));
                 menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-                    double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
+                    double offsetv = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
                     BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
                     newInstance(menu, b);
                     return false;
@@ -113,7 +113,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
                 BlockStorage.addBlockInfo(b, "offset", "3.0");
-                BlockStorage.addBlockInfo(b, "enabled", "false");
+                BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
             }
 
             @Override
@@ -187,7 +187,7 @@ public class WitherAssembler extends SimpleSlimefunItem<BlockTicker> implements 
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
+                if (String.valueOf(false).equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
                     return;
                 }
 

@@ -119,47 +119,38 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        if (work(b, inv) > 0) {
-            for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
-                    inv.consumeItem(slot);
-                    break;
+        if (ChargableBlock.getCharge(b) >= getEnergyConsumption()) {
+            for (int x = -getRadius(); x <= getRadius(); x++) {
+                for (int z = -getRadius(); z <= getRadius(); z++) {
+                    Block block = b.getRelative(x, 0, z);
+
+                    if (crops.contains(block.getType()) && grow(b, inv, block)) {
+                        return;
+                    }
                 }
             }
         }
     }
 
-    private int work(Block b, BlockMenu inv) {
-        int work = 0;
+    private boolean grow(Block machine, BlockMenu inv, Block crop) {
+        Ageable ageable = (Ageable) crop.getBlockData();
 
-        for (int x = -getRadius(); x <= getRadius(); x++) {
-            for (int z = -getRadius(); z <= getRadius(); z++) {
-                Block block = b.getRelative(x, 0, z);
+        if (ageable.getAge() < ageable.getMaximumAge()) {
+            for (int slot : getInputSlots()) {
+                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
+                    ChargableBlock.addCharge(machine, -getEnergyConsumption());
+                    inv.consumeItem(slot);
 
-                if (crops.contains(block.getType())) {
-                    Ageable ageable = (Ageable) block.getBlockData();
+                    ageable.setAge(ageable.getAge() + 1);
+                    crop.setBlockData(ageable);
 
-                    if (ageable.getAge() < ageable.getMaximumAge()) {
-                        for (int slot : getInputSlots()) {
-                            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
-                                if (work > (getSpeed() - 1) || ChargableBlock.getCharge(b) < getEnergyConsumption())
-                                    return work;
-                                ChargableBlock.addCharge(b, -getEnergyConsumption());
-
-                                ageable.setAge(ageable.getAge() + 1);
-                                block.setBlockData(ageable);
-
-                                block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
-                                work++;
-                                return work;
-                            }
-                        }
-                    }
+                    crop.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, crop.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+                    return true;
                 }
             }
         }
 
-        return work;
+        return false;
     }
 
 }

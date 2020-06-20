@@ -17,8 +17,10 @@ import java.util.Optional;
  * and providing some utility methods that would have probably been static otherwise.
  *
  * @author TheBusyBiscuit
+ *
  * @see Network
  * @see NetworkListener
+ *
  */
 public class NetworkManager {
 
@@ -56,6 +58,11 @@ public class NetworkManager {
     }
 
     public <T extends Network> Optional<T> getNetworkFromLocation(Location l, Class<T> type) {
+        if (l == null) {
+            return Optional.empty();
+        }
+
+        Validate.notNull(type, "Type must not be null");
         for (Network network : networks) {
             if (type.isInstance(network) && network.connectsTo(l)) {
                 return Optional.of(type.cast(network));
@@ -66,6 +73,12 @@ public class NetworkManager {
     }
 
     public <T extends Network> List<T> getNetworksFromLocation(Location l, Class<T> type) {
+        if (l == null) {
+            // No networks here, if the location does not even exist
+            return new ArrayList<>();
+        }
+
+        Validate.notNull(type, "Type must not be null");
         List<T> list = new ArrayList<>();
 
         for (Network network : networks) {
@@ -77,17 +90,35 @@ public class NetworkManager {
         return list;
     }
 
-    public void registerNetwork(Network n) {
-        networks.add(n);
+    /**
+     * This registers a given {@link Network}.
+     *
+     * @param network The {@link Network} to register
+     */
+    public void registerNetwork(Network network) {
+        Validate.notNull(network, "Cannot register a null Network");
+        networks.add(network);
     }
 
-    public void unregisterNetwork(Network n) {
-        networks.remove(n);
+    /**
+     * This removes a {@link Network} from the network system.
+     *
+     * @param network The {@link Network} to remove
+     */
+    public void unregisterNetwork(Network network) {
+        Validate.notNull(network, "Cannot unregister a null Network");
+        networks.remove(network);
     }
 
-    public void handleAllNetworkLocationUpdate(Location l) {
-        for (Network n : getNetworksFromLocation(l, Network.class)) {
-            n.markDirty(l);
+    /**
+     * This method updates every {@link Network} found at the given {@link Location}.
+     * More precisely, {@link Network#markDirty(Location)} will be called.
+     *
+     * @param l The {@link Location} to update
+     */
+    public void updateAllNetworks(Location l) {
+        for (Network network : getNetworksFromLocation(l, Network.class)) {
+            network.markDirty(l);
         }
     }
 

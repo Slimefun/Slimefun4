@@ -246,7 +246,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                                     pl.getInventory().addItem(sfitem.getItem().clone());
                                 }
                             }
-                        } catch (Throwable x) {
+                        } catch (Exception | LinkageError x) {
                             printErrorMessage(pl, x);
                         }
 
@@ -308,7 +308,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                         } else {
                             displayItem(profile, item, true);
                         }
-                    } catch (Throwable x) {
+                    } catch (Exception | LinkageError x) {
                         printErrorMessage(pl, x);
                     }
 
@@ -325,9 +325,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     @Override
     public void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory) {
         Player p = profile.getPlayer();
-        if (p == null) return;
 
-        if (item == null || item.getType() == Material.AIR) return;
+        if (p == null || item == null || item.getType() == Material.AIR) return;
 
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
@@ -471,7 +470,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                 if (itemstack != null && itemstack.getType() != Material.BARRIER) {
                     displayItem(profile, itemstack, 0, true);
                 }
-            } catch (Throwable x) {
+            } catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
             }
             return false;

@@ -6,6 +6,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This {@link ItemStack}, which is <b>not intended for actual usage</b>, caches its {@link ItemMeta}.
  * This significantly speeds up any {@link ItemStack} comparisons a lot.
@@ -109,6 +112,27 @@ public final class ItemStackWrapper extends ItemStack {
         }
 
         return array;
+    }
+
+    /**
+     * This creates an {@link ItemStackWrapper} {@link List} from a given {@link ItemStack} {@link List} *
+     *
+     * @param items The {@link List} of {@link ItemStack ItemStacks} to transform
+     * @return An {@link ItemStackWrapper} array
+     */
+    public static List<ItemStackWrapper> wrapList(List<ItemStack> items) {
+        Validate.notNull(items, "The list must not be null!");
+        List<ItemStackWrapper> list = new ArrayList<>(items.size());
+
+        for (ItemStack item : items) {
+            if (item != null) {
+                list.add(new ItemStackWrapper(item));
+            } else {
+                list.add(null);
+            }
+        }
+
+        return list;
     }
 
 }

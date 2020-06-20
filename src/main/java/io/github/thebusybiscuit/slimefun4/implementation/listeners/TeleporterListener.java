@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.ElevatorPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -26,12 +26,16 @@ public class TeleporterListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPressurePlateEnter(PlayerInteractEvent e) {
-        if (e.getAction() != Action.PHYSICAL || e.getClickedBlock() == null) return;
+        if (e.getAction() != Action.PHYSICAL || e.getClickedBlock() == null) {
+            return;
+        }
 
         String id = BlockStorage.checkID(e.getClickedBlock());
-        if (id == null) return;
+        if (id == null) {
+            return;
+        }
 
-        if (id.equals("GPS_ACTIVATION_DEVICE_SHARED") || (id.equals("GPS_ACTIVATION_DEVICE_PERSONAL") && BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "owner").equals(e.getPlayer().getUniqueId().toString()))) {
+        if (isTeleporterPad(id, e.getClickedBlock(), e.getPlayer().getUniqueId())) {
             SlimefunItem teleporter = BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN));
 
             if (teleporter instanceof Teleporter && checkForPylons(e.getClickedBlock().getRelative(BlockFace.DOWN))) {
@@ -39,17 +43,18 @@ public class TeleporterListener implements Listener {
                 UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
                 SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(e.getPlayer(), owner, block, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(owner));
             }
+        } else if (id.equals(SlimefunItems.ELEVATOR_PLATE.getItemId())) {
+            ((ElevatorPlate) SlimefunItems.ELEVATOR_PLATE.getItem()).open(e.getPlayer(), e.getClickedBlock());
         }
-        else if (id.equals("ELEVATOR_PLATE")) {
-            if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.TRIDENT) {
-                ((ElevatorPlate) SlimefunItem.getByID("ELEVATOR_PLATE")).open(e.getPlayer(), e.getClickedBlock());
-            }
-        }
+    }
+
+    private boolean isTeleporterPad(String id, Block b, UUID uuid) {
+        return id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED.getItemId()) || (id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL.getItemId()) && BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(uuid.toString()));
     }
 
     private boolean checkForPylons(Block teleporter) {
         for (BlockFace face : faces) {
-            if (!BlockStorage.check(teleporter.getRelative(face), "GPS_TELEPORTER_PYLON")) {
+            if (!BlockStorage.check(teleporter.getRelative(face), SlimefunItems.GPS_TELEPORTER_PYLON.getItemId())) {
                 return false;
             }
         }

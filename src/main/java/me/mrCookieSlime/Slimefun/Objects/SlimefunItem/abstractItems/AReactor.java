@@ -53,7 +53,9 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
 
-    private static final BlockFace[] coolantBlocks = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
+    private static final int INFO_SLOT = 49;
+    private static final int COOLANT_DURATION = 50;
+    private static final BlockFace[] WATER_BLOCKS = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
 
     private static final int[] border = {0, 1, 2, 3, 5, 6, 7, 8, 12, 13, 14, 21, 23};
     private static final int[] border_1 = {9, 10, 11, 18, 20, 27, 29, 36, 38, 45, 46, 47};
@@ -62,7 +64,6 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
     // No coolant border
     private static final int[] border_4 = {25, 34, 43};
-    private static final int INFO_SLOT = 49;
 
     public AReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -221,7 +222,6 @@ public abstract class AReactor extends AbstractEnergyGenerator {
      *
      * @return Whether this {@link AReactor} requires cooling
      */
-
     protected final boolean needsCooling() {
         return getCoolant() != null;
     }
@@ -256,12 +256,12 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     protected GeneratorTicker onTick() {
         return new GeneratorTicker() {
 
-            private final Set<Location> explode = new HashSet<>();
+            private final Set<Location> explosionsQueue = new HashSet<>();
 
             @Override
             public double generateEnergy(Location l, SlimefunItem sf, Config data) {
-                BlockMenu menu = BlockStorage.getInventory(l);
-                BlockMenu port = getAccessPort(l);
+                BlockMenu inv = BlockStorage.getInventory(l);
+                BlockMenu accessPort = getAccessPort(l);
                 int charge = ChargableBlock.getCharge(l);
 
                 if (isProcessing(l)) {
@@ -274,20 +274,12 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
                         if (space >= produced || !"generator".equals(BlockStorage.getLocationInfo(l, "reactor-mode"))) {
                             progress.put(l, timeleft - 1);
+                            checkForWaterBlocks(l);
 
-                            Slimefun.runSync(() -> {
-                                // We will pick a surrounding block at random and see if this is water.
-                                // If it isn't, then we will make it explode.
-                                BlockFace randomNeighbour = coolantBlocks[ThreadLocalRandom.current().nextInt(coolantBlocks.length)];
-                                if (l.getBlock().getRelative(randomNeighbour).getType() != Material.WATER) {
-                                    explode.add(l);
-                                }
-                            });
+                            ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                            ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
-
-                            if (needsCooling() && !isProperlyCooled(l, menu, port, timeleft)) {
-                                explode.add(l);
+                            if (needsCooling() && !hasSufficientCoolant(l, inv, accessPort, timeleft)) {
+                                explosionsQueue.add(l);
                                 return 0;
                             }
                         }
@@ -300,49 +292,19 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                         }
                     }
                     else {
-                        menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-
-                        if (processing.get(l).getOutput() != null) {
-                            menu.pushItem(processing.get(l).getOutput(), getOutputSlots());
-                        }
-
-                        if (port != null) {
-                            for (int slot : getOutputSlots()) {
-                                if (menu.getItemInSlot(slot) != null) {
-                                    menu.replaceExistingItem(slot, port.pushItem(menu.getItemInSlot(slot), ReactorAccessPort.getOutputSlots()));
-                                }
-                            }
-                        }
-
-                        progress.remove(l);
-                        processing.remove(l);
+                        createByproduct(l, inv, accessPort);
                         return charge;
                     }
                 }
                 else {
-                    Map<Integer, Integer> found = new HashMap<>();
-                    MachineFuel fuel = findRecipe(menu, found);
-
-                    if (port != null) {
-                        restockFuel(menu, port);
-                    }
-
-                    if (fuel != null) {
-                        for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-                            menu.consumeItem(entry.getKey(), entry.getValue());
-                        }
-
-                        processing.put(l, fuel);
-                        progress.put(l, fuel.getTicks());
-                    }
-
+                    burnNextFuel(l, inv, accessPort);
                     return charge;
                 }
             }
 
             @Override
             public boolean explode(Location l) {
-                boolean explosion = explode.contains(l);
+                boolean explosion = explosionsQueue.contains(l);
 
                 if (explosion) {
                     Slimefun.runSync(() -> {
@@ -350,32 +312,82 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                         SimpleHologram.remove(l.getBlock());
                     });
 
-                    explode.remove(l);
+                    explosionsQueue.remove(l);
                     processing.remove(l);
                     progress.remove(l);
                 }
+
                 return explosion;
             }
+
+            private void checkForWaterBlocks(Location l) {
+                Slimefun.runSync(() -> {
+                    // We will pick a surrounding block at random and see if this is water.
+                    // If it isn't, then we will make it explode.
+                    BlockFace randomNeighbour = WATER_BLOCKS[ThreadLocalRandom.current().nextInt(WATER_BLOCKS.length)];
+
+                    if (l.getBlock().getRelative(randomNeighbour).getType() != Material.WATER) {
+                        explosionsQueue.add(l);
+                    }
+                });
+            }
         };
+    }
+
+    private void createByproduct(Location l, BlockMenu inv, BlockMenu accessPort) {
+        inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+
+        if (processing.get(l).getOutput() != null) {
+            inv.pushItem(processing.get(l).getOutput(), getOutputSlots());
+        }
+
+        if (accessPort != null) {
+            for (int slot : getOutputSlots()) {
+                if (inv.getItemInSlot(slot) != null) {
+                    inv.replaceExistingItem(slot, accessPort.pushItem(inv.getItemInSlot(slot), ReactorAccessPort.getOutputSlots()));
+                }
+            }
+        }
+
+        progress.remove(l);
+        processing.remove(l);
+    }
+
+    private void burnNextFuel(Location l, BlockMenu inv, BlockMenu accessPort) {
+        Map<Integer, Integer> found = new HashMap<>();
+        MachineFuel fuel = findFuel(inv, found);
+
+        if (accessPort != null) {
+            restockFuel(inv, accessPort);
+        }
+
+        if (fuel != null) {
+            for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
+                inv.consumeItem(entry.getKey(), entry.getValue());
+            }
+
+            processing.put(l, fuel);
+            progress.put(l, fuel.getTicks());
+        }
     }
 
     /**
      * This method cools the given {@link AReactor}.
      *
-     * @param reactor  The {@link Location} of this {@link AReactor}
-     * @param menu     The {@link Inventory} of this {@link AReactor}
-     * @param port     The {@link ReactorAccessPort}, if available
-     * @param timeleft The time left
+     * @param reactor    The {@link Location} of this {@link AReactor}
+     * @param menu       The {@link Inventory} of this {@link AReactor}
+     * @param accessPort The {@link ReactorAccessPort}, if available
+     * @param timeleft   The time left
      * @return Whether the {@link AReactor} was successfully cooled, if not it should explode
      */
-    private boolean isProperlyCooled(Location reactor, BlockMenu menu, BlockMenu port, int timeleft) {
-        boolean coolant = (processing.get(reactor).getTicks() - timeleft) % 25 == 0;
+    private boolean hasSufficientCoolant(Location reactor, BlockMenu menu, BlockMenu accessPort, int timeleft) {
+        boolean coolant = (processing.get(reactor).getTicks() - timeleft) % COOLANT_DURATION == 0;
 
         if (coolant) {
-            if (port != null) {
+            if (accessPort != null) {
                 for (int slot : getCoolantSlots()) {
-                    if (SlimefunUtils.isItemSimilar(port.getItemInSlot(slot), getCoolant(), true)) {
-                        port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getCoolantSlots()));
+                    if (SlimefunUtils.isItemSimilar(accessPort.getItemInSlot(slot), getCoolant(), true)) {
+                        accessPort.replaceExistingItem(slot, menu.pushItem(accessPort.getItemInSlot(slot), getCoolantSlots()));
                     }
                 }
             }
@@ -397,14 +409,14 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     }
 
     private float getPercentage(int time, int total) {
-        int passed = ((total - time) % 25);
-        return Math.round(((((25 - passed) * 100.0F) / 25) * 100.0F) / 100.0F);
+        int passed = ((total - time) % COOLANT_DURATION);
+        return Math.round(((((COOLANT_DURATION - passed) * 100.0F) / COOLANT_DURATION) * 100.0F) / 100.0F);
     }
 
     private void restockFuel(BlockMenu menu, BlockMenu port) {
         for (int slot : getFuelSlots()) {
-            for (MachineFuel recipe : fuelTypes) {
-                if (SlimefunUtils.isItemSimilar(port.getItemInSlot(slot), recipe.getInput(), true) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
+            for (MachineFuel fuelType : fuelTypes) {
+                if (fuelType.test(port.getItemInSlot(slot)) && menu.fits(new CustomItem(port.getItemInSlot(slot), 1), getFuelSlots())) {
                     port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getFuelSlots()));
                     return;
                 }
@@ -412,7 +424,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
         }
     }
 
-    private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
+    private MachineFuel findFuel(BlockMenu menu, Map<Integer, Integer> found) {
         for (MachineFuel fuel : fuelTypes) {
             for (int slot : getInputSlots()) {
                 if (fuel.test(menu.getItemInSlot(slot))) {

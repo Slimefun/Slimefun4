@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.network;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -48,9 +49,12 @@ public abstract class Network {
      * This method is called whenever a {@link Location} in this {@link Network} changes
      * its classification.
      *
-     * @param l    The {@link Location} that is changing its classification
-     * @param from The {@link NetworkComponent} this {@link Location} was previously classified as
-     * @param to   The {@link NetworkComponent} this {@link Location} is changing to
+     * @param l
+     *            The {@link Location} that is changing its classification
+     * @param from
+     *            The {@link NetworkComponent} this {@link Location} was previously classified as
+     * @param to
+     *            The {@link NetworkComponent} this {@link Location} is changing to
      */
     public abstract void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
@@ -63,7 +67,16 @@ public abstract class Network {
     protected final Set<Location> connectorNodes = new HashSet<>();
     protected final Set<Location> terminusNodes = new HashSet<>();
 
+    /**
+     * This constructs a new {@link Network} at the given {@link Location}.
+     *
+     * @param manager   The {@link NetworkManager} instance
+     * @param regulator The {@link Location} marking the regulator of this {@link Network}.
+     */
     protected Network(NetworkManager manager, Location regulator) {
+        Validate.notNull(manager, "A NetworkManager must be provided");
+        Validate.notNull(regulator, "No regulator was specified");
+
         this.manager = manager;
         this.regulator = regulator;
 
@@ -94,7 +107,8 @@ public abstract class Network {
      * This method marks the given {@link Location} as dirty and adds it to a {@link Queue}
      * to handle this update.
      *
-     * @param l The {@link Location} to update
+     * @param l
+     *            The {@link Location} to update
      */
     public void markDirty(Location l) {
         if (regulator.equals(l)) {
@@ -107,7 +121,8 @@ public abstract class Network {
     /**
      * This method checks whether the given {@link Location} is part of this {@link Network}.
      *
-     * @param l The {@link Location} to check for
+     * @param l
+     *            The {@link Location} to check for
      * @return Whether the given {@link Location} is part of this {@link Network}
      */
     public boolean connectsTo(Location l) {

@@ -49,17 +49,28 @@ public class CoolerListener implements Listener {
             for (ItemStack item : p.getInventory().getContents()) {
                 if (cooler.isItem(item)) {
                     if (Slimefun.hasUnlocked(p, cooler, true)) {
-                        PlayerProfile.getBackpack(item, backpack -> {
-                            if (backpack != null) {
-                                Slimefun.runSync(() -> consumeJuice(p, backpack));
-                            }
-                        });
+                        takeJuiceFromCooler(p, item);
                     } else {
                         return;
                     }
                 }
             }
         }
+    }
+
+    /**
+     * This takes a {@link Juice} from the given {@link Cooler} and consumes it in order
+     * to restore hunger for the given {@link Player}.
+     *
+     * @param p      The {@link Player}
+     * @param cooler The {@link Cooler} {@link ItemStack} to take the {@link Juice} from
+     */
+    private void takeJuiceFromCooler(Player p, ItemStack cooler) {
+        PlayerProfile.getBackpack(cooler, backpack -> {
+            if (backpack != null) {
+                Slimefun.runSync(() -> consumeJuice(p, backpack));
+            }
+        });
     }
 
     private boolean consumeJuice(Player p, PlayerBackpack backpack) {

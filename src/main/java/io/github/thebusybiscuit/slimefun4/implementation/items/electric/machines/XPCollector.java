@@ -31,6 +31,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
     private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
     private static final int ENERGY_CONSUMPTION = 10;
+    private static final String DATA_KEY = "stored-exp";
 
     public XPCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -105,16 +106,16 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
 
     protected void tick(Block b) {
         Iterator<Entity> iterator = b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 4.0, 4.0, n -> n instanceof ExperienceOrb && n.isValid()).iterator();
-        int xp = 0;
+        int experiencePoints = 0;
 
-        while (iterator.hasNext() && xp == 0) {
+        while (iterator.hasNext() && experiencePoints == 0) {
             Entity entity = iterator.next();
 
             if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) {
                 return;
             }
 
-            xp = getEXP(b) + ((ExperienceOrb) entity).getExperience();
+            experiencePoints = getStoredExperience(b) + ((ExperienceOrb) entity).getExperience();
 
             ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
             entity.remove();
@@ -122,23 +123,25 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
             int withdrawn = 0;
             BlockMenu menu = BlockStorage.getInventory(b);
 
-            for (int level = 0; level < getEXP(b); level = level + 10) {
+            for (int level = 0; level < getStoredExperience(b); level = level + 10) {
                 if (menu.fits(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, getOutputSlots())) {
                     withdrawn = withdrawn + 10;
                     menu.pushItem(SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE.clone(), getOutputSlots());
                 }
             }
 
-            BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));
+            BlockStorage.addBlockInfo(b, DATA_KEY, String.valueOf(experiencePoints - withdrawn));
         }
     }
 
-    private int getEXP(Block b) {
+    private int getStoredExperience(Block b) {
         Config cfg = BlockStorage.getLocationInfo(b.getLocation());
-        if (cfg.contains("stored-exp")) {
-            return Integer.parseInt(cfg.getString("stored-exp"));
+        String value = cfg.getString(DATA_KEY);
+
+        if (value != null) {
+            return Integer.parseInt(value);
         } else {
-            BlockStorage.addBlockInfo(b, "stored-exp", "0");
+            BlockStorage.addBlockInfo(b, DATA_KEY, "0");
             return 0;
         }
     }

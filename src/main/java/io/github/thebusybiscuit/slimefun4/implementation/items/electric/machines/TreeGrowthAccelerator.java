@@ -30,8 +30,10 @@ import org.bukkit.inventory.ItemStack;
  * the {@link CropGrowthAccelerator} but boosts the growth of nearby trees.
  *
  * @author TheBusyBiscuit
+ *
  * @see CropGrowthAccelerator
  * @see AnimalGrowthAccelerator
+ *
  */
 public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
@@ -109,46 +111,38 @@ public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBloc
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        if (work(b, inv) > 0) {
-            for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
-                    inv.consumeItem(slot);
-                    break;
-                }
-            }
-        }
-    }
+        if (ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
+            for (int x = -RADIUS; x <= RADIUS; x++) {
+                for (int z = -RADIUS; z <= RADIUS; z++) {
+                    Block block = b.getRelative(x, 0, z);
 
-    private int work(Block b, BlockMenu inv) {
-        int work = 0;
+                    if (Tag.SAPLINGS.isTagged(block.getType())) {
+                        Sapling sapling = (Sapling) block.getBlockData();
 
-        for (int x = -RADIUS; x <= RADIUS; x++) {
-            for (int z = -RADIUS; z <= RADIUS; z++) {
-                Block block = b.getRelative(x, 0, z);
-
-                if (Tag.SAPLINGS.isTagged(block.getType())) {
-                    Sapling sapling = (Sapling) block.getBlockData();
-
-                    if (sapling.getStage() < sapling.getMaximumStage()) {
-                        for (int slot : getInputSlots()) {
-                            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
-                                if (work > 3 || ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) return work;
-                                ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
-
-                                sapling.setStage(sapling.getStage() + 1);
-                                block.setBlockData(sapling);
-
-                                block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
-                                work++;
-                                return work;
-                            }
+                        if (sapling.getStage() < sapling.getMaximumStage() && grow(b, block, inv, sapling)) {
+                            return;
                         }
                     }
                 }
             }
         }
+    }
 
-        return work;
+    private boolean grow(Block machine, Block block, BlockMenu inv, Sapling sapling) {
+        for (int slot : getInputSlots()) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
+                ChargableBlock.addCharge(machine, -ENERGY_CONSUMPTION);
+
+                sapling.setStage(sapling.getStage() + 1);
+                block.setBlockData(sapling);
+
+                inv.consumeItem(slot);
+                block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

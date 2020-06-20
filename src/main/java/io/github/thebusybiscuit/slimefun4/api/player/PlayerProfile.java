@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 /**
@@ -30,9 +32,11 @@ import java.util.stream.IntStream;
  * It also holds the backpacks of a {@link Player}.
  *
  * @author TheBusyBiscuit
+ *
  * @see Research
  * @see Waypoint
  * @see PlayerBackpack
+ *
  */
 public final class PlayerProfile {
 
@@ -66,18 +70,34 @@ public final class PlayerProfile {
         }
 
         for (String key : waypointsFile.getKeys()) {
-            if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
-                String waypointName = waypointsFile.getString(key + ".name");
-                Location loc = waypointsFile.getLocation(key);
-                waypoints.add(new Waypoint(this, key, loc, waypointName));
+            try {
+                if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
+                    String waypointName = waypointsFile.getString(key + ".name");
+                    Location loc = waypointsFile.getLocation(key);
+                    waypoints.add(new Waypoint(this, key, loc, waypointName));
+                }
+            } catch (Exception x) {
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
             }
         }
     }
 
+    /**
+     * This method provides a fast way to access the armor of a {@link Player}.
+     * It returns a cached version, represented by {@link HashedArmorpiece}.
+     *
+     * @return The cached armor for this {@link Player}
+     */
     public HashedArmorpiece[] getArmor() {
         return armor;
     }
 
+    /**
+     * This returns the {@link Config} which is used to store the data.
+     * Only intended for internal usage.
+     *
+     * @return The {@link Config} associated with this {@link PlayerProfile}
+     */
     public Config getConfig() {
         return configFile;
     }
@@ -182,7 +202,8 @@ public final class PlayerProfile {
      * This adds the given {@link Waypoint} to the {@link List} of {@link Waypoint Waypoints}
      * of this {@link PlayerProfile}.
      *
-     * @param waypoint The {@link Waypoint} to add
+     * @param waypoint
+     *            The {@link Waypoint} to add
      */
     public void addWaypoint(Waypoint waypoint) {
         Validate.notNull(waypoint, "Cannot add a 'null' waypoint!");
@@ -206,7 +227,8 @@ public final class PlayerProfile {
      * This removes the given {@link Waypoint} from the {@link List} of {@link Waypoint Waypoints}
      * of this {@link PlayerProfile}.
      *
-     * @param waypoint The {@link Waypoint} to remove
+     * @param waypoint
+     *            The {@link Waypoint} to remove
      */
     public void removeWaypoint(Waypoint waypoint) {
         Validate.notNull(waypoint, "Cannot remove a 'null' waypoint!");
@@ -403,9 +425,7 @@ public final class PlayerProfile {
             fromUUID(UUID.fromString(uuid), profile -> {
                 Optional<PlayerBackpack> backpack = profile.getBackpack(number);
 
-                if (backpack.isPresent()) {
-                    callback.accept(backpack.get());
-                }
+                backpack.ifPresent(callback);
             });
         }
     }

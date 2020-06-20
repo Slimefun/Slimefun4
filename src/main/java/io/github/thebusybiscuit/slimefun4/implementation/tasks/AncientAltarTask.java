@@ -55,7 +55,7 @@ public class AncientAltarTask implements Runnable {
         this.running = true;
         this.stage = 0;
 
-        for (Block pedestal : this.pedestals) {
+        for (Block pedestal : pedestals) {
             Item item = listener.findItem(pedestal);
             this.itemLock.put(item, item.getLocation().clone());
         }
@@ -125,7 +125,10 @@ public class AncientAltarTask implements Runnable {
 
     private void abort() {
         running = false;
-        pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
+
+        for (Block b : pedestals) {
+            listener.getAltarsInUse().remove(b.getLocation());
+        }
 
         // This should re-enable altar blocks on craft failure.
         listener.getAltarsInUse().remove(altar.getLocation());
@@ -146,7 +149,9 @@ public class AncientAltarTask implements Runnable {
                 dropLocation.getWorld().dropItemNaturally(dropLocation.add(0, -0.5, 0), event.getItem());
             }
 
-            pedestals.forEach(b -> listener.getAltarsInUse().remove(b.getLocation()));
+            for (Block b : pedestals) {
+                listener.getAltarsInUse().remove(b.getLocation());
+            }
 
             // This should re-enable altar blocks on craft completion.
             listener.getAltarsInUse().remove(altar.getLocation());

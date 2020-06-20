@@ -325,7 +325,7 @@ public class TickerTask implements Runnable {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             try {
                 run();
-            } catch (Throwable x) {
+            } catch (Exception | LinkageError x) {
                 plugin.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
                 abortTick();
             }

@@ -54,17 +54,17 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
+                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals(String.valueOf(false))) {
                     menu.replaceExistingItem(6, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7是否启用: &4\u2718", "", "&e> 单击启用机器"));
                     menu.addMenuClickHandler(6, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", "true");
+                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(true));
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
                     menu.replaceExistingItem(6, new CustomItem(new ItemStack(Material.REDSTONE), "&7是否启用: &2\u2714", "", "&e> 单击关闭机器"));
                     menu.addMenuClickHandler(6, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", "false");
+                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
                         newInstance(menu, b);
                         return false;
                     });
@@ -89,11 +89,15 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
             @Override
             public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-                if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
+                if (flow == ItemTransportFlow.WITHDRAW) {
+                    return getOutputSlots();
+                }
 
                 List<Integer> slots = new ArrayList<>();
                 for (int slot : getInputSlots()) {
-                    if (menu.getItemInSlot(slot) != null) slots.add(slot);
+                    if (menu.getItemInSlot(slot) != null) {
+                        slots.add(slot);
+                    }
                 }
 
                 Collections.sort(slots, compareSlots(menu));
@@ -112,7 +116,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "enabled", "false");
+                BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
             }
 
             @Override
@@ -206,8 +210,12 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
     }
 
     protected void tick(Block block, boolean craftLast) {
-        if (!craftLast && BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals("false")) return;
-        if (ChargableBlock.getCharge(block) < getEnergyConsumption()) return;
+        if (!craftLast && BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals(String.valueOf(false))) {
+            return;
+        }
+        if (ChargableBlock.getCharge(block) < getEnergyConsumption()) {
+            return;
+        }
 
         String input = getSerializedInput(block, craftLast);
         testInputAgainstRecipes(block, input);

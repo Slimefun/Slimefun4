@@ -346,7 +346,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 } else {
                     getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
                 }
-            } catch (Exception x) {
+            } catch (Exception | LinkageError x) {
                 getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
             }
         }
@@ -396,7 +396,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void loadItems() {
         try {
             SlimefunItemSetup.setup(this);
-        } catch (Throwable x) {
+        } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
         }
     }
@@ -404,7 +404,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void loadResearches() {
         try {
             ResearchSetup.setupResearches();
-        } catch (Throwable x) {
+        } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
         }
     }

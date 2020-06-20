@@ -1,7 +1,7 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
-import io.github.thebusybiscuit.slimefun4.utils.CustomHeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -108,13 +108,13 @@ public final class ChargableBlock {
 
             if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
                 if (charge < (int) (capacity * 0.25D)) {
-                    SkullBlock.setFromHash(b, CustomHeadTexture.CAPACITOR_25.getTexture());
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
                 } else if (charge < (int) (capacity * 0.5D)) {
-                    SkullBlock.setFromHash(b, CustomHeadTexture.CAPACITOR_50.getTexture());
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
                 } else if (charge < (int) (capacity * 0.75D)) {
-                    SkullBlock.setFromHash(b, CustomHeadTexture.CAPACITOR_75.getTexture());
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
                 } else {
-                    SkullBlock.setFromHash(b, CustomHeadTexture.CAPACITOR_100.getTexture());
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_100.getTexture());
                 }
             }
         });

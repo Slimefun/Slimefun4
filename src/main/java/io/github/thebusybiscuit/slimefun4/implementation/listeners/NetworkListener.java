@@ -27,11 +27,11 @@ public class NetworkListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
-        manager.handleAllNetworkLocationUpdate(e.getBlock().getLocation());
+        manager.updateAllNetworks(e.getBlock().getLocation());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
-        manager.handleAllNetworkLocationUpdate(e.getBlock().getLocation());
+        manager.updateAllNetworks(e.getBlock().getLocation());
     }
 }

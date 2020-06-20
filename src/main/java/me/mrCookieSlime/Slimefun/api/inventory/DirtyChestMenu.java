@@ -5,7 +5,9 @@ import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -65,15 +67,23 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public boolean fits(ItemStack item, int... slots) {
-        return InvUtils.fits(toInventory(), item, slots);
+        return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
     }
 
     public ItemStack pushItem(ItemStack item, int... slots) {
+        if (item == null || item.getType() == Material.AIR) {
+            throw new IllegalArgumentException("Cannot push null or AIR");
+        }
+
         int amount = item.getAmount();
+
         for (int slot : slots) {
-            if (amount <= 0) break;
+            if (amount <= 0) {
+                break;
+            }
 
             ItemStack stack = getItemInSlot(slot);
+
             if (stack == null) {
                 replaceExistingItem(slot, item);
                 return null;
