@@ -807,15 +807,18 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        // Quite expensive performance-wise
-        // But necessary for supporting legacy items
-        for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
-            if (sfi.isItem(wrapper)) {
-                // If we have to loop all items for the given item, then at least
-                // set the id via PersistenDataAPI for future performance boosts
-                SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
+        // Backwards compatibility
+        if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            // Quite expensive performance-wise
+            // But necessary for supporting legacy items
+            for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
+                if (sfi.isItem(wrapper)) {
+                    // If we have to loop all items for the given item, then at least
+                    // set the id via PersistenDataAPI for future performance boosts
+                    SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
 
-                return sfi;
+                    return sfi;
+                }
             }
         }
 

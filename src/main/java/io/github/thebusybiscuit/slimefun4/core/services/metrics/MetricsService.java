@@ -49,6 +49,7 @@ public class MetricsService {
         metrics.addCustomChart(new AddonsChart());
         metrics.addCustomChart(new CommandChart());
         metrics.addCustomChart(new ServerSizeChart());
+        metrics.addCustomChart(new CompatibilityModeChart());
     }
 
 }

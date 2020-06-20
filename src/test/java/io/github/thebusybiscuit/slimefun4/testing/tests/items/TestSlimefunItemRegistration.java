@@ -9,6 +9,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -147,10 +149,12 @@ public class TestSlimefunItemRegistration {
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setRecipeType(null));
     }
 
-    @Test
-    public void testIsItem() {
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    public void testIsItem(boolean compatibility) {
         CustomItem item = new CustomItem(Material.BEACON, "&cItem Test");
-        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, "IS_ITEM_TEST", item);
+        String id = "IS_ITEM_TEST" + (compatibility ? "_COMPATIBLE" : "");
+        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, id, item);
         sfItem.register(plugin);
 
         Assertions.assertTrue(sfItem.isItem(sfItem.getItem()));
@@ -161,7 +165,12 @@ public class TestSlimefunItemRegistration {
         Assertions.assertFalse(sfItem.isItem(new ItemStack(Material.BEACON)));
         Assertions.assertFalse(sfItem.isItem(new CustomItem(Material.REDSTONE, "&cTest")));
 
-        Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
+        if (compatibility) {
+            SlimefunPlugin.getRegistry().setBackwardsCompatible(true);
+            Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
+            SlimefunPlugin.getRegistry().setBackwardsCompatible(false);
+        }
+
         Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getID(), item)));
     }
 

@@ -23,6 +23,7 @@
 
 #### Additions
 * Added a starting sound for the Ancient Altar
+* Added config option to disable backwards compatibility and improve performance
 
 #### Changes
 * Coolant Cells now last twice as long

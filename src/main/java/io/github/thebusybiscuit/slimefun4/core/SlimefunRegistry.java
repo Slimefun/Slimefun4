@@ -58,6 +58,7 @@ public class SlimefunRegistry {
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = new HashSet<>();
 
+    private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
     private boolean enableResearches;
     private boolean freeCreativeResearches;
@@ -99,6 +100,7 @@ public class SlimefunRegistry {
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
+        backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility");
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
     }
@@ -115,6 +117,21 @@ public class SlimefunRegistry {
         return automaticallyLoadItems;
     }
 
+    /**
+     * This method returns whether backwards-compatibility is enabled.
+     * Backwards compatibility allows Slimefun to recognize items from older versions but comes
+     * at a huge performance cost.
+     * 
+     * @return Whether backwards compatibility is enabled
+     */
+    public boolean isBackwardsCompatible() {
+        return backwardsCompatibility;
+    }
+
+    public void setBackwardsCompatible(boolean compatible) {
+        backwardsCompatibility = compatible;
+    }
+
     public void setAutoLoadingMode(boolean mode) {
         automaticallyLoadItems = mode;
     }
@@ -123,10 +140,20 @@ public class SlimefunRegistry {
         return categories;
     }
 
+    /**
+     * This {@link List} contains every {@link SlimefunItem}, even disabled items.
+     * 
+     * @return A {@link List} containing every {@link SlimefunItem}
+     */
     public List<SlimefunItem> getAllSlimefunItems() {
         return slimefunItems;
     }
 
+    /**
+     * This {@link List} contains every <strong>enabled</strong> {@link SlimefunItem}.
+     * 
+     * @return A {@link List} containing every enabled {@link SlimefunItem}
+     */
     public List<SlimefunItem> getEnabledSlimefunItems() {
         return enabledItems;
     }
