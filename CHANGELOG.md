@@ -24,6 +24,7 @@
 #### Additions
 * Added a starting sound for the Ancient Altar
 * Added config option to disable backwards compatibility and improve performance
+* Added ReactorExplodeEvent to the API
 
 #### Changes
 * Coolant Cells now last twice as long

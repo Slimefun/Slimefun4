@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,10 +17,10 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
@@ -29,6 +30,8 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -39,7 +42,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
- * The abstract {@link AReactor} class is very similar to {@link AGenerator} but is
+ * The abstract {@link Reactor} class is very similar to {@link AGenerator} but is
  * exclusively used for Reactors.
  * 
  * @author John000708
@@ -51,11 +54,12 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see NetherStarReactor
  *
  */
-public abstract class AReactor extends AbstractEnergyGenerator {
+public abstract class Reactor extends AbstractEnergyProvider {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
 
+    private static final String MODE = "reactor-mode";
     private static final int INFO_SLOT = 49;
     private static final int COOLANT_DURATION = 50;
     private static final BlockFace[] WATER_BLOCKS = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
@@ -68,7 +72,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     // No coolant border
     private static final int[] border_4 = { 25, 34, 43 };
 
-    public AReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         new BlockMenuPreset(getID(), getInventoryTitle()) {
@@ -80,14 +84,14 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode") == null) {
-                    BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
+                if (BlockStorage.getLocationInfo(b.getLocation(), MODE) == null) {
+                    BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                 }
 
-                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
-                    menu.replaceExistingItem(4, new CustomItem(SlimefunUtils.getCustomHead("9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730"), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
+                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), MODE).equals(ReactorMode.GENERATOR.toString())) {
+                    menu.replaceExistingItem(4, new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
                     menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "reactor-mode", "production");
+                        BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
                         newInstance(menu, b);
                         return false;
                     });
@@ -95,7 +99,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                 else {
                     menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7> Click to change the Focus to &ePower Generation"));
                     menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
+                        BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                         newInstance(menu, b);
                         return false;
                     });
@@ -203,10 +207,10 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     public abstract void extraTick(Location l);
 
     /**
-     * This method returns the {@link ItemStack} that is required to cool this {@link AReactor}.
+     * This method returns the {@link ItemStack} that is required to cool this {@link Reactor}.
      * If it returns null, then no cooling is required.
      * 
-     * @return The {@link ItemStack} required to cool this {@link AReactor}
+     * @return The {@link ItemStack} required to cool this {@link Reactor}
      */
     public abstract ItemStack getCoolant();
 
@@ -215,16 +219,16 @@ public abstract class AReactor extends AbstractEnergyGenerator {
      * It should reflect the {@link ItemStack} used to power the reactor.
      * This method does <b>not</b> determine the fuel input, only the icon.
      * 
-     * @return The {@link ItemStack} used as the fuel icon for this {@link AReactor}.
+     * @return The {@link ItemStack} used as the fuel icon for this {@link Reactor}.
      */
     public abstract ItemStack getFuelIcon();
 
     /**
-     * This method returns whether this {@link AReactor} requires as some form of
+     * This method returns whether this {@link Reactor} requires as some form of
      * coolant.
      * It is a not-null check performed on {@link #getCoolant()}
      * 
-     * @return Whether this {@link AReactor} requires cooling
+     * @return Whether this {@link Reactor} requires cooling
      */
     protected final boolean needsCooling() {
         return getCoolant() != null;
@@ -276,13 +280,13 @@ public abstract class AReactor extends AbstractEnergyGenerator {
                         int produced = getEnergyProduction();
                         int space = ChargableBlock.getMaxCharge(l) - charge;
 
-                        if (space >= produced || !"generator".equals(BlockStorage.getLocationInfo(l, "reactor-mode"))) {
+                        if (space >= produced || !ReactorMode.GENERATOR.toString().equals(BlockStorage.getLocationInfo(l, MODE))) {
                             progress.put(l, timeleft - 1);
                             checkForWaterBlocks(l);
 
                             ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                            if (needsCooling() && !hasSufficientCoolant(l, inv, accessPort, timeleft)) {
+                            if (needsCooling() && !hasEnoughCoolant(l, inv, accessPort, timeleft)) {
                                 explosionsQueue.add(l);
                                 return 0;
                             }
@@ -313,6 +317,9 @@ public abstract class AReactor extends AbstractEnergyGenerator {
 
                 if (explosion) {
                     Slimefun.runSync(() -> {
+                        ReactorExplodeEvent event = new ReactorExplodeEvent(l, Reactor.this);
+                        Bukkit.getPluginManager().callEvent(event);
+
                         BlockStorage.getInventory(l).close();
                         SimpleHologram.remove(l.getBlock());
                     });
@@ -377,23 +384,23 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     }
 
     /**
-     * This method cools the given {@link AReactor}.
+     * This method cools the given {@link Reactor}.
      * 
      * @param reactor
-     *            The {@link Location} of this {@link AReactor}
+     *            The {@link Location} of this {@link Reactor}
      * @param menu
-     *            The {@link Inventory} of this {@link AReactor}
+     *            The {@link Inventory} of this {@link Reactor}
      * @param accessPort
      *            The {@link ReactorAccessPort}, if available
      * @param timeleft
      *            The time left
      * 
-     * @return Whether the {@link AReactor} was successfully cooled, if not it should explode
+     * @return Whether the {@link Reactor} was successfully cooled, if not it should explode
      */
-    private boolean hasSufficientCoolant(Location reactor, BlockMenu menu, BlockMenu accessPort, int timeleft) {
-        boolean coolant = (processing.get(reactor).getTicks() - timeleft) % COOLANT_DURATION == 0;
+    private boolean hasEnoughCoolant(Location reactor, BlockMenu menu, BlockMenu accessPort, int timeleft) {
+        boolean requiresCoolant = (processing.get(reactor).getTicks() - timeleft) % COOLANT_DURATION == 0;
 
-        if (coolant) {
+        if (requiresCoolant) {
             if (accessPort != null) {
                 for (int slot : getCoolantSlots()) {
                     if (SlimefunUtils.isItemSimilar(accessPort.getItemInSlot(slot), getCoolant(), true)) {
@@ -451,7 +458,7 @@ public abstract class AReactor extends AbstractEnergyGenerator {
     protected BlockMenu getAccessPort(Location l) {
         Location portL = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 
-        if (BlockStorage.check(portL, "REACTOR_ACCESS_PORT")) {
+        if (BlockStorage.check(portL, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {
             return BlockStorage.getInventory(portL);
         }
         else {
