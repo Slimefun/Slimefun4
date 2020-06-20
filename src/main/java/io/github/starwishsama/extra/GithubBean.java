@@ -24,6 +24,10 @@ public class GithubBean {
     private String changeLog;
     private List<AssetsBean> assets;
 
+    public boolean isPreRelease() {
+        return isPreRelease;
+    }
+
     public String getTagName() {
         return tagName;
     }
