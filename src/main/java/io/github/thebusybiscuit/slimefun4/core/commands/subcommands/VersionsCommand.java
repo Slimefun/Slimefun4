@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 import java.util.Collection;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
@@ -36,6 +37,11 @@ class VersionsCommand extends SubCommand {
             sender.sendMessage("");
             sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + SlimefunPlugin.getCSCoreLibVersion()));
             sender.sendMessage(ChatColors.color("&aSlimefun &2v" + SlimefunPlugin.getVersion()));
+
+            if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+                sender.sendMessage(ChatColor.YELLOW + "Backwards compatiblity enabled!");
+            }
+
             sender.sendMessage("");
 
             Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();

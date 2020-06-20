@@ -25,6 +25,7 @@
 * Added a starting sound for the Ancient Altar
 * Added config option to disable backwards compatibility and improve performance
 * Added ReactorExplodeEvent to the API
+* Compatibility mode status is now included in /sf versions
 
 #### Changes
 * Coolant Cells now last twice as long

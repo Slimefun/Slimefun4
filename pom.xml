@@ -347,6 +347,7 @@
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
             <version>3.1.6</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
