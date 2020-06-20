@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.OptionalInt;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -110,7 +111,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 
         for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
             if (resource.isObtainableFromGEOMiner()) {
-                displayRecipes.add(new CustomItem(resource.getItem(), "&r" + resource.getName()));
+                displayRecipes.add(new CustomItem(resource.getItem(), ChatColor.RESET + resource.getName()));
             }
         }
 

@@ -28,7 +28,7 @@
 
 #### Changes
 * Coolant Cells now last twice as long
-* Small performance improvements
+* Massive performance improvements
 
 #### Fixes
 * Fixed #2005

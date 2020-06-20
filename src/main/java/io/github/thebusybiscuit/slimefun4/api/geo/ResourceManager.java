@@ -76,7 +76,6 @@ public class ResourceManager {
 
     public OptionalInt getSupplies(GEOResource resource, World world, int x, int z) {
         String key = resource.getKey().toString().replace(':', '-');
-
         String value = BlockStorage.getChunkInfo(world, x, z, key);
 
         if (value != null) {

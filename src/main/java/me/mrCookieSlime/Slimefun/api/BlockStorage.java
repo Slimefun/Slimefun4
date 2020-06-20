@@ -30,6 +30,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -256,8 +257,13 @@ public class BlockStorage {
     }
 
     public void save(boolean computeChanges, boolean remove) {
-        if (computeChanges) computeChanges();
-        if (changes == 0) return;
+        if (computeChanges) {
+            computeChanges();
+        }
+
+        if (changes == 0) {
+            return;
+        }
 
         Slimefun.getLogger().log(Level.INFO, "Saving Blocks for World \"{0}\" ({1} Change(s) queued)", new Object[] { world.getName(), changes });
 
@@ -309,7 +315,10 @@ public class BlockStorage {
             Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
 
             for (Map.Entry<String, BlockInfoConfig> entry : SlimefunPlugin.getRegistry().getChunks().entrySet()) {
-                cfg.setValue(entry.getKey(), entry.getValue().toJSON());
+                // Saving empty chunk data is pointless
+                if (!entry.getValue().getKeys().isEmpty()) {
+                    cfg.setValue(entry.getKey(), entry.getValue().toJSON());
+                }
             }
 
             cfg.save(chunks);
@@ -611,17 +620,24 @@ public class BlockStorage {
     }
 
     public static String checkID(Location l) {
-        if (!hasBlockInfo(l)) return null;
+        if (!hasBlockInfo(l)) {
+            return null;
+        }
+
         return getLocationInfo(l, "id");
     }
 
     public static boolean check(Location l, String slimefunItem) {
-        if (!hasBlockInfo(l)) return false;
+        if (slimefunItem == null || !hasBlockInfo(l)) {
+            return false;
+        }
+
         try {
             String id = getLocationInfo(l, "id");
             return id != null && id.equalsIgnoreCase(slimefunItem);
         }
-        catch (NullPointerException x) {
+        catch (Exception x) {
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while checking " + new BlockPosition(l) + " for: \"" + slimefunItem + "\"");
             return false;
         }
     }
@@ -722,14 +738,30 @@ public class BlockStorage {
         if (storage == null) return null;
 
         BlockMenu menu = storage.inventories.get(l);
-        if (menu != null) return menu;
-        else return storage.loadInventory(l, BlockMenuPreset.getPreset(checkID(l)));
+
+        if (menu != null) {
+            return menu;
+        }
+        else {
+            return storage.loadInventory(l, BlockMenuPreset.getPreset(checkID(l)));
+        }
     }
 
     public static Config getChunkInfo(World world, int x, int z) {
         try {
-            BlockInfoConfig cfg = SlimefunPlugin.getRegistry().getChunks().get(serializeChunk(world, x, z));
-            return cfg == null ? new BlockInfoConfig() : cfg;
+            if (!isWorldRegistered(world.getName())) {
+                return new BlockInfoConfig();
+            }
+
+            String key = serializeChunk(world, x, z);
+            BlockInfoConfig cfg = SlimefunPlugin.getRegistry().getChunks().get(key);
+
+            if (cfg == null) {
+                cfg = new BlockInfoConfig();
+                SlimefunPlugin.getRegistry().getChunks().put(key, cfg);
+            }
+
+            return cfg;
         }
         catch (Exception e) {
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to parse ChunkInfo for Slimefun " + SlimefunPlugin.getVersion());
