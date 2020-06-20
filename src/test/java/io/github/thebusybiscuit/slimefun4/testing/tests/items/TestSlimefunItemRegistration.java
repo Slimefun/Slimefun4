@@ -158,8 +158,6 @@ public class TestSlimefunItemRegistration {
         sfItem.register(plugin);
 
         Assertions.assertTrue(sfItem.isItem(sfItem.getItem()));
-        Assertions.assertTrue(sfItem.isItem(item));
-        Assertions.assertTrue(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
 
         Assertions.assertFalse(sfItem.isItem(null));
         Assertions.assertFalse(sfItem.isItem(new ItemStack(Material.BEACON)));
@@ -167,8 +165,16 @@ public class TestSlimefunItemRegistration {
 
         if (compatibility) {
             SlimefunPlugin.getRegistry().setBackwardsCompatible(true);
+
             Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
+            Assertions.assertTrue(sfItem.isItem(item));
+            Assertions.assertTrue(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
+
             SlimefunPlugin.getRegistry().setBackwardsCompatible(false);
+        }
+        else {
+            Assertions.assertFalse(sfItem.isItem(item));
+            Assertions.assertFalse(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
         }
 
         Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getID(), item)));
