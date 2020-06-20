@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -22,8 +23,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 public abstract class ElectricSmeltery extends AContainer {
@@ -59,7 +60,7 @@ public abstract class ElectricSmeltery extends AContainer {
                 }
 
                 int fullSlots = 0;
-                List<Integer> slots = new LinkedList<>();
+                List<Integer> slots = new ArrayList<>();
 
                 for (int slot : getInputSlots()) {
                     ItemStack stack = menu.getItemInSlot(slot);
@@ -118,7 +119,7 @@ public abstract class ElectricSmeltery extends AContainer {
     }
 
     private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
-        return (slot1, slot2) -> menu.getItemInSlot(slot1).getAmount() - menu.getItemInSlot(slot2).getAmount();
+        return Comparator.comparingInt(slot -> menu.getItemInSlot(slot).getAmount());
     }
 
     @Override
@@ -155,7 +156,7 @@ public abstract class ElectricSmeltery extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return item.getItemMeta().getDisplayName();
+        return SlimefunItems.ELECTRIC_SMELTERY.getItem().getItemName();
     }
 
     @Override
