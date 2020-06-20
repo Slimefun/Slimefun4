@@ -48,16 +48,16 @@
 
     <repositories>
         <repository>
-            <id>paper-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>paper-repo</id>
+            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
         </repository>
         <repository>
             <id>worldedit-worldguard-repo</id>
@@ -70,6 +70,10 @@
         <repository>
             <id>placeholderapi-repo</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>walshy-public</id>
+            <url>https://repo.walshy.dev/public/</url>
         </repository>
     </repositories>
 
@@ -339,14 +343,10 @@
             <version>3cd370b5d8</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- System dependency, this project has no maven repository -->
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
-            <version>2.9.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
+            <version>3.1.6</version>
         </dependency>
     </dependencies>
 </project>
