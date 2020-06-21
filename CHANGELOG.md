@@ -35,6 +35,8 @@
 #### Fixes
 * Fixed #2005
 * Fixed #2009
+* Fixed a chunk caching issue for GEO resources
+* Fixed Infused Magnet working even if you haven't researched it
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

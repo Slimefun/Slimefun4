@@ -308,17 +308,17 @@ public final class PlayerProfile {
     }
 
     public void sendStats(CommandSender sender) {
-        Set<Research> researched = getResearches();
-        int levels = researched.stream().mapToInt(Research::getCost).sum();
-        int totalResearches = SlimefunPlugin.getRegistry().getResearches().size();
+        Set<Research> unlockedResearches = getResearches();
+        int levels = unlockedResearches.stream().mapToInt(Research::getCost).sum();
+        int allResearches = SlimefunPlugin.getRegistry().getResearches().size();
 
-        float progress = Math.round(((researched.size() * 100.0F) / totalResearches) * 100.0F) / 100.0F;
+        float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
 
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Statistics for Player: &b" + name));
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Title: " + ChatColor.AQUA + getTitle()));
-        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + researched.size() + " / " + totalResearches + ')'));
+        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + unlockedResearches.size() + " / " + allResearches + ')'));
         sender.sendMessage(ChatColors.color("&7Total XP Levels spent: " + ChatColor.AQUA + levels));
     }
 
@@ -347,14 +347,14 @@ public final class PlayerProfile {
     }
 
     /**
-     * Get the PlayerProfile for a player asynchronously.
+     * Get the {@link PlayerProfile} for a {@link OfflinePlayer} asynchronously.
      *
      * @param p
-     *            The player who's profile to retrieve
+     *            The {@link OfflinePlayer} who's {@link PlayerProfile} to retrieve
      * @param callback
-     *            The callback with the PlayerProfile
+     *            The callback with the {@link PlayerProfile}
      * 
-     * @return If the player was cached or not.
+     * @return If the {@link OfflinePlayer} was cached or not.
      */
     public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
         Validate.notNull(p, "Cannot get a PlayerProfile for: null!");
