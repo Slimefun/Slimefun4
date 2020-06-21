@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -8,6 +9,8 @@ import java.util.Locale;
 import org.bukkit.ChatColor;
 
 public final class NumberUtils {
+
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
     private NumberUtils() {}
 
@@ -57,11 +60,31 @@ public final class NumberUtils {
         return timeleft + seconds + "s";
     }
 
-    public static int getInt(String str, int defaultVal) {
+    public static int getInt(String str, int defaultValue) {
         if (PatternUtils.NUMERIC.matcher(str).matches()) {
             return Integer.parseInt(str);
         }
 
-        return defaultVal;
+        return defaultValue;
+    }
+
+    public static String getAsMillis(long nanoseconds) {
+        String number = DECIMAL_FORMAT.format(nanoseconds / 1000000.0);
+        String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
+
+        if (parts.length == 1) {
+            return parts[0];
+        }
+        else {
+            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+        }
+    }
+
+    public static long getLong(Long value, long defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
+    public static int getInt(Integer value, int defaultValue) {
+        return value == null ? defaultValue : value;
     }
 }

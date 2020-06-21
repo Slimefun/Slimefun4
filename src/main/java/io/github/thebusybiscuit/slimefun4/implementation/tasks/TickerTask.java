@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.text.DecimalFormat;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,11 +8,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,6 +30,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -37,24 +40,29 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TickerTask implements Runnable {
 
-    private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private final ConcurrentMap<Location, Location> move = new ConcurrentHashMap<>();
-    private final ConcurrentMap<Location, Boolean> delete = new ConcurrentHashMap<>();
-    private final ConcurrentMap<Location, Long> blockTimings = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, Integer> chunkItemCount = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, Integer> machineCount = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, Long> machineTimings = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, Long> chunkTimings = new ConcurrentHashMap<>();
-    private final ConcurrentMap<Location, Integer> buggedBlocks = new ConcurrentHashMap<>();
-    private final Set<String> chunksSkipped = new HashSet<>();
+    private static final int VISIBILITY_THRESHOLD = 200_000;
 
     private final Set<BlockTicker> tickers = new HashSet<>();
 
+    // These are "Queues" of blocks that need to be removed or moved
+    private final ConcurrentMap<Location, Location> movingQueue = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
+
+    private final ConcurrentMap<Location, Integer> buggedBlocks = new ConcurrentHashMap<>();
+
+    private final ConcurrentMap<Location, Long> blockTimings = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Integer> machineCount = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Long> machineTimings = new ConcurrentHashMap<>();
+
+    private final ConcurrentMap<String, Long> chunkTimings = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Integer> chunkItemCount = new ConcurrentHashMap<>();
+    private final Set<String> skippedChunks = new HashSet<>();
+
     private boolean halted = false;
 
-    private int skipped = 0;
+    private int skippedBlocks = 0;
     private int chunks = 0;
-    private int machines = 0;
+    private int blocks = 0;
     private long time = 0;
 
     private boolean running = false;
@@ -65,104 +73,60 @@ public class TickerTask implements Runnable {
 
     @Override
     public void run() {
-        if (running) return;
+        if (running) {
+            return;
+        }
 
         running = true;
         long timestamp = System.nanoTime();
 
-        skipped = 0;
+        skippedBlocks = 0;
         chunks = 0;
-        machines = 0;
+        blocks = 0;
         chunkItemCount.clear();
         machineCount.clear();
         time = 0;
         chunkTimings.clear();
-        chunksSkipped.clear();
+        skippedChunks.clear();
         machineTimings.clear();
         blockTimings.clear();
 
-        Map<Location, Integer> bugged = new HashMap<>(buggedBlocks);
+        Map<Location, Integer> bugs = new HashMap<>(buggedBlocks);
         buggedBlocks.clear();
 
-        Map<Location, Boolean> remove = new HashMap<>(delete);
+        Map<Location, Boolean> removals = new HashMap<>(deletionQueue);
 
-        for (Map.Entry<Location, Boolean> entry : remove.entrySet()) {
+        for (Map.Entry<Location, Boolean> entry : removals.entrySet()) {
             BlockStorage._integrated_removeBlockInfo(entry.getKey(), entry.getValue());
-            delete.remove(entry.getKey());
+            deletionQueue.remove(entry.getKey());
         }
 
         if (!halted) {
-            for (String tickedChunk : BlockStorage.getTickingChunks()) {
-                long timestamp2 = System.nanoTime();
+            for (String chunk : BlockStorage.getTickingChunks()) {
+                long chunkTimestamp = System.nanoTime();
                 chunks++;
 
-                for (Location l : BlockStorage.getTickingLocations(tickedChunk)) {
+                for (Location l : BlockStorage.getTickingLocations(chunk)) {
                     if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
-                        Block b = l.getBlock();
-                        SlimefunItem item = BlockStorage.check(l);
-
-                        if (item != null && item.getBlockTicker() != null) {
-                            machines++;
-
-                            try {
-                                item.getBlockTicker().update();
-
-                                if (item.getBlockTicker().isSynchronized()) {
-                                    Slimefun.runSync(() -> {
-                                        try {
-                                            long timestamp3 = System.nanoTime();
-                                            item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
-
-                                            Long machinetime = machineTimings.get(item.getID());
-                                            Integer chunk = chunkItemCount.get(tickedChunk);
-                                            Integer machine = machineCount.get(item.getID());
-
-                                            machineTimings.put(item.getID(), (machinetime != null ? machinetime : 0) + (System.nanoTime() - timestamp3));
-                                            chunkItemCount.put(tickedChunk, (chunk != null ? chunk : 0) + 1);
-                                            machineCount.put(item.getID(), (machine != null ? machine : 0) + 1);
-                                            blockTimings.put(l, System.nanoTime() - timestamp3);
-                                        }
-                                        catch (Exception x) {
-                                            int errors = bugged.getOrDefault(l, 0);
-                                            reportErrors(l, item, x, errors);
-                                        }
-                                    });
-                                }
-                                else {
-                                    long timestamp3 = System.nanoTime();
-                                    item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
-
-                                    machineTimings.merge(item.getID(), (System.nanoTime() - timestamp3), Long::sum);
-                                    chunkItemCount.merge(tickedChunk, 1, Integer::sum);
-                                    machineCount.merge(item.getID(), 1, Integer::sum);
-                                    blockTimings.put(l, System.nanoTime() - timestamp3);
-                                }
-
-                                tickers.add(item.getBlockTicker());
-                            }
-                            catch (Exception x) {
-                                int errors = bugged.getOrDefault(l, 0);
-                                reportErrors(l, item, x, errors);
-                            }
-                        }
-                        else skipped++;
+                        tick(l, chunk, bugs);
                     }
                     else {
-                        skipped += BlockStorage.getTickingLocations(tickedChunk).size();
-                        chunksSkipped.add(tickedChunk);
+                        skippedBlocks += BlockStorage.getTickingLocations(chunk).size();
+                        skippedChunks.add(chunk);
                         chunks--;
                         break;
                     }
                 }
 
-                chunkTimings.put(tickedChunk, System.nanoTime() - timestamp2);
+                chunkTimings.put(chunk, System.nanoTime() - chunkTimestamp);
             }
         }
 
-        for (Map.Entry<Location, Location> entry : move.entrySet()) {
+        for (Map.Entry<Location, Location> entry : movingQueue.entrySet()) {
             BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
         }
-        move.clear();
+
+        movingQueue.clear();
 
         Iterator<BlockTicker> iterator = tickers.iterator();
         while (iterator.hasNext()) {
@@ -174,23 +138,74 @@ public class TickerTask implements Runnable {
         running = false;
     }
 
-    private void reportErrors(Location l, SlimefunItem item, Exception x, int errors) {
+    private void tick(Location l, String tickedChunk, Map<Location, Integer> bugs) {
+        Block b = l.getBlock();
+        SlimefunItem item = BlockStorage.check(l);
+
+        if (item != null && item.getBlockTicker() != null) {
+            blocks++;
+
+            try {
+                item.getBlockTicker().update();
+
+                if (item.getBlockTicker().isSynchronized()) {
+                    Slimefun.runSync(() -> {
+                        try {
+                            long timestamp = System.nanoTime();
+                            item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
+
+                            long machinetime = NumberUtils.getLong(machineTimings.get(item.getID()), 0);
+                            int chunk = NumberUtils.getInt(chunkItemCount.get(tickedChunk), 0);
+                            int machine = NumberUtils.getInt(machineCount.get(item.getID()), 0);
+
+                            machineTimings.put(item.getID(), machinetime + (System.nanoTime() - timestamp));
+                            chunkItemCount.put(tickedChunk, chunk + 1);
+                            machineCount.put(item.getID(), machine + 1);
+                            blockTimings.put(l, System.nanoTime() - timestamp);
+                        }
+                        catch (Exception | LinkageError x) {
+                            int errors = bugs.getOrDefault(l, 0);
+                            reportErrors(l, item, x, errors);
+                        }
+                    });
+                }
+                else {
+                    long timestamp = System.nanoTime();
+                    item.getBlockTicker().tick(b, item, BlockStorage.getLocationInfo(l));
+
+                    machineTimings.merge(item.getID(), (System.nanoTime() - timestamp), Long::sum);
+                    chunkItemCount.merge(tickedChunk, 1, Integer::sum);
+                    machineCount.merge(item.getID(), 1, Integer::sum);
+                    blockTimings.put(l, System.nanoTime() - timestamp);
+                }
+
+                tickers.add(item.getBlockTicker());
+            }
+            catch (Exception x) {
+                int errors = bugs.getOrDefault(l, 0);
+                reportErrors(l, item, x, errors);
+            }
+        }
+        else {
+            skippedBlocks++;
+        }
+    }
+
+    private void reportErrors(Location l, SlimefunItem item, Throwable x, int errors) {
         errors++;
 
         if (errors == 1) {
             // Generate a new Error-Report
             new ErrorReport(x, l, item);
-
             buggedBlocks.put(l, errors);
         }
         else if (errors == 4) {
             Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getID() });
-            Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 Exceptions in the last 4 Ticks, the Block has been terminated.");
+            Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
             Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
             Slimefun.getLogger().log(Level.SEVERE, " ");
 
             BlockStorage._integrated_removeBlockInfo(l, true);
-
             Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
         }
         else {
@@ -199,59 +214,41 @@ public class TickerTask implements Runnable {
     }
 
     public String getTime() {
-        return toMillis(time, false);
+        return NumberUtils.getAsMillis(time);
     }
 
     public void info(CommandSender sender) {
         sender.sendMessage(ChatColors.color("&2== &aSlimefun Diagnostic Tool &2=="));
         sender.sendMessage(ChatColors.color("&6Halted: &e&l" + String.valueOf(halted).toUpperCase(Locale.ROOT)));
         sender.sendMessage("");
-        sender.sendMessage(ChatColors.color("&6Impact: &e" + toMillis(time, true)));
+        sender.sendMessage(ChatColors.color("&6Impact: &e" + NumberUtils.getAsMillis(time)));
         sender.sendMessage(ChatColors.color("&6Ticked Chunks: &e" + chunks));
-        sender.sendMessage(ChatColors.color("&6Ticked Machines: &e" + machines));
-        sender.sendMessage(ChatColors.color("&6Skipped Machines: &e" + skipped));
+        sender.sendMessage(ChatColors.color("&6Ticked Machines: &e" + blocks));
+        sender.sendMessage(ChatColors.color("&6Skipped Machines: &e" + skippedBlocks));
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&6Ticking Machines:"));
 
-        List<Map.Entry<String, Long>> timings = machineCount.keySet().stream().map(key -> new AbstractMap.SimpleEntry<>(key, machineTimings.getOrDefault(key, 0L))).sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue())).collect(Collectors.toList());
+        summarizeTimings(sender, entry -> {
+            int count = machineCount.get(entry.getKey());
+            String timings = NumberUtils.getAsMillis(entry.getValue());
+            String average = NumberUtils.getAsMillis(entry.getValue() / count);
 
-        if (sender instanceof Player) {
-            ChatComponent component = new ChatComponent(ChatColors.color("   &7&oHover for more Info"));
-            StringBuilder builder = new StringBuilder();
-            int hidden = 0;
-
-            for (Map.Entry<String, Long> entry : timings) {
-                int count = machineCount.get(entry.getKey());
-
-                if (entry.getValue() > 300_000) {
-                    builder.append("\n&c").append(entry.getKey()).append(" - ").append(count).append("x &7(").append(toMillis(entry.getValue(), true)).append(", ").append(toMillis(entry.getValue() / count, true)).append(" avg/machine)");
-                }
-                else hidden++;
-            }
-
-            builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-            component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
-
-            component.sendMessage((Player) sender);
-        }
-        else {
-            int hidden = 0;
-
-            for (Map.Entry<String, Long> entry : timings) {
-                int count = machineCount.get(entry.getKey());
-                if (entry.getValue() > 300_000) {
-                    sender.sendMessage("  " + entry.getKey() + " - " + count + "x (" + toMillis(entry.getValue(), false) + ", " + toMillis(entry.getValue() / count, false) + " avg/machine)");
-                }
-                else hidden++;
-            }
-
-            sender.sendMessage("+ " + hidden + " Hidden");
-        }
+            return entry.getKey() + " - " + count + "x (" + timings + ", " + average + " avg/machine)";
+        }, machineCount.keySet().stream().map(key -> new AbstractMap.SimpleEntry<>(key, machineTimings.getOrDefault(key, 0L))));
 
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&6Ticking Chunks:"));
 
-        timings = chunkTimings.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
+        summarizeTimings(sender, entry -> {
+            int count = chunkItemCount.getOrDefault(entry.getKey(), 0);
+            String timings = NumberUtils.getAsMillis(entry.getValue());
+
+            return formatChunk(entry.getKey()) + " - " + count + "x (" + timings + ")";
+        }, chunkTimings.entrySet().stream().filter(entry -> !skippedChunks.contains(entry.getKey())));
+    }
+
+    private void summarizeTimings(CommandSender sender, Function<Map.Entry<String, Long>, String> formatter, Stream<Map.Entry<String, Long>> stream) {
+        List<Entry<String, Long>> timings = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
 
         if (sender instanceof Player) {
             ChatComponent component = new ChatComponent(ChatColors.color("   &7&oHover for more Info"));
@@ -259,11 +256,11 @@ public class TickerTask implements Runnable {
             int hidden = 0;
 
             for (Map.Entry<String, Long> entry : timings) {
-                if (!chunksSkipped.contains(entry.getKey())) {
-                    if (entry.getValue() > 0) {
-                        builder.append("\n&c").append(formatChunk(entry.getKey())).append(" - ").append(chunkItemCount.getOrDefault(entry.getKey(), 0)).append("x &7(").append(toMillis(entry.getValue(), true)).append(')');
-                    }
-                    else hidden++;
+                if (entry.getValue() > VISIBILITY_THRESHOLD) {
+                    builder.append("\n&c").append(formatter.apply(entry));
+                }
+                else {
+                    hidden++;
                 }
             }
 
@@ -276,15 +273,15 @@ public class TickerTask implements Runnable {
             int hidden = 0;
 
             for (Map.Entry<String, Long> entry : timings) {
-                if (!chunksSkipped.contains(entry.getKey())) {
-                    if (entry.getValue() > 0) {
-                        sender.sendMessage("  " + formatChunk(entry.getKey()) + " - " + (chunkItemCount.getOrDefault(entry.getKey(), 0)) + "x (" + toMillis(entry.getValue(), false) + ")");
-                    }
-                    else hidden++;
+                if (entry.getValue() > VISIBILITY_THRESHOLD) {
+                    sender.sendMessage("  " + ChatColor.stripColor(formatter.apply(entry)));
+                }
+                else {
+                    hidden++;
                 }
             }
 
-            sender.sendMessage(ChatColors.color("&c+ &4" + hidden + " Hidden"));
+            sender.sendMessage("+ " + hidden + " Hidden");
         }
     }
 
@@ -318,35 +315,17 @@ public class TickerTask implements Runnable {
         halted = true;
     }
 
-    public String toMillis(long nanoseconds, boolean colors) {
-        String number = decimalFormat.format(nanoseconds / 1000000.0);
-
-        if (!colors) {
-            return number;
-        }
-        else {
-            String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
-
-            if (parts.length == 1) {
-                return parts[0];
-            }
-            else {
-                return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
-            }
-        }
-    }
-
     @Override
     public String toString() {
-        return "TickerTask {\n" + "     HALTED = " + halted + "\n" + "     tickers = " + tickers + "\n" + "     move = " + move + "\n" + "     delete = " + delete + "\n" + "     chunks = " + chunkItemCount + "\n" + "     machines = " + machineCount + "\n" + "     machinetime = " + machineTimings + "\n" + "     chunktime = " + chunkTimings + "\n" + "     skipped = " + chunksSkipped + "\n" + "}";
+        return "TickerTask {\n" + "     HALTED = " + halted + "\n" + "     tickers = " + tickers + "\n" + "     move = " + movingQueue + "\n" + "     delete = " + deletionQueue + "\n" + "     chunks = " + chunkItemCount + "\n" + "     machines = " + machineCount + "\n" + "     machinetime = " + machineTimings + "\n" + "     chunktime = " + chunkTimings + "\n" + "     skipped = " + skippedChunks + "\n" + "}";
     }
 
     public void queueMove(Location from, Location to) {
-        move.put(from, to);
+        movingQueue.put(from, to);
     }
 
     public void queueDelete(Location l, boolean destroy) {
-        delete.put(l, destroy);
+        deletionQueue.put(l, destroy);
     }
 
     public void start(SlimefunPlugin plugin) {

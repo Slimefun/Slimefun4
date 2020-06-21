@@ -80,7 +80,7 @@ public class GrapplingHookListener implements Listener {
             Player p = (Player) arrow.getShooter();
 
             if (p.getGameMode() != GameMode.CREATIVE && (boolean) grappleState.get(p.getUniqueId())) {
-                arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK);
+                arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK.clone());
             }
 
             Vector velocity = new Vector(0.0, 0.2, 0.0);
@@ -135,7 +135,7 @@ public class GrapplingHookListener implements Listener {
         // To fix issue #253
         Slimefun.runSync(() -> {
             if (grappleState.containsKey(uuid)) {
-                SlimefunPlugin.getBowListener().getBows().remove(uuid);
+                SlimefunPlugin.getBowListener().getProjectileData().remove(uuid);
 
                 for (Entity n : temporaryEntities.get(uuid)) {
                     if (n.isValid()) {

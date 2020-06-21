@@ -75,10 +75,15 @@ public class BlockStorage {
     private static Location deserializeLocation(String l) {
         try {
             String[] components = PatternUtils.SEMICOLON.split(l);
-            if (components.length != 4) return null;
+            if (components.length != 4) {
+                return null;
+            }
 
             World w = Bukkit.getWorld(components[0]);
-            if (w != null) return new Location(w, Integer.parseInt(components[1]), Integer.parseInt(components[2]), Integer.parseInt(components[3]));
+
+            if (w != null) {
+                return new Location(w, Integer.parseInt(components[1]), Integer.parseInt(components[2]), Integer.parseInt(components[3]));
+            }
         }
         catch (NumberFormatException x) {
             Slimefun.getLogger().log(Level.WARNING, "Could not parse Number", x);
@@ -160,6 +165,7 @@ public class BlockStorage {
                                 Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to load " + file.getName() + '(' + key + ") for Slimefun " + SlimefunPlugin.getVersion());
                             }
                         }
+
                         done++;
                     }
                 }
@@ -253,7 +259,7 @@ public class BlockStorage {
     }
 
     public void save(boolean remove) {
-        this.save(true, remove);
+        save(true, remove);
     }
 
     public void save(boolean computeChanges, boolean remove) {
@@ -311,25 +317,29 @@ public class BlockStorage {
         }
 
         if (chunkChanges > 0) {
-            File chunks = new File(PATH_CHUNKS + "chunks.sfc");
-            Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
-
-            for (Map.Entry<String, BlockInfoConfig> entry : SlimefunPlugin.getRegistry().getChunks().entrySet()) {
-                // Saving empty chunk data is pointless
-                if (!entry.getValue().getKeys().isEmpty()) {
-                    cfg.setValue(entry.getKey(), entry.getValue().toJSON());
-                }
-            }
-
-            cfg.save(chunks);
-
-            if (remove) {
-                SlimefunPlugin.getRegistry().getWorlds().remove(world.getName());
-            }
+            saveChunks(remove);
         }
 
         changes = 0;
         chunkChanges = 0;
+    }
+
+    private void saveChunks(boolean remove) {
+        File chunks = new File(PATH_CHUNKS + "chunks.sfc");
+        Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
+
+        for (Map.Entry<String, BlockInfoConfig> entry : SlimefunPlugin.getRegistry().getChunks().entrySet()) {
+            // Saving empty chunk data is pointless
+            if (!entry.getValue().getKeys().isEmpty()) {
+                cfg.setValue(entry.getKey(), entry.getValue().toJSON());
+            }
+        }
+
+        cfg.save(chunks);
+
+        if (remove) {
+            SlimefunPlugin.getRegistry().getWorlds().remove(world.getName());
+        }
     }
 
     public static void store(Block block, ItemStack item) {
@@ -511,15 +521,19 @@ public class BlockStorage {
         }
 
         if (destroy) {
-            if (storage.hasInventory(l)) storage.clearInventory(l);
+            if (storage.hasInventory(l)) {
+                storage.clearInventory(l);
+            }
 
             UniversalBlockMenu universalInventory = getUniversalInventory(l);
+
             if (universalInventory != null) {
                 universalInventory.close();
                 universalInventory.save();
             }
 
             String chunkString = locationToChunkString(l);
+
             if (SlimefunPlugin.getRegistry().getActiveTickers().containsKey(chunkString)) {
                 Set<Location> locations = SlimefunPlugin.getRegistry().getActiveTickers().get(chunkString);
                 locations.remove(l);
@@ -528,7 +542,9 @@ public class BlockStorage {
                     SlimefunPlugin.getRegistry().getActiveTickers().remove(chunkString);
                     SlimefunPlugin.getRegistry().getActiveChunks().remove(chunkString);
                 }
-                else SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
+                else {
+                    SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
+                }
             }
         }
     }
@@ -538,7 +554,10 @@ public class BlockStorage {
     }
 
     public static void _integrated_moveLocationInfo(Location from, Location to) {
-        if (!hasBlockInfo(from)) return;
+        if (!hasBlockInfo(from)) {
+            return;
+        }
+
         BlockStorage storage = getStorage(from.getWorld());
 
         setBlockInfo(to, getLocationInfo(from), true);
@@ -563,7 +582,9 @@ public class BlockStorage {
                 SlimefunPlugin.getRegistry().getActiveTickers().remove(chunkString);
                 SlimefunPlugin.getRegistry().getActiveChunks().remove(chunkString);
             }
-            else SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
+            else {
+                SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
+            }
         }
     }
 
@@ -600,7 +621,10 @@ public class BlockStorage {
     }
 
     public static SlimefunItem check(Location l) {
-        if (!hasBlockInfo(l)) return null;
+        if (!hasBlockInfo(l)) {
+            return null;
+        }
+
         return SlimefunItem.getByID(getLocationInfo(l, "id"));
     }
 
@@ -608,7 +632,9 @@ public class BlockStorage {
         if (SlimefunPlugin.getBlockDataService().isTileEntity(b.getType())) {
             Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(b);
 
-            if (blockData.isPresent()) return blockData.get();
+            if (blockData.isPresent()) {
+                return blockData.get();
+            }
         }
 
         return checkID(b.getLocation());
@@ -692,8 +718,8 @@ public class BlockStorage {
 
         if (menu != null) {
             for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
-                // Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while
-                // holding an item
+                // Prevents "java.lang.IllegalStateException: Asynchronous entity add!"
+                // when closing the inventory while holding an item
                 Slimefun.runSync(human::closeInventory);
             }
 
@@ -729,8 +755,13 @@ public class BlockStorage {
 
     public static boolean hasInventory(Block b) {
         BlockStorage storage = getStorage(b.getWorld());
-        if (storage == null) return false;
-        else return storage.hasInventory(b.getLocation());
+
+        if (storage == null) {
+            return false;
+        }
+        else {
+            return storage.hasInventory(b.getLocation());
+        }
     }
 
     public static BlockMenu getInventory(Location l) {

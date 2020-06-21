@@ -29,6 +29,7 @@
 
 #### Changes
 * Coolant Cells now last twice as long
+* Ticking blocks will now catch more errors caused by addons
 * Massive performance improvements
 
 #### Fixes

@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -103,14 +104,14 @@ public class DebugFishListener implements Listener {
         if (item.isTicking()) {
             p.sendMessage(ChatColors.color("&dTicker: " + enabledTooltip));
             p.sendMessage(ChatColors.color("  &dAsync: &e" + (BlockStorage.check(b).getBlockTicker().isSynchronized() ? disabledTooltip : enabledTooltip)));
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true)));
-            p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + ticker.toMillis(ticker.getTimings(BlockStorage.checkID(b)), true)));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true)));
+            p.sendMessage(ChatColors.color("  &dTimings: &e" + NumberUtils.getAsMillis(ticker.getTimings(b))));
+            p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + NumberUtils.getAsMillis(ticker.getTimings(BlockStorage.checkID(b)))));
+            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + NumberUtils.getAsMillis(ticker.getTimings(b.getChunk()))));
         }
         else if (item.getEnergyTicker() != null) {
             p.sendMessage(ChatColors.color("&dTicking: " + "&3Indirect"));
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + ticker.toMillis(ticker.getTimings(b), true)));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + ticker.toMillis(ticker.getTimings(b.getChunk()), true)));
+            p.sendMessage(ChatColors.color("  &dTimings: &e" + NumberUtils.getAsMillis(ticker.getTimings(b))));
+            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + NumberUtils.getAsMillis(ticker.getTimings(b.getChunk()))));
         }
         else {
             p.sendMessage(ChatColors.color("&dTicker: " + disabledTooltip));

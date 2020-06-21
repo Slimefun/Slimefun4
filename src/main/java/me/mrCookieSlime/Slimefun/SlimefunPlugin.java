@@ -46,6 +46,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPlugin
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
@@ -225,7 +226,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new MultiBlockListener(this);
             new GadgetsListener(this);
             new DispenserListener(this);
-            new MobDropListener(this);
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
             new ItemPickupListener(this);
@@ -236,6 +236,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new FireworksListener(this);
             new WitherListener(this);
             new IronGolemListener(this);
+
+            new MobDropListener(this, (BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem());
 
             // Item-specific Listeners
             new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
@@ -436,12 +438,18 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);
-            if (!file.exists()) file.mkdirs();
+
+            if (!file.exists()) {
+                file.mkdirs();
+            }
         }
 
         for (String folder : pluginFolders) {
             File file = new File("plugins/Slimefun", folder);
-            if (!file.exists()) file.mkdirs();
+
+            if (!file.exists()) {
+                file.mkdirs();
+            }
         }
     }
 
