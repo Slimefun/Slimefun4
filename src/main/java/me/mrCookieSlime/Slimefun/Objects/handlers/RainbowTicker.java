@@ -9,8 +9,10 @@ import org.bukkit.block.data.Waterlogged;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollection;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -51,6 +53,11 @@ public class RainbowTicker extends BlockTicker {
      * @return Whether the array contained any {@link Waterlogged} materials
      */
     private boolean containsWaterlogged(Material[] materials) {
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            // BlockData is not available to us during Unit Tests :/
+            return false;
+        }
+
         for (Material type : materials) {
             // This BlockData is purely virtual and only created on startup, it should have
             // no impact on performance, in fact it should save performance as it preloads
