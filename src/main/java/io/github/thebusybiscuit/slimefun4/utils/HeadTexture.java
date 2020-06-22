@@ -92,7 +92,9 @@ public enum HeadTexture {
     GLOBE_NETHER("d83571ff589f1a59bb02b80800fc736116e27c3dcf9efebede8cf1fdde"),
     GLOBE_THE_END("c6cac59b2aae489aa0687b5d802b2555eb14a40bd62b21eb116fa569cdb756"),
     DEATHPOINT("1ae3855f952cd4a03c148a946e3f812a5955ad35cbcb52627ea4acd47d3081"),
-    UNKNOWN("e9eb9da26cf2d3341397a7f4913ba3d37d1ad10eae30ab25fa39ceb84bc");
+    NUCLEAR_REACTOR("fa5de0bc2bfb5cc2d23eb72f96402ada479524dd0de404bc23b6dacee3ffd080"),
+    UNKNOWN("46ba63344f49dd1c4f5488e926bf3d9e2b29916a6c50d610bb40a5273dc8c82"),
+    MISSING_TEXTURE("e9eb9da26cf2d3341397a7f4913ba3d37d1ad10eae30ab25fa39ceb84bc");
 
     private final String texture;
 

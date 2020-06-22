@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
  * @see Language
  *
  */
-enum EmbeddedLanguage {
+enum SupportedLanguage {
 
     ENGLISH("en", true, "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72"),
     GERMAN("de", true, "5e7899b4806858697e283f084d9173fe487886453774626b24bd8cfecc77b3f"),
@@ -52,22 +52,23 @@ enum EmbeddedLanguage {
     AFRIKAANS("af", false, "961a1eacc10524d1f45f23b0e487bb2fc33948d9676b418b19a3da0b109d0e3c"),
     MALAY("ms", false, "754b9041dea6db6db44750f1385a743adf653767b4b8802cad4c585dd3f5be46"),
     THAI("th", true, "2a7916e4a852f7e6f3f3de19c7fb57686a37bce834bd54684a7dbef8d53fb"),
-    MACEDONIAN("mk", false, "a0e0b0b5d87a855466980a101a757bcdb5f77d9f7287889f3efa998ee0472fc0");
+    MACEDONIAN("mk", false, "a0e0b0b5d87a855466980a101a757bcdb5f77d9f7287889f3efa998ee0472fc0"),
+    TAGALOG("tl", false, "9306c0c1ce6a9c61bb42a572c49e6d0ed20e0e6b3d122cc64c339cbf78e9e937");
 
     private final String id;
     private final boolean releaseReady;
     private final String textureHash;
 
-    EmbeddedLanguage(String id, boolean releaseReady, String textureHash) {
+    SupportedLanguage(String id, boolean releaseReady, String textureHash) {
         this.id = id;
         this.releaseReady = releaseReady;
         this.textureHash = textureHash;
     }
 
-    public String getId() {
+    public String getLanguageId() {
         return id;
     }
-    
+
     public boolean isReadyForRelease() {
         return releaseReady;
     }

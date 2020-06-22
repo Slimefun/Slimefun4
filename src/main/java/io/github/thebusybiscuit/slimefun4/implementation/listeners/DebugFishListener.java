@@ -63,7 +63,7 @@ public class DebugFishListener implements Listener {
                 if (p.isSneaking()) {
                     Block b = e.getClickedBlock().getRelative(e.getBlockFace());
                     b.setType(Material.PLAYER_HEAD);
-                    SkullBlock.setFromHash(b, HeadTexture.UNKNOWN.getTexture());
+                    SkullBlock.setFromHash(b, HeadTexture.MISSING_TEXTURE.getTexture());
                 }
                 else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
                     sendInfo(p, e.getClickedBlock());

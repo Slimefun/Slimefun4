@@ -31,6 +31,7 @@
 * Coolant Cells now last twice as long
 * Ticking blocks will now catch more errors caused by addons
 * Massive performance improvements
+* Changed the texture for the Nuclear Reactor
 
 #### Fixes
 * Fixed #2005

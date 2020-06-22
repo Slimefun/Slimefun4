@@ -13,6 +13,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
 import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 /**
  * Represents a {@link Contributor} who contributed to a GitHub repository.
@@ -24,8 +25,6 @@ import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
  * 
  */
 public class Contributor {
-
-    private static final String PLACEHOLDER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==";
 
     private final String githubUsername;
     private final String minecraftUsername;
@@ -133,7 +132,7 @@ public class Contributor {
      */
     public String getTexture() {
         if (!headTexture.isComputed() || !headTexture.isPresent()) {
-            return PLACEHOLDER_HEAD;
+            return HeadTexture.UNKNOWN.getTexture();
         }
         else {
             return headTexture.get();
