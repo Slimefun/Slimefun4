@@ -30,15 +30,17 @@
 #### Changes
 * Coolant Cells now last twice as long
 * Ticking blocks will now catch more errors caused by addons
-* Massive performance improvements
+* Massive performance improvements to GPS/GEO machines, especially Oil Pump and GEO Miner
 * Changed the texture for the Nuclear Reactor
 * Changed the texture for the Nether Star Reactor
+* Performance improvements to Rainbow Blocks
 
 #### Fixes
 * Fixed #2005
 * Fixed #2009
 * Fixed a chunk caching issue for GEO resources
 * Fixed Infused Magnet working even if you haven't researched it
+* Fixed Rainbow blocks duplication glitch when timing the block break right
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
