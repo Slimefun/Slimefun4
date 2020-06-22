@@ -26,6 +26,7 @@
 * Added config option to disable backwards compatibility and improve performance
 * Added ReactorExplodeEvent to the API
 * Compatibility mode status is now included in /sf versions
+* Added Nether Quartz Ore Crusher Recipe
 
 #### Changes
 * Coolant Cells now last twice as long

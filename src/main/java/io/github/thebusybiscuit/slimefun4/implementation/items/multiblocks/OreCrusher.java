@@ -42,7 +42,7 @@ public class OreCrusher extends MultiBlockMachine {
     public void postRegister() {
         super.postRegister();
 
-        displayRecipes.addAll(Arrays.asList(new ItemStack(Material.COAL_ORE), doubleOres.getCoal(), new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(), new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(), new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(), new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald()));
+        displayRecipes.addAll(Arrays.asList(new ItemStack(Material.COAL_ORE), doubleOres.getCoal(), new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(), new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(), new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(), new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald(), new ItemStack(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()));
     }
 
     @Override
@@ -85,6 +85,7 @@ public class OreCrusher extends MultiBlockMachine {
         private final ItemStack redstone = new ItemStack(Material.REDSTONE, 4);
         private final ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
         private final ItemStack emerald = new ItemStack(Material.EMERALD, 1);
+        private final ItemStack quartz = new ItemStack(Material.QUARTZ, 1);
 
         public DoubleOreSetting() {
             super("double-ores", true);
@@ -96,6 +97,7 @@ public class OreCrusher extends MultiBlockMachine {
             redstone.setAmount(value ? 8 : 4);
             diamond.setAmount(value ? 2 : 1);
             emerald.setAmount(value ? 2 : 1);
+            quartz.setAmount(value ? 2 : 1);
 
             SlimefunItem ironDust = SlimefunItem.getByID("IRON_DUST");
             if (ironDust != null) {
@@ -138,6 +140,10 @@ public class OreCrusher extends MultiBlockMachine {
 
         public ItemStack getEmerald() {
             return emerald;
+        }
+
+        public ItemStack getNetherQuartz() {
+            return quartz;
         }
 
     }
