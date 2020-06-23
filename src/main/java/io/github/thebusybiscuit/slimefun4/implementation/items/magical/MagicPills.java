@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -19,7 +18,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ZombieVillager} to
- * their {@link Villager} variant.
+ * their {@link Villager} variant. It is also one of the very few utilisations of {@link EntityInteractHandler}.
  *
  * @author Linox
  *
@@ -34,20 +33,13 @@ public class MagicPills extends SimpleSlimefunItem<EntityInteractHandler> {
 
     @Override
     public EntityInteractHandler getItemHandler() {
-        return (e, item) -> {
-            if (e.getRightClicked().getType() == EntityType.ZOMBIE_VILLAGER) {
-                Player p = e.getPlayer();
+        return (p, entity, item, offhand) -> {
+            if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
 
-                item.setAmount(item.getAmount() - 1);
-                if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                    p.getInventory().setItemInOffHand(item);
-                } else {
-                    p.getInventory().setItemInMainHand(item);
-                }
-
+                ItemUtils.consumeItem(item, false);
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
-                ZombieVillager zombieVillager = (ZombieVillager) e.getRightClicked();
+                ZombieVillager zombieVillager = (ZombieVillager) entity;
                 zombieVillager.setConversionTime(1);
                 if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
                     zombieVillager.setConversionPlayer(p);
