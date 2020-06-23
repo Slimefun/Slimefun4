@@ -40,9 +40,14 @@ public class MagicPills extends SimpleSlimefunItem<EntityInteractHandler> {
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
                 ZombieVillager zombieVillager = (ZombieVillager) entity;
-                zombieVillager.setConversionTime(1);
-                if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-                    zombieVillager.setConversionPlayer(p);
+                if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+                    zombieVillager.setConversionTime(1);
+                    if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+                        zombieVillager.setConversionPlayer(p);
+                    }
+
+                } else {
+                    zombieVillager.setVillager(true);
                 }
             }
         };

@@ -779,16 +779,14 @@ public final class SlimefunItemSetup {
 		    .register(plugin);
 		}
 
-		if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-			ItemStack magicPillsRecipePotion = new ItemStack(Material.POTION);
-			PotionMeta meta = (PotionMeta) magicPillsRecipePotion.getItemMeta();
-			meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
-			magicPillsRecipePotion.setItemMeta(meta);
-			new MagicPills(categories.magicalGadgets, SlimefunItems.MAGIC_PILLS, RecipeType.MAGIC_WORKBENCH,
-			new ItemStack[] {new ItemStack(Material.GOLD_INGOT), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.APPLE), magicPillsRecipePotion, new ItemStack(Material.APPLE), new ItemStack(Material.GOLD_INGOT), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.GOLD_INGOT)},
-			new CustomItem(SlimefunItems.MAGIC_PILLS, 4))
-			.register(plugin);
-		}
+		ItemStack magicPillsRecipePotion = new ItemStack(Material.POTION);
+		PotionMeta meta = (PotionMeta) magicPillsRecipePotion.getItemMeta();
+		meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
+		magicPillsRecipePotion.setItemMeta(meta);
+		new MagicPills(categories.magicalGadgets, SlimefunItems.MAGIC_PILLS, RecipeType.MAGIC_WORKBENCH,
+		new ItemStack[] {new ItemStack(Material.GOLD_INGOT), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.GOLD_INGOT), new ItemStack(Material.APPLE), magicPillsRecipePotion, new ItemStack(Material.APPLE), new ItemStack(Material.GOLD_INGOT), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.GOLD_INGOT)},
+		new CustomItem(SlimefunItems.MAGIC_PILLS, 4))
+		.register(plugin);
 
 		new SmeltersPickaxe(categories.tools, SlimefunItems.SMELTERS_PICKAXE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, SlimefunItems.LAVA_CRYSTAL, null, SlimefunItems.FERROSILICON, null, null, SlimefunItems.FERROSILICON, null})

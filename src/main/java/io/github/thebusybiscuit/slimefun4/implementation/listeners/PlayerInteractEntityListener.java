@@ -42,7 +42,7 @@ public class PlayerInteractEntityListener implements Listener {
         if (sfItem == null) return;
 
         if (Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
-            sfItem.callItemHandler(EntityInteractHandler.class, handler -> handler.onInteract(e, itemStack));
+            sfItem.callItemHandler(EntityInteractHandler.class, handler -> handler.onInteract(e.getPlayer(), e.getRightClicked(), itemStack, e.getHand() == EquipmentSlot.OFF_HAND));
         }
     }
 }
