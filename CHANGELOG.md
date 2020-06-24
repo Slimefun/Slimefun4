@@ -35,6 +35,8 @@
 * Changed the texture for the Nuclear Reactor
 * Changed the texture for the Nether Star Reactor
 * Performance improvements to Rainbow Blocks
+* Crafting Tin cans now produces 8 items instead of 4
+* Multi Tool lore now says "Crouch" instead of "Hold Shift"
 
 #### Fixes
 * Fixed #2005

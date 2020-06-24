@@ -109,7 +109,7 @@ public final class ResearchSetup {
         register("crushed_ore", 81, "Ore Purification", 25, SlimefunItems.CRUSHED_ORE, SlimefunItems.PULVERIZED_ORE, SlimefunItems.PURE_ORE_CLUSTER);
         register("redstone_alloy", 84, "Redstone Alloy", 16, SlimefunItems.REDSTONE_ALLOY);
         register("carbonado_tools", 85, "Top Tier Machines", 24, SlimefunItems.CARBONADO_MULTI_TOOL, SlimefunItems.CARBONADO_JETPACK, SlimefunItems.CARBONADO_JETBOOTS);
-        register("first_aid", 86, "First Aid", 2, SlimefunItems.CLOTH, SlimefunItems.RAG, SlimefunItems.BANDAGE, SlimefunItems.SPLINT, SlimefunItems.CAN, SlimefunItems.VITAMINS, SlimefunItems.MEDICINE);
+        register("first_aid", 86, "First Aid", 2, SlimefunItems.CLOTH, SlimefunItems.RAG, SlimefunItems.BANDAGE, SlimefunItems.SPLINT, SlimefunItems.TIN_CAN, SlimefunItems.VITAMINS, SlimefunItems.MEDICINE);
         register("gold_armor", 87, "Shiny Armor", 13, SlimefunItems.GOLD_HELMET, SlimefunItems.GOLD_CHESTPLATE, SlimefunItems.GOLD_LEGGINGS, SlimefunItems.GOLD_BOOTS);
         register("night_vision_googles", 89, "Night Vision Goggles", 10, SlimefunItems.NIGHT_VISION_GOGGLES);
         register("pickaxe_of_containment", 90, "Pickaxe of Containment", 14, SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);

@@ -31,7 +31,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack GRAPPLING_HOOK = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GRAPPLING_HOOK;
     public static final SlimefunItemStack SOLAR_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SOLAR_HELMET;
     public static final SlimefunItemStack CLOTH = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CLOTH;
-    public static final SlimefunItemStack CAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.CAN;
+    public static final SlimefunItemStack CAN = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.TIN_CAN;
     public static final SlimefunItemStack NIGHT_VISION_GOGGLES = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NIGHT_VISION_GOGGLES;
     public static final SlimefunItemStack FARMER_SHOES = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FARMER_SHOES;
     public static final SlimefunItemStack INFUSED_MAGNET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.INFUSED_MAGNET;
