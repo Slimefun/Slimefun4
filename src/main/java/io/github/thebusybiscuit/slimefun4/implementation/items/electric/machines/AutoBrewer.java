@@ -21,6 +21,15 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+/**
+ *
+ * The Auto Brewer machine with most if not all potion recipes.
+ *
+ * @author Linox
+ *
+ * @see AContainer
+ *
+ */
 public class AutoBrewer extends AContainer {
 
     private static final HashMap<Material, PotionType> potionRecipes = new HashMap<>();
