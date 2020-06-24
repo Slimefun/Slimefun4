@@ -265,7 +265,7 @@ public final class ResearchSetup {
         register("tree_growth_accelerator", 256, "Faster Trees", 18, SlimefunItems.TREE_GROWTH_ACCELERATOR);
         register("industrial_miner", 95, "Industrial Mining", 28, SlimefunItems.INDUSTRIAL_MINER);
         register("advanced_industrial_miner", 98, "Better Mining", 36, SlimefunItems.ADVANCED_INDUSTRIAL_MINER);
-        register("magical_zombie_pills", 257, "De-Zombification", 22, SlimefunItems.MAGIC_PILLS);
+        register("magical_zombie_pills", 257, "De-Zombification", 22, SlimefunItems.MAGICAL_ZOMBIE_PILLS);
         register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
     }
 
