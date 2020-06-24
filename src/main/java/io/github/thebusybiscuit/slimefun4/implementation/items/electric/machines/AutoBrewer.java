@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,17 +24,15 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  *
- * The Auto Brewer machine with most if not all potion recipes.
+ * The {@link AutoBrewer} machine with most if not all potion recipes.
  *
  * @author Linox
- *
- * @see AContainer
  *
  */
 public class AutoBrewer extends AContainer {
 
-    private static final HashMap<Material, PotionType> potionRecipes = new HashMap<>();
-    private static final HashMap<PotionType, PotionType> fermSpiderEye = new HashMap<>();
+    private static final Map<Material, PotionType> potionRecipes = new EnumMap<>(Material.class);
+    private static final Map<PotionType, PotionType> fermentations = new EnumMap<>(PotionType.class);
 
     static {
         potionRecipes.put(Material.SUGAR, PotionType.SPEED);
@@ -48,11 +47,11 @@ public class AutoBrewer extends AContainer {
         potionRecipes.put(Material.TURTLE_HELMET, PotionType.TURTLE_MASTER);
         potionRecipes.put(Material.PHANTOM_MEMBRANE, PotionType.SLOW_FALLING);
 
-        fermSpiderEye.put(PotionType.SPEED, PotionType.SLOWNESS);
-        fermSpiderEye.put(PotionType.JUMP, PotionType.SLOWNESS);
-        fermSpiderEye.put(PotionType.INSTANT_HEAL, PotionType.INSTANT_DAMAGE);
-        fermSpiderEye.put(PotionType.POISON, PotionType.INSTANT_DAMAGE);
-        fermSpiderEye.put(PotionType.NIGHT_VISION, PotionType.INVISIBILITY);
+        fermentations.put(PotionType.SPEED, PotionType.SLOWNESS);
+        fermentations.put(PotionType.JUMP, PotionType.SLOWNESS);
+        fermentations.put(PotionType.INSTANT_HEAL, PotionType.INSTANT_DAMAGE);
+        fermentations.put(PotionType.POISON, PotionType.INSTANT_DAMAGE);
+        fermentations.put(PotionType.NIGHT_VISION, PotionType.INVISIBILITY);
     }
 
     public AutoBrewer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -114,61 +113,87 @@ public class AutoBrewer extends AContainer {
         ItemStack input1 = menu.getItemInSlot(getInputSlots()[0]);
         ItemStack input2 = menu.getItemInSlot(getInputSlots()[1]);
 
-        if (input1 == null || input2 == null) return null;
+        if (input1 == null || input2 == null) {
+            return null;
+        }
 
         if (isPotion(input1.getType()) || isPotion(input2.getType())) {
             boolean slot = isPotion(input1.getType());
-            ItemStack pItem = slot ? input1 : input2;
-            ItemStack iItem = slot ? input2 : input1;
+            ItemStack potionItem = slot ? input1 : input2;
+            ItemStack ingredient = slot ? input2 : input1;
 
-            PotionMeta potion = (PotionMeta) pItem.getItemMeta();
-            if (potion == null) return null;
+            PotionMeta potion = (PotionMeta) potionItem.getItemMeta();
+
+            // Reject any named items
+            if (ingredient.hasItemMeta()) {
+                return null;
+            }
+
             PotionData potionData = potion.getBasePotionData();
+            ItemStack output = brew(ingredient.getType(), potionItem.getType(), potion, potionData);
 
-            ItemStack output;
-            if (potionData.getType() == PotionType.WATER) {
-                if (iItem.getType() == Material.FERMENTED_SPIDER_EYE) {
-                    potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
-                    output = new ItemStack(pItem.getType());
-
-                } else if (iItem.getType() == Material.NETHER_WART) {
-                    potion.setBasePotionData(new PotionData(PotionType.AWKWARD, false, false));
-                    output = new ItemStack(pItem.getType());
-
-                } else if (pItem.getType() == Material.POTION && iItem.getType() == Material.GUNPOWDER) {
-                    output = new ItemStack(Material.SPLASH_POTION);
-
-                } else if (pItem.getType() == Material.SPLASH_POTION && iItem.getType() == Material.DRAGON_BREATH) {
-                    output = new ItemStack(Material.LINGERING_POTION);
-
-                } else return null;
-
-            } else {
-                if (iItem.getType() == Material.FERMENTED_SPIDER_EYE) {
-                    potion.setBasePotionData(new PotionData(fermSpiderEye.get(potionData.getType()), false, false));
-                    output = new ItemStack(pItem.getType());
-
-                } else if (iItem.getType() == Material.REDSTONE) {
-                    potion.setBasePotionData(new PotionData(potionData.getType(), true, potionData.isUpgraded()));
-                    output = new ItemStack(pItem.getType());
-
-                } else if (iItem.getType() == Material.GLOWSTONE_DUST) {
-                    potion.setBasePotionData(new PotionData(potionData.getType(), potionData.isExtended(), true));
-                    output = new ItemStack(pItem.getType());
-
-                } else if (potionData.getType() == PotionType.AWKWARD && potionRecipes.containsKey(iItem.getType())) {
-                    potion.setBasePotionData(new PotionData(potionRecipes.get(iItem.getType()), false, false));
-                    output = new ItemStack(pItem.getType());
-
-                } else return null;
+            if (output == null) {
+                return null;
             }
 
             output.setItemMeta(potion);
-
-            return new MachineRecipe(30, new ItemStack[]{input1, input2}, new ItemStack[]{output});
-        } else return null;
+            return new MachineRecipe(30, new ItemStack[] { input1, input2 }, new ItemStack[] { output });
+        }
+        else {
+            return null;
+        }
     }
 
+    private ItemStack brew(Material input, Material potionType, PotionMeta potion, PotionData potionData) {
+        if (potionData.getType() == PotionType.WATER) {
+            if (input == Material.FERMENTED_SPIDER_EYE) {
+                potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
+                return new ItemStack(potionType);
+            }
+            else if (input == Material.NETHER_WART) {
+                potion.setBasePotionData(new PotionData(PotionType.AWKWARD, false, false));
+                return new ItemStack(potionType);
+            }
+            else if (potionType == Material.POTION && input == Material.GUNPOWDER) {
+                return new ItemStack(Material.SPLASH_POTION);
+            }
+            else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
+                return new ItemStack(Material.LINGERING_POTION);
+            }
+            else {
+                return null;
+            }
+
+        }
+        else if (input == Material.FERMENTED_SPIDER_EYE) {
+            potion.setBasePotionData(new PotionData(fermentations.get(potionData.getType()), false, false));
+            return new ItemStack(potionType);
+        }
+        else if (input == Material.REDSTONE) {
+            potion.setBasePotionData(new PotionData(potionData.getType(), true, potionData.isUpgraded()));
+            return new ItemStack(potionType);
+        }
+        else if (input == Material.GLOWSTONE_DUST) {
+            potion.setBasePotionData(new PotionData(potionData.getType(), potionData.isExtended(), true));
+            return new ItemStack(potionType);
+        }
+        else if (potionData.getType() == PotionType.AWKWARD && potionRecipes.containsKey(input)) {
+            potion.setBasePotionData(new PotionData(potionRecipes.get(input), false, false));
+            return new ItemStack(potionType);
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
+     * Checks whether a given {@link Material} is a valid Potion material.
+     * 
+     * @param mat
+     *            The {@link Material} to check
+     * 
+     * @return Whether this {@link Material} is a valid potion
+     */
     private boolean isPotion(Material mat) {
         return mat == Material.POTION || mat == Material.SPLASH_POTION || mat == Material.LINGERING_POTION;
     }
