@@ -37,6 +37,8 @@
 * Performance improvements to Rainbow Blocks
 * Crafting Tin cans now produces 8 items instead of 4
 * Multi Tool lore now says "Crouch" instead of "Hold Shift"
+* items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
+* Small performance improvements to the Cargo Net
 
 #### Fixes
 * Fixed #2005
@@ -44,6 +46,7 @@
 * Fixed a chunk caching issue for GEO resources
 * Fixed Infused Magnet working even if you haven't researched it
 * Fixed Rainbow blocks duplication glitch when timing the block break right
+* Fixed #1855
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
