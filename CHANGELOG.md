@@ -27,6 +27,7 @@
 * Added ReactorExplodeEvent to the API
 * Compatibility mode status is now included in /sf versions
 * Added Nether Quartz Ore Crusher Recipe
+* Added a new language: Tagalog
 
 #### Changes
 * Coolant Cells now last twice as long
