@@ -17,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -45,7 +44,8 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
                 log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
                 OfflinePlayer p = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
 
-                if (SlimefunPlugin.getProtectionManager().hasPermission(p, log.getLocation(), ProtectableAction.BREAK_BLOCK) && ProtectionChecker.canInteract((Player) p, log, ProtectableAction.BREAK_BLOCK)) {
+                if (SlimefunPlugin.getProtectionManager().hasPermission(p, log.getLocation(), ProtectableAction.BREAK_BLOCK)
+                        && ProtectionChecker.canInteract(p.getPlayer(), log, ProtectableAction.BREAK_BLOCK)) {
                     breakLog(log, b, menu, face);
                 }
 
