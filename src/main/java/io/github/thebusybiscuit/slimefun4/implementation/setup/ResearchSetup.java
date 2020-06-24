@@ -266,6 +266,8 @@ public final class ResearchSetup {
         register("industrial_miner", 95, "Industrial Mining", 28, SlimefunItems.INDUSTRIAL_MINER);
         register("advanced_industrial_miner", 98, "Better Mining", 36, SlimefunItems.ADVANCED_INDUSTRIAL_MINER);
         register("magic_pills", 257, "De-Zombification", 22, SlimefunItems.MAGIC_PILLS);
+        register("enchantment_rune", 258, "Ancient Enchanting", 24, SlimefunItems.ENCHANTMENT_RUNE);
+        register("magical_glass", 259, "Magical See-Through", 5, SlimefunItems.MAGICAL_GLASS);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
