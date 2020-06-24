@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -72,6 +71,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generato
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AnimalGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoAnvil;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBreeder;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDrier;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
