@@ -116,8 +116,8 @@ public class AutoBrewer extends AContainer {
 
         if (input1 == null || input2 == null) return null;
 
-        if (input1.getType().name().endsWith("POTION") || input2.getType().name().endsWith("POTION")) {
-            boolean slot = input1.getType().name().endsWith("POTION");
+        if (isPotion(input1.getType()) || isPotion(input2.getType())) {
+            boolean slot = isPotion(input1.getType());
             ItemStack pItem = slot ? input1 : input2;
             ItemStack iItem = slot ? input2 : input1;
 
@@ -167,6 +167,10 @@ public class AutoBrewer extends AContainer {
 
             return new MachineRecipe(30, new ItemStack[]{input1, input2}, new ItemStack[]{output});
         } else return null;
+    }
+
+    private boolean isPotion(Material mat) {
+        return mat == Material.POTION || mat == Material.SPLASH_POTION || mat == Material.LINGERING_POTION;
     }
 
     @Override
