@@ -28,6 +28,7 @@
 * Compatibility mode status is now included in /sf versions
 * Added Nether Quartz Ore Crusher Recipe
 * Added a new language: Tagalog
+* Added Magical Zombie Pills
 
 #### Changes
 * Coolant Cells now last twice as long

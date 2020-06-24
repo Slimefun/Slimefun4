@@ -327,6 +327,7 @@ languages:
   ja: 'Japanese'
   fa: 'Persian'
   th: 'Thai'
+  tl: 'Tagalog'
   ro: 'Romanian'
   bg: 'Bulgarian'
   ko: 'Korean'
@@ -335,4 +336,3 @@ languages:
   mk: 'Macedonian'
   sr: 'Serbian'
   be: 'Belarusian'
-  tl: 'Tagalog'
