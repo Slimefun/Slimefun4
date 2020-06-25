@@ -129,7 +129,7 @@ public class GrapplingHookListener implements Listener {
         // To fix issue #253
         Slimefun.runSync(() -> {
             if (grappleState.containsKey(uuid)) {
-                SlimefunPlugin.getBowListener().getBows().remove(uuid);
+                SlimefunPlugin.getBowListener().getProjectileData().remove(uuid);
 
                 for (Entity n : temporaryEntities.get(uuid)) {
                     if (n.isValid()) {
