@@ -146,12 +146,16 @@ public class SlimefunUpdater {
         GithubBean bean = getCache();
 
         if (bean != null) {
-            if (isOldVersion(SlimefunPlugin.getVersion(), bean.getTagName())) {
-                String updateInfo = "有更新了 | " + bean.getTagName() + " 现已发布\n正在自动下载更新中, 下载完成后重启服务器生效";
-                Slimefun.getLogger().info(updateInfo);
-                downloadUpdate(getCache().getAssets().get(0).getDownloadUrl(), getCache().getAssets().get(0).getName());
-            } else {
-                Slimefun.getLogger().info(ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion()));
+            try {
+                if (isOldVersion(SlimefunPlugin.getVersion(), bean.getTagName())) {
+                    String updateInfo = "有更新了 | " + bean.getTagName() + " 现已发布\n正在自动下载更新中, 下载完成后重启服务器生效";
+                    Slimefun.getLogger().info(updateInfo);
+                    downloadUpdate(getCache().getAssets().get(0).getDownloadUrl(), getCache().getAssets().get(0).getName());
+                } else {
+                    Slimefun.getLogger().info(ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion()));
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                Slimefun.getLogger().log(Level.SEVERE, "&c无法解析版本号, 报错信息: " + e.getLocalizedMessage());
             }
         } else {
             Slimefun.getLogger().info("无法获取到更新信息");
