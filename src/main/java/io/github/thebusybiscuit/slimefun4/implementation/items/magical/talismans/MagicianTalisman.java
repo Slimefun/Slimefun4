@@ -29,7 +29,7 @@ public class MagicianTalisman extends Talisman {
                 }
             }
             catch (Exception x) {
-                Slimefun.getLogger().log(Level.SEVERE, x, () -> "The following Exception occured while trying to register the following Enchantment: " + enchantment);
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "The following Exception occurred while trying to register the following Enchantment: " + enchantment);
             }
         }
 

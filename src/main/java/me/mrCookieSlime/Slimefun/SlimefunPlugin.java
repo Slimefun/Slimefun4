@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -391,19 +391,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
         });
 
-        for (World world : Bukkit.getWorlds()) {
+        // Save all registered Worlds
+        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
-                BlockStorage storage = BlockStorage.getStorage(world);
-
-                if (storage != null) {
-                    storage.save(true);
-                }
-                else {
-                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
-                }
+                entry.getValue().save(true);
             }
             catch (Exception x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
+                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
             }
         }
 
@@ -460,7 +454,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             SlimefunItemSetup.setup(this);
         }
         catch (Exception | LinkageError x) {
-            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
+            getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing SlimefunItems for Slimefun " + getVersion());
         }
     }
 
@@ -469,7 +463,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             ResearchSetup.setupResearches();
         }
         catch (Exception | LinkageError x) {
-            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
+            getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
         }
     }
 
