@@ -276,9 +276,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.WalshyDev</groupId>
+            <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>aa3bc64df3</version>
+            <version>31390302cf</version>
             <scope>provided</scope>
         </dependency>
 
@@ -304,9 +304,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.WalshyDev</groupId>
+            <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>2ed2ddcfcd</version>
+            <version>0.22</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
