@@ -232,7 +232,7 @@ public class BlockStorage {
                     }
                 }
                 catch (Exception x) {
-                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while loading this Block Inventory: " + file.getName());
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while loading this Block Inventory: " + file.getName());
                 }
             }
         }
@@ -248,7 +248,7 @@ public class BlockStorage {
                     }
                 }
                 catch (Exception x) {
-                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while loading this universal Inventory: " + file.getName());
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while loading this universal Inventory: " + file.getName());
                 }
             }
         }
@@ -313,7 +313,7 @@ public class BlockStorage {
                     Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);
                 }
                 catch (IOException x) {
-                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while copying a temporary File for Slimefun " + SlimefunPlugin.getVersion());
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while copying a temporary File for Slimefun " + SlimefunPlugin.getVersion());
                 }
             }
         }
@@ -418,7 +418,7 @@ public class BlockStorage {
             logger.log(Level.WARNING, "");
             logger.log(Level.WARNING, "IGNORE THIS ERROR UNLESS IT IS SPAMMING");
             logger.log(Level.WARNING, "");
-            logger.log(Level.SEVERE, x, () -> "An Error occured while parsing Block Info for Slimefun " + SlimefunPlugin.getVersion());
+            logger.log(Level.SEVERE, x, () -> "An Error occurred while parsing Block Info for Slimefun " + SlimefunPlugin.getVersion());
             return null;
         }
     }
@@ -480,6 +480,10 @@ public class BlockStorage {
 
     public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
         BlockStorage storage = getStorage(l.getWorld());
+        if (storage == null) {
+            Slimefun.getLogger().warning("Could not set Block info for non-registered World '" + l.getWorld().getName() + "'. Is some plugin trying to store data in a fake world?");
+            return;
+        }
         storage.storage.put(l, cfg);
 
         String id = cfg.getString("id");
@@ -677,7 +681,7 @@ public class BlockStorage {
             return id != null && id.equalsIgnoreCase(slimefunItem);
         }
         catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while checking " + new BlockPosition(l) + " for: \"" + slimefunItem + "\"");
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while checking " + new BlockPosition(l) + " for: \"" + slimefunItem + "\"");
             return false;
         }
     }

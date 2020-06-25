@@ -806,7 +806,7 @@ public final class SlimefunItems {
         else {
             TABLE_SAW = null;
             MAKESHIFT_SMELTERY = new SlimefunItemStack("MAKESHIFT_SMELTERY", Material.FURNACE, "&eMakeshift Smeltery", "", "&rImprovised version of the Smeltery", "&rthat only allows you to", "&rsmelt dusts into ingots");
-            AUTO_DRIER = null;
+            AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.FURNACE, "&eAuto Drier", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(10));
             AUTO_BREWER = new SlimefunItemStack("AUTO_BREWER", Material.BREWING_STAND, "&eAuto Brewer", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(12));
         }
     }
