@@ -417,7 +417,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack MAGNESIUM_INGOT = new SlimefunItemStack("MAGNESIUM_INGOT", Material.IRON_INGOT, "&bMagnesium Ingot");
 
     /* Alloy (Carbon + Iron) */
-    public static final SlimefunItemStack STEEL_INGOT = new SlimefunItemStack("STEEL_INGOT", Material.IRON_INGOT, "&bSteel Ingot");
+    public static final SlimefunItemStack STEEL_INGOT;
     /* Alloy (Copper + Tin) */
     public static final SlimefunItemStack BRONZE_INGOT = new SlimefunItemStack("BRONZE_INGOT", Material.BRICK, "&bBronze Ingot");
     /* Alloy (Copper + Aluminum) */
@@ -435,13 +435,13 @@ public final class SlimefunItems {
     /* Alloy (Lead + Tin) */
     public static final SlimefunItemStack SOLDER_INGOT = new SlimefunItemStack("SOLDER_INGOT", Material.IRON_INGOT, "&bSolder Ingot");
     /* Alloy (Steel + Iron + Carbon) */
-    public static final SlimefunItemStack DAMASCUS_STEEL_INGOT = new SlimefunItemStack("DAMASCUS_STEEL_INGOT", Material.IRON_INGOT, "&bDamascus Steel Ingot");
+    public static final SlimefunItemStack DAMASCUS_STEEL_INGOT;
     /* Alloy (Damascus Steel + Duralumin + Compressed Carbon + Aluminium Bronze) */
-    public static final SlimefunItemStack HARDENED_METAL_INGOT = new SlimefunItemStack("HARDENED_METAL_INGOT", Material.IRON_INGOT, "&b&lHardened Metal");
+    public static final SlimefunItemStack HARDENED_METAL_INGOT;
     /* Alloy (Hardened Metal + Corinthian Bronze + Solder + Billon + Damascus Steel) */
     public static final SlimefunItemStack REINFORCED_ALLOY_INGOT = new SlimefunItemStack("REINFORCED_ALLOY_INGOT", Material.IRON_INGOT, "&b&lReinforced Alloy Ingot");
     /* Alloy (Iron + Silicon) */
-    public static final SlimefunItemStack FERROSILICON = new SlimefunItemStack("FERROSILICON", Material.IRON_INGOT, "&bFerrosilicon");
+    public static final SlimefunItemStack FERROSILICON;
     /* Alloy (Iron + Gold) */
     public static final SlimefunItemStack GILDED_IRON = new SlimefunItemStack("GILDED_IRON", Material.GOLD_INGOT, "&6&lGilded Iron");
     /* Alloy (Redston + Ferrosilicon) */
@@ -450,6 +450,20 @@ public final class SlimefunItems {
     public static final SlimefunItemStack NICKEL_INGOT = new SlimefunItemStack("NICKEL_INGOT", Material.IRON_INGOT, "&bNickel Ingot");
     /* Alloy (Nickel + Iron + Copper) */
     public static final SlimefunItemStack COBALT_INGOT = new SlimefunItemStack("COBALT_INGOT", Material.IRON_INGOT, "&9Cobalt Ingot");
+
+    static {
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            STEEL_INGOT = new SlimefunItemStack("STEEL_INGOT", Material.NETHERITE_INGOT, "&bSteel Ingot");
+            DAMASCUS_STEEL_INGOT = new SlimefunItemStack("DAMASCUS_STEEL_INGOT", Material.NETHERITE_INGOT, "&bDamascus Steel Ingot");
+            HARDENED_METAL_INGOT = new SlimefunItemStack("HARDENED_METAL_INGOT", Material.NETHERITE_INGOT, "&b&lHardened Metal");
+            FERROSILICON = new SlimefunItemStack("FERROSILICON", Material.IRON_INGOT, "&bFerrosilicon");
+        } else {
+            STEEL_INGOT = new SlimefunItemStack("STEEL_INGOT", Material.IRON_INGOT, "&bSteel Ingot");
+            DAMASCUS_STEEL_INGOT = new SlimefunItemStack("DAMASCUS_STEEL_INGOT", Material.IRON_INGOT, "&bDamascus Steel Ingot");
+            HARDENED_METAL_INGOT = new SlimefunItemStack("HARDENED_METAL_INGOT", Material.IRON_INGOT, "&b&lHardened Metal");
+            FERROSILICON = new SlimefunItemStack("FERROSILICON", Material.IRON_INGOT, "&bFerrosilicon");
+        }
+    }
 
     /* Gold */
     public static final SlimefunItemStack GOLD_4K = new SlimefunItemStack("GOLD_4K", Material.GOLD_INGOT, "&fGold Ingot &7(4-Carat)");
