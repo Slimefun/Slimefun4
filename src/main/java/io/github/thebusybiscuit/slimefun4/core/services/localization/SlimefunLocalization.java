@@ -74,7 +74,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     protected abstract void addLanguage(String id, String texture);
 
     protected void loadEmbeddedLanguages() {
-        for (EmbeddedLanguage lang : EmbeddedLanguage.values()) {
+        for (SupportedLanguage lang : SupportedLanguage.values()) {
             if (lang.isReadyForRelease()) {
                 addLanguage(lang.getId(), lang.getTexture());
             }

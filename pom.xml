@@ -55,6 +55,10 @@
             <id>enginehub</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
+        <repository>
+            <id>walshy-public</id>
+            <url>https://repo.walshy.dev/public/</url>
+        </repository>
     </repositories>
 
     <build>
@@ -266,9 +270,8 @@
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
-            <version>2.9.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
+            <version>3.1.6</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.bekvon.bukkit</groupId>

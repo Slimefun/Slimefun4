@@ -18,16 +18,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * This {@link Listener} is responsible for tracking {@link Arrow Arrows} fired from a
+ * {@link SlimefunBow}.
+ *
+ * @author TheBusyBiscuit
+ * @see SlimefunBow
+ */
 public class SlimefunBowListener implements Listener {
 
-    private final Map<UUID, SlimefunBow> bows = new HashMap<>();
+    private final Map<UUID, SlimefunBow> projectiles = new HashMap<>();
 
     public void register(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public Map<UUID, SlimefunBow> getBows() {
-        return bows;
+    /**
+     * This returns a {@link HashMap} holding the {@link UUID} of a {@link Arrow} and the
+     * associated {@link SlimefunBow} with which this {@link Arrow} was fired from.
+     *
+     * @return A {@link HashMap} with all actively tracked {@link Arrow Arrows}
+     */
+    public Map<UUID, SlimefunBow> getProjectileData() {
+        return projectiles;
     }
 
     @EventHandler
@@ -36,7 +49,7 @@ public class SlimefunBowListener implements Listener {
             SlimefunItem bow = SlimefunItem.getByItem(e.getBow());
 
             if (bow instanceof SlimefunBow) {
-                bows.put(e.getProjectile().getUniqueId(), (SlimefunBow) bow);
+                projectiles.put(e.getProjectile().getUniqueId(), (SlimefunBow) bow);
             }
         }
     }
@@ -45,7 +58,7 @@ public class SlimefunBowListener implements Listener {
     public void onArrowHit(ProjectileHitEvent e) {
         Slimefun.runSync(() -> {
             if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
-                bows.remove(e.getEntity().getUniqueId());
+                projectiles.remove(e.getEntity().getUniqueId());
             }
         }, 4L);
     }
@@ -53,13 +66,13 @@ public class SlimefunBowListener implements Listener {
     @EventHandler
     public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow && e.getEntity() instanceof LivingEntity) {
-            SlimefunBow bow = bows.get(e.getDamager().getUniqueId());
+            SlimefunBow bow = projectiles.get(e.getDamager().getUniqueId());
 
             if (bow != null) {
                 bow.callItemHandler(BowShootHandler.class, handler -> handler.onHit(e, (LivingEntity) e.getEntity()));
             }
 
-            bows.remove(e.getDamager().getUniqueId());
+            projectiles.remove(e.getDamager().getUniqueId());
         }
     }
 

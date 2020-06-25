@@ -1,13 +1,16 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -21,11 +24,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-abstract class AbstractEnergyGenerator extends SlimefunItem implements InventoryBlock, RecipeDisplayItem, EnergyNetComponent {
+/**
+ * This is an abstract super class for machines that produce energy.
+ *
+ * @author TheBusyBiscuit
+ * @see AGenerator
+ * @see Reactor
+ */
+public abstract class AbstractEnergyProvider extends SlimefunItem implements InventoryBlock, RecipeDisplayItem, EnergyNetComponent {
 
     protected final Set<MachineFuel> fuelTypes = new HashSet<>();
 
-    protected AbstractEnergyGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AbstractEnergyProvider(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 

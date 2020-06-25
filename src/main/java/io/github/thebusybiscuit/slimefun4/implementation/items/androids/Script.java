@@ -25,15 +25,15 @@ public final class Script {
         this.config = config;
         this.name = config.getString("name");
         this.code = config.getString("code");
-        String author = config.getString("author");
+        String uuid = config.getString("author");
 
         Validate.notNull(name);
         Validate.notNull(code);
-        Validate.notNull(author);
+        Validate.notNull(uuid);
         Validate.notNull(config.getStringList("rating.positive"));
         Validate.notNull(config.getStringList("rating.negative"));
 
-        OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(author));
+        OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
         this.author = player.getName() != null ? player.getName() : config.getString("author_name");
     }
 

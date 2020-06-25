@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.geo;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
@@ -65,7 +66,9 @@ public class ResourceManager {
             SlimefunPlugin.getRegistry().getGEOResources().add(resource);
         }
 
-        config.save();
+        if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+            config.save();
+        }
     }
 
     public OptionalInt getSupplies(GEOResource resource, World world, int x, int z) {

@@ -4,7 +4,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -17,13 +16,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- * The {@link NetherStarReactor} is an implementation of {@link AReactor} that consumes
+ * The {@link NetherStarReactor} is an implementation of {@link Reactor} that consumes
  * Nether Stars and adds Withering to any nearby {@link LivingEntity}
  *
  * @author John000708
  * @see NuclearReactor
  */
-public abstract class NetherStarReactor extends AReactor {
+public abstract class NetherStarReactor extends Reactor {
 
     public NetherStarReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

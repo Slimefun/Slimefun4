@@ -2,9 +2,9 @@ package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import org.bukkit.block.Block;
 
 /**
@@ -19,7 +19,7 @@ public enum EnergyNetComponentType {
 
     /**
      * A Generator generates Energy and feeds it into the network.
-     * Also see: {@link AGenerator} or {@link AReactor}
+     * Also see: {@link AGenerator} or {@link Reactor}
      */
     GENERATOR,
 

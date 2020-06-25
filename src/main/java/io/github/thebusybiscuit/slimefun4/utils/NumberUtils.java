@@ -2,12 +2,15 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import org.bukkit.ChatColor;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
 public final class NumberUtils {
+
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 
     private NumberUtils() {
     }
@@ -33,13 +36,13 @@ public final class NumberUtils {
         long hours = Duration.between(date, LocalDateTime.now()).toHours();
 
         if (hours == 0) {
-            return "< 1 小时";
+            return "< 1h";
         } else if ((hours / 24) == 0) {
-            return (hours % 24) + "小时";
+            return (hours % 24) + "h";
         } else if (hours % 24 == 0) {
-            return (hours / 24) + "天";
+            return (hours / 24) + "d";
         } else {
-            return (hours / 24) + "天 " + (hours % 24) + "小时";
+            return (hours / 24) + "d " + (hours % 24) + "h";
         }
     }
 
@@ -48,18 +51,37 @@ public final class NumberUtils {
 
         int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
-            timeleft += minutes + "分钟 ";
+            timeleft += minutes + "m ";
         }
 
         seconds -= minutes * 60;
-        return timeleft + seconds + "秒";
+        return timeleft + seconds + "s";
     }
 
-    public static int getInt(String str, int defaultVal) {
+    public static int getInt(String str, int defaultValue) {
         if (PatternUtils.NUMERIC.matcher(str).matches()) {
             return Integer.parseInt(str);
         }
 
-        return defaultVal;
+        return defaultValue;
+    }
+
+    public static String getAsMillis(long nanoseconds) {
+        String number = DECIMAL_FORMAT.format(nanoseconds / 1000000.0);
+        String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
+
+        if (parts.length == 1) {
+            return parts[0];
+        } else {
+            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+        }
+    }
+
+    public static long getLong(Long value, long defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
+    public static int getInt(Integer value, int defaultValue) {
+        return value == null ? defaultValue : value;
     }
 }

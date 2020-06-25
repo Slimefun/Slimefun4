@@ -40,7 +40,11 @@ public class GadgetsListener implements Listener {
             }
 
             if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
-                new MagnetTask(p, ((InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem()).getRadius()).scheduleRepeating(0, 8);
+                InfusedMagnet magnet = (InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem();
+
+                if (Slimefun.hasUnlocked(p, magnet, true)) {
+                    new MagnetTask(p, magnet.getRadius()).scheduleRepeating(0, 8);
+                }
             }
         }
     }

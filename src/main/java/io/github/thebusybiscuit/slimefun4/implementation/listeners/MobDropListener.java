@@ -1,8 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -14,12 +12,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Set;
 
 public class MobDropListener implements Listener {
 
-    public MobDropListener(SlimefunPlugin plugin) {
+    private final BasicCircuitBoard circuitBoard;
+
+    public MobDropListener(SlimefunPlugin plugin, BasicCircuitBoard circuitBoard) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        this.circuitBoard = circuitBoard;
     }
 
     @EventHandler
@@ -30,15 +33,7 @@ public class MobDropListener implements Listener {
 
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
             if (customDrops != null && !customDrops.isEmpty()) {
-                for (ItemStack drop : customDrops) {
-                    if (Slimefun.hasUnlocked(p, drop, true)) {
-                        if (SlimefunUtils.isItemSimilar(drop, SlimefunItems.BASIC_CIRCUIT_BOARD, true) && !((BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem()).isDroppedFromGolems()) {
-                            continue;
-                        }
-
-                        e.getDrops().add(drop.clone());
-                    }
-                }
+                addDrops(p, customDrops, e.getDrops());
             }
 
             if (item.getType() != Material.AIR) {
@@ -47,6 +42,18 @@ public class MobDropListener implements Listener {
                 if (sfItem != null && Slimefun.hasUnlocked(p, sfItem, true)) {
                     sfItem.callItemHandler(EntityKillHandler.class, handler -> handler.onKill(e, e.getEntity(), p, item));
                 }
+            }
+        }
+    }
+
+    private void addDrops(Player p, Set<ItemStack> customDrops, List<ItemStack> drops) {
+        for (ItemStack drop : customDrops) {
+            if (Slimefun.hasUnlocked(p, drop, true)) {
+                if (circuitBoard != null && circuitBoard.isItem(drop) && !circuitBoard.isDroppedFromGolems()) {
+                    continue;
+                }
+
+                drops.add(drop.clone());
             }
         }
     }

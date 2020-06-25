@@ -20,6 +20,8 @@ import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPlugin
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
@@ -34,7 +36,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -176,7 +177,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new MultiBlockListener(this);
             new GadgetsListener(this);
             new DispenserListener(this);
-            new MobDropListener(this);
+            new MobDropListener(this, (BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem());
             new BlockListener(this);
             new EnhancedFurnaceListener(this);
             new ItemPickupListener(this);
@@ -366,8 +367,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         AGenerator.processing = null;
         AGenerator.progress = null;
 
-        AReactor.processing = null;
-        AReactor.progress = null;
+        Reactor.processing = null;
+        Reactor.progress = null;
 
         instance = null;
 
@@ -384,12 +385,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);
-            if (!file.exists()) file.mkdirs();
+            if (!file.exists()) {
+                file.mkdirs();
+            }
         }
 
         for (String folder : pluginFolders) {
             File file = new File("plugins/Slimefun", folder);
-            if (!file.exists()) file.mkdirs();
+            if (!file.exists()) {
+                file.mkdirs();
+            }
         }
     }
 
