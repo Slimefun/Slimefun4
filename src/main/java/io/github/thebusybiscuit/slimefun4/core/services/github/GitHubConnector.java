@@ -98,7 +98,7 @@ abstract class GitHubConnector {
             onSuccess(element);
         }
         catch (IOException x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while parsing GitHub-Data for Slimefun " + SlimefunPlugin.getVersion());
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing GitHub-Data for Slimefun " + SlimefunPlugin.getVersion());
             onFailure();
         }
     }

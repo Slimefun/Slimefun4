@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -101,9 +101,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  * This is the main class of Slimefun.
  * This is where all the magic starts, take a look around.
  * Feel like home.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
  */
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
@@ -326,7 +325,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method checks for the {@link MinecraftVersion} of the {@link Server}.
      * If the version is unsupported, a warning will be printed to the console.
-     * 
+     *
      * @return Whether the {@link MinecraftVersion} is unsupported
      */
     private boolean isVersionUnsupported() {
@@ -378,11 +377,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Cancel all tasks from this plugin immediately
         Bukkit.getScheduler().cancelTasks(this);
 
-        if (ticker != null) {
-            // Finishes all started movements/removals of block data
-            ticker.halt();
-            ticker.run();
-        }
+        // Finishes all started movements/removals of block data
+        ticker.halt();
+        ticker.run();
 
         // Save all Player Profiles that are still in memory
         PlayerProfile.iterator().forEachRemaining(profile -> {
@@ -391,19 +388,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
         });
 
-        for (World world : Bukkit.getWorlds()) {
+        // Save all registered Worlds
+        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
-                BlockStorage storage = BlockStorage.getStorage(world);
-
-                if (storage != null) {
-                    storage.save(true);
-                }
-                else {
-                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
-                }
+                entry.getValue().save(true);
             }
             catch (Exception x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
+                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
             }
         }
 
@@ -460,7 +451,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             SlimefunItemSetup.setup(this);
         }
         catch (Exception | LinkageError x) {
-            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing SlimefunItems for Slimefun " + getVersion());
+            getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing SlimefunItems for Slimefun " + getVersion());
         }
     }
 
@@ -469,7 +460,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             ResearchSetup.setupResearches();
         }
         catch (Exception | LinkageError x) {
-            getLogger().log(Level.SEVERE, x, () -> "An Error occured while initializing Slimefun Researches for Slimefun " + getVersion());
+            getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
         }
     }
 
@@ -495,7 +486,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This returns the version of Slimefun that is currently installed.
-     * 
+     *
      * @return The currently installed version of Slimefun
      */
     public static String getVersion() {
@@ -508,7 +499,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This returns the {@link LocalizationService} of Slimefun.
-     * 
+     *
      * @return The {@link LocalizationService} of Slimefun
      */
     public static LocalizationService getLocal() {
@@ -546,7 +537,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns the {@link UpdaterService} of Slimefun.
      * It is used to handle automatic updates.
-     * 
+     *
      * @return The {@link UpdaterService} for Slimefun
      */
     public static UpdaterService getUpdater() {
@@ -556,7 +547,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns the {@link GitHubService} of Slimefun.
      * It is used to retrieve data from GitHub repositories.
-     * 
+     *
      * @return The {@link GitHubService} for Slimefun
      */
     public static GitHubService getGitHubService() {
@@ -590,9 +581,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns a {@link Set} of every {@link Plugin} that lists Slimefun
      * as a required or optional dependency.
-     * 
+     * <p>
      * We will just assume this to be a list of our addons.
-     * 
+     *
      * @return A {@link Set} of every {@link Plugin} that is dependent on Slimefun
      */
     public static Set<Plugin> getInstalledAddons() {
@@ -601,7 +592,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * The {@link Command} that was added by Slimefun.
-     * 
+     *
      * @return Slimefun's command
      */
     public static SlimefunCommand getCommand() {
@@ -610,7 +601,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * This returns the currently installed version of Minecraft.
-     * 
+     *
      * @return The current version of Minecraft
      */
     public static MinecraftVersion getMinecraftVersion() {
