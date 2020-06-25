@@ -197,7 +197,7 @@ class ActiveMiner implements Runnable {
                 nextColumn();
             }
             catch (Exception e) {
-                Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occured while running an Industrial Miner at " + new BlockPosition(chest));
+                Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occurred while running an Industrial Miner at " + new BlockPosition(chest));
                 stop();
             }
         });
@@ -343,7 +343,7 @@ class ActiveMiner implements Runnable {
             }
         }
         catch (Exception e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occured while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occurred while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
             stop();
         }
     }

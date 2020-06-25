@@ -19,15 +19,18 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ZombieVillager} to
  * their {@link Villager} variant. It is also one of the very few utilisations of {@link EntityInteractHandler}.
+ * 
+ * This item does not work on earlier versions than 1.14 as the {@link ZombieVillager} {@link EntityType}
+ * did not exist back then.
  *
  * @author Linox
  *
  * @see EntityInteractHandler
  *
  */
-public class MagicPills extends SimpleSlimefunItem<EntityInteractHandler> {
+public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler> {
 
-    public MagicPills(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public MagicalZombiePills(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 
@@ -40,14 +43,10 @@ public class MagicPills extends SimpleSlimefunItem<EntityInteractHandler> {
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
                 ZombieVillager zombieVillager = (ZombieVillager) entity;
-                if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-                    zombieVillager.setConversionTime(1);
-                    if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-                        zombieVillager.setConversionPlayer(p);
-                    }
+                zombieVillager.setConversionTime(1);
 
-                } else {
-                    zombieVillager.setVillager(true);
+                if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+                    zombieVillager.setConversionPlayer(p);
                 }
             }
         };

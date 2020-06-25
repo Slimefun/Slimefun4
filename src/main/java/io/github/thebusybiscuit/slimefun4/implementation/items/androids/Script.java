@@ -195,7 +195,7 @@ public final class Script {
                     }
                 }
                 catch (Exception x) {
-                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while trying to load Android Script '" + file.getName() + "'");
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to load Android Script '" + file.getName() + "'");
                 }
             }
         }

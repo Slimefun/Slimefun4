@@ -29,19 +29,22 @@ public class PlayerInteractEntityListener implements Listener {
 
     @EventHandler
     public void onInteractEntity(PlayerInteractAtEntityEvent e) {
-
-        if (!e.getRightClicked().isValid()) return;
+        if (!e.getRightClicked().isValid()) {
+            return;
+        }
 
         ItemStack itemStack;
+
         if (e.getHand() == EquipmentSlot.OFF_HAND) {
             itemStack = e.getPlayer().getInventory().getItemInOffHand();
-        } else {
+        }
+        else {
             itemStack = e.getPlayer().getInventory().getItemInMainHand();
         }
-        SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
-        if (sfItem == null) return;
 
-        if (Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
+        SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+
+        if (sfItem != null && Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
             sfItem.callItemHandler(EntityInteractHandler.class, handler -> handler.onInteract(e.getPlayer(), e.getRightClicked(), itemStack, e.getHand() == EquipmentSlot.OFF_HAND));
         }
     }

@@ -194,6 +194,7 @@ final class CargoUtils {
                 }
             }
         }
+
         return null;
     }
 
@@ -407,7 +408,7 @@ final class CargoUtils {
             }
         }
         catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while trying to filter items for a Cargo Node (" + id + ") at " + new BlockPosition(block));
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to filter items for a Cargo Node (" + id + ") at " + new BlockPosition(block));
             return false;
         }
     }

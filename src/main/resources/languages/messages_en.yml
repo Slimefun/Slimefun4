@@ -159,6 +159,10 @@ messages:
   - '&742. The answer is 42.'
   - '&7A Walshy a day will keep the troubles away.'
   - '&7Never dig straight down!'
+  - '&7Tis but a flesh wound!'
+  - '&7Always look on the bright side of life!'
+  - '&7This one was actually a Biscuit and not a Cookie'
+  - '&7Neon signs are LIT!'
 
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'
@@ -327,6 +331,7 @@ languages:
   ja: 'Japanese'
   fa: 'Persian'
   th: 'Thai'
+  tl: 'Tagalog'
   ro: 'Romanian'
   bg: 'Bulgarian'
   ko: 'Korean'

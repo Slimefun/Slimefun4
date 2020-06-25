@@ -1,28 +1,29 @@
+---
 slimefun:
-  walking_sticks: Walking Sticks
+  walking_sticks: Mga Lumalakad na Tusok
   portable_crafter: Portable Crafter
   fortune_cookie: Fortune Cookie
   portable_dustbin: Portable Dustbin
   meat_jerky: Meat Jerky
   armor_forge: Armor Crafting
   glowstone_armor: Glowstone Armor
-  lumps: Lumps and Magic
+  lumps: Tipak at Mahika
   ender_backpack: Ender Backpack
   ender_armor: Ender Armor
-  magic_eye_of_ender: Magic Eye of Ender
-  magic_sugar: Magic Sugar
+  magic_eye_of_ender: Ang Mahiwagang Mata ng Ender
+  magic_sugar: Mahiwagang Asukal
   monster_jerky: Monster Jerky
   slime_armor: Slime Armor
-  sword_of_beheading: Sword of Beheading
+  sword_of_beheading: Espada sa Pagpugot ng Ulo
   basic_circuit_board: Basic Circuit Board
   advanced_circuit_board: Advanced Circuit Board
   smeltery: Smeltery
   steel: Steel Age
-  misc_power_items: Important power-related Items
-  battery: Your first Battery
+  misc_power_items: Mga mahahalagang item na nauugnay sa kapangyarihan
+  battery: Ang iyong unang Baterya
   steel_plate: Steel Plating
   steel_thruster: Steel Thruster
-  parachute: Parachute
+  parachute: Parasyut
   grappling_hook: Grappling Hook
   jetpacks: Jetpacks
   multitools: Multi Tools
@@ -30,11 +31,11 @@ slimefun:
   elemental_staff: Elemental Staves
   grind_stone: Grind Stone
   cactus_armor: Cactus Suit
-  gold_pan: Gold Pan
+  gold_pan: Gintong Kawali
   magical_book_cover: Magical Book Binding
-  slimefun_metals: New Metals
-  ore_crusher: Ore Doubling
-  bronze: Bronze Creation
+  slimefun_metals: Bagong Metal
+  ore_crusher: Pag-dodoble ng Ore
+  bronze: Paglikha ng Tanso
   alloys: Advanced Alloys
   compressor_and_carbon: Carbon Creation
   gilded_iron_armor: Gilded Iron Armor
@@ -44,75 +45,75 @@ slimefun:
   damascus_steel: Damascus Steel
   damascus_steel_armor: Damascus Steel Armor
   reinforced_alloy: Reinforced Alloy
-  carbonado: Black Diamonds
+  carbonado: Maitim na Brilyante
   magic_workbench: Magic Workbench
   wind_staff: Wind Staff
   reinforced_armor: Reinforced Armor
-  ore_washer: Ore Washer
-  gold_carats: Pure Gold
+  ore_washer: Panghugas ng Ore
+  gold_carats: Tunay na Ginto
   silicon: Silicon Valley
   fire_staff: Fire Staff
   smelters_pickaxe: Smelters Pickaxe
-  common_talisman: Common Talisman
-  anvil_talisman: Talisman of the Anvil
-  miner_talisman: Talisman of the Miner
-  hunter_talisman: Talisman of the Hunter
-  lava_talisman: Talisman of the Lava Walker
-  water_talisman: Talisman of the Water Breather
-  angel_talisman: Talisman of the Angel
-  fire_talisman: Talisman of the Firefighter
-  lava_crystal: Firey Situation
-  magician_talisman: Talisman of the Magician
-  traveller_talisman: Talisman of the Traveller
-  warrior_talisman: Talisman of the Warrior
-  knight_talisman: Talisman of the Knight
-  gilded_iron: Shiny Iron
-  synthetic_emerald: Fake Gem
+  common_talisman: Karaniwang Anting-anting
+  anvil_talisman: Ang anting-anting ng Anvil
+  miner_talisman: Ang anting-anting ng Miner
+  hunter_talisman: Ang Anting-anting ng Mangangaso
+  lava_talisman: Ang Anting-anting ng Lava Walker
+  water_talisman: Ang Anting-anting ng  Water Breather
+  angel_talisman: Ang Anting-anting ng Anghel
+  fire_talisman: Ang Anting-anting ng Bumbero
+  lava_crystal: Fiery Situation
+  magician_talisman: Ang Anting-anting ng Mago
+  traveller_talisman: Ang Anting-anting ng Manlalakbay
+  warrior_talisman: Ang Anting-anting ng Mandirigma
+  knight_talisman: Ang Anting-anting ng Knight
+  gilded_iron: Makintab na Bakal
+  synthetic_emerald: Pekeng Hiyas
   chainmail_armor: Chainmail Armor
-  whirlwind_talisman: Talisman of the Whirlwind
-  wizard_talisman: Talisman of the Wizard
+  whirlwind_talisman: Ang Anting-anting ng Whirlwind
+  wizard_talisman: Ang Anting-anting ng Wizard
   lumber_axe: Lumber Axe
   hazmat_suit: Hazmat Suit
-  uranium: Radioactive
+  uranium: Radyaktibo
   crushed_ore: Ore Purification
   redstone_alloy: Redstone Alloy
   carbonado_tools: Top Tier Machines
-  first_aid: First Aid
-  gold_armor: Shiny Armor
+  first_aid: Pangunahing Lunas
+  gold_armor: Makintab na Armor
   night_vision_googles: Night Vision Goggles
-  pickaxe_of_containment: Pickaxe of Containment
+  pickaxe_of_containment: Piko ng Lalagyanan
   hercules_pickaxe: Hercules Pickaxe
-  table_saw: Table Saw
+  table_saw: Lagari
   slime_steel_armor: Slimy Steel Armor
   blade_of_vampires: Blade of Vampires
   water_staff: Water Staff
-  24k_gold_block: Golden City
-  composter: Composting Dirt
-  farmer_shoes: Farmer Shoes
-  explosive_tools: Explosive Tools
-  automated_panning_machine: Automated Gold Pan
-  boots_of_the_stomper: Boots of the Stomper
-  pickaxe_of_the_seeker: Pickaxe of the Seeker
-  backpacks: Backpacks
-  woven_backpack: Woven Backpack
-  crucible: Crucible
-  gilded_backpack: Gilded Backpack
-  armored_jetpack: Armored Jetpack
+  24k_gold_block: Ginintuang Lungsod
+  composter: Pinagsama-samang Putik
+  farmer_shoes: Sapatos ng Magsasaka
+  explosive_tools: Mga Tool na Paputok
+  automated_panning_machine: Awtomatikong Gintong Kawali
+  boots_of_the_stomper: Mga Boots ng Stomper
+  pickaxe_of_the_seeker: Piko ng Naghahanap
+  backpacks: Mga Backpacks
+  woven_backpack: Habi na Backpack
+  crucible: Marurok
+  gilded_backpack: Ginintuan na Backpack
+  armored_jetpack: Nakabaluting Jetpack
   ender_talismans: Ender Talismans
-  nickel_and_cobalt: Even more Ores
+  nickel_and_cobalt: Mas maraming Ores
   magnet: Magnetic Metals
   infused_magnet: Infused Magnets
   cobalt_pickaxe: Speedy Pickaxe
-  essence_of_afterlife: Necromancy
+  essence_of_afterlife: Nigromansiya
   bound_backpack: Soulbound Storage
   jetboots: Jet Boots
-  armored_jetboots: Armored Jet Boots
+  armored_jetboots: Armoured Jet Boots
   seismic_axe: Seismic Axe
   pickaxe_of_vein_mining: Pickaxe of Vein Mining
   bound_weapons: Soulbound Weapons
   bound_tools: Soulbound Tools
   bound_armor: Soulbound Armor
-  juicer: Delicious Drinks
+  juicer: Masarap na Inumin
   repaired_spawner: Repairing Spawners
   enhanced_furnace: Enhanced Furnace
   more_enhanced_furnaces: Better Furnaces
@@ -121,12 +122,12 @@ slimefun:
   carbonado_furnace: Carbonado Edged Furnace
   electric_motor: Heating up
   block_placer: Block Placer
-  scroll_of_dimensional_teleposition: Turning things around
+  scroll_of_dimensional_teleposition: Pagliko ng mga bagay
   special_bows: Robin Hood
-  tome_of_knowledge_sharing: Sharing with friends
+  tome_of_knowledge_sharing: Pagbabahagi sa mga kaibigan
   flask_of_knowledge: XP Storage
   hardened_glass: Withstanding Explosions
-  golden_apple_juice: Golden potion
+  golden_apple_juice: Golden Potion
   cooler: Portable Beverages
   ancient_altar: Ancient Altar
   wither_proof_obsidian: Wither-Proof Obsidian
@@ -137,16 +138,16 @@ slimefun:
   infused_hopper: Infused Hopper
   wither_proof_glass: Wither-Proof Glass
   duct_tape: Duct Tape
-  plastic_sheet: Plastic
+  plastic_sheet: Plastik
   android_memory_core: Memory Core
-  oil: Oil
-  fuel: Fuel
+  oil: Langis
+  fuel: Panggatong
   hologram_projector: Holograms
   capacitors: Tier 1 Capacitors
   high_tier_capacitors: Tier 2 Capacitors
   solar_generators: Solar Power Plant
   electric_furnaces: Powered Furnace
-  electric_ore_grinding: Crushing and Grinding
+  electric_ore_grinding: 'Crushing and Grinding '
   heated_pressure_chamber: Heated Pressure Chamber
   coal_generator: Coal Generator
   bio_reactor: Bio-Reactor
@@ -156,11 +157,11 @@ slimefun:
   gps_setup: Basic GPS Setup
   gps_emergency_transmitter: GPS Emergency Waypoint
   programmable_androids: Programmable Androids
-  android_interfaces: Android Interfaces
+  android_interfaces: Andrioid Interfaces
   geo_scanner: GEO-Scans
   combustion_reactor: Combustion Reactor
   teleporter: Teleporter Base Components
-  teleporter_activation_plates: Teleporter Activation
+  teleporter_activation_plates: Teleported Activation
   better_solar_generators: Upgraded Solar Generators
   better_gps_transmitters: Upgraded Transmitters
   elevator: Elevators
@@ -191,7 +192,7 @@ slimefun:
   fluid_pump: Fluid Pump
   better_freezer: Upgraded Freezer
   boosted_uranium: Never-Ending Circle
-  trash_can: Trash
+  trash_can: Basurahan
   advanced_output_node: Advanced Output Node
   carbon_press: Carbon Press
   electric_smeltery: Electric Smeltery
@@ -223,11 +224,11 @@ slimefun:
   soulbound_rune: Soulbound Rune
   geo_miner: GEO-Miner
   lightning_rune: Lightning Rune
-  totem_of_undying: Totem of Undying
+  totem_of_undying: Totem ng Walang Kamatayan
   charging_bench: Charging Bench
   nether_gold_pan: Nether Gold Pan
   electric_press: Electric Press
-  magnesium_generator: Power from Magnesium
+  magnesium_generator: Power of Magnesium
   kelp_cookie: Tasty Kelp
   makeshift_smeltery: Improvised Smeltery
   tree_growth_accelerator: Faster Trees
@@ -235,5 +236,3 @@ slimefun:
   advanced_industrial_miner: Better Mining
   magical_zombie_pills: De-Zombification
   auto_brewer: Industrial Brewery
-  enchantment_rune: Ancient Enchanting
-  magical_glass: Magical See-Through
