@@ -30,6 +30,9 @@
 * Added Nether Quartz Ore Crusher Recipe
 * Added a new language: Tagalog
 * Added Magical Zombie Pills
+* Added 1.13 compatibility to the Auto Drier
+* (1.16+) Slimefun guide can now show Smithing Table recipes
+* (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
 
 #### Changes
 * Coolant Cells now last twice as long
@@ -42,6 +45,7 @@
 * Multi Tool lore now says "Crouch" instead of "Hold Shift"
 * items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
 * Small performance improvements to the Cargo Net
+* Slimefun no longer supports CraftBukkit
 
 #### Fixes
 * Fixed #2005
