@@ -87,7 +87,10 @@ public class CargoNet extends ChestTerminalNetwork {
     @Override
     public NetworkComponent classifyLocation(Location l) {
         String id = BlockStorage.checkID(l);
-        if (id == null) return null;
+
+        if (id == null) {
+            return null;
+        }
 
         switch (id) {
         case "CARGO_MANAGER":
@@ -157,8 +160,8 @@ public class CargoNet extends ChestTerminalNetwork {
 
             // Chest Terminal Stuff
             Set<Location> destinations = new HashSet<>();
-
             List<Location> output16 = output.get(16);
+
             if (output16 != null) {
                 destinations.addAll(output16);
             }
@@ -264,17 +267,30 @@ public class CargoNet extends ChestTerminalNetwork {
             stack = distributeItem(stack, inputNode, outputs);
         }
 
-        DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+        if (stack != null) {
+            DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
 
-        if (menu != null) {
-            menu.replaceExistingItem(previousSlot, stack);
-        }
-        else if (CargoUtils.hasInventory(inputTarget)) {
-            BlockState state = inputTarget.getState();
+            if (menu != null) {
+                if (menu.getItemInSlot(previousSlot) == null) {
+                    menu.replaceExistingItem(previousSlot, stack);
+                }
+                else {
+                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
+                }
+            }
+            else if (CargoUtils.hasInventory(inputTarget)) {
+                BlockState state = inputTarget.getState();
 
-            if (state instanceof InventoryHolder) {
-                Inventory inv = ((InventoryHolder) state).getInventory();
-                inv.setItem(previousSlot, stack);
+                if (state instanceof InventoryHolder) {
+                    Inventory inv = ((InventoryHolder) state).getInventory();
+
+                    if (inv.getItem(previousSlot) == null) {
+                        inv.setItem(previousSlot, stack);
+                    }
+                    else {
+                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
+                    }
+                }
             }
         }
     }

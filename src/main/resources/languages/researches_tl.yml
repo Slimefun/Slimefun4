@@ -1,3 +1,4 @@
+---
 slimefun:
   walking_sticks: Walking Sticks
   portable_crafter: Portable Crafter
@@ -18,8 +19,8 @@ slimefun:
   advanced_circuit_board: Advanced Circuit Board
   smeltery: Smeltery
   steel: Steel Age
-  misc_power_items: Important power-related Items
-  battery: Your first Battery
+  misc_power_items: Mahalagang Mga item na nauugnay sa kapangyarihan
+  battery: Ang iyong unang Baterya
   steel_plate: Steel Plating
   steel_thruster: Steel Thruster
   parachute: Parachute
@@ -53,24 +54,24 @@ slimefun:
   silicon: Silicon Valley
   fire_staff: Fire Staff
   smelters_pickaxe: Smelters Pickaxe
-  common_talisman: Common Talisman
-  anvil_talisman: Talisman of the Anvil
-  miner_talisman: Talisman of the Miner
-  hunter_talisman: Talisman of the Hunter
-  lava_talisman: Talisman of the Lava Walker
-  water_talisman: Talisman of the Water Breather
-  angel_talisman: Talisman of the Angel
-  fire_talisman: Talisman of the Firefighter
-  lava_crystal: Firey Situation
-  magician_talisman: Talisman of the Magician
-  traveller_talisman: Talisman of the Traveller
-  warrior_talisman: Talisman of the Warrior
-  knight_talisman: Talisman of the Knight
+  common_talisman: Karaniwang Anting-anting
+  anvil_talisman: Ang anting-anting ng Anvil
+  miner_talisman: Ang anting-anting ng Miner
+  hunter_talisman: Ang Anting-anting ng Mangangaso
+  lava_talisman: Ang Anting-anting ng Lava Walker
+  water_talisman: Ang Anting-anting ng  Water Breather
+  angel_talisman: Ang Anting-anting ng Anghel
+  fire_talisman: Ang Anting-anting ng Bumbero
+  lava_crystal: Fiery Situation
+  magician_talisman: Ang Anting-anting ng Mago
+  traveller_talisman: Ang Anting-anting ng Manlalakbay
+  warrior_talisman: Ang Anting-anting ng Mandirigma
+  knight_talisman: Ang Anting-anting ng Knight
   gilded_iron: Shiny Iron
   synthetic_emerald: Fake Gem
   chainmail_armor: Chainmail Armor
-  whirlwind_talisman: Talisman of the Whirlwind
-  wizard_talisman: Talisman of the Wizard
+  whirlwind_talisman: Ang Anting-anting ng Whirlwind
+  wizard_talisman: Ang Anting-anting ng Wizard
   lumber_axe: Lumber Axe
   hazmat_suit: Hazmat Suit
   uranium: Radioactive
@@ -93,7 +94,7 @@ slimefun:
   automated_panning_machine: Automated Gold Pan
   boots_of_the_stomper: Boots of the Stomper
   pickaxe_of_the_seeker: Pickaxe of the Seeker
-  backpacks: Backpacks
+  backpacks: Mga Backpacks
   woven_backpack: Woven Backpack
   crucible: Crucible
   gilded_backpack: Gilded Backpack
@@ -106,7 +107,7 @@ slimefun:
   essence_of_afterlife: Necromancy
   bound_backpack: Soulbound Storage
   jetboots: Jet Boots
-  armored_jetboots: Armored Jet Boots
+  armored_jetboots: Armoured Jet Boots
   seismic_axe: Seismic Axe
   pickaxe_of_vein_mining: Pickaxe of Vein Mining
   bound_weapons: Soulbound Weapons
@@ -118,7 +119,7 @@ slimefun:
   more_enhanced_furnaces: Better Furnaces
   high_tier_enhanced_furnaces: High Tier Furnace
   reinforced_furnace: Reinforced Furnace
-  carbonado_furnace: Carbonado Edged Furnace
+  carbonado_furnace: Carbonado Edged furnace
   electric_motor: Heating up
   block_placer: Block Placer
   scroll_of_dimensional_teleposition: Turning things around
@@ -126,7 +127,7 @@ slimefun:
   tome_of_knowledge_sharing: Sharing with friends
   flask_of_knowledge: XP Storage
   hardened_glass: Withstanding Explosions
-  golden_apple_juice: Golden potion
+  golden_apple_juice: Golden Potion
   cooler: Portable Beverages
   ancient_altar: Ancient Altar
   wither_proof_obsidian: Wither-Proof Obsidian
@@ -137,7 +138,7 @@ slimefun:
   infused_hopper: Infused Hopper
   wither_proof_glass: Wither-Proof Glass
   duct_tape: Duct Tape
-  plastic_sheet: Plastic
+  plastic_sheet: Plastik
   android_memory_core: Memory Core
   oil: Oil
   fuel: Fuel
@@ -146,7 +147,7 @@ slimefun:
   high_tier_capacitors: Tier 2 Capacitors
   solar_generators: Solar Power Plant
   electric_furnaces: Powered Furnace
-  electric_ore_grinding: Crushing and Grinding
+  electric_ore_grinding: 'Crushing and Grinding '
   heated_pressure_chamber: Heated Pressure Chamber
   coal_generator: Coal Generator
   bio_reactor: Bio-Reactor
@@ -156,11 +157,11 @@ slimefun:
   gps_setup: Basic GPS Setup
   gps_emergency_transmitter: GPS Emergency Waypoint
   programmable_androids: Programmable Androids
-  android_interfaces: Android Interfaces
+  android_interfaces: Andrioid Interfaces
   geo_scanner: GEO-Scans
   combustion_reactor: Combustion Reactor
   teleporter: Teleporter Base Components
-  teleporter_activation_plates: Teleporter Activation
+  teleporter_activation_plates: Teleported Activation
   better_solar_generators: Upgraded Solar Generators
   better_gps_transmitters: Upgraded Transmitters
   elevator: Elevators
@@ -191,7 +192,7 @@ slimefun:
   fluid_pump: Fluid Pump
   better_freezer: Upgraded Freezer
   boosted_uranium: Never-Ending Circle
-  trash_can: Trash
+  trash_can: Basura
   advanced_output_node: Advanced Output Node
   carbon_press: Carbon Press
   electric_smeltery: Electric Smeltery
@@ -204,7 +205,7 @@ slimefun:
   wither_assembler: Automated Wither Killer
   better_heated_pressure_chamber: Upgraded Heated Pressure Chamber
   elytra: Elytras
-  special_elytras: Special Elytras
+  special_elytras: Espesyal na Elytras
   electric_crucible: Electrified Crucible
   better_electric_crucibles: Hot Crucibles
   advanced_electric_smeltery: Advanced Electric Smeltery
@@ -223,16 +224,13 @@ slimefun:
   soulbound_rune: Soulbound Rune
   geo_miner: GEO-Miner
   lightning_rune: Lightning Rune
-  totem_of_undying: Totem of Undying
+  totem_of_undying: Totem ng Undying
   charging_bench: Charging Bench
   nether_gold_pan: Nether Gold Pan
   electric_press: Electric Press
-  magnesium_generator: Power from Magnesium
+  magnesium_generator: Kapangyarihan mula sa Magnesium
   kelp_cookie: Tasty Kelp
   makeshift_smeltery: Improvised Smeltery
   tree_growth_accelerator: Faster Trees
   industrial_miner: Industrial Mining
   advanced_industrial_miner: Better Mining
-  magical_zombie_pills: De-Zombification
-  auto_brewer: Industrial Brewery
-  shulker_shell: Synthetic Shulkers
