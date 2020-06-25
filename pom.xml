@@ -22,7 +22,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Bukkit properties -->
-        <bukkit.version>1.15.2</bukkit.version>
+        <bukkit.version>1.16.1</bukkit.version>
         <bukkit.javadocs>https://hub.spigotmc.org/javadocs/bukkit/</bukkit.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -270,15 +270,15 @@
     <dependencies>
         <!-- Hard dependencies -->
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>${bukkit.version}-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>4a7fce5202</version>
+            <version>31390302cf</version>
             <scope>provided</scope>
         </dependency>
 
@@ -304,9 +304,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.thebusybiscuit</groupId>
+            <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.21</version>
+            <version>0.23.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

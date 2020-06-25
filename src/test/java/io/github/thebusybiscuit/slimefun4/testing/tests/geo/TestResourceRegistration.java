@@ -40,13 +40,13 @@ public class TestResourceRegistration {
     @Test
     @Order(value = 1)
     public void testDefaultResources() {
-        Assertions.assertDoesNotThrow(() -> GEOResourcesSetup.setup());
+        Assertions.assertDoesNotThrow(GEOResourcesSetup::setup);
     }
 
     @Test
     @Order(value = 2)
     public void testDoubleRegistration() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> GEOResourcesSetup.setup());
+        Assertions.assertThrows(IllegalArgumentException.class, GEOResourcesSetup::setup);
     }
 
     private GEOResource testResource(NamespacedKey key, String name, ItemStack item, boolean miner, int deviation) {
@@ -66,7 +66,7 @@ public class TestResourceRegistration {
         NamespacedKey key = new NamespacedKey(plugin, "oil");
         GEOResource resource = testResource(key, "Oil", SlimefunItems.OIL_BUCKET, false, 8);
 
-        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER));
+        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER_WASTES));
 
         Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.BEACH));
         Assertions.assertTrue(resource.getDefaultSupply(Environment.NORMAL, Biome.DESERT) > 10);
@@ -83,7 +83,7 @@ public class TestResourceRegistration {
         NamespacedKey key = new NamespacedKey(plugin, "nether_ice");
         GEOResource resource = testResource(key, "Nether Ice", SlimefunItems.NETHER_ICE, true, 6);
 
-        Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER));
+        Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER_WASTES));
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.DESERT));
     }
 
@@ -93,7 +93,7 @@ public class TestResourceRegistration {
         GEOResource resource = testResource(key, "Small Chunks of Uranium", SlimefunItems.SMALL_URANIUM, true, 2);
 
         Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.MOUNTAINS));
-        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER));
+        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER_WASTES));
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.THE_END, Biome.THE_END));
     }
 
@@ -102,7 +102,7 @@ public class TestResourceRegistration {
         NamespacedKey key = new NamespacedKey(plugin, "salt");
         GEOResource resource = testResource(key, "Salt", SlimefunItems.SALT, true, 18);
 
-        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER));
+        Assertions.assertEquals(0, resource.getDefaultSupply(Environment.NETHER, Biome.NETHER_WASTES));
         Assertions.assertEquals(0, resource.getDefaultSupply(Environment.THE_END, Biome.THE_END));
 
         Assertions.assertNotEquals(0, resource.getDefaultSupply(Environment.NORMAL, Biome.MOUNTAINS));
