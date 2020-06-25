@@ -480,6 +480,10 @@ public class BlockStorage {
 
     public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
         BlockStorage storage = getStorage(l.getWorld());
+        if (storage == null) {
+            Slimefun.getLogger().warning("Could not set Block info for non-registered World '" + l.getWorld().getName() + "'. Is some plugin trying to store data in a fake world?");
+            return;
+        }
         storage.storage.put(l, cfg);
 
         String id = cfg.getString("id");

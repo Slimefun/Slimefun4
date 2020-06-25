@@ -391,21 +391,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
         });
 
-        for (World world : Bukkit.getWorlds()) {
+        // Save all registered Worlds
+        getRegistry().getWorlds().forEach((world, storage) -> {
             try {
-                BlockStorage storage = BlockStorage.getStorage(world);
-
-                if (storage != null) {
-                    storage.save(true);
-                }
-                else {
-                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
-                }
+                storage.save(true);
             }
             catch (Exception x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
+                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world + "' for Slimefun " + getVersion());
             }
-        }
+        });
 
         for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
             menu.save();
