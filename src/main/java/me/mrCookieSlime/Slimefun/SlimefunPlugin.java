@@ -1,11 +1,7 @@
 package me.mrCookieSlime.Slimefun;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -392,14 +388,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         });
 
         // Save all registered Worlds
-        getRegistry().getWorlds().forEach((world, storage) -> {
+        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
-                storage.save(true);
+                entry.getValue().save(true);
             }
             catch (Exception x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + world + "' for Slimefun " + getVersion());
+                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
             }
-        });
+        }
 
         for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
             menu.save();
