@@ -799,7 +799,4 @@ public final class SlimefunItems {
             AUTO_DRIER = null;
         }
     }
-
-    // Extra content
-    public static final SlimefunItemStack OVERCLOCK_MODULE = new SlimefunItemStack("OVERCLOCK_MODULE", Material.ACTIVATOR_RAIL, "&a超频加速", "", "&7加速你的机器", "&b&mIntel Inside");
 }
