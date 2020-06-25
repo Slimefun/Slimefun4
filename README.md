@@ -30,7 +30,7 @@ Here is a full summary of the differences between the two different versions of 
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Minecraft version(s)** | :video_game: 1.13.X - 1.16.X | :video_game: 1.13.X - 1.15.X |
+| **Minecraft version(s)** | :video_game: **1.13.\* - 1.16.\*** | :video_game: **1.13.\* - 1.15.\*** |
 | **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
 | **frequent updates** | :heavy_check_mark: | :x: |
 | **latest content** | :heavy_check_mark: | :x: |
