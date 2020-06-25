@@ -148,6 +148,10 @@ messages:
   - "&742. Ang sagot ay 42."
   - "&7Ang isang Walshy sa isang araw ay maiiwasan ang problema."
   - "&7Huwag kang maghukay na diretso pababa!"
+  - "&7Ito ay ngunit isang sugat sa laman!"
+  - "&7Laging tumingin sa maliwanag na bahagi ng buhay!"
+  - "&7Biskwit pala ito at hindi ito siya Kukis."
+  - "&7Ang astig ng mga Neon Signs!"
 machines:
   pattern-not-found: "&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay
     ang mga Aytem sa tamang pattern sa loob ng Dispense."
@@ -315,3 +319,4 @@ languages:
   mk: Macedonian
   sr: Serbian
   be: Belarusian
+  tl: Tagalog/Filipino
