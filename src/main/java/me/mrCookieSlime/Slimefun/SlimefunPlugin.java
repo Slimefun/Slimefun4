@@ -96,15 +96,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
 
 /**
  * This is the main class of Slimefun.
@@ -169,7 +160,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
             command.register();
-        } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+        }
+        else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
@@ -207,7 +199,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             if (config.getBoolean("options.auto-update")) {
                 getLogger().log(Level.INFO, "Starting Auto-Updater...");
                 updaterService.start();
-            } else {
+            }
+            else {
                 updaterService.disable();
             }
 
@@ -301,7 +294,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
-        } else {
+        }
+        else {
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");
             getLogger().log(Level.INFO, "Slimefun could not be loaded (yet).");
@@ -322,7 +316,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         if (ms > 1000) {
             return DoubleHandler.fixDouble(ms / 1000.0) + "s";
-        } else {
+        }
+        else {
             return DoubleHandler.fixDouble(ms) + "ms";
         }
     }
@@ -382,11 +377,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Cancel all tasks from this plugin immediately
         Bukkit.getScheduler().cancelTasks(this);
 
-        if (ticker != null) {
-            // Finishes all started movements/removals of block data
-            ticker.halt();
-            ticker.run();
-        }
+        // Finishes all started movements/removals of block data
+        ticker.halt();
+        ticker.run();
 
         // Save all Player Profiles that are still in memory
         PlayerProfile.iterator().forEachRemaining(profile -> {
@@ -433,8 +426,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     private void createDirectories() {
-        String[] storageFolders = {"Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
-        String[] pluginFolders = {"scripts", "generators", "error-reports", "cache/github", "world-settings"};
+        String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
+        String[] pluginFolders = { "scripts", "generators", "error-reports", "cache/github", "world-settings" };
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);

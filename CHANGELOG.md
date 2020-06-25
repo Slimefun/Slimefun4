@@ -22,6 +22,7 @@
 ## Release Candidate 14 (TBD)
 
 #### Additions
+* Added support for Minecraft 1.16
 * Added a starting sound for the Ancient Altar
 * Added config option to disable backwards compatibility and improve performance
 * Added ReactorExplodeEvent to the API
@@ -49,6 +50,8 @@
 * Fixed Infused Magnet working even if you haven't researched it
 * Fixed Rainbow blocks duplication glitch when timing the block break right
 * Fixed #1855
+* Fixed some issues with AsyncWorldEdit
+* Fixed some problems with unregistered or fake worlds
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

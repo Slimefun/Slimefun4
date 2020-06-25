@@ -17,19 +17,6 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.chat.TextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -39,9 +26,21 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class TickerTask implements Runnable {
 
-    private static final int VISIBILITY_THRESHOLD = 200_000;
+    private static final int VISIBILITY_THRESHOLD = 225_000;
 
     private final Set<BlockTicker> tickers = new HashSet<>();
 
@@ -268,10 +267,7 @@ public class TickerTask implements Runnable {
             }
 
             builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-
-            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                TextComponent.fromLegacyText(builder.toString())));
-
+            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColors.color(builder.toString()))));
             sender.spigot().sendMessage(component);
         }
         else {
