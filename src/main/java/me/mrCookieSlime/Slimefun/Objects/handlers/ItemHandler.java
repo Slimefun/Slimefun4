@@ -16,6 +16,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see BlockUseHandler
  * @see EntityKillHandler
  * @see EntityInteractHandler
+ * @see BowShootHandler
  */
 @FunctionalInterface
 public interface ItemHandler {
