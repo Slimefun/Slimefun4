@@ -70,6 +70,16 @@ slimefun:
       - Készítsd el ezt a Tárgyat az ábra alapján
       - egy Food Fabricator segítségével
     name: Food Fabricator
+  freezer:
+    lore:
+      - Készítsd el ezt a Tárgyat az ábra alapján
+      - egy Freezer segítségével
+    name: Freezer
+  geo_miner:
+    lore:
+      - Ez a tárgy összegyűjthető
+      - egy GEO Miner segítségével
+    name: GEO Miner
   gold_pan:
     lore:
       - Használd az Gold Pan-t,
@@ -105,6 +115,11 @@ slimefun:
       - Építsd meg a látott szerkezetet
       - az ábra alapján. Ez nem barkácsolás.
     name: Multiblock
+  nuclear_reactor:
+    lore:
+      - Ez a tárgy mellékterméke
+      - a Nuclear Reactor működésének
+    name: Nuclear Reactor
   ore_crusher:
     lore:
       - Készítsd el ezt a Tárgyat az ábra alapján
@@ -125,18 +140,19 @@ slimefun:
       - Készítsd el ezt a Tárgyat az ábra alapján
       - egy Smeltery segítségével
     name: Smeltery
-  freezer:
-    name: Freezer
-    lore:
-      - Készítsd el ezt a Tárgyat az ábra alapján
-      - egy Freezer segítségével
-  geo_miner:
-    name: GEO Miner
+  oil_pump:
+    name: Oil Pump
     lore:
       - Ez a tárgy összegyűjthető
-      - egy GEO Miner segítségével
-  nuclear_reactor:
-    name: Nuclear Reactor
+      - egy Oil Pump segítségével
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
     lore:
-      - Ez a tárgy mellékterméke
-      - a Nuclear Reactor működésének
+      - Ez a blokk megszerezhető
+      - úgy, hogy egy Spawner-t kibányászol
+      - a Pickaxe of Containment-tel
+  refinery:
+    name: Refinery
+    lore:
+      - Készítsd el ezt a Tárgyat az ábra alapján
+      - egy Refinery segítségével

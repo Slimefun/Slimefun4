@@ -14,7 +14,9 @@ slimefun:
   android_interfaces: Android Gränssnitt
   android_memory_core: Minnes Kärna
   angel_talisman: Ängelns Talisman
+  animal_growth_accelerator: Djurväxt Manipulation
   anvil_talisman: Städets Talisman
+  armored_jetboots: Förstärkta Jetskor
   armored_jetpack: Förstärkt Jetpack
   armor_forge: Rustnings Byggare
   auto_anvil: Automatiserat Städ
@@ -27,11 +29,15 @@ slimefun:
   backpacks: Ryggsäck
   basic_circuit_board: Normalt Kretskort
   battery: Ditt första Batteri
+  better_carbon_press: Upgraderad Kolpress
+  better_crop_growth_accelerator: Uppgraderad Grödväxt Accelerator
   better_electric_crucibles: Varma Smältdegel
   better_electric_furnace: Upgraderad Elektrisk Ugn
   better_food_fabricator: Upgraderad Mat Tillverkning
   better_freezer: Uppgraderad Frys
   better_gps_transmitters: Uppgraderad Sändare
+  better_heated_pressure_chamber: Uppgraderad Upphettad Tryckkammare
+  better_solar_generators: Uppgraderade Solgeneratorer
   bio_reactor: Bio-Reaktor
   blade_of_vampires: Vampyr Kniven
   blistering_ingots: Svidande Strålning
@@ -42,21 +48,31 @@ slimefun:
   bound_backpack: Själsbunden Förvaring
   bound_tools: Själsbunda Verktyg
   bound_weapons: Själsbunda Vapen
+  bronze: Bronsskapelse
   butcher_androids: Slaktar Androider
   cactus_armor: Kaktus Dräkt
+  capacitors: Nivå 1 Kondensatorer
   carbonado: Svarta Diamanter
   carbonado_furnace: Kol Förstärkt Ugn
   carbonado_tools: Topp Maskiner
+  carbon_press: Kolpress
   cargo_basics: Grunderna för Frakt
   cargo_nodes: Lastuppsättning
   chainmail_armor: Ring Rustning
+  charging_bench: Laddningsstation
   coal_generator: Kol Generator
   cobalt_pickaxe: Snabb Pickaxe
+  combustion_reactor: Förbränningsreaktor
   common_talisman: Vanlig Talisman
+  composter: Kompostjord
   compressor_and_carbon: Kol Skapelse
   cooler: Medtagbara Drycker
   copper_wire: Förtunnad Ledningsförmåga
+  crop_growth_accelerator: Grödväxt Acceleration
   crucible: Smältdegel
+  crushed_ore: Malmrengöring
+  damascus_steel: Damascusstål
+  damascus_steel_armor: Damascusstål Rustning
   diet_cookie: Diet Kaka
   duct_tape: Silvertejp
   electric_crucible: Elektrifierad Smältdegel
@@ -81,11 +97,14 @@ slimefun:
   enhanced_furnace: Förbättrad Ugn
   essence_of_afterlife: Svartkonst
   explosive_tools: Explosiva Verktyg
+  farmer_shoes: Bondeskor
   fire_staff: Eld Stav
   fire_talisman: Brandmannens Talisman
   first_aid: Första Hjälpen
   flask_of_knowledge: XP Förvaring
+  fluid_pump: Vätskepump
   fortune_cookie: Fortune Cookie
+  freezer: Mr.Frys
   fuel: Bränsle
   geo_miner: GEO-Gruvarbetare
   geo_scanner: GEO-Skanningar
@@ -99,19 +118,29 @@ slimefun:
   gold_pan: Sil
   gps_emergency_transmitter: GPS Nöd Vägpunkt
   gps_setup: Grundläggande GPS-installation
+  grappling_hook: Gripklo
   grind_stone: Slip Sten
+  hardened_glass: Motstår Explosioner
   hazmat_suit: Hazmat Dräkt
   heated_pressure_chamber: Upphettad Tryck-Kammare
   hercules_pickaxe: Hercules Pickaxe
+  high_tier_capacitors: Nivå 2 Kondensatorer
+  high_tier_carbon_press: Ultimat Kolpress
+  high_tier_electric_ingot_machines: Supersnabb Metalltackor Tillverkning
+  high_tier_enhanced_furnaces: Hög-Klassad Ugn
   hologram_projector: Hologram
   hunter_talisman: Jägarens Talisman
   infernal_bonemeal: Djävulsk Benmjöl
   infused_hopper: Ingjuten Hopper
   infused_magnet: Ingjutna Magneter
+  jetboots: Jetskor
   jetpacks: Jetpacks
   juicer: Delikata Drinkar
   kelp_cookie: Smaklig Brunalg
   knight_talisman: Riddarens Talisman
+  lava_crystal: Brinnande Situation
+  lava_generator: Lavagenerator
+  lava_talisman: Lavavandrarens Talisman
   lightning_rune: Blixt Runa
   lumber_axe: Timmer yxa
   lumps: Klumpar och Magi
@@ -122,17 +151,23 @@ slimefun:
   magic_workbench: Magisk Arbetsbänk
   magnesium_generator: Kraft från Magnesium
   magnet: Magnetiska Metaller
+  makeshift_smeltery: Improviserat Smältverk
   meat_jerky: Meat Jerky
   miner_talisman: Gruvarbetarens Talisman
   misc_power_items: Viktiga kraft-relaterade Föremål
   monster_jerky: Monster Jerky
   more_enhanced_furnaces: Bättre Ugnar
+  multimeter: Kraftmätare
+  multitools: Multiverktyg
+  nether_gold_pan: Nethersil
   nether_ice: Nether Is Kylvätska
   nether_star_reactor: Nether Stjärna Reaktor
   nickel_and_cobalt: Flera Malmer
   night_vision_googles: Mörkerseende Glasögon
   nuclear_reactor: Kärnkraftverk
   oil: Olja
+  ore_crusher: Malmdubblare
+  ore_washer: Malmtvättare
   organic_fertilizer: Organisk Gödningsmedel
   organic_food: Organisk Mat
   output_chest: Grundläggande maskineri utmatningskista
@@ -143,6 +178,7 @@ slimefun:
   plastic_sheet: Plast
   portable_crafter: Medtagbar Arbetsbänk
   portable_dustbin: Medtagbar Soptunna
+  pressure_chamber: Tryckkammare
   programmable_androids: Programerbara  Androider
   radiant_backpack: Strålnings Ryggsäck
   rainbow_blocks: Regnbågs Block
@@ -156,7 +192,9 @@ slimefun:
   scroll_of_dimensional_teleposition: Vänder på grejer
   seismic_axe: Jordbävnings Yxa
   silicon: Silicon Dalen
+  slime_armor: Slem Rustning
   slimefun_metals: Nya Metaller
+  slime_steel_armor: Slemmig Stålrustning
   smelters_pickaxe: Smältar Pickaxe
   smeltery: Smältnings Station
   solar_generators: Sol Kraftverk
@@ -165,68 +203,34 @@ slimefun:
   special_bows: Robin Hood
   special_elytras: Speciella Elytror
   special_runes: Lila Runor
+  steel: Järnåldern
+  steel_plate: Stålplåt
   steel_thruster: Stål Raket-Motor
   storm_staff: Storm Stav
   sword_of_beheading: Dekapiterings Svärd
   synthetic_diamond: Konstgjorda Diamanter
   synthetic_emerald: Falsk  Ädelsten
   synthetic_sapphire: Konstgjorda Saffirer
+  table_saw: Bordssåg
   teleporter: Teleportör Bas Komponenter
   teleporter_activation_plates: Teleportör Activator
   tome_of_knowledge_sharing: Dela med vänner
   totem_of_undying: Totem of Undying
   trash_can: Sopor
   traveller_talisman: Resenärens Talisman
+  tree_growth_accelerator: Snabbare Träd
   uranium: Radioaktiv
   walking_sticks: Käppar
   warrior_talisman: Krigarens Talisman
   water_staff: Vatten Stav
+  water_talisman: Vattenandarens Talisman
   whirlwind_talisman: Tornadons Talisman
   wind_staff: Vind Stav
+  wither_assembler: Automatiserad Witherdödare
   wither_proof_glass: Wither-Säkert Glas
   wither_proof_obsidian: Wither-Säker Obsidian
   wizard_talisman: Trollkarlens Talisman
   woven_backpack: Vävd Ryggsäck
   xp_collector: XP Förvarare
-  slime_armor: Slem Rustning
-  steel: Järnåldern
-  steel_plate: Stålplåt
-  grappling_hook: Gripklo
-  multitools: Multiverktyg
-  ore_crusher: Malmdubblare
-  bronze: Bronsskapelse
-  pressure_chamber: Tryckkammare
-  damascus_steel: Damascusstål
-  damascus_steel_armor: Damascusstål Rustning
-  ore_washer: Malmtvättare
-  lava_talisman: Lavavandrarens Talisman
-  water_talisman: Vattenandarens Talisman
-  lava_crystal: Brinnande Situation
-  crushed_ore: Malmrengöring
-  table_saw: Bordssåg
-  slime_steel_armor: Slemmig Stålrustning
-  composter: Kompostjord
-  farmer_shoes: Bondeskor
-  jetboots: Jetskor
-  armored_jetboots: Förstärkta Jetskor
-  high_tier_enhanced_furnaces: Hög-Klassad Ugn
-  hardened_glass: Motstår Explosioner
-  capacitors: Nivå 1 Kondensatorer
-  high_tier_capacitors: Nivå 2 Kondensatorer
-  multimeter: Kraftmätare
-  combustion_reactor: Förbränningsreaktor
-  better_solar_generators: Uppgraderade Solgeneratorer
-  animal_growth_accelerator: Djurväxt Manipulation
-  crop_growth_accelerator: Grödväxt Acceleration
-  better_crop_growth_accelerator: Uppgraderad Grödväxt Accelerator
-  freezer: Mr.Frys
-  high_tier_electric_ingot_machines: Supersnabb Metalltackor Tillverkning
-  fluid_pump: Vätskepump
-  carbon_press: Kolpress
-  better_carbon_press: Upgraderad Kolpress
-  high_tier_carbon_press: Ultimat Kolpress
-  wither_assembler: Automatiserad Witherdödare
-  better_heated_pressure_chamber: Uppgraderad Upphettad Tryckkammare
-  lava_generator: Lavagenerator
-  charging_bench: Laddningsstation
-  nether_gold_pan: Nethersil
+  industrial_miner: Industrilellt Gruvarbete
+  advanced_industrial_miner: Förbättrat Gruvarbete

@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: Результати сканування
+  chunk: Просканований чанк
+  world: Світ
+  unit: Одиниця
+  units: Одиниць
+resources:
+  slimefun:
+    oil: Нафта
+    nether_ice: Пекельний лід
+    salt: Сіль
+    uranium: Уран
+  slimefunorechunks:
+    iron_ore_chunk: Кусочок залізної руди
+    gold_ore_chunk: Кусочок золотої руди
+    copper_ore_chunk: Кусочок мідної руди
+    tin_ore_chunk: Кусочок олов’яної руди
+    silver_ore_chunk: Кусочок срібної руди
+    aluminum_ore_chunk: Кусочок алюмінієвої руди
+    lead_ore_chunk: Кусочок свинцевої руди
+    zinc_ore_chunk: Кусочок цинкової руди
+    nickel_ore_chunk: Кусочок нікелевої руди
+    cobalt_ore_chunk: Кусочок кобальтової руди

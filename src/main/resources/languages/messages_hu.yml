@@ -98,17 +98,22 @@ guide:
       lore: Kattints a saját fordítás hozzáadásához
       name: "&aHiányzik valami?"
     updated: "&aA nyelvet sikeresen átállítottad erre: &b%lang%"
+  locked: LEZÁRVA
+  locked-category:
+    - Ennek a kategóriának a feloldásához
+    - fel kell oldanod az összes tárgyat a
+    - következő kategóriákból
   pages:
     next: Következő oldal
     previous: Előző oldal
   search:
+    inventory: 'Keresés erre: %item%'
     lore:
       - "&bMit szeretnél keresni?"
       - "&7Gépeld be a keresett kifejezést a chatbe"
     message: "&bMit szeretnél keresni?"
     name: "&7Keresés..."
     tooltip: "&bKlikk egy tárgy kereséséhez"
-    inventory: 'Keresés erre: %item%'
   title:
     addons: A Slimefun4 kiegészítői
     bugs: Hibajelentések
@@ -127,11 +132,6 @@ guide:
       miner: Erőforrások, amelyeket ezzel a Bányásszal szerezhetsz be
     versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
     wiki: Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin
-  locked: LEZÁRVA
-  locked-category:
-    - Ennek a kategóriának a feloldásához
-    - fel kell oldanod az összes tárgyat a
-    - következő kategóriákból
 inventory:
   no-access: "&4Nincs hozzáférésed ehhez a blokkhoz"
 languages:
@@ -205,13 +205,13 @@ machines:
     a Tárgyakat a megfelelő mintában az Adagolóba."
   TELEPORTER:
     cancelled: "&4Teleportálás megszakítva!"
+    gui:
+      time: Becsült idő
+      title: Az útpontjaid
+      tooltip: Klikk a teleportáláshoz
     invulnerability: "&b&l30 másodperc Sérthetetlenséget kaptál!"
     teleported: "&3Teleportálva!"
     teleporting: "&3Teleportálás..."
-    gui:
-      title: Az útpontjaid
-      tooltip: Klikk a teleportáláshoz
-      time: Becsült idő
   unknown-material: "&eSajnálom, Nem tudtam felismerni a Tárgyat az adagolóban. Kérlek
     tegyél bele valamit, amit ismerek."
   wrong-item: "&eSajnálom, nem ismerem fel azt a Tárgyat, amire kattintottál velem.

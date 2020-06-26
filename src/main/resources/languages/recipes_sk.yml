@@ -68,7 +68,7 @@ slimefun:
   food_fabricator:
     lore:
       - Vycrafti tento item ako je ukázané
-      - pomocou  Food Fabricator
+      - pomocou Food Fabricator
     name: Food Fabricator
   freezer:
     lore:
@@ -120,6 +120,11 @@ slimefun:
       - Tento item je vedľajším produktom
       - pri bežiacom Nuclear Reactor
     name: Nuclear Reactor
+  oil_pump:
+    lore:
+      - Tento item môžeš získať
+      - pomocou Oil Pump
+    name: Oil Pump
   ore_crusher:
     lore:
       - Vycrafti tento item ako je ukázané
@@ -130,29 +135,24 @@ slimefun:
       - Vycrafti tento item ako je ukázané
       - pomocou Ore Washer
     name: Ore Washer
+  pickaxe_of_containment:
+    lore:
+      - Tento blok môžeš získať
+      - vyťažením spawneru
+      - pomocou Pickaxe of Containment
+    name: Pickaxe of Containment
   pressure_chamber:
     lore:
       - Vycrafti tento item ako je ukázané
       - pomocou Pressure Chamber
     name: Pressure Chamber
+  refinery:
+    lore:
+      - Vycrafti tento item ako je ukázané
+      - pomocou Refinery
+    name: Refinery
   smeltery:
     lore:
       - Vycrafti tento item ako je ukázané
       - pomocou Smeltery
     name: Smeltery
-  oil_pump:
-    name: Oil Pump
-    lore:
-      - Tento item môžeš získať
-      - pomocou Oil Pump
-  pickaxe_of_containment:
-    name: Pickaxe of Containment
-    lore:
-      - Tento blok môžeš získať
-      - vyťažením spawneru
-      - pomocou Pickaxe of Containment
-  refinery:
-    name: Refinery
-    lore:
-      - Vycrafti tento item ako je ukázané
-      - pomocou Refinery

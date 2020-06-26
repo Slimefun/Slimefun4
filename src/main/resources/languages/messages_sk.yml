@@ -171,6 +171,10 @@ languages:
   vi: Vietnamčina
   zh-CN: Čínština (Čína)
   zh-TW: Čínština (Taiwan)
+  hr: Chorvátčina
+  mk: Macedónčina
+  sr: Srbština
+  be: Bieloruština
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Oltár nie je obkolesený dostatočným počtom podstáv&c(%pedestals%

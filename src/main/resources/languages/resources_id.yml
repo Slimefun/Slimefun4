@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: Hasil  Peninjauan GEO
+  chunk: Bingkah Yang Telah Di Tinjau
+  world: Dunia
+  unit: Unit
+  units: Unit - Unit
+resources:
+  slimefun:
+    oil: Minyak
+    nether_ice: Es Neraka
+    salt: Garam
+    uranium: Uranium
+  slimefunorechunks:
+    iron_ore_chunk: Bingkah Bijih Besi
+    gold_ore_chunk: Bingkah Bijih Emas
+    copper_ore_chunk: Bingkah Bijih Tembaga
+    tin_ore_chunk: Bingkah Bijih Timah
+    silver_ore_chunk: Bingkah Bijih Perak
+    aluminum_ore_chunk: Bingkah Bijih Alumunium
+    lead_ore_chunk: Bingkah Bijih Timah Hitam
+    zinc_ore_chunk: Bingkah Bijih Seng
+    nickel_ore_chunk: Bingkah Bijih Nikel
+    cobalt_ore_chunk: Bingkah Bijih Kobalt

@@ -120,6 +120,11 @@ slimefun:
       - このアイテムを副産物として入手できる
       - '機械: Nuclear Reactor'
     name: Nuclear Reactor
+  oil_pump:
+    lore:
+      - このアイテムの収集に使用する
+      - '機械: Oil Pump'
+    name: Oil Pump
   ore_crusher:
     lore:
       - このアイテムの作成に使用する
@@ -130,29 +135,24 @@ slimefun:
       - このアイテムの作成に使用する
       - '機械: Ore Washer'
     name: Ore Washer
+  pickaxe_of_containment:
+    lore:
+      - このブロックを入手するには
+      - Pickaxe of Containmentを
+      - 使用してスポナーを採掘する
+    name: Pickaxe of Containment
   pressure_chamber:
     lore:
       - このアイテムの作成に使用する
       - '機械: Pressure Chamber'
     name: Pressure Chamber
+  refinery:
+    lore:
+      - このアイテムの作成に使用する
+      - '機械: Refinery'
+    name: Refinery
   smeltery:
     lore:
       - このアイテムの作成に使用する
       - '機械: Smeltery'
     name: Smeltery
-  oil_pump:
-    name: Oil Pump
-    lore:
-      - このアイテムの収集に使用する
-      - '機械: Oil Pump'
-  pickaxe_of_containment:
-    name: Pickaxe of Containment
-    lore:
-      - このブロックを入手するには
-      - Pickaxe of Containmentを
-      - 使用してスポナーを採掘する
-  refinery:
-    name: Refinery
-    lore:
-      - このアイテムの作成に使用する
-      - '機械: Refinery'
