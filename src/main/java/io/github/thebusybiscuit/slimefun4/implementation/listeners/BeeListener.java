@@ -8,8 +8,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
@@ -18,36 +18,24 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  *
  * @author Linox
  *
- * @see Bee
- *
  */
-public class HazmatSuitListener implements Listener {
+public class BeeListener implements Listener {
 
-    public HazmatSuitListener(SlimefunPlugin plugin) {
+    public BeeListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) return;
-
         if (e.getDamager() instanceof Bee) {
             if (e.getEntity() instanceof Player) {
                 Player p = (Player) e.getEntity();
 
-                int hazmatCount = 0;
-                for (ItemStack armor : p.getInventory().getArmorContents()) {
-                    SlimefunItem sfItem = SlimefunItem.getByItem(armor);
-                    if (sfItem == null) return;
-
-                    String id = sfItem.getID();
-                    if (id.equals("SCUBA_HELMET")) hazmatCount++;
-                    if (id.equals("HAZMAT_CHESTPLATE")) hazmatCount++;
-                    if (id.equals("HAZMAT_LEGGINGS")) hazmatCount++;
-                    if (id.equals("RUBBER_BOOTS")) hazmatCount++;
-                }
-
-                if (hazmatCount == 4) {
+                // Check for a Hazmat Suit
+                if (!SlimefunUtils.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) &&
+                        !SlimefunUtils.isItemSimilar(SlimefunItems.HAZMAT_CHESTPLATE, p.getInventory().getChestplate(), true) &&
+                        !SlimefunUtils.isItemSimilar(SlimefunItems.HAZMAT_LEGGINGS, p.getInventory().getLeggings(), true) &&
+                        !SlimefunUtils.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
                     e.setDamage(0D);
                     for (ItemStack armor : p.getInventory().getArmorContents()) {
                         ItemUtils.damageItem(armor, 1, false);

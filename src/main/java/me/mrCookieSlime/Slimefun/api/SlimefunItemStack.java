@@ -245,21 +245,4 @@ public class SlimefunItemStack extends CustomItem {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
     }
-
-    /**
-     * Adds additional lores for the {@link ItemStack}.
-     *
-     * @param newLore
-     *                New lores to be added to the {@link ItemStack}
-     */
-    public void addLore(String... newLore) {
-        ItemMeta meta = getItemMeta();
-        if (meta == null) return;
-        List<String> oldLore = meta.getLore();
-        if (oldLore == null) return;
-
-        oldLore.addAll(Arrays.asList(newLore));
-        meta.setLore(oldLore);
-        setItemMeta(meta);
-    }
 }

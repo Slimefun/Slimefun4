@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Color;
@@ -297,10 +299,30 @@ public final class SlimefunItems {
         REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            SCUBA_HELMET.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
-            HAZMAT_CHESTPLATE.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
-            HAZMAT_LEGGINGS.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
-            RUBBER_BOOTS.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
+
+            ItemMeta scubaHelmetMeta = SCUBA_HELMET.getItemMeta();
+            List<String> scubaHelmetMetaLore = scubaHelmetMeta.getLore();
+            scubaHelmetMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            scubaHelmetMeta.setLore(scubaHelmetMetaLore);
+            SCUBA_HELMET.setItemMeta(scubaHelmetMeta);
+
+            ItemMeta hazmatChestplateItemMeta = HAZMAT_CHESTPLATE.getItemMeta();
+            List<String> hazmatChestplateItemMetaLore = hazmatChestplateItemMeta.getLore();
+            hazmatChestplateItemMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            hazmatChestplateItemMeta.setLore(hazmatChestplateItemMetaLore);
+            HAZMAT_CHESTPLATE.setItemMeta(hazmatChestplateItemMeta);
+
+            ItemMeta hazmatLeggingsItemMeta = HAZMAT_LEGGINGS.getItemMeta();
+            List<String> hazmatLeggingsItemMetaLore = hazmatLeggingsItemMeta.getLore();
+            hazmatLeggingsItemMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            hazmatLeggingsItemMeta.setLore(hazmatLeggingsItemMetaLore);
+            HAZMAT_LEGGINGS.setItemMeta(hazmatLeggingsItemMeta);
+
+            ItemMeta rubberBootsItemMeta = RUBBER_BOOTS.getItemMeta();
+            List<String> rubberBootsItemMetaLore = rubberBootsItemMeta.getLore();
+            rubberBootsItemMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            rubberBootsItemMeta.setLore(rubberBootsItemMetaLore);
+            RUBBER_BOOTS.setItemMeta(rubberBootsItemMeta);
         }
 
         Map<Enchantment, Integer> gilded = new HashMap<>();
