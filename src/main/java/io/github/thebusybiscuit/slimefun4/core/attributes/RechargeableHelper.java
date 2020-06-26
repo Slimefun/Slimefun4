@@ -43,10 +43,12 @@ final class RechargeableHelper {
 
             if (line.startsWith(LORE_PREFIX)) {
                 lore.set(i, LORE_PREFIX + value + " / " + capacity + " J");
-                meta.setLore(lore);
-                return;
+                break;
             }
         }
+
+        lore.add(LORE_PREFIX + value + " / " + capacity + " J");
+        meta.setLore(lore);
     }
 
     static float getCharge(ItemMeta meta) {
