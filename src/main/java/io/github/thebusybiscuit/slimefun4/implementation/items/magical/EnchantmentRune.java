@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
@@ -14,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -38,34 +40,18 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
-
-    private static final Enchantment[] helmEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.OXYGEN, Enchantment.WATER_WORKER, Enchantment.THORNS, Enchantment.PROTECTION_PROJECTILE, Enchantment.PROTECTION_FIRE, Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_EXPLOSIONS};
-    private static final Enchantment[] chestLeggingsEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.THORNS, Enchantment.PROTECTION_PROJECTILE, Enchantment.PROTECTION_FIRE, Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_EXPLOSIONS};
-    private static final Enchantment[] bootsEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.FROST_WALKER, Enchantment.PROTECTION_FALL, Enchantment.DEPTH_STRIDER, Enchantment.THORNS, Enchantment.PROTECTION_PROJECTILE, Enchantment.PROTECTION_FIRE, Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.PROTECTION_EXPLOSIONS};
-
-    private static final Enchantment[] swordEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.FIRE_ASPECT, Enchantment.LOOT_BONUS_MOBS, Enchantment.KNOCKBACK, Enchantment.SWEEPING_EDGE, Enchantment.DAMAGE_ALL, Enchantment.DAMAGE_ARTHROPODS, Enchantment.DAMAGE_UNDEAD};
-    private static final Enchantment[] tridentEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.IMPALING, Enchantment.CHANNELING, Enchantment.LOYALTY, Enchantment.RIPTIDE};
-    private static Enchantment[] crossbowEnch;
-    private static final Enchantment[] bowEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.ARROW_DAMAGE, Enchantment.ARROW_FIRE, Enchantment.ARROW_INFINITE, Enchantment.ARROW_KNOCKBACK};
-
-    private static final Enchantment[] axeEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.DIG_SPEED, Enchantment.LOOT_BONUS_BLOCKS, Enchantment.SILK_TOUCH, Enchantment.DAMAGE_ALL, Enchantment.DAMAGE_UNDEAD, Enchantment.DAMAGE_ARTHROPODS};
-    private static final Enchantment[] toolEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.DIG_SPEED, Enchantment.LOOT_BONUS_BLOCKS, Enchantment.SILK_TOUCH};
-    private static final Enchantment[] shearEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.DIG_SPEED};
-    private static final Enchantment[] fishRodEnch = {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.LURE, Enchantment.LUCK};
-    private static final Enchantment[] otherItemsEnch = {Enchantment.MENDING, Enchantment.DURABILITY};
+    private final HashMap<Material, Enchantment[]> applicableEnchs = new HashMap<>();
 
     public EnchantmentRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-    }
 
-    @Override
-    public void preRegister() {
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            crossbowEnch = new Enchantment[] {Enchantment.MENDING, Enchantment.DURABILITY, Enchantment.MULTISHOT, Enchantment.QUICK_CHARGE, Enchantment.PIERCING};
-        } else {
-            crossbowEnch = null;
+        for (Material mat : Material.values()) {
+            Set<Enchantment> enchSet = new HashSet<>();
+            for (Enchantment ench : Enchantment.values()) {
+                if (ench.canEnchantItem(new ItemStack(mat))) enchSet.add(ench);
+            }
+            applicableEnchs.put(mat, enchSet.toArray(new Enchantment[0]));
         }
-        super.preRegister();
     }
 
     @Override
@@ -137,23 +123,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     private Enchantment[] findEnchArr(Material type) {
-        Enchantment[] enchArr = null;
-
-        if (type.name().endsWith("_HELMET")) enchArr = helmEnch;
-        if (type.name().endsWith("_CHESTPLATE") || type.name().endsWith("_LEGGINGS")) enchArr = chestLeggingsEnch;
-        if (type.name().endsWith("_BOOTS")) enchArr = bootsEnch;
-        if (type.name().endsWith("_SWORD")) enchArr = swordEnch;
-        if (type.name().endsWith("_AXE")) enchArr = axeEnch;
-        if (type.name().endsWith("_PICKAXE") || type.name().endsWith("_SHOVEL") || type.name().endsWith("_HOE")) enchArr = toolEnch;
-
-        if (type == Material.TRIDENT) enchArr = tridentEnch;
-        if (type == Material.BOW) enchArr = bowEnch;
-        if (type == Material.SHEARS) enchArr = shearEnch;
-        if (type == Material.FISHING_ROD) enchArr = fishRodEnch;
-        if (crossbowEnch != null && type.name().equals("CROSSBOW")) enchArr = crossbowEnch;
-
-        if (type == Material.SHIELD || type == Material.ELYTRA || type == Material.CARROT_ON_A_STICK || type == Material.FLINT_AND_STEEL) enchArr = otherItemsEnch;
-
+        Enchantment[] enchArr = applicableEnchs.get(type);
         if (enchArr == null) enchArr = new Enchantment[0];
         return enchArr;
     }
