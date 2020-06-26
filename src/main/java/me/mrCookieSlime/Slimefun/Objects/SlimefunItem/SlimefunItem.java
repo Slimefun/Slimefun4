@@ -805,19 +805,17 @@ public class SlimefunItem implements Placeable {
             return getByID(((SlimefunItemStack) item).getItemId());
         }
 
-        // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
 
-        if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(wrapper);
-
-            if (itemID.isPresent()) {
-                return getByID(itemID.get());
-            }
+        if (itemID.isPresent()) {
+            return getByID(itemID.get());
         }
 
         // Backwards compatibility
         if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
+            ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
             // Quite expensive performance-wise
             // But necessary for supporting legacy items
             for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {

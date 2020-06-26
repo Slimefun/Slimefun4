@@ -33,7 +33,14 @@ public class SolarHelmet extends SlimefunItem {
         addItemSetting(charge);
     }
 
-    public void chargeItems(Player p) {
+    /**
+     * This method recharges the equipment of the given {@link Player} by the configured
+     * factor of this {@link SolarHelmet}.
+     * 
+     * @param p
+     *            The {@link Player} wearing this {@link SolarHelmet}
+     */
+    public void rechargeItems(Player p) {
         recharge(p.getInventory().getHelmet());
         recharge(p.getInventory().getChestplate());
         recharge(p.getInventory().getLeggings());
