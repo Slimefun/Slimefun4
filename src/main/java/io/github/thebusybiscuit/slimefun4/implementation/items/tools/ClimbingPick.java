@@ -95,19 +95,16 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) return;
 
             if (!users.contains(p.getUniqueId())) {
-                Vector velocity = new Vector(1, 1, 1);
-                if (!getID().equals("TEST_CLIMBING_PICK")) {
-                    velocity = p.getVelocity();
-                }
-
                 Material mat = block.getType();
                 Double launch = materialSpeeds.getValue().get(mat.name());
+
+                Vector velocity = new Vector(0, 0, 0);
                 if (launch != null) {
                     Integer efficiencyLevel = item.getEnchantments().get(Enchantment.DIG_SPEED);
                     if (efficiencyLevel != null){
                         launch += (efficiencyLevel * 0.2);
                     }
-                    velocity = velocity.setY(velocity.getY() + launch);
+                    velocity.setY(launch);
 
                     users.add(p.getUniqueId());
                     Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, () -> users.remove(p.getUniqueId()), 4L);
