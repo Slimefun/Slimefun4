@@ -296,6 +296,13 @@ public final class SlimefunItems {
         REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforced);
         REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
 
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+            SCUBA_HELMET.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
+            HAZMAT_CHESTPLATE.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
+            HAZMAT_LEGGINGS.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
+            RUBBER_BOOTS.addLore("", "&7Equip the full set for:", "&7+Bee Protection");
+        }
+
         Map<Enchantment, Integer> gilded = new HashMap<>();
         gilded.put(Enchantment.DURABILITY, 6);
         gilded.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);

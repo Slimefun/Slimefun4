@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.api;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Locale;
@@ -245,4 +246,20 @@ public class SlimefunItemStack extends CustomItem {
         }
     }
 
+    /**
+     * Adds additional lores for the {@link ItemStack}.
+     *
+     * @param newLore
+     *                New lores to be added to the {@link ItemStack}
+     */
+    public void addLore(String... newLore) {
+        ItemMeta meta = getItemMeta();
+        if (meta == null) return;
+        List<String> oldLore = meta.getLore();
+        if (oldLore == null) return;
+
+        oldLore.addAll(Arrays.asList(newLore));
+        meta.setLore(oldLore);
+        setItemMeta(meta);
+    }
 }
