@@ -47,12 +47,12 @@ public interface Rechargeable extends ItemAttribute {
      */
     default void setItemCharge(ItemStack item, float charge) {
         if (item == null || item.getType() == Material.AIR) {
-            throw new IllegalArgumentException("Cannot set an Item charge for null or air");
+            throw new IllegalArgumentException("Cannot set Item charge for null or AIR");
         }
 
         float maximum = getMaxItemCharge(item);
 
-        if (charge <= 0 || charge >= maximum) {
+        if (charge < 0 || charge > maximum) {
             throw new IllegalArgumentException("Charge must be between zero and " + maximum + ".");
         }
 
@@ -70,8 +70,8 @@ public interface Rechargeable extends ItemAttribute {
      * @return The charge stored on this {@link ItemStack}
      */
     default float getItemCharge(ItemStack item) {
-        if (item == null || item.getType() == Material.AIR || !item.hasItemMeta()) {
-            throw new IllegalArgumentException("Cannot get the Item charge for invalid items (null, air or no ItemMeta)");
+        if (item == null || item.getType() == Material.AIR) {
+            throw new IllegalArgumentException("Cannot get Item charge for null or AIR");
         }
 
         return RechargeableHelper.getCharge(item.getItemMeta());
@@ -90,8 +90,8 @@ public interface Rechargeable extends ItemAttribute {
      * @return Whether the given charge could be added successfully
      */
     default boolean addItemCharge(ItemStack item, float charge) {
-        if (item == null || item.getType() == Material.AIR || !item.hasItemMeta()) {
-            throw new IllegalArgumentException("Cannot add Item charge for invalid items (null, air or no ItemMeta)");
+        if (item == null || item.getType() == Material.AIR) {
+            throw new IllegalArgumentException("Cannot add Item charge for null or AIR");
         }
 
         ItemMeta meta = item.getItemMeta();
@@ -123,8 +123,8 @@ public interface Rechargeable extends ItemAttribute {
      * @return Whether the given charge could be removed successfully
      */
     default boolean removeItemCharge(ItemStack item, float charge) {
-        if (item == null || item.getType() == Material.AIR || !item.hasItemMeta()) {
-            throw new IllegalArgumentException("Cannot remove Item charge for invalid items (null, air or no ItemMeta)");
+        if (item == null || item.getType() == Material.AIR) {
+            throw new IllegalArgumentException("Cannot remove Item charge for null or AIR");
         }
 
         ItemMeta meta = item.getItemMeta();
