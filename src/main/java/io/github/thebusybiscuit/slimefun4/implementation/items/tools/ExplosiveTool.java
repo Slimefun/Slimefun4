@@ -59,7 +59,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
 
                         List<Block> blocks = findBlocks(e.getBlock());
 
-                        if (callExplosionEvent.getValue().booleanValue()) {
+                        if (callExplosionEvent.getValue()) {
                             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(e.getBlock(), blocks, 0);
                             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
 

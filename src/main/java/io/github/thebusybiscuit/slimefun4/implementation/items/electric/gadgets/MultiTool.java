@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
@@ -83,13 +84,21 @@ public class MultiTool extends ChargableItem {
     }
 
     private BlockBreakHandler getBlockBreakHandler() {
-        return (e, item, fortune, drops) -> {
-            if (isItem(item)) {
-                e.setCancelled(true);
-                return true;
+        return new BlockBreakHandler() {
+            @Override
+            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
+                if (isItem(item)) {
+                    e.setCancelled(true);
+                    return true;
+                }
+
+                return false;
             }
 
-            return false;
+            @Override
+            public boolean isPrivate() {
+                return false;
+            }
         };
     }
 

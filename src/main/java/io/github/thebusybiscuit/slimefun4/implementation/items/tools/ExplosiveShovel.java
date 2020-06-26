@@ -21,7 +21,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * 
  * @author Linox
  * 
- * @see ExplosivePickaxe
+ * @see ExplosiveTool
  *
  */
 public class ExplosiveShovel extends ExplosiveTool {
