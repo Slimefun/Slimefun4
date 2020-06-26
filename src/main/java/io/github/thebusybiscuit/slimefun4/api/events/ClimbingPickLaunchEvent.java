@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -18,42 +20,23 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPic
  * @see ClimbingPick
  *
  */
-public class ClimbingPickLaunchEvent extends Event implements Cancellable {
+public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final Player player;
-    private final Vector velocity;
-    private final ItemStack pick;
+    private Vector velocity;
+    private final ClimbingPick pick;
     private boolean cancelled;
 
-    public ClimbingPickLaunchEvent(Player player, Vector velocity, ItemStack pick) {
-        super(false);
+    public ClimbingPickLaunchEvent(Player player, Vector velocity, ClimbingPick pick) {
+        super(player);
 
-        this.player = player;
         this.velocity = velocity;
         this.pick = pick;
     }
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     /**
-     * This returns the {@link Player} that used the {@link ClimbingPick}.
-     *
-     * @return The {@link Player} that used
-     */
-    public Player getPlayer() {
-        return player;
-    }
-
-    /**
-     * This returns the {@link Vector} velocity that was applied to the {@link Player}
+     * This returns the velocity {@link Vector} that was applied to the {@link Player}
      * who used the {@link ClimbingPick}.
      *
      * @return The {@link Vector} of the applied velocity
@@ -63,11 +46,22 @@ public class ClimbingPickLaunchEvent extends Event implements Cancellable {
     }
 
     /**
-     * This returns the {@link ClimbingPick} {@link ItemStack} that was used.
+     * Use this to change the velocity {@link Vector} applied to the {@link Player}.
+     *
+     * @param velocity
+     *                 The {@link Vector} velocity to apply
+     */
+    public void setVelocity(Vector velocity) {
+        Validate.notNull(velocity);
+        this.velocity = velocity;
+    }
+
+    /**
+     * This returns the {@link ClimbingPick} that was used.
      *
      * @return The {@link ItemStack} that was used
      */
-    public ItemStack getItem() {
+    public ClimbingPick getItem() {
         return this.pick;
     }
 
@@ -81,4 +75,8 @@ public class ClimbingPickLaunchEvent extends Event implements Cancellable {
         this.cancelled = cancel;
     }
 
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }

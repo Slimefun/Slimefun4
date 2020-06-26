@@ -91,7 +91,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             ItemStack item = e.getItem();
             Player p = e.getPlayer();
 
-            if (!getID().equals("TEST_CLIMBING_PICK") && p.getLocation().distance(block.getLocation()) > 1.5) return;
+            if (!getID().startsWith("TEST_CLIMBING_PICK") && p.getLocation().distance(block.getLocation()) > 1.5) return;
             if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) return;
 
             if (!users.contains(p.getUniqueId())) {
@@ -110,7 +110,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                     Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, () -> users.remove(p.getUniqueId()), 4L);
                 }
 
-                ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, item);
+                ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this);
                 Bukkit.getPluginManager().callEvent(event);
 
                 p.setVelocity(event.getVelocity());

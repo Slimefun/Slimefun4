@@ -20,7 +20,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * However it can only break blocks that a shovel can break.
  * 
  * @author Linox
- * 
+ *
+ * @see ExplosivePickaxe
  * @see ExplosiveTool
  *
  */

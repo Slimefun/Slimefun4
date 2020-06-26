@@ -36,14 +36,15 @@ public interface SlimefunItemTest<T extends SlimefunItem> {
         item.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
     }
 
-    default void simulateConsumption(Player player, T item) {
-        PlayerItemConsumeEvent event = new PlayerItemConsumeEvent(player, item.getItem().clone());
-        item.callItemHandler(ItemConsumptionHandler.class, handler -> handler.onConsume(event, player, event.getItem()));
-    }
-
     default void simulateRightClickBlock(Player player, T item, BlockMock block, BlockFace face) {
         PlayerInteractEvent e = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, item.getItem().clone(), block, face, EquipmentSlot.HAND);
         PlayerRightClickEvent event = new PlayerRightClickEvent(e);
         item.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
     }
+
+    default void simulateConsumption(Player player, T item) {
+        PlayerItemConsumeEvent event = new PlayerItemConsumeEvent(player, item.getItem().clone());
+        item.callItemHandler(ItemConsumptionHandler.class, handler -> handler.onConsume(event, player, event.getItem()));
+    }
+
 }
