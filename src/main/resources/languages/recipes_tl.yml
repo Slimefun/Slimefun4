@@ -156,3 +156,8 @@ minecraft:
     lore:
     - I-craft ang item na ito tulad ng ipinakita
     - gamit ang Stonecutter.
+  smithing:
+    name: Smithing Table Recipe
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Smithing Table.

@@ -154,6 +154,8 @@ public class Translators {
         addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("yurinogueira", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Sakanas", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("krazybeat", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
     private void addTranslator(String name, SupportedLanguage lang, boolean lock) {
