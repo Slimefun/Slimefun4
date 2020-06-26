@@ -21,7 +21,7 @@ public class ChargingBench extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.CHARGING_BENCH.getItem().getItemName();
+        return SlimefunItems.CHARGING_BENCH.clone().getItemMeta().getDisplayName();
     }
 
     @Override

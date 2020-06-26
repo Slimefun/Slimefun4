@@ -37,6 +37,7 @@ import java.util.*;
  *
  * @author Redemption198
  * @author TheBusyBiscuit
+ *
  */
 public class AncientAltarListener implements Listener {
 
@@ -53,6 +54,11 @@ public class AncientAltarListener implements Listener {
         this.altar = altar;
     }
 
+    /**
+     * This returns all {@link AncientAltar Altars} that are currently in use.
+     *
+     * @return A {@link Set} of every {@link AncientAltar} currently in use
+     */
     public Set<Location> getAltarsInUse() {
         return altarsInUse;
     }
@@ -72,13 +78,19 @@ public class AncientAltarListener implements Listener {
         }
 
         Optional<Block> blockOptional = e.getClickedBlock();
-        if (!blockOptional.isPresent()) return;
+        if (!blockOptional.isPresent()) {
+            return;
+        }
 
         Block b = blockOptional.get();
-        if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) return;
+        if (b.getType() != Material.ENCHANTING_TABLE && b.getType() != Material.DISPENSER) {
+            return;
+        }
 
         Optional<SlimefunItem> slimefunBlock = e.getSlimefunBlock();
-        if (!slimefunBlock.isPresent()) return;
+        if (!slimefunBlock.isPresent()) {
+            return;
+        }
 
         String id = slimefunBlock.get().getID();
 
@@ -99,13 +111,6 @@ public class AncientAltarListener implements Listener {
         }
     }
 
-    public boolean isUsing(Block pedestal, Location loc) {
-        if (loc == null) {
-            return false;
-        }
-        return !(pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) < 0.3D);
-    }
-
     private void usePedestal(Block pedestal, Player p) {
         if (altarsInUse.contains(pedestal.getLocation())) {
             return;
@@ -116,7 +121,7 @@ public class AncientAltarListener implements Listener {
 
         if (stack == null) {
             // Check if the Item in hand is valid
-            if (p.getInventory().getItemInMainHand().getType() == Material.AIR) {
+            if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
                 // Check for pedestal obstructions
                 if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
                     SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
@@ -131,6 +136,7 @@ public class AncientAltarListener implements Listener {
             removedItems.add(uuid);
 
             Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
+
             stack.remove();
             p.getInventory().addItem(fixItemStack(stack.getItemStack(), stack.getCustomName()));
             p.playSound(pedestal.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
@@ -233,6 +239,7 @@ public class AncientAltarListener implements Listener {
             }
         }
     }
+
     public ItemStack fixItemStack(ItemStack itemStack, String customName) {
         ItemStack stack = itemStack.clone();
 
@@ -251,9 +258,8 @@ public class AncientAltarListener implements Listener {
 
     public Item findItem(Block b) {
         for (Entity n : b.getChunk().getEntities()) {
-            if (n instanceof Item && b.getLocation().add(0.5, 1.5, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) {
-                Item item = (Item) n;
-                return item;
+            if (n instanceof Item && b.getLocation().add(0.5, 1.2, 0.5).distanceSquared(n.getLocation()) < 0.5D && n.getCustomName() != null) {
+                return (Item) n;
             }
         }
         return null;
@@ -268,7 +274,7 @@ public class AncientAltarListener implements Listener {
         }
 
         String nametag = ItemUtils.getItemName(stack);
-        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.5, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
         entity.setVelocity(new Vector(0, 0.1, 0));
         SlimefunUtils.markAsNoPickup(entity, "altar_item");
         entity.setCustomNameVisible(true);
@@ -361,4 +367,10 @@ public class AncientAltarListener implements Listener {
         return Optional.empty();
     }
 
+    public boolean isUsing(Block pedestal, Location loc) {
+        if (loc == null) {
+            return false;
+        }
+        return !(pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) < 0.3D);
+    }
 }

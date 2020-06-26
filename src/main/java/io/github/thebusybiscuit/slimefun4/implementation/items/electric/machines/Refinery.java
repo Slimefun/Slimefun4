@@ -22,7 +22,7 @@ public abstract class Refinery extends AContainer implements RecipeDisplayItem {
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.REFINERY.getItem().getItemName();
+        return SlimefunItems.REFINERY.clone().getItemMeta().getDisplayName();
     }
 
     @Override

@@ -183,7 +183,7 @@ public class AutoBrewer extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.AUTO_BREWER.getItem().getItemName();
+        return SlimefunItems.AUTO_BREWER.clone().getItemMeta().getDisplayName();
     }
 
     @Override
