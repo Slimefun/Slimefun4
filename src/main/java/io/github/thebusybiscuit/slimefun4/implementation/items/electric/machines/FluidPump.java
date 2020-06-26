@@ -33,6 +33,7 @@ import java.util.Optional;
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 32;
+    private static final int RANGE = 42;
 
     private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
     private final int[] inputBorder = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
@@ -94,7 +95,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     protected void tick(Block b) {
         Block fluid = b.getRelative(BlockFace.DOWN);
-        Optional<ItemStack> bucket = getBucket(fluid);
+        Optional<ItemStack> bucket = getFilledBucket(fluid);
 
         if (bucket.isPresent() && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
             BlockMenu menu = BlockStorage.getInventory(b);
@@ -107,14 +108,8 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                     menu.consumeItem(slot);
-                    menu.pushItem(bucket.get(), getOutputSlots());
-
-                    if (fluid.getType() == Material.WATER) {
-                        fluid.setType(Material.AIR);
-                    } else {
-                        List<Block> list = Vein.find(fluid, 50, block -> block.isLiquid() && block.getType() == fluid.getType());
-                        list.get(list.size() - 1).setType(Material.AIR);
-                    }
+                    menu.pushItem(bucket.get().clone(), getOutputSlots());
+                    consumeFluid(fluid);
 
                     return;
                 }
@@ -122,7 +117,17 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         }
     }
 
-    private Optional<ItemStack> getBucket(Block fluid) {
+    private void consumeFluid(Block fluid) {
+        if (fluid.getType() == Material.WATER) {
+            fluid.setType(Material.AIR);
+            return;
+        }
+
+        List<Block> list = Vein.find(fluid, RANGE, block -> block.isLiquid() && block.getType() == fluid.getType());
+        list.get(list.size() - 1).setType(Material.AIR);
+    }
+
+    private Optional<ItemStack> getFilledBucket(Block fluid) {
         if (fluid.getType() == Material.LAVA) {
             return Optional.of(new ItemStack(Material.LAVA_BUCKET));
         } else if (fluid.getType() == Material.WATER) {

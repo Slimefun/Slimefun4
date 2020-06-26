@@ -53,7 +53,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
 
             defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
-            defaultLanguage.setMessages(getConfig().getConfiguration());
+            defaultLanguage.setMessagesFile(getConfig().getConfiguration());
 
             loadEmbeddedLanguages();
 
@@ -64,10 +64,10 @@ public class LocalizationService extends SlimefunLocalization implements Persist
                 setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
             } else {
                 setLanguage("en", false);
-                plugin.getLogger().log(Level.WARNING, "无法识别指定的语言: \"{0}\"", serverDefaultLanguage);
+                plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
             }
 
-            Slimefun.getLogger().log(Level.INFO, "可用的语言类型: {0}", String.join(", ", languages.keySet()));
+            Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
             save();
         } else {
             translationsEnabled = false;
@@ -144,10 +144,10 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             getConfig().clear();
         }
 
-        defaultLanguage.setResearches(streamConfigFile("researches_" + language + ".yml", null));
-        defaultLanguage.setResources(streamConfigFile("resources_" + language + ".yml", null));
-        defaultLanguage.setCategories(streamConfigFile("categories_" + language + ".yml", null));
-        defaultLanguage.setRecipeTypes(streamConfigFile("recipes_" + language + ".yml", null));
+        defaultLanguage.setResearchesFile(streamConfigFile("researches_" + language + ".yml", null));
+        defaultLanguage.setResourcesFile(streamConfigFile("resources_" + language + ".yml", null));
+        defaultLanguage.setCategoriesFile(streamConfigFile("categories_" + language + ".yml", null));
+        defaultLanguage.setRecipeTypesFile(streamConfigFile("recipes_" + language + ".yml", null));
 
         Slimefun.getLogger().log(Level.INFO, "Loaded language \"{0}\"", language);
         getConfig().setValue(LANGUAGE_PATH, language);
@@ -159,7 +159,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
             getConfig().getConfiguration().setDefaults(config);
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "无法加载多语言文件: \"" + path + "\"");
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file: \"" + path + "\"");
         }
 
         save();
@@ -175,11 +175,11 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             FileConfiguration recipes = streamConfigFile("recipes_" + id + ".yml", null);
 
             Language language = new Language(id, hash);
-            language.setMessages(messages);
-            language.setResearches(researches);
-            language.setResources(resources);
-            language.setCategories(categories);
-            language.setRecipeTypes(recipes);
+            language.setMessagesFile(messages);
+            language.setResearchesFile(researches);
+            language.setResourcesFile(resources);
+            language.setCategoriesFile(categories);
+            language.setRecipeTypesFile(recipes);
 
             languages.put(id, language);
         }
@@ -195,13 +195,16 @@ public class LocalizationService extends SlimefunLocalization implements Persist
      */
     public double getProgress(Language lang) {
         int defaultKeys = getTotalKeys(languages.get("en"));
-        if (defaultKeys == 0) return 0;
+
+        if (defaultKeys == 0) {
+            return 0;
+        }
 
         return Math.min(DoubleHandler.fixDouble(100.0 * (getTotalKeys(lang) / (double) defaultKeys)), 100.0);
     }
 
     private int getTotalKeys(Language lang) {
-        return getKeys(lang.getMessages(), lang.getResearches(), lang.getResources(), lang.getCategories(), lang.getRecipeTypes());
+        return getKeys(lang.getFiles());
     }
 
     private int getKeys(FileConfiguration... files) {

@@ -81,17 +81,17 @@ public class ErrorReport {
                 throwable.printStackTrace(stream);
 
                 addon.getLogger().log(Level.WARNING, "");
-                addon.getLogger().log(Level.WARNING, "An Error occured! It has been saved as: ");
+                addon.getLogger().log(Level.WARNING, "发生了一个错误! 错误报告已被储存在: ");
                 addon.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
-                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com and report this to the developer(s).");
+                addon.getLogger().log(Level.WARNING, "请将文件的内容复制到 https://pastebin.com 并反馈给开发者.");
 
                 if (addon.getBugTrackerURL() != null) {
-                    addon.getLogger().log(Level.WARNING, "Bug Tracker: {0}", addon.getBugTrackerURL());
+                    addon.getLogger().log(Level.WARNING, "Bug 反馈: {0}", addon.getBugTrackerURL());
                 }
 
                 addon.getLogger().log(Level.WARNING, "");
             } catch (IOException x) {
-                addon.getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
+                addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
             }
         });
     }

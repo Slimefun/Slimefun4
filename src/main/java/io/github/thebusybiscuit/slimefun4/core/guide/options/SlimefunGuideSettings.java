@@ -77,7 +77,7 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
-        menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK, "&aSlimefun Version", "&7&o" + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.versions-notice"), "", "&rMinecraft 版本: &a" + Bukkit.getBukkitVersion(), "&rSlimefun 版本: &a" + SlimefunPlugin.getVersion(), "&rCS-CoreLib 版本: &a" + SlimefunPlugin.getCSCoreLibVersion()), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK, "&aSlimefun Version", "&7&o" + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.versions-notice"), "", "&fMinecraft 版本: &a" + Bukkit.getBukkitVersion(), "&fSlimefun 版本: &a" + SlimefunPlugin.getVersion(), "&fCS-CoreLib 版本: &a" + SlimefunPlugin.getCSCoreLibVersion()), ChestMenuUtils.getEmptyClickHandler());
 
         menu.addItem(6, new CustomItem(Material.COMPARATOR, "&e" + SlimefunPlugin.getLocal().getMessage(p, "guide.title.source"), "", "&7Last Activity: &a" + NumberUtils.getElapsedTime(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), "&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 &eClick to go to GitHub"));
         menu.addMenuClickHandler(6, (pl, slot, item, action) -> {

@@ -84,14 +84,14 @@ public abstract class Reactor extends AbstractEnergyProvider {
                 }
 
                 if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), MODE).equals(ReactorMode.GENERATOR.toString())) {
-                    menu.replaceExistingItem(4, new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&7模式: &e发电", "", "&6你的反应堆将专注于发电", "&6如果你的能量网络不需要更多电力", "&6它将停止发电", "", "&7> 点击更改到 &e生产 &7模式"));
+                    menu.replaceExistingItem(4, new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&7模式: &e发电", "", "&6你的反应堆将专注于发电", "&6如果你的能量网络不需要更多电力", "&6它将停止发电", "", "&7\u21E8 点击更改到 &e生产 &7模式"));
                     menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
                         newInstance(menu, b);
                         return false;
                     });
                 } else {
-                    menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7模式: &e生产", "", "&6你的反应堆将专注于生产衰变后的产物", "&6如果你的能量网络不需要电力", "&6它将继续运行并生产", "&6同时也不会产生电力", "", "&7> 点击更改到 &e发电 &7模式"));
+                    menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7模式: &e生产", "", "&6你的反应堆将专注于生产衰变后的产物", "&6如果你的能量网络不需要电力", "&6它将继续运行并生产", "&6同时也不会产生电力", "", "&7\u21E8 点击更改到 &e发电 &7模式"));
                     menu.addMenuClickHandler(4, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                         newInstance(menu, b);
@@ -101,7 +101,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                 BlockMenu port = getAccessPort(b.getLocation());
                 if (port != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7反应堆访问接口", "", "&6已检测到", "", "&7> 点击打开访问接口界面"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7反应堆访问接口", "", "&6已检测到", "", "&7\u21E8 点击打开访问接口界面"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         port.open(p);
                         newInstance(menu, b);

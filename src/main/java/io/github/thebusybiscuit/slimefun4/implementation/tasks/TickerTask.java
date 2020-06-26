@@ -1,8 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
@@ -11,6 +9,8 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -231,7 +231,9 @@ public class TickerTask implements Runnable {
         List<Entry<String, Long>> timings = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
 
         if (sender instanceof Player) {
-            ChatComponent component = new ChatComponent(ChatColors.color("   &7&oHover for more Info"));
+            TextComponent component = new TextComponent("   Hover for more Info");
+            component.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+            component.setItalic(true);
             StringBuilder builder = new StringBuilder();
             int hidden = 0;
 
@@ -244,9 +246,11 @@ public class TickerTask implements Runnable {
             }
 
             builder.append("\n\n&c+ &4").append(hidden).append(" Hidden");
-            component.setHoverEvent(new HoverEvent(ChatColors.color(builder.toString())));
 
-            component.sendMessage((Player) sender);
+            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    TextComponent.fromLegacyText(builder.toString())));
+
+            sender.spigot().sendMessage(component);
         } else {
             int hidden = 0;
 

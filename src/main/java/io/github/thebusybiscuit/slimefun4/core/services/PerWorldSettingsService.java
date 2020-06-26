@@ -42,7 +42,7 @@ public class PerWorldSettingsService {
         try {
             migrate();
         } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "An error occured while migrating old world settings", e);
+            plugin.getLogger().log(Level.WARNING, "An error occurred while migrating old world settings", e);
         }
 
         for (World world : worlds) {

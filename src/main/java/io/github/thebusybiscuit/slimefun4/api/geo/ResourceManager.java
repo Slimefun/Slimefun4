@@ -93,13 +93,13 @@ public class ResourceManager {
         int value = resource.getDefaultSupply(world.getEnvironment(), block.getBiome());
 
         if (value > 0) {
-            int bound = resource.getMaxDeviation();
+            int max = resource.getMaxDeviation();
 
-            if (bound <= 0) {
+            if (max <= 0) {
                 throw new IllegalStateException("GEO Resource \"" + resource.getKey() + "\" was misconfigured! getMaxDeviation() must return a value higher than zero!");
             }
 
-            value += ThreadLocalRandom.current().nextInt(bound);
+            value += ThreadLocalRandom.current().nextInt(max);
         }
 
         GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, block.getBiome(), x, z, resource, value);

@@ -14,6 +14,7 @@ import java.util.Optional;
  * @see ItemConsumptionHandler
  * @see BlockUseHandler
  * @see EntityKillHandler
+ * @see EntityInteractHandler
  */
 @FunctionalInterface
 public interface ItemHandler {

@@ -40,7 +40,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -188,6 +187,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new FireworksListener(this);
             new WitherListener(this);
             new IronGolemListener(this);
+            new PlayerInteractEntityListener(this);
 
             new ProtectionChecker(this);
 
@@ -326,11 +326,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Cancel all tasks from this plugin immediately
         Bukkit.getScheduler().cancelTasks(this);
 
-        if (ticker != null) {
-            // Finishes all started movements/removals of block data
-            ticker.halt();
-            ticker.run();
-        }
+        // Finishes all started movements/removals of block data
+        ticker.halt();
+        ticker.run();
 
         PlayerProfile.iterator().forEachRemaining(profile -> {
             if (profile.isDirty()) {
@@ -338,17 +336,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
         });
 
-        for (World world : Bukkit.getWorlds()) {
+        // Save all registered Worlds
+        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
-                BlockStorage storage = BlockStorage.getStorage(world);
-
-                if (storage != null) {
-                    storage.save(true);
-                } else {
-                    getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", world.getName());
-                }
-            } catch (Exception | LinkageError x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occured while saving Slimefun-Blocks in World '" + world.getName() + "' for Slimefun " + getVersion());
+                entry.getValue().save(true);
+            } catch (Exception x) {
+                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
             }
         }
 

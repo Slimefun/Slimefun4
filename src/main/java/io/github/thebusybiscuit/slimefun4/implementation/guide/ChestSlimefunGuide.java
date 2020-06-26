@@ -50,12 +50,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     private final boolean showVanillaRecipes;
 
     public ChestSlimefunGuide(boolean vanillaRecipes) {
+        showVanillaRecipes = vanillaRecipes;
+
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             sound = Sound.ITEM_BOOK_PAGE_TURN;
-            showVanillaRecipes = vanillaRecipes;
         } else {
             sound = Sound.ENTITY_BAT_TAKEOFF;
-            showVanillaRecipes = false;
         }
     }
 
@@ -144,7 +144,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             lore.add("");
 
             for (String line : SlimefunPlugin.getLocal().getMessages(p, "guide.locked-category")) {
-                lore.add(ChatColor.RESET + line);
+                lore.add(ChatColor.WHITE + line);
             }
 
             lore.add("");
@@ -153,7 +153,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                 lore.add(parent.getItem(p).getItemMeta().getDisplayName());
             }
 
-            menu.addItem(index, new CustomItem(Material.BARRIER, "&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked") + " &7- &r" + category.getItem(p).getItemMeta().getDisplayName(), lore.toArray(new String[0])));
+            menu.addItem(index, new CustomItem(Material.BARRIER, "&4" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked") + " &7- &f" + category.getItem(p).getItemMeta().getDisplayName(), lore.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         }
     }
@@ -212,9 +212,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                 if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
                     if (Slimefun.hasPermission(p, sfitem, false)) {
                         if (VaultHelper.isUsable()) {
-                            menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + (research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply")) + " 游戏币"));
+                            menu.addItem(index, new CustomItem(Material.BARRIER, "&f" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + (research.getCost() * SlimefunPlugin.getCfg().getDouble("researches.money-multiply")) + " 游戏币"));
                         } else {
-                            menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + research.getCost() + " 级经验"));
+                            menu.addItem(index, new CustomItem(Material.BARRIER, "&f" + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", "&a> 单击解锁", "", "&7需要 &b" + research.getCost() + " 级经验"));
                         }
                         menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                             if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
@@ -266,7 +266,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         Player p = profile.getPlayer();
         if (p == null) return;
 
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.search.inventory").replace("%item%", ChatUtils.crop(ChatColor.RESET, input)));
+        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.search.inventory").replace("%item%", ChatUtils.crop(ChatColor.WHITE, input)));
         String searchTerm = input.toLowerCase();
 
         if (addToHistory) {
@@ -292,7 +292,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                     if (category != null) {
                         ItemStack categoryItem = category.getItem(p);
                         if (categoryItem != null && categoryItem.hasItemMeta() && categoryItem.getItemMeta().hasDisplayName()) {
-                            lore = Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.RESET + categoryItem.getItemMeta().getDisplayName());
+                            lore = Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + categoryItem.getItemMeta().getDisplayName());
                         }
                     }
 
@@ -431,7 +431,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         Optional<String> wiki = item.getWikipage();
 
         if (wiki.isPresent()) {
-            menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
+            menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
                 ChatUtils.sendURL(pl, wiki.get());
@@ -528,7 +528,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         GuideHistory history = profile.getGuideHistory();
 
         if (isSurvivalMode() && history.size() > 1) {
-            menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&r左键: &7返回上一页", "&rShift + 左键: &7返回主菜单")));
+            menu.addItem(slot, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&f左键: &7返回上一页", "&fShift + 左键: &7返回主菜单")));
 
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
                 if (action.isShiftClicked()) {
@@ -553,7 +553,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
             if (slimefunItem == null) return item;
 
-            String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&r需要在别处解锁" : "&r没有权限";
+            String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&f需要在别处解锁" : "&f没有权限";
             return Slimefun.hasUnlocked(p, slimefunItem, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", lore);
         } else {
             return item;
