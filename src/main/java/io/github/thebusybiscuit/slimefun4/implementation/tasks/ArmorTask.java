@@ -20,7 +20,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
 /**
  * The {@link ArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
@@ -57,7 +56,11 @@ public class ArmorTask implements Runnable {
                 HashedArmorpiece[] cachedArmor = profile.getArmor();
 
                 handleSlimefunArmor(p, armor, cachedArmor);
-                checkForSolarHelmet(p);
+
+                if (hasSunlight(p)) {
+                    checkForSolarHelmet(p);
+                }
+
                 checkForRadiation(p);
             });
         }
@@ -89,15 +92,10 @@ public class ArmorTask implements Runnable {
     }
 
     private void checkForSolarHelmet(Player p) {
-        // Temporary performance improvement
-        if (!SlimefunUtils.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SOLAR_HELMET, true)) {
-            return;
-        }
-
         SlimefunItem item = SlimefunItem.getByItem(p.getInventory().getHelmet());
 
-        if (item instanceof SolarHelmet && Slimefun.hasUnlocked(p, item, true) && hasSunlight(p)) {
-            ItemEnergy.chargeInventory(p, (float) ((SolarHelmet) item).getChargeAmount());
+        if (item instanceof SolarHelmet && Slimefun.hasUnlocked(p, item, true)) {
+            ((SolarHelmet) item).chargeItems(p);
         }
     }
 

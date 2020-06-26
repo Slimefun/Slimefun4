@@ -46,6 +46,7 @@
 * items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
 * Small performance improvements to the Cargo Net
 * Slimefun no longer supports CraftBukkit
+* Item Energy is now also stored persistently via NBT
 
 #### Fixes
 * Fixed #2005

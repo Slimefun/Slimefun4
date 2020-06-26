@@ -599,37 +599,37 @@ public final class SlimefunItemSetup {
 
 		new Jetpack(categories.technicalGadgets, SlimefunItems.DURALUMIN_JETPACK,
 		new ItemStack[] {SlimefunItems.DURALUMIN_INGOT, null, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.35)
+		0.35, 20)
 		.register(plugin);
 
 		new Jetpack(categories.technicalGadgets, SlimefunItems.SOLDER_JETPACK,
 		new ItemStack[] {SlimefunItems.SOLDER_INGOT, null, SlimefunItems.SOLDER_INGOT, SlimefunItems.SOLDER_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.SOLDER_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.4)
+		0.4, 30)
 		.register(plugin);
 
 		new Jetpack(categories.technicalGadgets, SlimefunItems.BILLON_JETPACK,
 		new ItemStack[] {SlimefunItems.BILLON_INGOT, null, SlimefunItems.BILLON_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BILLON_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.45)
+		0.45, 45)
 		.register(plugin);
 
 		new Jetpack(categories.technicalGadgets, SlimefunItems.STEEL_JETPACK,
 		new ItemStack[] {SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.5)
+		0.5, 60)
 		.register(plugin);
 
 		new Jetpack(categories.technicalGadgets, SlimefunItems.DAMASCUS_STEEL_JETPACK,
 		new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.55)
+		0.55, 75)
 		.register(plugin);
 
 		new Jetpack(categories.technicalGadgets, SlimefunItems.REINFORCED_ALLOY_JETPACK,
 		new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.6)
+		0.6, 100)
 		.register(plugin);
 
 		new Jetpack(categories.technicalGadgets, SlimefunItems.CARBONADO_JETPACK,
 		new ItemStack[] {SlimefunItems.CARBON_CHUNK, null, SlimefunItems.CARBON_CHUNK, SlimefunItems.CARBONADO, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBONADO, SlimefunItems.STEEL_THRUSTER, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.7)
+		0.7, 150)
 		.register(plugin);
 
 		new Parachute(categories.technicalGadgets, SlimefunItems.PARACHUTE, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -672,37 +672,37 @@ public final class SlimefunItemSetup {
 
 		new MultiTool(categories.technicalGadgets, SlimefunItems.DURALUMIN_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.DURALUMIN_INGOT, null, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.DURALUMIN_INGOT, null, SlimefunItems.DURALUMIN_INGOT, null},
-		multiToolItems)
+		20, multiToolItems)
 		.register(plugin);
 
 		new MultiTool(categories.technicalGadgets, SlimefunItems.SOLDER_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.SOLDER_INGOT, null, SlimefunItems.SOLDER_INGOT, SlimefunItems.SOLDER_INGOT, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.SOLDER_INGOT, null, SlimefunItems.SOLDER_INGOT, null},
-		multiToolItems)
+		30, multiToolItems)
 		.register(plugin);
 
 		new MultiTool(categories.technicalGadgets, SlimefunItems.BILLON_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BILLON_INGOT, null, SlimefunItems.BILLON_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.BILLON_INGOT, null, SlimefunItems.BILLON_INGOT, null},
-		multiToolItems)
+		40, multiToolItems)
 		.register(plugin);
 
 		new MultiTool(categories.technicalGadgets, SlimefunItems.STEEL_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, null},
-		multiToolItems)
+		50, multiToolItems)
 		.register(plugin);
 
 		new MultiTool(categories.technicalGadgets, SlimefunItems.DAMASCUS_STEEL_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.DAMASCUS_STEEL_INGOT, null, SlimefunItems.DAMASCUS_STEEL_INGOT, null},
-		multiToolItems)
+		60, multiToolItems)
 		.register(plugin);
 
 		new MultiTool(categories.technicalGadgets, SlimefunItems.REINFORCED_ALLOY_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.REINFORCED_ALLOY_INGOT, null},
-		multiToolItems)
+		75, multiToolItems)
 		.register(plugin);
 
 		new MultiTool(categories.technicalGadgets, SlimefunItems.CARBONADO_MULTI_TOOL, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.CARBONADO, null, SlimefunItems.CARBONADO, SlimefunItems.CARBONADO, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.CARBONADO, null, SlimefunItems.CARBONADO, null},
-		"PORTABLE_CRAFTER", "MAGIC_EYE_OF_ENDER", "STAFF_ELEMENTAL_WIND", "GRAPPLING_HOOK", "GOLD_PAN", "NETHER_GOLD_PAN")
+		100, "PORTABLE_CRAFTER", "MAGIC_EYE_OF_ENDER", "STAFF_ELEMENTAL_WIND", "GRAPPLING_HOOK", "GOLD_PAN", "NETHER_GOLD_PAN")
 		.register(plugin);
 
 		new OreWasher(categories.basicMachines, SlimefunItems.ORE_WASHER).register(plugin);
@@ -1112,42 +1112,42 @@ public final class SlimefunItemSetup {
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.DURALUMIN_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.35)
+		0.35, 20)
 		.register(plugin);
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.SOLDER_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.SOLDER_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.SOLDER_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.4)
+		0.4, 30)
 		.register(plugin);
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.BILLON_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.BILLON_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BILLON_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.45)
+		0.45, 40)
 		.register(plugin);
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.STEEL_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.5)
+		0.5, 50)
 		.register(plugin);
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.DAMASCUS_STEEL_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.55)
+		0.55, 75)
 		.register(plugin);
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.REINFORCED_ALLOY_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.STEEL_THRUSTER, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.6)
+		0.6, 100)
 		.register(plugin);
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.CARBONADO_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.CARBONADO, SlimefunItems.POWER_CRYSTAL, SlimefunItems.CARBONADO, SlimefunItems.STEEL_THRUSTER, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.7)
+		0.7, 125)
 		.register(plugin);
 
 		new JetBoots(categories.technicalGadgets, SlimefunItems.ARMORED_JETBOOTS,
 		new ItemStack[] {null, null, null, SlimefunItems.STEEL_PLATE, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_PLATE, SlimefunItems.STEEL_THRUSTER, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.STEEL_THRUSTER},
-		0.45)
+		0.45, 50)
 		.register(plugin);
 
 		new SeismicAxe(categories.weapons, SlimefunItems.SEISMIC_AXE, RecipeType.MAGIC_WORKBENCH,
@@ -1975,15 +1975,22 @@ public final class SlimefunItemSetup {
 			new AutoDrier(categories.electricity, SlimefunItems.AUTO_DRIER, RecipeType.ENHANCED_CRAFTING_TABLE,
 			new ItemStack[]{null, null, null, SlimefunItems.HEATING_COIL, new ItemStack(Material.SMOKER), SlimefunItems.HEATING_COIL, null, new ItemStack(Material.CAMPFIRE), null})
 			.register(plugin);
-		} else {
+		} 
+		else {
 			new AutoDrier(categories.electricity, SlimefunItems.AUTO_DRIER, RecipeType.ENHANCED_CRAFTING_TABLE,
 			new ItemStack[]{null, null, null, SlimefunItems.HEATING_COIL, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, null, new ItemStack(Material.TORCH), null})
 			.register(plugin);
 		}
 
 		new AutoBrewer(categories.electricity, SlimefunItems.AUTO_BREWER, RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, SlimefunItems.HEATING_COIL, null, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.BREWING_STAND), SlimefunItems.REINFORCED_PLATE, null, SlimefunItems.ELECTRIC_MOTOR, null})
-		.register(plugin);
+		new ItemStack[] {null, SlimefunItems.HEATING_COIL, null, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.BREWING_STAND), SlimefunItems.REINFORCED_PLATE, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
+
+            @Override
+            public int getSpeed() {
+                return 1;
+            }
+            
+		}.register(plugin);
 
 		new ElectricPress(categories.electricity, SlimefunItems.ELECTRIC_PRESS, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON), null, SlimefunItems.MEDIUM_CAPACITOR, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT}) {

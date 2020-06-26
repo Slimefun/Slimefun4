@@ -28,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
@@ -462,12 +463,12 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipeType(RecipeType type) {
-        Validate.notNull(type, "'recipeType' is not allowed to be null!");
+        Validate.notNull(type, "The RecipeType is not allowed to be null!");
         this.recipeType = type;
     }
 
     public void setCategory(Category category) {
-        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(category, "The Category is not allowed to be null!");
 
         this.category.remove(this);
         category.add(this);
@@ -543,7 +544,7 @@ public class SlimefunItem implements Placeable {
 
         // Backwards compatibility
         if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof ChargableItem || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
         }
         else {
