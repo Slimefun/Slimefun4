@@ -88,6 +88,20 @@ public class TestRechargeableItems {
     }
 
     @Test
+    public void testAddItemChargeWithoutLore() {
+        Rechargeable rechargeable = mock("CHARGING_NO_LORE_TEST", 10);
+        ItemStack item = new CustomItem(Material.REDSTONE_BLOCK, "&4Chargeable Item with no lore");
+
+        Assertions.assertEquals(0, rechargeable.getItemCharge(item));
+
+        Assertions.assertTrue(rechargeable.addItemCharge(item, 10));
+        Assertions.assertEquals(10, rechargeable.getItemCharge(item));
+
+        String lore = ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7") + "10.0 / 10.0 J";
+        Assertions.assertEquals(lore, item.getItemMeta().getLore().get(0));
+    }
+
+    @Test
     public void testRemoveItemCharge() {
         Rechargeable rechargeable = mock("CHARGING_BOUNDS_TEST", 10);
         ItemStack item = new CustomItem(Material.REDSTONE_BLOCK, "&4Chargeable Item with removal", "", LoreBuilder.powerCharged(0, 10));

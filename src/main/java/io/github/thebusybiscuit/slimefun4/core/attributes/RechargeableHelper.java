@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.NamespacedKey;
@@ -37,13 +38,14 @@ final class RechargeableHelper {
             meta.getPersistentDataContainer().set(CHARGE_KEY, PersistentDataType.FLOAT, value);
         }
 
-        List<String> lore = meta.getLore();
+        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         for (int i = 0; i < lore.size(); i++) {
             String line = lore.get(i);
 
             if (line.startsWith(LORE_PREFIX)) {
                 lore.set(i, LORE_PREFIX + value + " / " + capacity + " J");
-                break;
+                meta.setLore(lore);
+                return;
             }
         }
 
