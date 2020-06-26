@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -63,8 +66,10 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         materialSpeedsDef.put(Material.DIORITE.name(), 0.6D);
         materialSpeedsDef.put(Material.GRANITE.name(), 0.6D);
         materialSpeedsDef.put(Material.ANDESITE.name(), 0.6D);
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) materialSpeedsDef.put(Material.BLACKSTONE.name(), 0.6D);
         materialSpeedsDef.put(Material.NETHERRACK.name(), 0.6D);
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            materialSpeedsDef.put(Material.BLACKSTONE.name(), 0.6D);
+        }
 
         addItemSetting(materialSpeeds);
     }
@@ -80,34 +85,42 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
-            if (e.getClickedBlock().isPresent()) {
-                Block block = e.getClickedBlock().get();
-                ItemStack item = e.getItem();
-                Player p = e.getPlayer();
+            if (!e.getClickedBlock().isPresent()) return;
 
-                if (!getID().equals("TEST_CLIMBING_PICK") && p.getLocation().distance(block.getLocation()) > 1.5) return;
-                if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) return;
+            Block block = e.getClickedBlock().get();
+            ItemStack item = e.getItem();
+            Player p = e.getPlayer();
 
-                if (!users.contains(p.getUniqueId())) {
-                    Vector velocity = new Vector(1, 1, 1);
-                    if (!getID().equals("TEST_CLIMBING_PICK")) {
-                        velocity = p.getVelocity();
+            if (!getID().equals("TEST_CLIMBING_PICK") && p.getLocation().distance(block.getLocation()) > 1.5) return;
+            if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) return;
+
+            if (!users.contains(p.getUniqueId())) {
+                Vector velocity = new Vector(1, 1, 1);
+                if (!getID().equals("TEST_CLIMBING_PICK")) {
+                    velocity = p.getVelocity();
+                }
+
+                Material mat = block.getType();
+                Double launch = materialSpeeds.getValue().get(mat.name());
+                if (launch != null) {
+                    Integer efficiencyLevel = item.getEnchantments().get(Enchantment.DIG_SPEED);
+                    if (efficiencyLevel != null){
+                        launch += (efficiencyLevel * 0.2);
                     }
-
-                    Material mat = block.getType();
-                    if (materialSpeeds.getValue().containsKey(mat.name())) {
-                        double launch = materialSpeeds.getValue().get(mat.name());
-                        if (item.getEnchantments().containsKey(Enchantment.DIG_SPEED)) {
-                            launch += (item.getEnchantmentLevel(Enchantment.DIG_SPEED) * 0.2);
-                        }
-                        velocity = velocity.setY(velocity.getY() + launch);
-                    }
+                    velocity = velocity.setY(velocity.getY() + launch);
 
                     users.add(p.getUniqueId());
                     Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, () -> users.remove(p.getUniqueId()), 4L);
+                }
 
-                    ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, item);
-                    Bukkit.getPluginManager().callEvent(event);
+                ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, item);
+                Bukkit.getPluginManager().callEvent(event);
+
+                p.setVelocity(event.getVelocity());
+                p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
+
+                if (p.getGameMode() != GameMode.CREATIVE) {
+                    ((ClimbingPick) SlimefunItem.getByItem(e.getItem())).damageItem(p, e.getItem());
                 }
             }
         };

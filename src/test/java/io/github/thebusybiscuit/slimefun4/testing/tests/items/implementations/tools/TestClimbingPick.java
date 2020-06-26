@@ -53,11 +53,11 @@ public class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         for (BlockFace face : BlockFace.values()) {
             BlockMock block1 = new BlockMock(Material.STONE);
             simulateRightClickBlock(player, pick, block1, face);
-            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
+            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class, e -> !e.isCancelled());
 
             BlockMock block2 = new BlockMock(Material.DIRT);
             simulateRightClickBlock(player, pick, block2, face);
-            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
+            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class, ClimbingPickLaunchEvent::isCancelled);
         }
     }
 }
