@@ -57,12 +57,13 @@ final class RechargeableHelper {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             Float value = meta.getPersistentDataContainer().get(CHARGE_KEY, PersistentDataType.FLOAT);
 
-            // If no persistent data exists, we will just fall back to the lore
+            // If persistent data is available, we just return this value
             if (value != null) {
                 return value;
             }
         }
 
+        // If no persistent data exists, we will just fall back to the lore
         if (meta.hasLore()) {
             for (String line : meta.getLore()) {
                 if (line.startsWith(LORE_PREFIX) && line.contains(" / ") && line.endsWith(" J")) {
