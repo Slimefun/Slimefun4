@@ -7,8 +7,8 @@ Looking for English Version? [**Click here**](https://github.com/TheBusyBiscuit/
 ![编译状态](https://github.com/StarWishsama/Slimefun4/workflows/Java%20CI/badge.svg)
 [![Issues](https://img.shields.io/github/issues/StarWishsama/Slimefun4.svg?style=popout)](https://github.com/StarWishsama/Slimefun4/issues)
 
-如果你使用了本版本, 请 **不要** 在官方问题追踪器创建新问题! 
-如果你执意要这么做, 请在反馈时使用**官方**开发版并且使用**英语** 提交问题
+如果你使用了本版本, 请 **不要** 在官方问题追踪器创建新问题!<br>
+如果你执意要这么做, 请在反馈时使用**官方**开发版并且使用**英语** 提交问题<br>
 如果不能, 请优先考虑在此处创建新问题.
 
 魔改内容:
@@ -33,8 +33,8 @@ Slimefun 让每个玩家可以自己决定在魔法或科技方面发展<br>
 
 ### 导航
 * **[下载 Slimefun 4](#%e4%b8%8b%e8%bd%bd-Slimefun4)**
-* **[Discord Support Server](#discord)**
-* **[Bug Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues)**
+* **[Discord 服务器](#discord)**
+* **[Bug 反馈](https://github.com/StarWishsama/Slimefun4/issues)**
 * **[Wiki](https://github.com/TheBusyBiscuit/Slimefun4/wiki)**
 * **[FAQ](https://github.com/TheBusyBiscuit/Slimefun4/wiki/FAQ)**
 
@@ -111,7 +111,7 @@ Slimefun4 最近添加了多语言支持, 请注意这些多语言功能仍在_�
 ### 代码质量
 Slimefun 使用 [Sonarcloud.io](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) 监控代码质量.
 
-| [Overall Maintainability](https://sonarcloud.io/documentation/user-guide/metric-definitions/#maintainability) | "Code Smells" | "Technical Debt" | Test Coverage |
+| [总体可维护度](https://sonarcloud.io/documentation/user-guide/metric-definitions/#maintainability) | "Code Smells" | "Technical Debt" | Test Coverage |
 | ---- | ---- | ---- | ---- |
 | [![可维护性等级](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=code_smells)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) | [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=sqale_index)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) | [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=TheBusyBiscuit_Slimefun4&metric=coverage)](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) |
 
