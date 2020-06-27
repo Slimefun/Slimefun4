@@ -57,6 +57,7 @@
 * Fixed #1855
 * Fixed some issues with AsyncWorldEdit
 * Fixed some problems with unregistered or fake worlds
+* Fixed a rare concurrency issue with world saving
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
