@@ -51,7 +51,7 @@ Slimefun 4 可以在 Releases 页面下 **免费下载**.<br>
 | **自动更新系统** | :heavy_check_mark: | :heavy_check_mark: |
 | **频繁更新** | :heavy_check_mark: | :x: |
 | **享有最新内容** | :heavy_check_mark: | :x: |
-| **Discord 支持t** | :heavy_check_mark: | :x: |
+| **Discord 支持** | :heavy_check_mark: | :x: |
 | **Bug 反馈** | :heavy_check_mark: | :x: |
 | **在发布前进行测试** | :x: | :heavy_check_mark: |
 | **有无更新日志** | :x: | :memo: **[更新日志(英文)](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/CHANGELOG.md)** |
