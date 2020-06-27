@@ -32,6 +32,7 @@
 * Added Magical Zombie Pills
 * Added 1.13 compatibility to the Auto Drier
 * Added Corals to the fuel list for the Bio Generator
+* Added Clay -> Clay blocks recipe to the Electric Press
 * (1.16+) Slimefun guide can now show Smithing Table recipes
 * (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
 * (1.16+) Added Shroomlights to the fuel list for the Bio Generator
@@ -61,6 +62,7 @@
 * Fixed some issues with AsyncWorldEdit
 * Fixed some problems with unregistered or fake worlds
 * Fixed a rare concurrency issue with world saving
+* Fixed some contributors showing up twice
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

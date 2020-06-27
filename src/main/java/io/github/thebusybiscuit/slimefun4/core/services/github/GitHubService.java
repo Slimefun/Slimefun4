@@ -73,10 +73,12 @@ public class GitHubService {
         contributors.put(name, contributor);
     }
 
-    public Contributor addContributor(String name, String profile, String role, int commits) {
-        Contributor contributor = contributors.computeIfAbsent(name, key -> new Contributor(name, profile));
+    public Contributor addContributor(String minecraftName, String profile, String role, int commits) {
+        String username = profile.substring(profile.lastIndexOf('/') + 1);
+
+        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profile));
         contributor.setContribution(role, commits);
-        contributor.setUniqueId(uuidCache.getUUID(name));
+        contributor.setUniqueId(uuidCache.getUUID(minecraftName));
         return contributor;
     }
 
