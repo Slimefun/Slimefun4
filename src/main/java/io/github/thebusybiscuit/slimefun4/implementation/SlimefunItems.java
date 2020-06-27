@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -302,25 +303,33 @@ public final class SlimefunItems {
 
             ItemMeta scubaHelmetMeta = SCUBA_HELMET.getItemMeta();
             List<String> scubaHelmetMetaLore = scubaHelmetMeta.getLore();
-            scubaHelmetMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            scubaHelmetMetaLore.addAll(Arrays.asList("",
+                    ChatColor.translateAlternateColorCodes('&', "&7Equip the full set for:"),
+                    ChatColor.translateAlternateColorCodes('&', "&7+Bee Protection")));
             scubaHelmetMeta.setLore(scubaHelmetMetaLore);
             SCUBA_HELMET.setItemMeta(scubaHelmetMeta);
 
             ItemMeta hazmatChestplateItemMeta = HAZMAT_CHESTPLATE.getItemMeta();
             List<String> hazmatChestplateItemMetaLore = hazmatChestplateItemMeta.getLore();
-            hazmatChestplateItemMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            hazmatChestplateItemMetaLore.addAll(Arrays.asList("",
+                    ChatColor.translateAlternateColorCodes('&', "&7Equip the full set for:"),
+                    ChatColor.translateAlternateColorCodes('&', "&7+Bee Protection")));
             hazmatChestplateItemMeta.setLore(hazmatChestplateItemMetaLore);
             HAZMAT_CHESTPLATE.setItemMeta(hazmatChestplateItemMeta);
 
             ItemMeta hazmatLeggingsItemMeta = HAZMAT_LEGGINGS.getItemMeta();
             List<String> hazmatLeggingsItemMetaLore = hazmatLeggingsItemMeta.getLore();
-            hazmatLeggingsItemMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            hazmatLeggingsItemMetaLore.addAll(Arrays.asList("",
+                    ChatColor.translateAlternateColorCodes('&', "&7Equip the full set for:"),
+                    ChatColor.translateAlternateColorCodes('&', "&7+Bee Protection")));
             hazmatLeggingsItemMeta.setLore(hazmatLeggingsItemMetaLore);
             HAZMAT_LEGGINGS.setItemMeta(hazmatLeggingsItemMeta);
 
             ItemMeta rubberBootsItemMeta = RUBBER_BOOTS.getItemMeta();
             List<String> rubberBootsItemMetaLore = rubberBootsItemMeta.getLore();
-            rubberBootsItemMetaLore.addAll(Arrays.asList("", "&7Equip the full set for:", "&7+Bee Protection"));
+            rubberBootsItemMetaLore.addAll(Arrays.asList("",
+                    ChatColor.translateAlternateColorCodes('&', "&7Equip the full set for:"),
+                    ChatColor.translateAlternateColorCodes('&', "&7+Bee Protection")));
             rubberBootsItemMeta.setLore(rubberBootsItemMetaLore);
             RUBBER_BOOTS.setItemMeta(rubberBootsItemMeta);
         }

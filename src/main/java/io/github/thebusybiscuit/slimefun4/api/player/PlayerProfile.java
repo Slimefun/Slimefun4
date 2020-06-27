@@ -47,6 +47,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @see Research
  * @see Waypoint
  * @see PlayerBackpack
+ * @see HashedArmorpiece
  *
  */
 public final class PlayerProfile {
