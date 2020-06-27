@@ -97,6 +97,10 @@ public class BlockStorage {
     public BlockStorage(World w) {
         this.world = w;
 
+        if (world.getName().indexOf('.') != -1) {
+            throw new IllegalArgumentException("Slimefun cannot deal with World names that contain a dot: " + w.getName());
+        }
+
         if (SlimefunPlugin.getRegistry().getWorlds().containsKey(w.getName())) {
             // Cancel the loading process if the world was already loaded
             return;
