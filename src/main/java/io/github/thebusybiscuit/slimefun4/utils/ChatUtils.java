@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This utility class contains a few static methods that are all about {@link String} manipulation
@@ -25,7 +25,7 @@ public final class ChatUtils {
     public static void sendURL(CommandSender sender, String url) {
         // If we get access to the URL prompt one day, we can just prompt the link to the Player that way.
         sender.sendMessage("");
-        SlimefunPlugin.getLocal().sendMessage(sender, "messages.link-prompt", false);
+        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.link-prompt", false);
         sender.sendMessage(ChatColors.color("&7&o" + url));
         sender.sendMessage("");
     }

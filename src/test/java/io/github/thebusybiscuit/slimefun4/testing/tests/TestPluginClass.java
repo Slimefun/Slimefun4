@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 public class TestPluginClass {
 
@@ -39,7 +39,7 @@ public class TestPluginClass {
 
     @Test
     public void testGetters() {
-        Assertions.assertNotNull(SlimefunPlugin.getTicker());
+        Assertions.assertNotNull(SlimefunPlugin.getTickerTask());
         Assertions.assertNotNull(SlimefunPlugin.getVersion());
         Assertions.assertNotNull(SlimefunPlugin.getRegistry());
         Assertions.assertNotNull(SlimefunPlugin.getCommand());
@@ -47,8 +47,8 @@ public class TestPluginClass {
 
     @Test
     public void testServicesNotNull() {
-        Assertions.assertNotNull(SlimefunPlugin.getLocal());
-        Assertions.assertNotNull(SlimefunPlugin.getMinecraftRecipes());
+        Assertions.assertNotNull(SlimefunPlugin.getLocalization());
+        Assertions.assertNotNull(SlimefunPlugin.getMinecraftRecipeService());
         Assertions.assertNotNull(SlimefunPlugin.getItemDataService());
         Assertions.assertNotNull(SlimefunPlugin.getItemTextureService());
         Assertions.assertNotNull(SlimefunPlugin.getPermissionsService());

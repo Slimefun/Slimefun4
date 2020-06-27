@@ -11,8 +11,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This is just a simple helper class to provide static methods to the {@link Rechargeable}

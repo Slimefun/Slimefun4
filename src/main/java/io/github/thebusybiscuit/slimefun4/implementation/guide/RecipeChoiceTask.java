@@ -13,7 +13,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * A {@link RecipeChoiceTask} is an asynchronously repeating task that cycles

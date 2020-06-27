@@ -18,8 +18,8 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -74,14 +74,14 @@ public class OreCrusher extends MultiBlockMachine {
                         outputInv.addItem(adding);
                         p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
                     }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    else SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
 
                     return;
                 }
             }
         }
 
-        SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+        SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
     }
 
     private class DoubleOreSetting extends ItemSetting<Boolean> {

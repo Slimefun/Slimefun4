@@ -16,7 +16,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 
 /**

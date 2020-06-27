@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.bstats.bukkit.Metrics.DrilldownPie;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class SlimefunVersionChart extends DrilldownPie {
 

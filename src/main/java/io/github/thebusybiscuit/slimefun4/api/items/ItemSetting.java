@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import org.apache.commons.lang.Validate;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 

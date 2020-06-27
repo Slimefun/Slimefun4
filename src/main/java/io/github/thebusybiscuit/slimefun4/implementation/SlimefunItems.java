@@ -23,7 +23,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**

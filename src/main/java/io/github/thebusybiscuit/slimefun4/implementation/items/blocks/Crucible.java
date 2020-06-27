@@ -17,8 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -93,7 +93,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                         generateLiquid(block, water);
                     }
                     else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
                     }
                 }
             }

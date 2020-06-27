@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class DebugFishCommand extends SubCommand {
 
@@ -30,7 +30,7 @@ class DebugFishCommand extends SubCommand {
             ((Player) sender).getInventory().addItem(SlimefunItems.DEBUG_FISH);
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
         }
     }
 
