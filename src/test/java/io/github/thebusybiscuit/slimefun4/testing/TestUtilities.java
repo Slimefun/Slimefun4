@@ -81,6 +81,8 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("small_flowers"), Material.POPPY, Material.DANDELION, Material.AZURE_BLUET, Material.LILY_OF_THE_VALLEY);
         server.createMaterialTag(NamespacedKey.minecraft("leaves"), Material.OAK_LEAVES, Material.BIRCH_LEAVES, Material.SPRUCE_LEAVES, Material.JUNGLE_LEAVES, Material.ACACIA_LEAVES, Material.DARK_OAK_LEAVES);
         server.createMaterialTag(NamespacedKey.minecraft("saplings"), Material.OAK_SAPLING, Material.BIRCH_SAPLING, Material.SPRUCE_SAPLING, Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING);
+        server.createMaterialTag(NamespacedKey.minecraft("coral_blocks"), Material.BRAIN_CORAL_BLOCK, Material.BUBBLE_CORAL_BLOCK, Material.FIRE_CORAL_BLOCK, Material.HORN_CORAL_BLOCK, Material.TUBE_CORAL_BLOCK);
+        server.createMaterialTag(NamespacedKey.minecraft("corals"), Material.BRAIN_CORAL, Material.BUBBLE_CORAL, Material.FIRE_CORAL, Material.HORN_CORAL, Material.TUBE_CORAL);
     }
 
 }
