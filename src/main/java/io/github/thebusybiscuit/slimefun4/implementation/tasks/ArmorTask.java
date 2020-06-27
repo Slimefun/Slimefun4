@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -15,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.attributes.CustomProtection;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -122,18 +121,16 @@ public class ArmorTask implements Runnable {
     }
 
     private void checkForRadiation(Player p, PlayerProfile profile) {
-        HashedArmorpiece[] armor = profile.getArmor();
-
-        if (!shouldProtect(armor)) {
+        if (!profile.isProtected(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
-                if (checkAndApplyRadioactive(p, item)) {
+                if (checkAndApplyRadiation(p, item)) {
                     break;
                 }
             }
         }
     }
 
-    private boolean checkAndApplyRadioactive(Player p, ItemStack item) {
+    private boolean checkAndApplyRadiation(Player p, ItemStack item) {
         for (SlimefunItem radioactiveItem : SlimefunPlugin.getRegistry().getRadioactiveItems()) {
             if (radioactiveItem.isItem(item) && Slimefun.isEnabled(p, radioactiveItem, true)) {
                 // If the item is enabled in the world, then make radioactivity do its job
@@ -149,37 +146,5 @@ public class ArmorTask implements Runnable {
         }
 
         return false;
-    }
-
-    private boolean shouldProtect(HashedArmorpiece[] armors) {
-        int armorCount = 0;
-        boolean first = true;
-
-        String setID = null;
-        for (HashedArmorpiece armor : armors) {
-            Optional<SlimefunArmorPiece> armorPiece = armor.getItem();
-            if (!armorPiece.isPresent()) return false;
-
-            if (armorPiece.get() instanceof CustomProtection) {
-                CustomProtection protectedArmor = (CustomProtection) armorPiece.get();
-
-                if (first) {
-                    if (protectedArmor.requireFullSet()) setID = armorPiece.get().getSetID();
-                    first = false;
-                }
-
-                for (CustomProtection.ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
-                    if (protectionType == CustomProtection.ProtectionType.RADIATION) {
-                        if (setID == null) {
-                            return true;
-                        }
-                        armorCount++;
-                    }
-                }
-
-            }
-        }
-
-        return armorCount == 4;
     }
 }

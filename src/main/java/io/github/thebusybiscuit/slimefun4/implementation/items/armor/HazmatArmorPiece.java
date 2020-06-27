@@ -4,6 +4,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.CustomProtection;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -24,7 +25,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements CustomProtec
     }
 
     @Override
-    public boolean requireFullSet() {
+    public boolean isFullSetRequired() {
         return true;
     }
 }

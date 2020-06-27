@@ -19,6 +19,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,9 +32,12 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.core.attributes.CustomProtection;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -447,6 +451,39 @@ public final class PlayerProfile {
                 }
             });
         }
+    }
+
+    public boolean isProtected(ProtectionType type) {
+        int armorCount = 0;
+        boolean first = true;
+
+        NamespacedKey setId = null;
+        for (HashedArmorpiece armor : armor) {
+            Optional<SlimefunArmorPiece> armorPiece = armor.getItem();
+            if (!armorPiece.isPresent()) return false;
+
+            if (armorPiece.get() instanceof CustomProtection) {
+                CustomProtection protectedArmor = (CustomProtection) armorPiece.get();
+
+                if (first) {
+                    if (protectedArmor.isFullSetRequired()) setId = armorPiece.get().getSetId();
+                    first = false;
+                }
+
+                for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
+                    if (protectionType == type) {
+                        if (setId == null) {
+                            return true;
+                        } else if (setId.equals(armorPiece.get().getSetId())) {
+                            armorCount++;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return armorCount == 4;
     }
 
     @Override

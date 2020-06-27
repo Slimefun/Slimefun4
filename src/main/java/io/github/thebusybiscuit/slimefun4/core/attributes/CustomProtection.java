@@ -37,12 +37,5 @@ public interface CustomProtection extends ItemAttribute {
      *
      * @return The {@link ProtectionType}s
      */
-    boolean requireFullSet();
-
-    enum ProtectionType {
-
-        RADIATION,
-
-        BEES;
-    }
+    boolean isFullSetRequired();
 }

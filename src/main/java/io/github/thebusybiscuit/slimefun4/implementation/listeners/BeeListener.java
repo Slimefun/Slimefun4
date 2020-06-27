@@ -10,11 +10,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.attributes.CustomProtection;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 
 /**
  * The listener for Hazmat Suit's {@link Bee} sting protection.
@@ -39,10 +37,9 @@ public class BeeListener implements Listener {
                 PlayerProfile.request(p);
                 return;
             }
-            PlayerProfile profile = optional.get();
 
-            HashedArmorpiece[] armors = profile.getArmor();
-            if (shouldProtect(armors)) {
+            PlayerProfile profile = optional.get();
+            if (profile.isProtected(ProtectionType.BEES)) {
                 for (ItemStack armor : p.getInventory().getArmorContents()) {
                     ItemUtils.damageItem(armor, 1, false);
                 }
@@ -51,35 +48,4 @@ public class BeeListener implements Listener {
         }
     }
 
-    private boolean shouldProtect(HashedArmorpiece[] armors) {
-        int armorCount = 0;
-        boolean first = true;
-
-        String setID = null;
-        for (HashedArmorpiece armor : armors) {
-            Optional<SlimefunArmorPiece> armorPiece = armor.getItem();
-            if (!armorPiece.isPresent()) return false;
-
-            if (armorPiece.get() instanceof CustomProtection) {
-                CustomProtection protectedArmor = (CustomProtection) armorPiece.get();
-
-                if (first) {
-                    if (protectedArmor.requireFullSet()) setID = armorPiece.get().getSetID();
-                    first = false;
-                }
-
-                for (CustomProtection.ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
-                    if (protectionType == CustomProtection.ProtectionType.BEES) {
-                        if (setID == null) {
-                            return true;
-                        }
-                        armorCount++;
-                    }
-                }
-
-            }
-        }
-
-        return armorCount == 4;
-    }
 }
