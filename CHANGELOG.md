@@ -31,8 +31,11 @@
 * Added a new language: Tagalog
 * Added Magical Zombie Pills
 * Added 1.13 compatibility to the Auto Drier
+* Added Corals to the fuel list for the Bio Generator
 * (1.16+) Slimefun guide can now show Smithing Table recipes
 * (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
+* (1.16+) Added Shroomlights to the fuel list for the Bio Generator
+* (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
 
 #### Changes
 * Coolant Cells now last twice as long
