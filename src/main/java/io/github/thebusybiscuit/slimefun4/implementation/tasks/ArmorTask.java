@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -109,6 +110,12 @@ public class ArmorTask implements Runnable {
 
     private boolean hasSunlight(Player p) {
         World world = p.getWorld();
+
+        if (world.getEnvironment() != Environment.NORMAL) {
+            // The End and Nether have no sunlight
+            return false;
+        }
+
         return (world.getTime() < 12300 || world.getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
     }
 
