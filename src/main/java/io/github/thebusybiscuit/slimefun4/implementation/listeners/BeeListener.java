@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.CustomProtection;
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
@@ -30,39 +32,55 @@ public class BeeListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Bee) {
-            if (e.getEntity() instanceof Player) {
-                Player p = (Player) e.getEntity();
-                PlayerProfile.get(p, profile -> {
+        if (e.getDamager() instanceof Bee && e.getEntity() instanceof Player) {
 
-                    HashedArmorpiece[] armors = profile.getArmor();
-                    if (hasFullHazmat(armors)) {
-                        for (ItemStack armor : p.getInventory().getArmorContents()) {
-                            ItemUtils.damageItem(armor, 1, false);
-                        }
-                        e.setDamage(0D);
-                    }
-                });
+            Player p = (Player) e.getEntity();
+            Optional<PlayerProfile> optional = PlayerProfile.find(p);
+            if (!optional.isPresent()) {
+                PlayerProfile.request(p);
+                return;
+            }
+            PlayerProfile profile = optional.get();
+
+            HashedArmorpiece[] armors = profile.getArmor();
+            if (shouldProtect(armors)) {
+                for (ItemStack armor : p.getInventory().getArmorContents()) {
+                    ItemUtils.damageItem(armor, 1, false);
+                }
+                e.setDamage(0D);
             }
         }
     }
 
-    private boolean hasFullHazmat(HashedArmorpiece[] armors) {
-        int hazmatCount = 0;
+    private boolean shouldProtect(HashedArmorpiece[] armors) {
+        int armorCount = 0;
+        boolean first = true;
 
-        // Check for a Hazmat Suit
+        String setID = null;
         for (HashedArmorpiece armor : armors) {
             Optional<SlimefunArmorPiece> armorPiece = armor.getItem();
             if (!armorPiece.isPresent()) return false;
 
-            if (armorPiece.get().getID().equals("SCUBA_HELMET") ||
-                    armorPiece.get().getID().equals("HAZMAT_CHESTPLATE") ||
-                    armorPiece.get().getID().equals("HAZMAT_LEGGINGS") ||
-                    armorPiece.get().getID().equals("RUBBER_BOOTS")) {
-                hazmatCount++;
+            if (armorPiece.get() instanceof CustomProtection) {
+                CustomProtection protectedArmor = (CustomProtection) armorPiece.get();
+
+                if (first) {
+                    if (protectedArmor.requireFullSet()) setID = armorPiece.get().getSetID();
+                    first = false;
+                }
+
+                for (CustomProtection.ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
+                    if (protectionType == CustomProtection.ProtectionType.BEES) {
+                        if (setID == null) {
+                            return true;
+                        }
+                        armorCount++;
+                    }
+                }
+
             }
         }
 
-        return hazmatCount == 4;
+        return armorCount == 4;
     }
 }
