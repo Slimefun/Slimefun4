@@ -69,8 +69,7 @@ public class SlimefunBowListener implements Listener {
 
     @EventHandler
     public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Arrow && e.getEntity() instanceof LivingEntity) {
-            if (e.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) return;
+        if (e.getDamager() instanceof Arrow && e.getEntity() instanceof LivingEntity && e.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
             SlimefunBow bow = projectiles.get(e.getDamager().getUniqueId());
 
             if (bow != null) {

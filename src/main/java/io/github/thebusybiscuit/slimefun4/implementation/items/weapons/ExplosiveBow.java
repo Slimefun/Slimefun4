@@ -19,7 +19,12 @@ import java.util.Collection;
 
 public class ExplosiveBow extends SlimefunBow {
 
-    private final ItemSetting<Integer> range = new ItemSetting<>("explosion-range", 3);
+    private final ItemSetting<Integer> range = new ItemSetting<Integer>("explosion-range", 3) {
+        @Override
+        public boolean validateInput(Integer input) {
+            return input > 0;
+        }
+    };
 
     public ExplosiveBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, recipe);
@@ -29,39 +34,37 @@ public class ExplosiveBow extends SlimefunBow {
     @Override
     public BowShootHandler onShoot() {
         return (e, n) -> {
-            Collection<Entity> entites = n.getWorld().getNearbyEntities(n.getLocation(), range.getValue(), range.getValue(), range.getValue(), entity -> entity instanceof LivingEntity);
+            Collection<Entity> entites = n.getWorld().getNearbyEntities(n.getLocation(), range.getValue(), range.getValue(), range.getValue(), entity -> entity instanceof LivingEntity && entity.isValid());
             for (Entity entity : entites) {
-                if (entity.isValid() && entity instanceof LivingEntity) {
-                    LivingEntity entityL = (LivingEntity) entity;
+                LivingEntity entityL = (LivingEntity) entity;
 
-                    double distance = entityL.getLocation().distance(n.getLocation());
-                    double damage = calculateDamage(distance, e.getDamage());
+                Vector distanceVector = entityL.getLocation().toVector().subtract(n.getLocation().toVector());
+                distanceVector.setY(distanceVector.getY() + 0.6D);
+                Vector entityVelocity = entityL.getVelocity();
 
-                    Vector distanceVector = entityL.getLocation().toVector().subtract(n.getLocation().toVector());
-                    distanceVector.setY(distanceVector.getY() + 0.6D);
-                    Vector entityVelocity = entityL.getVelocity();
-                    Vector knockback = entityVelocity.add(distanceVector.normalize().multiply((int) (e.getDamage() / Math.round(damage))));
-                    entityL.setVelocity(knockback);
+                double distanceSquared = distanceVector.lengthSquared();
+                double damage = calculateDamage(distanceSquared, e.getDamage());
 
-                    entityL.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entityL.getLocation(), 1);
-                    entityL.getWorld().playSound(entityL.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                Vector knockback = entityVelocity.add(distanceVector.normalize().multiply((int) (e.getDamage() / damage)));
+                entityL.setVelocity(knockback);
 
-                    if (!entityL.getUniqueId().equals(n.getUniqueId())) {
-                        entityL.damage(damage);
-                        EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(e.getDamager(), entityL, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
-                        Bukkit.getPluginManager().callEvent(damageEvent);
-                    }
+                entityL.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entityL.getLocation(), 1);
+                entityL.getWorld().playSound(entityL.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+
+                if (!entityL.getUniqueId().equals(n.getUniqueId())) {
+                    entityL.damage(damage);
+                    EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(e.getDamager(), entityL, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
+                    Bukkit.getPluginManager().callEvent(damageEvent);
                 }
             }
         };
     }
 
-    private double calculateDamage(double distance, double ogDamage) {
+    private double calculateDamage(double distanceSquared, double originalDamage) {
 
-        if (distance == 0D) return ogDamage;
-        double damage = ogDamage - Math.pow((distance / range.getValue()), 2.5);
-        if (Math.round(damage) == 0D) damage += 1D;
-        return Math.min(damage, ogDamage);
+        if (distanceSquared <= 0.05D) return originalDamage;
+        double damage = originalDamage * (1 - (distanceSquared / (range.getValue() * range.getValue())));
+        return Math.min(Math.max(1, damage), originalDamage);
     }
 
 }
