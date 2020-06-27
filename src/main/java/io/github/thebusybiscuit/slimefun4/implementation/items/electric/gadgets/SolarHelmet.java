@@ -25,11 +25,16 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SolarHelmet extends SlimefunItem {
 
-    private final ItemSetting<Double> charge = new ItemSetting<>("charge-amount", 0.1);
+    private final ItemSetting<Double> charge;
 
-    public SolarHelmet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public SolarHelmet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double defaultChargingLevel) {
         super(category, item, recipeType, recipe);
 
+        if (defaultChargingLevel <= 0) {
+            throw new IllegalArgumentException("A Solar Helmet must have a positive charging level!");
+        }
+
+        charge = new ItemSetting<>("charge-amount", defaultChargingLevel);
         addItemSetting(charge);
     }
 

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -107,12 +108,13 @@ public class ArmorTask implements Runnable {
     }
 
     private boolean hasSunlight(Player p) {
-        return (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
+        World world = p.getWorld();
+        return (world.getTime() < 12300 || world.getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
     }
 
     private void checkForRadiation(Player p) {
         // Check for a Hazmat Suit
-        if (!SlimefunUtils.isItemSimilar(SlimefunItems.SCUBA_HELMET, p.getInventory().getHelmet(), true) || !SlimefunUtils.isItemSimilar(SlimefunItems.HAZMAT_CHESTPLATE, p.getInventory().getChestplate(), true) || !SlimefunUtils.isItemSimilar(SlimefunItems.HAZMAT_LEGGINGS, p.getInventory().getLeggings(), true) || !SlimefunUtils.isItemSimilar(SlimefunItems.RUBBER_BOOTS, p.getInventory().getBoots(), true)) {
+        if (!SlimefunUtils.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SCUBA_HELMET, true) || !SlimefunUtils.isItemSimilar(p.getInventory().getChestplate(), SlimefunItems.HAZMAT_CHESTPLATE, true) || !SlimefunUtils.isItemSimilar(p.getInventory().getLeggings(), SlimefunItems.HAZMAT_LEGGINGS, true) || !SlimefunUtils.isItemSimilar(p.getInventory().getBoots(), SlimefunItems.RUBBER_BOOTS, true)) {
             for (ItemStack item : p.getInventory()) {
                 if (isRadioactive(p, item)) {
                     break;
