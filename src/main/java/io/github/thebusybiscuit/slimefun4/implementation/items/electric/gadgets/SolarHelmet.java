@@ -28,7 +28,7 @@ public class SolarHelmet extends SlimefunItem {
     private final ItemSetting<Double> charge = new ItemSetting<>("charge-amount", 0.1);
 
     public SolarHelmet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe, null);
+        super(category, item, recipeType, recipe);
 
         addItemSetting(charge);
     }
