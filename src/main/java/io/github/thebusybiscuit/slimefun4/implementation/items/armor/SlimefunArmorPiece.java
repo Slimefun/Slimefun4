@@ -22,10 +22,9 @@ public class SlimefunArmorPiece extends SlimefunItem {
         this.effects = effects == null ? new PotionEffect[0] : effects;
     }
 
-    public SlimefunArmorPiece(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects, String setId) {
+    public SlimefunArmorPiece(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects, NamespacedKey setId) {
         this(category, item, recipeType, recipe, effects);
-
-        this.id = new NamespacedKey(SlimefunPlugin.instance, setId);
+        this.id = setId;
     }
 
     /**
