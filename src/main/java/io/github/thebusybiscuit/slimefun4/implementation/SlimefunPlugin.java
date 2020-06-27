@@ -60,6 +60,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityDamageListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
@@ -236,6 +237,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new WitherListener(this);
             new IronGolemListener(this);
             new PlayerInteractEntityListener(this);
+            new EntityDamageListener(this);
 
             new MobDropListener(this, (BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem());
 

@@ -160,6 +160,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosivePi
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HeadCracker;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.HerculesPickaxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.LumberAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
@@ -1042,6 +1043,10 @@ public final class SlimefunItemSetup {
 
 		new ExplosiveShovel(categories.tools, SlimefunItems.EXPLOSIVE_SHOVEL, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {null, SlimefunItems.SYNTHETIC_DIAMOND, null, null, new ItemStack(Material.TNT), null, null, SlimefunItems.FERROSILICON, null})
+		.register(plugin);
+
+		new HeadCracker(categories.tools, SlimefunItems.HEAD_CRACKER, RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {SlimefunItems.REINFORCED_PLATE, SlimefunItems.SYNTHETIC_EMERALD, SlimefunItems.REINFORCED_PLATE, SlimefunItems.STEEL_PLATE, SlimefunItems.FERROSILICON, SlimefunItems.STEEL_PLATE, null, SlimefunItems.FERROSILICON, null})
 		.register(plugin);
 
 		new AutomatedPanningMachine(categories.basicMachines, SlimefunItems.AUTOMATED_PANNING_MACHINE).register(plugin);
