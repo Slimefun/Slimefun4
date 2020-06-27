@@ -31,13 +31,13 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -136,7 +136,7 @@ public class AncientAltarListener implements Listener {
             if (p.getInventory().getItemInMainHand().getType() != Material.AIR) {
                 // Check for pedestal obstructions
                 if (pedestal.getRelative(0, 1, 0).getType() != Material.AIR) {
-                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_PEDESTAL.obstructed", true);
                     return;
                 }
 
@@ -171,7 +171,7 @@ public class AncientAltarListener implements Listener {
                 }
                 else {
                     altars.remove(altar);
-                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-catalyst", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 
                     for (Block block : pedestals) {
                         altarsInUse.remove(block.getLocation());
@@ -183,7 +183,7 @@ public class AncientAltarListener implements Listener {
             }
             else {
                 altars.remove(altar);
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
+                SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
 
                 // Not a valid altar so remove from inuse
                 altarsInUse.remove(altar.getLocation());
@@ -228,7 +228,7 @@ public class AncientAltarListener implements Listener {
         }
         else {
             altars.remove(b);
-            SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-recipe", true);
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
             for (Block block : pedestals) {
                 altarsInUse.remove(block.getLocation());
@@ -251,7 +251,7 @@ public class AncientAltarListener implements Listener {
             String id = BlockStorage.checkID(pedestal);
 
             if (id != null && id.equals(SlimefunItems.ANCIENT_PEDESTAL.getItemId())) {
-                SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.cannot-place", true);
+                SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.cannot-place", true);
                 e.setCancelled(true);
             }
         }

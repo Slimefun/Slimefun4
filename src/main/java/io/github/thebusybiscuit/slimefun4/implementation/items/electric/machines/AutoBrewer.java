@@ -119,7 +119,6 @@ public abstract class AutoBrewer extends AContainer {
 
         if (isPotion(input1.getType()) || isPotion(input2.getType())) {
             boolean slot = isPotion(input1.getType());
-            ItemStack potionItem = slot ? input1 : input2;
             ItemStack ingredient = slot ? input2 : input1;
 
             // Reject any named items
@@ -127,8 +126,8 @@ public abstract class AutoBrewer extends AContainer {
                 return null;
             }
 
+            ItemStack potionItem = slot ? input1 : input2;
             PotionMeta potion = (PotionMeta) potionItem.getItemMeta();
-
             ItemStack output = brew(ingredient.getType(), potionItem.getType(), potion);
 
             if (output == null) {
@@ -145,7 +144,7 @@ public abstract class AutoBrewer extends AContainer {
 
     private ItemStack brew(Material input, Material potionType, PotionMeta potion) {
         PotionData data = potion.getBasePotionData();
-        
+
         if (data.getType() == PotionType.WATER) {
             if (input == Material.FERMENTED_SPIDER_EYE) {
                 potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));

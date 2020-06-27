@@ -12,8 +12,8 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class SlimefunGuideListener implements Listener {
 
@@ -73,7 +73,7 @@ public class SlimefunGuideListener implements Listener {
             e.cancel();
 
             if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-item", true);
                 return Result.DENY;
             }
 

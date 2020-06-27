@@ -14,8 +14,8 @@ import com.google.gson.JsonObject;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This Service is responsible for grabbing every {@link Contributor} to this project

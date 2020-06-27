@@ -18,7 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -72,12 +72,12 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
                         useItem(p, item, loc);
                     }
                     else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "messages.no-pvp", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-pvp", true);
                     }
                 }
             }
             else {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.hungry", true);
             }
         };
     }

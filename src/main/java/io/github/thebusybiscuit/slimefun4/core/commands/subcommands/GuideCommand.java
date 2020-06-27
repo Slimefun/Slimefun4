@@ -7,7 +7,7 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class GuideCommand extends SubCommand {
 
@@ -32,11 +32,11 @@ class GuideCommand extends SubCommand {
                 ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST));
             }
             else {
-                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }
 

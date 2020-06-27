@@ -21,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -80,7 +80,7 @@ public class Smeltery extends AbstractSmeltery {
                 p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
             }
             else {
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.ignition-chamber-no-flint", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
 
                 Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
                 fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());

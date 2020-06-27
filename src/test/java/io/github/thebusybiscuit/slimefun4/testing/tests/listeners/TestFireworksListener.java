@@ -16,8 +16,8 @@ import org.mockito.Mockito;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.inventory.meta.FireworkMetaMock;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestFireworksListener {
 

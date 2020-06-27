@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This class represents a {@link SubCommand}, it is a {@link Command} that starts with
@@ -53,10 +53,10 @@ public abstract class SubCommand {
      */
     public String getDescription(CommandSender sender) {
         if (sender instanceof Player) {
-            return SlimefunPlugin.getLocal().getMessage((Player) sender, getDescription());
+            return SlimefunPlugin.getLocalization().getMessage((Player) sender, getDescription());
         }
         else {
-            return SlimefunPlugin.getLocal().getMessage(getDescription());
+            return SlimefunPlugin.getLocalization().getMessage(getDescription());
         }
     }
 

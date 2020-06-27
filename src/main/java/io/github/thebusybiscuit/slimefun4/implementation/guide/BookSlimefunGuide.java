@@ -26,9 +26,9 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -54,15 +54,15 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
     private void openBook(Player p, PlayerProfile profile, List<ChatComponent> lines, boolean backButton) {
         CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
-        book.setTitle(SlimefunPlugin.getLocal().getMessage(p, "guide.title.main"));
+        book.setTitle(SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main"));
 
         for (int i = 0; i < lines.size(); i = i + 10) {
             ChatComponent page = new ChatComponent("");
-            ChatComponent header = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocal().getMessage(p, "guide.title.main") + " -\n\n"));
+            ChatComponent header = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main") + " -\n\n"));
             header.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
 
             header.setClickEvent(new ClickEvent(guideSearch, player -> Slimefun.runSync(() -> {
-                SlimefunPlugin.getLocal().sendMessage(player, "guide.search.message");
+                SlimefunPlugin.getLocalization().sendMessage(player, "guide.search.message");
                 ChatInput.waitForPlayer(SlimefunPlugin.instance, player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
             }, 1)));
 
@@ -75,8 +75,8 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             page.append(new ChatComponent("\n"));
 
             if (backButton) {
-                ChatComponent button = new ChatComponent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"));
-                button.setHoverEvent(new HoverEvent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.back.guide")));
+                ChatComponent button = new ChatComponent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"));
+                button.setHoverEvent(new HoverEvent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide")));
                 button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(profile, 1)));
                 page.append(button);
             }
@@ -114,10 +114,10 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
                 if (category instanceof LockedCategory && !((LockedCategory) category).hasUnlocked(p, profile)) {
                     List<String> lore = new LinkedList<>();
-                    lore.add(ChatColor.DARK_RED + SlimefunPlugin.getLocal().getMessage(p, "guide.locked") + " " + ChatColor.GRAY + "- " + ChatColor.RESET + category.getItem(p).getItemMeta().getDisplayName());
+                    lore.add(ChatColor.DARK_RED + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked") + " " + ChatColor.GRAY + "- " + ChatColor.RESET + category.getItem(p).getItemMeta().getDisplayName());
                     lore.add("");
 
-                    for (String line : SlimefunPlugin.getLocal().getMessages(p, "guide.locked-category")) {
+                    for (String line : SlimefunPlugin.getLocalization().getMessages(p, "guide.locked-category")) {
                         lore.add(ChatColor.RESET + line);
                     }
 
@@ -133,7 +133,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                 }
                 else {
                     ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, ItemUtils.getItemName(category.getItem(p))) + "\n");
-                    chatComponent.setHoverEvent(new HoverEvent(ItemUtils.getItemName(category.getItem(p)), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
+                    chatComponent.setHoverEvent(new HoverEvent(ItemUtils.getItemName(category.getItem(p)), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
                     chatComponent.setClickEvent(new ClickEvent(category.getKey(), pl -> openCategory(profile, category, 1)));
                     lines.add(chatComponent);
                 }
@@ -195,7 +195,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             Research research = item.getResearch();
 
             ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
-            component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocal().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
+            component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
             component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> {
                 if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
                     if (research.canUnlock(p)) {
@@ -207,7 +207,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                         }
                     }
                     else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "messages.not-enough-xp", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-enough-xp", true);
                     }
                 }
             })));

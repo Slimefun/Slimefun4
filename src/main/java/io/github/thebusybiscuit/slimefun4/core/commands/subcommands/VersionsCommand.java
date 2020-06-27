@@ -12,7 +12,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class VersionsCommand extends SubCommand {
 
@@ -57,7 +57,7 @@ class VersionsCommand extends SubCommand {
             }
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
         }
     }
 

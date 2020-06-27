@@ -17,9 +17,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockStateMock;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun4.testing.annotations.SlimefunItemsSource;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestCargoNodeListener {
 

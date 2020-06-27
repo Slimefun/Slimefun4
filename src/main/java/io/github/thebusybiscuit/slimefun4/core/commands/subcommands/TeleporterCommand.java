@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class TeleporterCommand extends SubCommand {
 
@@ -43,19 +43,19 @@ class TeleporterCommand extends SubCommand {
                         SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI((Player) sender, player.getUniqueId(), ((Player) sender).getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
                     }
                     else {
-                        SlimefunPlugin.getLocal().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
+                        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
                     }
                 }
                 else {
-                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter [Player]"));
+                    SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter [Player]"));
                 }
             }
             else {
-                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission");
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission");
             }
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players");
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players");
         }
     }
 
