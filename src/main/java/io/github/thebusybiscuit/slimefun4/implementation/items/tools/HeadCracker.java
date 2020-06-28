@@ -81,7 +81,6 @@ public class HeadCracker extends SimpleSlimefunItem<ItemUseHandler> implements D
         return (e, entity, item1) -> {
             if (entity instanceof Skeleton  || entity instanceof SkeletonHorse) {
                 ((Creature) entity).damage(e.getFinalDamage() + 4D);
-                e.setCancelled(true);
             }
         };
     }
