@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -30,7 +30,7 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
             e.setUseBlock(Result.DENY);
 
             if (closest == null) {
-                SlimefunPlugin.getLocal().sendMessage(p, "miner.no-ores");
+                SlimefunPlugin.getLocalization().sendMessage(p, "miner.no-ores");
             }
             else {
                 double l = closest.getX() + 0.5 - p.getLocation().getX();

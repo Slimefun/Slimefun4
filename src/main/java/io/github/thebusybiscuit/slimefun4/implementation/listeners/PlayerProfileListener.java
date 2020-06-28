@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This {@link Listener} removes a {@link PlayerProfile} from memory if the corresponding {@link Player}

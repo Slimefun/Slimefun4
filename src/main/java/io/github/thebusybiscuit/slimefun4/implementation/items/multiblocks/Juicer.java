@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -56,14 +56,14 @@ public class Juicer extends MultiBlockMachine {
 						p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
 						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
 					}
-					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+					else SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
 					
 					return;
 				}
 			}
 		}
 		
-		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+		SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
 	}
 
 }

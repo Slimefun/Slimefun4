@@ -22,7 +22,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -172,7 +172,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     @Override
     public void onInteract(Player p, Block b) {
         if (activeMiners.containsKey(b.getLocation())) {
-            SlimefunPlugin.getLocal().sendMessage(p, "machines.INDUSTRIAL_MINER.already-running");
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.already-running");
             return;
         }
 

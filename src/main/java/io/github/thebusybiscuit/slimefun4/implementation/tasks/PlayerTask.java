@@ -1,8 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 abstract class PlayerTask implements Runnable {
 

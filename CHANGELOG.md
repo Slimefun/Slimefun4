@@ -31,8 +31,12 @@
 * Added a new language: Tagalog
 * Added Magical Zombie Pills
 * Added 1.13 compatibility to the Auto Drier
+* Added Corals to the fuel list for the Bio Generator
+* Added Clay -> Clay blocks recipe to the Electric Press
 * (1.16+) Slimefun guide can now show Smithing Table recipes
 * (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
+* (1.16+) Added Shroomlights to the fuel list for the Bio Generator
+* (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
 
 #### Changes
 * Coolant Cells now last twice as long
@@ -46,6 +50,7 @@
 * items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
 * Small performance improvements to the Cargo Net
 * Slimefun no longer supports CraftBukkit
+* Item Energy is now also stored persistently via NBT
 
 #### Fixes
 * Fixed #2005
@@ -56,6 +61,9 @@
 * Fixed #1855
 * Fixed some issues with AsyncWorldEdit
 * Fixed some problems with unregistered or fake worlds
+* Fixed a rare concurrency issue with world saving
+* Fixed some contributors showing up twice
+* Fixed #2062
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

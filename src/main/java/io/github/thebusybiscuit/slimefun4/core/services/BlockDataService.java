@@ -12,7 +12,7 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},

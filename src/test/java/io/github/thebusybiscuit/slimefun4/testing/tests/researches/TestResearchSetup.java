@@ -17,8 +17,8 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 @TestMethodOrder(value = OrderAnnotation.class)
 public class TestResearchSetup {

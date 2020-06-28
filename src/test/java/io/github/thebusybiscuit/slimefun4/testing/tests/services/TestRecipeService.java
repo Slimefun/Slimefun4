@@ -21,7 +21,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 public class TestRecipeService {
 

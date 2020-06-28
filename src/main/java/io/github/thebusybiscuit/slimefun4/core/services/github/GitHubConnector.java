@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 abstract class GitHubConnector {

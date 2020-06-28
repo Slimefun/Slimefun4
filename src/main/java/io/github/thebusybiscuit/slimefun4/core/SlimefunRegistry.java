@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -76,8 +75,8 @@ public class SlimefunRegistry {
     private final Set<String> chargeableBlocks = new HashSet<>();
     private final Map<String, WitherProof> witherProofBlocks = new HashMap<>();
 
-    private final ConcurrentMap<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
-    private final Map<String, BlockStorage> worlds = new HashMap<>();
+    private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
+    private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
     private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
@@ -234,7 +233,7 @@ public class SlimefunRegistry {
         return universalInventories;
     }
 
-    public ConcurrentMap<UUID, PlayerProfile> getPlayerProfiles() {
+    public Map<UUID, PlayerProfile> getPlayerProfiles() {
         return profiles;
     }
 

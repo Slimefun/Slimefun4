@@ -28,16 +28,17 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -463,12 +464,12 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipeType(RecipeType type) {
-        Validate.notNull(type, "'recipeType' is not allowed to be null!");
+        Validate.notNull(type, "The RecipeType is not allowed to be null!");
         this.recipeType = type;
     }
 
     public void setCategory(Category category) {
-        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(category, "The Category is not allowed to be null!");
 
         this.category.remove(this);
         category.add(this);
@@ -544,7 +545,7 @@ public class SlimefunItem implements Placeable {
 
         // Backwards compatibility
         if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof ChargableItem || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
         }
         else {
@@ -805,19 +806,17 @@ public class SlimefunItem implements Placeable {
             return getByID(((SlimefunItemStack) item).getItemId());
         }
 
-        // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
 
-        if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(wrapper);
-
-            if (itemID.isPresent()) {
-                return getByID(itemID.get());
-            }
+        if (itemID.isPresent()) {
+            return getByID(itemID.get());
         }
 
         // Backwards compatibility
         if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
+            ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
             // Quite expensive performance-wise
             // But necessary for supporting legacy items
             for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
