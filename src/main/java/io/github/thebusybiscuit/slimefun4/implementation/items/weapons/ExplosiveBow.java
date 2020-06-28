@@ -1,9 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -49,7 +52,11 @@ public class ExplosiveBow extends SlimefunBow {
                 entityL.setVelocity(knockback);
 
                 if (!entityL.getUniqueId().equals(target.getUniqueId())) {
-                    entityL.damage(damage);
+                    EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(e.getDamager(), entityL, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
+                    Bukkit.getPluginManager().callEvent(damageEvent);
+                    if (!damageEvent.isCancelled()) {
+                        entityL.damage(damageEvent.getDamage());
+                    }
                 }
             }
         };
