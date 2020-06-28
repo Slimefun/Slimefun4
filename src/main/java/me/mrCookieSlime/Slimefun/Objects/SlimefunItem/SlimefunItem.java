@@ -430,7 +430,6 @@ public class SlimefunItem implements Placeable {
             if (!handler.isPrivate()) {
                 Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
                 handlerset.add(handler);
-                SlimefunPlugin.getRegistry().getPublicItemHandlers().replace(handler.getIdentifier(), handlerset);
             }
         }
     }

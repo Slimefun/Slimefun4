@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.tools;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -49,20 +49,19 @@ public class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     @ParameterizedTest
     @EnumSource(value = BlockFace.class)
-    @Disabled("Player velocity is currently not fully implemented in MockBukkit")
     public void testItemUse(BlockFace face) {
         PlayerMock player = server.addPlayer();
         ClimbingPick pick = registerSlimefunItem(plugin, "TEST_CLIMBING_PICK_" + face.name());
+        Location blockLocation = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() + 1, player.getLocation().getBlockY(), player.getLocation().getBlockZ());
 
-        boolean shouldCancel = false;
-        if (face == BlockFace.DOWN || face == BlockFace.UP) shouldCancel = true;
+        boolean shouldCancel = face == BlockFace.DOWN || face == BlockFace.UP;
 
-        BlockMock block1 = new BlockMock(Material.STONE);
+        BlockMock block1 = new BlockMock(Material.STONE, blockLocation);
         simulateRightClickBlock(player, pick, block1, face);
         server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
         if (!shouldCancel) player.assertSoundHeard(Sound.ENTITY_ENDERMAN_TELEPORT);
 
-        BlockMock block2 = new BlockMock(Material.DIRT);
+        BlockMock block2 = new BlockMock(Material.DIRT, blockLocation);
         simulateRightClickBlock(player, pick, block2, face);
         server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
         if (!shouldCancel) player.assertSoundHeard(Sound.ENTITY_ENDERMAN_TELEPORT);

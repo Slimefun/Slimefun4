@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -26,13 +27,18 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
 
     private Vector velocity;
     private final ClimbingPick pick;
+    private final ItemStack itemStack;
+    private final Block block;
+
     private boolean cancelled;
 
-    public ClimbingPickLaunchEvent(Player player, Vector velocity, ClimbingPick pick) {
+    public ClimbingPickLaunchEvent(Player player, Vector velocity, ClimbingPick pick, ItemStack itemStack, Block block) {
         super(player);
 
         this.velocity = velocity;
         this.pick = pick;
+        this.itemStack = itemStack;
+        this.block = block;
     }
 
     /**
@@ -59,10 +65,28 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
     /**
      * This returns the {@link ClimbingPick} that was used.
      *
+     * @return The {@link ClimbingPick} that was used
+     */
+    public ClimbingPick getPick() {
+        return this.pick;
+    }
+
+    /**
+     * This returns the {@link ItemStack} that was used.
+     *
      * @return The {@link ItemStack} that was used
      */
-    public ClimbingPick getItem() {
-        return this.pick;
+    public ItemStack getItemStack() {
+        return this.itemStack;
+    }
+
+    /**
+     * This returns the {@link Block} that was climbed.
+     *
+     * @return The {@link Block} that was climbed
+     */
+    public Block getBlock() {
+        return this.block;
     }
 
     @Override
