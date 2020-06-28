@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.SkeletonHorse;
@@ -80,7 +79,7 @@ public class HeadCracker extends SimpleSlimefunItem<ItemUseHandler> implements D
     private EntityDamageHandler getEntityDamageHandler() {
         return (e, entity, item1) -> {
             if (entity instanceof Skeleton  || entity instanceof SkeletonHorse) {
-                ((Creature) entity).damage(e.getFinalDamage() + 4D);
+                e.setDamage(e.getFinalDamage() + 4);
             }
         };
     }
