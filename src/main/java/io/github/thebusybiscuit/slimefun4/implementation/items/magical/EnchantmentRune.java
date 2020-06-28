@@ -102,7 +102,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             Enchantment enchantment = enchantmentSet.get(ThreadLocalRandom.current().nextInt(enchantmentSet.size()));
             int level = 1;
             if (enchantment.getMaxLevel() != 1) {
-                level = ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel() + 1);
+                level = ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel()) + 1;
             }
             target.addEnchantment(enchantment, level);
 
