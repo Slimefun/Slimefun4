@@ -6,6 +6,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -48,6 +49,7 @@ public class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     @ParameterizedTest
     @EnumSource(value = BlockFace.class)
+    @Disabled("Player velocity is currently not fully implemented in MockBukkit")
     public void testItemUse(BlockFace face) {
         PlayerMock player = server.addPlayer();
         ClimbingPick pick = registerSlimefunItem(plugin, "TEST_CLIMBING_PICK_" + face.name());
