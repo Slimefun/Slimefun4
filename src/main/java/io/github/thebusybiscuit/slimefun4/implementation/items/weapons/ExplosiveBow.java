@@ -22,7 +22,7 @@ public class ExplosiveBow extends SlimefunBow {
     private final ItemSetting<Integer> range = new ItemSetting<Integer>("explosion-range", 3) {
         @Override
         public boolean validateInput(Integer input) {
-            return input > 0;
+            return input != null && input > 0;
         }
     };
 
@@ -33,12 +33,15 @@ public class ExplosiveBow extends SlimefunBow {
 
     @Override
     public BowShootHandler onShoot() {
-        return (e, n) -> {
-            Collection<Entity> entites = n.getWorld().getNearbyEntities(n.getLocation(), range.getValue(), range.getValue(), range.getValue(), entity -> entity instanceof LivingEntity && entity.isValid());
+        return (e, target) -> {
+            target.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, target.getLocation(), 1);
+            target.getWorld().playSound(target.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+
+            Collection<Entity> entites = target.getWorld().getNearbyEntities(target.getLocation(), range.getValue(), range.getValue(), range.getValue(), entity -> entity instanceof LivingEntity && entity.isValid());
             for (Entity entity : entites) {
                 LivingEntity entityL = (LivingEntity) entity;
 
-                Vector distanceVector = entityL.getLocation().toVector().subtract(n.getLocation().toVector());
+                Vector distanceVector = entityL.getLocation().toVector().subtract(target.getLocation().toVector());
                 distanceVector.setY(distanceVector.getY() + 0.6D);
                 Vector entityVelocity = entityL.getVelocity();
 
@@ -48,20 +51,14 @@ public class ExplosiveBow extends SlimefunBow {
                 Vector knockback = entityVelocity.add(distanceVector.normalize().multiply((int) (e.getDamage() / damage)));
                 entityL.setVelocity(knockback);
 
-                entityL.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entityL.getLocation(), 1);
-                entityL.getWorld().playSound(entityL.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
-
-                if (!entityL.getUniqueId().equals(n.getUniqueId())) {
+                if (!entityL.getUniqueId().equals(target.getUniqueId())) {
                     entityL.damage(damage);
-                    EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(e.getDamager(), entityL, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
-                    Bukkit.getPluginManager().callEvent(damageEvent);
                 }
             }
         };
     }
 
     private double calculateDamage(double distanceSquared, double originalDamage) {
-
         if (distanceSquared <= 0.05D) return originalDamage;
         double damage = originalDamage * (1 - (distanceSquared / (range.getValue() * range.getValue())));
         return Math.min(Math.max(1, damage), originalDamage);
