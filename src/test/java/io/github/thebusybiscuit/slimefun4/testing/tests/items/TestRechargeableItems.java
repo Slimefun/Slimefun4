@@ -74,6 +74,9 @@ public class TestRechargeableItems {
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.setItemCharge(item, -0.01F));
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.setItemCharge(item, 10.01F));
         Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.setItemCharge(item, 11));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.addItemCharge(item, -0.1F));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> rechargeable.removeItemCharge(item, -0.1F));
     }
 
     @Test

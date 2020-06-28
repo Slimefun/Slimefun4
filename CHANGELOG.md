@@ -63,6 +63,7 @@
 * Fixed some problems with unregistered or fake worlds
 * Fixed a rare concurrency issue with world saving
 * Fixed some contributors showing up twice
+* Fixed #2062
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

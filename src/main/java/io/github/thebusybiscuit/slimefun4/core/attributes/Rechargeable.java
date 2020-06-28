@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -90,6 +91,8 @@ public interface Rechargeable extends ItemAttribute {
      * @return Whether the given charge could be added successfully
      */
     default boolean addItemCharge(ItemStack item, float charge) {
+        Validate.isTrue(charge > 0, "Charge must be above zero!");
+
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot add Item charge for null or AIR");
         }
@@ -123,6 +126,8 @@ public interface Rechargeable extends ItemAttribute {
      * @return Whether the given charge could be removed successfully
      */
     default boolean removeItemCharge(ItemStack item, float charge) {
+        Validate.isTrue(charge > 0, "Charge must be above zero!");
+
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot remove Item charge for null or AIR");
         }
