@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -178,12 +179,22 @@ public final class SlimefunUtils {
         return SlimefunItem.getByItem(item) instanceof Radioactive;
     }
 
-    public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
-        if (inventory == null || itemStack == null) return false;
+    public static boolean containsSimilarItem(Inventory inventory, ItemStack item, boolean checkLore) {
+        if (inventory == null || item == null) {
+            return false;
+        }
 
-        for (ItemStack is : inventory.getStorageContents()) {
-            if (is == null || is.getType() == Material.AIR) continue;
-            if (isItemSimilar(is, itemStack, checkLore)) return true;
+        // Performance optimization
+        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
+        for (ItemStack stack : inventory.getStorageContents()) {
+            if (stack == null || stack.getType() == Material.AIR) {
+                continue;
+            }
+
+            if (isItemSimilar(stack, wrapper, checkLore)) {
+                return true;
+            }
         }
 
         return false;

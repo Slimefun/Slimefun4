@@ -42,7 +42,7 @@ class DefaultCategories {
     protected final Category magicalArmor = new Category(new NamespacedKey(SlimefunPlugin.instance, "magical_armor"), new CustomItem(SlimefunItems.ENDER_HELMET, "&7Magical Armor"), 2);
 
     // Resources and tech stuff
-    protected final Category misc = new Category(new NamespacedKey(SlimefunPlugin.instance, "misc"), new CustomItem(SlimefunItems.CAN, "&7Miscellaneous"), 2);
+    protected final Category misc = new Category(new NamespacedKey(SlimefunPlugin.instance, "misc"), new CustomItem(SlimefunItems.TIN_CAN, "&7Miscellaneous"), 2);
     protected final Category technicalComponents = Categories.TECH_MISC;
     protected final Category technicalGadgets = new Category(new NamespacedKey(SlimefunPlugin.instance, "technical_gadgets"), new CustomItem(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
     protected final Category resources = Categories.RESOURCES;

@@ -27,7 +27,9 @@ import java.util.function.UnaryOperator;
  * There is not really much more I can say besides that...
  *
  * @author TheBusyBiscui
+ *
  * @see LocalizationService
+ *
  */
 public abstract class SlimefunLocalization extends Localization implements Keyed {
 
@@ -74,46 +76,46 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     protected abstract void addLanguage(String id, String texture);
 
     protected void loadEmbeddedLanguages() {
-        for (EmbeddedLanguage lang : EmbeddedLanguage.values()) {
+        for (SupportedLanguage lang : SupportedLanguage.values()) {
             if (lang.isReadyForRelease()) {
-                addLanguage(lang.getId(), lang.getTexture());
+                addLanguage(lang.getLanguageId(), lang.getTexture());
             }
         }
     }
 
     public String getMessage(Player p, String key) {
         Language language = getLanguage(p);
-        if (language == null) return "语言设置错误";
-        return language.getMessages().getString(key);
+        if (language == null) return "NO LANGUAGE FOUND";
+        return language.getMessagesFile().getString(key);
     }
 
     public List<String> getMessages(Player p, String key) {
         Language language = getLanguage(p);
-        if (language == null) return Arrays.asList("语言设置错误");
-        return language.getMessages().getStringList(key);
+        if (language == null) return Arrays.asList("NO LANGUAGE FOUND");
+        return language.getMessagesFile().getStringList(key);
     }
 
     public String getResearchName(Player p, NamespacedKey key) {
         Language language = getLanguage(p);
-        if (language.getResearches() == null) return null;
-        return language.getResearches().getString(key.getNamespace() + "." + key.getKey());
+        if (language.getResearchesFile() == null) return null;
+        return language.getResearchesFile().getString(key.getNamespace() + "." + key.getKey());
     }
 
     public String getCategoryName(Player p, NamespacedKey key) {
         Language language = getLanguage(p);
-        if (language.getCategories() == null) return null;
-        return language.getCategories().getString(key.getNamespace() + "." + key.getKey());
+        if (language.getCategoriesFile() == null) return null;
+        return language.getCategoriesFile().getString(key.getNamespace() + "." + key.getKey());
     }
 
     public String getResourceString(Player p, String key) {
         Language language = getLanguage(p);
 
-        String value = language.getResources() != null ? language.getResources().getString(key) : null;
+        String value = language.getResourcesFile() != null ? language.getResourcesFile().getString(key) : null;
 
         if (value != null) {
             return value;
         } else {
-            return getLanguage("en").getResources().getString(key);
+            return getLanguage("en").getResourcesFile().getString(key);
         }
     }
 
@@ -122,15 +124,15 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         ItemStack item = recipeType.toItem();
         NamespacedKey key = recipeType.getKey();
 
-        if (language.getRecipeTypes() == null || !language.getRecipeTypes().contains(key.getNamespace() + "." + key.getKey())) {
+        if (language.getRecipeTypesFile() == null || !language.getRecipeTypesFile().contains(key.getNamespace() + "." + key.getKey())) {
             language = getLanguage("en");
         }
 
-        if (!language.getRecipeTypes().contains(key.getNamespace() + "." + key.getKey())) {
+        if (!language.getRecipeTypesFile().contains(key.getNamespace() + "." + key.getKey())) {
             return item;
         }
 
-        FileConfiguration config = language.getRecipeTypes();
+        FileConfiguration config = language.getRecipeTypesFile();
 
         return new CustomItem(item, meta -> {
             meta.setDisplayName(ChatColor.AQUA + config.getString(key.getNamespace() + "." + key.getKey() + ".name"));

@@ -56,7 +56,7 @@ public class BackupService implements Runnable {
                     Slimefun.getLogger().log(Level.WARNING, "无法创建备份文件: {0}", file.getName());
                 }
             } catch (IOException x) {
-                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
             }
         }
     }

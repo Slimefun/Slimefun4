@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
@@ -31,7 +32,7 @@ public class ExplosionsListener implements Listener {
             if (id != null) {
                 blocks.remove();
 
-                if (!id.equalsIgnoreCase("HARDENED_GLASS") && !SlimefunPlugin.getRegistry().getWitherProofBlocks().containsKey(id)) {
+                if (!id.equals(SlimefunItems.HARDENED_GLASS.getItemId()) && !SlimefunPlugin.getRegistry().getWitherProofBlocks().containsKey(id)) {
                     boolean success = true;
                     SlimefunItem sfItem = SlimefunItem.getByID(id);
 

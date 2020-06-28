@@ -133,7 +133,7 @@ slimefun:
   infernal_bonemeal: Незеритовая костная мука
   infused_hopper: Заряженная воронка
   infused_magnet: Магнит?
-  jetboots: Рективные ботинки
+  jetboots: Реактивные ботинки
   jetpacks: Реактивные ранцы
   juicer: Вкусные напитки
   kelp_cookie: Вкусная водоросль
@@ -151,6 +151,7 @@ slimefun:
   magic_workbench: Магический верстак
   magnesium_generator: Магниевое питание
   magnet: Магнитные металлы
+  makeshift_smeltery: Импровизированная плавильня
   meat_jerky: Вяленое мясо
   miner_talisman: Талисман шахтёра
   misc_power_items: Важные ресурсы для питания сети
@@ -217,6 +218,7 @@ slimefun:
   totem_of_undying: Тотем бессмертия
   trash_can: Мусорка
   traveller_talisman: Талисман путешественника
+  tree_growth_accelerator: Быстрорастущие деревья
   uranium: Радиоактивные штучки
   walking_sticks: Мои любимые трости
   warrior_talisman: Талисман воина
@@ -230,5 +232,5 @@ slimefun:
   wizard_talisman: Талисман волшебника
   woven_backpack: Тканевой рюкзак
   xp_collector: Собиратель опыта
-  makeshift_smeltery: Импровизированная плавильня
-  tree_growth_accelerator: Быстрорастущие деревья
+  industrial_miner: Промышленная добыча
+  advanced_industrial_miner: Улучшенная добыча

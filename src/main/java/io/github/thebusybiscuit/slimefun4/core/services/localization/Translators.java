@@ -21,144 +21,149 @@ public class Translators {
         this.github = github;
 
         // Translators - German
-        addTranslator("TheBusyBiscuit", EmbeddedLanguage.GERMAN, false);
-        addTranslator("MeerBiene", EmbeddedLanguage.GERMAN, true);
-        addTranslator("daro2404", EmbeddedLanguage.GERMAN, true);
+        addTranslator("TheBusyBiscuit", SupportedLanguage.GERMAN, false);
+        addTranslator("MeerBiene", SupportedLanguage.GERMAN, true);
+        addTranslator("daro2404", SupportedLanguage.GERMAN, true);
 
         // Translators - French
-        addTranslator("JustDams", "D4ms_", EmbeddedLanguage.FRENCH, true);
-        addTranslator("edkerforne", EmbeddedLanguage.FRENCH, true);
-        addTranslator("tnthomastn", EmbeddedLanguage.FRENCH, true);
-        addTranslator("Noumaa", EmbeddedLanguage.FRENCH, true);
-        addTranslator("ishi-sama", EmbeddedLanguage.FRENCH, true);
+        addTranslator("JustDams", "D4ms_", SupportedLanguage.FRENCH, true);
+        addTranslator("edkerforne", SupportedLanguage.FRENCH, true);
+        addTranslator("tnthomastn", SupportedLanguage.FRENCH, true);
+        addTranslator("Noumaa", SupportedLanguage.FRENCH, true);
+        addTranslator("ishi-sama", SupportedLanguage.FRENCH, true);
 
         // Translators - Italian
-        addTranslator("xXDOTTORXx", EmbeddedLanguage.ITALIAN, true);
-        addTranslator("Sfiguz7", EmbeddedLanguage.ITALIAN, false);
-        addTranslator("ThatsCube", EmbeddedLanguage.ITALIAN, true);
-        addTranslator("alessandrobasi", EmbeddedLanguage.ITALIAN, true);
-        addTranslator("dracrus", EmbeddedLanguage.ITALIAN, true);
+        addTranslator("xXDOTTORXx", SupportedLanguage.ITALIAN, true);
+        addTranslator("Sfiguz7", SupportedLanguage.ITALIAN, false);
+        addTranslator("ThatsCube", SupportedLanguage.ITALIAN, true);
+        addTranslator("alessandrobasi", SupportedLanguage.ITALIAN, true);
+        addTranslator("dracrus", SupportedLanguage.ITALIAN, true);
 
         // Translators - Latvian
-        addTranslator("AgnisT", "NIKNAIZ", EmbeddedLanguage.LATVIAN, true);
+        addTranslator("AgnisT", "NIKNAIZ", SupportedLanguage.LATVIAN, true);
 
         // Translators - Hungarian
-        addTranslator("andris155", EmbeddedLanguage.HUNGARIAN, true);
+        addTranslator("andris155", SupportedLanguage.HUNGARIAN, true);
 
         // Translators - Vietnamese
-        addTranslator("HSGamer", EmbeddedLanguage.VIETNAMESE, false);
-        addTranslator("JustMangoT", "JFF_JustMango", EmbeddedLanguage.VIETNAMESE, true);
-        addTranslator("Julie-Sigtuna", EmbeddedLanguage.VIETNAMESE, true);
-        addTranslator("nahkd123", EmbeddedLanguage.VIETNAMESE, true);
-        addTranslator("JustAPieOP", EmbeddedLanguage.VIETNAMESE, true);
-        addTranslator("that4life", EmbeddedLanguage.VIETNAMESE, true);
+        addTranslator("HSGamer", SupportedLanguage.VIETNAMESE, false);
+        addTranslator("JustMangoT", "JFF_JustMango", SupportedLanguage.VIETNAMESE, true);
+        addTranslator("Julie-Sigtuna", SupportedLanguage.VIETNAMESE, true);
+        addTranslator("nahkd123", SupportedLanguage.VIETNAMESE, true);
+        addTranslator("JustAPieOP", SupportedLanguage.VIETNAMESE, true);
+        addTranslator("that4life", SupportedLanguage.VIETNAMESE, true);
 
         // Translators - Slovak
-        addTranslator("KillerXCoder", EmbeddedLanguage.SLOVAK, true);
-        addTranslator("PixelHotDog", EmbeddedLanguage.SLOVAK, true);
+        addTranslator("KillerXCoder", SupportedLanguage.SLOVAK, true);
+        addTranslator("PixelHotDog", SupportedLanguage.SLOVAK, true);
 
         // Translators - Czech
-        addTranslator("Nekomitsuki", EmbeddedLanguage.CZECH, true);
-        addTranslator("GGGEDR", EmbeddedLanguage.CZECH, true);
-        addTranslator("jakmanda05", EmbeddedLanguage.CZECH, true);
-        addTranslator("Aile-Minicraftcz", EmbeddedLanguage.CZECH, true);
-        addTranslator("Tengoblinekcz", EmbeddedLanguage.CZECH, true);
-        addTranslator("sirhCCC", EmbeddedLanguage.CZECH, true);
-        addTranslator("Thezerix", EmbeddedLanguage.CZECH, true);
-        addTranslator("IsLineCZ", EmbeddedLanguage.CZECH, true);
-        addTranslator("MrFriggo", EmbeddedLanguage.CZECH, true);
-        addTranslator("100petr", EmbeddedLanguage.CZECH, true);
-        addTranslator("frfole", EmbeddedLanguage.CZECH, true);
+        addTranslator("Nekomitsuki", SupportedLanguage.CZECH, true);
+        addTranslator("GGGEDR", SupportedLanguage.CZECH, true);
+        addTranslator("jakmanda05", SupportedLanguage.CZECH, true);
+        addTranslator("Aile-Minicraftcz", SupportedLanguage.CZECH, true);
+        addTranslator("Tengoblinekcz", SupportedLanguage.CZECH, true);
+        addTranslator("sirhCCC", SupportedLanguage.CZECH, true);
+        addTranslator("Thezerix", SupportedLanguage.CZECH, true);
+        addTranslator("IsLineCZ", SupportedLanguage.CZECH, true);
+        addTranslator("MrFriggo", SupportedLanguage.CZECH, true);
+        addTranslator("100petr", SupportedLanguage.CZECH, true);
+        addTranslator("frfole", SupportedLanguage.CZECH, true);
 
         // Translators - Russian
-        addTranslator("SoSeDiK", EmbeddedLanguage.RUSSIAN, false);
-        addTranslator("KostaTV", EmbeddedLanguage.RUSSIAN, true);
-        addTranslator("TomWiskis", "MrWiskis", EmbeddedLanguage.RUSSIAN, true);
-        addTranslator("cyb3rm4n", "GP_CyberMan", EmbeddedLanguage.RUSSIAN, true);
+        addTranslator("SoSeDiK", SupportedLanguage.RUSSIAN, false);
+        addTranslator("KostaTV", SupportedLanguage.RUSSIAN, true);
+        addTranslator("TomWiskis", "MrWiskis", SupportedLanguage.RUSSIAN, true);
+        addTranslator("cyb3rm4n", "GP_CyberMan", SupportedLanguage.RUSSIAN, true);
 
         // Translators - Ukrainian
-        addTranslator("SoSeDiK", EmbeddedLanguage.UKRAINIAN, false);
+        addTranslator("SoSeDiK", SupportedLanguage.UKRAINIAN, false);
 
         // Translators - Spanish
-        addTranslator("Luu7", "_Luu", EmbeddedLanguage.SPANISH, true);
-        addTranslator("Vravinite", EmbeddedLanguage.SPANISH, true);
-        addTranslator("NotUmBr4", EmbeddedLanguage.SPANISH, true);
-        addTranslator("dbzjjoe", EmbeddedLanguage.SPANISH, true);
+        addTranslator("Luu7", "_Luu", SupportedLanguage.SPANISH, true);
+        addTranslator("Vravinite", SupportedLanguage.SPANISH, true);
+        addTranslator("NotUmBr4", SupportedLanguage.SPANISH, true);
+        addTranslator("dbzjjoe", SupportedLanguage.SPANISH, true);
 
         // Translators - Swedish
-        addTranslator("NihilistBrew", "ma1yang2", EmbeddedLanguage.SWEDISH, false);
-        addTranslator("Tra-sh", "TurretTrash", EmbeddedLanguage.SWEDISH, true);
+        addTranslator("NihilistBrew", "ma1yang2", SupportedLanguage.SWEDISH, false);
+        addTranslator("Tra-sh", "TurretTrash", SupportedLanguage.SWEDISH, true);
 
         // Translators - Dutch
-        addTranslator("Dr4gonD", "DragonD", EmbeddedLanguage.DUTCH, true);
-        addTranslator("svr333", EmbeddedLanguage.DUTCH, false);
-        addTranslator("PabloMarcendo", EmbeddedLanguage.DUTCH, true);
+        addTranslator("Dr4gonD", "DragonD", SupportedLanguage.DUTCH, true);
+        addTranslator("svr333", SupportedLanguage.DUTCH, false);
+        addTranslator("PabloMarcendo", SupportedLanguage.DUTCH, true);
 
         // Translators - Danish
-        addTranslator("Mini-kun", EmbeddedLanguage.DANISH, true);
+        addTranslator("Mini-kun", SupportedLanguage.DANISH, true);
 
         // Translators - Polish
-        addTranslator("ascpixel", "kbartek_", EmbeddedLanguage.POLISH, true);
-        addTranslator("Xylitus", EmbeddedLanguage.POLISH, true);
-        addTranslator("Wirusiu", EmbeddedLanguage.POLISH, true);
-        addTranslator("koloksk", EmbeddedLanguage.POLISH, true);
+        addTranslator("ascpixel", "kbartek_", SupportedLanguage.POLISH, true);
+        addTranslator("Xylitus", SupportedLanguage.POLISH, true);
+        addTranslator("Wirusiu", SupportedLanguage.POLISH, true);
+        addTranslator("koloksk", SupportedLanguage.POLISH, true);
 
         // Translators - Chinese (China)
-        addTranslator("StarWishsama", "StarWish_Sama", EmbeddedLanguage.CHINESE_CHINA, false);
-        addTranslator("Rothes", EmbeddedLanguage.CHINESE_CHINA, true);
-        addTranslator("Chihsiao", EmbeddedLanguage.CHINESE_CHINA, true);
+        addTranslator("StarWishsama", "StarWish_Sama", SupportedLanguage.CHINESE_CHINA, false);
+        addTranslator("Rothes", SupportedLanguage.CHINESE_CHINA, true);
+        addTranslator("Chihsiao", SupportedLanguage.CHINESE_CHINA, true);
 
         // Translators - Chinese (Taiwan)
-        addTranslator("BrineYT", "HeroBrineKing", EmbeddedLanguage.CHINESE_TAIWAN, true);
-        addTranslator("mio9", EmbeddedLanguage.CHINESE_TAIWAN, true);
+        addTranslator("BrineYT", "HeroBrineKing", SupportedLanguage.CHINESE_TAIWAN, true);
+        addTranslator("mio9", SupportedLanguage.CHINESE_TAIWAN, true);
 
         // Translators - Arabic
-        addTranslator("mohkamfer", "AgentBabbie", EmbeddedLanguage.ARABIC, false);
+        addTranslator("mohkamfer", "AgentBabbie", SupportedLanguage.ARABIC, false);
 
         // Translators - Hebrew
-        addTranslator("dhtdht020", EmbeddedLanguage.HEBREW, false);
-        addTranslator("Eylonnn", EmbeddedLanguage.HEBREW, false);
+        addTranslator("dhtdht020", SupportedLanguage.HEBREW, false);
+        addTranslator("Eylonnn", SupportedLanguage.HEBREW, false);
 
         // Translators - Japanese
-        addTranslator("bito-blosh", "Bloshop", EmbeddedLanguage.JAPANESE, false);
+        addTranslator("bito-blosh", "Bloshop", SupportedLanguage.JAPANESE, false);
 
         // Translators - Korean
-        addTranslator("kwonms871", EmbeddedLanguage.KOREAN, true);
-        addTranslator("yumjunstar", EmbeddedLanguage.KOREAN, true);
-        addTranslator("BlWon", EmbeddedLanguage.KOREAN, true);
-        addTranslator("20181241", EmbeddedLanguage.KOREAN, true);
+        addTranslator("kwonms871", SupportedLanguage.KOREAN, true);
+        addTranslator("yumjunstar", SupportedLanguage.KOREAN, true);
+        addTranslator("BlWon", SupportedLanguage.KOREAN, true);
+        addTranslator("20181241", SupportedLanguage.KOREAN, true);
 
         // Translators - Indonesian
-        addTranslator("diradho", EmbeddedLanguage.INDONESIAN, false);
+        addTranslator("diradho", SupportedLanguage.INDONESIAN, false);
 
         // Translators - Thai
-        addTranslator("phoomin2012", EmbeddedLanguage.THAI, false);
-        addTranslator("film2860", EmbeddedLanguage.THAI, false);
-        addTranslator("Rafrael17k", EmbeddedLanguage.THAI, false);
-        addTranslator("Cupjok", EmbeddedLanguage.THAI, false);
+        addTranslator("phoomin2012", SupportedLanguage.THAI, false);
+        addTranslator("film2860", SupportedLanguage.THAI, false);
+        addTranslator("Rafrael17k", SupportedLanguage.THAI, false);
+        addTranslator("Cupjok", SupportedLanguage.THAI, false);
 
         // Translators - Turkish
-        addTranslator("Yunuskrn", EmbeddedLanguage.TURKISH, true);
-        addTranslator("LinoxGH", "ajan_12", EmbeddedLanguage.TURKISH, false);
+        addTranslator("Yunuskrn", SupportedLanguage.TURKISH, true);
+        addTranslator("LinoxGH", "ajan_12", SupportedLanguage.TURKISH, false);
 
         // Translators - Macedonian
-        addTranslator("TheSilentPro", EmbeddedLanguage.MACEDONIAN, true);
+        addTranslator("TheSilentPro", SupportedLanguage.MACEDONIAN, true);
 
         // Translators - Bulgarian
-        addTranslator("DNBGlol", EmbeddedLanguage.BULGARIAN, true);
+        addTranslator("DNBGlol", SupportedLanguage.BULGARIAN, true);
+
+        // Translators - Tagalog
+        addTranslator("sccooottttie", SupportedLanguage.TAGALOG, true);
 
         // Translators - Portuguese (Brazil)
-        addTranslator("G4stavoM1ster", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
-        addTranslator("yurinogueira", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
-        addTranslator("Sakanas", EmbeddedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("yurinogueira", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("Sakanas", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("krazybeat", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
-    private void addTranslator(String name, EmbeddedLanguage lang, boolean lock) {
+    private void addTranslator(String name, SupportedLanguage lang, boolean lock) {
         addTranslator(name, name, lang, lock);
     }
 
-    private void addTranslator(String username, String minecraftName, EmbeddedLanguage lang, boolean lock) {
-        Contributor contributor = github.addContributor(minecraftName, "https://github.com/" + username, "translator," + lang.getId(), 0);
+    private void addTranslator(String username, String minecraftName, SupportedLanguage lang, boolean lock) {
+        Contributor contributor = github.addContributor(minecraftName, "https://github.com/" + username, "translator," + lang.getLanguageId(), 0);
 
         if (lock) {
             contributor.lock();

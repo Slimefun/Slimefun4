@@ -156,7 +156,7 @@ public abstract class ElectricSmeltery extends AContainer {
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.ELECTRIC_SMELTERY.getItem().getItemName();
+        return SlimefunItems.ELECTRIC_SMELTERY.clone().getItemMeta().getDisplayName();
     }
 
     @Override

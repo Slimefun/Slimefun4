@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.geo;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
@@ -65,7 +66,9 @@ public class ResourceManager {
             SlimefunPlugin.getRegistry().getGEOResources().add(resource);
         }
 
-        config.save();
+        if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+            config.save();
+        }
     }
 
     public OptionalInt getSupplies(GEOResource resource, World world, int x, int z) {
@@ -90,13 +93,13 @@ public class ResourceManager {
         int value = resource.getDefaultSupply(world.getEnvironment(), block.getBiome());
 
         if (value > 0) {
-            int bound = resource.getMaxDeviation();
+            int max = resource.getMaxDeviation();
 
-            if (bound <= 0) {
+            if (max <= 0) {
                 throw new IllegalStateException("GEO Resource \"" + resource.getKey() + "\" was misconfigured! getMaxDeviation() must return a value higher than zero!");
             }
 
-            value += ThreadLocalRandom.current().nextInt(bound);
+            value += ThreadLocalRandom.current().nextInt(max);
         }
 
         GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, block.getBiome(), x, z, resource, value);

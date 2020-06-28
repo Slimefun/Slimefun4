@@ -74,7 +74,7 @@ public final class ChestMenuUtils {
         }
 
         return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
-            meta.setDisplayName(ChatColor.RESET + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.previous"));
+            meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.previous"));
             meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
         });
     }
@@ -88,7 +88,7 @@ public final class ChestMenuUtils {
         }
 
         return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
-            meta.setDisplayName(ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E8");
+            meta.setDisplayName(ChatColor.WHITE + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E8");
             meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
         });
     }

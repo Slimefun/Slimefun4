@@ -63,7 +63,9 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
                 if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
+                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                        return;
+                    }
                     ChargableBlock.addCharge(b, -getEnergyConsumption());
                     progress.put(b, timeleft - 1);
                 } else {
@@ -76,7 +78,12 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
                 ChargableBlock.addCharge(b, -getEnergyConsumption());
 
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-                menu.pushItem(processing.get(b).getOutput()[0].clone(), getOutputSlots());
+
+                ItemStack output = processing.get(b).getOutput()[0];
+
+                if (output.getType() != Material.AIR) {
+                    menu.pushItem(output.clone(), getOutputSlots());
+                }
 
                 progress.remove(b);
                 processing.remove(b);

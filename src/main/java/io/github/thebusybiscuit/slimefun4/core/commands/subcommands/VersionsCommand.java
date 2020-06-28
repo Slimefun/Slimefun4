@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
@@ -35,6 +36,11 @@ class VersionsCommand extends SubCommand {
             sender.sendMessage("");
             sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + SlimefunPlugin.getCSCoreLibVersion()));
             sender.sendMessage(ChatColors.color("&aSlimefun &2v" + SlimefunPlugin.getVersion()));
+
+            if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+                sender.sendMessage(ChatColor.YELLOW + "向后兼容已启用!");
+            }
+
             sender.sendMessage("");
 
             Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();

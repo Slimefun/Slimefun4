@@ -16,11 +16,11 @@ commands:
     reset-target: '&cYour Knowledge has been reset'
 
   backpack:
-    description: Retrieve an existing backpack
-    invalid-id: '&4The backpack id must be a non-negative number!'
-    player-never-joined: '&4No player with that name has ever joined the server!'
-    backpack-does-not-exist: '&4That backpack does not exist!'
-    restored-backpack-given: '&bBackpack restored successfully! Added to your inventory!'
+    description: Retrieve a copy of an existing backpack
+    invalid-id: '&4The id must be a non-negative number!'
+    player-never-joined: '&4No player with that name could be found!'
+    backpack-does-not-exist: '&4The specified backpack does not exist!'
+    restored-backpack-given: '&aYour backpack has been restored and was added to your inventory!'
 
 guide:
   locked: 'LOCKED'
@@ -145,16 +145,20 @@ messages:
   diet-cookie: '&eYou are starting to feel very light...'
   
   fortune-cookie:
-  - '&7Help me, I am trapped in a Fortune Cookie Factory!'
-  - '&7You will die tomorrow...     by a Creeper'
-  - '&7At some point in your Life something bad will happen!!!'
-  - '&7Next week you will notice that this is not the real world, you are in a computer game'
-  - '&7This cookie will taste good in a few seconds'
-  - '&7The last word you will hear is gonna be "EXTERMINATE!!!"'
-  - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
-  - '&742. The answer is 42.'
-  - '&7A Walshy a day will keep the troubles away.'
-  - '&7Never dig straight down!'
+    - '&7Help me, I am trapped in a Fortune Cookie Factory!'
+    - '&7You will die tomorrow...     by a Creeper'
+    - '&7At some point in your Life something bad will happen!!!'
+    - '&7Next week you will notice that this is not the real world, you are in a computer game'
+    - '&7This cookie will taste good in a few seconds'
+    - '&7The last word you will hear is gonna be "EXTERMINATE!!!"'
+    - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
+    - '&742. The answer is 42.'
+    - '&7A Walshy a day will keep the troubles away.'
+    - '&7Never dig straight down!'
+    - '&7Tis but a flesh wound!'
+    - '&7Always look on the bright side of life!'
+    - '&7This one was actually a Biscuit and not a Cookie'
+    - '&7Neon signs are LIT!'
 
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'
@@ -194,14 +198,24 @@ machines:
       title: 'Your waypoints'
       tooltip: 'Click to teleport'
       time: 'Estimated time'
-  
+
   GPS_CONTROL_PANEL:
     title: 'GPS - Control Panel'
     transmitters: 'Transmitter Overview'
     waypoints: 'Waypoint Overview'
-    
+
   CARGO_NODES:
     must-be-placed: '&4Must be placed onto a chest or machine!'
+
+  INDUSTRIAL_MINER:
+    no-fuel: '&cYour Industrial Miner ran out of fuel! Put your fuel into the chest above.'
+    piston-facing: '&cYour Industrial Miner requires pistons to face upwards!'
+    piston-space: '&cThe two pistons need to have an empty block above them!'
+    destroyed: '&cYour Industrial Miner seems to have been destroyed.'
+    already-running: '&cThis Industrial Miner is already running!'
+    full-chest: '&cThe Chest of your Industrial Miner is full!'
+    no-permission: '&4You do not seem to have permission to operate an Industrial Miner here!'
+    finished: '&eYour Industrial Miner has finished! It obtained a total of %ores% ore(s)!'
 
 anvil:
   not-working: '&4You cannot use Slimefun Items in an anvil!'
@@ -209,9 +223,6 @@ anvil:
 backpack:
   already-open: '&cSorry, this Backpack is open somewhere else!'
   no-stack: '&cYou cannot stack Backpacks'
-
-miner:
-  no-ores: '&eSorry, I could not find any Ores nearby!'
 
 workbench:
   not-enhanced: '&4You cannot use Slimefun Items in a normal workbench'
@@ -316,6 +327,7 @@ languages:
   ja: 'Japanese'
   fa: 'Persian'
   th: 'Thai'
+  tl: 'Tagalog'
   ro: 'Romanian'
   bg: 'Bulgarian'
   ko: 'Korean'

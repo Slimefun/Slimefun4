@@ -26,7 +26,9 @@ options:
   language: zh-CN
   # 启用多语言功能
   enable-translations: true
-
+  # 物品向后兼容模式, 关闭后将会提升服务器性能
+  # 并且关闭对 1.13 的向后兼容
+  backwards-compatibility: true
 guide:
   # 是否默认使用书与笔进行GUI的展示
   default-view-book: false

@@ -102,10 +102,12 @@ guide:
     previous: Förra sidan
   search:
     lore:
-    - "&bVad vill du söka efter?"
-    - "&7Skriv din sökterm i chatten"
+      - "&bVad vill du söka efter?"
+      - "&7Skriv din sökterm i chatten"
     message: "&bVad vill du söka efter?"
     name: "&7Sök..."
+    tooltip: "&bKlicka här för att söka efter ett föremål"
+    inventory: 'Söker efter: %item%'
   title:
     addons: Tilläg till Slimefun4
     bugs: Bugg Rapporter
@@ -124,11 +126,17 @@ guide:
       miner: Resurser du kan få med denna Gruvarbetare
     versions-notice: Dessa är väldigt viktiga när det kommer till att rapportera buggar!
     wiki: Visar detta föremål på den Officiella Slimefun Wikin
+  locked: LÅST
+  locked-category:
+    - För att låsa upp denna kategori måste du
+    - låsa upp alla föremål från de
+    - följande kategorierna
 inventory:
   no-access: "&4Du har inte tillåtelse att använda detta block"
 languages:
   af: Afrikaans
   ar: Arabiska
+  bg: Bulgariska
   cs: Tjeckiska
   da: Danska
   de: Tyska
@@ -144,6 +152,7 @@ languages:
   id: Indonesiska
   it: Italienska
   ja: Japanska
+  ko: Koreanska
   lv: Lettiska
   ms: Malaysiska
   nl: Holländska
@@ -156,13 +165,15 @@ languages:
   sk: Slovakiska
   sv: Svenska
   th: Thailändska
+  tr: Turkiska
   uk: Ukrainska
   vi: Vietnamesiska
   zh-CN: Chinesiska (China)
   zh-TW: Chinesiska (Taiwan)
-  bg: Bulgariska
-  ko: Koreanska
-  tr: Turkiska
+  hr: Kroatiska
+  mk: Makedonska
+  sr: Serbiska
+  be: Vitryska
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Altaret är inte omgivet av det korrekta antalet piedestaler
@@ -197,6 +208,10 @@ machines:
     invulnerability: "&b&lDu har fått 30 sekunder av osårbarhet"
     teleported: "&3Teleporterad!"
     teleporting: "&3Teleporterar..."
+    gui:
+      title: Dina vägpunkter
+      tooltip: Klicka här för att teleportera
+      time: Beräknad tid
   unknown-material: "&Jag kände tyvärr inte igen föremålet i min automat. Lägg in
     någonting som jag känner till."
   wrong-item: "&Jag kände tyvärr inte igen det föremål som du högerklickade mig med.

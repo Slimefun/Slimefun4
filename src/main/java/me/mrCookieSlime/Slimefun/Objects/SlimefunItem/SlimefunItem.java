@@ -510,7 +510,13 @@ public class SlimefunItem implements Placeable {
      * @return Whether the given {@link ItemStack} represents this {@link SlimefunItem}
      */
     public boolean isItem(ItemStack item) {
-        if (item == null) return false;
+        if (item == null) {
+            return false;
+        }
+
+        if (item instanceof SlimefunItemStack) {
+            return getID().equals(((SlimefunItemStack) item).getItemId());
+        }
 
         if (item.hasItemMeta()) {
             Optional<String> itemId = SlimefunPlugin.getItemDataService().getItemData(item);
@@ -520,12 +526,12 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        // Support for legacy items
-        if (this instanceof ChargableItem && SlimefunUtils.isItemSimilar(item, this.item, false)) {
-            return true;
-        } else {
-            boolean loreInsensitive = this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+        // Backwards compatibility
+        if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            boolean loreInsensitive = this instanceof ChargableItem || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
+        } else {
+            return false;
         }
     }
 
@@ -771,7 +777,9 @@ public class SlimefunItem implements Placeable {
     }
 
     public static SlimefunItem getByItem(ItemStack item) {
-        if (item == null || item.getType() == Material.AIR) return null;
+        if (item == null || item.getType() == Material.AIR) {
+            return null;
+        }
 
         if (item instanceof SlimefunItemStack) {
             return getByID(((SlimefunItemStack) item).getItemId());
@@ -788,15 +796,18 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        // Quite expensive performance-wise
-        // But necessary for supporting legacy items
-        for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
-            if (sfi.isItem(wrapper)) {
-                // If we have to loop all items for the given item, then at least
-                // set the id via PersistenDataAPI for future performance boosts
-                SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
+        // Backwards compatibility
+        if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            // Quite expensive performance-wise
+            // But necessary for supporting legacy items
+            for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
+                if (sfi.isItem(wrapper)) {
+                    // If we have to loop all items for the given item, then at least
+                    // set the id via PersistenDataAPI for future performance boosts
+                    SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
 
-                return sfi;
+                    return sfi;
+                }
             }
         }
 
