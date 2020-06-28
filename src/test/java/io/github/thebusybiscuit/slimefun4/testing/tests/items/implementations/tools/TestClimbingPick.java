@@ -15,11 +15,11 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import io.github.thebusybiscuit.slimefun4.api.events.ClimbingPickLaunchEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.testing.interfaces.SlimefunItemTest;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
