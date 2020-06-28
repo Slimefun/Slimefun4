@@ -1,13 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
@@ -21,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
@@ -44,17 +41,18 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
-    private final Map<Material, Enchantment[]> applicableEnchantments = new EnumMap<>(Material.class);
+    private final Map<Material, List<Enchantment>> applicableEnchantments = new EnumMap<>(Material.class);
 
     public EnchantmentRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         for (Material mat : Material.values()) {
-            Set<Enchantment> enchSet = new HashSet<>();
-            for (Enchantment ench : Enchantment.values()) {
-                if (ench.canEnchantItem(new ItemStack(mat))) enchSet.add(ench);
+            List<Enchantment> enchantments = new ArrayList<>();
+            for (Enchantment enchantment : Enchantment.values()) {
+                if (enchantment == Enchantment.BINDING_CURSE || enchantment == Enchantment.VANISHING_CURSE) continue;
+                if (enchantment.canEnchantItem(new ItemStack(mat))) enchantments.add(enchantment);
             }
-            applicableEnchantments.put(mat, enchSet.toArray(new Enchantment[0]));
+            applicableEnchantments.put(mat, enchantments);
         }
     }
 
@@ -63,7 +61,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
 
-                if (!Slimefun.hasUnlocked(p, SlimefunItems.ENCHANTMENT_RUNE, true)) {
+                if (!Slimefun.hasUnlocked(p, this, true)) {
                     return true;
                 }
 
@@ -89,17 +87,14 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             Item entity = (Item) optional.get();
             ItemStack target = entity.getItemStack();
 
-            List<Enchantment> enchantmentSet = Arrays.asList(applicableEnchantments.getOrDefault(target.getType(), new Enchantment[0]));
-            if (enchantmentSet.size() == 0) return;
+            List<Enchantment> enchantmentList = applicableEnchantments.getOrDefault(target.getType(), new ArrayList<>());
+            if (enchantmentList.isEmpty()) return;
 
             //Removing the enchantments that the item already has from enchantmentSet
-            for (Enchantment enchantment : enchantmentSet) {
-                for (Enchantment itemEnchantment : target.getEnchantments().keySet()) {
-                    if (enchantment == itemEnchantment) enchantmentSet.remove(enchantment);
-                }
-            }
+            enchantmentList.removeIf(enchantment -> target.getEnchantments().containsKey(enchantment));
+            if (enchantmentList.isEmpty()) return;
 
-            Enchantment enchantment = enchantmentSet.get(ThreadLocalRandom.current().nextInt(enchantmentSet.size()));
+            Enchantment enchantment = enchantmentList.get(ThreadLocalRandom.current().nextInt(enchantmentList.size()));
             int level = 1;
             if (enchantment.getMaxLevel() != 1) {
                 level = ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel()) + 1;
