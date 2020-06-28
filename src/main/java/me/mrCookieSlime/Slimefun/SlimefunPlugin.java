@@ -23,6 +23,17 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
@@ -30,7 +41,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 
 /**
  * @deprecated This class has been moved to {@link io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin}
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
