@@ -88,11 +88,17 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             ItemStack target = entity.getItemStack();
 
             List<Enchantment> enchantmentList = new ArrayList<>(applicableEnchantments.getOrDefault(target.getType(), new ArrayList<>()));
-            if (enchantmentList.isEmpty()) return;
+            if (enchantmentList.isEmpty()) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.fail", true);
+                return;
+            }
 
             //Removing the enchantments that the item already has from enchantmentSet
             enchantmentList.removeIf(enchantment -> target.getEnchantments().containsKey(enchantment));
-            if (enchantmentList.isEmpty()) return;
+            if (enchantmentList.isEmpty()) {
+                SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.no-enchantment", true);
+                return;
+            }
 
             Enchantment enchantment = enchantmentList.get(ThreadLocalRandom.current().nextInt(enchantmentList.size()));
             int level = 1;
@@ -121,8 +127,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                         SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.success", true);
                     }
                 }, 10L);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.fail", true);
             }
         }

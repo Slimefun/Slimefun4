@@ -132,6 +132,7 @@ messages:
 
   enchantment-rune:
     fail: '&cYou cannot enchant this item.'
+    no-enchantment: '&cCouldn''t find any applicable enchantment for this item.'
     success: '&aYou have successfully applied a random applicable enchantment to this item.'
   
   research:
