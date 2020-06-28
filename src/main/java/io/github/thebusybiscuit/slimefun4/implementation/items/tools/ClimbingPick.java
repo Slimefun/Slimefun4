@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.events.ClimbingPickLaunchEvent;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -42,34 +42,36 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem, RecipeDisplayItem {
 
-    private final Map<String, Double> materialSpeeds;
+    private final Map<Material, Double> materialSpeeds;
     private final Set<UUID> users = new HashSet<>();
 
     public ClimbingPick(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        Map<String, Double> materialSpeedsDef = new HashMap<>();
+        String cfgKey = getID() + ".launch-amounts.";
+        Config itemCfg = SlimefunPlugin.getItemCfg();
+        materialSpeeds = new EnumMap<>(Material.class);
+
         for (Material mat : MaterialCollections.getAllIceBlocks()) {
-            materialSpeedsDef.put(mat.name(), 1D);
+            materialSpeeds.put(mat, itemCfg.getOrSetDefault(cfgKey + mat.name(), 1.0));
         }
         for (Material mat : MaterialCollections.getAllConcretePowderColors()) {
-            materialSpeedsDef.put(mat.name(), 1D);
+            materialSpeeds.put(mat, itemCfg.getOrSetDefault(cfgKey + mat.name(), 1.0));
         }
         for (Material mat : MaterialCollections.getAllTerracottaColors()) {
-            materialSpeedsDef.put(mat.name(), 1D);
+            materialSpeeds.put(mat, itemCfg.getOrSetDefault(cfgKey + mat.name(), 1.0));
         }
 
-        materialSpeedsDef.put(Material.GRAVEL.name(), 0.4);
-        materialSpeedsDef.put(Material.SAND.name(), 0.4);
-        materialSpeedsDef.put(Material.STONE.name(), 0.6);
-        materialSpeedsDef.put(Material.DIORITE.name(), 0.6);
-        materialSpeedsDef.put(Material.GRANITE.name(), 0.6);
-        materialSpeedsDef.put(Material.ANDESITE.name(), 0.6);
-        materialSpeedsDef.put(Material.NETHERRACK.name(), 0.6);
+        materialSpeeds.put(Material.GRAVEL, itemCfg.getOrSetDefault(cfgKey + Material.GRAVEL.name(), 0.4));
+        materialSpeeds.put(Material.SAND, itemCfg.getOrSetDefault(cfgKey + Material.SAND.name(), 0.4));
+        materialSpeeds.put(Material.STONE, itemCfg.getOrSetDefault(cfgKey + Material.STONE.name(), 0.6));
+        materialSpeeds.put(Material.DIORITE, itemCfg.getOrSetDefault(cfgKey + Material.DIORITE.name(), 0.6));
+        materialSpeeds.put(Material.GRANITE, itemCfg.getOrSetDefault(cfgKey + Material.GRANITE.name(), 0.6));
+        materialSpeeds.put(Material.ANDESITE, itemCfg.getOrSetDefault(cfgKey + Material.ANDESITE.name(), 0.6));
+        materialSpeeds.put(Material.NETHERRACK, itemCfg.getOrSetDefault(cfgKey + Material.NETHERRACK.name(), 0.6));
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            materialSpeedsDef.put(Material.BLACKSTONE.name(), 0.6);
+            materialSpeeds.put(Material.BLACKSTONE, itemCfg.getOrSetDefault(cfgKey + Material.BLACKSTONE.name(), 0.6));
         }
-        materialSpeeds = SlimefunPlugin.getItemCfg().getOrSetDefault(getID() + ".launch-amounts", materialSpeedsDef);
     }
     
     @Override
@@ -85,8 +87,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) return;
 
             if (!users.contains(p.getUniqueId())) {
-                Material mat = block.getType();
-                double launch = materialSpeeds.getOrDefault(mat.name(), 0D);
+                double launch = materialSpeeds.getOrDefault(block.getType(), 0D);
 
                 Vector velocity = new Vector(0, 0, 0);
                 if (launch > 0.05) {
@@ -123,12 +124,15 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> display = new ArrayList<>();
-        for (String matName : materialSpeeds.keySet()) {
-            Material mat = Material.getMaterial(matName);
-            if (mat == null) continue;
-            display.add(new CustomItem(mat, "&bCan Climb This Block"));
+        for (Material mat : materialSpeeds.keySet()) {
+            display.add(new ItemStack(mat));
         }
 
         return display;
+    }
+
+    @Override
+    public String getLabelLocalPath() {
+        return "guide.tooltips.recipes.climbing-pick";
     }
 }

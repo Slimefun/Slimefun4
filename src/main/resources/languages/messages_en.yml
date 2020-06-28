@@ -46,6 +46,7 @@ guide:
       miner: 'Resources you can obtain with this Miner'
       generator: 'Available types of fuel'
       gold-pan: 'Resources you can obtain'
+      climbing-pick: 'Surfaces you can climb'
 
   cheat:
     no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
