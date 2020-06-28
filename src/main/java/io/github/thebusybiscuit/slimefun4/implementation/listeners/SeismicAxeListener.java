@@ -6,8 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This {@link Listener} is responsible for removing every {@link FallingBlock} that was

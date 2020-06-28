@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -60,7 +60,7 @@ public class Compressor extends MultiBlockMachine {
 						craft(p, output, outputInv);
 					}
 					else {
-					    SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+					    SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
 					}
 					
 					return;
@@ -68,7 +68,7 @@ public class Compressor extends MultiBlockMachine {
 			}
 		}
 		
-		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+		SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
 	}
 
     private void craft(Player p, ItemStack output, Inventory outputInv) {

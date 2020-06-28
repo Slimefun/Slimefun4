@@ -87,4 +87,8 @@ public final class NumberUtils {
     public static int getInt(Integer value, int defaultValue) {
         return value == null ? defaultValue : value;
     }
+
+    public static float getFloat(Float value, float defaultValue) {
+        return value == null ? defaultValue : value;
+    }
 }

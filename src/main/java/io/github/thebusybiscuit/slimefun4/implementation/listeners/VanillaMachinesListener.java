@@ -14,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -60,7 +60,7 @@ public class VanillaMachinesListener implements Listener {
 
             if (sfItem != null && !sfItem.isUseableInWorkbench()) {
                 e.setResult(Result.DENY);
-                SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
+                SlimefunPlugin.getLocalization().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
                 break;
             }
         }
@@ -88,7 +88,7 @@ public class VanillaMachinesListener implements Listener {
 
             if (checkForUnallowedItems(item1, item2)) {
                 e.setResult(Result.DENY);
-                SlimefunPlugin.getLocal().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
+                SlimefunPlugin.getLocalization().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
             }
         }
     }

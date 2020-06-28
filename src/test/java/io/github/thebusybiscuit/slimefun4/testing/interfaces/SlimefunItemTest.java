@@ -9,7 +9,7 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import be.seeseemelk.mockbukkit.block.BlockMock;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;

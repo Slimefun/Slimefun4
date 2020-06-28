@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -60,11 +62,17 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
 
             @Override
             public double generateEnergy(Location l, SlimefunItem item, Config data) {
-                if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
-                    return 0D;
+                World world = l.getWorld();
+
+                if (world.getEnvironment() != Environment.NORMAL) {
+                    return 0;
                 }
 
-                if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) {
+                if (!world.isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
+                    return 0;
+                }
+
+                if (world.getTime() < 12300 || world.getTime() > 23850) {
                     return getDayEnergy();
                 }
 

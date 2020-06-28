@@ -6,7 +6,7 @@ import java.util.Map;
 import org.bstats.bukkit.Metrics.AdvancedPie;
 
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class CommandChart extends AdvancedPie {
 

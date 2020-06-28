@@ -6,9 +6,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * This {@link Listener} is solely responsible for preventing Cargo Nodes from being placed
@@ -26,7 +26,7 @@ public class CargoNodeListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onCargoNodePlace(BlockPlaceEvent e) {
         if (e.getBlock().getY() != e.getBlockAgainst().getY() && isCargoNode(new ItemStackWrapper(e.getItemInHand()))) {
-            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
+            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
             e.setCancelled(true);
         }
     }

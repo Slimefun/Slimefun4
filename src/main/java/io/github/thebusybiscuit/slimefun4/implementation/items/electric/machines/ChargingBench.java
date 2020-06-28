@@ -4,13 +4,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class ChargingBench extends AContainer {
@@ -50,38 +51,34 @@ public class ChargingBench extends AContainer {
         for (int slot : getInputSlots()) {
             ItemStack item = inv.getItemInSlot(slot);
 
-            if (ItemEnergy.getMaxEnergy(item) > 0) {
-                charge(b, inv, slot, item);
+            if (charge(b, inv, slot, item)) {
                 return;
             }
         }
     }
 
-    private void charge(Block b, BlockMenu inv, int slot, ItemStack item) {
-        if (ItemEnergy.getStoredEnergy(item) < ItemEnergy.getMaxEnergy(item)) {
-            ChargableBlock.addCharge(b, -getEnergyConsumption());
-            float rest = ItemEnergy.addStoredEnergy(item, getEnergyConsumption() / 2F);
+    private boolean charge(Block b, BlockMenu inv, int slot, ItemStack item) {
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
-            if (rest > 0F) {
-                if (inv.fits(item, getOutputSlots())) {
-                    inv.pushItem(item, getOutputSlots());
-                    inv.replaceExistingItem(slot, null);
-                }
-                else {
-                    inv.replaceExistingItem(slot, item);
-                }
+        if (sfItem instanceof Rechargeable) {
+            float charge = getEnergyConsumption() / 2F;
+
+            if (((Rechargeable) sfItem).addItemCharge(item, charge)) {
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
             }
-            else {
-                inv.replaceExistingItem(slot, item);
+            else if (inv.fits(item, getOutputSlots())) {
+                inv.pushItem(item, getOutputSlots());
+                inv.replaceExistingItem(slot, null);
             }
+
+            return true;
         }
-        else if (inv.fits(item, getOutputSlots())) {
+        else if (sfItem != null && inv.fits(item, getOutputSlots())) {
             inv.pushItem(item, getOutputSlots());
             inv.replaceExistingItem(slot, null);
         }
-        else {
-            inv.replaceExistingItem(slot, item);
-        }
+
+        return false;
     }
 
     @Override
