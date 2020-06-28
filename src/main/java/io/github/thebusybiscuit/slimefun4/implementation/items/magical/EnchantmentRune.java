@@ -1,14 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -40,7 +44,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
 
     private static final double RANGE = 1.5;
-    private final HashMap<Material, Enchantment[]> applicableEnchs = new HashMap<>();
+    private final Map<Material, Enchantment[]> applicableEnchantments = new EnumMap<>(Material.class);
 
     public EnchantmentRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -50,7 +54,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             for (Enchantment ench : Enchantment.values()) {
                 if (ench.canEnchantItem(new ItemStack(mat))) enchSet.add(ench);
             }
-            applicableEnchs.put(mat, enchSet.toArray(new Enchantment[0]));
+            applicableEnchantments.put(mat, enchSet.toArray(new Enchantment[0]));
         }
     }
 
@@ -85,15 +89,22 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             Item entity = (Item) optional.get();
             ItemStack target = entity.getItemStack();
 
-            Enchantment[] enchArr = findEnchArr(target.getType());
-            if (enchArr.length == 0) return;
-            int enchIndex = ThreadLocalRandom.current().nextInt(enchArr.length);
-            Enchantment ench = enchArr[enchIndex];
+            List<Enchantment> enchantmentSet = Arrays.asList(applicableEnchantments.getOrDefault(target.getType(), new Enchantment[0]));
+            if (enchantmentSet.size() == 0) return;
 
+            //Removing the enchantments that the item already has from enchantmentSet
+            for (Enchantment enchantment : enchantmentSet) {
+                for (Enchantment itemEnchantment : target.getEnchantments().keySet()) {
+                    if (enchantment == itemEnchantment) enchantmentSet.remove(enchantment);
+                }
+            }
+
+            Enchantment enchantment = enchantmentSet.get(ThreadLocalRandom.current().nextInt(enchantmentSet.size()));
             int level = 1;
-            if (ench.getMaxLevel() != 1) level = ThreadLocalRandom.current().nextInt(ench.getMaxLevel() + 1);
-
-            target.addEnchantment(ench, level);
+            if (enchantment.getMaxLevel() != 1) {
+                level = ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel() + 1);
+            }
+            target.addEnchantment(enchantment, level);
 
             if (target.getAmount() == 1) {
                 e.setCancelled(true);
@@ -105,8 +116,8 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (item.isValid() && entity.isValid() && target.getAmount() == 1) {
 
-                        l.getWorld().createExplosion(l, 0);
-                        l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1);
+                        l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
+                        l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 
                         entity.remove();
                         item.remove();
@@ -120,12 +131,6 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.fail", true);
             }
         }
-    }
-
-    private Enchantment[] findEnchArr(Material type) {
-        Enchantment[] enchArr = applicableEnchs.get(type);
-        if (enchArr == null) enchArr = new Enchantment[0];
-        return enchArr;
     }
 
     private boolean findCompatibleItem(Entity n) {
