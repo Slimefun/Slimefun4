@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -7,12 +8,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmor
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 
 /**
- * Implement this interface for any {@link SlimefunArmorPiece} to prevent
- * the {@link Player} wearing that {@link SlimefunArmorPiece}
+ * Implement this interface to a {@link SlimefunArmorPiece} to protect
+ * the {@link Player} who wears that {@link SlimefunArmorPiece} from
+ * {@link ProtectionType} damage.
  *
- * <b>Important</b>: This will not cancel any {@link EntityDamageEvent}.
- * It will simply prevent Slimefun from ever applying {@link ProtectionType}
- * to this {@link SlimefunArmorPiece}'s wearer.
+ * <b>Important:</b> You need to specify which {@link ProtectionType} damages
+ * to protect the {@link Player} from.
  *
  * @author Linox
  *
@@ -24,18 +25,25 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
 public interface CustomProtection extends ItemAttribute {
 
     /**
-     * This returns the {@link ProtectionType}s this {@link ItemAttribute}
-     * prevents the assigned {@link SlimefunArmorPiece} to be damaged by.
+     * This returns which {@link ProtectionType} damages this {@link ItemAttribute}
+     * will protect the {@link Player} from.
      *
-     * @return The {@link ProtectionType}s
+     * @return The {@link ProtectionType}s.
      */
     ProtectionType[] getProtectionTypes();
 
     /**
-     * This returns the {@link ProtectionType}s this {@link ItemAttribute}
-     * prevents the assigned {@link SlimefunArmorPiece} to be damaged by.
+     * This returns whether the full set is required for {@link Player}'s protection on
+     * assigned {@link ProtectionType} damages.
      *
-     * @return The {@link ProtectionType}s
+     * @return Whether or not he full set is required.
      */
     boolean isFullSetRequired();
+
+    /**
+     * This returns the armor set {@link NamespacedKey} of this {@link SlimefunArmorPiece}.
+     *
+     * @return The set {@link NamespacedKey}, <code>null</code> if none is found.
+     */
+    NamespacedKey getSetId();
 }

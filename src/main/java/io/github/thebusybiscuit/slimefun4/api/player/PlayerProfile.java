@@ -455,7 +455,6 @@ public final class PlayerProfile {
 
     public boolean isProtected(ProtectionType type) {
         int armorCount = 0;
-        boolean first = true;
 
         NamespacedKey setId = null;
         for (HashedArmorpiece armor : armor) {
@@ -465,16 +464,15 @@ public final class PlayerProfile {
             if (armorPiece.get() instanceof CustomProtection) {
                 CustomProtection protectedArmor = (CustomProtection) armorPiece.get();
 
-                if (first) {
-                    if (protectedArmor.isFullSetRequired()) setId = armorPiece.get().getSetId();
-                    first = false;
+                if (setId == null && protectedArmor.isFullSetRequired()) {
+                    setId = protectedArmor.getSetId();
                 }
 
                 for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
                     if (protectionType == type) {
                         if (setId == null) {
                             return true;
-                        } else if (setId.equals(armorPiece.get().getSetId())) {
+                        } else if (setId.equals(protectedArmor.getSetId())) {
                             armorCount++;
                         }
                     }
