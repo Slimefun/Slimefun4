@@ -87,7 +87,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             Item entity = (Item) optional.get();
             ItemStack target = entity.getItemStack();
 
-            List<Enchantment> enchantmentList = applicableEnchantments.getOrDefault(target.getType(), new ArrayList<>());
+            List<Enchantment> enchantmentList = new ArrayList<>(applicableEnchantments.getOrDefault(target.getType(), new ArrayList<>()));
             if (enchantmentList.isEmpty()) return;
 
             //Removing the enchantments that the item already has from enchantmentSet
