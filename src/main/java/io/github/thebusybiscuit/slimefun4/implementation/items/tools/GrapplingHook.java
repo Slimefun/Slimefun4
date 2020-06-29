@@ -55,14 +55,15 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 arrow.setShooter(p);
                 arrow.setVelocity(direction);
 
-                Bat b = (Bat) p.getWorld().spawnEntity(p.getLocation(), EntityType.BAT);
-                b.setCanPickupItems(false);
-                b.setAI(false);
-                b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
-                b.setLeashHolder(arrow);
+                Bat bat = (Bat) p.getWorld().spawnEntity(p.getLocation(), EntityType.BAT);
+                bat.setCanPickupItems(false);
+                bat.setAI(false);
+                bat.setSilent(true);
+                bat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
+                bat.setLeashHolder(arrow);
 
                 boolean state = item.getType() != Material.SHEARS;
-                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(uuid, arrow, b, state, despawnTicks.getValue() * 20L);
+                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue());
             }
         };
     }
