@@ -64,10 +64,10 @@ public class LocalizationService extends SlimefunLocalization implements Persist
                 setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
             } else {
                 setLanguage("en", false);
-                plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
+                plugin.getLogger().log(Level.WARNING, "无法识别指定的语言: \"{0}\"", serverDefaultLanguage);
             }
 
-            Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
+            Slimefun.getLogger().log(Level.INFO, "可用的语言类型: {0}", String.join(", ", languages.keySet()));
             save();
         } else {
             translationsEnabled = false;
@@ -159,7 +159,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
             getConfig().getConfiguration().setDefaults(config);
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file: \"" + path + "\"");
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "无法加载多语言文件: \"" + path + "\"");
         }
 
         save();
@@ -233,7 +233,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
 
             return config;
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + path + "\"");
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "向内存中加载语言文件时失败: \"" + path + "\"");
             return null;
         }
     }
