@@ -36,13 +36,13 @@ public final class NumberUtils {
         long hours = Duration.between(date, LocalDateTime.now()).toHours();
 
         if (hours == 0) {
-            return "< 1h";
+            return "< 1 小时";
         } else if ((hours / 24) == 0) {
-            return (hours % 24) + "h";
+            return (hours % 24) + "小时";
         } else if (hours % 24 == 0) {
-            return (hours / 24) + "d";
+            return (hours / 24) + "天";
         } else {
-            return (hours / 24) + "d " + (hours % 24) + "h";
+            return (hours / 24) + "天 " + (hours % 24) + "小时";
         }
     }
 
