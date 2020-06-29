@@ -65,20 +65,20 @@ public class CargoInputNode extends AbstractCargoNode {
             preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(2, new CustomItem(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(2, new CustomItem(Material.PAPER, "&3物品", "", "&b放入所有你想要添加至", "&b黑名单/白名单的物品"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
     protected void updateBlockMenu(BlockMenu menu, Block b) {
         if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
-            menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
+            menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7模式: &r白名单", "", "&e> 单击切换至黑名单模式"));
             menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "filter-type", "blacklist");
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
+            menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7模式: &8黑名单", "", "&e> 单击切换至白名单模式"));
             menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
                 updateBlockMenu(menu, b);
@@ -87,7 +87,7 @@ public class CargoInputNode extends AbstractCargoNode {
         }
 
         if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals(String.valueOf(false))) {
-            menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7Include Sub-IDs/Durability: &4\u2718", "", "&e> Click to toggle whether the Durability has to match"));
+            menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7判断子ID/耐久度: &4\u2718", "", "&e> 单击启用检查耐久度是否匹配"));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(true));
                 updateBlockMenu(menu, b);
@@ -99,7 +99,7 @@ public class CargoInputNode extends AbstractCargoNode {
             dmg.setDamage(20);
             is.setItemMeta((ItemMeta) dmg);
 
-            menu.replaceExistingItem(16, new CustomItem(is, "&7Include Sub-IDs/Durability: &2\u2714", "", "&e> Click to toggle whether the Durability has to match"));
+            menu.replaceExistingItem(16, new CustomItem(is, "&7判断子ID/耐久度: &2\u2714", "", "&e> 单击关闭检查耐久度是否匹配"));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(false));
                 updateBlockMenu(menu, b);
@@ -108,14 +108,14 @@ public class CargoInputNode extends AbstractCargoNode {
         }
 
         if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "round-robin") == null || BlockStorage.getLocationInfo(b.getLocation(), "round-robin").equals(String.valueOf(false))) {
-            menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+            menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7循环模式: &4\u2718", "", "&e> 单击启用循环模式", "&e(物品将会被平均分配到信道)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "round-robin", String.valueOf(true));
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+            menu.replaceExistingItem(24, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&7循环模式: &2\u2714", "", "&e> 单击关闭循环模式", "&e(物品将会被平均分配到信道)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "round-robin", String.valueOf(false));
                 updateBlockMenu(menu, b);
@@ -124,14 +124,14 @@ public class CargoInputNode extends AbstractCargoNode {
         }
 
         if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals(String.valueOf(true))) {
-            menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+            menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7匹配 Lore: &2\u2714", "", "&e> 单击修改是否匹配Lore"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(false));
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+            menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7匹配 Lore: &4\u2718", "", "&e> 单击修改是否匹配Lore"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(true));
                 updateBlockMenu(menu, b);
@@ -139,7 +139,7 @@ public class CargoInputNode extends AbstractCargoNode {
             });
         }
 
-        menu.replaceExistingItem(41, new CustomItem(SlimefunUtils.getCustomHead("f2599bd986659b8ce2c4988525c94e19ddd39fad08a38284a197f1b70675acc"), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
+        menu.replaceExistingItem(41, new CustomItem(SlimefunUtils.getCustomHead("f2599bd986659b8ce2c4988525c94e19ddd39fad08a38284a197f1b70675acc"), "&b信道", "", "&e> 单击将信道ID减一"));
         menu.addMenuClickHandler(41, (p, slot, item, action) -> {
             int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY)) - 1;
             if (channel < 0) {
@@ -157,11 +157,11 @@ public class CargoInputNode extends AbstractCargoNode {
             menu.replaceExistingItem(42, new CustomItem(SlimefunUtils.getCustomHead("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
         } else {
-            menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&bChannel ID: &3" + (channel + 1)));
+            menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&b信道 ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.replaceExistingItem(43, new CustomItem(SlimefunUtils.getCustomHead("c2f910c47da042e4aa28af6cc81cf48ac6caf37dab35f88db993accb9dfe516"), "&bChannel", "", "&e> Click to increase the Channel ID by 1"));
+        menu.replaceExistingItem(43, new CustomItem(SlimefunUtils.getCustomHead("c2f910c47da042e4aa28af6cc81cf48ac6caf37dab35f88db993accb9dfe516"), "&b信道", "", "&e> 单击将信道ID加一"));
         menu.addMenuClickHandler(43, (p, slot, item, action) -> {
             int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY)) + 1;
 
