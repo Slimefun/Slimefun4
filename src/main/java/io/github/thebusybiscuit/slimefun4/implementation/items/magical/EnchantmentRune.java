@@ -88,10 +88,12 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             Item entity = (Item) optional.get();
             ItemStack target = entity.getItemStack();
 
-            List<Enchantment> applicableEnchantmentList = new ArrayList<>(applicableEnchantments.getOrDefault(target.getType(), new ArrayList<>()));
-            if (applicableEnchantmentList.isEmpty()) {
+            List<Enchantment> applicableEnchantmentList = applicableEnchantments.get(target.getType());
+            if (applicableEnchantmentList == null) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.fail", true);
                 return;
+            } else {
+                applicableEnchantmentList = new ArrayList<>(applicableEnchantmentList);
             }
 
             //Removing the enchantments that the item already has from enchantmentSet
