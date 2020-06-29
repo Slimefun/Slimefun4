@@ -64,6 +64,10 @@
 * Fixed a rare concurrency issue with world saving
 * Fixed some contributors showing up twice
 * Fixed #2062
+* Fixed Grappling hooks disappearing when fired at Item frames or paintaings
+* Fixed Grappling hooks not getting removed when the Player leaves
+* Fixed Grappling hooks making Bat sounds
+* Fixed #1959
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
