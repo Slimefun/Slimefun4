@@ -3,6 +3,11 @@ package me.mrCookieSlime.Slimefun.Objects.handlers;
 import java.util.Optional;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**

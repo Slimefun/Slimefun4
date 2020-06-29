@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.handlers;
+package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import java.util.Arrays;
 
@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 /**
  * This is a {@link BlockTicker} that is exclusively used for Rainbow blocks.
@@ -25,13 +26,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see RainbowBlock
  *
  */
-public class RainbowTicker extends BlockTicker {
+public class RainbowTickHandler extends BlockTicker {
 
     private final LoopIterator<Material> iterator;
     private final boolean waterlogged;
     private Material material;
 
-    public RainbowTicker(Material... materials) {
+    public RainbowTickHandler(Material... materials) {
         if (materials.length == 0) {
             throw new IllegalArgumentException("A RainbowTicker must have at least one Material associated with it!");
         }
@@ -70,7 +71,7 @@ public class RainbowTicker extends BlockTicker {
         return false;
     }
 
-    public RainbowTicker(MaterialCollection collection) {
+    public RainbowTickHandler(MaterialCollection collection) {
         this(collection.getAsArray());
     }
 
@@ -84,7 +85,6 @@ public class RainbowTicker extends BlockTicker {
 
         if (waterlogged) {
             BlockData blockData = b.getBlockData();
-
             b.setType(material, true);
 
             if (blockData instanceof Waterlogged && ((Waterlogged) blockData).isWaterlogged()) {

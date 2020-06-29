@@ -2,8 +2,8 @@ package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 /**

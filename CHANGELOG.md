@@ -69,6 +69,7 @@
 * Fixed Grappling hooks not getting removed when the Player leaves
 * Fixed Grappling hooks making Bat sounds
 * Fixed #1959
+* Fixed Melon Juice requiring Melons instead of Melon Slices
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
