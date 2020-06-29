@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -87,20 +88,27 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             Item entity = (Item) optional.get();
             ItemStack target = entity.getItemStack();
 
-            List<Enchantment> enchantmentList = new ArrayList<>(applicableEnchantments.getOrDefault(target.getType(), new ArrayList<>()));
-            if (enchantmentList.isEmpty()) {
+            List<Enchantment> applicableEnchantmentList = new ArrayList<>(applicableEnchantments.getOrDefault(target.getType(), new ArrayList<>()));
+            if (applicableEnchantmentList.isEmpty()) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.fail", true);
                 return;
             }
 
             //Removing the enchantments that the item already has from enchantmentSet
-            enchantmentList.removeIf(enchantment -> target.getEnchantments().containsKey(enchantment));
-            if (enchantmentList.isEmpty()) {
+            for (Enchantment itemEnchantment : target.getEnchantments().keySet()) {
+                for (Enchantment applicableEnchantment : applicableEnchantmentList) {
+                    if (applicableEnchantment == itemEnchantment || applicableEnchantment.conflictsWith(itemEnchantment)) {
+                        applicableEnchantmentList.remove(applicableEnchantment);
+                    }
+                }
+            }
+
+            if (applicableEnchantmentList.isEmpty()) {
                 SlimefunPlugin.getLocal().sendMessage(p, "messages.enchantment-rune.no-enchantment", true);
                 return;
             }
 
-            Enchantment enchantment = enchantmentList.get(ThreadLocalRandom.current().nextInt(enchantmentList.size()));
+            Enchantment enchantment = applicableEnchantmentList.get(ThreadLocalRandom.current().nextInt(applicableEnchantmentList.size()));
             int level = 1;
             if (enchantment.getMaxLevel() != 1) {
                 level = ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel()) + 1;
