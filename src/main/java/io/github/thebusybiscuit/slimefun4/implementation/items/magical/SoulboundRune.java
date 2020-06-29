@@ -48,7 +48,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
 
-                if (!Slimefun.hasUnlocked(p, SlimefunItems.SOULBOUND_RUNE, true)) {
+                if (!Slimefun.hasUnlocked(p, this, true)) {
                     return true;
                 }
 

@@ -129,6 +129,11 @@ messages:
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'
     success: '&aYou have successfully bound this item to your soul! You will keep it when you die.'
+
+  enchantment-rune:
+    fail: '&cYou cannot enchant this item.'
+    no-enchantment: '&cCouldn''t find any applicable enchantment for this item.'
+    success: '&aYou have successfully applied a random applicable enchantment to this item.'
   
   research:
     start: '&7The Ancient Spirits whisper mysterious words into your ear!'
