@@ -426,7 +426,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     private void createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
-        String[] pluginFolders = { "scripts", "generators", "error-reports", "cache/github", "world-settings" };
+        String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);
