@@ -51,11 +51,11 @@ public final class NumberUtils {
 
         int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
-            timeleft += minutes + "m ";
+            timeleft += minutes + "分钟 ";
         }
 
         seconds -= minutes * 60;
-        return timeleft + seconds + "s";
+        return timeleft + seconds + "秒";
     }
 
     public static int getInt(String str, int defaultValue) {
@@ -73,7 +73,7 @@ public final class NumberUtils {
         if (parts.length == 1) {
             return parts[0];
         } else {
-            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "毫秒";
         }
     }
 
