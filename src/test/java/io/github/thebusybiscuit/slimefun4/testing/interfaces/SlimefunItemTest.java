@@ -8,9 +8,9 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 
 @FunctionalInterface
 public interface SlimefunItemTest<T extends SlimefunItem> {

@@ -13,9 +13,9 @@ import org.bukkit.block.BlockFace;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 
 /**
  * A {@link MultiBlock} represents a structure build in a {@link World}.

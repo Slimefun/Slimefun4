@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**

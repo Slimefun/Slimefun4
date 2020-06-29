@@ -38,6 +38,7 @@
 * (1.16+) Added Shroomlights to the fuel list for the Bio Generator
 * (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
 * Added an AoE damage effect to the Explosive Bow
+* Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
 
 #### Changes
 * Coolant Cells now last twice as long

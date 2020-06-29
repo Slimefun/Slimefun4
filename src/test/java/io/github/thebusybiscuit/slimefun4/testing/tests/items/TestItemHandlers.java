@@ -15,12 +15,12 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.testing.mocks.MockItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 
 public class TestItemHandlers {
 
