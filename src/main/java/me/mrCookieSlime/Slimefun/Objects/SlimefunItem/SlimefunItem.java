@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
@@ -430,7 +431,7 @@ public class SlimefunItem implements Placeable {
             else {
                 // Make developers or at least Server admins aware that
                 // an Item is using a deprecated ItemHandler
-                // checkForDeprecations(handler.getClass());
+                checkForDeprecations(handler.getClass());
                 // A bit too spammy atm, will enable it again later
             }
 
@@ -451,6 +452,14 @@ public class SlimefunItem implements Placeable {
      *            The {@link Class} from which to start this operation.
      */
     private void checkForDeprecations(Class<?> c) {
+        if (SlimefunPlugin.getUpdater().getBranch() == SlimefunBranch.DEVELOPMENT) {
+            // This method is currently way too spammy with all the restructuring going on...
+            // Since DEV builds are anyway under "development", things may be relocated.
+            // So we fire these only for stable versions, since devs should update then, so
+            // it's the perfect moment to tell them to act.
+            return;
+        }
+
         // We do not wanna throw an Exception here since this could also mean that
         // we have reached the end of the Class hierarchy
         if (c != null) {
@@ -466,6 +475,7 @@ public class SlimefunItem implements Placeable {
                 }
             }
 
+            // Recursively lookup the super class
             checkForDeprecations(c.getSuperclass());
         }
     }

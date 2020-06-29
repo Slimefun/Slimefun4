@@ -35,7 +35,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
  *
  */
 @Deprecated
-public class SlimefunPlugin {
+public final class SlimefunPlugin {
+    
+    private SlimefunPlugin() {}
 
     public static Config getCfg() {
         return io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin.getCfg();
