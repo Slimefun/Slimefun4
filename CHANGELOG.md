@@ -37,6 +37,7 @@
 * (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
 * (1.16+) Added Shroomlights to the fuel list for the Bio Generator
 * (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
+* Added an AoE damage effect to the Explosive Bow
 
 #### Changes
 * Coolant Cells now last twice as long
