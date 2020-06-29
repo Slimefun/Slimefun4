@@ -270,12 +270,20 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Clear the Slimefun Guide History upon Player Leaving
             new PlayerProfileListener(this);
 
-            // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
+            // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
                 textureService.register(registry.getAllSlimefunItems(), true);
                 permissionsService.register(registry.getAllSlimefunItems(), true);
-                recipeService.refresh();
+
+                // This try/catch should prevent buggy Spigot builds from blocking item loading
+                try {
+                    recipeService.refresh();
+                }
+                catch (Exception | LinkageError x) {
+                    getLogger().log(Level.SEVERE, x, () -> "An Exception occured while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
+                }
+
             }), 0);
 
             // Setting up the command /sf and all subcommands

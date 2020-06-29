@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
 
@@ -90,6 +91,17 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        UUID uuid = e.getPlayer().getUniqueId();
+        activeHooks.remove(uuid);
+        invulnerability.remove(uuid);
+    }
+
+    @EventHandler
+    public void onLeave(PlayerKickEvent e) {
         if (!isEnabled()) {
             return;
         }
