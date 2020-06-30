@@ -35,6 +35,7 @@
 * Added Clay -> Clay blocks recipe to the Electric Press
 * (1.16+) Slimefun guide can now show Smithing Table recipes
 * (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
+* (1.16+) Added Gilded Blackstone recipe to the Ore Crusher
 * (1.16+) Added Shroomlights to the fuel list for the Bio Generator
 * (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
 * Added an AoE damage effect to the Explosive Bow
