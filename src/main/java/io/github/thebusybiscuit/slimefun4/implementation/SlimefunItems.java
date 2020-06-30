@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Color;
@@ -11,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
@@ -296,6 +299,40 @@ public final class SlimefunItems {
         REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforced);
         REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
 
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+            ItemMeta scubaHelmetMeta = SCUBA_HELMET.getItemMeta();
+            List<String> scubaHelmetMetaLore = scubaHelmetMeta.getLore();
+            scubaHelmetMetaLore.addAll(Arrays.asList("",
+                    ChatColors.color( "&7Equip the full set for:"),
+                    ChatColors.color( "&7+Bee Protection")));
+            scubaHelmetMeta.setLore(scubaHelmetMetaLore);
+            SCUBA_HELMET.setItemMeta(scubaHelmetMeta);
+
+            ItemMeta hazmatChestplateItemMeta = HAZMAT_CHESTPLATE.getItemMeta();
+            List<String> hazmatChestplateItemMetaLore = hazmatChestplateItemMeta.getLore();
+            hazmatChestplateItemMetaLore.addAll(Arrays.asList("",
+                    ChatColors.color( "&7Equip the full set for:"),
+                    ChatColors.color( "&7+Bee Protection")));
+            hazmatChestplateItemMeta.setLore(hazmatChestplateItemMetaLore);
+            HAZMAT_CHESTPLATE.setItemMeta(hazmatChestplateItemMeta);
+
+            ItemMeta hazmatLeggingsItemMeta = HAZMAT_LEGGINGS.getItemMeta();
+            List<String> hazmatLeggingsItemMetaLore = hazmatLeggingsItemMeta.getLore();
+            hazmatLeggingsItemMetaLore.addAll(Arrays.asList("",
+                    ChatColors.color( "&7Equip the full set for:"),
+                    ChatColors.color( "&7+Bee Protection")));
+            hazmatLeggingsItemMeta.setLore(hazmatLeggingsItemMetaLore);
+            HAZMAT_LEGGINGS.setItemMeta(hazmatLeggingsItemMeta);
+
+            ItemMeta rubberBootsItemMeta = RUBBER_BOOTS.getItemMeta();
+            List<String> rubberBootsItemMetaLore = rubberBootsItemMeta.getLore();
+            rubberBootsItemMetaLore.addAll(Arrays.asList("",
+                    ChatColors.color( "&7Equip the full set for:"),
+                    ChatColors.color( "&7+Bee Protection")));
+            rubberBootsItemMeta.setLore(rubberBootsItemMetaLore);
+            RUBBER_BOOTS.setItemMeta(rubberBootsItemMeta);
+        }
+
         Map<Enchantment, Integer> gilded = new HashMap<>();
         gilded.put(Enchantment.DURABILITY, 6);
         gilded.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
@@ -329,6 +366,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack ENDER_LUMP_3 = new SlimefunItemStack("ENDER_LUMP_3", Material.GOLD_NUGGET, "&5Ender Lump &7- &eIII", "", "&c&oTier: III");
     public static final SlimefunItemStack MAGICAL_BOOK_COVER = new SlimefunItemStack("MAGICAL_BOOK_COVER", Material.PAPER, "&6Magical Book Cover", "", "&a&oUsed for various Magic Books");
     public static final SlimefunItemStack MAGICAL_ZOMBIE_PILLS = new SlimefunItemStack("MAGICAL_ZOMBIE_PILLS", Material.NETHER_WART, "&6Magical Zombie Pills", "", "&eRight Click &7a Zombified Villager to", "&7instantly cure it from its curse");
+    public static final SlimefunItemStack MAGICAL_GLASS = new SlimefunItemStack("MAGICAL_GLASS", Material.GLASS_PANE, "&6Magical Glass", "", "&a&oUsed for various Magical Gadgets");
     public static final SlimefunItemStack BASIC_CIRCUIT_BOARD = new SlimefunItemStack("BASIC_CIRCUIT_BOARD", Material.ACTIVATOR_RAIL, "&bBasic Circuit Board");
     public static final SlimefunItemStack ADVANCED_CIRCUIT_BOARD = new SlimefunItemStack("ADVANCED_CIRCUIT_BOARD", Material.POWERED_RAIL, "&bAdvanced Circuit Board");
     public static final SlimefunItemStack WHEAT_FLOUR = new SlimefunItemStack("WHEAT_FLOUR", Material.SUGAR, "&fWheat Flour");
@@ -600,6 +638,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack RAINBOW_RUNE = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", new ColoredFireworkStar(Color.FUCHSIA, "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
     public static final SlimefunItemStack LIGHTNING_RUNE = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", new ColoredFireworkStar(Color.fromRGB(255, 255, 95), "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
     public static final SlimefunItemStack SOULBOUND_RUNE = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", new ColoredFireworkStar(Color.fromRGB(47, 0, 117), "&7Ancient Rune &8&l[&5&lSoulbound&8&l]", "&eDrop this rune onto a dropped item to", "&5bind &ethat item to your soul.", " ", "&eIt is advised that you only use this rune", "&eon &6important &eitems.", " ", "&eItems bound to your soul won't drop on death."));
+    public static final SlimefunItemStack ENCHANTMENT_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENCHANTMENT", new ColoredFireworkStar(Color.fromRGB(255, 217, 25), "&7Ancient Rune &8&l[&6&lEnchantment&8&l]", "&eDrop this rune onto a dropped item to", "&6enchant &ethat item with a random enchantment."));
 
     /* Electricity */
     public static final SlimefunItemStack SOLAR_GENERATOR = new SlimefunItemStack("SOLAR_GENERATOR", Material.DAYLIGHT_DETECTOR, "&bSolar Generator", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.GENERATOR), LoreBuilder.powerBuffer(0), LoreBuilder.powerPerSecond(4));

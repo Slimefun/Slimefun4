@@ -268,6 +268,7 @@ public final class ResearchSetup {
         register("magical_zombie_pills", 257, "De-Zombification", 22, SlimefunItems.MAGICAL_ZOMBIE_PILLS);
         register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
         register("climbing_pick", 259, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
+        register("enchantment_rune", 260, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
