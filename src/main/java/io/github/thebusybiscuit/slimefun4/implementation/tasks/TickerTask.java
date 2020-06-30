@@ -106,12 +106,14 @@ public class TickerTask implements Runnable {
                 long chunkTimestamp = System.nanoTime();
                 chunks++;
 
-                for (Location l : BlockStorage.getTickingLocations(chunk)) {
+                Set<Location> locations = BlockStorage.getTickingLocations(chunk);
+
+                for (Location l : locations) {
                     if (l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4)) {
                         tick(l, chunk, bugs);
                     }
                     else {
-                        skippedBlocks += BlockStorage.getTickingLocations(chunk).size();
+                        skippedBlocks += locations.size();
                         skippedChunks.add(chunk);
                         chunks--;
                         break;
