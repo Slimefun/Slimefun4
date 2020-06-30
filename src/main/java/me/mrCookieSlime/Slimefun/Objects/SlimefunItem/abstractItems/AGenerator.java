@@ -153,7 +153,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                         ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
                         if (chargeable) {
-                            if (ChargableBlock.getMaxCharge(l) - charge >= getEnergyProduction()) {
+                            if (getCapacity() - charge >= getEnergyProduction()) {
                                 ChargableBlock.addCharge(l, getEnergyProduction());
                                 progress.put(l, timeleft - 1);
                                 return (double) (charge + getEnergyProduction());

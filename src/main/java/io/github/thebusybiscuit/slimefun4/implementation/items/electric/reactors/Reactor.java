@@ -278,7 +278,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                     if (timeleft > 0) {
                         int produced = getEnergyProduction();
-                        int space = ChargableBlock.getMaxCharge(l) - charge;
+                        int space = getCapacity() - charge;
 
                         if (space >= produced || !ReactorMode.GENERATOR.toString().equals(BlockStorage.getLocationInfo(l, MODE))) {
                             progress.put(l, timeleft - 1);

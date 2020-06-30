@@ -47,6 +47,8 @@ public class BlockStorage {
     private static final String PATH_CHUNKS = "data-storage/Slimefun/stored-chunks/";
     private static final String PATH_INVENTORIES = "data-storage/Slimefun/stored-inventories/";
 
+    private static final EmptyBlockData emptyBlockData = new EmptyBlockData();
+
     private final World world;
     private final Map<Location, Config> storage = new ConcurrentHashMap<>();
     private final Map<Location, BlockMenu> inventories = new ConcurrentHashMap<>();
@@ -362,7 +364,10 @@ public class BlockStorage {
 
     public static void store(Block block, ItemStack item) {
         SlimefunItem sfitem = SlimefunItem.getByItem(item);
-        if (sfitem != null) addBlockInfo(block, "id", sfitem.getID(), true);
+
+        if (sfitem != null) {
+            addBlockInfo(block, "id", sfitem.getID(), true);
+        }
     }
 
     public static void store(Block block, String item) {
@@ -393,7 +398,7 @@ public class BlockStorage {
     public static Config getLocationInfo(Location l) {
         BlockStorage storage = getStorage(l.getWorld());
         Config cfg = storage.storage.get(l);
-        return cfg == null ? new BlockInfoConfig() : cfg;
+        return cfg == null ? emptyBlockData : cfg;
     }
 
     private static Map<String, String> parseJSON(String json) {
@@ -514,7 +519,11 @@ public class BlockStorage {
 
     public static void setBlockInfo(Location l, String json, boolean updateTicker) {
         Config blockInfo = json == null ? new BlockInfoConfig() : parseBlockInfo(l, json);
-        if (blockInfo == null) return;
+
+        if (blockInfo == null) {
+            return;
+        }
+
         setBlockInfo(l, blockInfo, updateTicker);
     }
 
@@ -803,7 +812,7 @@ public class BlockStorage {
     public static Config getChunkInfo(World world, int x, int z) {
         try {
             if (!isWorldRegistered(world.getName())) {
-                return new BlockInfoConfig();
+                return emptyBlockData;
             }
 
             String key = serializeChunk(world, x, z);
@@ -818,7 +827,7 @@ public class BlockStorage {
         }
         catch (Exception e) {
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to parse ChunkInfo for Slimefun " + SlimefunPlugin.getVersion());
-            return new BlockInfoConfig();
+            return emptyBlockData;
         }
     }
 
