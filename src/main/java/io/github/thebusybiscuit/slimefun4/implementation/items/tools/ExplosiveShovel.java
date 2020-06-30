@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author Linox
  * 
  * @see ExplosivePickaxe
+ * @see ExplosiveTool
  *
  */
 public class ExplosiveShovel extends ExplosiveTool {
@@ -36,14 +37,8 @@ public class ExplosiveShovel extends ExplosiveTool {
             SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
 
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+            b.breakNaturally(item);
 
-            for (ItemStack drop : b.getDrops(getItem())) {
-                if (drop != null) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), drop);
-                }
-            }
-
-            b.setType(Material.AIR);
             damageItem(p, item);
         }
     }
