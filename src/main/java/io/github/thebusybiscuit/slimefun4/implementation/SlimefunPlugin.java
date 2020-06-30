@@ -43,6 +43,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
@@ -126,6 +127,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
+    private final SlimefunProfiler profiler = new SlimefunProfiler();
     private LocalizationService local;
 
     private GPSNetwork gpsNetwork;
@@ -610,6 +612,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     public static SlimefunCommand getCommand() {
         return instance.command;
+    }
+
+    public static SlimefunProfiler getProfiler() {
+        return instance.profiler;
     }
 
     /**

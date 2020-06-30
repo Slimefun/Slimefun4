@@ -166,7 +166,7 @@ public class CargoNet extends ChestTerminalNetwork {
                 destinations.addAll(output16);
             }
 
-            Slimefun.runSync(() -> run(b, destinations, output));
+            run(b, destinations, output);
         }
     }
 

@@ -41,7 +41,7 @@ public class CargoManager extends SlimefunItem {
 
             @Override
             public boolean isSynchronized() {
-                return false;
+                return true;
             }
 
         }, new BlockUseHandler() {

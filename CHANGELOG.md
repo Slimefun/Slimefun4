@@ -40,6 +40,7 @@
 * (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
 * Added an AoE damage effect to the Explosive Bow
 * Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
+* Added a proper lag profiler
 
 #### Changes
 * Coolant Cells now last twice as long
@@ -54,6 +55,7 @@
 * Small performance improvements to the Cargo Net
 * Slimefun no longer supports CraftBukkit
 * Item Energy is now also stored persistently via NBT
+* General performance improvements for ticking blocks
 
 #### Fixes
 * Fixed #2005
@@ -72,6 +74,9 @@
 * Fixed Grappling hooks making Bat sounds
 * Fixed #1959
 * Fixed Melon Juice requiring Melons instead of Melon Slices
+* Fixed Cargo networks not showing up in /sf timings
+* Fixed /sf timings reporting slightly inaccurate timings
+* Fixed concurrency-related issues with the profiling
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

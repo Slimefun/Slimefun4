@@ -69,6 +69,10 @@ public final class NumberUtils {
     }
 
     public static String getAsMillis(long nanoseconds) {
+        if (nanoseconds == 0) {
+            return "0ms";
+        }
+
         String number = DECIMAL_FORMAT.format(nanoseconds / 1000000.0);
         String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
 
@@ -76,7 +80,7 @@ public final class NumberUtils {
             return parts[0];
         }
         else {
-            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+            return parts[0] + ',' + parts[1] + "ms";
         }
     }
 
