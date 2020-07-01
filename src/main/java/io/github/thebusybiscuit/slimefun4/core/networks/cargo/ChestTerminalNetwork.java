@@ -269,6 +269,7 @@ abstract class ChestTerminalNetwork extends Network {
             ItemStackAndInteger item = items.get(index);
 
             ItemStack stack = item.getItem().clone();
+            stack.setAmount(1);
             ItemMeta im = stack.getItemMeta();
             List<String> lore = new ArrayList<>();
             lore.add("");
@@ -366,7 +367,7 @@ abstract class ChestTerminalNetwork extends Network {
                 }
 
                 if (add) {
-                    items.add(new ItemStackAndInteger(new CustomItem(is, 1), is.getAmount() + stored));
+                    items.add(new ItemStackAndInteger(is, is.getAmount() + stored));
                 }
             }
         }
@@ -378,19 +379,19 @@ abstract class ChestTerminalNetwork extends Network {
         }
     }
 
-    private void filter(ItemStack is, List<ItemStackAndInteger> items, Location l) {
-        if (is != null && CargoUtils.matchesFilter(l.getBlock(), is)) {
+    private void filter(ItemStack stack, List<ItemStackAndInteger> items, Location node) {
+        if (stack != null && CargoUtils.matchesFilter(node.getBlock(), stack)) {
             boolean add = true;
 
             for (ItemStackAndInteger item : items) {
-                if (SlimefunUtils.isItemSimilar(is, item.getItem(), true)) {
+                if (SlimefunUtils.isItemSimilar(stack, item.getItem(), true)) {
                     add = false;
-                    item.add(is.getAmount());
+                    item.add(stack.getAmount());
                 }
             }
 
             if (add) {
-                items.add(new ItemStackAndInteger(new CustomItem(is, 1), is.getAmount()));
+                items.add(new ItemStackAndInteger(stack, stack.getAmount()));
             }
         }
     }
