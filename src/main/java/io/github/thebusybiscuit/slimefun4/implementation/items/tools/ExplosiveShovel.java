@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 import java.util.List;
 
 import org.bukkit.Effect;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
