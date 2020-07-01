@@ -52,10 +52,10 @@
 * Crafting Tin cans now produces 8 items instead of 4
 * Multi Tool lore now says "Crouch" instead of "Hold Shift"
 * items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
-* Small performance improvements to the Cargo Net
 * Slimefun no longer supports CraftBukkit
 * Item Energy is now also stored persistently via NBT
 * General performance improvements for ticking blocks
+* Performance improvements to the Cargo Net
 
 #### Fixes
 * Fixed #2005

@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
@@ -30,7 +30,7 @@ public class TickerTask implements Runnable {
     // These are "Queues" of blocks that need to be removed or moved
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
-    private final Map<Location, Integer> buggedBlocks = new ConcurrentHashMap<>();
+    private final Map<BlockPosition, Integer> bugs = new ConcurrentHashMap<>();
 
     private boolean halted = false;
     private boolean running = false;
@@ -48,14 +48,11 @@ public class TickerTask implements Runnable {
         running = true;
         SlimefunPlugin.getProfiler().start();
 
-        Map<Location, Integer> bugs = new HashMap<>(buggedBlocks);
-        buggedBlocks.clear();
-
-        Map<Location, Boolean> removals = new HashMap<>(deletionQueue);
-
-        for (Map.Entry<Location, Boolean> entry : removals.entrySet()) {
+        Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
+        while (removals.hasNext()) {
+            Map.Entry<Location, Boolean> entry = removals.next();
             BlockStorage._integrated_removeBlockInfo(entry.getKey(), entry.getValue());
-            deletionQueue.remove(entry.getKey());
+            removals.remove();
         }
 
         if (!halted) {
@@ -70,7 +67,7 @@ public class TickerTask implements Runnable {
 
                     if (world != null && world.isChunkLoaded(x, z)) {
                         for (Location l : locations) {
-                            tick(l, bugs);
+                            tick(l);
                         }
                     }
                 }
@@ -80,11 +77,12 @@ public class TickerTask implements Runnable {
             }
         }
 
-        for (Map.Entry<Location, Location> entry : movingQueue.entrySet()) {
+        Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
+        while (moves.hasNext()) {
+            Map.Entry<Location, Location> entry = moves.next();
             BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
+            moves.remove();
         }
-
-        movingQueue.clear();
 
         Iterator<BlockTicker> iterator = tickers.iterator();
         while (iterator.hasNext()) {
@@ -96,7 +94,7 @@ public class TickerTask implements Runnable {
         SlimefunPlugin.getProfiler().stop();
     }
 
-    private void tick(Location l, Map<Location, Integer> bugs) {
+    private void tick(Location l) {
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
@@ -109,53 +107,53 @@ public class TickerTask implements Runnable {
                 if (item.getBlockTicker().isSynchronized()) {
                     // We are ignoring the timestamp from above because synchronized actions
                     // are always ran with a 50ms delay (1 game tick)
-                    Slimefun.runSync(() -> tickBlock(bugs, l, b, item, data, System.nanoTime()));
+                    Slimefun.runSync(() -> tickBlock(l, b, item, data, System.nanoTime()));
                 }
                 else {
-                    tickBlock(bugs, l, b, item, data, timestamp);
+                    tickBlock(l, b, item, data, timestamp);
                 }
 
                 tickers.add(item.getBlockTicker());
             }
             catch (Exception x) {
-                int errors = bugs.getOrDefault(l, 0);
-                reportErrors(l, item, x, errors);
+                reportErrors(l, item, x);
             }
         }
     }
 
-    private void tickBlock(Map<Location, Integer> bugs, Location l, Block b, SlimefunItem item, Config data, long timestamp) {
+    private void tickBlock(Location l, Block b, SlimefunItem item, Config data, long timestamp) {
         try {
             item.getBlockTicker().tick(b, item, data);
         }
         catch (Exception | LinkageError x) {
-            int errors = bugs.getOrDefault(l, 0);
-            reportErrors(l, item, x, errors);
+            reportErrors(l, item, x);
         }
         finally {
             SlimefunPlugin.getProfiler().closeEntry(l, item, timestamp);
         }
     }
 
-    private void reportErrors(Location l, SlimefunItem item, Throwable x, int errors) {
-        errors++;
+    private void reportErrors(Location l, SlimefunItem item, Throwable x) {
+        BlockPosition position = new BlockPosition(l);
+        int errors = bugs.getOrDefault(position, 0) + 1;
 
         if (errors == 1) {
             // Generate a new Error-Report
             new ErrorReport(x, l, item);
-            buggedBlocks.put(l, errors);
+            bugs.put(position, errors);
         }
         else if (errors == 4) {
             Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getID() });
             Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
             Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
             Slimefun.getLogger().log(Level.SEVERE, " ");
+            bugs.remove(position);
 
             BlockStorage._integrated_removeBlockInfo(l, true);
             Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
         }
         else {
-            buggedBlocks.put(l, errors);
+            bugs.put(position, errors);
         }
     }
 

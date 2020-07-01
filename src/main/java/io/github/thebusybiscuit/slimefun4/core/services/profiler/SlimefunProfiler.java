@@ -1,12 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,30 +10,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is responsible for
@@ -52,9 +40,6 @@ import net.md_5.bungee.api.chat.TextComponent;
  *
  */
 public class SlimefunProfiler {
-
-    // The threshold at which a Block or Chunk is significant enough to appear in /sf timings
-    private static final int VISIBILITY_THRESHOLD = 275_000;
 
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
     private final AtomicBoolean running = new AtomicBoolean(false);
@@ -145,11 +130,14 @@ public class SlimefunProfiler {
 
             totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
 
-            Iterator<CommandSender> iterator = requests.iterator();
+            if (!requests.isEmpty()) {
+                PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
+                Iterator<CommandSender> iterator = requests.iterator();
 
-            while (iterator.hasNext()) {
-                sendSummary(iterator.next());
-                iterator.remove();
+                while (iterator.hasNext()) {
+                    summary.send(iterator.next());
+                    iterator.remove();
+                }
             }
         });
 
@@ -166,7 +154,7 @@ public class SlimefunProfiler {
         requests.add(sender);
     }
 
-    private Map<String, Long> getByItem() {
+    protected Map<String, Long> getByItem() {
         Map<String, Long> map = new HashMap<>();
 
         for (Map.Entry<ProfiledBlock, Long> entry : timings.entrySet()) {
@@ -176,7 +164,7 @@ public class SlimefunProfiler {
         return map;
     }
 
-    private Map<String, Long> getByChunk() {
+    protected Map<String, Long> getByChunk() {
         Map<String, Long> map = new HashMap<>();
 
         for (Map.Entry<ProfiledBlock, Long> entry : timings.entrySet()) {
@@ -190,7 +178,7 @@ public class SlimefunProfiler {
         return map;
     }
 
-    private int getBlocksInChunk(String chunk) {
+    protected int getBlocksInChunk(String chunk) {
         int blocks = 0;
 
         for (ProfiledBlock block : timings.keySet()) {
@@ -206,7 +194,7 @@ public class SlimefunProfiler {
         return blocks;
     }
 
-    private int getBlocks(String id) {
+    protected int getBlocksOfId(String id) {
         int blocks = 0;
 
         for (ProfiledBlock block : timings.keySet()) {
@@ -218,75 +206,21 @@ public class SlimefunProfiler {
         return blocks;
     }
 
-    private void sendSummary(CommandSender sender) {
-        Map<String, Long> chunks = getByChunk();
-        Map<String, Long> machines = getByItem();
+    /**
+     * This method returns the current {@link PerformanceRating}.
+     * 
+     * @return The current performance grade
+     */
+    public PerformanceRating getPerformance() {
+        float percentage = Math.round(((((totalElapsedTime / 1000000.0) * 100.0F) / PerformanceSummary.MAX_TICK_DURATION) * 100.0F) / 100.0F);
 
-        sender.sendMessage(ChatColors.color("&2== &aSlimefun Lag Profiler &2=="));
-        sender.sendMessage(ChatColors.color("&6Running: &e&l" + String.valueOf(!SlimefunPlugin.getTickerTask().isHalted()).toUpperCase(Locale.ROOT)));
-        sender.sendMessage("");
-        sender.sendMessage(ChatColors.color("&6Impact: &e" + NumberUtils.getAsMillis(totalElapsedTime)));
-        sender.sendMessage(ChatColors.color("&6Ticked Chunks: &e" + chunks.size()));
-        sender.sendMessage(ChatColors.color("&6Ticked Blocks: &e" + timings.size()));
-        sender.sendMessage("");
-        sender.sendMessage(ChatColors.color("&6Ticking Machines:"));
-
-        summarizeTimings(sender, entry -> {
-            int count = getBlocks(entry.getKey());
-            String time = NumberUtils.getAsMillis(entry.getValue());
-            String average = NumberUtils.getAsMillis(entry.getValue() / count);
-
-            return entry.getKey() + " - " + count + "x (" + time + ", " + average + " avg/block)";
-        }, machines.entrySet().stream());
-
-        sender.sendMessage("");
-        sender.sendMessage(ChatColors.color("&6Ticking Chunks:"));
-
-        summarizeTimings(sender, entry -> {
-            int count = getBlocksInChunk(entry.getKey());
-            String time = NumberUtils.getAsMillis(entry.getValue());
-
-            return entry.getKey() + " - " + count + "x (" + time + ")";
-        }, chunks.entrySet().stream());
-    }
-
-    private void summarizeTimings(CommandSender sender, Function<Map.Entry<String, Long>, String> formatter, Stream<Map.Entry<String, Long>> stream) {
-        List<Entry<String, Long>> results = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
-
-        if (sender instanceof Player) {
-            TextComponent component = new TextComponent("   Hover for more details...");
-            component.setColor(net.md_5.bungee.api.ChatColor.GRAY);
-            component.setItalic(true);
-            StringBuilder builder = new StringBuilder();
-            int hidden = 0;
-
-            for (Map.Entry<String, Long> entry : results) {
-                if (entry.getValue() > VISIBILITY_THRESHOLD) {
-                    builder.append("\n&e").append(formatter.apply(entry));
-                }
-                else {
-                    hidden++;
-                }
+        for (PerformanceRating rating : PerformanceRating.values()) {
+            if (rating.test(percentage)) {
+                return rating;
             }
-
-            builder.append("\n\n&c+ &6").append(hidden).append(" more");
-            component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColors.color(builder.toString()))));
-            sender.spigot().sendMessage(component);
         }
-        else {
-            int hidden = 0;
 
-            for (Map.Entry<String, Long> entry : results) {
-                if (entry.getValue() > VISIBILITY_THRESHOLD) {
-                    sender.sendMessage("  " + ChatColor.stripColor(formatter.apply(entry)));
-                }
-                else {
-                    hidden++;
-                }
-            }
-
-            sender.sendMessage("+ " + hidden + " more");
-        }
+        return PerformanceRating.UNKNOWN;
     }
 
     public String getTime() {

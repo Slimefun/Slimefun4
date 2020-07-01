@@ -73,7 +73,7 @@ public final class NumberUtils {
             return "0ms";
         }
 
-        String number = DECIMAL_FORMAT.format(nanoseconds / 1000000.0);
+        String number = roundDecimalNumber(nanoseconds / 1000000.0);
         String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
 
         if (parts.length == 1) {
@@ -82,6 +82,10 @@ public final class NumberUtils {
         else {
             return parts[0] + ',' + parts[1] + "ms";
         }
+    }
+
+    public static String roundDecimalNumber(double number) {
+        return DECIMAL_FORMAT.format(number);
     }
 
     public static long getLong(Long value, long defaultValue) {
