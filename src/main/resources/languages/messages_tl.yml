@@ -4,12 +4,12 @@ commands:
   cheat: Pinapayagan kang dayain ang mga Aytem sa Slimefun.
   give: Nagbibigay ito ng mga Aytem sa Slimefun.
   guide: Bibigyan ka nito ng Simefun Guide.
-  timings: Lag-Info patungkol sa iyong server.
+  timings: Lag-info patungkol sa iyong server.
   teleporter: Tingnan ang mga Waypoints ng mga Players.
-  versions: Ipapakita nito ang mga na-install na Addon sa Slimefun.
+  versions: Ipapakita nito ang mga na-install na mga Addon sa Slimefun.
   search: Hahanapin sa Guide ang binigyan na katawagan.
-  open_guide: Bubuksan nito ang Slimefun's Guide na wala ang libro.
-  stats: Ipapakita ang hindi karamihan na Estatistika ng Player.
+  open_guide: Bubuksan nito ang Slimefun's guide na wala ang libro.
+  stats: Ipapakita ang hindi karamihan na estatistika ng Player.
   research:
     description: Iaunlock/Irereset ang mga Researches para sa Player.
     reset: "&cNareset mo ang Knowledge para kay %player%."
