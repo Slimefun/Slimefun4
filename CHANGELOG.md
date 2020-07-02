@@ -72,6 +72,7 @@
 * Fixed Grappling hooks making Bat sounds
 * Fixed #1959
 * Fixed Melon Juice requiring Melons instead of Melon Slices
+* Fixed #2066
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
