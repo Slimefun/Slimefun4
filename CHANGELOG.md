@@ -77,6 +77,7 @@
 * Fixed Cargo networks not showing up in /sf timings
 * Fixed /sf timings reporting slightly inaccurate timings
 * Fixed concurrency-related issues with the profiling
+* Fixed #2066
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

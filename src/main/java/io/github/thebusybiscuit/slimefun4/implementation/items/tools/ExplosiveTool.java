@@ -53,23 +53,27 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
             @Override
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
                 if (isItem(item)) {
-                    if (Slimefun.hasUnlocked(e.getPlayer(), ExplosiveTool.this, true)) {
-                        e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
-                        e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
+                    Player p = e.getPlayer();
+                    if (Slimefun.hasUnlocked(p, ExplosiveTool.this, true)) {
+                        Block b = e.getBlock();
 
-                        List<Block> blocks = findBlocks(e.getBlock());
+                        b.getWorld().createExplosion(b.getLocation(), 0.0F);
+                        b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
+                        List<Block> blocks = findBlocks(b);
                         if (callExplosionEvent.getValue().booleanValue()) {
-                            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(e.getBlock(), blocks, 0);
+                            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
                             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
 
                             if (!blockExplodeEvent.isCancelled()) {
-                                blockExplodeEvent.blockList().forEach(b -> breakBlock(e.getPlayer(), item, b, fortune, drops));
+                                for (Block block : blockExplodeEvent.blockList()) {
+                                    breakBlock(p, item, block, fortune, drops);
+                                }
                             }
                         }
                         else {
-                            for (Block b : blocks) {
-                                breakBlock(e.getPlayer(), item, b, fortune, drops);
+                            for (Block block : blocks) {
+                                breakBlock(p, item, block, fortune, drops);
                             }
                         }
                     }
