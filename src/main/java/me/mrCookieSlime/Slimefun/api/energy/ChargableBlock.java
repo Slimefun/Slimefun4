@@ -24,7 +24,8 @@ public final class ChargableBlock {
             return false;
         }
 
-        return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(BlockStorage.checkID(l));
+        String id = BlockStorage.checkID(l);
+        return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(id);
     }
 
     public static int getCharge(Block b) {
@@ -53,7 +54,10 @@ public final class ChargableBlock {
         }
         else {
             int capacity = getMaxCharge(l);
-            if (charge > capacity) charge = capacity;
+
+            if (charge > capacity) {
+                charge = capacity;
+            }
         }
 
         if (charge != getCharge(l)) {
@@ -76,8 +80,9 @@ public final class ChargableBlock {
     }
 
     public static int addCharge(Location l, int charge) {
+        int capacity = getMaxCharge(l);
         int energy = getCharge(l);
-        int space = getMaxCharge(l) - energy;
+        int space = capacity - energy;
         int rest = charge;
 
         if (space > 0 && charge > 0) {
@@ -87,7 +92,7 @@ public final class ChargableBlock {
             }
             else {
                 rest = charge - space;
-                setCharge(l, getMaxCharge(l));
+                setCharge(l, capacity);
             }
 
             if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l))) {
@@ -112,13 +117,13 @@ public final class ChargableBlock {
             int capacity = getMaxCharge(b);
 
             if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
-                if (charge < (int) (capacity * 0.25D)) {
+                if (charge < (int) (capacity * 0.25)) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
                 }
-                else if (charge < (int) (capacity * 0.5D)) {
+                else if (charge < (int) (capacity * 0.5)) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
                 }
-                else if (charge < (int) (capacity * 0.75D)) {
+                else if (charge < (int) (capacity * 0.75)) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
                 }
                 else {
@@ -134,22 +139,14 @@ public final class ChargableBlock {
 
     public static int getMaxCharge(Location l) {
         Config cfg = BlockStorage.getLocationInfo(l);
+        String id = cfg.getString("id");
 
-        if (!cfg.contains("id")) {
+        if (id == null) {
             BlockStorage.clearBlockInfo(l);
             return 0;
         }
 
-        String str = cfg.getString("energy-capacity");
-
-        if (str != null) {
-            return Integer.parseInt(str);
-        }
-        else {
-            int capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().get(cfg.getString("id"));
-            BlockStorage.addBlockInfo(l, "energy-capacity", String.valueOf(capacity), false);
-            return capacity;
-        }
+        return SlimefunPlugin.getRegistry().getEnergyCapacities().getOrDefault(id, 0);
     }
 
 }

@@ -211,7 +211,7 @@ public class EnergyNet extends Network {
         Set<Location> exploded = new HashSet<>();
 
         for (Location source : generators) {
-            long timestamp = System.currentTimeMillis();
+            long timestamp = SlimefunPlugin.getProfiler().newEntry();
             SlimefunItem item = BlockStorage.check(source);
 
             if (item != null) {
@@ -247,7 +247,7 @@ public class EnergyNet extends Network {
                     new ErrorReport(t, source, item);
                 }
 
-                SlimefunPlugin.getTickerTask().addBlockTimings(source, System.currentTimeMillis() - timestamp);
+                SlimefunPlugin.getProfiler().closeEntry(source, item, timestamp);
             }
             else {
                 // This block seems to be gone now, better remove it to be extra safe

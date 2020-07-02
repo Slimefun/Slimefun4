@@ -40,6 +40,7 @@
 * (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
 * Added an AoE damage effect to the Explosive Bow
 * Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
+* Added a proper lag profiler
 
 #### Changes
 * Coolant Cells now last twice as long
@@ -51,9 +52,10 @@
 * Crafting Tin cans now produces 8 items instead of 4
 * Multi Tool lore now says "Crouch" instead of "Hold Shift"
 * items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
-* Small performance improvements to the Cargo Net
 * Slimefun no longer supports CraftBukkit
 * Item Energy is now also stored persistently via NBT
+* General performance improvements for ticking blocks
+* Performance improvements to the Cargo Net
 
 #### Fixes
 * Fixed #2005
@@ -72,6 +74,9 @@
 * Fixed Grappling hooks making Bat sounds
 * Fixed #1959
 * Fixed Melon Juice requiring Melons instead of Melon Slices
+* Fixed Cargo networks not showing up in /sf timings
+* Fixed /sf timings reporting slightly inaccurate timings
+* Fixed concurrency-related issues with the profiling
 * Fixed #2066
 
 ## Release Candidate 13 (16 Jun 2020)
