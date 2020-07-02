@@ -56,6 +56,7 @@
 * Item Energy is now also stored persistently via NBT
 * General performance improvements for ticking blocks
 * Performance improvements to the Cargo Net
+* Some performance improvements to the Energy Net
 
 #### Fixes
 * Fixed #2005

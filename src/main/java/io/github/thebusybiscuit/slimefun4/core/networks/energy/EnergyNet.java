@@ -141,68 +141,71 @@ public class EnergyNet extends Network {
             double supply = DoubleHandler.fixDouble(tickAllGenerators() + tickAllCapacitors());
             double demand = 0;
 
-            int available = (int) supply;
+            int availableEnergy = (int) supply;
 
-            for (Location destination : consumers) {
-                int capacity = ChargableBlock.getMaxCharge(destination);
-                int charge = ChargableBlock.getCharge(destination);
+            for (Location machine : consumers) {
+                int capacity = ChargableBlock.getMaxCharge(machine);
+                int charge = ChargableBlock.getCharge(machine);
 
                 if (charge < capacity) {
-                    int rest = capacity - charge;
-                    demand += rest;
+                    int availableSpace = capacity - charge;
+                    demand += availableSpace;
 
-                    if (available > 0) {
-                        if (available > rest) {
-                            ChargableBlock.setUnsafeCharge(destination, capacity, false);
-                            available = available - rest;
+                    if (availableEnergy > 0) {
+                        if (availableEnergy > availableSpace) {
+                            ChargableBlock.setUnsafeCharge(machine, capacity, false);
+                            availableEnergy -= availableSpace;
                         }
                         else {
-                            ChargableBlock.setUnsafeCharge(destination, charge + available, false);
-                            available = 0;
+                            ChargableBlock.setUnsafeCharge(machine, charge + availableEnergy, false);
+                            availableEnergy = 0;
                         }
                     }
                 }
             }
 
-            for (Location battery : storage) {
-                if (available > 0) {
-                    int capacity = ChargableBlock.getMaxCharge(battery);
+            storeExcessEnergy(availableEnergy);
+            updateHologram(b, supply, demand);
+        }
+    }
 
+    private void storeExcessEnergy(int available) {
+        for (Location capacitor : storage) {
+            if (available > 0) {
+                int capacity = ChargableBlock.getMaxCharge(capacitor);
+
+                if (available > capacity) {
+                    ChargableBlock.setUnsafeCharge(capacitor, capacity, true);
+                    available -= capacity;
+                }
+                else {
+                    ChargableBlock.setUnsafeCharge(capacitor, available, true);
+                    available = 0;
+                }
+            }
+            else {
+                ChargableBlock.setUnsafeCharge(capacitor, 0, true);
+            }
+        }
+
+        for (Location generator : generators) {
+            int capacity = ChargableBlock.getMaxCharge(generator);
+
+            if (capacity > 0) {
+                if (available > 0) {
                     if (available > capacity) {
-                        ChargableBlock.setUnsafeCharge(battery, capacity, true);
+                        ChargableBlock.setUnsafeCharge(generator, capacity, false);
                         available = available - capacity;
                     }
                     else {
-                        ChargableBlock.setUnsafeCharge(battery, available, true);
+                        ChargableBlock.setUnsafeCharge(generator, available, false);
                         available = 0;
                     }
                 }
                 else {
-                    ChargableBlock.setUnsafeCharge(battery, 0, true);
+                    ChargableBlock.setUnsafeCharge(generator, 0, false);
                 }
             }
-
-            for (Location source : generators) {
-                if (ChargableBlock.isChargable(source)) {
-                    if (available > 0) {
-                        int capacity = ChargableBlock.getMaxCharge(source);
-
-                        if (available > capacity) {
-                            ChargableBlock.setUnsafeCharge(source, capacity, false);
-                            available = available - capacity;
-                        }
-                        else {
-                            ChargableBlock.setUnsafeCharge(source, available, false);
-                            available = 0;
-                        }
-                    }
-                    else {
-                        ChargableBlock.setUnsafeCharge(source, 0, false);
-                    }
-                }
-            }
-
-            updateHologram(b, supply, demand);
         }
     }
 
@@ -212,11 +215,10 @@ public class EnergyNet extends Network {
 
         for (Location source : generators) {
             long timestamp = SlimefunPlugin.getProfiler().newEntry();
-            SlimefunItem item = BlockStorage.check(source);
+            Config config = BlockStorage.getLocationInfo(source);
+            SlimefunItem item = SlimefunItem.getByID(config.getString("id"));
 
             if (item != null) {
-                Config config = BlockStorage.getLocationInfo(source);
-
                 try {
                     GeneratorTicker generator = item.getEnergyTicker();
 
@@ -263,8 +265,8 @@ public class EnergyNet extends Network {
     private double tickAllCapacitors() {
         double supply = 0;
 
-        for (Location battery : storage) {
-            supply += ChargableBlock.getCharge(battery);
+        for (Location capacitor : storage) {
+            supply += ChargableBlock.getCharge(capacitor);
         }
 
         return supply;
