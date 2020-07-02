@@ -3,10 +3,12 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -57,13 +59,24 @@ abstract class ChestTerminalNetwork extends Network {
     // This represents a Queue of requests to handle
     private final Queue<ItemRequest> itemRequests = new LinkedList<>();
 
+    // This is a cache for the BlockFace a node is facing, so we don't need to request the
+    // BlockData each time we visit a node
+    protected Map<Location, BlockFace> connectorCache = new HashMap<>();
+
     protected ChestTerminalNetwork(Location regulator) {
         super(SlimefunPlugin.getNetworkManager(), regulator);
     }
 
-    protected static Optional<Block> getAttachedBlock(Block block) {
+    protected Optional<Block> getAttachedBlock(Block block) {
         if (block.getType() == Material.PLAYER_WALL_HEAD) {
+            BlockFace cached = connectorCache.get(block.getLocation());
+
+            if (cached != null) {
+                return Optional.of(block.getRelative(cached));
+            }
+
             BlockFace face = ((Directional) block.getBlockData()).getFacing().getOppositeFace();
+            connectorCache.put(block.getLocation(), face);
             return Optional.of(block.getRelative(face));
         }
 

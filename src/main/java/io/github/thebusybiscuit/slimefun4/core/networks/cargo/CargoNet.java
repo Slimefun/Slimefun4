@@ -112,6 +112,8 @@ public class CargoNet extends ChestTerminalNetwork {
 
     @Override
     public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+        connectorCache.remove(l);
+
         if (from == NetworkComponent.TERMINUS) {
             inputNodes.remove(l);
             outputNodes.remove(l);
@@ -121,7 +123,8 @@ public class CargoNet extends ChestTerminalNetwork {
         }
 
         if (to == NetworkComponent.TERMINUS) {
-            switch (BlockStorage.checkID(l)) {
+            String id = BlockStorage.checkID(l);
+            switch (id) {
             case "CARGO_NODE_INPUT":
                 inputNodes.add(l);
                 break;
@@ -175,8 +178,12 @@ public class CargoNet extends ChestTerminalNetwork {
             Map<Location, Integer> inputs = mapInputNodes(chestTerminalInputs);
             Map<Integer, List<Location>> outputs = mapOutputNodes(chestTerminalOutputs);
 
+            if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
+                display();
+            }
+
             SlimefunPlugin.getProfiler().newEntry();
-            Slimefun.runSync(() -> run(b, inputs, outputs, chestTerminalInputs, chestTerminalOutputs));
+            Slimefun.runSync(() -> run(inputs, outputs, chestTerminalInputs, chestTerminalOutputs));
         }
     }
 
@@ -234,12 +241,8 @@ public class CargoNet extends ChestTerminalNetwork {
         return output;
     }
 
-    private void run(Block b, Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
+    private void run(Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
         long timestamp = System.nanoTime();
-
-        if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
-            display();
-        }
 
         // Chest Terminal Code
         if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
@@ -268,6 +271,7 @@ public class CargoNet extends ChestTerminalNetwork {
 
     private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
         ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget);
+
         if (slot == null) {
             return;
         }
