@@ -28,11 +28,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is responsible for
- * monitoring that task.
+ * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
+ * responsible for monitoring that task.
  * It collects timings data for any ticked {@link Block} and the corresponding {@link SlimefunItem}.
  * This allows developers to identify laggy {@link SlimefunItem SlimefunItems} or {@link SlimefunAddon SlimefunAddons}.
- * But it also enabled Server Admins to locate lag-inducing areas on the {@link Server}.
+ * But it also enables Server Admins to locate lag-inducing areas on the {@link Server}.
  * 
  * @author TheBusyBiscuit
  * 
@@ -151,6 +151,8 @@ public class SlimefunProfiler {
      *            The {@link CommandSender} who shall receive this summary.
      */
     public void requestSummary(CommandSender sender) {
+        Validate.notNull(sender, "Cannot request a summary for null");
+
         requests.add(sender);
     }
 
@@ -206,13 +208,19 @@ public class SlimefunProfiler {
         return blocks;
     }
 
+    protected float getPercentageOfTick() {
+        float millis = totalElapsedTime / 1000000.0F;
+        float fraction = (millis * 100.0F) / PerformanceSummary.MAX_TICK_DURATION;
+        return Math.round((fraction * 100.0F) / 100.0F);
+    }
+
     /**
      * This method returns the current {@link PerformanceRating}.
      * 
      * @return The current performance grade
      */
     public PerformanceRating getPerformance() {
-        float percentage = Math.round(((((totalElapsedTime / 1000000.0) * 100.0F) / PerformanceSummary.MAX_TICK_DURATION) * 100.0F) / 100.0F);
+        float percentage = getPercentageOfTick();
 
         for (PerformanceRating rating : PerformanceRating.values()) {
             if (rating.test(percentage)) {

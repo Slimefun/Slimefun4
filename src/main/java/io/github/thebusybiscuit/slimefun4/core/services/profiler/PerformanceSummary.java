@@ -31,6 +31,7 @@ class PerformanceSummary {
     private final PerformanceRating rating;
     private final long totalElapsedTime;
     private final int totalTickedBlocks;
+    private final float percentage;
 
     private final Map<String, Long> chunks;
     private final Map<String, Long> items;
@@ -38,6 +39,7 @@ class PerformanceSummary {
     PerformanceSummary(SlimefunProfiler profiler, long totalElapsedTime, int totalTickedBlocks) {
         this.profiler = profiler;
         this.rating = profiler.getPerformance();
+        this.percentage = profiler.getPercentageOfTick();
         this.totalElapsedTime = totalElapsedTime;
         this.totalTickedBlocks = totalTickedBlocks;
 
@@ -48,13 +50,13 @@ class PerformanceSummary {
     public void send(CommandSender sender) {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "===== Slimefun Lag Profiler =====");
-        sender.sendMessage(ChatColors.color("&6Total: &e" + NumberUtils.getAsMillis(totalElapsedTime)));
-        sender.sendMessage(ChatColors.color("&6Performance: " + getPerformanceRating()));
-        sender.sendMessage(ChatColors.color("&6Active Chunks: &e" + chunks.size()));
-        sender.sendMessage(ChatColors.color("&6Active Blocks: &e" + totalTickedBlocks));
+        sender.sendMessage(ChatColor.GOLD + "Total: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
+        sender.sendMessage(ChatColor.GOLD + "Performance: " + getPerformanceRating());
+        sender.sendMessage(ChatColor.GOLD + "Active Chunks: " + ChatColor.YELLOW + chunks.size());
+        sender.sendMessage(ChatColor.GOLD + "Active Blocks: " + ChatColor.YELLOW + totalTickedBlocks);
         sender.sendMessage("");
 
-        summarizeTimings("Chunks", sender, entry -> {
+        summarizeTimings("Blocks", sender, entry -> {
             int count = profiler.getBlocksOfId(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
 
@@ -70,7 +72,7 @@ class PerformanceSummary {
 
         sender.sendMessage("");
 
-        summarizeTimings("Blocks", sender, entry -> {
+        summarizeTimings("Chunks", sender, entry -> {
             int count = profiler.getBlocksInChunk(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
 
@@ -93,7 +95,7 @@ class PerformanceSummary {
 
             for (Map.Entry<String, Long> entry : results) {
                 if (entry.getValue() > VISIBILITY_THRESHOLD) {
-                    builder.append("\n&e").append(formatter.apply(entry));
+                    builder.append("\n").append(ChatColor.YELLOW).append(formatter.apply(entry));
                 }
                 else {
                     hidden++;
@@ -108,26 +110,28 @@ class PerformanceSummary {
         }
         else {
             int hidden = 0;
-
-            sender.sendMessage(ChatColor.GOLD + prefix);
+            StringBuilder builder = new StringBuilder();
+            builder.append(ChatColor.GOLD + prefix);
 
             for (Map.Entry<String, Long> entry : results) {
                 if (entry.getValue() > VISIBILITY_THRESHOLD) {
-                    sender.sendMessage("  " + ChatColor.stripColor(formatter.apply(entry)));
+                    builder.append("  ");
+                    builder.append(ChatColor.stripColor(formatter.apply(entry)));
                 }
                 else {
                     hidden++;
                 }
             }
 
-            sender.sendMessage("+ " + hidden + " more");
+            builder.append("\n+ ");
+            builder.append(hidden);
+            builder.append(" more...");
+            sender.sendMessage(builder.toString());
         }
     }
 
     private String getPerformanceRating() {
         StringBuilder builder = new StringBuilder();
-
-        float percentage = Math.round(((((totalElapsedTime / 1000000.0) * 100.0F) / MAX_TICK_DURATION) * 100.0F) / 100.0F);
         builder.append(NumberUtils.getColorFromPercentage(100 - Math.min(percentage, 100)));
 
         int rest = 20;
