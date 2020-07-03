@@ -85,13 +85,13 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     public String getMessage(Player p, String key) {
         Language language = getLanguage(p);
-        if (language == null) return "NO LANGUAGE FOUND";
+        if (language == null) return "未找到语言";
         return language.getMessagesFile().getString(key);
     }
 
     public List<String> getMessages(Player p, String key) {
         Language language = getLanguage(p);
-        if (language == null) return Arrays.asList("NO LANGUAGE FOUND");
+        if (language == null) return Arrays.asList("未找到语言");
         return language.getMessagesFile().getStringList(key);
     }
 

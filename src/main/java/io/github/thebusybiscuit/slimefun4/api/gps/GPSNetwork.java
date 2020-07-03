@@ -117,7 +117,7 @@ public class GPSNetwork {
         menu.addMenuClickHandler(2, ChestMenuUtils.getEmptyClickHandler());
 
         int complexity = getNetworkComplexity(p.getUniqueId());
-        menu.addItem(4, new CustomItem(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE" : "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + complexity));
+        menu.addItem(4, new CustomItem(SlimefunItems.GPS_CONTROL_PANEL, "&7网络信息", "", "&8\u21E8 &7状态: " + (complexity > 0 ? "&2&l在线" : "&4&l离线"), "&8\u21E8 &7复杂度: &r" + complexity));
         menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
         menu.addItem(6, new CustomItem(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(),
@@ -187,7 +187,7 @@ public class GPSNetwork {
             });
 
             int complexity = getNetworkComplexity(p.getUniqueId());
-            menu.addItem(4, new CustomItem(SlimefunItems.GPS_CONTROL_PANEL, "&7Network Info", "", "&8\u21E8 &7Status: " + (complexity > 0 ? "&2&lONLINE" : "&4&lOFFLINE"), "&8\u21E8 &7Complexity: &r" + complexity));
+            menu.addItem(4, new CustomItem(SlimefunItems.GPS_CONTROL_PANEL, "&7网络信息", "", "&8\u21E8 &7状态: " + (complexity > 0 ? "&2&l在线" : "&4&l离线"), "&8\u21E8 &7复杂度: &r" + complexity));
             menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
             menu.addItem(6, new CustomItem(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(),
