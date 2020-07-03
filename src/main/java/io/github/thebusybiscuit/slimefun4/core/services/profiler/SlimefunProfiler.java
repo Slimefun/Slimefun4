@@ -83,10 +83,12 @@ public class SlimefunProfiler {
      *            The {@link SlimefunItem} at this {@link Location}
      * @param timestamp
      *            The timestamp marking the start of this entry, you can retrieve it using {@link #newEntry()}
+     *
+     * @return The total timings of this entry
      */
-    public void closeEntry(Location l, SlimefunItem item, long timestamp) {
+    public long closeEntry(Location l, SlimefunItem item, long timestamp) {
         if (timestamp == 0) {
-            return;
+            return 0;
         }
 
         long elapsedTime = System.nanoTime() - timestamp;
@@ -96,6 +98,8 @@ public class SlimefunProfiler {
             timings.put(block, elapsedTime);
             queued.decrementAndGet();
         });
+
+        return elapsedTime;
     }
 
     /**
@@ -166,6 +170,16 @@ public class SlimefunProfiler {
         return map;
     }
 
+    protected Map<String, Long> getByPlugin() {
+        Map<String, Long> map = new HashMap<>();
+
+        for (Map.Entry<ProfiledBlock, Long> entry : timings.entrySet()) {
+            map.merge(entry.getKey().getAddon().getName(), entry.getValue(), Long::sum);
+        }
+
+        return map;
+    }
+
     protected Map<String, Long> getByChunk() {
         Map<String, Long> map = new HashMap<>();
 
@@ -201,6 +215,18 @@ public class SlimefunProfiler {
 
         for (ProfiledBlock block : timings.keySet()) {
             if (block.getId().equals(id)) {
+                blocks++;
+            }
+        }
+
+        return blocks;
+    }
+
+    protected int getBlocksFromPlugin(String id) {
+        int blocks = 0;
+
+        for (ProfiledBlock block : timings.keySet()) {
+            if (block.getAddon().getName().equals(id)) {
                 blocks++;
             }
         }

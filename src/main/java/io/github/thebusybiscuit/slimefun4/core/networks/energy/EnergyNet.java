@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongConsumer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
@@ -127,6 +130,8 @@ public class EnergyNet extends Network {
     }
 
     public void tick(Block b) {
+        AtomicLong timestamp = new AtomicLong(SlimefunPlugin.getProfiler().newEntry());
+
         if (!regulator.equals(b.getLocation())) {
             SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
             return;
@@ -138,7 +143,7 @@ public class EnergyNet extends Network {
             SimpleHologram.update(b, "&4No Energy Network found");
         }
         else {
-            double supply = DoubleHandler.fixDouble(tickAllGenerators() + tickAllCapacitors());
+            double supply = DoubleHandler.fixDouble(tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors());
             double demand = 0;
 
             int availableEnergy = (int) supply;
@@ -167,6 +172,9 @@ public class EnergyNet extends Network {
             storeExcessEnergy(availableEnergy);
             updateHologram(b, supply, demand);
         }
+
+        // We have subtracted the timings from Generators, so they do not show up twice.
+        SlimefunPlugin.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());
     }
 
     private void storeExcessEnergy(int available) {
@@ -209,7 +217,7 @@ public class EnergyNet extends Network {
         }
     }
 
-    private double tickAllGenerators() {
+    private double tickAllGenerators(LongConsumer timeCallback) {
         double supply = 0;
         Set<Location> exploded = new HashSet<>();
 
@@ -249,7 +257,8 @@ public class EnergyNet extends Network {
                     new ErrorReport(t, source, item);
                 }
 
-                SlimefunPlugin.getProfiler().closeEntry(source, item, timestamp);
+                long time = SlimefunPlugin.getProfiler().closeEntry(source, item, timestamp);
+                timeCallback.accept(time);
             }
             else {
                 // This block seems to be gone now, better remove it to be extra safe

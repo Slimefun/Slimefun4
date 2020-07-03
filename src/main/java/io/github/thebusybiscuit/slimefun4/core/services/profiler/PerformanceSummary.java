@@ -21,7 +21,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 class PerformanceSummary {
 
     // The threshold at which a Block or Chunk is significant enough to appear in /sf timings
-    private static final int VISIBILITY_THRESHOLD = 275_000;
+    private static final int VISIBILITY_THRESHOLD = 280_000;
 
     // A minecraft server tick is 50ms and Slimefun ticks are stretched across
     // two ticks (sync and async blocks), so we use 100ms as a reference here
@@ -34,6 +34,7 @@ class PerformanceSummary {
     private final float percentage;
 
     private final Map<String, Long> chunks;
+    private final Map<String, Long> plugins;
     private final Map<String, Long> items;
 
     PerformanceSummary(SlimefunProfiler profiler, long totalElapsedTime, int totalTickedBlocks) {
@@ -44,6 +45,7 @@ class PerformanceSummary {
         this.totalTickedBlocks = totalTickedBlocks;
 
         chunks = profiler.getByChunk();
+        plugins = profiler.getByPlugin();
         items = profiler.getByItem();
     }
 
@@ -52,44 +54,47 @@ class PerformanceSummary {
         sender.sendMessage(ChatColor.GREEN + "===== Slimefun Lag Profiler =====");
         sender.sendMessage(ChatColor.GOLD + "Total: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
         sender.sendMessage(ChatColor.GOLD + "Performance: " + getPerformanceRating());
-        sender.sendMessage(ChatColor.GOLD + "Active Chunks: " + ChatColor.YELLOW + chunks.size());
-        sender.sendMessage(ChatColor.GOLD + "Active Blocks: " + ChatColor.YELLOW + totalTickedBlocks);
         sender.sendMessage("");
 
-        summarizeTimings("Blocks", sender, entry -> {
+        summarizeTimings(totalTickedBlocks + " Blocks", sender, items, entry -> {
             int count = profiler.getBlocksOfId(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
 
             if (count > 1) {
                 String average = NumberUtils.getAsMillis(entry.getValue() / count);
 
-                return entry.getKey() + " - " + count + "x (" + time + ", " + average + " avg/block)";
+                return entry.getKey() + " - " + count + "x (" + time + " | avg: " + average + ')';
             }
             else {
                 return entry.getKey() + " - " + count + "x (" + time + ')';
             }
-        }, items.entrySet().stream());
+        });
 
-        sender.sendMessage("");
-
-        summarizeTimings("Chunks", sender, entry -> {
+        summarizeTimings(chunks.size() + " Chunks", sender, chunks, entry -> {
             int count = profiler.getBlocksInChunk(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
 
-            return entry.getKey() + " - " + count + "x (" + time + ")";
-        }, chunks.entrySet().stream());
+            return entry.getKey() + " - " + count + "x Blocks (" + time + ")";
+        });
+
+        summarizeTimings(plugins.size() + " Plugins", sender, plugins, entry -> {
+            int count = profiler.getBlocksFromPlugin(entry.getKey());
+            String time = NumberUtils.getAsMillis(entry.getValue());
+
+            return entry.getKey() + " - " + count + "x Blocks (" + time + ")";
+        });
     }
 
-    private void summarizeTimings(String prefix, CommandSender sender, Function<Map.Entry<String, Long>, String> formatter, Stream<Map.Entry<String, Long>> stream) {
+    private void summarizeTimings(String prefix, CommandSender sender, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
+        Stream<Map.Entry<String, Long>> stream = map.entrySet().stream();
         List<Entry<String, Long>> results = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
 
         if (sender instanceof Player) {
             TextComponent component = new TextComponent(prefix);
-            component.setColor(ChatColor.GOLD);
+            component.setColor(ChatColor.YELLOW);
 
-            TextComponent hoverComponent = new TextComponent("\n   Hover for more details...");
+            TextComponent hoverComponent = new TextComponent("  (Hover for details)");
             hoverComponent.setColor(ChatColor.GRAY);
-            hoverComponent.setItalic(true);
             StringBuilder builder = new StringBuilder();
             int hidden = 0;
 
@@ -111,11 +116,13 @@ class PerformanceSummary {
         else {
             int hidden = 0;
             StringBuilder builder = new StringBuilder();
-            builder.append(ChatColor.GOLD + prefix);
+            builder.append(ChatColor.GOLD);
+            builder.append(prefix);
+            builder.append(ChatColor.YELLOW);
 
             for (Map.Entry<String, Long> entry : results) {
                 if (entry.getValue() > VISIBILITY_THRESHOLD) {
-                    builder.append("  ");
+                    builder.append("\n  ");
                     builder.append(ChatColor.stripColor(formatter.apply(entry)));
                 }
                 else {
