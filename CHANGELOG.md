@@ -41,22 +41,23 @@
 * Added an AoE damage effect to the Explosive Bow
 * Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
 * Added a proper lag profiler
+* Added per-plugin lag info to /sf timings
 
 #### Changes
 * Coolant Cells now last twice as long
 * Ticking blocks will now catch more errors caused by addons
-* Massive performance improvements to GPS/GEO machines, especially Oil Pump and GEO Miner
 * Changed the texture for the Nuclear Reactor
 * Changed the texture for the Nether Star Reactor
-* Performance improvements to Rainbow Blocks
 * Crafting Tin cans now produces 8 items instead of 4
 * Multi Tool lore now says "Crouch" instead of "Hold Shift"
-* items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
+* Items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
 * Slimefun no longer supports CraftBukkit
 * Item Energy is now also stored persistently via NBT
-* General performance improvements for ticking blocks
+* Performance improvements to GPS/GEO machines, especially Oil Pump and GEO Miner
+* Performance improvements for ticking blocks
 * Performance improvements to the Cargo Net
-* Some performance improvements to the Energy Net
+* performance improvements to the Energy Net
+* Performance improvements to Rainbow Blocks
 
 #### Fixes
 * Fixed #2005
@@ -79,6 +80,7 @@
 * Fixed /sf timings reporting slightly inaccurate timings
 * Fixed concurrency-related issues with the profiling
 * Fixed #2066
+* Fixed Rainbow Glass Panes not properly connecting to blocks
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

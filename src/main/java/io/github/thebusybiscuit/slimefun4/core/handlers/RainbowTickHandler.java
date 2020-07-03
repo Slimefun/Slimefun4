@@ -2,10 +2,12 @@ package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Waterlogged;
+import org.bukkit.block.data.type.GlassPane;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollection;
@@ -29,31 +31,33 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 public class RainbowTickHandler extends BlockTicker {
 
     private final LoopIterator<Material> iterator;
-    private final boolean waterlogged;
+    private final boolean glassPanes;
     private Material material;
 
     public RainbowTickHandler(Material... materials) {
+        Validate.noNullElements(materials, "A RainbowTicker cannot have a Material that is null!");
+
         if (materials.length == 0) {
             throw new IllegalArgumentException("A RainbowTicker must have at least one Material associated with it!");
         }
 
-        waterlogged = containsWaterlogged(materials);
+        glassPanes = containsGlassPanes(materials);
         iterator = new LoopIterator<>(Arrays.asList(materials));
         material = iterator.next();
     }
 
     /**
      * This method checks whether a given {@link Material} array contains any {@link Material}
-     * that would result in a {@link Waterlogged} {@link BlockData}.
+     * that would result in a {@link GlassPane} {@link BlockData}.
      * This is done to save performance, so we don't have to validate {@link BlockData} at
      * runtime.
      * 
      * @param materials
      *            The {@link Material} Array to check
      * 
-     * @return Whether the array contained any {@link Waterlogged} materials
+     * @return Whether the array contained any {@link GlassPane} materials
      */
-    private boolean containsWaterlogged(Material[] materials) {
+    private boolean containsGlassPanes(Material[] materials) {
         if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             // BlockData is not available to us during Unit Tests :/
             return false;
@@ -62,8 +66,8 @@ public class RainbowTickHandler extends BlockTicker {
         for (Material type : materials) {
             // This BlockData is purely virtual and only created on startup, it should have
             // no impact on performance, in fact it should save performance as it preloads
-            // the data but also saves heavy calls for non-waterlogged Materials
-            if (type.createBlockData() instanceof Waterlogged) {
+            // the data but also saves heavy calls for other Materials
+            if (type.createBlockData() instanceof GlassPane) {
                 return true;
             }
         }
@@ -83,19 +87,29 @@ public class RainbowTickHandler extends BlockTicker {
             return;
         }
 
-        if (waterlogged) {
+        if (glassPanes) {
             BlockData blockData = b.getBlockData();
-            b.setType(material, true);
 
-            if (blockData instanceof Waterlogged && ((Waterlogged) blockData).isWaterlogged()) {
-                Waterlogged block = (Waterlogged) b.getBlockData();
-                block.setWaterlogged(true);
+            if (blockData instanceof GlassPane) {
+                BlockData block = material.createBlockData(bd -> {
+                    if (bd instanceof GlassPane) {
+                        GlassPane previousData = (GlassPane) blockData;
+                        GlassPane nextData = (GlassPane) bd;
+
+                        nextData.setWaterlogged(previousData.isWaterlogged());
+
+                        for (BlockFace face : previousData.getAllowedFaces()) {
+                            nextData.setFace(face, previousData.hasFace(face));
+                        }
+                    }
+                });
+
                 b.setBlockData(block);
+                return;
             }
         }
-        else {
-            b.setType(material, false);
-        }
+
+        b.setType(material, false);
     }
 
     @Override
