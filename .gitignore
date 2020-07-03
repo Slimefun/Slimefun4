@@ -6,3 +6,4 @@
 /target
 /.idea/
 dependency-reduced-pom.xml
+.factorypath
