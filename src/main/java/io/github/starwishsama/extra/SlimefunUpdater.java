@@ -155,7 +155,7 @@ public class SlimefunUpdater {
                     Slimefun.getLogger().info(ChatColors.color("&a你正在使用最新版本 " + SlimefunPlugin.getVersion()));
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                Slimefun.getLogger().log(Level.SEVERE, "&c无法解析版本号, 报错信息: " + e.getLocalizedMessage());
+                Slimefun.getLogger().log(Level.SEVERE, ChatColors.color("&c无法解析版本号, 报错信息: " + e.getLocalizedMessage()));
             }
         } else {
             Slimefun.getLogger().info("无法获取到更新信息");
@@ -167,8 +167,8 @@ public class SlimefunUpdater {
         Validate.notEmpty(versionToCompare, "Compare version code can't be empty!");
 
         try {
-            int currentVersion = Integer.parseInt(current.split(" ")[2]);
-            int comparedVersion = Integer.parseInt(versionToCompare.split(" ")[2]);
+            int currentVersion = Integer.parseInt(current.split("-")[2]);
+            int comparedVersion = Integer.parseInt(versionToCompare.split("-")[2]);
             return currentVersion >= comparedVersion;
         } catch (NumberFormatException e) {
             return false;
