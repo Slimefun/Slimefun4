@@ -58,20 +58,21 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
 
     private void breakLog(Block log, Block android, BlockMenu menu, BlockFace face) {
         ItemStack drop = new ItemStack(log.getType());
+        Material material = Material.AIR;
 
         if (menu.fits(drop, getOutputSlots())) {
-            menu.pushItem(drop, getOutputSlots());
             log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 
             if (log.getY() == android.getRelative(face).getY()) {
                 Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
 
                 if (sapling.isPresent()) {
-                    log.setType(sapling.get());
+                    material = sapling.get();
                 }
-            } else {
-                log.setType(Material.AIR);
             }
+
+            log.setType(material);
+            menu.pushItem(drop, getOutputSlots());
         }
     }
 
