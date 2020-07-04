@@ -82,7 +82,9 @@ public class SlimefunProfiler {
      *            The amount of entries that should be scheduled.
      */
     public void scheduleEntries(int amount) {
-        queued.getAndAdd(amount);
+        if (running.get()) {
+            queued.getAndAdd(amount);
+        }
     }
 
     /**
@@ -280,7 +282,8 @@ public class SlimefunProfiler {
      * This method checks whether the {@link SlimefunProfiler} has collected timings on
      * the given {@link Block}
      * 
-     * @param b The {@link Block}
+     * @param b
+     *            The {@link Block}
      * 
      * @return Whether timings of this {@link Block} have been collected
      */
