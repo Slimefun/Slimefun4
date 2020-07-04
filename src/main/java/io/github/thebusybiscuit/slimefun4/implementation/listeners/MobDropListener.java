@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.ChanceDrop;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class MobDropListener implements Listener {
@@ -34,7 +36,17 @@ public class MobDropListener implements Listener {
 
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
             if (customDrops != null && !customDrops.isEmpty()) {
-                addDrops(p, customDrops, e.getDrops());
+            	for(ItemStack is:customDrops)
+            	{
+            		SlimefunItem sfi = SlimefunItem.getByItem(is);
+            		if(sfi != null && sfi instanceof ChanceDrop) {
+            			if(((ChanceDrop)sfi).getChance() <= ThreadLocalRandom.current().nextInt(0,100)) 
+                			continue;
+            			 else 
+            				addDrops(p, customDrops, e.getDrops());
+            		}
+            		
+            	}
             }
 
             if (item.getType() != Material.AIR) {
