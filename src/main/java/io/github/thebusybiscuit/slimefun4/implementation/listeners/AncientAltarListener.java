@@ -368,9 +368,10 @@ public class AncientAltarListener implements Listener {
     }
 
     public boolean isUsing(Block pedestal, Location loc) {
-        if (loc == null) {
+        if (loc == null || pedestal == null) {
             return false;
         }
-        return !(pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) < 0.3D);
+
+        return pedestal.getLocation().add(0.5, 0.8, 0.5).distanceSquared(loc) >= 0.3D;
     }
 }

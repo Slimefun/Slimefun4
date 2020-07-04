@@ -17,7 +17,6 @@ public class AncientPedestal extends SlimefunItem {
         SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
             AncientAltarListener listener = SlimefunPlugin.getAncientAltarListener();
 
-
             Item stack = listener.findItem(b);
             if (stack != null) {
                 if (listener.isUsing(b, stack.getLocation())) {
