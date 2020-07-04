@@ -386,17 +386,29 @@ public class BlockStorage {
      * @since 4.0
      */
     public static ItemStack retrieve(Block block) {
-        if (!hasBlockInfo(block)) return null;
+        if (!hasBlockInfo(block)) {
+            return null;
+        }
         else {
-            final SlimefunItem item = SlimefunItem.getByID(getLocationInfo(block.getLocation(), "id"));
+            SlimefunItem item = SlimefunItem.getByID(getLocationInfo(block.getLocation(), "id"));
             clearBlockInfo(block);
-            if (item == null) return null;
-            else return item.getItem();
+
+            if (item == null) {
+                return null;
+            }
+            else {
+                return item.getItem();
+            }
         }
     }
 
     public static Config getLocationInfo(Location l) {
         BlockStorage storage = getStorage(l.getWorld());
+
+        if (storage == null) {
+            return emptyBlockData;
+        }
+
         Config cfg = storage.storage.get(l);
         return cfg == null ? emptyBlockData : cfg;
     }
@@ -480,7 +492,14 @@ public class BlockStorage {
 
     public static boolean hasBlockInfo(Location l) {
         BlockStorage storage = getStorage(l.getWorld());
-        return storage != null && storage.storage.containsKey(l) && getLocationInfo(l, "id") != null;
+
+        if (storage != null) {
+            Config cfg = storage.storage.get(l);
+            return cfg != null && cfg.getString("id") != null;
+        }
+        else {
+            return false;
+        }
     }
 
     public static void setBlockInfo(Block block, Config cfg, boolean updateTicker) {
@@ -489,12 +508,13 @@ public class BlockStorage {
 
     public static void setBlockInfo(Location l, Config cfg, boolean updateTicker) {
         BlockStorage storage = getStorage(l.getWorld());
+
         if (storage == null) {
             Slimefun.getLogger().warning("Could not set Block info for non-registered World '" + l.getWorld().getName() + "'. Is some plugin trying to store data in a fake world?");
             return;
         }
-        storage.storage.put(l, cfg);
 
+        storage.storage.put(l, cfg);
         String id = cfg.getString("id");
 
         if (BlockMenuPreset.isInventory(id)) {
@@ -505,8 +525,13 @@ public class BlockStorage {
             }
             else if (!storage.hasInventory(l)) {
                 File file = new File(PATH_INVENTORIES + serializeLocation(l) + ".sfi");
-                if (file.exists()) storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(id), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
-                else storage.loadInventory(l, BlockMenuPreset.getPreset(id));
+
+                if (file.exists()) {
+                    storage.inventories.put(l, new BlockMenu(BlockMenuPreset.getPreset(id), l, new io.github.thebusybiscuit.cscorelib2.config.Config(file)));
+                }
+                else {
+                    storage.loadInventory(l, BlockMenuPreset.getPreset(id));
+                }
             }
         }
 
@@ -590,8 +615,8 @@ public class BlockStorage {
         }
 
         BlockStorage storage = getStorage(from.getWorld());
-
-        setBlockInfo(to, getLocationInfo(from), true);
+        Config previousData = getLocationInfo(from);
+        setBlockInfo(to, previousData, true);
 
         if (storage.inventories.containsKey(from)) {
             BlockMenu menu = storage.inventories.get(from);
@@ -600,7 +625,7 @@ public class BlockStorage {
             menu.move(to);
         }
 
-        refreshCache(storage, from, getLocationInfo(from).getString("id"), null, true);
+        refreshCache(storage, from, previousData.getString("id"), null, true);
         storage.storage.remove(from);
 
         String chunkString = locationToChunkString(from);
@@ -636,11 +661,9 @@ public class BlockStorage {
                 String chunkString = locationToChunkString(l);
 
                 if (value != null) {
-                    Set<Location> locations = SlimefunPlugin.getRegistry().getActiveTickers().get(chunkString);
-                    if (locations == null) locations = new HashSet<>();
-
+                    Set<Location> locations = SlimefunPlugin.getRegistry().getActiveTickers().computeIfAbsent(chunkString, c -> new HashSet<>());
                     locations.add(l);
-                    SlimefunPlugin.getRegistry().getActiveTickers().put(chunkString, locations);
+
                     SlimefunPlugin.getRegistry().getActiveChunks().add(chunkString);
                 }
             }
@@ -797,7 +820,10 @@ public class BlockStorage {
 
     public static BlockMenu getInventory(Location l) {
         BlockStorage storage = getStorage(l.getWorld());
-        if (storage == null) return null;
+
+        if (storage == null) {
+            return null;
+        }
 
         BlockMenu menu = storage.inventories.get(l);
 

@@ -58,6 +58,10 @@
 * Performance improvements to the Cargo Net
 * performance improvements to the Energy Net
 * Performance improvements to Rainbow Blocks
+* Performance improvements to Androids
+* performance improvements to Generators and Electric Machines
+* Cargo timings will now be attributed to the corresponding node and not the Cargo manager
+* Thunderstorms now count as night time for Solar Generators
 
 #### Fixes
 * Fixed #2005
@@ -81,6 +85,7 @@
 * Fixed concurrency-related issues with the profiling
 * Fixed #2066
 * Fixed Rainbow Glass Panes not properly connecting to blocks
+* Fixed Androids turning in the wrong direction
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

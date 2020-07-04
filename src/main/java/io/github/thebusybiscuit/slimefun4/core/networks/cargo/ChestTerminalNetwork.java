@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -183,7 +184,10 @@ abstract class ChestTerminalNetwork extends Network {
     }
 
     private void collectImportRequests() {
+        SlimefunItem item = SlimefunItem.getByID("CT_IMPORT_BUS");
+
         for (Location bus : imports) {
+            long timestamp = SlimefunPlugin.getProfiler().newEntry();
             BlockMenu menu = BlockStorage.getInventory(bus);
 
             if (menu.getItemInSlot(17) == null) {
@@ -201,11 +205,16 @@ abstract class ChestTerminalNetwork extends Network {
             if (menu.getItemInSlot(17) != null) {
                 itemRequests.add(new ItemRequest(bus, 17, menu.getItemInSlot(17), ItemTransportFlow.INSERT));
             }
+
+            SlimefunPlugin.getProfiler().closeEntry(bus, item, timestamp);
         }
     }
 
     private void collectExportRequests() {
+        SlimefunItem item = SlimefunItem.getByID("CT_EXPORT_BUS");
+
         for (Location bus : exports) {
+            long timestamp = SlimefunPlugin.getProfiler().newEntry();
             BlockMenu menu = BlockStorage.getInventory(bus);
 
             if (menu.getItemInSlot(17) != null) {
@@ -236,17 +245,24 @@ abstract class ChestTerminalNetwork extends Network {
                     itemRequests.add(new ItemRequest(bus, 17, items.get(index), ItemTransportFlow.WITHDRAW));
                 }
             }
+
+            SlimefunPlugin.getProfiler().closeEntry(bus, item, timestamp);
         }
     }
 
     private void collectTerminalRequests() {
+        SlimefunItem item = SlimefunItem.getByID("CHEST_TERMINAL");
+
         for (Location terminal : terminals) {
+            long timestamp = SlimefunPlugin.getProfiler().newEntry();
             BlockMenu menu = BlockStorage.getInventory(terminal);
             ItemStack sendingItem = menu.getItemInSlot(TERMINAL_OUT_SLOT);
 
             if (sendingItem != null) {
                 itemRequests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sendingItem, ItemTransportFlow.INSERT));
             }
+
+            SlimefunPlugin.getProfiler().closeEntry(terminal, item, timestamp);
         }
     }
 

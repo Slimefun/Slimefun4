@@ -98,20 +98,20 @@ public class DebugFishListener implements Listener {
         }
 
         if (item.isTicking()) {
-            p.sendMessage(ChatColors.color("&dTicker: " + greenCheckmark));
+            p.sendMessage(ChatColors.color("&dTicking: " + greenCheckmark));
             p.sendMessage(ChatColors.color("  &dAsync: &e" + (item.getBlockTicker().isSynchronized() ? redCross : greenCheckmark)));
+        }
+        else if (item.getEnergyTicker() != null) {
+            p.sendMessage(ChatColors.color("&dTicking: &3Indirect"));
+        }
+        else {
+            p.sendMessage(ChatColors.color("&dTicking: " + redCross));
+        }
+        
+        if (SlimefunPlugin.getProfiler().hasTimings(b)) {
             p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getProfiler().getTime(b)));
             p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + SlimefunPlugin.getProfiler().getTime(item)));
             p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getProfiler().getTime(b.getChunk())));
-        }
-        else if (item.getEnergyTicker() != null) {
-            p.sendMessage(ChatColors.color("&dTicking: " + "&3Indirect"));
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + SlimefunPlugin.getProfiler().getTime(b)));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getProfiler().getTime(b.getChunk())));
-        }
-        else {
-            p.sendMessage(ChatColors.color("&dTicker: " + redCross));
-            p.sendMessage(ChatColors.color("&dTicking: " + redCross));
         }
 
         if (ChargableBlock.isChargable(b)) {

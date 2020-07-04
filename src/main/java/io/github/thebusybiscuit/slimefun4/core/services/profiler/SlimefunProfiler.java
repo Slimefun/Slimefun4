@@ -74,6 +74,18 @@ public class SlimefunProfiler {
     }
 
     /**
+     * This method schedules a given amount of entries for the future.
+     * Be careful to {@link #closeEntry(Location, SlimefunItem, long)} all of them again!
+     * No {@link PerformanceSummary} will be sent until all entires were closed.
+     * 
+     * @param amount
+     *            The amount of entries that should be scheduled.
+     */
+    public void scheduleEntries(int amount) {
+        queued.getAndAdd(amount);
+    }
+
+    /**
      * This method closes a previously started entry.
      * Make sure to call {@link #newEntry()} to get the timestamp in advance.
      * 
@@ -87,6 +99,9 @@ public class SlimefunProfiler {
      * @return The total timings of this entry
      */
     public long closeEntry(Location l, SlimefunItem item, long timestamp) {
+        Validate.notNull(l, "Location must not be null!");
+        Validate.notNull(item, "You need to specify a SlimefunItem!");
+
         if (timestamp == 0) {
             return 0;
         }
@@ -259,6 +274,19 @@ public class SlimefunProfiler {
 
     public String getTime() {
         return NumberUtils.getAsMillis(totalElapsedTime);
+    }
+
+    /**
+     * This method checks whether the {@link SlimefunProfiler} has collected timings on
+     * the given {@link Block}
+     * 
+     * @param b The {@link Block}
+     * 
+     * @return Whether timings of this {@link Block} have been collected
+     */
+    public boolean hasTimings(Block b) {
+        Validate.notNull("Cannot get timings for a null Block");
+        return timings.containsKey(new ProfiledBlock(b));
     }
 
     public String getTime(Block b) {

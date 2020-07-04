@@ -77,10 +77,10 @@ public final class NumberUtils {
         String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
 
         if (parts.length == 1) {
-            return parts[0];
+            return parts[0] + "ms";
         }
         else {
-            return parts[0] + ',' + parts[1] + "ms";
+            return parts[0] + '.' + parts[1] + "ms";
         }
     }
 

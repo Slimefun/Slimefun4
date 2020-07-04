@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -100,6 +101,13 @@ public final class ChestMenuUtils {
     }
 
     public static void updateProgressbar(ChestMenu menu, int slot, int timeLeft, int time, ItemStack indicator) {
+        Inventory inv = menu.toInventory();
+
+        // We don't need to update the progress bar if noone is watching :o
+        if (inv == null || inv.getViewers().isEmpty()) {
+            return;
+        }
+
         ItemStack item = indicator.clone();
         ItemMeta im = item.getItemMeta();
         im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
