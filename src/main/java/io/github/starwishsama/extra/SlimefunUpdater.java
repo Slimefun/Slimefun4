@@ -101,8 +101,6 @@ public class SlimefunUpdater {
                     result.append(cache);
                 }
 
-                System.out.println(result.toString().trim());
-
                 conn.disconnect();
 
                 return gson.fromJson(result.toString().trim(), new TypeToken<List<GithubBean>>() {
