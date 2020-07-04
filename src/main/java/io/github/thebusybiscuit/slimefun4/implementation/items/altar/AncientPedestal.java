@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.altar;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +21,7 @@ public class AncientPedestal extends SlimefunItem {
             Item stack = listener.findItem(b);
             if (stack != null) {
                 if (listener.isUsing(b, stack.getLocation())) {
-                    SlimefunPlugin.getLocal().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use");
+                    SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_PEDESTAL.in-use");
                     return false;
                 }
 

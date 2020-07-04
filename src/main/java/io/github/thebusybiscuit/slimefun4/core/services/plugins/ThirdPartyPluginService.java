@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 import io.github.starwishsama.extra.VaultHelper;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;

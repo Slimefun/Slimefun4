@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
@@ -26,9 +26,9 @@ class ReloadCommand extends SubCommand {
         if (sender.hasPermission("slimefun.command.reload") || sender instanceof ConsoleCommandSender) {
             SlimefunPlugin.getCfg().reload();
             SlimefunPlugin.getItemCfg().reload();
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.reloaded", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.reloaded", true);
         } else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
         }
     }
 }

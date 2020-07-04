@@ -26,7 +26,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * This class houses a lot of instances of {@link Map} and {@link List} that hold
@@ -67,8 +66,8 @@ public class SlimefunRegistry {
     private final Set<String> chargeableBlocks = new HashSet<>();
     private final Map<String, WitherProof> witherProofBlocks = new HashMap<>();
 
-    private final ConcurrentMap<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
-    private final Map<String, BlockStorage> worlds = new HashMap<>();
+    private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
+    private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
     private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
@@ -209,7 +208,7 @@ public class SlimefunRegistry {
         return universalInventories;
     }
 
-    public ConcurrentMap<UUID, PlayerProfile> getPlayerProfiles() {
+    public Map<UUID, PlayerProfile> getPlayerProfiles() {
         return profiles;
     }
 

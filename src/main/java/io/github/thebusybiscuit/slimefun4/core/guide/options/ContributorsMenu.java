@@ -3,12 +3,12 @@ package io.github.thebusybiscuit.slimefun4.core.guide.options;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,14 +22,14 @@ final class ContributorsMenu {
     }
 
     public static void open(Player p, int page) {
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocal().getMessage(p, "guide.title.credits"));
+        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "guide.title.credits"));
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
         ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 52);
 
-        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocal().getMessage(p, "guide.back.settings"))));
+        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.settings"))));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             SlimefunGuideSettings.openSettings(pl, p.getInventory().getItemInMainHand());
             return false;
@@ -83,15 +83,15 @@ final class ContributorsMenu {
 
             if (!info.startsWith("&")) {
                 String[] segments = PatternUtils.COMMA.split(info);
-                info = SlimefunPlugin.getLocal().getMessage(p, "guide.credits.roles." + segments[0]);
+                info = SlimefunPlugin.getLocalization().getMessage(p, "guide.credits.roles." + segments[0]);
 
                 if (segments.length == 2) {
-                    info += " &7(" + SlimefunPlugin.getLocal().getMessage(p, "languages." + segments[1]) + ')';
+                    info += " &7(" + SlimefunPlugin.getLocalization().getMessage(p, "languages." + segments[1]) + ')';
                 }
             }
 
             if (entry.getValue() > 0) {
-                String commits = SlimefunPlugin.getLocal().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits" : "commit"));
+                String commits = SlimefunPlugin.getLocalization().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits" : "commit"));
 
                 info += " &7(" + entry.getValue() + ' ' + commits + ')';
             }
@@ -101,7 +101,7 @@ final class ContributorsMenu {
 
         if (contributor.getProfile() != null) {
             lore.add("");
-            lore.add(ChatColors.color("&7\u21E8 &e") + SlimefunPlugin.getLocal().getMessage(p, "guide.credits.profile-link"));
+            lore.add(ChatColors.color("&7\u21E8 &e") + SlimefunPlugin.getLocalization().getMessage(p, "guide.credits.profile-link"));
         }
 
         meta.setLore(lore);

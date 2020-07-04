@@ -2,12 +2,12 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -96,7 +96,7 @@ public final class SlimefunGuide {
 
     private static void openMainMenuAsync(Player player, SlimefunGuideLayout layout, int selectedPage) {
         if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
-            SlimefunPlugin.getLocal().sendMessage(player, "messages.opening-guide");
+            SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 

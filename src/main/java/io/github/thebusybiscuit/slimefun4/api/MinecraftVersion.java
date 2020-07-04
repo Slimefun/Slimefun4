@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This enum holds all versions of Minecraft that we currently support.

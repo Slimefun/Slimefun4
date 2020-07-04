@@ -2,8 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -128,7 +128,7 @@ public final class Language {
      * @return The localized name of this {@link Language}
      */
     public String getName(Player p) {
-        String name = SlimefunPlugin.getLocal().getMessage(p, "languages." + id);
+        String name = SlimefunPlugin.getLocalization().getMessage(p, "languages." + id);
         return name != null ? name : toString();
     }
 
@@ -139,7 +139,7 @@ public final class Language {
      * @return Whether this is the default {@link Language} of this {@link Server}
      */
     public boolean isDefault() {
-        return this == SlimefunPlugin.getLocal().getDefaultLanguage();
+        return this == SlimefunPlugin.getLocalization().getDefaultLanguage();
     }
 
     @Override

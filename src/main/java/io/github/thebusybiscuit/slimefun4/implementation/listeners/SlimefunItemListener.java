@@ -2,13 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -112,7 +112,7 @@ public class SlimefunItemListener implements Listener {
                 if (menu.canOpen(e.getClickedBlock(), p)) {
                     menu.open(p);
                 } else {
-                    SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
                 }
             } else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
                 BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
@@ -120,7 +120,7 @@ public class SlimefunItemListener implements Listener {
                 if (menu.canOpen(e.getClickedBlock(), p)) {
                     menu.open(p);
                 } else {
-                    SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
                 }
             }
         }

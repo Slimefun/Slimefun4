@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services.metrics;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.bstats.bukkit.Metrics.DrilldownPie;
 
 import java.util.HashMap;

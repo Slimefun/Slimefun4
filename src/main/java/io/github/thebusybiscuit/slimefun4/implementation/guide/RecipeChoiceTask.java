@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

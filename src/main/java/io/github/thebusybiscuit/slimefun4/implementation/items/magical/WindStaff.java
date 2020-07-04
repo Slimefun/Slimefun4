@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -34,7 +34,7 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
                 p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1);
                 p.setFallDistance(0F);
             } else {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.hungry", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.hungry", true);
             }
         };
     }

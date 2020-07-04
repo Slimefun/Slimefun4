@@ -3,12 +3,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -92,7 +92,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                         boolean water = Tag.LEAVES.isTagged(input.getType());
                         generateLiquid(block, water);
                     } else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
                     }
                 }
             }

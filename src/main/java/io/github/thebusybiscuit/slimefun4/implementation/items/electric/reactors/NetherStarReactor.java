@@ -30,7 +30,7 @@ public abstract class NetherStarReactor extends Reactor {
 
     @Override
     public String getInventoryTitle() {
-        return SlimefunItems.NETHERSTAR_REACTOR.getItemMeta().getDisplayName();
+        return SlimefunItems.NETHER_STAR_REACTOR.getItemMeta().getDisplayName();
     }
 
     @Override

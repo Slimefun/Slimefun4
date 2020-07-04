@@ -10,12 +10,10 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyExcept
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
-import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
+import io.github.thebusybiscuit.slimefun4.core.attributes.*;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
@@ -28,7 +26,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -254,7 +251,8 @@ public class SlimefunItem implements Placeable {
     /**
      * This method will forcefully hide this {@link SlimefunItem} from the {@link SlimefunGuide}.
      *
-     * @param hidden Whether to hide this {@link SlimefunItem} or not
+     * @param hidden
+     *            Whether to hide this {@link SlimefunItem} or not
      */
     public void setHidden(boolean hidden) {
         if (this.hidden != hidden) {
@@ -447,12 +445,12 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipeType(RecipeType type) {
-        Validate.notNull(type, "'recipeType' is not allowed to be null!");
+        Validate.notNull(type, "The RecipeType is not allowed to be null!");
         this.recipeType = type;
     }
 
     public void setCategory(Category category) {
-        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(category, "The Category is not allowed to be null!");
 
         this.category.remove(this);
         category.add(this);
@@ -528,7 +526,7 @@ public class SlimefunItem implements Placeable {
 
         // Backwards compatibility
         if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof ChargableItem || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
         } else {
             return false;
@@ -785,19 +783,17 @@ public class SlimefunItem implements Placeable {
             return getByID(((SlimefunItemStack) item).getItemId());
         }
 
-        // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
 
-        if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(wrapper);
-
-            if (itemID.isPresent()) {
-                return getByID(itemID.get());
-            }
+        if (itemID.isPresent()) {
+            return getByID(itemID.get());
         }
 
         // Backwards compatibility
         if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
+            ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
             // Quite expensive performance-wise
             // But necessary for supporting legacy items
             for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {

@@ -6,10 +6,10 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -89,13 +89,17 @@ public class BlockStorage {
     public BlockStorage(World w) {
         this.world = w;
 
+        if (world.getName().indexOf('.') != -1) {
+            throw new IllegalArgumentException("Slimefun 无法加载名字中包含点的世界: " + w.getName());
+        }
+
         if (SlimefunPlugin.getRegistry().getWorlds().containsKey(w.getName())) {
             // Cancel the loading process if the world was already loaded
             return;
         }
 
-        Slimefun.getLogger().log(Level.INFO, "Loading Blocks for World \"{0}\"", w.getName());
-        Slimefun.getLogger().log(Level.INFO, "This may take a long time...");
+        Slimefun.getLogger().log(Level.INFO, "正在加载世界 \"{0}\" 中的方块", w.getName());
+        Slimefun.getLogger().log(Level.INFO, "请等待一会...");
 
         File dir = new File(PATH_BLOCKS + w.getName());
 
@@ -505,7 +509,7 @@ public class BlockStorage {
     }
 
     public static void clearBlockInfo(Location l, boolean destroy) {
-        SlimefunPlugin.getTicker().queueDelete(l, destroy);
+        SlimefunPlugin.getTickerTask().queueDelete(l, destroy);
     }
 
     public static void _integrated_removeBlockInfo(Location l, boolean destroy) {
@@ -545,7 +549,7 @@ public class BlockStorage {
     }
 
     public static void moveBlockInfo(Location from, Location to) {
-        SlimefunPlugin.getTicker().queueMove(from, to);
+        SlimefunPlugin.getTickerTask().queueMove(from, to);
     }
 
     public static void _integrated_moveLocationInfo(Location from, Location to) {

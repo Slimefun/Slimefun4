@@ -490,7 +490,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack XP_COLLECTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.EXP_COLLECTOR;
     public static final SlimefunItemStack REACTOR_COOLANT_CELL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REACTOR_COOLANT_CELL;
     public static final SlimefunItemStack NUCLEAR_REACTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NUCLEAR_REACTOR;
-    public static final SlimefunItemStack NETHERSTAR_REACTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NETHERSTAR_REACTOR;
+    public static final SlimefunItemStack NETHERSTAR_REACTOR = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.NETHER_STAR_REACTOR;
     public static final SlimefunItemStack REACTOR_ACCESS_PORT = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.REACTOR_ACCESS_PORT;
     public static final SlimefunItemStack FREEZER = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FREEZER;
     public static final SlimefunItemStack FREEZER_2 = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.FREEZER_2;

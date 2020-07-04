@@ -4,8 +4,8 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -37,17 +37,17 @@ class BackpackCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player) || !sender.hasPermission("slimefun.command.backpack")) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             return;
         }
 
         if (args.length != 3) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack <玩家> <背包ID>"));
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack <玩家> <背包ID>"));
             return;
         }
 
         if (!PatternUtils.NUMERIC.matcher(args[2]).matches()) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.invalid-id");
+            SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.invalid-id");
             return;
         }
 
@@ -55,7 +55,7 @@ class BackpackCommand extends SubCommand {
         OfflinePlayer backpackOwner = Bukkit.getOfflinePlayer(args[1]);
 
         if (!(backpackOwner instanceof Player) && !backpackOwner.hasPlayedBefore()) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.player-never-joined");
+            SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.player-never-joined");
             return;
         }
 
@@ -63,7 +63,7 @@ class BackpackCommand extends SubCommand {
 
         PlayerProfile.get(backpackOwner, profile -> {
             if (!profile.getBackpack(id).isPresent()) {
-                SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.backpack-does-not-exist");
+                SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.backpack-does-not-exist");
                 return;
             }
 
@@ -71,7 +71,7 @@ class BackpackCommand extends SubCommand {
                 ItemStack item = SlimefunItems.RESTORED_BACKPACK.clone();
                 SlimefunPlugin.getBackpackListener().setBackpackId(backpackOwner, item, 2, id);
                 ((Player) sender).getInventory().addItem(item);
-                SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.restored-backpack-given");
+                SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.restored-backpack-given");
             });
         });
     }

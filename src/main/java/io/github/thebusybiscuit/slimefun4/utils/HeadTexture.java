@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
  * Credit for most of these goes to our main head designer "AquaLazuryt".
  *
  * @author TheBusyBiscuit
+ *
  */
 public enum HeadTexture {
 
@@ -94,7 +95,8 @@ public enum HeadTexture {
     NUCLEAR_REACTOR("fa5de0bc2bfb5cc2d23eb72f96402ada479524dd0de404bc23b6dacee3ffd080"),
     NETHER_STAR_REACTOR("a11ed1d1b25b624665ecdddc3d3a5dff0b9f35e3de77a12f516e60fe8501cc8d"),
     UNKNOWN("46ba63344f49dd1c4f5488e926bf3d9e2b29916a6c50d610bb40a5273dc8c82"),
-    MISSING_TEXTURE("e9eb9da26cf2d3341397a7f4913ba3d37d1ad10eae30ab25fa39ceb84bc");
+    MISSING_TEXTURE("e9eb9da26cf2d3341397a7f4913ba3d37d1ad10eae30ab25fa39ceb84bc"),
+    MINECRAFT_CHUNK("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2");
 
     private final String texture;
 

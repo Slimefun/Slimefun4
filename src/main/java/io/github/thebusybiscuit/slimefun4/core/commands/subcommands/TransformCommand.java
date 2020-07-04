@@ -4,7 +4,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -69,11 +69,11 @@ class TransformCommand extends SubCommand {
                     p.getInventory().setItemInMainHand(null);
                     p.getInventory().setItemInMainHand(transform);
                 } else {
-                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-right-item", true);
+                    SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-right-item", true);
                 }
             }
         } else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }
 }

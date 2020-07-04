@@ -4,12 +4,12 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import org.bukkit.ChatColor;
@@ -93,7 +93,7 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("&dInventory: " + disabledTooltip));
         }
 
-        TickerTask ticker = SlimefunPlugin.getTicker();
+        TickerTask ticker = SlimefunPlugin.getTickerTask();
 
         if (item.isTicking()) {
             p.sendMessage(ChatColors.color("&dTicker: " + enabledTooltip));

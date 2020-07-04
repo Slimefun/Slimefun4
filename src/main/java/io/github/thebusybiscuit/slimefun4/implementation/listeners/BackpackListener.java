@@ -2,10 +2,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
@@ -108,10 +108,10 @@ public class BackpackListener implements Listener {
     public void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
         if (item.getAmount() == 1) {
             if (Slimefun.hasUnlocked(p, backpack, true) && !PlayerProfile.get(p, profile -> openBackpack(p, item, profile, backpack.getSize()))) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.opening-backpack");
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.opening-backpack");
             }
         } else {
-            SlimefunPlugin.getLocal().sendMessage(p, "backpack.no-stack", true);
+            SlimefunPlugin.getLocalization().sendMessage(p, "backpack.no-stack", true);
         }
     }
 
@@ -134,7 +134,7 @@ public class BackpackListener implements Listener {
                 }
             });
         } else {
-            SlimefunPlugin.getLocal().sendMessage(p, "backpack.already-open", true);
+            SlimefunPlugin.getLocalization().sendMessage(p, "backpack.already-open", true);
         }
     }
 

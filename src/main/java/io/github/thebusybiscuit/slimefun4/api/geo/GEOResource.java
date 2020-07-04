@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.geo;
 
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Chunk;
 import org.bukkit.Keyed;
 import org.bukkit.World;
@@ -86,7 +86,7 @@ public interface GEOResource extends Keyed {
      * @return The localized name for this {@link GEOResource}
      */
     default String getName(Player p) {
-        String name = SlimefunPlugin.getLocal().getResourceString(p, "resources." + getKey().getNamespace() + "." + getKey().getKey());
+        String name = SlimefunPlugin.getLocalization().getResourceString(p, "resources." + getKey().getNamespace() + "." + getKey().getKey());
         return name == null ? getName() : name;
     }
 

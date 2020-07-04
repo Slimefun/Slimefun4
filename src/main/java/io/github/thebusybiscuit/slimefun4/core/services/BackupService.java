@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import java.io.File;

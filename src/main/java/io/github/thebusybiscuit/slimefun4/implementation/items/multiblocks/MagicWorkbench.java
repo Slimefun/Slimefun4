@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
@@ -51,7 +51,7 @@ public class MagicWorkbench extends BackpackCrafter {
                 return;
             }
         }
-        SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
+        SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
     }
 
     private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
@@ -74,7 +74,7 @@ public class MagicWorkbench extends BackpackCrafter {
             }
 
             startAnimation(p, b, outputInv, output);
-        } else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+        } else SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
     }
 
     private void startAnimation(Player p, Block b, Inventory inv, ItemStack output) {

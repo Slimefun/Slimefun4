@@ -1,14 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+
+import java.util.logging.Level;
 
 /**
  * This Task initializes all items, some listeners and various other stuff.
@@ -16,7 +19,6 @@ import org.bukkit.World;
  * they say "SlimefunStartupTask" instead of "Slimefun:lambda:123456789".
  *
  * @author TheBusyBiscuit
- *
  */
 public class SlimefunStartupTask implements Runnable {
 
@@ -44,7 +46,11 @@ public class SlimefunStartupTask implements Runnable {
         // Load all worlds
         SlimefunPlugin.getWorldSettingsService().load(Bukkit.getWorlds());
         for (World world : Bukkit.getWorlds()) {
-            new BlockStorage(world);
+            try {
+                new BlockStorage(world);
+            } catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
+            }
         }
 
         // Load all listeners that depend on items to be enabled

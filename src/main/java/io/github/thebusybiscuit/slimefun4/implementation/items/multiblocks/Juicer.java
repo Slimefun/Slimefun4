@@ -2,10 +2,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -49,22 +49,21 @@ public class Juicer extends MultiBlockMachine {
                     ItemStack adding = RecipeType.getRecipeOutput(this, convert);
                     Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
-                    if (outputInv != null) {
-                        ItemStack removing = current.clone();
-                        removing.setAmount(1);
-                        inv.removeItem(removing);
-                        outputInv.addItem(adding);
-                        p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
-                        p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-					}
-					else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
-					
+					if (outputInv != null) {
+						ItemStack removing = current.clone();
+						removing.setAmount(1);
+						inv.removeItem(removing);
+						outputInv.addItem(adding);
+						p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
+						p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
+					} else SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+
 					return;
 				}
 			}
 		}
-		
-		SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+
+		SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
 	}
 
 }

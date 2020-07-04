@@ -2,8 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -241,7 +241,7 @@ public final class ResearchSetup {
         register("advanced_farmer_android", 233, "Advanced Androids - Farmer", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER);
         register("lava_generator", 234, "Lava Generator", 38, SlimefunItems.LAVA_GENERATOR);
         register("nether_ice", 235, "Nether Ice Coolant", 45, SlimefunItems.NETHER_ICE, SlimefunItems.ENRICHED_NETHER_ICE, SlimefunItems.NETHER_ICE_COOLANT_CELL);
-        register("nether_star_reactor", 236, "Nether Star Reactor", 60, SlimefunItems.NETHERSTAR_REACTOR);
+        register("nether_star_reactor", 236, "Nether Star Reactor", 60, SlimefunItems.NETHER_STAR_REACTOR);
         register("blistering_ingots", 237, "Blistering Radioactivity", 38, SlimefunItems.BLISTERING_INGOT, SlimefunItems.BLISTERING_INGOT_2, SlimefunItems.BLISTERING_INGOT_3);
         register("automatic_ignition_chamber", 239, "Automatic Ignition Chamber", 12, SlimefunItems.IGNITION_CHAMBER);
         register("output_chest", 240, "Basic machinery output chest", 20, SlimefunItems.OUTPUT_CHEST);

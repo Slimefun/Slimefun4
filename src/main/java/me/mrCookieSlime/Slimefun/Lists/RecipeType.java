@@ -4,9 +4,9 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
@@ -128,7 +128,7 @@ public class RecipeType implements Keyed {
     }
 
     public ItemStack getItem(Player p) {
-        return SlimefunPlugin.getLocal().getRecipeTypeItem(p, this);
+        return SlimefunPlugin.getLocalization().getRecipeTypeItem(p, this);
     }
 
     public SlimefunItem getMachine() {

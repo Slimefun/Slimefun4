@@ -12,6 +12,8 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker> implements EnergyNetComponent {
@@ -33,7 +35,7 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
     /**
      * This method returns the amount of energy that this {@link SolarGenerator}
      * produces during the night.
-     * <p>
+     *
      * This is 0 by default.
      *
      * @return The amount of energy generated at night time
@@ -59,11 +61,17 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
 
             @Override
             public double generateEnergy(Location l, SlimefunItem item, Config data) {
-                if (!l.getWorld().isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
-                    return 0D;
+                World world = l.getWorld();
+
+                if (world.getEnvironment() != Environment.NORMAL) {
+                    return 0;
                 }
 
-                if (l.getWorld().getTime() < 12300 || l.getWorld().getTime() > 23850) {
+                if (!world.isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
+                    return 0;
+                }
+
+                if (world.getTime() < 12300 || world.getTime() > 23850) {
                     return getDayEnergy();
                 }
 
@@ -85,4 +93,5 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
         BlockUseHandler handler = PlayerRightClickEvent::cancel;
         addItemHandler(handler);
     }
+
 }

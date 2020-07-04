@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Keyed;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -42,7 +43,7 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
     }
 
     public Optional<String> getItemData(ItemStack item) {
-        if (item == null || !item.hasItemMeta()) {
+        if (item == null || item.getType() == Material.AIR || !item.hasItemMeta()) {
             return Optional.empty();
         }
         return getItemData(item.getItemMeta());

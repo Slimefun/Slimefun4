@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
@@ -25,7 +26,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -75,7 +75,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
 
                 if (!open) {
-                    SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
                 }
 
                 return open;
@@ -85,7 +85,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             public void newInstance(BlockMenu menu, Block b) {
                 menu.replaceExistingItem(15, new CustomItem(SlimefunUtils.getCustomHead("e01c7b5726178974b3b3a01b42a590e54366026fd43808f2a787648843a7f5a"), "&a启动/继续运行"));
                 menu.addMenuClickHandler(15, (p, slot, item, action) -> {
-                    SlimefunPlugin.getLocal().sendMessage(p, "android.started", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "android.started", true);
                     BlockStorage.addBlockInfo(b, "paused", "false");
                     p.closeInventory();
                     return false;
@@ -94,14 +94,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 menu.replaceExistingItem(17, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&4暂停运行"));
                 menu.addMenuClickHandler(17, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
-                    SlimefunPlugin.getLocal().sendMessage(p, "android.stopped", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
                     return false;
                 });
 
                 menu.replaceExistingItem(16, new CustomItem(SlimefunUtils.getCustomHead("d78f2b7e5e75639ea7fb796c35d364c4df28b4243e66b76277aadcd6261337"), "&b内存核心", "", "&8\u21E8 &7单击打开脚本编辑器"));
                 menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                     BlockStorage.addBlockInfo(b, "paused", "true");
-                    SlimefunPlugin.getLocal().sendMessage(p, "android.stopped", true);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "android.stopped", true);
                     openScriptEditor(p, b);
                     return false;
                 });
@@ -204,9 +204,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     public void openScript(Player p, Block b, String sourceCode) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
 
-        menu.addItem(0, new CustomItem(Instruction.START.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
+        menu.addItem(0, new CustomItem(Instruction.START.getItem(), SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             BlockStorage.getInventory(b).open(pl);
             return false;
@@ -230,14 +230,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
                 int slot = i + (hasFreeSlot ? 1 : 0);
 
-                menu.addItem(slot, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
+                menu.addItem(slot, new CustomItem(Instruction.REPEAT.getItem(), SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions.REPEAT"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
                 menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     BlockStorage.getInventory(b).open(pl);
                     return false;
                 });
             } else {
                 ItemStack stack = Instruction.valueOf(script[i]).getItem();
-                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + Instruction.valueOf(script[i]).name()), "", "&7\u21E8 &e左键 &7编辑", "&7\u21E8 &e右键 &7删除", "&7\u21E8 &eShift + 右键 &7复制"));
+                menu.addItem(i, new CustomItem(stack, SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions." + Instruction.valueOf(script[i]).name()), "", "&7\u21E8 &e左键 &7编辑", "&7\u21E8 &e右键 &7删除", "&7\u21E8 &eShift + 右键 &7复制"));
                 menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
                     if (action.isRightClicked() && action.isShiftClicked()) {
                         if (script.length == 54) {
@@ -393,12 +393,12 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 menu.addItem(index, item, (player, slot, stack, action) -> {
                     if (action.isShiftClicked()) {
                         if (script.isAuthor(player)) {
-                            SlimefunPlugin.getLocal().sendMessage(player, "android.scripts.rating.own", true);
+                            SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.own", true);
                         } else if (script.canRate(player)) {
                             script.rate(player, !action.isRightClicked());
                             openScriptDownloader(player, b, page);
                         } else {
-                            SlimefunPlugin.getLocal().sendMessage(player, "android.scripts.rating.already", true);
+                            SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.already", true);
                         }
                     } else if (!action.isRightClicked()) {
                         script.download();
@@ -431,18 +431,18 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             }
 
             if (script.getSourceCode().equals(code)) {
-                SlimefunPlugin.getLocal().sendMessage(p, "android.scripts.already-uploaded", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "android.scripts.already-uploaded", true);
                 return;
             }
         }
 
         p.closeInventory();
-        SlimefunPlugin.getLocal().sendMessages(p, "android.scripts.enter-name");
+        SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.enter-name");
         int id = nextId;
 
         ChatInput.waitForPlayer(SlimefunPlugin.instance, p, msg -> {
             Script.upload(p, getAndroidType(), id, msg, code);
-            SlimefunPlugin.getLocal().sendMessages(p, "android.scripts.uploaded");
+            SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.uploaded");
             openScriptDownloader(p, b, page);
         });
     }
@@ -453,7 +453,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     public void openScriptEditor(Player p, Block b) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
 
         menu.addItem(1, new CustomItem(SlimefunUtils.getCustomHead("d9bf6db4aeda9d8822b9f736538e8c18b9a4844f84eb45504adfbfee87eb"), "&2> 编辑脚本", "", "&a修改你现有的脚本"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
@@ -499,7 +499,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     }
 
     protected void editInstruction(Player p, Block b, String[] script, int index) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocal().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
         menu.addItem(9, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&r什么也不做"), (pl, slot, item, action) -> {
@@ -511,7 +511,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
         int i = 10;
         for (Instruction instruction : getValidScriptInstructions()) {
-            menu.addItem(i, new CustomItem(instruction.getItem(), SlimefunPlugin.getLocal().getMessage(p, "android.scripts.instructions." + instruction.name())), (pl, slot, item, action) -> {
+            menu.addItem(i, new CustomItem(instruction.getItem(), SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions." + instruction.name())), (pl, slot, item, action) -> {
                 String code = addInstruction(script, index, instruction);
                 setScript(b.getLocation(), code);
                 openScript(p, b, code);
@@ -806,7 +806,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
         if (p != null && !ProtectionChecker.canInteract(p, block, ProtectableAction.PLACE_BLOCK)) {
             BlockStorage.addBlockInfo(b, "paused", "false");
-            SlimefunPlugin.getLocal().sendMessage(p, "messages.android-no-permission", true);
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.android-no-permission", true);
             return;
         }
 

@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -51,9 +51,9 @@ public abstract class SubCommand {
      */
     public String getDescription(CommandSender sender) {
         if (sender instanceof Player) {
-            return SlimefunPlugin.getLocal().getMessage((Player) sender, getDescription());
+            return SlimefunPlugin.getLocalization().getMessage((Player) sender, getDescription());
         } else {
-            return SlimefunPlugin.getLocal().getMessage(getDescription());
+            return SlimefunPlugin.getLocalization().getMessage(getDescription());
         }
     }
 

@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemConsumptionHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +28,7 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
     @Override
     public ItemConsumptionHandler getItemHandler() {
         return (e, p, item) -> {
-            SlimefunPlugin.getLocal().sendMessage(p, "messages.diet-cookie");
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.diet-cookie");
             p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 
             if (p.hasPotionEffect(PotionEffectType.LEVITATION)) {

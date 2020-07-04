@@ -2,13 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemDropHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Location;
@@ -90,11 +90,11 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                         item.remove();
                         l.getWorld().dropItemNaturally(l, target);
 
-                        SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.success", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.success", true);
                     }
                 }, 10L);
             } else {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.soulbound-rune.fail", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.soulbound-rune.fail", true);
             }
         }
     }

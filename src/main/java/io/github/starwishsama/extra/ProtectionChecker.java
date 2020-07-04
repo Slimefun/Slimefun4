@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -35,7 +35,7 @@ public class ProtectionChecker implements Listener {
 
             if (!canInteract(p, e.getBlock(), ProtectableAction.BREAK_BLOCK)) {
                 e.setCancelled(true);
-                SlimefunPlugin.getLocal().sendMessage(p, "android.no-permission");
+                SlimefunPlugin.getLocalization().sendMessage(p, "android.no-permission");
             }
         }
     }
@@ -87,7 +87,7 @@ public class ProtectionChecker implements Listener {
                         return perms.playerHas(p, Flags.place, true) || perms.playerHas(p, Flags.build, true) || !perms.playerHas(p, Flags.move, true);
                     case ACCESS_INVENTORIES:
                         if (!perms.playerHas(p, Flags.use, true)) {
-                            SlimefunPlugin.getLocal().sendMessage(p, "inventory.no-access");
+                            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access");
                             return false;
                         }
                 }

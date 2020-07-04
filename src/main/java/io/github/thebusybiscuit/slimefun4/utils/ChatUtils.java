@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public final class ChatUtils {
 
     public static void sendURL(CommandSender sender, String url) {
         sender.sendMessage("");
-        SlimefunPlugin.getLocal().sendMessage(sender, "messages.link-prompt", false);
+        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.link-prompt", false);
         sender.sendMessage(ChatColors.color("&7&o" + url));
         sender.sendMessage("");
     }

@@ -3,8 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,16 +36,16 @@ class ItemIdCommand extends SubCommand {
                     if (sfItem != null) {
                         sender.sendMessage(ChatColors.color("The item's id: " + sfItem.getID()));
                     } else {
-                        SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-item", true);
+                        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-item", true);
                     }
                 } else {
                     sender.sendMessage(ChatColors.color("&bYou have nothing in your main hand!"));
                 }
             } else {
-                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
         } else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }
 }

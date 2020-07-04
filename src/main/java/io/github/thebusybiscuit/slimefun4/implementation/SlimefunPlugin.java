@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun;
+package io.github.thebusybiscuit.slimefun4.implementation;
 
 import io.github.starwishsama.extra.ProtectionChecker;
 import io.github.starwishsama.extra.SlimefunUpdater;
@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.*;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
@@ -108,6 +107,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         super(loader, description, dataFolder, file);
         minecraftVersion = MinecraftVersion.UNIT_TEST;
     }
+
 
     @Override
     public void onEnable() {
@@ -222,12 +222,18 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Clear the Slimefun Guide History upon Player Leaving
             new PlayerProfileListener(this);
 
-            // Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
+            // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
                 textureService.register(registry.getAllSlimefunItems(), true);
                 permissionsService.register(registry.getAllSlimefunItems(), true);
-                recipeService.refresh();
+
+                // This try/catch should prevent buggy Spigot builds from blocking item loading
+                try {
+                    recipeService.refresh();
+                } catch (Exception | LinkageError x) {
+                    getLogger().log(Level.SEVERE, x, () -> "An Exception occured while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
+                }
             }), 0);
 
             // Setting up the command /sf and all subcommands
@@ -374,7 +380,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     private void createDirectories() {
         String[] storageFolders = {"Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups"};
-        String[] pluginFolders = {"scripts", "generators", "error-reports", "cache/github", "world-settings"};
+        String[] pluginFolders = {"scripts", "error-reports", "cache/github", "world-settings"};
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);
@@ -423,7 +429,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.gpsNetwork;
     }
 
-    public static TickerTask getTicker() {
+    public static TickerTask getTickerTask() {
         return instance.ticker;
     }
 
@@ -445,7 +451,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return The {@link LocalizationService} of Slimefun
      */
-    public static LocalizationService getLocal() {
+    public static LocalizationService getLocalization() {
         return instance.local;
     }
 
