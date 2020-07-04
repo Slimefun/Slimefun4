@@ -24,6 +24,7 @@ public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implem
         addItemSetting(chance);
     }
 
+    @Override
     public int getChance() {
     	return chance.getValue();
     }
