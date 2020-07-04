@@ -28,6 +28,7 @@ public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implem
     public int getChance() {
     	return chance.getValue();
     }
+    
     public boolean isDroppedFromGolems() {
         return dropSetting.getValue();
     }
