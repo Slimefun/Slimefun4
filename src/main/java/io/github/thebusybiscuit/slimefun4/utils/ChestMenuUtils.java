@@ -116,31 +116,27 @@ public final class ChestMenuUtils {
     }
 
     public static String getProgressBar(int time, int total) {
-        StringBuilder progress = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);
 
-        if (percentage < 16.0F) progress.append("&4");
-        else if (percentage < 32.0F) progress.append("&c");
-        else if (percentage < 48.0F) progress.append("&6");
-        else if (percentage < 64.0F) progress.append("&e");
-        else if (percentage < 80.0F) progress.append("&2");
-        else progress.append("&a");
+        builder.append(NumberUtils.getColorFromPercentage(percentage));
 
         int rest = 20;
         for (int i = (int) percentage; i >= 5; i = i - 5) {
-            progress.append(':');
+            builder.append(':');
             rest--;
         }
 
-        progress.append("&7");
+        builder.append("&7");
 
         for (int i = 0; i < rest; i++) {
-            progress.append(':');
+            builder.append(':');
         }
 
-        progress.append(" - ").append(percentage).append('%');
-        return ChatColors.color(progress.toString());
+        builder.append(" - ").append(percentage).append('%');
+        return ChatColors.color(builder.toString());
     }
+
 
     private static short getDurability(ItemStack item, int timeLeft, int max) {
         return (short) ((item.getType().getMaxDurability() / max) * timeLeft);

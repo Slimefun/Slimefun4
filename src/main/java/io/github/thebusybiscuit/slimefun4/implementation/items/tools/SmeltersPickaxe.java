@@ -2,11 +2,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -64,7 +64,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> imple
     }
 
     private void smelt(Block b, ItemStack drop, int fortune) {
-        Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipes().getFurnaceOutput(drop);
+        Optional<ItemStack> furnaceOutput = SlimefunPlugin.getMinecraftRecipeService().getFurnaceOutput(drop);
 
         if (furnaceOutput.isPresent()) {
             b.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);

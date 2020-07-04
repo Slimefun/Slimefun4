@@ -25,7 +25,8 @@ class TimingsCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender.hasPermission("slimefun.command.timings") || sender instanceof ConsoleCommandSender) {
-            SlimefunPlugin.getTickerTask().info(sender);
+            sender.sendMessage("请等待几秒钟... 结果马上就来!");
+            SlimefunPlugin.getProfiler().requestSummary(sender);
         } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
         }

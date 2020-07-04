@@ -39,7 +39,7 @@ public final class LoreBuilder {
     }
 
     public static String powerCharged(int charge, int capacity) {
-        return "&c&o&8\u21E8 &e\u26A1 &7" + charge + " / " + capacity + " J";
+        return "&8\u21E8 &e\u26A1 &7" + charge + " / " + capacity + " J";
     }
 
     public static String material(String material) {

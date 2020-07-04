@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;

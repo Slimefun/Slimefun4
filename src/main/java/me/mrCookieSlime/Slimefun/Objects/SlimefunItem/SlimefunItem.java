@@ -1,9 +1,11 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
+import io.github.starwishsama.extra.SlimefunUpdater;
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
@@ -376,6 +378,7 @@ public class SlimefunItem implements Placeable {
                 }
 
                 state = ItemState.ENABLED;
+                checkForDeprecations(getClass());
 
                 useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
                 hidden = SlimefunPlugin.getItemCfg().getBoolean(id + ".hide-in-guide");
@@ -407,6 +410,11 @@ public class SlimefunItem implements Placeable {
 
             if (exception.isPresent()) {
                 throw exception.get();
+            } else {
+                // Make developers or at least Server admins aware that
+                // an Item is using a deprecated ItemHandler
+                checkForDeprecations(handler.getClass());
+                // A bit too spammy atm, will enable it again later
             }
 
             if (!handler.isPrivate()) {
@@ -417,12 +425,47 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
+     * This method checks recursively for all {@link Class} parents to look for any {@link Deprecated}
+     * elements.
+     * <p>
+     * If a {@link Deprecated} element was found, a warning message will be printed.
+     *
+     * @param c The {@link Class} from which to start this operation.
+     */
+    private void checkForDeprecations(Class<?> c) {
+        if (SlimefunUpdater.getBranch() == SlimefunBranch.DEVELOPMENT) {
+            // This method is currently way too spammy with all the restructuring going on...
+            // Since DEV builds are anyway under "development", things may be relocated.
+            // So we fire these only for stable versions, since devs should update then, so
+            // it's the perfect moment to tell them to act.
+            return;
+        }
+
+        // We do not wanna throw an Exception here since this could also mean that
+        // we have reached the end of the Class hierarchy
+        if (c != null) {
+            // Check if this Class is deprecated
+            if (c.isAnnotationPresent(Deprecated.class)) {
+                warn("The inherited Class \"" + c.getName() + "\" has been deprecated. Check the documentation for more details!");
+            }
+
+            for (Class<?> parent : c.getInterfaces()) {
+                // Check if this Interface is deprecated
+                if (parent.isAnnotationPresent(Deprecated.class)) {
+                    warn("The implemented Interface \"" + parent.getName() + "\" has been deprecated. Check the documentation for more details!");
+                }
+            }
+
+            checkForDeprecations(c.getSuperclass());
+        }
+    }
+
+    /**
      * This method will set the {@link Research} of this {@link SlimefunItem}.
      * You don't have to call this method if your {@link SlimefunItem} was linked to your {@link Research}
      * using {@link Research#addItems(SlimefunItem...)}
      *
-     * @param research
-     *            The new {@link Research} for this {@link SlimefunItem}
+     * @param research The new {@link Research} for this {@link SlimefunItem}
      */
     public void setResearch(Research research) {
         if (this.research != null) {
@@ -743,6 +786,11 @@ public class SlimefunItem implements Placeable {
     public void warn(String message) {
         String msg = toString() + ": " + message;
         addon.getLogger().log(Level.WARNING, msg);
+
+        if (addon.getBugTrackerURL() != null) {
+            // We can prompt the server operator to report it to the addon's bug tracker
+            addon.getLogger().log(Level.WARNING, "你可以在此反馈这个问题: {0}", addon.getBugTrackerURL());
+        }
     }
 
     /**

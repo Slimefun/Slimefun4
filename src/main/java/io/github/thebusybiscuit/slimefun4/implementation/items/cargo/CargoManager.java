@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -7,7 +8,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.ChatColor;

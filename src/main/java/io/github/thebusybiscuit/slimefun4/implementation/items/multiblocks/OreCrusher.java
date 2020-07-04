@@ -47,9 +47,12 @@ public class OreCrusher extends MultiBlockMachine {
 		displayRecipes.addAll(Arrays.asList(new ItemStack(Material.COAL_ORE), doubleOres.getCoal(), new ItemStack(Material.LAPIS_ORE), doubleOres.getLapisLazuli(), new ItemStack(Material.REDSTONE_ORE), doubleOres.getRedstone(), new ItemStack(Material.DIAMOND_ORE), doubleOres.getDiamond(), new ItemStack(Material.EMERALD_ORE), doubleOres.getEmerald(), new ItemStack(Material.NETHER_QUARTZ_ORE), doubleOres.getNetherQuartz()));
 
 		if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-			displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
-			displayRecipes.add(doubleOres.getGoldNuggets());
-		}
+            displayRecipes.add(new ItemStack(Material.NETHER_GOLD_ORE));
+            displayRecipes.add(doubleOres.getGoldNuggets());
+
+            displayRecipes.add(new ItemStack(Material.GILDED_BLACKSTONE));
+            displayRecipes.add(doubleOres.getGoldNuggets());
+        }
 	}
 
 	@Override

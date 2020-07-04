@@ -1,8 +1,9 @@
-package me.mrCookieSlime.Slimefun.Objects.handlers;
+package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SlimefunBow;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;

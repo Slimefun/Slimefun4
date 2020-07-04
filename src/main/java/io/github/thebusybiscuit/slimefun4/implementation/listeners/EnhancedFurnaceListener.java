@@ -51,7 +51,7 @@ public class EnhancedFurnaceListener implements Listener {
             Optional<ItemStack> result = Optional.ofNullable(furnace.getInventory().getResult());
 
             if (!result.isPresent()) {
-                result = SlimefunPlugin.getMinecraftRecipes().getFurnaceOutput(furnace.getInventory().getSmelting());
+                result = SlimefunPlugin.getMinecraftRecipeService().getFurnaceOutput(furnace.getInventory().getSmelting());
             }
 
             if (result.isPresent()) {

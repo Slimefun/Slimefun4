@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockDispenseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

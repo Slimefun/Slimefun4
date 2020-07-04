@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.EntityKillHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

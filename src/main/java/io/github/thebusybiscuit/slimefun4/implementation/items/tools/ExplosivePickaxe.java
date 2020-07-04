@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author TheBusyBiscuit
  * @see ExplosiveShovel
+ * @see ExplosiveTool
  */
 public class ExplosivePickaxe extends ExplosiveTool {
 

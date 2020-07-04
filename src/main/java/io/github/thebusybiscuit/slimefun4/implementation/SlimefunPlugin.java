@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.*;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.metrics.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
@@ -81,6 +82,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
+    private final SlimefunProfiler profiler = new SlimefunProfiler();
     private LocalizationService local;
     private SlimefunUpdater updater;
 
@@ -111,8 +113,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public void onEnable() {
+        instance = this;
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
-            instance = this;
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
             command.register();
@@ -125,14 +127,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return;
             }
 
-            instance = this;
-
             // Creating all necessary Folders
-            getLogger().log(Level.INFO, "加载基础系统...");
+            getLogger().log(Level.INFO, "正在创建文件夹...");
             createDirectories();
             registry.load(config);
 
             // Set up localization
+            getLogger().log(Level.INFO, "正在加载语言文件...");
             local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
 
             // Setting up Networks
@@ -168,59 +169,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             PostSetup.setupWiki();
 
             // All Slimefun Listeners
-            new SlimefunBootsListener(this);
-            new SlimefunItemListener(this);
-            new SlimefunItemConsumeListener(this);
-            new BlockPhysicsListener(this);
-            new CargoNodeListener(this);
-            new MultiBlockListener(this);
-            new GadgetsListener(this);
-            new DispenserListener(this);
-            new MobDropListener(this, (BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem());
-            new BlockListener(this);
-            new EnhancedFurnaceListener(this);
-            new ItemPickupListener(this);
-            new DeathpointListener(this);
-            new ExplosionsListener(this);
-            new DebugFishListener(this);
-            new VanillaMachinesListener(this);
-            new FireworksListener(this);
-            new WitherListener(this);
-            new IronGolemListener(this);
-            new PlayerInteractEntityListener(this);
-
-            new ProtectionChecker(this);
-
-            // Item-specific Listeners
-            new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
-            new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
-            new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
-            grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
-            ancientAltarListener.register(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem());
-
-            bowListener.register(this);
-
-            // Toggleable Listeners for performance reasons
-            if (config.getBoolean("items.talismans")) {
-                new TalismanListener(this);
-            }
-
-            if (config.getBoolean("items.soulbound")) {
-                new SoulboundListener(this);
-            }
-
-            if (config.getBoolean("items.backpacks")) {
-                backpackListener.register(this);
-            }
-
-            // Handle Slimefun Guide being given on Join
-            new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));
-
-            // Load/Unload Worlds in Slimefun
-            new WorldListener(this);
-
-            // Clear the Slimefun Guide History upon Player Leaving
-            new PlayerProfileListener(this);
+            getLogger().log(Level.INFO, "正在注册监听器...");
+            registerListeners();
 
             // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
             Slimefun.runSync(new SlimefunStartupTask(this, () -> {
@@ -258,6 +208,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
         } else {
+            instance = null;
+
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");
             getLogger().log(Level.INFO, "Slimefun 未被加载.");
@@ -397,6 +349,63 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    private void registerListeners() {
+        new SlimefunBootsListener(this);
+        new SlimefunItemListener(this);
+        new SlimefunItemConsumeListener(this);
+        new BlockPhysicsListener(this);
+        new CargoNodeListener(this);
+        new MultiBlockListener(this);
+        new GadgetsListener(this);
+        new DispenserListener(this);
+        new MobDropListener(this, (BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem());
+        new BlockListener(this);
+        new EnhancedFurnaceListener(this);
+        new ItemPickupListener(this);
+        new DeathpointListener(this);
+        new ExplosionsListener(this);
+        new DebugFishListener(this);
+        new VanillaMachinesListener(this);
+        new FireworksListener(this);
+        new WitherListener(this);
+        new IronGolemListener(this);
+        new PlayerInteractEntityListener(this);
+
+        // 领地权限检查器
+        new ProtectionChecker(this);
+
+        // Item-specific Listeners
+        new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
+        new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
+        new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
+        grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
+        ancientAltarListener.register(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem());
+
+        bowListener.register(this);
+
+        // Toggleable Listeners for performance reasons
+        if (config.getBoolean("items.talismans")) {
+            new TalismanListener(this);
+        }
+
+        if (config.getBoolean("items.soulbound")) {
+            new SoulboundListener(this);
+        }
+
+        if (config.getBoolean("items.backpacks")) {
+            backpackListener.register(this);
+        }
+
+        // Handle Slimefun Guide being given on Join
+        new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));
+
+        // Load/Unload Worlds in Slimefun
+        new WorldListener(this);
+
+        // Clear the Slimefun Guide History upon Player Leaving
+        new PlayerProfileListener(this);
+    }
+
     private void loadItems() {
         try {
             SlimefunItemSetup.setup(this);
@@ -455,7 +464,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.local;
     }
 
-    public static MinecraftRecipeService getMinecraftRecipes() {
+    public static MinecraftRecipeService getMinecraftRecipeService() {
         return instance.recipeService;
     }
 
@@ -536,6 +545,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     public static SlimefunCommand getCommand() {
         return instance.command;
+    }
+
+    public static SlimefunProfiler getProfiler() {
+        return instance.profiler;
     }
 
     /**

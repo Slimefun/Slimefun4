@@ -1,17 +1,9 @@
 package me.mrCookieSlime.Slimefun.Objects.handlers;
 
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
+/**
+ * @deprecated Moved to {@link io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler}
+ */
+@Deprecated
+public interface BlockBreakHandler extends io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler {
 
-import java.util.List;
-
-@FunctionalInterface
-public interface BlockBreakHandler extends ItemHandler {
-
-    boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops);
-
-    @Override
-    default Class<? extends ItemHandler> getIdentifier() {
-        return BlockBreakHandler.class;
-    }
 }

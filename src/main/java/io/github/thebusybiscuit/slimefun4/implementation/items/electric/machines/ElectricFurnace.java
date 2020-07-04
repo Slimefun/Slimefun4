@@ -20,7 +20,7 @@ public abstract class ElectricFurnace extends AContainer {
 
     @Override
     public void registerDefaultRecipes() {
-        SlimefunPlugin.getMinecraftRecipes().subscribe(snapshot -> {
+        SlimefunPlugin.getMinecraftRecipeService().subscribe(snapshot -> {
             for (FurnaceRecipe recipe : snapshot.getRecipes(FurnaceRecipe.class)) {
                 RecipeChoice choice = recipe.getInputChoice();
 

@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.handlers.MultiBlockInteractionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;

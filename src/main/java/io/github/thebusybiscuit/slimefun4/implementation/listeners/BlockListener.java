@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -67,14 +67,7 @@ public class BlockListener implements Listener {
                 if (blockHandler != null) {
                     blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
                 } else {
-                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onBlockPlace(e, item));
-                }
-            }
-        }
-        else {
-            for (ItemHandler handler : SlimefunItem.getPublicItemHandlers(BlockPlaceHandler.class)) {
-                if (((BlockPlaceHandler) handler).onBlockPlace(e, item)) {
-                    break;
+                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onBlockPlace(e.getPlayer(), e, item));
                 }
             }
         }
@@ -123,6 +116,7 @@ public class BlockListener implements Listener {
                 }
             }
         }
+
         dropItems(e, drops);
     }
 

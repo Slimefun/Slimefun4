@@ -189,4 +189,8 @@ public class SlimefunUpdater {
 
         branch = SlimefunBranch.DEVELOPMENT;
     }
+
+    public static SlimefunBranch getBranch() {
+        return branch;
+    }
 }

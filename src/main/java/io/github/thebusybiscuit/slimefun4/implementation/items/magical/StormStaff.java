@@ -2,13 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.*;
 import org.bukkit.entity.LightningStrike;

@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Sound;
 import org.bukkit.entity.EnderPearl;

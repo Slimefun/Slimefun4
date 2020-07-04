@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SlimefunBow;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;

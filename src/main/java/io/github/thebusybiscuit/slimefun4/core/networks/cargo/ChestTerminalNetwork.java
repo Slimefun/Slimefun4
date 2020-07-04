@@ -46,13 +46,24 @@ abstract class ChestTerminalNetwork extends Network {
     // This represents a Queue of requests to handle
     private final Queue<ItemRequest> itemRequests = new LinkedList<>();
 
+    // This is a cache for the BlockFace a node is facing, so we don't need to request the
+    // BlockData each time we visit a node
+    protected Map<Location, BlockFace> connectorCache = new HashMap<>();
+
     protected ChestTerminalNetwork(Location regulator) {
         super(SlimefunPlugin.getNetworkManager(), regulator);
     }
 
-    protected static Optional<Block> getAttachedBlock(Block block) {
+    protected Optional<Block> getAttachedBlock(Block block) {
         if (block.getType() == Material.PLAYER_WALL_HEAD) {
+            BlockFace cached = connectorCache.get(block.getLocation());
+
+            if (cached != null) {
+                return Optional.of(block.getRelative(cached));
+            }
+
             BlockFace face = ((Directional) block.getBlockData()).getFacing().getOppositeFace();
+            connectorCache.put(block.getLocation(), face);
             return Optional.of(block.getRelative(face));
         }
 
@@ -227,7 +238,8 @@ abstract class ChestTerminalNetwork extends Network {
      * This method updates every terminal on the network with {@link ItemStack ItemStacks}
      * found in any provider of the network.
      *
-     * @param providers A {@link Set} of providers to this {@link ChestTerminalNetwork}
+     * @param providers
+     *            A {@link Set} of providers to this {@link ChestTerminalNetwork}
      */
     protected void updateTerminals(Set<Location> providers) {
         List<ItemStackAndInteger> items = findAvailableItems(providers);
@@ -254,6 +266,7 @@ abstract class ChestTerminalNetwork extends Network {
             ItemStackAndInteger item = items.get(index);
 
             ItemStack stack = item.getItem().clone();
+            stack.setAmount(1);
             ItemMeta im = stack.getItemMeta();
             List<String> lore = new ArrayList<>();
             lore.add("");
@@ -346,7 +359,7 @@ abstract class ChestTerminalNetwork extends Network {
                 }
 
                 if (add) {
-                    items.add(new ItemStackAndInteger(new CustomItem(is, 1), is.getAmount() + stored));
+                    items.add(new ItemStackAndInteger(is, is.getAmount() + stored));
                 }
             }
         }
@@ -358,19 +371,19 @@ abstract class ChestTerminalNetwork extends Network {
         }
     }
 
-    private void filter(ItemStack is, List<ItemStackAndInteger> items, Location l) {
-        if (is != null && CargoUtils.matchesFilter(l.getBlock(), is)) {
+    private void filter(ItemStack stack, List<ItemStackAndInteger> items, Location node) {
+        if (stack != null && CargoUtils.matchesFilter(node.getBlock(), stack)) {
             boolean add = true;
 
             for (ItemStackAndInteger item : items) {
-                if (SlimefunUtils.isItemSimilar(is, item.getItem(), true)) {
+                if (SlimefunUtils.isItemSimilar(stack, item.getItem(), true)) {
                     add = false;
-                    item.add(is.getAmount());
+                    item.add(stack.getAmount());
                 }
             }
 
             if (add) {
-                items.add(new ItemStackAndInteger(new CustomItem(is, 1), is.getAmount()));
+                items.add(new ItemStackAndInteger(stack, stack.getAmount()));
             }
         }
     }

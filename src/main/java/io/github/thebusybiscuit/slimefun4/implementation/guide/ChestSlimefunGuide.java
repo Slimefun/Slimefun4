@@ -339,7 +339,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        Recipe[] recipes = SlimefunPlugin.getMinecraftRecipes().getRecipesFor(item);
+        Recipe[] recipes = SlimefunPlugin.getMinecraftRecipeService().getRecipesFor(item);
 
         if (recipes.length == 0) {
             return;
@@ -361,7 +361,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         if (optional.isPresent()) {
             MinecraftRecipe<?> mcRecipe = optional.get();
 
-            RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipes().getRecipeShape(recipe);
+            RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipeService().getRecipeShape(recipe);
 
             if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
                 recipeItems[4] = new ItemStack(((MaterialChoice) choices[0]).getChoices().get(0));

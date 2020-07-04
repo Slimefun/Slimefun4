@@ -12,18 +12,22 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * This is just a simple helper class to provide static methods to the {@link Rechargeable}
  * interface.
  *
  * @author TheBusyBiscuit
+ *
  * @see Rechargeable
+ *
  */
 final class RechargeableHelper {
 
     private static final NamespacedKey CHARGE_KEY = new NamespacedKey(SlimefunPlugin.instance, "item_charge");
-    private static final String LORE_PREFIX = ChatColors.color("&c&o&8\u21E8 &e\u26A1 &7");
+    private static final String LORE_PREFIX = ChatColors.color("&8\u21E8 &e\u26A1 &7");
+    private static final Pattern REGEX = Pattern.compile(ChatColors.color("(&c&o)?" + LORE_PREFIX) + "[0-9\\.]+ \\/ [0-9\\.]+ J");
 
     private RechargeableHelper() {
     }
@@ -40,7 +44,7 @@ final class RechargeableHelper {
         for (int i = 0; i < lore.size(); i++) {
             String line = lore.get(i);
 
-            if (line.startsWith(LORE_PREFIX)) {
+            if (REGEX.matcher(line).matches()) {
                 lore.set(i, LORE_PREFIX + value + " / " + capacity + " J");
                 meta.setLore(lore);
                 return;
@@ -55,15 +59,16 @@ final class RechargeableHelper {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             Float value = meta.getPersistentDataContainer().get(CHARGE_KEY, PersistentDataType.FLOAT);
 
-            // If no persistent data exists, we will just fall back to the lore
+            // If persistent data is available, we just return this value
             if (value != null) {
                 return value;
             }
         }
 
+        // If no persistent data exists, we will just fall back to the lore
         if (meta.hasLore()) {
             for (String line : meta.getLore()) {
-                if (line.startsWith(LORE_PREFIX) && line.contains(" / ") && line.endsWith(" J")) {
+                if (REGEX.matcher(line).matches()) {
                     return Float.parseFloat(PatternUtils.SLASH_SEPARATOR.split(line)[0].replace(LORE_PREFIX, ""));
                 }
             }

@@ -314,7 +314,7 @@ final class CargoUtils {
         if (lazy) {
             return stack != null && Tag.LOGS.isTagged(stack.getType());
         } else {
-            return SlimefunPlugin.getMinecraftRecipes().isSmeltable(stack);
+            return SlimefunPlugin.getMinecraftRecipeService().isSmeltable(stack);
         }
     }
 

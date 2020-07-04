@@ -19,23 +19,24 @@ import java.util.concurrent.ThreadLocalRandom;
  * The {@link EnhancedFurnace} is an upgraded version of a {@link Furnace}.
  * It has a custom speed, efficiency and also a level of fortune.
  * All of these values are tweaked for every instance of this class.
- * <p>
+ *
  * It uses a {@link BlockTicker} to manipulate the {@link Furnace} into working faster.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 
     private final int speed;
     private final int efficiency;
-    private final int fortune;
+    private final int fortuneLevel;
 
     public EnhancedFurnace(Category category, int speed, int efficiency, int fortune, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
 
         this.speed = speed - 1;
         this.efficiency = efficiency - 1;
-        this.fortune = fortune - 1;
+        this.fortuneLevel = fortune - 1;
     }
 
     public int getSpeed() {
@@ -47,11 +48,8 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
     }
 
     public int getOutput() {
-        int bonus = this.fortune;
-        bonus = ThreadLocalRandom.current().nextInt(bonus + 2) - 1;
-        if (bonus <= 0) bonus = 0;
-        bonus++;
-        return bonus;
+        int bonus = ThreadLocalRandom.current().nextInt(fortuneLevel + 2);
+        return 1 + bonus;
     }
 
     @Override
@@ -68,7 +66,6 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 
                     if (furnace.getCookTime() > 0) {
                         int cookTime = furnace.getCookTime() + getSpeed() * 10;
-
                         furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal() - 1));
                         furnace.update(true, false);
                     }
