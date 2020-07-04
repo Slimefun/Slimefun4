@@ -11,11 +11,14 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.net.ssl.SSLException;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +33,7 @@ public class SlimefunUpdater {
     private static final String downloadDir = SlimefunPlugin.instance.getServer().getUpdateFolder();
     private static final String browserUA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36";
     private static SlimefunBranch branch;
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyMMdd");
 
     /**
      * 下载文件
@@ -65,9 +69,11 @@ public class SlimefunUpdater {
             SlimefunPlugin.instance.getFile().deleteOnExit();
             Slimefun.getLogger().info(ChatColors.color("&a自动更新已完成, 重启服务端后即可更新到最新版本"));
         } catch (Exception e) {
-            file.delete();
+            if (!file.delete()) {
+                Slimefun.getLogger().log(Level.SEVERE, e, () -> "无法删除损坏文件: " + fileName);
+            }
 
-            if (e.getCause() instanceof SSLException) {
+            if (e.getCause() instanceof SocketTimeoutException) {
                 Slimefun.getLogger().log(Level.SEVERE, e, () -> "在下载时发生了错误: 连接超时");
                 return;
             }
@@ -171,10 +177,10 @@ public class SlimefunUpdater {
         Validate.notEmpty(versionToCompare, "Compare version code can't be empty!");
 
         try {
-            int currentVersion = Integer.parseInt(current.split("-")[2]);
-            int comparedVersion = Integer.parseInt(versionToCompare.split("-")[2]);
-            return currentVersion >= comparedVersion;
-        } catch (NumberFormatException e) {
+            LocalDateTime currentVersion = LocalDateTime.parse(current.split("-")[2], dateFormat);
+            LocalDateTime comparedVersion = LocalDateTime.parse(versionToCompare.split("-")[2], dateFormat);
+            return currentVersion.isBefore(comparedVersion);
+        } catch (NumberFormatException | DateTimeParseException e) {
             return false;
         }
     }
