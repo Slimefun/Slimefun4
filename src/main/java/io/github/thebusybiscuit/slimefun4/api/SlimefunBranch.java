@@ -29,7 +29,12 @@ public enum SlimefunBranch {
      * This build comes from any other branch. The version does not look like anything we recognize.
      * It is definitely not an official build.
      */
-    UNKNOWN("Unofficial build", false);
+    UNKNOWN("Unofficial build", false),
+
+    /**
+     * 这是汉化版自动打包编译后出现的版本
+     */
+    NIGHTLY("Nightly build", true);
 
     private final String name;
     private final boolean official;

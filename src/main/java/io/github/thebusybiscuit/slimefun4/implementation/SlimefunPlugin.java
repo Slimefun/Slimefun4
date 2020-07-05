@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
@@ -203,8 +204,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Slimefun 完成加载, 耗时 {0}", getStartupTime(timestamp));
 
             if (config.getBoolean("options.auto-update") || config.getBoolean("options.update-check")) {
-                updater = new SlimefunUpdater();
-                Bukkit.getServer().getScheduler().runTaskAsynchronously(instance, updater::checkUpdate);
+                if (SlimefunUpdater.getBranch() == SlimefunBranch.DEVELOPMENT || SlimefunUpdater.getBranch() == SlimefunBranch.STABLE) {
+                    updater = new SlimefunUpdater();
+                    Bukkit.getServer().getScheduler().runTaskAsynchronously(instance, updater::checkUpdate);
+                }
             }
 
         } else {

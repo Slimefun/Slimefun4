@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 
 /**
@@ -190,14 +191,15 @@ public class SlimefunUpdater {
     }
 
     public static void autoSelectBranch(JavaPlugin plugin) {
-        String version = plugin.getDescription().getVersion();
+        String version = plugin.getDescription().getVersion().toLowerCase(Locale.ROOT);
 
-        if (version.contains("RC")) {
+        if (version.contains("stable")) {
             branch = SlimefunBranch.STABLE;
-            return;
+        } else if (version.contains("dev")) {
+            branch = SlimefunBranch.DEVELOPMENT;
+        } else {
+            branch = SlimefunBranch.NIGHTLY;
         }
-
-        branch = SlimefunBranch.DEVELOPMENT;
     }
 
     public static SlimefunBranch getBranch() {

@@ -59,7 +59,8 @@ public class MinecraftRecipeService {
      * When the {@link Server} has finished loading and a {@link Collection} of all
      * {@link Recipe Recipes} is created, the given callback will be run.
      *
-     * @param subscription A callback to run when the {@link RecipeSnapshot} has been created.
+     * @param subscription
+     *            A callback to run when the {@link RecipeSnapshot} has been created.
      */
     public void subscribe(Consumer<RecipeSnapshot> subscription) {
         Validate.notNull(subscription, "Callback must not be null!");
@@ -70,7 +71,9 @@ public class MinecraftRecipeService {
      * This method returns an {@link Optional} describing the output of a {@link FurnaceRecipe}
      * with the given {@link ItemStack} as an input.
      *
-     * @param input The input {@link ItemStack}
+     * @param input
+     *            The input {@link ItemStack}
+     *
      * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
      */
     public Optional<ItemStack> getFurnaceOutput(ItemStack input) {
@@ -84,7 +87,9 @@ public class MinecraftRecipeService {
     /**
      * This returns whether a given {@link ItemStack} can be smelted in a {@link FurnaceRecipe}.
      *
-     * @param input The {@link ItemStack} to test
+     * @param input
+     *            The {@link ItemStack} to test
+     *
      * @return Whether this item can be smelted
      */
     public boolean isSmeltable(ItemStack input) {
@@ -98,7 +103,8 @@ public class MinecraftRecipeService {
      * For a {@link ShapedRecipe} this method will fix the order so it matches a
      * 3x3 crafting grid.
      *
-     * @param recipe The {@link Recipe} to get the shape from
+     * @param recipe
+     *            The {@link Recipe} to get the shape from
      * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
      */
     public RecipeChoice[] getRecipeShape(Recipe recipe) {
