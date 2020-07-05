@@ -26,7 +26,8 @@ class TimingsCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender.hasPermission("slimefun.command.timings") || sender instanceof ConsoleCommandSender) {
-            SlimefunPlugin.getTickerTask().info(sender);
+            sender.sendMessage("Please wait a second... The results are coming in!");
+            SlimefunPlugin.getProfiler().requestSummary(sender);
         }
         else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);

@@ -7,13 +7,13 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -68,11 +68,18 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
                     return 0;
                 }
 
+                boolean isDaytime = isDaytime(world);
+
+                // Performance optimization for daytime-only solar generators
+                if (!isDaytime && getNightEnergy() < 0.1) {
+                    return 0;
+                }
+
                 if (!world.isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
                     return 0;
                 }
 
-                if (world.getTime() < 12300 || world.getTime() > 23850) {
+                if (isDaytime) {
                     return getDayEnergy();
                 }
 
@@ -84,6 +91,19 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
                 return false;
             }
         };
+    }
+
+    /**
+     * This method returns whether a given {@link World} has daytime.
+     * It will also return false if a thunderstorm is active in this world.
+     * 
+     * @param world
+     *            The {@link World} to check
+     * 
+     * @return Whether the given {@link World} has daytime and no active thunderstorm
+     */
+    private boolean isDaytime(World world) {
+        return !world.hasStorm() && !world.isThundering() && (world.getTime() < 12300 || world.getTime() > 23850);
     }
 
     @Override

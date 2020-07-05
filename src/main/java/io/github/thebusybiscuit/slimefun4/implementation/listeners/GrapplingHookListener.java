@@ -6,32 +6,42 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityPortalEnterEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} is responsible for the mechanics behind the {@link GrapplingHook}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Linox
+ * @author BlackBeltPanda
+ * 
+ * @see GrapplingHook
+ *
+ */
 public class GrapplingHookListener implements Listener {
 
     private GrapplingHook grapplingHook;
 
-    private final Map<UUID, Boolean> grappleState = new HashMap<>();
-    private final Set<UUID> invulnerable = new HashSet<>();
-    private final Map<UUID, Entity[]> temporaryEntities = new HashMap<>();
+    private final Map<UUID, GrapplingHookEntity> activeHooks = new HashMap<>();
+    private final Set<UUID> invulnerability = new HashSet<>();
 
     public void register(SlimefunPlugin plugin, GrapplingHook grapplingHook) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -39,9 +49,13 @@ public class GrapplingHookListener implements Listener {
         this.grapplingHook = grapplingHook;
     }
 
+    private boolean isEnabled() {
+        return grapplingHook != null && !grapplingHook.isDisabled();
+    }
+
     @EventHandler
     public void onArrowHitEntity(EntityDamageByEntityEvent e) {
-        if (grapplingHook == null || grapplingHook.isDisabled()) {
+        if (!isEnabled()) {
             return;
         }
 
@@ -51,102 +65,137 @@ public class GrapplingHookListener implements Listener {
     }
 
     @EventHandler
-    public void onArrowHit(ProjectileHitEvent e) {
-        if (grapplingHook == null || grapplingHook.isDisabled()) {
+    public void onArrowHitSurface(ProjectileHitEvent e) {
+        if (!isEnabled()) {
             return;
         }
 
         Slimefun.runSync(() -> {
-            if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
+            if (e.getEntity() instanceof Arrow) {
                 handleGrapplingHook((Arrow) e.getEntity());
             }
-        }, 4L);
+        }, 2L);
     }
 
     @EventHandler
-    public void onArrowHit(EntityDamageEvent e) {
-        if (grapplingHook == null || grapplingHook.isDisabled()) {
+    public void onArrowHitHanging(HangingBreakByEntityEvent e) {
+        if (!isEnabled()) {
             return;
         }
 
-        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerable.contains(e.getEntity().getUniqueId())) {
+        // This is called when the arrow shoots off a painting or an item frame
+        if (e.getRemover() instanceof Arrow) {
+            handleGrapplingHook((Arrow) e.getRemover());
+        }
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        UUID uuid = e.getPlayer().getUniqueId();
+        activeHooks.remove(uuid);
+        invulnerability.remove(uuid);
+    }
+
+    @EventHandler
+    public void onLeave(PlayerKickEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        UUID uuid = e.getPlayer().getUniqueId();
+        activeHooks.remove(uuid);
+        invulnerability.remove(uuid);
+    }
+
+    @EventHandler
+    public void onFallDamage(EntityDamageEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL && invulnerability.remove(e.getEntity().getUniqueId())) {
             e.setCancelled(true);
-            invulnerable.remove(e.getEntity().getUniqueId());
+        }
+    }
+
+    @EventHandler
+    public void onPortalEnter(EntityPortalEnterEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        if (e.getEntity() instanceof Arrow) {
+            handleGrapplingHook((Arrow) e.getEntity());
         }
     }
 
     private void handleGrapplingHook(Arrow arrow) {
-        if (arrow != null && arrow.getShooter() instanceof Player && grappleState.containsKey(((Player) arrow.getShooter()).getUniqueId())) {
+        if (arrow != null && arrow.isValid() && arrow.getShooter() instanceof Player) {
             Player p = (Player) arrow.getShooter();
+            GrapplingHookEntity hook = activeHooks.get(p.getUniqueId());
 
-            if (p.getGameMode() != GameMode.CREATIVE && (boolean) grappleState.get(p.getUniqueId())) {
-                arrow.getWorld().dropItem(arrow.getLocation(), SlimefunItems.GRAPPLING_HOOK.clone());
-            }
+            if (hook != null) {
+                Location target = arrow.getLocation();
+                hook.drop(target);
 
-            Vector velocity = new Vector(0.0, 0.2, 0.0);
+                Vector velocity = new Vector(0.0, 0.2, 0.0);
 
-            if (p.getLocation().distance(arrow.getLocation()) < 3.0) {
-                if (arrow.getLocation().getY() <= p.getLocation().getY()) {
-                    velocity = arrow.getLocation().toVector().subtract(p.getLocation().toVector());
+                if (p.getLocation().distance(target) < 3.0) {
+                    if (target.getY() <= p.getLocation().getY()) {
+                        velocity = target.toVector().subtract(p.getLocation().toVector());
+                    }
                 }
-            }
-            else {
-                Location l = p.getLocation();
-                l.setY(l.getY() + 0.5);
-                p.teleport(l);
+                else {
+                    Location l = p.getLocation();
+                    l.setY(l.getY() + 0.5);
+                    p.teleport(l);
 
-                double g = -0.08;
-                double d = arrow.getLocation().distance(l);
-                double t = d;
-                double vX = (1.0 + 0.08 * t) * (arrow.getLocation().getX() - l.getX()) / t;
-                double vY = (1.0 + 0.04 * t) * (arrow.getLocation().getY() - l.getY()) / t - 0.5D * g * t;
-                double vZ = (1.0 + 0.08 * t) * (arrow.getLocation().getZ() - l.getZ()) / t;
+                    double g = -0.08;
+                    double d = target.distance(l);
+                    double t = d;
+                    double vX = (1.0 + 0.08 * t) * (target.getX() - l.getX()) / t;
+                    double vY = (1.0 + 0.04 * t) * (target.getY() - l.getY()) / t - 0.5D * g * t;
+                    double vZ = (1.0 + 0.08 * t) * (target.getZ() - l.getZ()) / t;
 
-                velocity = p.getVelocity();
-                velocity.setX(vX);
-                velocity.setY(vY);
-                velocity.setZ(vZ);
-            }
-
-            p.setVelocity(velocity);
-
-            for (Entity n : temporaryEntities.get(p.getUniqueId())) {
-                if (n.isValid()) {
-                    n.remove();
+                    velocity = p.getVelocity();
+                    velocity.setX(vX);
+                    velocity.setY(vY);
+                    velocity.setZ(vZ);
                 }
-            }
 
-            Slimefun.runSync(() -> {
-                grappleState.remove(p.getUniqueId());
-                temporaryEntities.remove(p.getUniqueId());
-            }, 20L);
+                p.setVelocity(velocity);
+
+                hook.remove();
+                Slimefun.runSync(() -> activeHooks.remove(p.getUniqueId()), 20L);
+            }
         }
     }
 
     public boolean isGrappling(UUID uuid) {
-        return grappleState.containsKey(uuid);
+        return activeHooks.containsKey(uuid);
     }
 
-    public void addGrapplingHook(UUID uuid, Arrow arrow, Bat b, boolean state, long despawnTicks) {
-        grappleState.put(uuid, state);
-        invulnerable.add(uuid);
-        temporaryEntities.put(uuid, new Entity[] { b, arrow });
+    public void addGrapplingHook(Player p, Arrow arrow, Bat bat, boolean dropItem, long despawnTicks) {
+        GrapplingHookEntity hook = new GrapplingHookEntity(p, arrow, bat, dropItem);
+        UUID uuid = p.getUniqueId();
+
+        activeHooks.put(uuid, hook);
 
         // To fix issue #253
         Slimefun.runSync(() -> {
-            if (grappleState.containsKey(uuid)) {
-                SlimefunPlugin.getBowListener().getProjectileData().remove(uuid);
+            GrapplingHookEntity entity = activeHooks.get(uuid);
 
-                for (Entity n : temporaryEntities.get(uuid)) {
-                    if (n.isValid()) {
-                        n.remove();
-                    }
-                }
+            if (entity != null) {
+                SlimefunPlugin.getBowListener().getProjectileData().remove(uuid);
+                entity.remove();
 
                 Slimefun.runSync(() -> {
-                    invulnerable.remove(uuid);
-                    grappleState.remove(uuid);
-                    temporaryEntities.remove(uuid);
+                    activeHooks.remove(uuid);
+                    invulnerability.remove(uuid);
                 }, 20L);
             }
         }, despawnTicks);

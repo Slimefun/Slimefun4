@@ -35,22 +35,34 @@
 * Added Clay -> Clay blocks recipe to the Electric Press
 * (1.16+) Slimefun guide can now show Smithing Table recipes
 * (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
+* (1.16+) Added Gilded Blackstone recipe to the Ore Crusher
 * (1.16+) Added Shroomlights to the fuel list for the Bio Generator
 * (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
+* Added an AoE damage effect to the Explosive Bow
+* Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
+* Added a proper lag profiler
+* Added per-plugin lag info to /sf timings
 
 #### Changes
 * Coolant Cells now last twice as long
 * Ticking blocks will now catch more errors caused by addons
-* Massive performance improvements to GPS/GEO machines, especially Oil Pump and GEO Miner
 * Changed the texture for the Nuclear Reactor
 * Changed the texture for the Nether Star Reactor
-* Performance improvements to Rainbow Blocks
 * Crafting Tin cans now produces 8 items instead of 4
 * Multi Tool lore now says "Crouch" instead of "Hold Shift"
-* items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
-* Small performance improvements to the Cargo Net
+* Items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
 * Slimefun no longer supports CraftBukkit
 * Item Energy is now also stored persistently via NBT
+* Performance improvements to GPS/GEO machines, especially Oil Pump and GEO Miner
+* Performance improvements for ticking blocks
+* Performance improvements to the Cargo Net
+* performance improvements to the Energy Net
+* Performance improvements to Rainbow Blocks
+* Performance improvements to Androids
+* performance improvements to Generators and Electric Machines
+* Cargo timings will now be attributed to the corresponding node and not the Cargo manager
+* Thunderstorms now count as night time for Solar Generators
+* Fixed an issue with moving androids getting stuck
 
 #### Fixes
 * Fixed #2005
@@ -64,6 +76,17 @@
 * Fixed a rare concurrency issue with world saving
 * Fixed some contributors showing up twice
 * Fixed #2062
+* Fixed Grappling hooks disappearing when fired at Item frames or paintaings
+* Fixed Grappling hooks not getting removed when the Player leaves
+* Fixed Grappling hooks making Bat sounds
+* Fixed #1959
+* Fixed Melon Juice requiring Melons instead of Melon Slices
+* Fixed Cargo networks not showing up in /sf timings
+* Fixed /sf timings reporting slightly inaccurate timings
+* Fixed concurrency-related issues with the profiling
+* Fixed #2066
+* Fixed Rainbow Glass Panes not properly connecting to blocks
+* Fixed Androids turning in the wrong direction
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

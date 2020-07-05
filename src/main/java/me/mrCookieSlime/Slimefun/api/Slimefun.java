@@ -231,12 +231,20 @@ public final class Slimefun {
             return null;
         }
 
+        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+            return null;
+        }
+
         return Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
     }
 
     public static BukkitTask runSync(Runnable r, long delay) {
         if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             r.run();
+            return null;
+        }
+
+        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
             return null;
         }
 

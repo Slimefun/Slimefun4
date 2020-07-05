@@ -89,6 +89,7 @@ public class BlockPhysicsListener implements Listener {
     public void onBucketUse(PlayerBucketEmptyEvent e) {
         // Fix for placing water on player heads
         Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
+
         if (BlockStorage.hasBlockInfo(l)) {
             e.setCancelled(true);
         }

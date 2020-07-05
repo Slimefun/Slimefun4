@@ -44,10 +44,7 @@ public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
             if (result.isPresent()) {
                 ItemStack drop = result.get();
                 menu.pushItem(drop, getOutputSlots());
-
-                if (menu.fits(drop, getOutputSlots())) {
-                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                }
+                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
             }
         }
     }
