@@ -39,7 +39,7 @@ enum SupportedLanguage {
     GREEK("el", false, "1514de6dd2b7682b1d3ebcd10291ae1f021e3012b5c8beffeb75b1819eb4259d"),
     SLOVAK("sk", true, "6c72a8c115a1fb669a25715c4d15f22136ac4c2452784e4894b3d56bc5b0b9"),
     VIETNAMESE("vi", true, "8a57b9d7dd04169478cfdb8d0b6fd0b8c82b6566bb28371ee9a7c7c1671ad0bb"),
-    INDONESIAN("id", false, "5db2678ccaba7934412cb97ee16d416463a392574c5906352f18dea42895ee"),
+    INDONESIAN("id", true, "5db2678ccaba7934412cb97ee16d416463a392574c5906352f18dea42895ee"),
     CHINESE_CHINA("zh-CN", true, "7f9bc035cdc80f1ab5e1198f29f3ad3fdd2b42d9a69aeb64de990681800b98dc"),
     CHINESE_TAIWAN("zh-TW", true, "702a4afb2e1e2e3a1894a8b74272f95cfa994ce53907f9ac140bd3c932f9f"),
     JAPANESE("ja", true, "d640ae466162a47d3ee33c4076df1cab96f11860f07edb1f0832c525a9e33323"),
