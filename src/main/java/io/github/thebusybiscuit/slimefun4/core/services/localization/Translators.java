@@ -130,6 +130,10 @@ public class Translators {
 
         // Translators - Indonesian
         addTranslator("diradho", SupportedLanguage.INDONESIAN, false);
+        addTranslator("Frozenkamui", SupportedLanguage.INDONESIAN, false);
+        addTranslator("aril3721", SupportedLanguage.INDONESIAN, false);
+        addTranslator("JunederZ", SupportedLanguage.INDONESIAN, false);
+        addTranslator("EnderWingZ", SupportedLanguage.INDONESIAN, false);
 
         // Translators - Thai
         addTranslator("phoomin2012", SupportedLanguage.THAI, false);

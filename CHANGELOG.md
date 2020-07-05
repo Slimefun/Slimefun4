@@ -42,6 +42,7 @@
 * Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
 * Added a proper lag profiler
 * Added per-plugin lag info to /sf timings
+* Added Indonesian translations
 
 #### Changes
 * Coolant Cells now last twice as long
