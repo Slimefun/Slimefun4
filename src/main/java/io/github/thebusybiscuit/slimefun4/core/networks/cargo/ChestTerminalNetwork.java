@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -194,7 +195,7 @@ abstract class ChestTerminalNetwork extends Network {
                 Optional<Block> target = getAttachedBlock(bus.getBlock());
 
                 if (target.isPresent()) {
-                    ItemStackAndInteger stack = CargoUtils.withdraw(bus.getBlock(), target.get());
+                    ItemStackAndInteger stack = CargoUtils.withdraw(bus.getBlock(), target.get(), new AtomicReference<>());
 
                     if (stack != null) {
                         menu.replaceExistingItem(17, stack.getItem());

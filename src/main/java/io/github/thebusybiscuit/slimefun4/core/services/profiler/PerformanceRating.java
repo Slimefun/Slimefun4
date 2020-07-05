@@ -24,7 +24,8 @@ public enum PerformanceRating implements Predicate<Float> {
     OKAY(ChatColor.GREEN, 30),
     MODERATE(ChatColor.YELLOW, 55),
     SEVERE(ChatColor.RED, 85),
-    HURTFUL(ChatColor.DARK_RED, Float.MAX_VALUE);
+    HURTFUL(ChatColor.DARK_RED, 500),
+    BAD(ChatColor.DARK_RED, Float.MAX_VALUE);
 
     private final ChatColor color;
     private final float threshold;

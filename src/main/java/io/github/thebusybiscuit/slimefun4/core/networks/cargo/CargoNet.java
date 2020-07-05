@@ -8,13 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
@@ -274,7 +273,8 @@ public class CargoNet extends ChestTerminalNetwork {
     }
 
     private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
-        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget);
+        AtomicReference<Object> inventory = new AtomicReference<>();
+        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget, inventory);
 
         if (slot == null) {
             return;
@@ -289,9 +289,11 @@ public class CargoNet extends ChestTerminalNetwork {
         }
 
         if (stack != null) {
-            DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+            Object inputInventory = inventory.get();
 
-            if (menu != null) {
+            if (inputInventory instanceof DirtyChestMenu) {
+                DirtyChestMenu menu = (DirtyChestMenu) inputInventory;
+
                 if (menu.getItemInSlot(previousSlot) == null) {
                     menu.replaceExistingItem(previousSlot, stack);
                 }
@@ -299,18 +301,15 @@ public class CargoNet extends ChestTerminalNetwork {
                     inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
                 }
             }
-            else if (CargoUtils.hasInventory(inputTarget)) {
-                BlockState state = inputTarget.getState();
 
-                if (state instanceof InventoryHolder) {
-                    Inventory inv = ((InventoryHolder) state).getInventory();
+            if (inputInventory instanceof Inventory) {
+                Inventory inv = (Inventory) inputInventory;
 
-                    if (inv.getItem(previousSlot) == null) {
-                        inv.setItem(previousSlot, stack);
-                    }
-                    else {
-                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
-                    }
+                if (inv.getItem(previousSlot) == null) {
+                    inv.setItem(previousSlot, stack);
+                }
+                else {
+                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
                 }
             }
         }

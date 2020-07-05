@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
@@ -153,7 +154,7 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStackAndInteger withdraw(Block node, Block target) {
+    static ItemStackAndInteger withdraw(Block node, Block target, AtomicReference<Object> inventory) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -162,6 +163,7 @@ final class CargoUtils {
 
                 if (matchesFilter(node, is)) {
                     menu.replaceExistingItem(slot, null);
+                    inventory.set(menu);
                     return new ItemStackAndInteger(is, slot);
                 }
             }
@@ -189,6 +191,7 @@ final class CargoUtils {
 
                     if (matchesFilter(node, is)) {
                         inv.setItem(slot, null);
+                        inventory.set(inv);
                         return new ItemStackAndInteger(is, slot);
                     }
                 }
