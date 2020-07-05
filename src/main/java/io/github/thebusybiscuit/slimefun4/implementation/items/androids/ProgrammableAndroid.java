@@ -27,6 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -36,6 +37,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -44,7 +46,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public abstract class ProgrammableAndroid extends SlimefunItem implements InventoryBlock, RecipeDisplayItem {
@@ -191,8 +196,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
-                if (b != null) {
-                    ProgrammableAndroid.this.tick(b);
+                if (b != null && data != null) {
+                    ProgrammableAndroid.this.tick(b, data);
                 }
             }
 
@@ -374,23 +379,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                 break;
             } else {
                 Script script = scripts.get(target);
-                List<String> lore = new LinkedList<>();
-                lore.add("&7作者 &r" + script.getAuthor());
-                lore.add("");
-                lore.add("&7下载数: &r" + script.getDownloads());
-                lore.add("&7评分: " + getScriptRatingPercentage(script));
-                lore.add("&a" + script.getUpvotes() + " \u263A &7| &4\u2639 " + script.getDownvotes());
-                lore.add("");
-                lore.add("&e左键 &r下载脚本");
-                lore.add("&4(这将会覆盖你现有的脚本)");
-
-                if (script.canRate(p)) {
-                    lore.add("&eShift + 左键 &r留下好评");
-                    lore.add("&eShift + 右键 &r留下差评");
-                }
-
-                ItemStack item = new CustomItem(getItem(), "&b" + script.getName(), lore.toArray(new String[0]));
-                menu.addItem(index, item, (player, slot, stack, action) -> {
+                menu.addItem(index, script.getAsItemStack(this, p), (player, slot, stack, action) -> {
                     if (action.isShiftClicked()) {
                         if (script.isAuthor(player)) {
                             SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.own", true);
@@ -628,30 +617,36 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
     public abstract int getTier();
 
-    protected void tick(Block b) {
+    protected void tick(Block b, Config data) {
         if (b.getType() != Material.PLAYER_HEAD) {
             // The Android was destroyed or moved.
             return;
         }
 
-        if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "paused"))) {
+        if ("false".equals(data.getString("paused"))) {
             BlockMenu menu = BlockStorage.getInventory(b);
-            float fuel = Float.parseFloat(BlockStorage.getLocationInfo(b.getLocation(), "fuel"));
+            String fuelData = data.getString("fuel");
+            float fuel = fuelData == null ? 0 : Float.parseFloat(fuelData);
 
             if (fuel < 0.001) {
                 consumeFuel(b, menu);
             } else {
-                String[] script = PatternUtils.DASH.split(BlockStorage.getLocationInfo(b.getLocation(), "script"));
+                String code = data.getString("script");
+                String[] script = PatternUtils.DASH.split(code == null ? DEFAULT_SCRIPT : code);
 
-                int index = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "index")) + 1;
-                if (index >= script.length) index = 0;
+                String indexData = data.getString("index");
+                int index = (indexData == null ? 0 : Integer.parseInt(indexData)) + 1;
+                if (index >= script.length) {
+                    index = 0;
+                }
 
                 boolean refresh = true;
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
                 Instruction instruction = Instruction.valueOf(script[index]);
 
                 if (getAndroidType().isType(instruction.getRequiredType())) {
-                    BlockFace face = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+                    String rotationData = data.getString("rotation");
+                    BlockFace face = rotationData == null ? BlockFace.NORTH : BlockFace.valueOf(rotationData);
 
                     switch (instruction) {
                         case START:
@@ -669,6 +664,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                             break;
                     }
                 }
+
                 if (refresh) {
                     BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
                 }
@@ -676,8 +672,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
     }
 
-    protected void rotate(Block b, int mod) {
-        BlockFace current = BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"));
+    protected void rotate(Block b, BlockFace current, int mod) {
         int index = POSSIBLE_ROTATIONS.indexOf(current) + mod;
 
         if (index == POSSIBLE_ROTATIONS.size()) {
@@ -688,9 +683,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
         BlockFace rotation = POSSIBLE_ROTATIONS.get(index);
 
-        Rotatable rotatable = (Rotatable) b.getBlockData();
-        rotatable.setRotation(rotation);
-        b.setBlockData(rotatable);
+        Rotatable rotatatable = (Rotatable) b.getBlockData();
+        rotatatable.setRotation(rotation.getOppositeFace());
+        b.setBlockData(rotatatable);
         BlockStorage.addBlockInfo(b, "rotation", rotation.name());
     }
 
@@ -726,7 +721,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
                         menu.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                     }
 
-                    BlockStorage.addBlockInfo(b, "fuel", String.valueOf((int) (fuel.getTicks() * this.getFuelEfficiency())));
+                    int fuelLevel = (int) (fuel.getTicks() * getFuelEfficiency());
+                    BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuelLevel));
                     break;
                 }
             }
@@ -752,11 +748,11 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             menu.replaceExistingItem(43, newFuel);
             dispenser.setItem(slot, null);
             return true;
-        } else if (SlimefunUtils.isItemSimilar(newFuel, currentFuel, true)) {
+        } else if (SlimefunUtils.isItemSimilar(newFuel, currentFuel, true, false)) {
             int rest = newFuel.getType().getMaxStackSize() - currentFuel.getAmount();
 
             if (rest > 0) {
-                int amount = Math.min(newFuel.getAmount(), rest);
+                int amount = newFuel.getAmount() > rest ? rest : newFuel.getAmount();
                 menu.replaceExistingItem(43, new CustomItem(newFuel, currentFuel.getAmount() + amount));
                 ItemUtils.consumeItem(newFuel, amount, false);
             }
@@ -811,12 +807,15 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
 
         if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)) {
-            block.setType(Material.PLAYER_HEAD);
-            Rotatable blockData = (Rotatable) block.getBlockData();
-            blockData.setRotation(face.getOppositeFace());
-            block.setBlockData(blockData);
+            BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
+                if (data instanceof Rotatable) {
+                    Rotatable rotatable = ((Rotatable) data);
+                    rotatable.setRotation(face.getOppositeFace());
+                }
+            });
 
-            SkullBlock.setFromBase64(block, texture);
+            block.setBlockData(blockData);
+            Slimefun.runSync(() -> SkullBlock.setFromBase64(block, texture));
 
             b.setType(Material.AIR);
             BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());

@@ -67,11 +67,18 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
                     return 0;
                 }
 
+                boolean isDaytime = isDaytime(world);
+
+                // Performance optimization for daytime-only solar generators
+                if (!isDaytime && getNightEnergy() == 0) {
+                    return 0;
+                }
+
                 if (!world.isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() != 15) {
                     return 0;
                 }
 
-                if (world.getTime() < 12300 || world.getTime() > 23850) {
+                if (isDaytime) {
                     return getDayEnergy();
                 }
 
@@ -83,6 +90,17 @@ public abstract class SolarGenerator extends SimpleSlimefunItem<GeneratorTicker>
                 return false;
             }
         };
+    }
+
+    /**
+     * This method returns whether a given {@link World} has daytime.
+     * It will also return false if a thunderstorm is active in this world.
+     *
+     * @param world The {@link World} to check
+     * @return Whether the given {@link World} has daytime and no active thunderstorm
+     */
+    private boolean isDaytime(World world) {
+        return !world.hasStorm() && !world.isThundering() && (world.getTime() < 12300 || world.getTime() > 23850);
     }
 
     @Override

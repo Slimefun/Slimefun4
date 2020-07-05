@@ -75,9 +75,9 @@ public final class NumberUtils {
         String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
 
         if (parts.length == 1) {
-            return parts[0];
+            return parts[0] + "毫秒";
         } else {
-            return parts[0] + ',' + parts[1] + "毫秒";
+            return parts[0] + '.' + parts[1] + "毫秒";
         }
     }
 

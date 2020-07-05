@@ -40,12 +40,12 @@ enum Instruction {
     // Directions
     TURN_LEFT(AndroidType.NONE, HeadTexture.SCRIPT_LEFT, (android, b, inv, face) -> {
         int mod = -1;
-        android.rotate(b, mod);
+        android.rotate(b, face, mod);
     }),
 
     TURN_RIGHT(AndroidType.NONE, HeadTexture.SCRIPT_RIGHT, (android, b, inv, face) -> {
         int mod = 1;
-        android.rotate(b, mod);
+        android.rotate(b, face, mod);
     }),
 
     // Action - Pickaxe

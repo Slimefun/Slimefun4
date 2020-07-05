@@ -568,7 +568,7 @@ public class SlimefunItem implements Placeable {
         }
 
         // Backwards compatibility
-        if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+        if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
             boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
         } else {
@@ -838,7 +838,7 @@ public class SlimefunItem implements Placeable {
         }
 
         // Backwards compatibility
-        if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+        if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
             // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
             ItemStackWrapper wrapper = new ItemStackWrapper(item);
 

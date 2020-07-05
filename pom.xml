@@ -16,8 +16,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Bukkit properties -->
-        <bukkit.version>1.16.1</bukkit.version>
-        <bukkit.javadocs>https://hub.spigotmc.org/javadocs/bukkit/</bukkit.javadocs>
+        <spigot.version>1.16.1</spigot.version>
+        <spigot.javadocs>https://hub.spigotmc.org/javadocs/bukkit/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
         <sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
@@ -206,7 +206,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>${bukkit.version}-R0.1-SNAPSHOT</version>
+            <version>${spigot.version}-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -1,12 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.*;
@@ -82,7 +86,9 @@ public final class Script {
      * This method checks whether a given {@link Player} is able to leave a rating for this {@link Script}.
      * A {@link Player} is unable to rate his own {@link Script} or a {@link Script} he already rated before.
      *
-     * @param p The {@link Player} to check for
+     * @param p
+     *            The {@link Player} to check for
+     *
      * @return Whether the given {@link Player} is able to rate this {@link Script}
      */
     public boolean canRate(Player p) {
@@ -93,6 +99,30 @@ public final class Script {
         List<String> upvoters = config.getStringList("rating.positive");
         List<String> downvoters = config.getStringList("rating.negative");
         return !upvoters.contains(p.getUniqueId().toString()) && !downvoters.contains(p.getUniqueId().toString());
+    }
+
+    ItemStack getAsItemStack(ProgrammableAndroid android, Player p) {
+        List<String> lore = new LinkedList<>();
+        lore.add("&7作者: &r" + getAuthor());
+        lore.add("");
+        lore.add("&7下载量: &r" + getDownloads());
+        lore.add("&7评分: " + getScriptRatingPercentage());
+        lore.add("&a" + getUpvotes() + " \u263A &7| &4\u2639 " + getDownvotes());
+        lore.add("");
+        lore.add("&e左键 &r立即下载");
+        lore.add("&4(这将会覆盖你正在用的脚本)");
+
+        if (canRate(p)) {
+            lore.add("&eShift + 左键 &r好评");
+            lore.add("&eShift + 右键 &r差评");
+        }
+
+        return new CustomItem(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
+    }
+
+    private String getScriptRatingPercentage() {
+        float percentage = getRating();
+        return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.RESET + "% ";
     }
 
     /**
@@ -163,7 +193,7 @@ public final class Script {
             loadScripts(scripts, AndroidType.NONE);
         }
 
-        scripts.sort(Comparator.comparingInt(script -> -script.getUpvotes() + 1 - script.getDownvotes()));
+        Collections.sort(scripts, Comparator.comparingInt(script -> -script.getUpvotes() + 1 - script.getDownvotes()));
         return scripts;
     }
 
@@ -184,7 +214,7 @@ public final class Script {
                         scripts.add(new Script(config));
                     }
                 } catch (Exception x) {
-                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while trying to load Android Script '" + file.getName() + "'");
+                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to load Android Script '" + file.getName() + "'");
                 }
             }
         }
