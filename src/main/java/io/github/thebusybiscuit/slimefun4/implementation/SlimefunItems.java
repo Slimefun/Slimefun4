@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
@@ -46,12 +45,13 @@ public final class SlimefunItems {
     public static final SlimefunItemStack INFERNAL_BONEMEAL = new SlimefunItemStack("INFERNAL_BONEMEAL", Material.BONE_MEAL, "&4Infernal Bonemeal", "", "&cSpeeds up the Growth of", "&cNether Warts as well");
 
     /* Gadgets */
-    public static final SlimefunItemStack GOLD_PAN = new SlimefunItemStack("GOLD_PAN", Material.BOWL, "&6Gold Pan", "&a&oCan get you all kinds of Goodies...", "", "&7&eRight Click&7 to pan various Stuff out of Gravel");
-    public static final SlimefunItemStack NETHER_GOLD_PAN = new SlimefunItemStack("NETHER_GOLD_PAN", Material.BOWL, "&4Nether Gold Pan", "", "&7&eRight Click&7 to pan various stuff out of Soul Sand");
+    public static final SlimefunItemStack GOLD_PAN = new SlimefunItemStack("GOLD_PAN", Material.BOWL, "&6Gold Pan", "", "&eRight Click&7 to collect resources", "&7from Gravel");
+    public static final SlimefunItemStack NETHER_GOLD_PAN = new SlimefunItemStack("NETHER_GOLD_PAN", Material.BOWL, "&4Nether Gold Pan", "", "&eRight Click&7 to collect resources", "&7from Soul Sand");
     public static final SlimefunItemStack PARACHUTE = new SlimefunItemStack("PARACHUTE", Material.LEATHER_CHESTPLATE, Color.WHITE, "&f&lParachute", "", LoreBuilder.CROUCH_TO_USE);
     public static final SlimefunItemStack GRAPPLING_HOOK = new SlimefunItemStack("GRAPPLING_HOOK", Material.LEAD, "&6Grappling Hook", "", LoreBuilder.RIGHT_CLICK_TO_USE);
     public static final SlimefunItemStack SOLAR_HELMET = new SlimefunItemStack("SOLAR_HELMET", Material.IRON_HELMET, "&bSolar Helmet", "", "&a&oCharges held Items and Armor");
     public static final SlimefunItemStack CLOTH = new SlimefunItemStack("CLOTH", Material.PAPER, "&bCloth");
+    public static final SlimefunItemStack REINFORCED_CLOTH = new SlimefunItemStack("REINFORCED_CLOTH", Material.PAPER, "&bReinforced Cloth", "", "&fThis cloth has been reinforced", "&fwith &bLead &fto protect against", "&fradioactive substances");
     public static final SlimefunItemStack TIN_CAN = new SlimefunItemStack("CAN", HeadTexture.TIN_CAN, "&fTin Can");
     public static final SlimefunItemStack NIGHT_VISION_GOGGLES = new SlimefunItemStack("NIGHT_VISION_GOGGLES", Material.LEATHER_HELMET, Color.BLACK, "&aNight Vision Goggles", "", "&9+ Night Vision");
     public static final SlimefunItemStack FARMER_SHOES = new SlimefunItemStack("FARMER_SHOES", Material.LEATHER_BOOTS, Color.YELLOW, "&eFarmer Shoes", "", "&6&oPrevents you from trampling your Crops");
@@ -248,10 +248,36 @@ public final class SlimefunItems {
     public static final SlimefunItemStack REINFORCED_ALLOY_LEGGINGS = new SlimefunItemStack("REINFORCED_ALLOY_LEGGINGS", Material.IRON_LEGGINGS, "&bReinforced Leggings");
     public static final SlimefunItemStack REINFORCED_ALLOY_BOOTS = new SlimefunItemStack("REINFORCED_ALLOY_BOOTS", Material.IRON_BOOTS, "&bReinforced Boots");
 
-    public static final SlimefunItemStack SCUBA_HELMET = new SlimefunItemStack("SCUBA_HELMET", Material.LEATHER_HELMET, Color.ORANGE, "&cScuba Helmet", "", "&bAllows you to breathe Underwater", "&4&oPart of Hazmat Suit");
-    public static final SlimefunItemStack HAZMAT_CHESTPLATE = new SlimefunItemStack("HAZMAT_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.ORANGE, "&cHazmat Suit", "", "&bAllows you to walk through Fire", "&4&oPart of Hazmat Suit");
-    public static final SlimefunItemStack HAZMAT_LEGGINGS = new SlimefunItemStack("HAZMAT_LEGGINGS", Material.LEATHER_LEGGINGS, Color.ORANGE, "&cHazmat Suit Leggings", "", "&4&oPart of Hazmat Suit");
-    public static final SlimefunItemStack RUBBER_BOOTS = new SlimefunItemStack("RUBBER_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&cRubber Boots", "", "&4&oPart of Hazmat Suit");
+    private static final List<String> hazmatLore = new ArrayList<>();
+
+    static {
+        hazmatLore.add("");
+        hazmatLore.add("&4Full set effects:");
+        hazmatLore.add("&c- Radioation immunity");
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+            hazmatLore.add("&c- Bee Sting protection");
+        }
+    }
+
+    public static final SlimefunItemStack SCUBA_HELMET = new SlimefunItemStack("SCUBA_HELMET", Material.LEATHER_HELMET, Color.ORANGE, "&cScuba Helmet", "", "&7Allows you to breathe underwater");
+    public static final SlimefunItemStack HAZMAT_CHESTPLATE = new SlimefunItemStack("HAZMAT_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.ORANGE, "&cHazmat Suit", "", "&7Allows you to walk through fire and lava");
+    public static final SlimefunItemStack HAZMAT_LEGGINGS = new SlimefunItemStack("HAZMAT_LEGGINGS", Material.LEATHER_LEGGINGS, Color.ORANGE, "&cHazmat Suit Leggings", hazmatLore.toArray(new String[0]));
+    public static final SlimefunItemStack HAZMAT_BOOTS = new SlimefunItemStack("RUBBER_BOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&cHazmat Boots", hazmatLore.toArray(new String[0]));
+
+    static {
+        ItemMeta helmetMeta = SCUBA_HELMET.getItemMeta();
+        List<String> helmetLore = helmetMeta.getLore();
+        helmetLore.addAll(hazmatLore);
+        helmetMeta.setLore(helmetLore);
+        SCUBA_HELMET.setItemMeta(helmetMeta);
+
+        ItemMeta chestplateMeta = HAZMAT_CHESTPLATE.getItemMeta();
+        List<String> chestplateLore = chestplateMeta.getLore();
+        chestplateLore.addAll(hazmatLore);
+        chestplateMeta.setLore(chestplateLore);
+        HAZMAT_CHESTPLATE.setItemMeta(chestplateMeta);
+    }
 
     public static final SlimefunItemStack GILDED_IRON_HELMET = new SlimefunItemStack("GILDED_IRON_HELMET", Material.GOLDEN_HELMET, "&6Gilded Iron Helmet");
     public static final SlimefunItemStack GILDED_IRON_CHESTPLATE = new SlimefunItemStack("GILDED_IRON_CHESTPLATE", Material.GOLDEN_CHESTPLATE, "&6Gilded Iron Chestplate");
@@ -297,40 +323,6 @@ public final class SlimefunItems {
         REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforced);
         REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforced);
         REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
-
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            ItemMeta scubaHelmetMeta = SCUBA_HELMET.getItemMeta();
-            List<String> scubaHelmetMetaLore = scubaHelmetMeta.getLore();
-            scubaHelmetMetaLore.addAll(Arrays.asList("",
-                    ChatColors.color( "&7Equip the full set for:"),
-                    ChatColors.color( "&7+Bee Protection")));
-            scubaHelmetMeta.setLore(scubaHelmetMetaLore);
-            SCUBA_HELMET.setItemMeta(scubaHelmetMeta);
-
-            ItemMeta hazmatChestplateItemMeta = HAZMAT_CHESTPLATE.getItemMeta();
-            List<String> hazmatChestplateItemMetaLore = hazmatChestplateItemMeta.getLore();
-            hazmatChestplateItemMetaLore.addAll(Arrays.asList("",
-                    ChatColors.color( "&7Equip the full set for:"),
-                    ChatColors.color( "&7+Bee Protection")));
-            hazmatChestplateItemMeta.setLore(hazmatChestplateItemMetaLore);
-            HAZMAT_CHESTPLATE.setItemMeta(hazmatChestplateItemMeta);
-
-            ItemMeta hazmatLeggingsItemMeta = HAZMAT_LEGGINGS.getItemMeta();
-            List<String> hazmatLeggingsItemMetaLore = hazmatLeggingsItemMeta.getLore();
-            hazmatLeggingsItemMetaLore.addAll(Arrays.asList("",
-                    ChatColors.color( "&7Equip the full set for:"),
-                    ChatColors.color( "&7+Bee Protection")));
-            hazmatLeggingsItemMeta.setLore(hazmatLeggingsItemMetaLore);
-            HAZMAT_LEGGINGS.setItemMeta(hazmatLeggingsItemMeta);
-
-            ItemMeta rubberBootsItemMeta = RUBBER_BOOTS.getItemMeta();
-            List<String> rubberBootsItemMetaLore = rubberBootsItemMeta.getLore();
-            rubberBootsItemMetaLore.addAll(Arrays.asList("",
-                    ChatColors.color( "&7Equip the full set for:"),
-                    ChatColors.color( "&7+Bee Protection")));
-            rubberBootsItemMeta.setLore(rubberBootsItemMetaLore);
-            RUBBER_BOOTS.setItemMeta(rubberBootsItemMeta);
-        }
 
         Map<Enchantment, Integer> gilded = new HashMap<>();
         gilded.put(Enchantment.DURABILITY, 6);

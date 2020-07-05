@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
@@ -22,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArm
  * @see ItemAttribute
  *
  */
-public interface CustomProtection extends ItemAttribute {
+public interface ProtectiveArmor extends ItemAttribute {
 
     /**
      * This returns which {@link ProtectionType} damages this {@link ItemAttribute}
@@ -45,5 +44,5 @@ public interface CustomProtection extends ItemAttribute {
      *
      * @return The set {@link NamespacedKey}, <code>null</code> if none is found.
      */
-    NamespacedKey getSetId();
+    NamespacedKey getArmorSetId();
 }

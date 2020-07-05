@@ -42,6 +42,9 @@
 * Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
 * Added a proper lag profiler
 * Added per-plugin lag info to /sf timings
+* Added Reinforced Cloth
+* Added Bee protection to Hazmat Suit
+* Added Enchantment Rune
 
 #### Changes
 * Coolant Cells now last twice as long
@@ -63,6 +66,7 @@
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
 * Fixed an issue with moving androids getting stuck
+* Changed recipe of Hazmat Suits
 
 #### Fixes
 * Fixed #2005

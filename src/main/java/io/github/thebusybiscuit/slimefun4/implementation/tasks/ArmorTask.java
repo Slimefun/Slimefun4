@@ -76,6 +76,7 @@ public class ArmorTask implements Runnable {
 
             if (armorpiece.hasDiverged(item)) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
                 if (!(sfItem instanceof SlimefunArmorPiece) || !Slimefun.hasUnlocked(p, sfItem, true)) {
                     sfItem = null;
                 }
@@ -121,7 +122,7 @@ public class ArmorTask implements Runnable {
     }
 
     private void checkForRadiation(Player p, PlayerProfile profile) {
-        if (!profile.isProtected(ProtectionType.RADIATION)) {
+        if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
                 if (checkAndApplyRadiation(p, item)) {
                     break;

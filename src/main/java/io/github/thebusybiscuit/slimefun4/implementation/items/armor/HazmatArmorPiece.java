@@ -4,7 +4,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.CustomProtection;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -13,24 +13,24 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * Represents 1 {@link SlimefunArmorPiece} of the Hazmat armor set.
- * One of the very few utilisations of {@link CustomProtection}.
+ * One of the very few utilisations of {@link ProtectiveArmor}.
  *
  * @author Linox
  *
  * @see SlimefunArmorPiece
- * @see CustomProtection
+ * @see ProtectiveArmor
  *
  */
-public class HazmatArmorPiece extends SlimefunArmorPiece implements CustomProtection {
+public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveArmor {
 
-    private final NamespacedKey setId;
+    private final NamespacedKey namespacedKey;
     private final ProtectionType[] types;
 
     public HazmatArmorPiece(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
         super(category, item, recipeType, recipe, effects);
 
-        types = new ProtectionType[] {ProtectionType.BEES, ProtectionType.RADIATION};
-        setId = new NamespacedKey(SlimefunPlugin.instance, "hazmat_suit");
+        types = new ProtectionType[] { ProtectionType.BEES, ProtectionType.RADIATION };
+        namespacedKey = new NamespacedKey(SlimefunPlugin.instance, "hazmat_suit");
     }
 
     @Override
@@ -44,7 +44,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements CustomProtec
     }
 
     @Override
-    public NamespacedKey getSetId() {
-        return setId;
+    public NamespacedKey getArmorSetId() {
+        return namespacedKey;
     }
 }
