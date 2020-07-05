@@ -92,6 +92,8 @@
 * Fixed #2066
 * Fixed Rainbow Glass Panes not properly connecting to blocks
 * Fixed Androids turning in the wrong direction
+* Fixed a NullPointerException when generating an Error-Report
+* Fixed Slimefun Armor sometimes not applying its effects
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
