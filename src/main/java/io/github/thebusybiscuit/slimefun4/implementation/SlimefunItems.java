@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -252,11 +253,11 @@ public final class SlimefunItems {
 
     static {
         hazmatLore.add("");
-        hazmatLore.add("&4Full set effects:");
-        hazmatLore.add("&c- Radioation immunity");
+        hazmatLore.add(ChatColor.GOLD + "Full set effects:");
+        hazmatLore.add(ChatColor.YELLOW + "- Radioation immunity");
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            hazmatLore.add("&c- Bee Sting protection");
+            hazmatLore.add(ChatColor.YELLOW + "- Bee Sting protection");
         }
     }
 
