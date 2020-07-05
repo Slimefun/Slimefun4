@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.ChanceDrop;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RandomMobDrop;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class MobDropListener implements Listener {
@@ -33,17 +34,11 @@ public class MobDropListener implements Listener {
         if (e.getEntity().getKiller() != null) {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
-            int random = ThreadLocalRandom.current().nextInt(100);
             
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
             if (customDrops != null && !customDrops.isEmpty()) 
-            	for(ItemStack is : customDrops) {
-            		SlimefunItem sfi = SlimefunItem.getByItem(is);
-            		if (sfi instanceof ChanceDrop && ((ChanceDrop)sfi).getChance() >= random) 
-            				addDrops(p, customDrops, e.getDrops());
-            	}	
+            	addDrops(p, customDrops, e.getDrops());
             
-
             if (item.getType() != Material.AIR) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
@@ -55,14 +50,20 @@ public class MobDropListener implements Listener {
     }
 
     private void addDrops(Player p, Set<ItemStack> customDrops, List<ItemStack> drops) {
+    	int random = ThreadLocalRandom.current().nextInt(100);
+    	
         for (ItemStack drop : customDrops) {
             if (Slimefun.hasUnlocked(p, drop, true)) {
-                if (circuitBoard != null && circuitBoard.isItem(drop) && !circuitBoard.isDroppedFromGolems()) {
+            	SlimefunItem sfi = SlimefunItem.getByItem(drop);
+            	if (sfi instanceof RandomMobDrop && ((RandomMobDrop)sfi).getDropChance() <= random) 
+            		continue;
+            	
+                if (circuitBoard != null && circuitBoard.isItem(drop) && !circuitBoard.isDroppedFromGolems()) 
                     continue;
-                }
-
+                
                 drops.add(drop.clone());
             }
         }
     }
 }
+

@@ -9,10 +9,10 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.ChanceDrop;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RandomMobDrop;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable, ChanceDrop {
+public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable, RandomMobDrop {
 
     private final ItemSetting<Boolean> dropSetting = new ItemSetting<>("drop-from-golems", true);
     private final ItemSetting<Integer> chance = new ItemSetting<> ("golem-drop-chance", 75);
@@ -25,7 +25,7 @@ public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implem
     }
 
     @Override
-    public int getChance() {
+    public int getDropChance() {
     	return chance.getValue();
     }
     
