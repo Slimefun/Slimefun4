@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 /**
@@ -30,7 +31,9 @@ public class GitHubService {
     private final String repository;
     private final Set<GitHubConnector> connectors;
     private final ConcurrentMap<String, Contributor> contributors;
+
     private final Config uuidCache = new Config("plugins/Slimefun/cache/github/uuids.yml");
+    private final Config texturesCache = new Config("plugins/Slimefun/cache/github/skins.yml");
 
     private boolean logging = false;
 
@@ -196,18 +199,31 @@ public class GitHubService {
     }
 
     /**
-     * This will store the {@link UUID} of all {@link Contributor Contributors} in memory
-     * in a {@link File} to save requests the next time we iterate over them.
+     * This will store the {@link UUID} and texture of all {@link Contributor Contributors}
+     * in memory in a {@link File} to save requests the next time we iterate over them.
      */
-    protected void saveUUIDCache() {
+    protected void saveCache() {
         for (Contributor contributor : contributors.values()) {
             Optional<UUID> uuid = contributor.getUniqueId();
 
             if (uuid.isPresent()) {
                 uuidCache.setValue(contributor.getName(), uuid.get());
             }
+
+            if (contributor.hasTexture()) {
+                String texture = contributor.getTexture();
+
+                if (!texture.equals(HeadTexture.UNKNOWN.getTexture())) {
+                    texturesCache.setValue(contributor.getName(), texture);
+                }
+            }
         }
 
         uuidCache.save();
+        texturesCache.save();
+    }
+
+    protected String getCachedTexture(String name) {
+        return texturesCache.getString(name);
     }
 }

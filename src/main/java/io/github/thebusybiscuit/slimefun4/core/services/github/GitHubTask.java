@@ -69,7 +69,7 @@ class GitHubTask implements Runnable {
 
         // We only wanna save this if all Connectors finished already
         // This will run multiple times but thats okay, this way we get as much data as possible stored
-        gitHubService.saveUUIDCache();
+        gitHubService.saveCache();
     }
 
     private int requestTexture(Contributor contributor, Map<String, String> skins) {
