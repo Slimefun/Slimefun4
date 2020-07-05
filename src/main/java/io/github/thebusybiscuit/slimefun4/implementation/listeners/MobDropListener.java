@@ -21,12 +21,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class MobDropListener implements Listener {
 
-    private final BasicCircuitBoard circuitBoard;
-
     public MobDropListener(SlimefunPlugin plugin, BasicCircuitBoard circuitBoard) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
-        this.circuitBoard = circuitBoard;
     }
 
     @EventHandler
@@ -58,7 +55,7 @@ public class MobDropListener implements Listener {
             	if (sfi instanceof RandomMobDrop && ((RandomMobDrop)sfi).getDropChance() <= random) 
             		continue;
             	
-                if (circuitBoard != null && circuitBoard.isItem(drop) && !circuitBoard.isDroppedFromGolems()) 
+                if (sfi instanceof BasicCircuitBoard  && ((BasicCircuitBoard)sfi).isDroppedFromGolems()) 
                     continue;
                 
                 drops.add(drop.clone());

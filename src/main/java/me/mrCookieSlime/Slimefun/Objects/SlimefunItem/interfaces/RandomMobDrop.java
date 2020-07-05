@@ -6,10 +6,12 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.ItemAttribute;
  * This interface, when attached to a {@link SlimefunItem}, provides an easy method for adding 
  * a % chance to drop for an {@link SlimefunItem} on {@link entityDeathEvent}, this chance is 0-100
  * and used in conjunction with the MOB_DROP {@link RecipeType}. 
- * @see BasicCircuitBoard and @see MobDropListener.
  * 
  * @author dNiym
  *
+ * @see BasicCircuitBoard 
+ * @see MobDropListener.
+ * 
  */
 @FunctionalInterface
 public interface RandomMobDrop extends ItemAttribute {
