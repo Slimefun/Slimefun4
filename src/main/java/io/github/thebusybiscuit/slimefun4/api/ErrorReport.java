@@ -109,9 +109,13 @@ public class ErrorReport {
             stream.println("  Block Data: " + l.getBlock().getBlockData().getClass().getName());
             stream.println("  State: " + l.getBlock().getState().getClass().getName());
             stream.println();
-            stream.println("Ticker-Info:");
-            stream.println("  Type: " + (item.getBlockTicker().isSynchronized() ? "Synchronized" : "Asynchronous"));
-            stream.println();
+
+            if (item.getBlockTicker() != null) {
+                stream.println("Ticker-Info:");
+                stream.println("  Type: " + (item.getBlockTicker().isSynchronized() ? "Synchronized" : "Asynchronous"));
+                stream.println();
+            }
+
             stream.println("Slimefun Data:");
             stream.println("  ID: " + item.getID());
             stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
