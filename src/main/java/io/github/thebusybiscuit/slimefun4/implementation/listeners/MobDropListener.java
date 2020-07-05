@@ -37,8 +37,7 @@ public class MobDropListener implements Listener {
             
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
             if (customDrops != null && !customDrops.isEmpty()) 
-            	for(ItemStack is : customDrops)
-            	{
+            	for(ItemStack is : customDrops) {
             		SlimefunItem sfi = SlimefunItem.getByItem(is);
             		if (sfi instanceof ChanceDrop && ((ChanceDrop)sfi).getChance() >= random) 
             				addDrops(p, customDrops, e.getDrops());
