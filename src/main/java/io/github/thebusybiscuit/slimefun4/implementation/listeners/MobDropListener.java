@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,15 +33,14 @@ public class MobDropListener implements Listener {
         if (e.getEntity().getKiller() != null) {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
-            Random rnd = new Random();
+            int random = ThreadLocalRandom.current().nextInt(100);
             
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
             if (customDrops != null && !customDrops.isEmpty()) 
-            	for(ItemStack is:customDrops)
+            	for(ItemStack is : customDrops)
             	{
             		SlimefunItem sfi = SlimefunItem.getByItem(is);
-            		if(sfi != null && sfi instanceof ChanceDrop) 
-            			if(((ChanceDrop)sfi).getChance() >= rnd.nextInt(100)) 
+            		if (sfi instanceof ChanceDrop && ((ChanceDrop)sfi).getChance() >= random) 
             				addDrops(p, customDrops, e.getDrops());
             	}	
             
