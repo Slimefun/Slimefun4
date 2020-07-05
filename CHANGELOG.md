@@ -45,6 +45,7 @@
 * Added Reinforced Cloth
 * Added Bee protection to Hazmat Suit
 * Added Enchantment Rune
+* Added Indonesian translations
 
 #### Changes
 * Coolant Cells now last twice as long
@@ -94,6 +95,8 @@
 * Fixed Androids turning in the wrong direction
 * Fixed a NullPointerException when generating an Error-Report
 * Fixed Slimefun Armor sometimes not applying its effects
+* Fixed contributors losing their texture after restarts
+* Fixed "korean" showing up as "null"
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
