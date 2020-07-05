@@ -67,6 +67,7 @@
 * Thunderstorms now count as night time for Solar Generators
 * Fixed an issue with moving androids getting stuck
 * Changed recipe of Hazmat Suits
+* Uranium can no longer be placed down
 
 #### Fixes
 * Fixed #2005
