@@ -481,7 +481,12 @@ public class BlockStorage {
     }
 
     public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {
-        Config cfg = hasBlockInfo(l) ? getLocationInfo(l) : new BlockInfoConfig();
+        Config cfg = getLocationInfo(l);
+
+        if (cfg == emptyBlockData) {
+            cfg = new BlockInfoConfig();
+        }
+
         cfg.setValue(key, value);
         setBlockInfo(l, cfg, updateTicker);
     }

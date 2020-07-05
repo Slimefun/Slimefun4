@@ -62,6 +62,7 @@
 * performance improvements to Generators and Electric Machines
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
+* Fixed an issue with moving androids getting stuck
 
 #### Fixes
 * Fixed #2005

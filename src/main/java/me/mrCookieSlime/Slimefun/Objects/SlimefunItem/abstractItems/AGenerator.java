@@ -116,7 +116,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             });
         }
 
-        preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
@@ -174,7 +174,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                             inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                         }
 
-                        inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                        inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                         progress.remove(l);
                         processing.remove(l);

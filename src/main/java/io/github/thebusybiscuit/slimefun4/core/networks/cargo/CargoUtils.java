@@ -365,6 +365,7 @@ final class CargoUtils {
 
         try {
             BlockMenu menu = BlockStorage.getInventory(block.getLocation());
+
             if (menu == null) {
                 return false;
             }

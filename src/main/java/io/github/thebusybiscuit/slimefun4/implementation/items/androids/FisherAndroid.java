@@ -62,10 +62,7 @@ public abstract class FisherAndroid extends ProgrammableAndroid {
 
             if (ThreadLocalRandom.current().nextInt(100) < 10 * getTier()) {
                 ItemStack drop = fishingLoot.getRandom();
-
-                if (menu.fits(drop, getOutputSlots())) {
-                    menu.pushItem(drop, getOutputSlots());
-                }
+                menu.pushItem(drop, getOutputSlots());
             }
 
         }

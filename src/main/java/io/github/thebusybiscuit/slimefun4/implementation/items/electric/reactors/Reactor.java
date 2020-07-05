@@ -347,7 +347,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
     }
 
     private void createByproduct(Location l, BlockMenu inv, BlockMenu accessPort) {
-        inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+        inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
         if (processing.get(l).getOutput() != null) {
             inv.pushItem(processing.get(l).getOutput(), getOutputSlots());

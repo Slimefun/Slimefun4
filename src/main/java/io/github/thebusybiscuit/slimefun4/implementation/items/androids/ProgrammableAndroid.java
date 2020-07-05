@@ -627,38 +627,44 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
                 String indexData = data.getString("index");
                 int index = (indexData == null ? 0 : Integer.parseInt(indexData)) + 1;
+
                 if (index >= script.length) {
                     index = 0;
                 }
 
-                boolean refresh = true;
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
                 Instruction instruction = Instruction.valueOf(script[index]);
+                executeInstruction(instruction, b, menu, data, index);
+            }
+        }
+    }
 
-                if (getAndroidType().isType(instruction.getRequiredType())) {
-                    String rotationData = data.getString("rotation");
-                    BlockFace face = rotationData == null ? BlockFace.NORTH : BlockFace.valueOf(rotationData);
+    private void executeInstruction(Instruction instruction, Block b, BlockMenu inv, Config data, int index) {
+        if (getAndroidType().isType(instruction.getRequiredType())) {
+            String rotationData = data.getString("rotation");
+            BlockFace face = rotationData == null ? BlockFace.NORTH : BlockFace.valueOf(rotationData);
 
-                    switch (instruction) {
-                    case START:
-                    case WAIT:
-                        // Just "waiting" here which means we do nothing
-                        break;
-                    case REPEAT:
-                        BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
-                        break;
-                    case CHOP_TREE:
-                        refresh = chopTree(b, menu, face);
-                        break;
-                    default:
-                        instruction.execute(this, b, menu, face);
-                        break;
-                    }
-                }
-
-                if (refresh) {
+            switch (instruction) {
+            case START:
+            case WAIT:
+                // We are "waiting" here, so we only move a step forward
+                BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                break;
+            case REPEAT:
+                // "repeat" just means, we reset our index
+                BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
+                break;
+            case CHOP_TREE:
+                // We only move to the next step if we finished chopping wood
+                if (chopTree(b, inv, face)) {
                     BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
                 }
+                break;
+            default:
+                // We set the index here in advance to fix moving android issues
+                BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                instruction.execute(this, b, inv, face);
+                break;
             }
         }
     }

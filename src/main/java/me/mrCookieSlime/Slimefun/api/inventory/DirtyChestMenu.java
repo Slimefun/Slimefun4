@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
@@ -24,6 +25,16 @@ public class DirtyChestMenu extends ChestMenu {
         super(preset.getTitle());
 
         this.preset = preset;
+    }
+
+    /**
+     * This method checks whether this {@link DirtyChestMenu} is currently viewed by a {@link Player}.
+     * 
+     * @return Whether anyone is currently viewing this {@link Inventory}
+     */
+    public boolean hasViewer() {
+        Inventory inv = toInventory();
+        return inv != null && !inv.getViewers().isEmpty();
     }
 
     public void markDirty() {
