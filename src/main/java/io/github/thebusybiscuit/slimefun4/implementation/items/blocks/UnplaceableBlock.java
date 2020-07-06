@@ -16,6 +16,10 @@ public class UnplaceableBlock extends SimpleSlimefunItem<ItemUseHandler> impleme
         super(category, item, recipeType, recipe);
     }
 
+    public UnplaceableBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(category, item, recipeType, recipe, recipeOutput);
+    }
+
     @Override
     public ItemUseHandler getItemHandler() {
         return PlayerRightClickEvent::cancel;

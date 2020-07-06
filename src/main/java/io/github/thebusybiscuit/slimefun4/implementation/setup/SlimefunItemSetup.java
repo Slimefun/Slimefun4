@@ -138,6 +138,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Medicine;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Rag;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Splint;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Vitamins;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.ArmorForge;
@@ -3028,12 +3029,13 @@ public final class SlimefunItemSetup {
 
 		}.register(plugin);
 
-		new SlimefunItem(categories.technicalComponents, SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
+		new CoolantCell(categories.technicalComponents, SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
 		new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new SlimefunItem(categories.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
-		new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null})
+		new CoolantCell(categories.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
+		new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null},
+		new SlimefunItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 4))
 		.register(plugin);
 
 		new RadioactiveItem(categories.resources, Radioactivity.HIGH, SlimefunItems.NEPTUNIUM, RecipeType.NUCLEAR_REACTOR,

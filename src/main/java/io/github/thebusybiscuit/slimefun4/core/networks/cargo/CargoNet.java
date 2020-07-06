@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.bukkit.Location;
@@ -243,9 +242,11 @@ public class CargoNet extends ChestTerminalNetwork {
     private void run(Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
         long timestamp = System.nanoTime();
 
+        Map<Location, Inventory> inventories = new HashMap<>();
+
         // Chest Terminal Code
         if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
-            handleItemRequests(chestTerminalInputs, chestTerminalOutputs);
+            handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
         }
 
         // All operations happen here: Everything gets iterated from the Input Nodes.
@@ -253,10 +254,10 @@ public class CargoNet extends ChestTerminalNetwork {
         for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
             long nodeTimestamp = System.nanoTime();
             Location input = entry.getKey();
-            Optional<Block> attachedBlock = getAttachedBlock(input.getBlock());
+            Optional<Block> attachedBlock = getAttachedBlock(input);
 
             if (attachedBlock.isPresent()) {
-                routeItems(input, attachedBlock.get(), entry.getValue(), outputs);
+                routeItems(inventories, input, attachedBlock.get(), entry.getValue(), outputs);
             }
 
             // This will prevent this timings from showing up for the Cargo Manager
@@ -272,9 +273,8 @@ public class CargoNet extends ChestTerminalNetwork {
         SlimefunPlugin.getProfiler().closeEntry(regulator, SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
     }
 
-    private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
-        AtomicReference<Object> inventory = new AtomicReference<>();
-        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget, inventory);
+    private void routeItems(Map<Location, Inventory> inventories, Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
+        ItemStackAndInteger slot = CargoUtils.withdraw(inventories, inputNode.getBlock(), inputTarget);
 
         if (slot == null) {
             return;
@@ -285,26 +285,13 @@ public class CargoNet extends ChestTerminalNetwork {
         List<Location> outputs = outputNodes.get(frequency);
 
         if (outputs != null) {
-            stack = distributeItem(stack, inputNode, outputs);
+            stack = distributeItem(inventories, stack, inputNode, outputs);
         }
 
         if (stack != null) {
-            Object inputInventory = inventory.get();
+            Inventory inv = inventories.get(inputTarget.getLocation());
 
-            if (inputInventory instanceof DirtyChestMenu) {
-                DirtyChestMenu menu = (DirtyChestMenu) inputInventory;
-
-                if (menu.getItemInSlot(previousSlot) == null) {
-                    menu.replaceExistingItem(previousSlot, stack);
-                }
-                else {
-                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
-                }
-            }
-
-            if (inputInventory instanceof Inventory) {
-                Inventory inv = (Inventory) inputInventory;
-
+            if (inv != null) {
                 if (inv.getItem(previousSlot) == null) {
                     inv.setItem(previousSlot, stack);
                 }
@@ -312,10 +299,22 @@ public class CargoNet extends ChestTerminalNetwork {
                     inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
                 }
             }
+            else {
+                DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+
+                if (menu != null) {
+                    if (menu.getItemInSlot(previousSlot) == null) {
+                        menu.replaceExistingItem(previousSlot, stack);
+                    }
+                    else {
+                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
+                    }
+                }
+            }
         }
     }
 
-    private ItemStack distributeItem(ItemStack stack, Location inputNode, List<Location> outputNodes) {
+    private ItemStack distributeItem(Map<Location, Inventory> inventories, ItemStack stack, Location inputNode, List<Location> outputNodes) {
         ItemStack item = stack;
 
         Deque<Location> destinations = new LinkedList<>(outputNodes);
@@ -327,10 +326,10 @@ public class CargoNet extends ChestTerminalNetwork {
         }
 
         for (Location output : destinations) {
-            Optional<Block> target = getAttachedBlock(output.getBlock());
+            Optional<Block> target = getAttachedBlock(output);
 
             if (target.isPresent()) {
-                item = CargoUtils.insert(output.getBlock(), target.get(), item);
+                item = CargoUtils.insert(inventories, output.getBlock(), target.get(), item);
 
                 if (item == null) {
                     break;

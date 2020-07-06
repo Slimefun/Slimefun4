@@ -2,9 +2,10 @@ package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Map;
 import java.util.logging.Level;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -83,15 +84,23 @@ final class CargoUtils {
         return false;
     }
 
-    static ItemStack withdraw(Block node, Block target, ItemStack template) {
+    static ItemStack withdraw(Map<Location, Inventory> inventories, Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu == null) {
             if (hasInventory(target)) {
+                Inventory inventory = inventories.get(target.getLocation());
+
+                if (inventory != null) {
+                    return withdrawFromVanillaInventory(node, template, inventory);
+                }
+
                 BlockState state = target.getState();
 
                 if (state instanceof InventoryHolder) {
-                    return withdrawFromVanillaInventory(node, template, ((InventoryHolder) state).getInventory());
+                    inventory = ((InventoryHolder) state).getInventory();
+                    inventories.put(target.getLocation(), inventory);
+                    return withdrawFromVanillaInventory(node, template, inventory);
                 }
             }
 
@@ -154,7 +163,7 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStackAndInteger withdraw(Block node, Block target, AtomicReference<Object> inventory) {
+    static ItemStackAndInteger withdraw(Map<Location, Inventory> inventories, Block node, Block target) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -163,45 +172,55 @@ final class CargoUtils {
 
                 if (matchesFilter(node, is)) {
                     menu.replaceExistingItem(slot, null);
-                    inventory.set(menu);
                     return new ItemStackAndInteger(is, slot);
                 }
             }
         }
         else if (hasInventory(target)) {
+            Inventory inventory = inventories.get(target.getLocation());
+
+            if (inventory != null) {
+                return withdrawFromVanillaInventory(node, inventory);
+            }
+
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
-                Inventory inv = ((InventoryHolder) state).getInventory();
-
-                ItemStack[] contents = inv.getContents();
-                int minSlot = 0;
-                int maxSlot = contents.length;
-
-                if (inv instanceof FurnaceInventory) {
-                    minSlot = 2;
-                    maxSlot = 3;
-                }
-                else if (inv instanceof BrewerInventory) {
-                    maxSlot = 3;
-                }
-
-                for (int slot = minSlot; slot < maxSlot; slot++) {
-                    ItemStack is = contents[slot];
-
-                    if (matchesFilter(node, is)) {
-                        inv.setItem(slot, null);
-                        inventory.set(inv);
-                        return new ItemStackAndInteger(is, slot);
-                    }
-                }
+                inventory = ((InventoryHolder) state).getInventory();
+                inventories.put(target.getLocation(), inventory);
+                return withdrawFromVanillaInventory(node, inventory);
             }
         }
 
         return null;
     }
 
-    static ItemStack insert(Block node, Block target, ItemStack stack) {
+    private static ItemStackAndInteger withdrawFromVanillaInventory(Block node, Inventory inv) {
+        ItemStack[] contents = inv.getContents();
+        int minSlot = 0;
+        int maxSlot = contents.length;
+
+        if (inv instanceof FurnaceInventory) {
+            minSlot = 2;
+            maxSlot = 3;
+        }
+        else if (inv instanceof BrewerInventory) {
+            maxSlot = 3;
+        }
+
+        for (int slot = minSlot; slot < maxSlot; slot++) {
+            ItemStack is = contents[slot];
+
+            if (matchesFilter(node, is)) {
+                inv.setItem(slot, null);
+                return new ItemStackAndInteger(is, slot);
+            }
+        }
+
+        return null;
+    }
+
+    static ItemStack insert(Map<Location, Inventory> inventories, Block node, Block target, ItemStack stack) {
         if (!matchesFilter(node, stack)) {
             return stack;
         }
@@ -210,10 +229,18 @@ final class CargoUtils {
 
         if (menu == null) {
             if (hasInventory(target)) {
+                Inventory inventory = inventories.get(target.getLocation());
+
+                if (inventory != null) {
+                    return insertIntoVanillaInventory(stack, inventory);
+                }
+
                 BlockState state = target.getState();
 
                 if (state instanceof InventoryHolder) {
-                    return insertIntoVanillaInventory(stack, ((InventoryHolder) state).getInventory());
+                    inventory = ((InventoryHolder) state).getInventory();
+                    inventories.put(target.getLocation(), inventory);
+                    return insertIntoVanillaInventory(stack, inventory);
                 }
             }
 
@@ -251,7 +278,7 @@ final class CargoUtils {
         return stack;
     }
 
-    static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
+    private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
@@ -392,7 +419,7 @@ final class CargoUtils {
                 }
 
                 for (ItemStack stack : templateItems) {
-                    if (SlimefunUtils.isItemSimilar(wrapper, stack, lore)) {
+                    if (SlimefunUtils.isItemSimilar(wrapper, stack, lore, false)) {
                         return true;
                     }
                 }

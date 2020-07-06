@@ -63,7 +63,8 @@
 * performance improvements to Generators and Electric Machines
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
-* Fixed an issue with moving androids getting stuck
+* Coolant Cells can no longer be placed on the ground
+* Crafting Nether Ice Coolant Cells now results in 4 items
 
 #### Fixes
 * Fixed #2005
@@ -90,6 +91,8 @@
 * Fixed Androids turning in the wrong direction
 * Fixed contributors losing their texture after restarts
 * Fixed "korean" showing up as "null"
+* Fixed an issue with moving androids getting stuck
+* Fixed Cargo nodes sometimes preventing chunks from unloading
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

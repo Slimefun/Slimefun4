@@ -60,13 +60,19 @@ final class ContributorsMenu {
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
-            if (page > 0) open(pl, page - 1);
+            if (page > 0) {
+                open(pl, page - 1);
+            }
+
             return false;
         });
 
         menu.addItem(52, ChestMenuUtils.getNextButton(p, page + 1, pages));
         menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
-            if (page + 1 < pages) open(pl, page + 1);
+            if (page + 1 < pages) {
+                open(pl, page + 1);
+            }
+
             return false;
         });
 
