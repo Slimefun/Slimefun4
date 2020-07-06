@@ -15,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.ItemAttribute;
  */
 @FunctionalInterface
 public interface RandomMobDrop extends ItemAttribute {
-	
+
 
     /**
      * Implement this method to make the object have a variable chance of being
@@ -25,5 +25,5 @@ public interface RandomMobDrop extends ItemAttribute {
      * @return The integer chance (0-100%) {@link SlimefunItem} has to drop.
      */
     public int getDropChance();
-    
+
 }

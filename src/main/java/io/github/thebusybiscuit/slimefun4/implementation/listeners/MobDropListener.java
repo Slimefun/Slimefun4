@@ -31,11 +31,11 @@ public class MobDropListener implements Listener {
         if (e.getEntity().getKiller() != null) {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
-            
+
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
             if (customDrops != null && !customDrops.isEmpty()) 
-            	addDrops(p, customDrops, e.getDrops());
-            
+                addDrops(p, customDrops, e.getDrops());
+
             if (item.getType() != Material.AIR) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
@@ -47,17 +47,17 @@ public class MobDropListener implements Listener {
     }
 
     private void addDrops(Player p, Set<ItemStack> customDrops, List<ItemStack> drops) {
-    	int random = ThreadLocalRandom.current().nextInt(100);
-    	
+        int random = ThreadLocalRandom.current().nextInt(100);
+
         for (ItemStack drop : customDrops) {
             if (Slimefun.hasUnlocked(p, drop, true)) {
-            	SlimefunItem sfi = SlimefunItem.getByItem(drop);
-            	if (sfi instanceof RandomMobDrop && ((RandomMobDrop)sfi).getDropChance() <= random) 
-            		continue;
-            	
+                SlimefunItem sfi = SlimefunItem.getByItem(drop);
+                if (sfi instanceof RandomMobDrop && ((RandomMobDrop)sfi).getDropChance() <= random) 
+                    continue;
+
                 if (sfi instanceof BasicCircuitBoard  && ((BasicCircuitBoard)sfi).isDroppedFromGolems()) 
                     continue;
-                
+
                 drops.add(drop.clone());
             }
         }

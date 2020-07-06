@@ -16,7 +16,7 @@ public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implem
 
     private final ItemSetting<Boolean> dropSetting = new ItemSetting<>("drop-from-golems", true);
     private final ItemSetting<Integer> chance = new ItemSetting<> ("golem-drop-chance", 75);
-    
+
     public BasicCircuitBoard(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -26,9 +26,9 @@ public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implem
 
     @Override
     public int getDropChance() {
-    	return chance.getValue();
+        return chance.getValue();
     }
-    
+
     public boolean isDroppedFromGolems() {
         return dropSetting.getValue();
     }
