@@ -1,0 +1,290 @@
+---
+android:
+  scripts:
+    already-uploaded: "&4Denna kod har redan blivit uppladdad."
+    editor: Manusändrare
+    enter-name:
+    - 
+    - "&eVälj ett namn till din kod"
+    instructions:
+      ATTACK_ANIMALS: "&4Attackera &c(Djur)"
+      ATTACK_ANIMALS_ADULT: "&4Attackera &c(Djur &7[Vuxna]&c)"
+      ATTACK_MOBS: "&4Attackera &c(Fientliga Varelser)"
+      ATTACK_MOBS_ANIMALS: "&4Attackera &c(Fientliga Varelse & Djur)"
+      CATCH_FISH: "&bFånga Fisk"
+      CHOP_TREE: "&cHugg and Plantera"
+      DIG_DOWN: "&bHugg neråt"
+      DIG_FORWARD: "&bHugg frammåt"
+      DIG_UP: "&bHugg uppåt"
+      FARM_DOWN: "&bSkörda och Plantera &7(Block under)"
+      FARM_EXOTIC_DOWN: "&bAvancerad Skördning och Plantering &7(Blocket under)"
+      FARM_EXOTIC_FORWARD: "&bAvancerad Skördning och Plantering"
+      FARM_FORWARD: "&bSkörda och Plantera"
+      GO_DOWN: "&7Gå neråt"
+      GO_FORWARD: "&7Gå frammåt"
+      GO_UP: "&7Gå uppåt"
+      INTERFACE_FUEL: "&cDra Bränsle från det mötande Gränssnittet"
+      INTERFACE_ITEMS: "&9Flytta Inventarie Föremål till det mötande Gränssnittet"
+      MOVE_AND_DIG_DOWN: "&bGå & Hugg neråt"
+      MOVE_AND_DIG_FORWARD: "&bGå & Hugg frammåt"
+      MOVE_AND_DIG_UP: "&bGå & Hugg uppåt"
+      REPEAT: "&9Upprepa din kod"
+      START: "&2Starta din kod"
+      TURN_LEFT: "&7Sväng vänster"
+      TURN_RIGHT: "&7Sväng höger"
+      WAIT: "&eVänta i 0.5s"
+    rating:
+      already: "&4Du har redan betygsatt denna kod!"
+      own: "&4Du kan inte betygsätta din egen kod!"
+    uploaded:
+    - "&bLadda upp..."
+    - "&aLaddade upp din kod!"
+  started: "&7Din Android fortsatte att köra sin kod"
+  stopped: "&7Din Android har pausat sin kod"
+anvil:
+  not-working: "&4Du kan inte använda Slimefun Föremål i ett städ!"
+backpack:
+  already-open: "&cDenna Ryggsäck är redan öppen på något annat ställe!"
+  no-stack: "&cDu kan inte stacka Ryggsäckar"
+commands:
+  cheat: Tillåter dig att fuska fram Föremål
+  give: Ge någon Slimefun-föremål
+  guide: Ger dig själv en Slimefun-handbok
+  help: Visar denna hjälpskärm
+  open_guide: Öppnar Slimefun-handboken utan att använda bokföremålet
+  research:
+    description: Låser upp/återställer en spelares forskningar
+    reset: "&cDu har återställt %player%s kunskap"
+    reset-target: "&cDin kunskap har blivit återställd"
+  search: Söker i din handbok efter en sökterm
+  stats: Visar spelarstatistik
+  teleporter: Se andra spelares vägpunkter
+  timings: Nätverksinfo om din server
+  versions: Lisa alla installerade tillägg
+gps:
+  deathpoint: "&4Dödsplats&7%date%"
+  geo:
+    scan-required: "&4GEO-Skan behövs! &cSkanna denna chunk med en GEO-Skannare först!"
+  insufficient-complexity:
+  - "&4Otillräcklig GPS Nätverk Komplication: &c%complexity%"
+  - "&4a) Du har inte satt upp något GPS Nätverk ännu"
+  - "&4b) Ditt GPS Nätverk är inte komplicerad nog"
+  waypoint:
+    added: "&aLade till en ny vägpunkt"
+    max: "&4Du har nått max antal av vägpunkter"
+    new: "&7Skriv in önskad namn till vägpunkten i chatten. &r(Färg Koder stöds!)"
+guide:
+  back:
+    guide: Gå tillbaka till Slimefun Guiden
+    settings: Gå tillbaka till Inställningar
+    title: Gå Tillbaka
+  cheat:
+    no-multiblocks: "&4Du kan inte fuska fram Multiblocks, du måste bygga dem!"
+  credits:
+    commit: Bidrag
+    commits: Bidrag
+    profile-link: Klicka här för att besöka deras profil på GitHub
+    roles:
+      developer: "&6Utvecklare"
+      resourcepack: "&cResurspaketskonstnär"
+      translator: "&9Översättare"
+      wiki: "&3Wiki-redigerare"
+  languages:
+    select: Klicka här för att ändra språk
+    select-default: Klicka här för att välja standard språket
+    selected-language: 'Valt Språk:'
+    translations:
+      lore: Klicka här för att lägga till din egen översättning
+      name: "&aIs något som saknas?"
+    updated: "&aDitt språk är nu inställt på: &b%lang%"
+  pages:
+    next: Nästa sida
+    previous: Förra sidan
+  search:
+    lore:
+    - "&bVad vill du söka efter?"
+    - "&7Skriv din sökterm i chatten"
+    message: "&bVad vill du söka efter?"
+    name: "&7Sök..."
+    tooltip: "&bKlicka här för att söka efter ett föremål"
+    inventory: 'Söker efter: %item%'
+  title:
+    addons: Tilläg till Slimefun4
+    bugs: Bugg Rapporter
+    credits: Slimefun4-medhjälpare
+    languages: Välj ditt föredragna språk
+    main: Slimefun-handbok
+    settings: Inställningar & Info
+    source: Källkoden
+    wiki: Slimefun4 Wiki
+  tooltips:
+    open-category: Klicka här för att öppna
+    recipes:
+      generator: Tillgängliga typer av bränsle
+      gold-pan: Resurser du kan få
+      machine: Recept gjorda i denna maskin
+      miner: Resurser du kan få med denna Gruvarbetare
+    versions-notice: Dessa är väldigt viktiga när det kommer till att rapportera buggar!
+    wiki: Visar detta föremål på den Officiella Slimefun Wikin
+  locked: LÅST
+  locked-category:
+  - För att låsa upp denna kategori måste du
+  - låsa upp alla föremål från de
+  - följande kategorierna
+inventory:
+  no-access: "&4Du har inte tillåtelse att använda detta block"
+languages:
+  af: Afrikaans
+  ar: Arabiska
+  bg: Bulgariska
+  cs: Tjeckiska
+  da: Danska
+  de: Tyska
+  default: Serverns Standard Språk
+  el: Grekiska
+  en: Engelska
+  es: Spanska
+  fa: Persiska
+  fi: Finska
+  fr: Franska
+  he: Hebreiska
+  hu: Ungerska
+  id: Indonesiska
+  it: Italienska
+  ja: Japanska
+  ko: Koreanska
+  lv: Lettiska
+  ms: Malaysiska
+  nl: Holländska
+  'no': Norska
+  pl: Polska
+  pt: Portugisiska (Portugal)
+  pt-BR: Portugisiska (Brasilien)
+  ro: Romanska
+  ru: Ryska
+  sk: Slovakiska
+  sv: Svenska
+  th: Thailändska
+  tr: Turkiska
+  uk: Ukrainska
+  vi: Vietnamesiska
+  zh-CN: Chinesiska (China)
+  zh-TW: Chinesiska (Taiwan)
+  hr: Kroatiska
+  mk: Makedonska
+  sr: Serbiska
+  be: Vitryska
+machines:
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Altaret är inte omgivet av det korrekta antalet piedestaler
+      &c(%pedestals% / 8)"
+    unknown-catalyst: "&4Okänd katalysator! &cAnvänd det korrekta receptet istället!"
+    unknown-recipe: "&4Okänt recept! &cAnvänd det korrekta receptet istället!"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Piedestal är skymd! &cUndanröj det som finns över piedestalen!"
+  CARGO_NODES:
+    must-be-placed: "&4Måste placeras ovanpå en kista eller maskin!"
+  ELEVATOR:
+    click-to-teleport: "&eKlicka &7för att förflyttas till denna våning:"
+    current-floor: "&eDetta är våningen som du är på just nu:"
+    enter-name: "&7Skriv in önskad namn till våningen i chatten. &r(Färg Koder stöds!)"
+    named: "&2Bytte namn till våningen till: &r%floor%"
+    no-destinations: "&4Ingen destination funnen"
+    pick-a-floor: "&3- Välj en våning -"
+  full-inventory: "&eTyvärr, mitt förråd är fullt!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Kontrollpanel
+    transmitters: Sändar Översikt
+    waypoints: Vägpunkts Översikt
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Skriv in önskad hologramtext i chatten &r(färgkoder stöds!)"
+    inventory-title: Hologramändrare
+  ignition-chamber-no-flint: "&cIgnition Chamber saknar tändstål."
+  in-use: "&cDetta blockförråd är just nu öppnat av en annan spelare."
+  pattern-not-found: "&eJag kände tyvärr inte igen det receptet. Placera föremålen
+    i det korrekta mönstret i automaten."
+  TELEPORTER:
+    cancelled: "&4Teleportation avslutad!"
+    invulnerability: "&b&lDu har fått 30 sekunder av osårbarhet"
+    teleported: "&3Teleporterad!"
+    teleporting: "&3Teleporterar..."
+    gui:
+      title: Dina vägpunkter
+      tooltip: Klicka här för att teleportera
+      time: Beräknad tid
+  unknown-material: "&Jag kände tyvärr inte igen föremålet i min automat. Lägg in
+    någonting som jag känner till."
+  wrong-item: "&Jag kände tyvärr inte igen det föremål som du högerklickade mig med.
+    Kontrollera att receptet är korrekt och vilka föremål som du kan använda."
+messages:
+  cannot-place: "&cDu kan inte placera det blocket där!"
+  diet-cookie: "&eDu börjar känna dig mycket lätt..."
+  disabled-in-world: "&4&lDetta föremål är inaktiverat i denna värld"
+  disabled-item: "&4&lDetta föremål är inaktiverat! Hur fick du ens det?"
+  fire-extinguish: "&7Du har släckt elden"
+  fortune-cookie:
+  - "&7Hjälp mig, jag är fast i en lyckokaksfabrik!"
+  - "&7Du kommer dö imorgon... av en creeper"
+  - "&7Någon gång i ditt liv så kommer det hända något hemskt!!!"
+  - "&7Nästa vecka så kommer du inse att detta inte är den verkliga världen utan att
+    du är i ett datorspel"
+  - "&7Denna kaka kommer att smaka gott inom ett par sekunder"
+  - '&7Det sista ordet som du kommer att höra innan du dör är "FÖRINTA!!!"'
+  - "&7Vad du än gör, krama inte en creeper... Jag har prövat. Det känns skönt, men
+    det är inte värt det."
+  - "&742. Svaret är 42."
+  - "&7En Walshy om dagen gör susen mot misstagen."
+  - "&7Gräv aldrig rakt ner!"
+  give-item: '&bDu har gett %player% &a%amount%  &bstycken &7"%item%&7"'
+  given-item: '&bDu har fått &a%amount% &bstycken &7"%item%&7"'
+  give-research: '&bDu har gett %player% forskningen &7"%research%&7"'
+  hungry: "&cDu är för hungrig för att göra detta!"
+  link-prompt: "&eKlicka här:"
+  mode-change: "&b%device%-läge ändrades till: &9%mode%"
+  multimeter: "&bLagrad energi: &3%stored% &b/ &3%capacity%"
+  no-iron-golem-heal: "&cDetta är ingen järntacka. Du kan inte använda detta för att
+    läka en järngolem!"
+  no-permission: "&4Du har inte den nödvändiga behörigheten att göra detta"
+  no-pvp: "&cDu kan inte slåss här!"
+  not-enough-xp: "&4Du har inte tillräckligt mycket XP för att låsa upp detta"
+  no-tome-yourself: "&cDu kan inte använda &4Tome of Knowledge &cpå dig själv"
+  not-online: "&4%player% &cär inte online!"
+  not-researched: "&4Du har inte tillräckligt mycket kunskap för att förstå detta"
+  not-valid-amount: "&4%amount% &cär inget giltigt antal : det måste vara större än
+    noll!"
+  not-valid-item: "&4%item% &cär inget giltigt föremål!"
+  not-valid-research: "&4%research% &cär ingen giltig forskning!"
+  only-players: "&4Detta kommando är endast för spelare"
+  opening-backpack: "&bÖppnar ryggsäck. Detta kan ta några sekunder..."
+  opening-guide: "&bÖppnar handboken. Detta kan ta några sekunder..."
+  radiation: "&4Du har blivit utsatt för radioaktiv strålning! &cGör dig av med det
+    radioaktiva föremålet eller sätt på dig hela hazmat-dräkten"
+  research:
+    progress: "&7Du börjar fundera kring &b%research% &e(%progress%)"
+    start: "&7De forntida andarna viskar mystiska ord i ditt öra!"
+  soulbound-rune:
+    fail: "&cDu kan endast binda ett föremål i taget till din själ."
+    success: "&aDu har nu bundit detta föremål till din själ! Du kommer behålla det
+      efter din död."
+  talisman:
+    angel: "&a&oDin talisman räddade dig från att ta fallskada"
+    anvil: "&a&oDin talisman förhindrade ditt verktyg från att gå sönder"
+    fire: "&a&oDin talisman räddade dig från att brinna till döds"
+    hunter: "&a&oDin talisman dubblade precis dina byten"
+    knight: "&a&oDin talisman gav dig fem sekunders regenerering"
+    lava: "&a&oDin talisman räddade dig från att brinna till döds"
+    magician: "&a&oDin talisman gav dig ytterligare en förtrollning"
+    miner: "&a&oDin talisman dubblade precis dina gruvfynd"
+    traveller: "&a&oDin talisman gav dig en fartökning"
+    warrior: "&a&oDin talisman har gjort dig starkare ett tag"
+    water: "&a&oDin talisman räddade dig från att drunkna"
+    whirlwind: "&a&oDin talisman reflekterade projektilen"
+    wizard: "&a&oDin talisman gav dig en bättre fortune-nivå men kan ha sänkt nivån
+      för andra förtrollningsnivåer"
+  unknown-player: "&4Okänd spelare: &c%player%"
+  unlocked: '&bDu har låst upp &7"%research%"'
+  usage: "&4Användande: &c%usage%"
+miner:
+  no-ores: "&eFörlåt, Jag kunde inte hitta någon malm eller mineraler i närhetn!"
+workbench:
+  not-enhanced: "&4Du kan inte använda Slimefun Föremål i en vanlig arbetsbänk"

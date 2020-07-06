@@ -1,0 +1,24 @@
+---
+resources:
+  slimefun:
+    oil: Olej
+    salt: Sůl
+    uranium: Uran
+    nether_ice: Nether led
+  slimefunorechunks:
+    aluminum_ore_chunk: Kus hliníkové rudy
+    cobalt_ore_chunk: Kus kobaltové rudy
+    copper_ore_chunk: Kus měděné rudy
+    gold_ore_chunk: Kus zlaté rudy
+    iron_ore_chunk: Kus železné rudy
+    lead_ore_chunk: Kus olovové rudy
+    nickel_ore_chunk: Kus niklové rudy
+    silver_ore_chunk: Kus stříbrné rudy
+    tin_ore_chunk: Kus cínové rudy
+    zinc_ore_chunk: Kus zinkové rudy
+tooltips:
+  results: Výsledky GEO Skenu
+  unit: Jednotka
+  units: Jednotky
+  world: Svět
+  chunk: Naskenovaný chunk

@@ -1,0 +1,17 @@
+name: Mark Issue as duplicate
+
+on: 
+  issue_comment: 
+    types: [created]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: contains(github.event.comment.body, 'Duplicate of ')
+    steps:
+      - name: Add label to the Issue
+        uses: maxkomarychev/octions/octions/issues/add-labels@master
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          labels: 'Duplicate'

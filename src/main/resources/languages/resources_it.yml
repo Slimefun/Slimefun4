@@ -1,0 +1,24 @@
+---
+resources:
+  slimefun:
+    nether_ice: Ghiaccio del Nether
+    oil: Petrolio
+    salt: Sale
+    uranium: Uranio
+  slimefunorechunks:
+    aluminum_ore_chunk: Pezzo di Minerale di Alluminio
+    cobalt_ore_chunk: Pezzo di Minerale di Cobalto
+    copper_ore_chunk: Pezzo di Minerale di Rame
+    gold_ore_chunk: Pezzo di Minerale d'Oro
+    iron_ore_chunk: Pezzo di Minerale di Ferro
+    lead_ore_chunk: Pezzo di Minerale di Piombo
+    nickel_ore_chunk: Pezzo di Minerale di Nichel
+    silver_ore_chunk: Pezzo di Minerale d'Argento
+    tin_ore_chunk: Pezzo di Minerale di Stagno
+    zinc_ore_chunk: Pezzo di Minerale di Zinco
+tooltips:
+  results: Risultati GEO-Scan
+  unit: Unità
+  units: Unità
+  world: Mondo
+  chunk: Chunk Scansionato

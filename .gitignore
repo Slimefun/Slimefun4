@@ -1,8 +1,13 @@
 /bin/
+/target/
+/plugins/
+/sonar/
+/.settings/
+/.idea/
+
+dependency-reduced-pom.xml
+
 .classpath
 .project
-/.settings/
 *.iml
-/target
-/.idea/
-dependency-reduced-pom.xml
+.DS_Store

@@ -1,0 +1,26 @@
+---
+slimefun:
+  weapons: 武器
+  tools: 工具
+  items: 有用的物品
+  food: 食物
+  basic_machines: 基础机器
+  electricity: 能源与电力
+  gps: 基于 GPS 的机器
+  armor: 防具
+  magical_items: 魔法物品
+  magical_gadgets: 魔法道具
+  misc: 杂项用品
+  technical_gadgets: 科技工具
+  resources: 矿物资源
+  cargo: 货物管理
+  tech_misc: 科技零件
+  magical_armor: 魔法防具
+  talismans: 护身符 (I 级)
+  ender_talismans: 末影护身符 (II 级)
+  christmas: 圣诞节 (12 月)
+  valentines_day: 情人节 (2 月 14 日)
+  easter: 复活节 (4 月)
+  birthday: TheBusyBiscuit 的生日 (10 月 26 日)
+  halloween: 万圣节 (10 月 31 日)
+  androids: 可编程式机器人

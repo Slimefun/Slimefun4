@@ -1,0 +1,45 @@
+package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
+
+import java.util.List;
+
+import org.bukkit.Effect;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.cscorelib2.materials.MaterialTools;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+
+/**
+ * The {@link ExplosiveShovel} works similar to the {@link ExplosivePickaxe}.
+ * However it can only break blocks that a shovel can break.
+ * 
+ * @author Linox
+ * 
+ * @see ExplosivePickaxe
+ * @see ExplosiveTool
+ *
+ */
+public class ExplosiveShovel extends ExplosiveTool {
+
+    public ExplosiveShovel(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
+    @Override
+    protected void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
+        if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+            SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
+
+            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+            b.breakNaturally(item);
+
+            damageItem(p, item);
+        }
+    }
+
+}

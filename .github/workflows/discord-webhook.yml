@@ -1,0 +1,26 @@
+name: Discord Webhook
+
+on:
+  push:
+    paths:
+    - 'src/**'
+    - 'pom.xml'
+
+jobs:
+  report:
+
+    runs-on: ubuntu-latest
+    if: github.repository == 'TheBusyBiscuit/Slimefun4'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@master
+      with:
+        java-version: 1.8
+    - name: Run Discord Webhook
+      uses: Slimefun/discord-webhook@master
+      with:
+        id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+        token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}

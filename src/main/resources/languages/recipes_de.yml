@@ -1,0 +1,158 @@
+---
+minecraft:
+  blasting:
+    lore:
+    - Schmelz dieses Item in einem Schmelzofen,
+    - um dein Item zu erhalten.
+    name: Schmelzofen-Rezept
+  campfire:
+    lore:
+    - Schmelz dieses Item über einem Lagerfeuer,
+    - um dein Item zu erhalten.
+    name: Lagerfeuer-Rezept
+  furnace:
+    lore:
+    - Schmelz dieses Item in einem Ofen,
+    - um dein Item zu erhalten.
+    name: Ofen-Rezept
+  shaped:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einer normalen Werkbank.
+    - Die Form ist hierbei sehr wichtig.
+    name: Werkbankrezept (Geformt)
+  shapeless:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einer normalen Werkbank.
+    - Dieses Rezept ist formlos.
+    name: Werkbankrezept (Formlos)
+  smoking:
+    lore:
+    - Schmelz dieses Item in einem Räucherofen,
+    - um dein Item zu erhalten.
+    name: Räucherofen-Rezept
+  stonecutting:
+    lore:
+    - Crafte dieses Item wie gezeigt
+    - mithilfe einer Steinsäge.
+    name: Steinsägen-Rezept
+slimefun:
+  ancient_altar:
+    lore:
+    - Crafte das Item wie gezeigt
+    - mithilfe des "Ancient Altar".
+    - Für mehr Infos, schaue beim "Ancient Altar" nach.
+    name: Ancient Altar
+  armor_forge:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einer "Armor Forge".
+    name: Armor Forge
+  compressor:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einem "Compressor".
+    name: Compressor
+  enhanced_crafting_table:
+    lore:
+    - Crafte das Item wie gezeigt
+    - im "Enhanced Crafting Table".
+    - Eine normale Werkbank genügt nicht!
+    name: Enhanced Crafting Table
+  food_composter:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einem "Food Composter".
+    name: Food Composter
+  food_fabricator:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einem "Food Fabricator".
+    name: Food Fabricator
+  freezer:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einem "Freezer".
+    name: Freezer
+  geo_miner:
+    lore:
+    - Dieses Item kann mittels eines
+    - '"GEO Miner" erhalten werden.'
+    name: GEO Miner
+  gold_pan:
+    lore:
+    - Benutze eine "Gold Pan", um
+    - dieses Item zu erhalten.
+    name: Gold Pan
+  grind_stone:
+    lore:
+    - Crafte das Item wie gezeigt
+    - mit einem "Grind Stone".
+    name: Grind Stone
+  heated_pressure_chamber:
+    lore:
+    - Crafte das Item wie gezeigt
+    - mit einer "Heated Pressure Chamber".
+    name: Heated Pressure Chamber
+  juicer:
+    lore:
+    - Crafte diesen Saft wie gezeigt
+    - in einem "Juicer"
+    name: Juicer
+  magic_workbench:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einer "Magic Workbench".
+    name: Magic Workbench
+  mob_drop:
+    lore:
+    - Töte den angebenen Mob
+    - und er wird das Item fallen lassen
+    name: Mob-Drop
+  multiblock:
+    lore:
+    - Baue die gezeigte Struktur, wie
+    - man sie sieht. Sie wird nicht gecraftet.
+    name: Multiblock
+  nuclear_reactor:
+    lore:
+    - Dieses Item ist ein Nebenprodukt vom
+    - Betrieb eines "Nuclear Reactor".
+    name: Nuclear Reactor
+  ore_crusher:
+    lore:
+    - Crafte das Item wie gezeigt
+    - mit einem "Ore Crusher".
+    name: Ore Crusher
+  ore_washer:
+    lore:
+    - Crafte das Item wie gezeigt
+    - mit einem "Ore Washer".
+    name: Ore Washer
+  pressure_chamber:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einer "Pressure Chamber".
+    name: Pressure Chamber
+  smeltery:
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einer "Smeltery".
+    name: Smeltery
+  oil_pump:
+    name: Oil Pump
+    lore:
+    - Dieses Item kann durch eine
+    - Oil Pump gewonnen werden
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
+    lore:
+    - Dieser Block kann durch das Abbauen
+    - eines Spawners mit der
+    - Pickaxe of Containment gewonnen werden
+  refinery:
+    name: Refinery
+    lore:
+    - Crafte das Item wie gezeigt
+    - in einer "Refinery".

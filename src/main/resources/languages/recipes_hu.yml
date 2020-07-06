@@ -1,0 +1,158 @@
+---
+minecraft:
+  blasting:
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Kohóban,
+    - hogy elkészítsd a kívánt tárgyat
+    name: Kohó Recept
+  campfire:
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Tábortűzön,
+    - hogy elkészítsd a kívánt tárgyat
+    name: Tábortűz Recept
+  furnace:
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Kemencében,
+    - hogy elkészítsd a kívánt tárgyat
+    name: Kemence Recept
+  shaped:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Normális Barkácsasztal segítségével.
+    - A forma fontos.
+    name: Barkácsrecept Forma
+  shapeless:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Normális Barkácsasztal segítségével.
+    - Ez a Recept forma nélküli.
+    name: Forma Nélküli Barkácsrecept
+  smoking:
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Füstölőben,
+    - hogy elkészítsd a kívánt tárgyat
+    name: Füstölő Recept
+  stonecutting:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Kővágó segítségével
+    name: Kővágó Recept
+slimefun:
+  ancient_altar:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ancient Altar segítségével.
+    - Keress utána az Ancient Altar-nak a további információkért
+    name: Ancient Altar
+  armor_forge:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Armor Forge segítségével
+    name: Armor Forge
+  compressor:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Compressor segítségével
+    name: Compressor
+  enhanced_crafting_table:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Enhanced Crafting Table-ben.
+    - A normális Barkácsasztal nem lesz elegendő!
+    name: Enhanced Crafting Table
+  food_composter:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Food Composter segítségével
+    name: Food Composter
+  food_fabricator:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Food Fabricator segítségével
+    name: Food Fabricator
+  freezer:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Freezer segítségével
+    name: Freezer
+  geo_miner:
+    lore:
+    - Ez a tárgy összegyűjthető
+    - egy GEO Miner segítségével
+    name: GEO Miner
+  gold_pan:
+    lore:
+    - Használd az Gold Pan-t,
+    - hogy megszerezd ezt a tárgyat
+    name: Gold Pan
+  grind_stone:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Grind Stone segítségével
+    name: Grind Stone
+  heated_pressure_chamber:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Heated Pressure Chamber segítségével
+    name: Heated Pressure Chamber
+  juicer:
+    lore:
+    - Készítsd el ezt a Gyümölcslevet az ábra alapján
+    - egy Juicer segítségével
+    name: Juicer
+  magic_workbench:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Magic Workbench segítségével
+    name: Magic Workbench
+  mob_drop:
+    lore:
+    - Öld meg ezt az Élőlényt,
+    - hogy megszerezd ezt a tárgyat
+    name: Mob Drop
+  multiblock:
+    lore:
+    - Építsd meg a látott szerkezetet
+    - az ábra alapján. Ez nem barkácsolás.
+    name: Multiblock
+  nuclear_reactor:
+    lore:
+    - Ez a tárgy mellékterméke
+    - a Nuclear Reactor működésének
+    name: Nuclear Reactor
+  ore_crusher:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ore Crusher segítségével
+    name: Ore Crusher
+  ore_washer:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ore Washer segítségével
+    name: Ore Washer
+  pressure_chamber:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Pressure Chamber segítségével
+    name: Pressure Chamber
+  smeltery:
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Smeltery segítségével
+    name: Smeltery
+  oil_pump:
+    name: Oil Pump
+    lore:
+    - Ez a tárgy összegyűjthető
+    - egy Oil Pump segítségével
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
+    lore:
+    - Ez a blokk megszerezhető
+    - úgy, hogy egy Spawner-t kibányászol
+    - a Pickaxe of Containment-tel
+  refinery:
+    name: Refinery
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Refinery segítségével

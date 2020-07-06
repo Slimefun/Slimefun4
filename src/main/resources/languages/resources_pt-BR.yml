@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: Resultados de GEO-Scan
+  chunk: Pedaço Escaneado
+  world: Mundo
+  unit: Unidade
+  units: Unidades
+resources:
+  slimefun:
+    oil: Óleo
+    nether_ice: Gelo do Nether
+    salt: Sal
+    uranium: Urânio
+  slimefunorechunks:
+    iron_ore_chunk: Pedaço de Minério de Ferro
+    gold_ore_chunk: Pedaço de Minério de Ouro
+    copper_ore_chunk: Pedaço de Minério de Cobre
+    tin_ore_chunk: Pedaço de Minério de Estanho
+    silver_ore_chunk: Pedaço de Minério de Prata
+    aluminum_ore_chunk: Pedaço de Minério de Alumínio
+    lead_ore_chunk: Pedaço de Minério de Chumbo
+    zinc_ore_chunk: Pedaço de Minério de Zinco
+    nickel_ore_chunk: Pedaço de Minério de Níquel
+    cobalt_ore_chunk: Pedaço de Minério de Cobalto

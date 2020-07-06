@@ -1,0 +1,26 @@
+---
+slimefun:
+  weapons: 武器
+  tools: ツール
+  items: 便利アイテム
+  food: 食料
+  basic_machines: 基本機械
+  electricity: エネルギー・電動機械
+  gps: GPS関連機械
+  armor: 防具
+  magical_items: 魔法のアイテム
+  magical_gadgets: 魔法の小道具
+  misc: 雑貨
+  technical_gadgets: 電子機器
+  resources: 資源
+  cargo: カーゴ輸送管理
+  tech_misc: 電子部品
+  magical_armor: 魔法の防具
+  talismans: タリスマン（Tier Ⅰ）
+  ender_talismans: エンダータリスマン（Tier Ⅱ）
+  christmas: クリスマス（12月）
+  valentines_day: バレンタインデー（2月14日）
+  easter: 復活祭（4月）
+  birthday: TheBusyBiscuit生誕祭（10月26日）
+  halloween: ハロウィン（10月31日）
+  androids: プログラム制御アンドロイド
