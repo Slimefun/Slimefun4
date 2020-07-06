@@ -11,11 +11,15 @@ import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class Script {
@@ -103,6 +107,30 @@ public final class Script {
         List<String> upvoters = config.getStringList("rating.positive");
         List<String> downvoters = config.getStringList("rating.negative");
         return !upvoters.contains(p.getUniqueId().toString()) && !downvoters.contains(p.getUniqueId().toString());
+    }
+
+    ItemStack getAsItemStack(ProgrammableAndroid android, Player p) {
+        List<String> lore = new LinkedList<>();
+        lore.add("&7by &r" + getAuthor());
+        lore.add("");
+        lore.add("&7Downloads: &r" + getDownloads());
+        lore.add("&7Rating: " + getScriptRatingPercentage());
+        lore.add("&a" + getUpvotes() + " \u263A &7| &4\u2639 " + getDownvotes());
+        lore.add("");
+        lore.add("&eLeft Click &rto download this Script");
+        lore.add("&4(This will override your current Script)");
+
+        if (canRate(p)) {
+            lore.add("&eShift + Left Click &rto leave a positive Rating");
+            lore.add("&eShift + Right Click &rto leave a negative Rating");
+        }
+
+        return new CustomItem(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
+    }
+
+    private String getScriptRatingPercentage() {
+        float percentage = getRating();
+        return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.RESET + "% ";
     }
 
     /**

@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.handlers;
+package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import java.util.Optional;
 
@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandler
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 /**
  * This {@link ItemHandler} is triggered when the {@link SlimefunItem} it was assigned to

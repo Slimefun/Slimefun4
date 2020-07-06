@@ -59,18 +59,14 @@ public abstract class ElectricDustWasher extends AContainer {
             if (timeleft > 0 && getSpeed() < 10) {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
-                        return;
-                    }
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    return;
                 }
-                else {
-                    progress.put(b, timeleft - 1);
-                }
+
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                progress.put(b, timeleft - 1);
             }
-            else if (ChargableBlock.isChargable(b)) {
+            else {
                 if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
                     return;
                 }

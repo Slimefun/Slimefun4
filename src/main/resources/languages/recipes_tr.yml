@@ -156,3 +156,8 @@ minecraft:
     lore:
     - İstediğiniz eşyayı üretmek için
     - Taş Kesici kullanın.
+  smithing:
+    name: Demirci Masası Üretimi
+    lore:
+    - Bu eşyayı Demirci Masası kullanarak
+    - gösterildiği gibi üretin

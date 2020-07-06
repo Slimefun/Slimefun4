@@ -150,7 +150,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack SCUBA_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SCUBA_HELMET;
     public static final SlimefunItemStack HAZMATSUIT_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HAZMAT_CHESTPLATE;
     public static final SlimefunItemStack HAZMATSUIT_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HAZMAT_LEGGINGS;
-    public static final SlimefunItemStack RUBBER_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.RUBBER_BOOTS;
+    public static final SlimefunItemStack RUBBER_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.HAZMAT_BOOTS;
     public static final SlimefunItemStack GILDED_IRON_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_HELMET;
     public static final SlimefunItemStack GILDED_IRON_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_CHESTPLATE;
     public static final SlimefunItemStack GILDED_IRON_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_LEGGINGS;

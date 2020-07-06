@@ -32,7 +32,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
-import io.github.thebusybiscuit.slimefun4.core.attributes.CustomProtection;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
@@ -453,26 +453,30 @@ public final class PlayerProfile {
         }
     }
 
-    public boolean isProtected(ProtectionType type) {
+    public boolean hasFullProtectionAgainst(ProtectionType type) {
         int armorCount = 0;
 
         NamespacedKey setId = null;
-        for (HashedArmorpiece armor : armor) {
-            Optional<SlimefunArmorPiece> armorPiece = armor.getItem();
-            if (!armorPiece.isPresent()) return false;
+        for (HashedArmorpiece armorpiece : armor) {
+            Optional<SlimefunArmorPiece> armorPiece = armorpiece.getItem();
 
-            if (armorPiece.get() instanceof CustomProtection) {
-                CustomProtection protectedArmor = (CustomProtection) armorPiece.get();
+            if (!armorPiece.isPresent()) {
+                return false;
+            }
+
+            if (armorPiece.get() instanceof ProtectiveArmor) {
+                ProtectiveArmor protectedArmor = (ProtectiveArmor) armorPiece.get();
 
                 if (setId == null && protectedArmor.isFullSetRequired()) {
-                    setId = protectedArmor.getSetId();
+                    setId = protectedArmor.getArmorSetId();
                 }
 
                 for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
                     if (protectionType == type) {
                         if (setId == null) {
                             return true;
-                        } else if (setId.equals(protectedArmor.getSetId())) {
+                        }
+                        else if (setId.equals(protectedArmor.getArmorSetId())) {
                             armorCount++;
                         }
                     }

@@ -69,15 +69,23 @@ public final class NumberUtils {
     }
 
     public static String getAsMillis(long nanoseconds) {
-        String number = DECIMAL_FORMAT.format(nanoseconds / 1000000.0);
+        if (nanoseconds == 0) {
+            return "0ms";
+        }
+
+        String number = roundDecimalNumber(nanoseconds / 1000000.0);
         String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
 
         if (parts.length == 1) {
-            return parts[0];
+            return parts[0] + "ms";
         }
         else {
-            return parts[0] + ',' + ChatColor.GRAY + parts[1] + "ms";
+            return parts[0] + '.' + parts[1] + "ms";
         }
+    }
+
+    public static String roundDecimalNumber(double number) {
+        return DECIMAL_FORMAT.format(number);
     }
 
     public static long getLong(Long value, long defaultValue) {

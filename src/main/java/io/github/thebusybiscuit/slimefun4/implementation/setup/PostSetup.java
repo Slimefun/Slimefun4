@@ -180,6 +180,7 @@ public final class PostSetup {
                     if (input[0] != null && recipe[0] != null) {
                         grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
                     }
+
                     input = null;
                 }
             }

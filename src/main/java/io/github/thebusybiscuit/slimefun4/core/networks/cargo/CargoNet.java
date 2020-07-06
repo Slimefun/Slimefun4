@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -111,6 +111,8 @@ public class CargoNet extends ChestTerminalNetwork {
 
     @Override
     public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
+        connectorCache.remove(l);
+
         if (from == NetworkComponent.TERMINUS) {
             inputNodes.remove(l);
             outputNodes.remove(l);
@@ -120,7 +122,8 @@ public class CargoNet extends ChestTerminalNetwork {
         }
 
         if (to == NetworkComponent.TERMINUS) {
-            switch (BlockStorage.checkID(l)) {
+            String id = BlockStorage.checkID(l);
+            switch (id) {
             case "CARGO_NODE_INPUT":
                 inputNodes.add(l);
                 break;
@@ -156,28 +159,63 @@ public class CargoNet extends ChestTerminalNetwork {
         }
         else {
             SimpleHologram.update(b, "&7Status: &a&lONLINE");
-            Map<Integer, List<Location>> output = mapOutputNodes();
 
-            // Chest Terminal Stuff
-            Set<Location> destinations = new HashSet<>();
-            List<Location> output16 = output.get(16);
-
-            if (output16 != null) {
-                destinations.addAll(output16);
+            // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
+            // but it's based on 'custom-ticker-delay' config.
+            if (tickDelayThreshold < TICK_DELAY) {
+                tickDelayThreshold++;
+                return;
             }
 
-            Slimefun.runSync(() -> run(b, destinations, output));
+            // Reset the internal threshold, so we can start skipping again
+            tickDelayThreshold = 0;
+
+            // Chest Terminal Stuff
+            Set<Location> chestTerminalInputs = new HashSet<>();
+            Set<Location> chestTerminalOutputs = new HashSet<>();
+
+            Map<Location, Integer> inputs = mapInputNodes(chestTerminalInputs);
+            Map<Integer, List<Location>> outputs = mapOutputNodes(chestTerminalOutputs);
+
+            if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
+                display();
+            }
+
+            SlimefunPlugin.getProfiler().scheduleEntries(1 + inputNodes.size());
+            Slimefun.runSync(() -> run(inputs, outputs, chestTerminalInputs, chestTerminalOutputs));
         }
     }
 
-    private Map<Integer, List<Location>> mapOutputNodes() {
+    private Map<Location, Integer> mapInputNodes(Set<Location> chestTerminalNodes) {
+        Map<Location, Integer> inputs = new HashMap<>();
+
+        for (Location node : inputNodes) {
+            int frequency = getFrequency(node);
+
+            if (frequency == 16) {
+                chestTerminalNodes.add(node);
+            }
+            else if (frequency >= 0 && frequency < 16) {
+                inputs.put(node, frequency);
+            }
+        }
+
+        return inputs;
+    }
+
+    private Map<Integer, List<Location>> mapOutputNodes(Set<Location> chestTerminalOutputs) {
         Map<Integer, List<Location>> output = new HashMap<>();
 
         List<Location> list = new LinkedList<>();
         int lastFrequency = -1;
 
-        for (Location outputNode : outputNodes) {
-            int frequency = getFrequency(outputNode);
+        for (Location node : outputNodes) {
+            int frequency = getFrequency(node);
+
+            if (frequency == 16) {
+                chestTerminalOutputs.add(node);
+                continue;
+            }
 
             if (frequency != lastFrequency && lastFrequency != -1) {
                 output.merge(lastFrequency, list, (prev, next) -> {
@@ -188,7 +226,7 @@ public class CargoNet extends ChestTerminalNetwork {
                 list = new LinkedList<>();
             }
 
-            list.add(outputNode);
+            list.add(node);
             lastFrequency = frequency;
         }
 
@@ -202,59 +240,42 @@ public class CargoNet extends ChestTerminalNetwork {
         return output;
     }
 
-    private void run(Block b, Set<Location> destinations, Map<Integer, List<Location>> output) {
-        if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
-            display();
-        }
-
-        // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
-        // but it's based on 'custom-ticker-delay' config.
-        if (tickDelayThreshold < TICK_DELAY) {
-            tickDelayThreshold++;
-            return;
-        }
-
-        // Reset the internal threshold, so we can start skipping again
-        tickDelayThreshold = 0;
-
-        Map<Location, Integer> inputs = new HashMap<>();
-        Set<Location> providers = new HashSet<>();
-
-        for (Location node : inputNodes) {
-            int frequency = getFrequency(node);
-
-            if (frequency == 16) {
-                providers.add(node);
-            }
-            else if (frequency >= 0 && frequency < 16) {
-                inputs.put(node, frequency);
-            }
-        }
+    private void run(Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
+        long timestamp = System.nanoTime();
 
         // Chest Terminal Code
         if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
-            handleItemRequests(providers, destinations);
+            handleItemRequests(chestTerminalInputs, chestTerminalOutputs);
         }
 
         // All operations happen here: Everything gets iterated from the Input Nodes.
         // (Apart from ChestTerminal Buses)
         for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
+            long nodeTimestamp = System.nanoTime();
             Location input = entry.getKey();
             Optional<Block> attachedBlock = getAttachedBlock(input.getBlock());
 
             if (attachedBlock.isPresent()) {
-                routeItems(input, attachedBlock.get(), entry.getValue(), output);
+                routeItems(input, attachedBlock.get(), entry.getValue(), outputs);
             }
+
+            // This will prevent this timings from showing up for the Cargo Manager
+            timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), SlimefunItems.CARGO_INPUT_NODE.getItem(), nodeTimestamp);
         }
 
         // Chest Terminal Code
         if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
-            updateTerminals(providers);
+            updateTerminals(chestTerminalInputs);
         }
+
+        // Submit a timings report
+        SlimefunPlugin.getProfiler().closeEntry(regulator, SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
     }
 
     private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
-        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget);
+        AtomicReference<Object> inventory = new AtomicReference<>();
+        ItemStackAndInteger slot = CargoUtils.withdraw(inputNode.getBlock(), inputTarget, inventory);
+
         if (slot == null) {
             return;
         }
@@ -268,9 +289,11 @@ public class CargoNet extends ChestTerminalNetwork {
         }
 
         if (stack != null) {
-            DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+            Object inputInventory = inventory.get();
 
-            if (menu != null) {
+            if (inputInventory instanceof DirtyChestMenu) {
+                DirtyChestMenu menu = (DirtyChestMenu) inputInventory;
+
                 if (menu.getItemInSlot(previousSlot) == null) {
                     menu.replaceExistingItem(previousSlot, stack);
                 }
@@ -278,18 +301,15 @@ public class CargoNet extends ChestTerminalNetwork {
                     inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
                 }
             }
-            else if (CargoUtils.hasInventory(inputTarget)) {
-                BlockState state = inputTarget.getState();
 
-                if (state instanceof InventoryHolder) {
-                    Inventory inv = ((InventoryHolder) state).getInventory();
+            if (inputInventory instanceof Inventory) {
+                Inventory inv = (Inventory) inputInventory;
 
-                    if (inv.getItem(previousSlot) == null) {
-                        inv.setItem(previousSlot, stack);
-                    }
-                    else {
-                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
-                    }
+                if (inv.getItem(previousSlot) == null) {
+                    inv.setItem(previousSlot, stack);
+                }
+                else {
+                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
                 }
             }
         }

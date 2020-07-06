@@ -56,7 +56,7 @@ class GitHubTask implements Runnable {
             }
         }
 
-        if (requests >= MAX_REQUESTS_PER_MINUTE) {
+        if (requests >= MAX_REQUESTS_PER_MINUTE && SlimefunPlugin.instance != null && SlimefunPlugin.instance.isEnabled()) {
             // Slow down API requests and wait a minute after more than x requests were made
             Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
         }
@@ -69,7 +69,7 @@ class GitHubTask implements Runnable {
 
         // We only wanna save this if all Connectors finished already
         // This will run multiple times but thats okay, this way we get as much data as possible stored
-        gitHubService.saveUUIDCache();
+        gitHubService.saveCache();
     }
 
     private int requestTexture(Contributor contributor, Map<String, String> skins) {
