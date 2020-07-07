@@ -46,7 +46,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPlugin
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
@@ -426,8 +425,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new WitherListener(this);
         new IronGolemListener(this);
         new PlayerInteractEntityListener(this);
-
-        new MobDropListener(this, (BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem());
+        new MobDropListener(this);
 
         // Item-specific Listeners
         new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
