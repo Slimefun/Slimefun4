@@ -55,7 +55,7 @@ public class MobDropListener implements Listener {
                 if (sfi instanceof RandomMobDrop && ((RandomMobDrop)sfi).getDropChance() <= random) 
                     continue;
 
-                if (sfi instanceof BasicCircuitBoard  && ((BasicCircuitBoard)sfi).isDroppedFromGolems()) 
+                if (sfi instanceof BasicCircuitBoard  && !((BasicCircuitBoard)sfi).isDroppedFromGolems()) 
                     continue;
 
                 drops.add(drop.clone());
