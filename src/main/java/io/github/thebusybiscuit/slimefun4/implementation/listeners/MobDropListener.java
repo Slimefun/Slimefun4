@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,18 +11,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.RandomMobDrop;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class MobDropListener implements Listener {
 
-    public MobDropListener(SlimefunPlugin plugin, BasicCircuitBoard circuitBoard) {
+    public MobDropListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-
     }
 
     @EventHandler
@@ -33,8 +31,10 @@ public class MobDropListener implements Listener {
             ItemStack item = p.getInventory().getItemInMainHand();
 
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
-            if (customDrops != null && !customDrops.isEmpty()) 
+
+            if (customDrops != null && !customDrops.isEmpty()) {
                 addDrops(p, customDrops, e.getDrops());
+            }
 
             if (item.getType() != Material.AIR) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -52,15 +52,17 @@ public class MobDropListener implements Listener {
         for (ItemStack drop : customDrops) {
             if (Slimefun.hasUnlocked(p, drop, true)) {
                 SlimefunItem sfi = SlimefunItem.getByItem(drop);
-                if (sfi instanceof RandomMobDrop && ((RandomMobDrop)sfi).getDropChance() <= random) 
-                    continue;
 
-                if (sfi instanceof BasicCircuitBoard  && !((BasicCircuitBoard)sfi).isDroppedFromGolems()) 
+                if (sfi instanceof RandomMobDrop && ((RandomMobDrop) sfi).getMobDropChance() <= random) {
                     continue;
+                }
+
+                if (sfi instanceof BasicCircuitBoard && !((BasicCircuitBoard) sfi).isDroppedFromGolems()) {
+                    continue;
+                }
 
                 drops.add(drop.clone());
             }
         }
     }
 }
-
