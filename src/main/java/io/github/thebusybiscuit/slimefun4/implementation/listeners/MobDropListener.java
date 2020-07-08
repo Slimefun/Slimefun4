@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -33,7 +32,11 @@ public class MobDropListener implements Listener {
             Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
 
             if (customDrops != null && !customDrops.isEmpty()) {
-                addDrops(p, customDrops, e.getDrops());
+                for (ItemStack drop : customDrops) {
+                    if (canDrop(p, drop)) {
+                        e.getDrops().add(drop.clone());
+                    }
+                }
             }
 
             if (item.getType() != Material.AIR) {
@@ -46,23 +49,30 @@ public class MobDropListener implements Listener {
         }
     }
 
-    private void addDrops(Player p, Set<ItemStack> customDrops, List<ItemStack> drops) {
-        int random = ThreadLocalRandom.current().nextInt(100);
+    private boolean canDrop(Player p, ItemStack item) {
+        SlimefunItem sfi = SlimefunItem.getByItem(item);
 
-        for (ItemStack drop : customDrops) {
-            if (Slimefun.hasUnlocked(p, drop, true)) {
-                SlimefunItem sfi = SlimefunItem.getByItem(drop);
+        if (sfi == null) {
+            return true;
+        }
+        else if (Slimefun.hasUnlocked(p, sfi, true)) {
 
-                if (sfi instanceof RandomMobDrop && ((RandomMobDrop) sfi).getMobDropChance() <= random) {
-                    continue;
+            if (sfi instanceof RandomMobDrop) {
+                int random = ThreadLocalRandom.current().nextInt(100);
+
+                if (((RandomMobDrop) sfi).getMobDropChance() <= random) {
+                    return false;
                 }
-
-                if (sfi instanceof BasicCircuitBoard && !((BasicCircuitBoard) sfi).isDroppedFromGolems()) {
-                    continue;
-                }
-
-                drops.add(drop.clone());
             }
+
+            if (sfi instanceof BasicCircuitBoard) {
+                return ((BasicCircuitBoard) sfi).isDroppedFromGolems();
+            }
+
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

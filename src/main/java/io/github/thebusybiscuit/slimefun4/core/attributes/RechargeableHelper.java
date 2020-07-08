@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import net.md_5.bungee.api.ChatColor;
 
 /**
  * This is just a simple helper class to provide static methods to the {@link Rechargeable}
@@ -69,7 +70,8 @@ final class RechargeableHelper {
         if (meta.hasLore()) {
             for (String line : meta.getLore()) {
                 if (REGEX.matcher(line).matches()) {
-                    return Float.parseFloat(PatternUtils.SLASH_SEPARATOR.split(line)[0].replace(LORE_PREFIX, ""));
+                    String data = ChatColor.stripColor(PatternUtils.SLASH_SEPARATOR.split(line)[0].replace(LORE_PREFIX, ""));
+                    return Float.parseFloat(data);
                 }
             }
         }

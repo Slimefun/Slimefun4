@@ -39,6 +39,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class SlimefunProfiler {
 
+    // A minecraft server tick is 50ms and Slimefun ticks are stretched across
+    // two ticks (sync and async blocks), so we use 100ms as a reference here
+    private static final int MAX_TICK_DURATION = 100;
+
     private final ExecutorService executor = Executors.newFixedThreadPool(4);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
@@ -247,7 +251,7 @@ public class SlimefunProfiler {
 
     protected float getPercentageOfTick() {
         float millis = totalElapsedTime / 1000000.0F;
-        float fraction = (millis * 100.0F) / PerformanceSummary.MAX_TICK_DURATION;
+        float fraction = (millis * 100.0F) / MAX_TICK_DURATION;
         return Math.round((fraction * 100.0F) / 100.0F);
     }
 
