@@ -81,7 +81,7 @@ public class MagicWorkbench extends BackpackCrafter {
     private void startAnimation(Player p, Block b, Inventory inv, ItemStack output) {
         for (int j = 0; j < 4; j++) {
             int current = j;
-            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), () -> {
                 p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 

@@ -48,7 +48,7 @@ public final class ChatUtils {
     }
 
     public static void awaitInput(Player p, Consumer<String> callback) {
-        ChatInput.waitForPlayer(SlimefunPlugin.instance, p, callback);
+        ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, callback);
     }
 
     /**

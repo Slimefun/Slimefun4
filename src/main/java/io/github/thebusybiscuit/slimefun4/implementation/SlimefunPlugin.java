@@ -46,7 +46,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPlugin
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
@@ -107,7 +106,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  */
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
-    public static SlimefunPlugin instance;
+    private static SlimefunPlugin instance;
 
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
@@ -331,7 +330,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         // Slimefun never loaded successfully, so we don't even bother doing stuff here
-        if (instance == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
+        if (instance() == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
             return;
         }
 
@@ -432,7 +431,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             new BeeListener(this);
         }
 
-        new MobDropListener(this, (BasicCircuitBoard) SlimefunItems.BASIC_CIRCUIT_BOARD.getItem());
+        new MobDropListener(this);
 
         // Item-specific Listeners
         new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
@@ -482,6 +481,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
         }
+    }
+
+    public static SlimefunPlugin instance() {
+        return instance;
     }
 
     public static Config getCfg() {

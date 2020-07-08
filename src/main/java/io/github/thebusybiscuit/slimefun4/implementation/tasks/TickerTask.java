@@ -150,7 +150,7 @@ public class TickerTask implements Runnable {
             bugs.remove(position);
 
             BlockStorage._integrated_removeBlockInfo(l, true);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> l.getBlock().setType(Material.AIR));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance(), () -> l.getBlock().setType(Material.AIR));
         }
         else {
             bugs.put(position, errors);

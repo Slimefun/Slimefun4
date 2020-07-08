@@ -149,7 +149,7 @@ class ActiveMiner implements Runnable {
         queue.thenRun(2, () -> setPistonState(pistons[1], false));
 
         queue.thenRun(1, this);
-        queue.execute(SlimefunPlugin.instance);
+        queue.execute(SlimefunPlugin.instance());
     }
 
     @Override
@@ -202,7 +202,7 @@ class ActiveMiner implements Runnable {
             }
         });
 
-        queue.execute(SlimefunPlugin.instance);
+        queue.execute(SlimefunPlugin.instance());
     }
 
     /**

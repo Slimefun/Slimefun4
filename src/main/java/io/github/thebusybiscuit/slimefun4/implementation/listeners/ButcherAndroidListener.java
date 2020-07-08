@@ -61,7 +61,7 @@ public class ButcherAndroidListener implements Listener {
             }, 1L);
 
             // Removing metadata to prevent memory leaks
-            e.getEntity().removeMetadata(METADATA_KEY, SlimefunPlugin.instance);
+            e.getEntity().removeMetadata(METADATA_KEY, SlimefunPlugin.instance());
         }
     }
 

@@ -70,7 +70,7 @@ public class PressureChamber extends MultiBlockMachine {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
-            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), () -> {
                 p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
                 p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);
                 p.getWorld().playEffect(b.getRelative(BlockFace.UP).getLocation(), Effect.SMOKE, 4);

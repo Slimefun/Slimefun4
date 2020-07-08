@@ -25,10 +25,6 @@ class PerformanceSummary {
     private static final int MIN_ITEMS = 3;
     private static final int MAX_ITEMS = 10;
 
-    // A minecraft server tick is 50ms and Slimefun ticks are stretched across
-    // two ticks (sync and async blocks), so we use 100ms as a reference here
-    static final int MAX_TICK_DURATION = 100;
-
     private final SlimefunProfiler profiler;
     private final PerformanceRating rating;
     private final long totalElapsedTime;

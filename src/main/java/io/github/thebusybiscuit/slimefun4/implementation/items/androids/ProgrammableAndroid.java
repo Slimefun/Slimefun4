@@ -441,7 +441,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.enter-name");
         int id = nextId;
 
-        ChatInput.waitForPlayer(SlimefunPlugin.instance, p, msg -> {
+        ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, msg -> {
             Script.upload(p, getAndroidType(), id, msg, code);
             SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.uploaded");
             openScriptDownloader(p, b, page);

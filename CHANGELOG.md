@@ -69,6 +69,8 @@
 * Fixed an issue with moving androids getting stuck
 * Changed recipe of Hazmat Suits
 * Uranium can no longer be placed down
+* Coolant Cells can no longer be placed on the ground
+* Crafting Nether Ice Coolant Cells now results in 4 items
 
 #### Fixes
 * Fixed #2005
@@ -97,6 +99,8 @@
 * Fixed Slimefun Armor sometimes not applying its effects
 * Fixed contributors losing their texture after restarts
 * Fixed "korean" showing up as "null"
+* Fixed an issue with moving androids getting stuck
+* Fixed Cargo nodes sometimes preventing chunks from unloading
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

@@ -63,7 +63,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
                     FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlockData());
                     block.setDropItem(false);
                     block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance, "fake_block"));
+                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance(), "fake_block"));
                 }
 
                 for (Entity n : ground.getChunk().getEntities()) {

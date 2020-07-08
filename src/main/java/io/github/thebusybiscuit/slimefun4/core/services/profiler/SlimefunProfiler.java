@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Chunk;
@@ -25,7 +24,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
@@ -41,7 +39,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class SlimefunProfiler {
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(3);
+    // A minecraft server tick is 50ms and Slimefun ticks are stretched across
+    // two ticks (sync and async blocks), so we use 100ms as a reference here
+    private static final int MAX_TICK_DURATION = 100;
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(4);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
@@ -125,7 +127,7 @@ public class SlimefunProfiler {
     public void stop() {
         running.set(false);
 
-        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             // Slimefun has been disabled
             return;
         }
@@ -135,13 +137,9 @@ public class SlimefunProfiler {
 
             // Wait for all timing results to come in
             while (queued.get() > 0 && !running.get()) {
-                try {
-                    Thread.sleep(1);
-                }
-                catch (InterruptedException e) {
-                    Slimefun.getLogger().log(Level.SEVERE, "A waiting Thread was interrupted", e);
-                    Thread.currentThread().interrupt();
-                }
+                // Ideally we would wait some time here but the ticker task may be faster
+                // than 1ms, so it would halt this summary for up to 7 minutes
+                // Not perfect performance-wise but this is a seperate Thread anyway
             }
 
             if (running.get()) {
@@ -253,7 +251,7 @@ public class SlimefunProfiler {
 
     protected float getPercentageOfTick() {
         float millis = totalElapsedTime / 1000000.0F;
-        float fraction = (millis * 100.0F) / PerformanceSummary.MAX_TICK_DURATION;
+        float fraction = (millis * 100.0F) / MAX_TICK_DURATION;
         return Math.round((fraction * 100.0F) / 100.0F);
     }
 

@@ -98,7 +98,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                             pushItem(b, output.clone());
                         });
 
-                        tasks.execute(SlimefunPlugin.instance);
+                        tasks.execute(SlimefunPlugin.instance());
                     }
                     else {
                         SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
