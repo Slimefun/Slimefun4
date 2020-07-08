@@ -1,5 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+
 /**
  * This interface, when attached to a {@link SlimefunItem}, provides an easy method for adding
  * a % chance to drop for an {@link SlimefunItem} on {@link entityDeathEvent}, this chance is 0-100
@@ -21,6 +29,6 @@ public interface RandomMobDrop extends ItemAttribute {
      * 
      * @return The integer chance (0-100%) {@link SlimefunItem} has to drop.
      */
-    public int getMobDropChance();
+    int getMobDropChance();
 
 }

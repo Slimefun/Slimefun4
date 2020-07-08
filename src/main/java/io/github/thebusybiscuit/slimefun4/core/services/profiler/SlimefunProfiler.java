@@ -123,7 +123,7 @@ public class SlimefunProfiler {
     public void stop() {
         running.set(false);
 
-        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             // Slimefun has been disabled
             return;
         }

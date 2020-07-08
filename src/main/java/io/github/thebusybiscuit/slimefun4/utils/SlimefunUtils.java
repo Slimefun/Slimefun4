@@ -45,7 +45,7 @@ public final class SlimefunUtils {
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
     private static final String NO_PICKUP_METADATA = "no_pickup";
 
-    private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance, "soulbound");
+    private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance(), "soulbound");
     private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
 
     private SlimefunUtils() {}
@@ -72,7 +72,7 @@ public final class SlimefunUtils {
      *            The context in which this {@link Item} was flagged
      */
     public static void markAsNoPickup(Item item, String context) {
-        item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance, context));
+        item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance(), context));
     }
 
     /**
@@ -188,7 +188,7 @@ public final class SlimefunUtils {
      * @return An {@link ItemStack} with this Head texture
      */
     public static ItemStack getCustomHead(String texture) {
-        if (SlimefunPlugin.instance == null) {
+        if (SlimefunPlugin.instance() == null) {
             throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
         }
 

@@ -26,7 +26,7 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  */
 final class RechargeableHelper {
 
-    private static final NamespacedKey CHARGE_KEY = new NamespacedKey(SlimefunPlugin.instance, "item_charge");
+    private static final NamespacedKey CHARGE_KEY = new NamespacedKey(SlimefunPlugin.instance(), "item_charge");
     private static final String LORE_PREFIX = ChatColors.color("&8\u21E8 &e\u26A1 &7");
     private static final Pattern REGEX = Pattern.compile(ChatColors.color("(&c&o)?" + LORE_PREFIX) + "[0-9\\.]+ \\/ [0-9\\.]+ J");
 

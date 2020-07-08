@@ -225,6 +225,10 @@ public abstract class Network {
         });
     }
 
+    public Location getRegulator() {
+        return regulator;
+    }
+
     public void tick() {
         discoverStep();
     }

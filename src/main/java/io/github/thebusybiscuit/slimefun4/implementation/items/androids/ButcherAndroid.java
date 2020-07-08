@@ -57,10 +57,10 @@ public abstract class ButcherAndroid extends ProgrammableAndroid {
 
             if (attack) {
                 if (n.hasMetadata(METADATA_KEY)) {
-                    n.removeMetadata(METADATA_KEY, SlimefunPlugin.instance);
+                    n.removeMetadata(METADATA_KEY, SlimefunPlugin.instance());
                 }
 
-                n.setMetadata(METADATA_KEY, new FixedMetadataValue(SlimefunPlugin.instance, new AndroidInstance(this, b)));
+                n.setMetadata(METADATA_KEY, new FixedMetadataValue(SlimefunPlugin.instance(), new AndroidInstance(this, b)));
 
                 ((LivingEntity) n).damage(damage);
                 break;

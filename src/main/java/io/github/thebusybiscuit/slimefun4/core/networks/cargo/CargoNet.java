@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -12,18 +11,14 @@ import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 
 /**
  * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
@@ -48,7 +43,7 @@ public class CargoNet extends ChestTerminalNetwork {
     private final Set<Location> inputNodes = new HashSet<>();
     private final Set<Location> outputNodes = new HashSet<>();
 
-    private final Map<Location, Integer> roundRobin = new HashMap<>();
+    protected final Map<Location, Integer> roundRobin = new HashMap<>();
     private int tickDelayThreshold = 0;
 
     public static CargoNet getNetworkFromLocation(Location l) {
@@ -181,7 +176,9 @@ public class CargoNet extends ChestTerminalNetwork {
             }
 
             SlimefunPlugin.getProfiler().scheduleEntries(1 + inputNodes.size());
-            Slimefun.runSync(() -> run(inputs, outputs, chestTerminalInputs, chestTerminalOutputs));
+
+            CargoNetworkTask runnable = new CargoNetworkTask(this, inputs, outputs, chestTerminalInputs, chestTerminalOutputs);
+            Slimefun.runSync(runnable);
         }
     }
 
@@ -237,135 +234,6 @@ public class CargoNet extends ChestTerminalNetwork {
         }
 
         return output;
-    }
-
-    private void run(Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
-        long timestamp = System.nanoTime();
-
-        Map<Location, Inventory> inventories = new HashMap<>();
-
-        // Chest Terminal Code
-        if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
-            handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
-        }
-
-        // All operations happen here: Everything gets iterated from the Input Nodes.
-        // (Apart from ChestTerminal Buses)
-        for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
-            long nodeTimestamp = System.nanoTime();
-            Location input = entry.getKey();
-            Optional<Block> attachedBlock = getAttachedBlock(input);
-
-            if (attachedBlock.isPresent()) {
-                routeItems(inventories, input, attachedBlock.get(), entry.getValue(), outputs);
-            }
-
-            // This will prevent this timings from showing up for the Cargo Manager
-            timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), SlimefunItems.CARGO_INPUT_NODE.getItem(), nodeTimestamp);
-        }
-
-        // Chest Terminal Code
-        if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
-            updateTerminals(chestTerminalInputs);
-        }
-
-        // Submit a timings report
-        SlimefunPlugin.getProfiler().closeEntry(regulator, SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
-    }
-
-    private void routeItems(Map<Location, Inventory> inventories, Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
-        ItemStackAndInteger slot = CargoUtils.withdraw(inventories, inputNode.getBlock(), inputTarget);
-
-        if (slot == null) {
-            return;
-        }
-
-        ItemStack stack = slot.getItem();
-        int previousSlot = slot.getInt();
-        List<Location> outputs = outputNodes.get(frequency);
-
-        if (outputs != null) {
-            stack = distributeItem(inventories, stack, inputNode, outputs);
-        }
-
-        if (stack != null) {
-            Inventory inv = inventories.get(inputTarget.getLocation());
-
-            if (inv != null) {
-                if (inv.getItem(previousSlot) == null) {
-                    inv.setItem(previousSlot, stack);
-                }
-                else {
-                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
-                }
-            }
-            else {
-                DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
-
-                if (menu != null) {
-                    if (menu.getItemInSlot(previousSlot) == null) {
-                        menu.replaceExistingItem(previousSlot, stack);
-                    }
-                    else {
-                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
-                    }
-                }
-            }
-        }
-    }
-
-    private ItemStack distributeItem(Map<Location, Inventory> inventories, ItemStack stack, Location inputNode, List<Location> outputNodes) {
-        ItemStack item = stack;
-
-        Deque<Location> destinations = new LinkedList<>(outputNodes);
-        Config cfg = BlockStorage.getLocationInfo(inputNode);
-        boolean roundrobin = "true".equals(cfg.getString("round-robin"));
-
-        if (roundrobin) {
-            roundRobinSort(inputNode, destinations);
-        }
-
-        for (Location output : destinations) {
-            Optional<Block> target = getAttachedBlock(output);
-
-            if (target.isPresent()) {
-                item = CargoUtils.insert(inventories, output.getBlock(), target.get(), item);
-
-                if (item == null) {
-                    break;
-                }
-            }
-        }
-
-        return item;
-    }
-
-    /**
-     * This method sorts a given {@link Deque} of output node locations using a semi-accurate
-     * round-robin method.
-     * 
-     * @param inputNode
-     *            The {@link Location} of the input node
-     * @param outputNodes
-     *            A {@link Deque} of {@link Location Locations} of the output nodes
-     */
-    private void roundRobinSort(Location inputNode, Deque<Location> outputNodes) {
-        int index = roundRobin.getOrDefault(inputNode, 0);
-
-        if (index < outputNodes.size()) {
-            // Not ideal but actually not bad performance-wise over more elegant alternatives
-            for (int i = 0; i < index; i++) {
-                Location temp = outputNodes.removeFirst();
-                outputNodes.add(temp);
-            }
-
-            index++;
-        }
-        else {
-            index = 1;
-        }
-
-        roundRobin.put(inputNode, index);
     }
 
     /**

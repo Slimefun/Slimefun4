@@ -96,7 +96,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             return;
         }
 
-        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
+        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
         ChatComponent page = null;
 
         List<Block> floors = getFloors(b);
@@ -125,7 +125,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             else {
                 line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, DATA_KEY + i), player -> Slimefun.runSync(() -> {
+                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), DATA_KEY + i), player -> Slimefun.runSync(() -> {
                     users.add(player.getUniqueId());
 
                     float yaw = player.getEyeLocation().getYaw() + 180;

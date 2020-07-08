@@ -35,7 +35,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
-    private final NamespacedKey guideSearch = new NamespacedKey(SlimefunPlugin.instance, "search");
+    private final NamespacedKey guideSearch = new NamespacedKey(SlimefunPlugin.instance(), "search");
 
     @Override
     public SlimefunGuideLayout getLayout() {
@@ -53,7 +53,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private void openBook(Player p, PlayerProfile profile, List<ChatComponent> lines, boolean backButton) {
-        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
+        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
         book.setTitle(SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main"));
 
         for (int i = 0; i < lines.size(); i = i + 10) {
@@ -63,7 +63,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
             header.setClickEvent(new ClickEvent(guideSearch, player -> Slimefun.runSync(() -> {
                 SlimefunPlugin.getLocalization().sendMessage(player, "guide.search.message");
-                ChatInput.waitForPlayer(SlimefunPlugin.instance, player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
+                ChatInput.waitForPlayer(SlimefunPlugin.instance(), player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
             }, 1)));
 
             page.append(header);
@@ -77,7 +77,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             if (backButton) {
                 ChatComponent button = new ChatComponent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"));
                 button.setHoverEvent(new HoverEvent(ChatColor.DARK_BLUE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide")));
-                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, "slimefun_guide"), pl -> openMainMenu(profile, 1)));
+                button.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), "slimefun_guide"), pl -> openMainMenu(profile, 1)));
                 page.append(button);
             }
 
@@ -189,7 +189,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private void appendSlimefunItem(Category category, int page, Player p, PlayerProfile profile, SlimefunItem item, List<ChatComponent> items) {
-        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, item.getID().toLowerCase(Locale.ROOT));
+        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance(), item.getID().toLowerCase(Locale.ROOT));
 
         if (!Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
             Research research = item.getResearch();

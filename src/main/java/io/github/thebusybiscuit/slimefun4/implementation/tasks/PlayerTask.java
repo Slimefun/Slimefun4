@@ -19,11 +19,11 @@ abstract class PlayerTask implements Runnable {
     }
 
     public void schedule(long delay) {
-        setID(Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, this, delay));
+        setID(Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance(), this, delay));
     }
 
     public void scheduleRepeating(long delay, long interval) {
-        setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunPlugin.instance, this, delay, interval));
+        setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunPlugin.instance(), this, delay, interval));
     }
 
     @Override

@@ -105,7 +105,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  */
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
-    public static SlimefunPlugin instance;
+    private static SlimefunPlugin instance;
 
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
 
@@ -329,7 +329,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public void onDisable() {
         // Slimefun never loaded successfully, so we don't even bother doing stuff here
-        if (instance == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
+        if (instance() == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
             return;
         }
 
@@ -475,6 +475,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
         }
+    }
+
+    public static SlimefunPlugin instance() {
+        return instance;
     }
 
     public static Config getCfg() {
