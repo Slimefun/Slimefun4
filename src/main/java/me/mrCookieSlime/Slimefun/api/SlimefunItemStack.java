@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
@@ -34,6 +35,7 @@ public class SlimefunItemStack extends CustomItem {
     private String id;
     private ImmutableItemMeta immutableMeta;
 
+    private boolean locked = false;
     private String texture = null;
 
     public SlimefunItemStack(String id, Material type, String name, String... lore) {
@@ -206,9 +208,32 @@ public class SlimefunItemStack extends CustomItem {
 
     @Override
     public boolean setItemMeta(ItemMeta meta) {
+        validate();
         immutableMeta = new ImmutableItemMeta(meta);
 
         return super.setItemMeta(meta);
+    }
+
+    @Override
+    public void setType(Material type) {
+        validate();
+        super.setType(type);
+    }
+
+    @Override
+    public void setAmount(int amount) {
+        validate();
+        super.setAmount(amount);
+    }
+
+    private void validate() {
+        if (locked) {
+            throw new WrongItemStackException(id + " is not mutable.");
+        }
+    }
+    
+    public void lock() {
+        locked = true;
     }
 
     @Override

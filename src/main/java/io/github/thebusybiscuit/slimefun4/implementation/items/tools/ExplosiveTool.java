@@ -21,10 +21,10 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -63,7 +63,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
                         b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
                         List<Block> blocks = findBlocks(b);
-                        breakBlocks(p, b, blocks, fortune, drops);
+                        breakBlocks(p, item, b, blocks, fortune, drops);
                     }
 
                     return true;
@@ -75,7 +75,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
         };
     }
 
-    private void breakBlocks(Player p, Block b, List<Block> blocks, int fortune, List<ItemStack> drops) {
+    private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, int fortune, List<ItemStack> drops) {
         if (callExplosionEvent.getValue().booleanValue()) {
             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
