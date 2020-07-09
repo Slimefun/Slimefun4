@@ -13,6 +13,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @param <T>
  *            deprecated.
  */
+@Deprecated
 public abstract class SimpleSlimefunItem<T extends ItemHandler> extends io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem<T> {
 
     public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
