@@ -35,7 +35,7 @@ class DefaultCategories {
     protected final Category weapons = new Category(new NamespacedKey(SlimefunPlugin.instance(), "weapons"), new CustomItem(SlimefunItems.BLADE_OF_VAMPIRES, "&7Weapons"), 1);
     protected final Category tools = new Category(new NamespacedKey(SlimefunPlugin.instance(), "tools"), new CustomItem(SlimefunItems.SMELTERS_PICKAXE, "&7Tools"), 1);
     protected final Category usefulItems = new Category(new NamespacedKey(SlimefunPlugin.instance(), "items"), new CustomItem(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
-    protected final Category basicMachines = new Category(new NamespacedKey(SlimefunPlugin.instance(), "basic_machines"), new CustomItem(Material.CRAFTING_TABLE, "&7Basic Machines"), 1);
+    protected final Category basicMachines = new Category(new NamespacedKey(SlimefunPlugin.instance(), "basic_machines"), new CustomItem(SlimefunItems.ENHANCED_CRAFTING_TABLE, "&7Basic Machines"), 1);
     protected final Category food = new Category(new NamespacedKey(SlimefunPlugin.instance(), "food"), new CustomItem(SlimefunItems.FORTUNE_COOKIE, "&7Food"), 2);
     protected final Category armor = new Category(new NamespacedKey(SlimefunPlugin.instance(), "armor"), new CustomItem(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, "&7Armor"), 2);
 

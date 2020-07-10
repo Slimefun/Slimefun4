@@ -814,7 +814,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
     }
 
-    protected void attack(Block b, Predicate<LivingEntity> predicate) {
+    protected void attack(Block b, BlockFace face, Predicate<LivingEntity> predicate) {
         throw new UnsupportedOperationException("Non-butcher Android tried to butcher!");
     }
 

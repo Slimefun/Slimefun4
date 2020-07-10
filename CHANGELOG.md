@@ -65,6 +65,7 @@
 * Thunderstorms now count as night time for Solar Generators
 * Coolant Cells can no longer be placed on the ground
 * Crafting Nether Ice Coolant Cells now results in 4 items
+* Moved Soulbound Backpack to the "Magical Gadgets" Category
 
 #### Fixes
 * Fixed #2005
