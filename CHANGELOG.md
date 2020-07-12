@@ -95,6 +95,7 @@
 * Fixed an issue with moving androids getting stuck
 * Fixed Cargo nodes sometimes preventing chunks from unloading
 * Fixed #2081
+* Fixed a NullPointerException when Generators throw an Error Report
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
