@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -60,7 +60,7 @@ public class BackupService implements Runnable {
                 }
             }
             catch (IOException x) {
-                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
             }
         }
     }

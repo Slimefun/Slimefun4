@@ -10,8 +10,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+/**
+ * @deprecated Please implement {@link Rechargeable} on your {@link SlimefunItem} instead.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+@Deprecated
 public final class ItemEnergy {
 
     // We should find a replacement for this class

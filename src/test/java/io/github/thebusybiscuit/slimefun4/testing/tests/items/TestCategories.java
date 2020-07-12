@@ -20,10 +20,13 @@ import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TestCategories {
 
@@ -46,7 +49,7 @@ public class TestCategories {
         Category category = new Category(new NamespacedKey(plugin, "getter_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, category.getTier());
-        Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance, "getter_test"), category.getKey());
+        Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance(), "getter_test"), category.getKey());
         Assertions.assertEquals("Testing", category.getUnlocalizedName());
         Assertions.assertEquals(0, category.getItems().size());
     }
@@ -115,7 +118,7 @@ public class TestCategories {
     }
 
     @Test
-    public void testLockedCategories() {
+    public void testLockedCategoriesParents() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
         Category category = new Category(new NamespacedKey(plugin, "unlocked"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
@@ -137,6 +140,39 @@ public class TestCategories {
 
         locked.addParent(category);
         Assertions.assertTrue(locked.getParents().contains(category));
+    }
+
+    @Test
+    public void testLockedCategoriesUnlocking() throws InterruptedException {
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
+
+        Category category = new Category(new NamespacedKey(plugin, "parent"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
+        category.register();
+
+        LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
+        locked.register();
+
+        // No Items, so it should be unlocked
+        Assertions.assertTrue(locked.hasUnlocked(player, profile));
+
+        SlimefunItem item = new SlimefunItem(category, new SlimefunItemStack("LOCKED_CATEGORY_TEST", new CustomItem(Material.LANTERN, "&6Test Item for locked categories")), RecipeType.NULL, new ItemStack[9]);
+        item.register(plugin);
+        item.load();
+
+        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        Research research = new Research(new NamespacedKey(plugin, "cant_touch_this"), 432432, "MC Hammer", 90);
+        research.addItems(item);
+        research.register();
+
+        Assertions.assertFalse(profile.hasUnlocked(research));
+        Assertions.assertFalse(locked.hasUnlocked(player, profile));
+
+        profile.setResearched(research, true);
+
+        Assertions.assertTrue(locked.hasUnlocked(player, profile));
     }
 
     @Test

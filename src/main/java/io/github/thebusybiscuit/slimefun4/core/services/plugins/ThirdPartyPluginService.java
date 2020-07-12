@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -61,7 +61,7 @@ public class ThirdPartyPluginService {
                 Class.forName("com.sk89q.worldedit.extent.Extent");
                 new WorldEditHook();
             }
-            catch (Throwable x) {
+            catch (Exception | LinkageError x) {
                 String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
 
                 Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");

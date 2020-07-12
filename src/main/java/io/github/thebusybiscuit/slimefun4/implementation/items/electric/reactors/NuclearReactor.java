@@ -5,15 +5,13 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * The {@link NuclearReactor} is an implementation of {@link AReactor} that uses
+ * The {@link NuclearReactor} is an implementation of {@link Reactor} that uses
  * any {@link Radioactive} material to generate energy.
  * It needs water coolant as well as a steady supply of Reactor Coolant Cells
  * 
@@ -22,7 +20,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see NetherStarReactor
  *
  */
-public abstract class NuclearReactor extends AReactor {
+public abstract class NuclearReactor extends Reactor {
 
     public NuclearReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -42,7 +40,7 @@ public abstract class NuclearReactor extends AReactor {
 
     @Override
     public ItemStack getProgressBar() {
-        return SlimefunUtils.getCustomHead("a3ad8ee849edf04ed9a26ca3341f6033bd76dcc4231ed1ea63b7565751b27ac");
+        return SlimefunItems.LAVA_CRYSTAL;
     }
 
     @Override

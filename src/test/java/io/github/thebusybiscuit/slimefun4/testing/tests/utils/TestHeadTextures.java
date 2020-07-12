@@ -6,7 +6,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.thebusybiscuit.slimefun4.utils.CustomHeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 public class TestHeadTextures {
 
@@ -14,7 +14,7 @@ public class TestHeadTextures {
     public void testForDuplicates() {
         Set<String> textures = new HashSet<>();
 
-        for (CustomHeadTexture head : CustomHeadTexture.values()) {
+        for (HeadTexture head : HeadTexture.values()) {
             String texture = head.getTexture();
             Assertions.assertNotNull(texture);
 

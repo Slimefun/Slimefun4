@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.handlers;
+package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import java.util.Optional;
 
@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SlimefunBow;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 /**
  * This {@link ItemHandler} is triggered when the {@link SlimefunItem} it was assigned to

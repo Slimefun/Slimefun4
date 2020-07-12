@@ -28,9 +28,9 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -112,13 +112,16 @@ public class SlimefunBootsListener implements Listener {
 
     @EventHandler
     public void onTrample(PlayerInteractEvent e) {
-        if (e.getAction() != Action.PHYSICAL) return;
-        if (e.getClickedBlock() == null) return;
-        if (e.getClickedBlock().getType() != Material.FARMLAND) return;
+        if (e.getAction() == Action.PHYSICAL) {
+            Block b = e.getClickedBlock();
 
-        ItemStack boots = e.getPlayer().getInventory().getBoots();
-        if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
-            e.setCancelled(true);
+            if (b != null && b.getType() == Material.FARMLAND) {
+                ItemStack boots = e.getPlayer().getInventory().getBoots();
+
+                if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true) && Slimefun.hasUnlocked(e.getPlayer(), boots, true)) {
+                    e.setCancelled(true);
+                }
+            }
         }
     }
 }

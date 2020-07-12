@@ -12,6 +12,7 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang.Validate;
@@ -32,9 +33,10 @@ import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * A class that can store a Player's {@link Research} progress for caching purposes.
@@ -79,10 +81,15 @@ public final class PlayerProfile {
         }
 
         for (String key : waypointsFile.getKeys()) {
-            if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
-                String waypointName = waypointsFile.getString(key + ".name");
-                Location loc = waypointsFile.getLocation(key);
-                waypoints.add(new Waypoint(this, key, loc, waypointName));
+            try {
+                if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
+                    String waypointName = waypointsFile.getString(key + ".name");
+                    Location loc = waypointsFile.getLocation(key);
+                    waypoints.add(new Waypoint(this, key, loc, waypointName));
+                }
+            }
+            catch (Exception x) {
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
             }
         }
     }
@@ -301,17 +308,17 @@ public final class PlayerProfile {
     }
 
     public void sendStats(CommandSender sender) {
-        Set<Research> researched = getResearches();
-        int levels = researched.stream().mapToInt(Research::getCost).sum();
-        int totalResearches = SlimefunPlugin.getRegistry().getResearches().size();
+        Set<Research> unlockedResearches = getResearches();
+        int levels = unlockedResearches.stream().mapToInt(Research::getCost).sum();
+        int allResearches = SlimefunPlugin.getRegistry().getResearches().size();
 
-        float progress = Math.round(((researched.size() * 100.0F) / totalResearches) * 100.0F) / 100.0F;
+        float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
 
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Statistics for Player: &b" + name));
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Title: " + ChatColor.AQUA + getTitle()));
-        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + researched.size() + " / " + totalResearches + ')'));
+        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + unlockedResearches.size() + " / " + allResearches + ')'));
         sender.sendMessage(ChatColors.color("&7Total XP Levels spent: " + ChatColor.AQUA + levels));
     }
 
@@ -340,14 +347,14 @@ public final class PlayerProfile {
     }
 
     /**
-     * Get the PlayerProfile for a player asynchronously.
+     * Get the {@link PlayerProfile} for a {@link OfflinePlayer} asynchronously.
      *
      * @param p
-     *            The player who's profile to retrieve
+     *            The {@link OfflinePlayer} who's {@link PlayerProfile} to retrieve
      * @param callback
-     *            The callback with the PlayerProfile
+     *            The callback with the {@link PlayerProfile}
      * 
-     * @return If the player was cached or not.
+     * @return If the {@link OfflinePlayer} was cached or not.
      */
     public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
         Validate.notNull(p, "Cannot get a PlayerProfile for: null!");
@@ -360,7 +367,7 @@ public final class PlayerProfile {
             return true;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
             PlayerProfile pp = new PlayerProfile(p);
             SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
             callback.accept(pp);
@@ -381,7 +388,7 @@ public final class PlayerProfile {
     public static boolean request(OfflinePlayer p) {
         if (!SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
             // Should probably prevent multiple requests for the same profile in the future
-            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
                 PlayerProfile pp = new PlayerProfile(p);
                 SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
             });

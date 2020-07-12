@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.services.metrics;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.Plugin;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -49,6 +49,7 @@ public class MetricsService {
         metrics.addCustomChart(new AddonsChart());
         metrics.addCustomChart(new CommandChart());
         metrics.addCustomChart(new ServerSizeChart());
+        metrics.addCustomChart(new CompatibilityModeChart());
     }
 
 }

@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.inventory.BrewerInventory;
@@ -15,10 +16,10 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -43,6 +44,7 @@ final class CargoUtils {
      */
     static boolean hasInventory(Block block) {
         if (block == null) {
+            // No block, no inventory
             return false;
         }
 
@@ -80,15 +82,23 @@ final class CargoUtils {
         return false;
     }
 
-    static ItemStack withdraw(Block node, Block target, ItemStack template) {
+    static ItemStack withdraw(Map<Location, Inventory> inventories, Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu == null) {
             if (hasInventory(target)) {
+                Inventory inventory = inventories.get(target.getLocation());
+
+                if (inventory != null) {
+                    return withdrawFromVanillaInventory(node, template, inventory);
+                }
+
                 BlockState state = target.getState();
 
                 if (state instanceof InventoryHolder) {
-                    return withdrawFromVanillaInventory(node, template, ((InventoryHolder) state).getInventory());
+                    inventory = ((InventoryHolder) state).getInventory();
+                    inventories.put(target.getLocation(), inventory);
+                    return withdrawFromVanillaInventory(node, template, inventory);
                 }
             }
 
@@ -132,10 +142,10 @@ final class CargoUtils {
         ItemStackWrapper wrapper = new ItemStackWrapper(template);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            // Changes to this ItemStack are synchronized with the Item in the Inventory
+            // Changes to these ItemStacks are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true) && matchesFilter(node, itemInSlot)) {
+            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && matchesFilter(node, itemInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return template;
@@ -151,7 +161,7 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStackAndInteger withdraw(Block node, Block target) {
+    static ItemStackAndInteger withdraw(Map<Location, Inventory> inventories, Block node, Block target) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
@@ -165,37 +175,50 @@ final class CargoUtils {
             }
         }
         else if (hasInventory(target)) {
+            Inventory inventory = inventories.get(target.getLocation());
+
+            if (inventory != null) {
+                return withdrawFromVanillaInventory(node, inventory);
+            }
+
             BlockState state = target.getState();
 
             if (state instanceof InventoryHolder) {
-                Inventory inv = ((InventoryHolder) state).getInventory();
-
-                ItemStack[] contents = inv.getContents();
-                int minSlot = 0;
-                int maxSlot = contents.length;
-
-                if (inv instanceof FurnaceInventory) {
-                    minSlot = 2;
-                    maxSlot = 3;
-                }
-                else if (inv instanceof BrewerInventory) {
-                    maxSlot = 3;
-                }
-
-                for (int slot = minSlot; slot < maxSlot; slot++) {
-                    ItemStack is = contents[slot];
-
-                    if (matchesFilter(node, is)) {
-                        inv.setItem(slot, null);
-                        return new ItemStackAndInteger(is, slot);
-                    }
-                }
+                inventory = ((InventoryHolder) state).getInventory();
+                inventories.put(target.getLocation(), inventory);
+                return withdrawFromVanillaInventory(node, inventory);
             }
         }
+
         return null;
     }
 
-    static ItemStack insert(Block node, Block target, ItemStack stack) {
+    private static ItemStackAndInteger withdrawFromVanillaInventory(Block node, Inventory inv) {
+        ItemStack[] contents = inv.getContents();
+        int minSlot = 0;
+        int maxSlot = contents.length;
+
+        if (inv instanceof FurnaceInventory) {
+            minSlot = 2;
+            maxSlot = 3;
+        }
+        else if (inv instanceof BrewerInventory) {
+            maxSlot = 3;
+        }
+
+        for (int slot = minSlot; slot < maxSlot; slot++) {
+            ItemStack is = contents[slot];
+
+            if (matchesFilter(node, is)) {
+                inv.setItem(slot, null);
+                return new ItemStackAndInteger(is, slot);
+            }
+        }
+
+        return null;
+    }
+
+    static ItemStack insert(Map<Location, Inventory> inventories, Block node, Block target, ItemStack stack) {
         if (!matchesFilter(node, stack)) {
             return stack;
         }
@@ -204,10 +227,18 @@ final class CargoUtils {
 
         if (menu == null) {
             if (hasInventory(target)) {
+                Inventory inventory = inventories.get(target.getLocation());
+
+                if (inventory != null) {
+                    return insertIntoVanillaInventory(stack, inventory);
+                }
+
                 BlockState state = target.getState();
 
                 if (state instanceof InventoryHolder) {
-                    return insertIntoVanillaInventory(stack, ((InventoryHolder) state).getInventory());
+                    inventory = ((InventoryHolder) state).getInventory();
+                    inventories.put(target.getLocation(), inventory);
+                    return insertIntoVanillaInventory(stack, inventory);
                 }
             }
 
@@ -245,7 +276,7 @@ final class CargoUtils {
         return stack;
     }
 
-    static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
+    private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int minSlot = 0;
         int maxSlot = contents.length;
@@ -254,8 +285,12 @@ final class CargoUtils {
         if (inv instanceof FurnaceInventory) {
             // Check if it is fuel or not
             if (stack.getType().isFuel()) {
-                minSlot = 1;
                 maxSlot = 2;
+
+                // Any non-smeltable items should not land in the upper slot
+                if (!isSmeltable(stack, true)) {
+                    minSlot = 1;
+                }
             }
             else {
                 maxSlot = 1;
@@ -313,6 +348,28 @@ final class CargoUtils {
         return stack;
     }
 
+    /**
+     * This method checks if a given {@link ItemStack} is smeltable or not.
+     * The lazy-option is a performance-saver since actually calculating this can be quite expensive.
+     * For the current applicational purposes a quick check for any wooden logs is sufficient.
+     * Otherwise the "lazyness" can be turned off in the future.
+     * 
+     * @param stack
+     *            The {@link ItemStack} to test
+     * @param lazy
+     *            Whether or not to perform a "lazy" but performance-saving check
+     * 
+     * @return Whether the given {@link ItemStack} can be smelted or not
+     */
+    private static boolean isSmeltable(ItemStack stack, boolean lazy) {
+        if (lazy) {
+            return stack != null && Tag.LOGS.isTagged(stack.getType());
+        }
+        else {
+            return SlimefunPlugin.getMinecraftRecipeService().isSmeltable(stack);
+        }
+    }
+
     static DirtyChestMenu getChestMenu(Block block) {
         if (BlockStorage.hasInventory(block)) {
             return BlockStorage.getInventory(block);
@@ -327,61 +384,50 @@ final class CargoUtils {
         }
 
         // Store the returned Config instance to avoid heavy calls
-        Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
-        String id = blockInfo.getString("id");
+        Config blockData = BlockStorage.getLocationInfo(block.getLocation());
+        String id = blockData.getString("id");
 
+        // Cargo Output nodes have no filter actually
         if (id.equals("CARGO_NODE_OUTPUT")) {
             return true;
         }
 
         try {
             BlockMenu menu = BlockStorage.getInventory(block.getLocation());
+
             if (menu == null) {
                 return false;
             }
 
-            boolean lore = "true".equals(blockInfo.getString("filter-lore"));
-            ItemStackWrapper wrapper = new ItemStackWrapper(item);
-
-            if ("whitelist".equals(blockInfo.getString("filter-type"))) {
-                List<ItemStack> templateItems = new LinkedList<>();
-
-                for (int slot : FILTER_SLOTS) {
-                    ItemStack template = menu.getItemInSlot(slot);
-
-                    if (template != null) {
-                        templateItems.add(template);
-                    }
-                }
-
-                if (templateItems.isEmpty()) {
-                    return false;
-                }
-
-                for (ItemStack stack : templateItems) {
-                    if (SlimefunUtils.isItemSimilar(wrapper, stack, lore)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-            else {
-                for (int slot : FILTER_SLOTS) {
-                    ItemStack itemInSlot = menu.getItemInSlot(slot);
-
-                    if (itemInSlot != null && SlimefunUtils.isItemSimilar(wrapper, itemInSlot, lore, false)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
+            boolean lore = "true".equals(blockData.getString("filter-lore"));
+            boolean allowByDefault = !"whitelist".equals(blockData.getString("filter-type"));
+            return matchesFilterList(item, menu, lore, allowByDefault);
         }
         catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occured while trying to filter items for a Cargo Node (" + id + ") at " + new BlockPosition(block));
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to filter items for a Cargo Node (" + id + ") at " + new BlockPosition(block));
             return false;
         }
+    }
+
+    private static boolean matchesFilterList(ItemStack item, BlockMenu menu, boolean respectLore, boolean defaultValue) {
+        ItemStackWrapper wrapper = null;
+
+        for (int slot : FILTER_SLOTS) {
+            ItemStack stack = menu.getItemInSlot(slot);
+
+            if (stack != null) {
+                if (wrapper == null) {
+                    // Only create this as needed to save performance
+                    wrapper = new ItemStackWrapper(item);
+                }
+
+                if (SlimefunUtils.isItemSimilar(stack, wrapper, respectLore, false)) {
+                    return !defaultValue;
+                }
+            }
+        }
+
+        return defaultValue;
     }
 
     /**

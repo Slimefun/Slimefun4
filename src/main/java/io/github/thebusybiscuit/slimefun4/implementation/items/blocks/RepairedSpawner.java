@@ -8,12 +8,12 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
@@ -24,7 +24,7 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
 
     @Override
     public BlockPlaceHandler getItemHandler() {
-        return (e, item) -> {
+        return (p, e, item) -> {
             // We need to explicitly ignore the lore here
             if (SlimefunUtils.isItemSimilar(item, SlimefunItems.REPAIRED_SPAWNER, false, false)) {
                 Optional<EntityType> entity = getEntityType(item);
@@ -48,7 +48,9 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
      * The provided {@link ItemStack} must be a {@link RepairedSpawner} item.
      * 
      * @param item
-     * @return
+     *            The {@link ItemStack} to extract the {@link EntityType} from
+     * 
+     * @return An {@link Optional} describing the result
      */
     public Optional<EntityType> getEntityType(ItemStack item) {
         for (String line : item.getItemMeta().getLore()) {

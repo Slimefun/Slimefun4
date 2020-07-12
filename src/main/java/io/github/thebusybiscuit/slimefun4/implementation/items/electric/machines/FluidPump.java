@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,6 +14,7 @@ import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -20,7 +22,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenu
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -33,6 +34,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 32;
+    private static final int RANGE = 42;
 
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22 };
     private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
@@ -94,40 +96,47 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     protected void tick(Block b) {
         Block fluid = b.getRelative(BlockFace.DOWN);
-        ItemStack output = null;
+        Optional<ItemStack> bucket = getFilledBucket(fluid);
 
-        if (fluid.getType() == Material.LAVA) {
-            output = new ItemStack(Material.LAVA_BUCKET);
-        }
-        else if (fluid.getType() == Material.WATER) {
-            output = new ItemStack(Material.WATER_BUCKET);
-        }
-
-        if (output != null && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
+        if (bucket.isPresent() && ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
             BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
-                    if (!menu.fits(output, getOutputSlots())) {
+                    if (!menu.fits(bucket.get(), getOutputSlots())) {
                         return;
                     }
 
                     ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
                     menu.consumeItem(slot);
-                    menu.pushItem(output, getOutputSlots());
-
-                    if (fluid.getType() == Material.WATER) {
-                        fluid.setType(Material.AIR);
-                    }
-                    else {
-                        List<Block> list = Vein.find(fluid, 50, block -> block.isLiquid() && block.getType() == fluid.getType());
-                        list.get(list.size() - 1).setType(Material.AIR);
-                    }
+                    menu.pushItem(bucket.get().clone(), getOutputSlots());
+                    consumeFluid(fluid);
 
                     return;
                 }
             }
         }
+    }
+
+    private void consumeFluid(Block fluid) {
+        if (fluid.getType() == Material.WATER) {
+            fluid.setType(Material.AIR);
+            return;
+        }
+
+        List<Block> list = Vein.find(fluid, RANGE, block -> block.isLiquid() && block.getType() == fluid.getType());
+        list.get(list.size() - 1).setType(Material.AIR);
+    }
+
+    private Optional<ItemStack> getFilledBucket(Block fluid) {
+        if (fluid.getType() == Material.LAVA) {
+            return Optional.of(new ItemStack(Material.LAVA_BUCKET));
+        }
+        else if (fluid.getType() == Material.WATER) {
+            return Optional.of(new ItemStack(Material.WATER_BUCKET));
+        }
+
+        return Optional.empty();
     }
 
     @Override

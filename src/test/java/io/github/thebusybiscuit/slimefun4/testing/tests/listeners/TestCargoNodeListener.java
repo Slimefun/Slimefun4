@@ -17,9 +17,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.block.BlockStateMock;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun4.testing.annotations.SlimefunItemsSource;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class TestCargoNodeListener {
 
@@ -55,6 +55,7 @@ public class TestCargoNodeListener {
     @ParameterizedTest
     @SlimefunItemsSource(items = { "CARGO_INPUT_NODE", "CARGO_OUTPUT_NODE", "CARGO_OUTPUT_NODE_2" })
     public void testInvalidPlacement(ItemStack item) {
+        SlimefunPlugin.getRegistry().setBackwardsCompatible(true);
         Player player = server.addPlayer();
         Location l = new Location(player.getWorld(), 190, 50, 400);
         Block b = l.getBlock();
@@ -63,10 +64,12 @@ public class TestCargoNodeListener {
         BlockPlaceEvent event = new BlockPlaceEvent(b, new BlockStateMock(), against, item, player, true, EquipmentSlot.HAND);
         listener.onCargoNodePlace(event);
         Assertions.assertTrue(event.isCancelled());
+        SlimefunPlugin.getRegistry().setBackwardsCompatible(false);
     }
 
     @Test
     public void testNonCargoNode() {
+        SlimefunPlugin.getRegistry().setBackwardsCompatible(true);
         Player player = server.addPlayer();
         Location l = new Location(player.getWorld(), 190, 50, 400);
         Block b = l.getBlock();
@@ -77,6 +80,7 @@ public class TestCargoNodeListener {
         BlockPlaceEvent event = new BlockPlaceEvent(b, new BlockStateMock(), against, item, player, true, EquipmentSlot.HAND);
         listener.onCargoNodePlace(event);
         Assertions.assertFalse(event.isCancelled());
+        SlimefunPlugin.getRegistry().setBackwardsCompatible(false);
     }
 
 }

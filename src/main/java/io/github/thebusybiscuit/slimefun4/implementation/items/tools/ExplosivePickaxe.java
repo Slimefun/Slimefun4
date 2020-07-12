@@ -13,6 +13,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  * 
  * @see ExplosiveShovel
+ * @see ExplosiveTool
  *
  */
 public class ExplosivePickaxe extends ExplosiveTool {

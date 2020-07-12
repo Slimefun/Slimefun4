@@ -13,7 +13,7 @@
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
-    <description>Slimefun is a Bukkit / Spigot plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
+    <description>Slimefun is a Spigot plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
     <url>https://github.com/TheBusyBiscuit/Slimefun4</url>
 
     <properties>
@@ -21,9 +21,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <!-- Bukkit properties -->
-        <bukkit.version>1.15.2</bukkit.version>
-        <bukkit.javadocs>https://hub.spigotmc.org/javadocs/bukkit/</bukkit.javadocs>
+        <!-- Spigot properties -->
+        <spigot.version>1.16.1</spigot.version>
+        <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
         <sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
@@ -48,19 +48,19 @@
 
     <repositories>
         <repository>
-            <id>paper-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>paper-repo</id>
+            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>worldedit-worldguard-repo</id>
+            <id>worldedit-repo</id>
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
@@ -69,7 +69,11 @@
         </repository>
         <repository>
             <id>placeholderapi-repo</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>walshy-public</id>
+            <url>https://repo.walshy.dev/public/</url>
         </repository>
     </repositories>
 
@@ -113,7 +117,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.0.0-M5</version>
             </plugin>
 
             <!-- Sonarcloud Scanner -->
@@ -205,7 +209,7 @@
 
                     <!-- We can reference Bukkit's API in our Javadocs -->
                     <links>
-                        <link>${bukkit.javadocs}</link>
+                        <link>${spigot.javadocs}</link>
                     </links>
 
                     <!-- We can group pakages together in our Javadocs -->
@@ -266,15 +270,15 @@
     <dependencies>
         <!-- Hard dependencies -->
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>${bukkit.version}-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>4a7fce5202</version>
+            <version>31390302cf</version>
             <scope>provided</scope>
         </dependency>
 
@@ -294,15 +298,15 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.3.3</version>
+            <version>3.4.0</version>
             <scope>test</scope>
         </dependency>
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.thebusybiscuit</groupId>
+            <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.21</version>
+            <version>0.23.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -339,14 +343,11 @@
             <version>3cd370b5d8</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- System dependency, this project has no maven repository -->
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
-            <version>2.9.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
+            <version>3.1.6</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

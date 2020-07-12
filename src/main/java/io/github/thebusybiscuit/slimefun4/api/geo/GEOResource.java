@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 /**
  * A {@link GEOResource} is a virtual resource that can be thought of as world-gen.
@@ -91,7 +91,7 @@ public interface GEOResource extends Keyed {
      * @return The localized name for this {@link GEOResource}
      */
     default String getName(Player p) {
-        String name = SlimefunPlugin.getLocal().getResourceString(p, "resources." + getKey().getNamespace() + "." + getKey().getKey());
+        String name = SlimefunPlugin.getLocalization().getResourceString(p, "resources." + getKey().getNamespace() + "." + getKey().getKey());
         return name == null ? getName() : name;
     }
 

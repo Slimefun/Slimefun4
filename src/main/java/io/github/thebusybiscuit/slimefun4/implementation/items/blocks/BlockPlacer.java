@@ -19,12 +19,12 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockDispenseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -42,9 +42,9 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
     @Override
     public BlockDispenseHandler getItemHandler() {
         return (e, dispenser, facedBlock, machine) -> {
-            // Since vanilla Dispensers can already place Shulker boxes, we simply fallback
-            // to the vanilla behaviour.
             if (isShulkerBox(e.getItem().getType())) {
+                // Since vanilla Dispensers can already place Shulker boxes, we
+                // simply fallback to the vanilla behaviour.
                 return;
             }
 

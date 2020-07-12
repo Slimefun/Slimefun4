@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -19,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
@@ -58,6 +59,7 @@ public class SlimefunRegistry {
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = new HashSet<>();
 
+    private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
     private boolean enableResearches;
     private boolean freeCreativeResearches;
@@ -75,8 +77,8 @@ public class SlimefunRegistry {
     private final Set<String> chargeableBlocks = new HashSet<>();
     private final Map<String, WitherProof> witherProofBlocks = new HashMap<>();
 
-    private final ConcurrentMap<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
-    private final Map<String, BlockStorage> worlds = new HashMap<>();
+    private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
+    private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
     private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
@@ -99,6 +101,7 @@ public class SlimefunRegistry {
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
+        backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility") || SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14);
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
     }
@@ -115,6 +118,21 @@ public class SlimefunRegistry {
         return automaticallyLoadItems;
     }
 
+    /**
+     * This method returns whether backwards-compatibility is enabled.
+     * Backwards compatibility allows Slimefun to recognize items from older versions but comes
+     * at a huge performance cost.
+     * 
+     * @return Whether backwards compatibility is enabled
+     */
+    public boolean isBackwardsCompatible() {
+        return backwardsCompatibility;
+    }
+
+    public void setBackwardsCompatible(boolean compatible) {
+        backwardsCompatibility = compatible;
+    }
+
     public void setAutoLoadingMode(boolean mode) {
         automaticallyLoadItems = mode;
     }
@@ -123,10 +141,20 @@ public class SlimefunRegistry {
         return categories;
     }
 
+    /**
+     * This {@link List} contains every {@link SlimefunItem}, even disabled items.
+     * 
+     * @return A {@link List} containing every {@link SlimefunItem}
+     */
     public List<SlimefunItem> getAllSlimefunItems() {
         return slimefunItems;
     }
 
+    /**
+     * This {@link List} contains every <strong>enabled</strong> {@link SlimefunItem}.
+     * 
+     * @return A {@link List} containing every enabled {@link SlimefunItem}
+     */
     public List<SlimefunItem> getEnabledSlimefunItems() {
         return enabledItems;
     }
@@ -207,7 +235,7 @@ public class SlimefunRegistry {
         return universalInventories;
     }
 
-    public ConcurrentMap<UUID, PlayerProfile> getPlayerProfiles() {
+    public Map<UUID, PlayerProfile> getPlayerProfiles() {
         return profiles;
     }
 

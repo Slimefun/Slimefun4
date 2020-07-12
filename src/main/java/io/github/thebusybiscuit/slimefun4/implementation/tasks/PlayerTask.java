@@ -1,8 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 abstract class PlayerTask implements Runnable {
 
@@ -18,11 +19,11 @@ abstract class PlayerTask implements Runnable {
     }
 
     public void schedule(long delay) {
-        setID(Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, this, delay));
+        setID(Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance(), this, delay));
     }
 
     public void scheduleRepeating(long delay, long interval) {
-        setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunPlugin.instance, this, delay, interval));
+        setID(Bukkit.getScheduler().scheduleSyncRepeatingTask(SlimefunPlugin.instance(), this, delay, interval));
     }
 
     @Override

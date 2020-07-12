@@ -24,9 +24,10 @@ import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
-import io.github.thebusybiscuit.slimefun4.utils.CustomHeadTexture;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class SlimefunItemStack extends CustomItem {
@@ -34,6 +35,7 @@ public class SlimefunItemStack extends CustomItem {
     private String id;
     private ImmutableItemMeta immutableMeta;
 
+    private boolean locked = false;
     private String texture = null;
 
     public SlimefunItemStack(String id, Material type, String name, String... lore) {
@@ -119,7 +121,7 @@ public class SlimefunItemStack extends CustomItem {
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, CustomHeadTexture head, String name, String... lore) {
+    public SlimefunItemStack(String id, HeadTexture head, String name, String... lore) {
         this(id, head.getTexture(), name, lore);
     }
 
@@ -148,7 +150,7 @@ public class SlimefunItemStack extends CustomItem {
         Validate.notNull(id, "The Item id must never be null!");
         Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 
-        if (SlimefunPlugin.instance == null) {
+        if (SlimefunPlugin.instance() == null) {
             throw new PrematureCodeException("A SlimefunItemStack must never be be created before your Plugin was enabled.");
         }
 
@@ -172,24 +174,32 @@ public class SlimefunItemStack extends CustomItem {
     }
 
     /**
-     * Returns the id that was given to this {@link SlimefunItemStack}.
-     * 
-     * @deprecated Renamed to {@link #getItemId()}
-     * 
-     * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
-     */
-    @Deprecated
-    public String getItemID() {
-        return id;
-    }
-
-    /**
-     * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}. Null if no item is found.
+     * Gets the {@link SlimefunItem} associated for this {@link SlimefunItemStack}.
+     * Null if no item is found.
      *
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
     public SlimefunItem getItem() {
         return SlimefunItem.getByID(id);
+    }
+
+    /**
+     * This method returns the associated {@link SlimefunItem} and casts it to the provided
+     * {@link Class}.
+     * 
+     * If no item was found or the found {@link SlimefunItem} is not of the requested type,
+     * the method will return null.
+     * 
+     * @param <T>
+     *            The type of {@link SlimefunItem} to cast this to
+     * @param type
+     *            The {@link Class} of the target {@link SlimefunItem}
+     * 
+     * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
+     */
+    public <T extends SlimefunItem> T getItem(Class<T> type) {
+        SlimefunItem item = getItem();
+        return type.isInstance(item) ? type.cast(item) : null;
     }
 
     public ImmutableItemMeta getImmutableMeta() {
@@ -198,9 +208,32 @@ public class SlimefunItemStack extends CustomItem {
 
     @Override
     public boolean setItemMeta(ItemMeta meta) {
+        validate();
         immutableMeta = new ImmutableItemMeta(meta);
 
         return super.setItemMeta(meta);
+    }
+
+    @Override
+    public void setType(Material type) {
+        validate();
+        super.setType(type);
+    }
+
+    @Override
+    public void setAmount(int amount) {
+        validate();
+        super.setAmount(amount);
+    }
+
+    private void validate() {
+        if (locked) {
+            throw new WrongItemStackException(id + " is not mutable.");
+        }
+    }
+    
+    public void lock() {
+        locked = true;
     }
 
     @Override

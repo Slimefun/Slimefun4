@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -109,7 +109,7 @@ public final class ResearchSetup {
         register("crushed_ore", 81, "Ore Purification", 25, SlimefunItems.CRUSHED_ORE, SlimefunItems.PULVERIZED_ORE, SlimefunItems.PURE_ORE_CLUSTER);
         register("redstone_alloy", 84, "Redstone Alloy", 16, SlimefunItems.REDSTONE_ALLOY);
         register("carbonado_tools", 85, "Top Tier Machines", 24, SlimefunItems.CARBONADO_MULTI_TOOL, SlimefunItems.CARBONADO_JETPACK, SlimefunItems.CARBONADO_JETBOOTS);
-        register("first_aid", 86, "First Aid", 2, SlimefunItems.CLOTH, SlimefunItems.RAG, SlimefunItems.BANDAGE, SlimefunItems.SPLINT, SlimefunItems.CAN, SlimefunItems.VITAMINS, SlimefunItems.MEDICINE);
+        register("first_aid", 86, "First Aid", 2, SlimefunItems.CLOTH, SlimefunItems.RAG, SlimefunItems.BANDAGE, SlimefunItems.SPLINT, SlimefunItems.TIN_CAN, SlimefunItems.VITAMINS, SlimefunItems.MEDICINE);
         register("gold_armor", 87, "Shiny Armor", 13, SlimefunItems.GOLD_HELMET, SlimefunItems.GOLD_CHESTPLATE, SlimefunItems.GOLD_LEGGINGS, SlimefunItems.GOLD_BOOTS);
         register("night_vision_googles", 89, "Night Vision Goggles", 10, SlimefunItems.NIGHT_VISION_GOGGLES);
         register("pickaxe_of_containment", 90, "Pickaxe of Containment", 14, SlimefunItems.PICKAXE_OF_CONTAINMENT, SlimefunItems.BROKEN_SPAWNER);
@@ -265,10 +265,12 @@ public final class ResearchSetup {
         register("tree_growth_accelerator", 256, "Faster Trees", 18, SlimefunItems.TREE_GROWTH_ACCELERATOR);
         register("industrial_miner", 95, "Industrial Mining", 28, SlimefunItems.INDUSTRIAL_MINER);
         register("advanced_industrial_miner", 98, "Better Mining", 36, SlimefunItems.ADVANCED_INDUSTRIAL_MINER);
+        register("magical_zombie_pills", 257, "De-Zombification", 22, SlimefunItems.MAGICAL_ZOMBIE_PILLS);
+        register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
-        Research research = new Research(new NamespacedKey(SlimefunPlugin.instance, key), id, name, defaultCost);
+        Research research = new Research(new NamespacedKey(SlimefunPlugin.instance(), key), id, name, defaultCost);
 
         for (ItemStack item : items) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);

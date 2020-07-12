@@ -3,6 +3,12 @@ package me.mrCookieSlime.Slimefun.Objects.handlers;
 import java.util.Optional;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -15,6 +21,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see ItemConsumptionHandler
  * @see BlockUseHandler
  * @see EntityKillHandler
+ * @see EntityInteractHandler
+ * @see BowShootHandler
  */
 @FunctionalInterface
 public interface ItemHandler {

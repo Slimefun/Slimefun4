@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
@@ -32,7 +33,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCr
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -180,6 +180,7 @@ public final class PostSetup {
                     if (input[0] != null && recipe[0] != null) {
                         grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
                     }
+
                     input = null;
                 }
             }
@@ -216,9 +217,13 @@ public final class PostSetup {
             }
 
             for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-                if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
-                    List<MachineRecipe> recipes = ((AContainer) item).getMachineRecipes();
-                    Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
+                if (item instanceof AContainer) {
+                    AContainer machine = (AContainer) item;
+
+                    if (machine.getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
+                        List<MachineRecipe> recipes = machine.getMachineRecipes();
+                        Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
+                    }
                 }
             }
         }
@@ -253,8 +258,12 @@ public final class PostSetup {
 
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-            if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals(machine)) {
-                ((AContainer) item).registerRecipe(seconds, input, output);
+            if (item instanceof AContainer) {
+                AContainer container = (AContainer) item;
+
+                if (container.getMachineIdentifier().equals(machine)) {
+                    container.registerRecipe(seconds, input, output);
+                }
             }
         }
     }

@@ -7,9 +7,9 @@ import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.minebuilders.clearlag.events.EntityRemoveEvent;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class ClearLagHook implements Listener {
 

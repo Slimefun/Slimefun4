@@ -9,14 +9,16 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -147,21 +149,34 @@ public class TestSlimefunItemRegistration {
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.setRecipeType(null));
     }
 
-    @Test
-    public void testIsItem() {
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    public void testIsItem(boolean compatibility) {
         CustomItem item = new CustomItem(Material.BEACON, "&cItem Test");
-        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, "IS_ITEM_TEST", item);
+        String id = "IS_ITEM_TEST" + (compatibility ? "_COMPATIBLE" : "");
+        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, id, item);
         sfItem.register(plugin);
 
         Assertions.assertTrue(sfItem.isItem(sfItem.getItem()));
-        Assertions.assertTrue(sfItem.isItem(item));
-        Assertions.assertTrue(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
 
         Assertions.assertFalse(sfItem.isItem(null));
         Assertions.assertFalse(sfItem.isItem(new ItemStack(Material.BEACON)));
         Assertions.assertFalse(sfItem.isItem(new CustomItem(Material.REDSTONE, "&cTest")));
 
-        Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
+        if (compatibility) {
+            SlimefunPlugin.getRegistry().setBackwardsCompatible(true);
+
+            Assertions.assertEquals(sfItem, SlimefunItem.getByItem(item));
+            Assertions.assertTrue(sfItem.isItem(item));
+            Assertions.assertTrue(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
+
+            SlimefunPlugin.getRegistry().setBackwardsCompatible(false);
+        }
+        else {
+            Assertions.assertFalse(sfItem.isItem(item));
+            Assertions.assertFalse(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
+        }
+
         Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getID(), item)));
     }
 

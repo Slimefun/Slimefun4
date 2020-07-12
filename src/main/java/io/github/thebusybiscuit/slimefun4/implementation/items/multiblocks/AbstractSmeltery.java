@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -49,14 +49,16 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
                     if (outputInv != null) {
                         craft(p, b, inv, inputs.get(i), output, outputInv);
                     }
-                    else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                    else {
+                        SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                    }
                 }
 
                 return;
             }
         }
 
-        SlimefunPlugin.getLocal().sendMessage(p, "machines.unknown-material", true);
+        SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
     }
 
     private boolean canCraft(Inventory inv, List<ItemStack[]> inputs, int i) {

@@ -9,7 +9,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
@@ -33,7 +34,7 @@ public class ExplosionsListener implements Listener {
                 blocks.remove();
 
                 // Hardened Glass and WitherProof blocks cannot be destroyed by explosions
-                if (!id.equalsIgnoreCase("HARDENED_GLASS") && !SlimefunPlugin.getRegistry().getWitherProofBlocks().containsKey(id)) {
+                if (!id.equals(SlimefunItems.HARDENED_GLASS.getItemId()) && !SlimefunPlugin.getRegistry().getWitherProofBlocks().containsKey(id)) {
                     boolean success = true;
                     SlimefunItem sfItem = SlimefunItem.getByID(id);
 

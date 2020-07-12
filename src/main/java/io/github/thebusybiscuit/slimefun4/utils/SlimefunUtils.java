@@ -23,10 +23,11 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -44,7 +45,7 @@ public final class SlimefunUtils {
     private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
     private static final String NO_PICKUP_METADATA = "no_pickup";
 
-    private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance, "soulbound");
+    private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance(), "soulbound");
     private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
 
     private SlimefunUtils() {}
@@ -71,7 +72,7 @@ public final class SlimefunUtils {
      *            The context in which this {@link Item} was flagged
      */
     public static void markAsNoPickup(Item item, String context) {
-        item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance, context));
+        item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance(), context));
     }
 
     /**
@@ -187,7 +188,7 @@ public final class SlimefunUtils {
      * @return An {@link ItemStack} with this Head texture
      */
     public static ItemStack getCustomHead(String texture) {
-        if (SlimefunPlugin.instance == null) {
+        if (SlimefunPlugin.instance() == null) {
             throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
         }
 
@@ -205,12 +206,22 @@ public final class SlimefunUtils {
         return SkullItem.fromBase64(base64);
     }
 
-    public static boolean containsSimilarItem(Inventory inventory, ItemStack itemStack, boolean checkLore) {
-        if (inventory == null || itemStack == null) return false;
+    public static boolean containsSimilarItem(Inventory inventory, ItemStack item, boolean checkLore) {
+        if (inventory == null || item == null) {
+            return false;
+        }
 
-        for (ItemStack is : inventory.getStorageContents()) {
-            if (is == null || is.getType() == Material.AIR) continue;
-            if (isItemSimilar(is, itemStack, checkLore)) return true;
+        // Performance optimization
+        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
+        for (ItemStack stack : inventory.getStorageContents()) {
+            if (stack == null || stack.getType() == Material.AIR) {
+                continue;
+            }
+
+            if (isItemSimilar(stack, wrapper, checkLore)) {
+                return true;
+            }
         }
 
         return false;

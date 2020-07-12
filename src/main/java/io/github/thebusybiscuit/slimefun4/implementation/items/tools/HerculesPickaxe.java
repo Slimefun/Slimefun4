@@ -7,11 +7,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -36,7 +36,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                     if (!Slimefun.hasUnlocked(e.getPlayer(), HerculesPickaxe.this, true)) {
                         return true;
                     }
-                    
+
                     if (e.getBlock().getType() == Material.IRON_ORE) {
                         drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
                     }
@@ -48,6 +48,7 @@ public class HerculesPickaxe extends SimpleSlimefunItem<BlockBreakHandler> {
                             drops.add(new CustomItem(drop, drop.getAmount() * 2));
                         }
                     }
+
                     return true;
                 }
                 else return false;

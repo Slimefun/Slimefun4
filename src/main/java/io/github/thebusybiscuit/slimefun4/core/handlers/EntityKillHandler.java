@@ -1,12 +1,13 @@
-package me.mrCookieSlime.Slimefun.Objects.handlers;
+package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 /**
  * If this {@link ItemHandler} is added to a {@link SlimefunItem} it will listen

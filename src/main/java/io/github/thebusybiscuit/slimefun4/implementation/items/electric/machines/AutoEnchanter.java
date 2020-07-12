@@ -13,10 +13,10 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -67,12 +67,12 @@ public class AutoEnchanter extends AContainer {
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    return;
                 }
-                else progress.put(b, timeleft - 1);
+
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                progress.put(b, timeleft - 1);
             }
             else {
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -108,8 +108,7 @@ public class AutoEnchanter extends AContainer {
             ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
             // Check if the item is enchantable
-            SlimefunItem sfTarget = SlimefunItem.getByItem(target);
-            if (sfTarget != null && !sfTarget.isEnchantable()) {
+            if (!isEnchantable(target)) {
                 return null;
             }
 
@@ -142,18 +141,18 @@ public class AutoEnchanter extends AContainer {
                 }
 
                 if (amount > 0 && specialAmount <= emeraldEnchantsLimit) {
-                    ItemStack newItem = target.clone();
-                    newItem.setAmount(1);
+                    ItemStack enchantedItem = target.clone();
+                    enchantedItem.setAmount(1);
 
                     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                        newItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
+                        enchantedItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
                     }
 
                     for (ItemEnchantment ench : emeraldEnchantments) {
-                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(newItem, ench.getEnchantment(), ench.getLevel());
+                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(enchantedItem, ench.getEnchantment(), ench.getLevel());
                     }
 
-                    return new MachineRecipe(75 * amount, new ItemStack[] { target, item }, new ItemStack[] { newItem, new ItemStack(Material.BOOK) });
+                    return new MachineRecipe(75 * amount, new ItemStack[] { target, item }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
                 }
 
                 return null;
@@ -161,6 +160,17 @@ public class AutoEnchanter extends AContainer {
         }
 
         return null;
+    }
+
+    private boolean isEnchantable(ItemStack item) {
+        SlimefunItem sfItem = null;
+
+        // stops endless checks of getByItem for enchanted book stacks.
+        if (item != null && item.getType() != Material.ENCHANTED_BOOK) {
+            sfItem = SlimefunItem.getByItem(item);
+        }
+
+        return sfItem == null || sfItem.isEnchantable();
     }
 
     @Override

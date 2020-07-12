@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.LivingEntity;
@@ -36,10 +37,10 @@ import org.bukkit.util.Vector;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman.TalismanEnchantment;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.TalismanEnchantment;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TalismanListener implements Listener {
@@ -78,16 +79,39 @@ public class TalismanListener implements Listener {
                 Projectile projectile = (Projectile) ((EntityDamageByEntityEvent) e).getDamager();
 
                 if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
-                    Player p = (Player) e.getEntity();
-                    Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
-                    Location loc = p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ());
-                    Projectile clone = (Projectile) e.getEntity().getWorld().spawnEntity(loc, projectile.getType());
-                    clone.setShooter(projectile.getShooter());
-                    clone.setVelocity(direction);
-                    projectile.remove();
+                    returnProjectile((Player) e.getEntity(), projectile);
                 }
             }
         }
+    }
+
+    /**
+     * This method is used for the {@link Talisman} of the whirlwind, it returns a copy
+     * of a {@link Projectile} that was fired at a {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player} who was hit
+     * @param projectile
+     *            The {@link Projectile} that hit this {@link Player}
+     */
+    private void returnProjectile(Player p, Projectile projectile) {
+        Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
+        Location loc = p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ());
+
+        Projectile returnedProjectile = (Projectile) p.getWorld().spawnEntity(loc, projectile.getType());
+        returnedProjectile.setShooter(projectile.getShooter());
+        returnedProjectile.setVelocity(direction);
+
+        if (projectile instanceof AbstractArrow) {
+            AbstractArrow firedArrow = (AbstractArrow) projectile;
+            AbstractArrow returnedArrow = (AbstractArrow) returnedProjectile;
+
+            returnedArrow.setDamage(firedArrow.getDamage());
+            returnedArrow.setPickupStatus(firedArrow.getPickupStatus());
+            returnedArrow.setPierceLevel(firedArrow.getPierceLevel());
+        }
+
+        projectile.remove();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -186,6 +210,7 @@ public class TalismanListener implements Listener {
         if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
             TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem());
+
             if (enchantment != null) {
                 e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
             }
@@ -194,9 +219,9 @@ public class TalismanListener implements Listener {
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
             Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
-            for (Enchantment en : enchantments) {
+            for (Enchantment enchantment : enchantments) {
                 if (random.nextInt(100) < 40) {
-                    e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
+                    e.getEnchantsToAdd().put(enchantment, random.nextInt(3) + 1);
                 }
             }
 

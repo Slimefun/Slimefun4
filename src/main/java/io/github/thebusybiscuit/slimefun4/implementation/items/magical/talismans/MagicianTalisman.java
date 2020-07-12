@@ -4,13 +4,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MagicianTalisman extends Talisman {
@@ -21,8 +23,13 @@ public class MagicianTalisman extends Talisman {
         super(item, recipe, false, false, "magician", 80);
 
         for (Enchantment enchantment : Enchantment.values()) {
-            for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
-                enchantments.add(new TalismanEnchantment(enchantment, i));
+            try {
+                for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
+                    enchantments.add(new TalismanEnchantment(enchantment, i));
+                }
+            }
+            catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "The following Exception occurred while trying to register the following Enchantment: " + enchantment);
             }
         }
 
@@ -31,38 +38,22 @@ public class MagicianTalisman extends Talisman {
         }
     }
 
+    /**
+     * This method picks a random {@link TalismanEnchantment} for the provided {@link ItemStack}.
+     * The method will return null, if null was provided or no applicable {@link Enchantment} was found.
+     * 
+     * @param item
+     *            The {@link ItemStack} to find an {@link Enchantment} for
+     * 
+     * @return An applicable {@link TalismanEnchantment} or null
+     */
     public TalismanEnchantment getRandomEnchantment(ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) {
+            return null;
+        }
+
         List<TalismanEnchantment> enabled = enchantments.stream().filter(e -> e.getEnchantment().canEnchantItem(item)).filter(TalismanEnchantment::getValue).collect(Collectors.toList());
         return enabled.isEmpty() ? null : enabled.get(ThreadLocalRandom.current().nextInt(enabled.size()));
-    }
-
-    /**
-     * This class is an extension of {@link ItemSetting} that holds an {@link Enchantment} and
-     * a level. It is only used by the {@link TalismanListener} to handle the {@link MagicianTalisman}.
-     * 
-     * @author TheBusyBiscuit
-     *
-     */
-    public static class TalismanEnchantment extends ItemSetting<Boolean> {
-
-        private final Enchantment enchantment;
-        private final int level;
-
-        public TalismanEnchantment(Enchantment enchantment, int level) {
-            super("allow-enchantments." + enchantment.getKey().getKey() + ".level." + level, true);
-
-            this.enchantment = enchantment;
-            this.level = level;
-        }
-
-        public Enchantment getEnchantment() {
-            return enchantment;
-        }
-
-        public int getLevel() {
-            return level;
-        }
-
     }
 
 }

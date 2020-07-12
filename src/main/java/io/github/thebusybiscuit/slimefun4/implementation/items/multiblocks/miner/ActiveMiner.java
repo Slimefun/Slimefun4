@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -102,7 +102,7 @@ class ActiveMiner implements Runnable {
         Player p = Bukkit.getPlayer(owner);
 
         if (p != null) {
-            SlimefunPlugin.getLocal().sendMessage(p, error);
+            SlimefunPlugin.getLocalization().sendMessage(p, error);
         }
 
         stop();
@@ -149,7 +149,7 @@ class ActiveMiner implements Runnable {
         queue.thenRun(2, () -> setPistonState(pistons[1], false));
 
         queue.thenRun(1, this);
-        queue.execute(SlimefunPlugin.instance);
+        queue.execute(SlimefunPlugin.instance());
     }
 
     @Override
@@ -197,12 +197,12 @@ class ActiveMiner implements Runnable {
                 nextColumn();
             }
             catch (Exception e) {
-                Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occured while running an Industrial Miner at " + new BlockPosition(chest));
+                Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occurred while running an Industrial Miner at " + new BlockPosition(chest));
                 stop();
             }
         });
 
-        queue.execute(SlimefunPlugin.instance);
+        queue.execute(SlimefunPlugin.instance());
     }
 
     /**
@@ -224,7 +224,7 @@ class ActiveMiner implements Runnable {
 
             if (p != null) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.4F, 1F);
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.INDUSTRIAL_MINER.finished", msg -> msg.replace("%ores%", String.valueOf(ores)));
+                SlimefunPlugin.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.finished", msg -> msg.replace("%ores%", String.valueOf(ores)));
             }
 
             return;
@@ -319,25 +319,13 @@ class ActiveMiner implements Runnable {
             else if (block.getType() == Material.PISTON) {
                 Block above = block.getRelative(BlockFace.UP);
 
+                // Check if the above block is valid
                 if (above.isEmpty() || above.getType() == Material.PISTON_HEAD) {
                     Piston piston = (Piston) block.getBlockData();
 
+                    // Check if the piston is actually facing upwards
                     if (piston.getFacing() == BlockFace.UP) {
-                        piston.setExtended(extended);
-                        block.setBlockData(piston, false);
-
-                        // Updating the Piston Head
-                        if (extended) {
-                            PistonHead head = (PistonHead) Material.PISTON_HEAD.createBlockData();
-                            head.setFacing(BlockFace.UP);
-
-                            block.getRelative(BlockFace.UP).setBlockData(head, false);
-                        }
-                        else {
-                            block.getRelative(BlockFace.UP).setType(Material.AIR);
-                        }
-
-                        block.getWorld().playSound(block.getLocation(), extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT, 0.1F, 1F);
+                        setExtended(block, piston, extended);
                     }
                     else {
                         // The pistons must be facing upwards
@@ -355,9 +343,27 @@ class ActiveMiner implements Runnable {
             }
         }
         catch (Exception e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occured while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
+            Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occurred while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
             stop();
         }
+    }
+
+    private void setExtended(Block block, Piston piston, boolean extended) {
+        piston.setExtended(extended);
+        block.setBlockData(piston, false);
+
+        // Updating the Piston Head
+        if (extended) {
+            PistonHead head = (PistonHead) Material.PISTON_HEAD.createBlockData();
+            head.setFacing(BlockFace.UP);
+
+            block.getRelative(BlockFace.UP).setBlockData(head, false);
+        }
+        else {
+            block.getRelative(BlockFace.UP).setType(Material.AIR);
+        }
+
+        block.getWorld().playSound(block.getLocation(), extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT, 0.1F, 1F);
     }
 
 }

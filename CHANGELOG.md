@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
 - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
@@ -17,6 +18,84 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Release Candidate 14 (12 Jul 2020)
+
+#### Additions
+* Added support for Minecraft 1.16
+* Added a starting sound for the Ancient Altar
+* Added config option to disable backwards compatibility and improve performance
+* Added ReactorExplodeEvent to the API
+* Compatibility mode status is now included in /sf versions
+* Added Nether Quartz Ore Crusher Recipe
+* Added a new language: Tagalog
+* Added Magical Zombie Pills
+* Added 1.13 compatibility to the Auto Drier
+* Added Corals to the fuel list for the Bio Generator
+* Added Clay -> Clay blocks recipe to the Electric Press
+* (1.16+) Slimefun guide can now show Smithing Table recipes
+* (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
+* (1.16+) Added Gilded Blackstone recipe to the Ore Crusher
+* (1.16+) Added Shroomlights to the fuel list for the Bio Generator
+* (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
+* Added an AoE damage effect to the Explosive Bow
+* Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
+* Added a proper lag profiler
+* Added per-plugin lag info to /sf timings
+* Added Indonesian translations
+
+#### Changes
+* Coolant Cells now last twice as long
+* Ticking blocks will now catch more errors caused by addons
+* Changed the texture for the Nuclear Reactor
+* Changed the texture for the Nether Star Reactor
+* Crafting Tin cans now produces 8 items instead of 4
+* Multi Tool lore now says "Crouch" instead of "Hold Shift"
+* Items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
+* Slimefun no longer supports CraftBukkit
+* Item Energy is now also stored persistently via NBT
+* Performance improvements to GPS/GEO machines, especially Oil Pump and GEO Miner
+* Performance improvements for ticking blocks
+* Performance improvements to the Cargo Net
+* performance improvements to the Energy Net
+* Performance improvements to Rainbow Blocks
+* Performance improvements to Androids
+* performance improvements to Generators and Electric Machines
+* Cargo timings will now be attributed to the corresponding node and not the Cargo manager
+* Thunderstorms now count as night time for Solar Generators
+* Coolant Cells can no longer be placed on the ground
+* Crafting Nether Ice Coolant Cells now results in 4 items
+* Moved Soulbound Backpack to the "Magical Gadgets" Category
+
+#### Fixes
+* Fixed #2005
+* Fixed #2009
+* Fixed a chunk caching issue for GEO resources
+* Fixed Infused Magnet working even if you haven't researched it
+* Fixed Rainbow blocks duplication glitch when timing the block break right
+* Fixed #1855
+* Fixed some issues with AsyncWorldEdit
+* Fixed some problems with unregistered or fake worlds
+* Fixed a rare concurrency issue with world saving
+* Fixed some contributors showing up twice
+* Fixed #2062
+* Fixed Grappling hooks disappearing when fired at Item frames or paintaings
+* Fixed Grappling hooks not getting removed when the Player leaves
+* Fixed Grappling hooks making Bat sounds
+* Fixed #1959
+* Fixed Melon Juice requiring Melons instead of Melon Slices
+* Fixed Cargo networks not showing up in /sf timings
+* Fixed /sf timings reporting slightly inaccurate timings
+* Fixed concurrency-related issues with the profiling
+* Fixed #2066
+* Fixed Rainbow Glass Panes not properly connecting to blocks
+* Fixed Androids turning in the wrong direction
+* Fixed contributors losing their texture after restarts
+* Fixed "korean" showing up as "null"
+* Fixed an issue with moving androids getting stuck
+* Fixed Cargo nodes sometimes preventing chunks from unloading
+* Fixed #2081
+* Fixed a NullPointerException when Generators throw an Error Report
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

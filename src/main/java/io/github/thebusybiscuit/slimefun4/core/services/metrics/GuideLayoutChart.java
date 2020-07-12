@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services.metrics;
 
 import org.bstats.bukkit.Metrics.SimplePie;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class GuideLayoutChart extends SimplePie {
 

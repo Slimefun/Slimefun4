@@ -91,6 +91,18 @@ public class MinecraftRecipeService {
     }
 
     /**
+     * This returns whether a given {@link ItemStack} can be smelted in a {@link FurnaceRecipe}.
+     * 
+     * @param input
+     *            The {@link ItemStack} to test
+     * 
+     * @return Whether this item can be smelted
+     */
+    public boolean isSmeltable(ItemStack input) {
+        return getFurnaceOutput(input).isPresent();
+    }
+
+    /**
      * This returns the shape of a given {@link Recipe}.
      * For any shapeless {@link Recipe} the result will be equivalent to
      * {@link RecipeSnapshot#getRecipeInput(Recipe)}.
