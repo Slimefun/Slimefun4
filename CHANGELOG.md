@@ -28,6 +28,10 @@
 * Added Enchantment Rune
 * Added Tape Measure
 
+#### Changes
+* Changed recipe of Hazmat Suits
+* Uranium can no longer be placed down
+
 ## Release Candidate 14 (12 Jul 2020)
 
 #### Additions
@@ -72,23 +76,10 @@
 * performance improvements to Generators and Electric Machines
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> branch 'experimental' of https://github.com/TheBusyBiscuit/Slimefun4
 * Fixed an issue with moving androids getting stuck
-* Changed recipe of Hazmat Suits
-* Uranium can no longer be placed down
-<<<<<<< HEAD
-=======
 * Coolant Cells can no longer be placed on the ground
 * Crafting Nether Ice Coolant Cells now results in 4 items
 * Moved Soulbound Backpack to the "Magical Gadgets" Category
->>>>>>> branch 'master' of https://github.com/TheBusyBiscuit/Slimefun4
-=======
-* Coolant Cells can no longer be placed on the ground
-* Crafting Nether Ice Coolant Cells now results in 4 items
->>>>>>> branch 'experimental' of https://github.com/TheBusyBiscuit/Slimefun4
 
 #### Fixes
 * Fixed #2005
