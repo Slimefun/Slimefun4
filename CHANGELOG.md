@@ -72,14 +72,22 @@
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> branch 'experimental' of https://github.com/TheBusyBiscuit/Slimefun4
 * Fixed an issue with moving androids getting stuck
 * Changed recipe of Hazmat Suits
 * Uranium can no longer be placed down
+<<<<<<< HEAD
 =======
 * Coolant Cells can no longer be placed on the ground
 * Crafting Nether Ice Coolant Cells now results in 4 items
 * Moved Soulbound Backpack to the "Magical Gadgets" Category
 >>>>>>> branch 'master' of https://github.com/TheBusyBiscuit/Slimefun4
+=======
+* Coolant Cells can no longer be placed on the ground
+* Crafting Nether Ice Coolant Cells now results in 4 items
+>>>>>>> branch 'experimental' of https://github.com/TheBusyBiscuit/Slimefun4
 
 #### Fixes
 * Fixed #2005
@@ -104,6 +112,8 @@
 * Fixed #2066
 * Fixed Rainbow Glass Panes not properly connecting to blocks
 * Fixed Androids turning in the wrong direction
+* Fixed a NullPointerException when generating an Error-Report
+* Fixed Slimefun Armor sometimes not applying its effects
 * Fixed contributors losing their texture after restarts
 * Fixed "korean" showing up as "null"
 * Fixed an issue with moving androids getting stuck
