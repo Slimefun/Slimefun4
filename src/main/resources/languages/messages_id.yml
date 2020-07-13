@@ -1,0 +1,309 @@
+---
+commands:
+  help: Menampilkan layar bantuan ini
+  cheat: Mengijinkan kamu untuk mendapatkan item instan
+  give: Berikan seseorang Item Slimefun
+  guide: Berikan diri kamu Panduan Slimefun
+  timings: Informasi Lag tentang Servermu
+  teleporter: Lihat Waypoint Pemain lain
+  versions: Daftar Addons Yang Terpasang
+  search: Cari panduan anda untuk istilah yang diberikan
+  open_guide: Membuka Panduan Slimefun Tanpa Buku
+  stats: Lihat Statistik Seorang Pemain
+  research:
+    description: Membuka/Atur Ulang Penelitian Seorang Pemain
+    reset: "&cAnda Telah Mengatur Ulang Penelitian %player%"
+    reset-target: "&cPenelitian Anda Telah Di Atur Ulang"
+  backpack:
+    description: Ambil salinan tas yang ada
+    invalid-id: "&4 Id harus berupa angka nol hingga negatif!"
+    player-never-joined: "&4Tidak ada pemain dengan nama itu"
+    backpack-does-not-exist: "&4Ransel yang ditentukan tidak ada!"
+    restored-backpack-given: "&a Backpack Anda telah di tambahkan ke inventory Anda!"
+guide:
+  search:
+    message: "&bApa Yang Anda Ingi Cari ?"
+    name: "&7Cari..."
+    tooltip: "&bKlik untuk mencari sebuah barang"
+    inventory: 'Hasil pencarian: %item%'
+  cheat:
+    no-multiblocks: "&4Anda Tidak Bisa Bermain Curang, Anda Harus Membuatnya!"
+  languages:
+    updated: "&aBahasa Anda Telah Berhasil Di Ubah Menjadi: &b%lang%"
+    translations:
+      name: "&aAda yang kurang?"
+      lore: Klik untuk menambahkan terjemahan anda
+    select: Klik untuk memilih bahasa ini
+    select-default: Klik untuk menggunakan bahasa standar server
+    selected-language: 'Yang sedang dipilih:'
+  title:
+    main: Panduan Slimefun
+    settings: Pengaturan & Informasi
+    languages: Pilih Bahasa Yang Anda Inginkan
+    credits: Para Kontributor Slimefun4
+    wiki: Slimefun4 Wiki
+    addons: Addons untuk Slimefun4
+    bugs: Laporkan masalah
+    source: Kode sumber
+  credits:
+    commit: Melakukan
+    roles:
+      developer: "&6Para Pengembang"
+      wiki: "&3Pengedit Wiki"
+      resourcepack: "&cArtis Resourcepack"
+      translator: "&9Penerjemah"
+    profile-link: Klik untuk mengunjungi profil mereka di GitHub
+  pages:
+    previous: Halaman sebelumnya
+    next: Halaman berikutnya
+  tooltips:
+    open-category: Klik untuk membuka
+    versions-notice: Melaporkan kesalahan program sangatlah penting!
+    wiki: Lihat benda ini di wiki resmi Slimefun
+    recipes:
+      machine: Resep yang di buat dalam mesin ini
+      miner: Sumber daya yang dapat diambil dengan penambang ini
+      generator: Bahan bakar yang dapat digunakan
+      gold-pan: Sumber daya yang dapat anda ambil
+  back:
+    title: Kembali
+    guide: Kembali ke panduan Slimefun
+    settings: Kemabali ke panel pengaturan
+  locked: TERKUNCI
+  locked-category:
+  - Untuk membuka kategori ini anda
+  - harus membuka semua barang dari
+  - kategori berikut
+messages:
+  not-researched: "&4Anda Tidak Memiliki Cukup Pengehatuan Untuk Mengetahui Ini"
+  not-enough-xp: "&4Anda Tidak Memiliki Cukup XP untuk Membuka Ini"
+  unlocked: '&bAnda Telah Membuka &7"%research%"'
+  only-players: "&4Perintah Ini Hanya Untuk Para Pemain"
+  unknown-player: "&4Pemain Tidak Diketahui: &c%player%"
+  no-permission: "&4Anda Tidak Memiliki Izin Untuk Ini"
+  usage: "&4Penggunaan: &c%usage%"
+  not-online: "&4%player% &cTidak Sedang Bermain Disini!"
+  not-valid-item: "&4%item% &cBenda Ini Tidak sah"
+  not-valid-amount: "&4%amount% &cJumlah Ini Salah : Harus Lebih Tinggi Dari 0!"
+  given-item: '&bAnda Telah Diberikan &a%amount% &7"%item%&7"'
+  give-item: '&bAnda Telah Memberi %player% &a%amount% &7"%item%&7"'
+  not-valid-research: "&4%research% &cIni Bukan Penelitian Yang Benar!"
+  give-research: '&bAnda Telah Memberi %player% Penelitian &7"%research%&7"'
+  hungry: "&cAnda Terlalu Lapar Untuk Ini "
+  mode-change: "&b%device% Mode Telah Berubah Menjadi: &9%mode%"
+  disabled-in-world: "&4&lBarang Ini Telah Dilarang Di Dunia Ini"
+  disabled-item: "&4&lBenda Ini Telah Dinonakrifkan! Bagaimana Anda Mendapatkannya?"
+  no-tome-yourself: "&cKamu Tidak Bisa Menggunakan &4Tome Of Knowledge &cUntuk Diri
+    Anda Sendiri..."
+  multimeter: "&bEnergi Yang Telah Tersimpan: &3%stored% &b/ &3%capacity%"
+  talisman:
+    anvil: "&a&oJimat Anda Mencegah  Barang Mu Agar Tidak Hancur"
+    miner: "&a&oJimat Anda Baru Saja Melipat Gandakan Penghasilan Mu"
+    hunter: "&a&oJimat Anda Baru Saja Melipat Gandakan Penghasilan Mu"
+    lava: "&a&oJimat Mu Menyelamatkan Kamu Dari kebakar Hingga Tewas"
+    water: "&a&oJimat Anda Menyelematkan Anda Dari Tenggelam"
+    angel: "&a&oJimat Anda Menyelematkan Anda Dari Jatuh Dari Ketinggian"
+    fire: "&a&oJimat Anda Menyelematkan Anda Dari Terbakar Hingga Mati"
+    magician: "&a&oJimat Anda Memberikan Pemikat Tambahan"
+    traveller: "&a&oJimat Anda Memberikan Kecepatan Tambahan"
+    warrior: "&a&oJimat Anda Memberikan  Kekuatan Tambahan Untuk Sementara"
+    knight: "&a&oJimat Anda Memberikan Regenerasi Selama 5 Detik"
+    whirlwind: "&a&oJimat Anda Memantulkan Proyektil"
+    wizard: "&a&oJimat Anda Memberikan Keberuntungan Lebih Namun Mungkin Mengurangi
+      Pemikat Lain"
+  soulbound-rune:
+    fail: "&cAnda hanya dapat mengikat satu benda ke jiwa anda dalam waktu yang bersamaan."
+    success: "&aAnda Telah Berhasil Mengikat Benda Ini Ke Jiwa Anda! Benda Ini Akan
+      Tetap Bersama Anda Walaupun Setelah Kematian"
+  research:
+    start: "&7Roh Kuno Telah Membisikan Pesan Misterius Ke Telinga Anda!"
+    progress: "&7Anda Mulai Ingin Tahu Tentang &b%research% &e(%progress%)"
+  fire-extinguish: "&7Anda Telah Memadamkan Diri Anda Sendiri"
+  cannot-place: "&cAnda Tidak Bisa Menaruh Blok Disini!"
+  no-pvp: "&cAnda Tidak Bisa PvP Disini!"
+  radiation: "&4Anda Tidak Terlindungi Dari Benda Radioaktif! &cSegera Letakan Benda
+    Tersebut Atau Gunakan Pakaian Hazmat!"
+  opening-guide: "&bMembuka Panduan, Mungkin Membutuhkan Waktu Sebentar..."
+  opening-backpack: "&bMembuka tas, mungkin membutuhkan waktu sebentar..."
+  no-iron-golem-heal: "&cIni bukan sebuah Batang Besi. Anda tidak bisa munggunakan
+    ini untuk menyembuhkan Iron Golems!"
+  link-prompt: "&eKlik disini:"
+  diet-cookie: "&eAnda mulai merasa sangat ringan..."
+  fortune-cookie:
+  - "&7Tolong saya, Saya terjebak di pabrik kue keberuntungan!"
+  - "&7Anda akan mati besok... dibunuh oleh Creeper"
+  - "&7Suatu saat akan ada hal buruk dalam hidupmu!!!"
+  - "&7Minggu depan anda akan memperhatiakn ini bukan di dunia nyata, kamu dalam permainan
+    komputer"
+  - "&7Kue ini akan berubah menjadi enak dalam beberapa detik"
+  - '&7Kalimat terakhir yang akan anda dengar adalah "MEMUSNAHKAN!!!"'
+  - "&7Apapun yang anda lakukan, jangan memeluk Creeper... saya sudah mencobanya.
+    Terasa nyaman, tapi itu tidak setimpal."
+  - "&742. Jawabannya adalah 42"
+  - "&7AHari yang membosankan akan menjauhkan anda dari masalah"
+  - "&7Jangan pernah menggali lurus kebawah!"
+  - "&7Ini hanya luka Luar!"
+  - "& 7Selalu lihat sisi terang hidup!"
+  - "&7Yang ini sebenarnya biskuit dan bukan kue"
+  - "&7Neon signs are LIT!"
+machines:
+  pattern-not-found: "&eMaaf, Saya tidak mengenali resep ini. Letakan benda pada dispenser
+    \ sesuai dengan pola."
+  unknown-material: "&eMaaf, Saya tidak mengenali benda yang ada di dalam dispenser.
+    Masukan benda yang saya ketahui."
+  wrong-item: "&eMaaf, Saya tidak mengenali barang yang anda klik terhadap saya. Cek
+    kembali resep dan lihat apa yang dapat anda gunakan."
+  full-inventory: "&eMaaf, Penyimpanan saya sudah penuh!"
+  in-use: "&cPenyimpanan blok ini sedang dibuka oleh pemain lain."
+  ignition-chamber-no-flint: '&cRuang perapian kehabisan "flint and steel"'
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Altar ini tidak dikelilingi dengan tumpuan yang cukup&c(%pedestals%
+      / 8)"
+    unknown-catalyst: "&4Katalisator tidak diketahui! &cGunakan resep yang benar!"
+    unknown-recipe: "&4Resep tidak diketahui! &cGunakan Pola yang benar!"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Tumpuan terhalangi! &Hancurkan semua yang berada di atas tumpuan!"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Masukan teks sesuai yang anda inginkan. &r(Mendukung warna teks!)"
+    inventory-title: Pengedit hologram
+  ELEVATOR:
+    no-destinations: "&4Tujuan tidak ditemukan"
+    pick-a-floor: "&3- Pilih Lantai -"
+    current-floor: "&eAnda sedang berada di lantai ini:"
+    click-to-teleport: "&eKlik &7untuk teleport ke lantai ini:"
+    enter-name: "&7Silakan masukan nama lantai pada kolom chat. &r(Mendukung warna
+      teks!)"
+    named: "&2Berhasil merubah nama lantai: &r%floor%"
+  TELEPORTER:
+    teleporting: "&3Melakukan teleportasi..."
+    teleported: "&3Teleportasi selesai!"
+    cancelled: "&4Teleportasi dibatalkan!"
+    invulnerability: "&b&lAnda kebal selama 30 detik!"
+    gui:
+      title: Titik jalan anda
+      tooltip: Klik untuk teleportasi
+      time: Perkiraan waktu
+  CARGO_NODES:
+    must-be-placed: "&4Harus diletakan di dalam peti atau mesin!"
+  GPS_CONTROL_PANEL:
+    title: Panel kendali GPS
+    transmitters: Gambaran pemancar
+    waypoints: Gambaran titik jalan
+  INDUSTRIAL_MINER:
+    no-fuel: "&c Penambang Industri Anda kehabisan bahan bakar! Masuklah bahan bakar
+      Anda ke peti di atas."
+    piston-facing: "& c Penambang Industri Anda membutuhkan piston untuk menghadap
+      ke atas!"
+    destroyed: "&c Penambang Industri Anda tampaknya telah hancurkan."
+    full-chest: "&c Penambang Industri Anda penuh!"
+    no-permission: "& 4Tampaknya Anda tidak memiliki izin untuk mengoperasikan Penambang
+      Industri Ini"
+    finished: "&e Penambang Industri Anda telah selesai! Itu memperoleh total% bijih%
+      bijih!"
+anvil:
+  not-working: "&4Anda bisa menggunakan barang Slimefun di landasan!"
+backpack:
+  already-open: "&cMaaf, tas ini dibuka di tempat lain!"
+  no-stack: "&cAnda tidak bisa menumpuk tas"
+workbench:
+  not-enhanced: "&4Anda tidak dapat menggunakan barang Slimefun di meja kerajinan
+    biasa"
+gps:
+  deathpoint: "&4Lokasi Kematian &7%date%"
+  waypoint:
+    new: "&eKetik nama baru untuk titik jalan di kolom pesan. &7(Mendukung warna teks!)"
+    added: "&aBerhasil menambahkan titik jalan baru"
+    max: "&4Anda telah mencapai jumlah maksimal penggunaan titik jalan"
+  insufficient-complexity:
+  - "&4Kompleksitas jaringan GPS tidak cukup: &c%complexity%"
+  - "&4a) Anda belum membuat sistem jaringan GPS"
+  - "&4b) Kompleksitas jaringan GPS anda belum cukup"
+  geo:
+    scan-required: "&4Dibutuhkan peninjauan GEO terlebih dahulu! &cGunakan Peninjau
+      GEO!"
+inventory:
+  no-access: "&4Anda tidak di izinkan mengakses blok ini"
+android:
+  started: "&7Android anda melanjutkan naskah nya"
+  stopped: "&7Android anda berhenti menjalankan naskah"
+  scripts:
+    already-uploaded: "&4Naskah yang sama sudah di unggah."
+    instructions:
+      START: "&2Mulai naskah"
+      REPEAT: "&9Ulangi naskah"
+      WAIT: "&eTunggu 0.5 detik"
+      GO_FORWARD: "&7Maju kedepan"
+      GO_UP: "&7Bergerak keatas"
+      GO_DOWN: "&7Bergerak kebawah"
+      TURN_LEFT: "&7Menghadap ke kiri"
+      TURN_RIGHT: "&7Menghadap ke kanan"
+      DIG_UP: "&bMenggali ke atas"
+      DIG_FORWARD: "&bMenggali ke depan"
+      DIG_DOWN: "&bMenggali ke bawah"
+      MOVE_AND_DIG_UP: "&bBergerak & Menggali ke atas"
+      MOVE_AND_DIG_FORWARD: "&bBergerak  & Menggali ke depan"
+      MOVE_AND_DIG_DOWN: "&bBergerak & Menggali ke bawah"
+      ATTACK_MOBS_ANIMALS: "&4Serang &c(Musuh  & Hewan)"
+      ATTACK_MOBS: "&4Serang &c(Musuh)"
+      ATTACK_ANIMALS: "&4Serang &c(Hewan)"
+      ATTACK_ANIMALS_ADULT: "&4Serang &c(Hewan &7[Dewasa]&c)"
+      CHOP_TREE: "&cTebang dan tanam kembali"
+      CATCH_FISH: "&bMenangkap ikan"
+      FARM_FORWARD: "&bPanen dan tanam kembali"
+      FARM_DOWN: "&bPanen dan tanam kembali &7(Blok yang dibawahnya)"
+      FARM_EXOTIC_FORWARD: "&bPanen dan tanam kembali tingkat lanjut"
+      FARM_EXOTIC_DOWN: "&bPanen dan tanam kembali tingkat lanjut &7(Blok yang dibawahnya)"
+      INTERFACE_ITEMS: "&9Masukan barang ke antarmuka penyimpanan"
+      INTERFACE_FUEL: "&cMengambil bahan bakar dari penyimpanan"
+    enter-name:
+    - 
+    - "&eMasukan nama naskah anda"
+    uploaded:
+    - "&bMengunggah..."
+    - "&aBerhasil mengunggah naskah!"
+    rating:
+      own: "&4Anda tidak bisa menilai naskah anda sendiri!"
+      already: "&4Anda sudah memberikan nilai untuk naskah ini!"
+    editor: pengedit naskah
+languages:
+  default: Server-Standar
+  en: Inggris
+  de: Jerman
+  fr: Perancis
+  it: Italia
+  es: Spanyol
+  pl: Polandia
+  sv: Swedia
+  nl: Belanda
+  cs: Ceko
+  hu: Hongaria
+  lv: Latvia
+  ru: Rusia
+  sk: Slovakia
+  zh-TW: Cina (Taiwan)
+  vi: Vietnam
+  id: Indonesia
+  zh-CN: Cina
+  el: Yunani
+  he: Ibrani
+  ar: Arab
+  af: Afrika
+  da: Denmark
+  fi: Finlandia
+  uk: Ukraina
+  ms: Malaysia
+  'no': Norwegia
+  ja: Jepang
+  fa: Persia
+  th: Thailand
+  ro: Rumania
+  pt: Portugis
+  pt-BR: Portugis (Brazil)
+  bg: Bulgaria
+  ko: Korea
+  tr: Turki
+  hr: Croation
+  mk: Macedonian
+  sr: Serbian
+  be: Belarusian
+  tl: Tagalog

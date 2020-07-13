@@ -42,7 +42,7 @@ class RecipeChoiceTask implements Runnable {
     public void start(Inventory inv) {
         Validate.notNull(inv, "Inventory must not be null");
         inventory = inv;
-        id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance, this, 0, UPDATE_INTERVAL).getTaskId();
+        id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance(), this, 0, UPDATE_INTERVAL).getTaskId();
     }
 
     public void add(int slot, MaterialChoice choice) {

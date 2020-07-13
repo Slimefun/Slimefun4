@@ -57,7 +57,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoManage
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoOutputNode;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
@@ -140,6 +139,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Medicine;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Rag;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Splint;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Vitamins;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.ArmorForge;
@@ -1117,7 +1118,7 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, SlimefunItems.AIR_RUNE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.EARTH_RUNE, SlimefunItems.NECROTIC_SKULL, SlimefunItems.FIRE_RUNE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.WATER_RUNE, SlimefunItems.ENDER_LUMP_3})
 		.register(plugin);
 
-		new SoulboundBackpack(36, categories.usefulItems, SlimefunItems.BOUND_BACKPACK, RecipeType.MAGIC_WORKBENCH,
+		new SoulboundBackpack(36, categories.magicalGadgets, SlimefunItems.BOUND_BACKPACK, RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.WOVEN_BACKPACK, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2})
 		.register(plugin);
 
@@ -3042,12 +3043,13 @@ public final class SlimefunItemSetup {
 
 		}.register(plugin);
 
-		new SlimefunItem(categories.technicalComponents, SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
+		new CoolantCell(categories.technicalComponents, SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
 		new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new SlimefunItem(categories.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
-		new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null})
+		new CoolantCell(categories.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
+		new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null},
+		new SlimefunItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 4))
 		.register(plugin);
 
 		new RadioactiveItem(categories.resources, Radioactivity.HIGH, SlimefunItems.NEPTUNIUM, RecipeType.NUCLEAR_REACTOR,

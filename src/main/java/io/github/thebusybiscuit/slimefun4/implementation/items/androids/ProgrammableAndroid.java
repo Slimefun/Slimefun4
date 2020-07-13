@@ -441,7 +441,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.enter-name");
         int id = nextId;
 
-        ChatInput.waitForPlayer(SlimefunPlugin.instance, p, msg -> {
+        ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, msg -> {
             Script.upload(p, getAndroidType(), id, msg, code);
             SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.uploaded");
             openScriptDownloader(p, b, page);
@@ -814,7 +814,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
     }
 
-    protected void attack(Block b, Predicate<LivingEntity> predicate) {
+    protected void attack(Block b, BlockFace face, Predicate<LivingEntity> predicate) {
         throw new UnsupportedOperationException("Non-butcher Android tried to butcher!");
     }
 

@@ -29,7 +29,7 @@ public final class Slimefun {
     private Slimefun() {}
 
     public static Logger getLogger() {
-        return SlimefunPlugin.instance.getLogger();
+        return SlimefunPlugin.instance().getLogger();
     }
 
     /**
@@ -231,11 +231,11 @@ public final class Slimefun {
             return null;
         }
 
-        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             return null;
         }
 
-        return Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
+        return Bukkit.getScheduler().runTask(SlimefunPlugin.instance(), r);
     }
 
     public static BukkitTask runSync(Runnable r, long delay) {
@@ -244,10 +244,10 @@ public final class Slimefun {
             return null;
         }
 
-        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             return null;
         }
 
-        return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
+        return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), r, delay);
     }
 }

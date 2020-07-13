@@ -2,7 +2,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 14 (TBD)](#release-candidate-14-tbd)
+- [Release Candidate 15 (TBD)](#release-candidate-15-tbd)
+- [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
 - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
@@ -19,7 +20,14 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 14 (TBD)
+## Release Candidate 15 (TBD)
+
+#### Additions
+* Added Reinforced Cloth
+* Added Bee protection to Hazmat Suit
+* Added Enchantment Rune
+
+## Release Candidate 14 (12 Jul 2020)
 
 #### Additions
 * Added support for Minecraft 1.16
@@ -42,9 +50,7 @@
 * Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
 * Added a proper lag profiler
 * Added per-plugin lag info to /sf timings
-* Added Reinforced Cloth
-* Added Bee protection to Hazmat Suit
-* Added Enchantment Rune
+* Added Indonesian translations
 
 #### Changes
 * Coolant Cells now last twice as long
@@ -65,9 +71,15 @@
 * performance improvements to Generators and Electric Machines
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
+<<<<<<< HEAD
 * Fixed an issue with moving androids getting stuck
 * Changed recipe of Hazmat Suits
 * Uranium can no longer be placed down
+=======
+* Coolant Cells can no longer be placed on the ground
+* Crafting Nether Ice Coolant Cells now results in 4 items
+* Moved Soulbound Backpack to the "Magical Gadgets" Category
+>>>>>>> branch 'master' of https://github.com/TheBusyBiscuit/Slimefun4
 
 #### Fixes
 * Fixed #2005
@@ -92,6 +104,12 @@
 * Fixed #2066
 * Fixed Rainbow Glass Panes not properly connecting to blocks
 * Fixed Androids turning in the wrong direction
+* Fixed contributors losing their texture after restarts
+* Fixed "korean" showing up as "null"
+* Fixed an issue with moving androids getting stuck
+* Fixed Cargo nodes sometimes preventing chunks from unloading
+* Fixed #2081
+* Fixed a NullPointerException when Generators throw an Error Report
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

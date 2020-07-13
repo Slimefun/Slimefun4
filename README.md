@@ -30,7 +30,7 @@ Here is a full summary of the differences between the two different versions of 
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Minecraft version(s)** | :video_game: **1.13.\* - 1.16.\*** | :video_game: **1.13.\* - 1.15.\*** |
+| **Minecraft version(s)** | :video_game: **1.13.\* - 1.16.\*** | :video_game: **1.13.\* - 1.16.\*** |
 | **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
 | **frequent updates** | :heavy_check_mark: | :x: |
 | **latest content** | :heavy_check_mark: | :x: |
@@ -113,6 +113,8 @@ To compile Slimefun yourself, follow these steps:
 `$ mvn clean package`
 
 If you are already using an IDE, make sure to import the project via git and set it as a *Maven project*. Then you should be able build it via Maven using the goals `clean package`.
+
+If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel. Note that we will not accept any bug reports from custom-compiled versions of Slimefun.
 
 ### Code Quality
 Slimefun uses [Sonarcloud.io](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) to monitor Code Quality.

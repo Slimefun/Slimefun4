@@ -76,7 +76,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
                 }
             });
 
-            queue.execute(SlimefunPlugin.instance);
+            queue.execute(SlimefunPlugin.instance());
         }
         else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);

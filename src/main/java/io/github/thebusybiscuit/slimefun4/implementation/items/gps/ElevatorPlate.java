@@ -22,12 +22,12 @@ import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -96,7 +96,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             return;
         }
 
-        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
+        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
         ChatComponent page = null;
 
         List<Block> floors = getFloors(b);
@@ -125,7 +125,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             else {
                 line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, DATA_KEY + i), player -> Slimefun.runSync(() -> {
+                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), DATA_KEY + i), player -> Slimefun.runSync(() -> {
                     users.add(player.getUniqueId());
 
                     float yaw = player.getEyeLocation().getYaw() + 180;

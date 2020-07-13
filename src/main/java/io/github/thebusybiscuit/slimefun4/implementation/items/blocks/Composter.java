@@ -22,10 +22,10 @@ import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -98,7 +98,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                             pushItem(b, output.clone());
                         });
 
-                        tasks.execute(SlimefunPlugin.instance);
+                        tasks.execute(SlimefunPlugin.instance());
                     }
                     else {
                         SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
