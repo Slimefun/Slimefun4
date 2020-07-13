@@ -138,6 +138,12 @@ messages:
   research:
     start: '&7The Ancient Spirits whisper mysterious words into your ear!'
     progress: '&7You start to wonder about &b%research% &e(%progress%)'
+    
+  tape-measure:
+    no-anchor: '&cYou need to set an anchor before you can start to measure!'
+    wrong-world: '&cYour anchor seems to be in a different world!'
+    distance: '&7Measurement taken. &eDistance: %distance%'
+    anchor-set: '&aSuccessfully set the anchor:&e %anchor%'
 
   fire-extinguish: '&7You have extinguished yourself'
   cannot-place: '&cYou cannot place that block there!'

@@ -26,6 +26,7 @@
 * Added Reinforced Cloth
 * Added Bee protection to Hazmat Suit
 * Added Enchantment Rune
+* Added Tape Measure
 
 ## Release Candidate 14 (12 Jul 2020)
 
