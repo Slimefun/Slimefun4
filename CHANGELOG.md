@@ -32,6 +32,9 @@
 * Changed recipe of Hazmat Suits
 * Uranium can no longer be placed down
 
+#### Fixes
+* Fixed Slimefun Armor sometimes not applying its effects
+
 ## Release Candidate 14 (12 Jul 2020)
 
 #### Additions
@@ -76,7 +79,6 @@
 * performance improvements to Generators and Electric Machines
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
-* Fixed an issue with moving androids getting stuck
 * Coolant Cells can no longer be placed on the ground
 * Crafting Nether Ice Coolant Cells now results in 4 items
 * Moved Soulbound Backpack to the "Magical Gadgets" Category
@@ -104,8 +106,6 @@
 * Fixed #2066
 * Fixed Rainbow Glass Panes not properly connecting to blocks
 * Fixed Androids turning in the wrong direction
-* Fixed a NullPointerException when generating an Error-Report
-* Fixed Slimefun Armor sometimes not applying its effects
 * Fixed contributors losing their texture after restarts
 * Fixed "korean" showing up as "null"
 * Fixed an issue with moving androids getting stuck
