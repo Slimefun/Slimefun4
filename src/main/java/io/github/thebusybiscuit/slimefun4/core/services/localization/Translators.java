@@ -130,6 +130,10 @@ public class Translators {
 
         // Translators - Indonesian
         addTranslator("diradho", SupportedLanguage.INDONESIAN, false);
+        addTranslator("Frozenkamui", SupportedLanguage.INDONESIAN, false);
+        addTranslator("aril3721", SupportedLanguage.INDONESIAN, false);
+        addTranslator("JunederZ", SupportedLanguage.INDONESIAN, false);
+        addTranslator("EnderWingZ", SupportedLanguage.INDONESIAN, false);
 
         // Translators - Thai
         addTranslator("phoomin2012", SupportedLanguage.THAI, false);
@@ -154,6 +158,8 @@ public class Translators {
         addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("yurinogueira", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Sakanas", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("krazybeat", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
     private void addTranslator(String name, SupportedLanguage lang, boolean lock) {

@@ -19,14 +19,14 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -38,6 +38,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
 
     public ExplosiveTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
         addItemSetting(damageOnUse, callExplosionEvent);
     }
 
@@ -53,25 +54,16 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
             @Override
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
                 if (isItem(item)) {
-                    if (Slimefun.hasUnlocked(e.getPlayer(), ExplosiveTool.this, true)) {
-                        e.getBlock().getWorld().createExplosion(e.getBlock().getLocation(), 0.0F);
-                        e.getBlock().getWorld().playSound(e.getBlock().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
+                    Player p = e.getPlayer();
 
-                        List<Block> blocks = findBlocks(e.getBlock());
+                    if (Slimefun.hasUnlocked(p, ExplosiveTool.this, true)) {
+                        Block b = e.getBlock();
 
-                        if (callExplosionEvent.getValue().booleanValue()) {
-                            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(e.getBlock(), blocks, 0);
-                            Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
+                        b.getWorld().createExplosion(b.getLocation(), 0.0F);
+                        b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
-                            if (!blockExplodeEvent.isCancelled()) {
-                                blockExplodeEvent.blockList().forEach(b -> breakBlock(e.getPlayer(), item, b, fortune, drops));
-                            }
-                        }
-                        else {
-                            for (Block b : blocks) {
-                                breakBlock(e.getPlayer(), item, b, fortune, drops);
-                            }
-                        }
+                        List<Block> blocks = findBlocks(b);
+                        breakBlocks(p, item, b, blocks, fortune, drops);
                     }
 
                     return true;
@@ -81,6 +73,24 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
                 }
             }
         };
+    }
+
+    private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, int fortune, List<ItemStack> drops) {
+        if (callExplosionEvent.getValue().booleanValue()) {
+            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
+            Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
+
+            if (!blockExplodeEvent.isCancelled()) {
+                for (Block block : blockExplodeEvent.blockList()) {
+                    breakBlock(p, item, block, fortune, drops);
+                }
+            }
+        }
+        else {
+            for (Block block : blocks) {
+                breakBlock(p, item, block, fortune, drops);
+            }
+        }
     }
 
     private List<Block> findBlocks(Block b) {
@@ -108,7 +118,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
     }
 
     protected void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
-        if (b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+        if (!b.isEmpty() && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
             SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
 
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());

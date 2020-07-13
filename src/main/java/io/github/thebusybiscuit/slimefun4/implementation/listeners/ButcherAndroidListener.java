@@ -16,10 +16,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -61,7 +61,7 @@ public class ButcherAndroidListener implements Listener {
             }, 1L);
 
             // Removing metadata to prevent memory leaks
-            e.getEntity().removeMetadata(METADATA_KEY, SlimefunPlugin.instance);
+            e.getEntity().removeMetadata(METADATA_KEY, SlimefunPlugin.instance());
         }
     }
 

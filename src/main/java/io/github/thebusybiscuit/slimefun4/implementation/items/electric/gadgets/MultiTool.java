@@ -10,29 +10,36 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ChargableItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockBreakHandler;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ItemEnergy;
 
-public class MultiTool extends ChargableItem {
+public class MultiTool extends SlimefunItem implements Rechargeable {
 
     private static final float COST = 0.3F;
 
     private final Map<UUID, Integer> selectedMode = new HashMap<>();
     private final List<MultiToolMode> modes = new ArrayList<>();
+    private final float capacity;
 
-    public MultiTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, String... items) {
+    public MultiTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, float capacity, String... items) {
         super(category, item, recipeType, recipe);
 
         for (int i = 0; i < items.length; i++) {
             modes.add(new MultiToolMode(this, i, items[i]));
         }
+
+        this.capacity = capacity;
+    }
+
+    @Override
+    public float getMaxItemCharge(ItemStack item) {
+        return capacity;
     }
 
     protected ItemUseHandler getItemUseHandler() {
@@ -44,11 +51,7 @@ public class MultiTool extends ChargableItem {
             int index = selectedMode.getOrDefault(p.getUniqueId(), 0);
 
             if (!p.isSneaking()) {
-                float charge = ItemEnergy.getStoredEnergy(item);
-
-                if (charge >= COST) {
-                    ItemEnergy.chargeItem(item, -COST);
-
+                if (removeItemCharge(item, COST)) {
                     SlimefunItem sfItem = modes.get(index).getItem();
 
                     if (sfItem != null) {
@@ -61,7 +64,7 @@ public class MultiTool extends ChargableItem {
 
                 SlimefunItem selectedItem = modes.get(index).getItem();
                 String itemName = selectedItem != null ? selectedItem.getItemName() : "Unknown";
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
                 selectedMode.put(p.getUniqueId(), index);
             }
         };

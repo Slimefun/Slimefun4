@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This utility class contains a few static methods that are all about {@link String} manipulation
@@ -25,7 +25,7 @@ public final class ChatUtils {
     public static void sendURL(CommandSender sender, String url) {
         // If we get access to the URL prompt one day, we can just prompt the link to the Player that way.
         sender.sendMessage("");
-        SlimefunPlugin.getLocal().sendMessage(sender, "messages.link-prompt", false);
+        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.link-prompt", false);
         sender.sendMessage(ChatColors.color("&7&o" + url));
         sender.sendMessage("");
     }
@@ -48,7 +48,7 @@ public final class ChatUtils {
     }
 
     public static void awaitInput(Player p, Consumer<String> callback) {
-        ChatInput.waitForPlayer(SlimefunPlugin.instance, p, callback);
+        ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, callback);
     }
 
     /**
@@ -66,7 +66,7 @@ public final class ChatUtils {
      */
     public static String humanize(String string) {
         StringBuilder builder = new StringBuilder();
-        String[] segments = string.toLowerCase(Locale.ROOT).split("_");
+        String[] segments = PatternUtils.UNDERSCORE.split(string.toLowerCase(Locale.ROOT));
 
         builder.append(Character.toUpperCase(segments[0].charAt(0))).append(segments[0].substring(1));
 

@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -62,10 +62,7 @@ public abstract class FisherAndroid extends ProgrammableAndroid {
 
             if (ThreadLocalRandom.current().nextInt(100) < 10 * getTier()) {
                 ItemStack drop = fishingLoot.getRandom();
-
-                if (menu.fits(drop, getOutputSlots())) {
-                    menu.pushItem(drop, getOutputSlots());
-                }
+                menu.pushItem(drop, getOutputSlots());
             }
 
         }

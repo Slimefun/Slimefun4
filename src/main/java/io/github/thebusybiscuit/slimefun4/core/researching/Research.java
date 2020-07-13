@@ -18,9 +18,9 @@ import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -110,7 +110,7 @@ public class Research implements Keyed {
      * @return The localized Name of this {@link Research}.
      */
     public String getName(Player p) {
-        String localized = SlimefunPlugin.getLocal().getResearchName(p, key);
+        String localized = SlimefunPlugin.getLocalization().getResearchName(p, key);
         return localized != null ? localized : name;
     }
 
@@ -222,7 +222,7 @@ public class Research implements Keyed {
         if (!instant) {
             Slimefun.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)).replace("%progress%", "0%"));
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)).replace("%progress%", "0%"));
             }, 10L);
         }
         PlayerProfile.get(p, profile -> {
@@ -235,7 +235,7 @@ public class Research implements Keyed {
                             finishResearch(p, profile, callback);
                         }
                         else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
-                            SlimefunPlugin.getLocal().sendMessage(p, "messages.research.start", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
+                            SlimefunPlugin.getLocalization().sendMessage(p, "messages.research.start", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
                             playResearchAnimation(p);
 
                             Slimefun.runSync(() -> {
@@ -251,7 +251,7 @@ public class Research implements Keyed {
 
     private void finishResearch(Player p, PlayerProfile profile, Consumer<Player> callback) {
         profile.setResearched(this, true);
-        SlimefunPlugin.getLocal().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
+        SlimefunPlugin.getLocalization().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
         callback.accept(p);
 
         if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
@@ -265,7 +265,7 @@ public class Research implements Keyed {
 
             Slimefun.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
             }, i * 20L);
         }
     }

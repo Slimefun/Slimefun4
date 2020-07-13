@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author Linox
  *
  */
-public class AutoBrewer extends AContainer {
+public abstract class AutoBrewer extends AContainer {
 
     private static final Map<Material, PotionType> potionRecipes = new EnumMap<>(Material.class);
     private static final Map<PotionType, PotionType> fermentations = new EnumMap<>(PotionType.class);
@@ -68,17 +68,12 @@ public class AutoBrewer extends AContainer {
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.isChargable(b)) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
-                        return;
-                    }
+                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    return;
+                }
 
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
-                }
-                else {
-                    progress.put(b, timeleft - 1);
-                }
+                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                progress.put(b, timeleft - 1);
             }
             else {
                 menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
@@ -119,18 +114,16 @@ public class AutoBrewer extends AContainer {
 
         if (isPotion(input1.getType()) || isPotion(input2.getType())) {
             boolean slot = isPotion(input1.getType());
-            ItemStack potionItem = slot ? input1 : input2;
             ItemStack ingredient = slot ? input2 : input1;
-
-            PotionMeta potion = (PotionMeta) potionItem.getItemMeta();
 
             // Reject any named items
             if (ingredient.hasItemMeta()) {
                 return null;
             }
 
-            PotionData potionData = potion.getBasePotionData();
-            ItemStack output = brew(ingredient.getType(), potionItem.getType(), potion, potionData);
+            ItemStack potionItem = slot ? input1 : input2;
+            PotionMeta potion = (PotionMeta) potionItem.getItemMeta();
+            ItemStack output = brew(ingredient.getType(), potionItem.getType(), potion);
 
             if (output == null) {
                 return null;
@@ -144,8 +137,10 @@ public class AutoBrewer extends AContainer {
         }
     }
 
-    private ItemStack brew(Material input, Material potionType, PotionMeta potion, PotionData potionData) {
-        if (potionData.getType() == PotionType.WATER) {
+    private ItemStack brew(Material input, Material potionType, PotionMeta potion) {
+        PotionData data = potion.getBasePotionData();
+
+        if (data.getType() == PotionType.WATER) {
             if (input == Material.FERMENTED_SPIDER_EYE) {
                 potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
                 return new ItemStack(potionType);
@@ -166,18 +161,18 @@ public class AutoBrewer extends AContainer {
 
         }
         else if (input == Material.FERMENTED_SPIDER_EYE) {
-            potion.setBasePotionData(new PotionData(fermentations.get(potionData.getType()), false, false));
+            potion.setBasePotionData(new PotionData(fermentations.get(data.getType()), false, false));
             return new ItemStack(potionType);
         }
         else if (input == Material.REDSTONE) {
-            potion.setBasePotionData(new PotionData(potionData.getType(), true, potionData.isUpgraded()));
+            potion.setBasePotionData(new PotionData(data.getType(), true, data.isUpgraded()));
             return new ItemStack(potionType);
         }
         else if (input == Material.GLOWSTONE_DUST) {
-            potion.setBasePotionData(new PotionData(potionData.getType(), potionData.isExtended(), true));
+            potion.setBasePotionData(new PotionData(data.getType(), data.isExtended(), true));
             return new ItemStack(potionType);
         }
-        else if (potionData.getType() == PotionType.AWKWARD && potionRecipes.containsKey(input)) {
+        else if (data.getType() == PotionType.AWKWARD && potionRecipes.containsKey(input)) {
             potion.setBasePotionData(new PotionData(potionRecipes.get(input), false, false));
             return new ItemStack(potionType);
         }
@@ -211,11 +206,6 @@ public class AutoBrewer extends AContainer {
     @Override
     public int getEnergyConsumption() {
         return 6;
-    }
-
-    @Override
-    public int getSpeed() {
-        return 1;
     }
 
     @Override

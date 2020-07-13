@@ -19,25 +19,28 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -390,6 +393,7 @@ public class SlimefunItem implements Placeable {
                 }
 
                 state = ItemState.ENABLED;
+                checkForDeprecations(getClass());
 
                 useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
                 hidden = SlimefunPlugin.getItemCfg().getBoolean(id + ".hide-in-guide");
@@ -404,6 +408,10 @@ public class SlimefunItem implements Placeable {
             }
             else {
                 state = ItemState.DISABLED;
+            }
+
+            if (item instanceof SlimefunItemStack && isItemStackImmutable()) {
+                ((SlimefunItemStack) item).lock();
             }
 
             postRegister();
@@ -425,11 +433,69 @@ public class SlimefunItem implements Placeable {
             if (exception.isPresent()) {
                 throw exception.get();
             }
+            else {
+                // Make developers or at least Server admins aware that
+                // an Item is using a deprecated ItemHandler
+                checkForDeprecations(handler.getClass());
+                // A bit too spammy atm, will enable it again later
+            }
 
             if (!handler.isPrivate()) {
                 Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
                 handlerset.add(handler);
             }
+        }
+    }
+
+    /**
+     * This method returns whether the original {@link SlimefunItemStack} of this
+     * {@link SlimefunItem} is immutable.
+     * 
+     * If <code>true</code> is returned, then any changes to the original {@link SlimefunItemStack}
+     * will be rejected with a {@link WrongItemStackException}.
+     * This ensures integrity so developers don't accidentally damage the wrong {@link ItemStack}.
+     * 
+     * @return Whether the original {@link SlimefunItemStack} is immutable.
+     */
+    protected boolean isItemStackImmutable() {
+        return true;
+    }
+
+    /**
+     * This method checks recursively for all {@link Class} parents to look for any {@link Deprecated}
+     * elements.
+     * 
+     * If a {@link Deprecated} element was found, a warning message will be printed.
+     * 
+     * @param c
+     *            The {@link Class} from which to start this operation.
+     */
+    private void checkForDeprecations(Class<?> c) {
+        if (SlimefunPlugin.getUpdater().getBranch() == SlimefunBranch.DEVELOPMENT) {
+            // This method is currently way too spammy with all the restructuring going on...
+            // Since DEV builds are anyway under "development", things may be relocated.
+            // So we fire these only for stable versions, since devs should update then, so
+            // it's the perfect moment to tell them to act.
+            return;
+        }
+
+        // We do not wanna throw an Exception here since this could also mean that
+        // we have reached the end of the Class hierarchy
+        if (c != null) {
+            // Check if this Class is deprecated
+            if (c.isAnnotationPresent(Deprecated.class)) {
+                warn("The inherited Class \"" + c.getName() + "\" has been deprecated. Check the documentation for more details!");
+            }
+
+            for (Class<?> parent : c.getInterfaces()) {
+                // Check if this Interface is deprecated
+                if (parent.isAnnotationPresent(Deprecated.class)) {
+                    warn("The implemented Interface \"" + parent.getName() + "\" has been deprecated. Check the documentation for more details!");
+                }
+            }
+
+            // Recursively lookup the super class
+            checkForDeprecations(c.getSuperclass());
         }
     }
 
@@ -462,12 +528,12 @@ public class SlimefunItem implements Placeable {
     }
 
     public void setRecipeType(RecipeType type) {
-        Validate.notNull(type, "'recipeType' is not allowed to be null!");
+        Validate.notNull(type, "The RecipeType is not allowed to be null!");
         this.recipeType = type;
     }
 
     public void setCategory(Category category) {
-        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(category, "The Category is not allowed to be null!");
 
         this.category.remove(this);
         category.add(this);
@@ -542,8 +608,8 @@ public class SlimefunItem implements Placeable {
         }
 
         // Backwards compatibility
-        if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof ChargableItem || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
+        if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
         }
         else {
@@ -764,6 +830,11 @@ public class SlimefunItem implements Placeable {
     public void warn(String message) {
         String msg = toString() + ": " + message;
         addon.getLogger().log(Level.WARNING, msg);
+
+        if (addon.getBugTrackerURL() != null) {
+            // We can prompt the server operator to report it to the addon's bug tracker
+            addon.getLogger().log(Level.WARNING, "You can report this warning here: {0}", addon.getBugTrackerURL());
+        }
     }
 
     /**
@@ -804,19 +875,17 @@ public class SlimefunItem implements Placeable {
             return getByID(((SlimefunItemStack) item).getItemId());
         }
 
-        // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(item);
 
-        if (item.hasItemMeta()) {
-            Optional<String> itemID = SlimefunPlugin.getItemDataService().getItemData(wrapper);
-
-            if (itemID.isPresent()) {
-                return getByID(itemID.get());
-            }
+        if (itemID.isPresent()) {
+            return getByID(itemID.get());
         }
 
         // Backwards compatibility
-        if (SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14) || SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+        if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
+            ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
             // Quite expensive performance-wise
             // But necessary for supporting legacy items
             for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {

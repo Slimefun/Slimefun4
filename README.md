@@ -1,7 +1,7 @@
 # Slimefun 4
 Looking for the download link? [**Click here**](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/README.md#download-slimefun-4)
 
-Slimefun is a plugin which aims to turn your Bukkit/Spigot Server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
+Slimefun is a plugin which aims to turn your Spigot Server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
 We got everything from magical wands to nuclear reactors.<br>
 We feature a magical altar, an electric power grid and even item transport systems.
 
@@ -22,13 +22,15 @@ Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons),
 ## Download Slimefun 4
 (See also: [How to install Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Installing-Slimefun))
 
+**Due to [Spigot's abandonce of the Bukkit API](https://www.spigotmc.org/threads/spigot-bungeecord-1-16-1.447405/#post-3852349), Slimefun is no longer able to work on CraftBukkit, please switch over to Spigot or Paper if you haven't already.**
+
 Slimefun 4 can be downloaded **for free** on our builds page.<br>
 We currently provide two distinct versions of Slimefun, development builds and "stable" builds.<br>
 Here is a full summary of the differences between the two different versions of Slimefun.
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Minecraft version(s)** | :video_game: 1.13.X - 1.15.X | :video_game: 1.13.X - 1.15.X |
+| **Minecraft version(s)** | :video_game: **1.13.\* - 1.16.\*** | :video_game: **1.13.\* - 1.16.\*** |
 | **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
 | **frequent updates** | :heavy_check_mark: | :x: |
 | **latest content** | :heavy_check_mark: | :x: |
@@ -100,6 +102,19 @@ So not everything may be available for translation yet.<br>
 ### Pull requests
 This is an open-source community project, so **your contributions keep this plugin alive!**<br>
 Pull Requests can be fixes, changes or even additions, but please keep in mind that if you add too much content to Slimefun 4, you should maybe consider making an Addon for it instead ([Developer Guide](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide)).
+
+#### Compiling
+Slimefun is written in Java and uses [Maven](https://maven.apache.org/) for compilation.<br>
+To compile Slimefun yourself, follow these steps:
+
+1. Clone the project via git<br>
+`$ git clone https://github.com/TheBusyBiscuit/Slimefun4/`
+2. Compile the project using Maven<br>
+`$ mvn clean package`
+
+If you are already using an IDE, make sure to import the project via git and set it as a *Maven project*. Then you should be able build it via Maven using the goals `clean package`.
+
+If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel. Note that we will not accept any bug reports from custom-compiled versions of Slimefun.
 
 ### Code Quality
 Slimefun uses [Sonarcloud.io](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) to monitor Code Quality.

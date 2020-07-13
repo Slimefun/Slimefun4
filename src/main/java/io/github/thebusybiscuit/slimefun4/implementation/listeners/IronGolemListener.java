@@ -10,8 +10,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -46,7 +46,7 @@ public class IronGolemListener implements Listener {
 
                 if (sfItem != null && !(sfItem instanceof VanillaItem)) {
                     e.setCancelled(true);
-                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
+                    SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
 
                     // This is just there to update the Inventory...
                     // Somehow cancelling it isn't enough.

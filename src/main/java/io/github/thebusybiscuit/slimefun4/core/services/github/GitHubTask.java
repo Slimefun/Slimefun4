@@ -11,7 +11,7 @@ import org.bukkit.Bukkit;
 
 import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
 import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount.TooManyRequestsException;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -56,9 +56,9 @@ class GitHubTask implements Runnable {
             }
         }
 
-        if (requests >= MAX_REQUESTS_PER_MINUTE) {
+        if (requests >= MAX_REQUESTS_PER_MINUTE && SlimefunPlugin.instance() != null && SlimefunPlugin.instance().isEnabled()) {
             // Slow down API requests and wait a minute after more than x requests were made
-            Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 2 * 60 * 20L);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance(), this::grabTextures, 2 * 60 * 20L);
         }
 
         for (GitHubConnector connector : gitHubService.getConnectors()) {
@@ -69,7 +69,7 @@ class GitHubTask implements Runnable {
 
         // We only wanna save this if all Connectors finished already
         // This will run multiple times but thats okay, this way we get as much data as possible stored
-        gitHubService.saveUUIDCache();
+        gitHubService.saveCache();
     }
 
     private int requestTexture(Contributor contributor, Map<String, String> skins) {
@@ -94,14 +94,14 @@ class GitHubTask implements Runnable {
 
                 // Retry after 5 minutes if it was rate-limiting
                 if (x.getMessage().contains("429")) {
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 5 * 60 * 20L);
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance(), this::grabTextures, 5 * 60 * 20L);
                 }
 
                 return -1;
             }
             catch (TooManyRequestsException x) {
                 Slimefun.getLogger().log(Level.WARNING, "Received a rate-limit from mojang.com, retrying in 4 minutes");
-                Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance, this::grabTextures, 4 * 60 * 20L);
+                Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance(), this::grabTextures, 4 * 60 * 20L);
 
                 return -1;
             }

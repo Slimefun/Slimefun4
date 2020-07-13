@@ -8,7 +8,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This {@link Listener} is responsible for all updates to a {@link Network}.

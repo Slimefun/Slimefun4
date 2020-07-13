@@ -22,7 +22,7 @@ import org.bukkit.potion.PotionEffect;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -31,7 +31,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Talisman extends SlimefunItem {
 
-    protected static final Category TALISMANS_CATEGORY = new Category(new NamespacedKey(SlimefunPlugin.instance, "talismans"), new CustomItem(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
+    protected static final Category TALISMANS_CATEGORY = new Category(new NamespacedKey(SlimefunPlugin.instance(), "talismans"), new CustomItem(SlimefunItems.COMMON_TALISMAN, "&7Talismans - &aTier I"), 2);
 
     private final SlimefunItemStack enderTalisman;
 
@@ -117,7 +117,7 @@ public class Talisman extends SlimefunItem {
 
     protected void createEnderTalisman() {
         EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(getEnderVariant());
-        Optional<Research> research = Research.getResearch(new NamespacedKey(SlimefunPlugin.instance, "ender_talismans"));
+        Optional<Research> research = Research.getResearch(new NamespacedKey(SlimefunPlugin.instance(), "ender_talismans"));
 
         if (talisman != null && research.isPresent()) {
             talisman.setResearch(research.get());
@@ -199,7 +199,7 @@ public class Talisman extends SlimefunItem {
 
     private static void sendMessage(Player p, Talisman talisman) {
         if (hasMessage(talisman)) {
-            SlimefunPlugin.getLocal().sendMessage(p, "messages.talisman." + talisman.getMessageSuffix(), true);
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.talisman." + talisman.getMessageSuffix(), true);
         }
     }
 

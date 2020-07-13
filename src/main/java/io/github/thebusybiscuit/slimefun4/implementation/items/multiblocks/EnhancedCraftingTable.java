@@ -12,9 +12,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -45,7 +45,7 @@ public class EnhancedCraftingTable extends BackpackCrafter {
                 return;
             }
         }
-        SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
+        SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
     }
 
     private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
@@ -71,7 +71,7 @@ public class EnhancedCraftingTable extends BackpackCrafter {
             outputInv.addItem(output);
 
         }
-        else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+        else SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
     }
 
     private boolean isCraftable(Inventory inv, ItemStack[] recipe) {

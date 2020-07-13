@@ -13,7 +13,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * A {@link RecipeChoiceTask} is an asynchronously repeating task that cycles
@@ -42,7 +42,7 @@ class RecipeChoiceTask implements Runnable {
     public void start(Inventory inv) {
         Validate.notNull(inv, "Inventory must not be null");
         inventory = inv;
-        id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance, this, 0, UPDATE_INTERVAL).getTaskId();
+        id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance(), this, 0, UPDATE_INTERVAL).getTaskId();
     }
 
     public void add(int slot, MaterialChoice choice) {

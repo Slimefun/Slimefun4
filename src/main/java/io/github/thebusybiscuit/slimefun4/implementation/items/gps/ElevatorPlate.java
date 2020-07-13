@@ -20,16 +20,16 @@ import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -96,13 +96,13 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             return;
         }
 
-        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance);
+        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
         ChatComponent page = null;
 
         List<Block> floors = getFloors(b);
 
         if (floors.size() < 2) {
-            SlimefunPlugin.getLocal().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
         }
 
         for (int i = 0; i < floors.size(); i++) {
@@ -111,7 +111,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                     book.addPage(page);
                 }
 
-                page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.pick-a-floor")) + "\n");
+                page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor")) + "\n");
             }
 
             Block block = floors.get(i);
@@ -120,12 +120,12 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             if (block.getY() == b.getY()) {
                 line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.RESET + floor, ""));
+                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.RESET + floor, ""));
             }
             else {
                 line = new ChatComponent("\n" + ChatColor.GRAY.toString() + (floors.size() - i) + ". " + ChatColor.RESET + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
-                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance, DATA_KEY + i), player -> Slimefun.runSync(() -> {
+                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.RESET + floor, ""));
+                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), DATA_KEY + i), player -> Slimefun.runSync(() -> {
                     users.add(player.getUniqueId());
 
                     float yaw = player.getEyeLocation().getYaw() + 180;
@@ -156,14 +156,14 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             pl.closeInventory();
             pl.sendMessage("");
-            SlimefunPlugin.getLocal().sendMessage(p, "machines.ELEVATOR.enter-name");
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.enter-name");
             pl.sendMessage("");
 
             ChatUtils.awaitInput(pl, message -> {
                 BlockStorage.addBlockInfo(b, DATA_KEY, message.replace(ChatColor.COLOR_CHAR, '&'));
 
                 pl.sendMessage("");
-                SlimefunPlugin.getLocal().sendMessage(p, "machines.ELEVATOR.named", msg -> msg.replace("%floor%", message));
+                SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.named", msg -> msg.replace("%floor%", message));
                 pl.sendMessage("");
 
                 openEditor(pl, b);

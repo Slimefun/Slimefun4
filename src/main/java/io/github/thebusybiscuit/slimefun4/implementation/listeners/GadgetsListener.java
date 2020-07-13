@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
@@ -15,7 +16,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -72,7 +72,7 @@ public class GadgetsListener implements Listener {
             double thrust = ((Jetpack) chestplate).getThrust();
 
             if (thrust > 0.2) {
-                new JetpackTask(p, thrust).scheduleRepeating(0, 3);
+                new JetpackTask(p, (Jetpack) chestplate).scheduleRepeating(0, 3);
             }
         }
         else if (chestplate instanceof Parachute) {
@@ -85,7 +85,7 @@ public class GadgetsListener implements Listener {
             double speed = ((JetBoots) boots).getSpeed();
 
             if (speed > 0.2) {
-                new JetBootsTask(p, speed).scheduleRepeating(0, 2);
+                new JetBootsTask(p, (JetBoots) boots).scheduleRepeating(0, 2);
             }
         }
     }

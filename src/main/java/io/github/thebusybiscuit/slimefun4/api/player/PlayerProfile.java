@@ -19,6 +19,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -31,11 +32,14 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -47,6 +51,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @see Research
  * @see Waypoint
  * @see PlayerBackpack
+ * @see HashedArmorpiece
  *
  */
 public final class PlayerProfile {
@@ -367,7 +372,7 @@ public final class PlayerProfile {
             return true;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
             PlayerProfile pp = new PlayerProfile(p);
             SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
             callback.accept(pp);
@@ -388,7 +393,7 @@ public final class PlayerProfile {
     public static boolean request(OfflinePlayer p) {
         if (!SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
             // Should probably prevent multiple requests for the same profile in the future
-            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
                 PlayerProfile pp = new PlayerProfile(p);
                 SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
             });
@@ -446,6 +451,41 @@ public final class PlayerProfile {
                 }
             });
         }
+    }
+
+    public boolean hasFullProtectionAgainst(ProtectionType type) {
+        int armorCount = 0;
+
+        NamespacedKey setId = null;
+        for (HashedArmorpiece armorpiece : armor) {
+            Optional<SlimefunArmorPiece> armorPiece = armorpiece.getItem();
+
+            if (!armorPiece.isPresent()) {
+                return false;
+            }
+
+            if (armorPiece.get() instanceof ProtectiveArmor) {
+                ProtectiveArmor protectedArmor = (ProtectiveArmor) armorPiece.get();
+
+                if (setId == null && protectedArmor.isFullSetRequired()) {
+                    setId = protectedArmor.getArmorSetId();
+                }
+
+                for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
+                    if (protectionType == type) {
+                        if (setId == null) {
+                            return true;
+                        }
+                        else if (setId.equals(protectedArmor.getArmorSetId())) {
+                            armorCount++;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return armorCount == 4;
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This interface is used to defer calls to Persistent Data and make sure they are only called

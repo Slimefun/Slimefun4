@@ -5,13 +5,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class ChargableBlock {
+
+    private static final String KEY = "energy-charge";
 
     private ChargableBlock() {}
 
@@ -20,11 +21,13 @@ public final class ChargableBlock {
     }
 
     public static boolean isChargable(Location l) {
-        if (!BlockStorage.hasBlockInfo(l)) {
+        String id = BlockStorage.checkID(l);
+
+        if (id == null) {
             return false;
         }
 
-        return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(BlockStorage.checkID(l));
+        return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(id);
     }
 
     public static int getCharge(Block b) {
@@ -32,19 +35,15 @@ public final class ChargableBlock {
     }
 
     public static int getCharge(Location l) {
-        String charge = BlockStorage.getLocationInfo(l, "energy-charge");
+        String charge = BlockStorage.getLocationInfo(l, KEY);
 
         if (charge != null) {
             return Integer.parseInt(charge);
         }
         else {
-            BlockStorage.addBlockInfo(l, "energy-charge", "0", false);
+            BlockStorage.addBlockInfo(l, KEY, "0", false);
             return 0;
         }
-    }
-
-    public static void setCharge(Block b, int charge) {
-        setCharge(b.getLocation(), charge);
     }
 
     public static void setCharge(Location l, int charge) {
@@ -53,20 +52,23 @@ public final class ChargableBlock {
         }
         else {
             int capacity = getMaxCharge(l);
-            if (charge > capacity) charge = capacity;
+
+            if (charge > capacity) {
+                charge = capacity;
+            }
         }
 
         if (charge != getCharge(l)) {
-            BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+            BlockStorage.addBlockInfo(l, KEY, String.valueOf(charge), false);
         }
     }
 
     public static void setUnsafeCharge(Location l, int charge, boolean updateTexture) {
         if (charge != getCharge(l)) {
-            BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+            BlockStorage.addBlockInfo(l, KEY, String.valueOf(charge), false);
 
             if (updateTexture) {
-                updateCapacitor(l);
+                updateCapacitor(l, charge, getMaxCharge(l));
             }
         }
     }
@@ -75,50 +77,60 @@ public final class ChargableBlock {
         return addCharge(b.getLocation(), charge);
     }
 
-    public static int addCharge(Location l, int charge) {
-        int energy = getCharge(l);
-        int space = getMaxCharge(l) - energy;
-        int rest = charge;
+    public static int addCharge(Location l, int addedCharge) {
+        String id = BlockStorage.checkID(l);
 
-        if (space > 0 && charge > 0) {
-            if (space > charge) {
-                setCharge(l, energy + charge);
+        if (id == null) {
+            BlockStorage.clearBlockInfo(l);
+            return 0;
+        }
+
+        int capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().getOrDefault(id, 0);
+
+        int charge = getCharge(l);
+        int availableSpace = capacity - charge;
+        int rest = addedCharge;
+
+        if (availableSpace > 0 && addedCharge > 0) {
+            if (availableSpace > addedCharge) {
+                charge += addedCharge;
                 rest = 0;
             }
             else {
-                rest = charge - space;
-                setCharge(l, getMaxCharge(l));
+                rest = addedCharge - availableSpace;
+                charge = capacity;
             }
 
-            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l))) {
-                updateCapacitor(l);
+            setCharge(l, charge);
+
+            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+                updateCapacitor(l, charge, capacity);
             }
         }
-        else if (charge < 0 && energy >= -charge) {
-            setCharge(l, energy + charge);
+        else if (addedCharge < 0 && charge >= -addedCharge) {
+            charge += addedCharge;
+            setCharge(l, charge);
 
-            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(BlockStorage.checkID(l))) {
-                updateCapacitor(l);
+            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+                updateCapacitor(l, charge, capacity);
             }
         }
 
         return rest;
     }
 
-    private static void updateCapacitor(Location l) {
+    private static void updateCapacitor(Location l, int charge, int capacity) {
         Slimefun.runSync(() -> {
             Block b = l.getBlock();
-            int charge = getCharge(b);
-            int capacity = getMaxCharge(b);
 
             if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
-                if (charge < (int) (capacity * 0.25D)) {
+                if (charge < (int) (capacity * 0.25)) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
                 }
-                else if (charge < (int) (capacity * 0.5D)) {
+                else if (charge < (int) (capacity * 0.5)) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
                 }
-                else if (charge < (int) (capacity * 0.75D)) {
+                else if (charge < (int) (capacity * 0.75)) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
                 }
                 else {
@@ -133,23 +145,14 @@ public final class ChargableBlock {
     }
 
     public static int getMaxCharge(Location l) {
-        Config cfg = BlockStorage.getLocationInfo(l);
+        String id = BlockStorage.checkID(l);
 
-        if (!cfg.contains("id")) {
+        if (id == null) {
             BlockStorage.clearBlockInfo(l);
             return 0;
         }
 
-        String str = cfg.getString("energy-capacity");
-
-        if (str != null) {
-            return Integer.parseInt(str);
-        }
-        else {
-            int capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().get(cfg.getString("id"));
-            BlockStorage.addBlockInfo(l, "energy-capacity", String.valueOf(capacity), false);
-            return capacity;
-        }
+        return SlimefunPlugin.getRegistry().getEnergyCapacities().getOrDefault(id, 0);
     }
 
 }

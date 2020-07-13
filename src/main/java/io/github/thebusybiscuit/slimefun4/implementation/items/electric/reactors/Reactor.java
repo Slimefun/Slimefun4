@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -26,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -278,7 +278,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                     if (timeleft > 0) {
                         int produced = getEnergyProduction();
-                        int space = ChargableBlock.getMaxCharge(l) - charge;
+                        int space = getCapacity() - charge;
 
                         if (space >= produced || !ReactorMode.GENERATOR.toString().equals(BlockStorage.getLocationInfo(l, MODE))) {
                             progress.put(l, timeleft - 1);
@@ -347,7 +347,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
     }
 
     private void createByproduct(Location l, BlockMenu inv, BlockMenu accessPort) {
-        inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+        inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
         if (processing.get(l).getOutput() != null) {
             inv.pushItem(processing.get(l).getOutput(), getOutputSlots());

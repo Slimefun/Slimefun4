@@ -7,11 +7,11 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class OilResource implements GEOResource {
 
-    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, "oil");
+    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance(), "oil");
 
     @Override
     public int getDefaultSupply(Environment environment, Biome biome) {

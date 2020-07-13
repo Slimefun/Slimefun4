@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 abstract class GitHubConnector {
@@ -98,7 +98,7 @@ abstract class GitHubConnector {
             onSuccess(element);
         }
         catch (IOException x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while parsing GitHub-Data for Slimefun " + SlimefunPlugin.getVersion());
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing GitHub-Data for Slimefun " + SlimefunPlugin.getVersion());
             onFailure();
         }
     }

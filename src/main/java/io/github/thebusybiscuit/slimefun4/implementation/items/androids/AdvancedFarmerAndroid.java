@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -44,10 +44,7 @@ public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
             if (result.isPresent()) {
                 ItemStack drop = result.get();
                 menu.pushItem(drop, getOutputSlots());
-
-                if (menu.fits(drop, getOutputSlots())) {
-                    block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                }
+                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
             }
         }
     }

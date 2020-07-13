@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -20,7 +20,7 @@ public abstract class ElectricFurnace extends AContainer {
 
     @Override
     public void registerDefaultRecipes() {
-        SlimefunPlugin.getMinecraftRecipes().subscribe(snapshot -> {
+        SlimefunPlugin.getMinecraftRecipeService().subscribe(snapshot -> {
             for (FurnaceRecipe recipe : snapshot.getRecipes(FurnaceRecipe.class)) {
                 RecipeChoice choice = recipe.getInputChoice();
 

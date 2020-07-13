@@ -14,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -49,7 +49,7 @@ public class ArmorForge extends MultiBlockMachine {
                         craft(p, output, inv, outputInv);
                     }
                     else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                     }
                 }
                 
@@ -57,7 +57,7 @@ public class ArmorForge extends MultiBlockMachine {
             }
         }
 
-        SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
+        SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
     }
 
     private boolean isCraftable(Inventory inv, ItemStack[] recipe) {

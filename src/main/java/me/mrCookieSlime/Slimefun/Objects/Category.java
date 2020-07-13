@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -131,7 +131,7 @@ public class Category implements Keyed {
      */
     public ItemStack getItem(Player p) {
         return new CustomItem(item, meta -> {
-            String name = SlimefunPlugin.getLocal().getCategoryName(p, getKey());
+            String name = SlimefunPlugin.getLocalization().getCategoryName(p, getKey());
             if (name == null) name = item.getItemMeta().getDisplayName();
 
             if (this instanceof SeasonalCategory) {
@@ -141,7 +141,7 @@ public class Category implements Keyed {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
+            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
         });
     }
 

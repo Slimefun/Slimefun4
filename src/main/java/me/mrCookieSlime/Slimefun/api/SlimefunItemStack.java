@@ -24,9 +24,10 @@ import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 public class SlimefunItemStack extends CustomItem {
@@ -34,6 +35,7 @@ public class SlimefunItemStack extends CustomItem {
     private String id;
     private ImmutableItemMeta immutableMeta;
 
+    private boolean locked = false;
     private String texture = null;
 
     public SlimefunItemStack(String id, Material type, String name, String... lore) {
@@ -148,7 +150,7 @@ public class SlimefunItemStack extends CustomItem {
         Validate.notNull(id, "The Item id must never be null!");
         Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 
-        if (SlimefunPlugin.instance == null) {
+        if (SlimefunPlugin.instance() == null) {
             throw new PrematureCodeException("A SlimefunItemStack must never be be created before your Plugin was enabled.");
         }
 
@@ -206,9 +208,32 @@ public class SlimefunItemStack extends CustomItem {
 
     @Override
     public boolean setItemMeta(ItemMeta meta) {
+        validate();
         immutableMeta = new ImmutableItemMeta(meta);
 
         return super.setItemMeta(meta);
+    }
+
+    @Override
+    public void setType(Material type) {
+        validate();
+        super.setType(type);
+    }
+
+    @Override
+    public void setAmount(int amount) {
+        validate();
+        super.setAmount(amount);
+    }
+
+    private void validate() {
+        if (locked) {
+            throw new WrongItemStackException(id + " is not mutable.");
+        }
+    }
+    
+    public void lock() {
+        locked = true;
     }
 
     @Override
@@ -244,5 +269,4 @@ public class SlimefunItemStack extends CustomItem {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
     }
-
 }

@@ -14,20 +14,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
 
     @Override
     public SlimefunAddon getAddon() {
-        return SlimefunPlugin.instance;
+        return SlimefunPlugin.instance();
     }
 
     @Override
     public NamespacedKey getKey() {
-        return new NamespacedKey(SlimefunPlugin.instance, "guide_layout");
+        return new NamespacedKey(SlimefunPlugin.instance(), "guide_layout");
     }
 
     @Override

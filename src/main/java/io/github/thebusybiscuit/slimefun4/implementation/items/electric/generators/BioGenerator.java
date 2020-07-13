@@ -5,7 +5,7 @@ import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
@@ -58,6 +58,17 @@ public abstract class BioGenerator extends AGenerator {
             }
         }
 
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+            registerFuel(new MachineFuel(4, new ItemStack(Material.HONEYCOMB)));
+            registerFuel(new MachineFuel(40, new ItemStack(Material.HONEYCOMB_BLOCK)));
+        }
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            registerFuel(new MachineFuel(4, new ItemStack(Material.SHROOMLIGHT)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.CRIMSON_FUNGUS)));
+            registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));
+        }
+
         // Leaves
         for (Material m : Tag.LEAVES.getValues()) {
             registerFuel(new MachineFuel(1, new ItemStack(m)));
@@ -66,6 +77,15 @@ public abstract class BioGenerator extends AGenerator {
         // Saplings
         for (Material m : Tag.SAPLINGS.getValues()) {
             registerFuel(new MachineFuel(1, new ItemStack(m)));
+        }
+
+        // Corals
+        for (Material m : Tag.CORALS.getValues()) {
+            registerFuel(new MachineFuel(2, new ItemStack(m)));
+        }
+
+        for (Material m : Tag.CORAL_BLOCKS.getValues()) {
+            registerFuel(new MachineFuel(2, new ItemStack(m)));
         }
     }
 

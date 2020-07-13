@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongConsumer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,10 +15,11 @@ import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -127,6 +130,8 @@ public class EnergyNet extends Network {
     }
 
     public void tick(Block b) {
+        AtomicLong timestamp = new AtomicLong(SlimefunPlugin.getProfiler().newEntry());
+
         if (!regulator.equals(b.getLocation())) {
             SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
             return;
@@ -138,85 +143,90 @@ public class EnergyNet extends Network {
             SimpleHologram.update(b, "&4No Energy Network found");
         }
         else {
-            double supply = DoubleHandler.fixDouble(tickAllGenerators() + tickAllCapacitors());
+            double supply = DoubleHandler.fixDouble(tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors());
             double demand = 0;
 
-            int available = (int) supply;
+            int availableEnergy = (int) supply;
 
-            for (Location destination : consumers) {
-                int capacity = ChargableBlock.getMaxCharge(destination);
-                int charge = ChargableBlock.getCharge(destination);
+            for (Location machine : consumers) {
+                int capacity = ChargableBlock.getMaxCharge(machine);
+                int charge = ChargableBlock.getCharge(machine);
 
                 if (charge < capacity) {
-                    int rest = capacity - charge;
-                    demand += rest;
+                    int availableSpace = capacity - charge;
+                    demand += availableSpace;
 
-                    if (available > 0) {
-                        if (available > rest) {
-                            ChargableBlock.setUnsafeCharge(destination, capacity, false);
-                            available = available - rest;
+                    if (availableEnergy > 0) {
+                        if (availableEnergy > availableSpace) {
+                            ChargableBlock.setUnsafeCharge(machine, capacity, false);
+                            availableEnergy -= availableSpace;
                         }
                         else {
-                            ChargableBlock.setUnsafeCharge(destination, charge + available, false);
-                            available = 0;
+                            ChargableBlock.setUnsafeCharge(machine, charge + availableEnergy, false);
+                            availableEnergy = 0;
                         }
                     }
                 }
             }
 
-            for (Location battery : storage) {
-                if (available > 0) {
-                    int capacity = ChargableBlock.getMaxCharge(battery);
+            storeExcessEnergy(availableEnergy);
+            updateHologram(b, supply, demand);
+        }
 
+        // We have subtracted the timings from Generators, so they do not show up twice.
+        SlimefunPlugin.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());
+    }
+
+    private void storeExcessEnergy(int available) {
+        for (Location capacitor : storage) {
+            if (available > 0) {
+                int capacity = ChargableBlock.getMaxCharge(capacitor);
+
+                if (available > capacity) {
+                    ChargableBlock.setUnsafeCharge(capacitor, capacity, true);
+                    available -= capacity;
+                }
+                else {
+                    ChargableBlock.setUnsafeCharge(capacitor, available, true);
+                    available = 0;
+                }
+            }
+            else {
+                ChargableBlock.setUnsafeCharge(capacitor, 0, true);
+            }
+        }
+
+        for (Location generator : generators) {
+            int capacity = ChargableBlock.getMaxCharge(generator);
+
+            if (capacity > 0) {
+                if (available > 0) {
                     if (available > capacity) {
-                        ChargableBlock.setUnsafeCharge(battery, capacity, true);
+                        ChargableBlock.setUnsafeCharge(generator, capacity, false);
                         available = available - capacity;
                     }
                     else {
-                        ChargableBlock.setUnsafeCharge(battery, available, true);
+                        ChargableBlock.setUnsafeCharge(generator, available, false);
                         available = 0;
                     }
                 }
                 else {
-                    ChargableBlock.setUnsafeCharge(battery, 0, true);
+                    ChargableBlock.setUnsafeCharge(generator, 0, false);
                 }
             }
-
-            for (Location source : generators) {
-                if (ChargableBlock.isChargable(source)) {
-                    if (available > 0) {
-                        int capacity = ChargableBlock.getMaxCharge(source);
-
-                        if (available > capacity) {
-                            ChargableBlock.setUnsafeCharge(source, capacity, false);
-                            available = available - capacity;
-                        }
-                        else {
-                            ChargableBlock.setUnsafeCharge(source, available, false);
-                            available = 0;
-                        }
-                    }
-                    else {
-                        ChargableBlock.setUnsafeCharge(source, 0, false);
-                    }
-                }
-            }
-
-            updateHologram(b, supply, demand);
         }
     }
 
-    private double tickAllGenerators() {
+    private double tickAllGenerators(LongConsumer timeCallback) {
         double supply = 0;
         Set<Location> exploded = new HashSet<>();
 
         for (Location source : generators) {
-            long timestamp = System.currentTimeMillis();
-            SlimefunItem item = BlockStorage.check(source);
+            long timestamp = SlimefunPlugin.getProfiler().newEntry();
+            Config config = BlockStorage.getLocationInfo(source);
+            SlimefunItem item = SlimefunItem.getByID(config.getString("id"));
 
             if (item != null) {
-                Config config = BlockStorage.getLocationInfo(source);
-
                 try {
                     GeneratorTicker generator = item.getEnergyTicker();
 
@@ -247,7 +257,8 @@ public class EnergyNet extends Network {
                     new ErrorReport(t, source, item);
                 }
 
-                SlimefunPlugin.getTicker().addBlockTimings(source, System.currentTimeMillis() - timestamp);
+                long time = SlimefunPlugin.getProfiler().closeEntry(source, item, timestamp);
+                timeCallback.accept(time);
             }
             else {
                 // This block seems to be gone now, better remove it to be extra safe
@@ -263,8 +274,8 @@ public class EnergyNet extends Network {
     private double tickAllCapacitors() {
         double supply = 0;
 
-        for (Location battery : storage) {
-            supply += ChargableBlock.getCharge(battery);
+        for (Location capacitor : storage) {
+            supply += ChargableBlock.getCharge(capacitor);
         }
 
         return supply;

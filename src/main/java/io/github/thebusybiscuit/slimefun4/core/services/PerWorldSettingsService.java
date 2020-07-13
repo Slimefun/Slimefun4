@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -53,7 +53,7 @@ public class PerWorldSettingsService {
             migrate();
         }
         catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "An error occured while migrating old world settings", e);
+            plugin.getLogger().log(Level.WARNING, "An error occurred while migrating old world settings", e);
         }
 
         for (World world : worlds) {
