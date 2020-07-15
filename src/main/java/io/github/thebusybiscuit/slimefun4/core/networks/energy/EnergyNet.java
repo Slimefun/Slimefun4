@@ -203,20 +203,18 @@ public class EnergyNet extends Network {
             Location generator = entry.getKey();
             int capacity = entry.getValue();
 
-            if (capacity > 0) {
-                if (available > 0) {
-                    if (available > capacity) {
-                        ChargableBlock.setUnsafeCharge(generator, capacity, false);
-                        available -= capacity;
-                    }
-                    else {
-                        ChargableBlock.setUnsafeCharge(generator, available, false);
-                        available = 0;
-                    }
+            if (available > 0) {
+                if (available > capacity) {
+                    ChargableBlock.setUnsafeCharge(generator, capacity, false);
+                    available -= capacity;
                 }
                 else {
-                    ChargableBlock.setUnsafeCharge(generator, 0, false);
+                    ChargableBlock.setUnsafeCharge(generator, available, false);
+                    available = 0;
                 }
+            }
+            else {
+                ChargableBlock.setUnsafeCharge(generator, 0, false);
             }
         }
     }
