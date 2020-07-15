@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
@@ -143,10 +144,9 @@ public class EnergyNet extends Network {
             SimpleHologram.update(b, "&4No Energy Network found");
         }
         else {
-            double supply = DoubleHandler.fixDouble(tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors());
-            double demand = 0;
-
-            int availableEnergy = (int) supply;
+            int supply = tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors();
+            int remainingEnergy = supply;
+            int demand = 0;
 
             for (Location machine : consumers) {
                 int capacity = ChargableBlock.getMaxCharge(machine);
@@ -156,20 +156,20 @@ public class EnergyNet extends Network {
                     int availableSpace = capacity - charge;
                     demand += availableSpace;
 
-                    if (availableEnergy > 0) {
-                        if (availableEnergy > availableSpace) {
+                    if (remainingEnergy > 0) {
+                        if (remainingEnergy > availableSpace) {
                             ChargableBlock.setUnsafeCharge(machine, capacity, false);
-                            availableEnergy -= availableSpace;
+                            remainingEnergy -= availableSpace;
                         }
                         else {
-                            ChargableBlock.setUnsafeCharge(machine, charge + availableEnergy, false);
-                            availableEnergy = 0;
+                            ChargableBlock.setUnsafeCharge(machine, charge + remainingEnergy, false);
+                            remainingEnergy = 0;
                         }
                     }
                 }
             }
 
-            storeExcessEnergy(availableEnergy);
+            storeExcessEnergy(remainingEnergy);
             updateHologram(b, supply, demand);
         }
 
@@ -217,8 +217,8 @@ public class EnergyNet extends Network {
         }
     }
 
-    private double tickAllGenerators(LongConsumer timeCallback) {
-        double supply = 0;
+    private int tickAllGenerators(LongConsumer timeCallback) {
+        int supply = 0;
         Set<Location> exploded = new HashSet<>();
 
         for (Location source : generators) {
@@ -226,8 +226,46 @@ public class EnergyNet extends Network {
             Config config = BlockStorage.getLocationInfo(source);
             SlimefunItem item = SlimefunItem.getByID(config.getString("id"));
 
-            if (item != null) {
+            if (item instanceof EnergyNetProvider) {
                 try {
+                    EnergyNetProvider generator = (EnergyNetProvider) item;
+                    int energy = generator.getGeneratedOutput(source, config);
+
+                    if (generator.getCapacity() > 0) {
+                        String charge = config.getString("energy-charge");
+
+                        if (charge != null) {
+                            energy += Integer.parseInt(charge);
+                        }
+                    }
+
+                    if (generator.willExplode(source, config)) {
+                        exploded.add(source);
+                        BlockStorage.clearBlockInfo(source);
+                        Reactor.processing.remove(source);
+                        Reactor.progress.remove(source);
+
+                        Slimefun.runSync(() -> {
+                            source.getBlock().setType(Material.LAVA);
+                            source.getWorld().createExplosion(source, 0F, false);
+                        });
+                    }
+                    else {
+                        supply += energy;
+                    }
+                }
+                catch (Exception | LinkageError t) {
+                    exploded.add(source);
+                    new ErrorReport(t, source, item);
+                }
+
+                long time = SlimefunPlugin.getProfiler().closeEntry(source, item, timestamp);
+                timeCallback.accept(time);
+            }
+            else if (item != null) {
+                try {
+                    // This will be removed very very soon
+                    // It is only here for backwards compatibility
                     GeneratorTicker generator = item.getEnergyTicker();
 
                     if (generator != null) {
@@ -267,12 +305,11 @@ public class EnergyNet extends Network {
         }
 
         generators.removeAll(exploded);
-
         return supply;
     }
 
-    private double tickAllCapacitors() {
-        double supply = 0;
+    private int tickAllCapacitors() {
+        int supply = 0;
 
         for (Location capacitor : storage) {
             supply += ChargableBlock.getCharge(capacitor);

@@ -28,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
@@ -74,7 +75,7 @@ public class SlimefunItem implements Placeable {
 
     private boolean ticking = false;
     private BlockTicker blockTicker;
-    private GeneratorTicker generatorTicker;
+    protected GeneratorTicker generatorTicker;
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
@@ -320,7 +321,11 @@ public class SlimefunItem implements Placeable {
         return blockTicker;
     }
 
-    // We should maybe refactor this and move it to a subclass
+    /**
+     * @deprecated The interface {@link EnergyNetProvider} should be implemented instead
+     * @return A {@link GeneratorTicker}
+     */
+    @Deprecated
     public GeneratorTicker getEnergyTicker() {
         return generatorTicker;
     }

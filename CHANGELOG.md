@@ -22,6 +22,10 @@
 
 ## Release Candidate 15 (TBD)
 
+#### Changes
+* Refactored and reworked the Generator API
+* Small performance improvements to Energy networks
+
 ## Release Candidate 14 (12 Jul 2020)
 
 #### Additions
