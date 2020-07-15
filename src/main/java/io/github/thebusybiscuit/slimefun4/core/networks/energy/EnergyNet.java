@@ -38,6 +38,7 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
  * 
  * @see Network
  * @see EnergyNetComponent
+ * @see EnergyNetProvider
  * @see EnergyNetComponentType
  *
  */
@@ -220,8 +221,8 @@ public class EnergyNet extends Network {
     }
 
     private int tickAllGenerators(Map<Location, Integer> generatorsWithCapacity, LongConsumer timeCallback) {
-        int supply = 0;
         Set<Location> exploded = new HashSet<>();
+        int supply = 0;
 
         for (Location source : generators) {
             long timestamp = SlimefunPlugin.getProfiler().newEntry();
@@ -245,8 +246,6 @@ public class EnergyNet extends Network {
                     if (provider.willExplode(source, config)) {
                         exploded.add(source);
                         BlockStorage.clearBlockInfo(source);
-                        Reactor.processing.remove(source);
-                        Reactor.progress.remove(source);
 
                         Slimefun.runSync(() -> {
                             source.getBlock().setType(Material.LAVA);

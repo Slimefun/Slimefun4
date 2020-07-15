@@ -106,7 +106,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                 BlockMenu port = getAccessPort(b.getLocation());
                 if (port != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         port.open(p);
                         newInstance(menu, b);
@@ -115,7 +115,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
                     });
                 }
                 else {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         newInstance(menu, b);
                         menu.open(p);
@@ -333,7 +333,8 @@ public abstract class Reactor extends AbstractEnergyProvider {
         Slimefun.runSync(() -> {
             // We will pick a surrounding block at random and see if this is water.
             // If it isn't, then we will make it explode.
-            BlockFace randomNeighbour = WATER_BLOCKS[ThreadLocalRandom.current().nextInt(WATER_BLOCKS.length)];
+            int index = ThreadLocalRandom.current().nextInt(WATER_BLOCKS.length);
+            BlockFace randomNeighbour = WATER_BLOCKS[index];
 
             if (l.getBlock().getRelative(randomNeighbour).getType() != Material.WATER) {
                 explosionsQueue.add(l);
@@ -399,7 +400,8 @@ public abstract class Reactor extends AbstractEnergyProvider {
             if (accessPort != null) {
                 for (int slot : getCoolantSlots()) {
                     if (SlimefunUtils.isItemSimilar(accessPort.getItemInSlot(slot), getCoolant(), true)) {
-                        accessPort.replaceExistingItem(slot, menu.pushItem(accessPort.getItemInSlot(slot), getCoolantSlots()));
+                        ItemStack remainingItem = menu.pushItem(accessPort.getItemInSlot(slot), getCoolantSlots());
+                        accessPort.replaceExistingItem(slot, remainingItem);
                     }
                 }
             }
