@@ -53,16 +53,10 @@ public class EnergyNet extends Network {
             return EnergyNetComponentType.NONE;
         }
 
-        if (SlimefunPlugin.getRegistry().getEnergyGenerators().contains(id)) {
-            return EnergyNetComponentType.GENERATOR;
-        }
+        SlimefunItem item = SlimefunItem.getByID(id);
 
-        if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
-            return EnergyNetComponentType.CAPACITOR;
-        }
-
-        if (SlimefunPlugin.getRegistry().getEnergyConsumers().contains(id)) {
-            return EnergyNetComponentType.CONSUMER;
+        if (item instanceof EnergyNetComponent) {
+            return ((EnergyNetComponent) item).getEnergyComponentType();
         }
 
         return EnergyNetComponentType.NONE;

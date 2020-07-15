@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
@@ -71,21 +70,15 @@ public class SlimefunRegistry {
 
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
-    private final Set<String> energyGenerators = new HashSet<>();
-    private final Set<String> energyCapacitors = new HashSet<>();
-    private final Set<String> energyConsumers = new HashSet<>();
-    private final Set<String> chargeableBlocks = new HashSet<>();
-    private final Map<String, WitherProof> witherProofBlocks = new HashMap<>();
-
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
     private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
-    private final Map<EntityType, Set<ItemStack>> drops = new EnumMap<>(EntityType.class);
+    private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
     private final Map<String, Integer> capacities = new HashMap<>();
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
-    private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> itemHandlers = new HashMap<>();
+    private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
     private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
     private final Map<String, Set<Location>> activeTickers = new HashMap<>();
@@ -200,11 +193,11 @@ public class SlimefunRegistry {
     }
 
     public Map<EntityType, Set<ItemStack>> getMobDrops() {
-        return drops;
+        return mobDrops;
     }
 
     public Set<ItemStack> getMobDrops(EntityType entity) {
-        return drops.get(entity);
+        return mobDrops.get(entity);
     }
 
     public Set<SlimefunItem> getRadioactiveItems() {
@@ -240,7 +233,7 @@ public class SlimefunRegistry {
     }
 
     public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
-        return itemHandlers;
+        return globalItemHandlers;
     }
 
     public Map<String, SlimefunBlockHandler> getBlockHandlers() {
@@ -266,26 +259,6 @@ public class SlimefunRegistry {
     @Deprecated
     public Map<String, ItemStack> getAutomatedCraftingChamberRecipes() {
         return automatedCraftingChamberRecipes;
-    }
-
-    public Set<String> getEnergyGenerators() {
-        return energyGenerators;
-    }
-
-    public Set<String> getEnergyCapacitors() {
-        return energyCapacitors;
-    }
-
-    public Set<String> getEnergyConsumers() {
-        return energyConsumers;
-    }
-
-    public Set<String> getChargeableBlocks() {
-        return chargeableBlocks;
-    }
-
-    public Map<String, WitherProof> getWitherProofBlocks() {
-        return witherProofBlocks;
     }
 
 }
