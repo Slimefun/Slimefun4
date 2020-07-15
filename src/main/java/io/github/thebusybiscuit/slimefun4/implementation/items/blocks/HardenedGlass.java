@@ -1,11 +1,10 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
+package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
 import org.bukkit.entity.Wither;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.WitherProofBlock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
