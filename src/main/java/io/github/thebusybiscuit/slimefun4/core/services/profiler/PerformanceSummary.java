@@ -17,6 +17,8 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Content;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
 class PerformanceSummary {
 
@@ -124,7 +126,8 @@ class PerformanceSummary {
                 builder.append("\n\n&c+ &6").append(hidden).append(" more");
             }
 
-            hoverComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColors.color(builder.toString()))));
+            Content content = new Text(TextComponent.fromLegacyText(ChatColors.color(builder.toString())));
+            hoverComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, content));
 
             component.addExtra(hoverComponent);
         }
