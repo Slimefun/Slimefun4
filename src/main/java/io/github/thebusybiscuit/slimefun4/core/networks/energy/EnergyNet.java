@@ -276,7 +276,7 @@ public class EnergyNet extends Network {
                     Integer capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().get(item.getID());
 
                     if (capacity != null && capacity.intValue() > 0) {
-                        generatorsWithCapacity.put(source, capacity.intValue());
+                        generatorsWithCapacity.put(source, capacity);
                     }
 
                     if (generator != null) {
