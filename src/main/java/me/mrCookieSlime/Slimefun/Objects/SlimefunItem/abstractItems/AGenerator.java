@@ -82,6 +82,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                     }
                 }
             }
+
             progress.remove(b.getLocation());
             processing.remove(b.getLocation());
             return true;

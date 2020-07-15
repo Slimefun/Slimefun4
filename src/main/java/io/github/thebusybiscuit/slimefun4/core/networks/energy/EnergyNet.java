@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.energy;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
@@ -144,7 +146,8 @@ public class EnergyNet extends Network {
             SimpleHologram.update(b, "&4No Energy Network found");
         }
         else {
-            int supply = tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors();
+            Map<Location, Integer> generatorsWithCapacity = new HashMap<>();
+            int supply = tickAllGenerators(generatorsWithCapacity, timestamp::getAndAdd) + tickAllCapacitors();
             int remainingEnergy = supply;
             int demand = 0;
 
@@ -169,7 +172,7 @@ public class EnergyNet extends Network {
                 }
             }
 
-            storeExcessEnergy(remainingEnergy);
+            storeExcessEnergy(generatorsWithCapacity, remainingEnergy);
             updateHologram(b, supply, demand);
         }
 
@@ -177,7 +180,7 @@ public class EnergyNet extends Network {
         SlimefunPlugin.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());
     }
 
-    private void storeExcessEnergy(int available) {
+    private void storeExcessEnergy(Map<Location, Integer> generators, int available) {
         for (Location capacitor : storage) {
             if (available > 0) {
                 int capacity = ChargableBlock.getMaxCharge(capacitor);
@@ -196,14 +199,15 @@ public class EnergyNet extends Network {
             }
         }
 
-        for (Location generator : generators) {
-            int capacity = ChargableBlock.getMaxCharge(generator);
+        for (Map.Entry<Location, Integer> entry : generators.entrySet()) {
+            Location generator = entry.getKey();
+            int capacity = entry.getValue();
 
             if (capacity > 0) {
                 if (available > 0) {
                     if (available > capacity) {
                         ChargableBlock.setUnsafeCharge(generator, capacity, false);
-                        available = available - capacity;
+                        available -= capacity;
                     }
                     else {
                         ChargableBlock.setUnsafeCharge(generator, available, false);
@@ -217,7 +221,7 @@ public class EnergyNet extends Network {
         }
     }
 
-    private int tickAllGenerators(LongConsumer timeCallback) {
+    private int tickAllGenerators(Map<Location, Integer> generatorsWithCapacity, LongConsumer timeCallback) {
         int supply = 0;
         Set<Location> exploded = new HashSet<>();
 
@@ -228,10 +232,11 @@ public class EnergyNet extends Network {
 
             if (item instanceof EnergyNetProvider) {
                 try {
-                    EnergyNetProvider generator = (EnergyNetProvider) item;
-                    int energy = generator.getGeneratedOutput(source, config);
+                    EnergyNetProvider provider = (EnergyNetProvider) item;
+                    int energy = provider.getGeneratedOutput(source, config);
 
-                    if (generator.getCapacity() > 0) {
+                    if (provider.getCapacity() > 0) {
+                        generatorsWithCapacity.put(source, provider.getCapacity());
                         String charge = config.getString("energy-charge");
 
                         if (charge != null) {
@@ -239,7 +244,7 @@ public class EnergyNet extends Network {
                         }
                     }
 
-                    if (generator.willExplode(source, config)) {
+                    if (provider.willExplode(source, config)) {
                         exploded.add(source);
                         BlockStorage.clearBlockInfo(source);
                         Reactor.processing.remove(source);
@@ -265,8 +270,14 @@ public class EnergyNet extends Network {
             else if (item != null) {
                 try {
                     // This will be removed very very soon
-                    // It is only here for backwards compatibility
+                    // It is only here for temporary backwards compatibility
                     GeneratorTicker generator = item.getEnergyTicker();
+
+                    Integer capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().get(item.getID());
+
+                    if (capacity != null && capacity.intValue() > 0) {
+                        generatorsWithCapacity.put(source, capacity.intValue());
+                    }
 
                     if (generator != null) {
                         double energy = generator.generateEnergy(source, item, config);
