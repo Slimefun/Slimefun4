@@ -32,6 +32,7 @@ public class TickerTask implements Runnable {
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
     private final Map<BlockPosition, Integer> bugs = new ConcurrentHashMap<>();
 
+    private int tickRate;
     private boolean halted = false;
     private boolean running = false;
 
@@ -179,6 +180,8 @@ public class TickerTask implements Runnable {
     }
 
     public void start(SlimefunPlugin plugin) {
+        this.tickRate = SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay");
+
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             try {
                 run();
@@ -187,7 +190,11 @@ public class TickerTask implements Runnable {
                 plugin.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
                 abortTick();
             }
-        }, 100L, SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay"));
+        }, 100L, tickRate);
+    }
+
+    public int getTickRate() {
+        return tickRate;
     }
 
 }

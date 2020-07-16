@@ -18,7 +18,6 @@ import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
-import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
@@ -80,8 +79,10 @@ public class SlimefunProfiler {
      * Be careful to {@link #closeEntry(Location, SlimefunItem, long)} all of them again!
      * No {@link PerformanceSummary} will be sent until all entires were closed.
      * 
+     * If the specified amount is negative, scheduled entries will be removed
+     * 
      * @param amount
-     *            The amount of entries that should be scheduled.
+     *            The amount of entries that should be scheduled. Can be negative
      */
     public void scheduleEntries(int amount) {
         if (running.get()) {
@@ -113,8 +114,9 @@ public class SlimefunProfiler {
         long elapsedTime = System.nanoTime() - timestamp;
 
         executor.execute(() -> {
-            ProfiledBlock block = new ProfiledBlock(new BlockPosition(l), item);
-            timings.put(block, elapsedTime);
+            ProfiledBlock block = new ProfiledBlock(l, item);
+
+            timings.putIfAbsent(block, elapsedTime);
             queued.decrementAndGet();
         });
 
@@ -136,7 +138,7 @@ public class SlimefunProfiler {
         executor.execute(() -> {
 
             // Wait for all timing results to come in
-            while (queued.get() > 0 && !running.get()) {
+            while (!running.get() && queued.get() > 0) {
                 // Ideally we would wait some time here but the ticker task may be faster
                 // than 1ms, so it would halt this summary for up to 7 minutes
                 // Not perfect performance-wise but this is a seperate Thread anyway
@@ -274,6 +276,10 @@ public class SlimefunProfiler {
 
     public String getTime() {
         return NumberUtils.getAsMillis(totalElapsedTime);
+    }
+
+    public int getTickRate() {
+        return SlimefunPlugin.getTickerTask().getTickRate();
     }
 
     /**

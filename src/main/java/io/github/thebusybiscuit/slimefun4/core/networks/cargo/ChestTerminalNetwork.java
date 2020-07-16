@@ -96,10 +96,9 @@ abstract class ChestTerminalNetwork extends Network {
         Iterator<ItemRequest> iterator = itemRequests.iterator();
         while (iterator.hasNext()) {
             ItemRequest request = iterator.next();
+            BlockMenu menu = BlockStorage.getInventory(request.getTerminal());
 
-            if (terminals.contains(request.getTerminal()) || imports.contains(request.getTerminal()) || exports.contains(request.getTerminal())) {
-                BlockMenu menu = BlockStorage.getInventory(request.getTerminal());
-
+            if (menu != null) {
                 switch (request.getDirection()) {
                 case INSERT:
                     distributeInsertionRequest(inventories, request, menu, iterator, destinations);
@@ -281,6 +280,12 @@ abstract class ChestTerminalNetwork extends Network {
      *            A {@link Set} of providers to this {@link ChestTerminalNetwork}
      */
     protected void updateTerminals(Set<Location> providers) {
+        if (terminals.isEmpty()) {
+            // Performance improvement - We don't need to compute items for
+            // Cargo networks without any Chest Terminals
+            return;
+        }
+
         List<ItemStackAndInteger> items = findAvailableItems(providers);
 
         for (Location l : terminals) {
@@ -396,7 +401,7 @@ abstract class ChestTerminalNetwork extends Network {
                 boolean add = true;
 
                 for (ItemStackAndInteger item : items) {
-                    if (SlimefunUtils.isItemSimilar(is, item.getItem(), true)) {
+                    if (SlimefunUtils.isItemSimilar(is, item.getItemStackWrapper(), true, false)) {
                         add = false;
                         item.add(is.getAmount() + stored);
                     }
@@ -420,7 +425,7 @@ abstract class ChestTerminalNetwork extends Network {
             boolean add = true;
 
             for (ItemStackAndInteger item : items) {
-                if (SlimefunUtils.isItemSimilar(stack, item.getItem(), true)) {
+                if (SlimefunUtils.isItemSimilar(stack, item.getItemStackWrapper(), true)) {
                     add = false;
                     item.add(stack.getAmount());
                 }

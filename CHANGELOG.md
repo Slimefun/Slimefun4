@@ -25,6 +25,8 @@
 #### Changes
 * Refactored and reworked the Generator API
 * Small performance improvements to Energy networks
+* Big performance improvements to Cargo networks when using ChestTerminal
+* Slight changes to /sf timings
 
 ## Release Candidate 14 (12 Jul 2020)
 
