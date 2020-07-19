@@ -101,16 +101,20 @@ public class TickerTask implements Runnable {
 
         if (item != null && item.getBlockTicker() != null) {
             try {
-                long timestamp = SlimefunPlugin.getProfiler().newEntry();
-                Block b = l.getBlock();
-                item.getBlockTicker().update();
-
                 if (item.getBlockTicker().isSynchronized()) {
-                    // We are ignoring the timestamp from above because synchronized actions
-                    // are always ran with a 50ms delay (1 game tick)
-                    Slimefun.runSync(() -> tickBlock(l, b, item, data, System.nanoTime()));
+                    SlimefunPlugin.getProfiler().scheduleEntries(1);
+                    item.getBlockTicker().update();
+                    // We are inserting a new timestamp because synchronized
+                    // actions are always ran with a 50ms delay (1 game tick)
+                    Slimefun.runSync(() -> {
+                        Block b = l.getBlock();
+                        tickBlock(l, b, item, data, System.nanoTime());
+                    });
                 }
                 else {
+                    long timestamp = SlimefunPlugin.getProfiler().newEntry();
+                    item.getBlockTicker().update();
+                    Block b = l.getBlock();
                     tickBlock(l, b, item, data, timestamp);
                 }
 
