@@ -28,6 +28,9 @@
 * Big performance improvements to Cargo networks when using ChestTerminal
 * Slight changes to /sf timings
 
+#### Fixes
+* Fixed #2075
+
 ## Release Candidate 14 (12 Jul 2020)
 
 #### Additions
