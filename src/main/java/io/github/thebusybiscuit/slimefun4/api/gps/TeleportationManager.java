@@ -118,16 +118,19 @@ public final class TeleportationManager {
         if (isValid(p, source)) {
             if (progress > 99) {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
-                PaperLib.teleportAsync(p, destination);
 
-                if (resistance) {
-                    p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
-                    SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
-                }
+                PaperLib.teleportAsync(p, destination).thenAccept(teleported -> {
+                    if (teleported.booleanValue()) {
+                        if (resistance) {
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
+                            SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
+                        }
 
-                destination.getWorld().spawnParticle(Particle.PORTAL, new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()), progress * 2, 0.2F, 0.8F, 0.2F);
-                destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
-                teleporterUsers.remove(uuid);
+                        destination.getWorld().spawnParticle(Particle.PORTAL, new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()), progress * 2, 0.2F, 0.8F, 0.2F);
+                        destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
+                        teleporterUsers.remove(uuid);
+                    }
+                });
             }
             else {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleporting")), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
