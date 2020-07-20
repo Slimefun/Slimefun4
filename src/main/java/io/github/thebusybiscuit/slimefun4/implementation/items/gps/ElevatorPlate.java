@@ -138,7 +138,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                     Location destination = new Location(player.getWorld(), block.getX() + 0.5, block.getY() + 0.4, block.getZ() + 0.5, yaw, player.getEyeLocation().getPitch());
                     PaperLib.teleportAsync(player, destination).thenAccept(teleported -> {
                         if (teleported.booleanValue()) {
-                            player.sendTitle(ChatColor.WHITE + ChatColors.color(floor), " ", 20, 60, 20);
+                            Slimefun.runSync(() -> player.sendTitle(ChatColor.WHITE + ChatColors.color(floor), " ", 20, 60, 20));
                         }
                     });
                 })));
