@@ -160,6 +160,10 @@
                 <configuration>
 
                     <!-- Shade bStats and CS-CoreLib2 into the output jar -->
+                    <relocation>
+                        <pattern>org.bstats</pattern>
+                        <shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
+                    </relocation>
                     <relocations>
                         <relocation>
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
@@ -311,6 +315,12 @@
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
             <version>0.24</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>1.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

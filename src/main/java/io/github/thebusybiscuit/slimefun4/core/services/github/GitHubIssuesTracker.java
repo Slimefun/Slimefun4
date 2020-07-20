@@ -38,7 +38,7 @@ class GitHubIssuesTracker extends GitHubConnector {
 
             // Don't even question why this is an Iterable<Object>
             for (Object elem : array) {
-                JSONObject obj = ((JsonNode) elem).getObject();
+                JSONObject obj = (JSONObject) elem;
 
                 if (obj.has("pull_request")) {
                     pullRequests++;
