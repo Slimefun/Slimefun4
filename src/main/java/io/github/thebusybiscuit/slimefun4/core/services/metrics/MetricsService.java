@@ -128,7 +128,7 @@ public class MetricsService {
         try {
             HttpResponse<JsonNode> response = Unirest.get(GH_API + "/releases/latest")
                 .asJson();
-            if (response.getStatus() < 200 || response.getStatus() >= 300) return -1;
+            if (!response.isSuccess()) return -1;
 
             JsonNode node = response.getBody();
 
@@ -160,7 +160,7 @@ public class MetricsService {
                     }
                 })
                 .asFile(metricFile.getPath());
-            if (response.getStatus() >= 200 && response.getStatus() < 300) {
+            if (response.isSuccess()) {
                 info("Successfully downloaded " + REPO_NAME + " build: " + version);
                 metricVersion = String.valueOf(version);
             } else
