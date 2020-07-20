@@ -160,11 +160,11 @@
                 <configuration>
 
                     <!-- Shade bStats and CS-CoreLib2 into the output jar -->
-                    <relocation>
-                        <pattern>org.bstats</pattern>
-                        <shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
-                    </relocation>
                     <relocations>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
+                        </relocation>
                         <relocation>
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
                             <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
