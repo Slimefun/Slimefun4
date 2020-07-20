@@ -103,6 +103,10 @@ public class MetricsService {
         }
     }
 
+    /**
+     * This will close the child classloader and mark all the resources held under this no longer
+     * in use, they will be cleaned up the next GC run.
+     */
     public void cleanUp() {
         try {
             if (this.moduleClassLoader != null)
@@ -113,8 +117,15 @@ public class MetricsService {
         }
     }
 
+    /**
+     * Checks for a new update and compares it against the current version.
+     * If there is a new version available then this returns true.
+     *
+     * @param currentVersion The current version which is being used.
+     * @return True if there is an update available.
+     */
     public boolean checkForUpdate(String currentVersion) {
-        if (currentVersion.equals("UNOFFICIAL")) return false;
+        if (currentVersion == null || currentVersion.equals("UNOFFICIAL")) return false;
 
         int latest = getLatestVersion();
         if (latest > Integer.parseInt(currentVersion)) {
@@ -124,6 +135,14 @@ public class MetricsService {
         return false;
     }
 
+    /**
+     * Gets the latest version available as an int.
+     * This is an internal method used by {@link #checkForUpdate(String)}.
+     * If it cannot get the version for whatever reason this will return 0, effectively always
+     * being behind.
+     *
+     * @return The latest version as an integer or -1 if it failed to fetch.
+     */
     private int getLatestVersion() {
         try {
             HttpResponse<JsonNode> response = Unirest.get(GH_API + "/releases/latest")
@@ -141,6 +160,11 @@ public class MetricsService {
         }
     }
 
+    /**
+     * Downloads the version specified to Slimefun's data folder.
+     *
+     * @param version The version to download.
+     */
     private void download(int version) {
         try {
             if (metricFile.exists())
@@ -176,8 +200,23 @@ public class MetricsService {
         plugin.getLogger().info(str);
     }
 
+    /**
+     * Returns the currently downloaded metric version. This CAN change! It may be null or an
+     * older version before it has downloaded a newer one.
+     *
+     * @return The current version or null if not loaded.
+     */
     @Nullable
     public String getVersion() {
         return metricVersion;
+    }
+
+    /**
+     * Returns if the current server has metric auto-updates enabled.
+     *
+     * @return True if the current server has metric auto-updates enabled.
+     */
+    public boolean hasAutoUpdates() {
+        return SlimefunPlugin.instance().getConfig().getBoolean("metrics.auto-update");
     }
 }
