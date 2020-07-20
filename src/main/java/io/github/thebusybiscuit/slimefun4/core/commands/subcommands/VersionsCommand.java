@@ -35,11 +35,12 @@ class VersionsCommand extends SubCommand {
             sender.sendMessage(ChatColors.color("&a" + Bukkit.getName() + " &2" + ReflectionUtils.getVersion()));
             sender.sendMessage("");
             sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + SlimefunPlugin.getCSCoreLibVersion()));
-            sender.sendMessage(ChatColors.color("&aSlimefun &2v" + SlimefunPlugin.getVersion())
-                + (SlimefunPlugin.getMetricsService().getVersion() != null
-                ? " (Metrics build: #" + SlimefunPlugin.getMetricsService().getVersion() + ')'
-                : "")
-            );
+
+            String version = "&aSlimefun &2v" + SlimefunPlugin.getVersion();
+            if (SlimefunPlugin.getMetricsService().getVersion() != null)
+                version += "&7 (Metrics build: &2#" + SlimefunPlugin.getMetricsService().getVersion() + ')';
+
+            sender.sendMessage(ChatColors.color(version));
 
             if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
                 sender.sendMessage(ChatColor.YELLOW + "Backwards compatiblity enabled!");

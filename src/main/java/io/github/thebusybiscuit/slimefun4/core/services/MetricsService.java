@@ -25,6 +25,7 @@ import org.bukkit.plugin.Plugin;
  * <b>Note:</b> To start the metrics you will need to be calling {@link #start()}
  *
  * @author TheBusyBiscuit
+ * @author WalshyDev
  */
 public class MetricsService {
 
