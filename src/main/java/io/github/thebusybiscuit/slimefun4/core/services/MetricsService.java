@@ -88,7 +88,8 @@ public class MetricsService {
             // Finally, we're good to start this.
             Method start = cl.getDeclaredMethod("start");
             String s = cl.getPackage().getImplementationVersion();
-            System.out.println("Invoking start");
+
+            // This is required to be sync due to bStats.
             Slimefun.runSync(() -> {
                 try {
                     start.invoke(null);
