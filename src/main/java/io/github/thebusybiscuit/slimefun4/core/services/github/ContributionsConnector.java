@@ -10,6 +10,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import kong.unirest.JsonNode;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 class ContributionsConnector extends GitHubConnector {
@@ -57,10 +60,10 @@ class ContributionsConnector extends GitHubConnector {
     }
 
     @Override
-    public void onSuccess(JsonElement element) {
+    public void onSuccess(JsonNode element) {
         finished = true;
-        if (element.isJsonArray()) {
-            computeContributors(element.getAsJsonArray());
+        if (element.isArray()) {
+            computeContributors(element.getArray());
         }
         else {
             Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", element);
@@ -82,13 +85,13 @@ class ContributionsConnector extends GitHubConnector {
         return "/contributors?per_page=100&page=" + page;
     }
 
-    private void computeContributors(JsonArray array) {
-        for (int i = 0; i < array.size(); i++) {
-            JsonObject object = array.get(i).getAsJsonObject();
+    private void computeContributors(JSONArray array) {
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = array.getJSONObject(i);
 
-            String name = object.get("login").getAsString();
-            int commits = object.get("contributions").getAsInt();
-            String profile = object.get("html_url").getAsString();
+            String name = object.getString("login");
+            int commits = object.getInt("contributions");
+            String profile = object.getString("html_url");
 
             if (!blacklist.contains(name)) {
                 github.addContributor(aliases.getOrDefault(name, name), profile, role, commits);

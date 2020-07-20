@@ -40,6 +40,9 @@ items:
   backpacks: true
   soulbound: true
 
+metrics:
+  auto-update: true
+
 research-ranks:
 - Chicken
 - Cow
