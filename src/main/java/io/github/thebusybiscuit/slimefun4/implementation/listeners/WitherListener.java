@@ -7,7 +7,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -28,15 +30,12 @@ public class WitherListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onWitherDestroy(EntityChangeBlockEvent e) {
         if (e.getEntity().getType() == EntityType.WITHER) {
-            String id = BlockStorage.checkID(e.getBlock());
+            SlimefunItem item = BlockStorage.check(e.getBlock());
 
-            if (id != null) {
-                WitherProof witherproof = SlimefunPlugin.getRegistry().getWitherProofBlocks().get(id);
-
-                if (witherproof != null) {
-                    e.setCancelled(true);
-                    witherproof.onAttack(e.getBlock(), (Wither) e.getEntity());
-                }
+            // Hardened Glass is excluded from here
+            if (item instanceof WitherProof && !item.getID().equals(SlimefunItems.HARDENED_GLASS.getItemId())) {
+                e.setCancelled(true);
+                ((WitherProof) item).onAttack(e.getBlock(), (Wither) e.getEntity());
             }
         }
     }
