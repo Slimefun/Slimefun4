@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.data.type.Dispenser;
 import org.bukkit.entity.Player;
@@ -22,6 +23,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -153,10 +155,14 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
 
                 if (id != null && id.equals("OUTPUT_CHEST")) {
                     // Found the output chest! Now, let's check if we can fit the product in it.
-                    Inventory inv = ((Chest) potentialOutput.getState()).getInventory();
+                    BlockState state = PaperLib.getBlockState(potentialOutput, false).getState();
 
-                    if (InvUtils.fits(inv, output)) {
-                        return inv;
+                    if (state instanceof Chest) {
+                        Inventory inv = ((Chest) state).getInventory();
+
+                        if (InvUtils.fits(inv, output)) {
+                            return inv;
+                        }
                     }
                 }
             }
