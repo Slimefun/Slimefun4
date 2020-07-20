@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.services.metrics;
+package io.github.thebusybiscuit.slimefun4.core.services;
 
 import javax.annotation.Nullable;
 import java.io.File;
