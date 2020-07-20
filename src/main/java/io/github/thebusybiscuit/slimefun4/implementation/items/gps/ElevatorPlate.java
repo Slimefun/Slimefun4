@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -134,7 +135,8 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                         yaw = -180 + (yaw - 180);
                     }
 
-                    player.teleport(new Location(player.getWorld(), block.getX() + 0.5, block.getY() + 0.4, block.getZ() + 0.5, yaw, player.getEyeLocation().getPitch()));
+                    Location destination = new Location(player.getWorld(), block.getX() + 0.5, block.getY() + 0.4, block.getZ() + 0.5, yaw, player.getEyeLocation().getPitch());
+                    PaperLib.teleportAsync(player, destination);
                     player.sendTitle(ChatColor.WHITE + ChatColors.color(floor), " ", 20, 60, 20);
                 })));
             }
