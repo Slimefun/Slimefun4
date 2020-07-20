@@ -269,6 +269,7 @@ public final class ResearchSetup {
         register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
         register("enchantment_rune", 259, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
         register("lead_clothing", 260, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
+        register("tape_measure", 261, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
