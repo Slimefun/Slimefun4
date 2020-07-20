@@ -1,6 +1,0 @@
-# The project owner will be eligible for reviews on all files
-*          @TheBusyBiscuit
-
-# Any Java or Maven files should be reviewed by TheBusyBiscuit and Walshy
-*.java     @TheBusyBiscuit @WalshyDev
-pom.xml    @TheBusyBiscuit @WalshyDev
