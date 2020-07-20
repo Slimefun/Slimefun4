@@ -534,7 +534,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     private void registerDefaultFuelTypes() {
         switch (getFuelSource()) {
         case SOLID:
-            registerFuelType(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
+            registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
             registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
             registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 

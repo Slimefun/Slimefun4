@@ -30,6 +30,7 @@
 
 #### Fixes
 * Fixed #2075
+* Fixed #2093
 
 ## Release Candidate 14 (12 Jul 2020)
 

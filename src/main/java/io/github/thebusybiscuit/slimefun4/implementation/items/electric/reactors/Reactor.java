@@ -46,7 +46,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @author AlexLander123
  * @author TheBusyBiscuit
  * 
- * @see AGeneratoro
+ * @see AGenerator
  * @see NuclearReactor
  * @see NetherStarReactor
  *
