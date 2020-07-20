@@ -29,11 +29,17 @@
 * Added Tape Measure
 
 #### Changes
+* Refactored and reworked the Generator API
+* Small performance improvements to Energy networks
+* Big performance improvements to Cargo networks when using ChestTerminal
+* Slight changes to /sf timings
 * Changed recipe of Hazmat Suits
 * Uranium can no longer be placed down
 
 #### Fixes
 * Fixed Slimefun Armor sometimes not applying its effects
+* Fixed #2075
+* Fixed #2093
 
 ## Release Candidate 14 (12 Jul 2020)
 

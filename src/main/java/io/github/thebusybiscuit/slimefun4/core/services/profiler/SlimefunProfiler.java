@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Chunk;
@@ -18,12 +19,12 @@ import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
-import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
@@ -80,8 +81,10 @@ public class SlimefunProfiler {
      * Be careful to {@link #closeEntry(Location, SlimefunItem, long)} all of them again!
      * No {@link PerformanceSummary} will be sent until all entires were closed.
      * 
+     * If the specified amount is negative, scheduled entries will be removed
+     * 
      * @param amount
-     *            The amount of entries that should be scheduled.
+     *            The amount of entries that should be scheduled. Can be negative
      */
     public void scheduleEntries(int amount) {
         if (running.get()) {
@@ -113,8 +116,9 @@ public class SlimefunProfiler {
         long elapsedTime = System.nanoTime() - timestamp;
 
         executor.execute(() -> {
-            ProfiledBlock block = new ProfiledBlock(new BlockPosition(l), item);
-            timings.put(block, elapsedTime);
+            ProfiledBlock block = new ProfiledBlock(l, item);
+
+            timings.putIfAbsent(block, elapsedTime);
             queued.decrementAndGet();
         });
 
@@ -132,34 +136,48 @@ public class SlimefunProfiler {
             return;
         }
 
-        // Since we got more than one Thread in our pool, blocking this one is completely fine
-        executor.execute(() -> {
+        // Since we got more than one Thread in our pool,
+        // blocking this one is (hopefully) completely fine
+        executor.execute(this::finishReport);
+    }
 
-            // Wait for all timing results to come in
-            while (queued.get() > 0 && !running.get()) {
-                // Ideally we would wait some time here but the ticker task may be faster
-                // than 1ms, so it would halt this summary for up to 7 minutes
-                // Not perfect performance-wise but this is a seperate Thread anyway
-            }
+    private void finishReport() {
+        // We will only wait for a maximum of this many 1ms sleeps
+        int iterations = 1000;
 
-            if (running.get()) {
-                // Looks like the next profiling has already started, abort!
-                return;
-            }
+        // Wait for all timing results to come in
+        while (!running.get() && queued.get() > 0) {
+            try {
+                Thread.sleep(1);
+                iterations--;
 
-            totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
-
-            if (!requests.isEmpty()) {
-                PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
-                Iterator<CommandSender> iterator = requests.iterator();
-
-                while (iterator.hasNext()) {
-                    summary.send(iterator.next());
-                    iterator.remove();
+                // If we waited for too long, then we should just abort
+                if (iterations <= 0) {
+                    return;
                 }
             }
-        });
+            catch (InterruptedException e) {
+                Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
+                Thread.currentThread().interrupt();
+            }
+        }
 
+        if (running.get() && queued.get() > 0) {
+            // Looks like the next profiling has already started, abort!
+            return;
+        }
+
+        totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
+
+        if (!requests.isEmpty()) {
+            PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
+            Iterator<CommandSender> iterator = requests.iterator();
+
+            while (iterator.hasNext()) {
+                summary.send(iterator.next());
+                iterator.remove();
+            }
+        }
     }
 
     /**
@@ -274,6 +292,10 @@ public class SlimefunProfiler {
 
     public String getTime() {
         return NumberUtils.getAsMillis(totalElapsedTime);
+    }
+
+    public int getTickRate() {
+        return SlimefunPlugin.getTickerTask().getTickRate();
     }
 
     /**
