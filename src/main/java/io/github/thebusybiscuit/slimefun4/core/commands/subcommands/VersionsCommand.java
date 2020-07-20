@@ -35,7 +35,7 @@ class VersionsCommand extends SubCommand {
     public void onExecute(CommandSender sender, String[] args) {
         if (sender.hasPermission("slimefun.command.versions") || sender instanceof ConsoleCommandSender) {
             // After all these years... Spigot still displays as "CraftBukkit"
-            // so we will just this issue for them :)
+            // so we will just fix this inconsistency for them :)
             String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
             sender.sendMessage(ChatColors.color("&a" + serverSoftware + " &2" + ReflectionUtils.getVersion()));
             sender.sendMessage("");

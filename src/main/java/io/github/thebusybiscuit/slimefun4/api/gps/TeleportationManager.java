@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -59,10 +61,21 @@ public final class TeleportationManager {
                 }
 
                 int slot = teleporterInventory[index];
-
                 Location l = waypoint.getLocation();
-                menu.addItem(slot, new CustomItem(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), "", "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + DoubleHandler.fixDouble(0.5 * getTeleportationTime(complexity, source, l)) + "s", "", "&8\u21E8 &c"
-                        + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip")));
+                double time = DoubleHandler.fixDouble(0.5 * getTeleportationTime(complexity, source, l));
+
+                List<String> nameAndLore = new ArrayList<>();
+                nameAndLore.add(waypoint.getName().replace("player:death ", ""));
+                nameAndLore.add("");
+                nameAndLore.add("&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName());
+                nameAndLore.add("&8\u21E8 &7X: &f" + l.getX());
+                nameAndLore.add("&8\u21E8 &7Y: &f" + l.getY());
+                nameAndLore.add("&8\u21E8 &7Z: &f" + l.getZ());
+                nameAndLore.add("&8\u21E8 &7" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + time + "s");
+                nameAndLore.add("");
+                nameAndLore.add("&8\u21E8 &c" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip"));
+
+                menu.addItem(slot, new CustomItem(waypoint.getIcon(), nameAndLore));
                 menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     pl.closeInventory();
                     teleport(pl.getUniqueId(), complexity, source, l, false);
@@ -129,7 +142,8 @@ public final class TeleportationManager {
                                 SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
                             }
 
-                            destination.getWorld().spawnParticle(Particle.PORTAL, new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ()), progress * 2, 0.2F, 0.8F, 0.2F);
+                            Location loc = new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ());
+                            destination.getWorld().spawnParticle(Particle.PORTAL, loc, progress * 2, 0.2F, 0.8F, 0.2F);
                             destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
                             teleporterUsers.remove(uuid);
                         });
