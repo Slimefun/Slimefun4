@@ -169,6 +169,10 @@
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
                             <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.paperlib</shadedPattern>
+                        </relocation>
                     </relocations>
 
                     <!-- Exclude unneeded metadata files from shaded dependencies -->
@@ -327,12 +331,19 @@
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
             <version>3.8.06</version>
-            <exclusions>
+            <exclusions
+            >
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>
                     <artifactId>gson</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Third party plugin integrations -->
@@ -350,6 +361,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.Directional;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.block.BlockDispenseEvent;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -39,10 +41,14 @@ public class DispenserListener implements Listener {
 
             if (machine != null) {
                 machine.callItemHandler(BlockDispenseHandler.class, handler -> {
-                    Dispenser dispenser = (Dispenser) b.getState();
-                    BlockFace face = ((Directional) b.getBlockData()).getFacing();
-                    Block block = b.getRelative(face);
-                    handler.onBlockDispense(e, dispenser, block, machine);
+                    BlockState state = PaperLib.getBlockState(b, false).getState();
+
+                    if (state instanceof Dispenser) {
+                        Dispenser dispenser = (Dispenser) state;
+                        BlockFace face = ((Directional) b.getBlockData()).getFacing();
+                        Block block = b.getRelative(face);
+                        handler.onBlockDispense(e, dispenser, block, machine);
+                    }
                 });
             }
         }

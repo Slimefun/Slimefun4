@@ -32,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -382,7 +383,7 @@ abstract class ChestTerminalNetwork extends Network {
                     }
                 }
                 else if (CargoUtils.hasInventory(target)) {
-                    BlockState state = target.getState();
+                    BlockState state = PaperLib.getBlockState(target, false).getState();
 
                     if (state instanceof InventoryHolder) {
                         Inventory inv = ((InventoryHolder) state).getInventory();
