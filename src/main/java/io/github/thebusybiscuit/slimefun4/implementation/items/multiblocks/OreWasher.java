@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -18,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -41,57 +43,62 @@ public class OreWasher extends MultiBlockMachine {
     @Override
     public void onInteract(Player p, Block b) {
         Block dispBlock = b.getRelative(BlockFace.UP);
-        Dispenser disp = (Dispenser) dispBlock.getState();
-        Inventory inv = disp.getInventory();
+        BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
 
-        for (ItemStack input : inv.getContents()) {
-            if (input != null) {
-                if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true)) {
-                    ItemStack output = getRandomDust();
-                    Inventory outputInv = null;
+        if (state instanceof Dispenser) {
+            Dispenser disp = (Dispenser) state;
+            Inventory inv = disp.getInventory();
 
-                    if (!legacyMode) {
-                        // This is a fancy way of checking if there is empty space in the inv; by checking if an
-                        // unobtainable item could fit in it.
-                        // However, due to the way the method findValidOutputInv() functions, the dummyAdding will never
-                        // actually be added to the real inventory,
-                        // so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH
-                        // however, signals that it's
-                        // not supposed to be given to the player.
-                        ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
-                        outputInv = findOutputInventory(dummyAdding, dispBlock, inv);
+            for (ItemStack input : inv.getContents()) {
+                if (input != null) {
+                    if (SlimefunUtils.isItemSimilar(input, SlimefunItems.SIFTED_ORE, true)) {
+                        ItemStack output = getRandomDust();
+                        Inventory outputInv = null;
+
+                        if (!legacyMode) {
+                            // This is a fancy way of checking if there is empty space in the inv; by checking if an
+                            // unobtainable item could fit in it.
+                            // However, due to the way the method findValidOutputInv() functions, the dummyAdding will
+                            // never
+                            // actually be added to the real inventory,
+                            // so it really doesn't matter what item the ItemStack is made by. SlimefunItems.DEBUG_FISH
+                            // however, signals that it's
+                            // not supposed to be given to the player.
+                            ItemStack dummyAdding = SlimefunItems.DEBUG_FISH;
+                            outputInv = findOutputInventory(dummyAdding, dispBlock, inv);
+                        }
+                        else {
+                            outputInv = findOutputInventory(output, dispBlock, inv);
+                        }
+
+                        removeItem(p, b, inv, outputInv, input, output, 1);
+
+                        if (outputInv != null) {
+                            outputInv.addItem(SlimefunItems.STONE_CHUNK);
+                        }
+
+                        return;
                     }
-                    else {
-                        outputInv = findOutputInventory(output, dispBlock, inv);
+                    else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {
+                        ItemStack output = SlimefunItems.SALT;
+                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);
+
+                        removeItem(p, b, inv, outputInv, input, output, 2);
+
+                        return;
                     }
+                    else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
+                        ItemStack output = SlimefunItems.PURE_ORE_CLUSTER;
+                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);
 
-                    removeItem(p, b, inv, outputInv, input, output, 1);
+                        removeItem(p, b, inv, outputInv, input, output, 1);
 
-                    if (outputInv != null) {
-                        outputInv.addItem(SlimefunItems.STONE_CHUNK);
+                        return;
                     }
-
-                    return;
-                }
-                else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND, 2), false)) {
-                    ItemStack output = SlimefunItems.SALT;
-                    Inventory outputInv = findOutputInventory(output, dispBlock, inv);
-
-                    removeItem(p, b, inv, outputInv, input, output, 2);
-
-                    return;
-                }
-                else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE, true)) {
-                    ItemStack output = SlimefunItems.PURE_ORE_CLUSTER;
-                    Inventory outputInv = findOutputInventory(output, dispBlock, inv);
-
-                    removeItem(p, b, inv, outputInv, input, output, 1);
-
-                    return;
                 }
             }
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
-        SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
     }
 
     private void removeItem(Player p, Block b, Inventory inputInv, Inventory outputInv, ItemStack input, ItemStack output, int amount) {

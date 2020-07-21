@@ -35,6 +35,7 @@
 * Slight changes to /sf timings
 * Changed recipe of Hazmat Suits
 * Uranium can no longer be placed down
+* Huge performance improvements when using Paper
 
 #### Fixes
 * Fixed Slimefun Armor sometimes not applying its effects
