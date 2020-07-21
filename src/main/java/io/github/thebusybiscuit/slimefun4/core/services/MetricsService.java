@@ -99,7 +99,7 @@ public class MetricsService {
             Slimefun.runSync(() -> {
                 try {
                     start.invoke(null);
-                    info("Metrics v" + s + " started.");
+                    info("Metrics build " + s + " started.");
                 } catch (Exception e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }
