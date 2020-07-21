@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
@@ -61,7 +63,10 @@ public class MetricsService {
         boolean newlyDownloaded = false;
         if (!metricFile.exists()) {
             info(REPO_NAME + " does not exist, downloading...");
-            download(getLatestVersion());
+            if (!download(getLatestVersion())) {
+                plugin.getLogger().warning("Failed to start metrics as the file could not be downloaded.");
+                return;
+            }
             newlyDownloaded = true;
         }
 
@@ -77,7 +82,7 @@ public class MetricsService {
             // If it has not been newly downloaded, auto-updates are on AND there's a new version
             // then cleanup, download and start
             if (!newlyDownloaded
-                && plugin.getConfig().getBoolean("metrics.auto-update")
+                && hasAutoUpdates()
                 && checkForUpdate(metricVersion)
             ) {
                 info("Cleaning up and re-loading Metrics.");
@@ -131,8 +136,7 @@ public class MetricsService {
 
         int latest = getLatestVersion();
         if (latest > Integer.parseInt(currentVersion)) {
-            download(latest);
-            return true;
+            return download(latest);
         }
         return false;
     }
@@ -167,11 +171,10 @@ public class MetricsService {
      *
      * @param version The version to download.
      */
-    private void download(int version) {
-        try {
-            if (metricFile.exists())
-                metricFile.delete();
+    private boolean download(int version) {
+        File f = new File(plugin.getDataFolder(), "Metrics-" + version + ".jar");
 
+        try {
             info("# Starting download of MetricsModule build: #" + version);
             AtomicInteger lastPercentPosted = new AtomicInteger();
             HttpResponse<File> response = Unirest.get(GH_REPO_RELEASES + "/" + version
@@ -185,17 +188,24 @@ public class MetricsService {
                         lastPercentPosted.set(percent);
                     }
                 })
-                .asFile(metricFile.getPath());
+                .asFile(f.getPath());
             if (response.isSuccess()) {
                 info("Successfully downloaded " + REPO_NAME + " build: " + version);
+
+                // Replace the metric file with the new one
+                Files.move(f.toPath(), metricFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
                 metricVersion = String.valueOf(version);
-            } else
-                // If it failed we don't want this to be like a file containing "404 not found"
-                metricFile.delete();
+                return true;
+            }
         } catch (UnirestException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the" +
                 " builds page. Perhaps GitHub is down.");
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the " +
+                "new one. Please do this manually! Error: {0}", e.getMessage());
         }
+        return false;
     }
 
     private void info(String str) {

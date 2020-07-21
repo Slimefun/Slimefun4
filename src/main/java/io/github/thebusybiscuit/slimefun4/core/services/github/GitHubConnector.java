@@ -1,15 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.logging.Level;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
+import kong.unirest.json.JSONException;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 abstract class GitHubConnector {
@@ -56,7 +61,28 @@ abstract class GitHubConnector {
             if (github.isLoggingEnabled()) {
                 Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
             }
+
+            // It has the cached file, let's just read that then
+            if (file.exists()) {
+                JsonNode cache = readCacheFile();
+                if (cache != null) {
+                    onSuccess(cache);
+                    return;
+                }
+            }
+
+            // If the request failed and it failed to read the cache then call onFailure.
             onFailure();
+        }
+    }
+
+    private JsonNode readCacheFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            return new JsonNode(br.readLine());
+        } catch (IOException | JSONException e) {
+            Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0}",
+                file.getName());
+            return null;
         }
     }
 
