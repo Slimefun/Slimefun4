@@ -22,6 +22,9 @@
 
 ## Release Candidate 15 (TBD)
 
+#### Additions
+* Added a [Metric module](https://github.com/Slimefun/MetricsModule) which allows us to deploy changes to metrics (bStats) without another Slimefun build.
+
 #### Changes
 * Refactored and reworked the Generator API
 * Small performance improvements to Energy networks
