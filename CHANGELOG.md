@@ -27,6 +27,7 @@
 * Small performance improvements to Energy networks
 * Big performance improvements to Cargo networks when using ChestTerminal
 * Slight changes to /sf timings
+* Huge performance improvements when using Paper
 
 #### Fixes
 * Fixed #2075
