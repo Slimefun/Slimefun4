@@ -75,7 +75,9 @@ public class ArmorTask implements Runnable {
 
             if (armorpiece.hasDiverged(item)) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
-                if (!(sfItem instanceof SlimefunArmorPiece) || !Slimefun.hasUnlocked(p, sfItem, true)) {
+
+                if (!(sfItem instanceof SlimefunArmorPiece)) {
+                    // If it isn't actually Armor, then we won't care about it.
                     sfItem = null;
                 }
 
@@ -84,9 +86,13 @@ public class ArmorTask implements Runnable {
 
             if (item != null && armorpiece.getItem().isPresent()) {
                 Slimefun.runSync(() -> {
-                    for (PotionEffect effect : armorpiece.getItem().get().getPotionEffects()) {
-                        p.removePotionEffect(effect.getType());
-                        p.addPotionEffect(effect);
+                    SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
+
+                    if (Slimefun.hasUnlocked(p, slimefunArmor, true)) {
+                        for (PotionEffect effect : slimefunArmor.getPotionEffects()) {
+                            p.removePotionEffect(effect.getType());
+                            p.addPotionEffect(effect);
+                        }
                     }
                 });
             }
