@@ -331,8 +331,7 @@
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
             <version>3.8.06</version>
-            <exclusions
-            >
+            <exclusions>
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>
                     <artifactId>gson</artifactId>
