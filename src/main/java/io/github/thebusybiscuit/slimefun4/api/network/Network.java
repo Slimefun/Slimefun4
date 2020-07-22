@@ -29,7 +29,7 @@ public abstract class Network {
 
     private final NetworkManager manager;
     protected Location regulator;
-    private Queue<Location> nodeQueue = new ArrayDeque<>();
+    private final Queue<Location> nodeQueue = new ArrayDeque<>();
 
     protected final Set<Location> connectedLocations = new HashSet<>();
     protected final Set<Location> regulatorNodes = new HashSet<>();

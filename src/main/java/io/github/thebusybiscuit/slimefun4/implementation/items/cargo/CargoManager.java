@@ -46,7 +46,7 @@ public class CargoManager extends SlimefunItem {
 
         }, new BlockUseHandler() {
 
-            private String visualizerKey = "visualizer";
+            private final String visualizerKey = "visualizer";
 
             @Override
             public void onRightClick(PlayerRightClickEvent e) {
