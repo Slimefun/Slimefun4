@@ -31,11 +31,15 @@
 * Big performance improvements to Cargo networks when using ChestTerminal
 * Slight changes to /sf timings
 * Huge performance improvements when using Paper
+* Optimized Cargo networks for Paper
+* Optimized Multiblocks for Paper
+* Optimized Enhanced Furnaces for Paper
 
 #### Fixes
 * Fixed #2075
 * Fixed #2093
 * Fixed #2086
+* Fixed #1894
 
 ## Release Candidate 14 (12 Jul 2020)
 
