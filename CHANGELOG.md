@@ -22,6 +22,9 @@
 
 ## Release Candidate 15 (TBD)
 
+#### Additions
+* Added "Bone Block -> Bone meal" recipe to the Grind Stone
+
 #### Changes
 * Refactored and reworked the Generator API
 * Small performance improvements to Energy networks
