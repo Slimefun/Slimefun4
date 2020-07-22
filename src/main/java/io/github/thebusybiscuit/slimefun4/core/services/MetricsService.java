@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -41,6 +42,7 @@ public class MetricsService {
 
     private URLClassLoader moduleClassLoader;
     private String metricVersion = null;
+    private boolean newlyDownloaded = false;
 
     static {
         Unirest.config()
@@ -60,9 +62,8 @@ public class MetricsService {
      * This method loads the metric module and starts the metrics collection.
      */
     public void start() {
-        boolean newlyDownloaded = false;
         if (!metricFile.exists()) {
-            info(REPO_NAME + " does not exist, downloading...");
+            plugin.getLogger().info(REPO_NAME + " does not exist, downloading...");
             if (!download(getLatestVersion())) {
                 plugin.getLogger().warning("Failed to start metrics as the file could not be downloaded.");
                 return;
@@ -85,7 +86,7 @@ public class MetricsService {
                 && hasAutoUpdates()
                 && checkForUpdate(metricVersion)
             ) {
-                info("Cleaning up and re-loading Metrics.");
+                plugin.getLogger().info("Cleaning up and re-loading Metrics.");
                 cleanUp();
                 start();
                 return;
@@ -99,7 +100,7 @@ public class MetricsService {
             Slimefun.runSync(() -> {
                 try {
                     start.invoke(null);
-                    info("Metrics build " + s + " started.");
+                    plugin.getLogger().info("Metrics build " + s + " started.");
                 } catch (Exception e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }
@@ -132,7 +133,12 @@ public class MetricsService {
      * @return True if there is an update available.
      */
     public boolean checkForUpdate(String currentVersion) {
-        if (currentVersion == null || currentVersion.equals("UNOFFICIAL")) return false;
+        if (currentVersion == null
+            || currentVersion.equals("UNOFFICIAL")
+            || !PatternUtils.NUMERIC.matcher(currentVersion).matches()
+        ) {
+            return false;
+        }
 
         int latest = getLatestVersion();
         if (latest > Integer.parseInt(currentVersion)) {
@@ -175,7 +181,7 @@ public class MetricsService {
         File f = new File(plugin.getDataFolder(), "Metrics-" + version + ".jar");
 
         try {
-            info("# Starting download of MetricsModule build: #" + version);
+            plugin.getLogger().info("# Starting download of MetricsModule build: #" + version);
             AtomicInteger lastPercentPosted = new AtomicInteger();
             HttpResponse<File> response = Unirest.get(GH_REPO_RELEASES + "/" + version
                 + "/" + REPO_NAME + ".jar")
@@ -183,19 +189,20 @@ public class MetricsService {
                     int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
 
                     if (percent != 0 && percent != lastPercentPosted.get()) {
-                        info("# Downloading... " + percent + "% " +
+                        plugin.getLogger().info("# Downloading... " + percent + "% " +
                             "(" + bytesWritten + "/" + totalBytes + " bytes)");
                         lastPercentPosted.set(percent);
                     }
                 })
                 .asFile(f.getPath());
             if (response.isSuccess()) {
-                info("Successfully downloaded " + REPO_NAME + " build: " + version);
+                plugin.getLogger().info("Successfully downloaded " + REPO_NAME + " build: " + version);
 
                 // Replace the metric file with the new one
                 Files.move(f.toPath(), metricFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 metricVersion = String.valueOf(version);
+                newlyDownloaded = true;
                 return true;
             }
         } catch (UnirestException e) {
@@ -206,10 +213,6 @@ public class MetricsService {
                 "new one. Please do this manually! Error: {0}", e.getMessage());
         }
         return false;
-    }
-
-    private void info(String str) {
-        plugin.getLogger().info(str);
     }
 
     /**

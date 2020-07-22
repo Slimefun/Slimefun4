@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.logging.Level;
@@ -77,7 +78,7 @@ abstract class GitHubConnector {
     }
 
     private JsonNode readCacheFile() {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             return new JsonNode(br.readLine());
         } catch (IOException | JSONException e) {
             Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0}",
