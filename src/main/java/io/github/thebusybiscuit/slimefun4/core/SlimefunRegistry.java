@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -196,10 +197,6 @@ public class SlimefunRegistry {
         return mobDrops;
     }
 
-    public Set<ItemStack> getMobDrops(EntityType entity) {
-        return mobDrops.get(entity);
-    }
-
     public Set<SlimefunItem> getRadioactiveItems() {
         return radioactive;
     }
@@ -256,6 +253,13 @@ public class SlimefunRegistry {
         return geoResources;
     }
 
+    /**
+     * This method returns a list of recipes for the {@link AutomatedCraftingChamber}
+     * 
+     * @deprecated This just a really bad way to do this. Someone needs to rewrite this.
+     * 
+     * @return A list of recipes for the {@link AutomatedCraftingChamber}
+     */
     @Deprecated
     public Map<String, ItemStack> getAutomatedCraftingChamberRecipes() {
         return automatedCraftingChamberRecipes;
