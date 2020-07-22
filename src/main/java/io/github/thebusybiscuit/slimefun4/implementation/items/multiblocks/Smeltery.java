@@ -34,9 +34,15 @@ public class Smeltery extends AbstractSmeltery {
     private final ItemSetting<Integer> fireBreakingChance = new ItemSetting<>("fire-breaking-chance", 34);
 
     public Smeltery(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, new ItemStack[] { SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT) }, BlockFace.DOWN);
+        super(category, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
 
         addItemSetting(fireBreakingChance);
+    }
+
+    @Override
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(SlimefunItems.IRON_DUST);
+        recipes.add(new ItemStack(Material.IRON_INGOT));
     }
 
     @Override

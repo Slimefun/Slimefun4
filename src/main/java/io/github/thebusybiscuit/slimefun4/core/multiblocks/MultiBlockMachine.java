@@ -54,6 +54,16 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         this.displayRecipes = new ArrayList<>();
         this.displayRecipes.addAll(Arrays.asList(machineRecipes));
         this.multiblock = new MultiBlock(this, convertItemStacksToMaterial(recipe), trigger);
+
+        registerDefaultRecipes(displayRecipes);
+    }
+
+    public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+        this(category, item, recipe, new ItemStack[0], trigger);
+    }
+
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        // Override this method to register some default recipes
     }
 
     public List<ItemStack[]> getRecipes() {

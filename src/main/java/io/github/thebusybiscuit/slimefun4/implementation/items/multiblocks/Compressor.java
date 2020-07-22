@@ -27,7 +27,16 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Compressor extends MultiBlockMachine {
 
     public Compressor(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON) }, new ItemStack[] { new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), new ItemStack(Material.FLINT, 8), new ItemStack(Material.COBBLESTONE) }, BlockFace.SELF);
+        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.PISTON) }, BlockFace.SELF);
+    }
+
+    @Override
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(new SlimefunItemStack(SlimefunItems.STONE_CHUNK, 4));
+        recipes.add(new ItemStack(Material.COBBLESTONE));
+
+        recipes.add(new ItemStack(Material.FLINT, 8));
+        recipes.add(new ItemStack(Material.COBBLESTONE));
     }
 
     @Override

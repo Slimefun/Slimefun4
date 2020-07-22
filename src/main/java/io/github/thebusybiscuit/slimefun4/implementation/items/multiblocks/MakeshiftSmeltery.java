@@ -18,7 +18,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class MakeshiftSmeltery extends AbstractSmeltery {
 
     public MakeshiftSmeltery(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, new ItemStack[0], BlockFace.DOWN);
+        super(category, item, new ItemStack[] { null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
     }
 
     @Override

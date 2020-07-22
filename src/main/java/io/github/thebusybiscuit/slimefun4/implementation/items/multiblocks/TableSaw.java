@@ -36,7 +36,7 @@ public class TableSaw extends MultiBlockMachine {
     private final List<ItemStack> displayedRecipes = new ArrayList<>();
 
     public TableSaw(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, new ItemStack[0], BlockFace.SELF);
+        super(category, item, new ItemStack[] { null, null, null, new ItemStack(Material.SMOOTH_STONE_SLAB), new ItemStack(Material.STONECUTTER), new ItemStack(Material.SMOOTH_STONE_SLAB), null, new ItemStack(Material.IRON_BLOCK), null }, BlockFace.SELF);
 
         for (Material log : Tag.LOGS.getValues()) {
             Optional<Material> planks = MaterialConverter.getPlanksFromLog(log);
