@@ -92,9 +92,7 @@ abstract class BackpackCrafter extends MultiBlockMachine {
                     PlayerProfile.fromUUID(UUID.fromString(idSplit[0]), profile -> {
                         Optional<PlayerBackpack> optional = profile.getBackpack(Integer.parseInt(idSplit[1]));
 
-                        if (optional.isPresent()) {
-                            optional.get().setSize(size);
-                        }
+                        optional.ifPresent(playerBackpack -> playerBackpack.setSize(size));
                     });
 
                     return Optional.of(id);

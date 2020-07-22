@@ -74,7 +74,7 @@ public final class NumberUtils {
         }
 
         String number = roundDecimalNumber(nanoseconds / 1000000.0);
-        String[] parts = PatternUtils.NUMBER_SEPERATOR.split(number);
+        String[] parts = PatternUtils.NUMBER_SEPARATOR.split(number);
 
         if (parts.length == 1) {
             return parts[0] + "ms";

@@ -116,9 +116,7 @@ class GitHubTask implements Runnable {
         if (!uuid.isPresent()) {
             uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
 
-            if (uuid.isPresent()) {
-                contributor.setUniqueId(uuid.get());
-            }
+            uuid.ifPresent(contributor::setUniqueId);
         }
 
         if (uuid.isPresent()) {
