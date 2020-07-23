@@ -38,6 +38,7 @@ public class MetricsService {
         + "/releases/download";
 
     private final SlimefunPlugin plugin;
+    private final File parentFolder;
     private final File metricFile;
 
     private URLClassLoader moduleClassLoader;
@@ -56,11 +57,11 @@ public class MetricsService {
     public MetricsService(SlimefunPlugin plugin) {
         this.plugin = plugin;
 
-        File parentFile = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "modules");
-        if (!parentFile.exists())
-            parentFile.mkdirs();
+        this.parentFolder = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "modules");
+        if (!parentFolder.exists())
+            parentFolder.mkdirs();
 
-        this.metricFile = new File(parentFile   , REPO_NAME + ".jar");
+        this.metricFile = new File(parentFolder, REPO_NAME + ".jar");
     }
 
     /**
@@ -179,7 +180,7 @@ public class MetricsService {
      * @param version The version to download.
      */
     private boolean download(int version) {
-        File f = new File(plugin.getDataFolder(), "Metrics-" + version + ".jar");
+        File f = new File(parentFolder, "Metrics-" + version + ".jar");
 
         try {
             plugin.getLogger().info("# Starting download of MetricsModule build: #" + version);
