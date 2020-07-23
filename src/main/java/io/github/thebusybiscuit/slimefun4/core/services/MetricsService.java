@@ -55,7 +55,12 @@ public class MetricsService {
 
     public MetricsService(SlimefunPlugin plugin) {
         this.plugin = plugin;
-        this.metricFile = new File(plugin.getDataFolder(), REPO_NAME + ".jar");
+
+        File parentFile = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "modules");
+        if (!parentFile.exists())
+            parentFile.mkdirs();
+
+        this.metricFile = new File(parentFile   , REPO_NAME + ".jar");
     }
 
     /**
@@ -68,7 +73,6 @@ public class MetricsService {
                 plugin.getLogger().warning("Failed to start metrics as the file could not be downloaded.");
                 return;
             }
-            newlyDownloaded = true;
         }
 
         try {
@@ -94,13 +98,13 @@ public class MetricsService {
 
             // Finally, we're good to start this.
             Method start = cl.getDeclaredMethod("start");
-            String s = cl.getPackage().getImplementationVersion();
+            String version = cl.getPackage().getImplementationVersion();
 
             // This is required to be sync due to bStats.
             Slimefun.runSync(() -> {
                 try {
                     start.invoke(null);
-                    plugin.getLogger().info("Metrics build " + s + " started.");
+                    plugin.getLogger().info("Metrics build #" + version + " started.");
                 } catch (Exception e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }
@@ -133,10 +137,7 @@ public class MetricsService {
      * @return True if there is an update available.
      */
     public boolean checkForUpdate(String currentVersion) {
-        if (currentVersion == null
-            || currentVersion.equals("UNOFFICIAL")
-            || !PatternUtils.NUMERIC.matcher(currentVersion).matches()
-        ) {
+        if (currentVersion == null || !PatternUtils.NUMERIC.matcher(currentVersion).matches()) {
             return false;
         }
 
