@@ -29,7 +29,7 @@ public class OreWasher extends MultiBlockMachine {
     private final ItemStack[] dusts;
 
     public OreWasher(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[0], BlockFace.SELF);
+        super(category, item, new ItemStack[] { null, new ItemStack(Material.DISPENSER), null, null, new ItemStack(Material.OAK_FENCE), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
 
         legacyMode = SlimefunPlugin.getCfg().getBoolean("options.legacy-ore-washer");
         dusts = new ItemStack[] { SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.TIN_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.MAGNESIUM_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST };

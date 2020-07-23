@@ -32,9 +32,24 @@ public class OreCrusher extends MultiBlockMachine {
     private final DoubleOreSetting doubleOres = new DoubleOreSetting();
 
     public OreCrusher(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS) }, new ItemStack[] { new ItemStack(Material.COBBLESTONE, 8), new ItemStack(Material.SAND, 1), SlimefunItems.GOLD_4K, SlimefunItems.GOLD_DUST, new ItemStack(Material.GRAVEL), new ItemStack(Material.SAND), new ItemStack(Material.MAGMA_BLOCK, 4), SlimefunItems.SULFATE }, BlockFace.SELF);
+        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS) }, BlockFace.SELF);
 
         addItemSetting(doubleOres);
+    }
+
+    @Override
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(new ItemStack(Material.COBBLESTONE, 8));
+        recipes.add(new ItemStack(Material.SAND, 1));
+
+        recipes.add(SlimefunItems.GOLD_4K);
+        recipes.add(SlimefunItems.GOLD_DUST);
+
+        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(new ItemStack(Material.SAND));
+
+        recipes.add(new ItemStack(Material.MAGMA_BLOCK, 4));
+        recipes.add(SlimefunItems.SULFATE);
     }
 
     public boolean isOreDoublingEnabled() {

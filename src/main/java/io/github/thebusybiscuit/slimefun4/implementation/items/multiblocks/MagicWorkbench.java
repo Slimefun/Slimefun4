@@ -27,7 +27,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class MagicWorkbench extends BackpackCrafter {
 
     public MagicWorkbench(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, new ItemStack[0], BlockFace.UP);
+        super(category, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
     }
 
     @Override

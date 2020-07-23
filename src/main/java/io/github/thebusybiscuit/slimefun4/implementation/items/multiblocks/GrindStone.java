@@ -26,7 +26,52 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class GrindStone extends MultiBlockMachine {
 
     public GrindStone(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, new ItemStack[] { new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4), new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4), new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2), new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL), new ItemStack(Material.ANDESITE), new ItemStack(Material.GRAVEL), new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL), new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL), new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK, new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4), new ItemStack(Material.PRISMARINE_BRICKS), new ItemStack(Material.PRISMARINE, 2), new ItemStack(Material.PRISMARINE), new ItemStack(Material.PRISMARINE_SHARD, 4) }, BlockFace.SELF);
+        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+    }
+
+    @Override
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(new ItemStack(Material.BLAZE_ROD));
+        recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
+
+        recipes.add(new ItemStack(Material.BONE));
+        recipes.add(new ItemStack(Material.BONE_MEAL, 4));
+
+        recipes.add(new ItemStack(Material.BONE_BLOCK));
+        recipes.add(new ItemStack(Material.BONE_MEAL, 9));
+
+        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(new ItemStack(Material.FLINT));
+
+        recipes.add(new ItemStack(Material.ENDER_EYE));
+        recipes.add(new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 2));
+
+        recipes.add(new ItemStack(Material.COBBLESTONE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.ANDESITE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.DIORITE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.GRANITE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.DIRT));
+        recipes.add(SlimefunItems.STONE_CHUNK);
+
+        recipes.add(new ItemStack(Material.SANDSTONE));
+        recipes.add(new ItemStack(Material.SAND, 4));
+
+        recipes.add(new ItemStack(Material.RED_SANDSTONE));
+        recipes.add(new ItemStack(Material.RED_SAND, 4));
+
+        recipes.add(new ItemStack(Material.PRISMARINE_BRICKS));
+        recipes.add(new ItemStack(Material.PRISMARINE, 2));
+
+        recipes.add(new ItemStack(Material.PRISMARINE));
+        recipes.add(new ItemStack(Material.PRISMARINE_SHARD, 4));
     }
 
     @Override

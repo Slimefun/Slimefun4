@@ -27,6 +27,8 @@
 * Added Bee protection to Hazmat Suit
 * Added Enchantment Rune
 * Added Tape Measure
+* Added "Bone Block -> Bone meal" recipe to the Grind Stone
+* Added Iron Golem Assembler
 
 #### Changes
 * Refactored and reworked the Generator API
@@ -36,11 +38,16 @@
 * Changed recipe of Hazmat Suits
 * Uranium can no longer be placed down
 * Huge performance improvements when using Paper
+* Optimized Cargo networks for Paper
+* Optimized Multiblocks for Paper
+* Optimized Enhanced Furnaces for Paper
 
 #### Fixes
 * Fixed Slimefun Armor sometimes not applying its effects
 * Fixed #2075
 * Fixed #2093
+* Fixed #2086
+* Fixed #1894
 
 ## Release Candidate 14 (12 Jul 2020)
 

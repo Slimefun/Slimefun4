@@ -97,6 +97,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.FoodFabricator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.Freezer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.HeatedPressureChamber;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.IronGolemAssembler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.Refinery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.TreeGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.WitherAssembler;
@@ -3222,6 +3223,10 @@ public final class SlimefunItemSetup {
 			}
 
 		}.register(plugin);
+
+        new IronGolemAssembler(categories.electricity, SlimefunItems.IRON_GOLEM_ASSEMBLER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.IRON_BLOCK), SlimefunItems.ANDROID_MEMORY_CORE, new ItemStack(Material.IRON_BLOCK), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})
+        .register(plugin);
 
 		new WitherAssembler(categories.electricity, SlimefunItems.WITHER_ASSEMBLER, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.NETHER_STAR), SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})

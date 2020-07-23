@@ -226,9 +226,7 @@ abstract class ChestTerminalNetwork extends Network {
             if (menu.getItemInSlot(17) != null) {
                 Optional<Block> target = getAttachedBlock(bus);
 
-                if (target.isPresent()) {
-                    menu.replaceExistingItem(17, CargoUtils.insert(inventories, bus.getBlock(), target.get(), menu.getItemInSlot(17)));
-                }
+                target.ifPresent(block -> menu.replaceExistingItem(17, CargoUtils.insert(inventories, bus.getBlock(), block, menu.getItemInSlot(17))));
             }
 
             if (menu.getItemInSlot(17) == null) {

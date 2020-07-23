@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Wither;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -12,17 +12,17 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
 /**
- * The {@link WitherAssembler} is an electrical machine that can automatically spawn
- * a {@link Wither} if the required ingredients have been provided.
+ * The {@link IronGolemAssembler} is an electrical machine that can automatically spawn
+ * a {@link IronGolem} if the required ingredients have been provided.
  * 
  * @author TheBusyBiscuit
  * 
- * @see IronGolemAssembler
+ * @see WitherAssembler
  *
  */
-public class WitherAssembler extends AbstractEntityAssembler {
+public class IronGolemAssembler extends AbstractEntityAssembler {
 
-    public WitherAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public IronGolemAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 
@@ -33,33 +33,33 @@ public class WitherAssembler extends AbstractEntityAssembler {
 
     @Override
     public int getEnergyConsumption() {
-        return 4096;
+        return 2048;
     }
 
     @Override
     public ItemStack getHead() {
-        return new ItemStack(Material.WITHER_SKELETON_SKULL, 3);
+        return new ItemStack(Material.PUMPKIN);
     }
 
     @Override
     public Material getHeadBorder() {
-        return Material.BLACK_STAINED_GLASS_PANE;
+        return Material.ORANGE_STAINED_GLASS_PANE;
     }
 
     @Override
     public ItemStack getBody() {
-        return new ItemStack(Material.SOUL_SAND, 4);
+        return new ItemStack(Material.IRON_BLOCK, 4);
     }
 
     @Override
     public Material getBodyBorder() {
-        return Material.BROWN_STAINED_GLASS_PANE;
+        return Material.WHITE_STAINED_GLASS_PANE;
     }
 
     @Override
     protected void constructMenu(BlockMenuPreset preset) {
-        preset.addItem(1, new CustomItem(getHead(), "&7Wither Skeleton Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(7, new CustomItem(getBody(), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, new CustomItem(getHead(), "&7Pumpkin Slot", "", "&rThis Slot accepts Pumpkins"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(7, new CustomItem(getBody(), "&7Iron Block Slot", "", "&rThis Slot accepts Iron Blocks"), ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(13, new CustomItem(Material.CLOCK, "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"), ChestMenuUtils.getEmptyClickHandler());
     }
 

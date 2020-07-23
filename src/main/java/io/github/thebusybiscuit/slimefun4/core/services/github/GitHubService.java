@@ -206,9 +206,7 @@ public class GitHubService {
         for (Contributor contributor : contributors.values()) {
             Optional<UUID> uuid = contributor.getUniqueId();
 
-            if (uuid.isPresent()) {
-                uuidCache.setValue(contributor.getName(), uuid.get());
-            }
+            uuid.ifPresent(value -> uuidCache.setValue(contributor.getName(), value));
 
             if (contributor.hasTexture()) {
                 String texture = contributor.getTexture();
