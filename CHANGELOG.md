@@ -24,7 +24,9 @@
 
 #### Additions
 * Added "Bone Block -> Bone meal" recipe to the Grind Stone
-* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to deploy changes to metrics (bStats) without another Slimefun build.
+* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
+* Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
+* Added "Carbon -> Coal" recipe to the Ore Crusher
 
 #### Changes
 * Refactored and reworked the Generator API
