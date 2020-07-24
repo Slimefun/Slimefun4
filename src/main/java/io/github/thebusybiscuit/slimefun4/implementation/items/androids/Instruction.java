@@ -83,22 +83,22 @@ enum Instruction {
     // Action - Sword
     ATTACK_MOBS_ANIMALS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> true;
-        android.attack(b, predicate);
+        android.attack(b, face, predicate);
     }),
 
     ATTACK_MOBS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> e instanceof Monster;
-        android.attack(b, predicate);
+        android.attack(b, face, predicate);
     }),
 
     ATTACK_ANIMALS(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> e instanceof Animals;
-        android.attack(b, predicate);
+        android.attack(b, face, predicate);
     }),
 
     ATTACK_ANIMALS_ADULT(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
         Predicate<LivingEntity> predicate = e -> e instanceof Animals && e instanceof Ageable && ((Ageable) e).isAdult();
-        android.attack(b, predicate);
+        android.attack(b, face, predicate);
     }),
 
     // Action - Axe

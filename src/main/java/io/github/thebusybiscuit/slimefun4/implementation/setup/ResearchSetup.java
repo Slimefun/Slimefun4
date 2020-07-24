@@ -270,10 +270,12 @@ public final class ResearchSetup {
         register("climbing_pick", 259, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
         register("enchantment_rune", 260, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
         register("lead_clothing", 261, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
+        register("tape_measure", 262, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
+        register("iron_golem_assembler", 263, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
-        Research research = new Research(new NamespacedKey(SlimefunPlugin.instance, key), id, name, defaultCost);
+        Research research = new Research(new NamespacedKey(SlimefunPlugin.instance(), key), id, name, defaultCost);
 
         for (ItemStack item : items) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);

@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -15,6 +16,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -24,28 +26,32 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class EnhancedCraftingTable extends BackpackCrafter {
 
     public EnhancedCraftingTable(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, new ItemStack[0], BlockFace.SELF);
+        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, BlockFace.SELF);
     }
 
     @Override
     public void onInteract(Player p, Block b) {
         Block dispenser = b.getRelative(BlockFace.DOWN);
-        Dispenser disp = (Dispenser) dispenser.getState();
-        Inventory inv = disp.getInventory();
+        BlockState state = PaperLib.getBlockState(dispenser, false).getState();
 
-        List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
+        if (state instanceof Dispenser) {
+            Dispenser disp = (Dispenser) state;
+            Inventory inv = disp.getInventory();
 
-        for (int i = 0; i < inputs.size(); i++) {
-            if (isCraftable(inv, inputs.get(i))) {
-                ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
-                if (Slimefun.hasUnlocked(p, output, true)) {
-                    craft(inv, dispenser, p, b, output);
+            List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
+
+            for (int i = 0; i < inputs.size(); i++) {
+                if (isCraftable(inv, inputs.get(i))) {
+                    ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+                    if (Slimefun.hasUnlocked(p, output, true)) {
+                        craft(inv, dispenser, p, b, output);
+                    }
+
+                    return;
                 }
-
-                return;
             }
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
         }
-        SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
     }
 
     private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {

@@ -14,6 +14,7 @@ import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Rotatable;
@@ -36,6 +37,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -441,7 +443,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.enter-name");
         int id = nextId;
 
-        ChatInput.waitForPlayer(SlimefunPlugin.instance, p, msg -> {
+        ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, msg -> {
             Script.upload(p, getAndroidType(), id, msg, code);
             SlimefunPlugin.getLocalization().sendMessages(p, "android.scripts.uploaded");
             openScriptDownloader(p, b, page);
@@ -532,7 +534,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
     private void registerDefaultFuelTypes() {
         switch (getFuelSource()) {
         case SOLID:
-            registerFuelType(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
+            registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
             registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
             registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
@@ -689,19 +691,23 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
     protected void depositItems(BlockMenu menu, Block facedBlock) {
         if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_ITEMS")) {
-            Dispenser d = (Dispenser) facedBlock.getState();
+            BlockState state = PaperLib.getBlockState(facedBlock, false).getState();
 
-            for (int slot : getOutputSlots()) {
-                ItemStack stack = menu.getItemInSlot(slot);
+            if (state instanceof Dispenser) {
+                Dispenser d = (Dispenser) state;
 
-                if (stack != null) {
-                    Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
+                for (int slot : getOutputSlots()) {
+                    ItemStack stack = menu.getItemInSlot(slot);
 
-                    if (optional.isPresent()) {
-                        menu.replaceExistingItem(slot, optional.get());
-                    }
-                    else {
-                        menu.replaceExistingItem(slot, null);
+                    if (stack != null) {
+                        Optional<ItemStack> optional = d.getInventory().addItem(stack).values().stream().findFirst();
+
+                        if (optional.isPresent()) {
+                            menu.replaceExistingItem(slot, optional.get());
+                        }
+                        else {
+                            menu.replaceExistingItem(slot, null);
+                        }
                     }
                 }
             }
@@ -710,13 +716,17 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
     protected void refuel(BlockMenu menu, Block facedBlock) {
         if (facedBlock.getType() == Material.DISPENSER && BlockStorage.check(facedBlock, "ANDROID_INTERFACE_FUEL")) {
-            Dispenser d = (Dispenser) facedBlock.getState();
+            BlockState state = PaperLib.getBlockState(facedBlock, false).getState();
 
-            for (int slot = 0; slot < 9; slot++) {
-                ItemStack item = d.getInventory().getItem(slot);
+            if (state instanceof Dispenser) {
+                Dispenser d = (Dispenser) state;
 
-                if (item != null) {
-                    insertFuel(menu, d.getInventory(), slot, menu.getItemInSlot(43), item);
+                for (int slot = 0; slot < 9; slot++) {
+                    ItemStack item = d.getInventory().getItem(slot);
+
+                    if (item != null) {
+                        insertFuel(menu, d.getInventory(), slot, menu.getItemInSlot(43), item);
+                    }
                 }
             }
         }
@@ -814,7 +824,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         }
     }
 
-    protected void attack(Block b, Predicate<LivingEntity> predicate) {
+    protected void attack(Block b, BlockFace face, Predicate<LivingEntity> predicate) {
         throw new UnsupportedOperationException("Non-butcher Android tried to butcher!");
     }
 

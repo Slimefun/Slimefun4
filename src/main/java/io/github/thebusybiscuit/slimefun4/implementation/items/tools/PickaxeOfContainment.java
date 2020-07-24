@@ -4,19 +4,22 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BrokenSpawner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -65,7 +68,10 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<BlockBreakHandler> 
                     return true;
                 }
                 else {
-                    if (e.getBlock().getType() == Material.SPAWNER) e.setDropItems(false);
+                    if (e.getBlock().getType() == Material.SPAWNER) {
+                        e.setDropItems(false);
+                    }
+
                     return false;
                 }
             }
@@ -84,15 +90,24 @@ public class PickaxeOfContainment extends SimpleSlimefunItem<BlockBreakHandler> 
         ItemMeta im = spawner.getItemMeta();
         List<String> lore = im.getLore();
 
-        for (int i = 0; i < lore.size(); i++) {
-            if (lore.get(i).contains("<Type>")) {
-                lore.set(i, lore.get(i).replace("<Type>", ChatUtils.humanize(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
+        BlockState state = PaperLib.getBlockState(b, false).getState();
+
+        if (state instanceof CreatureSpawner) {
+            EntityType entityType = ((CreatureSpawner) state).getSpawnedType();
+
+            for (int i = 0; i < lore.size(); i++) {
+                if (lore.get(i).contains("<Type>")) {
+                    lore.set(i, lore.get(i).replace("<Type>", ChatUtils.humanize(entityType.name())));
+                    break;
+                }
             }
+
+            im.setLore(lore);
+            spawner.setItemMeta(im);
+            return spawner;
         }
 
-        im.setLore(lore);
-        spawner.setItemMeta(im);
-        return spawner;
+        return new ItemStack(Material.SPAWNER);
     }
 
 }

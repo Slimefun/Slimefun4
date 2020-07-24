@@ -21,10 +21,10 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -38,6 +38,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
 
     public ExplosiveTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
         addItemSetting(damageOnUse, callExplosionEvent);
     }
 
@@ -54,6 +55,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
             public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
                 if (isItem(item)) {
                     Player p = e.getPlayer();
+
                     if (Slimefun.hasUnlocked(p, ExplosiveTool.this, true)) {
                         Block b = e.getBlock();
 
@@ -61,21 +63,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
                         b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
                         List<Block> blocks = findBlocks(b);
-                        if (callExplosionEvent.getValue().booleanValue()) {
-                            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
-                            Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
-
-                            if (!blockExplodeEvent.isCancelled()) {
-                                for (Block block : blockExplodeEvent.blockList()) {
-                                    breakBlock(p, item, block, fortune, drops);
-                                }
-                            }
-                        }
-                        else {
-                            for (Block block : blocks) {
-                                breakBlock(p, item, block, fortune, drops);
-                            }
-                        }
+                        breakBlocks(p, item, b, blocks, fortune, drops);
                     }
 
                     return true;
@@ -85,6 +73,24 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
                 }
             }
         };
+    }
+
+    private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, int fortune, List<ItemStack> drops) {
+        if (callExplosionEvent.getValue().booleanValue()) {
+            BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
+            Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
+
+            if (!blockExplodeEvent.isCancelled()) {
+                for (Block block : blockExplodeEvent.blockList()) {
+                    breakBlock(p, item, block, fortune, drops);
+                }
+            }
+        }
+        else {
+            for (Block block : blocks) {
+                breakBlock(p, item, block, fortune, drops);
+            }
+        }
     }
 
     private List<Block> findBlocks(Block b) {
@@ -112,7 +118,7 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
     }
 
     protected void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
-        if (b.getType() != Material.AIR && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+        if (!b.isEmpty() && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
             SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
 
             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());

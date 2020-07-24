@@ -60,7 +60,7 @@
             <url>https://repo.destroystokyo.com/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>worldedit-worldguard-repo</id>
+            <id>worldedit-repo</id>
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
@@ -169,6 +169,10 @@
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
                             <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.paperlib</shadedPattern>
+                        </relocation>
                     </relocations>
 
                     <!-- Exclude unneeded metadata files from shaded dependencies -->
@@ -231,8 +235,16 @@
                             <packages>io.github.thebusybiscuit.slimefun4.utils*</packages>
                         </group>
                         <group>
-                            <title>Slimefun4 - Item Implementations</title>
+                            <title>Slimefun4 - Items</title>
                             <packages>io.github.thebusybiscuit.slimefun4.implementation.items*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Multiblocks</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Electrical Machines</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.implementation.items.electric*</packages>
                         </group>
                         <group>
                             <title>Slimefun4 - Old packages</title>
@@ -298,7 +310,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.3.3</version>
+            <version>3.4.4</version>
             <scope>test</scope>
         </dependency>
 
@@ -306,13 +318,30 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.23.2</version>
+            <version>0.24</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.7</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.8.06</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.4</version>
             <scope>compile</scope>
         </dependency>
 
@@ -331,6 +360,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>

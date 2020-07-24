@@ -23,9 +23,9 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -63,7 +63,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
                     FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlockData());
                     block.setDropItem(false);
                     block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance, "fake_block"));
+                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance(), "fake_block"));
                 }
 
                 for (Entity n : ground.getChunk().getEntities()) {

@@ -2,7 +2,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 14 (TBD)](#release-candidate-14-tbd)
+- [Release Candidate 15 (TBD)](#release-candidate-15-tbd)
+- [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
 - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
@@ -19,7 +20,39 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 14 (TBD)
+## Release Candidate 15 (TBD)
+
+#### Additions
+* Added "Bone Block -> Bone meal" recipe to the Grind Stone
+* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
+* Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
+* Added "Carbon -> Coal" recipe to the Ore Crusher
+* Added Iron Golem Assembler
+* Added Reinforced Cloth
+* Added Bee protection to Hazmat Suit
+* Added Enchantment Rune
+* Added Tape Measure
+
+#### Changes
+* Refactored and reworked the Generator API
+* Small performance improvements to Energy networks
+* Big performance improvements to Cargo networks when using ChestTerminal
+* Slight changes to /sf timings
+* Changed recipe of Hazmat Suits
+* Uranium can no longer be placed down
+* Huge performance improvements when using Paper
+* Optimized Cargo networks for Paper
+* Optimized Multiblocks for Paper
+* Optimized Enhanced Furnaces for Paper
+
+#### Fixes
+* Fixed Slimefun Armor sometimes not applying its effects
+* Fixed #2075
+* Fixed #2093
+* Fixed #2086
+* Fixed #1894
+
+## Release Candidate 14 (12 Jul 2020)
 
 #### Additions
 * Added support for Minecraft 1.16
@@ -42,9 +75,6 @@
 * Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
 * Added a proper lag profiler
 * Added per-plugin lag info to /sf timings
-* Added Reinforced Cloth
-* Added Bee protection to Hazmat Suit
-* Added Enchantment Rune
 * Added Indonesian translations
 
 #### Changes
@@ -66,9 +96,9 @@
 * performance improvements to Generators and Electric Machines
 * Cargo timings will now be attributed to the corresponding node and not the Cargo manager
 * Thunderstorms now count as night time for Solar Generators
-* Fixed an issue with moving androids getting stuck
-* Changed recipe of Hazmat Suits
-* Uranium can no longer be placed down
+* Coolant Cells can no longer be placed on the ground
+* Crafting Nether Ice Coolant Cells now results in 4 items
+* Moved Soulbound Backpack to the "Magical Gadgets" Category
 
 #### Fixes
 * Fixed #2005
@@ -93,10 +123,12 @@
 * Fixed #2066
 * Fixed Rainbow Glass Panes not properly connecting to blocks
 * Fixed Androids turning in the wrong direction
-* Fixed a NullPointerException when generating an Error-Report
-* Fixed Slimefun Armor sometimes not applying its effects
 * Fixed contributors losing their texture after restarts
 * Fixed "korean" showing up as "null"
+* Fixed an issue with moving androids getting stuck
+* Fixed Cargo nodes sometimes preventing chunks from unloading
+* Fixed #2081
+* Fixed a NullPointerException when Generators throw an Error Report
 
 ## Release Candidate 13 (16 Jun 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13

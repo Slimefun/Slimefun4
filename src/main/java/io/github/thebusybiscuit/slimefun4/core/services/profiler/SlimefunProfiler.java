@@ -19,7 +19,6 @@ import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 
-import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
@@ -41,7 +40,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class SlimefunProfiler {
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(3);
+    // A minecraft server tick is 50ms and Slimefun ticks are stretched across
+    // two ticks (sync and async blocks), so we use 100ms as a reference here
+    private static final int MAX_TICK_DURATION = 100;
+
+    private final ExecutorService executor = Executors.newFixedThreadPool(4);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
@@ -78,8 +81,10 @@ public class SlimefunProfiler {
      * Be careful to {@link #closeEntry(Location, SlimefunItem, long)} all of them again!
      * No {@link PerformanceSummary} will be sent until all entires were closed.
      * 
+     * If the specified amount is negative, scheduled entries will be removed
+     * 
      * @param amount
-     *            The amount of entries that should be scheduled.
+     *            The amount of entries that should be scheduled. Can be negative
      */
     public void scheduleEntries(int amount) {
         if (running.get()) {
@@ -111,8 +116,9 @@ public class SlimefunProfiler {
         long elapsedTime = System.nanoTime() - timestamp;
 
         executor.execute(() -> {
-            ProfiledBlock block = new ProfiledBlock(new BlockPosition(l), item);
-            timings.put(block, elapsedTime);
+            ProfiledBlock block = new ProfiledBlock(l, item);
+
+            timings.putIfAbsent(block, elapsedTime);
             queued.decrementAndGet();
         });
 
@@ -125,43 +131,53 @@ public class SlimefunProfiler {
     public void stop() {
         running.set(false);
 
-        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             // Slimefun has been disabled
             return;
         }
 
-        // Since we got more than one Thread in our pool, blocking this one is completely fine
-        executor.execute(() -> {
+        // Since we got more than one Thread in our pool,
+        // blocking this one is (hopefully) completely fine
+        executor.execute(this::finishReport);
+    }
 
-            // Wait for all timing results to come in
-            while (queued.get() > 0 && !running.get()) {
-                try {
-                    Thread.sleep(1);
-                }
-                catch (InterruptedException e) {
-                    Slimefun.getLogger().log(Level.SEVERE, "A waiting Thread was interrupted", e);
-                    Thread.currentThread().interrupt();
-                }
-            }
+    private void finishReport() {
+        // We will only wait for a maximum of this many 1ms sleeps
+        int iterations = 1000;
 
-            if (running.get()) {
-                // Looks like the next profiling has already started, abort!
-                return;
-            }
+        // Wait for all timing results to come in
+        while (!running.get() && queued.get() > 0) {
+            try {
+                Thread.sleep(1);
+                iterations--;
 
-            totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
-
-            if (!requests.isEmpty()) {
-                PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
-                Iterator<CommandSender> iterator = requests.iterator();
-
-                while (iterator.hasNext()) {
-                    summary.send(iterator.next());
-                    iterator.remove();
+                // If we waited for too long, then we should just abort
+                if (iterations <= 0) {
+                    return;
                 }
             }
-        });
+            catch (InterruptedException e) {
+                Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
+                Thread.currentThread().interrupt();
+            }
+        }
 
+        if (running.get() && queued.get() > 0) {
+            // Looks like the next profiling has already started, abort!
+            return;
+        }
+
+        totalElapsedTime = timings.values().stream().mapToLong(Long::longValue).sum();
+
+        if (!requests.isEmpty()) {
+            PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
+            Iterator<CommandSender> iterator = requests.iterator();
+
+            while (iterator.hasNext()) {
+                summary.send(iterator.next());
+                iterator.remove();
+            }
+        }
     }
 
     /**
@@ -253,7 +269,7 @@ public class SlimefunProfiler {
 
     protected float getPercentageOfTick() {
         float millis = totalElapsedTime / 1000000.0F;
-        float fraction = (millis * 100.0F) / PerformanceSummary.MAX_TICK_DURATION;
+        float fraction = (millis * 100.0F) / MAX_TICK_DURATION;
         return Math.round((fraction * 100.0F) / 100.0F);
     }
 
@@ -276,6 +292,10 @@ public class SlimefunProfiler {
 
     public String getTime() {
         return NumberUtils.getAsMillis(totalElapsedTime);
+    }
+
+    public int getTickRate() {
+        return SlimefunPlugin.getTickerTask().getTickRate();
     }
 
     /**

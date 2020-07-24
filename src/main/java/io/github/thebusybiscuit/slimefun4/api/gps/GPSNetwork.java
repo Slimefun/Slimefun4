@@ -54,7 +54,7 @@ public class GPSNetwork {
 
     private final Map<UUID, Set<Location>> transmitters = new HashMap<>();
     private final TeleportationManager teleportation = new TeleportationManager();
-    private final ResourceManager resourceManager = new ResourceManager(SlimefunPlugin.instance);
+    private final ResourceManager resourceManager = new ResourceManager(SlimefunPlugin.instance());
 
     /**
      * This method updates the status of a {@link GPSTransmitter}.
@@ -256,7 +256,7 @@ public class GPSNetwork {
             SlimefunPlugin.getLocalization().sendMessage(p, "gps.waypoint.new", true);
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
 
-            ChatInput.waitForPlayer(SlimefunPlugin.instance, p, message -> addWaypoint(p, message, l));
+            ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, message -> addWaypoint(p, message, l));
         });
     }
 

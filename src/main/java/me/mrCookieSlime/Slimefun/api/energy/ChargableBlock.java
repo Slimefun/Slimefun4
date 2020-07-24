@@ -6,7 +6,9 @@ import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -46,10 +48,6 @@ public final class ChargableBlock {
         }
     }
 
-    public static void setCharge(Block b, int charge) {
-        setCharge(b.getLocation(), charge);
-    }
-
     public static void setCharge(Location l, int charge) {
         if (charge < 0) {
             charge = 0;
@@ -62,7 +60,9 @@ public final class ChargableBlock {
             }
         }
 
-        BlockStorage.addBlockInfo(l, KEY, String.valueOf(charge), false);
+        if (charge != getCharge(l)) {
+            BlockStorage.addBlockInfo(l, KEY, String.valueOf(charge), false);
+        }
     }
 
     public static void setUnsafeCharge(Location l, int charge, boolean updateTexture) {
@@ -96,16 +96,16 @@ public final class ChargableBlock {
         if (availableSpace > 0 && addedCharge > 0) {
             if (availableSpace > addedCharge) {
                 charge += addedCharge;
-                setCharge(l, charge);
                 rest = 0;
             }
             else {
                 rest = addedCharge - availableSpace;
                 charge = capacity;
-                setCharge(l, charge);
             }
 
-            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+            setCharge(l, charge);
+
+            if (SlimefunItem.getByID(id) instanceof Capacitor) {
                 updateCapacitor(l, charge, capacity);
             }
         }
@@ -113,7 +113,7 @@ public final class ChargableBlock {
             charge += addedCharge;
             setCharge(l, charge);
 
-            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+            if (SlimefunItem.getByID(id) instanceof Capacitor) {
                 updateCapacitor(l, charge, capacity);
             }
         }

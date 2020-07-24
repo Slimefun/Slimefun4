@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.handlers;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 

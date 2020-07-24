@@ -14,7 +14,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class ButcherAndroid extends ProgrammableAndroid {
@@ -31,14 +30,14 @@ public abstract class ButcherAndroid extends ProgrammableAndroid {
     }
 
     @Override
-    protected void attack(Block b, Predicate<LivingEntity> predicate) {
+    protected void attack(Block b, BlockFace face, Predicate<LivingEntity> predicate) {
         double damage = getTier() >= 3 ? 20D : 4D * getTier();
         double radius = 4.0 + getTier();
 
         for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test((LivingEntity) n))) {
             boolean attack = false;
 
-            switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
+            switch (face) {
             case NORTH:
                 attack = n.getLocation().getZ() < b.getZ();
                 break;
@@ -57,10 +56,10 @@ public abstract class ButcherAndroid extends ProgrammableAndroid {
 
             if (attack) {
                 if (n.hasMetadata(METADATA_KEY)) {
-                    n.removeMetadata(METADATA_KEY, SlimefunPlugin.instance);
+                    n.removeMetadata(METADATA_KEY, SlimefunPlugin.instance());
                 }
 
-                n.setMetadata(METADATA_KEY, new FixedMetadataValue(SlimefunPlugin.instance, new AndroidInstance(this, b)));
+                n.setMetadata(METADATA_KEY, new FixedMetadataValue(SlimefunPlugin.instance(), new AndroidInstance(this, b)));
 
                 ((LivingEntity) n).damage(damage);
                 break;

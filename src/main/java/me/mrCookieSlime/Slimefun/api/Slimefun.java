@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -14,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -29,49 +27,7 @@ public final class Slimefun {
     private Slimefun() {}
 
     public static Logger getLogger() {
-        return SlimefunPlugin.instance.getLogger();
-    }
-
-    /**
-     * Registers a research.
-     * 
-     * @deprecated The Research class was moved, this method is no longer valid. Please use
-     *             {@link io.github.thebusybiscuit.slimefun4.core.researching.Research#register()} instead.
-     * 
-     * @param research
-     *            The research
-     * @param items
-     *            The items
-     */
-    @Deprecated
-    public static void registerResearch(Research research, ItemStack... items) {
-        for (ItemStack item : items) {
-            research.addItems(SlimefunItem.getByItem(item));
-        }
-
-        research.register();
-    }
-
-    /**
-     * Registers a research.
-     * 
-     * @deprecated The Research class was moved, this method is no longer valid. Please use
-     *             {@link io.github.thebusybiscuit.slimefun4.core.researching.Research#register()} instead.
-     * 
-     * @param key
-     *            The key
-     * @param id
-     *            The id
-     * @param name
-     *            The name
-     * @param cost
-     *            The default cost
-     * @param items
-     *            The items
-     */
-    @Deprecated
-    public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
-        registerResearch(new Research(key, id, name, cost), items);
+        return SlimefunPlugin.instance().getLogger();
     }
 
     /**
@@ -231,11 +187,11 @@ public final class Slimefun {
             return null;
         }
 
-        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             return null;
         }
 
-        return Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
+        return Bukkit.getScheduler().runTask(SlimefunPlugin.instance(), r);
     }
 
     public static BukkitTask runSync(Runnable r, long delay) {
@@ -244,10 +200,10 @@ public final class Slimefun {
             return null;
         }
 
-        if (SlimefunPlugin.instance == null || !SlimefunPlugin.instance.isEnabled()) {
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             return null;
         }
 
-        return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
+        return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), r, delay);
     }
 }

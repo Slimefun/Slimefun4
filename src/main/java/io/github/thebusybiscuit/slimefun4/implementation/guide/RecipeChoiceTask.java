@@ -31,7 +31,7 @@ class RecipeChoiceTask implements Runnable {
 
     private Inventory inventory;
     private int id;
-    private Map<Integer, LoopIterator<Material>> iterators = new HashMap<>();
+    private final Map<Integer, LoopIterator<Material>> iterators = new HashMap<>();
 
     /**
      * This will start this task for the given {@link Inventory}.
@@ -42,7 +42,7 @@ class RecipeChoiceTask implements Runnable {
     public void start(Inventory inv) {
         Validate.notNull(inv, "Inventory must not be null");
         inventory = inv;
-        id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance, this, 0, UPDATE_INTERVAL).getTaskId();
+        id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance(), this, 0, UPDATE_INTERVAL).getTaskId();
     }
 
     public void add(int slot, MaterialChoice choice) {

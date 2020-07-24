@@ -2,10 +2,10 @@
 slimefun:
   weapons: Senjata
   tools: Peralatan
-  items: Alat Penting
+  items: Barang yang Berguna
   food: Makanan
   basic_machines: Mesin Dasar
-  electricity: Energi Dan Listrik
+  electricity: Energi dan Listrik
   gps: Mesin - Mesin GPS
   armor: Baju Zirah
   magical_items: Benda Sihir
@@ -13,13 +13,14 @@ slimefun:
   misc: Lain - Lain
   technical_gadgets: Alat Teknis
   resources: Sumber Daya
-  cargo: Pengatur Muatan
+  cargo: Manajemen Kargo
   tech_misc: Komponen Teknis
   magical_armor: Pakaian Sihir
   talismans: Jimat (Tingkat I)
   ender_talismans: Jimat Ender (Tingkat II)
   christmas: Natal (Desember)
   valentines_day: Hari Valentine (14 Februari)
-  easter: Easter (April)
+  easter: Paskah (April)
   birthday: Ulang Tahun TheBusyBiscuit (26 Oktober)
   halloween: Halloween (31 Oktober)
+  androids: Mesin Berprogram

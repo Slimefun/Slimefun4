@@ -30,7 +30,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveAr
         super(category, item, recipeType, recipe, effects);
 
         types = new ProtectionType[] { ProtectionType.BEES, ProtectionType.RADIATION };
-        namespacedKey = new NamespacedKey(SlimefunPlugin.instance, "hazmat_suit");
+        namespacedKey = new NamespacedKey(SlimefunPlugin.instance(), "hazmat_suit");
     }
 
     @Override

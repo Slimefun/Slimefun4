@@ -28,8 +28,8 @@ public class Waypoint {
 
     private final PlayerProfile profile;
     private final String id;
-    private String name;
-    private Location location;
+    private final String name;
+    private final Location location;
 
     public Waypoint(PlayerProfile profile, String id, Location l, String name) {
         Validate.notNull(profile, "Profile must never be null!");

@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class NetherIceResource implements GEOResource {
 
-    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, "nether_ice");
+    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance(), "nether_ice");
 
     @Override
     public int getDefaultSupply(Environment environment, Biome biome) {

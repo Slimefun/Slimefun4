@@ -16,7 +16,7 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
 
     @Override
     public String getAuthor() {
-        return SlimefunPlugin.instance.getDescription().getAuthors().toString();
+        return SlimefunPlugin.instance().getDescription().getAuthors().toString();
     }
 
     @Override
@@ -26,7 +26,7 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return SlimefunPlugin.instance.getDescription().getVersion();
+        return SlimefunPlugin.instance().getDescription().getVersion();
     }
 
     @Override

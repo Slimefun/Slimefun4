@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class SaltResource implements GEOResource {
 
-    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, "salt");
+    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance(), "salt");
 
     @Override
     public int getDefaultSupply(Environment environment, Biome biome) {
