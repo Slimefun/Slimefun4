@@ -50,6 +50,12 @@ public class OreCrusher extends MultiBlockMachine {
 
         recipes.add(new ItemStack(Material.MAGMA_BLOCK, 4));
         recipes.add(SlimefunItems.SULFATE);
+
+        recipes.add(SlimefunItems.CARBON);
+        recipes.add(new ItemStack(Material.COAL, 8));
+
+        recipes.add(SlimefunItems.COMPRESSED_CARBON);
+        recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4));
     }
 
     public boolean isOreDoublingEnabled() {
