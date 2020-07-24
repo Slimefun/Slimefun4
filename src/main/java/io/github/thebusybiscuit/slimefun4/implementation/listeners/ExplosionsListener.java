@@ -9,7 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -29,19 +29,16 @@ public class ExplosionsListener implements Listener {
         while (blocks.hasNext()) {
             Block block = blocks.next();
 
-            String id = BlockStorage.checkID(block);
-            if (id != null) {
+            SlimefunItem item = BlockStorage.check(block);
+            if (item != null) {
                 blocks.remove();
 
-                // Hardened Glass and WitherProof blocks cannot be destroyed by explosions
-                if (!id.equals(SlimefunItems.HARDENED_GLASS.getItemId()) && !SlimefunPlugin.getRegistry().getWitherProofBlocks().containsKey(id)) {
+                if (!(item instanceof WitherProof)) {
+                    SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(item.getID());
                     boolean success = true;
-                    SlimefunItem sfItem = SlimefunItem.getByID(id);
-
-                    SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 
                     if (blockHandler != null) {
-                        success = blockHandler.onBreak(null, block, sfItem, UnregisterReason.EXPLODE);
+                        success = blockHandler.onBreak(null, block, item, UnregisterReason.EXPLODE);
                     }
 
                     if (success) {

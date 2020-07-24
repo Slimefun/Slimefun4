@@ -46,8 +46,6 @@ public class CargoManager extends SlimefunItem {
 
         }, new BlockUseHandler() {
 
-            private String visualizerKey = "visualizer";
-
             @Override
             public void onRightClick(PlayerRightClickEvent e) {
                 Optional<Block> block = e.getClickedBlock();
@@ -56,12 +54,12 @@ public class CargoManager extends SlimefunItem {
                     Player p = e.getPlayer();
                     Block b = block.get();
 
-                    if (BlockStorage.getLocationInfo(b.getLocation(), visualizerKey) == null) {
-                        BlockStorage.addBlockInfo(b, visualizerKey, "disabled");
+                    if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
+                        BlockStorage.addBlockInfo(b, "visualizer", "disabled");
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
                     }
                     else {
-                        BlockStorage.addBlockInfo(b, visualizerKey, null);
+                        BlockStorage.addBlockInfo(b, "visualizer", null);
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
                     }
                 }

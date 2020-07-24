@@ -20,7 +20,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class MeatJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-    private ItemSetting<Integer> saturation = new ItemSetting<>("saturation-level", 6);
+    private final ItemSetting<Integer> saturation = new ItemSetting<>("saturation-level", 6);
 
     public MeatJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

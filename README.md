@@ -159,6 +159,10 @@ All of the collected data is publicly accessible: https://bstats.org/plugin/bukk
 
 You can also disable this behaviour under `/plugins/bStats/config.yml`.<br>
 For more info see [bStats' Privacy Policy](https://bstats.org/privacy-policy)
+
+Our [bStats Module](https://github.com/Slimefun/MetricsModule) is downloaded automatically when installing this Plugin, this module will automatically update on server starts independently from the main plugin. This way we can automatically roll out updates to the bStats module, in cases of severe performance issues for example where live data and insight into what is impacting performance can be crucial.
+These updates can of course be disabled under `/plugins/Slimefun/config.yml`. To disable metrics collection as a whole, see the paragraph above.
+
 </details>
 
 <details>
