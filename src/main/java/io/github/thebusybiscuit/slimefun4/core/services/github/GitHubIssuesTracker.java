@@ -2,13 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.util.logging.Level;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import kong.unirest.JsonNode;
 import kong.unirest.json.JSONArray;
-import kong.unirest.json.JSONElement;
 import kong.unirest.json.JSONObject;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 

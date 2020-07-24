@@ -27,23 +27,21 @@ import org.bukkit.plugin.Plugin;
  * You can find more info in the README file of this Project on GitHub. <br>
  * <b>Note:</b> To start the metrics you will need to be calling {@link #start()}
  *
- * @author TheBusyBiscuit
  * @author WalshyDev
  */
 public class MetricsService {
 
     private static final String REPO_NAME = "MetricsModule";
     private static final String GH_API = "https://api.github.com/repos/Slimefun/" + REPO_NAME;
-    private static final String GH_REPO_RELEASES = "https://github.com/Slimefun/" + REPO_NAME
-        + "/releases/download";
+    private static final String GH_RELEASES = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
 
     private final SlimefunPlugin plugin;
     private final File parentFolder;
-    private final File metricFile;
+    private final File metricsModuleFile;
 
     private URLClassLoader moduleClassLoader;
     private String metricVersion = null;
-    private boolean newlyDownloaded = false;
+    private boolean hasDownloadedUpdate = false;
 
     static {
         Unirest.config()
@@ -56,20 +54,22 @@ public class MetricsService {
 
     public MetricsService(SlimefunPlugin plugin) {
         this.plugin = plugin;
-
         this.parentFolder = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "modules");
-        if (!parentFolder.exists())
-            parentFolder.mkdirs();
 
-        this.metricFile = new File(parentFolder, REPO_NAME + ".jar");
+        if (!parentFolder.exists()) {
+            parentFolder.mkdirs();
+        }
+
+        this.metricsModuleFile = new File(parentFolder, REPO_NAME + ".jar");
     }
 
     /**
      * This method loads the metric module and starts the metrics collection.
      */
     public void start() {
-        if (!metricFile.exists()) {
+        if (!metricsModuleFile.exists()) {
             plugin.getLogger().info(REPO_NAME + " does not exist, downloading...");
+
             if (!download(getLatestVersion())) {
                 plugin.getLogger().warning("Failed to start metrics as the file could not be downloaded.");
                 return;
@@ -79,7 +79,7 @@ public class MetricsService {
         try {
             // Load the jar file into a child class loader using the SF PluginClassLoader
             // as a parent.
-            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricFile.toURI().toURL() },
+            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() },
                 plugin.getClass().getClassLoader());
             Class<?> cl = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
 
@@ -87,9 +87,7 @@ public class MetricsService {
 
             // If it has not been newly downloaded, auto-updates are on AND there's a new version
             // then cleanup, download and start
-            if (!newlyDownloaded
-                && hasAutoUpdates()
-                && checkForUpdate(metricVersion)
+            if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(metricVersion)
             ) {
                 plugin.getLogger().info("Cleaning up and re-loading Metrics.");
                 cleanUp();
@@ -122,8 +120,9 @@ public class MetricsService {
      */
     public void cleanUp() {
         try {
-            if (this.moduleClassLoader != null)
+            if (this.moduleClassLoader != null) {
                 this.moduleClassLoader.close();
+            }
         } catch (IOException e) {
             plugin.getLogger().log(Level.WARNING,
                 "Could not clean up module class loader. Some memory may have been leaked.");
@@ -143,9 +142,11 @@ public class MetricsService {
         }
 
         int latest = getLatestVersion();
+
         if (latest > Integer.parseInt(currentVersion)) {
             return download(latest);
         }
+
         return false;
     }
 
@@ -183,9 +184,10 @@ public class MetricsService {
         File f = new File(parentFolder, "Metrics-" + version + ".jar");
 
         try {
-            plugin.getLogger().info("# Starting download of MetricsModule build: #" + version);
+            plugin.getLogger().log(Level.INFO, "# Starting download of MetricsModule build: #{0}", version);
+            
             AtomicInteger lastPercentPosted = new AtomicInteger();
-            HttpResponse<File> response = Unirest.get(GH_REPO_RELEASES + "/" + version
+            HttpResponse<File> response = Unirest.get(GH_RELEASES + "/" + version
                 + "/" + REPO_NAME + ".jar")
                 .downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
                     int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
@@ -198,13 +200,13 @@ public class MetricsService {
                 })
                 .asFile(f.getPath());
             if (response.isSuccess()) {
-                plugin.getLogger().info("Successfully downloaded " + REPO_NAME + " build: " + version);
+                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] {REPO_NAME, version});
 
                 // Replace the metric file with the new one
-                Files.move(f.toPath(), metricFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.move(f.toPath(), metricsModuleFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 metricVersion = String.valueOf(version);
-                newlyDownloaded = true;
+                hasDownloadedUpdate = true;
                 return true;
             }
         } catch (UnirestException e) {
@@ -218,7 +220,8 @@ public class MetricsService {
     }
 
     /**
-     * Returns the currently downloaded metric version. This CAN change! It may be null or an
+     * Returns the currently downloaded metrics version. 
+     * This <strong>can change</strong>! It may be null or an
      * older version before it has downloaded a newer one.
      *
      * @return The current version or null if not loaded.
@@ -229,9 +232,9 @@ public class MetricsService {
     }
 
     /**
-     * Returns if the current server has metric auto-updates enabled.
+     * Returns if the current server has metrics auto-updates enabled.
      *
-     * @return True if the current server has metric auto-updates enabled.
+     * @return True if the current server has metrics auto-updates enabled.
      */
     public boolean hasAutoUpdates() {
         return SlimefunPlugin.instance().getConfig().getBoolean("metrics.auto-update");

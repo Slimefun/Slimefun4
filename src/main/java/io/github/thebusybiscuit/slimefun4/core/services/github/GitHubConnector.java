@@ -4,11 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.logging.Level;
 
 import kong.unirest.HttpResponse;
@@ -47,18 +45,19 @@ abstract class GitHubConnector {
         }
 
         try {
-            HttpResponse<JsonNode> resp = Unirest
-                .get("https://api.github.com/repos/" + repository + getURLSuffix())
-                .header("User-Agent", "Slimefun4 (https://github.com/Slimefun)")
-                .asJson();
+            HttpResponse<JsonNode> resp = Unirest.get("https://api.github.com/repos/" + repository + getURLSuffix())
+                    .header("User-Agent", "Slimefun4 (https://github.com/Slimefun)")
+                    .asJson();
 
             if (resp.isSuccess()) {
                 onSuccess(resp.getBody());
                 writeCacheFile(resp.getBody());
-            } else
-                Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}",
-                    repository + getURLSuffix());
-        } catch (UnirestException e) {
+            }
+            else {
+                Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}", repository + getURLSuffix());
+            }
+        }
+        catch (UnirestException e) {
             if (github.isLoggingEnabled()) {
                 Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
             }
@@ -66,6 +65,7 @@ abstract class GitHubConnector {
             // It has the cached file, let's just read that then
             if (file.exists()) {
                 JsonNode cache = readCacheFile();
+
                 if (cache != null) {
                     onSuccess(cache);
                     return;
@@ -80,9 +80,9 @@ abstract class GitHubConnector {
     private JsonNode readCacheFile() {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             return new JsonNode(br.readLine());
-        } catch (IOException | JSONException e) {
-            Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0}",
-                file.getName());
+        }
+        catch (IOException | JSONException e) {
+            Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0}", file.getName());
             return null;
         }
     }
@@ -90,7 +90,8 @@ abstract class GitHubConnector {
     private void writeCacheFile(JsonNode node) {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(node.toString().getBytes(StandardCharsets.UTF_8));
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             Slimefun.getLogger().log(Level.WARNING, "Failed to populate GitHub cache");
         }
     }
