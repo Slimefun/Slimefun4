@@ -24,6 +24,7 @@
 
 #### Additions
 * Added "Bone Block -> Bone meal" recipe to the Grind Stone
+* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to deploy changes to metrics (bStats) without another Slimefun build.
 
 #### Changes
 * Refactored and reworked the Generator API
