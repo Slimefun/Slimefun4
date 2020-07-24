@@ -23,12 +23,15 @@
 ## Release Candidate 15 (TBD)
 
 #### Additions
+* Added "Bone Block -> Bone meal" recipe to the Grind Stone
+* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
+* Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
+* Added "Carbon -> Coal" recipe to the Ore Crusher
+* Added Iron Golem Assembler
 * Added Reinforced Cloth
 * Added Bee protection to Hazmat Suit
 * Added Enchantment Rune
 * Added Tape Measure
-* Added "Bone Block -> Bone meal" recipe to the Grind Stone
-* Added Iron Golem Assembler
 
 #### Changes
 * Refactored and reworked the Generator API

@@ -6,7 +6,7 @@ options:
   
   auto-update: true
   backwards-compatibility: true
-  chat-prefix: '&a&lSlimefun 4 &7>'
+  chat-prefix: '&a&lSlimefun 4&7> '
   armor-update-interval: 10
   enable-armor-effects: true
   auto-save-delay-in-minutes: 10
@@ -39,6 +39,9 @@ items:
   talismans: true
   backpacks: true
   soulbound: true
+
+metrics:
+  auto-update: true
 
 research-ranks:
 - Chicken
