@@ -92,7 +92,7 @@ public class VanillaMachinesListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler
     public void onBrew(BrewEvent e) {
         e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getContents().getIngredient())));
     }

@@ -3,9 +3,12 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.listeners;
 import org.apache.commons.lang.mutable.MutableObject;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
+import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryAction;
@@ -13,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
@@ -76,16 +80,15 @@ public class TestVanillaMachinesListener {
         return event;
     }
 
-    private InventoryClickEvent mockBrewingEvent(ItemStack item) {
-        Player player = server.addPlayer();
-        Inventory inv = TestUtilities.mockInventory(InventoryType.BREWING);
-        Mockito.when(inv.getHolder()).thenReturn(Mockito.mock(BrewingStand.class));
-        Mockito.when(inv.getSize()).thenReturn(5);
+    private BrewEvent mockBrewingEvent(ItemStack item) {
+        World world = server.addSimpleWorld("BrewingStand Test World");
+        Block b = world.getBlockAt(3456, 90, -100);
+        b.setType(Material.BREWING_STAND);
 
-        InventoryView view = player.openInventory(inv);
-        view.setCursor(item);
-        InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 1, ClickType.LEFT, InventoryAction.PICKUP_ONE);
-        listener.onPreBrew(event);
+        BrewerInventory inv = Mockito.mock(BrewerInventory.class);
+        inv.setIngredient(item);
+        BrewEvent event = new BrewEvent(b, inv, 1);
+        listener.onBrew(event);
         return event;
     }
 
@@ -244,8 +247,8 @@ public class TestVanillaMachinesListener {
 
     @Test
     public void testBrewingWithoutSlimefunItems() {
-        InventoryClickEvent event = mockBrewingEvent(new ItemStack(Material.BLAZE_POWDER));
-        Assertions.assertEquals(Result.ALLOW, event.getResult());
+        BrewEvent event = mockBrewingEvent(new ItemStack(Material.BLAZE_POWDER));
+        Assertions.assertFalse(event.isCancelled());
     }
 
     @Test
@@ -253,8 +256,8 @@ public class TestVanillaMachinesListener {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCK_POWDER", new CustomItem(Material.BLAZE_POWDER, "&6Magic Mock Powder"));
         item.register(plugin);
 
-        InventoryClickEvent event = mockBrewingEvent(item.getItem());
-        Assertions.assertEquals(Result.DENY, event.getResult());
+        BrewEvent event = mockBrewingEvent(item.getItem());
+        Assertions.assertTrue(event.isCancelled());
     }
 
     @Test
@@ -262,7 +265,7 @@ public class TestVanillaMachinesListener {
         VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.BLAZE_POWDER, true);
         item.register(plugin);
 
-        InventoryClickEvent event = mockBrewingEvent(item.getItem());
-        Assertions.assertEquals(Result.ALLOW, event.getResult());
+        BrewEvent event = mockBrewingEvent(item.getItem());
+        Assertions.assertFalse(event.isCancelled());
     }
 }
