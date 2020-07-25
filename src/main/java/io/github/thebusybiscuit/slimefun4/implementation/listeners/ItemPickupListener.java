@@ -35,7 +35,7 @@ public class ItemPickupListener implements Listener {
             e.setCancelled(true);
             e.getItem().remove();
         } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            if (e.getEntityType().equals(EntityType.PIGLIN) || e.getEntityType().equals(EntityType.ZOMBIFIED_PIGLIN)) {
+            if (e.getEntityType().equals(EntityType.PIGLIN)) {
                 if (SlimefunItem.getByItem(e.getItem().getItemStack()) != null) {
                     e.setCancelled(true);
                 }
