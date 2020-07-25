@@ -149,6 +149,16 @@ messages:
   - "&7Daima hayatın parlak tarafından bak!"
   - "&7Bu aslında bir Bisküvi idi, Kurabiye değil."
   - "&7Neon levhalar ışık yayar!"
+  piglin-barter: "&4Slimefun eşyalarıyla, piglinlerle ticaret yapamazsın"
+  enchantment-rune:
+    fail: "&cYou eşyayı büyüleyemezsin."
+    no-enchantment: "&cBu eşya için uygun bir büyü bulunamadı."
+    success: "&aBaşarılı bir şekilde bu eşyaya rastgele bir büyü uyguladınız."
+  tape-measure:
+    no-anchor: "&cÖlçüm yapmadan önce bir nokta seçmelisiniz!"
+    wrong-world: "&cSeçtiğiniz nokta başka bir dünyada gözüküyor!"
+    distance: "&7Ölçüm yapıldı. &eUzaklık: %distance%"
+    anchor-set: "&aBaşarılı bir şekilde bir nokta seçildi:&e %anchor%"
 machines:
   pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
     doğru şekilde yerleştirin."

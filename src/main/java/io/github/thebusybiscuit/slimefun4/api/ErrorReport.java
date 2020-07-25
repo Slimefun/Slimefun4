@@ -115,7 +115,7 @@ public class ErrorReport {
                 stream.println("  Type: " + (item.getBlockTicker().isSynchronized() ? "Synchronized" : "Asynchronous"));
                 stream.println();
             }
-            
+
             if (item instanceof EnergyNetProvider) {
                 stream.println("Ticker-Info:");
                 stream.println("  Type: Indirect (Energy Network)");

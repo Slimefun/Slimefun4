@@ -16,6 +16,7 @@ options:
   legacy-ore-grinder: true
   language: en
   enable-translations: true
+  log-duplicate-block-entries: true
   
 guide:
   default-view-book: false

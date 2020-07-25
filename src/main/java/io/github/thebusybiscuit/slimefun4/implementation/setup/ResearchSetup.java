@@ -104,7 +104,7 @@ public final class ResearchSetup {
         register("whirlwind_talisman", 75, "Talisman of the Whirlwind", 19, SlimefunItems.TALISMAN_WHIRLWIND);
         register("wizard_talisman", 76, "Talisman of the Wizard", 22, SlimefunItems.TALISMAN_WIZARD);
         register("lumber_axe", 77, "Lumber Axe", 21, SlimefunItems.LUMBER_AXE);
-        register("hazmat_suit", 79, "Hazmat Suit", 21, SlimefunItems.SCUBA_HELMET, SlimefunItems.HAZMAT_CHESTPLATE, SlimefunItems.HAZMAT_LEGGINGS, SlimefunItems.RUBBER_BOOTS);
+        register("hazmat_suit", 79, "Hazmat Suit", 21, SlimefunItems.SCUBA_HELMET, SlimefunItems.HAZMAT_CHESTPLATE, SlimefunItems.HAZMAT_LEGGINGS, SlimefunItems.HAZMAT_BOOTS);
         register("uranium", 80, "Radioactive", 30, SlimefunItems.TINY_URANIUM, SlimefunItems.SMALL_URANIUM, SlimefunItems.URANIUM);
         register("crushed_ore", 81, "Ore Purification", 25, SlimefunItems.CRUSHED_ORE, SlimefunItems.PULVERIZED_ORE, SlimefunItems.PURE_ORE_CLUSTER);
         register("redstone_alloy", 84, "Redstone Alloy", 16, SlimefunItems.REDSTONE_ALLOY);
@@ -267,6 +267,10 @@ public final class ResearchSetup {
         register("advanced_industrial_miner", 98, "Better Mining", 36, SlimefunItems.ADVANCED_INDUSTRIAL_MINER);
         register("magical_zombie_pills", 257, "De-Zombification", 22, SlimefunItems.MAGICAL_ZOMBIE_PILLS);
         register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
+        register("enchantment_rune", 259, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
+        register("lead_clothing", 260, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
+        register("tape_measure", 261, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
+        register("iron_golem_assembler", 262, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {

@@ -27,22 +27,33 @@
 * Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
 * Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
 * Added "Carbon -> Coal" recipe to the Ore Crusher
+* Added an option to disable the message "Ignoring duplicate block"
+* Added Iron Golem Assembler
+* Added Reinforced Cloth
+* Added Bee protection to Hazmat Suit
+* Added Enchantment Rune
+* Added Tape Measure
 
 #### Changes
 * Refactored and reworked the Generator API
 * Small performance improvements to Energy networks
 * Big performance improvements to Cargo networks when using ChestTerminal
 * Slight changes to /sf timings
+* Changed recipe of Hazmat Suits
+* Uranium can no longer be placed down
 * Huge performance improvements when using Paper
 * Optimized Cargo networks for Paper
 * Optimized Multiblocks for Paper
 * Optimized Enhanced Furnaces for Paper
 
 #### Fixes
+* Fixed Slimefun Armor sometimes not applying its effects
 * Fixed #2075
 * Fixed #2093
 * Fixed #2086
 * Fixed #1894
+* Fixed #2097
+* Fixed Wither Assembler requiring more items than it actually consumes
 
 ## Release Candidate 14 (12 Jul 2020)
 
