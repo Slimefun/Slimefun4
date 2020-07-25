@@ -49,7 +49,7 @@ public class IndustrialMiner extends MultiBlockMachine {
     private final boolean silkTouch;
 
     public IndustrialMiner(Category category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
-        super(category, item, new ItemStack[] { null, null, null, new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? Material.BLAST_FURNACE : Material.FURNACE), new ItemStack(baseMaterial) }, new ItemStack[0], BlockFace.UP);
+        super(category, item, new ItemStack[] { null, null, null, new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? Material.BLAST_FURNACE : Material.FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
 
         this.range = range;
         this.silkTouch = silkTouch;

@@ -24,13 +24,14 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -73,7 +74,7 @@ public class SlimefunItem implements Placeable {
 
     private boolean ticking = false;
     private BlockTicker blockTicker;
-    private GeneratorTicker generatorTicker;
+    protected GeneratorTicker generatorTicker;
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
@@ -319,7 +320,11 @@ public class SlimefunItem implements Placeable {
         return blockTicker;
     }
 
-    // We should maybe refactor this and move it to a subclass
+    /**
+     * @deprecated The interface {@link EnergyNetProvider} should be implemented instead
+     * @return A {@link GeneratorTicker}
+     */
+    @Deprecated
     public GeneratorTicker getEnergyTicker() {
         return generatorTicker;
     }
@@ -377,17 +382,17 @@ public class SlimefunItem implements Placeable {
                 SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
             }
 
-            if (this instanceof WitherProof) {
-                SlimefunPlugin.getRegistry().getWitherProofBlocks().put(id, (WitherProof) this);
-            }
-
             if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
-                ((EnergyNetComponent) this).registerComponent(id);
+                int capacity = ((EnergyNetComponent) this).getCapacity();
+
+                if (capacity > 0) {
+                    SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
+                }
             }
 
             if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
 
-                if (!SlimefunPlugin.getRegistry().getCategories().contains(category)) {
+                if (!category.isRegistered()) {
                     category.register();
                 }
 
@@ -407,6 +412,10 @@ public class SlimefunItem implements Placeable {
             }
             else {
                 state = ItemState.DISABLED;
+            }
+
+            if (item instanceof SlimefunItemStack && isItemStackImmutable()) {
+                ((SlimefunItemStack) item).lock();
             }
 
             postRegister();
@@ -440,6 +449,20 @@ public class SlimefunItem implements Placeable {
                 handlerset.add(handler);
             }
         }
+    }
+
+    /**
+     * This method returns whether the original {@link SlimefunItemStack} of this
+     * {@link SlimefunItem} is immutable.
+     * 
+     * If <code>true</code> is returned, then any changes to the original {@link SlimefunItemStack}
+     * will be rejected with a {@link WrongItemStackException}.
+     * This ensures integrity so developers don't accidentally damage the wrong {@link ItemStack}.
+     * 
+     * @return Whether the original {@link SlimefunItemStack} is immutable.
+     */
+    protected boolean isItemStackImmutable() {
+        return true;
     }
 
     /**

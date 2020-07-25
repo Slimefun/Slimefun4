@@ -367,7 +367,7 @@ public final class PlayerProfile {
             return true;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
             PlayerProfile pp = new PlayerProfile(p);
             SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
             callback.accept(pp);
@@ -388,7 +388,7 @@ public final class PlayerProfile {
     public static boolean request(OfflinePlayer p) {
         if (!SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
             // Should probably prevent multiple requests for the same profile in the future
-            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
                 PlayerProfile pp = new PlayerProfile(p);
                 SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
             });
@@ -441,9 +441,7 @@ public final class PlayerProfile {
             fromUUID(UUID.fromString(uuid), profile -> {
                 Optional<PlayerBackpack> backpack = profile.getBackpack(number);
 
-                if (backpack.isPresent()) {
-                    callback.accept(backpack.get());
-                }
+                backpack.ifPresent(callback);
             });
         }
     }

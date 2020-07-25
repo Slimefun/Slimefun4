@@ -69,9 +69,7 @@ public abstract class WoodcutterAndroid extends ProgrammableAndroid {
             if (log.getY() == android.getRelative(face).getY()) {
                 Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
 
-                if (sapling.isPresent()) {
-                    log.setType(sapling.get());
-                }
+                sapling.ifPresent(log::setType);
             }
             else {
                 log.setType(Material.AIR);

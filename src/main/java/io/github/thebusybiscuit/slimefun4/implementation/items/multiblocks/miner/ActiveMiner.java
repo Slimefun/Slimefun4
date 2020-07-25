@@ -11,6 +11,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.block.data.type.PistonHead;
@@ -24,6 +25,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -149,7 +151,7 @@ class ActiveMiner implements Runnable {
         queue.thenRun(2, () -> setPistonState(pistons[1], false));
 
         queue.thenRun(1, this);
-        queue.execute(SlimefunPlugin.instance);
+        queue.execute(SlimefunPlugin.instance());
     }
 
     @Override
@@ -202,7 +204,7 @@ class ActiveMiner implements Runnable {
             }
         });
 
-        queue.execute(SlimefunPlugin.instance);
+        queue.execute(SlimefunPlugin.instance());
     }
 
     /**
@@ -251,14 +253,22 @@ class ActiveMiner implements Runnable {
         // Check if there is enough fuel to run
         if (fuel > 0) {
             if (chest.getType() == Material.CHEST) {
-                Inventory inv = ((Chest) chest.getState()).getBlockInventory();
+                BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-                if (InvUtils.fits(inv, item)) {
-                    inv.addItem(item);
-                    return true;
+                if (state instanceof Chest) {
+                    Inventory inv = ((Chest) state).getBlockInventory();
+
+                    if (InvUtils.fits(inv, item)) {
+                        inv.addItem(item);
+                        return true;
+                    }
+                    else {
+                        stop("machines.INDUSTRIAL_MINER.chest-full");
+                    }
                 }
                 else {
-                    stop("machines.INDUSTRIAL_MINER.chest-full");
+                    // I won't question how this happened...
+                    stop("machines.INDUSTRIAL_MINER.destroyed");
                 }
             }
             else {
@@ -280,20 +290,24 @@ class ActiveMiner implements Runnable {
      */
     private int consumeFuel() {
         if (chest.getType() == Material.CHEST) {
-            Inventory inv = ((Chest) chest.getState()).getBlockInventory();
+            BlockState state = PaperLib.getBlockState(chest, false).getState();
 
-            for (int i = 0; i < inv.getSize(); i++) {
-                for (MachineFuel fuelType : miner.fuelTypes) {
-                    ItemStack item = inv.getContents()[i];
+            if (state instanceof Chest) {
+                Inventory inv = ((Chest) state).getBlockInventory();
 
-                    if (fuelType.test(item)) {
-                        ItemUtils.consumeItem(item, false);
+                for (int i = 0; i < inv.getSize(); i++) {
+                    for (MachineFuel fuelType : miner.fuelTypes) {
+                        ItemStack item = inv.getContents()[i];
 
-                        if (miner instanceof AdvancedIndustrialMiner) {
-                            inv.addItem(new ItemStack(Material.BUCKET));
+                        if (fuelType.test(item)) {
+                            ItemUtils.consumeItem(item, false);
+
+                            if (miner instanceof AdvancedIndustrialMiner) {
+                                inv.addItem(new ItemStack(Material.BUCKET));
+                            }
+
+                            return fuelType.getTicks();
                         }
-
-                        return fuelType.getTicks();
                     }
                 }
             }

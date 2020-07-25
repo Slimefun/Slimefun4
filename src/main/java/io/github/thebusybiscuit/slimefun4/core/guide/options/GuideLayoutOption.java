@@ -22,12 +22,12 @@ class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
 
     @Override
     public SlimefunAddon getAddon() {
-        return SlimefunPlugin.instance;
+        return SlimefunPlugin.instance();
     }
 
     @Override
     public NamespacedKey getKey() {
-        return new NamespacedKey(SlimefunPlugin.instance, "guide_layout");
+        return new NamespacedKey(SlimefunPlugin.instance(), "guide_layout");
     }
 
     @Override

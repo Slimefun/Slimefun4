@@ -40,13 +40,17 @@ public final class SimpleHologram {
         Location l = new Location(b.getWorld(), b.getX() + 0.5, b.getY() + 0.7F, b.getZ() + 0.5);
 
         for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand && n.getCustomName() != null && l.distanceSquared(n.getLocation()) < 0.4D) {
+            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4D && n.getCustomName() != null) {
                 return (ArmorStand) n;
             }
         }
 
-        if (!createIfNoneExists) return null;
-        else return create(l);
+        if (!createIfNoneExists) {
+            return null;
+        }
+        else {
+            return create(l);
+        }
     }
 
     public static ArmorStand create(Location l) {

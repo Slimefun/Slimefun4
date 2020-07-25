@@ -30,7 +30,7 @@ Here is a full summary of the differences between the two different versions of 
 
 | | development (latest) | "stable" |
 | ------------------ | -------- | -------- |
-| **Minecraft version(s)** | :video_game: **1.13.\* - 1.16.\*** | :video_game: **1.13.\* - 1.15.\*** |
+| **Minecraft version(s)** | :video_game: **1.13.\* - 1.16.\*** | :video_game: **1.13.\* - 1.16.\*** |
 | **automatic updates** | :heavy_check_mark: | :heavy_check_mark: |
 | **frequent updates** | :heavy_check_mark: | :x: |
 | **latest content** | :heavy_check_mark: | :x: |
@@ -114,6 +114,8 @@ To compile Slimefun yourself, follow these steps:
 
 If you are already using an IDE, make sure to import the project via git and set it as a *Maven project*. Then you should be able build it via Maven using the goals `clean package`.
 
+If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel. Note that we will not accept any bug reports from custom-compiled versions of Slimefun.
+
 ### Code Quality
 Slimefun uses [Sonarcloud.io](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) to monitor Code Quality.
 
@@ -157,6 +159,10 @@ All of the collected data is publicly accessible: https://bstats.org/plugin/bukk
 
 You can also disable this behaviour under `/plugins/bStats/config.yml`.<br>
 For more info see [bStats' Privacy Policy](https://bstats.org/privacy-policy)
+
+Our [bStats Module](https://github.com/Slimefun/MetricsModule) is downloaded automatically when installing this Plugin, this module will automatically update on server starts independently from the main plugin. This way we can automatically roll out updates to the bStats module, in cases of severe performance issues for example where live data and insight into what is impacting performance can be crucial.
+These updates can of course be disabled under `/plugins/Slimefun/config.yml`. To disable metrics collection as a whole, see the paragraph above.
+
 </details>
 
 <details>

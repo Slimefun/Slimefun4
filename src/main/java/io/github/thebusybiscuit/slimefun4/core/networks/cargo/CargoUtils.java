@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -21,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -95,7 +94,7 @@ final class CargoUtils {
                     return withdrawFromVanillaInventory(node, template, inventory);
                 }
 
-                BlockState state = target.getState();
+                BlockState state = PaperLib.getBlockState(target, false).getState();
 
                 if (state instanceof InventoryHolder) {
                     inventory = ((InventoryHolder) state).getInventory();
@@ -144,10 +143,10 @@ final class CargoUtils {
         ItemStackWrapper wrapper = new ItemStackWrapper(template);
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            // Changes to this ItemStack are synchronized with the Item in the Inventory
+            // Changes to these ItemStacks are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true) && matchesFilter(node, itemInSlot)) {
+            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && matchesFilter(node, itemInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return template;
@@ -183,7 +182,7 @@ final class CargoUtils {
                 return withdrawFromVanillaInventory(node, inventory);
             }
 
-            BlockState state = target.getState();
+            BlockState state = PaperLib.getBlockState(target, false).getState();
 
             if (state instanceof InventoryHolder) {
                 inventory = ((InventoryHolder) state).getInventory();
@@ -235,7 +234,7 @@ final class CargoUtils {
                     return insertIntoVanillaInventory(stack, inventory);
                 }
 
-                BlockState state = target.getState();
+                BlockState state = PaperLib.getBlockState(target, false).getState();
 
                 if (state instanceof InventoryHolder) {
                     inventory = ((InventoryHolder) state).getInventory();
@@ -249,8 +248,9 @@ final class CargoUtils {
 
         ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
-        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, stack)) {
+        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, wrapper)) {
             ItemStack itemInSlot = menu.getItemInSlot(slot);
+
             if (itemInSlot == null) {
                 menu.replaceExistingItem(slot, stack);
                 return null;
@@ -339,9 +339,6 @@ final class CargoUtils {
                     }
 
                     itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                    // Setting item in inventory will clone the ItemStack
-                    inv.setItem(slot, itemInSlot);
-
                     return stack;
                 }
             }
@@ -386,9 +383,10 @@ final class CargoUtils {
         }
 
         // Store the returned Config instance to avoid heavy calls
-        Config blockInfo = BlockStorage.getLocationInfo(block.getLocation());
-        String id = blockInfo.getString("id");
+        Config blockData = BlockStorage.getLocationInfo(block.getLocation());
+        String id = blockData.getString("id");
 
+        // Cargo Output nodes have no filter actually
         if (id.equals("CARGO_NODE_OUTPUT")) {
             return true;
         }
@@ -400,48 +398,35 @@ final class CargoUtils {
                 return false;
             }
 
-            boolean lore = "true".equals(blockInfo.getString("filter-lore"));
-            ItemStackWrapper wrapper = new ItemStackWrapper(item);
-
-            if ("whitelist".equals(blockInfo.getString("filter-type"))) {
-                List<ItemStack> templateItems = new LinkedList<>();
-
-                for (int slot : FILTER_SLOTS) {
-                    ItemStack template = menu.getItemInSlot(slot);
-
-                    if (template != null) {
-                        templateItems.add(template);
-                    }
-                }
-
-                if (templateItems.isEmpty()) {
-                    return false;
-                }
-
-                for (ItemStack stack : templateItems) {
-                    if (SlimefunUtils.isItemSimilar(wrapper, stack, lore, false)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-            else {
-                for (int slot : FILTER_SLOTS) {
-                    ItemStack itemInSlot = menu.getItemInSlot(slot);
-
-                    if (itemInSlot != null && SlimefunUtils.isItemSimilar(wrapper, itemInSlot, lore, false)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
+            boolean lore = "true".equals(blockData.getString("filter-lore"));
+            boolean allowByDefault = !"whitelist".equals(blockData.getString("filter-type"));
+            return matchesFilterList(item, menu, lore, allowByDefault);
         }
         catch (Exception x) {
             Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to filter items for a Cargo Node (" + id + ") at " + new BlockPosition(block));
             return false;
         }
+    }
+
+    private static boolean matchesFilterList(ItemStack item, BlockMenu menu, boolean respectLore, boolean defaultValue) {
+        ItemStackWrapper wrapper = null;
+
+        for (int slot : FILTER_SLOTS) {
+            ItemStack stack = menu.getItemInSlot(slot);
+
+            if (stack != null) {
+                if (wrapper == null) {
+                    // Only create this as needed to save performance
+                    wrapper = new ItemStackWrapper(item);
+                }
+
+                if (SlimefunUtils.isItemSimilar(stack, wrapper, respectLore, false)) {
+                    return !defaultValue;
+                }
+            }
+        }
+
+        return defaultValue;
     }
 
     /**

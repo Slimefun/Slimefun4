@@ -49,7 +49,7 @@ public class TestCategories {
         Category category = new Category(new NamespacedKey(plugin, "getter_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, category.getTier());
-        Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance, "getter_test"), category.getKey());
+        Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance(), "getter_test"), category.getKey());
         Assertions.assertEquals("Testing", category.getUnlocalizedName());
         Assertions.assertEquals(0, category.getItems().size());
     }

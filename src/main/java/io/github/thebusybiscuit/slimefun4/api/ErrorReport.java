@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -18,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -92,7 +92,7 @@ public class ErrorReport {
 
                 addon.getLogger().log(Level.WARNING, "");
             }
-            catch (IOException x) {
+            catch (Exception x) {
                 addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
             }
         });
@@ -109,9 +109,19 @@ public class ErrorReport {
             stream.println("  Block Data: " + l.getBlock().getBlockData().getClass().getName());
             stream.println("  State: " + l.getBlock().getState().getClass().getName());
             stream.println();
-            stream.println("Ticker-Info:");
-            stream.println("  Type: " + (item.getBlockTicker().isSynchronized() ? "Synchronized" : "Asynchronous"));
-            stream.println();
+
+            if (item.getBlockTicker() != null) {
+                stream.println("Ticker-Info:");
+                stream.println("  Type: " + (item.getBlockTicker().isSynchronized() ? "Synchronized" : "Asynchronous"));
+                stream.println();
+            }
+            
+            if (item instanceof EnergyNetProvider) {
+                stream.println("Ticker-Info:");
+                stream.println("  Type: Indirect (Energy Network)");
+                stream.println();
+            }
+
             stream.println("Slimefun Data:");
             stream.println("  ID: " + item.getID());
             stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));

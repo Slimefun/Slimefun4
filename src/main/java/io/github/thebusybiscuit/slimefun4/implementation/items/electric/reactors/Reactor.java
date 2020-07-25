@@ -29,14 +29,11 @@ import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -71,6 +68,8 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
     // No coolant border
     private static final int[] border_4 = { 25, 34, 43 };
+
+    private final Set<Location> explosionsQueue = new HashSet<>();
 
     public Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -107,7 +106,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                 BlockMenu port = getAccessPort(b.getLocation());
                 if (port != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         port.open(p);
                         newInstance(menu, b);
@@ -116,7 +115,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
                     });
                 }
                 else {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
+                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         newInstance(menu, b);
                         menu.open(p);
@@ -261,89 +260,86 @@ public abstract class Reactor extends AbstractEnergyProvider {
     }
 
     @Override
-    protected GeneratorTicker onTick() {
-        return new GeneratorTicker() {
+    public int getGeneratedOutput(Location l, Config data) {
+        BlockMenu inv = BlockStorage.getInventory(l);
+        BlockMenu accessPort = getAccessPort(l);
 
-            private final Set<Location> explosionsQueue = new HashSet<>();
+        if (isProcessing(l)) {
+            extraTick(l);
+            int timeleft = progress.get(l);
 
-            @Override
-            public double generateEnergy(Location l, SlimefunItem sf, Config data) {
-                BlockMenu inv = BlockStorage.getInventory(l);
-                BlockMenu accessPort = getAccessPort(l);
-                int charge = ChargableBlock.getCharge(l);
+            if (timeleft > 0) {
+                int produced = getEnergyProduction();
+                int charge = 0;
 
-                if (isProcessing(l)) {
-                    extraTick(l);
-                    int timeleft = progress.get(l);
+                if (data.contains("energy-charge")) {
+                    charge = Integer.parseInt(data.getString("energy-charge"));
+                }
 
-                    if (timeleft > 0) {
-                        int produced = getEnergyProduction();
-                        int space = getCapacity() - charge;
+                int space = getCapacity() - charge;
 
-                        if (space >= produced || !ReactorMode.GENERATOR.toString().equals(BlockStorage.getLocationInfo(l, MODE))) {
-                            progress.put(l, timeleft - 1);
-                            checkForWaterBlocks(l);
+                if (space >= produced || !ReactorMode.GENERATOR.toString().equals(BlockStorage.getLocationInfo(l, MODE))) {
+                    progress.put(l, timeleft - 1);
+                    checkForWaterBlocks(l);
 
-                            ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
+                    ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                            if (needsCooling() && !hasEnoughCoolant(l, inv, accessPort, timeleft)) {
-                                explosionsQueue.add(l);
-                                return 0;
-                            }
-                        }
-
-                        if (space >= produced) {
-                            ChargableBlock.addCharge(l, getEnergyProduction());
-                            return (double) (charge + getEnergyProduction());
-                        }
-                        else {
-                            return charge;
-                        }
+                    if (needsCooling() && !hasEnoughCoolant(l, inv, accessPort, timeleft)) {
+                        explosionsQueue.add(l);
+                        return 0;
                     }
-                    else {
-                        createByproduct(l, inv, accessPort);
-                        return charge;
-                    }
+                }
+
+                if (space >= produced) {
+                    return getEnergyProduction();
                 }
                 else {
-                    burnNextFuel(l, inv, accessPort);
-                    return charge;
+                    return 0;
                 }
             }
-
-            @Override
-            public boolean explode(Location l) {
-                boolean explosion = explosionsQueue.contains(l);
-
-                if (explosion) {
-                    Slimefun.runSync(() -> {
-                        ReactorExplodeEvent event = new ReactorExplodeEvent(l, Reactor.this);
-                        Bukkit.getPluginManager().callEvent(event);
-
-                        BlockStorage.getInventory(l).close();
-                        SimpleHologram.remove(l.getBlock());
-                    });
-
-                    explosionsQueue.remove(l);
-                    processing.remove(l);
-                    progress.remove(l);
-                }
-
-                return explosion;
+            else {
+                createByproduct(l, inv, accessPort);
+                return 0;
             }
+        }
+        else {
+            burnNextFuel(l, inv, accessPort);
+            return 0;
+        }
+    }
 
-            private void checkForWaterBlocks(Location l) {
-                Slimefun.runSync(() -> {
-                    // We will pick a surrounding block at random and see if this is water.
-                    // If it isn't, then we will make it explode.
-                    BlockFace randomNeighbour = WATER_BLOCKS[ThreadLocalRandom.current().nextInt(WATER_BLOCKS.length)];
+    @Override
+    public boolean willExplode(Location l, Config data) {
+        boolean explosion = explosionsQueue.contains(l);
 
-                    if (l.getBlock().getRelative(randomNeighbour).getType() != Material.WATER) {
-                        explosionsQueue.add(l);
-                    }
-                });
+        if (explosion) {
+            Slimefun.runSync(() -> {
+                ReactorExplodeEvent event = new ReactorExplodeEvent(l, Reactor.this);
+                Bukkit.getPluginManager().callEvent(event);
+
+                BlockStorage.getInventory(l).close();
+                SimpleHologram.remove(l.getBlock());
+            });
+
+            explosionsQueue.remove(l);
+            processing.remove(l);
+            progress.remove(l);
+        }
+
+        return explosion;
+    }
+
+    private void checkForWaterBlocks(Location l) {
+        Slimefun.runSync(() -> {
+            // We will pick a surrounding block at random and see if this is water.
+            // If it isn't, then we will make it explode.
+            int index = ThreadLocalRandom.current().nextInt(WATER_BLOCKS.length);
+            BlockFace randomNeighbour = WATER_BLOCKS[index];
+
+            if (l.getBlock().getRelative(randomNeighbour).getType() != Material.WATER) {
+                explosionsQueue.add(l);
             }
-        };
+        });
     }
 
     private void createByproduct(Location l, BlockMenu inv, BlockMenu accessPort) {
@@ -404,7 +400,8 @@ public abstract class Reactor extends AbstractEnergyProvider {
             if (accessPort != null) {
                 for (int slot : getCoolantSlots()) {
                     if (SlimefunUtils.isItemSimilar(accessPort.getItemInSlot(slot), getCoolant(), true)) {
-                        accessPort.replaceExistingItem(slot, menu.pushItem(accessPort.getItemInSlot(slot), getCoolantSlots()));
+                        ItemStack remainingItem = menu.pushItem(accessPort.getItemInSlot(slot), getCoolantSlots());
+                        accessPort.replaceExistingItem(slot, remainingItem);
                     }
                 }
             }

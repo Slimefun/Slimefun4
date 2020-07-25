@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,9 +14,20 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * This {@link Listener} is responsible for handling any custom mob drops.
+ * These drops can also be randomized using the interface {@link RandomMobDrop}, otherwise
+ * they will be handled via {@link RecipeType}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see RandomMobDrop
+ *
+ */
 public class MobDropListener implements Listener {
 
     public MobDropListener(SlimefunPlugin plugin) {
@@ -30,10 +40,14 @@ public class MobDropListener implements Listener {
             Player p = e.getEntity().getKiller();
             ItemStack item = p.getInventory().getItemInMainHand();
 
-            Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops(e.getEntityType());
+            Set<ItemStack> customDrops = SlimefunPlugin.getRegistry().getMobDrops().get(e.getEntityType());
 
             if (customDrops != null && !customDrops.isEmpty()) {
-                addDrops(p, customDrops, e.getDrops());
+                for (ItemStack drop : customDrops) {
+                    if (canDrop(p, drop)) {
+                        e.getDrops().add(drop.clone());
+                    }
+                }
             }
 
             if (item.getType() != Material.AIR) {
@@ -46,23 +60,30 @@ public class MobDropListener implements Listener {
         }
     }
 
-    private void addDrops(Player p, Set<ItemStack> customDrops, List<ItemStack> drops) {
-        int random = ThreadLocalRandom.current().nextInt(100);
+    private boolean canDrop(Player p, ItemStack item) {
+        SlimefunItem sfi = SlimefunItem.getByItem(item);
 
-        for (ItemStack drop : customDrops) {
-            if (Slimefun.hasUnlocked(p, drop, true)) {
-                SlimefunItem sfi = SlimefunItem.getByItem(drop);
+        if (sfi == null) {
+            return true;
+        }
+        else if (Slimefun.hasUnlocked(p, sfi, true)) {
 
-                if (sfi instanceof RandomMobDrop && ((RandomMobDrop) sfi).getMobDropChance() <= random) {
-                    continue;
+            if (sfi instanceof RandomMobDrop) {
+                int random = ThreadLocalRandom.current().nextInt(100);
+
+                if (((RandomMobDrop) sfi).getMobDropChance() <= random) {
+                    return false;
                 }
-
-                if (sfi instanceof BasicCircuitBoard && !((BasicCircuitBoard) sfi).isDroppedFromGolems()) {
-                    continue;
-                }
-
-                drops.add(drop.clone());
             }
+
+            if (sfi instanceof BasicCircuitBoard) {
+                return ((BasicCircuitBoard) sfi).isDroppedFromGolems();
+            }
+
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,10 +23,11 @@ import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -98,7 +100,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                             pushItem(b, output.clone());
                         });
 
-                        tasks.execute(SlimefunPlugin.instance);
+                        tasks.execute(SlimefunPlugin.instance());
                     }
                     else {
                         SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
@@ -129,10 +131,14 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
 
                 if (id != null && id.equals("OUTPUT_CHEST")) {
                     // Found the output chest! Now, let's check if we can fit the product in it.
-                    Inventory inv = ((Chest) potentialOutput.getState()).getInventory();
+                    BlockState state = PaperLib.getBlockState(potentialOutput, false).getState();
 
-                    if (InvUtils.fits(inv, output)) {
-                        return Optional.of(inv);
+                    if (state instanceof Chest) {
+                        Inventory inv = ((Chest) state).getInventory();
+
+                        if (InvUtils.fits(inv, output)) {
+                            return Optional.of(inv);
+                        }
                     }
                 }
             }
