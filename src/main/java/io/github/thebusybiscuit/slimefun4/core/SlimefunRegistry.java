@@ -64,10 +64,11 @@ public class SlimefunRegistry {
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
+    private boolean logDuplicateBlockEntries;
 
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
-    private final Set<String> activeChunks = new HashSet<>();
+    private final Set<String> activeChunks = ConcurrentHashMap.newKeySet();
 
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
@@ -82,7 +83,7 @@ public class SlimefunRegistry {
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
     private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
-    private final Map<String, Set<Location>> activeTickers = new HashMap<>();
+    private final Map<String, Set<Location>> activeTickers = new ConcurrentHashMap<>();
 
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
@@ -98,6 +99,7 @@ public class SlimefunRegistry {
         backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility") || SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14);
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
+        logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
     }
 
     /**
@@ -263,6 +265,10 @@ public class SlimefunRegistry {
     @Deprecated
     public Map<String, ItemStack> getAutomatedCraftingChamberRecipes() {
         return automatedCraftingChamberRecipes;
+    }
+    
+    public boolean logDuplicateBlockEntries() {
+        return logDuplicateBlockEntries;
     }
 
 }

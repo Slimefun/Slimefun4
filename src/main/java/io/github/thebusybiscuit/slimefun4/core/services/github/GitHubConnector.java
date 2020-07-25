@@ -54,7 +54,7 @@ abstract class GitHubConnector {
                 writeCacheFile(resp.getBody());
             }
             else {
-                Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] {repository + getURLSuffix(), resp.getStatus(), resp.getBody().toString()});
+                Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] {repository + getURLSuffix(), resp.getStatus(), resp.getBody()});
             }
         }
         catch (UnirestException e) {
