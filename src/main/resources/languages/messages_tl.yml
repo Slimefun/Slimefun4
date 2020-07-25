@@ -152,6 +152,8 @@ messages:
   - "&7Laging tumingin sa maliwanag na bahagi ng buhay!"
   - "&7Biskwit pala ito at hindi ito siya Kukis."
   - "&7Ang astig ng mga Neon Signs!"
+  piglin-barter: "&4Hindi ka maaaring mag-barter sa mga piglins gamit ang mga item
+    ng Slimefun."
 machines:
   pattern-not-found: "&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay
     ang mga Aytem sa tamang pattern sa loob ng Dispense."
