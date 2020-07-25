@@ -75,6 +75,7 @@ public class SlimefunRegistry {
     private final Set<String> energyCapacitors = new HashSet<>();
     private final Set<String> energyConsumers = new HashSet<>();
     private final Set<String> chargeableBlocks = new HashSet<>();
+    private final Set<ItemStack> barterDrops = new HashSet<>();
     private final Map<String, WitherProof> witherProofBlocks = new HashMap<>();
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
@@ -207,6 +208,10 @@ public class SlimefunRegistry {
         return drops.get(entity);
     }
 
+    public Set<ItemStack> getBarterDrops() {
+        return barterDrops;
+    }
+    
     public Set<SlimefunItem> getRadioactiveItems() {
         return radioactive;
     }

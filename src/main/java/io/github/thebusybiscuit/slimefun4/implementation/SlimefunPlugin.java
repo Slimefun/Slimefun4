@@ -68,6 +68,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinBarterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerInteractEntityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
@@ -426,6 +427,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new IronGolemListener(this);
         new PlayerInteractEntityListener(this);
         new MobDropListener(this);
+        new PiglinBarterListener(this);
 
         // Item-specific Listeners
         new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
