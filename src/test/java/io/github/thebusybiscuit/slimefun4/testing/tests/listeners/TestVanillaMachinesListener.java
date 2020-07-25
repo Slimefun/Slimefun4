@@ -86,7 +86,8 @@ public class TestVanillaMachinesListener {
         b.setType(Material.BREWING_STAND);
 
         BrewerInventory inv = Mockito.mock(BrewerInventory.class);
-        inv.setIngredient(item);
+        Mockito.when(inv.getIngredient()).thenReturn(item);
+        
         BrewEvent event = new BrewEvent(b, inv, 1);
         listener.onBrew(event);
         return event;
