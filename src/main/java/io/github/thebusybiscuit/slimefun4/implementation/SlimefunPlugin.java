@@ -177,7 +177,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return;
             }
 
-            // Disabling backwards-compatibility fresh Slimefun installs
+            // Disabling backwards-compatibility for fresh Slimefun installs
             if (!new File("plugins/" + getName().replace(" ", "_"), "config.yml").exists()) {
                 config = new Config(this);
                 config.setValue("options.backwards-compatibility", false);
