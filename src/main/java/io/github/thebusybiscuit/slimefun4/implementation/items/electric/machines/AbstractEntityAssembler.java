@@ -180,7 +180,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                if (String.valueOf(false).equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
+                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
                     return;
                 }
 
@@ -217,15 +217,13 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     }
 
     private boolean findResource(BlockMenu menu, ItemStack item, int[] slots) {
-        Material resource = item.getType();
-        int required = item.getAmount();
         int found = 0;
 
         for (int slot : slots) {
-            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(resource), true, false)) {
+            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true, false)) {
                 found += menu.getItemInSlot(slot).getAmount();
 
-                if (found > required) {
+                if (found >= item.getAmount()) {
                     return true;
                 }
             }
@@ -239,7 +237,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         int headCount = getHead().getAmount();
 
         for (int slot : bodySlots) {
-            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(getBody().getType()), true, false)) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), getBody(), true, false)) {
                 int amount = inv.getItemInSlot(slot).getAmount();
 
                 if (amount >= bodyCount) {
@@ -254,7 +252,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         }
 
         for (int slot : headSlots) {
-            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(getHead().getType()), true, false)) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), getHead(), true, false)) {
                 int amount = inv.getItemInSlot(slot).getAmount();
 
                 if (amount >= headCount) {

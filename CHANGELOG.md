@@ -53,6 +53,7 @@
 * Fixed #2086
 * Fixed #1894
 * Fixed #2097
+* Fixed Wither Assembler requiring more items than it actually consumes
 
 ## Release Candidate 14 (12 Jul 2020)
 
