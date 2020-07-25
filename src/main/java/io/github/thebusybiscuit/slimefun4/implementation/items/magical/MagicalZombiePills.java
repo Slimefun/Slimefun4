@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
@@ -39,7 +41,10 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return (p, entity, item, offhand) -> {
             if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
 
-                ItemUtils.consumeItem(item, false);
+                if (p.getGameMode() != GameMode.CREATIVE) {
+                    ItemUtils.consumeItem(item, false);
+                }
+
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
                 ZombieVillager zombieVillager = (ZombieVillager) entity;
