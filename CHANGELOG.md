@@ -27,6 +27,7 @@
 * Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
 * Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
 * Added "Carbon -> Coal" recipe to the Ore Crusher
+* Added an option to disable the message "Ignoring duplicate block"
 * Added Iron Golem Assembler
 * Added Reinforced Cloth
 * Added Bee protection to Hazmat Suit
@@ -51,6 +52,7 @@
 * Fixed #2093
 * Fixed #2086
 * Fixed #1894
+* Fixed #2097
 
 ## Release Candidate 14 (12 Jul 2020)
 

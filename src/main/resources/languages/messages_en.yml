@@ -110,6 +110,7 @@ messages:
   disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
   no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
   multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4You cannot barter with piglins using Slimefun items'
 
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'

@@ -149,6 +149,7 @@ messages:
   - "&7Daima hayatın parlak tarafından bak!"
   - "&7Bu aslında bir Bisküvi idi, Kurabiye değil."
   - "&7Neon levhalar ışık yayar!"
+  piglin-barter: "&4Slimefun eşyalarıyla, piglinlerle ticaret yapamazsın"
 machines:
   pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
     doğru şekilde yerleştirin."

@@ -13,6 +13,7 @@ import java.util.logging.Level;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -79,16 +80,14 @@ public class MetricsService {
         try {
             // Load the jar file into a child class loader using the SF PluginClassLoader
             // as a parent.
-            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() },
-                plugin.getClass().getClassLoader());
-            Class<?> cl = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
+            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() }, plugin.getClass().getClassLoader());
+            Class<?> metricsClass = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
 
-            metricVersion = cl.getPackage().getImplementationVersion();
+            metricVersion = metricsClass.getPackage().getImplementationVersion();
 
             // If it has not been newly downloaded, auto-updates are on AND there's a new version
             // then cleanup, download and start
-            if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(metricVersion)
-            ) {
+            if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(metricVersion)) {
                 plugin.getLogger().info("Cleaning up and re-loading Metrics.");
                 cleanUp();
                 start();
@@ -96,21 +95,22 @@ public class MetricsService {
             }
 
             // Finally, we're good to start this.
-            Method start = cl.getDeclaredMethod("start");
-            String version = cl.getPackage().getImplementationVersion();
+            Method start = metricsClass.getDeclaredMethod("start");
+            String version = metricsClass.getPackage().getImplementationVersion();
 
             // This is required to be sync due to bStats.
             Slimefun.runSync(() -> {
                 try {
                     start.invoke(null);
                     plugin.getLogger().info("Metrics build #" + version + " started.");
-                } catch (Exception e) {
+                }
+                catch (Exception | LinkageError e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }
             });
-        } catch (Exception e) {
-            plugin.getLogger().log(Level.WARNING,
-                "Failed to load the metrics module. Maybe the jar is corrupt?", e);
+        }
+        catch (Exception | LinkageError e) {
+            plugin.getLogger().log(Level.WARNING, "Failed to load the metrics module. Maybe the jar is corrupt?", e);
         }
     }
 
@@ -123,9 +123,9 @@ public class MetricsService {
             if (this.moduleClassLoader != null) {
                 this.moduleClassLoader.close();
             }
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING,
-                "Could not clean up module class loader. Some memory may have been leaked.");
+        }
+        catch (IOException e) {
+            plugin.getLogger().log(Level.WARNING, "Could not clean up module class loader. Some memory may have been leaked.");
         }
     }
 
@@ -133,7 +133,8 @@ public class MetricsService {
      * Checks for a new update and compares it against the current version.
      * If there is a new version available then this returns true.
      *
-     * @param currentVersion The current version which is being used.
+     * @param currentVersion
+     *            The current version which is being used.
      * @return True if there is an update available.
      */
     public boolean checkForUpdate(String currentVersion) {
@@ -160,16 +161,21 @@ public class MetricsService {
      */
     private int getLatestVersion() {
         try {
-            HttpResponse<JsonNode> response = Unirest.get(GH_API + "/releases/latest")
-                .asJson();
-            if (!response.isSuccess()) return -1;
+            HttpResponse<JsonNode> response = Unirest.get(GH_API + "/releases/latest").asJson();
+
+            if (!response.isSuccess()) {
+                return -1;
+            }
 
             JsonNode node = response.getBody();
 
-            if (node == null) return -1;
+            if (node == null) {
+                return -1;
+            }
 
             return node.getObject().getInt("tag_name");
-        } catch (UnirestException e) {
+        }
+        catch (UnirestException e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to fetch latest builds for SFMetrics");
             return -1;
         }
@@ -178,29 +184,29 @@ public class MetricsService {
     /**
      * Downloads the version specified to Slimefun's data folder.
      *
-     * @param version The version to download.
+     * @param version
+     *            The version to download.
      */
     private boolean download(int version) {
         File f = new File(parentFolder, "Metrics-" + version + ".jar");
 
         try {
             plugin.getLogger().log(Level.INFO, "# Starting download of MetricsModule build: #{0}", version);
-            
-            AtomicInteger lastPercentPosted = new AtomicInteger();
-            HttpResponse<File> response = Unirest.get(GH_RELEASES + "/" + version
-                + "/" + REPO_NAME + ".jar")
-                .downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
-                    int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
 
-                    if (percent != 0 && percent != lastPercentPosted.get()) {
-                        plugin.getLogger().info("# Downloading... " + percent + "% " +
-                            "(" + bytesWritten + "/" + totalBytes + " bytes)");
-                        lastPercentPosted.set(percent);
-                    }
-                })
-                .asFile(f.getPath());
+            AtomicInteger lastPercentPosted = new AtomicInteger();
+            GetRequest request = Unirest.get(GH_RELEASES + "/" + version + "/" + REPO_NAME + ".jar");
+
+            HttpResponse<File> response = request.downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
+                int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
+
+                if (percent != 0 && percent != lastPercentPosted.get()) {
+                    plugin.getLogger().info("# Downloading... " + percent + "% " + "(" + bytesWritten + "/" + totalBytes + " bytes)");
+                    lastPercentPosted.set(percent);
+                }
+            }).asFile(f.getPath());
+
             if (response.isSuccess()) {
-                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] {REPO_NAME, version});
+                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { REPO_NAME, version });
 
                 // Replace the metric file with the new one
                 Files.move(f.toPath(), metricsModuleFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -209,18 +215,18 @@ public class MetricsService {
                 hasDownloadedUpdate = true;
                 return true;
             }
-        } catch (UnirestException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the" +
-                " builds page. Perhaps GitHub is down.");
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the " +
-                "new one. Please do this manually! Error: {0}", e.getMessage());
+        }
+        catch (UnirestException e) {
+            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the" + " builds page. Perhaps GitHub is down.");
+        }
+        catch (IOException e) {
+            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the " + "new one. Please do this manually! Error: {0}", e.getMessage());
         }
         return false;
     }
 
     /**
-     * Returns the currently downloaded metrics version. 
+     * Returns the currently downloaded metrics version.
      * This <strong>can change</strong>! It may be null or an
      * older version before it has downloaded a newer one.
      *

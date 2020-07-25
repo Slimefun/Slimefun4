@@ -54,7 +54,7 @@ abstract class GitHubConnector {
                 writeCacheFile(resp.getBody());
             }
             else {
-                Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}", repository + getURLSuffix());
+                Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] {repository + getURLSuffix(), resp.getStatus(), resp.getBody()});
             }
         }
         catch (UnirestException e) {
@@ -78,21 +78,21 @@ abstract class GitHubConnector {
     }
 
     private JsonNode readCacheFile() {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-            return new JsonNode(br.readLine());
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+            return new JsonNode(reader.readLine());
         }
         catch (IOException | JSONException e) {
-            Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0}", file.getName());
+            Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] {file.getName(), e.getClass().getSimpleName(), e.getMessage()});
             return null;
         }
     }
 
     private void writeCacheFile(JsonNode node) {
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(node.toString().getBytes(StandardCharsets.UTF_8));
+        try (FileOutputStream output = new FileOutputStream(file)) {
+            output.write(node.toString().getBytes(StandardCharsets.UTF_8));
         }
         catch (IOException e) {
-            Slimefun.getLogger().log(Level.WARNING, "Failed to populate GitHub cache");
+            Slimefun.getLogger().log(Level.WARNING, "Failed to populate GitHub cache: {0} - {1}", new Object[] {e.getClass().getSimpleName(), e.getMessage()});
         }
     }
 }
