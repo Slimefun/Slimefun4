@@ -44,6 +44,7 @@
 * Fixed #2093
 * Fixed #2086
 * Fixed #1894
+* Fixed #2097
 
 ## Release Candidate 14 (12 Jul 2020)
 
