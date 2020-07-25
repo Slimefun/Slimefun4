@@ -137,7 +137,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private ProtectionManager protections;
 
     // Important config files for Slimefun
-    private Config config;
+    private final Config config = new Config(this);
     private final Config items = new Config(this, "Items.yml");
     private final Config researches = new Config(this, "Researches.yml");
 
@@ -161,7 +161,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         instance = this;
 
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
-            config = new Config(this);
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
             command.register();
@@ -178,12 +177,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             // Disabling backwards-compatibility for fresh Slimefun installs
-            if (!new File("plugins/" + getName().replace(" ", "_"), "config.yml").exists()) {
-                config = new Config(this);
+            if (!new File("data-storage/Slimefun").exists()) {
                 config.setValue("options.backwards-compatibility", false);
                 config.save();
-            } else {
-                config = new Config(this);
             }
 
             // Creating all necessary Folders
