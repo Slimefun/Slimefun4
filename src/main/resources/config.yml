@@ -5,7 +5,7 @@ options:
   # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/
   
   auto-update: true
-  backwards-compatibility: true
+  backwards-compatibility: false
   chat-prefix: '&a&lSlimefun 4&7> '
   armor-update-interval: 10
   enable-armor-effects: true
