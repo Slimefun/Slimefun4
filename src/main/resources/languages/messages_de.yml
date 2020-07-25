@@ -153,6 +153,17 @@ messages:
   - "&7Ist das jetzt ein Keks, Cookie oder ein Biscuit?"
   - "&7Jetzt auch zuckerfrei!"
   piglin-barter: "&4Du kannst Piglins keine Slimefun-Gegenständen anbieten!"
+  enchantment-rune:
+    fail: "&cDieser Gegenstand kann nicht verzaubert werden"
+    no-enchantment: "&cEs konnten keine gültigen Verzauberungen für diesen Gegenstand
+      gefunden werden"
+    success: "&aDieser Gegenstand wurde erfolgreich mit einer zufälligen Verzauberung
+      aufgebessert!"
+  tape-measure:
+    no-anchor: "&cDu musst zuerst einen Ankerpunkt setzen bevor du messen kannst!"
+    wrong-world: "&cDein Ankerpunkt scheint sich in einer anderen Dimension zu befinden!"
+    distance: "&7Messung erfolgreich. &eDistanz: %distance%"
+    anchor-set: "&aErfolgreich den Ankerpunkt gesetzt:&e %anchor%"
 machines:
   pattern-not-found: "&eEs tut mir leid, aber ich konnte kein passendes Rezept finden."
   unknown-material: "&eEs tut mir leid, aber ich erkenne das Item in meinem Werfer
@@ -295,7 +306,6 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
-  pt: Portugiesisch (Portugal)
   ar: Arabisch
   af: Afrikaans
   da: Dänisch
@@ -307,6 +317,7 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
+  pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   bg: Bulgarisch
   ko: Koreanisch
