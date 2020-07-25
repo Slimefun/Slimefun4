@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -41,7 +41,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see IronGolemAssembler
  *
  */
-public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
+public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
 
     private final int[] border = { 0, 2, 3, 4, 5, 6, 8, 12, 14, 21, 23, 30, 32, 39, 40, 41 };
     private final int[] inputSlots = { 19, 28, 25, 34 };
@@ -198,7 +198,7 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
 
                         Slimefun.runSync(() -> {
                             Location loc = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
-                            b.getWorld().spawnEntity(loc, EntityType.WITHER);
+                            spawnEntity(loc);
                         });
                     }
                 }
@@ -289,5 +289,7 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
     public abstract Material getHeadBorder();
 
     public abstract Material getBodyBorder();
+
+    public abstract T spawnEntity(Location l);
 
 }
