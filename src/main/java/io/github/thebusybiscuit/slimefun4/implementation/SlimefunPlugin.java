@@ -82,6 +82,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
@@ -431,6 +432,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new IronGolemListener(this);
         new PlayerInteractEntityListener(this);
         new MobDropListener(this);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            new PiglinListener(this);
+        }
 
         // Item-specific Listeners
         new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());

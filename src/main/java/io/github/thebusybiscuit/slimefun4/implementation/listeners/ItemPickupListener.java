@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * Listens to the ItemPickup events to prevent it if the item has the "no_pickup" metadata or is an ALTAR_PROBE.
- * 
+ *
  * @author TheBusyBiscuit
  */
 public class ItemPickupListener implements Listener {
