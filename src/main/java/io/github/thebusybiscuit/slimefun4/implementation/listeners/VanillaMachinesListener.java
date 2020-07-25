@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -94,12 +93,8 @@ public class VanillaMachinesListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPreBrew(InventoryClickEvent e) {
-        Inventory inventory = e.getInventory();
-
-        if (inventory.getType() == InventoryType.BREWING && e.getRawSlot() < inventory.getSize() && inventory.getHolder() instanceof BrewingStand) {
-            e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
-        }
+    public void onBrew(BrewEvent e) {
+        e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getContents().getIngredient())));
     }
 
     private boolean checkForUnallowedItems(ItemStack item1, ItemStack item2) {
