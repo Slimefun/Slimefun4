@@ -162,7 +162,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                 Enchantment possibleEnchantment = iterator.next();
 
                 // Duplicate or conflict
-                if (possibleEnchantment == enchantment || possibleEnchantment.conflictsWith(enchantment)) {
+                if (possibleEnchantment.equals(enchantment) || possibleEnchantment.conflictsWith(enchantment)) {
                     iterator.remove();
                 }
             }

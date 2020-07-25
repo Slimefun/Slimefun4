@@ -44,6 +44,9 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  */
 public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
 
+    private static final String KEY_ENABLED = "enabled";
+    private static final String KEY_OFFSET = "offset";
+
     private final int[] border = { 0, 2, 3, 4, 5, 6, 8, 12, 14, 21, 23, 30, 32, 39, 40, 41 };
     private final int[] inputSlots = { 19, 28, 25, 34 };
 
@@ -79,32 +82,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals(String.valueOf(false))) {
-                    menu.replaceExistingItem(22, new CustomItem(Material.GUNPOWDER, "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
-                    menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(true));
-                        newInstance(menu, b);
-                        return false;
-                    });
-                }
-                else {
-                    menu.replaceExistingItem(22, new CustomItem(Material.REDSTONE, "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
-                    menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
-                        newInstance(menu, b);
-                        return false;
-                    });
-                }
-
-                double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F : Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
-
-                menu.replaceExistingItem(31, new CustomItem(Material.PISTON, "&7Offset: &3" + offset + " Block(s)", "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
-                menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-                    double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
-                    BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
-                    newInstance(menu, b);
-                    return false;
-                });
+                updateBlockInventory(menu, b);
             }
 
             @Override
@@ -142,8 +120,8 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "offset", "3.0");
-                BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
+                BlockStorage.addBlockInfo(b, KEY_OFFSET, "3.0");
+                BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(false));
             }
 
             @Override
@@ -153,26 +131,58 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                 }
 
                 BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    for (int slot : bodySlots) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
-                    }
-
-                    for (int slot : headSlots) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
-                    }
-                }
+                dropInventory(b, inv);
 
                 return true;
             }
         });
+    }
+
+    private void updateBlockInventory(BlockMenu menu, Block b) {
+        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), KEY_ENABLED) == null || BlockStorage.getLocationInfo(b.getLocation(), KEY_ENABLED).equals(String.valueOf(false))) {
+            menu.replaceExistingItem(22, new CustomItem(Material.GUNPOWDER, "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
+            menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(true));
+                updateBlockInventory(menu, b);
+                return false;
+            });
+        }
+        else {
+            menu.replaceExistingItem(22, new CustomItem(Material.REDSTONE, "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
+            menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(false));
+                updateBlockInventory(menu, b);
+                return false;
+            });
+        }
+
+        double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET) == null) ? 3.0F : Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET));
+
+        menu.replaceExistingItem(31, new CustomItem(Material.PISTON, "&7Offset: &3" + offset + " Block(s)", "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
+        menu.addMenuClickHandler(31, (p, slot, item, action) -> {
+            double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET)) + (action.isRightClicked() ? -0.1F : 0.1F));
+            BlockStorage.addBlockInfo(b, KEY_OFFSET, String.valueOf(offsetv));
+            updateBlockInventory(menu, b);
+            return false;
+        });
+    }
+
+    private void dropInventory(Block b, BlockMenu inv) {
+        if (inv != null) {
+            for (int slot : bodySlots) {
+                if (inv.getItemInSlot(slot) != null) {
+                    b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                    inv.replaceExistingItem(slot, null);
+                }
+            }
+
+            for (int slot : headSlots) {
+                if (inv.getItemInSlot(slot) != null) {
+                    b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+                    inv.replaceExistingItem(slot, null);
+                }
+            }
+        }
     }
 
     @Override
@@ -181,7 +191,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
+                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), KEY_ENABLED))) {
                     return;
                 }
 
@@ -195,12 +205,12 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                         consumeResources(menu);
 
                         ChargableBlock.addCharge(b, -getEnergyConsumption());
-                        double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
+                        double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET));
 
                         Slimefun.runSync(() -> {
                             Location loc = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
                             spawnEntity(loc);
-                            
+
                             b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, getHead().getType());
                         });
                     }
