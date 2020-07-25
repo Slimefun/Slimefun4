@@ -269,5 +269,4 @@ public class SlimefunItemStack extends CustomItem {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
     }
-
 }

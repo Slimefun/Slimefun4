@@ -28,5 +28,4 @@ public class SlimefunArmorPiece extends SlimefunItem {
     public PotionEffect[] getPotionEffects() {
         return effects;
     }
-
 }
