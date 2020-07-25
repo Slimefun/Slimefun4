@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -47,9 +48,14 @@ public class PiglinListener implements Listener {
             itemStack = e.getPlayer().getInventory().getItemInMainHand();
         }
 
+        if (itemStack.getType() != Material.GOLD_INGOT) {
+            return;
+        }
+
         SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
 
         if (sfItem != null) {
+            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.piglin-barter", true);
             e.setCancelled(true);
         }
     }
