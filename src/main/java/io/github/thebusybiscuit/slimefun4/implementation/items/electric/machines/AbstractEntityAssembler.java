@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -199,6 +200,8 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                         Slimefun.runSync(() -> {
                             Location loc = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
                             spawnEntity(loc);
+                            
+                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, getHead().getType());
                         });
                     }
                 }
