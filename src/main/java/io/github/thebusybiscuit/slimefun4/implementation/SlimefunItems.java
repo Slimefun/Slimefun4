@@ -255,7 +255,7 @@ public final class SlimefunItems {
     static {
         hazmatLore.add("");
         hazmatLore.add(ChatColor.GOLD + "Full set effects:");
-        hazmatLore.add(ChatColor.YELLOW + "- Radioation immunity");
+        hazmatLore.add(ChatColor.YELLOW + "- Radiation immunity");
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             hazmatLore.add(ChatColor.YELLOW + "- Bee Sting protection");
