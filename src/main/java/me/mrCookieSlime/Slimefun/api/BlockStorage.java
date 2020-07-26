@@ -271,7 +271,7 @@ public class BlockStorage {
     }
 
     public void computeChanges() {
-        changes = blocksCache.size() + chunkChanges;
+        changes = blocksCache.size();
 
         Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
         for (Map.Entry<Location, BlockMenu> entry : inventories2.entrySet()) {
@@ -301,8 +301,7 @@ public class BlockStorage {
             return;
         }
 
-        Slimefun.getLogger().log(Level.INFO, "Saving Blocks for World \"{0}\" ({1} Change(s) queued)", new Object[] { world.getName(), changes });
-
+        Slimefun.getLogger().log(Level.INFO, "Saving block data for world \"{0}\" ({1} change(s) queued)", new Object[] { world.getName(), changes });
         Map<String, Config> cache = new HashMap<>(blocksCache);
 
         for (Map.Entry<String, Config> entry : cache.entrySet()) {
@@ -334,41 +333,38 @@ public class BlockStorage {
             }
         }
 
-        Map<Location, BlockMenu> inventories2 = new HashMap<>(inventories);
-
-        for (Map.Entry<Location, BlockMenu> entry : inventories2.entrySet()) {
+        Map<Location, BlockMenu> unsavedInventories = new HashMap<>(inventories);
+        for (Map.Entry<Location, BlockMenu> entry : unsavedInventories.entrySet()) {
             entry.getValue().save(entry.getKey());
         }
 
-        Map<String, UniversalBlockMenu> universalInventories2 = new HashMap<>(SlimefunPlugin.getRegistry().getUniversalInventories());
-
-        for (Map.Entry<String, UniversalBlockMenu> entry : universalInventories2.entrySet()) {
+        Map<String, UniversalBlockMenu> unsavedUniversalInventories = new HashMap<>(SlimefunPlugin.getRegistry().getUniversalInventories());
+        for (Map.Entry<String, UniversalBlockMenu> entry : unsavedUniversalInventories.entrySet()) {
             entry.getValue().save();
         }
 
-        if (chunkChanges > 0) {
-            saveChunks(remove);
-        }
-
         changes = 0;
-        chunkChanges = 0;
-    }
-
-    private void saveChunks(boolean remove) {
-        File chunks = new File(PATH_CHUNKS + "chunks.sfc");
-        Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
-
-        for (Map.Entry<String, BlockInfoConfig> entry : SlimefunPlugin.getRegistry().getChunks().entrySet()) {
-            // Saving empty chunk data is pointless
-            if (!entry.getValue().getKeys().isEmpty()) {
-                cfg.setValue(entry.getKey(), entry.getValue().toJSON());
-            }
-        }
-
-        cfg.save(chunks);
 
         if (remove) {
             SlimefunPlugin.getRegistry().getWorlds().remove(world.getName());
+        }
+    }
+
+    public static void saveChunks() {
+        if (chunkChanges > 0) {
+            File chunks = new File(PATH_CHUNKS + "chunks.sfc");
+            Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
+
+            for (Map.Entry<String, BlockInfoConfig> entry : SlimefunPlugin.getRegistry().getChunks().entrySet()) {
+                // Saving empty chunk data is pointless
+                if (!entry.getValue().getKeys().isEmpty()) {
+                    cfg.setValue(entry.getKey(), entry.getValue().toJSON());
+                }
+            }
+
+            cfg.save(chunks);
+
+            chunkChanges = 0;
         }
     }
 
@@ -587,7 +583,21 @@ public class BlockStorage {
         SlimefunPlugin.getTickerTask().queueDelete(l, destroy);
     }
 
+    @Deprecated
     public static void _integrated_removeBlockInfo(Location l, boolean destroy) {
+        deleteLocationInfoUnsafely(l, destroy);
+    }
+
+    /**
+     * <strong>Do not call this method!</strong>.
+     * This method is used for internal purposes only.
+     * 
+     * @param l
+     *            The {@link Location}
+     * @param destroy
+     *            Whether to completely destroy the block data
+     */
+    public static void deleteLocationInfoUnsafely(Location l, boolean destroy) {
         BlockStorage storage = getStorage(l.getWorld());
 
         if (hasBlockInfo(l)) {
@@ -628,7 +638,16 @@ public class BlockStorage {
         SlimefunPlugin.getTickerTask().queueMove(from, to);
     }
 
-    public static void _integrated_moveLocationInfo(Location from, Location to) {
+    /**
+     * <strong>Do not call this method!</strong>.
+     * This method is used for internal purposes only.
+     * 
+     * @param from
+     *            The origin {@link Location}
+     * @param to
+     *            The destination {@link Location}
+     */
+    public static void moveLocationInfoUnsafely(Location from, Location to) {
         if (!hasBlockInfo(from)) {
             return;
         }

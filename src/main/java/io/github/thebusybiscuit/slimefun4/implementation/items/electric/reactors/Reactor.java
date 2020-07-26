@@ -87,41 +87,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
                     BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
                 }
 
-                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), MODE).equals(ReactorMode.GENERATOR.toString())) {
-                    menu.replaceExistingItem(4, new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
-                    menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
-                        newInstance(menu, b);
-                        return false;
-                    });
-                }
-                else {
-                    menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
-                    menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
-                        newInstance(menu, b);
-                        return false;
-                    });
-                }
-
-                BlockMenu port = getAccessPort(b.getLocation());
-                if (port != null) {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
-                    menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
-                        port.open(p);
-                        newInstance(menu, b);
-
-                        return false;
-                    });
-                }
-                else {
-                    menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
-                    menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
-                        newInstance(menu, b);
-                        menu.open(p);
-                        return false;
-                    });
-                }
+                updateInventory(menu, b);
             }
 
             @Override
@@ -170,6 +136,51 @@ public abstract class Reactor extends AbstractEnergyProvider {
         registerDefaultFuelTypes();
     }
 
+    protected void updateInventory(BlockMenu menu, Block b) {
+        ReactorMode mode = getReactorMode(b.getLocation());
+
+        switch (mode) {
+        case GENERATOR:
+            menu.replaceExistingItem(4, new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
+            menu.addMenuClickHandler(4, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
+                updateInventory(menu, b);
+                return false;
+            });
+            break;
+        case PRODUCTION:
+            menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
+            menu.addMenuClickHandler(4, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
+                updateInventory(menu, b);
+                return false;
+            });
+            break;
+        default:
+            break;
+        }
+
+        BlockMenu port = getAccessPort(b.getLocation());
+
+        if (port != null) {
+            menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7Access Port", "", "&6Detected", "", "&7> Click to view Access Port"));
+            menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
+                port.open(p);
+                updateInventory(menu, b);
+
+                return false;
+            });
+        }
+        else {
+            menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
+            menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
+                updateInventory(menu, b);
+                menu.open(p);
+                return false;
+            });
+        }
+    }
+
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
             preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
@@ -201,6 +212,16 @@ public abstract class Reactor extends AbstractEnergyProvider {
                 preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"), ChestMenuUtils.getEmptyClickHandler());
             }
         }
+    }
+
+    protected ReactorMode getReactorMode(Location l) {
+        ReactorMode mode = ReactorMode.GENERATOR;
+
+        if (BlockStorage.hasBlockInfo(l) && BlockStorage.getLocationInfo(l, MODE).equals(ReactorMode.PRODUCTION.toString())) {
+            mode = ReactorMode.PRODUCTION;
+        }
+
+        return mode;
     }
 
     public abstract void extraTick(Location l);
@@ -278,7 +299,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                 int space = getCapacity() - charge;
 
-                if (space >= produced || !ReactorMode.GENERATOR.toString().equals(BlockStorage.getLocationInfo(l, MODE))) {
+                if (space >= produced || getReactorMode(l) != ReactorMode.GENERATOR) {
                     progress.put(l, timeleft - 1);
                     checkForWaterBlocks(l);
 
@@ -453,10 +474,10 @@ public abstract class Reactor extends AbstractEnergyProvider {
     }
 
     protected BlockMenu getAccessPort(Location l) {
-        Location portL = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
+        Location port = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 
-        if (BlockStorage.check(portL, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {
-            return BlockStorage.getInventory(portL);
+        if (BlockStorage.check(port, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {
+            return BlockStorage.getInventory(port);
         }
         else {
             return null;

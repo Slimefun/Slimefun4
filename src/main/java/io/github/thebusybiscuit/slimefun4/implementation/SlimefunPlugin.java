@@ -111,6 +111,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private static SlimefunPlugin instance;
 
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
+    private boolean isNewlyInstalled = false;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
     private final TickerTask ticker = new TickerTask();
@@ -180,6 +181,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             if (!new File("data-storage/Slimefun").exists()) {
                 config.setValue("options.backwards-compatibility", false);
                 config.save();
+
+                isNewlyInstalled = true;
             }
 
             // Creating all necessary Folders
@@ -658,6 +661,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     public static MinecraftVersion getMinecraftVersion() {
         return instance.minecraftVersion;
+    }
+
+    /**
+     * This method returns whether this version of Slimefun was newly installed.
+     * It will return true if this {@link Server} uses Slimefun for the very first time.
+     * 
+     * @return Whether this is a new installation of Slimefun
+     */
+    public static boolean isNewlyInstalled() {
+        return instance.isNewlyInstalled;
     }
 
     public static String getCSCoreLibVersion() {
