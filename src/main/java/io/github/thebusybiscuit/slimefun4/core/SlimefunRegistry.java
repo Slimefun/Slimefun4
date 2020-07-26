@@ -69,7 +69,8 @@ public class SlimefunRegistry {
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
     private final Set<String> activeChunks = ConcurrentHashMap.newKeySet();
-
+    private final Set<ItemStack> barterDrops = new HashSet<>();
+    
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
@@ -199,6 +200,9 @@ public class SlimefunRegistry {
         return mobDrops;
     }
 
+    public Set<ItemStack> getBarterDrops() {
+        return barterDrops;
+    }
     public Set<SlimefunItem> getRadioactiveItems() {
         return radioactive;
     }

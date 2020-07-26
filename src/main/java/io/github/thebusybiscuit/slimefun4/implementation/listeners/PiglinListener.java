@@ -1,16 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Piglin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -20,6 +26,18 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author poma123
  * 
  */
+
+/**
+ * Also {@link Listener} Listens to the EntityDropItemEvent event to inject a {@link RandomMobDrop} if its dropChance() check passes.
+ * this would only be possible if the {@link RecipeType} is of PiglinBarter type. 
+ * 
+ * @author dNiym
+ * 
+ * @see getBarterDrops
+ * @see RandomMobDrop
+ * 
+ */
+
 public class PiglinListener implements Listener {
 
     public PiglinListener(SlimefunPlugin plugin) {
@@ -38,6 +56,29 @@ public class PiglinListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPiglinDropItem(EntityDropItemEvent e) {
+        if (e.getEntity() instanceof Piglin) {
+            Set<ItemStack> drops = SlimefunPlugin.getRegistry().getBarterDrops(); 
+            
+            /*
+             * NOTE:  Getting a new random number each iteration because multiple items could have the same
+             * % chance to drop, and if one fails all items with that number will fail.  Getting a new random number
+             * will allow multiple items with the same % chance to drop.
+             */
+            
+            for (ItemStack is : drops) {
+                SlimefunItem sfi = SlimefunItem.getByItem(is);
+                if (sfi instanceof RandomMobDrop && ((RandomMobDrop)sfi).getMobDropChance() >= ThreadLocalRandom.current().nextInt(100)) {
+                    Item drop = e.getEntity().getWorld().dropItemNaturally(((Piglin)e.getEntity()).getEyeLocation(), sfi.getItem());
+                    drop.setVelocity(e.getItemDrop().getVelocity());
+                    e.getItemDrop().remove();
+                    return;
+                } 
+            }
+        }
+    }
+    
     @EventHandler
     public void onInteractEntity(PlayerInteractEntityEvent e) {
         if (!e.getRightClicked().isValid() || e.getRightClicked().getType() != EntityType.PIGLIN) {
