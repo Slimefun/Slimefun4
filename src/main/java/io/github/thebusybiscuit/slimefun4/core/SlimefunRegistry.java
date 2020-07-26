@@ -203,6 +203,7 @@ public class SlimefunRegistry {
     public Set<ItemStack> getBarterDrops() {
         return barterDrops;
     }
+    
     public Set<SlimefunItem> getRadioactiveItems() {
         return radioactive;
     }
