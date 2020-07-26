@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityDropItemEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
