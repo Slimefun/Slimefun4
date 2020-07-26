@@ -14,6 +14,7 @@ Check out our [Addons](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons),
 
 ### Quick navigation
 * **[Download Slimefun4](#download-slimefun-4)**
+* **[Screenshots](#screenshots)**
 * **[Discord Support Server](#discord)**
 * **[Bug Tracker](https://github.com/TheBusyBiscuit/Slimefun4/issues)**
 * **[Wiki](https://github.com/TheBusyBiscuit/Slimefun4/wiki)**
@@ -53,6 +54,16 @@ While "stable" builds most definitely contain more bugs than development builds 
 "Stable" builds are literally just outdated development builds that seemed to run fine without any __major__ issues. But they are far from bug-free hence why actually calling them stable would be hypocritical. However these builds can only really stay "stable" if there are enough people using development builds and report any bugs they come across. Otherwise potential issues may go unnoticed and slip into a "stable" build. Again, we really recommend you to choose the development builds. But since a few people really wanted "stable" builds, they are now an option too.
 
 </details>
+
+## Screenshots
+So what does Slimefun look like?<br>
+Well, we asked some users on discord to send us some screenshots, so see for yourself:
+|                 Reactors and electricity                  |            Awesome factories             |          Magic and Altars           |
+| :-------------------------------------------: | :--------------------------------------: | :----------------------------------------: |
+| ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase1.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase6.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase5.png) |
+| *Screenshot provided by HamtaBot#0001* | *Screenshot provided by Piͭxͪeͤl (mnb)#5049* | *Screenshot provided by Kilaruna#4981* |
+| ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase4.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase3.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase2.png) |
+| *Screenshot provided by GalaxyKat11#3816* | *Screenshot provided by TamThan#7987* | *Screenshot provided by Kilaruna#4981* |
 
 ## Discord
 You can find Slimefun's community on Discord and connect with **over 2000** users of this plugin from all over the world.<br>
