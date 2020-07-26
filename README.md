@@ -57,7 +57,7 @@ While "stable" builds most definitely contain more bugs than development builds 
 
 ## Screenshots
 So what does Slimefun look like?<br>
-Well, we asked some users on discord to send us some screenshots, so see for yourself:
+Well, we asked some users on our [Discord server](#discord) to send us some screenshots, so see for yourself:
 |                 Reactors and electricity                  |            Awesome factories             |          Magic and Altars           |
 | :-------------------------------------------: | :--------------------------------------: | :----------------------------------------: |
 | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase1.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase6.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase5.png) |
