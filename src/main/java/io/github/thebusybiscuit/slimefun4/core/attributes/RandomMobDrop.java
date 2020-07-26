@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This interface, when attached to a {@link SlimefunItem}, provides an easy method for adding
- * a % chance to drop for an {@link SlimefunItem} on {@link entityDeathEvent}, this chance is 0-100
+ * a % chance to drop for an {@link SlimefunItem} on {@link EntityDeathEvent}, this chance is 0-100
  * and used in conjunction with the MOB_DROP {@link RecipeType} 
  * 
  * @author dNiym
