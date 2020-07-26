@@ -176,6 +176,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return;
             }
 
+            // Disabling backwards-compatibility for fresh Slimefun installs
+            if (!new File("data-storage/Slimefun").exists()) {
+                config.setValue("options.backwards-compatibility", false);
+                config.save();
+            }
+
             // Creating all necessary Folders
             getLogger().log(Level.INFO, "Creating directories...");
             createDirectories();
