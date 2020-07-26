@@ -17,11 +17,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @author dNiym
  *
- * @see MobDropListener
+ * @see PiglinListener
  * 
  */
 @FunctionalInterface
-public interface PiglinBarterDrop extends RandomMobDrop {
+public interface PiglinBarterDrop extends ItemAttribute {
 
     /**
      * Implement this method to make the object have a variable chance of being
@@ -34,6 +34,6 @@ public interface PiglinBarterDrop extends RandomMobDrop {
      * 
      * @return The integer chance (0-100%) {@link SlimefunItem} has to drop.
      */
-//    int getMobDropChance();
+    int getBarteringLootChance() ;
 
 }

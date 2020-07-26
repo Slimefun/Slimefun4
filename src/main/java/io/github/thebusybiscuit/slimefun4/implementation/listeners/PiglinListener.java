@@ -25,7 +25,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * This {@link Listener} prevents a {@link Piglin} from bartering with a {@link SlimefunItem} as well as
  * listens to the EntityDropItemEvent to inject a {@link PiglinBarterDrop} if a dropChance() check passes.
  *
- * @author poma123, dNiym
+ * @author poma123
+ * @author dNiym
  * 
  */
 
@@ -50,7 +51,7 @@ public class PiglinListener implements Listener {
     @EventHandler
     public void onPiglinDropItem(EntityDropItemEvent e) {
         if (e.getEntity() instanceof Piglin) {
-            Piglin piggy = (Piglin) e.getEntity();
+            Piglin piglin = (Piglin) e.getEntity();
             Set<ItemStack> drops = SlimefunPlugin.getRegistry().getBarterDrops(); 
             
             /*
@@ -61,8 +62,8 @@ public class PiglinListener implements Listener {
             
             for (ItemStack is : drops) {
                 SlimefunItem sfi = SlimefunItem.getByItem(is);
-                if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getMobDropChance() >= ThreadLocalRandom.current().nextInt(100)) {
-                    Item drop = e.getEntity().getWorld().dropItemNaturally(piggy.getEyeLocation(), sfi.getItem());
+                if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getBarteringLootChance() >= ThreadLocalRandom.current().nextInt(100)) {
+                    Item drop = e.getEntity().getWorld().dropItemNaturally(piglin.getEyeLocation(), sfi.getItem());
                     drop.setVelocity(e.getItemDrop().getVelocity());
                     e.getItemDrop().remove();
                     return;
