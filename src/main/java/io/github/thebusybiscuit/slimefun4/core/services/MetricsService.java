@@ -45,12 +45,7 @@ public class MetricsService {
     private boolean hasDownloadedUpdate = false;
 
     static {
-        Unirest.config()
-            .concurrency(2, 1)
-            .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
-            .setDefaultHeader("Accept", "application/vnd.github.v3+json")
-            .enableCookieManagement(false)
-            .cookieSpec("ignoreCookies");
+        Unirest.config().concurrency(2, 1).setDefaultHeader("User-Agent", "MetricsModule Auto-Updater").setDefaultHeader("Accept", "application/vnd.github.v3+json").enableCookieManagement(false).cookieSpec("ignoreCookies");
     }
 
     public MetricsService(SlimefunPlugin plugin) {
@@ -88,8 +83,7 @@ public class MetricsService {
             // If it has not been newly downloaded, auto-updates are on AND there's a new version
             // then cleanup, download and start
             if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(metricVersion)) {
-                plugin.getLogger().info("Cleaning up and re-loading Metrics.");
-                cleanUp();
+                plugin.getLogger().info("Cleaned up, now re-loading Metrics-Module!");
                 start();
                 return;
             }
@@ -120,8 +114,8 @@ public class MetricsService {
      */
     public void cleanUp() {
         try {
-            if (this.moduleClassLoader != null) {
-                this.moduleClassLoader.close();
+            if (moduleClassLoader != null) {
+                moduleClassLoader.close();
             }
         }
         catch (IOException e) {
@@ -145,6 +139,7 @@ public class MetricsService {
         int latest = getLatestVersion();
 
         if (latest > Integer.parseInt(currentVersion)) {
+            cleanUp();
             return download(latest);
         }
 
@@ -217,11 +212,12 @@ public class MetricsService {
             }
         }
         catch (UnirestException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the" + " builds page. Perhaps GitHub is down.");
+            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down?");
         }
         catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the " + "new one. Please do this manually! Error: {0}", e.getMessage());
+            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
         }
+
         return false;
     }
 
