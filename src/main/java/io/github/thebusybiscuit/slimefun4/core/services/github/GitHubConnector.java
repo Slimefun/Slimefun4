@@ -54,7 +54,18 @@ abstract class GitHubConnector {
                 writeCacheFile(resp.getBody());
             }
             else {
-                Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] {repository + getURLSuffix(), resp.getStatus(), resp.getBody()});
+                if (github.isLoggingEnabled()) {
+                    Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] {repository + getURLSuffix(), resp.getStatus(), resp.getBody()});
+                }
+
+                // It has the cached file, let's just read that then
+                if (file.exists()) {
+                    JsonNode cache = readCacheFile();
+
+                    if (cache != null) {
+                        onSuccess(cache);
+                    }
+                }
             }
         }
         catch (UnirestException e) {
