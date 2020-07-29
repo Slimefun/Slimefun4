@@ -52,14 +52,17 @@ public class LocalizationService extends SlimefunLocalization implements Persist
 
         if (serverDefaultLanguage != null) {
             translationsEnabled = SlimefunPlugin.getCfg().getBoolean("options.enable-translations");
-            
+
             defaultLanguage = new Language(serverDefaultLanguage, "11b3188fd44902f72602bd7c2141f5a70673a411adb3d81862c69e536166b");
             defaultLanguage.setMessagesFile(getConfig().getConfiguration());
 
             loadEmbeddedLanguages();
 
             String language = getConfig().getString(LANGUAGE_PATH);
-            if (language == null) language = serverDefaultLanguage;
+
+            if (language == null) {
+                language = serverDefaultLanguage;
+            }
 
             if (hasLanguage(serverDefaultLanguage)) {
                 setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
@@ -201,7 +204,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
      */
     public double getProgress(Language lang) {
         int defaultKeys = getTotalKeys(languages.get("en"));
-        
+
         if (defaultKeys == 0) {
             return 0;
         }

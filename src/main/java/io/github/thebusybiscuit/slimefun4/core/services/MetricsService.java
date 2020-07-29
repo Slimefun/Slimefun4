@@ -88,8 +88,7 @@ public class MetricsService {
             // If it has not been newly downloaded, auto-updates are on AND there's a new version
             // then cleanup, download and start
             if (!hasDownloadedUpdate && hasAutoUpdates() && checkForUpdate(metricVersion)) {
-                plugin.getLogger().info("Cleaning up and re-loading Metrics.");
-                cleanUp();
+                plugin.getLogger().info("Cleaned up, now re-loading Metrics-Module!");
                 start();
                 return;
             }
@@ -120,8 +119,8 @@ public class MetricsService {
      */
     public void cleanUp() {
         try {
-            if (this.moduleClassLoader != null) {
-                this.moduleClassLoader.close();
+            if (moduleClassLoader != null) {
+                moduleClassLoader.close();
             }
         }
         catch (IOException e) {
@@ -188,11 +187,16 @@ public class MetricsService {
      *            The version to download.
      */
     private boolean download(int version) {
-        File f = new File(parentFolder, "Metrics-" + version + ".jar");
+        File file = new File(parentFolder, "Metrics-" + version + ".jar");
 
         try {
             plugin.getLogger().log(Level.INFO, "# Starting download of MetricsModule build: #{0}", version);
-
+            
+            if (file.exists()) {
+                // Delete the file in case we accidentally downloaded it before
+                Files.delete(file.toPath());
+            }
+            
             AtomicInteger lastPercentPosted = new AtomicInteger();
             GetRequest request = Unirest.get(GH_RELEASES + "/" + version + "/" + REPO_NAME + ".jar");
 
@@ -203,13 +207,14 @@ public class MetricsService {
                     plugin.getLogger().info("# Downloading... " + percent + "% " + "(" + bytesWritten + "/" + totalBytes + " bytes)");
                     lastPercentPosted.set(percent);
                 }
-            }).asFile(f.getPath());
+            }).asFile(file.getPath());
 
             if (response.isSuccess()) {
                 plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { REPO_NAME, version });
 
                 // Replace the metric file with the new one
-                Files.move(f.toPath(), metricsModuleFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                cleanUp();
+                Files.move(file.toPath(), metricsModuleFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 metricVersion = String.valueOf(version);
                 hasDownloadedUpdate = true;
@@ -217,11 +222,12 @@ public class MetricsService {
             }
         }
         catch (UnirestException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the" + " builds page. Perhaps GitHub is down.");
+            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down?");
         }
         catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the " + "new one. Please do this manually! Error: {0}", e.getMessage());
+            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
         }
+
         return false;
     }
 
