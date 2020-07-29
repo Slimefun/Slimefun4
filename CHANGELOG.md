@@ -56,6 +56,7 @@
 * Fixed Wither Assembler requiring more items than it actually consumes
 * Fixed Metrics not updating automatically
 * Fixed #2143
+* Fixed #2145
 
 ## Release Candidate 14 (12 Jul 2020)
 
