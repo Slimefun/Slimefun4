@@ -45,7 +45,12 @@ public class MetricsService {
     private boolean hasDownloadedUpdate = false;
 
     static {
-        Unirest.config().concurrency(2, 1).setDefaultHeader("User-Agent", "MetricsModule Auto-Updater").setDefaultHeader("Accept", "application/vnd.github.v3+json").enableCookieManagement(false).cookieSpec("ignoreCookies");
+        Unirest.config()
+            .concurrency(2, 1)
+            .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
+            .setDefaultHeader("Accept", "application/vnd.github.v3+json")
+            .enableCookieManagement(false)
+            .cookieSpec("ignoreCookies");
     }
 
     public MetricsService(SlimefunPlugin plugin) {
