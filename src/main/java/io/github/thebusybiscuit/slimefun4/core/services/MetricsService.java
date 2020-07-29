@@ -144,7 +144,6 @@ public class MetricsService {
         int latest = getLatestVersion();
 
         if (latest > Integer.parseInt(currentVersion)) {
-            cleanUp();
             return download(latest);
         }
 
@@ -209,6 +208,7 @@ public class MetricsService {
                 plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { REPO_NAME, version });
 
                 // Replace the metric file with the new one
+                cleanUp();
                 Files.move(f.toPath(), metricsModuleFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 metricVersion = String.valueOf(version);
