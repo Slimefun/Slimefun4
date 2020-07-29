@@ -143,6 +143,16 @@ messages:
   - "&7要总是看着生活中光明的一面!"
   - "&7这一块其实是饼干而不是曲奇"
   - "&7霓虹灯亮起来了!"
+  piglin-barter: "&4你不能使用 Slimefun 的物品和猪灵以物换物"
+  enchantment-rune:
+    fail: "&c你不能附魔这个物品."
+    no-enchantment: "&c无法找到此物品可用的附魔属性."
+    success: "&a成功为此物品添加了随机的可用附魔属性."
+  tape-measure:
+    no-anchor: "&c在开始测量之前请先选定测量起点!"
+    wrong-world: "&c你设置的起点似乎在另一个世界!"
+    distance: "&7已测量到距离, &e为: %distance%"
+    anchor-set: "&a成功在 &e %anchor% &a设置了测量起点"
 machines:
   pattern-not-found: "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成配方, 请检查发射器里放置物品的顺序."
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成配方放置物品."
