@@ -11,7 +11,7 @@ rules:
 
   ## We don't need indentation warnings
   indentation: disable
-  
+
   trailing-spaces:
     ignore: |
       /src/main/resources/languages/*.yml
