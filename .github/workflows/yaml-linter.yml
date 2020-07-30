@@ -1,0 +1,22 @@
+name: YAML Linter
+
+on:
+  push:
+    paths:
+    - '*.yml'
+  pull_request:
+    branches:
+    - master
+    paths:
+    - '*.yml'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+    - name: YAML Linter
+      uses: ibiqlik/action-yamllint@v1.0.0
