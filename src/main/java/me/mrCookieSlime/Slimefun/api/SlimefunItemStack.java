@@ -251,6 +251,11 @@ public class SlimefunItemStack extends CustomItem {
     }
 
     public String getDisplayName() {
+        if (immutableMeta == null) {
+            // Just to be extra safe
+            return null;
+        }
+        
         return immutableMeta.getDisplayName().orElse(null);
     }
 
