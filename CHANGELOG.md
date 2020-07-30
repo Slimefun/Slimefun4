@@ -57,6 +57,7 @@
 * Fixed Metrics not updating automatically
 * Fixed #2143
 * Fixed #2145
+* Fixed #2151
 
 ## Release Candidate 14 (12 Jul 2020)
 
