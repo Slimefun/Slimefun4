@@ -9,4 +9,9 @@ rules:
     max: 160
     level: warning
 
+  ## We don't need indentation warnings
   indentation: disable
+  
+  trailing-spaces:
+    ignore: |
+      /src/main/resources/languages/*.yml
