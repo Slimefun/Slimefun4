@@ -33,6 +33,7 @@
 * Added Bee protection to Hazmat Suit
 * Added Enchantment Rune
 * Added Tape Measure
+* Added a permission node for /sf debug_fish
 
 #### Changes
 * Refactored and reworked the Generator API
