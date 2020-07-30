@@ -3,7 +3,7 @@ options:
   # These builds are much more tested and are far less likely to have any issues.
   # Note: When running a stable build auto-updates ONLY update to other stable builds! Perfect eh?
   # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/
-  
+
   auto-update: true
   backwards-compatibility: true
   chat-prefix: '&a&lSlimefun 4&7> '
@@ -17,12 +17,12 @@ options:
   language: en
   enable-translations: true
   log-duplicate-block-entries: true
-  
+
 guide:
   default-view-book: false
   show-vanilla-recipes: true
   receive-on-first-join: true
-  
+
 researches:
   free-in-creative-mode: true
   enable-fireworks: true
