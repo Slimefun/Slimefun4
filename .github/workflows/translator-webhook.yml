@@ -1,18 +1,19 @@
 name: Translation Notifier
-on: 
+
+on:
   push:
     branches:
     - master
     paths:
     - 'src/main/resources/languages/**_en.yml'
-    
+
 jobs:
   notify:
-  
+
     name: Translation-Notifier
     runs-on: ubuntu-latest
     if: github.repository == 'TheBusyBiscuit/Slimefun4'
-    
+
     steps:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
