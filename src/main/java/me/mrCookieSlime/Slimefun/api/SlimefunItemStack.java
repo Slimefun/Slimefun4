@@ -231,7 +231,7 @@ public class SlimefunItemStack extends CustomItem {
             throw new WrongItemStackException(id + " is not mutable.");
         }
     }
-    
+
     public void lock() {
         locked = true;
     }
@@ -248,6 +248,10 @@ public class SlimefunItemStack extends CustomItem {
 
     public Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
+    }
+
+    public String getDisplayName() {
+        return immutableMeta.getDisplayName().orElse(null);
     }
 
     private static ItemStack getSkull(String id, String texture) {
