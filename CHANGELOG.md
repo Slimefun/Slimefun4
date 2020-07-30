@@ -45,6 +45,9 @@
 * Optimized Cargo networks for Paper
 * Optimized Multiblocks for Paper
 * Optimized Enhanced Furnaces for Paper
+* General performance improvements for Talismans
+* General performance improvements for GPS Emergency Transmitters
+* General performance improvements for Infused Magnets
 
 #### Fixes
 * Fixed Slimefun Armor sometimes not applying its effects
@@ -58,6 +61,10 @@
 * Fixed #2143
 * Fixed #2145
 * Fixed #2151
+* Fixed old Talismans not working
+* Fixed Talismans sometimes not getting consumed properly
+* Fixed old Infused Magnets not working
+* Fixed old GPS Emergency Transmitters not working
 
 ## Release Candidate 14 (12 Jul 2020)
 
