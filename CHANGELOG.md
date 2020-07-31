@@ -49,6 +49,8 @@
 * General performance improvements for Talismans
 * General performance improvements for GPS Emergency Transmitters
 * General performance improvements for Infused Magnets
+* Ancient Altars now support for protection plugins
+* Ancient Pedestals now support for protection plugins
 
 #### Fixes
 * Fixed Slimefun Armor sometimes not applying its effects
@@ -68,6 +70,7 @@
 * Fixed old GPS Emergency Transmitters not working
 * Fixed #2156
 * Fixed #2165
+* Fixed #2162
 
 ## Release Candidate 14 (12 Jul 2020)
 
