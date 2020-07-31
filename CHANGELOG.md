@@ -66,6 +66,7 @@
 * Fixed Talismans sometimes not getting consumed properly
 * Fixed old Infused Magnets not working
 * Fixed old GPS Emergency Transmitters not working
+* Fixed #2156
 
 ## Release Candidate 14 (12 Jul 2020)
 
