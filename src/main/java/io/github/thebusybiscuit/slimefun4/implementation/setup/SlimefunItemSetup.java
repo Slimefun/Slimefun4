@@ -2781,12 +2781,12 @@ public final class SlimefunItemSetup {
 		.register(plugin);
 
 		new RadioactiveItem(categories.resources, Radioactivity.VERY_HIGH, SlimefunItems.ENRICHED_NETHER_ICE, RecipeType.HEATED_PRESSURE_CHAMBER,
-		new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM, null, null, null, null, null, null, null})
-		.register(plugin);
+		new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM, null, null, null, null, null, null, null},
+		new SlimefunItemStack(SlimefunItems.ENRICHED_NETHER_ICE, 4)).register(plugin);
 
 		new ElevatorPlate(categories.gps, SlimefunItems.ELEVATOR_PLATE, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {null, new ItemStack(Material.STONE_PRESSURE_PLATE), null, new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON), SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ALUMINUM_BRONZE_INGOT},
-		new CustomItem(SlimefunItems.ELEVATOR_PLATE, 2))
+		new SlimefunItemStack(SlimefunItems.ELEVATOR_PLATE, 2))
 		.register(plugin);
 
 		new FoodFabricator(categories.electricity, SlimefunItems.FOOD_FABRICATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -3023,7 +3023,7 @@ public final class SlimefunItemSetup {
 
 		new CoolantCell(categories.technicalComponents, SlimefunItems.NETHER_ICE_COOLANT_CELL, RecipeType.HEATED_PRESSURE_CHAMBER,
 		new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE, null, null, null, null, null, null, null, null},
-		new SlimefunItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 4))
+		new SlimefunItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8))
 		.register(plugin);
 
 		new RadioactiveItem(categories.resources, Radioactivity.HIGH, SlimefunItems.NEPTUNIUM, RecipeType.NUCLEAR_REACTOR,

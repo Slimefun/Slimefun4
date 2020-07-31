@@ -175,7 +175,7 @@ public class MetricsService {
             return node.getObject().getInt("tag_name");
         }
         catch (UnirestException e) {
-            plugin.getLogger().log(Level.SEVERE, "Failed to fetch latest builds for SFMetrics");
+            plugin.getLogger().log(Level.WARNING, "Failed to fetch latest builds for Metrics: {0}", e.getMessage());
             return -1;
         }
     }

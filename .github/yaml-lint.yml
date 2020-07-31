@@ -1,0 +1,17 @@
+extends: default
+locale: en_US.UTF-8
+
+yaml-files:
+- '*.yml'
+
+rules:
+  line-length:
+    max: 160
+    level: warning
+
+  ## We don't need indentation warnings
+  indentation: disable
+
+  trailing-spaces:
+    ignore: |
+      /src/main/resources/languages/*.yml

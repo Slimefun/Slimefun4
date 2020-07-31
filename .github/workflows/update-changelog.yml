@@ -1,19 +1,19 @@
 name: Changelog Populator
 
-on: 
+on:
   push:
     branches:
     - master
     paths:
     - 'CHANGELOG.md'
-    
+
 jobs:
   populate:
 
     name: Changelog Generator
     runs-on: ubuntu-latest
     if: github.repository == 'TheBusyBiscuit/Slimefun4'
-    
+
     steps:
       - name: TOC Generator
         uses: technote-space/toc-generator@v2.4.0

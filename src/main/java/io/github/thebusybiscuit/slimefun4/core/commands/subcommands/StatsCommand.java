@@ -15,17 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 class StatsCommand extends SubCommand {
 
     StatsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "stats";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "stats", false);
     }
 
     @Override

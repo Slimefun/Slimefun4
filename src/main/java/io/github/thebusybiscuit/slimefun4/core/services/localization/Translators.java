@@ -38,6 +38,7 @@ public class Translators {
         addTranslator("ThatsCube", SupportedLanguage.ITALIAN, true);
         addTranslator("alessandrobasi", SupportedLanguage.ITALIAN, true);
         addTranslator("dracrus", SupportedLanguage.ITALIAN, true);
+        addTranslator("prolletto64", SupportedLanguage.ITALIAN, true);
 
         // Translators - Latvian
         addTranslator("AgnisT", "NIKNAIZ", SupportedLanguage.LATVIAN, true);

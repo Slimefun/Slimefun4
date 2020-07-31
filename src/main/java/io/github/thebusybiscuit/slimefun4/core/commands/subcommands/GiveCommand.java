@@ -22,17 +22,7 @@ class GiveCommand extends SubCommand {
     private static final String PLACEHOLDER_AMOUNT = "%amount%";
 
     GiveCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "give";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "give", false);
     }
 
     @Override
