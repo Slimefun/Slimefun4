@@ -67,6 +67,7 @@
 * Fixed old Infused Magnets not working
 * Fixed old GPS Emergency Transmitters not working
 * Fixed #2156
+* Fixed #2165
 
 ## Release Candidate 14 (12 Jul 2020)
 
