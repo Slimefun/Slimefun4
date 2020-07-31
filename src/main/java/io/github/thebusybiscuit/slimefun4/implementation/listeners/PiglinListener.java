@@ -62,8 +62,8 @@ public class PiglinListener implements Listener {
             
             for (ItemStack is : drops) {
                 SlimefunItem sfi = SlimefunItem.getByItem(is);
-                if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getBarteringLootChance() >= ThreadLocalRandom.current().nextInt(100)) {
-                    Item drop = e.getEntity().getWorld().dropItemNaturally(piglin.getEyeLocation(), sfi.getItem());
+                if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getBarteringLootChance() >= ThreadLocalRandom.current().nextInt(1,101)) {
+                    Item drop = piglin.getWorld().dropItemNaturally(piglin.getEyeLocation(), sfi.getItem());
                     drop.setVelocity(e.getItemDrop().getVelocity());
                     e.getItemDrop().remove();
                     return;
