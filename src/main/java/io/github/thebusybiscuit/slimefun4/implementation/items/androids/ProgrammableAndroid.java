@@ -686,7 +686,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
             if (data instanceof Rotatable) {
                 Rotatable rotatable = ((Rotatable) data);
-                rotatable.setRotation(rotation);
+                rotatable.setRotation(rotation.getOppositeFace());
             }
         });
 

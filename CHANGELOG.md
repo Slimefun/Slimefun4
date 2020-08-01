@@ -26,6 +26,9 @@
 #### Changes
 * Performance improvement for Programmable Android rotations
 
+#### Fixes
+* Fixed Programmable Androids rotating in the wrong direction
+
 ## Release Candidate 15 (01 Aug 2020)
 
 #### Additions
