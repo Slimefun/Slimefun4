@@ -26,6 +26,5 @@ public final class PatternUtils {
     public static final Pattern ALPHANUMERIC = Pattern.compile("[A-Fa-f0-9]+");
     public static final Pattern NUMERIC = Pattern.compile("[0-9]+");
 
-    public static final Pattern NUMBER_SEPERATOR = Pattern.compile(",|\\.");
-
+    public static final Pattern NUMBER_SEPARATOR = Pattern.compile("[,.]");
 }

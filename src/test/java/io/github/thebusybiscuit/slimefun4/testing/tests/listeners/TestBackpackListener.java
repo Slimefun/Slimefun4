@@ -41,7 +41,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class TestBackpackListener {
 
-    private static int BACKPACK_SIZE = 27;
+    private static final int BACKPACK_SIZE = 27;
     private static ServerMock server;
     private static SlimefunPlugin plugin;
     private static BackpackListener listener;

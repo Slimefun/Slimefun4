@@ -143,8 +143,8 @@ public class DirtyChestMenu extends ChestMenu {
 
     public static class SaveHandler implements MenuOpeningHandler {
 
-        private DirtyChestMenu menu;
-        private MenuOpeningHandler handler;
+        private final DirtyChestMenu menu;
+        private final MenuOpeningHandler handler;
 
         public SaveHandler(DirtyChestMenu menu, MenuOpeningHandler handler) {
             this.menu = menu;

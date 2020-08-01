@@ -31,9 +31,7 @@ public class PlayerProfileListener implements Listener {
         Optional<PlayerProfile> profile = PlayerProfile.find(e.getPlayer());
 
         // if we still have a profile of this Player in memory, delete it
-        if (profile.isPresent()) {
-            profile.get().markForDeletion();
-        }
+        profile.ifPresent(PlayerProfile::markForDeletion);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -41,9 +39,7 @@ public class PlayerProfileListener implements Listener {
         Optional<PlayerProfile> profile = PlayerProfile.find(e.getPlayer());
 
         // if we still have a profile of this Player in memory, delete it
-        if (profile.isPresent()) {
-            profile.get().markForDeletion();
-        }
+        profile.ifPresent(PlayerProfile::markForDeletion);
     }
 
 }

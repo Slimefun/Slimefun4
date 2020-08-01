@@ -6,7 +6,9 @@ import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -103,7 +105,7 @@ public final class ChargableBlock {
 
             setCharge(l, charge);
 
-            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+            if (SlimefunItem.getByID(id) instanceof Capacitor) {
                 updateCapacitor(l, charge, capacity);
             }
         }
@@ -111,7 +113,7 @@ public final class ChargableBlock {
             charge += addedCharge;
             setCharge(l, charge);
 
-            if (SlimefunPlugin.getRegistry().getEnergyCapacitors().contains(id)) {
+            if (SlimefunItem.getByID(id) instanceof Capacitor) {
                 updateCapacitor(l, charge, capacity);
             }
         }

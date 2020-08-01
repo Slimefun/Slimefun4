@@ -11,17 +11,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 class CheatCommand extends SubCommand {
 
     CheatCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "cheat";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "cheat", false);
     }
 
     @Override

@@ -2,17 +2,20 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
 
+import org.bukkit.Material;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
+import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFurnace;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -33,31 +36,44 @@ public class EnhancedFurnaceListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onFuelBurn(FurnaceBurnEvent e) {
+        if (e.getBlock().getType() != Material.FURNACE) {
+            // We don't care about Smokers, Blast Furnaces and all that fancy stuff
+            return;
+        }
+
         SlimefunItem furnace = BlockStorage.check(e.getBlock());
 
         if (furnace instanceof EnhancedFurnace && ((EnhancedFurnace) furnace).getFuelEfficiency() > 0) {
             int burnTime = e.getBurnTime();
             int newBurnTime = ((EnhancedFurnace) furnace).getFuelEfficiency() * burnTime;
-            e.setBurnTime(Math.min(newBurnTime, Short.MAX_VALUE));
+
+            e.setBurnTime(Math.min(newBurnTime, Short.MAX_VALUE - 1));
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onItemSmelt(FurnaceSmeltEvent e) {
+        if (e.getBlock().getType() != Material.FURNACE) {
+            // We don't care about Smokers, Blast Furnaces and all that fancy stuff
+            return;
+        }
+
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
         if (sfItem instanceof EnhancedFurnace) {
-            Furnace furnace = (Furnace) e.getBlock().getState();
-            int amount = furnace.getInventory().getSmelting().getType().toString().endsWith("_ORE") ? ((EnhancedFurnace) sfItem).getOutput() : 1;
-            Optional<ItemStack> result = Optional.ofNullable(furnace.getInventory().getResult());
+            BlockState state = PaperLib.getBlockState(e.getBlock(), false).getState();
 
-            if (!result.isPresent()) {
-                result = SlimefunPlugin.getMinecraftRecipeService().getFurnaceOutput(furnace.getInventory().getSmelting());
-            }
+            if (state instanceof Furnace) {
+                FurnaceInventory inventory = ((Furnace) state).getInventory();
+                int amount = inventory.getSmelting().getType().toString().endsWith("_ORE") ? ((EnhancedFurnace) sfItem).getOutput() : 1;
+                Optional<ItemStack> result = SlimefunPlugin.getMinecraftRecipeService().getFurnaceOutput(inventory.getSmelting());
 
-            if (result.isPresent()) {
-                ItemStack item = result.get();
-                furnace.getInventory().setResult(new CustomItem(item, Math.min(item.getAmount() + amount, item.getMaxStackSize())));
+                if (result.isPresent()) {
+                    ItemStack item = result.get();
+                    int previous = inventory.getResult() != null ? inventory.getResult().getAmount() : 0;
+                    amount = Math.min(item.getMaxStackSize() - previous, amount);
+                    e.setResult(new ItemStack(item.getType(), amount));
+                }
             }
         }
     }

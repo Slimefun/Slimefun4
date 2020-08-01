@@ -29,6 +29,7 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -128,6 +129,11 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, pedestal, ProtectableAction.ACCESS_INVENTORIES)) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+            return;
+        }
+
         // getting the currently placed item
         Item stack = findItem(pedestal);
 
@@ -157,6 +163,11 @@ public class AncientAltarListener implements Listener {
     }
 
     private void useAltar(Block altar, Player p) {
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, altar, ProtectableAction.ACCESS_INVENTORIES)) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+            return;
+        }
+
         ItemStack catalyst = new CustomItem(p.getInventory().getItemInMainHand(), 1);
         List<Block> pedestals = getPedestals(altar);
 

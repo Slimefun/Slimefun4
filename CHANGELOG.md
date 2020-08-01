@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
 - [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
 - [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
@@ -18,6 +19,59 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Release Candidate 15 (01 Aug 2020)
+
+#### Additions
+* Added "Bone Block -> Bone meal" recipe to the Grind Stone
+* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
+* Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
+* Added "Carbon -> Coal" recipe to the Ore Crusher
+* Added an option to disable the message "Ignoring duplicate block"
+* Added Iron Golem Assembler
+* Added Reinforced Cloth
+* Added Bee protection to Hazmat Suit
+* Added Enchantment Rune
+* Added Tape Measure
+* Added a permission node for /sf debug_fish
+
+#### Changes
+* Refactored and reworked the Generator API
+* Small performance improvements to Energy networks
+* Big performance improvements to Cargo networks when using ChestTerminal
+* Slight changes to /sf timings
+* Changed recipe of Hazmat Suits
+* Uranium can no longer be placed down
+* Huge performance improvements when using Paper
+* Optimized Cargo networks for Paper
+* Optimized Multiblocks for Paper
+* Optimized Enhanced Furnaces for Paper
+* General performance improvements for Talismans
+* General performance improvements for GPS Emergency Transmitters
+* General performance improvements for Infused Magnets
+* Ancient Altars now support for protection plugins
+* Ancient Pedestals now support for protection plugins
+
+#### Fixes
+* Fixed Slimefun Armor sometimes not applying its effects
+* Fixed #2075
+* Fixed #2093
+* Fixed #2086
+* Fixed #1894
+* Fixed #2097
+* Fixed Wither Assembler requiring more items than it actually consumes
+* Fixed Metrics not updating automatically
+* Fixed #2143
+* Fixed #2145
+* Fixed #2151
+* Fixed old Talismans not working
+* Fixed Talismans sometimes not getting consumed properly
+* Fixed old Infused Magnets not working
+* Fixed old GPS Emergency Transmitters not working
+* Fixed #2156
+* Fixed #2165
+* Fixed #2162
+* Fixed #2166
 
 ## Release Candidate 14 (12 Jul 2020)
 

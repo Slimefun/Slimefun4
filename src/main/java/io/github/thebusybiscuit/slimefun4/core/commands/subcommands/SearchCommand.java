@@ -14,17 +14,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 class SearchCommand extends SubCommand {
 
     SearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "search";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "search", false);
     }
 
     @Override

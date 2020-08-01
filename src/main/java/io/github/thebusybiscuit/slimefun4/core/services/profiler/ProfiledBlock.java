@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
@@ -10,6 +11,11 @@ class ProfiledBlock {
 
     private final BlockPosition position;
     private final SlimefunItem item;
+
+    ProfiledBlock(Location l, SlimefunItem item) {
+        this.position = new BlockPosition(l);
+        this.item = item;
+    }
 
     ProfiledBlock(BlockPosition position, SlimefunItem item) {
         this.position = position;

@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Dropper;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,6 +23,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -32,9 +34,15 @@ public class Smeltery extends AbstractSmeltery {
     private final ItemSetting<Integer> fireBreakingChance = new ItemSetting<>("fire-breaking-chance", 34);
 
     public Smeltery(Category category, SlimefunItemStack item) {
-        super(category, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, new ItemStack[] { SlimefunItems.IRON_DUST, new ItemStack(Material.IRON_INGOT) }, BlockFace.DOWN);
+        super(category, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
 
         addItemSetting(fireBreakingChance);
+    }
+
+    @Override
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(SlimefunItems.IRON_DUST);
+        recipes.add(new ItemStack(Material.IRON_INGOT));
     }
 
     @Override
@@ -97,7 +105,11 @@ public class Smeltery extends AbstractSmeltery {
     private Inventory findIgnitionChamber(Block b) {
         for (BlockFace face : faces) {
             if (b.getRelative(face).getType() == Material.DROPPER && BlockStorage.check(b.getRelative(face), "IGNITION_CHAMBER")) {
-                return ((Dropper) b.getRelative(face).getState()).getInventory();
+                BlockState state = PaperLib.getBlockState(b.getRelative(face), false).getState();
+
+                if (state instanceof Dropper) {
+                    return ((Dropper) state).getInventory();
+                }
             }
         }
 

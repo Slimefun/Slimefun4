@@ -75,6 +75,7 @@ public class Category implements Keyed {
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         this.item.setItemMeta(meta);
         this.tier = tier;
     }
@@ -132,7 +133,10 @@ public class Category implements Keyed {
     public ItemStack getItem(Player p) {
         return new CustomItem(item, meta -> {
             String name = SlimefunPlugin.getLocalization().getCategoryName(p, getKey());
-            if (name == null) name = item.getItemMeta().getDisplayName();
+
+            if (name == null) {
+                name = item.getItemMeta().getDisplayName();
+            }
 
             if (this instanceof SeasonalCategory) {
                 meta.setDisplayName(ChatColor.GOLD + name);
@@ -199,6 +203,7 @@ public class Category implements Keyed {
      * 
      * @param p
      *            The {@link Player} to check for
+     * 
      * @return Whether this {@link Category} will be hidden to the given {@link Player}
      */
     public boolean isHidden(Player p) {
@@ -209,6 +214,16 @@ public class Category implements Keyed {
         }
 
         return true;
+    }
+
+    /**
+     * This method returns whether this {@link Category} has been registered yet.
+     * More specifically: Whether {@link #register()} was called or not.
+     * 
+     * @return Whether this {@link Category} has been registered
+     */
+    public boolean isRegistered() {
+        return SlimefunPlugin.getRegistry().getCategories().contains(this);
     }
 
 }

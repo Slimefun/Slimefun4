@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -17,67 +18,99 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GrindStone extends MultiBlockMachine {
 
-	public GrindStone(Category category, SlimefunItemStack item) {
-        super(category, item, 
-				new ItemStack[] {null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null},
-				new ItemStack[] {
-						new ItemStack(Material.BLAZE_ROD), new ItemStack(Material.BLAZE_POWDER, 4), 
-						new ItemStack(Material.BONE), new ItemStack(Material.BONE_MEAL, 4), 
-						new ItemStack(Material.GRAVEL), new ItemStack(Material.FLINT), 
-						new ItemStack(Material.ENDER_EYE), new CustomItem(SlimefunItems.ENDER_LUMP_1, 2), 
-						new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL), 
-						new ItemStack(Material.ANDESITE), new ItemStack(Material.GRAVEL),
-						new ItemStack(Material.DIORITE), new ItemStack(Material.GRAVEL),
-						new ItemStack(Material.GRANITE), new ItemStack(Material.GRAVEL),
-						new ItemStack(Material.DIRT), SlimefunItems.STONE_CHUNK, 
-						new ItemStack(Material.SANDSTONE), new ItemStack(Material.SAND, 4), 
-						new ItemStack(Material.RED_SANDSTONE), new ItemStack(Material.RED_SAND, 4),
-						new ItemStack(Material.PRISMARINE_BRICKS), new ItemStack(Material.PRISMARINE, 2),
-						new ItemStack(Material.PRISMARINE), new ItemStack(Material.PRISMARINE_SHARD, 4)
-				},
-				BlockFace.SELF
-		);
-	}
-	
-	@Override
-	public List<ItemStack> getDisplayRecipes() {
-		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
-	}
-	
-	@Override
-	public void onInteract(Player p, Block b) {
-		Block dispBlock = b.getRelative(BlockFace.DOWN);
-		Dispenser disp = (Dispenser) dispBlock.getState();
-		Inventory inv = disp.getInventory();
-		
-		for (ItemStack current : inv.getContents()) {
-			for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
-				if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
-					ItemStack output = RecipeType.getRecipeOutput(this, convert);
-					Inventory outputInv = findOutputInventory(output, dispBlock, inv);
-					
-					if (outputInv != null) {
-						ItemStack removing = current.clone();
-						removing.setAmount(1);
-						inv.removeItem(removing);
-						outputInv.addItem(output);
-						p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
-					}
-					else {
-						SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
-					}
-					
-					return;
-				}
-			}
-		}
-		SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
-	}
+    public GrindStone(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_FENCE), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
+    }
+
+    @Override
+    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+        recipes.add(new ItemStack(Material.BLAZE_ROD));
+        recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
+
+        recipes.add(new ItemStack(Material.BONE));
+        recipes.add(new ItemStack(Material.BONE_MEAL, 4));
+
+        recipes.add(new ItemStack(Material.BONE_BLOCK));
+        recipes.add(new ItemStack(Material.BONE_MEAL, 9));
+
+        recipes.add(new ItemStack(Material.GRAVEL));
+        recipes.add(new ItemStack(Material.FLINT));
+
+        recipes.add(new ItemStack(Material.ENDER_EYE));
+        recipes.add(new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 2));
+
+        recipes.add(new ItemStack(Material.COBBLESTONE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.ANDESITE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.DIORITE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.GRANITE));
+        recipes.add(new ItemStack(Material.GRAVEL));
+
+        recipes.add(new ItemStack(Material.DIRT));
+        recipes.add(SlimefunItems.STONE_CHUNK);
+
+        recipes.add(new ItemStack(Material.SANDSTONE));
+        recipes.add(new ItemStack(Material.SAND, 4));
+
+        recipes.add(new ItemStack(Material.RED_SANDSTONE));
+        recipes.add(new ItemStack(Material.RED_SAND, 4));
+
+        recipes.add(new ItemStack(Material.PRISMARINE_BRICKS));
+        recipes.add(new ItemStack(Material.PRISMARINE, 2));
+
+        recipes.add(new ItemStack(Material.PRISMARINE));
+        recipes.add(new ItemStack(Material.PRISMARINE_SHARD, 4));
+    }
+
+    @Override
+    public List<ItemStack> getDisplayRecipes() {
+        return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
+    }
+
+    @Override
+    public void onInteract(Player p, Block b) {
+        Block dispBlock = b.getRelative(BlockFace.DOWN);
+        BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
+
+        if (state instanceof Dispenser) {
+            Dispenser disp = (Dispenser) state;
+            Inventory inv = disp.getInventory();
+
+            for (ItemStack current : inv.getContents()) {
+                for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
+                    if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
+                        ItemStack output = RecipeType.getRecipeOutput(this, convert);
+                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);
+
+                        if (outputInv != null) {
+                            ItemStack removing = current.clone();
+                            removing.setAmount(1);
+                            inv.removeItem(removing);
+                            outputInv.addItem(output);
+                            p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
+                        }
+                        else {
+                            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+                        }
+
+                        return;
+                    }
+                }
+            }
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
+        }
+    }
 
 }

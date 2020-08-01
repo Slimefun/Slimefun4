@@ -5,17 +5,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -34,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see Reactor
  *
  */
-public abstract class AbstractEnergyProvider extends SlimefunItem implements InventoryBlock, RecipeDisplayItem, EnergyNetComponent {
+public abstract class AbstractEnergyProvider extends SlimefunItem implements InventoryBlock, RecipeDisplayItem, EnergyNetProvider {
 
     protected final Set<MachineFuel> fuelTypes = new HashSet<>();
 
@@ -79,13 +81,48 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
         return EnergyNetComponentType.GENERATOR;
     }
 
-    protected abstract GeneratorTicker onTick();
+    /**
+     * @deprecated Please implement the methods
+     *             {@link #getGeneratedOutput(org.bukkit.Location, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config)}
+     *             and {@link #willExplode(org.bukkit.Location, me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config)}
+     *             instead
+     * 
+     * @return A {@link GeneratorTicker}
+     */
+    @Deprecated
+    protected GeneratorTicker onTick() {
+        return null;
+    }
+
+    @Override
+    public int getGeneratedOutput(Location l, Config data) {
+        if (generatorTicker != null) {
+            return (int) generatorTicker.generateEnergy(l, this, data);
+        }
+        else {
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean willExplode(Location l, Config data) {
+        if (generatorTicker != null) {
+            return generatorTicker.explode(l);
+        }
+        else {
+            return false;
+        }
+    }
 
     @Override
     public void preRegister() {
         super.preRegister();
 
-        addItemHandler(onTick());
+        GeneratorTicker ticker = onTick();
+
+        if (ticker != null) {
+            addItemHandler(ticker);
+        }
     }
 
     public void registerFuel(MachineFuel fuel) {

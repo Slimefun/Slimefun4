@@ -41,7 +41,7 @@ public class Research implements Keyed {
 
     private final NamespacedKey key;
     private final int id;
-    private String name;
+    private final String name;
     private boolean enabled = true;
     private int cost;
 

@@ -68,9 +68,7 @@ class CargoNetworkTask implements Runnable {
             Location input = entry.getKey();
             Optional<Block> attachedBlock = network.getAttachedBlock(input);
 
-            if (attachedBlock.isPresent()) {
-                routeItems(input, attachedBlock.get(), entry.getValue(), outputs);
-            }
+            attachedBlock.ifPresent(block -> routeItems(input, block, entry.getValue(), outputs));
 
             // This will prevent this timings from showing up for the Cargo Manager
             timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), SlimefunItems.CARGO_INPUT_NODE.getItem(), nodeTimestamp);

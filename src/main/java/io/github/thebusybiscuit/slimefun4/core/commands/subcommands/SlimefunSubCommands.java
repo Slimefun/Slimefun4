@@ -1,18 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-public final class Commands {
+/**
+ * This class holds the implementations of every {@link SubCommand}.
+ * The implementations themselves are package-private, this class only provides
+ * a static setup method
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public final class SlimefunSubCommands {
 
-    private Commands() {
-    }
+    private SlimefunSubCommands() {}
 
-    public static void addCommands(SlimefunCommand cmd, Collection<SubCommand> commands) {
+    public static Collection<SubCommand> getAllCommands(SlimefunCommand cmd) {
         SlimefunPlugin plugin = cmd.getPlugin();
+        List<SubCommand> commands = new LinkedList<>();
 
         commands.add(new HelpCommand(plugin, cmd));
         commands.add(new VersionsCommand(plugin, cmd));
@@ -27,5 +37,7 @@ public final class Commands {
         commands.add(new SearchCommand(plugin, cmd));
         commands.add(new DebugFishCommand(plugin, cmd));
         commands.add(new BackpackCommand(plugin, cmd));
+
+        return commands;
     }
 }

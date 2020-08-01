@@ -110,6 +110,7 @@ messages:
   disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
   no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
   multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
+  piglin-barter: '&4You cannot barter with piglins using Slimefun items'
 
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'
@@ -129,10 +130,21 @@ messages:
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'
     success: '&aYou have successfully bound this item to your soul! You will keep it when you die.'
+
+  enchantment-rune:
+    fail: '&cYou cannot enchant this item.'
+    no-enchantment: '&cCouldn''t find any applicable enchantment for this item.'
+    success: '&aYou have successfully applied a random applicable enchantment to this item.'
   
   research:
     start: '&7The Ancient Spirits whisper mysterious words into your ear!'
     progress: '&7You start to wonder about &b%research% &e(%progress%)'
+    
+  tape-measure:
+    no-anchor: '&cYou need to set an anchor before you can start to measure!'
+    wrong-world: '&cYour anchor seems to be in a different world!'
+    distance: '&7Measurement taken. &eDistance: %distance%'
+    anchor-set: '&aSuccessfully set the anchor:&e %anchor%'
 
   fire-extinguish: '&7You have extinguished yourself'
   cannot-place: '&cYou cannot place that block there!'

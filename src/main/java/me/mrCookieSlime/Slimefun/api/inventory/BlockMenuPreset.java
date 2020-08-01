@@ -25,7 +25,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     // -1 means "automatically update according to the contents"
     private int size = -1;
 
-    private boolean universal;
+    private final boolean universal;
     private boolean locked;
 
     private ItemManipulationEvent event;

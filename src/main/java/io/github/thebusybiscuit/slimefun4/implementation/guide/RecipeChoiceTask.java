@@ -31,7 +31,7 @@ class RecipeChoiceTask implements Runnable {
 
     private Inventory inventory;
     private int id;
-    private Map<Integer, LoopIterator<Material>> iterators = new HashMap<>();
+    private final Map<Integer, LoopIterator<Material>> iterators = new HashMap<>();
 
     /**
      * This will start this task for the given {@link Inventory}.

@@ -152,6 +152,20 @@ messages:
   - "&7Laging tumingin sa maliwanag na bahagi ng buhay!"
   - "&7Biskwit pala ito at hindi ito siya Kukis."
   - "&7Ang astig ng mga Neon Signs!"
+  piglin-barter: "&4Hindi ka maaaring mag-barter sa mga piglins gamit ang mga item
+    ng Slimefun."
+  enchantment-rune:
+    fail: "&cAng aytem na ito ay bawal i-enchant."
+    no-enchantment: "&cHindi makahanap ng anuman na puwedeng enchantment para sa aytem
+      na ito."
+    success: "&aMatagumpay mong na-apply ang isang random na naaangkop na enchantment
+      sa aytem na ito."
+  tape-measure:
+    no-anchor: "&cKailangan mong magtakda ng isang angkla bago ka makapagsimula upang
+      masukat!"
+    wrong-world: "&cAng iyong angkla ay tila nasa ibang mundo!"
+    distance: "&7Measurement taken. &eDistansiya: %distance%"
+    anchor-set: "&aMatagumpay na na-set ang angla:&e %anchor%"
 machines:
   pattern-not-found: "&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay
     ang mga Aytem sa tamang pattern sa loob ng Dispense."

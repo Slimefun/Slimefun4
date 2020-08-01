@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -93,7 +94,7 @@ final class CargoUtils {
                     return withdrawFromVanillaInventory(node, template, inventory);
                 }
 
-                BlockState state = target.getState();
+                BlockState state = PaperLib.getBlockState(target, false).getState();
 
                 if (state instanceof InventoryHolder) {
                     inventory = ((InventoryHolder) state).getInventory();
@@ -181,7 +182,7 @@ final class CargoUtils {
                 return withdrawFromVanillaInventory(node, inventory);
             }
 
-            BlockState state = target.getState();
+            BlockState state = PaperLib.getBlockState(target, false).getState();
 
             if (state instanceof InventoryHolder) {
                 inventory = ((InventoryHolder) state).getInventory();
@@ -233,7 +234,7 @@ final class CargoUtils {
                     return insertIntoVanillaInventory(stack, inventory);
                 }
 
-                BlockState state = target.getState();
+                BlockState state = PaperLib.getBlockState(target, false).getState();
 
                 if (state instanceof InventoryHolder) {
                     inventory = ((InventoryHolder) state).getInventory();
@@ -247,8 +248,9 @@ final class CargoUtils {
 
         ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
-        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, stack)) {
+        for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.INSERT, wrapper)) {
             ItemStack itemInSlot = menu.getItemInSlot(slot);
+
             if (itemInSlot == null) {
                 menu.replaceExistingItem(slot, stack);
                 return null;
@@ -337,9 +339,6 @@ final class CargoUtils {
                     }
 
                     itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                    // Setting item in inventory will clone the ItemStack
-                    inv.setItem(slot, itemInSlot);
-
                     return stack;
                 }
             }

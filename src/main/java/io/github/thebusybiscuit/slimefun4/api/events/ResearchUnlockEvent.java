@@ -19,8 +19,8 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player player;
-    private Research research;
+    private final Player player;
+    private final Research research;
     private boolean cancelled;
 
     public HandlerList getHandlers() {

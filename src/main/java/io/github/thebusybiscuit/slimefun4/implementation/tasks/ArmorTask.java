@@ -14,6 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -63,7 +64,7 @@ public class ArmorTask implements Runnable {
                     checkForSolarHelmet(p);
                 }
 
-                checkForRadiation(p);
+                checkForRadiation(p, profile);
             });
         }
     }
@@ -75,7 +76,9 @@ public class ArmorTask implements Runnable {
 
             if (armorpiece.hasDiverged(item)) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
-                if (!(sfItem instanceof SlimefunArmorPiece) || !Slimefun.hasUnlocked(p, sfItem, true)) {
+
+                if (!(sfItem instanceof SlimefunArmorPiece)) {
+                    // If it isn't actually Armor, then we won't care about it.
                     sfItem = null;
                 }
 
@@ -84,9 +87,13 @@ public class ArmorTask implements Runnable {
 
             if (item != null && armorpiece.getItem().isPresent()) {
                 Slimefun.runSync(() -> {
-                    for (PotionEffect effect : armorpiece.getItem().get().getPotionEffects()) {
-                        p.removePotionEffect(effect.getType());
-                        p.addPotionEffect(effect);
+                    SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
+
+                    if (Slimefun.hasUnlocked(p, slimefunArmor, true)) {
+                        for (PotionEffect effect : slimefunArmor.getPotionEffects()) {
+                            p.removePotionEffect(effect.getType());
+                            p.addPotionEffect(effect);
+                        }
                     }
                 });
             }
@@ -119,18 +126,17 @@ public class ArmorTask implements Runnable {
         return (world.getTime() < 12300 || world.getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
     }
 
-    private void checkForRadiation(Player p) {
-        // Check for a Hazmat Suit
-        if (!SlimefunUtils.isItemSimilar(p.getInventory().getHelmet(), SlimefunItems.SCUBA_HELMET, true) || !SlimefunUtils.isItemSimilar(p.getInventory().getChestplate(), SlimefunItems.HAZMAT_CHESTPLATE, true) || !SlimefunUtils.isItemSimilar(p.getInventory().getLeggings(), SlimefunItems.HAZMAT_LEGGINGS, true) || !SlimefunUtils.isItemSimilar(p.getInventory().getBoots(), SlimefunItems.RUBBER_BOOTS, true)) {
+    private void checkForRadiation(Player p, PlayerProfile profile) {
+        if (!profile.hasFullProtectionAgainst(ProtectionType.RADIATION)) {
             for (ItemStack item : p.getInventory()) {
-                if (isRadioactive(p, item)) {
+                if (checkAndApplyRadiation(p, item)) {
                     break;
                 }
             }
         }
     }
 
-    private boolean isRadioactive(Player p, ItemStack item) {
+    private boolean checkAndApplyRadiation(Player p, ItemStack item) {
         for (SlimefunItem radioactiveItem : SlimefunPlugin.getRegistry().getRadioactiveItems()) {
             if (radioactiveItem.isItem(item) && Slimefun.isEnabled(p, radioactiveItem, true)) {
                 // If the item is enabled in the world, then make radioactivity do its job
@@ -147,5 +153,4 @@ public class ArmorTask implements Runnable {
 
         return false;
     }
-
 }
