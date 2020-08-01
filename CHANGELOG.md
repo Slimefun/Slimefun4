@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 16 (TBD)](#release-candidate-16-tbd)
 - [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
 - [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
@@ -19,6 +20,11 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Release Candidate 16 (TBD)
+
+#### Changes
+* Performance improvement for Programmable Android rotations
 
 ## Release Candidate 15 (01 Aug 2020)
 
@@ -46,6 +52,7 @@
 * Optimized Cargo networks for Paper
 * Optimized Multiblocks for Paper
 * Optimized Enhanced Furnaces for Paper
+* Optimized Programmable Androids for Paper
 * General performance improvements for Talismans
 * General performance improvements for GPS Emergency Transmitters
 * General performance improvements for Infused Magnets

@@ -500,7 +500,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
-        menu.addItem(9, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&rDo nothing"), (pl, slot, item, action) -> {
+        menu.addItem(9, new CustomItem(SlimefunUtils.getCustomHead("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"), "&fDo nothing"), (pl, slot, item, action) -> {
             String code = deleteInstruction(script, index);
             setScript(b.getLocation(), code);
             openScript(p, b, code);
@@ -683,9 +683,14 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 
         BlockFace rotation = POSSIBLE_ROTATIONS.get(index);
 
-        Rotatable rotatatable = (Rotatable) b.getBlockData();
-        rotatatable.setRotation(rotation.getOppositeFace());
-        b.setBlockData(rotatatable);
+        BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
+            if (data instanceof Rotatable) {
+                Rotatable rotatable = ((Rotatable) data);
+                rotatable.setRotation(rotation);
+            }
+        });
+
+        b.setBlockData(blockData);
         BlockStorage.addBlockInfo(b, "rotation", rotation.name());
     }
 
