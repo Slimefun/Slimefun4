@@ -583,11 +583,6 @@ public class BlockStorage {
         SlimefunPlugin.getTickerTask().queueDelete(l, destroy);
     }
 
-    @Deprecated
-    public static void _integrated_removeBlockInfo(Location l, boolean destroy) {
-        deleteLocationInfoUnsafely(l, destroy);
-    }
-
     /**
      * <strong>Do not call this method!</strong>.
      * This method is used for internal purposes only.
