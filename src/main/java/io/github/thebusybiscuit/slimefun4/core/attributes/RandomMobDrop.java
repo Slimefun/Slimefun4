@@ -26,8 +26,8 @@ public interface RandomMobDrop extends ItemAttribute {
 
     /**
      * Implement this method to make the object have a variable chance of being
-     * added to the dropList when {@link EntityType} (specified in the recipe)
-     * is killed by the {@link Player} {@link RecipeType#MOB_DROP} 
+     * added to the dropList when {@link EntityType} specified in 
+     * the {@link RecipeType#MOB_DROP} is killed by the {@link Player}.
      * 
      * @return The integer chance (0-100%) {@link SlimefunItem} has to drop.
      */
