@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -85,15 +85,8 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
         return index;
     }
 
-    private BlockBreakHandler getBlockBreakHandler() {
-        return (e, item, fortune, drops) -> {
-            if (isItem(item)) {
-                e.setCancelled(true);
-                return true;
-            }
-
-            return false;
-        };
+    private ToolUseHandler getToolUseHandler() {
+        return (e, tool, fortune, drops) -> e.setCancelled(true);
     }
 
     @Override
@@ -101,7 +94,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
         super.preRegister();
 
         addItemHandler(getItemUseHandler());
-        addItemHandler(getBlockBreakHandler());
+        addItemHandler(getToolUseHandler());
     }
 
 }
