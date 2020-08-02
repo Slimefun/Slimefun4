@@ -38,15 +38,15 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                onPlace(e);
+                onPlace(e.getItemInHand(), e);
             }
 
             @Override
             public void onBlockPlacerPlace(BlockPlacerPlaceEvent e) {
-                onPlace(e);
+                onPlace(e.getItemStack(), e);
             }
 
-            private void onPlace(BlockEvent e) {
+            private void onPlace(ItemStack item, BlockEvent e) {
                 Optional<EntityType> entity = getEntityType(item);
 
                 if (entity.isPresent() && e.getBlock().getType() == Material.SPAWNER) {

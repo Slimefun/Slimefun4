@@ -36,6 +36,7 @@
 * Fixed #2164
 * Fixed #2147
 * Fixed #2179
+* Fixed Reinforced Spawners not working sometimes
 
 ## Release Candidate 15 (01 Aug 2020)
 
