@@ -24,7 +24,9 @@
 ## Release Candidate 16 (TBD)
 
 #### Additions
-* Added BlockPlacerPlaceEvent
+* Added an option for Industrial Miners to mine Ancient Debris
+* (API) Added BlockPlacerPlaceEvent
+* (API) Added ToolUseHandler
 
 #### Changes
 * Performance improvement for Programmable Android rotations
