@@ -33,13 +33,9 @@ public class CargoInputNode extends AbstractCargoNode {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
-                for (int slot : SLOTS) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
+                inv.dropItems(b.getLocation(), SLOTS);
             }
+
             return true;
         });
     }

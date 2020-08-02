@@ -43,13 +43,9 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
-                for (int slot : getOutputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
+                inv.dropItems(b.getLocation(), getOutputSlots());
             }
+
             return true;
         });
     }

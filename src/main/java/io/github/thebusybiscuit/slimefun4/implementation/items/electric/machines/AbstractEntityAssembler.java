@@ -126,7 +126,11 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             }
 
             BlockMenu inv = BlockStorage.getInventory(b);
-            dropInventory(b, inv);
+
+            if (inv != null) {
+                inv.dropItems(b.getLocation(), headSlots);
+                inv.dropItems(b.getLocation(), bodySlots);
+            }
 
             return true;
         });
@@ -179,24 +183,6 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             updateBlockInventory(menu, b);
             return false;
         });
-    }
-
-    private void dropInventory(Block b, BlockMenu inv) {
-        if (inv != null) {
-            for (int slot : bodySlots) {
-                if (inv.getItemInSlot(slot) != null) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                    inv.replaceExistingItem(slot, null);
-                }
-            }
-
-            for (int slot : headSlots) {
-                if (inv.getItemInSlot(slot) != null) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                    inv.replaceExistingItem(slot, null);
-                }
-            }
-        }
     }
 
     @Override
