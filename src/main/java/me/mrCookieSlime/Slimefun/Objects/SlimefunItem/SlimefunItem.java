@@ -28,7 +28,6 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
@@ -45,7 +44,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -74,7 +72,6 @@ public class SlimefunItem implements Placeable {
 
     private boolean ticking = false;
     private BlockTicker blockTicker;
-    protected GeneratorTicker generatorTicker;
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
@@ -318,15 +315,6 @@ public class SlimefunItem implements Placeable {
 
     public BlockTicker getBlockTicker() {
         return blockTicker;
-    }
-
-    /**
-     * @deprecated The interface {@link EnergyNetProvider} should be implemented instead
-     * @return A {@link GeneratorTicker}
-     */
-    @Deprecated
-    public GeneratorTicker getEnergyTicker() {
-        return generatorTicker;
     }
 
     /**
@@ -660,9 +648,6 @@ public class SlimefunItem implements Placeable {
                 ticking = true;
                 SlimefunPlugin.getRegistry().getTickerBlocks().add(getID());
                 blockTicker = (BlockTicker) handler;
-            }
-            else if (handler instanceof GeneratorTicker) {
-                generatorTicker = (GeneratorTicker) handler;
             }
         }
     }
