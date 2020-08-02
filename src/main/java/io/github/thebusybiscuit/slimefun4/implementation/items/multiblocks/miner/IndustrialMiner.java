@@ -128,6 +128,8 @@ public class IndustrialMiner extends MultiBlockMachine {
             return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
         case LAPIS_ORE:
             return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+        case ANCIENT_DEBRIS:
+            return new ItemStack(Material.ANCIENT_DEBRIS);
         default:
             // This includes Iron and Gold ore
             return new ItemStack(ore);
@@ -207,7 +209,7 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(Material type) {
-        return type.name().endsWith("_ORE");
+        return type.name().endsWith("_ORE") || type == Material.ANCIENT_DEBRIS;
     }
 
 }
