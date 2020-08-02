@@ -1,66 +1,43 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class SmeltersPickaxe extends SimpleSlimefunItem<BlockBreakHandler> implements DamageableItem {
+public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implements DamageableItem {
 
     public SmeltersPickaxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 
     @Override
-    public BlockBreakHandler getItemHandler() {
-        return new BlockBreakHandler() {
+    public ToolUseHandler getItemHandler() {
+        return (e, tool, fortune, drops) -> {
+            if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && !BlockStorage.hasBlockInfo(e.getBlock())) {
+                Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
 
-            @Override
-            public boolean isPrivate() {
-                return false;
-            }
-
-            @Override
-            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-                if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && isItem(item)) {
-                    if (!Slimefun.hasUnlocked(e.getPlayer(), SmeltersPickaxe.this, true)) {
-                        return true;
+                for (ItemStack drop : blockDrops) {
+                    if (drop != null && drop.getType() != Material.AIR) {
+                        smelt(e.getBlock(), drop, fortune);
+                        drops.add(drop);
                     }
-
-                    if (BlockStorage.hasBlockInfo(e.getBlock())) {
-                        return true;
-                    }
-
-                    Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
-
-                    for (ItemStack drop : blockDrops) {
-                        if (drop != null && drop.getType() != Material.AIR) {
-                            smelt(e.getBlock(), drop, fortune);
-                            drops.add(drop);
-                        }
-                    }
-
-                    damageItem(e.getPlayer(), item);
-
-                    return true;
                 }
-                else return false;
+
+                damageItem(e.getPlayer(), tool);
             }
         };
     }

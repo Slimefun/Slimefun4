@@ -9,7 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,7 +18,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -28,10 +27,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements NotPlaceable, DamageableItem {
+class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPlaceable, DamageableItem {
 
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
     private final ItemSetting<Boolean> callExplosionEvent = new ItemSetting<>("call-explosion-event", false);
@@ -43,35 +41,16 @@ class ExplosiveTool extends SimpleSlimefunItem<BlockBreakHandler> implements Not
     }
 
     @Override
-    public BlockBreakHandler getItemHandler() {
-        return new BlockBreakHandler() {
+    public ToolUseHandler getItemHandler() {
+        return (e, tool, fortune, drops) -> {
+            Player p = e.getPlayer();
+            Block b = e.getBlock();
 
-            @Override
-            public boolean isPrivate() {
-                return false;
-            }
+            b.getWorld().createExplosion(b.getLocation(), 0.0F);
+            b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
-            @Override
-            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-                if (isItem(item)) {
-                    Player p = e.getPlayer();
-
-                    if (Slimefun.hasUnlocked(p, ExplosiveTool.this, true)) {
-                        Block b = e.getBlock();
-
-                        b.getWorld().createExplosion(b.getLocation(), 0.0F);
-                        b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
-
-                        List<Block> blocks = findBlocks(b);
-                        breakBlocks(p, item, b, blocks, fortune, drops);
-                    }
-
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
+            List<Block> blocks = findBlocks(b);
+            breakBlocks(p, tool, b, blocks, fortune, drops);
         };
     }
 
