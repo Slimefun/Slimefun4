@@ -23,6 +23,9 @@
 
 ## Release Candidate 16 (TBD)
 
+#### Additions
+* Added BlockPlacerPlaceEvent
+
 #### Changes
 * Performance improvement for Programmable Android rotations
 

@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -20,6 +21,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -28,9 +30,6 @@ import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -43,19 +42,19 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     public ElevatorPlate(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
-        SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
+        addItemHandler(onPlace());
+    }
+
+    private BlockPlaceHandler onPlace() {
+        return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
+            public void onPlayerPlace(BlockPlaceEvent e) {
+                Block b = e.getBlock();
                 BlockStorage.addBlockInfo(b, DATA_KEY, "&rFloor #0");
-                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+                BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
             }
-
-            @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                return true;
-            }
-        });
+        };
     }
 
     public Set<UUID> getUsers() {
@@ -136,6 +135,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                     }
 
                     Location destination = new Location(player.getWorld(), block.getX() + 0.5, block.getY() + 0.4, block.getZ() + 0.5, yaw, player.getEyeLocation().getPitch());
+
                     PaperLib.teleportAsync(player, destination).thenAccept(teleported -> {
                         if (teleported.booleanValue()) {
                             player.sendTitle(ChatColor.WHITE + ChatColors.color(floor), null, 20, 60, 20);

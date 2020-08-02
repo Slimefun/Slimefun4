@@ -3,19 +3,18 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
 import java.util.UUID;
 
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -26,20 +25,22 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
     public GPSTransmitter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        SlimefunItem.registerBlockHandler(getID(), new SlimefunBlockHandler() {
-
-            @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-            }
-
-            @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
-                SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
-                return true;
-            }
+        addItemHandler(onPlace());
+        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+            UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
+            SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
+            return true;
         });
+    }
+
+    private BlockPlaceHandler onPlace() {
+        return new BlockPlaceHandler(false) {
+
+            @Override
+            public void onPlayerPlace(BlockPlaceEvent e) {
+                BlockStorage.addBlockInfo(e.getBlock(), "owner", e.getPlayer().getUniqueId().toString());
+            }
+        };
     }
 
     public abstract int getMultiplier(int y);

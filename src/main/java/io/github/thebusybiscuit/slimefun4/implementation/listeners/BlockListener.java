@@ -70,12 +70,12 @@ public class BlockListener implements Listener {
                 BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
 
                 SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+
                 if (blockHandler != null) {
                     blockHandler.onPlace(e.getPlayer(), e.getBlock(), sfItem);
                 }
-                else {
-                    sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onBlockPlace(e.getPlayer(), e, item));
-                }
+
+                sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
             }
         }
     }
