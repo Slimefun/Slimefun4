@@ -101,10 +101,6 @@ public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
                 }
             });
 
-            if (hasItemHandler && e.isCancelled()) {
-                sfItem.warn("A BlockPlacerPlaceEvent cannot be cancelled from a BlockPlaceHandler!");
-            }
-
             if (!hasItemHandler) {
                 block.setType(item.getType());
                 block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, item.getType());

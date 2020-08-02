@@ -9,6 +9,7 @@ import org.bukkit.event.block.BlockEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This {@link Event} is fired whenever a {@link BlockPlacer} wants to place a {@link Block}.
@@ -22,7 +23,9 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     private final Block blockPlacer;
     private ItemStack placedItem;
+
     private boolean cancelled = false;
+    private boolean locked = false;
 
     /**
      * This creates a new {@link BlockPlacerPlaceEvent}.
@@ -37,14 +40,6 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
         this.placedItem = placedItem;
         this.blockPlacer = blockPlacer;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**
@@ -73,7 +68,13 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      */
     public void setItemStack(ItemStack item) {
         Validate.notNull(item, "The ItemStack must not be null!");
-        this.placedItem = item;
+
+        if (!locked) {
+            this.placedItem = item;
+        }
+        else {
+            SlimefunItem.getByItem(placedItem).warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
+        }
     }
 
     @Override
@@ -83,7 +84,28 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     @Override
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        if (!locked) {
+            cancelled = cancel;
+        }
+        else {
+            SlimefunItem.getByItem(placedItem).warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
+        }
+    }
+
+    /**
+     * This marks this {@link Event} as immutable, it can no longer be modified afterwards.
+     */
+    public void setImmutable() {
+        locked = true;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }
