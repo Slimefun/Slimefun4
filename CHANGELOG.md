@@ -28,10 +28,12 @@
 
 #### Changes
 * Performance improvement for Programmable Android rotations
+* Removed Gravel -> Flint recipe from the Grind stone
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
 * Fixed #2164
+* Fixed #2147
 
 ## Release Candidate 15 (01 Aug 2020)
 
