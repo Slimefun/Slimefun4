@@ -23,7 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This {@link Listener} prevents a {@link Piglin} from bartering with a {@link SlimefunItem} as well as
- * listens to the EntityDropItemEvent to inject a {@link PiglinBarterDrop} if a dropChance() check passes.
+ * listens to the {@link EntityDropItemEvent} to inject a {@link PiglinBarterDrop} if a dropChance() check passes.
  *
  * @author poma123
  * @author dNiym
@@ -63,9 +63,7 @@ public class PiglinListener implements Listener {
             for (ItemStack is : drops) {
                 SlimefunItem sfi = SlimefunItem.getByItem(is);
                 if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getBarteringLootChance() >= ThreadLocalRandom.current().nextInt(1,101)) {
-                    Item drop = piglin.getWorld().dropItemNaturally(piglin.getEyeLocation(), sfi.getItem());
-                    drop.setVelocity(e.getItemDrop().getVelocity());
-                    e.getItemDrop().remove();
+                    e.getItemDrop().setItemStack(sfi.getItem().clone())
                     return;
                 } 
             }
