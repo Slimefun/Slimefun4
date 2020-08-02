@@ -128,6 +128,7 @@ public class Translators {
         addTranslator("yumjunstar", SupportedLanguage.KOREAN, true);
         addTranslator("BlWon", SupportedLanguage.KOREAN, true);
         addTranslator("20181241", SupportedLanguage.KOREAN, true);
+        addTranslator("kudansul", SupportedLanguage.KOREAN, true);
 
         // Translators - Indonesian
         addTranslator("diradho", SupportedLanguage.INDONESIAN, false);
