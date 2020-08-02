@@ -63,7 +63,7 @@ public class PiglinListener implements Listener {
             for (ItemStack is : drops) {
                 SlimefunItem sfi = SlimefunItem.getByItem(is);
                 //Check the getBarteringLootChance and compare against a random number 1-100, if the random number is greater then replace the item.
-                if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getBarteringLootChance() > ThreadLocalRandom.current().nextInt(1,100)) {
+                if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getBarteringLootChance() > ThreadLocalRandom.current().nextInt(100)) {
                     e.getItemDrop().setItemStack(sfi.getItem().clone());
                     return;
                 } 
