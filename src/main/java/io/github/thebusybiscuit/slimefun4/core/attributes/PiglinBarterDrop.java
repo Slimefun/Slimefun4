@@ -26,9 +26,8 @@ public interface PiglinBarterDrop extends ItemAttribute {
      * Implement this method to make this {@link SlimefunItem} have a variable chance 
      * of being dropped by a {@link Piglin} when bartering with them. This interface 
      * should be used with the {@link RecipeType#BARTER_DROP}.
-     */
-    
-    /** It is recommended that this chance is kept reasonably low to feel like
+     *
+     * It is recommended that this chance is kept reasonably low to feel like
      * a vanilla drop as a 100% chance will completely override all {@link Piglin} 
      * barter drops.  (NOTE: this feature only exists in 1.16+)
      * 
