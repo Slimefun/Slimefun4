@@ -39,6 +39,7 @@
 * Fixed #2147
 * Fixed #2179
 * Fixed Reinforced Spawners not working sometimes
+* Fixed Explosive Pickaxe not handling normal Shulker boxes correctly
 
 ## Release Candidate 15 (01 Aug 2020)
 

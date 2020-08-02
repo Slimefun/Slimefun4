@@ -29,6 +29,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * This {@link SlimefunItem} is a super class for items like the {@link ExplosivePickaxe} or {@link ExplosiveShovel}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see ExplosivePickaxe
+ * @see ExplosiveShovel
+ *
+ */
 class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPlaceable, DamageableItem {
 
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
@@ -61,13 +70,17 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
 
             if (!blockExplodeEvent.isCancelled()) {
                 for (Block block : blockExplodeEvent.blockList()) {
-                    breakBlock(p, item, block, fortune, drops);
+                    if (canBreak(p, block)) {
+                        breakBlock(p, item, block, fortune, drops);
+                    }
                 }
             }
         }
         else {
             for (Block block : blocks) {
-                breakBlock(p, item, block, fortune, drops);
+                if (canBreak(p, block)) {
+                    breakBlock(p, item, block, fortune, drops);
+                }
             }
         }
     }
@@ -96,38 +109,48 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
         return damageOnUse.getValue();
     }
 
-    protected void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
-        if (!b.isEmpty() && !b.isLiquid() && !MaterialCollections.getAllUnbreakableBlocks().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-            SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
-
-            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-            SlimefunItem sfItem = BlockStorage.check(b);
-
-            if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-                SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
-
-                if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
-                    drops.add(BlockStorage.retrieve(b));
-                }
-            }
-            else if (b.getType() == Material.PLAYER_HEAD || b.getType().name().endsWith("_SHULKER_BOX")) {
-                b.breakNaturally();
-            }
-            else {
-                boolean applyFortune = b.getType().name().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE;
-
-                for (ItemStack drop : b.getDrops(getItem())) {
-                    // For some reason this check is necessary with Paper
-                    if (drop != null && drop.getType() != Material.AIR) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
-                    }
-                }
-
-                b.setType(Material.AIR);
-            }
-
-            damageItem(p, item);
+    protected boolean canBreak(Player p, Block b) {
+        if (b.isEmpty() || b.isLiquid()) {
+            return false;
         }
+        else if (MaterialCollections.getAllUnbreakableBlocks().contains(b.getType())) {
+            return false;
+        }
+        else {
+            return SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK);
+        }
+    }
+
+    private void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
+        SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
+
+        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+        SlimefunItem sfItem = BlockStorage.check(b);
+
+        if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
+            SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+
+            if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
+                drops.add(BlockStorage.retrieve(b));
+            }
+        }
+        else if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.SHULKER_BOX || b.getType().name().endsWith("_SHULKER_BOX")) {
+            b.breakNaturally(item);
+        }
+        else {
+            boolean applyFortune = b.getType().name().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE;
+
+            for (ItemStack drop : b.getDrops(getItem())) {
+                // For some reason this check is necessary with Paper
+                if (drop != null && drop.getType() != Material.AIR) {
+                    b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
+                }
+            }
+
+            b.setType(Material.AIR);
+        }
+
+        damageItem(p, item);
     }
 
 }
