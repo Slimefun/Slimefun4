@@ -23,6 +23,9 @@
 
 ## Release Candidate 16 (TBD)
 
+#### Additions
+* Added an option for Industrial Miners to mine Ancient Debris
+
 #### Changes
 * Performance improvement for Programmable Android rotations
 
