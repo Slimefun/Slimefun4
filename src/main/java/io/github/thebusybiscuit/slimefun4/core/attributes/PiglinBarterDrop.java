@@ -34,6 +34,6 @@ public interface PiglinBarterDrop extends ItemAttribute {
      * 
      * @return The integer chance (0-100%) this {@link SlimefunItem} has to drop.
      */
-    int getBarteringLootChance() ;
+    int getBarteringLootChance();
 
 }
