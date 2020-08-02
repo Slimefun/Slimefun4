@@ -32,6 +32,7 @@
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
+* Fixed #2176
 * Fixed #2164
 * Fixed #2147
 

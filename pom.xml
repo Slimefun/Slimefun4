@@ -330,7 +330,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.8.06</version>
+            <version>3.8.07</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>
