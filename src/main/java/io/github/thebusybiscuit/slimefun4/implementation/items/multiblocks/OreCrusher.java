@@ -101,7 +101,7 @@ public class OreCrusher extends MultiBlockMachine {
 
             for (ItemStack current : inv.getContents()) {
                 for (ItemStack convert : RecipeType.getRecipeInputs(this)) {
-                    if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true, false)) {
+                    if (convert != null && SlimefunUtils.isItemSimilar(current, convert, true)) {
                         ItemStack adding = RecipeType.getRecipeOutput(this, convert);
                         Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
