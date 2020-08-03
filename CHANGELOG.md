@@ -33,6 +33,7 @@
 * Fixed Programmable Androids rotating in the wrong direction
 * Fixed #2176
 * Fixed #2103
+* Fixed #2184
 
 ## Release Candidate 15 (01 Aug 2020)
 
