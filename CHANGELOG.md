@@ -25,6 +25,7 @@
 
 #### Additions
 * Added an option for Industrial Miners to mine Ancient Debris
+* (API) Added support for adding custom Piglin Barter drops
 * (API) Added BlockPlacerPlaceEvent
 * (API) Added ToolUseHandler
 
@@ -40,6 +41,7 @@
 * Fixed #2179
 * Fixed Reinforced Spawners not working sometimes
 * Fixed Explosive Pickaxe not handling normal Shulker boxes correctly
+* Fixed #2103
 
 ## Release Candidate 15 (01 Aug 2020)
 
