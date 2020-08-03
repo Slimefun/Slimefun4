@@ -223,7 +223,7 @@ public class SlimefunItem implements Placeable {
     @SuppressWarnings("unchecked")
     public <T> Optional<ItemSetting<T>> getItemSetting(String key, Class<T> c) {
         for (ItemSetting<?> setting : itemSettings) {
-            if (setting.getKey().equals(key) && c.isInstance(setting.getDefaultValue())) {
+            if (setting.getKey().equals(key) && setting.isType(c)) {
                 return Optional.of((ItemSetting<T>) setting);
             }
         }
