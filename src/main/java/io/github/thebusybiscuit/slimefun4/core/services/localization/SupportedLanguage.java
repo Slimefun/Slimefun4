@@ -43,7 +43,7 @@ enum SupportedLanguage {
     CHINESE_CHINA("zh-CN", true, "7f9bc035cdc80f1ab5e1198f29f3ad3fdd2b42d9a69aeb64de990681800b98dc"),
     CHINESE_TAIWAN("zh-TW", true, "702a4afb2e1e2e3a1894a8b74272f95cfa994ce53907f9ac140bd3c932f9f"),
     JAPANESE("ja", true, "d640ae466162a47d3ee33c4076df1cab96f11860f07edb1f0832c525a9e33323"),
-    KOREAN("ko", false, "fc1be5f12f45e413eda56f3de94e08d90ede8e339c7b1e8f32797390e9a5f"),
+    KOREAN("ko", true, "fc1be5f12f45e413eda56f3de94e08d90ede8e339c7b1e8f32797390e9a5f"),
     HEBREW("he", false, "1ba086a2cc7272cf5ba49c80248546c22e5ef1bab54120e8a8e5d9e75b6a"),
     ARABIC("ar", true, "a4be759a9cf7f0a19a7e8e62f23789ad1d21cebae38af9d9541676a3db001572"),
     TURKISH("tr", true, "9852b9aba3482348514c1034d0affe73545c9de679ae4647f99562b5e5f47d09"),

@@ -229,26 +229,29 @@ public class TalismanListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
-        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+        // We only want to double ores
+        if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
+            ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
-        if (item.getType() != Material.AIR && item.getAmount() > 0) {
-            List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
-            int dropAmount = 1;
+            if (item.getType() != Material.AIR && item.getAmount() > 0) {
+                Collection<ItemStack> drops = e.getBlock().getDrops(item);
+                int dropAmount = 1;
 
-            if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-                Random random = ThreadLocalRandom.current();
-                dropAmount = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
-                dropAmount = Math.max(dropAmount, 1);
-                dropAmount = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (dropAmount + 1);
-            }
+                if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+                    Random random = ThreadLocalRandom.current();
+                    dropAmount = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
+                    dropAmount = Math.max(dropAmount, 1);
+                    dropAmount = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (dropAmount + 1);
+                }
 
-            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
-                for (ItemStack drop : drops) {
-                    if (!drop.getType().isBlock()) {
-                        int amount = Math.max(1, (dropAmount * 2) - drop.getAmount());
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
+                    for (ItemStack drop : drops) {
+                        if (!drop.getType().isBlock()) {
+                            int amount = Math.max(1, (dropAmount * 2) - drop.getAmount());
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                        }
                     }
                 }
             }

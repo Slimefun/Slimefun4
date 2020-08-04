@@ -40,9 +40,6 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.BONE_BLOCK));
         recipes.add(new ItemStack(Material.BONE_MEAL, 9));
 
-        recipes.add(new ItemStack(Material.GRAVEL));
-        recipes.add(new ItemStack(Material.FLINT));
-
         recipes.add(new ItemStack(Material.ENDER_EYE));
         recipes.add(new SlimefunItemStack(SlimefunItems.ENDER_LUMP_1, 2));
 

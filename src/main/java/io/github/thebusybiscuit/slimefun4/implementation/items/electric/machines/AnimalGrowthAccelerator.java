@@ -45,13 +45,9 @@ public class AnimalGrowthAccelerator extends SlimefunItem implements InventoryBl
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
-                for (int slot : getInputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
+                inv.dropItems(b.getLocation(), getInputSlots());
             }
+            
             return true;
         });
     }

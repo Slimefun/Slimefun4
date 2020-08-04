@@ -9,20 +9,18 @@ import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Orientable;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -46,37 +44,25 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
     public void preRegister() {
         super.preRegister();
 
-        addItemHandler(new BlockBreakHandler() {
+        addItemHandler(onBlockBreak());
+    }
 
-            @Override
-            public boolean isPrivate() {
-                return false;
-            }
+    private ToolUseHandler onBlockBreak() {
+        return (e, tool, fortune, drops) -> {
+            if (MaterialCollections.getAllLogs().contains(e.getBlock().getType())) {
+                List<Block> logs = Vein.find(e.getBlock(), MAX_BROKEN, b -> Tag.LOGS.isTagged(b.getType()));
 
-            @Override
-            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-                if (MaterialCollections.getAllLogs().contains(e.getBlock().getType()) && isItem(item)) {
-                    if (!Slimefun.hasUnlocked(e.getPlayer(), LumberAxe.this, true)) {
-                        return true;
-                    }
-
-                    List<Block> logs = Vein.find(e.getBlock(), MAX_BROKEN, b -> MaterialCollections.getAllLogs().contains(b.getType()));
-
-                    if (logs.contains(e.getBlock())) {
-                        logs.remove(e.getBlock());
-                    }
-
-                    for (Block b : logs) {
-                        if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
-                            breakLog(b);
-                        }
-                    }
-
-                    return true;
+                if (logs.contains(e.getBlock())) {
+                    logs.remove(e.getBlock());
                 }
-                else return false;
+
+                for (Block b : logs) {
+                    if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
+                        breakLog(b);
+                    }
+                }
             }
-        });
+        };
     }
 
     @Override

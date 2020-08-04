@@ -15,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 /**
  * A quick and easy implementation of {@link SlimefunItem} that also implements the
  * interface {@link Radioactive}.
+ * This implementation is {@link NotPlaceable}!
  * 
  * Simply specify a level of {@link Radioactivity} in the constructor.
  * 

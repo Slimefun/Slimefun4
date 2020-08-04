@@ -131,8 +131,7 @@ public class Talisman extends SlimefunItem {
     }
 
     public static boolean checkFor(Event e, SlimefunItemStack stack) {
-        SlimefunItem item = SlimefunItem.getByItem(stack);
-        return checkFor(e, item);
+        return checkFor(e, stack.getItem());
     }
 
     public static boolean checkFor(Event e, SlimefunItem item) {

@@ -4,10 +4,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -40,15 +43,26 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
         this.fortuneLevel = fortune - 1;
     }
 
-    public int getSpeed() {
+    /**
+     * This returns the processing speed of this {@link EnhancedFurnace}.
+     * 
+     * @return The processing speed
+     */
+    public int getProcessingSpeed() {
         return speed;
     }
 
+    /**
+     * This returns the fuel efficiency of this {@link EnhancedFurnace}.
+     * The fuel efficiency is a multiplier that is applied to any fuel burnt in this {@link EnhancedFurnace}.
+     * 
+     * @return The fuel multiplier
+     */
     public int getFuelEfficiency() {
         return efficiency;
     }
 
-    public int getOutput() {
+    public int getRandomOutputAmount() {
         int bonus = ThreadLocalRandom.current().nextInt(fortuneLevel + 2);
         return 1 + bonus;
     }
@@ -64,20 +78,32 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
                     BlockStorage.clearBlockInfo(b);
                 }
                 else {
-                    Furnace furnace = (Furnace) b.getState();
+                    BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
+                    BlockState state = result.getState();
 
-                    if (furnace.getCookTime() > 0) {
-                        int cookTime = furnace.getCookTime() + getSpeed() * 10;
-                        furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal() - 1));
-                        furnace.update(true, false);
+                    // Check if the BlockState is a Furnace and cooking something
+                    if (state instanceof Furnace && ((Furnace) state).getCookTime() > 0) {
+                        setProgress((Furnace) state);
+
+                        // Only update if necessary
+                        if (result.isSnapshot()) {
+                            state.update(true, false);
+                        }
                     }
                 }
             }
 
             @Override
             public boolean isSynchronized() {
+                // This messes with BlockStates, so it needs to be synchronized
                 return true;
             }
         };
+    }
+
+    private void setProgress(Furnace furnace) {
+        // Update the cooktime
+        int cookTime = furnace.getCookTime() + getProcessingSpeed() * 10;
+        furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal() - 1));
     }
 }

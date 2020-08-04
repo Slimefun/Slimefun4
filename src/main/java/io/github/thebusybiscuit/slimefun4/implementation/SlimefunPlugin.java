@@ -501,6 +501,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This returns the global instance of {@link SlimefunPlugin}.
+     * This may return null if the {@link Plugin} was disabled.
+     * 
+     * @return The {@link SlimefunPlugin} instance
+     */
     public static SlimefunPlugin instance() {
         return instance;
     }
@@ -650,6 +656,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.command;
     }
 
+    /**
+     * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
+     * to analyse performance and lag.
+     * 
+     * @return The {@link SlimefunProfiler}
+     */
     public static SlimefunProfiler getProfiler() {
         return instance.profiler;
     }

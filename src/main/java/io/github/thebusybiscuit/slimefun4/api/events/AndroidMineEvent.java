@@ -34,14 +34,6 @@ public class AndroidMineEvent extends Event implements Cancellable {
         this.android = android;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
     /**
      * This method returns the mined {@link Block}
      *
@@ -69,6 +61,15 @@ public class AndroidMineEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         cancelled = cancel;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

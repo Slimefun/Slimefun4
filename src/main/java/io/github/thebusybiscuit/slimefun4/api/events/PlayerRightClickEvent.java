@@ -50,14 +50,6 @@ public class PlayerRightClickEvent extends Event {
         }
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
     public PlayerInteractEvent getInteractEvent() {
         return event;
     }
@@ -142,6 +134,15 @@ public class PlayerRightClickEvent extends Event {
 
     public void setUseBlock(Result result) {
         blockResult = result;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }
