@@ -25,13 +25,22 @@
 
 #### Additions
 * Added an option for Industrial Miners to mine Ancient Debris
+* (API) Added support for adding custom Piglin Barter drops
+* (API) Added BlockPlacerPlaceEvent
+* (API) Added ToolUseHandler
 
 #### Changes
 * Performance improvement for Programmable Android rotations
+* Removed Gravel -> Flint recipe from the Grind stone
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
 * Fixed #2176
+* Fixed #2164
+* Fixed #2147
+* Fixed #2179
+* Fixed Reinforced Spawners not working sometimes
+* Fixed Explosive Pickaxe not handling normal Shulker boxes correctly
 * Fixed #2103
 * Fixed #2184
 * Fixed #2183

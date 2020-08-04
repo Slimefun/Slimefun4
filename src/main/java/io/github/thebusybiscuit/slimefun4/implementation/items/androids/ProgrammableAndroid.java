@@ -20,6 +20,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +32,7 @@ import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -44,12 +46,12 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenu
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -123,48 +125,48 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
             }
         };
 
-        registerBlockHandler(getID(), new SlimefunBlockHandler() {
+        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+            boolean allow = reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
+
+            if (allow) {
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), 43);
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
+            }
+
+            return allow;
+        });
+
+        addItemHandler(onPlace());
+    }
+
+    private ItemHandler onPlace() {
+        return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
+            public void onPlayerPlace(BlockPlaceEvent e) {
+                Player p = e.getPlayer();
+                Block b = e.getBlock();
+
                 BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
                 BlockStorage.addBlockInfo(b, "script", DEFAULT_SCRIPT);
                 BlockStorage.addBlockInfo(b, "index", "0");
                 BlockStorage.addBlockInfo(b, "fuel", "0");
                 BlockStorage.addBlockInfo(b, "rotation", p.getFacing().getOppositeFace().toString());
                 BlockStorage.addBlockInfo(b, "paused", "true");
-                b.setType(Material.PLAYER_HEAD);
 
-                Rotatable blockData = (Rotatable) b.getBlockData();
-                blockData.setRotation(p.getFacing());
+                BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
+                    if (data instanceof Rotatable) {
+                        ((Rotatable) data).setRotation(p.getFacing());
+                    }
+                });
+
                 b.setBlockData(blockData);
             }
-
-            @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                boolean allow = reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
-
-                if (allow) {
-                    BlockMenu inv = BlockStorage.getInventory(b);
-
-                    if (inv != null) {
-                        if (inv.getItemInSlot(43) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(43));
-                            inv.replaceExistingItem(43, null);
-                        }
-
-                        for (int slot : getOutputSlots()) {
-                            if (inv.getItemInSlot(slot) != null) {
-                                b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                                inv.replaceExistingItem(slot, null);
-                            }
-                        }
-                    }
-                }
-
-                return allow;
-            }
-        });
+        };
     }
 
     /**

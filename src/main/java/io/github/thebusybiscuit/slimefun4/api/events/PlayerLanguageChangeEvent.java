@@ -30,14 +30,6 @@ public class PlayerLanguageChangeEvent extends Event {
         this.to = to;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
     /**
      * Returns the {@link Player} who triggered this {@link Event},
      * the {@link Player} who switched his {@link Language} to be precise.
@@ -64,6 +56,15 @@ public class PlayerLanguageChangeEvent extends Event {
      */
     public Language getNewLanguage() {
         return to;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

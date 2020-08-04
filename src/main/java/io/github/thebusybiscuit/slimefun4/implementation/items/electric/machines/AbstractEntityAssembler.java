@@ -6,12 +6,16 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -20,7 +24,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -116,26 +119,41 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             }
         };
 
-        registerBlockHandler(getID(), new SlimefunBlockHandler() {
-
-            @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, KEY_OFFSET, "3.0");
-                BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(false));
+        addItemHandler(onPlace());
+        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+            if (reason == UnregisterReason.EXPLODE) {
+                return false;
             }
 
-            @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                if (reason == UnregisterReason.EXPLODE) {
-                    return false;
-                }
+            BlockMenu inv = BlockStorage.getInventory(b);
 
-                BlockMenu inv = BlockStorage.getInventory(b);
-                dropInventory(b, inv);
-
-                return true;
+            if (inv != null) {
+                inv.dropItems(b.getLocation(), headSlots);
+                inv.dropItems(b.getLocation(), bodySlots);
             }
+
+            return true;
         });
+    }
+
+    private BlockPlaceHandler onPlace() {
+        return new BlockPlaceHandler(true) {
+
+            @Override
+            public void onPlayerPlace(BlockPlaceEvent e) {
+                onPlace(e);
+            }
+
+            @Override
+            public void onBlockPlacerPlace(BlockPlacerPlaceEvent e) {
+                onPlace(e);
+            }
+
+            private void onPlace(BlockEvent e) {
+                BlockStorage.addBlockInfo(e.getBlock(), KEY_OFFSET, "3.0");
+                BlockStorage.addBlockInfo(e.getBlock(), KEY_ENABLED, String.valueOf(false));
+            }
+        };
     }
 
     private void updateBlockInventory(BlockMenu menu, Block b) {
@@ -165,24 +183,6 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             updateBlockInventory(menu, b);
             return false;
         });
-    }
-
-    private void dropInventory(Block b, BlockMenu inv) {
-        if (inv != null) {
-            for (int slot : bodySlots) {
-                if (inv.getItemInSlot(slot) != null) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                    inv.replaceExistingItem(slot, null);
-                }
-            }
-
-            for (int slot : headSlots) {
-                if (inv.getItemInSlot(slot) != null) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                    inv.replaceExistingItem(slot, null);
-                }
-            }
-        }
     }
 
     @Override
