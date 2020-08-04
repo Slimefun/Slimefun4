@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -35,7 +35,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class BlockListener implements Listener {
 
     // Materials that require a Block under it, e.g. Pressure Plates
-    private final Set<Material> sensitiveMaterials = new HashSet<>();
+    private final Set<Material> sensitiveMaterials = EnumSet.noneOf(Material.class);
 
     public BlockListener(SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -82,11 +82,9 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBlockUnregister(BlockBreakEvent e) {
-        if (hasSensitiveBlockAbove(e.getPlayer(), e.getBlock())) {
-            e.setCancelled(true);
-            return;
-        }
-
+        checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock());
+        
+        SlimefunItem sfItem = BlockStorage.check(e.getBlock());
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         int fortune = getBonusDropsWithFortune(item, e.getBlock());
         List<ItemStack> drops = new ArrayList<>();
@@ -155,7 +153,17 @@ public class BlockListener implements Listener {
         }
     }
 
-    private boolean hasSensitiveBlockAbove(Player p, Block b) {
+    /**
+     * This method checks for a sensitive {@link Block}.
+     * Sensitive {@link Block Blocks} are pressure plates or saplings, which should be broken
+     * when the block beneath is broken as well.
+     * 
+     * @param p
+     *            The {@link Player} who broke this {@link Block}
+     * @param b
+     *            The {@link Block} that was broken
+     */
+    private void checkForSensitiveBlockAbove(Player p, Block b) {
         Block blockAbove = b.getRelative(BlockFace.UP);
 
         if (sensitiveMaterials.contains(blockAbove.getType())) {
@@ -169,14 +177,13 @@ public class BlockListener implements Listener {
                         blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), BlockStorage.retrieve(blockAbove));
                         blockAbove.setType(Material.AIR);
                     }
-                    else {
-                        return true;
-                    }
+                }
+                else {
+                    blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), BlockStorage.retrieve(blockAbove));
+                    blockAbove.setType(Material.AIR);
                 }
             }
         }
-
-        return false;
     }
 
     private int getBonusDropsWithFortune(ItemStack item, Block b) {
