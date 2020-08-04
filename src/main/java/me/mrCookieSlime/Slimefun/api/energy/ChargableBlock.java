@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -27,13 +26,8 @@ public final class ChargableBlock {
     }
 
     public static boolean isChargable(Location l) {
-        String id = BlockStorage.checkID(l);
-
-        if (id == null) {
-            return false;
-        }
-
-        return SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(id);
+        SlimefunItem item = BlockStorage.check(l);
+        return item instanceof EnergyNetComponent && ((EnergyNetComponent) item).isChargeable();
     }
 
     public static int getCharge(Block b) {
@@ -84,14 +78,14 @@ public final class ChargableBlock {
     }
 
     public static int addCharge(Location l, int addedCharge) {
-        String id = BlockStorage.checkID(l);
+        SlimefunItem item = BlockStorage.check(l);
 
-        if (id == null) {
+        if (item == null) {
             BlockStorage.clearBlockInfo(l);
             return 0;
         }
 
-        int capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().getOrDefault(id, 0);
+        int capacity = ((EnergyNetComponent) item).getCapacity();
 
         int charge = getCharge(l);
         int availableSpace = capacity - charge;
@@ -109,7 +103,7 @@ public final class ChargableBlock {
 
             setCharge(l, charge);
 
-            if (SlimefunItem.getByID(id) instanceof Capacitor) {
+            if (item instanceof Capacitor) {
                 SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
             }
         }
@@ -117,7 +111,7 @@ public final class ChargableBlock {
             charge += addedCharge;
             setCharge(l, charge);
 
-            if (SlimefunItem.getByID(id) instanceof Capacitor) {
+            if (item instanceof Capacitor) {
                 SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
             }
         }
@@ -130,14 +124,15 @@ public final class ChargableBlock {
     }
 
     public static int getMaxCharge(Location l) {
-        String id = BlockStorage.checkID(l);
+        SlimefunItem item = BlockStorage.check(l);
 
-        if (id == null) {
+        if (item == null) {
             BlockStorage.clearBlockInfo(l);
             return 0;
         }
 
-        return SlimefunPlugin.getRegistry().getEnergyCapacities().getOrDefault(id, 0);
+        return item instanceof EnergyNetComponent ? ((EnergyNetComponent) item).getCapacity() : 0;
+
     }
 
 }

@@ -16,7 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class ElectricDustWasher extends AContainer {
@@ -59,21 +58,21 @@ public abstract class ElectricDustWasher extends AContainer {
             if (timeleft > 0 && getSpeed() < 10) {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                removeCharge(b.getLocation(), getEnergyConsumption());
                 progress.put(b, timeleft - 1);
             }
             else {
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                removeCharge(b.getLocation(), getEnergyConsumption());
 
-                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                menu.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
                 menu.pushItem(processing.get(b).getOutput()[0].clone(), getOutputSlots());
 
                 progress.remove(b);
@@ -90,7 +89,7 @@ public abstract class ElectricDustWasher extends AContainer {
     }
 
     private boolean process(Block b, BlockMenu menu, int slot) {
-        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true)) {
+        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.SIFTED_ORE, true, false)) {
             if (!legacyMode && !hasFreeSlot(menu)) {
                 return true;
             }
@@ -106,7 +105,7 @@ public abstract class ElectricDustWasher extends AContainer {
 
             return true;
         }
-        else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
+        else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true, false)) {
             MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
 
             if (menu.fits(r.getOutput()[0], getOutputSlots())) {

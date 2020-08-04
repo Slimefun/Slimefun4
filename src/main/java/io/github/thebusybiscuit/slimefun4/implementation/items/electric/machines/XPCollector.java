@@ -22,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -109,13 +108,13 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
         while (iterator.hasNext() && experiencePoints == 0) {
             Entity entity = iterator.next();
 
-            if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) {
+            if (getCharge(b.getLocation()) < ENERGY_CONSUMPTION) {
                 return;
             }
 
             experiencePoints = getStoredExperience(b) + ((ExperienceOrb) entity).getExperience();
 
-            ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
+            removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
             entity.remove();
 
             int withdrawn = 0;

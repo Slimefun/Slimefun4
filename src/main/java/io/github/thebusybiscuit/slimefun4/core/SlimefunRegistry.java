@@ -80,10 +80,7 @@ public class SlimefunRegistry {
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
     private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
     private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
-    
-    @Deprecated
-    private final Map<String, Integer> capacities = new HashMap<>();
-    
+
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
@@ -235,11 +232,6 @@ public class SlimefunRegistry {
 
     public Map<String, SlimefunItem> getSlimefunItemIds() {
         return slimefunIds;
-    }
-
-    @Deprecated
-    public Map<String, Integer> getEnergyCapacities() {
-        return capacities;
     }
 
     public Map<String, BlockMenuPreset> getMenuPresets() {

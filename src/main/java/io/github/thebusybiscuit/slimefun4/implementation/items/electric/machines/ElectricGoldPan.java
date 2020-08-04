@@ -19,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
@@ -63,21 +62,21 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
             if (timeleft > 0 && getSpeed() < 10) {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                removeCharge(b.getLocation(), getEnergyConsumption());
                 progress.put(b, timeleft - 1);
             }
             else {
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                removeCharge(b.getLocation(), getEnergyConsumption());
 
-                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                menu.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                 ItemStack output = processing.get(b).getOutput()[0];
 
@@ -109,7 +108,7 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
     }
 
     private boolean process(Block b, BlockMenu menu, int slot) {
-        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true)) {
+        if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.GRAVEL), true, false)) {
             ItemStack output = goldPan.getRandomOutput();
 
             MachineRecipe r = new MachineRecipe(3 / getSpeed(), new ItemStack[0], new ItemStack[] { output });
@@ -122,7 +121,7 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
 
             return true;
         }
-        else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true)) {
+        else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true, false)) {
             ItemStack output = netherGoldPan.getRandomOutput();
 
             MachineRecipe r = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { output });

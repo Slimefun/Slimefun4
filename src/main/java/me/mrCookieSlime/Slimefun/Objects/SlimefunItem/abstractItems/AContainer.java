@@ -28,7 +28,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -234,11 +233,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
                 if (isChargeable()) {
-                    if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                    if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                         return;
                     }
 
-                    ChargableBlock.addCharge(b, -getEnergyConsumption());
+                    removeCharge(b.getLocation(), getEnergyConsumption());
                     progress.put(b, timeleft - 1);
                 }
                 else {

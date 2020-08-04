@@ -28,7 +28,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -149,16 +148,15 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(inv, 4, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
-
+                removeCharge(b.getLocation(), getEnergyConsumption());
                 progress.put(b, timeleft - 1);
             }
             else {
-                inv.replaceExistingItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                inv.replaceExistingItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
                 inv.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 
                 progress.remove(b);

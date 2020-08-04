@@ -25,7 +25,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -141,7 +140,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
                 if (isChargeable()) {
-                    int charge = ChargableBlock.getCharge(l);
+                    int charge = getCharge(l);
 
                     if (getCapacity() - charge >= getEnergyProduction()) {
                         progress.put(l, timeleft - 1);

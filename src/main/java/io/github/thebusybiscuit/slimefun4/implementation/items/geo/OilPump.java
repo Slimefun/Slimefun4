@@ -24,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -101,11 +100,11 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                removeCharge(b.getLocation(), getEnergyConsumption());
                 progress.put(b, timeleft - 1);
             }
             else {

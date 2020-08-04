@@ -30,7 +30,6 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -195,7 +194,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                     return;
                 }
 
-                if (lifetime % 60 == 0 && ChargableBlock.getCharge(b) >= getEnergyConsumption()) {
+                if (lifetime % 60 == 0 && getCharge(b.getLocation()) >= getEnergyConsumption()) {
                     BlockMenu menu = BlockStorage.getInventory(b);
 
                     boolean hasBody = findResource(menu, getBody(), bodySlots);
@@ -204,7 +203,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                     if (hasBody && hasHead) {
                         consumeResources(menu);
 
-                        ChargableBlock.addCharge(b, -getEnergyConsumption());
+                        removeCharge(b.getLocation(), getEnergyConsumption());
                         double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET));
 
                         Slimefun.runSync(() -> {
