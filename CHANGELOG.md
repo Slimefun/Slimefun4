@@ -34,6 +34,8 @@
 * Performance improvement for Programmable Android rotations
 * Removed Gravel -> Flint recipe from the Grind stone
 * Performance improvements for miner talismans
+* Performance improvements for idling Enhanced Furnaces when using Paper
+* Performance improvements for Rainbow Blocks
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
