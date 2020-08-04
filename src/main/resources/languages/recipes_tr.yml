@@ -118,6 +118,11 @@ slimefun:
     lore:
     - Bu eşyayı Refinery kullanarak
     - üretin
+  barter_drop:
+    name: Piglin Takası İle Elde Edilir
+    lore:
+    - Piglinlerle Altın Külçesi takas ederek
+    - bu eşyayı elde edin
 minecraft:
   shaped:
     name: Biçimli Üretim Tarifi

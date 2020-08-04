@@ -52,7 +52,7 @@ public class TickerTask implements Runnable {
         Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
         while (removals.hasNext()) {
             Map.Entry<Location, Boolean> entry = removals.next();
-            BlockStorage._integrated_removeBlockInfo(entry.getKey(), entry.getValue());
+            BlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
             removals.remove();
         }
 
@@ -81,7 +81,7 @@ public class TickerTask implements Runnable {
         Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
         while (moves.hasNext()) {
             Map.Entry<Location, Location> entry = moves.next();
-            BlockStorage._integrated_moveLocationInfo(entry.getKey(), entry.getValue());
+            BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
             moves.remove();
         }
 
@@ -154,7 +154,7 @@ public class TickerTask implements Runnable {
             Slimefun.getLogger().log(Level.SEVERE, " ");
             bugs.remove(position);
 
-            BlockStorage._integrated_removeBlockInfo(l, true);
+            BlockStorage.deleteLocationInfoUnsafely(l, true);
             Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance(), () -> l.getBlock().setType(Material.AIR));
         }
         else {

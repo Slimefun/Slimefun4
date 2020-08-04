@@ -44,6 +44,17 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         super(category, item, recipeType, recipe);
 
         createPreset(this, this::constructMenu);
+
+        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+            BlockMenu inv = BlockStorage.getInventory(b);
+
+            if (inv != null) {
+                inv.dropItems(b.getLocation(), getInputSlots());
+                inv.dropItems(b.getLocation(), getOutputSlots());
+            }
+
+            return true;
+        });
     }
 
     private void constructMenu(BlockMenuPreset preset) {

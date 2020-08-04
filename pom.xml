@@ -310,7 +310,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.4.4</version>
+            <version>3.4.6</version>
             <scope>test</scope>
         </dependency>
 
@@ -318,7 +318,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.24</version>
+            <version>0.25</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -330,7 +330,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.8.06</version>
+            <version>3.9.00</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>
@@ -341,7 +341,7 @@
         <dependency>
             <groupId>io.papermc</groupId>
             <artifactId>paperlib</artifactId>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
             <scope>compile</scope>
         </dependency>
 
@@ -364,7 +364,7 @@
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.10.6</version>
+            <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

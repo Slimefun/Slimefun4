@@ -38,6 +38,7 @@ public class Translators {
         addTranslator("ThatsCube", SupportedLanguage.ITALIAN, true);
         addTranslator("alessandrobasi", SupportedLanguage.ITALIAN, true);
         addTranslator("dracrus", SupportedLanguage.ITALIAN, true);
+        addTranslator("prolletto64", SupportedLanguage.ITALIAN, true);
 
         // Translators - Latvian
         addTranslator("AgnisT", "NIKNAIZ", SupportedLanguage.LATVIAN, true);
@@ -127,6 +128,7 @@ public class Translators {
         addTranslator("yumjunstar", SupportedLanguage.KOREAN, true);
         addTranslator("BlWon", SupportedLanguage.KOREAN, true);
         addTranslator("20181241", SupportedLanguage.KOREAN, true);
+        addTranslator("kudansul", SupportedLanguage.KOREAN, true);
 
         // Translators - Indonesian
         addTranslator("diradho", SupportedLanguage.INDONESIAN, false);

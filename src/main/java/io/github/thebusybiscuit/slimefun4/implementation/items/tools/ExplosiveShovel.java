@@ -1,8 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import java.util.List;
-
-import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,15 +28,8 @@ public class ExplosiveShovel extends ExplosiveTool {
     }
 
     @Override
-    protected void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
-        if (MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
-            SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
-
-            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-            b.breakNaturally(item);
-
-            damageItem(p, item);
-        }
+    protected boolean canBreak(Player p, Block b) {
+        return MaterialTools.getBreakableByShovel().contains(b.getType()) && SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK);
     }
 
 }

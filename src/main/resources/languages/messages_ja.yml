@@ -143,6 +143,16 @@ messages:
   - "&7常に前向きに生きていこう！"
   - "&7これはビスケットなんかではなくクッキーに違いない"
   - "&7ネオンサインが眩しい！"
+  piglin-barter: "&4Slimefunアイテムはピグリンとの物々交換に使用できません"
+  enchantment-rune:
+    fail: "&cこのアイテムにはエンチャントできません。"
+    no-enchantment: "&cこのアイテムに付与できるエンチャントが見つかりません。"
+    success: "&aこのアイテムに付与できるエンチャントをランダムに付与しました。"
+  tape-measure:
+    no-anchor: "&c計測するために、開始点を指定してください！"
+    wrong-world: "&cアンカーが別のワールドに指定されています！"
+    distance: "&7測定完了。&e距離: %distance%"
+    anchor-set: "&aアンカーを指定:&e %anchor%"
 machines:
   pattern-not-found: "&eレシピが確認できません、アイテムを正しく配置してください"
   unknown-material: "&eアイテムを識別できません、レシピ通りに配置してください"
@@ -274,7 +284,6 @@ languages:
   zh-CN: 中国語（中国）
   el: ギリシャ語
   he: ヘブライ語
-  pt: ポルトガル語（ポルトガル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -286,6 +295,7 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
+  pt: ポルトガル語（ポルトガル）
   pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語

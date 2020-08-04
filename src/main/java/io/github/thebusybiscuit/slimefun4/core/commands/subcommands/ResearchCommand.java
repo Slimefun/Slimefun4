@@ -19,17 +19,7 @@ class ResearchCommand extends SubCommand {
     private static final String PLACEHOLDER_RESEARCH = "%research%";
 
     ResearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "research";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "research", false);
     }
 
     @Override

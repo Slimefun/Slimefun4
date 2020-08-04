@@ -1,7 +1,7 @@
 name: Mark Issue as duplicate
 
-on: 
-  issue_comment: 
+on:
+  issue_comment:
     types: [created]
 
 jobs:

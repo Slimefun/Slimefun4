@@ -25,14 +25,6 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
     private final BlockFace clickedFace;
     private boolean cancelled;
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
     public MultiBlockInteractEvent(Player p, MultiBlock mb, Block clicked, BlockFace face) {
         super(p);
         this.multiBlock = mb;
@@ -75,6 +67,15 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

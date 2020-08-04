@@ -4,10 +4,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -64,12 +67,18 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
                     BlockStorage.clearBlockInfo(b);
                 }
                 else {
-                    Furnace furnace = (Furnace) b.getState();
+                    BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
+                    BlockState state = result.getState();
 
-                    if (furnace.getCookTime() > 0) {
-                        int cookTime = furnace.getCookTime() + getSpeed() * 10;
-                        furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal() - 1));
-                        furnace.update(true, false);
+                    // Check if the BlockState is a Furnace and cooking something
+                    if (state instanceof Furnace && ((Furnace) state).getCookTime() > 0) {
+                        // Only get a snapshot if necessary
+                        if (result.isSnapshot()) {
+                            updateFurnace((Furnace) state);
+                        }
+                        else {
+                            updateFurnace((Furnace) b.getState());
+                        }
                     }
                 }
             }
@@ -79,5 +88,12 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
                 return true;
             }
         };
+    }
+
+    private void updateFurnace(Furnace furnace) {
+        // Update the cooktime
+        int cookTime = furnace.getCookTime() + getSpeed() * 10;
+        furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal() - 1));
+        furnace.update(true, false);
     }
 }

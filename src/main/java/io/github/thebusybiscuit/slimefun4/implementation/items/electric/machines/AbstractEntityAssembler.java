@@ -1,16 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -19,7 +24,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -41,7 +45,10 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see IronGolemAssembler
  *
  */
-public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
+public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
+
+    private static final String KEY_ENABLED = "enabled";
+    private static final String KEY_OFFSET = "offset";
 
     private final int[] border = { 0, 2, 3, 4, 5, 6, 8, 12, 14, 21, 23, 30, 32, 39, 40, 41 };
     private final int[] inputSlots = { 19, 28, 25, 34 };
@@ -78,32 +85,7 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
 
             @Override
             public void newInstance(BlockMenu menu, Block b) {
-                if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals(String.valueOf(false))) {
-                    menu.replaceExistingItem(22, new CustomItem(Material.GUNPOWDER, "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
-                    menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(true));
-                        newInstance(menu, b);
-                        return false;
-                    });
-                }
-                else {
-                    menu.replaceExistingItem(22, new CustomItem(Material.REDSTONE, "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
-                    menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-                        BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
-                        newInstance(menu, b);
-                        return false;
-                    });
-                }
-
-                double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F : Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
-
-                menu.replaceExistingItem(31, new CustomItem(Material.PISTON, "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
-                menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-                    double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
-                    BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
-                    newInstance(menu, b);
-                    return false;
-                });
+                updateBlockInventory(menu, b);
             }
 
             @Override
@@ -137,40 +119,69 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
             }
         };
 
-        registerBlockHandler(getID(), new SlimefunBlockHandler() {
+        addItemHandler(onPlace());
+        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+            if (reason == UnregisterReason.EXPLODE) {
+                return false;
+            }
+
+            BlockMenu inv = BlockStorage.getInventory(b);
+
+            if (inv != null) {
+                inv.dropItems(b.getLocation(), headSlots);
+                inv.dropItems(b.getLocation(), bodySlots);
+            }
+
+            return true;
+        });
+    }
+
+    private BlockPlaceHandler onPlace() {
+        return new BlockPlaceHandler(true) {
 
             @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "offset", "3.0");
-                BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
+            public void onPlayerPlace(BlockPlaceEvent e) {
+                onPlace(e);
             }
 
             @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                if (reason == UnregisterReason.EXPLODE) {
-                    return false;
-                }
-
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    for (int slot : bodySlots) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
-                    }
-
-                    for (int slot : headSlots) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
-                    }
-                }
-
-                return true;
+            public void onBlockPlacerPlace(BlockPlacerPlaceEvent e) {
+                onPlace(e);
             }
+
+            private void onPlace(BlockEvent e) {
+                BlockStorage.addBlockInfo(e.getBlock(), KEY_OFFSET, "3.0");
+                BlockStorage.addBlockInfo(e.getBlock(), KEY_ENABLED, String.valueOf(false));
+            }
+        };
+    }
+
+    private void updateBlockInventory(BlockMenu menu, Block b) {
+        if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), KEY_ENABLED) == null || BlockStorage.getLocationInfo(b.getLocation(), KEY_ENABLED).equals(String.valueOf(false))) {
+            menu.replaceExistingItem(22, new CustomItem(Material.GUNPOWDER, "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
+            menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(true));
+                updateBlockInventory(menu, b);
+                return false;
+            });
+        }
+        else {
+            menu.replaceExistingItem(22, new CustomItem(Material.REDSTONE, "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
+            menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+                BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(false));
+                updateBlockInventory(menu, b);
+                return false;
+            });
+        }
+
+        double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET) == null) ? 3.0F : Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET));
+
+        menu.replaceExistingItem(31, new CustomItem(Material.PISTON, "&7Offset: &3" + offset + " Block(s)", "", "&fLeft Click: &7+0.1", "&fRight Click: &7-0.1"));
+        menu.addMenuClickHandler(31, (p, slot, item, action) -> {
+            double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET)) + (action.isRightClicked() ? -0.1F : 0.1F));
+            BlockStorage.addBlockInfo(b, KEY_OFFSET, String.valueOf(offsetv));
+            updateBlockInventory(menu, b);
+            return false;
         });
     }
 
@@ -180,7 +191,7 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                if (String.valueOf(false).equals(BlockStorage.getLocationInfo(b.getLocation(), "enabled"))) {
+                if ("false".equals(BlockStorage.getLocationInfo(b.getLocation(), KEY_ENABLED))) {
                     return;
                 }
 
@@ -194,11 +205,13 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
                         consumeResources(menu);
 
                         ChargableBlock.addCharge(b, -getEnergyConsumption());
-                        double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
+                        double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET));
 
                         Slimefun.runSync(() -> {
                             Location loc = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
-                            b.getWorld().spawnEntity(loc, EntityType.WITHER);
+                            spawnEntity(loc);
+
+                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, getHead().getType());
                         });
                     }
                 }
@@ -217,15 +230,13 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
     }
 
     private boolean findResource(BlockMenu menu, ItemStack item, int[] slots) {
-        Material resource = item.getType();
-        int required = item.getAmount();
         int found = 0;
 
         for (int slot : slots) {
-            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(resource), true, false)) {
+            if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true, false)) {
                 found += menu.getItemInSlot(slot).getAmount();
 
-                if (found > required) {
+                if (found >= item.getAmount()) {
                     return true;
                 }
             }
@@ -239,7 +250,7 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
         int headCount = getHead().getAmount();
 
         for (int slot : bodySlots) {
-            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(getBody().getType()), true, false)) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), getBody(), true, false)) {
                 int amount = inv.getItemInSlot(slot).getAmount();
 
                 if (amount >= bodyCount) {
@@ -254,7 +265,7 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
         }
 
         for (int slot : headSlots) {
-            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(getHead().getType()), true, false)) {
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), getHead(), true, false)) {
                 int amount = inv.getItemInSlot(slot).getAmount();
 
                 if (amount >= headCount) {
@@ -270,9 +281,9 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
     }
 
     protected void constructMenu(BlockMenuPreset preset) {
-        preset.addItem(1, new CustomItem(getHead(), "&7Head Slot", "", "&rThis Slot accepts the head type"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(7, new CustomItem(getBody(), "&7Body Slot", "", "&rThis Slot accepts the body type"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(13, new CustomItem(Material.CLOCK, "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, new CustomItem(getHead(), "&7Head Slot", "", "&fThis Slot accepts the head type"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(7, new CustomItem(getBody(), "&7Body Slot", "", "&fThis Slot accepts the body type"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(13, new CustomItem(Material.CLOCK, "&7Cooldown: &b30 Seconds", "", "&fThis Machine takes up to half a Minute to operate", "&fso give it some Time!"), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
@@ -289,5 +300,7 @@ public abstract class AbstractEntityAssembler extends SimpleSlimefunItem<BlockTi
     public abstract Material getHeadBorder();
 
     public abstract Material getBodyBorder();
+
+    public abstract T spawnEntity(Location l);
 
 }

@@ -11,23 +11,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 class DebugFishCommand extends SubCommand {
 
     DebugFishCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "debug_fish";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return true;
+        super(plugin, cmd, "debug_fish", true);
     }
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender instanceof Player && sender.isOp()) {
-            ((Player) sender).getInventory().addItem(SlimefunItems.DEBUG_FISH);
+        if (sender instanceof Player && sender.hasPermission("slimefun.debugging")) {
+            ((Player) sender).getInventory().addItem(SlimefunItems.DEBUG_FISH.clone());
         }
         else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);

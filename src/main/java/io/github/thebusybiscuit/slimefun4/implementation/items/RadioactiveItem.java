@@ -43,10 +43,29 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      *            The recipe of how to craft this {@link SlimefunItem}
      */
     public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+        this(category, radioactivity, item, recipeType, recipe, null);
+    }
+
+    /**
+     * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
+     * 
+     * @param category
+     *            The {@link Category} of this {@link SlimefunItem}
+     * @param radioactivity
+     *            the level of {@link Radioactivity}
+     * @param item
+     *            the {@link SlimefunItemStack} this {@link SlimefunItem} represents
+     * @param recipeType
+     *            The {@link RecipeType} for this item
+     * @param recipe
+     *            The recipe of how to craft this {@link SlimefunItem}
+     * @param recipeOutput
+     *            The recipe output
+     */
+    public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(category, item, recipeType, recipe, recipeOutput);
 
         this.radioactivity = radioactivity;
-
         addItemHandler(onRightClick());
     }
 

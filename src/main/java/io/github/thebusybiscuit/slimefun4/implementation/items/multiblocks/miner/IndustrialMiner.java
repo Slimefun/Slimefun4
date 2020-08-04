@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,6 +48,7 @@ public class IndustrialMiner extends MultiBlockMachine {
 
     private final int range;
     private final boolean silkTouch;
+    private final ItemSetting<Boolean> canMineAncientDebris = new ItemSetting<>("can-mine-ancient-debris", false);
 
     public IndustrialMiner(Category category, SlimefunItemStack item, Material baseMaterial, boolean silkTouch, int range) {
         super(category, item, new ItemStack[] { null, null, null, new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(Material.CHEST), new CustomItem(Material.PISTON, "Piston (facing up)"), new ItemStack(baseMaterial), new ItemStack(SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) ? Material.BLAST_FURNACE : Material.FURNACE), new ItemStack(baseMaterial) }, BlockFace.UP);
@@ -55,6 +57,7 @@ public class IndustrialMiner extends MultiBlockMachine {
         this.silkTouch = silkTouch;
 
         registerDefaultFuelTypes();
+        addItemSetting(canMineAncientDebris);
     }
 
     /**
@@ -128,6 +131,8 @@ public class IndustrialMiner extends MultiBlockMachine {
             return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
         case LAPIS_ORE:
             return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+        case ANCIENT_DEBRIS:
+            return new ItemStack(Material.ANCIENT_DEBRIS);
         default:
             // This includes Iron and Gold ore
             return new ItemStack(ore);
@@ -207,7 +212,7 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(Material type) {
-        return type.name().endsWith("_ORE");
+        return type.name().endsWith("_ORE") || (type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue());
     }
 
 }

@@ -2,21 +2,19 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -30,33 +28,31 @@ public class AdvancedCargoOutputNode extends AbstractCargoNode {
     public AdvancedCargoOutputNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
-        registerBlockHandler(getID(), new SlimefunBlockHandler() {
+        addItemHandler(onPlace());
+        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+            BlockMenu inv = BlockStorage.getInventory(b);
+
+            if (inv != null) {
+                inv.dropItems(b.getLocation(), SLOTS);
+            }
+            return true;
+        });
+    }
+
+    private BlockPlaceHandler onPlace() {
+        return new BlockPlaceHandler(false) {
 
             @Override
-            public void onPlace(Player p, Block b, SlimefunItem item) {
-                BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
+            public void onPlayerPlace(BlockPlaceEvent e) {
+                Block b = e.getBlock();
+                BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
                 BlockStorage.addBlockInfo(b, "index", "0");
                 BlockStorage.addBlockInfo(b, FREQUENCY, "0");
                 BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
                 BlockStorage.addBlockInfo(b, "filter-lore", String.valueOf(true));
                 BlockStorage.addBlockInfo(b, "filter-durability", String.valueOf(false));
             }
-
-            @Override
-            public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-                BlockMenu inv = BlockStorage.getInventory(b);
-
-                if (inv != null) {
-                    for (int slot : SLOTS) {
-                        if (inv.getItemInSlot(slot) != null) {
-                            b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                            inv.replaceExistingItem(slot, null);
-                        }
-                    }
-                }
-                return true;
-            }
-        });
+        };
     }
 
     @Override

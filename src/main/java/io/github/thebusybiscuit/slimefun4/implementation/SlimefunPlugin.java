@@ -36,12 +36,12 @@ import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
-import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
@@ -69,6 +69,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerInteractEntityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
@@ -110,6 +111,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private static SlimefunPlugin instance;
 
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
+    private boolean isNewlyInstalled = false;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
     private final TickerTask ticker = new TickerTask();
@@ -166,13 +168,21 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
         else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
-            
+
             PaperLib.suggestPaper(this);
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
             if (isVersionUnsupported()) {
                 getServer().getPluginManager().disablePlugin(this);
                 return;
+            }
+
+            // Disabling backwards-compatibility for fresh Slimefun installs
+            if (!new File("data-storage/Slimefun").exists()) {
+                config.setValue("options.backwards-compatibility", false);
+                config.save();
+
+                isNewlyInstalled = true;
             }
 
             // Creating all necessary Folders
@@ -431,12 +441,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new WitherListener(this);
         new IronGolemListener(this);
         new PlayerInteractEntityListener(this);
+        new MobDropListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
         }
 
-        new MobDropListener(this);
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            new PiglinListener(this);
+        }
 
         // Item-specific Listeners
         new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
@@ -488,6 +501,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This returns the global instance of {@link SlimefunPlugin}.
+     * This may return null if the {@link Plugin} was disabled.
+     * 
+     * @return The {@link SlimefunPlugin} instance
+     */
     public static SlimefunPlugin instance() {
         return instance;
     }
@@ -637,6 +656,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.command;
     }
 
+    /**
+     * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
+     * to analyse performance and lag.
+     * 
+     * @return The {@link SlimefunProfiler}
+     */
     public static SlimefunProfiler getProfiler() {
         return instance.profiler;
     }
@@ -648,6 +673,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     public static MinecraftVersion getMinecraftVersion() {
         return instance.minecraftVersion;
+    }
+
+    /**
+     * This method returns whether this version of Slimefun was newly installed.
+     * It will return true if this {@link Server} uses Slimefun for the very first time.
+     * 
+     * @return Whether this is a new installation of Slimefun
+     */
+    public static boolean isNewlyInstalled() {
+        return instance.isNewlyInstalled;
     }
 
     public static String getCSCoreLibVersion() {

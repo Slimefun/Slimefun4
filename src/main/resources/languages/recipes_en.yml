@@ -141,6 +141,12 @@ slimefun:
     - 'Craft this Item as shown'
     - 'using a Refinery'
     
+  barter_drop:
+    name: 'Piglin Bartering Drop'
+    lore:
+    - 'Barter with Piglins using'
+    - 'Gold Ingots to obtain this Item'
+    
 minecraft:
 
   shaped:
