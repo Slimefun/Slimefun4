@@ -99,4 +99,27 @@ public final class NumberUtils {
     public static float getFloat(Float value, float defaultValue) {
         return value == null ? defaultValue : value;
     }
+
+    /**
+     * This method is a combination of Math.min and Math.max, it clamps the given value
+     * between a minimum and a maximum.
+     * 
+     * @param min
+     *            The minimum value
+     * @param value
+     *            The value to clamp
+     * @param max
+     *            The maximum value
+     */
+    public static int clamp(int min, int value, int max) {
+        if (value < min) {
+            return min;
+        }
+        else if (value > max) {
+            return max;
+        }
+        else {
+            return value;
+        }
+    }
 }

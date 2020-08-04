@@ -133,7 +133,6 @@ public abstract class AGenerator extends AbstractEnergyProvider {
     @Override
     public int getGeneratedOutput(Location l, Config data) {
         BlockMenu inv = BlockStorage.getInventory(l);
-        boolean chargeable = getCapacity() > 0;
 
         if (isProcessing(l)) {
             int timeleft = progress.get(l);
@@ -141,7 +140,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                if (chargeable) {
+                if (isChargeable()) {
                     int charge = ChargableBlock.getCharge(l);
 
                     if (getCapacity() - charge >= getEnergyProduction()) {

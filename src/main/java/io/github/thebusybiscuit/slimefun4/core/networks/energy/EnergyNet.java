@@ -226,7 +226,7 @@ public class EnergyNet extends Network {
                     EnergyNetProvider provider = (EnergyNetProvider) item;
                     int energy = provider.getGeneratedOutput(source, config);
 
-                    if (provider.getCapacity() > 0) {
+                    if (provider.isChargeable()) {
                         generatorsWithCapacity.put(source, provider.getCapacity());
                         String charge = config.getString("energy-charge");
 

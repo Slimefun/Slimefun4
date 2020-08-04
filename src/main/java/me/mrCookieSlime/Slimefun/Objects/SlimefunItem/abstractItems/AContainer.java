@@ -233,7 +233,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (getCapacity() > 0) {
+                if (isChargeable()) {
                     if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
                         return;
                     }

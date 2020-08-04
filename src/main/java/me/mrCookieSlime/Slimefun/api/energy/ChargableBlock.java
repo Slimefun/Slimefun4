@@ -1,17 +1,21 @@
 package me.mrCookieSlime.Slimefun.api.energy;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * 
+ * @deprecated Use the methods provided by {@link EnergyNetComponent} instead.
+ *
+ */
+@Deprecated
 public final class ChargableBlock {
 
     private static final String KEY = "energy-charge";
@@ -70,7 +74,7 @@ public final class ChargableBlock {
             BlockStorage.addBlockInfo(l, KEY, String.valueOf(charge), false);
 
             if (updateTexture) {
-                updateCapacitor(l, charge, getMaxCharge(l));
+                SlimefunUtils.updateCapacitorTexture(l, charge, getMaxCharge(l));
             }
         }
     }
@@ -106,7 +110,7 @@ public final class ChargableBlock {
             setCharge(l, charge);
 
             if (SlimefunItem.getByID(id) instanceof Capacitor) {
-                updateCapacitor(l, charge, capacity);
+                SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
             }
         }
         else if (addedCharge < 0 && charge >= -addedCharge) {
@@ -114,32 +118,11 @@ public final class ChargableBlock {
             setCharge(l, charge);
 
             if (SlimefunItem.getByID(id) instanceof Capacitor) {
-                updateCapacitor(l, charge, capacity);
+                SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
             }
         }
 
         return rest;
-    }
-
-    private static void updateCapacitor(Location l, int charge, int capacity) {
-        Slimefun.runSync(() -> {
-            Block b = l.getBlock();
-
-            if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
-                if (charge < (int) (capacity * 0.25)) {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
-                }
-                else if (charge < (int) (capacity * 0.5)) {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
-                }
-                else if (charge < (int) (capacity * 0.75)) {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
-                }
-                else {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_100.getTexture());
-                }
-            }
-        });
     }
 
     public static int getMaxCharge(Block b) {
