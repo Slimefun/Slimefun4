@@ -73,12 +73,15 @@ public class EnhancedCraftingTable extends BackpackCrafter {
                     ItemUtils.consumeItem(item, true);
                 }
             }
+
             p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
 
             outputInv.addItem(output);
 
         }
-        else SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+        else {
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+        }
     }
 
     private boolean isCraftable(Inventory inv, ItemStack[] recipe) {
