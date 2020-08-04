@@ -91,7 +91,7 @@ public class BlockListener implements Listener {
         int fortune = getBonusDropsWithFortune(item, e.getBlock());
         List<ItemStack> drops = new ArrayList<>();
 
-        if (isTool(item.getType())) {
+        if (item.getType() != Material.AIR) {
             SlimefunItem tool = SlimefunItem.getByItem(item);
 
             if (tool != null) {
@@ -134,11 +134,6 @@ public class BlockListener implements Listener {
         }
 
         dropItems(e, drops);
-    }
-
-    private boolean isTool(Material type) {
-        // Small performance optimization in case someone has backwards compatibility enabled.
-        return type == Material.SHEARS || type.name().endsWith("_AXE") || type.name().endsWith("_PICKAXE") || type.name().endsWith("_SHOVEL");
     }
 
     private void dropItems(BlockBreakEvent e, List<ItemStack> drops) {
