@@ -25,6 +25,7 @@
 
 #### Additions
 * Added an option for Industrial Miners to mine Ancient Debris
+* Added a new language: Korean
 * (API) Added support for adding custom Piglin Barter drops
 * (API) Added BlockPlacerPlaceEvent
 * (API) Added ToolUseHandler
