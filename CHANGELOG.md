@@ -36,6 +36,7 @@
 * Fixed #2184
 * Fixed #2183
 * Fixed #2181
+* Fixed #2180
 
 ## Release Candidate 15 (01 Aug 2020)
 
