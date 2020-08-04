@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -47,7 +48,8 @@ public class RecipeType implements Keyed {
     });
 
     public static final RecipeType MOB_DROP = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "mob_drop"), new CustomItem(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
-
+    public static final RecipeType BARTER_DROP = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "barter_drop"), new CustomItem(Material.GOLD_INGOT, "&bBarter Drop"), RecipeType::registerBarterDrop, "&aBarter with piglins for a chance", "&a to obtain this item");
+    
     public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "heated_pressure_chamber"), SlimefunItems.HEATED_PRESSURE_CHAMBER);
     public static final RecipeType FOOD_FABRICATOR = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "food_fabricator"), SlimefunItems.FOOD_FABRICATOR);
     public static final RecipeType FOOD_COMPOSTER = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "food_composter"), SlimefunItems.FOOD_COMPOSTER);
@@ -141,6 +143,11 @@ public class RecipeType implements Keyed {
         return key;
     }
 
+    private static void registerBarterDrop(ItemStack[] recipe, ItemStack output) {
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) 
+            SlimefunPlugin.getRegistry().getBarterDrops().add(output);
+    }
+    
     private static void registerMobDrop(ItemStack[] recipe, ItemStack output) {
         String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase(Locale.ROOT).replace(' ', '_');
         EntityType entity = EntityType.valueOf(mob);
