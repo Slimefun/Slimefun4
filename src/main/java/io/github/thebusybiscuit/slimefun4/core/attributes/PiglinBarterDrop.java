@@ -1,37 +1,34 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityDropItemEvent;
+import org.bukkit.entity.Piglin;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This interface, when attached to a {@link SlimefunItem}, provides a variable (0-100%) chance for
- * a {@link SlimefunItem} to be dropped by a {@link Piglin} on {@link EntityItemDropEvent}. 
+ * a {@link SlimefunItem} to be dropped by a {@link Piglin} on {@link EntityItemDropEvent}.
  * 
  * @author dNiym
  *
  * @see PiglinListener
+ * @see RandomMobDrop
  * 
  */
 @FunctionalInterface
 public interface PiglinBarterDrop extends ItemAttribute {
 
     /**
-     * Implement this method to make this {@link SlimefunItem} have a variable chance 
-     * of being dropped by a {@link Piglin} when bartering with them. This interface 
+     * Implement this method to make this {@link SlimefunItem} have a variable chance
+     * of being dropped by a {@link Piglin} when bartering with them. This interface
      * should be used with the {@link RecipeType#BARTER_DROP}.
      *
      * It is recommended that this chance is kept reasonably low to feel like
-     * a vanilla drop as a 100% chance will completely override all {@link Piglin} 
-     * barter drops.  (NOTE: this feature only exists in 1.16+)
+     * a vanilla drop as a 100% chance will completely override all {@link Piglin}
+     * barter drops. (NOTE: this feature only exists in 1.16+)
      * 
-     * @return The integer chance (0-100%) this {@link SlimefunItem} has to drop.
+     * @return The integer chance (1-99%) this {@link SlimefunItem} has to drop.
      */
     int getBarteringLootChance();
 

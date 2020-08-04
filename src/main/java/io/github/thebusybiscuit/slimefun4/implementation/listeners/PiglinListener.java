@@ -5,7 +5,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Piglin;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,19 +16,19 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * This {@link Listener} prevents a {@link Piglin} from bartering with a {@link SlimefunItem} as well as
- * listens to the {@link EntityDropItemEvent} to inject a {@link PiglinBarterDrop} if a dropChance() check passes.
+ * This {@link Listener} prevents a {@link Piglin} from bartering with a
+ * {@link SlimefunItem}.
+ * It also listens to the {@link EntityDropItemEvent} to
+ * inject a {@link PiglinBarterDrop} if the chance check passes.
  *
  * @author poma123
  * @author dNiym
  * 
  */
-
 public class PiglinListener implements Listener {
 
     public PiglinListener(SlimefunPlugin plugin) {
@@ -51,26 +50,33 @@ public class PiglinListener implements Listener {
     @EventHandler
     public void onPiglinDropItem(EntityDropItemEvent e) {
         if (e.getEntity() instanceof Piglin) {
-            Piglin piglin = (Piglin) e.getEntity();
-            Set<ItemStack> drops = SlimefunPlugin.getRegistry().getBarterDrops(); 
-            
+            Set<ItemStack> drops = SlimefunPlugin.getRegistry().getBarteringDrops();
+
             /*
-             * NOTE:  Getting a new random number each iteration because multiple items could have the same
-             * % chance to drop, and if one fails all items with that number will fail.  Getting a new random number
-             * will allow multiple items with the same % chance to drop.
+             * NOTE: Getting a new random number each iteration because multiple items could have the same
+             * % chance to drop, and if one fails all items with that number will fail.
+             * Getting a new random number will allow multiple items with the same % chance to drop.
              */
-            
+
             for (ItemStack is : drops) {
                 SlimefunItem sfi = SlimefunItem.getByItem(is);
-                //Check the getBarteringLootChance and compare against a random number 1-100, if the random number is greater then replace the item.
-                if (sfi instanceof PiglinBarterDrop && ((PiglinBarterDrop)sfi).getBarteringLootChance() > ThreadLocalRandom.current().nextInt(100)) {
-                    e.getItemDrop().setItemStack(sfi.getItem().clone());
-                    return;
-                } 
+                // Check the getBarteringLootChance and compare against a random number 0-100,
+                // if the random number is greater then replace the item.
+                if (sfi instanceof PiglinBarterDrop) {
+                    int chance = ((PiglinBarterDrop) sfi).getBarteringLootChance();
+
+                    if (chance < 1 || chance >= 100) {
+                        sfi.warn("The Piglin Bartering chance must be between 1-99%");
+                    }
+                    else if (chance > ThreadLocalRandom.current().nextInt(100)) {
+                        e.getItemDrop().setItemStack(sfi.getRecipeOutput());
+                        return;
+                    }
+                }
             }
         }
     }
-    
+
     @EventHandler
     public void onInteractEntity(PlayerInteractEntityEvent e) {
         if (!e.getRightClicked().isValid() || e.getRightClicked().getType() != EntityType.PIGLIN) {
