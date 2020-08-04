@@ -269,9 +269,9 @@ public final class ResearchSetup {
         register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
         register("enchantment_rune", 259, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
         register("lead_clothing", 260, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
-        register("shulker_shell", 261, "Synthetic Shulkers", 30, new ItemStack(Material.SHULKER_SHELL));
-        register("tape_measure", 262, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
-        register("iron_golem_assembler", 263, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
+        register("tape_measure", 261, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
+        register("iron_golem_assembler", 262, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
+        register("shulker_shells", 263, "Synthetic Shulkers", 30, SlimefunItems.SYNTHETIC_SHULKER_SHELL);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
