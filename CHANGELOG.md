@@ -32,6 +32,7 @@
 #### Changes
 * Performance improvement for Programmable Android rotations
 * Removed Gravel -> Flint recipe from the Grind stone
+* Performance improvements for miner talismans
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
