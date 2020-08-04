@@ -139,7 +139,7 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("  &dType: &e" + component.getEnergyComponentType()));
 
             if (component.isChargeable()) {
-                p.sendMessage(ChatColors.color("&dChargeable: " + greenCheckmark));
+                p.sendMessage(ChatColors.color("  &dChargeable: " + greenCheckmark));
                 p.sendMessage(ChatColors.color("  &dEnergy: &e" + component.getCharge(b.getLocation()) + " / " + component.getCapacity()));
             }
             else {
