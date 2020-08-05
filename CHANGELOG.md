@@ -36,6 +36,7 @@
 * Performance improvements for miner talismans
 * Performance improvements for idling Enhanced Furnaces when using Paper
 * Performance improvements for Rainbow Blocks
+* Crafting a Rag now yields two items
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
