@@ -232,6 +232,9 @@ machines:
 anvil:
   not-working: '&4You cannot use Slimefun Items in an anvil!'
 
+brewing_stand:
+  not-working: '&4You cannot use Slimefun Items in a brewing stand!'
+
 backpack:
   already-open: '&cSorry, this Backpack is open somewhere else!'
   no-stack: '&cYou cannot stack Backpacks'
