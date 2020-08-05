@@ -318,5 +318,7 @@ languages:
   sr: Sırpça
   be: Belarusça
   tl: Tagalog
+brewing_stand:
+  not-working: "&4Slimefun eşyalarını simya standında kullanamazsın!"
 miner:
   no-ores: "&eÜzgünüm, yakınlarda herhangi bir cevher bulamadım!"
