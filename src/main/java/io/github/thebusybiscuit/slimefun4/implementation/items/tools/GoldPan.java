@@ -56,8 +56,9 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     protected Set<GoldPanDrop> getGoldPanDrops() {
         Set<GoldPanDrop> settings = new HashSet<>();
 
-        settings.add(new GoldPanDrop("chance.FLINT", 40, new ItemStack(Material.FLINT)));
+        settings.add(new GoldPanDrop("chance.FLINT", 30, new ItemStack(Material.FLINT)));
         settings.add(new GoldPanDrop("chance.CLAY", 20, new ItemStack(Material.CLAY_BALL)));
+        settings.add(new GoldPanDrop("chance.COAL", 10, new ItemStack(Material.COAL)));
         settings.add(new GoldPanDrop("chance.SIFTED_ORE", 35, SlimefunItems.SIFTED_ORE));
         settings.add(new GoldPanDrop("chance.IRON_NUGGET", 5, new ItemStack(Material.IRON_NUGGET)));
 
