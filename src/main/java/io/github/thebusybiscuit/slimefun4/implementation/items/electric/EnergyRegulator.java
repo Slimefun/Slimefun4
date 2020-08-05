@@ -50,6 +50,7 @@ public class EnergyRegulator extends SlimefunItem {
     @Override
     public void preRegister() {
         addItemHandler(onPlace());
+
         addItemHandler(new BlockTicker() {
 
             @Override
@@ -59,7 +60,8 @@ public class EnergyRegulator extends SlimefunItem {
 
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
-                EnergyNet.getNetworkFromLocationOrCreate(b.getLocation()).tick(b);
+                EnergyNet network = EnergyNet.getNetworkFromLocationOrCreate(b.getLocation());
+                network.tick(b);
             }
         });
     }

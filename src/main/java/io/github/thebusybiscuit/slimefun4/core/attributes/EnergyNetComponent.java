@@ -62,6 +62,7 @@ public interface EnergyNetComponent extends ItemAttribute {
      * @return The charge stored at that {@link Location}
      */
     default int getCharge(Location l) {
+        Validate.notNull(l, "Location was null!");
         String charge = BlockStorage.getLocationInfo(l, "energy-charge");
 
         if (charge != null) {
@@ -83,6 +84,8 @@ public interface EnergyNetComponent extends ItemAttribute {
      *            The new charge
      */
     default void setCharge(Location l, int charge) {
+        Validate.notNull(l, "Location was null!");
+        Validate.isTrue(charge >= 0, "You can only set a charge of zero or more!");
         int capacity = getCapacity();
 
         // This method only makes sense if we can actually store energy
@@ -102,6 +105,7 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
 
     default void addCharge(Location l, int charge) {
+        Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge > 0, "You can only add a positive charge!");
         int capacity = getCapacity();
 
@@ -123,6 +127,7 @@ public interface EnergyNetComponent extends ItemAttribute {
     }
 
     default void removeCharge(Location l, int charge) {
+        Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge > 0, "The charge to remove must be greater than zero!");
         int capacity = getCapacity();
 
