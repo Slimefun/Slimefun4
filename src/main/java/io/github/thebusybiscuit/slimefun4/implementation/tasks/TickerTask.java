@@ -24,11 +24,23 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * The {@link TickerTask} is responsible for ticking every {@link BlockTicker}, synchronous
+ * or not.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see BlockTicker
+ *
+ */
 public class TickerTask implements Runnable {
 
     // These are "Queues" of blocks that need to be removed or moved
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
+
+    // This Map tracks how many bugs have occurred in a given Location
+    // If too many bugs happen, we delete that Location
     private final Map<BlockPosition, Integer> bugs = new ConcurrentHashMap<>();
 
     private int tickRate;
@@ -112,7 +124,7 @@ public class TickerTask implements Runnable {
 
             if (world != null && world.isChunkLoaded(x, z)) {
                 for (Location l : locations) {
-                    tick(tickers, l);
+                    tickLocation(tickers, l);
                 }
             }
         }
@@ -121,7 +133,7 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tick(Set<BlockTicker> tickers, Location l) {
+    private void tickLocation(Set<BlockTicker> tickers, Location l) {
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
