@@ -96,16 +96,16 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPreBrew(InventoryClickEvent e) {
-        Inventory inventory = e.getClickedInventory();
+        Inventory clickedInventory = e.getClickedInventory();
         Inventory topInventory = e.getView().getTopInventory();
 
-        if (inventory != null && topInventory.getType() == InventoryType.BREWING && topInventory.getHolder() instanceof BrewingStand) {
+        if (clickedInventory != null && topInventory.getType() == InventoryType.BREWING && topInventory.getHolder() instanceof BrewingStand) {
             if (e.getAction() == InventoryAction.HOTBAR_SWAP) {
                 e.setCancelled(true);
                 return;
             }
 
-            if (inventory.getType() == InventoryType.BREWING) {
+            if (clickedInventory.getType() == InventoryType.BREWING) {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
             } else {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCurrentItem())));
