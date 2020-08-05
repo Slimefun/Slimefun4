@@ -28,6 +28,17 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link BlockPlacer} is a machine which can place {@link Block Blocks}, as the name
+ * would suggest.
+ * It really just is a special type of {@link Dispenser} which places items instead of
+ * shooting them.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see BlockPlacerPlaceEvent
+ *
+ */
 public class BlockPlacer extends SimpleSlimefunItem<BlockDispenseHandler> {
 
     private final ItemSetting<List<String>> blacklist = new ItemSetting<>("unplaceable-blocks", MaterialCollections.getAllUnbreakableBlocks().stream().map(Material::name).collect(Collectors.toList()));

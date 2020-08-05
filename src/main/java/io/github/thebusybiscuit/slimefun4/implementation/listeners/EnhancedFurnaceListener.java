@@ -65,7 +65,7 @@ public class EnhancedFurnaceListener implements Listener {
 
             if (state instanceof Furnace) {
                 FurnaceInventory inventory = ((Furnace) state).getInventory();
-                int amount = inventory.getSmelting().getType().toString().endsWith("_ORE") ? ((EnhancedFurnace) sfItem).getOutput() : 1;
+                int amount = inventory.getSmelting().getType().toString().endsWith("_ORE") ? ((EnhancedFurnace) sfItem).getRandomOutputAmount() : 1;
                 Optional<ItemStack> result = SlimefunPlugin.getMinecraftRecipeService().getFurnaceOutput(inventory.getSmelting());
 
                 if (result.isPresent()) {

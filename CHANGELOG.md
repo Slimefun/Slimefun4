@@ -34,6 +34,9 @@
 * Performance improvement for Programmable Android rotations
 * Removed Gravel -> Flint recipe from the Grind stone
 * Performance improvements for miner talismans
+* Performance improvements for idling Enhanced Furnaces when using Paper
+* Performance improvements for Rainbow Blocks
+* Crafting a Rag now yields two items
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -48,6 +51,7 @@
 * Fixed #2183
 * Fixed #2181
 * Fixed #2180
+* Fixed #2122
 
 ## Release Candidate 15 (01 Aug 2020)
 
