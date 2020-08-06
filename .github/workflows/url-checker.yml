@@ -1,0 +1,23 @@
+name: URL Validator
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    name: URL Checker
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: URLs-checker
+      uses: SuperKogito/URLs-checker@0.2.1
+      with:
+        git_path: https://github.com/TheBusyBiscuit/Slimefun4
+        file_types: .md,.java,.yml
+        print_all: False
