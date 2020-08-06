@@ -32,6 +32,8 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      * 
      * @param blockPlacer
      *            The {@link BlockPlacer}
+     * @param placedItem
+     *            The {@link ItemStack} of the {@link Block} that was placed
      * @param block
      *            The placed {@link Block}
      */

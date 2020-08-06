@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import org.bukkit.entity.Piglin;
+import org.bukkit.event.entity.EntityDropItemEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -8,7 +9,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This interface, when attached to a {@link SlimefunItem}, provides a variable (0-100%) chance for
- * a {@link SlimefunItem} to be dropped by a {@link Piglin} on {@link EntityItemDropEvent}.
+ * a {@link SlimefunItem} to be dropped by a {@link Piglin} on {@link EntityDropItemEvent}.
  * 
  * @author dNiym
  *

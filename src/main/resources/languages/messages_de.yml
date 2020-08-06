@@ -306,6 +306,7 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
+  pt: Portugiesisch (Portugal)
   ar: Arabisch
   af: Afrikaans
   da: Dänisch
@@ -317,7 +318,6 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
-  pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   bg: Bulgarisch
   ko: Koreanisch
@@ -327,5 +327,7 @@ languages:
   sr: Serbisch
   be: Belarusisch
   tl: Tagalog
+brewing_stand:
+  not-working: "&4Items von Slimefun können nicht zum Brauen verwendet werden!"
 miner:
   no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"
