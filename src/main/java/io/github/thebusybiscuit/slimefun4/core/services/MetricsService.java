@@ -32,9 +32,11 @@ import org.bukkit.plugin.Plugin;
  */
 public class MetricsService {
 
+    
+    private static final String API_URL = "https://api.github.com/";
     private static final String REPO_NAME = "MetricsModule";
-    private static final String GH_API = "https://api.github.com/repos/Slimefun/" + REPO_NAME;
-    private static final String GH_RELEASES = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
+    private static final String RELEASES_URL = API_URL + "repos/Slimefun/" + REPO_NAME + "/releases/latest";
+    private static final String DOWNLOAD_URL = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
 
     private final SlimefunPlugin plugin;
     private final File parentFolder;
@@ -160,7 +162,7 @@ public class MetricsService {
      */
     private int getLatestVersion() {
         try {
-            HttpResponse<JsonNode> response = Unirest.get(GH_API + "/releases/latest").asJson();
+            HttpResponse<JsonNode> response = Unirest.get(RELEASES_URL).asJson();
 
             if (!response.isSuccess()) {
                 return -1;
@@ -198,7 +200,7 @@ public class MetricsService {
             }
             
             AtomicInteger lastPercentPosted = new AtomicInteger();
-            GetRequest request = Unirest.get(GH_RELEASES + "/" + version + "/" + REPO_NAME + ".jar");
+            GetRequest request = Unirest.get(DOWNLOAD_URL + "/" + version + "/" + REPO_NAME + ".jar");
 
             HttpResponse<File> response = request.downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
                 int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));

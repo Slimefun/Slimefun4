@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: URLs-checker
+    - name: URL-checker
       uses: SuperKogito/URLs-checker@0.2.1
       with:
         git_path: https://github.com/TheBusyBiscuit/Slimefun4
         file_types: .md,.java,.yml
         print_all: False
+        white_listed_patterns: http://textures.minecraft.net/texture/
