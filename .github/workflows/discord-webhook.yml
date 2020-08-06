@@ -9,6 +9,7 @@ on:
 jobs:
   report:
 
+    name: Discord Webhook
     runs-on: ubuntu-latest
     if: github.repository == 'TheBusyBiscuit/Slimefun4'
 
