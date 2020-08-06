@@ -150,6 +150,16 @@ messages:
   - "&7¡Siempre mira el lado bueno de la vida!"
   - "&7Esta era un bizcocho y no una galleta"
   - "&7¡Los signos de neón son lo MEJOR!"
+  piglin-barter: "&4No puedes tradear con piglins usando items de Slimefun"
+  enchantment-rune:
+    fail: "&cNo puedes encantar este item."
+    no-enchantment: "&cNo se pudo encontrar un encantamiento aplicable a este item."
+    success: "&aHas aplicado con éxito un encantamiento aleatorio a este item."
+  tape-measure:
+    no-anchor: "&cNecesitas establecer un ancla antes de comenzar a medir!"
+    wrong-world: "&cParece ser que tu ancla se encuentra en un mundo diferente!"
+    distance: "&7Medida tomada. &eDistancia: %distance%"
+    anchor-set: "&aAncla establecida con éxito:&e %anchor%"
 machines:
   pattern-not-found: "&eLo siento, no puedo reconocer esta receta. Por favor coloca
     el objeto en el patrón correcto dentro del dispensador."
@@ -291,8 +301,6 @@ languages:
   zh-CN: Chino (China)
   el: Griego
   he: Hebreo
-  pt: Portugués (Portugal)
-  pt-BR: Portugués (Brasil)
   ar: Árabe
   af: Africano
   da: Danés
@@ -304,6 +312,8 @@ languages:
   fa: Persa
   th: Tailandés
   ro: Rumano
+  pt: Portugués (Portugal)
+  pt-BR: Portugués (Brasil)
   bg: Búlgaro
   ko: Coreano
   tr: Turco
@@ -312,5 +322,7 @@ languages:
   sr: Serbio
   be: Bielorruso
   tl: Tagalog
+brewing_stand:
+  not-working: "&4¡No puedes usar objetos de Slimefun en un soporte para pociones!"
 miner:
   no-ores: "&ePerdón, ¡No encuentro ningún mineral cerca!"
