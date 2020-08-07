@@ -212,7 +212,15 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(Material type) {
-        return type.name().endsWith("_ORE") || (type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue());
+        if (type.name().endsWith("_ORE")) {
+            return true;
+        }
+        else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
+        }
+        else {
+            return false;
+        }
     }
 
 }
