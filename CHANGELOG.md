@@ -29,6 +29,8 @@
 * (API) Added support for adding custom Piglin Barter drops
 * (API) Added BlockPlacerPlaceEvent
 * (API) Added ToolUseHandler
+* Added "Sand -> Sandstone" recipe to the Electric Press
+* Added "Red Sand -> Red Sandstone" recipe to the Electric Press
 
 #### Changes
 * Performance improvement for Programmable Android rotations
