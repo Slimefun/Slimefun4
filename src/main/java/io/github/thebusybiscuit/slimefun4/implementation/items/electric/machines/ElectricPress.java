@@ -48,7 +48,9 @@ public abstract class ElectricPress extends AContainer implements RecipeDisplayI
         addRecipe(4, new ItemStack(Material.IRON_NUGGET, 9), new ItemStack(Material.IRON_INGOT));
         addRecipe(4, new ItemStack(Material.GOLD_NUGGET, 9), new ItemStack(Material.GOLD_INGOT));
         addRecipe(4, new ItemStack(Material.COAL, 9), new ItemStack(Material.COAL_BLOCK));
-
+        addRecipe(4, new ItemStack(Material.SAND, 4), new ItemStack(Material.SANDSTONE));
+        addRecipe(4, new ItemStack(Material.RED_SAND, 4), new ItemStack(Material.RED_SANDSTONE));
+        
         addRecipe(5, new ItemStack(Material.IRON_INGOT, 9), new ItemStack(Material.IRON_BLOCK));
         addRecipe(5, new ItemStack(Material.GOLD_INGOT, 9), new ItemStack(Material.GOLD_BLOCK));
 
