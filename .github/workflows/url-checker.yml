@@ -21,4 +21,6 @@ jobs:
         git_path: https://github.com/TheBusyBiscuit/Slimefun4
         file_types: .md,.java,.yml
         print_all: False
-        white_listed_patterns: http://textures.minecraft.net/texture/
+        retry_count: 2
+        ## These URLs will always be correct, even if their services may be offline right now
+        white_listed_patterns: http://textures.minecraft.net/texture/,https://pastebin.com/
