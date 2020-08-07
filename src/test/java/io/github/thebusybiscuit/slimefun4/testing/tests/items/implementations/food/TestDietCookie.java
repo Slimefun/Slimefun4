@@ -7,7 +7,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -45,7 +44,6 @@ public class TestDietCookie implements SlimefunItemTest<DietCookie> {
     }
 
     @Test
-    @Disabled("Potion Effects are currently not fully implemented in MockBukkit")
     public void testConsumptionBehaviour() {
         PlayerMock player = server.addPlayer();
         DietCookie cookie = registerSlimefunItem(plugin, "TEST_DIET_COOKIE");
