@@ -23,7 +23,7 @@ Rules for posting an Issue on GitHub:
 5. Do not post your Issue more than once, this is considered spam and does not benefit our community in any way. Do not repost your Issue if it was closed either, just leave a comment stating that the issue has still persisted and give more context on it.
 6. Give us all available information right away, it may be a bit of time-wasting for us to keep asking for more Info. And this includes any Information to reproduce your Issue step-by-step.
 7. Check whether there are newer versions available than the ones you are using, it might be that your Issue has been fixed already.
-8. All text logs must be posted via a link to https://pastebin.com or similiar websites, long logs are very hard to read and get weirdly formatted when you post them on here. Using a proper pasting site allows us to keep things clean and easy to read.
+8. All text logs must be posted via a link to https://pastebin.com/ or similiar websites, long logs are very hard to read and get weirdly formatted when you post them on here. Using a proper pasting site allows us to keep things clean and easy to read.
 
 Your Issue will be CLOSED WITHOUT WARNING if we think you violated these Rules.
 
