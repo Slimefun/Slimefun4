@@ -54,7 +54,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class AncientAltarListener implements Listener {
 
-    static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
+    public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
     private AncientAltar altar;
 

@@ -235,20 +235,20 @@ public class TalismanListener implements Listener {
         if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
-            if (item.getType() != Material.AIR && item.getAmount() > 0) {
+            if (item.getType() != Material.AIR && item.getAmount() > 0 && !item.containsEnchantment(Enchantment.SILK_TOUCH)) {
                 Collection<ItemStack> drops = e.getBlock().getDrops(item);
                 int dropAmount = 1;
 
-                if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+                if (item.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
                     Random random = ThreadLocalRandom.current();
                     dropAmount = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
                     dropAmount = Math.max(dropAmount, 1);
                     dropAmount = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (dropAmount + 1);
                 }
 
-                if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
+                if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
                     for (ItemStack drop : drops) {
-                        if (!drop.getType().isBlock()) {
+                        if (drop != null && !drop.getType().isBlock()) {
                             int amount = Math.max(1, (dropAmount * 2) - drop.getAmount());
                             e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
                         }
