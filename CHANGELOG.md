@@ -31,6 +31,7 @@
 * (API) Added ToolUseHandler
 * Added "Sand -> Sandstone" recipe to the Electric Press
 * Added "Red Sand -> Red Sandstone" recipe to the Electric Press
+* Industrial Miners can now also mine Gilded Blackstone
 
 #### Changes
 * Performance improvement for Programmable Android rotations

@@ -131,10 +131,8 @@ public class IndustrialMiner extends MultiBlockMachine {
             return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
         case LAPIS_ORE:
             return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-        case ANCIENT_DEBRIS:
-            return new ItemStack(Material.ANCIENT_DEBRIS);
         default:
-            // This includes Iron and Gold ore
+            // This includes Iron and Gold ore (and Ancient Debris)
             return new ItemStack(ore);
         }
     }
@@ -216,11 +214,15 @@ public class IndustrialMiner extends MultiBlockMachine {
             return true;
         }
         else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
+            if (type == Material.GILDED_BLACKSTONE) {
+                return true;
+            }
+            else if (type == Material.ANCIENT_DEBRIS) {
+                return canMineAncientDebris.getValue();
+            }
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
 }
