@@ -235,6 +235,9 @@ anvil:
 brewing_stand:
   not-working: '&4You cannot use Slimefun Items in a brewing stand!'
 
+villagers:
+  no-trading: '&4You cannot trade Slimefun Items with Villagers!'
+
 backpack:
   already-open: '&cSorry, this Backpack is open somewhere else!'
   no-stack: '&cYou cannot stack Backpacks'
@@ -248,6 +251,7 @@ gps:
     new: '&ePlease type in a name for your new waypoint in the chat. &7(Color Codes supported!)'
     added: '&aSuccessfully added a new waypoint'
     max: '&4You have reached the maximum amount of waypoints'
+    duplicate: '&4You have already created a waypoint named: &f%waypoint%'
 
   insufficient-complexity:
   - '&4Insufficient GPS Network Complexity: &c%complexity%'

@@ -144,6 +144,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuit
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.SyntheticEmerald;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.ArmorForge;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.AutomatedPanningMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Compressor;
@@ -867,9 +868,8 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.IRON_DUST, null, null, null, null, null, null, null})
 		.register(plugin);
 
-		new SlimefunItem(categories.resources, SlimefunItems.SYNTHETIC_EMERALD, RecipeType.SMELTERY,
+		new SyntheticEmerald(categories.resources, SlimefunItems.SYNTHETIC_EMERALD, RecipeType.SMELTERY,
 		new ItemStack[] {SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_INGOT, new ItemStack(Material.GLASS_PANE), null, null, null, null, null})
-		.setUseableInWorkbench(true)
 		.register(plugin);
 
 		registerArmorSet(categories.armor, SlimefunItems.CHAIN, new ItemStack[] {

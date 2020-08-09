@@ -82,6 +82,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
@@ -442,6 +443,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new IronGolemListener(this);
         new PlayerInteractEntityListener(this);
         new MobDropListener(this);
+        new VillagerTradingListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
