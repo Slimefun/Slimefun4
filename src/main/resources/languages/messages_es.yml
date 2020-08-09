@@ -228,6 +228,7 @@ gps:
       códigos de color!)"
     added: "&aNuevo waypoint agregado exitosamente."
     max: "&4Has alcanzado el máximo número de waypoints permitidos."
+    duplicate: "&4Ya has creado un waypoint llamado: &f%waypoint%"
   insufficient-complexity:
   - "&4Complejidad de red GPS insuficiente: &c%complexity%"
   - "&4a) No tienes una red GPS armada aún."
@@ -324,5 +325,7 @@ languages:
   tl: Tagalog
 brewing_stand:
   not-working: "&4¡No puedes usar objetos de Slimefun en un soporte para pociones!"
+villagers:
+  no-trading: "&4No puedes tradear Slimefun items con los aldeanos!"
 miner:
   no-ores: "&ePerdón, ¡No encuentro ningún mineral cerca!"
