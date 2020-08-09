@@ -225,6 +225,7 @@ gps:
     new: "&eLütfen sohbette yeni yer noktanız için bir ad yazın. &7(Renk Kodları destekleniyor!)"
     added: "&aYeni bir yer noktası başarıyla eklendi"
     max: "&4Maksimum yer noktası sayısına ulaştınız"
+    duplicate: "&4Bu adla zaten bir yer noktası yarattınız: &f%waypoint%"
   insufficient-complexity:
   - "&4Yetersiz GPS Ağ Gücü: &c%complexity%"
   - "&4a) Henüz bir GPS Ağı kurulumunuz yok"
@@ -320,5 +321,7 @@ languages:
   tl: Tagalog
 brewing_stand:
   not-working: "&4Slimefun eşyalarını simya standında kullanamazsın!"
+villagers:
+  no-trading: "&4Köylülerle Slimefun eşyalarını kullanarak ticaret yapamazsın!"
 miner:
   no-ores: "&eÜzgünüm, yakınlarda herhangi bir cevher bulamadım!"
