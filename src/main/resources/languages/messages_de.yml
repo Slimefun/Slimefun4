@@ -234,6 +234,7 @@ gps:
       werden unterstützt!)"
     added: "&aEin neuer Wegpunkt wurde hinzugefügt"
     max: "&4Du hast die maximale Anzahl an Wegpunkten erreicht"
+    duplicate: "&4Es existiert bereits ein Wegpunkt mit folgendem Namen: &f%waypoint%"
   insufficient-complexity:
   - "&4Unzureichende Komplexität deines GPS-Netzwerkes! Folgende Komplexität wird
     benötigt: &c%complexity%"
@@ -329,5 +330,7 @@ languages:
   tl: Tagalog
 brewing_stand:
   not-working: "&4Items von Slimefun können nicht zum Brauen verwendet werden!"
+villagers:
+  no-trading: "&4Items von Slimefun können nicht zum Handeln verwendet werden!"
 miner:
   no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"
