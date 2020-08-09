@@ -284,6 +284,7 @@ languages:
   zh-CN: 简体中文 (中国)
   el: 希腊语
   he: 希伯来语
+  pt-BR: 葡萄牙语 (巴西)
   ar: 阿拉伯语
   af: 南非语
   da: 丹麦语
@@ -296,7 +297,6 @@ languages:
   th: 泰语
   ro: 罗马尼亚语
   pt: 葡萄牙语 (葡萄牙)
-  pt-BR: 葡萄牙语 (巴西)
   bg: 保加利亚语
   ko: 韩语
   tr: 土耳其语
@@ -305,5 +305,7 @@ languages:
   sr: 塞尔维亚语
   be: 白俄罗斯语
   tl: 他加禄语
+brewing_stand:
+  not-working: "&4你不能在酿造台中使用 Slimefun 物品!"
 miner:
   no-ores: "&e抱歉, 周围找不到矿石了!"
