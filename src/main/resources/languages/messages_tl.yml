@@ -241,6 +241,7 @@ gps:
       chat. &7(Supported ang Color Codes!)"
     added: "&aTagumpay ang pag-add ng bagong waypoint."
     max: "&4Naabot mo na ang maximum amount ng waypoints."
+    duplicate: "&4Nakagawa ka na ng isang waypoint na pinangalanan: & f%waypoint%"
   insufficient-complexity:
   - "&4Kulang ang  GPS Network Complexity: &c%complexity%"
   - "&4a) Wala ka pang GPS Network setup."
@@ -336,3 +337,5 @@ languages:
   tl: Tagalog/Filipino
 brewing_stand:
   not-working: "&4Hindi ka maaaring gumamit ng mga Item ng Slimefun sa Brewing Stand!"
+villagers:
+  no-trading: "&4Hindi ka maaaring mag-trade ng mga Slimefun Items sa mga villagers!"
