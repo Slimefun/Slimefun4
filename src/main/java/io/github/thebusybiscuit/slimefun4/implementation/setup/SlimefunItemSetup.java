@@ -962,7 +962,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         registerArmorSet(categories.armor, SlimefunItems.GOLD_12K, new ItemStack[] {
-            SlimefunItems.GOLD_HELMET, SlimefunItems.GOLD_CHESTPLATE, SlimefunItems.GOLD_LEGGINGS, SlimefunItems.GOLD_BOOTS
+            SlimefunItems.GOLDEN_HELMET_12K, SlimefunItems.GOLDEN_CHESTPLATE_12K, SlimefunItems.GOLDEN_LEGGINGS_12K, SlimefunItems.GOLDEN_BOOTS_12K
         }, "GOLD_12K", false, new PotionEffect[0][0], plugin);
 
         new SlimefunItem(categories.misc, SlimefunItems.CLOTH, RecipeType.ENHANCED_CRAFTING_TABLE,
