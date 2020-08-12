@@ -184,6 +184,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAx
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.OrganicNetherGoo;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -391,7 +392,7 @@ public final class SlimefunItemSetup {
 		.register(plugin);
 
 		new OrganicNetherGoo(categories.resources, SlimefunItems.ORGANIC_NETHER_GOO, RecipeType.BARTER_DROP,
-		new ItemStack[] {null, null, null, null, new CustomItem(SlimefunUtils.getCustomHead("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41"), "&aPiglins"), null, null, null, null})
+		new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&aPiglins"), null, null, null, null})
                 .register(plugin);
 		
 		new UnplaceableBlock(categories.technicalComponents, SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2474,7 +2475,7 @@ public final class SlimefunItemSetup {
 		.register(plugin);
 		
 		new RuneOfUnemployment(categories.magicalResources, SlimefunItems.UNEMPLOYMENT_RUNE, RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.FLASK_OF_KNOWLEDGE})
+		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.ORGANIC_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.MAGICAL_GLASS, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.MAGICAL_GLASS })
 		.register(plugin);
 		
 		new InfernalBonemeal(categories.magicalGadgets, SlimefunItems.INFERNAL_BONEMEAL, RecipeType.ANCIENT_ALTAR,

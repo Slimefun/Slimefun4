@@ -33,47 +33,29 @@ public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler
     public RuneOfUnemployment(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
- 
+
     @Override
     public EntityInteractHandler getItemHandler() {
         return (p, entity, item, offhand) -> {
-            if (!(entity instanceof WanderingTrader) && entity instanceof Merchant) {
-
+            if (entity instanceof Villager) {
+                
                 if (p.getGameMode() != GameMode.CREATIVE) {
                     ItemUtils.consumeItem(item, false);
                 }
                 
-                
                 Villager v = (Villager) entity;
                 v.setVillagerExperience(0);
                 v.setProfession(Profession.NONE);
-                Location l = v.getLocation().clone();
+                
                 Double offset = ThreadLocalRandom.current().nextDouble(0, 0.5);
-                boolean flip = false;
                 double o1 = 0;
                 double o2 = offset / 2;
                 double o3 = 0;
-                
-                for(int i = 0; i < 10; i++) {
-                    flip = !flip;
-                    if(flip) {
-                        o1 = offset;
-                        o3 = offset * -1;
-                    } else {
-                        o1 = offset * -1;
-                        o3 = offset;
-                    }
-                v.getWorld().spawnParticle(Particle.CRIMSON_SPORE, l, 3, o1, o2, o3,0.0d);
-                if(i == 1 || i ==5)
-                    v.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, l, 3, 0.04d, 1d, 0.04d);    
-                
+
+                v.getWorld().spawnParticle(Particle.CRIMSON_SPORE, v.getLocation(), 10, o1, o2, o3,0.0d);
+                v.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, v.getLocation(), 5, 0.04d, 1d, 0.04d);    
+
             }
-        }
         };
     }
-
-
-
- 
-
 }
