@@ -129,6 +129,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Knowledge
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicalZombiePills;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.RuneOfUnemployment;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
@@ -182,6 +183,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
+import io.github.thebusybiscuit.slimefun4.implementation.resources.OrganicNetherGoo;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -388,6 +390,10 @@ public final class SlimefunItemSetup {
 		new ItemStack[] {null, null, null, null, new CustomItem(SlimefunUtils.getCustomHead("89091d79ea0f59ef7ef94d7bba6e5f17f2f7d4572c44f90f76c4819a714"), "&aIron Golem"), null, null, null, null})
 		.register(plugin);
 
+		new OrganicNetherGoo(categories.resources, SlimefunItems.ORGANIC_NETHER_GOO, RecipeType.BARTER_DROP,
+		new ItemStack[] {null, null, null, null, new CustomItem(SlimefunUtils.getCustomHead("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41"), "&aPiglins"), null, null, null, null})
+                .register(plugin);
+		
 		new UnplaceableBlock(categories.technicalComponents, SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,
 		new ItemStack[] {new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK)})
 		.register(plugin);
@@ -2466,7 +2472,11 @@ public final class SlimefunItemSetup {
 		new EnchantmentRune(categories.magicalResources, SlimefunItems.ENCHANTMENT_RUNE, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, SlimefunItems.LIGHTNING_RUNE, SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3})
 		.register(plugin);
-
+		
+		new RuneOfUnemployment(categories.magicalResources, SlimefunItems.UNEMPLOYMENT_RUNE, RecipeType.ANCIENT_ALTAR,
+		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_BOOK_COVER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.FLASK_OF_KNOWLEDGE})
+		.register(plugin);
+		
 		new InfernalBonemeal(categories.magicalGadgets, SlimefunItems.INFERNAL_BONEMEAL, RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.NETHER_WART), SlimefunItems.EARTH_RUNE, new ItemStack(Material.NETHER_WART), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BONE_MEAL), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.NETHER_WART), new ItemStack(Material.BLAZE_POWDER), new ItemStack(Material.NETHER_WART)}, 
 		new CustomItem(SlimefunItems.INFERNAL_BONEMEAL, 8))
