@@ -38,12 +38,15 @@ public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler
     public EntityInteractHandler getItemHandler() {
         return (p, entity, item, offhand) -> {
             if (entity instanceof Villager) {
+                Villager v = (Villager) entity;
+                
+                if(v.getProfession() == Profession.NONE || v.getProfession() == Profession.NITWIT)
+                    return;
                 
                 if (p.getGameMode() != GameMode.CREATIVE) {
                     ItemUtils.consumeItem(item, false);
                 }
                 
-                Villager v = (Villager) entity;
                 v.setVillagerExperience(0);
                 v.setProfession(Profession.NONE);
                 
