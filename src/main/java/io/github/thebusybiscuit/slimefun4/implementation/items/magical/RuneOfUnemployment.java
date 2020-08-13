@@ -43,19 +43,17 @@ public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler
                 if(v.getProfession() == Profession.NONE || v.getProfession() == Profession.NITWIT)
                     return;
                 
-                if (p.getGameMode() != GameMode.CREATIVE) {
+                if (p.getGameMode() != GameMode.CREATIVE) 
                     ItemUtils.consumeItem(item, false);
-                }
                 
                 v.setVillagerExperience(0);
                 v.setProfession(Profession.NONE);
                 
                 Double offset = ThreadLocalRandom.current().nextDouble(0, 0.5);
-                double o1 = 0;
+                
                 double o2 = offset / 2;
-                double o3 = 0;
-
-                v.getWorld().spawnParticle(Particle.CRIMSON_SPORE, v.getLocation(), 10, o1, o2, o3,0.0d);
+                
+                v.getWorld().spawnParticle(Particle.CRIMSON_SPORE, v.getLocation(), 10, 0, o2, 0,0.0d);
                 v.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, v.getLocation(), 5, 0.04d, 1d, 0.04d);    
 
             }

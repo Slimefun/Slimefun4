@@ -9,14 +9,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * This {@link SlimefunItem} can only be obtained via bartering with a {@link Piglin}. 
+ * This {@link SlimefunItem} can only be obtained via bartering with a {@link Piglin}, its 
+ * only current uses is the recipe for crafting the {@link RuneOfUnemployment}. 
  *
  * @author dNiym
  *
  * @see PiglinBarterDrop
  *
  */
-
 public class OrganicNetherGoo extends SlimefunItem implements PiglinBarterDrop {
 
     private final ItemSetting<Integer> chance = new ItemSetting<>("barter-chance", 3);

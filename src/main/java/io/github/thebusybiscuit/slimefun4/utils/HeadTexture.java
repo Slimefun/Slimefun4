@@ -98,6 +98,7 @@ public enum HeadTexture {
     MISSING_TEXTURE("e9eb9da26cf2d3341397a7f4913ba3d37d1ad10eae30ab25fa39ceb84bc"),
     MINECRAFT_CHUNK("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2"),
     PIGLIN_HEAD("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41");
+    
     private final String texture;
 
     HeadTexture(String texture) {
