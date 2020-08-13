@@ -41,6 +41,12 @@ guide:
     select: Klicke hier um diese Sprache auszuwählen
     select-default: Klicke hier um die Standardsprache auszuwählen
     selected-language: 'Aktuell ausgewählt:'
+    change: Klicke um die Sprache zu ändern
+    description:
+    - "&7Hier kannst du deine Spracheinstellungen"
+    - "&7verwalten. Derzeit umfasst dies"
+    - "&7jedoch nur bestimmte Nachrichten,"
+    - "&7Items können noch nicht übersetzt werden."
   title:
     main: Slimefun-Handbuch
     settings: Einstellungen & Infos
@@ -80,6 +86,7 @@ guide:
   - Um diese Kategorie freizuschalten,
   - müssen zuerst sämtliche Items der
   - folgenden Kategorien freigeschaltet werden
+  work-in-progress: Dieses Feature befindet sich noch in der Testphase!
 messages:
   not-researched: "&4Du hast diesen Gegenstand noch nicht freigeschaltet!"
   not-enough-xp: "&4Du hast nicht genügend Erfahrungspunkte, um dies freizuschalten"
@@ -96,7 +103,6 @@ messages:
   not-valid-research: "&4%research% &cist kein gültiger Erfahrungsgrad!"
   give-research: '&bDu hast %player% den Erfahrungsgrad &7"%research%&7" vergeben'
   hungry: "&cDu bist zu hungrig, um dies zu tun!"
-  mode-change: "&bDer Modus von deinem %device% wurde geändert zu: &9%mode%"
   disabled-in-world: "&4&lDieses Item wurde in dieser Welt deaktiviert!"
   disabled-item: "&4&lDieses Item wurde von einem Server-Administrator deaktiviert!"
   no-tome-yourself: "&cDu kannst dieses Item nicht an dir selbst anwenden..."
@@ -164,6 +170,10 @@ messages:
     wrong-world: "&cDein Ankerpunkt scheint sich in einer anderen Dimension zu befinden!"
     distance: "&7Messung erfolgreich. &eDistanz: %distance%"
     anchor-set: "&aErfolgreich den Ankerpunkt gesetzt:&e %anchor%"
+  multi-tool:
+    mode-change: "&bDer Modus von deinem Multi-Tool wurde geändert zu: &9%mode%"
+    not-shears: "&cEinMulti Tool kann nicht als Schere verwendet werden!"
+  mode-change: "&bDer Modus von deinem %device% wurde geändert zu: &9%mode%"
 machines:
   pattern-not-found: "&eEs tut mir leid, aber ich konnte kein passendes Rezept finden."
   unknown-material: "&eEs tut mir leid, aber ich erkenne das Item in meinem Werfer
@@ -307,7 +317,7 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
-  pt: Portugiesisch (Portugal)
+  pt-BR: Portugiesisch (Brasilien)
   ar: Arabisch
   af: Afrikaans
   da: Dänisch
@@ -319,7 +329,7 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
-  pt-BR: Portugiesisch (Brasilien)
+  pt: Portugiesisch (Portugal)
   bg: Bulgarisch
   ko: Koreanisch
   tr: Türkisch
