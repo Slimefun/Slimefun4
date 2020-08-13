@@ -41,6 +41,12 @@ guide:
     select: Bu dili seçmek için tıklayın
     select-default: Varsayılan dili seçmek için tıklayın
     selected-language: 'Şuan seçili:'
+    change: Yeni bir dil seçmek için tıklayın
+    description:
+    - "&7Artık Slimefun içerisinde size"
+    - "&7sunulacak olan dilinizi"
+    - "&7değiştirebilirsiniz. Henüz eşyalar"
+    - "&7çevrilememektedir."
   title:
     main: Slimefun Rehberi
     settings: Ayarlar & Bilgi
@@ -80,6 +86,7 @@ guide:
   - Bu kategoriyi açmak için
   - aşağıdaki kategorilerde bulunan
   - bütün eşyaları açın
+  work-in-progress: Bu özellik henüz tamamlanmadı!
 messages:
   not-researched: "&4Bunu anlayacak kadar bilgin yok"
   not-enough-xp: "&4Bunun kilidini açmak için yeterli XP niz yok"
@@ -96,7 +103,6 @@ messages:
   not-valid-research: "&4%research% &cgeçerli bir araştırma değil!"
   give-research: '&b%player% adlı oyuncu için bir araştırmayı açtın: &7"%research%&7"'
   hungry: "&cBunu yapmak için çok açsın!"
-  mode-change: "&b%device% modu değişti: &9%mode%"
   disabled-in-world: "&4&lBu eşya bu dünyada devre dışı bırakıldı."
   disabled-item: "&4&lBu eşya devre dışı bırakıldı! Bunu nasıl aldın?"
   no-tome-yourself: "&4Tome of Knowledge &cı kendin için kullanamazsın..."
@@ -159,6 +165,10 @@ messages:
     wrong-world: "&cSeçtiğiniz nokta başka bir dünyada gözüküyor!"
     distance: "&7Ölçüm yapıldı. &eUzaklık: %distance%"
     anchor-set: "&aBaşarılı bir şekilde bir nokta seçildi:&e %anchor%"
+  multi-tool:
+    mode-change: "&b%device% modül değiştirildi: &9%mode%"
+    not-shears: "&cBir Multi Tool makas olarak kullanılamaz!"
+  mode-change: "&b%device% modu değişti: &9%mode%"
 machines:
   pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
     doğru şekilde yerleştirin."
