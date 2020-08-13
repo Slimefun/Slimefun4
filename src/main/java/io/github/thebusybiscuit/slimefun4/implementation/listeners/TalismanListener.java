@@ -13,13 +13,14 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -35,7 +36,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
@@ -229,32 +229,48 @@ public class TalismanListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent e) {
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockDropItems(BlockDropItemEvent e) {
         // We only want to double ores
-        if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
+        Material type = e.getBlockState().getType();
+        if (type.name().endsWith("_ORE")) {
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
             if (item.getType() != Material.AIR && item.getAmount() > 0 && !item.containsEnchantment(Enchantment.SILK_TOUCH)) {
-                Collection<ItemStack> drops = e.getBlock().getDrops(item);
-                int dropAmount = 1;
-
-                if (item.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
-                    Random random = ThreadLocalRandom.current();
-                    dropAmount = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
-                    dropAmount = Math.max(dropAmount, 1);
-                    dropAmount = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (dropAmount + 1);
-                }
+                Collection<Item> drops = e.getItems();
 
                 if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
-                    for (ItemStack drop : drops) {
-                        if (drop != null && !drop.getType().isBlock()) {
-                            int amount = Math.max(1, (dropAmount * 2) - drop.getAmount());
-                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                    int dropAmount = getAmountWithFortune(type, item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
+                    boolean doubledDrops = false;
+
+                    for (Item drop : drops) {
+                        ItemStack droppedItem = drop.getItemStack();
+
+                        if (!droppedItem.getType().isBlock()) {
+                            int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(droppedItem, amount));
+                            doubledDrops = true;
                         }
+                    }
+
+                    if (doubledDrops) {
+                        SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.miner", true);
                     }
                 }
             }
+        }
+    }
+
+    private int getAmountWithFortune(Material type, int fortuneLevel) {
+        if (fortuneLevel > 0) {
+            Random random = ThreadLocalRandom.current();
+            int amount = random.nextInt(fortuneLevel + 2) - 1;
+            amount = Math.max(amount, 1);
+            amount = (type == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (amount + 1);
+            return amount;
+        }
+        else {
+            return 1;
         }
     }
 }

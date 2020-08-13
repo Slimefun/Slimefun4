@@ -818,7 +818,7 @@ public final class SlimefunItemSetup {
 
         new Talisman(SlimefunItems.TALISMAN_MINER,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.COMMON_TALISMAN, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-        false, false, "miner", 20)
+        false, false, null, 20)
         .register(plugin);
 
         new Talisman(SlimefunItems.TALISMAN_HUNTER,

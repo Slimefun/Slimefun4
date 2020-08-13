@@ -60,6 +60,8 @@
 * Fixed #2205
 * Fixed #2209
 * Fixed #2217
+* Fixed Miner Talisman sending messages when drops were not even doubled
+* Fixed #2077
 
 ## Release Candidate 15 (01 Aug 2020)
 
