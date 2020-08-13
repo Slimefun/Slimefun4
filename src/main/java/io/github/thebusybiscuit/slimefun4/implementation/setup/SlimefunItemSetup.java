@@ -181,6 +181,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -384,7 +385,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new BasicCircuitBoard(categories.technicalComponents, SlimefunItems.BASIC_CIRCUIT_BOARD, RecipeType.MOB_DROP,
-        new ItemStack[] {null, null, null, null, new CustomItem(SlimefunUtils.getCustomHead("89091d79ea0f59ef7ef94d7bba6e5f17f2f7d4572c44f90f76c4819a714"), "&aIron Golem"), null, null, null, null})
+        new ItemStack[] {null, null, null, null, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.IRON_GOLEM.getTexture()), "&aIron Golem"), null, null, null, null})
         .register(plugin);
 
         new UnplaceableBlock(categories.technicalComponents, SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,

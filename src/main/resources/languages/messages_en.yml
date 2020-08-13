@@ -24,6 +24,7 @@ commands:
     
 guide:
   locked: 'LOCKED'
+  work-in-progress: 'This feature is not fully finished yet!'
   
   locked-category:
   - 'To unlock this category you will'
@@ -64,6 +65,13 @@ guide:
     selected-language: 'Currently selected:'
     select: 'Click to select this language'
     select-default: 'Click to select the default language'
+    change: 'Click to select a new language'
+
+    description:
+    - '&7You now have the option to change'
+    - '&7the language in which Slimefun'
+    - '&7will be presented to you. Items'
+    - '&7cannot be translated for now.'
     
     translations:
       name: '&aIs something missing?'
@@ -83,6 +91,7 @@ guide:
     commit: 'Commit'
     commits: 'Commits'
     profile-link: 'Click to visit their profile on GitHub'
+
     roles:
       developer: '&6Developer'
       wiki: '&3Wiki Editor'
@@ -105,12 +114,15 @@ messages:
   not-valid-research: '&4%research% &cis not a valid Research!'
   give-research: '&bYou have given %player% the Research &7"%research%&7"'
   hungry: '&cYou are too hungry to do that!'
-  mode-change: '&b%device% mode changed to: &9%mode%'
   disabled-in-world: '&4&lThis Item has been disabled in this world'
   disabled-item: '&4&lThis Item has been disabled! How did you even get that?'
   no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
   multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4You cannot barter with piglins using Slimefun items'
+
+  multi-tool:
+    mode-change: '&b%device% mode changed to: &9%mode%'
+    not-shears: '&cA Multi Tool cannot be used as shears!'
 
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'
