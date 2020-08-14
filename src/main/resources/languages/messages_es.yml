@@ -39,6 +39,12 @@ guide:
     select: Clic para seleccionar este idioma.
     select-default: Clic para seleccionar el idioma predeterminado.
     selected-language: 'Actualmente seleccionado:'
+    change: Click para seleccionar un nuevo lenguaje
+    description:
+    - "&7Ahora tienes la opción de cambiar"
+    - "&7el idioma en el que Slimefun"
+    - "&7se le presentará. Items"
+    - "&7no puede ser traducido por ahora."
   title:
     main: Guía de Slimefun.
     settings: Configuración e Información.
@@ -78,6 +84,7 @@ guide:
   - Para desbloquear esta categoría deberás
   - desbloquear todos los objetos de las
   - siguientes categorías
+  work-in-progress: Esta característica no esta completamente terminada todavia!!
 messages:
   not-researched: "&4No tienes conocimiento suficiente para entender esto."
   not-enough-xp: "&4No tienes suficiente XP para desbloquear esto."
@@ -95,7 +102,6 @@ messages:
   not-valid-research: "&c¡&4%research% &cno es un conocimiento válido!"
   give-research: '&bLe has dado a %player% la investigación &7"%research%&7"'
   hungry: "&c¡Tienes demasiada hambre para hacer eso!"
-  mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
   disabled-in-world: "&4&lEste item ha sido desactivado en el mundo."
   disabled-item: "&4&l¡Este item ha sido desactivado! ¿Cómo es que lo tienes?"
   no-tome-yourself: "&cNo puedes usar el &4Tome of Knowledge &cen ti mismo..."
@@ -160,6 +166,10 @@ messages:
     wrong-world: "&cParece ser que tu ancla se encuentra en un mundo diferente!"
     distance: "&7Medida tomada. &eDistancia: %distance%"
     anchor-set: "&aAncla establecida con éxito:&e %anchor%"
+  multi-tool:
+    mode-change: "&b%device% modo cambiado a: &9%mode%"
+    not-shears: "&cUna Multi Tool no puede ser usada como tijeras!"
+  mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
 machines:
   pattern-not-found: "&eLo siento, no puedo reconocer esta receta. Por favor coloca
     el objeto en el patrón correcto dentro del dispensador."
