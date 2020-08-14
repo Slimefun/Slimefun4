@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
@@ -127,7 +128,7 @@ public class Talisman extends SlimefunItem {
     }
 
     private static boolean hasMessage(Talisman talisman) {
-        return !("").equalsIgnoreCase(talisman.getMessageSuffix());
+        return talisman.getMessageSuffix() != null;
     }
 
     public static boolean checkFor(Event e, SlimefunItemStack stack) {
@@ -223,6 +224,9 @@ public class Talisman extends SlimefunItem {
         }
         else if (e instanceof BlockBreakEvent) {
             return ((BlockBreakEvent) e).getPlayer();
+        }
+        else if (e instanceof BlockDropItemEvent) {
+            return ((BlockDropItemEvent) e).getPlayer();
         }
         else if (e instanceof PlayerEvent) {
             return ((PlayerEvent) e).getPlayer();

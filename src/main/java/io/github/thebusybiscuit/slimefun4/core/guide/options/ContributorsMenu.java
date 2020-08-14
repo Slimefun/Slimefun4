@@ -21,6 +21,12 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
+/**
+ * This menu shows a list of every {@link Contributor} to this project.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 final class ContributorsMenu {
 
     private ContributorsMenu() {}

@@ -284,6 +284,8 @@ languages:
   zh-CN: 中国語（中国）
   el: ギリシャ語
   he: ヘブライ語
+  pt: ポルトガル語（ポルトガル）
+  pt-BR: ポルトガル語（ブラジル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -295,8 +297,6 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
-  pt: ポルトガル語（ポルトガル）
-  pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語
   tr: トルコ語
@@ -305,5 +305,7 @@ languages:
   sr: セルビア語
   be: ベラルーシ語
   tl: タガログ語
+brewing_stand:
+  not-working: "&4Slimefunのアイテムは醸造台で使えません！"
 miner:
   no-ores: "&e周辺には鉱石が見つかりませんでした！"

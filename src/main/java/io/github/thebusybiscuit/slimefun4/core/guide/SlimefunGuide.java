@@ -132,4 +132,13 @@ public final class SlimefunGuide {
     public static boolean isGuideItem(ItemStack item) {
         return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.BOOK), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
     }
+
+    public static SlimefunGuideLayout getDefaultLayout() {
+        if (SlimefunPlugin.getCfg().getBoolean("guide.default-view-book")) {
+            return SlimefunGuideLayout.BOOK;
+        }
+        else {
+            return SlimefunGuideLayout.CHEST;
+        }
+    }
 }

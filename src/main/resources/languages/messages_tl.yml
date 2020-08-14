@@ -334,3 +334,5 @@ languages:
   sr: Serbian
   be: Belarusian
   tl: Tagalog/Filipino
+brewing_stand:
+  not-working: "&4Hindi ka maaaring gumamit ng mga Item ng Slimefun sa Brewing Stand!"
