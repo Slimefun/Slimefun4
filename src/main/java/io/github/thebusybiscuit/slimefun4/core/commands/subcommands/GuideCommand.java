@@ -19,7 +19,8 @@ class GuideCommand extends SubCommand {
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             if (sender.hasPermission("slimefun.command.guide")) {
-                ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST));
+                SlimefunGuideLayout design = SlimefunGuide.getDefaultLayout();
+                ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(design).clone());
             }
             else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
