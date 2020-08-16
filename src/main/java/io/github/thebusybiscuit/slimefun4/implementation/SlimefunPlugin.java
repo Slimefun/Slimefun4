@@ -166,6 +166,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
             command.register();
+            registry.load(config);
         }
         else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
