@@ -390,10 +390,6 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, null, null, null, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.IRON_GOLEM.getTexture()), "&aIron Golem"), null, null, null, null})
         .register(plugin);
 
-	new OrganicNetherGoo(categories.resources, SlimefunItems.ORGANIC_NETHER_GOO, RecipeType.BARTER_DROP,
-	new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&aPiglins"), null, null, null, null})
-        .register(plugin);
-	    
         new UnplaceableBlock(categories.technicalComponents, SlimefunItems.ADVANCED_CIRCUIT_BOARD, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.REDSTONE_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK), new ItemStack(Material.LAPIS_BLOCK)})
         .register(plugin);
@@ -2458,10 +2454,6 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, SlimefunItems.LIGHTNING_RUNE, SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3})
         .register(plugin);
 
-	new RuneOfUnemployment(categories.magicalResources, SlimefunItems.UNEMPLOYMENT_RUNE, RecipeType.ANCIENT_ALTAR,
-	new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.ORGANIC_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.MAGICAL_GLASS, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.MAGICAL_GLASS })
-	.register(plugin);
-	    
         new InfernalBonemeal(categories.magicalGadgets, SlimefunItems.INFERNAL_BONEMEAL, RecipeType.ANCIENT_ALTAR,
         new ItemStack[] {new ItemStack(Material.NETHER_WART), SlimefunItems.EARTH_RUNE, new ItemStack(Material.NETHER_WART), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BONE_MEAL), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.NETHER_WART), new ItemStack(Material.BLAZE_POWDER), new ItemStack(Material.NETHER_WART)}, 
         new SlimefunItemStack(SlimefunItems.INFERNAL_BONEMEAL, 8))
@@ -2506,7 +2498,6 @@ public final class SlimefunItemSetup {
         new ItemStack[] {new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA)}, 
         new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY, 8), new RainbowTickHandler(MaterialCollections.getAllTerracottaColors()))
         .register(plugin);
-        
         new RainbowBlock(categories.magicalGadgets, SlimefunItems.RAINBOW_CONCRETE, RecipeType.ANCIENT_ALTAR,
         new ItemStack[] {new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE)}, 
         new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE, 8), new RainbowTickHandler(MaterialCollections.getAllConcreteColors()))
@@ -3231,6 +3222,16 @@ public final class SlimefunItemSetup {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             new TapeMeasure(categories.usefulItems, SlimefunItems.TAPE_MEASURE, RecipeType.ENHANCED_CRAFTING_TABLE,
             new ItemStack[] {SlimefunItems.SILICON, new ItemStack(Material.YELLOW_DYE), SlimefunItems.SILICON, new ItemStack(Material.YELLOW_DYE), new ItemStack(Material.STRING), new ItemStack(Material.YELLOW_DYE), SlimefunItems.GILDED_IRON, new ItemStack(Material.YELLOW_DYE), SlimefunItems.SILICON})
+            .register(plugin);
+        }
+      
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            new OrganicNetherGoo(categories.resources, SlimefunItems.ORGANIC_NETHER_GOO, RecipeType.BARTER_DROP,
+            new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&aPiglins"), null, null, null, null})
+            .register(plugin);
+
+            new RuneOfUnemployment(categories.magicalResources, SlimefunItems.UNEMPLOYMENT_RUNE, RecipeType.ANCIENT_ALTAR, 
+            new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.ORGANIC_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.MAGICAL_GLASS, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.MAGICAL_GLASS})
             .register(plugin);
         }
     }

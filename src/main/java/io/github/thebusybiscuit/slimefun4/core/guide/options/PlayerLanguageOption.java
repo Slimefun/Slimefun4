@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
@@ -8,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -16,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
@@ -37,7 +41,16 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             Language language = SlimefunPlugin.getLocalization().getLanguage(p);
             String languageName = language.isDefault() ? (SlimefunPlugin.getLocalization().getMessage(p, "languages.default") + ChatColor.DARK_GRAY + " (" + language.getName(p) + ")") : SlimefunPlugin.getLocalization().getMessage(p, "languages." + language.getId());
 
-            return Optional.of(new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, "", "&7You now have the option to change", "&7the language in which Slimefun", "&7will send you messages.", "&7Note that this only translates", "&7some messages, not items.", "&7&oThis feature is still being worked on", "", "&7\u21E8 &eClick to change your language"));
+            List<String> lore = new ArrayList<>();
+            lore.add("");
+            lore.add(ChatColors.color("&e&o") + SlimefunPlugin.getLocalization().getMessage(p, "guide.work-in-progress"));
+            lore.add("");
+            lore.addAll(SlimefunPlugin.getLocalization().getMessages(p, "guide.languages.description"));
+            lore.add("");
+            lore.add("&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.change"));
+
+            ItemStack item = new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, lore.toArray(new String[0]));
+            return Optional.of(item);
         }
         else {
             return Optional.empty();
@@ -78,7 +91,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
                 });
             }
             else if (i == 7) {
-                menu.addItem(7, new CustomItem(SlimefunUtils.getCustomHead("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"), SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
+                menu.addItem(7, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.ADD_NEW_LANGUAGE.getTexture()), SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
                     ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun");
                     pl.closeInventory();
                     return false;

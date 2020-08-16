@@ -11,8 +11,9 @@ on:
     - '**.yml'
 
 jobs:
-  build:
+  linter:
 
+    name: YAML Linter
     runs-on: ubuntu-latest
 
     steps:

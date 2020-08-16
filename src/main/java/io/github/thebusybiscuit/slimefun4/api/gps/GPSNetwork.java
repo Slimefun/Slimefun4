@@ -283,6 +283,14 @@ public class GPSNetwork {
 
                 if (!event.isCancelled()) {
                     String id = ChatColor.stripColor(ChatColors.color(event.getName())).toUpperCase(Locale.ROOT).replace(' ', '_');
+
+                    for (Waypoint wp : profile.getWaypoints()) {
+                        if (wp.getId().equals(id)) {
+                            SlimefunPlugin.getLocalization().sendMessage(p, "gps.waypoint.duplicate", true, msg -> msg.replace("%waypoint%", event.getName()));
+                            return;
+                        }
+                    }
+
                     profile.addWaypoint(new Waypoint(profile, id, event.getLocation(), event.getName()));
 
                     p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);

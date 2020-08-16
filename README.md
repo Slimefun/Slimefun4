@@ -192,5 +192,5 @@ This information includes (but is not limited to)
 * date of the last commit to this repository
 </details>
 
-Additionally the plugin connects to https://mojang.com/ to retrieve the Minecraft skins of our contributors (if possible).<br>
+Additionally the plugin connects to [textures.minecraft.net](https://www.minecraft.net/en-us) to retrieve the Minecraft skins of our contributors (if possible).<br>
 Note that Slimefun is not associated with `Mojang Studios` or Minecraft.

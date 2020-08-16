@@ -174,7 +174,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
      * 
      * @return The type of this {@link ProgrammableAndroid}
      */
-    public abstract AndroidType getAndroidType();
+    public AndroidType getAndroidType() {
+        return AndroidType.NONE;
+    }
 
     /**
      * This returns the {@link AndroidFuelSource} for this {@link ProgrammableAndroid}.

@@ -11,23 +11,23 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class LavaGenerator extends AGenerator {
 
-	public LavaGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-		super(category, item, recipeType, recipe);
-	}
-	
+    public LavaGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, item, recipeType, recipe);
+    }
+
     @Override
     protected void registerDefaultFuelTypes() {
-		registerFuel(new MachineFuel(40, new ItemStack(Material.LAVA_BUCKET)));
-	}
+        registerFuel(new MachineFuel(40, new ItemStack(Material.LAVA_BUCKET)));
+    }
 
-	@Override
-	public ItemStack getProgressBar() {
-		return new ItemStack(Material.FLINT_AND_STEEL);
-	}
+    @Override
+    public ItemStack getProgressBar() {
+        return new ItemStack(Material.FLINT_AND_STEEL);
+    }
 
-	@Override
-	public String getInventoryTitle() {
-		return "&4Lava Generator";
-	}
+    @Override
+    public String getInventoryTitle() {
+        return "&4Lava Generator";
+    }
 
 }
