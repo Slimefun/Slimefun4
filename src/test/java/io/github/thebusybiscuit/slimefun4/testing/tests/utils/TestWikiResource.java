@@ -8,15 +8,17 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-public class TestWikiResource {
+class TestWikiResource {
 
     @Test
-    public void testWikiJson() throws IOException {
+    @DisplayName("Test wiki.json file format")
+    void testWikiJson() throws IOException {
         JsonParser parser = new JsonParser();
         Pattern pattern = Pattern.compile("[A-Z_0-9]+");
 
