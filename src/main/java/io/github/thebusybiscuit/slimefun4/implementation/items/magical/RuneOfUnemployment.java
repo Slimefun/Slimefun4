@@ -44,7 +44,7 @@ public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler
                     return;
                 }
 
-                if (p.getGameMode() != GameMode.CREATIVE) {
+                if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
                     ItemUtils.consumeItem(item, false);
                 }
 
