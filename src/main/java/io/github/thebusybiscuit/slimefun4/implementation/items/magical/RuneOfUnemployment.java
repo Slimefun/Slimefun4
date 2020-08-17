@@ -43,9 +43,10 @@ public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler
                 if(v.getProfession() == Profession.NONE || v.getProfession() == Profession.NITWIT)
                     return;
                 
-                if (p.getGameMode() != GameMode.CREATIVE) 
+                if (p.getGameMode() != GameMode.CREATIVE) {
                     ItemUtils.consumeItem(item, false);
-                
+                }
+
                 v.setVillagerExperience(0);
                 v.setProfession(Profession.NONE);
                 
