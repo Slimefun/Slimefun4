@@ -41,6 +41,8 @@
 * Performance improvements for idling Enhanced Furnaces when using Paper
 * Performance improvements for Rainbow Blocks
 * Crafting a Rag now yields two items
+* Small performance improvements for Slimefun guides
+* Small performance improvements for Cargo networks
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -64,6 +66,8 @@
 * Fixed Miner Talisman sending messages when drops were not even doubled
 * Fixed #2077
 * Fixed #2207
+* Fixed ChestTerminal timings showing up as cargo nodes
+* Fixed timings reports never arriving sometimes
 
 ## Release Candidate 15 (01 Aug 2020)
 
