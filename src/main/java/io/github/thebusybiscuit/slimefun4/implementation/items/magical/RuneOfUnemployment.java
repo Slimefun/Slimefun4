@@ -25,8 +25,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  *
  * @author dNiym
  *
- * @see ItemHandler
- *
  */
 public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler> {
 
