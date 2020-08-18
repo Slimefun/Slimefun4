@@ -43,6 +43,7 @@
 * Crafting a Rag now yields two items
 * Small performance improvements for Slimefun guides
 * Small performance improvements for Cargo networks
+* Small performance improvements for Miner Androids
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -68,6 +69,7 @@
 * Fixed #2207
 * Fixed ChestTerminal timings showing up as cargo nodes
 * Fixed timings reports never arriving sometimes
+* Fixed #2138
 
 ## Release Candidate 15 (01 Aug 2020)
 
