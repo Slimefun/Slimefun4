@@ -3226,7 +3226,7 @@ public final class SlimefunItemSetup {
         }
       
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new StrangeNetherGoo(categories.resources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
+            new StrangeNetherGoo(categories.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
             new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
             .register(plugin);
 
