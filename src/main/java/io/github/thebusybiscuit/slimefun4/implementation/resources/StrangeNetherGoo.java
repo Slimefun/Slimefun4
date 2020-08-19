@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.RuneOfUnemployment;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.NitwitRune;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -13,11 +13,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * This {@link SlimefunItem} can only be obtained via bartering with a {@link Piglin}, its
- * only current uses is the recipe for crafting the {@link RuneOfUnemployment}.
+ * only current uses is the recipe for crafting the {@link NitwitRune}.
  *
  * @author dNiym
  *
- * @see RuneOfUnemployment
+ * @see NitwitRune
  * @see PiglinBarterDrop
  *
  */

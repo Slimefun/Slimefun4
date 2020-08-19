@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.GameMode;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
@@ -23,9 +24,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author dNiym
  *
  */
-public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler> {
+public class NitwitRune extends SimpleSlimefunItem<EntityInteractHandler> {
 
-    public RuneOfUnemployment(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public NitwitRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 
@@ -45,11 +46,13 @@ public class RuneOfUnemployment extends SimpleSlimefunItem<EntityInteractHandler
 
                 // Reset Villager
                 v.setVillagerExperience(0);
+                v.setVillagerLevel(1);
                 v.setProfession(Profession.NONE);
                 e.setCancelled(true);
 
                 double offset = ThreadLocalRandom.current().nextDouble(0.5);
 
+                v.getWorld().playSound(v.getLocation(), Sound.ENTITY_VILLAGER_CELEBRATE, 1, 1.4F);
                 v.getWorld().spawnParticle(Particle.CRIMSON_SPORE, v.getLocation(), 10, 0, offset / 2, 0, 0);
                 v.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, v.getLocation(), 5, 0.04, 1, 0.04);
             }
