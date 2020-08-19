@@ -87,10 +87,6 @@ public class BlockInfoConfig extends Config {
         return data.keySet();
     }
 
-    private UnsupportedOperationException invalidType(String path) {
-        return new UnsupportedOperationException("Can't get \"" + path + "\" because BlockInfoConfig only supports String values");
-    }
-
     @Override
     public int getInt(String path) {
         throw invalidType(path);
@@ -119,6 +115,10 @@ public class BlockInfoConfig extends Config {
     @Override
     public Set<String> getKeys(String path) {
         throw invalidType(path);
+    }
+
+    private UnsupportedOperationException invalidType(String path) {
+        return new UnsupportedOperationException("Can't get \"" + path + "\" because BlockInfoConfig only supports String values");
     }
 
     @Override
