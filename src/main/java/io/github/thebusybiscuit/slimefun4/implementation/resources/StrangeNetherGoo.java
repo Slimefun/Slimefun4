@@ -23,7 +23,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class StrangeNetherGoo extends SlimefunItem implements PiglinBarterDrop {
 
-    private final ItemSetting<Integer> chance = new ItemSetting<>("barter-chance", 3);
+    private final ItemSetting<Integer> chance = new ItemSetting<>("barter-chance", 7);
 
     public StrangeNetherGoo(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
