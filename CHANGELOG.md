@@ -33,6 +33,7 @@
 * Added "Red Sand -> Red Sandstone" recipe to the Electric Press
 * Industrial Miners can now also mine Gilded Blackstone
 * Added a config option to disable Players from burning when exposed to radiation
+* Added Rune of Unemployment
 
 #### Changes
 * Performance improvement for Programmable Android rotations

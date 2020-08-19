@@ -271,8 +271,8 @@ public final class ResearchSetup {
         register("lead_clothing", 260, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
         register("tape_measure", 261, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
         register("iron_golem_assembler", 262, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
-        register("unemployment_rune", 263, "Reset Villager Trades", 29, SlimefunItems.UNEMPLOYMENT_RUNE, SlimefunItems.ORGANIC_NETHER_GOO);
-                
+        register("unemployment_rune", 263, "Reset Villager Trades", 26, SlimefunItems.UNEMPLOYMENT_RUNE, SlimefunItems.STRANGE_NETHER_GOO);
+
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {

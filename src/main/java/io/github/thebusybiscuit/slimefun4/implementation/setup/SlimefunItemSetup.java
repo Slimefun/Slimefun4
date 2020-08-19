@@ -182,7 +182,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.OrganicNetherGoo;
+import io.github.thebusybiscuit.slimefun4.implementation.resources.StrangeNetherGoo;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -3226,12 +3226,13 @@ public final class SlimefunItemSetup {
         }
       
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new OrganicNetherGoo(categories.resources, SlimefunItems.ORGANIC_NETHER_GOO, RecipeType.BARTER_DROP,
-            new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&aPiglins"), null, null, null, null})
+            new StrangeNetherGoo(categories.resources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
+            new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
             .register(plugin);
 
             new RuneOfUnemployment(categories.magicalResources, SlimefunItems.UNEMPLOYMENT_RUNE, RecipeType.ANCIENT_ALTAR, 
-            new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.ORGANIC_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.ORGANIC_NETHER_GOO, SlimefunItems.MAGICAL_GLASS, SlimefunItems.FLASK_OF_KNOWLEDGE, SlimefunItems.MAGICAL_GLASS})
+            new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO, SlimefunItems.FIRE_RUNE, SlimefunItems.STRANGE_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3},
+            new SlimefunItemStack(SlimefunItems.UNEMPLOYMENT_RUNE, 3))
             .register(plugin);
         }
     }
