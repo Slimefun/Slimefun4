@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
@@ -15,12 +14,11 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -30,7 +28,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  *
  */
-public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
+public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
 
     private final ItemSetting<Integer> maxBlocks = new ItemSetting<Integer>("max-blocks", 16) {
 
@@ -49,28 +47,11 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<BlockBreakHandler> {
     }
 
     @Override
-    public BlockBreakHandler getItemHandler() {
-        return new BlockBreakHandler() {
-
-            @Override
-            public boolean isPrivate() {
-                return false;
-            }
-
-            @Override
-            public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
-                if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && isItem(item)) {
-                    if (!Slimefun.hasUnlocked(e.getPlayer(), PickaxeOfVeinMining.this, true)) {
-                        return true;
-                    }
-
-                    List<Block> blocks = Vein.find(e.getBlock(), maxBlocks.getValue(), MaterialCollections.getAllOres());
-                    breakBlocks(e.getPlayer(), blocks, fortune);
-                    return true;
-                }
-                else {
-                    return false;
-                }
+    public ToolUseHandler getItemHandler() {
+        return (e, tool, fortune, drops) -> {
+            if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
+                List<Block> blocks = Vein.find(e.getBlock(), maxBlocks.getValue(), MaterialCollections.getAllOres());
+                breakBlocks(e.getPlayer(), blocks, fortune);
             }
         };
     }

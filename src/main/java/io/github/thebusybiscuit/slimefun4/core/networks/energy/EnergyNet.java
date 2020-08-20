@@ -20,11 +20,9 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
@@ -248,48 +246,6 @@ public class EnergyNet extends Network {
                     }
                     else {
                         supply += energy;
-                    }
-                }
-                catch (Exception | LinkageError t) {
-                    exploded.add(source);
-                    new ErrorReport(t, source, item);
-                }
-
-                long time = SlimefunPlugin.getProfiler().closeEntry(source, item, timestamp);
-                timeCallback.accept(time);
-            }
-            else if (item != null) {
-                try {
-                    // This will be removed very very soon
-                    // It is only here for temporary backwards compatibility
-                    GeneratorTicker generator = item.getEnergyTicker();
-
-                    Integer capacity = SlimefunPlugin.getRegistry().getEnergyCapacities().get(item.getID());
-
-                    if (capacity != null && capacity.intValue() > 0) {
-                        generatorsWithCapacity.put(source, capacity);
-                    }
-
-                    if (generator != null) {
-                        double energy = generator.generateEnergy(source, item, config);
-
-                        if (generator.explode(source)) {
-                            exploded.add(source);
-                            BlockStorage.clearBlockInfo(source);
-                            Reactor.processing.remove(source);
-                            Reactor.progress.remove(source);
-
-                            Slimefun.runSync(() -> {
-                                source.getBlock().setType(Material.LAVA);
-                                source.getWorld().createExplosion(source, 0F, false);
-                            });
-                        }
-                        else {
-                            supply += energy;
-                        }
-                    }
-                    else {
-                        item.warn("This Item was marked as a 'GENERATOR' but has no 'GeneratorTicker' attached to it! This must be fixed.");
                     }
                 }
                 catch (Exception | LinkageError t) {

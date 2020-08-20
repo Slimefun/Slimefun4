@@ -27,8 +27,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -51,6 +53,8 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  *
  */
 public class AncientAltarListener implements Listener {
+
+    public static final String ITEM_PREFIX = ChatColors.color("&dALTAR &3Probe - &e");
 
     private AncientAltar altar;
 
@@ -128,6 +132,11 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, pedestal, ProtectableAction.ACCESS_INVENTORIES)) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+            return;
+        }
+
         // getting the currently placed item
         Item stack = findItem(pedestal);
 
@@ -157,6 +166,11 @@ public class AncientAltarListener implements Listener {
     }
 
     private void useAltar(Block altar, Player p) {
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, altar, ProtectableAction.ACCESS_INVENTORIES)) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+            return;
+        }
+
         ItemStack catalyst = new CustomItem(p.getInventory().getItemInMainHand(), 1);
         List<Block> pedestals = getPedestals(altar);
 
@@ -292,7 +306,7 @@ public class AncientAltarListener implements Listener {
         }
 
         String nametag = ItemUtils.getItemName(stack);
-        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, "&5&dALTAR &3Probe - &e" + System.nanoTime()));
+        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), new CustomItem(stack, ITEM_PREFIX + System.nanoTime()));
         entity.setVelocity(new Vector(0, 0.1, 0));
         SlimefunUtils.markAsNoPickup(entity, "altar_item");
         entity.setCustomNameVisible(true);

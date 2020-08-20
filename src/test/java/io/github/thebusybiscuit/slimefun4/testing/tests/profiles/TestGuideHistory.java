@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -19,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestGuideHistory {
+class TestGuideHistory {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -36,7 +37,8 @@ public class TestGuideHistory {
     }
 
     @Test
-    public void testDefaults() throws InterruptedException {
+    @DisplayName("Test Guide History being empty by default")
+    void testDefaults() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -47,7 +49,8 @@ public class TestGuideHistory {
     }
 
     @Test
-    public void testSearchTerm() throws InterruptedException {
+    @DisplayName("Test adding a search term to the history")
+    void testSearchTerm() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
@@ -60,7 +63,8 @@ public class TestGuideHistory {
     }
 
     @Test
-    public void testClear() throws InterruptedException {
+    @DisplayName("Test clearing the Guide History")
+    void testClear() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
@@ -73,7 +77,8 @@ public class TestGuideHistory {
     }
 
     @Test
-    public void testSlimefunItem() throws InterruptedException {
+    @DisplayName("Test adding a SlimefunItem to Guide History")
+    void testSlimefunItem() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
@@ -89,7 +94,8 @@ public class TestGuideHistory {
     }
 
     @Test
-    public void testItem() throws InterruptedException {
+    @DisplayName("Test adding an ItemStack to Guide History")
+    void testItem() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
@@ -107,7 +113,8 @@ public class TestGuideHistory {
     }
 
     @Test
-    public void testCategory() throws InterruptedException {
+    @DisplayName("Test adding a Category to Guide History")
+    void testCategory() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();

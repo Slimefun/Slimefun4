@@ -10,17 +10,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 class TimingsCommand extends SubCommand {
 
     TimingsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "timings";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "timings", false);
     }
 
     @Override

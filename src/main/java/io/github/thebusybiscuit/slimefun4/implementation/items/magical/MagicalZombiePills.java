@@ -1,12 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -36,10 +39,16 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
 
     @Override
     public EntityInteractHandler getItemHandler() {
-        return (p, entity, item, offhand) -> {
-            if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
+        return (e, item, offhand) -> {
+            Entity entity = e.getRightClicked();
 
-                ItemUtils.consumeItem(item, false);
+            if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
+                Player p = e.getPlayer();
+
+                if (p.getGameMode() != GameMode.CREATIVE) {
+                    ItemUtils.consumeItem(item, false);
+                }
+
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
                 ZombieVillager zombieVillager = (ZombieVillager) entity;

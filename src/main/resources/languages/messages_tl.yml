@@ -38,6 +38,12 @@ guide:
     select: I-click ito upang piliin ang wikang ito.
     select-default: I-click ito upang piliin ang default na wika.
     selected-language: 'Kasalukuyang pinili:'
+    change: Mag-click upang pumili ng bagong wika.
+    description:
+    - "&7Meron ka nang pagpipilian upang pumili"
+    - "&7ng wika kung saan ang Slimefun"
+    - "&7ay may ipapakita sa iyo. Ang mga"
+    - "&7items ay bawal pa i-translate sa ngayon."
   title:
     main: Slimefun Guide
     settings: Mga Settings & Impormasyon
@@ -77,6 +83,7 @@ guide:
   - Upang i-unlock ang kategoryang ito,
   - kailangang i-unlock ang lahat ng mga item mula sa
   - sumusunod na kategorya.
+  work-in-progress: Ang feature na ito ay hindi pa tapos!
 messages:
   not-researched: "&4Kulang ang iyong Knowledge upang ito'y maintindihan."
   not-enough-xp: "&4Kulang ang iyong XP upang ito'y ma-unlock."
@@ -94,7 +101,6 @@ messages:
   not-valid-research: "&4%research% &cay hindi valid na Research!"
   give-research: '&bBinigyan mo si %player% ng Research &7"%research%&7"'
   hungry: "&cIkaw ay sobrang gutom para gawin ito!"
-  mode-change: "&b%device% mode ay pinalitan ng: &9%mode%"
   disabled-in-world: "&4&lDinisable ang Aytem sa world na ito."
   disabled-item: "&4&lDinisable ang Aytem na ito! Paano mo ito nakuha?"
   no-tome-yourself: "&cHindi mo magagamit ang &4Tome of Knowledge &cpara sa'yo..."
@@ -152,6 +158,24 @@ messages:
   - "&7Laging tumingin sa maliwanag na bahagi ng buhay!"
   - "&7Biskwit pala ito at hindi ito siya Kukis."
   - "&7Ang astig ng mga Neon Signs!"
+  piglin-barter: "&4Hindi ka maaaring mag-barter sa mga piglins gamit ang mga item
+    ng Slimefun."
+  enchantment-rune:
+    fail: "&cAng aytem na ito ay bawal i-enchant."
+    no-enchantment: "&cHindi makahanap ng anuman na puwedeng enchantment para sa aytem
+      na ito."
+    success: "&aMatagumpay mong na-apply ang isang random na naaangkop na enchantment
+      sa aytem na ito."
+  tape-measure:
+    no-anchor: "&cKailangan mong magtakda ng isang angkla bago ka makapagsimula upang
+      masukat!"
+    wrong-world: "&cAng iyong angkla ay tila nasa ibang mundo!"
+    distance: "&7Measurement taken. &eDistansiya: %distance%"
+    anchor-set: "&aMatagumpay na na-set ang angla:&e %anchor%"
+  multi-tool:
+    mode-change: "&b%device% napalitan ang mode sa: &9%mode%"
+    not-shears: "&cBawal gamitin ang Multi-Tool bilang shears!"
+  mode-change: "&b%device% mode ay pinalitan ng: &9%mode%"
 machines:
   pattern-not-found: "&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay
     ang mga Aytem sa tamang pattern sa loob ng Dispense."
@@ -227,6 +251,7 @@ gps:
       chat. &7(Supported ang Color Codes!)"
     added: "&aTagumpay ang pag-add ng bagong waypoint."
     max: "&4Naabot mo na ang maximum amount ng waypoints."
+    duplicate: "&4Nakagawa ka na ng isang waypoint na pinangalanan: & f%waypoint%"
   insufficient-complexity:
   - "&4Kulang ang  GPS Network Complexity: &c%complexity%"
   - "&4a) Wala ka pang GPS Network setup."
@@ -320,3 +345,7 @@ languages:
   sr: Serbian
   be: Belarusian
   tl: Tagalog/Filipino
+brewing_stand:
+  not-working: "&4Hindi ka maaaring gumamit ng mga Item ng Slimefun sa Brewing Stand!"
+villagers:
+  no-trading: "&4Hindi ka maaaring mag-trade ng mga Slimefun Items sa mga villagers!"

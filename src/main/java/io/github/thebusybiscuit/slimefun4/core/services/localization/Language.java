@@ -25,6 +25,7 @@ public final class Language {
 
     private final String id;
     private final ItemStack item;
+    private double progress = -1;
 
     private FileConfiguration messages;
     private FileConfiguration researches;
@@ -58,6 +59,26 @@ public final class Language {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * This method returns the progress of translation for this {@link Language}.
+     * The progress is determined by the amount of translated strings divided by the amount
+     * of strings in the english {@link Language} file and multiplied by 100.0
+     * 
+     * @return A percentage {@code (0.0 - 100.0)} for the progress of translation of this {@link Language}
+     */
+    public double getTranslationProgress() {
+        if (id.equals("en")) {
+            return 100.0;
+        }
+        else {
+            if (progress < 0) {
+                progress = SlimefunPlugin.getLocalization().calculateProgress(this);
+            }
+
+            return progress;
+        }
     }
 
     FileConfiguration getMessagesFile() {
@@ -145,7 +166,7 @@ public final class Language {
 
     @Override
     public String toString() {
-        return "Language [ id= " + id + " | default=" + isDefault() + " ]";
+        return "Language {id= " + id + ", default=" + isDefault() + " }";
     }
 
     public FileConfiguration[] getFiles() {

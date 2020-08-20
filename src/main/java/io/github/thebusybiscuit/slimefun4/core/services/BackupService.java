@@ -37,7 +37,7 @@ public class BackupService implements Runnable {
 
         if (backups.size() > MAX_BACKUPS) {
             try {
-                deleteOldBackups(backups);
+                purgeBackups(backups);
             }
             catch (IOException e) {
                 Slimefun.getLogger().log(Level.WARNING, "Could not delete an old backup", e);
@@ -112,7 +112,16 @@ public class BackupService implements Runnable {
         }
     }
 
-    private void deleteOldBackups(List<File> backups) throws IOException {
+    /**
+     * This method will delete old backups.
+     * 
+     * @param backups
+     *            The {@link List} of all backups
+     * 
+     * @throws IOException
+     *             An {@link IOException} is thrown if a {@link File} could not be deleted
+     */
+    private void purgeBackups(List<File> backups) throws IOException {
         Collections.sort(backups, (a, b) -> {
             LocalDateTime time1 = LocalDateTime.parse(a.getName().substring(0, a.getName().length() - 4), format);
             LocalDateTime time2 = LocalDateTime.parse(b.getName().substring(0, b.getName().length() - 4), format);

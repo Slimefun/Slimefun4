@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,14 +17,13 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -35,7 +35,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author Linox
  *
  * @see ItemDropHandler
- * @see Enchantment
  *
  */
 public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
@@ -67,12 +66,16 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
     public ItemDropHandler getItemHandler() {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
-
-                if (!Slimefun.hasUnlocked(p, this, true)) {
-                    return true;
+                if (Slimefun.hasUnlocked(p, this, true)) {
+                    Slimefun.runSync(() -> {
+                        try {
+                            addRandomEnchantment(p, item);
+                        }
+                        catch (Exception x) {
+                            error("An Exception occured while trying to apply an Enchantment Rune", x);
+                        }
+                    }, 20L);
                 }
-
-                Slimefun.runSync(() -> addRandomEnchantment(p, e, item), 20L);
 
                 return true;
             }
@@ -81,69 +84,58 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         };
     }
 
-    private void addRandomEnchantment(Player p, PlayerDropItemEvent e, Item item) {
+    private void addRandomEnchantment(Player p, Item rune) {
         // Being sure the entity is still valid and not picked up or whatsoever.
-        if (!item.isValid()) {
+        if (!rune.isValid()) {
             return;
         }
 
-        Location l = item.getLocation();
+        Location l = rune.getLocation();
         Collection<Entity> entites = l.getWorld().getNearbyEntities(l, RANGE, RANGE, RANGE, this::findCompatibleItem);
         Optional<Entity> optional = entites.stream().findFirst();
 
         if (optional.isPresent()) {
-            Item entity = (Item) optional.get();
-            ItemStack target = entity.getItemStack();
+            Item item = (Item) optional.get();
+            ItemStack itemStack = item.getItemStack();
 
-            List<Enchantment> applicableEnchantmentList = applicableEnchantments.get(target.getType());
+            List<Enchantment> potentialEnchantments = applicableEnchantments.get(itemStack.getType());
 
-            if (applicableEnchantmentList == null) {
+            if (potentialEnchantments == null) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.fail", true);
                 return;
             }
             else {
-                applicableEnchantmentList = new ArrayList<>(applicableEnchantmentList);
+                potentialEnchantments = new ArrayList<>(potentialEnchantments);
             }
 
             // Removing the enchantments that the item already has from enchantmentSet
-            for (Enchantment enchantment : target.getEnchantments().keySet()) {
-                for (Enchantment possibleEnchantment : applicableEnchantmentList) {
-                    if (possibleEnchantment == enchantment || possibleEnchantment.conflictsWith(enchantment)) {
-                        applicableEnchantmentList.remove(possibleEnchantment);
-                    }
-                }
-            }
+            // This also removes any conflicting enchantments
+            removeIllegalEnchantments(itemStack, potentialEnchantments);
 
-            if (applicableEnchantmentList.isEmpty()) {
+            if (potentialEnchantments.isEmpty()) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.no-enchantment", true);
                 return;
             }
 
-            Enchantment enchantment = applicableEnchantmentList.get(ThreadLocalRandom.current().nextInt(applicableEnchantmentList.size()));
-            int level = 1;
-            
-            if (enchantment.getMaxLevel() != 1) {
-                level = ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel()) + 1;
-            }
-            
-            target.addEnchantment(enchantment, level);
+            Enchantment enchantment = potentialEnchantments.get(ThreadLocalRandom.current().nextInt(potentialEnchantments.size()));
+            int level = getRandomlevel(enchantment);
 
-            if (target.getAmount() == 1) {
-                e.setCancelled(true);
-
+            if (itemStack.getAmount() == 1) {
                 // This lightning is just an effect, it deals no damage.
                 l.getWorld().strikeLightningEffect(l);
 
                 Slimefun.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
-                    if (item.isValid() && entity.isValid() && target.getAmount() == 1) {
+                    if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
                         l.getWorld().spawnParticle(Particle.CRIT_MAGIC, l, 1);
                         l.getWorld().playSound(l, Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 1F, 1F);
 
-                        entity.remove();
                         item.remove();
-                        l.getWorld().dropItemNaturally(l, target);
+                        rune.remove();
+
+                        itemStack.addEnchantment(enchantment, level);
+                        l.getWorld().dropItemNaturally(l, itemStack);
 
                         SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.success", true);
                     }
@@ -151,6 +143,31 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             }
             else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.fail", true);
+            }
+        }
+    }
+
+    private int getRandomlevel(Enchantment enchantment) {
+        int level = 1;
+
+        if (enchantment.getMaxLevel() != 1) {
+            level = ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel()) + 1;
+        }
+
+        return level;
+    }
+
+    private void removeIllegalEnchantments(ItemStack target, List<Enchantment> potentialEnchantments) {
+        for (Enchantment enchantment : target.getEnchantments().keySet()) {
+            Iterator<Enchantment> iterator = potentialEnchantments.iterator();
+
+            while (iterator.hasNext()) {
+                Enchantment possibleEnchantment = iterator.next();
+
+                // Duplicate or conflict
+                if (possibleEnchantment.equals(enchantment) || possibleEnchantment.conflictsWith(enchantment)) {
+                    iterator.remove();
+                }
             }
         }
     }

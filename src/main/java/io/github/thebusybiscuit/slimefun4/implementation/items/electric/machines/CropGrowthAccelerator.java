@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.Set;
 
 import org.bukkit.Material;
@@ -33,7 +33,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 public abstract class CropGrowthAccelerator extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
-    private final Set<Material> crops = new HashSet<>();
+    private final Set<Material> crops = EnumSet.noneOf(Material.class);
 
     // We wanna strip the Slimefun Item id here
     private static final ItemStack organicFertilizer = new ItemStackWrapper(SlimefunItems.FERTILIZER);
@@ -58,13 +58,9 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
-                for (int slot : getInputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
+                inv.dropItems(b.getLocation(), getInputSlots());
             }
+
             return true;
         });
     }

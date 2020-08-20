@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 
@@ -15,7 +16,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
  * {@code SlimefunItem.registerBlockHandler(String, SlimefunBlockHandler); }
  * 
  * @author TheBusyBiscuit
- *
+ * 
+ * 
  */
 @FunctionalInterface
 public interface SlimefunBlockHandler {
@@ -24,6 +26,8 @@ public interface SlimefunBlockHandler {
      * This method gets called when the {@link Block} is placed.
      * Use this method to initialize block data.
      * 
+     * @deprecated Use a {@link BlockPlaceHandler} instead
+     * 
      * @param p
      *            The {@link Player} who placed it
      * @param b
@@ -31,8 +35,9 @@ public interface SlimefunBlockHandler {
      * @param item
      *            The {@link SlimefunItem} that will be stored inside the {@link Block}
      */
+    @Deprecated
     default void onPlace(Player p, Block b, SlimefunItem item) {
-        // This method can optionally be implemented by classes implementing it.
+        // This has been deprecated
     }
 
     /**

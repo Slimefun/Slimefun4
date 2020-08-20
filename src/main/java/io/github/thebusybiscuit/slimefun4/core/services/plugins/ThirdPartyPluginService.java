@@ -44,8 +44,17 @@ public class ThirdPartyPluginService {
 
     public void start() {
         if (isPluginInstalled("PlaceholderAPI")) {
-            isPlaceholderAPIInstalled = true;
-            new PlaceholderAPIHook().register();
+            try {
+                PlaceholderAPIHook hook = new PlaceholderAPIHook(plugin);
+                hook.register();
+                isPlaceholderAPIInstalled = true;
+            }
+            catch (Exception | LinkageError x) {
+                String version = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI").getDescription().getVersion();
+
+                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating PlaceholderAPI or Slimefun?");
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into PlaceholderAPI v" + version);
+            }
         }
 
         if (isPluginInstalled("EmeraldEnchants")) {

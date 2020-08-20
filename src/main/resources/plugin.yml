@@ -58,3 +58,6 @@ permissions:
   slimefun.inventory.bypass:
     description: Allows you to open all Slimefun Machines
     default: op
+  slimefun.debugging:
+    description: Allows you to use the debugging tool from Slimefun
+    default: op

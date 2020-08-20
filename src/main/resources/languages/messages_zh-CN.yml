@@ -143,6 +143,16 @@ messages:
   - "&7要总是看着生活中光明的一面!"
   - "&7这一块其实是饼干而不是曲奇"
   - "&7霓虹灯亮起来了!"
+  piglin-barter: "&4你不能使用 Slimefun 的物品和猪灵以物换物"
+  enchantment-rune:
+    fail: "&c你不能附魔这个物品."
+    no-enchantment: "&c无法找到此物品可用的附魔属性."
+    success: "&a成功为此物品添加了随机的可用附魔属性."
+  tape-measure:
+    no-anchor: "&c在开始测量之前请先选定测量起点!"
+    wrong-world: "&c你设置的起点似乎在另一个世界!"
+    distance: "&7已测量到距离, &e为: %distance%"
+    anchor-set: "&a成功在 &e %anchor% &a设置了测量起点"
 machines:
   pattern-not-found: "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成配方, 请检查发射器里放置物品的顺序."
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成配方放置物品."
@@ -203,6 +213,7 @@ gps:
     new: "&e给你的路径点起个名字吧 &7(支持彩色代码!)"
     added: "&a成功添加了新的传送点"
     max: "&4你已到达设置传送点个数的最大上限"
+    duplicate: "&4你已经创建了一个相同名字的传送点了: &f%waypoint%"
   insufficient-complexity:
   - "&4GPS网络复杂度不足: &c%complexity%"
   - "&4a) 你还没有设置一个 GPS 网络"
@@ -274,6 +285,7 @@ languages:
   zh-CN: 简体中文 (中国)
   el: 希腊语
   he: 希伯来语
+  pt: 葡萄牙语 (葡萄牙)
   ar: 阿拉伯语
   af: 南非语
   da: 丹麦语
@@ -285,7 +297,6 @@ languages:
   fa: 波斯语
   th: 泰语
   ro: 罗马尼亚语
-  pt: 葡萄牙语 (葡萄牙)
   pt-BR: 葡萄牙语 (巴西)
   bg: 保加利亚语
   ko: 韩语
@@ -295,5 +306,9 @@ languages:
   sr: 塞尔维亚语
   be: 白俄罗斯语
   tl: 他加禄语
+brewing_stand:
+  not-working: "&4你不能在酿造台中使用 Slimefun 物品!"
+villagers:
+  no-trading: "&4你不能用 Slimefun 的物品和村民交易!"
 miner:
   no-ores: "&e抱歉, 周围找不到矿石了!"

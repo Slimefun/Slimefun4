@@ -155,10 +155,10 @@ public final class SlimefunItems {
     public static final SlimefunItemStack GILDED_IRON_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_CHESTPLATE;
     public static final SlimefunItemStack GILDED_IRON_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_LEGGINGS;
     public static final SlimefunItemStack GILDED_IRON_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GILDED_IRON_BOOTS;
-    public static final SlimefunItemStack GOLD_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_HELMET;
-    public static final SlimefunItemStack GOLD_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_CHESTPLATE;
-    public static final SlimefunItemStack GOLD_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_LEGGINGS;
-    public static final SlimefunItemStack GOLD_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLD_BOOTS;
+    public static final SlimefunItemStack GOLD_HELMET = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLDEN_HELMET_12K;
+    public static final SlimefunItemStack GOLD_CHESTPLATE = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLDEN_CHESTPLATE_12K;
+    public static final SlimefunItemStack GOLD_LEGGINGS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLDEN_LEGGINGS_12K;
+    public static final SlimefunItemStack GOLD_BOOTS = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.GOLDEN_BOOTS_12K;
     public static final SlimefunItemStack SLIME_HELMET_STEEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_HELMET_STEEL;
     public static final SlimefunItemStack SLIME_CHESTPLATE_STEEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_CHESTPLATE_STEEL;
     public static final SlimefunItemStack SLIME_LEGGINGS_STEEL = io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems.SLIME_LEGGINGS_STEEL;

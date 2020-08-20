@@ -59,7 +59,8 @@ public class TestSoulboundListener {
         player.respawn();
 
         server.getPluginManager().assertEventFired(PlayerRespawnEvent.class, event -> {
-            return player.getInventory().getItem(6).isSimilar(item) == soulbound;
+            ItemStack stack = player.getInventory().getItem(6);
+            return SlimefunUtils.isItemSimilar(stack, item, true) == soulbound;
         });
     }
 

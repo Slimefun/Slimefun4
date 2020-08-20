@@ -16,10 +16,21 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * A {@link Bandage} or Rag is a medical supply which heals the {@link Player} and extinguishes
+ * fire.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
 
-    public Bandage(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    private final int healingLevel;
+
+    public Bandage(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
         super(category, item, recipeType, recipe, recipeOutput);
+
+        this.healingLevel = healingLevel;
     }
 
     @Override
@@ -37,7 +48,7 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
             }
 
             p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, Material.WHITE_WOOL);
-            p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, healingLevel));
             p.setFireTicks(0);
 
             e.cancel();

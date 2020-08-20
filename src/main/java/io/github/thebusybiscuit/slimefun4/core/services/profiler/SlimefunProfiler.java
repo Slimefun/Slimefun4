@@ -44,7 +44,7 @@ public class SlimefunProfiler {
     // two ticks (sync and async blocks), so we use 100ms as a reference here
     private static final int MAX_TICK_DURATION = 100;
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(4);
+    private final ExecutorService executor = Executors.newFixedThreadPool(5);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
@@ -118,7 +118,8 @@ public class SlimefunProfiler {
         executor.execute(() -> {
             ProfiledBlock block = new ProfiledBlock(l, item);
 
-            timings.putIfAbsent(block, elapsedTime);
+            // Merge (if we have multiple samples for whatever reason)
+            timings.merge(block, elapsedTime, Long::sum);
             queued.decrementAndGet();
         });
 
@@ -143,7 +144,7 @@ public class SlimefunProfiler {
 
     private void finishReport() {
         // We will only wait for a maximum of this many 1ms sleeps
-        int iterations = 1000;
+        int iterations = 4000;
 
         // Wait for all timing results to come in
         while (!running.get() && queued.get() > 0) {
@@ -153,6 +154,12 @@ public class SlimefunProfiler {
 
                 // If we waited for too long, then we should just abort
                 if (iterations <= 0) {
+                    Iterator<CommandSender> iterator = requests.iterator();
+
+                    while (iterator.hasNext()) {
+                        iterator.next().sendMessage("Your timings report has timed out, we were still waiting for " + queued.get() + " samples to be collected :/");
+                        iterator.remove();
+                    }
                     return;
                 }
             }

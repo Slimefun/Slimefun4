@@ -118,6 +118,11 @@ slimefun:
     lore:
     - Haz este objeto tal como se muestra
     - usando una Refinery
+  barter_drop:
+    name: Piglin Bartering Drop
+    lore:
+    - Troca con Piglins usando
+    - Lingotes de Oro para obtener este objeto
 minecraft:
   shaped:
     name: Receta de Crafteo con forma
