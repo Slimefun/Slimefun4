@@ -323,11 +323,6 @@ public final class SlimefunItemSetup {
         new SlimefunItem(categories.magicalResources, SlimefunItems.ENDER_LUMP_3, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_2, null, SlimefunItems.ENDER_LUMP_2, SlimefunItems.ENDER_LUMP_2, null, null, null, null})
         .register(plugin);
-      
-      	new SlimefunItem(categories.magicalResources, SlimefunItems.SYNTHETIC_SHULKER_SHELL, RecipeType.ANCIENT_ALTAR,
-		    new ItemStack[] {SlimefunItems.ENDER_LUMP_3, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.TURTLE_HELMET), SlimefunItems.REINFORCED_PLATE, SlimefunItems.ENDER_LUMP_3, SlimefunItems.ENDER_RUNE, SlimefunItems.ENDER_LUMP_3})
-		    .setUseableInWorkbench(true)
-		    .register(plugin);
 
         new EnderBackpack(categories.magicalGadgets, SlimefunItems.ENDER_BACKPACK, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), new ItemStack(Material.CHEST), new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2, new ItemStack(Material.LEATHER), SlimefunItems.ENDER_LUMP_2})
