@@ -98,7 +98,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                     velocity.setY(launch);
 
                     users.add(p.getUniqueId());
-                    Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> users.remove(p.getUniqueId()), 4L);
+                    Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), () -> users.remove(p.getUniqueId()), 4L);
                 }
 
                 ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
