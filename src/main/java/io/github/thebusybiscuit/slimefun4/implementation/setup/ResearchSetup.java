@@ -267,11 +267,13 @@ public final class ResearchSetup {
         register("advanced_industrial_miner", 98, "Better Mining", 36, SlimefunItems.ADVANCED_INDUSTRIAL_MINER);
         register("magical_zombie_pills", 257, "De-Zombification", 22, SlimefunItems.MAGICAL_ZOMBIE_PILLS);
         register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
-        register("climbing_pick", 259, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
-        register("enchantment_rune", 260, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
-        register("lead_clothing", 261, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
-        register("tape_measure", 262, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
-        register("iron_golem_assembler", 263, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
+        register("enchantment_rune", 259, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
+        register("lead_clothing", 260, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
+        register("tape_measure", 261, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
+        register("iron_golem_assembler", 262, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
+        register("shulker_shell", 263, "Synthetic Shulkers", 30, SlimefunItems.SYNTHETIC_SHULKER_SHELL);
+        register("nitwit_rune", 264, "Reset Villager Trades", 26, SlimefunItems.NITWIT_RUNE, SlimefunItems.STRANGE_NETHER_GOO);
+        register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
