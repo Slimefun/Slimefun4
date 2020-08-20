@@ -128,6 +128,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Knowledge
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicalZombiePills;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.NitwitRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
@@ -181,6 +182,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
+import io.github.thebusybiscuit.slimefun4.implementation.resources.StrangeNetherGoo;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -2501,7 +2503,6 @@ public final class SlimefunItemSetup {
         new ItemStack[] {new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA), new ItemStack(Material.WHITE_TERRACOTTA)}, 
         new SlimefunItemStack(SlimefunItems.RAINBOW_CLAY, 8), new RainbowTickHandler(MaterialCollections.getAllTerracottaColors()))
         .register(plugin);
-        
         new RainbowBlock(categories.magicalGadgets, SlimefunItems.RAINBOW_CONCRETE, RecipeType.ANCIENT_ALTAR,
         new ItemStack[] {new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), SlimefunItems.RAINBOW_RUNE, new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE), new ItemStack(Material.WHITE_CONCRETE)}, 
         new SlimefunItemStack(SlimefunItems.RAINBOW_CONCRETE, 8), new RainbowTickHandler(MaterialCollections.getAllConcreteColors()))
@@ -3226,6 +3227,17 @@ public final class SlimefunItemSetup {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             new TapeMeasure(categories.usefulItems, SlimefunItems.TAPE_MEASURE, RecipeType.ENHANCED_CRAFTING_TABLE,
             new ItemStack[] {SlimefunItems.SILICON, new ItemStack(Material.YELLOW_DYE), SlimefunItems.SILICON, new ItemStack(Material.YELLOW_DYE), new ItemStack(Material.STRING), new ItemStack(Material.YELLOW_DYE), SlimefunItems.GILDED_IRON, new ItemStack(Material.YELLOW_DYE), SlimefunItems.SILICON})
+            .register(plugin);
+        }
+      
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            new StrangeNetherGoo(categories.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
+            new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
+            .register(plugin);
+
+            new NitwitRune(categories.magicalResources, SlimefunItems.NITWIT_RUNE, RecipeType.ANCIENT_ALTAR, 
+            new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO, SlimefunItems.FIRE_RUNE, SlimefunItems.STRANGE_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3},
+            new SlimefunItemStack(SlimefunItems.NITWIT_RUNE, 3))
             .register(plugin);
         }
     }
