@@ -274,37 +274,49 @@ abstract class ChestTerminalNetwork extends Network {
      * 
      * @param providers
      *            A {@link Set} of providers to this {@link ChestTerminalNetwork}
+     * 
+     * @return The time it took to compute this operation
      */
-    protected void updateTerminals(Set<Location> providers) {
+    protected long updateTerminals(Set<Location> providers) {
         if (terminals.isEmpty()) {
             // Performance improvement - We don't need to compute items for
             // Cargo networks without any Chest Terminals
-            return;
+            return 0;
         }
 
-        // Timings will be slightly inaccurate here but most often people are gonna
-        // use no more than one terminal anyway, so this might be fine
-        long timestamp = SlimefunPlugin.getProfiler().newEntry();
+        // Timings will be slightly inaccurate here but most often people are not
+        // gonna use no more than one terminal anyway, so this might be fine
+        long timestamp = System.nanoTime();
+        Location firstTerminal = null;
         SlimefunItem item = SlimefunItem.getByID("CHEST_TERMINAL");
         List<ItemStackAndInteger> items = findAvailableItems(providers);
 
-        for (Location l : terminals) {
-            BlockMenu terminal = BlockStorage.getInventory(l);
-            int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
+        try {
+            for (Location l : terminals) {
+                BlockMenu terminal = BlockStorage.getInventory(l);
+                int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
 
-            if (!items.isEmpty() && items.size() < (page - 1) * TERMINAL_SLOTS.length + 1) {
-                page = 1;
-                BlockStorage.addBlockInfo(l, "page", String.valueOf(1));
+                if (!items.isEmpty() && items.size() < (page - 1) * TERMINAL_SLOTS.length + 1) {
+                    page = 1;
+                    BlockStorage.addBlockInfo(l, "page", String.valueOf(1));
+                }
+
+                for (int i = 0; i < TERMINAL_SLOTS.length; i++) {
+                    int slot = TERMINAL_SLOTS[i];
+                    int index = i + (TERMINAL_SLOTS.length * (page - 1));
+                    updateTerminal(l, terminal, slot, index, items);
+                }
+
+                if (firstTerminal == null) {
+                    firstTerminal = l;
+                }
             }
-
-            for (int i = 0; i < TERMINAL_SLOTS.length; i++) {
-                int slot = TERMINAL_SLOTS[i];
-                int index = i + (TERMINAL_SLOTS.length * (page - 1));
-                updateTerminal(l, terminal, slot, index, items);
-            }
-
-            SlimefunPlugin.getProfiler().closeEntry(l, item, timestamp);
         }
+        catch (Exception | LinkageError x) {
+            item.error("An Exception was caused while trying to tick Chest terminals", x);
+        }
+
+        return SlimefunPlugin.getProfiler().closeEntry(firstTerminal, item, timestamp);
     }
 
     private void updateTerminal(Location l, BlockMenu terminal, int slot, int index, List<ItemStackAndInteger> items) {
@@ -316,7 +328,7 @@ abstract class ChestTerminalNetwork extends Network {
             ItemMeta im = stack.getItemMeta();
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add(ChatColors.color("&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getInt())));
+            lore.add(ChatColors.color("&7Stored Items: &f" + DoubleHandler.getFancyDouble(item.getInt())));
 
             if (stack.getMaxStackSize() > 1) {
                 int amount = item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize() : item.getInt();
@@ -437,7 +449,7 @@ abstract class ChestTerminalNetwork extends Network {
             boolean add = true;
 
             for (ItemStackAndInteger item : items) {
-                if (SlimefunUtils.isItemSimilar(stack, item.getItemStackWrapper(), true)) {
+                if (SlimefunUtils.isItemSimilar(stack, item.getItemStackWrapper(), true, false)) {
                     add = false;
                     item.add(stack.getAmount());
                 }

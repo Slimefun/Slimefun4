@@ -119,6 +119,13 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         return messages;
     }
 
+    public List<String> getMessages(Player p, String key, UnaryOperator<String> function) {
+        List<String> messages = getMessages(p, key);
+        messages.replaceAll(function);
+
+        return messages;
+    }
+
     public String getResearchName(Player p, NamespacedKey key) {
         Language language = getLanguage(p);
 

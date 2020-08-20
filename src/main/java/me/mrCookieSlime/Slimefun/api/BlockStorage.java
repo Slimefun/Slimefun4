@@ -288,14 +288,8 @@ public class BlockStorage {
         return changes;
     }
 
-    public void save(boolean remove) {
-        save(true, remove);
-    }
-
-    public void save(boolean computeChanges, boolean remove) {
-        if (computeChanges) {
-            computeChanges();
-        }
+    public void save() {
+        computeChanges();
 
         if (changes == 0) {
             return;
@@ -344,10 +338,11 @@ public class BlockStorage {
         }
 
         changes = 0;
+    }
 
-        if (remove) {
-            SlimefunPlugin.getRegistry().getWorlds().remove(world.getName());
-        }
+    public void saveAndRemove() {
+        save();
+        SlimefunPlugin.getRegistry().getWorlds().remove(world.getName());
     }
 
     public static void saveChunks() {

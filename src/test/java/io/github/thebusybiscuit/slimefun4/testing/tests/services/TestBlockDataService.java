@@ -5,13 +5,14 @@ import org.bukkit.NamespacedKey;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-public class TestBlockDataService {
+class TestBlockDataService {
 
     private static SlimefunPlugin plugin;
 
@@ -27,13 +28,15 @@ public class TestBlockDataService {
     }
 
     @Test
-    public void testInitialization() {
+    @DisplayName("Test creating a BlockDataService")
+    void testInitialization() {
         BlockDataService service = new BlockDataService(plugin, "test");
         Assertions.assertEquals(new NamespacedKey(plugin, "test"), service.getKey());
     }
 
     @Test
-    public void testTileEntities() {
+    @DisplayName("Test Tile Entity check")
+    void testTileEntities() {
         BlockDataService service = new BlockDataService(plugin, "test");
 
         Assertions.assertFalse(service.isTileEntity(null));

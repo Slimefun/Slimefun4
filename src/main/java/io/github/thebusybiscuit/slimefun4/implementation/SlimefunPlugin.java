@@ -61,6 +61,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
@@ -70,7 +71,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerInteractEntityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
@@ -82,6 +82,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
@@ -165,6 +166,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
             command.register();
+            registry.load(config);
         }
         else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
@@ -255,7 +257,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
-                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
+                boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
+                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
             }
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
@@ -364,7 +367,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Save all registered Worlds
         for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
-                entry.getValue().save(true);
+                entry.getValue().saveAndRemove();
             }
             catch (Exception x) {
                 getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
@@ -440,8 +443,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new FireworksListener(this);
         new WitherListener(this);
         new IronGolemListener(this);
-        new PlayerInteractEntityListener(this);
+        new EntityInteractionListener(this);
         new MobDropListener(this);
+        new VillagerTradingListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);

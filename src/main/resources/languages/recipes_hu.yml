@@ -32,7 +32,7 @@ slimefun:
     - Készítsd el ezt a Tárgyat az ábra alapján
     - egy Ore Crusher segítségével
   mob_drop:
-    name: Mob Drop
+    name: Élőlény Dobja
     lore:
     - Öld meg ezt az Élőlényt,
     - hogy megszerezd ezt a tárgyat
@@ -118,6 +118,11 @@ slimefun:
     lore:
     - Készítsd el ezt a Tárgyat az ábra alapján
     - egy Refinery segítségével
+  barter_drop:
+    name: Piglinek Dobják Cserélésnél
+    lore:
+    - Cseréld el a Piglenekkel Aranyrudakat,
+    - hogy megszerezd ezt a tárgyat
 minecraft:
   shaped:
     name: Barkácsrecept Forma

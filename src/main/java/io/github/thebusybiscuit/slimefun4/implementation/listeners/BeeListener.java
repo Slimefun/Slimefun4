@@ -42,7 +42,9 @@ public class BeeListener implements Listener {
 
             if (profile.hasFullProtectionAgainst(ProtectionType.BEES)) {
                 for (ItemStack armor : p.getInventory().getArmorContents()) {
-                    ItemUtils.damageItem(armor, 1, false);
+                    if (armor != null) {
+                        ItemUtils.damageItem(armor, 1, false);
+                    }
                 }
 
                 e.setDamage(0D);

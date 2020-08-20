@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.guide;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -10,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 
-public class TestBookSlimefunGuide {
+class TestBookSlimefunGuide {
 
     @BeforeAll
     public static void load() {
@@ -24,7 +25,8 @@ public class TestBookSlimefunGuide {
     }
 
     @Test
-    public void testBasicGetters() {
+    @DisplayName("Test Getters for Chest Slimefun Guide")
+    void testBasicGetters() {
         BookSlimefunGuide guide = new BookSlimefunGuide();
 
         Assertions.assertEquals(SlimefunGuideLayout.BOOK, guide.getLayout());

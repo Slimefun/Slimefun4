@@ -17,6 +17,7 @@ options:
   language: en
   enable-translations: true
   log-duplicate-block-entries: true
+  burn-players-when-radioactive: true
 
 guide:
   default-view-book: false

@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -19,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 
-public class TestNetworkManager {
+class TestNetworkManager {
 
     private static ServerMock server;
 
@@ -34,13 +35,15 @@ public class TestNetworkManager {
     }
 
     @Test
-    public void testIllegalNetworkSize() {
+    @DisplayName("Test illegal network size arguments")
+    void testIllegalNetworkSize() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(-100));
         Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(0));
     }
 
     @Test
-    public void testGetMaxNetworkSize() {
+    @DisplayName("Test maximum network size")
+    void testGetMaxNetworkSize() {
         int size = 50;
         NetworkManager manager = new NetworkManager(size);
 
@@ -48,12 +51,13 @@ public class TestNetworkManager {
     }
 
     @Test
-    public void testGetNetworkList() {
+    @DisplayName("Test network list")
+    void testGetNetworkList() {
         NetworkManager manager = new NetworkManager(10);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
 
-        Network network = new DummyNetwork(manager, loc, 10, new HashMap<>());
+        Network network = new MockNetwork(manager, loc, 10, new HashMap<>());
 
         Assertions.assertFalse(manager.getNetworkList().contains(network));
         manager.registerNetwork(network);
@@ -63,60 +67,64 @@ public class TestNetworkManager {
     }
 
     @Test
-    public void testDirtyRegulatorUnregistersNetwork() {
+    @DisplayName("Test network re-registration for dirty regulators")
+    void testDirtyRegulatorUnregistersNetwork() {
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
 
         NetworkManager manager = Mockito.mock(NetworkManager.class);
-        Network network = new DummyNetwork(manager, loc, 10, new HashMap<>());
+        Network network = new MockNetwork(manager, loc, 10, new HashMap<>());
         network.markDirty(loc);
 
         Mockito.verify(manager).unregisterNetwork(network);
     }
 
     @Test
-    public void testGetNetworkAtLocation() {
+    @DisplayName("Test getting a network at a location")
+    void testGetNetworkAtLocation() {
         NetworkManager manager = new NetworkManager(10);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
         Location loc2 = new Location(world, 0, 200, 0);
 
-        Network network = new DummyNetwork(manager, loc, 10, new HashMap<>());
+        Network network = new MockNetwork(manager, loc, 10, new HashMap<>());
 
-        Assertions.assertFalse(manager.getNetworkFromLocation(loc, DummyNetwork.class).isPresent());
+        Assertions.assertFalse(manager.getNetworkFromLocation(loc, MockNetwork.class).isPresent());
 
         manager.registerNetwork(network);
 
-        Optional<DummyNetwork> optional = manager.getNetworkFromLocation(loc, DummyNetwork.class);
+        Optional<MockNetwork> optional = manager.getNetworkFromLocation(loc, MockNetwork.class);
         Assertions.assertTrue(optional.isPresent());
         Assertions.assertEquals(network, optional.get());
 
-        Assertions.assertFalse(manager.getNetworkFromLocation(loc2, DummyNetwork.class).isPresent());
+        Assertions.assertFalse(manager.getNetworkFromLocation(loc2, MockNetwork.class).isPresent());
         Assertions.assertFalse(manager.getNetworkFromLocation(loc, CargoNet.class).isPresent());
     }
 
     @Test
-    public void testGetNetworksAtLocation() {
+    @DisplayName("Test getting all networks at a location")
+    void testGetNetworksAtLocation() {
         NetworkManager manager = new NetworkManager(10);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
         Location loc2 = new Location(world, 0, 200, 0);
 
-        Network network = new DummyNetwork(manager, loc, 10, new HashMap<>());
+        Network network = new MockNetwork(manager, loc, 10, new HashMap<>());
         manager.registerNetwork(network);
 
-        Assertions.assertFalse(manager.getNetworksFromLocation(loc2, DummyNetwork.class).contains(network));
+        Assertions.assertFalse(manager.getNetworksFromLocation(loc2, MockNetwork.class).contains(network));
         Assertions.assertFalse(manager.getNetworksFromLocation(loc, CargoNet.class).contains(network));
-        Assertions.assertTrue(manager.getNetworksFromLocation(loc, DummyNetwork.class).contains(network));
+        Assertions.assertTrue(manager.getNetworksFromLocation(loc, MockNetwork.class).contains(network));
     }
 
     @Test
-    public void testSingleNodeNetwork() {
+    @DisplayName("Test a single node network")
+    void testSingleNodeNetwork() {
         NetworkManager manager = new NetworkManager(1);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
 
-        Network network = new DummyNetwork(manager, loc, 1, new HashMap<>());
+        Network network = new MockNetwork(manager, loc, 1, new HashMap<>());
         network.tick();
 
         Assertions.assertEquals(1, network.getSize());
@@ -124,7 +132,8 @@ public class TestNetworkManager {
     }
 
     @Test
-    public void testCornerConnection() {
+    @DisplayName("Test networks connecting via corners")
+    void testCornerConnection() {
         NetworkManager manager = new NetworkManager(100);
         World world = server.addSimpleWorld("Simple Network World");
         Map<Location, NetworkComponent> map = new HashMap<>();
@@ -137,39 +146,10 @@ public class TestNetworkManager {
         Location loc3 = new Location(world, 2, 100, 2);
         map.put(loc3, NetworkComponent.CONNECTOR);
 
-        Network network = new DummyNetwork(manager, loc, 3, map);
+        Network network = new MockNetwork(manager, loc, 3, map);
         network.tick();
 
         Assertions.assertEquals(3, network.getSize());
-    }
-
-    private class DummyNetwork extends Network {
-
-        private final int range;
-        private final Map<Location, NetworkComponent> locations;
-
-        protected DummyNetwork(NetworkManager manager, Location regulator, int range, Map<Location, NetworkComponent> locations) {
-            super(manager, regulator);
-            this.range = range;
-            this.locations = locations;
-        }
-
-        @Override
-        public int getRange() {
-            return range;
-        }
-
-        @Override
-        public NetworkComponent classifyLocation(Location l) {
-            if (l.equals(regulator)) return NetworkComponent.REGULATOR;
-            return locations.get(l);
-        }
-
-        @Override
-        public void onClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
-            // Do nothing
-        }
-
     }
 
 }
