@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -19,7 +20,7 @@ import be.seeseemelk.mockbukkit.inventory.meta.FireworkMetaMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 
-public class TestFireworksListener {
+class TestFireworksListener {
 
     private static ServerMock server;
 
@@ -36,7 +37,8 @@ public class TestFireworksListener {
     }
 
     @Test
-    public void testFireworkDamage() {
+    @DisplayName("Test if Fireworks from Research cause no damage")
+    void testFireworkDamage() {
         Player player = server.addPlayer();
         Firework firework = Mockito.mock(Firework.class);
         FireworkMeta meta = new FireworkMetaMock();

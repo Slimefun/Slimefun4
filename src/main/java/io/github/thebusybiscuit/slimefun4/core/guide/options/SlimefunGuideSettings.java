@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -73,14 +74,21 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
-        menu.addItem(2, new CustomItem(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"), "&c" + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.credits"), "", "&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(), "", "&7Slimefun is an open-source project", "&7and maintained by a large community of people.", "&7Here you can see who helped shape the project.", "", "&7\u21E8 &eClick to see our contributors"), (pl, slot, action, item) -> {
+        List<String> contributorsLore = new ArrayList<>();
+        contributorsLore.add("");
+        contributorsLore.addAll(SlimefunPlugin.getLocalization().getMessages(p, "guide.credits.description", msg -> msg.replace("%contributors%", String.valueOf(SlimefunPlugin.getGitHubService().getContributors().size()))));
+        contributorsLore.add("");
+        contributorsLore.add("&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.credits.open"));
+
+        menu.addItem(2, new CustomItem(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"), "&c" + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.credits"), contributorsLore.toArray(new String[0])), (pl, slot, action, item) -> {
             ContributorsMenu.open(pl, 0);
             return false;
         });
 
-        menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK, "&aSlimefun Version", "&7&o" + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.versions-notice"), "", "&fMinecraft Version: &a" + Bukkit.getBukkitVersion(), "&fSlimefun Version: &a" + SlimefunPlugin.getVersion(), "&fCS-CoreLib Version: &a" + SlimefunPlugin.getCSCoreLibVersion()), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK, ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.versions"), "&7&o" + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.versions-notice"), "", "&fMinecraft: &a" + Bukkit.getBukkitVersion(), "&fSlimefun: &a" + SlimefunPlugin.getVersion(), "&fCS-CoreLib: &a" + SlimefunPlugin.getCSCoreLibVersion()), ChestMenuUtils.getEmptyClickHandler());
 
-        menu.addItem(6, new CustomItem(Material.COMPARATOR, "&e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.source"), "", "&7Last Activity: &a" + NumberUtils.getElapsedTime(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), "&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 &eClick to go to GitHub"));
+        menu.addItem(6,
+                new CustomItem(Material.COMPARATOR, "&e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.source"), "", "&7Last Activity: &a" + NumberUtils.getElapsedTime(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), "&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 &eClick to go to GitHub"));
         menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
             pl.closeInventory();
             ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4");
@@ -110,7 +118,7 @@ public final class SlimefunGuideSettings {
             menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(51, new CustomItem(Material.TOTEM_OF_UNDYING, "&cSoon", "", "&7Something will be added here later..."), (pl, slot, item, action) -> {
+        menu.addItem(51, new CustomItem(Material.TOTEM_OF_UNDYING, ChatColor.RED + SlimefunPlugin.getLocalization().getMessage(p, "guide.work-in-progress")), (pl, slot, item, action) -> {
             // Add something here
             return false;
         });

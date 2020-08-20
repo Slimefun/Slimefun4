@@ -4,6 +4,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Rotatable;
@@ -60,33 +61,41 @@ public class DebugFishListener implements Listener {
 
             if (p.hasPermission("slimefun.debugging")) {
                 if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
-                    if (p.isSneaking()) {
-                        if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-                            BlockStorage.clearBlockInfo(e.getClickedBlock());
-                        }
-                    }
-                    else {
-                        e.setCancelled(false);
-                    }
+                    onLeftClick(p, e.getClickedBlock(), e);
                 }
                 else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    if (p.isSneaking()) {
-                        Block b = e.getClickedBlock().getRelative(e.getBlockFace());
-                        b.setType(Material.PLAYER_HEAD);
-                        SkullBlock.setFromHash(b, HeadTexture.MISSING_TEXTURE.getTexture());
-                    }
-                    else if (BlockStorage.hasBlockInfo(e.getClickedBlock())) {
-                        try {
-                            sendInfo(p, e.getClickedBlock());
-                        }
-                        catch (Exception x) {
-                            Slimefun.getLogger().log(Level.SEVERE, "An Exception occured while using a Debug-Fish", x);
-                        }
-                    }
+                    onRightClick(p, e.getClickedBlock(), e.getBlockFace());
                 }
             }
             else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-permission", true);
+            }
+        }
+    }
+
+    private void onLeftClick(Player p, Block b, PlayerInteractEvent e) {
+        if (p.isSneaking()) {
+            if (BlockStorage.hasBlockInfo(b)) {
+                BlockStorage.clearBlockInfo(b);
+            }
+        }
+        else {
+            e.setCancelled(false);
+        }
+    }
+
+    private void onRightClick(Player p, Block b, BlockFace face) {
+        if (p.isSneaking()) {
+            Block block = b.getRelative(face);
+            block.setType(Material.PLAYER_HEAD);
+            SkullBlock.setFromHash(block, HeadTexture.MISSING_TEXTURE.getTexture());
+        }
+        else if (BlockStorage.hasBlockInfo(b)) {
+            try {
+                sendInfo(p, b);
+            }
+            catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, "An Exception occured while using a Debug-Fish", x);
             }
         }
     }

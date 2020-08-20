@@ -17,13 +17,13 @@ Rules for all types of posts:
 Rules for posting an Issue on GitHub:
 
 1. This Issue Section is ONLY for Slimefun-related Issues, Issues about other Plugins or Slimefun Addons should not be posted here.
-2. Please consult our [Troubleshooting Guide](#troubleshooting-guide) before posting.
+2. Please consult our [Troubleshooting Guide](https://github.com/TheBusyBiscuit/Slimefun4/wiki/How-to-report-bugs) before posting.
 3. Check other Issues before posting to make sure you are not posting a duplicate.
-4. Do not put any Tags inside your title like [IMPORTANT], [URGENT] or [SUGGESTION]. Try to be professional by making your title as short as possible, we will assign it the required labels if necessary.
-5. Do not post your Issue more than once, this is considered spam and does not benefit our community in any way. Do not repost your Issue if it was closed either.
+4. Please do not put any Tags inside your title like [IMPORTANT], [URGENT] or [SUGGESTION]. Try to be professional by making your title as short as possible, we will assign it the required labels if necessary.
+5. Do not post your Issue more than once, this is considered spam and does not benefit our community in any way. Do not repost your Issue if it was closed either, just leave a comment stating that the issue has still persisted and give more context on it.
 6. Give us all available information right away, it may be a bit of time-wasting for us to keep asking for more Info. And this includes any Information to reproduce your Issue step-by-step.
 7. Check whether there are newer versions available than the ones you are using, it might be that your Issue has been fixed already.
-8. All text logs must be posted via a link to http://pastebin.com or similiar websites.
+8. All text logs must be posted via a link to https://pastebin.com/ or similiar websites, long logs are very hard to read and get weirdly formatted when you post them on here. Using a proper pasting site allows us to keep things clean and easy to read.
 
 Your Issue will be CLOSED WITHOUT WARNING if we think you violated these Rules.
 
@@ -35,26 +35,3 @@ Guidelines for making a Pull Request on GitHub:
 2. Try to make your values configurable in the config.yml / Items.yml or any additional file. This may not be necessary at every instance but it does give the end-users a way to customize their experience.
 3. If your Pull Request is made in response to an Issue opened on GitHub, comment on that Issue and reference your Pull Request to show that you are proposing a fix for it.
 4. Name your commits appropriately. Standards like "Add files via upload" or "Update Readme.md" are lame. Make sure that the commit message stands for it's changes. (e.g. "Fixed Furnaces duplicating Items")
-
-## Troubleshooting Guide
-
-### Step 1: Check whether you have installed Slimefun correctly
-Slimefun requires [CS-CoreLib](http://dev.bukkit.org/bukkit-plugins/cs-corelib) to run.
-If it has not been installed automatically for you, then please download & install it manually.
-
-### Step 2: Check whether you are running on the latest Versions
-Both, [Slimefun](http://dev.bukkit.org/bukkit-plugins/slimefun/files) and [CS-CoreLib](http://dev.bukkit.org/bukkit-plugins/cs-corelib/files) are updated from time to time. 
-You should be sure that you run the latest Versions (at the time you post your Issue) of both Plugins.
-
-### Step 3: Does it have to do with Items called 'CS-CoreLib's Head'?
-Well in that case, you have been the victim of corruption, unless you have an Error/Crash Report that we can work with, there is literally nothing we can do about it.
-Corrupting Files/Data can happen from time to time and getting completely rid of it would require a ton of work and even then it is still not completely impossible to occur.
-
-### Step 4: Do you get an Error, do you have an Error Report?
-Check your /plugins/Slimefun/error-reports/ directory and if it contains any Files, then please upload those to http://pastebin.com
-and provide us with a link.
-
-When providing us Errors from your Server Log MAKE SURE THEY ARE ERRORS.
-It has happened more often than you may think that people send us messages.
-Try to read the suspected 'Error' before uploading it to http://pastebin.com
-If it says "Please install CS-CoreLib", then you may want to rethink whether you want to ask us what it means...

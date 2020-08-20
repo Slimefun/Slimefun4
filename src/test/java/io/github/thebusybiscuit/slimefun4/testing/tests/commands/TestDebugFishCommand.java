@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -13,7 +14,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-public class TestDebugFishCommand {
+class TestDebugFishCommand {
 
     private static ServerMock server;
 
@@ -30,7 +31,8 @@ public class TestDebugFishCommand {
 
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
-    public void testCommand(boolean op) {
+    @DisplayName("Test if Debug Fish is given on /sf debug_fish")
+    void testCommand(boolean op) {
         Player player = server.addPlayer();
         player.setOp(op);
         server.execute("slimefun", player, "debug_fish").assertSucceeded();

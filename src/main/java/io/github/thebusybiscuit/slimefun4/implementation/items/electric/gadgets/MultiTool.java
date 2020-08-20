@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -43,6 +44,21 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
         return capacity;
     }
 
+    private int nextIndex(int i) {
+        int index = i;
+
+        do {
+            index++;
+
+            if (index >= modes.size()) {
+                index = 0;
+            }
+        }
+        while (index != i && !modes.get(index).isEnabled());
+
+        return index;
+    }
+
     protected ItemUseHandler getItemUseHandler() {
         return e -> {
             Player p = e.getPlayer();
@@ -65,28 +81,33 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
 
                 SlimefunItem selectedItem = modes.get(index).getItem();
                 String itemName = selectedItem != null ? selectedItem.getItemName() : "Unknown";
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.multi-tool.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
                 selectedMode.put(p.getUniqueId(), index);
             }
         };
     }
 
-    private int nextIndex(int i) {
-        int index = i;
-
-        do {
-            index++;
-
-            if (index >= modes.size()) {
-                index = 0;
-            }
-        }
-        while (index != i && !modes.get(index).isEnabled());
-
-        return index;
-    }
     private ToolUseHandler getToolUseHandler() {
-        return (e, tool, fortune, drops) -> e.setCancelled(true);
+        return (e, tool, fortune, drops) -> {
+            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
+            e.setCancelled(true);
+        };
+    }
+
+    private EntityInteractHandler getEntityInteractionHandler() {
+        return (e, item, offhand) -> {
+            // Fixes #2217 - Prevent them from being used to shear entities
+            switch (e.getRightClicked().getType()) {
+            case MUSHROOM_COW:
+            case SHEEP:
+            case SNOWMAN:
+                SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
+                e.setCancelled(true);
+                break;
+            default:
+                break;
+            }
+        };
     }
 
     @Override
@@ -95,6 +116,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
 
         addItemHandler(getItemUseHandler());
         addItemHandler(getToolUseHandler());
+        addItemHandler(getEntityInteractionHandler());
     }
 
 }

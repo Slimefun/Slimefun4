@@ -270,78 +270,42 @@ public final class SlimefunUtils {
     private static boolean equalsItemMeta(ItemMeta itemMeta, ImmutableItemMeta meta, boolean checkLore) {
         Optional<String> displayName = meta.getDisplayName();
 
-        if (itemMeta.hasDisplayName() && displayName.isPresent()) {
-            if (itemMeta.getDisplayName().equals(displayName.get())) {
-                Optional<List<String>> itemLore = meta.getLore();
-
-                if (checkLore) {
-                    if (itemMeta.hasLore() && itemLore.isPresent()) {
-                        return equalsLore(itemMeta.getLore(), itemLore.get());
-                    }
-                    else {
-                        return !itemMeta.hasLore() && !itemLore.isPresent();
-                    }
-                }
-                else {
-                    return true;
-                }
-            }
-            else {
-                return false;
-            }
+        if (itemMeta.hasDisplayName() != displayName.isPresent()) {
+            return false;
         }
-        else if (!itemMeta.hasDisplayName() && !displayName.isPresent()) {
+        else if (itemMeta.hasDisplayName() && displayName.isPresent() && !itemMeta.getDisplayName().equals(displayName.get())) {
+            return false;
+        }
+        else if (!checkLore) {
+            return true;
+        }
+        else {
             Optional<List<String>> itemLore = meta.getLore();
 
-            if (checkLore) {
-                if (itemMeta.hasLore() && itemLore.isPresent()) {
-                    return equalsLore(itemMeta.getLore(), itemLore.get());
-                }
-                else {
-                    return !itemMeta.hasLore() && !itemLore.isPresent();
-                }
+            if (itemMeta.hasLore() && itemLore.isPresent()) {
+                return equalsLore(itemMeta.getLore(), itemLore.get());
             }
             else {
-                return true;
+                return !itemMeta.hasLore() && !itemLore.isPresent();
             }
         }
-        else return false;
     }
 
     private static boolean equalsItemMeta(ItemMeta itemMeta, ItemMeta sfitemMeta, boolean checkLore) {
-        if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName()) {
-            if (itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
-                if (checkLore) {
-                    if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
-                        return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
-                    }
-                    else {
-                        return !itemMeta.hasLore() && !sfitemMeta.hasLore();
-                    }
-                }
-                else {
-                    return true;
-                }
-            }
-            else {
-                return false;
-            }
+        if (itemMeta.hasDisplayName() != sfitemMeta.hasDisplayName()) {
+            return false;
         }
-        else if (!itemMeta.hasDisplayName() && !sfitemMeta.hasDisplayName()) {
-            if (checkLore) {
-                if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
-                    return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
-                }
-                else {
-                    return !itemMeta.hasLore() && !sfitemMeta.hasLore();
-                }
-            }
-            else {
-                return true;
-            }
+        else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
+            return false;
+        }
+        else if (!checkLore) {
+            return true;
+        }
+        else if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
+            return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
         }
         else {
-            return false;
+            return !itemMeta.hasLore() && !sfitemMeta.hasLore();
         }
     }
 

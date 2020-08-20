@@ -89,7 +89,7 @@ public class AutoSavingService {
             Slimefun.getLogger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
 
             for (BlockStorage storage : worlds) {
-                storage.save(false);
+                storage.save();
             }
         }
 

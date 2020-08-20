@@ -43,15 +43,26 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
         this.fortuneLevel = fortune - 1;
     }
 
-    public int getSpeed() {
+    /**
+     * This returns the processing speed of this {@link EnhancedFurnace}.
+     * 
+     * @return The processing speed
+     */
+    public int getProcessingSpeed() {
         return speed;
     }
 
+    /**
+     * This returns the fuel efficiency of this {@link EnhancedFurnace}.
+     * The fuel efficiency is a multiplier that is applied to any fuel burnt in this {@link EnhancedFurnace}.
+     * 
+     * @return The fuel multiplier
+     */
     public int getFuelEfficiency() {
         return efficiency;
     }
 
-    public int getOutput() {
+    public int getRandomOutputAmount() {
         int bonus = ThreadLocalRandom.current().nextInt(fortuneLevel + 2);
         return 1 + bonus;
     }
@@ -72,12 +83,11 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 
                     // Check if the BlockState is a Furnace and cooking something
                     if (state instanceof Furnace && ((Furnace) state).getCookTime() > 0) {
-                        // Only get a snapshot if necessary
+                        setProgress((Furnace) state);
+
+                        // Only update if necessary
                         if (result.isSnapshot()) {
-                            updateFurnace((Furnace) state);
-                        }
-                        else {
-                            updateFurnace((Furnace) b.getState());
+                            state.update(true, false);
                         }
                     }
                 }
@@ -85,15 +95,15 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 
             @Override
             public boolean isSynchronized() {
+                // This messes with BlockStates, so it needs to be synchronized
                 return true;
             }
         };
     }
 
-    private void updateFurnace(Furnace furnace) {
+    private void setProgress(Furnace furnace) {
         // Update the cooktime
-        int cookTime = furnace.getCookTime() + getSpeed() * 10;
+        int cookTime = furnace.getCookTime() + getProcessingSpeed() * 10;
         furnace.setCookTime((short) Math.min(cookTime, furnace.getCookTimeTotal() - 1));
-        furnace.update(true, false);
     }
 }

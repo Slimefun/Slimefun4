@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -28,7 +29,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestCoolerListener {
+class TestCoolerListener {
 
     private static ServerMock server;
     private static CoolerListener listener;
@@ -59,14 +60,16 @@ public class TestCoolerListener {
     }
 
     @Test
-    public void testOnlyJuiceAllowance() {
+    @DisplayName("Test if Coolers only allow juices")
+    void testOnlyJuiceAllowance() {
         Assertions.assertFalse(cooler.isItemAllowed(new ItemStack(Material.DIAMOND), null));
         Assertions.assertFalse(cooler.isItemAllowed(cooler.getItem(), cooler));
         Assertions.assertTrue(cooler.isItemAllowed(juice.getItem(), juice));
     }
 
     @Test
-    public void testCoolerUsage() throws InterruptedException {
+    @DisplayName("Test if Coolers consume Juices when hunger gets low")
+    void testCoolerUsage() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         PlayerBackpack backpack = profile.createBackpack(cooler.getSize());

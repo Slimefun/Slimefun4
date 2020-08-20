@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -17,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 
-public class TestPlayerBackpacks {
+class TestPlayerBackpacks {
 
     private static ServerMock server;
 
@@ -33,7 +34,8 @@ public class TestPlayerBackpacks {
     }
 
     @Test
-    public void testCreateBackpack() throws InterruptedException {
+    @DisplayName("Test creating a new Player Backpack")
+    void testCreateBackpack() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         Assertions.assertFalse(profile.isDirty());
@@ -51,7 +53,8 @@ public class TestPlayerBackpacks {
     }
 
     @Test
-    public void testChangeSize() throws InterruptedException {
+    @DisplayName("Test upgrading the backpack size")
+    void testChangeSize() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         PlayerBackpack backpack = profile.createBackpack(9);
@@ -71,7 +74,8 @@ public class TestPlayerBackpacks {
     }
 
     @Test
-    public void testGetBackpackById() throws InterruptedException {
+    @DisplayName("Test getting a backpack by its id")
+    void testGetBackpackById() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         PlayerBackpack backpack = profile.createBackpack(9);
@@ -87,7 +91,8 @@ public class TestPlayerBackpacks {
     }
 
     @Test
-    public void testLoadBackpackFromFile() throws InterruptedException {
+    @DisplayName("Test loading a backpack from file")
+    void testLoadBackpackFromFile() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 

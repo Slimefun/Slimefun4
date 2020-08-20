@@ -19,6 +19,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
  */
 public interface SlimefunGuideOption<T> extends Keyed {
 
+    /**
+     * This returns the {@link SlimefunAddon} which added this {@link SlimefunGuideOption}.
+     * 
+     * @return The registering {@link SlimefunAddon}
+     */
     SlimefunAddon getAddon();
 
     Optional<ItemStack> getDisplayItem(Player p, ItemStack guide);

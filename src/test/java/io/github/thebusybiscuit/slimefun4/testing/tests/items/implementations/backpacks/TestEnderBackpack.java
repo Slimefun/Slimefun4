@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -17,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.testing.interfaces.SlimefunItemTest;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestEnderBackpack implements SlimefunItemTest<EnderBackpack> {
+class TestEnderBackpack implements SlimefunItemTest<EnderBackpack> {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -42,7 +43,8 @@ public class TestEnderBackpack implements SlimefunItemTest<EnderBackpack> {
     }
 
     @Test
-    public void testRightClickBehaviour() {
+    @DisplayName("Test Ender Backpack opening Enderchest")
+    void testRightClickBehaviour() {
         Player player = server.addPlayer();
         EnderBackpack backpack = registerSlimefunItem(plugin, "TEST_ENDER_BACKPACK");
 

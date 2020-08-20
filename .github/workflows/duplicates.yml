@@ -6,7 +6,10 @@ on:
 
 jobs:
   comment:
+
+    name: Mark Issue as duplicate
     runs-on: ubuntu-latest
+
     if: contains(github.event.comment.body, 'Duplicate of ')
     steps:
       - name: Add label to the Issue

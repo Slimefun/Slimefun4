@@ -41,6 +41,12 @@ guide:
     select: Klicke hier um diese Sprache auszuwählen
     select-default: Klicke hier um die Standardsprache auszuwählen
     selected-language: 'Aktuell ausgewählt:'
+    change: Klicke um die Sprache zu ändern
+    description:
+    - "&7Hier kannst du deine Spracheinstellungen"
+    - "&7verwalten. Derzeit umfasst dies"
+    - "&7jedoch nur bestimmte Nachrichten,"
+    - "&7Items können noch nicht übersetzt werden."
   title:
     main: Slimefun-Handbuch
     settings: Einstellungen & Infos
@@ -50,6 +56,7 @@ guide:
     addons: Addons für Slimefun4
     bugs: Fehlermeldungen
     source: Quellcode
+    versions: Installierte Versionen
   credits:
     commit: Beitrag
     commits: Beiträge
@@ -59,6 +66,12 @@ guide:
       resourcepack: "&cRessourcenpaket-Designer"
       translator: "&9Übersetzer"
     profile-link: Klick um mich auf GitHub zu sehen
+    open: Klicke um Mitwirkende zu sehen
+    description:
+    - "&7Slimefun ist ein Open-Source Projekt"
+    - "&7und wird von einer riesigen Community entwickelt."
+    - "&7Über &e%contributors% &7Personen haben bereits"
+    - "&7an Slimefun mitgewirkt."
   pages:
     previous: Vorherige Seite
     next: Nächste Seite
@@ -80,6 +93,7 @@ guide:
   - Um diese Kategorie freizuschalten,
   - müssen zuerst sämtliche Items der
   - folgenden Kategorien freigeschaltet werden
+  work-in-progress: Dieses Feature befindet sich noch in der Testphase!
 messages:
   not-researched: "&4Du hast diesen Gegenstand noch nicht freigeschaltet!"
   not-enough-xp: "&4Du hast nicht genügend Erfahrungspunkte, um dies freizuschalten"
@@ -96,7 +110,6 @@ messages:
   not-valid-research: "&4%research% &cist kein gültiger Erfahrungsgrad!"
   give-research: '&bDu hast %player% den Erfahrungsgrad &7"%research%&7" vergeben'
   hungry: "&cDu bist zu hungrig, um dies zu tun!"
-  mode-change: "&bDer Modus von deinem %device% wurde geändert zu: &9%mode%"
   disabled-in-world: "&4&lDieses Item wurde in dieser Welt deaktiviert!"
   disabled-item: "&4&lDieses Item wurde von einem Server-Administrator deaktiviert!"
   no-tome-yourself: "&cDu kannst dieses Item nicht an dir selbst anwenden..."
@@ -164,6 +177,10 @@ messages:
     wrong-world: "&cDein Ankerpunkt scheint sich in einer anderen Dimension zu befinden!"
     distance: "&7Messung erfolgreich. &eDistanz: %distance%"
     anchor-set: "&aErfolgreich den Ankerpunkt gesetzt:&e %anchor%"
+  multi-tool:
+    mode-change: "&bDer Modus von deinem Multi-Tool wurde geändert zu: &9%mode%"
+    not-shears: "&cEinMulti Tool kann nicht als Schere verwendet werden!"
+  mode-change: "&bDer Modus von deinem %device% wurde geändert zu: &9%mode%"
 machines:
   pattern-not-found: "&eEs tut mir leid, aber ich konnte kein passendes Rezept finden."
   unknown-material: "&eEs tut mir leid, aber ich erkenne das Item in meinem Werfer
@@ -234,6 +251,7 @@ gps:
       werden unterstützt!)"
     added: "&aEin neuer Wegpunkt wurde hinzugefügt"
     max: "&4Du hast die maximale Anzahl an Wegpunkten erreicht"
+    duplicate: "&4Es existiert bereits ein Wegpunkt mit folgendem Namen: &f%waypoint%"
   insufficient-complexity:
   - "&4Unzureichende Komplexität deines GPS-Netzwerkes! Folgende Komplexität wird
     benötigt: &c%complexity%"
@@ -306,6 +324,8 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
+  pt: Portugiesisch (Portugal)
+  pt-BR: Portugiesisch (Brasilien)
   ar: Arabisch
   af: Afrikaans
   da: Dänisch
@@ -317,8 +337,6 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
-  pt: Portugiesisch (Portugal)
-  pt-BR: Portugiesisch (Brasilien)
   bg: Bulgarisch
   ko: Koreanisch
   tr: Türkisch
@@ -327,5 +345,9 @@ languages:
   sr: Serbisch
   be: Belarusisch
   tl: Tagalog
+brewing_stand:
+  not-working: "&4Items von Slimefun können nicht zum Brauen verwendet werden!"
+villagers:
+  no-trading: "&4Items von Slimefun können nicht zum Handeln verwendet werden!"
 miner:
   no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"

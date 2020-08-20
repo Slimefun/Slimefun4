@@ -213,6 +213,7 @@ gps:
     new: "&e给你的路径点起个名字吧 &7(支持彩色代码!)"
     added: "&a成功添加了新的传送点"
     max: "&4你已到达设置传送点个数的最大上限"
+    duplicate: "&4你已经创建了一个相同名字的传送点了: &f%waypoint%"
   insufficient-complexity:
   - "&4GPS网络复杂度不足: &c%complexity%"
   - "&4a) 你还没有设置一个 GPS 网络"
@@ -284,6 +285,7 @@ languages:
   zh-CN: 简体中文 (中国)
   el: 希腊语
   he: 希伯来语
+  pt: 葡萄牙语 (葡萄牙)
   ar: 阿拉伯语
   af: 南非语
   da: 丹麦语
@@ -295,7 +297,6 @@ languages:
   fa: 波斯语
   th: 泰语
   ro: 罗马尼亚语
-  pt: 葡萄牙语 (葡萄牙)
   pt-BR: 葡萄牙语 (巴西)
   bg: 保加利亚语
   ko: 韩语
@@ -305,5 +306,9 @@ languages:
   sr: 塞尔维亚语
   be: 白俄罗斯语
   tl: 他加禄语
+brewing_stand:
+  not-working: "&4你不能在酿造台中使用 Slimefun 物品!"
+villagers:
+  no-trading: "&4你不能用 Slimefun 的物品和村民交易!"
 miner:
   no-ores: "&e抱歉, 周围找不到矿石了!"
