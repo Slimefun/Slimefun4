@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -257,39 +258,54 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             }
         }
         else {
-            MachineRecipe r = null;
-            Map<Integer, Integer> found = new HashMap<>();
+            MachineRecipe next = nextRecipe(inv);
 
-            for (MachineRecipe recipe : recipes) {
-                for (ItemStack input : recipe.getInput()) {
-                    for (int slot : getInputSlots()) {
-                        if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), input, true)) {
-                            found.put(slot, input.getAmount());
-                            break;
-                        }
+            if (next != null) {
+                processing.put(b, next);
+                progress.put(b, next.getTicks());
+            }
+        }
+    }
+
+    private MachineRecipe nextRecipe(BlockMenu inv) {
+        Map<Integer, ItemStack> inventory = new HashMap<>();
+
+        for (int slot : getInputSlots()) {
+            ItemStack item = inv.getItemInSlot(slot);
+
+            if (item != null) {
+                inventory.put(slot, new ItemStackWrapper(item));
+            }
+        }
+
+        Map<Integer, Integer> found = new HashMap<>();
+
+        for (MachineRecipe recipe : recipes) {
+            for (ItemStack input : recipe.getInput()) {
+                for (int slot : getInputSlots()) {
+                    if (SlimefunUtils.isItemSimilar(inventory.get(slot), input, true)) {
+                        found.put(slot, input.getAmount());
+                        break;
                     }
-                }
-                if (found.size() == recipe.getInput().length) {
-                    r = recipe;
-                    break;
-                }
-                else {
-                    found.clear();
                 }
             }
 
-            if (r != null) {
-                if (!InvUtils.fitAll(inv.toInventory(), r.getOutput(), getOutputSlots())) {
-                    return;
+            if (found.size() == recipe.getInput().length) {
+                if (!InvUtils.fitAll(inv.toInventory(), recipe.getOutput(), getOutputSlots())) {
+                    return null;
                 }
 
                 for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
                     inv.consumeItem(entry.getKey(), entry.getValue());
                 }
 
-                processing.put(b, r);
-                progress.put(b, r.getTicks());
+                return recipe;
+            }
+            else {
+                found.clear();
             }
         }
+
+        return null;
     }
 }

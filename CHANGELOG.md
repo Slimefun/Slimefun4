@@ -44,6 +44,7 @@
 * Small performance improvements for Slimefun guides
 * Small performance improvements for Cargo networks
 * Small performance improvements for Miner Androids
+* Small performance improvements for all machines, especially Electric Smelteries
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -70,6 +71,7 @@
 * Fixed ChestTerminal timings showing up as cargo nodes
 * Fixed timings reports never arriving sometimes
 * Fixed #2138
+* Fixed #1951 (again)
 
 ## Release Candidate 15 (01 Aug 2020)
 
