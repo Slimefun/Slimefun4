@@ -48,11 +48,6 @@ public abstract class Freezer extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public String getInventoryTitle() {
-        return "&bFreezer";
-    }
-
-    @Override
     public String getMachineIdentifier() {
         return "FREEZER";
     }

@@ -48,6 +48,7 @@
 * Small performance improvements for Holograms
 * Small performance improvements for Tree Growth Accelerators
 * Small performance improvements for Reactors
+* Electric machines now show their tier in the Inventory name too
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
