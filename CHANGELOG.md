@@ -45,6 +45,9 @@
 * Small performance improvements for Cargo networks
 * Small performance improvements for Miner Androids
 * Small performance improvements for all machines, especially Electric Smelteries
+* Small performance improvements for Holograms
+* Small performance improvements for Tree Growth Accelerators
+* Small performance improvements for Reactors
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -72,6 +75,7 @@
 * Fixed timings reports never arriving sometimes
 * Fixed #2138
 * Fixed #1951 (again)
+* Fixed Electric Press not working
 
 ## Release Candidate 15 (01 Aug 2020)
 

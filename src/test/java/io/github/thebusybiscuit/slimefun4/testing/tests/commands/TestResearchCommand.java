@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -14,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 
-public class TestResearchCommand {
+class TestResearchCommand {
 
     private static ServerMock server;
 
@@ -39,7 +40,8 @@ public class TestResearchCommand {
     }
 
     @Test
-    public void testResearchAll() throws InterruptedException {
+    @DisplayName("Test /sf research all")
+    void testResearchAll() throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
@@ -51,7 +53,8 @@ public class TestResearchCommand {
     }
 
     @Test
-    public void testResearchSpecific() throws InterruptedException {
+    @DisplayName("Test /sf research <research id>")
+    void testResearchSpecific() throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
@@ -63,7 +66,8 @@ public class TestResearchCommand {
     }
 
     @Test
-    public void testResearchReset() throws InterruptedException {
+    @DisplayName("Test /sf research reset")
+    void testResearchReset() throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);

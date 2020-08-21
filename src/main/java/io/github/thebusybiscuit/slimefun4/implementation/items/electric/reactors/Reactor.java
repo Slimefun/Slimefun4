@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -401,9 +402,11 @@ public abstract class Reactor extends AbstractEnergyProvider {
         boolean requiresCoolant = (processing.get(reactor).getTicks() - timeleft) % COOLANT_DURATION == 0;
 
         if (requiresCoolant) {
+            ItemStack coolant = new ItemStackWrapper(getCoolant());
+
             if (accessPort != null) {
                 for (int slot : getCoolantSlots()) {
-                    if (SlimefunUtils.isItemSimilar(accessPort.getItemInSlot(slot), getCoolant(), true)) {
+                    if (SlimefunUtils.isItemSimilar(accessPort.getItemInSlot(slot), coolant, true, false)) {
                         ItemStack remainingItem = menu.pushItem(accessPort.getItemInSlot(slot), getCoolantSlots());
                         accessPort.replaceExistingItem(slot, remainingItem);
                     }
@@ -411,7 +414,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
             }
 
             for (int slot : getCoolantSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), getCoolant(), true)) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), coolant, true, false)) {
                     menu.consumeItem(slot);
                     ReactorHologram.update(reactor, "&b\u2744 &7100%");
                     return true;

@@ -130,7 +130,7 @@ public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBloc
                 ChargableBlock.addCharge(machine, -ENERGY_CONSUMPTION);
 
                 sapling.setStage(sapling.getStage() + 1);
-                block.setBlockData(sapling);
+                block.setBlockData(sapling, false);
 
                 inv.consumeItem(slot);
                 block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
