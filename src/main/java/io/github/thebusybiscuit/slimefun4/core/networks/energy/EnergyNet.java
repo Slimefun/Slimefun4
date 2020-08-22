@@ -250,7 +250,7 @@ public class EnergyNet extends Network {
                 }
                 catch (Exception | LinkageError t) {
                     exploded.add(source);
-                    new ErrorReport(t, source, item);
+                    new ErrorReport<>(t, source, item);
                 }
 
                 long time = SlimefunPlugin.getProfiler().closeEntry(source, item, timestamp);

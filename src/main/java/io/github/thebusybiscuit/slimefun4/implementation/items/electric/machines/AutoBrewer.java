@@ -114,14 +114,14 @@ public abstract class AutoBrewer extends AContainer {
             else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
                 return new ItemStack(Material.LINGERING_POTION);
             }
-            else {
-                return null;
-            }
-
         }
         else if (input == Material.FERMENTED_SPIDER_EYE) {
-            potion.setBasePotionData(new PotionData(fermentations.get(data.getType()), false, false));
-            return new ItemStack(potionType);
+            PotionType fermented = fermentations.get(data.getType());
+
+            if (fermented != null) {
+                potion.setBasePotionData(new PotionData(fermented, false, false));
+                return new ItemStack(potionType);
+            }
         }
         else if (input == Material.REDSTONE) {
             potion.setBasePotionData(new PotionData(data.getType(), true, data.isUpgraded()));
@@ -131,13 +131,16 @@ public abstract class AutoBrewer extends AContainer {
             potion.setBasePotionData(new PotionData(data.getType(), data.isExtended(), true));
             return new ItemStack(potionType);
         }
-        else if (data.getType() == PotionType.AWKWARD && potionRecipes.containsKey(input)) {
-            potion.setBasePotionData(new PotionData(potionRecipes.get(input), false, false));
-            return new ItemStack(potionType);
+        else if (data.getType() == PotionType.AWKWARD) {
+            PotionType potionRecipe = potionRecipes.get(input);
+
+            if (potionRecipe != null) {
+                potion.setBasePotionData(new PotionData(potionRecipe, false, false));
+                return new ItemStack(potionType);
+            }
         }
-        else {
-            return null;
-        }
+
+        return null;
     }
 
     /**

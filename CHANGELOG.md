@@ -49,6 +49,7 @@
 * Small performance improvements for Tree Growth Accelerators
 * Small performance improvements for Reactors
 * Electric machines now show their tier in the Inventory name too
+* Removed "Fuel efficiency" attribute for androids, since that was pretty much always at 1.0 anyway...
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
