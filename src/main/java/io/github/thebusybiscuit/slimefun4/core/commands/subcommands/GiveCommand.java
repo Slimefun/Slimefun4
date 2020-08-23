@@ -12,8 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 class GiveCommand extends SubCommand {
@@ -66,10 +66,10 @@ class GiveCommand extends SubCommand {
 
             if (amount > 0) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-                HashMap<Integer,ItemStack> excess = p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
+                Map<Integer,ItemStack> excess = p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
                 if (SlimefunPlugin.getCfg().getBoolean("options.drop-excess-sf-give-items") && !excess.isEmpty()) {
                         for (ItemStack is : excess.values()) {
-                            p.getWorld().dropItemNaturally(p.getLocation(), is);
+                            p.getWorld().dropItem(p.getLocation(), is);
                         }
                     }
 
