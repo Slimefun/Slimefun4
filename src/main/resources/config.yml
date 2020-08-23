@@ -18,6 +18,7 @@ options:
   enable-translations: true
   log-duplicate-block-entries: true
   burn-players-when-radioactive: true
+  drop-excess-sf-give-items: false
 
 guide:
   default-view-book: false
