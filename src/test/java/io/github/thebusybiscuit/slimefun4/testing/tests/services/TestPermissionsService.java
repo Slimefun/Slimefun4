@@ -5,10 +5,15 @@ import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
@@ -18,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestPermissionsService {
+class TestPermissionsService {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -34,18 +39,24 @@ public class TestPermissionsService {
         MockBukkit.unmock();
     }
 
-    @Test
-    public void testRegistration() {
+    @ParameterizedTest
+    @DisplayName("Test if no permission is set by default")
+    @ValueSource(booleans = { false, true })
+    void testDefaultPermission(boolean registered) {
         PermissionsService service = new PermissionsService(plugin);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
-        service.register(Arrays.asList(item), false);
+
+        if (registered) {
+            service.register(Arrays.asList(item), false);
+        }
 
         Optional<String> permission = service.getPermission(item);
         Assertions.assertFalse(permission.isPresent());
     }
 
     @Test
-    public void testSetPermission() {
+    @DisplayName("Test if a permission node can be set")
+    void testSetPermission() {
         PermissionsService service = new PermissionsService(plugin);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
 
@@ -65,7 +76,8 @@ public class TestPermissionsService {
     }
 
     @Test
-    public void testHasPermissionTrue() {
+    @DisplayName("Test if the Player will pass the permissions check if no permission was set")
+    void testHasPermissionTrue() {
         PermissionsService service = new PermissionsService(plugin);
         Player player = server.addPlayer();
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
@@ -78,12 +90,41 @@ public class TestPermissionsService {
     }
 
     @Test
-    public void testHasPermissionFalse() {
+    @DisplayName("Test Players without permissions being denied access")
+    void testHasPermissionFalse() {
         PermissionsService service = new PermissionsService(plugin);
         Player player = server.addPlayer();
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
 
         service.setPermission(item, "slimefun.tests");
         Assertions.assertFalse(service.hasPermission(player, item));
+    }
+
+    @Test
+    @DisplayName("Test Server Operators passing permission checks")
+    void testHasPermissionOp() {
+        PermissionsService service = new PermissionsService(plugin);
+        Player player = server.addPlayer();
+        player.setOp(true);
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
+
+        Permission permission = new Permission("slimefun.unit.tests.op", PermissionDefault.OP);
+
+        service.setPermission(item, permission.getName());
+        Assertions.assertTrue(service.hasPermission(player, item));
+    }
+
+    @Test
+    @DisplayName("Test Player with permission passing the permission check")
+    void testHasPermissionSet() {
+        PermissionsService service = new PermissionsService(plugin);
+        Player player = server.addPlayer();
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
+
+        String permission = "slimefun.unit.tests.permission";
+        player.addAttachment(plugin, permission, true);
+        service.setPermission(item, permission);
+
+        Assertions.assertTrue(service.hasPermission(player, item));
     }
 }

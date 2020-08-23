@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +17,7 @@ public class FireworksListener implements Listener {
 
     @EventHandler
     public void onResearchFireworkDamage(EntityDamageByEntityEvent e) {
-        if (e.getDamager().getType() == EntityType.FIREWORK) {
+        if (e.getDamager() instanceof Firework) {
             Firework firework = (Firework) e.getDamager();
             FireworkMeta meta = firework.getFireworkMeta();
 
