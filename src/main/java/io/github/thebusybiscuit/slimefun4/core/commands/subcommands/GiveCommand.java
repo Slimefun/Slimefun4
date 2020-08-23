@@ -1,14 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Optional;
-
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.players.PlayerList;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
@@ -17,7 +8,13 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Optional;
 
 class GiveCommand extends SubCommand {
 
