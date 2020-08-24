@@ -33,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -41,14 +42,15 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * Every level of efficiency {@link Enchantment} increases the launch by 0.2 blocks.
  *
  * @author Linox
+ * @author TheBusyBiscuit
  *
  */
 public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem, RecipeDisplayItem {
 
-    private static final double POWER = 0.75;
+    private static final double BASE_POWER = 0.9;
 
-    private final Map<Material, Double> materialSpeeds;
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
+    private final Map<Material, Double> materialSpeeds;
     private final Set<UUID> users = new HashSet<>();
 
     public ClimbingPick(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -98,12 +100,14 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             Block block = e.getClickedBlock().get();
             Player p = e.getPlayer();
 
-            if (p.getLocation().distanceSquared(block.getLocation()) > 2.8) {
+            // Check if the Player is standing close to the wall
+            if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) > 3.5) {
                 return;
             }
 
             if (isDualWieldingEnabled() && !isItem(getOtherHandItem(p, e.getHand()))) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.climbing-pick.dual-wielding");
+                return;
             }
 
             if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) {
@@ -111,7 +115,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             }
 
             // Prevent players from spamming this
-            if (!users.contains(p.getUniqueId())) {
+            if (users.add(p.getUniqueId())) {
                 climb(p, e.getHand(), e.getItem(), block);
             }
         };
@@ -137,19 +141,20 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                 power += efficiencyLevel * 0.1;
             }
 
-            velocity.setY(power * POWER);
-
-            users.add(p.getUniqueId());
-            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), () -> users.remove(p.getUniqueId()), 4L);
+            velocity.setY(power * BASE_POWER);
 
             ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
             Bukkit.getPluginManager().callEvent(event);
 
             if (!event.isCancelled()) {
+                Slimefun.runSync(() -> users.remove(p.getUniqueId()), 3L);
                 p.setVelocity(event.getVelocity());
                 p.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                 swing(p, hand, item);
             }
+        }
+        else {
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.climbing-pick.wrong-material");
         }
     }
 
@@ -157,24 +162,28 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         if (p.getGameMode() != GameMode.CREATIVE) {
             if (isDualWieldingEnabled()) {
                 if (ThreadLocalRandom.current().nextBoolean()) {
-                    p.swingMainHand();
+                    damageItem(p, p.getInventory().getItemInMainHand());
+                    playSwingAnimation(p, EquipmentSlot.HAND);
                 }
                 else {
-                    p.swingOffHand();
+                    damageItem(p, p.getInventory().getItemInOffHand());
+                    playSwingAnimation(p, EquipmentSlot.OFF_HAND);
                 }
-
-                damageItem(p, p.getInventory().getItemInMainHand());
-                damageItem(p, p.getInventory().getItemInOffHand());
             }
             else {
                 damageItem(p, item);
+                playSwingAnimation(p, hand);
+            }
+        }
+    }
 
-                if (hand == EquipmentSlot.HAND) {
-                    p.swingMainHand();
-                }
-                else {
-                    p.swingOffHand();
-                }
+    private void playSwingAnimation(Player p, EquipmentSlot hand) {
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+            if (hand == EquipmentSlot.HAND) {
+                p.swingMainHand();
+            }
+            else {
+                p.swingOffHand();
             }
         }
     }
