@@ -233,8 +233,8 @@ public class EnergyNet extends Network {
                     }
                 }
                 catch (Exception | LinkageError t) {
-                    explodedBlocks.add(loc);
-                    new ErrorReport(t, loc, item);
+                    exploded.add(loc);
+                    new ErrorReport<>(t, loc, item);
                 }
 
                 long time = SlimefunPlugin.getProfiler().closeEntry(loc, item, timestamp);

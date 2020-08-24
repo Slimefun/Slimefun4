@@ -28,7 +28,7 @@ public abstract class HeatedPressureChamber extends AContainer {
     public HeatedPressureChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), getInventoryTitle()) {
+        new BlockMenuPreset(getID(), getItemName()) {
 
             @Override
             public void init() {
@@ -92,11 +92,6 @@ public abstract class HeatedPressureChamber extends AContainer {
         registerRecipe(60, new ItemStack[] { SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM }, new ItemStack[] { new CustomItem(SlimefunItems.ENRICHED_NETHER_ICE, 4) });
         registerRecipe(45, new ItemStack[] { SlimefunItems.ENRICHED_NETHER_ICE }, new ItemStack[] { new CustomItem(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8) });
         registerRecipe(8, new ItemStack[] { SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT }, new ItemStack[] { SlimefunItems.MAGNESIUM_SALT });
-    }
-
-    @Override
-    public String getInventoryTitle() {
-        return "&cHeated Pressure Chamber";
     }
 
     @Override

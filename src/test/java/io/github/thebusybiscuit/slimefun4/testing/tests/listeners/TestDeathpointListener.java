@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -14,7 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 
-public class TestDeathpointListener {
+class TestDeathpointListener {
 
     private static SlimefunPlugin plugin;
     private static ServerMock server;
@@ -32,7 +33,8 @@ public class TestDeathpointListener {
     }
 
     @Test
-    public void testNoTransmitter() throws InterruptedException {
+    @DisplayName("Test Deathpoint not triggering when no Emergency Transmitter is found")
+    void testNoTransmitter() throws InterruptedException {
         Player player = server.addPlayer();
         TestUtilities.awaitProfile(player);
 
@@ -41,7 +43,8 @@ public class TestDeathpointListener {
     }
 
     @Test
-    public void testTransmitter() throws InterruptedException {
+    @DisplayName("Test Emergency Transmitter creating a new Waypoint")
+    void testTransmitter() throws InterruptedException {
         Player player = server.addPlayer();
         TestUtilities.awaitProfile(player);
         player.getInventory().setItem(8, SlimefunItems.GPS_EMERGENCY_TRANSMITTER.clone());

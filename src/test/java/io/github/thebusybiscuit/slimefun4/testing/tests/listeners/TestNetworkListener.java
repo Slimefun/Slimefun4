@@ -10,6 +10,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -20,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 
-public class TestNetworkListener {
+class TestNetworkListener {
 
     private static SlimefunPlugin plugin;
     private static NetworkListener listener;
@@ -40,7 +41,8 @@ public class TestNetworkListener {
     }
 
     @Test
-    public void testBlockBreak() {
+    @DisplayName("Test Network updates on Block breaking")
+    void testBlockBreak() {
         World world = server.addSimpleWorld("Simple Network Listener World");
         Location l = new Location(world, 3000, 120, -500);
 
@@ -53,7 +55,8 @@ public class TestNetworkListener {
     }
 
     @Test
-    public void testBlockPlace() {
+    @DisplayName("Test Network updates on Block placing")
+    void testBlockPlace() {
         World world = server.addSimpleWorld("Simple Network Listener World");
         Location l = new Location(world, 3000, 120, -500);
         Location l2 = new Location(world, 3000, 121, -500);

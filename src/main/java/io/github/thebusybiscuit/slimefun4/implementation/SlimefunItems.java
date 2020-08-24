@@ -834,14 +834,14 @@ public final class SlimefunItems {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             TABLE_SAW = new SlimefunItemStack("TABLE_SAW", Material.STONECUTTER, "&6Table Saw", "", "&aAllows you to get 8 planks from 1 Log", "&a(Works with all log types)");
             MAKESHIFT_SMELTERY = new SlimefunItemStack("MAKESHIFT_SMELTERY", Material.BLAST_FURNACE, "&eMakeshift Smeltery", "", "&fImprovised version of the Smeltery", "&fthat only allows you to", "&fsmelt dusts into ingots");
-            AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.SMOKER, "&eAuto Drier", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(10));
-            AUTO_BREWER = new SlimefunItemStack("AUTO_BREWER", Material.SMOKER, "&eAuto Brewer", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(12));
+            AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.SMOKER, "&6Auto Drier", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(10));
+            AUTO_BREWER = new SlimefunItemStack("AUTO_BREWER", Material.SMOKER, "&6Auto Brewer", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(12));
         }
         else {
             TABLE_SAW = null;
             MAKESHIFT_SMELTERY = new SlimefunItemStack("MAKESHIFT_SMELTERY", Material.FURNACE, "&eMakeshift Smeltery", "", "&fImprovised version of the Smeltery", "&fthat only allows you to", "&fsmelt dusts into ingots");
-            AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.FURNACE, "&eAuto Drier", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(10));
-            AUTO_BREWER = new SlimefunItemStack("AUTO_BREWER", Material.BREWING_STAND, "&eAuto Brewer", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(12));
+            AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.FURNACE, "&6Auto Drier", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(10));
+            AUTO_BREWER = new SlimefunItemStack("AUTO_BREWER", Material.BREWING_STAND, "&6Auto Brewer", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(12));
         }
     }
 }

@@ -30,11 +30,6 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
     }
 
     @Override
-    public String getInventoryTitle() {
-        return "&bElectric Ingot Pulverizer";
-    }
-
-    @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.IRON_PICKAXE);
     }
