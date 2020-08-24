@@ -18,9 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -41,6 +39,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -59,6 +58,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     public ChestSlimefunGuide(boolean vanillaRecipes) {
         showVanillaRecipes = vanillaRecipes;
+        item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             sound = Sound.ITEM_BOOK_PAGE_TURN;
@@ -66,21 +66,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         else {
             sound = Sound.ENTITY_BAT_TAKEOFF;
         }
-
-        item = new ItemStack(Material.ENCHANTED_BOOK);
-        ItemMeta meta = item.getItemMeta();
-
-        meta.setDisplayName(ChatColors.color("&aSlimefun Guide &7(Chest GUI)"));
-
-        List<String> lore = new LinkedList<>();
-
-        lore.add("");
-        lore.add(ChatColors.color("&eRight Click &8\u21E8 &7Browse Items"));
-        lore.add(ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits"));
-
-        meta.setLore(lore);
-        SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
-        item.setItemMeta(meta);
     }
 
     @Override

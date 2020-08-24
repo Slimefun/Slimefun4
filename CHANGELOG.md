@@ -33,6 +33,7 @@
 * Added "Red Sand -> Red Sandstone" recipe to the Electric Press
 * Industrial Miners can now also mine Gilded Blackstone
 * Added a config option to disable Players from burning when exposed to radiation
+* Added a config option to drop excess items when using /sf give
 * Added Strange Nether Goo
 * Added Nitwit Rune
 * Added Synthetic Shulker Shells
@@ -48,6 +49,12 @@
 * Small performance improvements for Slimefun guides
 * Small performance improvements for Cargo networks
 * Small performance improvements for Miner Androids
+* Small performance improvements for all machines, especially Electric Smelteries
+* Small performance improvements for Holograms
+* Small performance improvements for Tree Growth Accelerators
+* Small performance improvements for Reactors
+* Electric machines now show their tier in the Inventory name too
+* Removed "Fuel efficiency" attribute for androids, since that was pretty much always at 1.0 anyway...
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -74,6 +81,10 @@
 * Fixed ChestTerminal timings showing up as cargo nodes
 * Fixed timings reports never arriving sometimes
 * Fixed #2138
+* Fixed #1951 (again)
+* Fixed Electric Press not working
+* Fixed #2240
+* Fixed #2243
 
 ## Release Candidate 15 (01 Aug 2020)
 

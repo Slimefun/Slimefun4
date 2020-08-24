@@ -43,9 +43,4 @@ public abstract class ElectricFurnace extends AContainer {
         return new ItemStack(Material.FLINT_AND_STEEL);
     }
 
-    @Override
-    public String getInventoryTitle() {
-        return "&bElectric Furnace";
-    }
-
 }

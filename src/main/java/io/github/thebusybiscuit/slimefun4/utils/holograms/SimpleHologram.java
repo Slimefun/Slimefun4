@@ -40,7 +40,7 @@ public final class SimpleHologram {
         Location l = new Location(b.getWorld(), b.getX() + 0.5, b.getY() + 0.7F, b.getZ() + 0.5);
 
         for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4D && n.getCustomName() != null) {
+            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4D && isPossibleHologram((ArmorStand) n)) {
                 return (ArmorStand) n;
             }
         }
@@ -51,6 +51,10 @@ public final class SimpleHologram {
         else {
             return create(l);
         }
+    }
+
+    private static boolean isPossibleHologram(ArmorStand armorstand) {
+        return armorstand.isValid() && armorstand.isSilent() && armorstand.isMarker() && !armorstand.hasGravity() && armorstand.isCustomNameVisible();
     }
 
     public static ArmorStand create(Location l) {

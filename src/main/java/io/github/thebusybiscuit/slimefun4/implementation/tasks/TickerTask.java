@@ -144,7 +144,7 @@ public class TickerTask implements Runnable {
 
         if (errors == 1) {
             // Generate a new Error-Report
-            new ErrorReport(x, l, item);
+            new ErrorReport<>(x, l, item);
             bugs.put(position, errors);
         }
         else if (errors == 4) {

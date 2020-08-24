@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Locale;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
@@ -29,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -39,20 +38,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     private final ItemStack item;
 
     public BookSlimefunGuide() {
-        item = new ItemStack(Material.ENCHANTED_BOOK);
-        ItemMeta meta = item.getItemMeta();
-
-        meta.setDisplayName(ChatColors.color("&aSlimefun Guide &7(Book GUI)"));
-
-        List<String> lore = new LinkedList<>();
-
-        lore.add("");
-        lore.add(ChatColors.color("&eRight Click &8\u21E8 &7Browse Items"));
-        lore.add(ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits"));
-
-        meta.setLore(lore);
-        SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
-        item.setItemMeta(meta);
+        item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Book GUI)");
     }
 
     @Override

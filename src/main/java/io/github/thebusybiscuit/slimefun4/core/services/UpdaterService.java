@@ -94,8 +94,9 @@ public class UpdaterService {
      * @return The build number of this Slimefun.
      */
     public int getBuildNumber() {
-        if (updater != null && PatternUtils.NUMERIC.matcher(this.updater.getLocalVersion()).matches())
-            return Integer.parseInt(this.updater.getLocalVersion());
+        if (updater != null && PatternUtils.NUMERIC.matcher(this.updater.getLocalVersion()).matches()) {
+            return Integer.parseInt(updater.getLocalVersion());
+        }
 
         return -1;
     }

@@ -22,13 +22,13 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-public abstract class MinerAndroid extends ProgrammableAndroid {
+public class MinerAndroid extends ProgrammableAndroid {
 
     // Determines the drops a miner android will get
     private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
 
-    public MinerAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public MinerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, tier, item, recipeType, recipe);
     }
 
     @Override

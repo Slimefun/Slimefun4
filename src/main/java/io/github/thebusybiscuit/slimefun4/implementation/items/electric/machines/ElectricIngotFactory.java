@@ -25,9 +25,4 @@ public abstract class ElectricIngotFactory extends AContainer implements RecipeD
         return new ItemStack(Material.FLINT_AND_STEEL);
     }
 
-    @Override
-    public String getInventoryTitle() {
-        return "&cElectric Ingot Factory";
-    }
-
 }
