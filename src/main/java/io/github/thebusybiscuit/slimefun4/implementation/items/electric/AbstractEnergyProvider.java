@@ -44,13 +44,15 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
 
     /**
      * This method returns the title that is used for the {@link Inventory} of an
-     * {@link AGenerator} that has been opened by a Player.
+     * {@link AbstractEnergyProvider} that has been opened by a Player.
      * 
      * Override this method to set the title.
      * 
-     * @return The title of the {@link Inventory} of this {@link AGenerator}
+     * @return The title of the {@link Inventory} of this {@link AbstractEnergyProvider}
      */
-    public abstract String getInventoryTitle();
+    public String getInventoryTitle() {
+        return getItemName();
+    }
 
     /**
      * This method returns the {@link ItemStack} that this {@link AGenerator} will

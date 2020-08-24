@@ -13,7 +13,7 @@
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
-    <description>Slimefun is a Spigot plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
+    <description>Slimefun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
     <url>https://github.com/TheBusyBiscuit/Slimefun4</url>
 
     <properties>
@@ -47,16 +47,6 @@
     </licenses>
 
     <repositories>
-        <repository>
-            <id>sonatype-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -221,7 +211,7 @@
                     <detectOfflineLinks>false</detectOfflineLinks>
                     <additionalJOption>-html5</additionalJOption>
 
-                    <!-- We can reference Bukkit's API in our Javadocs -->
+                    <!-- We can reference the Spigot API in our Javadocs -->
                     <links>
                         <link>${spigot.javadocs}</link>
                     </links>
@@ -313,8 +303,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.15</artifactId>
-            <version>0.3.1-SNAPSHOT</version>
+            <artifactId>MockBukkit-v1.16</artifactId>
+            <version>0.4.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -338,21 +328,22 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.5</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
             <version>3.10.00</version>
+            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>
                     <artifactId>gson</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.5</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- Third party plugin integrations -->
@@ -370,7 +361,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>

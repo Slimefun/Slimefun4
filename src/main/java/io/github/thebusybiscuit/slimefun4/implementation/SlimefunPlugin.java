@@ -165,6 +165,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
+            networkManager = new NetworkManager(200);
             command.register();
             registry.load(config);
         }

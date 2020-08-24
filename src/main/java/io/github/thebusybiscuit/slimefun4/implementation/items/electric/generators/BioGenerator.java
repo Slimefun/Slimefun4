@@ -96,9 +96,4 @@ public abstract class BioGenerator extends AGenerator {
         return new ItemStack(Material.GOLDEN_HOE);
     }
 
-    @Override
-    public String getInventoryTitle() {
-        return "&2Bio Reactor";
-    }
-
 }
