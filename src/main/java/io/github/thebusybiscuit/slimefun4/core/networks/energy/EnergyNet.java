@@ -233,7 +233,7 @@ public class EnergyNet extends Network {
                     }
                 }
                 catch (Exception | LinkageError t) {
-                    exploded.add(loc);
+                    explodedBlocks.add(loc);
                     new ErrorReport<>(t, loc, item);
                 }
 
