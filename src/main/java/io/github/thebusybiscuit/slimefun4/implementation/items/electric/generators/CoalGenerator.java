@@ -42,9 +42,4 @@ public abstract class CoalGenerator extends AGenerator {
         return new ItemStack(Material.FLINT_AND_STEEL);
     }
 
-    @Override
-    public String getInventoryTitle() {
-        return "&cCoal Generator";
-    }
-
 }

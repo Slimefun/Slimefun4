@@ -27,11 +27,6 @@ public abstract class NuclearReactor extends Reactor {
     }
 
     @Override
-    public String getInventoryTitle() {
-        return "&2Nuclear Reactor";
-    }
-
-    @Override
     protected void registerDefaultFuelTypes() {
         registerFuel(new MachineFuel(1200, SlimefunItems.URANIUM, SlimefunItems.NEPTUNIUM));
         registerFuel(new MachineFuel(600, SlimefunItems.NEPTUNIUM, SlimefunItems.PLUTONIUM));
