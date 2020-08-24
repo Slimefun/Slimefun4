@@ -149,8 +149,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                 if (!event.isCancelled()) {
                     Slimefun.runSync(() -> users.remove(p.getUniqueId()), 3L);
                     p.setVelocity(event.getVelocity());
-                    p.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                    swing(p, hand, item);
+                    swing(p, block, hand, item);
                 }
             }
         }
@@ -159,32 +158,38 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         }
     }
 
-    private void swing(Player p, EquipmentSlot hand, ItemStack item) {
+    private void swing(Player p, Block b, EquipmentSlot hand, ItemStack item) {
         if (p.getGameMode() != GameMode.CREATIVE) {
             if (isDualWieldingEnabled()) {
                 if (ThreadLocalRandom.current().nextBoolean()) {
                     damageItem(p, p.getInventory().getItemInMainHand());
-                    playSwingAnimation(p, EquipmentSlot.HAND);
+                    playAnimation(p, b, EquipmentSlot.HAND);
                 }
                 else {
                     damageItem(p, p.getInventory().getItemInOffHand());
-                    playSwingAnimation(p, EquipmentSlot.OFF_HAND);
+                    playAnimation(p, b, EquipmentSlot.OFF_HAND);
                 }
             }
             else {
                 damageItem(p, item);
-                playSwingAnimation(p, hand);
+                playAnimation(p, b, hand);
             }
         }
     }
 
-    private void playSwingAnimation(Player p, EquipmentSlot hand) {
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-            if (hand == EquipmentSlot.HAND) {
-                p.swingMainHand();
-            }
-            else {
-                p.swingOffHand();
+    private void playAnimation(Player p, Block b, EquipmentSlot hand) {
+        MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
+
+        if (version != MinecraftVersion.UNIT_TEST) {
+            p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+
+            if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+                if (hand == EquipmentSlot.HAND) {
+                    p.swingMainHand();
+                }
+                else {
+                    p.swingOffHand();
+                }
             }
         }
     }

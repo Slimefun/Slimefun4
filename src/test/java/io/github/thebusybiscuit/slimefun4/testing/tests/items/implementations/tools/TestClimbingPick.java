@@ -2,11 +2,12 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.t
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -22,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.testing.interfaces.SlimefunItemTest;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
+class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -42,28 +43,40 @@ public class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     @Override
     public ClimbingPick registerSlimefunItem(SlimefunPlugin plugin, String id) {
         SlimefunItemStack item = new SlimefunItemStack(id, Material.IRON_PICKAXE, "&5Test Pick");
-        ClimbingPick pick = new ClimbingPick(TestUtilities.getCategory(plugin, "climbing_pick"), item, RecipeType.NULL, new ItemStack[9]);
+
+        ClimbingPick pick = new ClimbingPick(TestUtilities.getCategory(plugin, "climbing_pick"), item, RecipeType.NULL, new ItemStack[9]) {
+
+            @Override
+            public boolean isDualWieldingEnabled() {
+                return false;
+            }
+
+        };
+
         pick.register(plugin);
         return pick;
     }
 
     @ParameterizedTest
+    @DisplayName("Test Climbing Pick on various Block Faces")
     @EnumSource(value = BlockFace.class)
-    public void testItemUse(BlockFace face) {
+    void testItemUse(BlockFace face) {
+        server.getPluginManager().clearEvents();
         PlayerMock player = server.addPlayer();
         ClimbingPick pick = registerSlimefunItem(plugin, "TEST_CLIMBING_PICK_" + face.name());
         Location blockLocation = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() + 1, player.getLocation().getBlockY(), player.getLocation().getBlockZ());
 
-        boolean shouldCancel = face == BlockFace.DOWN || face == BlockFace.UP;
+        boolean shouldFireEvent = face != BlockFace.DOWN && face != BlockFace.UP;
 
-        BlockMock block1 = new BlockMock(Material.STONE, blockLocation);
+        BlockMock block1 = new BlockMock(Material.ICE, blockLocation);
         simulateRightClickBlock(player, pick, block1, face);
-        server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
-        if (!shouldCancel) player.assertSoundHeard(Sound.ENTITY_ENDERMAN_TELEPORT);
 
-        BlockMock block2 = new BlockMock(Material.DIRT, blockLocation);
-        simulateRightClickBlock(player, pick, block2, face);
-        server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
-        if (!shouldCancel) player.assertSoundHeard(Sound.ENTITY_ENDERMAN_TELEPORT);
+        if (shouldFireEvent) {
+            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
+            Assertions.assertTrue(player.getVelocity().length() > 0);
+        }
+        else {
+            Assertions.assertEquals(0, player.getVelocity().length());
+        }
     }
 }
