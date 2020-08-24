@@ -47,7 +47,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem, RecipeDisplayItem {
 
-    private static final double BASE_POWER = 0.9;
+    private static final double BASE_POWER = 1;
+    private static final double MAX_DISTANCE = 4.5;
 
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
@@ -84,6 +85,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             materialSpeeds.put(Material.BLACKSTONE, itemCfg.getOrSetDefault(cfgKey + Material.BLACKSTONE.name(), 0.6));
+            materialSpeeds.put(Material.BASALT, itemCfg.getOrSetDefault(cfgKey + Material.BASALT.name(), 0.7));
         }
     }
 
@@ -102,7 +104,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             Player p = e.getPlayer();
 
             // Check if the Player is standing close to the wall
-            if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) > 4) {
+            if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) > MAX_DISTANCE) {
                 return;
             }
 
@@ -142,18 +144,20 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                     power += efficiencyLevel * 0.1;
                 }
 
+                Slimefun.runSync(() -> users.remove(p.getUniqueId()), 3L);
                 Vector velocity = new Vector(0, power * BASE_POWER, 0);
                 ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (!event.isCancelled()) {
-                    Slimefun.runSync(() -> users.remove(p.getUniqueId()), 3L);
                     p.setVelocity(event.getVelocity());
+                    p.setFallDistance(0);
                     swing(p, block, hand, item);
                 }
             }
         }
-        else {
+        else if (!isDualWieldingEnabled() || hand == EquipmentSlot.HAND) {
+            // We don't wanna send the message twice, so we check for dual wielding
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.climbing-pick.wrong-material");
         }
     }
