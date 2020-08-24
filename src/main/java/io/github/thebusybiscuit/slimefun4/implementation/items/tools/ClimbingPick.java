@@ -50,12 +50,13 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private static final double BASE_POWER = 0.9;
 
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
+    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
     private final Map<Material, Double> materialSpeeds;
     private final Set<UUID> users = new HashSet<>();
 
     public ClimbingPick(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-        addItemSetting(dualWielding);
+        addItemSetting(dualWielding, damageOnUse);
 
         String cfgKey = getID() + ".launch-amounts.";
         Config itemCfg = SlimefunPlugin.getItemCfg();
@@ -101,23 +102,22 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             Player p = e.getPlayer();
 
             // Check if the Player is standing close to the wall
-            if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) > 3.5) {
+            if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) > 4) {
                 return;
             }
 
+            // Check for dual wielding
             if (isDualWieldingEnabled() && !isItem(getOtherHandItem(p, e.getHand()))) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.climbing-pick.dual-wielding");
                 return;
             }
 
+            // Top and bottom faces won't be allowed
             if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) {
                 return;
             }
 
-            // Prevent players from spamming this
-            if (users.add(p.getUniqueId())) {
-                climb(p, e.getHand(), e.getItem(), block);
-            }
+            climb(p, e.getHand(), e.getItem(), block);
         };
     }
 
@@ -133,24 +133,25 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private void climb(Player p, EquipmentSlot hand, ItemStack item, Block block) {
         double power = materialSpeeds.getOrDefault(block.getType(), 0.0);
 
-        Vector velocity = new Vector(0, 0, 0);
         if (power > 0.05) {
-            int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
+            // Prevent players from spamming this
+            if (users.add(p.getUniqueId())) {
+                int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
 
-            if (efficiencyLevel != 0) {
-                power += efficiencyLevel * 0.1;
-            }
+                if (efficiencyLevel != 0) {
+                    power += efficiencyLevel * 0.1;
+                }
 
-            velocity.setY(power * BASE_POWER);
+                Vector velocity = new Vector(0, power * BASE_POWER, 0);
+                ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
+                Bukkit.getPluginManager().callEvent(event);
 
-            ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
-            Bukkit.getPluginManager().callEvent(event);
-
-            if (!event.isCancelled()) {
-                Slimefun.runSync(() -> users.remove(p.getUniqueId()), 3L);
-                p.setVelocity(event.getVelocity());
-                p.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                swing(p, hand, item);
+                if (!event.isCancelled()) {
+                    Slimefun.runSync(() -> users.remove(p.getUniqueId()), 3L);
+                    p.setVelocity(event.getVelocity());
+                    p.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                    swing(p, hand, item);
+                }
             }
         }
         else {
@@ -190,7 +191,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     @Override
     public boolean isDamageable() {
-        return true;
+        return damageOnUse.getValue();
     }
 
     @Override
