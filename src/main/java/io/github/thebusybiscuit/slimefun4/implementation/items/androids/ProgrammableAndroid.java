@@ -222,6 +222,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     public void openScript(Player p, Block b, String sourceCode) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
+        menu.setEmptySlotsClickable(false);
 
         menu.addItem(0, new CustomItem(Instruction.START.getItem(), SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &eLeft Click &7to return to the Android's interface"));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
@@ -340,6 +341,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     protected void openScriptDownloader(Player p, Block b, int page) {
         ChestMenu menu = new ChestMenu("Android Scripts");
+
+        menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
 
         List<Script> scripts = Script.getUploadedScripts(getAndroidType());
@@ -459,6 +462,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     public void openScriptEditor(Player p, Block b) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
+        menu.setEmptySlotsClickable(false);
 
         menu.addItem(1, new CustomItem(HeadTexture.SCRIPT_FORWARD.getAsItemStack(), "&2> Edit Script", "", "&aEdits your current Script"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
@@ -507,6 +511,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
+        menu.setEmptySlotsClickable(false);
         menu.addItem(9, new CustomItem(HeadTexture.SCRIPT_PAUSE.getAsItemStack(), "&fDo nothing"), (pl, slot, item, action) -> {
             String code = deleteInstruction(script, index);
             setScript(b.getLocation(), code);
