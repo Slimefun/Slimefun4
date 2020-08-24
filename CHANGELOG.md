@@ -36,6 +36,7 @@
 * Added Strange Nether Goo
 * Added Nitwit Rune
 * Added Synthetic Shulker Shells
+* Added Climbing Pick
 
 #### Changes
 * Performance improvement for Programmable Android rotations
