@@ -32,8 +32,8 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
-import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -455,11 +455,13 @@ public final class PlayerProfile {
         int armorCount = 0;
 
         NamespacedKey setId = null;
+
         for (HashedArmorpiece armorpiece : armor) {
             Optional<SlimefunArmorPiece> armorPiece = armorpiece.getItem();
 
             if (!armorPiece.isPresent()) {
-                return false;
+                setId = null;
+                continue;
             }
 
             if (armorPiece.get() instanceof ProtectiveArmor) {

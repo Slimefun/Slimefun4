@@ -10,7 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -43,9 +42,9 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
 
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add(ChatColors.color("&e&o") + SlimefunPlugin.getLocalization().getMessage(p, "guide.work-in-progress"));
+            lore.add("&e&o" + SlimefunPlugin.getLocalization().getMessage(p, "guide.work-in-progress"));
             lore.add("");
-            lore.addAll(SlimefunPlugin.getLocalization().getMessages(p, "guide.languages.description"));
+            lore.addAll(SlimefunPlugin.getLocalization().getMessages(p, "guide.languages.description", msg -> msg.replace("%contributors%", String.valueOf(SlimefunPlugin.getGitHubService().getContributors().size()))));
             lore.add("");
             lore.add("&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.change"));
 
@@ -118,7 +117,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         int slot = 10;
 
         for (Language language : SlimefunPlugin.getLocalization().getLanguages()) {
-            menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "&b" + SlimefunPlugin.getLocalization().getProgress(language) + '%', "", "&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.select")), (pl, i, item, action) -> {
+            menu.addItem(slot, new CustomItem(language.getItem(), ChatColor.GREEN + language.getName(p), "&b" + language.getTranslationProgress() + '%', "", "&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.select")), (pl, i, item, action) -> {
                 SlimefunPlugin.instance().getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, SlimefunPlugin.getLocalization().getLanguage(pl), language));
                 setSelectedOption(pl, guide, language.getId());
 

@@ -25,10 +25,12 @@ public final class ItemStackWrapper extends ItemStack {
     private static final String ERROR_MESSAGE = "ItemStackWrappers are immutable and not indended for actual usage.";
 
     private final ItemMeta meta;
+    private final int amount;
     private final boolean hasItemMeta;
 
     public ItemStackWrapper(ItemStack item) {
         super(item.getType());
+        amount = item.getAmount();
         hasItemMeta = item.hasItemMeta();
 
         if (hasItemMeta) {
@@ -60,7 +62,7 @@ public final class ItemStackWrapper extends ItemStack {
 
     @Override
     public int getAmount() {
-        return 1;
+        return amount;
     }
 
     @Override

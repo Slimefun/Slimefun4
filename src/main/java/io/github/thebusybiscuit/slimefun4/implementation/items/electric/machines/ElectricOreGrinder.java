@@ -25,9 +25,4 @@ public abstract class ElectricOreGrinder extends AContainer implements RecipeDis
         return new ItemStack(Material.IRON_PICKAXE);
     }
 
-    @Override
-    public String getInventoryTitle() {
-        return "&bElectric Ore Grinder";
-    }
-
 }

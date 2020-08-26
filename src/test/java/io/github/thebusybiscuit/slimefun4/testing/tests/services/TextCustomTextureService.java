@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -16,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TextCustomTextureService {
+class TextCustomTextureService {
 
     private static SlimefunPlugin plugin;
 
@@ -32,7 +33,8 @@ public class TextCustomTextureService {
     }
 
     @Test
-    public void testInitialization() {
+    @DisplayName("Test creating a new Custom Texture Service")
+    void testInitialization() {
         Config config = new Config("plugins/temporary");
         CustomTextureService service = new CustomTextureService(config);
         Assertions.assertFalse(service.isActive());
@@ -51,7 +53,8 @@ public class TextCustomTextureService {
     }
 
     @Test
-    public void testSetTexture() {
+    @DisplayName("Test applying a custom item model")
+    void testSetTexture() {
         Config config = new Config("plugins/temporary");
         CustomTextureService service = new CustomTextureService(config);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));

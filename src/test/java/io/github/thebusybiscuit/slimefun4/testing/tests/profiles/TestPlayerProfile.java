@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -18,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 
-public class TestPlayerProfile {
+class TestPlayerProfile {
 
     private static ServerMock server;
 
@@ -34,7 +35,8 @@ public class TestPlayerProfile {
     }
 
     @Test
-    public void testOfflinePlayer() throws InterruptedException {
+    @DisplayName("Test Player Profiles for offline Players")
+    void testOfflinePlayer() throws InterruptedException {
         OfflinePlayer player = new OfflinePlayerMock("Offline Test Player");
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -54,7 +56,8 @@ public class TestPlayerProfile {
     }
 
     @Test
-    public void testOnlinePlayer() throws InterruptedException {
+    @DisplayName("Test Player Profiles for online Players")
+    void testOnlinePlayer() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -63,7 +66,8 @@ public class TestPlayerProfile {
     }
 
     @Test
-    public void testIterator() throws InterruptedException {
+    @DisplayName("Test PlayerProfile iterators")
+    void testIterator() throws InterruptedException {
         // Clear out any previous profiles
         Iterator<PlayerProfile> clear = PlayerProfile.iterator();
         while (clear.hasNext()) {
@@ -83,7 +87,8 @@ public class TestPlayerProfile {
     }
 
     @Test
-    public void testAttributes() throws InterruptedException {
+    @DisplayName("Test PlayerProfile methods")
+    void testAttributes() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -107,7 +112,8 @@ public class TestPlayerProfile {
     }
 
     @Test
-    public void testNotExistentProfile() throws InterruptedException {
+    @DisplayName("Test a non-existent Player Profile")
+    void testNotExistentProfile() throws InterruptedException {
         OfflinePlayer player = new OfflinePlayerMock("Offline Test Player 2");
 
         Assertions.assertFalse(PlayerProfile.find(player).isPresent());
@@ -117,12 +123,14 @@ public class TestPlayerProfile {
     }
 
     @Test
-    public void testNullPlayerGetProfile() {
+    @DisplayName("Test nullability for Player profiles")
+    void testNullPlayerGetProfile() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> PlayerProfile.get(null, p -> {}));
     }
 
     @Test
-    public void testHashCode() throws InterruptedException {
+    @DisplayName("Test PlayerProfile#hashCode()")
+    void testHashCode() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 

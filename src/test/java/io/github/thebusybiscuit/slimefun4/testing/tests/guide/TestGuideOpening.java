@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -22,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestGuideOpening {
+class TestGuideOpening {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -48,14 +49,16 @@ public class TestGuideOpening {
     }
 
     @Test
-    public void testOpenMainMenu() throws InterruptedException {
+    @DisplayName("Test if the Slimefun Guide Main Menu can be opened from the History")
+    void testOpenMainMenu() throws InterruptedException {
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
         PlayerProfile profile = prepare(guide, history -> {});
         Mockito.verify(guide).openMainMenu(profile, 1);
     }
 
     @Test
-    public void testOpenCategory() throws InterruptedException {
+    @DisplayName("Test if a Category can be opened from the History")
+    void testOpenCategory() throws InterruptedException {
         Category category = new Category(new NamespacedKey(plugin, "history_category"), new CustomItem(Material.BLUE_TERRACOTTA, "&9Testy test"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
@@ -64,7 +67,8 @@ public class TestGuideOpening {
     }
 
     @Test
-    public void testOpenSlimefunItem() throws InterruptedException {
+    @DisplayName("Test if a SlimefunItem can be viewed from the History")
+    void testOpenSlimefunItem() throws InterruptedException {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "OPEN_SLIMEFUN_ITEM", new CustomItem(Material.PRISMARINE_SHARD, "&5Some Shard I guess"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
@@ -73,7 +77,8 @@ public class TestGuideOpening {
     }
 
     @Test
-    public void testOpenItemStack() throws InterruptedException {
+    @DisplayName("Test if an ItemStack can be viewed from the History")
+    void testOpenItemStack() throws InterruptedException {
         ItemStack item = new ItemStack(Material.REDSTONE_BLOCK);
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
@@ -82,7 +87,8 @@ public class TestGuideOpening {
     }
 
     @Test
-    public void testOpenSearch() throws InterruptedException {
+    @DisplayName("Test if the Slimefun Search can be opened from the History")
+    void testOpenSearch() throws InterruptedException {
         String query = "electric";
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
@@ -91,7 +97,8 @@ public class TestGuideOpening {
     }
 
     @Test
-    public void testGoBack() throws InterruptedException {
+    @DisplayName("Test if the Back button works")
+    void testGoBack() throws InterruptedException {
         Player player = server.addPlayer();
 
         String query = "electric";

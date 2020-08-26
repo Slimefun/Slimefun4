@@ -34,7 +34,7 @@ public class SlimefunGuideListener implements Listener {
             }
 
             SlimefunGuideLayout type = SlimefunGuide.getDefaultLayout();
-            p.getInventory().addItem(SlimefunGuide.getItem(type));
+            p.getInventory().addItem(SlimefunGuide.getItem(type).clone());
         }
     }
 

@@ -1,16 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
@@ -36,31 +30,7 @@ public final class SlimefunGuide {
     private SlimefunGuide() {}
 
     public static ItemStack getItem(SlimefunGuideLayout design) {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
-        ItemMeta meta = item.getItemMeta();
-        List<String> lore = new LinkedList<>();
-        lore.addAll(Arrays.asList("", ChatColors.color("&eRight Click &8\u21E8 &7Browse Items"), ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits")));
-
-        switch (design) {
-        case BOOK:
-            meta.setDisplayName(ChatColors.color("&aSlimefun Guide &7(Book GUI)"));
-            break;
-        case CHEAT_SHEET:
-            meta.setDisplayName(ChatColors.color("&cSlimefun Guide &4(Cheat Sheet)"));
-            lore.add(0, ChatColors.color("&4&lOnly openable by Admins"));
-            lore.add(0, "");
-            break;
-        case CHEST:
-            meta.setDisplayName(ChatColors.color("&aSlimefun Guide &7(Chest GUI)"));
-            break;
-        default:
-            return null;
-        }
-
-        meta.setLore(lore);
-        SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
-        item.setItemMeta(meta);
-        return item;
+        return SlimefunPlugin.getRegistry().getGuideLayout(design).getItem();
     }
 
     public static void openCheatMenu(Player p) {

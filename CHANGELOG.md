@@ -32,6 +32,7 @@
 * Added "Sand -> Sandstone" recipe to the Electric Press
 * Added "Red Sand -> Red Sandstone" recipe to the Electric Press
 * Industrial Miners can now also mine Gilded Blackstone
+* Added a config option to disable Players from burning when exposed to radiation
 
 #### Changes
 * Performance improvement for Programmable Android rotations
@@ -40,6 +41,15 @@
 * Performance improvements for idling Enhanced Furnaces when using Paper
 * Performance improvements for Rainbow Blocks
 * Crafting a Rag now yields two items
+* Small performance improvements for Slimefun guides
+* Small performance improvements for Cargo networks
+* Small performance improvements for Miner Androids
+* Small performance improvements for all machines, especially Electric Smelteries
+* Small performance improvements for Holograms
+* Small performance improvements for Tree Growth Accelerators
+* Small performance improvements for Reactors
+* Electric machines now show their tier in the Inventory name too
+* Removed "Fuel efficiency" attribute for androids, since that was pretty much always at 1.0 anyway...
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -62,6 +72,13 @@
 * Fixed #2217
 * Fixed Miner Talisman sending messages when drops were not even doubled
 * Fixed #2077
+* Fixed #2207
+* Fixed ChestTerminal timings showing up as cargo nodes
+* Fixed timings reports never arriving sometimes
+* Fixed #2138
+* Fixed #1951 (again)
+* Fixed Electric Press not working
+* Fixed #2240
 
 ## Release Candidate 15 (01 Aug 2020)
 

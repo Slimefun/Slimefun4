@@ -19,6 +19,7 @@ import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -34,71 +35,23 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author TheBusyBiscuit
  *
  */
-public class ErrorReport {
+public class ErrorReport<T extends Throwable> {
 
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
+    private static int count;
 
+    private SlimefunAddon addon;
+    private T throwable;
     private File file;
 
-    public ErrorReport(Throwable throwable, SlimefunAddon addon, Consumer<PrintStream> printer) {
-        Slimefun.runSync(() -> {
-            file = getNewFile();
+    public ErrorReport(T throwable, SlimefunAddon addon, Consumer<PrintStream> printer) {
+        this.throwable = throwable;
+        this.addon = addon;
 
-            try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
-                stream.println();
-                stream.println("Java Environment:");
-                stream.println("  Operating System: " + System.getProperty("os.name"));
-                stream.println("  Java Version: " + System.getProperty("java.version"));
-                stream.println();
-                stream.println("Server Software: " + Bukkit.getName());
-                stream.println("  Build: " + Bukkit.getVersion());
-                stream.println("  Minecraft: " + Bukkit.getBukkitVersion());
-                stream.println();
-                stream.println("Slimefun Environment:");
-                stream.println("  CS-CoreLib v" + SlimefunPlugin.getCSCoreLibVersion());
-                stream.println("  Slimefun v" + SlimefunPlugin.getVersion());
-                stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
-                stream.println();
-
-                List<String> plugins = new ArrayList<>();
-                List<String> addons = new ArrayList<>();
-
-                scanPlugins(plugins, addons);
-
-                stream.println("Installed Addons (" + addons.size() + ")");
-                addons.forEach(stream::println);
-
-                stream.println();
-
-                stream.println("Installed Plugins (" + plugins.size() + "):");
-                plugins.forEach(stream::println);
-
-                stream.println();
-
-                printer.accept(stream);
-
-                stream.println("Stacktrace:");
-                stream.println();
-                throwable.printStackTrace(stream);
-
-                addon.getLogger().log(Level.WARNING, "");
-                addon.getLogger().log(Level.WARNING, "An Error occurred! It has been saved as: ");
-                addon.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
-                addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com/ and report this to the developer(s).");
-
-                if (addon.getBugTrackerURL() != null) {
-                    addon.getLogger().log(Level.WARNING, "Bug Tracker: {0}", addon.getBugTrackerURL());
-                }
-
-                addon.getLogger().log(Level.WARNING, "");
-            }
-            catch (Exception x) {
-                addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
-            }
-        });
+        Slimefun.runSync(() -> print(printer));
     }
 
-    public ErrorReport(Throwable throwable, Location l, SlimefunItem item) {
+    public ErrorReport(T throwable, Location l, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
             stream.println("Block Info:");
             stream.println("  World: " + l.getWorld().getName());
@@ -130,13 +83,101 @@ public class ErrorReport {
         });
     }
 
-    public ErrorReport(Throwable throwable, SlimefunItem item) {
+    public ErrorReport(T throwable, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
             stream.println("SlimefunItem:");
             stream.println("  ID: " + item.getID());
             stream.println("  Plugin: " + (item.getAddon() == null ? "Unknown" : item.getAddon().getName()));
             stream.println();
         });
+    }
+
+    /**
+     * This method returns the {@link File} this {@link ErrorReport} has been written to.
+     * 
+     * @return The {@link File} for this {@link ErrorReport}
+     */
+    public File getFile() {
+        return file;
+    }
+
+    /**
+     * This returns the {@link Throwable} that was thrown.
+     * 
+     * @return The {@link Throwable}
+     */
+    public T getThrown() {
+        return throwable;
+    }
+
+    /**
+     * This method returns the amount of {@link ErrorReport ErrorReports} created in this session.
+     * 
+     * @return The amount of {@link ErrorReport ErrorReports} created.
+     */
+    public static int count() {
+        return count;
+    }
+
+    private void print(Consumer<PrintStream> printer) {
+        this.file = getNewFile();
+        count++;
+
+        try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
+            stream.println();
+
+            stream.println("Java Environment:");
+            stream.println("  Operating System: " + System.getProperty("os.name"));
+            stream.println("  Java Version: " + System.getProperty("java.version"));
+            stream.println();
+
+            String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
+            stream.println("Server Software: " + serverSoftware);
+            stream.println("  Build: " + Bukkit.getVersion());
+            stream.println("  Minecraft v" + Bukkit.getBukkitVersion());
+            stream.println();
+
+            stream.println("Slimefun Environment:");
+            stream.println("  CS-CoreLib v" + SlimefunPlugin.getCSCoreLibVersion());
+            stream.println("  Slimefun v" + SlimefunPlugin.getVersion());
+            stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
+            stream.println();
+
+            List<String> plugins = new ArrayList<>();
+            List<String> addons = new ArrayList<>();
+
+            scanPlugins(plugins, addons);
+
+            stream.println("Installed Addons (" + addons.size() + ")");
+            addons.forEach(stream::println);
+
+            stream.println();
+
+            stream.println("Installed Plugins (" + plugins.size() + "):");
+            plugins.forEach(stream::println);
+
+            stream.println();
+
+            printer.accept(stream);
+
+            stream.println("Stacktrace:");
+            stream.println();
+            throwable.printStackTrace(stream);
+
+            addon.getLogger().log(Level.WARNING, "");
+            addon.getLogger().log(Level.WARNING, "An Error occurred! It has been saved as: ");
+            addon.getLogger().log(Level.WARNING, "/plugins/Slimefun/error-reports/{0}", file.getName());
+            addon.getLogger().log(Level.WARNING, "Please put this file on https://pastebin.com/ and report this to the developer(s).");
+
+            if (addon.getBugTrackerURL() != null) {
+                addon.getLogger().log(Level.WARNING, "Bug Tracker: {0}", addon.getBugTrackerURL());
+            }
+
+            addon.getLogger().log(Level.WARNING, "");
+        }
+        catch (Exception x) {
+            addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
+        }
     }
 
     private static void scanPlugins(List<String> plugins, List<String> addons) {
@@ -174,11 +215,7 @@ public class ErrorReport {
         return newFile;
     }
 
-    public File getFile() {
-        return file;
-    }
-
-    public static void tryCatch(Function<Exception, ErrorReport> function, Runnable runnable) {
+    public static void tryCatch(Function<Exception, ErrorReport<Exception>> function, Runnable runnable) {
         try {
             runnable.run();
         }

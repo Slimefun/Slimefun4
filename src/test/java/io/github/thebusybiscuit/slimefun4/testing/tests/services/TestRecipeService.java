@@ -15,6 +15,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -23,7 +24,7 @@ import io.github.thebusybiscuit.cscorelib2.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-public class TestRecipeService {
+class TestRecipeService {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -40,7 +41,8 @@ public class TestRecipeService {
     }
 
     @Test
-    public void testRecipe() {
+    @DisplayName("Test getting a Minecraft Recipe for an ItemStack result")
+    void testRecipe() {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "furnace_recipe_test");
@@ -59,7 +61,8 @@ public class TestRecipeService {
     }
 
     @Test
-    public void testNoRecipes() {
+    @DisplayName("Test getting no Minecraft Recipes for uncraftable items or null")
+    void testNoRecipes() {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
         service.refresh();
 
@@ -68,7 +71,8 @@ public class TestRecipeService {
     }
 
     @Test
-    public void testFurnaceOutput() {
+    @DisplayName("Test if furnace recipes are handled correctly")
+    void testFurnaceOutput() {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "furnace_recipe_test2");
@@ -95,7 +99,8 @@ public class TestRecipeService {
     }
 
     @Test
-    public void testBigShapedRecipe() {
+    @DisplayName("Test Shaped Recipes on a 3x3 grid")
+    void testBigShapedRecipe() {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "shaped_recipe_9");
@@ -112,7 +117,8 @@ public class TestRecipeService {
     }
 
     @Test
-    public void testSmallShapedRecipe() {
+    @DisplayName("Test Shaped Recipes on a 2x2 grid")
+    void testSmallShapedRecipe() {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         NamespacedKey key = new NamespacedKey(plugin, "shaped_recipe_4");
@@ -129,7 +135,8 @@ public class TestRecipeService {
     }
 
     @Test
-    public void testShapelessRecipeShape() {
+    @DisplayName("Test shapeless Recipes")
+    void testShapelessRecipeShape() {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> service.getRecipeShape(null));
@@ -146,7 +153,8 @@ public class TestRecipeService {
     }
 
     @Test
-    public void testSubscriptions() {
+    @DisplayName("Test the Recipe Subscription Service")
+    void testSubscriptions() {
         MinecraftRecipeService service = new MinecraftRecipeService(plugin);
         AtomicReference<RecipeSnapshot> reference = new AtomicReference<>();
 

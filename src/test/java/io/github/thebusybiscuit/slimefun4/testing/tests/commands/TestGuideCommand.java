@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -15,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-public class TestGuideCommand {
+class TestGuideCommand {
 
     private static ServerMock server;
 
@@ -31,8 +32,9 @@ public class TestGuideCommand {
     }
 
     @ParameterizedTest
+    @DisplayName("Test if Slimefun Guide is given on /sf guide")
     @ValueSource(booleans = { true, false })
-    public void testCommand(boolean op) {
+    void testCommand(boolean op) {
         Player player = server.addPlayer();
         player.setOp(op);
         server.execute("slimefun", player, "guide").assertSucceeded();

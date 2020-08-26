@@ -409,18 +409,36 @@ final class CargoUtils {
     }
 
     private static boolean matchesFilterList(ItemStack item, BlockMenu menu, boolean respectLore, boolean defaultValue) {
-        ItemStackWrapper wrapper = null;
+        // Little performance optimization:
+        // First check if there is more than one item to compare, if so
+        // then we know we should create an ItemStackWrapper, otherwise it would
+        // be of no benefit to us and just be redundant
+        int itemsToCompare = 0;
 
         for (int slot : FILTER_SLOTS) {
             ItemStack stack = menu.getItemInSlot(slot);
 
-            if (stack != null) {
-                if (wrapper == null) {
-                    // Only create this as needed to save performance
-                    wrapper = new ItemStackWrapper(item);
-                }
+            if (stack != null && stack.getType() != Material.AIR) {
+                itemsToCompare++;
 
-                if (SlimefunUtils.isItemSimilar(stack, wrapper, respectLore, false)) {
+                if (itemsToCompare > 1) {
+                    break;
+                }
+            }
+        }
+
+        // Check if there are event non-air items
+        if (itemsToCompare > 0) {
+            // Only create the Wrapper if its worth it
+            if (itemsToCompare > 1) {
+                // Create an itemStackWrapper to save performance
+                item = new ItemStackWrapper(item);
+            }
+
+            for (int slot : FILTER_SLOTS) {
+                ItemStack stack = menu.getItemInSlot(slot);
+
+                if (SlimefunUtils.isItemSimilar(stack, item, respectLore, false)) {
                     return !defaultValue;
                 }
             }

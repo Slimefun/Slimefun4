@@ -23,10 +23,10 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @see FarmerAndroid
  *
  */
-public abstract class AdvancedFarmerAndroid extends FarmerAndroid {
+public class AdvancedFarmerAndroid extends FarmerAndroid {
 
-    public AdvancedFarmerAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AdvancedFarmerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, tier, item, recipeType, recipe);
     }
 
     @Override

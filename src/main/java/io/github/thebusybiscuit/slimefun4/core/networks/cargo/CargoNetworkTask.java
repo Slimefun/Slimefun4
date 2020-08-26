@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 
@@ -63,6 +64,7 @@ class CargoNetworkTask implements Runnable {
 
         // All operations happen here: Everything gets iterated from the Input Nodes.
         // (Apart from ChestTerminal Buses)
+        SlimefunItem inputNode = SlimefunItems.CARGO_INPUT_NODE.getItem();
         for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
             long nodeTimestamp = System.nanoTime();
             Location input = entry.getKey();
@@ -71,12 +73,13 @@ class CargoNetworkTask implements Runnable {
             attachedBlock.ifPresent(block -> routeItems(input, block, entry.getValue(), outputs));
 
             // This will prevent this timings from showing up for the Cargo Manager
-            timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), SlimefunItems.CARGO_INPUT_NODE.getItem(), nodeTimestamp);
+            timestamp += SlimefunPlugin.getProfiler().closeEntry(entry.getKey(), inputNode, nodeTimestamp);
         }
 
         // Chest Terminal Code
         if (SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled()) {
-            network.updateTerminals(chestTerminalInputs);
+            // This will deduct any CT timings and attribute them towards the actual terminal
+            timestamp += network.updateTerminals(chestTerminalInputs);
         }
 
         // Submit a timings report

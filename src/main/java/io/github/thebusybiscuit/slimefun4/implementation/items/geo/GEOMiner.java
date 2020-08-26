@@ -67,11 +67,6 @@ public abstract class GEOMiner extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public String getInventoryTitle() {
-        return "&6GEO-Miner";
-    }
-
-    @Override
     public String getMachineIdentifier() {
         return "GEO_MINER";
     }
@@ -112,14 +107,14 @@ public abstract class GEOMiner extends AContainer implements RecipeDisplayItem {
     @Override
     protected void constructMenu(BlockMenuPreset preset) {
         for (int i : BORDER) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+            preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
         }
 
         for (int i : OUTPUT_BORDER) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+            preset.addItem(i, new CustomItem(Material.ORANGE_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
         }
 
-        preset.addItem(4, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+        preset.addItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
 
         for (int i : getOutputSlots()) {
             preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {

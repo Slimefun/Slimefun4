@@ -86,11 +86,18 @@ guide:
     addons: 'Addons for Slimefun4'
     bugs: 'Bug Reports'
     source: 'Source Code'
+    versions: 'Installed versions'
   
   credits:
     commit: 'Commit'
     commits: 'Commits'
     profile-link: 'Click to visit their profile on GitHub'
+    open: 'Click to see our contributors'
+    description:
+    - '&7Slimefun is an open-source project'
+    - '&7and maintained by a large community of people.'
+    - '&7Over &e%contributors% &7people have worked on'
+    - '&7Slimefun throughout all these years.'
 
     roles:
       developer: '&6Developer'

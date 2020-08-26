@@ -22,7 +22,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.16.1</spigot.version>
+        <spigot.version>1.16.2</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -320,7 +320,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.4.6</version>
+            <version>3.5.5</version>
             <scope>test</scope>
         </dependency>
 
@@ -340,7 +340,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.9.00</version>
+            <version>3.10.00</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>

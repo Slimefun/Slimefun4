@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -19,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestResearches {
+class TestResearches {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -36,7 +37,8 @@ public class TestResearches {
     }
 
     @Test
-    public void testResearchGetters() {
+    @DisplayName("Test Getter methods for Research class")
+    void testResearchGetters() {
         NamespacedKey key = new NamespacedKey(plugin, "getter_test");
         Research research = new Research(key, 0, "Test", 100);
         research.register();
@@ -52,7 +54,8 @@ public class TestResearches {
     }
 
     @Test
-    public void testResearchCost() {
+    @DisplayName("Test cost of Researches")
+    void testResearchCost() {
         NamespacedKey key = new NamespacedKey(plugin, "cost_test");
         Research research = new Research(key, 5, "Cost Test", 100);
 
@@ -66,8 +69,9 @@ public class TestResearches {
     }
 
     @Test
-    public void testResearchRegistration() {
-        NamespacedKey key = new NamespacedKey(plugin, "testResearch");
+    @DisplayName("Test registering a Research")
+    void testResearchRegistration() {
+        NamespacedKey key = new NamespacedKey(plugin, "test_research");
         Research research = new Research(key, 1, "Test", 100);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
         research.addItems(item, null);
@@ -85,8 +89,9 @@ public class TestResearches {
     }
 
     @Test
-    public void testDisabledResearch() {
-        NamespacedKey key = new NamespacedKey(plugin, "disabledResearch");
+    @DisplayName("Test disabling a Research")
+    void testDisabledResearch() {
+        NamespacedKey key = new NamespacedKey(plugin, "disabled_research");
         Research research = new Research(key, 2, "Test", 100);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
         research.addItems(item);
@@ -100,8 +105,9 @@ public class TestResearches {
     }
 
     @Test
-    public void testResearchGloballyDisabled() {
-        NamespacedKey key = new NamespacedKey(plugin, "globallyDisabledResearch");
+    @DisplayName("Test disabling Researches server-wide")
+    void testResearchGloballyDisabled() {
+        NamespacedKey key = new NamespacedKey(plugin, "globally_disabled_research");
         Research research = new Research(key, 3, "Test", 100);
 
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
@@ -112,8 +118,9 @@ public class TestResearches {
     }
 
     @Test
-    public void testAddItems() {
-        NamespacedKey key = new NamespacedKey(plugin, "addItemsResearch");
+    @DisplayName("Test adding items to a Research")
+    void testAddItems() {
+        NamespacedKey key = new NamespacedKey(plugin, "add_items_to_research");
         Research research = new Research(key, 17, "Test", 100);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_ITEMS_TEST", new CustomItem(Material.LAPIS_LAZULI, "&9Adding items is fun"));
         item.register(plugin);
@@ -125,11 +132,11 @@ public class TestResearches {
     }
 
     @Test
-    public void testPlayerCanUnlockDisabledResearch() {
+    void testPlayerCanUnlockDisabledResearch() {
         SlimefunPlugin.getRegistry().setResearchingEnabled(false);
 
         Player player = server.addPlayer();
-        NamespacedKey key = new NamespacedKey(plugin, "disabledUnlockableResearch");
+        NamespacedKey key = new NamespacedKey(plugin, "disabled_unlockable_research");
         Research research = new Research(key, 567, "Test", 100);
 
         Assertions.assertTrue(research.canUnlock(player));
@@ -138,11 +145,12 @@ public class TestResearches {
     }
 
     @Test
-    public void testFreeCreativeResearch() {
+    @DisplayName("Test 'free creative researching' option")
+    void testFreeCreativeResearch() {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
 
         Player player = server.addPlayer();
-        NamespacedKey key = new NamespacedKey(plugin, "freeCreativeResearch");
+        NamespacedKey key = new NamespacedKey(plugin, "free_creative_research");
         Research research = new Research(key, 153, "Test", 100);
 
         SlimefunPlugin.getRegistry().setFreeCreativeResearchingEnabled(false);
@@ -163,9 +171,10 @@ public class TestResearches {
     }
 
     @Test
-    public void testUnlockableResearch() {
+    @DisplayName("Test levels requirement")
+    void testUnlockableResearch() {
         Player player = server.addPlayer();
-        NamespacedKey key = new NamespacedKey(plugin, "freeCreativeResearch");
+        NamespacedKey key = new NamespacedKey(plugin, "unlocking_research");
         Research research = new Research(key, 235, "Test", 4);
 
         Assertions.assertFalse(research.canUnlock(player));
