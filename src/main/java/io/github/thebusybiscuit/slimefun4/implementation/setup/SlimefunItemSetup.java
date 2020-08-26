@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.Woodcutt
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.EnderBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
@@ -1063,7 +1064,7 @@ public final class SlimefunItemSetup {
         new IndustrialMiner(categories.basicMachines, SlimefunItems.INDUSTRIAL_MINER, Material.IRON_BLOCK, false, 3).register(plugin);
         new AdvancedIndustrialMiner(categories.basicMachines, SlimefunItems.ADVANCED_INDUSTRIAL_MINER).register(plugin);
 
-        new SlimefunItem(categories.magicalArmor, SlimefunItems.BOOTS_OF_THE_STOMPER, RecipeType.ARMOR_FORGE,
+        new StomperBoots(categories.magicalArmor, SlimefunItems.BOOTS_OF_THE_STOMPER, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.YELLOW_WOOL), null, new ItemStack(Material.YELLOW_WOOL), new ItemStack(Material.PISTON), null, new ItemStack(Material.PISTON)})
         .register(plugin);
 

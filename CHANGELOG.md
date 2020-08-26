@@ -81,6 +81,7 @@
 * Fixed Electric Press not working
 * Fixed #2240
 * Fixed #2243
+* Fixed #2249
 
 ## Release Candidate 15 (01 Aug 2020)
 
