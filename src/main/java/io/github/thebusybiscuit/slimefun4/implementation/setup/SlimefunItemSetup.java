@@ -31,6 +31,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FisherAn
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ProgrammableAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.WoodcutterAndroid;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.FarmerShoes;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
@@ -1047,7 +1048,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), null, new ItemStack(Material.OAK_SLAB), new ItemStack(Material.OAK_SLAB), new ItemStack(Material.CAULDRON), new ItemStack(Material.OAK_SLAB)})
         .register(plugin);
 
-        new SlimefunItem(categories.magicalArmor, SlimefunItems.FARMER_SHOES, RecipeType.ARMOR_FORGE,
+        new FarmerShoes(categories.magicalArmor, SlimefunItems.FARMER_SHOES, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK), new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.HAY_BLOCK)})
         .register(plugin);
         

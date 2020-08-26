@@ -12,13 +12,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.FarmerShoes;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoots;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -88,14 +86,11 @@ public class SlimefunBootsListener implements Listener {
             Block b = e.getClickedBlock();
 
             if (b != null && b.getType() == Material.FARMLAND) {
-                ItemStack boots = e.getPlayer().getInventory().getBoots();
+                Player p = e.getPlayer();
+                SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
-                if (SlimefunUtils.isItemSimilar(boots, SlimefunItems.FARMER_SHOES, true)) {
-                    SlimefunItem item = SlimefunItems.FARMER_SHOES.getItem();
-
-                    if (Slimefun.hasUnlocked(e.getPlayer(), item, true)) {
-                        e.setCancelled(true);
-                    }
+                if (boots instanceof FarmerShoes && Slimefun.hasUnlocked(p, boots, true)) {
+                    e.setCancelled(true);
                 }
             }
         }

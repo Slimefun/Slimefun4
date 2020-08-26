@@ -80,7 +80,7 @@ public class StomperBoots extends SlimefunItem {
      * @return A {@link Vector} to determine the velocity for our {@link Entity}
      */
     private Vector getShockwave(Location origin, Location target) {
-        // As the distance approached zero we might slip into a "division by zero" when normalizing
+        // As the distance approaches zero we might slip into a "division by zero" when normalizing
         if (origin.distanceSquared(target) < 0.05) {
             return new Vector(0, 1, 0);
         }
