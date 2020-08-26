@@ -76,20 +76,19 @@ public class TalismanListener implements Listener {
                 Talisman.checkFor(e, SlimefunItems.TALISMAN_WARRIOR);
             }
 
-            if (e.getCause() == DamageCause.PROJECTILE) {
-                onProjectileDamage(e);
+            if (e.getCause() == DamageCause.PROJECTILE && e instanceof EntityDamageByEntityEvent) {
+                onProjectileDamage((EntityDamageByEntityEvent) e);
             }
         }
     }
 
-    private void onProjectileDamage(EntityDamageEvent e) {
-        EntityDamageByEntityEvent event = ((EntityDamageByEntityEvent) e);
-
-        if (event.getDamager() instanceof Projectile && !(event.getDamager() instanceof Trident)) {
-            Projectile projectile = (Projectile) event.getDamager();
+    private void onProjectileDamage(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
+            Projectile projectile = (Projectile) e.getDamager();
 
             if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
-                returnProjectile((Player) e.getEntity(), projectile);
+                Player p = (Player) e.getEntity();
+                returnProjectile(p, projectile);
             }
         }
     }
