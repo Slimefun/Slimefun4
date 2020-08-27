@@ -130,7 +130,8 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     private void consumeFluid(Block fluid) {
-        if (fluid.getType() == Material.STATIONARY_WATER) {
+        if (!fluid.isLiquid()) return;
+        if (fluid.getType() == Material.WATER) {
             fluid.setType(Material.AIR);
             return;
         }
@@ -151,6 +152,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
     
     private boolean isLiquid(Block block) {
+        if (!block.isLiquid()) return false;
         BlockData data = block.getBlockData();
         if (data instanceof Levelled) {
             return ((Levelled) data).getLevel == 0;
