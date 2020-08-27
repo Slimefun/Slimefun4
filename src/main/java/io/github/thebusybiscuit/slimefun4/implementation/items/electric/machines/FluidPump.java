@@ -130,12 +130,12 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     private void consumeFluid(Block fluid) {
-        if (fluid.getType() == Material.WATER) {
+        if (fluid.getType() == Material.STATIONARY_WATER) {
             fluid.setType(Material.AIR);
             return;
         }
 
-        List<Block> list = Vein.find(fluid, RANGE, block -> block.isLiquid() && block.getType() == fluid.getType());
+        List<Block> list = Vein.find(fluid, RANGE, block -> isLiquid(block) && block.getType() == fluid.getType());
         list.get(list.size() - 1).setType(Material.AIR);
     }
 
@@ -148,6 +148,14 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         }
 
         return Optional.empty();
+    }
+    
+    private boolean isLiquid(Block block) {
+        BlockData data = block.getBlockData();
+        if (data instanceof Levelled) {
+            return ((Levelled) data).getLevel == 0;
+        }
+        return false;
     }
 
     @Override
