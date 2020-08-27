@@ -83,6 +83,56 @@ final class CargoUtils {
         return false;
     }
 
+    static int[] getInputSlotRange(Inventory inv, ItemStack item) {
+        if (inv instanceof FurnaceInventory) {
+            if (item.getType().isFuel()) {
+                if (isSmeltable(item, true)) {
+                    // Any non-smeltable items should not land in the upper slot
+                    return new int[] { 0, 2 };
+                }
+                else {
+                    return new int[] { 1, 2 };
+                }
+            }
+            else {
+                return new int[] { 0, 1 };
+            }
+        }
+        else if (inv instanceof BrewerInventory) {
+            if (isPotion(item)) {
+                // Slots for potions
+                return new int[] { 0, 3 };
+            }
+            else if (item != null && item.getType() == Material.BLAZE_POWDER) {
+                // Blaze Powder slot
+                return new int[] { 4, 5 };
+            }
+            else {
+                // Input slot
+                return new int[] { 3, 4 };
+            }
+        }
+        else {
+            // Slot 0-size
+            return new int[] { 0, inv.getSize() };
+        }
+    }
+
+    static int[] getOutputSlotRange(Inventory inv) {
+        if (inv instanceof FurnaceInventory) {
+            // Slot 2-3
+            return new int[] { 2, 3 };
+        }
+        else if (inv instanceof BrewerInventory) {
+            // Slot 0-3
+            return new int[] { 0, 3 };
+        }
+        else {
+            // Slot 0-size
+            return new int[] { 0, inv.getSize() };
+        }
+    }
+
     static ItemStack withdraw(Map<Location, Inventory> inventories, Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
@@ -129,16 +179,9 @@ final class CargoUtils {
 
     static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
         ItemStack[] contents = inv.getContents();
-        int minSlot = 0;
-        int maxSlot = contents.length;
-
-        if (inv instanceof FurnaceInventory) {
-            minSlot = 2;
-            maxSlot = 3;
-        }
-        else if (inv instanceof BrewerInventory) {
-            maxSlot = 3;
-        }
+        int[] range = getOutputSlotRange(inv);
+        int minSlot = range[0];
+        int maxSlot = range[1];
 
         ItemStackWrapper wrapper = new ItemStackWrapper(template);
 
@@ -196,16 +239,9 @@ final class CargoUtils {
 
     private static ItemStackAndInteger withdrawFromVanillaInventory(Block node, Inventory inv) {
         ItemStack[] contents = inv.getContents();
-        int minSlot = 0;
-        int maxSlot = contents.length;
-
-        if (inv instanceof FurnaceInventory) {
-            minSlot = 2;
-            maxSlot = 3;
-        }
-        else if (inv instanceof BrewerInventory) {
-            maxSlot = 3;
-        }
+        int[] range = getOutputSlotRange(inv);
+        int minSlot = range[0];
+        int maxSlot = range[1];
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
             ItemStack is = contents[slot];
@@ -280,40 +316,9 @@ final class CargoUtils {
 
     private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
-        int minSlot = 0;
-        int maxSlot = contents.length;
-
-        // Check if it is a normal furnace
-        if (inv instanceof FurnaceInventory) {
-            // Check if it is fuel or not
-            if (stack.getType().isFuel()) {
-                maxSlot = 2;
-
-                // Any non-smeltable items should not land in the upper slot
-                if (!isSmeltable(stack, true)) {
-                    minSlot = 1;
-                }
-            }
-            else {
-                maxSlot = 1;
-            }
-        }
-        else if (inv instanceof BrewerInventory) {
-            if (stack.getType() == Material.POTION || stack.getType() == Material.LINGERING_POTION || stack.getType() == Material.SPLASH_POTION) {
-                // Potions slot
-                maxSlot = 3;
-            }
-            else if (stack.getType() == Material.BLAZE_POWDER) {
-                // Blaze Powder slot
-                minSlot = 4;
-                maxSlot = 5;
-            }
-            else {
-                // Input slot
-                minSlot = 3;
-                maxSlot = 4;
-            }
-        }
+        int[] range = getInputSlotRange(inv, stack);
+        int minSlot = range[0];
+        int maxSlot = range[1];
 
         ItemStackWrapper wrapper = new ItemStackWrapper(stack);
 
@@ -345,28 +350,6 @@ final class CargoUtils {
         }
 
         return stack;
-    }
-
-    /**
-     * This method checks if a given {@link ItemStack} is smeltable or not.
-     * The lazy-option is a performance-saver since actually calculating this can be quite expensive.
-     * For the current applicational purposes a quick check for any wooden logs is sufficient.
-     * Otherwise the "lazyness" can be turned off in the future.
-     * 
-     * @param stack
-     *            The {@link ItemStack} to test
-     * @param lazy
-     *            Whether or not to perform a "lazy" but performance-saving check
-     * 
-     * @return Whether the given {@link ItemStack} can be smelted or not
-     */
-    private static boolean isSmeltable(ItemStack stack, boolean lazy) {
-        if (lazy) {
-            return stack != null && Tag.LOGS.isTagged(stack.getType());
-        }
-        else {
-            return SlimefunPlugin.getMinecraftRecipeService().isSmeltable(stack);
-        }
     }
 
     static DirtyChestMenu getChestMenu(Block block) {
@@ -445,6 +428,32 @@ final class CargoUtils {
         }
 
         return defaultValue;
+    }
+
+    /**
+     * This method checks if a given {@link ItemStack} is smeltable or not.
+     * The lazy-option is a performance-saver since actually calculating this can be quite expensive.
+     * For the current applicational purposes a quick check for any wooden logs is sufficient.
+     * Otherwise the "lazyness" can be turned off in the future.
+     * 
+     * @param stack
+     *            The {@link ItemStack} to test
+     * @param lazy
+     *            Whether or not to perform a "lazy" but performance-saving check
+     * 
+     * @return Whether the given {@link ItemStack} can be smelted or not
+     */
+    private static boolean isSmeltable(ItemStack stack, boolean lazy) {
+        if (lazy) {
+            return stack != null && Tag.LOGS.isTagged(stack.getType());
+        }
+        else {
+            return SlimefunPlugin.getMinecraftRecipeService().isSmeltable(stack);
+        }
+    }
+
+    private static boolean isPotion(ItemStack item) {
+        return item != null && (item.getType() == Material.POTION || item.getType() == Material.SPLASH_POTION || item.getType() == Material.LINGERING_POTION);
     }
 
     /**
