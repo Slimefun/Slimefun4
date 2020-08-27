@@ -33,6 +33,14 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
+/**
+ * This machine draws liquids from the world and puts them
+ * into buckets provided to the machine by using energy.
+ *
+ * @author TheBusyBiscuit
+ * @author Linox
+ *
+ */
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 32;
@@ -157,7 +165,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         if (!block.isLiquid()) return false;
         BlockData data = block.getBlockData();
         if (data instanceof Levelled) {
-            return ((Levelled) data).getLevel == 0;
+            return ((Levelled) data).getLevel() == 0;
         }
         return false;
     }
