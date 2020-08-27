@@ -33,7 +33,14 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
 
     public RepairedSpawner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-        addItemHandler(getBlockHandler());
+    }
+    
+    @Override
+    public void preRegister() {
+        super.preRegister();
+        
+        BlockBreakHandler handler = BlockBreakEvent::setCancelled(true);
+        addItemHandler(handler);
     }
 
     @Override
@@ -59,13 +66,6 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
                     spawner.update(true, false);
                 }
             }
-        };
-    }
-    
-    @Override
-    public BlockBreakHandler getBlockHandler() {
-        return (e, item, f, drops) -> {
-            e.setCancelled(true);
         };
     }
 
