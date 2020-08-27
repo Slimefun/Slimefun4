@@ -39,8 +39,14 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
     public void preRegister() {
         super.preRegister();
         
-        BlockBreakHandler handler = BlockBreakEvent::setCancelled(true);
-        addItemHandler(handler);
+        addItemHandler(onBreak());
+    }
+    
+    private BlockBreakHandler onBreak() {
+        return (e, item, fortune, drops) -> {
+            e.setCancelled(true);
+            return true;
+        };
     }
 
     @Override
