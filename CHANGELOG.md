@@ -88,6 +88,7 @@
 * Fixed Fluid Pump not working on Bubble Columns
 * Fixed #2251
 * Fixed #2257
+* Fixed #2260
 
 ## Release Candidate 15 (01 Aug 2020)
 

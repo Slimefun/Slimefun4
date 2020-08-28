@@ -112,19 +112,21 @@ public class AncientPedestal extends SlimefunItem {
 
     public void placeItem(Player p, Block b) {
         ItemStack hand = p.getInventory().getItemInMainHand();
-        ItemStack stack = new CustomItem(hand, ITEM_PREFIX + System.nanoTime());
-        stack.setAmount(1);
+        ItemStack displayItem = new CustomItem(hand, ITEM_PREFIX + System.nanoTime());
+        displayItem.setAmount(1);
+
+        // Get the display name of the original Item in the Player's hand
+        String nametag = ItemUtils.getItemName(hand);
 
         if (p.getGameMode() != GameMode.CREATIVE) {
             ItemUtils.consumeItem(hand, false);
         }
 
-        String nametag = ItemUtils.getItemName(stack);
-        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), stack);
+        Item entity = b.getWorld().dropItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem);
         entity.setVelocity(new Vector(0, 0.1, 0));
-        SlimefunUtils.markAsNoPickup(entity, "altar_item");
         entity.setCustomNameVisible(true);
         entity.setCustomName(nametag);
+        SlimefunUtils.markAsNoPickup(entity, "altar_item");
         p.playSound(b.getLocation(), Sound.ENTITY_ITEM_PICKUP, 0.3F, 0.3F);
     }
 
