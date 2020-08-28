@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +33,14 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
+/**
+ * This machine draws liquids from the world and puts them
+ * into buckets provided to the machine by using energy.
+ *
+ * @author TheBusyBiscuit
+ * @author Linox
+ *
+ */
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 32;
@@ -130,12 +140,13 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     private void consumeFluid(Block fluid) {
+        if (!fluid.isLiquid()) return;
         if (fluid.getType() == Material.WATER) {
             fluid.setType(Material.AIR);
             return;
         }
 
-        List<Block> list = Vein.find(fluid, RANGE, block -> block.isLiquid() && block.getType() == fluid.getType());
+        List<Block> list = Vein.find(fluid, RANGE, block -> isLiquid(block) && block.getType() == fluid.getType());
         list.get(list.size() - 1).setType(Material.AIR);
     }
 
@@ -148,6 +159,15 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         }
 
         return Optional.empty();
+    }
+    
+    private boolean isLiquid(Block block) {
+        if (!block.isLiquid()) return false;
+        BlockData data = block.getBlockData();
+        if (data instanceof Levelled) {
+            return ((Levelled) data).getLevel() == 0;
+        }
+        return false;
     }
 
     @Override
