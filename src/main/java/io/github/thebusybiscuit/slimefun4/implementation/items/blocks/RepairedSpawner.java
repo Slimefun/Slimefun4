@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotRegisteredBlock;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -27,26 +27,13 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * 
  * @see BrokenSpawner
  * @see PickaxeOfContainment
+ * @see NotRegisteredBlock
  *
  */
-public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
+public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> implements NotRegisteredBlock {
 
     public RepairedSpawner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-    }
-    
-    @Override
-    public void preRegister() {
-        super.preRegister();
-        
-        addItemHandler(onBreak());
-    }
-    
-    private BlockBreakHandler onBreak() {
-        return (e, item, fortune, drops) -> {
-            e.setCancelled(true);
-            return true;
-        };
     }
 
     @Override
