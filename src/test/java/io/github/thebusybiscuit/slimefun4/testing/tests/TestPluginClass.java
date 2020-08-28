@@ -71,7 +71,6 @@ class TestPluginClass {
     @Test
     @DisplayName("Test some Listeners being not-null")
     void testListenersNotNull() {
-        Assertions.assertNotNull(SlimefunPlugin.getAncientAltarListener());
         Assertions.assertNotNull(SlimefunPlugin.getGrapplingHookListener());
         Assertions.assertNotNull(SlimefunPlugin.getBackpackListener());
         Assertions.assertNotNull(SlimefunPlugin.getBowListener());

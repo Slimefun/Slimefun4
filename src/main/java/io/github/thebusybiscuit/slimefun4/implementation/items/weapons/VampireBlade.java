@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
@@ -25,6 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class VampireBlade extends SlimefunItem {
 
+    private static final double HEALING_AMOUNT = 4.0;
     private final ItemSetting<Integer> chance = new ItemSetting<>("chance", 45);
 
     public VampireBlade(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -44,7 +44,9 @@ public class VampireBlade extends SlimefunItem {
 
     public void heal(Player p) {
         p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.7F, 0.7F);
-        p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1));
+        double health = p.getHealth() + HEALING_AMOUNT;
+        double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        p.setHealth(Math.min(health, maxHealth));
     }
 
 }

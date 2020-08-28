@@ -17,6 +17,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -75,12 +76,19 @@ public class TalismanListener implements Listener {
                 Talisman.checkFor(e, SlimefunItems.TALISMAN_WARRIOR);
             }
 
-            if (e.getCause() == DamageCause.PROJECTILE && ((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile) {
-                Projectile projectile = (Projectile) ((EntityDamageByEntityEvent) e).getDamager();
+            if (e.getCause() == DamageCause.PROJECTILE && e instanceof EntityDamageByEntityEvent) {
+                onProjectileDamage((EntityDamageByEntityEvent) e);
+            }
+        }
+    }
 
-                if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
-                    returnProjectile((Player) e.getEntity(), projectile);
-                }
+    private void onProjectileDamage(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
+            Projectile projectile = (Projectile) e.getDamager();
+
+            if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
+                Player p = (Player) e.getEntity();
+                returnProjectile(p, projectile);
             }
         }
     }

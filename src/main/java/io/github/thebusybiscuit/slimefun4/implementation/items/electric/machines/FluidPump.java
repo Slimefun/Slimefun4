@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +34,14 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
+/**
+ * This machine collects liquids from the {@link World} and puts them
+ * into buckets provided to the machine by using energy.
+ *
+ * @author TheBusyBiscuit
+ * @author Linox
+ *
+ */
 public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements InventoryBlock, EnergyNetComponent {
 
     private static final int ENERGY_CONSUMPTION = 32;
@@ -130,24 +141,47 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     private void consumeFluid(Block fluid) {
-        if (fluid.getType() == Material.WATER) {
-            fluid.setType(Material.AIR);
-            return;
+        if (fluid.isLiquid()) {
+            if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
+                // With water we can be sure to find an infinite source whenever we go
+                // further than 2 blocks, so we can just remove the water here and save
+                // outselves all of that computing...
+                fluid.setType(Material.AIR);
+            }
+            else {
+                List<Block> list = Vein.find(fluid, RANGE, block -> isLiquid(block) && block.getType() == fluid.getType());
+                list.get(list.size() - 1).setType(Material.AIR);
+            }
         }
-
-        List<Block> list = Vein.find(fluid, RANGE, block -> block.isLiquid() && block.getType() == fluid.getType());
-        list.get(list.size() - 1).setType(Material.AIR);
     }
 
     private Optional<ItemStack> getFilledBucket(Block fluid) {
         if (fluid.getType() == Material.LAVA) {
             return Optional.of(new ItemStack(Material.LAVA_BUCKET));
         }
-        else if (fluid.getType() == Material.WATER) {
+        else if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
             return Optional.of(new ItemStack(Material.WATER_BUCKET));
         }
+        else {
+            return Optional.empty();
+        }
+    }
 
-        return Optional.empty();
+    private boolean isLiquid(Block block) {
+        if (block.isLiquid()) {
+            BlockData data = block.getBlockData();
+
+            if (data instanceof Levelled) {
+                // Check if this is a full block.
+                return ((Levelled) data).getLevel() == 0;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
