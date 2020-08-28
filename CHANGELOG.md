@@ -83,9 +83,10 @@
 * Fixed #2243
 * Fixed #2249
 * Fixed #1022
+* Fixed #2208
 * Fixed Fluid Pump treating low-level fluids like stationary fluids
 * Fixed Fluid Pump not working on Bubble Columns
-* Fixed #2208
+* Fixed #2251
 
 ## Release Candidate 15 (01 Aug 2020)
 
