@@ -22,6 +22,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotRegisteredBlock;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
@@ -77,8 +78,10 @@ public class BlockListener implements Listener {
                 if (SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
                     SlimefunPlugin.getBlockDataService().setBlockData(e.getBlock(), sfItem.getID());
                 }
-
-                BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+                
+                if (!(sfItem instanceof NotRegisteredBlock)) {
+                    BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+                }
 
                 SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
 
