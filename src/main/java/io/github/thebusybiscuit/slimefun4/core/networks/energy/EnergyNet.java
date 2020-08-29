@@ -101,6 +101,9 @@ public class EnergyNet extends Network {
                 if (component instanceof EnergyNetProvider) {
                     generators.put(l, (EnergyNetProvider) component);
                 }
+                else if (component instanceof SlimefunItem) {
+                    ((SlimefunItem) component).warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
+                }
                 break;
             default:
                 break;
