@@ -47,6 +47,11 @@ public abstract class ElectricDustWasher extends AContainer {
 
                 ItemStack dust = oreWasher.getRandomDust();
                 MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { dust });
+
+                if (!legacyMode || menu.fits(recipe.getOutput()[0], getOutputSlots())) {
+                    menu.consumeItem(slot);
+                    return recipe;
+                }
             }
             else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
                 MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });

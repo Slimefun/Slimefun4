@@ -43,7 +43,7 @@ public class EnergyNet extends Network {
 
     private static final int RANGE = 6;
 
-    private final Map<Location, EnergyNetComponent> generators = new HashMap<>();
+    private final Map<Location, EnergyNetProvider> generators = new HashMap<>();
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
     private final Map<Location, EnergyNetComponent> consumers = new HashMap<>();
 
@@ -98,7 +98,9 @@ public class EnergyNet extends Network {
                 consumers.put(l, component);
                 break;
             case GENERATOR:
-                generators.put(l, component);
+                if (component instanceof EnergyNetProvider) {
+                    generators.put(l, (EnergyNetProvider) component);
+                }
                 break;
             default:
                 break;
@@ -177,9 +179,9 @@ public class EnergyNet extends Network {
             }
         }
 
-        for (Map.Entry<Location, EnergyNetComponent> entry : generators.entrySet()) {
+        for (Map.Entry<Location, EnergyNetProvider> entry : generators.entrySet()) {
             Location loc = entry.getKey();
-            EnergyNetComponent component = entry.getValue();
+            EnergyNetProvider component = entry.getValue();
             int capacity = component.getCapacity();
 
             if (remainingEnergy > 0) {
@@ -202,48 +204,40 @@ public class EnergyNet extends Network {
         Set<Location> explodedBlocks = new HashSet<>();
         int supply = 0;
 
-        for (Map.Entry<Location, EnergyNetComponent> entry : generators.entrySet()) {
+        for (Map.Entry<Location, EnergyNetProvider> entry : generators.entrySet()) {
             long timestamp = SlimefunPlugin.getProfiler().newEntry();
             Location loc = entry.getKey();
-            EnergyNetComponent component = entry.getValue();
+            EnergyNetProvider provider = entry.getValue();
+            SlimefunItem item = (SlimefunItem) provider;
 
-            if (component instanceof EnergyNetProvider) {
-                SlimefunItem item = (SlimefunItem) component;
+            try {
+                Config config = BlockStorage.getLocationInfo(loc);
+                int energy = provider.getGeneratedOutput(loc, config);
 
-                try {
-                    EnergyNetProvider provider = (EnergyNetProvider) component;
-                    Config config = BlockStorage.getLocationInfo(loc);
-                    int energy = provider.getGeneratedOutput(loc, config);
-
-                    if (provider.isChargeable()) {
-                        energy += provider.getCharge(loc);
-                    }
-
-                    if (provider.willExplode(loc, config)) {
-                        explodedBlocks.add(loc);
-                        BlockStorage.clearBlockInfo(loc);
-
-                        Slimefun.runSync(() -> {
-                            loc.getBlock().setType(Material.LAVA);
-                            loc.getWorld().createExplosion(loc, 0F, false);
-                        });
-                    }
-                    else {
-                        supply += energy;
-                    }
+                if (provider.isChargeable()) {
+                    energy += provider.getCharge(loc);
                 }
-                catch (Exception | LinkageError t) {
+
+                if (provider.willExplode(loc, config)) {
                     explodedBlocks.add(loc);
-                    new ErrorReport<>(t, loc, item);
-                }
+                    BlockStorage.clearBlockInfo(loc);
 
-                long time = SlimefunPlugin.getProfiler().closeEntry(loc, item, timestamp);
-                timings.accept(time);
+                    Slimefun.runSync(() -> {
+                        loc.getBlock().setType(Material.LAVA);
+                        loc.getWorld().createExplosion(loc, 0F, false);
+                    });
+                }
+                else {
+                    supply += energy;
+                }
             }
-            else {
-                // This block seems to be gone now, better remove it to be extra safe
+            catch (Exception | LinkageError t) {
                 explodedBlocks.add(loc);
+                new ErrorReport<>(t, loc, item);
             }
+
+            long time = SlimefunPlugin.getProfiler().closeEntry(loc, item, timestamp);
+            timings.accept(time);
         }
 
         // Remove all generators which have exploded
