@@ -21,7 +21,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
 import be.seeseemelk.mockbukkit.inventory.ChestInventoryMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.item.CustomItem;
@@ -83,7 +83,7 @@ class TestItemPickupListener {
         ItemStack stack;
 
         if (flag) {
-            stack = new CustomItem(Material.DIAMOND, AncientAltarListener.ITEM_PREFIX + System.nanoTime());
+            stack = new CustomItem(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
         }
         else {
             stack = new CustomItem(Material.DIAMOND, "&5Just a normal named diamond");
@@ -112,7 +112,7 @@ class TestItemPickupListener {
         ItemStack stack;
 
         if (flag) {
-            stack = new CustomItem(Material.DIAMOND, AncientAltarListener.ITEM_PREFIX + System.nanoTime());
+            stack = new CustomItem(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
         }
         else {
             stack = new CustomItem(Material.DIAMOND, "&5Just a normal named diamond");

@@ -61,7 +61,6 @@ public class TestPluginClass {
 
     @Test
     public void testListenersNotNull() {
-        Assertions.assertNotNull(SlimefunPlugin.getAncientAltarListener());
         Assertions.assertNotNull(SlimefunPlugin.getGrapplingHookListener());
         Assertions.assertNotNull(SlimefunPlugin.getBackpackListener());
         Assertions.assertNotNull(SlimefunPlugin.getBowListener());

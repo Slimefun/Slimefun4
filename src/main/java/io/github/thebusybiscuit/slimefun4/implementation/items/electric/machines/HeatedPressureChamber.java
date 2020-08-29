@@ -100,16 +100,6 @@ public abstract class HeatedPressureChamber extends AContainer {
     }
 
     @Override
-    public int[] getInputSlots() {
-        return new int[] { 19, 20 };
-    }
-
-    @Override
-    public int[] getOutputSlots() {
-        return new int[] { 24, 25 };
-    }
-
-    @Override
     public String getMachineIdentifier() {
         return "HEATED_PRESSURE_CHAMBER";
     }

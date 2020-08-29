@@ -368,41 +368,7 @@ abstract class ChestTerminalNetwork extends Network {
             Optional<Block> block = getAttachedBlock(l);
 
             if (block.isPresent()) {
-                Block target = block.get();
-                UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
-
-                if (menu != null) {
-                    for (int slot : menu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) menu, ItemTransportFlow.WITHDRAW, null)) {
-                        ItemStack is = menu.getItemInSlot(slot);
-                        filter(is, items, l);
-                    }
-                }
-                else if (BlockStorage.hasInventory(target)) {
-                    BlockMenu blockMenu = BlockStorage.getInventory(target);
-
-                    if (blockMenu.getPreset().getID().startsWith("BARREL_")) {
-                        Config cfg = BlockStorage.getLocationInfo(target.getLocation());
-                        String data = cfg.getString("storedItems");
-
-                        if (data != null) {
-                            gatherItemsFromBarrel(l, data, blockMenu, items);
-                        }
-                    }
-                    else {
-                        handleWithdraw(blockMenu, items, l);
-                    }
-                }
-                else if (CargoUtils.hasInventory(target)) {
-                    BlockState state = PaperLib.getBlockState(target, false).getState();
-
-                    if (state instanceof InventoryHolder) {
-                        Inventory inv = ((InventoryHolder) state).getInventory();
-
-                        for (ItemStack is : inv.getContents()) {
-                            filter(is, items, l);
-                        }
-                    }
-                }
+                findAllItems(items, l, block.get());
             }
         }
 
@@ -410,8 +376,47 @@ abstract class ChestTerminalNetwork extends Network {
         return items;
     }
 
-    private void gatherItemsFromBarrel(Location l, String data, BlockMenu blockMenu, List<ItemStackAndInteger> items) {
+    private void findAllItems(List<ItemStackAndInteger> items, Location l, Block target) {
+        UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
+
+        if (menu != null) {
+            for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
+                ItemStack is = menu.getItemInSlot(slot);
+                filter(is, items, l);
+            }
+        }
+        else if (BlockStorage.hasInventory(target)) {
+            BlockMenu blockMenu = BlockStorage.getInventory(target);
+
+            if (blockMenu.getPreset().getID().startsWith("BARREL_")) {
+                gatherItemsFromBarrel(l, blockMenu, items);
+            }
+            else {
+                handleWithdraw(blockMenu, items, l);
+            }
+        }
+        else if (CargoUtils.hasInventory(target)) {
+            BlockState state = PaperLib.getBlockState(target, false).getState();
+
+            if (state instanceof InventoryHolder) {
+                Inventory inv = ((InventoryHolder) state).getInventory();
+
+                for (ItemStack is : inv.getContents()) {
+                    filter(is, items, l);
+                }
+            }
+        }
+    }
+
+    private void gatherItemsFromBarrel(Location l, BlockMenu blockMenu, List<ItemStackAndInteger> items) {
         try {
+            Config cfg = BlockStorage.getLocationInfo(blockMenu.getLocation());
+            String data = cfg.getString("storedItems");
+
+            if (data == null) {
+                return;
+            }
+
             int stored = Integer.parseInt(data);
 
             for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) blockMenu, ItemTransportFlow.WITHDRAW, null)) {

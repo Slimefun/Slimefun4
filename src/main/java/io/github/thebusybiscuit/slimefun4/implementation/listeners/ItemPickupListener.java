@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
@@ -28,7 +29,7 @@ public class ItemPickupListener implements Listener {
         else if (e.getItem().getItemStack().hasItemMeta()) {
             ItemMeta meta = e.getItem().getItemStack().getItemMeta();
 
-            if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientAltarListener.ITEM_PREFIX)) {
+            if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {
                 e.setCancelled(true);
                 e.getItem().remove();
             }
@@ -43,7 +44,7 @@ public class ItemPickupListener implements Listener {
         else if (e.getItem().getItemStack().hasItemMeta()) {
             ItemMeta meta = e.getItem().getItemStack().getItemMeta();
 
-            if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientAltarListener.ITEM_PREFIX)) {
+            if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {
                 e.setCancelled(true);
                 e.getItem().remove();
             }
