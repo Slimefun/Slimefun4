@@ -91,6 +91,7 @@
 * Fixed #2251
 * Fixed #2257
 * Fixed #2260
+* Fixed #2263
 
 ## Release Candidate 15 (01 Aug 2020)
 
