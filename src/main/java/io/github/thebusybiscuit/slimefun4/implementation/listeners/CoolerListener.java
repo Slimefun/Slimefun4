@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * This {@link Listener} listens for a {@link FoodLevelChangeEvent} and a {@link EntityDamageEvent} for starvation damage
+ * This {@link Listener} listens for a {@link FoodLevelChangeEvent} or an {@link EntityDamageEvent} for starvation damage
  * and consumes a {@link Juice} from any {@link Cooler} that can be found in the {@link Inventory} of the given {@link Player}.
  * 
  * @author TheBusyBiscuit
