@@ -174,7 +174,6 @@ messages:
   no-iron-golem-heal: '&cThat is not an Iron Ingot. You cannot use this to heal Iron Golems!'
   link-prompt: '&eClick here:'
   diet-cookie: '&eYou are starting to feel very light...'
-  wind-staff-fail: '&cYou have failed to launch yourself.'
   
   fortune-cookie:
   - '&7Help me, I am trapped in a Fortune Cookie Factory!'
