@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +20,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
@@ -29,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -326,6 +330,29 @@ public final class SlimefunUtils {
         }
 
         return string1.toString().equals(string2.toString());
+    }
+
+    public static void updateCapacitorTexture(Location l, int charge, int capacity) {
+        Slimefun.runSync(() -> {
+            Block b = l.getBlock();
+
+            if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
+                double level = (double) charge / capacity;
+
+                if (level <= 0.25) {
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
+                }
+                else if (level <= 0.5) {
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
+                }
+                else if (level <= 0.75) {
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
+                }
+                else {
+                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_100.getTexture());
+                }
+            }
+        });
     }
 
 }

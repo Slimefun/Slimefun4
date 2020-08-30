@@ -16,7 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public abstract class AutoAnvil extends AContainer {
@@ -57,15 +56,15 @@ public abstract class AutoAnvil extends AContainer {
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
+                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
                     return;
                 }
 
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
+                removeCharge(b.getLocation(), getEnergyConsumption());
                 progress.put(b, timeleft - 1);
             }
             else {
-                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
+                menu.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
                 menu.pushItem(processing.get(b).getOutput()[0].clone(), getOutputSlots());
 
                 progress.remove(b);

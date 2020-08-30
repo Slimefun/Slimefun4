@@ -26,7 +26,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -116,7 +115,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        if (ChargableBlock.getCharge(b) >= getEnergyConsumption()) {
+        if (getCharge(b.getLocation()) >= getEnergyConsumption()) {
             for (int x = -getRadius(); x <= getRadius(); x++) {
                 for (int z = -getRadius(); z <= getRadius(); z++) {
                     Block block = b.getRelative(x, 0, z);
@@ -135,7 +134,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
         if (ageable.getAge() < ageable.getMaximumAge()) {
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
-                    ChargableBlock.addCharge(machine, -getEnergyConsumption());
+                    removeCharge(machine.getLocation(), getEnergyConsumption());
                     inv.consumeItem(slot);
 
                     ageable.setAge(ageable.getAge() + 1);

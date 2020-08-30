@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemExcepti
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
@@ -368,14 +367,6 @@ public class SlimefunItem implements Placeable {
 
             if (this instanceof Radioactive) {
                 SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
-            }
-
-            if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
-                int capacity = ((EnergyNetComponent) this).getCapacity();
-
-                if (capacity > 0) {
-                    SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-                }
             }
 
             if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {

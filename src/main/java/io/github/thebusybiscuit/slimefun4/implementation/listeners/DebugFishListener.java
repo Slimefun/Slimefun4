@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
@@ -27,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
 /**
  * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
@@ -144,16 +142,18 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getProfiler().getTime(b.getChunk())));
         }
 
-        if (ChargableBlock.isChargable(b)) {
-            p.sendMessage(ChatColors.color("&dChargeable: " + greenCheckmark));
-            p.sendMessage(ChatColors.color("  &dEnergy: &e" + ChargableBlock.getCharge(b) + " / " + ChargableBlock.getMaxCharge(b)));
-        }
-        else {
-            p.sendMessage(ChatColors.color("&dChargeable: " + redCross));
-        }
-
         if (item instanceof EnergyNetComponent) {
-            p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(b.getLocation())));
+            EnergyNetComponent component = (EnergyNetComponent) item;
+            p.sendMessage(ChatColors.color("&dEnergyNet Component"));
+            p.sendMessage(ChatColors.color("  &dType: &e" + component.getEnergyComponentType()));
+
+            if (component.isChargeable()) {
+                p.sendMessage(ChatColors.color("  &dChargeable: " + greenCheckmark));
+                p.sendMessage(ChatColors.color("  &dEnergy: &e" + component.getCharge(b.getLocation()) + " / " + component.getCapacity()));
+            }
+            else {
+                p.sendMessage(ChatColors.color("&dChargeable: " + redCross));
+            }
         }
 
         p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(b)));

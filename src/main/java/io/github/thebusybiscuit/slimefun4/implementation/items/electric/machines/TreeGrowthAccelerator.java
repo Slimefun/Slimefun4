@@ -22,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -107,7 +106,7 @@ public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBloc
     protected void tick(Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        if (ChargableBlock.getCharge(b) >= ENERGY_CONSUMPTION) {
+        if (getCharge(b.getLocation()) >= ENERGY_CONSUMPTION) {
             for (int x = -RADIUS; x <= RADIUS; x++) {
                 for (int z = -RADIUS; z <= RADIUS; z++) {
                     Block block = b.getRelative(x, 0, z);
@@ -126,8 +125,8 @@ public class TreeGrowthAccelerator extends SlimefunItem implements InventoryBloc
 
     private boolean grow(Block machine, Block block, BlockMenu inv, Sapling sapling) {
         for (int slot : getInputSlots()) {
-            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false)) {
-                ChargableBlock.addCharge(machine, -ENERGY_CONSUMPTION);
+            if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false, false)) {
+                removeCharge(machine.getLocation(), ENERGY_CONSUMPTION);
 
                 sapling.setStage(sapling.getStage() + 1);
                 block.setBlockData(sapling, false);
