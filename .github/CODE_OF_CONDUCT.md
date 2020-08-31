@@ -4,7 +4,7 @@
 > Adopting, and enforcing, a code of conduct can help create a positive social atmosphere for your community.
 <br>\- *Source: [https://opensource.guide](https://opensource.guide/code-of-conduct/#why-do-i-need-a-code-of-conduct)*
 
-This document should serve the purpose of outlining the behaviour we expect from any participant of the project.<br>
+This document should serve the purpose of outlining the behaviour we expect from any participant of the project.
 
 ## Scope
 This Code of Conduct applies to all sections of the [Slimefun4 GitHub repository](https://github.com/TheBusyBiscuit/Slimefun4), our [Slimefun GitHub organization](https://github.com/Slimefun) and all repositories owned by said organization.<br>
@@ -21,6 +21,9 @@ Pull Requests are very much welcome and encouraged! They keep the project alive,
 Issues that are considered "good first issues", indicated by the [good first issue](https://github.com/TheBusyBiscuit/Slimefun4/labels/good%20first%20issue) label, are generally expected to be beginner-friendly. 
 And even if you shouldn't know where to start or how to proceed, our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord) and its community will be there for you!
 
+When commenting, please keep in mind that this software is offered for **free**. Don't expect to receive lightning-fast replies 24 hours a day. 
+Everyone here works on this project in their free time and usually has work, school, university or family to take care of, so we appreciate patience and understanding.
+
 ## Our Standards
 Examples of behavior that contributes to a positive environment for our community include but are not limited to:
 * Demonstrating empathy and kindness towards other people
@@ -28,6 +31,7 @@ Examples of behavior that contributes to a positive environment for our communit
 * Giving and gracefully accepting constructive feedback
 * Accepting responsibility and apologizing to those affected by our mistakes and learning from the experience
 * Focusing on what is best not just for us as individuals, but for the overall community
+* Having patience and understanding for contributors, even if reply times are slow
 
 <hr>
 
@@ -36,6 +40,7 @@ Examples of unacceptable behavior include but are not limited to:
 * Trolling, insulting or derogatory comments, and personal or political attacks
 * Public or private harassment
 * Publishing others' private information, such as a physical or email address, without their explicit permission
+* Impatient and toxic comments
 * Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## Enforcement Responsibilities
