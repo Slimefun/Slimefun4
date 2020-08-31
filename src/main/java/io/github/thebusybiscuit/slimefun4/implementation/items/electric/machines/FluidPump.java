@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -117,24 +116,27 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     protected void tick(Block b) {
         Block fluid = b.getRelative(BlockFace.DOWN);
-        Optional<ItemStack> bucket = getFilledBucket(fluid);
 
-        if (bucket.isPresent() && getCharge(b.getLocation()) >= ENERGY_CONSUMPTION) {
+        if (fluid.isLiquid() && getCharge(b.getLocation()) >= ENERGY_CONSUMPTION) {
             BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true, false)) {
-                    if (!menu.fits(bucket.get(), getOutputSlots())) {
+                    ItemStack bucket = getFilledBucket(fluid);
+
+                    if (!menu.fits(bucket, getOutputSlots())) {
                         return;
                     }
-                    
+
                     Block nextFluid = findNextFluid(fluid);
-                    if (nextFluid == null) return;
-              
-                    removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
-                    menu.consumeItem(slot);
-                    menu.pushItem(bucket.get().clone(), getOutputSlots());
-                    nextFluid.setType(Material.AIR);
+
+                    if (nextFluid != null) {
+                        removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
+                        menu.consumeItem(slot);
+                        menu.pushItem(bucket, getOutputSlots());
+                        nextFluid.setType(Material.AIR);
+                    }
+
                     return;
                 }
             }
@@ -144,17 +146,18 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private Block findNextFluid(Block fluid) {
         if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
             // With water we can be sure to find an infinite source whenever we go
-            // further than 2 blocks, so we can just remove the water here and save
+            // further than a block, so we can just remove the water here and save
             // ourselves all of that computing...
             if (isSource(fluid)) {
                 return fluid;
             }
-            
-        } else if (fluid.getType() == Material.LAVA) {
+        }
+        else if (fluid.getType() == Material.LAVA) {
             List<Block> list = Vein.find(fluid, RANGE, block -> block.getType() == fluid.getType());
-            
+
             for (int i = list.size() - 1; i >= 0; i--) {
                 Block block = list.get(i);
+
                 if (isSource(block)) {
                     return block;
                 }
@@ -163,18 +166,27 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         return null;
     }
 
-    private Optional<ItemStack> getFilledBucket(Block fluid) {
+    private ItemStack getFilledBucket(Block fluid) {
         if (fluid.getType() == Material.LAVA) {
-            return Optional.of(new ItemStack(Material.LAVA_BUCKET));
+            return new ItemStack(Material.LAVA_BUCKET);
         }
         else if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
-            return Optional.of(new ItemStack(Material.WATER_BUCKET));
+            return new ItemStack(Material.WATER_BUCKET);
         }
         else {
-            return Optional.empty();
+            // Fallback for any new liquids
+            return new ItemStack(Material.BUCKET);
         }
     }
 
+    /**
+     * This method checks if the given {@link Block} is a liquid source {@link Block}.
+     * 
+     * @param block
+     *            The {@link Block} in question
+     * 
+     * @return Whether that {@link Block} is a liquid and a source {@link Block}.
+     */
     private boolean isSource(Block block) {
         if (block.isLiquid()) {
             BlockData data = block.getBlockData();

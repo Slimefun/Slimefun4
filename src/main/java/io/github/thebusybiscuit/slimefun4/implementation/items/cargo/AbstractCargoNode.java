@@ -13,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -79,7 +78,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
         boolean isChestTerminalInstalled = SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled();
         int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY) == null) ? 0 : (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY))));
 
-        menu.replaceExistingItem(slotPrev, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.CARGO_ARROW_LEFT.getTexture()), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
+        menu.replaceExistingItem(slotPrev, new CustomItem(HeadTexture.CARGO_ARROW_LEFT.getAsItemStack(), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
         menu.addMenuClickHandler(slotPrev, (p, slot, item, action) -> {
             int newChannel = channel + 1;
 
@@ -98,7 +97,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
         });
 
         if (channel == 16) {
-            menu.replaceExistingItem(slotCurrent, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.CHEST_TERMINAL.getTexture()), "&bChannel ID: &3" + (channel + 1)));
+            menu.replaceExistingItem(slotCurrent, new CustomItem(HeadTexture.CHEST_TERMINAL.getAsItemStack(), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
         else {
@@ -106,7 +105,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.replaceExistingItem(slotNext, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.CARGO_ARROW_RIGHT.getTexture()), "&bNext Channel", "", "&e> Click to increase the Channel ID by 1"));
+        menu.replaceExistingItem(slotNext, new CustomItem(HeadTexture.CARGO_ARROW_RIGHT.getAsItemStack(), "&bNext Channel", "", "&e> Click to increase the Channel ID by 1"));
         menu.addMenuClickHandler(slotNext, (p, slot, item, action) -> {
             int newChannel = channel + 1;
 
