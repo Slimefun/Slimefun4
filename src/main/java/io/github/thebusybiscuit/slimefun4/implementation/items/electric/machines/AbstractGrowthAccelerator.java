@@ -41,7 +41,7 @@ public abstract class AbstractGrowthAccelerator extends SlimefunItem implements 
 
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : BORDER) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
     }
 
