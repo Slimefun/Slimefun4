@@ -49,6 +49,9 @@ permissions:
   slimefun.command.backpack:
     description: Allows you to do /sf backpack
     default: op
+  slimefun.command.charge:
+    description: Allows you to do /sf charge
+    default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
     default: op
