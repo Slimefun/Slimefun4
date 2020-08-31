@@ -40,7 +40,7 @@ Examples of unacceptable behavior include but are not limited to:
 * Trolling, insulting or derogatory comments, and personal or political attacks
 * Public or private harassment
 * Publishing others' private information, such as a physical or email address, without their explicit permission
-* Impatient and toxic comments
+* Impatient, aggresive and toxic behaviour
 * Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## Enforcement Responsibilities
@@ -67,7 +67,7 @@ All community leaders are obligated to respect the privacy and security of the
 reporter of any incident.
 
 ## Attribution
-This Code of Conduct is a **modification** of the original [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org),
+This Code of Conduct is a **modified version** of the original [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org),
 version 2.0, available at
 https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
 
