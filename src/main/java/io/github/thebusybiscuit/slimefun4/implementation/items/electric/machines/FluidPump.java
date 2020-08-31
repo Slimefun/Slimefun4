@@ -127,31 +127,39 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                     if (!menu.fits(bucket.get(), getOutputSlots())) {
                         return;
                     }
-
+                    
+                    Block consume = findFluid(fluid);
+                    if (consume == null) return;
+              
                     removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
                     menu.consumeItem(slot);
                     menu.pushItem(bucket.get().clone(), getOutputSlots());
-                    consumeFluid(fluid);
-
+                    consume.setType(Material.AIR);
                     return;
                 }
             }
         }
     }
 
-    private void consumeFluid(Block fluid) {
-        if (fluid.isLiquid()) {
-            if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
-                // With water we can be sure to find an infinite source whenever we go
-                // further than 2 blocks, so we can just remove the water here and save
-                // outselves all of that computing...
-                fluid.setType(Material.AIR);
-            }
-            else {
-                List<Block> list = Vein.find(fluid, RANGE, block -> isLiquid(block) && block.getType() == fluid.getType());
-                list.get(list.size() - 1).setType(Material.AIR);
+    private Block findFluid(Block fluid) {
+        if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
+            // With water we can be sure to find an infinite source whenever we go
+            // further than 2 blocks, so we can just remove the water here and save
+            // ourselves all of that computing...
+            return fluid;
+        }
+        
+        if (fluid.getType() == Material.LAVA) {
+            List<Block> list = Vein.find(fluid, RANGE, block -> block.getType() == fluid.getType());
+            
+            for (int i = list.size() - 1; i >= 0; i--) {
+                Block block = list.get(i);
+                if (isSource(block)) {
+                    return block;
+                }
             }
         }
+        return null;
     }
 
     private Optional<ItemStack> getFilledBucket(Block fluid) {
@@ -166,21 +174,21 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         }
     }
 
-    private boolean isLiquid(Block block) {
-        if (block.isLiquid()) {
+    private boolean isSource(Block block) {
+        if (isLiquid(block.getType())) {
             BlockData data = block.getBlockData();
 
             if (data instanceof Levelled) {
                 // Check if this is a full block.
-                return ((Levelled) data).getLevel() == 0;
-            }
-            else {
-                return false;
+                Levelled levelled = (Levelled) data;
+                return levelled.getLevel() == 0;
             }
         }
-        else {
-            return false;
-        }
+        return false;
+    }
+    
+    private boolean isLiquid(Material mat) {
+        return mat == Material.LAVA || mat == Material.WATER || mat == Material.BUBBLE_COLUMN;
     }
 
     @Override
@@ -198,5 +206,4 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             }
         };
     }
-
 }
