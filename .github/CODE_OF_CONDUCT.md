@@ -8,33 +8,35 @@ This document should serve the purpose of outlining the behaviour we expect from
 
 ## Scope
 This Code of Conduct applies to all sections of the [Slimefun4 GitHub repository](https://github.com/TheBusyBiscuit/Slimefun4), our [Slimefun GitHub organization](https://github.com/Slimefun) and all repositories owned by said organization.<br>
-For our official discord server, please refer to our article on [Discord Rules](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Discord-Rules).
+For our official Discord server, please refer to our article on [Discord Rules](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Discord-Rules).
 
 Everyone who engages with this project on any of these repositories is expected to follow the Code of Conduct.<br>
 This includes maintainers, contributors, sponsors and anyone who engages in the "Issues" section on GitHub.
 
-## Our Standards
-Examples of behavior that contributes to a positive environment for our
-community include:
+## Engagement
+This is an Open-Source project, anyone is welcome to engage and contribute!<br>
+We generally expect users to engage in the Issues section by reporting bugs or commenting on bug reports to give additional context, help, guidance or to propose possible solutions and fixes.
 
-* Demonstrating empathy and kindness toward other people
+Pull Requests are very much welcome and encouraged! They keep the project alive, so if you see an Issue and know how to fix it, feel free to create a Pull Request!
+
+Issues that are considered "good first issues", indicated by the [good first issue](https://github.com/TheBusyBiscuit/Slimefun4/labels/good%20first%20issue) label, are estimated to be beginner-friendly. And even if you shouldn't know where to start or how to proceed, our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord) and its community will be there for you!
+
+## Our Standards
+Examples of behavior that contributes to a positive environment for our community include but are not limited to:
+* Demonstrating empathy and kindness towards other people
 * Being respectful of differing opinions, viewpoints, and experiences
 * Giving and gracefully accepting constructive feedback
-* Accepting responsibility and apologizing to those affected by our mistakes,
-  and learning from the experience
-* Focusing on what is best not just for us as individuals, but for the
-  overall community
+* Accepting responsibility and apologizing to those affected by our mistakes and learning from the experience
+* Focusing on what is best not just for us as individuals, but for the overall community
 
-Examples of unacceptable behavior include:
+<hr>
 
-* The use of sexualized language or imagery, and sexual attention or
-  advances of any kind
+Examples of unacceptable behavior include but are not limited to:
+* The use of sexualized language or imagery, and sexual attention or advances of any kind
 * Trolling, insulting or derogatory comments, and personal or political attacks
 * Public or private harassment
-* Publishing others' private information, such as a physical or email
-  address, without their explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+* Publishing others' private information, such as a physical or email address, without their explicit permission
+* Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## Enforcement Responsibilities
 Our project maintainers are responsible for clarifying and enforcing our standards of
@@ -52,8 +54,8 @@ https://github.com/orgs/Slimefun/people
 
 ## Enforcement
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement on our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord).
-If you want your issue to be handled discreetly, message `TheBusyBiscuit#2610` or `Walshy#9709` privately on discord and state your concerns.
+reported to the community leaders (labelled on Discord as "Admins" or "Moderators") responsible for enforcement on our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord).
+If you want your issue to be handled discreetly, message `TheBusyBiscuit#2610` or `Walshy#9709` privately on Discord and state your concerns.
 
 All complaints will be reviewed and investigated promptly and fairly.
 All community leaders are obligated to respect the privacy and security of the
