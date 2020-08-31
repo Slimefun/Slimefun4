@@ -150,8 +150,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                 return fluid;
             }
             
-        }
-        else if (fluid.getType() == Material.LAVA) {
+        } else if (fluid.getType() == Material.LAVA) {
             List<Block> list = Vein.find(fluid, RANGE, block -> block.getType() == fluid.getType());
             
             for (int i = list.size() - 1; i >= 0; i--) {
@@ -177,7 +176,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     }
 
     private boolean isSource(Block block) {
-        if (isLiquid(block.getType())) {
+        if (block.isLiquid()) {
             BlockData data = block.getBlockData();
 
             if (data instanceof Levelled) {
@@ -187,10 +186,6 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             }
         }
         return false;
-    }
-    
-    private boolean isLiquid(Material mat) {
-        return mat == Material.LAVA || mat == Material.WATER || mat == Material.BUBBLE_COLUMN;
     }
 
     @Override
