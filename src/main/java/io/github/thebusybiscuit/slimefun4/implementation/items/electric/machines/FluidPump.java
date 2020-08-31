@@ -128,28 +128,29 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
                         return;
                     }
                     
-                    Block consume = findFluid(fluid);
-                    if (consume == null) return;
+                    Block nextFluid = findNextFluid(fluid);
+                    if (nextFluid == null) return;
               
                     removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
                     menu.consumeItem(slot);
                     menu.pushItem(bucket.get().clone(), getOutputSlots());
-                    consume.setType(Material.AIR);
+                    nextFluid.setType(Material.AIR);
                     return;
                 }
             }
         }
     }
 
-    private Block findFluid(Block fluid) {
+    private Block findNextFluid(Block fluid) {
         if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
             // With water we can be sure to find an infinite source whenever we go
             // further than 2 blocks, so we can just remove the water here and save
             // ourselves all of that computing...
-            return fluid;
-        }
-        
-        if (fluid.getType() == Material.LAVA) {
+            if (isSource(fluid)) {
+                return fluid;
+            }
+            
+        } else if (fluid.getType() == Material.LAVA) {
             List<Block> list = Vein.find(fluid, RANGE, block -> block.getType() == fluid.getType());
             
             for (int i = list.size() - 1; i >= 0; i--) {
