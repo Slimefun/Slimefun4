@@ -16,10 +16,10 @@ This includes maintainers, contributors, sponsors and anyone who engages in the 
 ## Engagement
 This is an Open-Source project, anyone is welcome to engage and contribute!<br>
 We generally expect users to engage in the Issues section by reporting bugs or commenting on bug reports to give additional context, help, guidance or to propose possible solutions and fixes.
-
 Pull Requests are very much welcome and encouraged! They keep the project alive, so if you see an Issue and know how to fix it, feel free to create a Pull Request!
 
-Issues that are considered "good first issues", indicated by the [good first issue](https://github.com/TheBusyBiscuit/Slimefun4/labels/good%20first%20issue) label, are estimated to be beginner-friendly. And even if you shouldn't know where to start or how to proceed, our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord) and its community will be there for you!
+Issues that are considered "good first issues", indicated by the [good first issue](https://github.com/TheBusyBiscuit/Slimefun4/labels/good%20first%20issue) label, are generally expected to be beginner-friendly. 
+And even if you shouldn't know where to start or how to proceed, our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord) and its community will be there for you!
 
 ## Our Standards
 Examples of behavior that contributes to a positive environment for our community include but are not limited to:
