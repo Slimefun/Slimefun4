@@ -92,6 +92,7 @@
 * Fixed #2257
 * Fixed #2260
 * Fixed #2263
+* Fixed #2265
 * Fixed #2269
 * Fixed #2266
 
