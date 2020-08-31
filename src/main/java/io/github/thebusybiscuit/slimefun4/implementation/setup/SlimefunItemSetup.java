@@ -2047,13 +2047,8 @@ public final class SlimefunItemSetup {
         new ItemStack[] {new ItemStack(Material.REDSTONE), new ItemStack(Material.ANVIL), new ItemStack(Material.REDSTONE), SlimefunItems.CARBONADO, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN})
         .register(plugin);
 
-        new AutoAnvil(categories.electricity, SlimefunItems.AUTO_ANVIL, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new AutoAnvil(categories.electricity, 10, SlimefunItems.AUTO_ANVIL, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.ANVIL), null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK)}) {
-
-            @Override
-            public int getRepairFactor() {
-                return 10;
-            }
 
             @Override
             public int getCapacity() {
@@ -2067,13 +2062,8 @@ public final class SlimefunItemSetup {
 
         }.register(plugin);
 
-        new AutoAnvil(categories.electricity, SlimefunItems.AUTO_ANVIL_2, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new AutoAnvil(categories.electricity, 25, SlimefunItems.AUTO_ANVIL_2, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.AUTO_ANVIL, null, SlimefunItems.STEEL_PLATE, SlimefunItems.HEATING_COIL, SlimefunItems.STEEL_PLATE, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK)}) {
-
-            @Override
-            public int getRepairFactor() {
-                return 4;
-            }
 
             @Override
             public int getCapacity() {
@@ -2100,17 +2090,12 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.TIN_DUST, SlimefunItems.POWER_CRYSTAL, SlimefunItems.BRASS_INGOT, new ItemStack(Material.ORANGE_STAINED_GLASS), SlimefunItems.BRASS_INGOT})
         .register(plugin);
 
-        new GPSTransmitter(categories.gps, SlimefunItems.GPS_TRANSMITTER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new GPSTransmitter(categories.gps, 1, SlimefunItems.GPS_TRANSMITTER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.STEEL_INGOT, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT}) {
             
             @Override
             public int getMultiplier(int y) {
                 return y;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 16;
             }
 
             @Override
@@ -2120,17 +2105,12 @@ public final class SlimefunItemSetup {
 
         }.register(plugin);
 
-        new GPSTransmitter(categories.gps, SlimefunItems.GPS_TRANSMITTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new GPSTransmitter(categories.gps, 2, SlimefunItems.GPS_TRANSMITTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.CARBON, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER, SlimefunItems.BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER}) {
             
             @Override
             public int getMultiplier(int y) {
                 return y * 4 + 100;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 64;
             }
 
             @Override
@@ -2140,17 +2120,12 @@ public final class SlimefunItemSetup {
 
         }.register(plugin);
 
-        new GPSTransmitter(categories.gps, SlimefunItems.GPS_TRANSMITTER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new GPSTransmitter(categories.gps, 3, SlimefunItems.GPS_TRANSMITTER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CARBONADO, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.GPS_TRANSMITTER_2}) {
             
             @Override
             public int getMultiplier(int y) {
                 return y * 16 + 500;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
             }
 
             @Override
@@ -2160,17 +2135,12 @@ public final class SlimefunItemSetup {
 
         }.register(plugin);
 
-        new GPSTransmitter(categories.gps, SlimefunItems.GPS_TRANSMITTER_4, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new GPSTransmitter(categories.gps, 4, SlimefunItems.GPS_TRANSMITTER_4, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.NICKEL_INGOT, SlimefunItems.CARBONADO, SlimefunItems.NICKEL_INGOT, SlimefunItems.GPS_TRANSMITTER_3, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GPS_TRANSMITTER_3}) {
             
             @Override
             public int getMultiplier(int y) {
                 return y * 64 + 600;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 1024;
             }
 
             @Override

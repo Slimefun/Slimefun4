@@ -116,6 +116,7 @@ public class EnergyNet extends Network {
 
         if (!regulator.equals(b.getLocation())) {
             SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
+            SlimefunPlugin.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());
             return;
         }
 
