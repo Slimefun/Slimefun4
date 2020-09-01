@@ -37,11 +37,11 @@ Also consider making an addon for your additions when they get too large, check 
 Another great way to contribute to Slimefun is by working on translations for the project.
 Slimefun's translation is available on [gitlocalize.com](https://gitlocalize.com/repo/3841).
 Just find a language you are fluent in and translate away. But make sure to submit a "Review Request" when you are done.
-One of our language moderators will review the changes and submit a Pull Request to the project for you.
+One of our Language Moderators will review the changes and submit a Pull Request to the project for you.
 
-#### Language moderation
-Very active community translators will have the option to become a "language moderator". 
-Language moderators are responsible for proof-reading any new translations for their designated language and correct it when they see a mistake.
+#### Language Moderation
+Very active community translators will have the option to become a "Language Moderator". 
+Language Moderators are responsible for proof-reading any new translations for their designated language and correct it when they see a mistake.
 
 For more info on how or what to translate, check out our article on [How to translate Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun).
 
@@ -61,7 +61,7 @@ We always welcome quality improvements to the code and the "Code Smells" section
 But please keep in mind that some design patterns may not be changed too abruptly if an addon depends on them. 
 To prevent any accidents from happening, please contact us on our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord) before-hand and state your intended changes.
 
-#### documentation
+#### Documentation
 Code documentation is also a great way to improve the maintainability of the project.
 Every class and every public method should have a Javadocs tag assigned to it. 
 Classes should also include an "author" tag to indicate who worked on that class.
