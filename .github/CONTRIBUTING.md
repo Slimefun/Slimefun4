@@ -13,7 +13,7 @@ For more info on how to make good and helpful bug reports, check out our article
 
 If you encounter an issue which has already been reported, please don't open a new one.<br>
 It would be awesome though if you could post a comment on the existing issue which explains how you were able to reproduce this yourself.
-The more context and information we get, the easier we can fix it
+The more context and information we get, the easier we can fix it.
 
 ## 2. Pull Requests: Bug Fixes
 Bugs that have been reported need to be fixed of course.<br>
@@ -31,9 +31,10 @@ So communicating your intended changes before-hand will ensure that you don't pu
 We also have a suggestions section in our Discord Server too, you can check out `#approved` for any suggestions the community has voted for. 
 It is a great place to start looking for ideas on what to add or change.
 
-Also consider making an addon for your additions when they get too large, check out our [Developer Guide](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide).
+Also consider making an addon for your additions when they get too large, too abstract or too "niche".
+You can check out our [Developer Guide](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide) for a guide on how to create a Slimefun addon..
 
-## 4. Translations
+## 4. Pull Requests: Translations
 Another great way to contribute to Slimefun is by working on translations for the project.
 Slimefun's translation is available on [gitlocalize.com](https://gitlocalize.com/repo/3841).
 Just find a language you are fluent in and translate away. But make sure to submit a "Review Request" when you are done.
@@ -45,11 +46,11 @@ Language Moderators are responsible for proof-reading any new translations for t
 
 For more info on how or what to translate, check out our article on [How to translate Slimefun](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Translating-Slimefun).
 
-## 5. Wiki contributions
+## 5. Pull Requests: Wiki contributions
 Slimefun is a very large project and might be quite intimidating for new players.
 That's why good documentation is always nice and helpful.
 If you have played with Slimefun for a while and gotten yourself familiar with how things work, please consider contributing your experiences and knowledge to others via the wiki!
-It would help out a lot <3
+It would help out a lot :heart:
 
 You can find a tutorial on how to contribute to our wiki right here:<br>
 https://github.com/TheBusyBiscuit/Slimefun4/wiki/Expanding-the-Wiki
