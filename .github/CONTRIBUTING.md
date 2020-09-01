@@ -27,9 +27,11 @@ You can also comment on the existing Issue, proposing your idea or communicating
 Slimefun is an Open-Source project and anyone is allowed to make changes or add content to this plugin!
 
 Please visit our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord) and share your ideas first, we hate to reject changes because the community disagrees.<br>
-So communicating your intended changes before-hand will ensure that you don't put too much work into something that might get rejected.<br>
-We also have a suggestions section in our Discord Server too, you can check out `#approved` for any suggestions the community has voted for. 
-It is a great place to start looking for ideas on what to add or change.
+So communicating your intended changes before-hand will ensure that you don't put too much work into something that might get rejected.
+
+We also have a suggestions section in our Discord Server too. Suggestions can be placed in the `#suggestions` channel and community members can vote on a suggestion.
+Suggestions which gotten enough votes will be moved to `#approved`.
+Therefore our `#approved` is a great place to start looking for ideas on what to add or change, since it will definitely be something a large number of people agree with.
 
 Also consider making an addon for your additions when they get too large, too abstract or too "niche".
 You can check out our [Developer Guide](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Developer-Guide) for a guide on how to create a Slimefun addon..
