@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -76,11 +77,11 @@ abstract class AbstractCargoNode extends SlimefunItem {
 
     protected void addChannelSelector(Block b, BlockMenu menu, int slotPrev, int slotCurrent, int slotNext) {
         boolean isChestTerminalInstalled = SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled();
-        int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY) == null) ? 0 : (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY))));
+        int channel = getSelectedChannel(b);
 
         menu.replaceExistingItem(slotPrev, new CustomItem(HeadTexture.CARGO_ARROW_LEFT.getAsItemStack(), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
         menu.addMenuClickHandler(slotPrev, (p, slot, item, action) -> {
-            int newChannel = channel + 1;
+            int newChannel = channel - 1;
 
             if (channel < 0) {
                 if (isChestTerminalInstalled) {
@@ -122,6 +123,23 @@ abstract class AbstractCargoNode extends SlimefunItem {
             updateBlockMenu(menu, b);
             return false;
         });
+    }
+
+    private int getSelectedChannel(Block b) {
+        if (!BlockStorage.hasBlockInfo(b)) {
+            return 0;
+        }
+        else {
+            String frequency = BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY);
+
+            if (frequency == null) {
+                return 0;
+            }
+            else {
+                int channel = Integer.parseInt(frequency);
+                return NumberUtils.clamp(0, channel, 16);
+            }
+        }
     }
 
     protected abstract void onPlace(BlockPlaceEvent e);
