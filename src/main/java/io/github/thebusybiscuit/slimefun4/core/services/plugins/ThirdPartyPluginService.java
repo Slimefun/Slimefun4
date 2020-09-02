@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +40,7 @@ public class ThirdPartyPluginService {
     // Overridden if ExoticGarden is loaded
     private Function<Block, Optional<ItemStack>> exoticGardenIntegration = b -> Optional.empty();
 
-    public ThirdPartyPluginService(SlimefunPlugin plugin) {
+    public ThirdPartyPluginService(@Nonnull SlimefunPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -92,7 +94,7 @@ public class ThirdPartyPluginService {
         });
     }
 
-    private boolean isPluginInstalled(String hook) {
+    private boolean isPluginInstalled(@Nonnull String hook) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
             Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
             return true;

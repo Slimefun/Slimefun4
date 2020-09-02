@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Location;
 
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
@@ -42,7 +44,7 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      * 
      * @return The generated output energy of this {@link EnergyNetProvider}.
      */
-    int getGeneratedOutput(Location l, Config data);
+    int getGeneratedOutput(@Nonnull Location l, @Nonnull Config data);
 
     /**
      * This method returns whether the given {@link Location} is going to explode on the
@@ -55,7 +57,7 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      * 
      * @return Whether or not this {@link Location} will explode.
      */
-    default boolean willExplode(Location l, Config data) {
+    default boolean willExplode(@Nonnull Location l, @Nonnull Config data) {
         return false;
     }
 

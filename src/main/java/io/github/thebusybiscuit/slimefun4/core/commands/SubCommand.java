@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.core.commands;
 
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.HelpCommand;
@@ -27,6 +30,7 @@ public abstract class SubCommand {
     private final String name;
     private final boolean hidden;
 
+    @ParametersAreNonnullByDefault
     protected SubCommand(SlimefunPlugin plugin, SlimefunCommand cmd, String name, boolean hidden) {
         this.plugin = plugin;
         this.cmd = cmd;
@@ -41,6 +45,7 @@ public abstract class SubCommand {
      * 
      * @return The name of this {@link SubCommand}
      */
+    @Nonnull
     public final String getName() {
         return name;
     }
@@ -54,12 +59,13 @@ public abstract class SubCommand {
         return hidden;
     }
 
-    protected void recordUsage(Map<SubCommand, Integer> commandUsage) {
+    protected void recordUsage(@Nonnull Map<SubCommand, Integer> commandUsage) {
         commandUsage.merge(this, 1, Integer::sum);
     }
 
-    public abstract void onExecute(CommandSender sender, String[] args);
+    public abstract void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args);
 
+    @Nonnull
     protected String getDescription() {
         return "commands." + getName();
     }
@@ -73,7 +79,8 @@ public abstract class SubCommand {
      *            The {@link CommandSender} who requested the description
      * @return A possibly localized description of this {@link SubCommand}
      */
-    public String getDescription(CommandSender sender) {
+    @Nonnull
+    public String getDescription(@Nonnull CommandSender sender) {
         if (sender instanceof Player) {
             return SlimefunPlugin.getLocalization().getMessage((Player) sender, getDescription());
         }

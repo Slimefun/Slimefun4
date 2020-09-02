@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,6 +35,7 @@ public interface SlimefunGuideImplementation {
      * 
      * @return The layout this {@link SlimefunGuideImplementation} represents
      */
+    @Nonnull
     SlimefunGuideLayout getLayout();
 
     /**
@@ -42,6 +45,7 @@ public interface SlimefunGuideImplementation {
      * 
      * @return The {@link ItemStack} representation for this {@link SlimefunGuideImplementation}
      */
+    @Nonnull
     ItemStack getItem();
 
     /**

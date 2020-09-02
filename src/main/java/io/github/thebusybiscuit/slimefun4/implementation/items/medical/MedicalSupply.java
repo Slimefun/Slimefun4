@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 import javax.annotation.Nonnull;
 
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -25,26 +25,32 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
     }
 
     /**
-     * This method clears any negative {@link PotionEffect} from the given {@link Player}.
+     * This method clears any negative {@link PotionEffect} from the given {@link LivingEntity}.
      * 
-     * @param p
-     *            The {@link Player}
+     * @param n
+     *            The {@link LivingEntity} to clear the effects from.
      */
-    public void clearNegativeEffects(@Nonnull Player p) {
-        if (p.hasPotionEffect(PotionEffectType.POISON)) p.removePotionEffect(PotionEffectType.POISON);
-        if (p.hasPotionEffect(PotionEffectType.WITHER)) p.removePotionEffect(PotionEffectType.WITHER);
-        if (p.hasPotionEffect(PotionEffectType.SLOW)) p.removePotionEffect(PotionEffectType.SLOW);
-        if (p.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) p.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-        if (p.hasPotionEffect(PotionEffectType.WEAKNESS)) p.removePotionEffect(PotionEffectType.WEAKNESS);
-        if (p.hasPotionEffect(PotionEffectType.CONFUSION)) p.removePotionEffect(PotionEffectType.CONFUSION);
-        if (p.hasPotionEffect(PotionEffectType.BLINDNESS)) p.removePotionEffect(PotionEffectType.BLINDNESS);
-        if (p.hasPotionEffect(PotionEffectType.BAD_OMEN)) p.removePotionEffect(PotionEffectType.BLINDNESS);
+    public void clearNegativeEffects(@Nonnull LivingEntity n) {
+        if (n.hasPotionEffect(PotionEffectType.POISON)) n.removePotionEffect(PotionEffectType.POISON);
+        if (n.hasPotionEffect(PotionEffectType.WITHER)) n.removePotionEffect(PotionEffectType.WITHER);
+        if (n.hasPotionEffect(PotionEffectType.SLOW)) n.removePotionEffect(PotionEffectType.SLOW);
+        if (n.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) n.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+        if (n.hasPotionEffect(PotionEffectType.WEAKNESS)) n.removePotionEffect(PotionEffectType.WEAKNESS);
+        if (n.hasPotionEffect(PotionEffectType.CONFUSION)) n.removePotionEffect(PotionEffectType.CONFUSION);
+        if (n.hasPotionEffect(PotionEffectType.BLINDNESS)) n.removePotionEffect(PotionEffectType.BLINDNESS);
+        if (n.hasPotionEffect(PotionEffectType.BAD_OMEN)) n.removePotionEffect(PotionEffectType.BLINDNESS);
     }
 
-    public void heal(@Nonnull Player p) {
-        double health = p.getHealth() + healAmount;
-        double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-        p.setHealth(Math.min(health, maxHealth));
+    /**
+     * This method heals the given {@link LivingEntity} by the amount provided via the constructor.
+     * 
+     * @param n
+     *            The {@link LivingEntity} to heal
+     */
+    public void heal(@Nonnull LivingEntity n) {
+        double health = n.getHealth() + healAmount;
+        double maxHealth = n.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+        n.setHealth(Math.min(health, maxHealth));
     }
 
 }

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 
@@ -33,6 +35,7 @@ public interface EnergyNetComponent extends ItemAttribute {
      * 
      * @return The {@link EnergyNetComponentType} this {@link SlimefunItem} represents.
      */
+    @Nonnull
     EnergyNetComponentType getEnergyComponentType();
 
     /**
@@ -61,7 +64,7 @@ public interface EnergyNetComponent extends ItemAttribute {
      * 
      * @return The charge stored at that {@link Location}
      */
-    default int getCharge(Location l) {
+    default int getCharge(@Nonnull Location l) {
         Validate.notNull(l, "Location was null!");
         String charge = BlockStorage.getLocationInfo(l, "energy-charge");
 
@@ -83,7 +86,7 @@ public interface EnergyNetComponent extends ItemAttribute {
      * @param charge
      *            The new charge
      */
-    default void setCharge(Location l, int charge) {
+    default void setCharge(@Nonnull Location l, int charge) {
         Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge >= 0, "You can only set a charge of zero or more!");
         int capacity = getCapacity();
@@ -104,7 +107,7 @@ public interface EnergyNetComponent extends ItemAttribute {
         }
     }
 
-    default void addCharge(Location l, int charge) {
+    default void addCharge(@Nonnull Location l, int charge) {
         Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge > 0, "You can only add a positive charge!");
         int capacity = getCapacity();
@@ -126,7 +129,7 @@ public interface EnergyNetComponent extends ItemAttribute {
         }
     }
 
-    default void removeCharge(Location l, int charge) {
+    default void removeCharge(@Nonnull Location l, int charge) {
         Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge > 0, "The charge to remove must be greater than zero!");
         int capacity = getCapacity();

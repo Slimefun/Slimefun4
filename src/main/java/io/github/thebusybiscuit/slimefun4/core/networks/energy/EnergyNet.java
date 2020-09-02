@@ -8,6 +8,9 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -47,7 +50,7 @@ public class EnergyNet extends Network {
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
     private final Map<Location, EnergyNetComponent> consumers = new HashMap<>();
 
-    protected EnergyNet(Location l) {
+    protected EnergyNet(@Nonnull Location l) {
         super(SlimefunPlugin.getNetworkManager(), l);
     }
 
@@ -57,7 +60,7 @@ public class EnergyNet extends Network {
     }
 
     @Override
-    public NetworkComponent classifyLocation(Location l) {
+    public NetworkComponent classifyLocation(@Nonnull Location l) {
         if (regulator.equals(l)) {
             return NetworkComponent.REGULATOR;
         }
@@ -111,7 +114,7 @@ public class EnergyNet extends Network {
         }
     }
 
-    public void tick(Block b) {
+    public void tick(@Nonnull Block b) {
         AtomicLong timestamp = new AtomicLong(SlimefunPlugin.getProfiler().newEntry());
 
         if (!regulator.equals(b.getLocation())) {
@@ -204,7 +207,7 @@ public class EnergyNet extends Network {
         }
     }
 
-    private int tickAllGenerators(LongConsumer timings) {
+    private int tickAllGenerators(@Nonnull LongConsumer timings) {
         Set<Location> explodedBlocks = new HashSet<>();
         int supply = 0;
 
@@ -259,7 +262,7 @@ public class EnergyNet extends Network {
         return supply;
     }
 
-    private void updateHologram(Block b, double supply, double demand) {
+    private void updateHologram(@Nonnull Block b, double supply, double demand) {
         if (demand > supply) {
             String netLoss = DoubleHandler.getFancyDouble(Math.abs(supply - demand));
             SimpleHologram.update(b, "&4&l- &c" + netLoss + " &7J &e\u26A1");
@@ -270,7 +273,8 @@ public class EnergyNet extends Network {
         }
     }
 
-    private static EnergyNetComponent getComponent(Location l) {
+    @Nullable
+    private static EnergyNetComponent getComponent(@Nonnull Location l) {
         SlimefunItem item = BlockStorage.check(l);
 
         if (item instanceof EnergyNetComponent) {
@@ -289,7 +293,8 @@ public class EnergyNet extends Network {
      * 
      * @return The {@link EnergyNet} at that {@link Location}, or a new one
      */
-    public static EnergyNet getNetworkFromLocationOrCreate(Location l) {
+    @Nonnull
+    public static EnergyNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
         Optional<EnergyNet> energyNetwork = SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class);
 
         if (energyNetwork.isPresent()) {

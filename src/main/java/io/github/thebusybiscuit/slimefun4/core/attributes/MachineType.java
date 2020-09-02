@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import javax.annotation.Nonnull;
+
 public enum MachineType {
 
     CAPACITOR("Capacitor"), 
@@ -8,7 +10,7 @@ public enum MachineType {
 
     private final String suffix;
 
-    MachineType(String suffix) {
+    MachineType(@Nonnull String suffix) {
         this.suffix = suffix;
     }
 

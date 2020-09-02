@@ -101,9 +101,9 @@ public class GitHubService {
         connectors.add(new ContributionsConnector(this, "resourcepack", 1, "Slimefun/Resourcepack", "resourcepack"));
 
         // Issues and Pull Requests
-        connectors.add(new GitHubIssuesTracker(this, repository, (issues, pullRequests) -> {
-            this.issues = issues;
-            this.pullRequests = pullRequests;
+        connectors.add(new GitHubIssuesTracker(this, repository, (openIssues, openPullRequests) -> {
+            this.issues = openIssues;
+            this.pullRequests = openPullRequests;
         }));
 
         connectors.add(new GitHubConnector(this, repository) {

@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,23 +38,28 @@ public final class ChestMenuUtils {
 
     private static final MenuClickHandler CLICK_HANDLER = (p, s, i, a) -> false;
 
+    @Nonnull
     public static ItemStack getBackground() {
         return UI_BACKGROUND;
     }
 
+    @Nonnull
     public static MenuClickHandler getEmptyClickHandler() {
         return CLICK_HANDLER;
     }
 
-    public static ItemStack getBackButton(Player p, String... lore) {
+    @Nonnull
+    public static ItemStack getBackButton(@Nonnull Player p, String... lore) {
         return new CustomItem(BACK_BUTTON, "&7\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), lore);
     }
 
-    public static ItemStack getMenuButton(Player p) {
+    @Nonnull
+    public static ItemStack getMenuButton(@Nonnull Player p) {
         return new CustomItem(MENU_BUTTON, ChatColor.YELLOW + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category"));
     }
 
-    public static ItemStack getSearchButton(Player p) {
+    @Nonnull
+    public static ItemStack getSearchButton(@Nonnull Player p) {
         return new CustomItem(SEARCH_BUTTON, meta -> {
             meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "guide.search.name")));
 
@@ -62,45 +69,50 @@ public final class ChestMenuUtils {
         });
     }
 
+    @Nonnull
     public static ItemStack getWikiButton() {
         return WIKI_BUTTON;
     }
 
-    public static ItemStack getPreviousButton(Player p, int page, int pages) {
+    @Nonnull
+    public static ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == 1) {
             return new CustomItem(PREV_BUTTON_INACTIVE, meta -> {
                 meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }
-
-        return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
-            meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-        });
+        else {
+            return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
+                meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
+                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+            });
+        }
     }
 
-    public static ItemStack getNextButton(Player p, int page, int pages) {
+    @Nonnull
+    public static ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == pages) {
             return new CustomItem(NEXT_BUTTON_INACTIVE, meta -> {
                 meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }
-
-        return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
-            meta.setDisplayName(ChatColor.WHITE + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-        });
+        else {
+            return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
+                meta.setDisplayName(ChatColor.WHITE + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
+                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+            });
+        }
     }
 
-    public static void drawBackground(ChestMenu menu, int... slots) {
+    public static void drawBackground(@Nonnull ChestMenu menu, int... slots) {
         for (int slot : slots) {
             menu.addItem(slot, getBackground(), getEmptyClickHandler());
         }
     }
 
-    public static void updateProgressbar(ChestMenu menu, int slot, int timeLeft, int time, ItemStack indicator) {
+    public static void updateProgressbar(@Nonnull ChestMenu menu, int slot, int timeLeft, int time, @Nonnull ItemStack indicator) {
         Inventory inv = menu.toInventory();
 
         // We don't need to update the progress bar if noone is watching :o
@@ -123,6 +135,7 @@ public final class ChestMenuUtils {
         menu.replaceExistingItem(slot, item);
     }
 
+    @Nonnull
     public static String getProgressBar(int time, int total) {
         StringBuilder builder = new StringBuilder();
         float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);
@@ -145,7 +158,7 @@ public final class ChestMenuUtils {
         return ChatColors.color(builder.toString());
     }
 
-    private static short getDurability(ItemStack item, int timeLeft, int max) {
+    private static short getDurability(@Nonnull ItemStack item, int timeLeft, int max) {
         return (short) ((item.getType().getMaxDurability() / max) * timeLeft);
     }
 

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
@@ -45,6 +47,7 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
      * 
      * @return The {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
+    @Nonnull
     public abstract T getItemHandler();
 
 }

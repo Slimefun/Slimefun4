@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Wither;
 
@@ -28,6 +30,6 @@ public interface WitherProof extends ItemAttribute {
      * @param wither
      *            The {@link Wither} who attacked.
      */
-    void onAttack(Block block, Wither wither);
+    void onAttack(@Nonnull Block block, @Nonnull Wither wither);
 
 }
