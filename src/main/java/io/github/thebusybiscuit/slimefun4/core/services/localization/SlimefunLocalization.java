@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.UnaryOperator;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -35,7 +37,7 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
  */
 public abstract class SlimefunLocalization extends Localization implements Keyed {
 
-    public SlimefunLocalization(SlimefunPlugin plugin) {
+    public SlimefunLocalization(@Nonnull SlimefunPlugin plugin) {
         super(plugin);
     }
 
@@ -47,7 +49,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      *            The language code
      * @return A {@link Language} with the given id or null
      */
-    public abstract Language getLanguage(String id);
+    public abstract Language getLanguage(@Nonnull String id);
 
     /**
      * This method returns the currently selected {@link Language} of a {@link Player}.
@@ -56,7 +58,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      *            The {@link Player} to query
      * @return The {@link Language} that was selected by the given {@link Player}
      */
-    public abstract Language getLanguage(Player p);
+    public abstract Language getLanguage(@Nonnull Player p);
 
     /**
      * This method returns the default {@link Language} of this {@link Server}
@@ -65,7 +67,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      */
     public abstract Language getDefaultLanguage();
 
-    protected abstract boolean hasLanguage(String id);
+    protected abstract boolean hasLanguage(@Nonnull String id);
 
     /**
      * This method returns a full {@link Collection} of every {@link Language} that was
@@ -75,7 +77,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      */
     public abstract Collection<Language> getLanguages();
 
-    protected abstract void addLanguage(String id, String texture);
+    protected abstract void addLanguage(@Nonnull String id, @Nonnull String texture);
 
     protected void loadEmbeddedLanguages() {
         for (SupportedLanguage lang : SupportedLanguage.values()) {
