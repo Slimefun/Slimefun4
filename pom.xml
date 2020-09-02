@@ -294,7 +294,6 @@
             <scope>provided</scope>
         </dependency>
 
-
         <!-- Development / Testing dependencies -->
         <dependency>
             <groupId>javax.annotation</groupId>

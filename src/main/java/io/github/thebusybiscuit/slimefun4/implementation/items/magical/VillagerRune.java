@@ -24,9 +24,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author dNiym
  *
  */
-public class NitwitRune extends SimpleSlimefunItem<EntityInteractHandler> {
+public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
 
-    public NitwitRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public VillagerRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 

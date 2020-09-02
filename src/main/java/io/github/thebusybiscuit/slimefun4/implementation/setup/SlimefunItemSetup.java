@@ -130,7 +130,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Knowledge
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicalZombiePills;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.NitwitRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
@@ -3051,9 +3051,9 @@ public final class SlimefunItemSetup {
             new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
             .register(plugin);
 
-            new NitwitRune(categories.magicalResources, SlimefunItems.NITWIT_RUNE, RecipeType.ANCIENT_ALTAR, 
+            new VillagerRune(categories.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR, 
             new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO, SlimefunItems.FIRE_RUNE, SlimefunItems.STRANGE_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3},
-            new SlimefunItemStack(SlimefunItems.NITWIT_RUNE, 3))
+            new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3))
             .register(plugin);
         }
     }
