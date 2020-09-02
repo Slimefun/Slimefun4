@@ -84,6 +84,7 @@ guide:
       miner: Ressourcen, die mit dieser Maschine gewonnen werden können
       generator: Mögliche Treibstoffquellen
       gold-pan: Ressourcen, die hiermit gewonnen werden können
+      climbing-pick: Oberflächen zum Klettern
   back:
     title: Zurück
     guide: Gehe zurück zum Slimefun-Handbuch
@@ -180,6 +181,10 @@ messages:
   multi-tool:
     mode-change: "&bDer Modus von deinem Multi-Tool wurde geändert zu: &9%mode%"
     not-shears: "&cEinMulti Tool kann nicht als Schere verwendet werden!"
+  climbing-pick:
+    dual-wielding: "&4Du musst zum Klettern einen KletterPickel in beiden Händen halten!"
+    wrong-material: "&cDu kannst nicht an dieser Wand klettern. Erkundige dich im
+      Slimefun Guide für mehr Infos!"
   mode-change: "&bDer Modus von deinem %device% wurde geändert zu: &9%mode%"
 machines:
   pattern-not-found: "&eEs tut mir leid, aber ich konnte kein passendes Rezept finden."
