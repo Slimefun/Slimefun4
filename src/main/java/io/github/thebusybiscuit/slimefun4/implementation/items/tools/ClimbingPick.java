@@ -48,7 +48,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem, RecipeDisplayItem {
 
     private static final double BASE_POWER = 1;
-    private static final double MAX_DISTANCE = 4.5;
+    private static final double MAX_DISTANCE = 4.4;
 
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
