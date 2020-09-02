@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -107,7 +110,8 @@ public enum HeadTexture {
 
     private final String texture;
 
-    HeadTexture(String texture) {
+    HeadTexture(@Nonnull String texture) {
+        Validate.notNull(texture, "Texture cannot be null");
         this.texture = texture;
     }
 

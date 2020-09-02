@@ -37,7 +37,6 @@ public class EnhancedCraftingTable extends BackpackCrafter {
         if (state instanceof Dispenser) {
             Dispenser disp = (Dispenser) state;
             Inventory inv = disp.getInventory();
-
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
             for (int i = 0; i < inputs.size(); i++) {
@@ -51,6 +50,7 @@ public class EnhancedCraftingTable extends BackpackCrafter {
                     return;
                 }
             }
+
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
         }
     }

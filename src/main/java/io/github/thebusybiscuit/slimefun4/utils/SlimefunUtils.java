@@ -6,6 +6,10 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -62,7 +66,7 @@ public final class SlimefunUtils {
      *            The {@link Item} to query
      * @return Whether the {@link Item} is excluded from being picked up
      */
-    public static boolean hasNoPickupFlag(Item item) {
+    public static boolean hasNoPickupFlag(@Nonnull Item item) {
         return item.hasMetadata(NO_PICKUP_METADATA);
     }
 
@@ -75,7 +79,7 @@ public final class SlimefunUtils {
      * @param context
      *            The context in which this {@link Item} was flagged
      */
-    public static void markAsNoPickup(Item item, String context) {
+    public static void markAsNoPickup(@Nonnull Item item, @Nonnull String context) {
         item.setMetadata(NO_PICKUP_METADATA, new FixedMetadataValue(SlimefunPlugin.instance(), context));
     }
 
@@ -86,19 +90,15 @@ public final class SlimefunUtils {
      *            The {@link ItemStack} to check for
      * @return Whether the given item is soulbound
      */
-    public static boolean isSoulbound(ItemStack item) {
+    public static boolean isSoulbound(@Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return false;
         }
         else {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
-            if (meta != null && SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-                PersistentDataContainer container = meta.getPersistentDataContainer();
-
-                if (container.has(SOULBOUND_KEY, PersistentDataType.BYTE)) {
-                    return true;
-                }
+            if (hasSoulboundFlag(meta)) {
+                return true;
             }
 
             if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
@@ -123,6 +123,18 @@ public final class SlimefunUtils {
         }
     }
 
+    private static boolean hasSoulboundFlag(@Nullable ItemMeta meta) {
+        if (meta != null && SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+
+            if (container.has(SOULBOUND_KEY, PersistentDataType.BYTE)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Toggles an {@link ItemStack} to be Soulbound.<br>
      * If true is passed, this will add the {@link #SOULBOUND_LORE} and
@@ -137,7 +149,7 @@ public final class SlimefunUtils {
      * 
      * @see #isSoulbound(ItemStack)
      */
-    public static void setSoulbound(ItemStack item, boolean makeSoulbound) {
+    public static void setSoulbound(@Nullable ItemStack item, boolean makeSoulbound) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("A soulbound item cannot be null or air!");
         }
@@ -179,7 +191,7 @@ public final class SlimefunUtils {
      * 
      * @return Whether this {@link ItemStack} is radioactive or not
      */
-    public static boolean isRadioactive(ItemStack item) {
+    public static boolean isRadioactive(@Nullable ItemStack item) {
         return SlimefunItem.getByItem(item) instanceof Radioactive;
     }
 
@@ -189,9 +201,12 @@ public final class SlimefunUtils {
      * 
      * @param texture
      *            The texture for this head (base64 or hash)
+     * 
      * @return An {@link ItemStack} with this Head texture
      */
-    public static ItemStack getCustomHead(String texture) {
+    public static ItemStack getCustomHead(@Nonnull String texture) {
+        Validate.notNull(texture, "The provided texture is null");
+
         if (SlimefunPlugin.instance() == null) {
             throw new PrematureCodeException("You cannot instantiate a custom head before Slimefun was loaded.");
         }
@@ -233,11 +248,11 @@ public final class SlimefunUtils {
         return false;
     }
 
-    public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore) {
+    public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore) {
         return isItemSimilar(item, sfitem, checkLore, true);
     }
 
-    public static boolean isItemSimilar(ItemStack item, ItemStack sfitem, boolean checkLore, boolean checkAmount) {
+    public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
         if (item == null) return sfitem == null;
         if (sfitem == null) return false;
         if (item.getType() != sfitem.getType()) return false;
@@ -271,7 +286,7 @@ public final class SlimefunUtils {
         return false;
     }
 
-    private static boolean equalsItemMeta(ItemMeta itemMeta, ImmutableItemMeta meta, boolean checkLore) {
+    private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ImmutableItemMeta meta, boolean checkLore) {
         Optional<String> displayName = meta.getDisplayName();
 
         if (itemMeta.hasDisplayName() != displayName.isPresent()) {
@@ -295,7 +310,7 @@ public final class SlimefunUtils {
         }
     }
 
-    private static boolean equalsItemMeta(ItemMeta itemMeta, ItemMeta sfitemMeta, boolean checkLore) {
+    private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta sfitemMeta, boolean checkLore) {
         if (itemMeta.hasDisplayName() != sfitemMeta.hasDisplayName()) {
             return false;
         }
@@ -313,7 +328,7 @@ public final class SlimefunUtils {
         }
     }
 
-    private static boolean equalsLore(List<String> lore, List<String> lore2) {
+    private static boolean equalsLore(@Nonnull List<String> lore, @Nonnull List<String> lore2) {
         StringBuilder string1 = new StringBuilder();
         StringBuilder string2 = new StringBuilder();
 
@@ -332,7 +347,10 @@ public final class SlimefunUtils {
         return string1.toString().equals(string2.toString());
     }
 
-    public static void updateCapacitorTexture(Location l, int charge, int capacity) {
+    public static void updateCapacitorTexture(@Nonnull Location l, int charge, int capacity) {
+        Validate.notNull(l, "Cannot update a texture for null");
+        Validate.isTrue(capacity > 0, "Capacity must be greater than zero!");
+
         Slimefun.runSync(() -> {
             Block b = l.getBlock();
 

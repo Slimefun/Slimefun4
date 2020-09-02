@@ -6,15 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -22,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
@@ -52,52 +48,7 @@ public class AutoEnchanter extends AContainer {
     }
 
     @Override
-    protected void tick(Block b) {
-        BlockMenu menu = BlockStorage.getInventory(b.getLocation());
-
-        if (isProcessing(b)) {
-            int timeleft = progress.get(b);
-
-            if (timeleft > 0) {
-                ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
-
-                if (getCharge(b.getLocation()) < getEnergyConsumption()) {
-                    return;
-                }
-
-                removeCharge(b.getLocation(), getEnergyConsumption());
-                progress.put(b, timeleft - 1);
-            }
-            else {
-                menu.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-
-                for (ItemStack item : processing.get(b).getOutput()) {
-                    menu.pushItem(item, getOutputSlots());
-                }
-
-                progress.remove(b);
-                processing.remove(b);
-            }
-        }
-        else {
-            MachineRecipe recipe = findRecipe(menu);
-
-            if (recipe != null) {
-                if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                    return;
-                }
-
-                for (int slot : getInputSlots()) {
-                    menu.consumeItem(slot);
-                }
-
-                processing.put(b, recipe);
-                progress.put(b, recipe.getTicks());
-            }
-        }
-    }
-
-    private MachineRecipe findRecipe(BlockMenu menu) {
+    protected MachineRecipe findNextRecipe(BlockMenu menu) {
         for (int slot : getInputSlots()) {
             ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
@@ -108,7 +59,6 @@ public class AutoEnchanter extends AContainer {
 
             ItemStack item = menu.getItemInSlot(slot);
 
-            // Enchant
             if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
                 Map<Enchantment, Integer> enchantments = new HashMap<>();
                 Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
@@ -147,7 +97,17 @@ public class AutoEnchanter extends AContainer {
                         EmeraldEnchants.getInstance().getRegistry().applyEnchantment(enchantedItem, ench.getEnchantment(), ench.getLevel());
                     }
 
-                    return new MachineRecipe(75 * amount, new ItemStack[] { target, item }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
+                    MachineRecipe recipe = new MachineRecipe(75 * amount, new ItemStack[] { target, item }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
+
+                    if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
+                        return null;
+                    }
+
+                    for (int inputSlot : getInputSlots()) {
+                        menu.consumeItem(inputSlot);
+                    }
+
+                    return recipe;
                 }
 
                 return null;

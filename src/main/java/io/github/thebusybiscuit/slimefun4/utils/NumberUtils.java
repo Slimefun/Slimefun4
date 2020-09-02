@@ -6,6 +6,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
 public final class NumberUtils {
@@ -18,7 +22,8 @@ public final class NumberUtils {
         return NumberFormat.getNumberInstance(Locale.US).format(i);
     }
 
-    public static LocalDateTime parseGitHubDate(String date) {
+    public static LocalDateTime parseGitHubDate(@Nonnull String date) {
+        Validate.notNull(date, "Provided date was null");
         return LocalDateTime.parse(date.substring(0, date.length() - 1));
     }
 
@@ -31,7 +36,8 @@ public final class NumberUtils {
         else return ChatColor.GREEN;
     }
 
-    public static String getElapsedTime(LocalDateTime date) {
+    public static String getElapsedTime(@Nonnull LocalDateTime date) {
+        Validate.notNull(date, "Provided date was null");
         long hours = Duration.between(date, LocalDateTime.now()).toHours();
 
         if (hours == 0) {
@@ -88,15 +94,15 @@ public final class NumberUtils {
         return DECIMAL_FORMAT.format(number);
     }
 
-    public static long getLong(Long value, long defaultValue) {
+    public static long getLong(@Nullable Long value, long defaultValue) {
         return value == null ? defaultValue : value;
     }
 
-    public static int getInt(Integer value, int defaultValue) {
+    public static int getInt(@Nullable Integer value, int defaultValue) {
         return value == null ? defaultValue : value;
     }
 
-    public static float getFloat(Float value, float defaultValue) {
+    public static float getFloat(@Nullable Float value, float defaultValue) {
         return value == null ? defaultValue : value;
     }
 
