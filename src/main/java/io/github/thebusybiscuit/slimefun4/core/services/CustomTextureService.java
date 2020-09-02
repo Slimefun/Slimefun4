@@ -61,7 +61,7 @@ public class CustomTextureService {
         config.setDefaultValue("_UI_NEXT_INACTIVE", 0);
 
         for (SlimefunItem item : items) {
-            if (item != null && item.getID() != null) {
+            if (item != null) {
                 config.setDefaultValue(item.getID(), 0);
 
                 if (config.getInt(item.getID()) != 0) {

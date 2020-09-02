@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.resources;
+package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
 import org.bukkit.entity.Piglin;
 import org.bukkit.inventory.ItemStack;

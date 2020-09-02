@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -44,6 +47,7 @@ public class MultiBlock {
         }
     }
 
+    @Nonnull
     public static Set<Tag<Material>> getSupportedTags() {
         return SUPPORTED_TAGS;
     }
@@ -53,7 +57,7 @@ public class MultiBlock {
     private final BlockFace trigger;
     private final boolean isSymmetric;
 
-    public MultiBlock(SlimefunItem item, Material[] build, BlockFace trigger) {
+    public MultiBlock(@Nonnull SlimefunItem item, Material[] build, @Nonnull BlockFace trigger) {
         Validate.notNull(item, "A MultiBlock requires a SlimefunItem!");
 
         if (build == null || build.length != 9) {
@@ -70,18 +74,21 @@ public class MultiBlock {
         this.isSymmetric = isSymmetric(build);
     }
 
+    @Nonnull
     public SlimefunItem getSlimefunItem() {
         return item;
     }
 
-    private static boolean isSymmetric(Material[] blocks) {
+    private static boolean isSymmetric(@Nonnull Material[] blocks) {
         return blocks[0] == blocks[2] && blocks[3] == blocks[5] && blocks[6] == blocks[8];
     }
 
+    @Nonnull
     public Material[] getStructure() {
         return blocks;
     }
 
+    @Nonnull
     public BlockFace getTriggerBlock() {
         return trigger;
     }
@@ -112,7 +119,7 @@ public class MultiBlock {
         return Objects.hash(item.getID(), blocks, trigger, isSymmetric);
     }
 
-    private boolean compareBlocks(Material a, Material b) {
+    private boolean compareBlocks(Material a, @Nullable Material b) {
         if (b != null) {
 
             for (Tag<Material> tag : SUPPORTED_TAGS) {

@@ -49,7 +49,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     private final NamespacedKey languageKey;
     private final Language defaultLanguage;
 
-    public LocalizationService(SlimefunPlugin plugin, String prefix, String serverDefaultLanguage) {
+    public LocalizationService(@Nonnull SlimefunPlugin plugin, @Nullable String prefix, @Nullable String serverDefaultLanguage) {
         super(plugin);
 
         this.plugin = plugin;
@@ -102,17 +102,20 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     }
 
     @Override
+    @Nonnull
     public NamespacedKey getKey() {
         return languageKey;
     }
 
     @Override
+    @Nullable
     public Language getLanguage(@Nonnull String id) {
         Validate.notNull(id, "The language id cannot be null");
         return languages.get(id);
     }
 
     @Override
+    @Nonnull
     public Collection<Language> getLanguages() {
         return languages.values();
     }

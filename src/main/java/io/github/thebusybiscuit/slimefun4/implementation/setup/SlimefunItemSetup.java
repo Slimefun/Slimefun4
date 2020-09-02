@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -147,6 +149,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuit
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.StrangeNetherGoo;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.SyntheticEmerald;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.ArmorForge;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.AutomatedPanningMachine;
@@ -185,7 +188,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.IcyBow;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SwordOfBeheading;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
-import io.github.thebusybiscuit.slimefun4.implementation.resources.StrangeNetherGoo;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -226,7 +228,7 @@ public final class SlimefunItemSetup {
 
     private SlimefunItemSetup() {}
 
-    public static void setup(SlimefunPlugin plugin) {
+    public static void setup(@Nonnull SlimefunPlugin plugin) {
         if (registeredItems) {
             throw new UnsupportedOperationException("Slimefun Items can only be registered once!");
         }
