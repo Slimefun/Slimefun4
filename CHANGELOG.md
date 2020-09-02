@@ -38,6 +38,7 @@
 * Added Nitwit Rune
 * Added Synthetic Shulker Shells
 * Added Climbing Pick
+* Added item breaking sounds to some slimefun tools
 
 #### Changes
 * Performance improvement for Programmable Android rotations
