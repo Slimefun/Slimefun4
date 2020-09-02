@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import java.io.File;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -37,7 +39,7 @@ public class UpdaterService {
      * @param file
      *            The {@link File} of this {@link Plugin}
      */
-    public UpdaterService(SlimefunPlugin plugin, String version, File file) {
+    public UpdaterService(@Nonnull SlimefunPlugin plugin, @Nonnull String version, @Nonnull File file) {
         this.plugin = plugin;
         Updater autoUpdater = null;
 
@@ -82,6 +84,7 @@ public class UpdaterService {
      *
      * @return The branch this build of Slimefun is on.
      */
+    @Nonnull
     public SlimefunBranch getBranch() {
         return branch;
     }
