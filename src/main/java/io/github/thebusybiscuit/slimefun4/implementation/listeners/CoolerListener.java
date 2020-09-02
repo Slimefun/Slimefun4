@@ -5,6 +5,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -19,10 +21,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * This {@link Listener} listens for a {@link FoodLevelChangeEvent} and consumes a {@link Juice}
- * from any {@link Cooler} that can be found in the {@link Inventory} of the given {@link Player}.
+ * This {@link Listener} listens for a {@link FoodLevelChangeEvent} or an {@link EntityDamageEvent} for starvation damage
+ * and consumes a {@link Juice} from any {@link Cooler} that can be found in the {@link Inventory} of the given {@link Player}.
  * 
  * @author TheBusyBiscuit
+ * @author Linox
  * 
  * @see Cooler
  * @see Juice
@@ -40,21 +43,36 @@ public class CoolerListener implements Listener {
 
     @EventHandler
     public void onHungerLoss(FoodLevelChangeEvent e) {
-        if (cooler == null || cooler.isDisabled()) {
+        if (cooler == null || cooler.isDisabled() || !(e.getEntity() instanceof Player)) {
             return;
         }
 
         Player p = (Player) e.getEntity();
 
         if (e.getFoodLevel() < p.getFoodLevel()) {
-            for (ItemStack item : p.getInventory().getContents()) {
-                if (cooler.isItem(item)) {
-                    if (Slimefun.hasUnlocked(p, cooler, true)) {
-                        takeJuiceFromCooler(p, item);
-                    }
-                    else {
-                        return;
-                    }
+            checkAndConsume(p);
+        }
+    }
+    
+    @EventHandler
+    public void onHungerDamage(EntityDamageEvent e) {
+        if (cooler == null || cooler.isDisabled() || !(e.getEntity() instanceof Player)) {
+            return;
+        }
+        
+        if (e.getCause() == DamageCause.STARVATION) {
+            checkAndConsume((Player) e.getEntity());
+        }
+    }
+    
+    private void checkAndConsume(Player p) {
+        for (ItemStack item : p.getInventory().getContents()) {
+            if (cooler.isItem(item)) {
+                if (Slimefun.hasUnlocked(p, cooler, true)) {
+                    takeJuiceFromCooler(p, item);
+                }
+                else {
+                    return;
                 }
             }
         }

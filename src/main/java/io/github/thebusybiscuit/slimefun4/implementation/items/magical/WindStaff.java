@@ -31,7 +31,10 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
                 if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
                     FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
                     Bukkit.getPluginManager().callEvent(event);
-                    p.setFoodLevel(event.getFoodLevel());
+                    
+                    if (!event.isCancelled()) {
+                        p.setFoodLevel(event.getFoodLevel());
+                    }
                 }
 
                 p.setVelocity(p.getEyeLocation().getDirection().multiply(4));

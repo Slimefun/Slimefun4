@@ -23,9 +23,9 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 class PerformanceSummary {
 
     // The threshold at which a Block or Chunk is significant enough to appear in /sf timings
-    private static final int VISIBILITY_THRESHOLD = 300_000;
-    private static final int MIN_ITEMS = 4;
-    private static final int MAX_ITEMS = 12;
+    private static final int VISIBILITY_THRESHOLD = 260_000;
+    private static final int MIN_ITEMS = 6;
+    private static final int MAX_ITEMS = 20;
 
     private final SlimefunProfiler profiler;
     private final PerformanceRating rating;

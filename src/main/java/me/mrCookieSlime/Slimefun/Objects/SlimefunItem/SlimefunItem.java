@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,7 +29,6 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemExcepti
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
@@ -325,7 +326,7 @@ public class SlimefunItem implements Placeable {
      * @param addon
      *            The {@link SlimefunAddon} that this {@link SlimefunItem} belongs to.
      */
-    public void register(SlimefunAddon addon) {
+    public void register(@Nonnull SlimefunAddon addon) {
         Validate.notNull(addon, "A SlimefunAddon cannot be null!");
         Validate.notNull(addon.getJavaPlugin(), "SlimefunAddon#getJavaPlugin() is not allowed to return null!");
 
@@ -368,14 +369,6 @@ public class SlimefunItem implements Placeable {
 
             if (this instanceof Radioactive) {
                 SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
-            }
-
-            if (this instanceof EnergyNetComponent && !SlimefunPlugin.getRegistry().getEnergyCapacities().containsKey(getID())) {
-                int capacity = ((EnergyNetComponent) this).getCapacity();
-
-                if (capacity > 0) {
-                    SlimefunPlugin.getRegistry().getEnergyCapacities().put(id, capacity);
-                }
             }
 
             if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {

@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import java.util.Locale;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +24,7 @@ public final class ChatUtils {
 
     private ChatUtils() {}
 
-    public static void sendURL(CommandSender sender, String url) {
+    public static void sendURL(@Nonnull CommandSender sender, @Nonnull String url) {
         // If we get access to the URL prompt one day, we can just prompt the link to the Player that way.
         sender.sendMessage("");
         SlimefunPlugin.getLocalization().sendMessage(sender, "messages.link-prompt", false);
@@ -30,11 +32,11 @@ public final class ChatUtils {
         sender.sendMessage("");
     }
 
-    public static String removeColorCodes(String string) {
+    public static String removeColorCodes(@Nonnull String string) {
         return ChatColor.stripColor(ChatColors.color(string));
     }
 
-    public static String crop(ChatColor color, String string) {
+    public static String crop(@Nonnull ChatColor color, @Nonnull String string) {
         if (ChatColor.stripColor(color + string).length() > 19) {
             return (color + ChatColor.stripColor(string)).substring(0, 18) + "...";
         }
@@ -43,11 +45,11 @@ public final class ChatUtils {
         }
     }
 
-    public static String christmas(String text) {
+    public static String christmas(@Nonnull String text) {
         return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);
     }
 
-    public static void awaitInput(Player p, Consumer<String> callback) {
+    public static void awaitInput(@Nonnull Player p, @Nonnull Consumer<String> callback) {
         ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, callback);
     }
 
@@ -64,7 +66,7 @@ public final class ChatUtils {
      * 
      * @return A human-friendly version of the given {@link String}
      */
-    public static String humanize(String string) {
+    public static String humanize(@Nonnull String string) {
         StringBuilder builder = new StringBuilder();
         String[] segments = PatternUtils.UNDERSCORE.split(string.toLowerCase(Locale.ROOT));
 

@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -77,29 +77,28 @@ abstract class AbstractCargoNode extends SlimefunItem {
 
     protected void addChannelSelector(Block b, BlockMenu menu, int slotPrev, int slotCurrent, int slotNext) {
         boolean isChestTerminalInstalled = SlimefunPlugin.getThirdPartySupportService().isChestTerminalInstalled();
+        int channel = getSelectedChannel(b);
 
-        menu.replaceExistingItem(slotPrev, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.CARGO_ARROW_LEFT.getTexture()), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
+        menu.replaceExistingItem(slotPrev, new CustomItem(HeadTexture.CARGO_ARROW_LEFT.getAsItemStack(), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
         menu.addMenuClickHandler(slotPrev, (p, slot, item, action) -> {
-            int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY)) - 1;
+            int newChannel = channel - 1;
 
             if (channel < 0) {
                 if (isChestTerminalInstalled) {
-                    channel = 16;
+                    newChannel = 16;
                 }
                 else {
-                    channel = 15;
+                    newChannel = 15;
                 }
             }
 
-            BlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(channel));
+            BlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(newChannel));
             updateBlockMenu(menu, b);
             return false;
         });
 
-        int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY) == null) ? 0 : (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY))));
-
         if (channel == 16) {
-            menu.replaceExistingItem(slotCurrent, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.CHEST_TERMINAL.getTexture()), "&bChannel ID: &3" + (channel + 1)));
+            menu.replaceExistingItem(slotCurrent, new CustomItem(HeadTexture.CHEST_TERMINAL.getAsItemStack(), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
         else {
@@ -107,23 +106,40 @@ abstract class AbstractCargoNode extends SlimefunItem {
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.replaceExistingItem(slotNext, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.CARGO_ARROW_RIGHT.getTexture()), "&bNext Channel", "", "&e> Click to increase the Channel ID by 1"));
+        menu.replaceExistingItem(slotNext, new CustomItem(HeadTexture.CARGO_ARROW_RIGHT.getAsItemStack(), "&bNext Channel", "", "&e> Click to increase the Channel ID by 1"));
         menu.addMenuClickHandler(slotNext, (p, slot, item, action) -> {
-            int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY)) + 1;
+            int newChannel = channel + 1;
 
             if (isChestTerminalInstalled) {
-                if (channeln > 16) {
-                    channeln = 0;
+                if (newChannel > 16) {
+                    newChannel = 0;
                 }
             }
-            else if (channeln > 15) {
-                channeln = 0;
+            else if (newChannel > 15) {
+                newChannel = 0;
             }
 
-            BlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(channeln));
+            BlockStorage.addBlockInfo(b, FREQUENCY, String.valueOf(newChannel));
             updateBlockMenu(menu, b);
             return false;
         });
+    }
+
+    private int getSelectedChannel(Block b) {
+        if (!BlockStorage.hasBlockInfo(b)) {
+            return 0;
+        }
+        else {
+            String frequency = BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY);
+
+            if (frequency == null) {
+                return 0;
+            }
+            else {
+                int channel = Integer.parseInt(frequency);
+                return NumberUtils.clamp(0, channel, 16);
+            }
+        }
     }
 
     protected abstract void onPlace(BlockPlaceEvent e);
