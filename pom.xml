@@ -319,12 +319,6 @@
                     <groupId>org.jetbrains</groupId>
                     <artifactId>annotations</artifactId>
                 </exclusion>
-                <exclusion>
-                    <!-- We are using Junit 5 Jupiter, so we can just exclude -->
-                    <!-- JUnit 4 here to prevent inconsistent test frameworks -->
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
