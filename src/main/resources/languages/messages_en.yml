@@ -47,6 +47,7 @@ guide:
       miner: 'Resources you can obtain with this Miner'
       generator: 'Available types of fuel'
       gold-pan: 'Resources you can obtain'
+      climbing-pick: 'Surfaces you can climb'
 
   cheat:
     no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
@@ -164,6 +165,10 @@ messages:
     wrong-world: '&cYour anchor seems to be in a different world!'
     distance: '&7Measurement taken. &eDistance: %distance%'
     anchor-set: '&aSuccessfully set the anchor:&e %anchor%'
+    
+  climbing-pick:
+    dual-wielding: '&4You need to hold Climbing Picks in both hands to use them!'
+    wrong-material: '&cYou cannot climb this surface. Check your Slimefun Guide for more info!'
 
   fire-extinguish: '&7You have extinguished yourself'
   cannot-place: '&cYou cannot place that block there!'

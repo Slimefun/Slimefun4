@@ -8,6 +8,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,7 +40,7 @@ class PerformanceSummary {
     private final Map<String, Long> plugins;
     private final Map<String, Long> items;
 
-    PerformanceSummary(SlimefunProfiler profiler, long totalElapsedTime, int totalTickedBlocks) {
+    PerformanceSummary(@Nonnull SlimefunProfiler profiler, long totalElapsedTime, int totalTickedBlocks) {
         this.profiler = profiler;
         this.rating = profiler.getPerformance();
         this.percentage = profiler.getPercentageOfTick();
@@ -51,7 +53,7 @@ class PerformanceSummary {
         items = profiler.getByItem();
     }
 
-    public void send(CommandSender sender) {
+    public void send(@Nonnull CommandSender sender) {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "===== Slimefun Lag Profiler =====");
         sender.sendMessage(ChatColor.GOLD + "Total time: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
@@ -112,21 +114,21 @@ class PerformanceSummary {
             hoverComponent.setColor(ChatColor.GRAY);
             StringBuilder builder = new StringBuilder();
 
-            int displayed = 0;
-            int hidden = 0;
+            int shownEntries = 0;
+            int hiddenEntries = 0;
 
             for (Map.Entry<String, Long> entry : results) {
-                if (displayed < MAX_ITEMS && (displayed < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD)) {
+                if (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD)) {
                     builder.append("\n").append(ChatColor.YELLOW).append(formatter.apply(entry));
-                    displayed++;
+                    shownEntries++;
                 }
                 else {
-                    hidden++;
+                    hiddenEntries++;
                 }
             }
 
-            if (hidden > 0) {
-                builder.append("\n\n&c+ &6").append(hidden).append(" more");
+            if (hiddenEntries > 0) {
+                builder.append("\n\n&c+ &6").append(hiddenEntries).append(" more");
             }
 
             Content content = new Text(TextComponent.fromLegacyText(ChatColors.color(builder.toString())));
@@ -139,31 +141,28 @@ class PerformanceSummary {
     }
 
     private String summarizeAsString(int count, String prefix, List<Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
-        int displayed = 0;
-        int hidden = 0;
+        int shownEntries = 0;
+        int hiddenEntries = 0;
 
         StringBuilder builder = new StringBuilder();
-        builder.append(ChatColor.GOLD);
-        builder.append(prefix);
+        builder.append(ChatColor.GOLD).append(prefix);
 
         if (count > 0) {
             builder.append(ChatColor.YELLOW);
 
             for (Map.Entry<String, Long> entry : results) {
-                if (displayed < MAX_ITEMS && (displayed < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD)) {
+                if (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD)) {
                     builder.append("\n  ");
                     builder.append(ChatColor.stripColor(formatter.apply(entry)));
-                    displayed++;
+                    shownEntries++;
                 }
                 else {
-                    hidden++;
+                    hiddenEntries++;
                 }
             }
 
-            if (hidden > 0) {
-                builder.append("\n+ ");
-                builder.append(hidden);
-                builder.append(" more...");
+            if (hiddenEntries > 0) {
+                builder.append("\n+ ").append(hiddenEntries).append(" more...");
             }
         }
 

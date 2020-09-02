@@ -15,6 +15,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+/**
+ * This is a simple utility classs for spawning random and colorful {@link Firework} rockets.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public final class FireworkUtils {
 
     private static final Color[] COLORS = { Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW };
@@ -22,6 +28,10 @@ public final class FireworkUtils {
     private FireworkUtils() {}
 
     public static void launchFirework(@Nonnull Location l, @Nonnull Color color) {
+        createFirework(l, color);
+    }
+
+    public static Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
         Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
         FireworkMeta meta = fw.getFireworkMeta();
 
@@ -30,28 +40,17 @@ public final class FireworkUtils {
         meta.addEffect(effect);
         meta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
         fw.setFireworkMeta(meta);
-    }
-
-    public static Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
-        Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
-        FireworkMeta meta = fw.getFireworkMeta();
-
-        meta.setDisplayName(ChatColor.GREEN + "Slimefun Research");
-        FireworkEffect effect = FireworkEffect.builder().flicker(ThreadLocalRandom.current().nextBoolean()).withColor(color).with(ThreadLocalRandom.current().nextInt(3) + 1 == 1 ? Type.BALL : Type.BALL_LARGE).trail(ThreadLocalRandom.current().nextBoolean()).build();
-        meta.addEffect(effect);
-        meta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
-        fw.setFireworkMeta(meta);
 
         return fw;
     }
 
     public static void launchRandom(@Nonnull Entity n, int amount) {
+        Random random = ThreadLocalRandom.current();
+
         for (int i = 0; i < amount; i++) {
             Location l = n.getLocation().clone();
-            l.setX(l.getX() + ThreadLocalRandom.current().nextInt(amount));
-            l.setX(l.getX() - ThreadLocalRandom.current().nextInt(amount));
-            l.setZ(l.getZ() + ThreadLocalRandom.current().nextInt(amount));
-            l.setZ(l.getZ() - ThreadLocalRandom.current().nextInt(amount));
+            l.setX(l.getX() + random.nextInt(amount * 2) - amount);
+            l.setZ(l.getZ() + random.nextInt(amount * 2) - amount);
 
             launchFirework(l, getRandomColor());
         }

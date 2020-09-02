@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 
 import io.github.thebusybiscuit.cscorelib2.players.MinecraftAccount;
@@ -30,7 +32,7 @@ class GitHubTask implements Runnable {
 
     private final GitHubService gitHubService;
 
-    GitHubTask(GitHubService github) {
+    GitHubTask(@Nonnull GitHubService github) {
         gitHubService = github;
     }
 
@@ -72,14 +74,14 @@ class GitHubTask implements Runnable {
         gitHubService.saveCache();
     }
 
-    private int requestTexture(Contributor contributor, Map<String, String> skins) {
+    private int requestTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) {
         if (!contributor.hasTexture()) {
             try {
                 if (skins.containsKey(contributor.getMinecraftName())) {
                     contributor.setTexture(skins.get(contributor.getMinecraftName()));
                 }
                 else {
-                    contributor.setTexture(pullTexture(skins, contributor));
+                    contributor.setTexture(pullTexture(contributor, skins));
                     return contributor.getUniqueId().isPresent() ? 1 : 2;
                 }
             }
@@ -110,7 +112,7 @@ class GitHubTask implements Runnable {
         return 0;
     }
 
-    private String pullTexture(Map<String, String> skins, Contributor contributor) throws TooManyRequestsException, IOException {
+    private String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws TooManyRequestsException, IOException {
         Optional<UUID> uuid = contributor.getUniqueId();
 
         if (!uuid.isPresent()) {

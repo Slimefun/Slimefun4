@@ -25,9 +25,4 @@ public abstract class LavaGenerator extends AGenerator {
         return new ItemStack(Material.FLINT_AND_STEEL);
     }
 
-    @Override
-    public String getInventoryTitle() {
-        return "&4Lava Generator";
-    }
-
 }

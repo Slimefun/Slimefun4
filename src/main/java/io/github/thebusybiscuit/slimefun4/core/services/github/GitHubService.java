@@ -9,6 +9,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.Nonnull;
+
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -48,7 +50,7 @@ public class GitHubService {
      * @param repository
      *            The repository to create this {@link GitHubService} for
      */
-    public GitHubService(String repository) {
+    public GitHubService(@Nonnull String repository) {
         this.repository = repository;
 
         connectors = new HashSet<>();
@@ -56,7 +58,7 @@ public class GitHubService {
         loadConnectors(false);
     }
 
-    public void start(SlimefunPlugin plugin) {
+    public void start(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
     }
 
@@ -68,17 +70,17 @@ public class GitHubService {
         new Translators(this);
     }
 
-    private void addContributor(String name, String role) {
+    private void addContributor(@Nonnull String name, @Nonnull String role) {
         Contributor contributor = new Contributor(name);
         contributor.setContribution(role, 0);
         contributor.setUniqueId(uuidCache.getUUID(name));
         contributors.put(name, contributor);
     }
 
-    public Contributor addContributor(String minecraftName, String profile, String role, int commits) {
-        String username = profile.substring(profile.lastIndexOf('/') + 1);
+    public Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
+        String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
 
-        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profile));
+        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profileURL));
         contributor.setContribution(role, commits);
         contributor.setUniqueId(uuidCache.getUUID(minecraftName));
         return contributor;
@@ -166,7 +168,7 @@ public class GitHubService {
      * 
      * @return The amount of open issues
      */
-    public int getOpenissues() {
+    public int getOpenIssues() {
         return issues;
     }
 
@@ -220,7 +222,7 @@ public class GitHubService {
         texturesCache.save();
     }
 
-    protected String getCachedTexture(String name) {
+    protected String getCachedTexture(@Nonnull String name) {
         return texturesCache.getString(name);
     }
 }

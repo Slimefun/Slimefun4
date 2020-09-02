@@ -9,6 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
@@ -37,22 +40,26 @@ public class Contributor {
     private Optional<UUID> uuid = Optional.empty();
     private boolean locked = false;
 
-    public Contributor(String username, String profile) {
+    public Contributor(@Nonnull String username, @Nonnull String profile) {
         Validate.notNull(username, "Username must never be null!");
         Validate.notNull(profile, "The profile link must never be null!");
+
         githubUsername = profile.substring(profile.lastIndexOf('/') + 1);
         minecraftUsername = username;
         profileLink = profile;
     }
 
-    public Contributor(String username) {
+    public Contributor(@Nonnull String username) {
         Validate.notNull(username, "Username must never be null!");
+
         githubUsername = username;
         minecraftUsername = username;
         profileLink = null;
     }
 
-    public void setContribution(String role, int commits) {
+    public void setContribution(@Nonnull String role, int commits) {
+        Validate.notNull(role, "The role cannot be null!");
+
         if (!locked || role.startsWith("translator,")) {
             contributions.put(role, commits);
         }
@@ -110,7 +117,7 @@ public class Contributor {
      * @param uuid
      *            The {@link UUID} for this {@link Contributor}
      */
-    public void setUniqueId(UUID uuid) {
+    public void setUniqueId(@Nullable UUID uuid) {
         this.uuid = uuid == null ? Optional.empty() : Optional.of(uuid);
     }
 
@@ -158,7 +165,7 @@ public class Contributor {
         return headTexture.isComputed();
     }
 
-    public void setTexture(String skin) {
+    public void setTexture(@Nonnull String skin) {
         headTexture.compute(skin);
     }
 

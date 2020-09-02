@@ -34,6 +34,10 @@
 * Industrial Miners can now also mine Gilded Blackstone
 * Added a config option to disable Players from burning when exposed to radiation
 * Added a config option to drop excess items when using /sf give
+* Added Strange Nether Goo
+* Added Nitwit Rune
+* Added Synthetic Shulker Shells
+* Added Climbing Pick
 
 #### Changes
 * Performance improvement for Programmable Android rotations

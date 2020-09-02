@@ -83,6 +83,7 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("saplings"), Material.OAK_SAPLING, Material.BIRCH_SAPLING, Material.SPRUCE_SAPLING, Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING);
         server.createMaterialTag(NamespacedKey.minecraft("coral_blocks"), Material.BRAIN_CORAL_BLOCK, Material.BUBBLE_CORAL_BLOCK, Material.FIRE_CORAL_BLOCK, Material.HORN_CORAL_BLOCK, Material.TUBE_CORAL_BLOCK);
         server.createMaterialTag(NamespacedKey.minecraft("corals"), Material.BRAIN_CORAL, Material.BUBBLE_CORAL, Material.FIRE_CORAL, Material.HORN_CORAL, Material.TUBE_CORAL);
+        server.createMaterialTag(NamespacedKey.minecraft("ice"), Material.ICE, Material.PACKED_ICE, Material.FROSTED_ICE, Material.BLUE_ICE);
     }
 
 }
