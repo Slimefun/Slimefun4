@@ -84,6 +84,7 @@ guide:
       miner: Bu madenciyle elde edebileceğin kaynaklar
       generator: Müsait yakıt türleri
       gold-pan: Elde edebileceğin kaynaklar
+      climbing-pick: Tırmanılabilen yüzeyler
   back:
     title: Geri
     guide: Slimefun Rehberine geri dön
@@ -175,6 +176,11 @@ messages:
   multi-tool:
     mode-change: "&b%device% modül değiştirildi: &9%mode%"
     not-shears: "&cBir Multi Tool makas olarak kullanılamaz!"
+  climbing-pick:
+    dual-wielding: "&4Tırmanabilmek için her iki elinizde de Climbing Pick tutmanız
+      gerekiyor!"
+    wrong-material: "&cBu yüzeye tırmanamazsınız. Daha çok bilgi için Slimefun Guide'a
+      bakın!"
   mode-change: "&b%device% modu değişti: &9%mode%"
 machines:
   pattern-not-found: "&eÜzgünüm, bu tarifi tanıyamadım. Lütfen Eşyaları Dağıtıcıya
