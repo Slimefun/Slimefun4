@@ -312,6 +312,20 @@
             <artifactId>MockBukkit-v1.16</artifactId>
             <version>0.5.0</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- We are using Junit 5 Jupiter, so we can just exclude -->
+                    <!-- JUnit 4 here to prevent inconsistent test frameworks -->
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -359,9 +373,9 @@
             <version>7.2.0-SNAPSHOT</version>
             <scope>provided</scope>
             <exclusions>
-                <!-- This one is ignored because it pops up everytime -->
-                <!-- I try to import File... yes, I want the java.io one... -->
                 <exclusion>
+                    <!-- This one is ignored because it pops up everytime -->
+                    <!-- I try to import File... yes, I want java.io.File -->
                     <groupId>de.schlichtherle</groupId>
                     <artifactId>truezip</artifactId>
                 </exclusion>
@@ -372,6 +386,14 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.10.9</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
