@@ -59,6 +59,7 @@
 * Performance improvements for energy networks
 * (API) Rewritten Block-Energy API
 * Removed "durability" setting from cargo nodes
+* Small performance improvements for radiation
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction

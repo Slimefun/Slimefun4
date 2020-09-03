@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -70,11 +72,13 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
         addItemHandler(onRightClick());
     }
 
+    @Nonnull
     private ItemUseHandler onRightClick() {
         return PlayerRightClickEvent::cancel;
     }
 
     @Override
+    @Nonnull
     public Radioactivity getRadioactivity() {
         return radioactivity;
     }

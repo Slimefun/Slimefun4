@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -28,7 +30,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class DispenserListener implements Listener {
 
-    public DispenserListener(SlimefunPlugin plugin) {
+    public DispenserListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

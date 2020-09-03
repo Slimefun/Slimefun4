@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EnderPearl;
@@ -31,7 +33,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class SlimefunBootsListener implements Listener {
 
-    public SlimefunBootsListener(SlimefunPlugin plugin) {
+    public SlimefunBootsListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -51,7 +53,7 @@ public class SlimefunBootsListener implements Listener {
         }
     }
 
-    private void onFallDamage(EntityDamageEvent e) {
+    private void onFallDamage(@Nonnull EntityDamageEvent e) {
         Player p = (Player) e.getEntity();
         SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
@@ -71,7 +73,7 @@ public class SlimefunBootsListener implements Listener {
         }
     }
 
-    private void onEnderPearlDamage(EntityDamageEvent e) {
+    private void onEnderPearlDamage(@Nonnull EntityDamageEvent e) {
         Player p = (Player) e.getEntity();
         SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 

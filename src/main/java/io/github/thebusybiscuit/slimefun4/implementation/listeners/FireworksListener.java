@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
@@ -11,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 public class FireworksListener implements Listener {
 
-    public FireworksListener(SlimefunPlugin plugin) {
+    public FireworksListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -48,7 +51,7 @@ public class BackpackListener implements Listener {
 
     private final Map<UUID, ItemStack> backpacks = new HashMap<>();
 
-    public void register(SlimefunPlugin plugin) {
+    public void register(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -99,7 +102,7 @@ public class BackpackListener implements Listener {
         }
     }
 
-    private boolean isAllowed(SlimefunBackpack backpack, ItemStack item) {
+    private boolean isAllowed(@Nonnull SlimefunBackpack backpack, @Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
@@ -154,7 +157,7 @@ public class BackpackListener implements Listener {
      * @param id
      *            The id of this backpack
      */
-    public void setBackpackId(OfflinePlayer backpackOwner, ItemStack item, int line, int id) {
+    public void setBackpackId(@Nonnull OfflinePlayer backpackOwner, @Nonnull ItemStack item, int line, int id) {
         Validate.notNull(backpackOwner, "Backpacks must have an owner!");
         Validate.notNull(item, "Cannot set the id onto null!");
 

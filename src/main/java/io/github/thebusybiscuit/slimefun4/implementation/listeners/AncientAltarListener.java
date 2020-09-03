@@ -8,6 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -70,10 +73,12 @@ public class AncientAltarListener implements Listener {
      * 
      * @return A {@link Set} of every {@link AncientAltar} currently in use
      */
+    @Nonnull
     public Set<Location> getAltarsInUse() {
         return altarsInUse;
     }
 
+    @Nonnull
     public List<Block> getAltars() {
         return altars;
     }
@@ -119,7 +124,7 @@ public class AncientAltarListener implements Listener {
         }
     }
 
-    private void usePedestal(Block pedestal, Player p) {
+    private void usePedestal(@Nonnull Block pedestal, @Nonnull Player p) {
         if (altarsInUse.contains(pedestal.getLocation())) {
             return;
         }
@@ -158,7 +163,7 @@ public class AncientAltarListener implements Listener {
         }
     }
 
-    private void useAltar(Block altar, Player p) {
+    private void useAltar(@Nonnull Block altar, @Nonnull Player p) {
         if (!SlimefunPlugin.getProtectionManager().hasPermission(p, altar, ProtectableAction.ACCESS_INVENTORIES)) {
             SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
             return;
@@ -198,6 +203,7 @@ public class AncientAltarListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void startRitual(Player p, Block b, List<Block> pedestals, ItemStack catalyst) {
         List<ItemStack> input = new ArrayList<>();
 
@@ -266,7 +272,8 @@ public class AncientAltarListener implements Listener {
         }
     }
 
-    private List<Block> getPedestals(Block altar) {
+    @Nonnull
+    private List<Block> getPedestals(@Nonnull Block altar) {
         List<Block> list = new ArrayList<>();
 
         if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getID())) {
@@ -297,15 +304,16 @@ public class AncientAltarListener implements Listener {
         return list;
     }
 
-    public Optional<ItemStack> getRecipeOutput(ItemStack catalyst, List<ItemStack> input) {
-        if (input.size() != 8) {
+    @Nonnull
+    public Optional<ItemStack> getRecipeOutput(@Nonnull ItemStack catalyst, @Nonnull List<ItemStack> inputs) {
+        if (inputs.size() != 8) {
             return Optional.empty();
         }
 
         ItemStackWrapper wrapper = new ItemStackWrapper(catalyst);
-        List<ItemStackWrapper> items = ItemStackWrapper.wrapList(input);
+        List<ItemStackWrapper> items = ItemStackWrapper.wrapList(inputs);
 
-        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false)) {
+        if (SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.BROKEN_SPAWNER, false, false)) {
             if (!checkRecipe(SlimefunItems.BROKEN_SPAWNER, items).isPresent()) {
                 return Optional.empty();
             }
@@ -320,7 +328,8 @@ public class AncientAltarListener implements Listener {
         return checkRecipe(wrapper, items);
     }
 
-    private Optional<ItemStack> checkRecipe(ItemStack catalyst, List<ItemStackWrapper> items) {
+    @Nonnull
+    private Optional<ItemStack> checkRecipe(@Nonnull ItemStack catalyst, @Nonnull List<ItemStackWrapper> items) {
         for (AltarRecipe recipe : altarItem.getRecipes()) {
             if (SlimefunUtils.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
                 Optional<ItemStack> optional = checkPedestals(items, recipe);
@@ -334,7 +343,8 @@ public class AncientAltarListener implements Listener {
         return Optional.empty();
     }
 
-    private Optional<ItemStack> checkPedestals(List<ItemStackWrapper> items, AltarRecipe recipe) {
+    @Nonnull
+    private Optional<ItemStack> checkPedestals(@Nonnull List<ItemStackWrapper> items, @Nonnull AltarRecipe recipe) {
         for (int i = 0; i < 8; i++) {
             if (SlimefunUtils.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
                 for (int j = 1; j < 8; j++) {

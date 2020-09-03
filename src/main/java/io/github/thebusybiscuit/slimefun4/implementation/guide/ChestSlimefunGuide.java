@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -47,6 +48,18 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * The {@link ChestSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
+ * It uses an {@link Inventory} to display {@link SlimefunGuide} contents.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see SlimefunGuide
+ * @see SlimefunGuideImplementation
+ * @see BookSlimefunGuide
+ * @see CheatSheetSlimefunGuide
+ *
+ */
 public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int CATEGORY_SIZE = 36;

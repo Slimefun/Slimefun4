@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Piglin;
@@ -31,7 +33,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class PiglinListener implements Listener {
 
-    public PiglinListener(SlimefunPlugin plugin) {
+    public PiglinListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

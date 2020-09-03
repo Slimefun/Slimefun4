@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -50,6 +52,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
      * 
      * @return The title of the {@link Inventory} of this {@link AbstractEnergyProvider}
      */
+    @Nonnull
     public String getInventoryTitle() {
         return getItemName();
     }
@@ -62,6 +65,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
      * 
      * @return The {@link ItemStack} to use as the progress bar
      */
+    @Nonnull
     public abstract ItemStack getProgressBar();
 
     /**
@@ -81,10 +85,11 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
         return EnergyNetComponentType.GENERATOR;
     }
 
-    public void registerFuel(MachineFuel fuel) {
+    public void registerFuel(@Nonnull MachineFuel fuel) {
         fuelTypes.add(fuel);
     }
 
+    @Nonnull
     public Set<MachineFuel> getFuelTypes() {
         return fuelTypes;
     }

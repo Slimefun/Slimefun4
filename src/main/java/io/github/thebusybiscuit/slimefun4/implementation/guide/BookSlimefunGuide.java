@@ -8,6 +8,7 @@ import java.util.Locale;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -32,6 +33,20 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * The {@link BookSlimefunGuide} is a {@link SlimefunGuideImplementation} which
+ * uses a {@link CustomBookInterface} to display the contents of the {@link SlimefunGuide}.
+ * {@link Player Players} have the option to choose this Written Book layout over the
+ * standard {@link Inventory} variant.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see SlimefunGuide
+ * @see SlimefunGuideImplementation
+ * @see ChestSlimefunGuide
+ * @see CheatSheetSlimefunGuide
+ *
+ */
 public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
     private final NamespacedKey guideSearch = new NamespacedKey(SlimefunPlugin.instance(), "search");

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -36,6 +38,7 @@ public class EnergyRegulator extends SlimefunItem {
         });
     }
 
+    @Nonnull
     private BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
@@ -65,7 +68,7 @@ public class EnergyRegulator extends SlimefunItem {
         });
     }
 
-    private void tick(Block b) {
+    private void tick(@Nonnull Block b) {
         EnergyNet network = EnergyNet.getNetworkFromLocationOrCreate(b.getLocation());
         network.tick(b);
     }

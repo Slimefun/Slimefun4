@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -31,7 +34,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class VanillaMachinesListener implements Listener {
 
-    public VanillaMachinesListener(SlimefunPlugin plugin) {
+    public VanillaMachinesListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -107,7 +110,8 @@ public class VanillaMachinesListener implements Listener {
 
             if (clickedInventory.getType() == InventoryType.BREWING) {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
-            } else {
+            }
+            else {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCurrentItem())));
             }
 
@@ -117,7 +121,7 @@ public class VanillaMachinesListener implements Listener {
         }
     }
 
-    private boolean checkForUnallowedItems(ItemStack item1, ItemStack item2) {
+    private boolean checkForUnallowedItems(@Nullable ItemStack item1, @Nullable ItemStack item2) {
         if (SlimefunGuide.isGuideItem(item1) || SlimefunGuide.isGuideItem(item2)) {
             return true;
         }
@@ -133,7 +137,7 @@ public class VanillaMachinesListener implements Listener {
         return false;
     }
 
-    private boolean isUnallowed(SlimefunItem item) {
+    private boolean isUnallowed(@Nullable SlimefunItem item) {
         return item != null && !(item instanceof VanillaItem) && !item.isDisabled();
     }
 }

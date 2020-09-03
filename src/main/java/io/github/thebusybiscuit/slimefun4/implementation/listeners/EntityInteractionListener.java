@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +25,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class EntityInteractionListener implements Listener {
 
-    public EntityInteractionListener(SlimefunPlugin plugin) {
+    public EntityInteractionListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -20,7 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class CargoNodeListener implements Listener {
 
-    public CargoNodeListener(SlimefunPlugin plugin) {
+    public CargoNodeListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -32,7 +34,7 @@ public class CargoNodeListener implements Listener {
         }
     }
 
-    private boolean isCargoNode(ItemStack item) {
+    private boolean isCargoNode(@Nonnull ItemStack item) {
         if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
             ItemStackWrapper wrapper = new ItemStackWrapper(item);
 

@@ -7,6 +7,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,7 +56,7 @@ public class TickerTask implements Runnable {
      * @param plugin
      *            The instance of our {@link SlimefunPlugin}
      */
-    public void start(SlimefunPlugin plugin) {
+    public void start(@Nonnull SlimefunPlugin plugin) {
         this.tickRate = SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay");
 
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
@@ -113,7 +116,7 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tickChunk(Set<BlockTicker> tickers, String chunk) {
+    private void tickChunk(@Nonnull Set<BlockTicker> tickers, @Nonnull String chunk) {
         try {
             Set<Location> locations = BlockStorage.getTickingLocations(chunk);
             String[] components = PatternUtils.SEMICOLON.split(chunk);
@@ -133,7 +136,7 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tickLocation(Set<BlockTicker> tickers, Location l) {
+    private void tickLocation(@Nonnull Set<BlockTicker> tickers, @Nonnull Location l) {
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
@@ -164,6 +167,7 @@ public class TickerTask implements Runnable {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void tickBlock(Location l, Block b, SlimefunItem item, Config data, long timestamp) {
         try {
             item.getBlockTicker().tick(b, item, data);
@@ -176,6 +180,7 @@ public class TickerTask implements Runnable {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void reportErrors(Location l, SlimefunItem item, Throwable x) {
         BlockPosition position = new BlockPosition(l);
         int errors = bugs.getOrDefault(position, 0) + 1;
@@ -208,10 +213,12 @@ public class TickerTask implements Runnable {
         halted = true;
     }
 
+    @ParametersAreNonnullByDefault
     public void queueMove(Location from, Location to) {
         movingQueue.put(from, to);
     }
 
+    @ParametersAreNonnullByDefault
     public void queueDelete(Location l, boolean destroy) {
         deletionQueue.put(l, destroy);
     }

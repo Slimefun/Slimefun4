@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -39,7 +42,7 @@ public class DebugFishListener implements Listener {
     private final String greenCheckmark;
     private final String redCross;
 
-    public DebugFishListener(SlimefunPlugin plugin) {
+    public DebugFishListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         greenCheckmark = "&2\u2714";
@@ -71,6 +74,7 @@ public class DebugFishListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void onLeftClick(Player p, Block b, PlayerInteractEvent e) {
         if (p.isSneaking()) {
             if (BlockStorage.hasBlockInfo(b)) {
@@ -82,6 +86,7 @@ public class DebugFishListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void onRightClick(Player p, Block b, BlockFace face) {
         if (p.isSneaking()) {
             Block block = b.getRelative(face);
@@ -98,6 +103,7 @@ public class DebugFishListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void sendInfo(Player p, Block b) {
         SlimefunItem item = BlockStorage.check(b);
 
