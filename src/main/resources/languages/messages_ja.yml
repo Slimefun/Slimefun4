@@ -39,6 +39,12 @@ guide:
     select: クリックでこの言語を選択
     select-default: クリックでデフォルトを選択
     selected-language: '選択中の言語:'
+    change: クリックで新しく言語を指定
+    description:
+    - "&7このオプションでは"
+    - "&7Slimefunで表示される言語を"
+    - "&7指定できます。アイテム名は"
+    - "&7現時点では翻訳できません。"
   title:
     main: Slimefunガイド
     settings: 設定・情報
@@ -48,6 +54,7 @@ guide:
     addons: Slimefun4 アドオン
     bugs: バグ報告
     source: ソースコード
+    versions: バージョン一覧
   credits:
     commit: Commit
     commits: Commits
@@ -57,6 +64,12 @@ guide:
       resourcepack: "&cResourcepack Artist"
       translator: "&9Translator"
     profile-link: クリックでGitHubのプロファイルを開く
+    open: クリックでコントリビュータを表示
+    description:
+    - "&7Slimefunは多くのコミュニティの人々に支えられている"
+    - "&7オープンソースのプロジェクトです。"
+    - "&7数年にわたり&e%contributors%&7人以上の人々が，"
+    - "&7Slimefunに取り組んできました。"
   pages:
     previous: 前のページ
     next: 次のページ
@@ -69,6 +82,7 @@ guide:
       miner: 採掘可能な資源
       generator: 使用可能な燃料
       gold-pan: 入手可能な資源
+      climbing-pick: クライミング可能な地表
   back:
     title: 戻る
     guide: Slimefunガイドへ戻る
@@ -78,6 +92,7 @@ guide:
   - このカテゴリを開放するには
   - 以下のカテゴリの全アイテムを
   - リサーチしてください
+  work-in-progress: まだこの項目は未完成です！
 messages:
   not-researched: "&4知識が不足しています"
   not-enough-xp: "&4リサーチの遂行に必要な経験値が足りません"
@@ -94,7 +109,6 @@ messages:
   not-valid-research: "&4%research%&cは正しくないリサーチです"
   give-research: "&b%player%のリサーチ%research%を完了させました"
   hungry: "&c空腹のため使えません"
-  mode-change: "&b%device%のモード変更: &9%mode%"
   disabled-in-world: "&4&lこのワールドでは使用できません"
   disabled-item: "&4&lこのアイテムは無効化されています"
   no-tome-yourself: "&c自身の&4Tome of Knowledge&cは使えません"
@@ -153,6 +167,13 @@ messages:
     wrong-world: "&cアンカーが別のワールドに指定されています！"
     distance: "&7測定完了。&e距離: %distance%"
     anchor-set: "&aアンカーを指定:&e %anchor%"
+  multi-tool:
+    mode-change: "&b%device% モード変更: &9%mode%"
+    not-shears: "&cMulti Toolはハサミとして利用できません！"
+  climbing-pick:
+    dual-wielding: "&4Climbing Pickを両手に持って使用！"
+    wrong-material: "&cこの地表はクライミングできません。Slimefunガイドを確認してください！"
+  mode-change: "&b%device%のモード変更: &9%mode%"
 machines:
   pattern-not-found: "&eレシピが確認できません、アイテムを正しく配置してください"
   unknown-material: "&eアイテムを識別できません、レシピ通りに配置してください"
@@ -213,6 +234,7 @@ gps:
     new: "&eウェイポイント名をチャットで入力してください&7（カラーコード対応）"
     added: "&a新しいウェイポイントを登録しました"
     max: "&4ウェイポイント数の上限に到達しています"
+    duplicate: "&4同じ名前のウェイポイントが存在します: &f%waypoint%"
   insufficient-complexity:
   - "&4GPSネットワークの複雑さ不足: &c%complexity%"
   - "&4a) GPSネットワークをセットアップしていない"
@@ -285,7 +307,6 @@ languages:
   el: ギリシャ語
   he: ヘブライ語
   pt: ポルトガル語（ポルトガル）
-  pt-BR: ポルトガル語（ブラジル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -297,6 +318,7 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
+  pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語
   tr: トルコ語
@@ -306,6 +328,8 @@ languages:
   be: ベラルーシ語
   tl: タガログ語
 brewing_stand:
-  not-working: "&4Slimefunのアイテムは醸造台で使えません！"
+  not-working: "&4Slimefunアイテムは醸造台で使えません！"
+villagers:
+  no-trading: "&4Slimefunアイテムは村人との取引に使用できません！"
 miner:
   no-ores: "&e周辺には鉱石が見つかりませんでした！"
