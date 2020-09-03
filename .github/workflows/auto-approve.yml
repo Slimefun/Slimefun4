@@ -5,7 +5,10 @@ on:
 
 jobs:
   auto-approve:
+
+    name: Auto approve Pull Request
     runs-on: ubuntu-latest
+
     steps:
     - uses: hmarr/auto-approve-action@v2.0.0
       if: github.actor == 'gitlocalize-app[bot]' || github.actor == 'renovate[bot]'
