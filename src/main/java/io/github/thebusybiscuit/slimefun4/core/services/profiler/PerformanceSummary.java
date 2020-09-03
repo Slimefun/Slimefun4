@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -90,6 +91,7 @@ class PerformanceSummary {
         });
     }
 
+    @ParametersAreNonnullByDefault
     private void summarizeTimings(int count, String name, CommandSender sender, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
         Stream<Map.Entry<String, Long>> stream = map.entrySet().stream();
         List<Entry<String, Long>> results = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
@@ -105,6 +107,8 @@ class PerformanceSummary {
         }
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private TextComponent summarizeAsTextComponent(int count, String prefix, List<Map.Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
         TextComponent component = new TextComponent(prefix);
         component.setColor(ChatColor.YELLOW);
@@ -140,6 +144,8 @@ class PerformanceSummary {
         return component;
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private String summarizeAsString(int count, String prefix, List<Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
         int shownEntries = 0;
         int hiddenEntries = 0;
@@ -169,6 +175,7 @@ class PerformanceSummary {
         return builder.toString();
     }
 
+    @Nonnull
     private String getPerformanceRating() {
         StringBuilder builder = new StringBuilder();
         builder.append(NumberUtils.getColorFromPercentage(100 - Math.min(percentage, 100)));

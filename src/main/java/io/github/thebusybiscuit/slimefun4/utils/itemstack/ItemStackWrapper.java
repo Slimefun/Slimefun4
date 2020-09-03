@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -28,7 +30,7 @@ public final class ItemStackWrapper extends ItemStack {
     private final int amount;
     private final boolean hasItemMeta;
 
-    public ItemStackWrapper(ItemStack item) {
+    public ItemStackWrapper(@Nonnull ItemStack item) {
         super(item.getType());
         amount = item.getAmount();
         hasItemMeta = item.hasItemMeta();
@@ -108,7 +110,8 @@ public final class ItemStackWrapper extends ItemStack {
      * 
      * @return An {@link ItemStackWrapper} array
      */
-    public static ItemStackWrapper[] wrapArray(ItemStack[] items) {
+    @Nonnull
+    public static ItemStackWrapper[] wrapArray(@Nonnull ItemStack[] items) {
         Validate.notNull(items, "The array must not be null!");
         ItemStackWrapper[] array = new ItemStackWrapper[items.length];
 
@@ -129,7 +132,8 @@ public final class ItemStackWrapper extends ItemStack {
      * 
      * @return An {@link ItemStackWrapper} array
      */
-    public static List<ItemStackWrapper> wrapList(List<ItemStack> items) {
+    @Nonnull
+    public static List<ItemStackWrapper> wrapList(@Nonnull List<ItemStack> items) {
         Validate.notNull(items, "The list must not be null!");
         List<ItemStackWrapper> list = new ArrayList<>(items.size());
 

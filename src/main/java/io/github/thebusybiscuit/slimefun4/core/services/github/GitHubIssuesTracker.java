@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.util.logging.Level;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import kong.unirest.JsonNode;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
@@ -11,6 +13,7 @@ class GitHubIssuesTracker extends GitHubConnector {
 
     private final IssuesTrackerConsumer callback;
 
+    @ParametersAreNonnullByDefault
     GitHubIssuesTracker(GitHubService github, String repository, IssuesTrackerConsumer callback) {
         super(github, repository);
         this.callback = callback;

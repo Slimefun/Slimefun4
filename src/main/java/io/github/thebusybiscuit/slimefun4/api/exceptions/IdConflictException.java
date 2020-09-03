@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -21,6 +23,7 @@ public class IdConflictException extends RuntimeException {
      * @param item2
      *            The second {@link SlimefunItem} with this id
      */
+    @ParametersAreNonnullByDefault
     public IdConflictException(SlimefunItem item1, SlimefunItem item2) {
         super("Two items have conflicting ids: " + item1.toString() + " and " + item2.toString());
     }

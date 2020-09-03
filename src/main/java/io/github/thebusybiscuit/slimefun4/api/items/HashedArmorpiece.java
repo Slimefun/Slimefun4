@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.api.items;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -48,7 +51,7 @@ public final class HashedArmorpiece {
      * @param item
      *            The {@link SlimefunItem} corresponding to the provided {@link ItemStack}, may be null
      */
-    public void update(ItemStack stack, SlimefunItem item) {
+    public void update(@Nullable ItemStack stack, @Nullable SlimefunItem item) {
         if (stack == null || stack.getType() == Material.AIR) {
             this.hash = 0;
         }
@@ -76,7 +79,7 @@ public final class HashedArmorpiece {
      *            The {@link ItemStack} to compare
      * @return Whether the {@link HashedArmorpiece} and the given {@link ItemStack} mismatch
      */
-    public boolean hasDiverged(ItemStack stack) {
+    public boolean hasDiverged(@Nullable ItemStack stack) {
         if (stack == null || stack.getType() == Material.AIR) {
             return hash != 0;
         }
@@ -95,13 +98,14 @@ public final class HashedArmorpiece {
      * 
      * @return An {@link Optional} describing the result
      */
+    @Nonnull
     public Optional<SlimefunArmorPiece> getItem() {
         return item;
     }
 
     @Override
     public String toString() {
-        return "HashedArmorpiece {hash=" + hash + ",item=" + item.map(SlimefunItem::getID).orElse(null) + '}';
+        return "HashedArmorpiece {hash=" + hash + ",item=" + item.map(SlimefunItem::getID).orElse("null") + '}';
     }
 
 }

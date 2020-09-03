@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
@@ -77,6 +78,7 @@ public class GitHubService {
         contributors.put(name, contributor);
     }
 
+    @Nonnull
     public Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
         String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
 
@@ -128,6 +130,7 @@ public class GitHubService {
         });
     }
 
+    @Nonnull
     protected Set<GitHubConnector> getConnectors() {
         return connectors;
     }
@@ -141,6 +144,7 @@ public class GitHubService {
      * 
      * @return A {@link ConcurrentMap} containing all {@link Contributor Contributors}
      */
+    @Nonnull
     public ConcurrentMap<String, Contributor> getContributors() {
         return contributors;
     }
@@ -177,6 +181,7 @@ public class GitHubService {
      * 
      * @return The id of our GitHub Repository
      */
+    @Nonnull
     public String getRepository() {
         return repository;
     }
@@ -195,6 +200,7 @@ public class GitHubService {
      * 
      * @return A {@link LocalDateTime} object representing the date and time of the latest commit
      */
+    @Nonnull
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -222,6 +228,7 @@ public class GitHubService {
         texturesCache.save();
     }
 
+    @Nullable
     protected String getCachedTexture(@Nonnull String name) {
         return texturesCache.getString(name);
     }

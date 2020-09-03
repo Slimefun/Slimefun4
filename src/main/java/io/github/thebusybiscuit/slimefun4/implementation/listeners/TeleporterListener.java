@@ -49,7 +49,8 @@ public class TeleporterListener implements Listener {
             }
         }
         else if (id.equals(SlimefunItems.ELEVATOR_PLATE.getItemId())) {
-            ((ElevatorPlate) SlimefunItems.ELEVATOR_PLATE.getItem()).open(e.getPlayer(), e.getClickedBlock());
+            ElevatorPlate elevator = ((ElevatorPlate) SlimefunItems.ELEVATOR_PLATE.getItem());
+            elevator.openInterface(e.getPlayer(), e.getClickedBlock());
         }
     }
 

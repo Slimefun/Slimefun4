@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -66,7 +69,7 @@ public class GPSNetwork {
      * @param online
      *            Whether that {@link GPSTransmitter} is online
      */
-    public void updateTransmitter(Location l, UUID uuid, boolean online) {
+    public void updateTransmitter(@Nonnull Location l, @Nonnull UUID uuid, boolean online) {
         Set<Location> set = transmitters.computeIfAbsent(uuid, id -> new HashSet<>());
 
         if (online) {
@@ -87,7 +90,7 @@ public class GPSNetwork {
      * 
      * @return The network complexity for that {@link UUID}
      */
-    public int getNetworkComplexity(UUID uuid) {
+    public int getNetworkComplexity(@Nonnull UUID uuid) {
         if (!transmitters.containsKey(uuid)) {
             return 0;
         }
@@ -113,7 +116,7 @@ public class GPSNetwork {
      * 
      * @return The amount of transmitters
      */
-    public int countTransmitters(UUID uuid) {
+    public int countTransmitters(@Nonnull UUID uuid) {
         if (!transmitters.containsKey(uuid)) {
             return 0;
         }
@@ -122,7 +125,7 @@ public class GPSNetwork {
         }
     }
 
-    public void openTransmitterControlPanel(Player p) {
+    public void openTransmitterControlPanel(@Nonnull Player p) {
         ChestMenu menu = new ChestMenu(ChatColor.BLUE + SlimefunPlugin.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
 
         for (int slot : border) {
@@ -179,7 +182,8 @@ public class GPSNetwork {
      * 
      * @return An icon for this waypoint
      */
-    public ItemStack getIcon(String name, Environment environment) {
+    @Nonnull
+    public ItemStack getIcon(@Nonnull String name, @Nonnull Environment environment) {
         if (name.startsWith("player:death ")) {
             return HeadTexture.DEATHPOINT.getAsItemStack();
         }
@@ -194,7 +198,7 @@ public class GPSNetwork {
         }
     }
 
-    public void openWaypointControlPanel(Player p) {
+    public void openWaypointControlPanel(@Nonnull Player p) {
         PlayerProfile.get(p, profile -> {
             ChestMenu menu = new ChestMenu(ChatColor.BLUE + SlimefunPlugin.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
 
@@ -246,7 +250,10 @@ public class GPSNetwork {
      * @param l
      *            The {@link Location} of the new waypoint
      */
-    public void createWaypoint(Player p, Location l) {
+    public void createWaypoint(@Nonnull Player p, @Nonnull Location l) {
+        Validate.notNull(p, "Player cannot be null!");
+        Validate.notNull(l, "Waypoint Location cannot be null!");
+
         PlayerProfile.get(p, profile -> {
             if ((profile.getWaypoints().size() + 2) > inventory.length) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "gps.waypoint.max", true);
@@ -270,7 +277,11 @@ public class GPSNetwork {
      * @param l
      *            The {@link Location} of this waypoint
      */
-    public void addWaypoint(Player p, String name, Location l) {
+    public void addWaypoint(@Nonnull Player p, @Nonnull String name, @Nonnull Location l) {
+        Validate.notNull(p, "Player cannot be null!");
+        Validate.notNull(name, "Waypoint name cannot be null!");
+        Validate.notNull(l, "Waypoint Location cannot be null!");
+
         PlayerProfile.get(p, profile -> {
             if ((profile.getWaypoints().size() + 2) > inventory.length) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "gps.waypoint.max", true);
@@ -309,7 +320,8 @@ public class GPSNetwork {
      * 
      * @return A {@link Set} with all {@link Location Locations} of transmitters for this {@link UUID}
      */
-    public Set<Location> getTransmitters(UUID uuid) {
+    @Nonnull
+    public Set<Location> getTransmitters(@Nonnull UUID uuid) {
         return transmitters.getOrDefault(uuid, new HashSet<>());
     }
 
@@ -319,6 +331,7 @@ public class GPSNetwork {
      * 
      * @return The {@link TeleportationManager} for this {@link GPSNetwork}
      */
+    @Nonnull
     public TeleportationManager getTeleportationManager() {
         return teleportation;
     }
@@ -329,6 +342,7 @@ public class GPSNetwork {
      * 
      * @return The {@link ResourceManager} for this {@link GPSNetwork}
      */
+    @Nonnull
     public ResourceManager getResourceManager() {
         return resourceManager;
     }

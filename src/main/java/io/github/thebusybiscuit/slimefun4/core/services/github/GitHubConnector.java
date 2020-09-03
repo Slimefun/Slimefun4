@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
@@ -26,6 +27,7 @@ abstract class GitHubConnector {
     protected String repository;
     protected final GitHubService github;
 
+    @ParametersAreNonnullByDefault
     public GitHubConnector(GitHubService github, String repository) {
         this.github = github;
         this.repository = repository;
