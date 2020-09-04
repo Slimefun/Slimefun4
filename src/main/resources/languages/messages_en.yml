@@ -22,10 +22,6 @@ commands:
     backpack-does-not-exist: '&4The specified backpack does not exist!'
     restored-backpack-given: '&aYour backpack has been restored and was added to your inventory!'
 
-  charge:
-    description: Charges the item you are holding
-    charge-success: Item has been charged!
-    not-rechargeable: This item can not be charged!
     
 guide:
   locked: 'LOCKED'
