@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -30,7 +31,7 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
             Player p = e.getPlayer();
 
             if (p.getFoodLevel() >= 2) {
-                if ((SlimefunUtils.isItemSimilar(p.getInventory().getItemInMainHand(), SlimefunItems.STAFF_WIND, false, false) || SlimefunUtils.isItemSimilar(p.getInventory().getItemInOffHand(), SlimefunItems.STAFF_WIND, false, false)) && p.getGameMode() != GameMode.CREATIVE) {
+                if ((isItem(p.getInventory().getItemInMainHand()) || isItem(p.getInventory().getItemInOffHand())) && p.getGameMode() != GameMode.CREATIVE) {
                     FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
                     Bukkit.getPluginManager().callEvent(event);
                     
