@@ -82,6 +82,7 @@ guide:
       miner: Recursos que puedes obtener con el Miner
       generator: Tipos de combustible disponibles
       gold-pan: Recursos que puedes obtener
+      climbing-pick: Superficies que puedes escalar
   back:
     title: Volver
     guide: Volver a la guía de Slimefun
@@ -176,6 +177,10 @@ messages:
   multi-tool:
     mode-change: "&b%device% modo cambiado a: &9%mode%"
     not-shears: "&c¡Una Multi Tool no puede ser usada como tijeras!"
+  climbing-pick:
+    dual-wielding: "&4Necesitas sostener Climbing Picks con las 2 manos para usarlos!"
+    wrong-material: "&cNo puedes escalar esta superficie. Mira tu guia de Slimefun
+      para mas info!"
   mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
 machines:
   pattern-not-found: "&eLo siento, no puedo reconocer esta receta. Por favor coloca
