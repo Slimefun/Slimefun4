@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -46,11 +48,11 @@ public class CargoNet extends ChestTerminalNetwork {
     protected final Map<Location, Integer> roundRobin = new HashMap<>();
     private int tickDelayThreshold = 0;
 
-    public static CargoNet getNetworkFromLocation(Location l) {
+    public static CargoNet getNetworkFromLocation(@Nonnull Location l) {
         return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);
     }
 
-    public static CargoNet getNetworkFromLocationOrCreate(Location l) {
+    public static CargoNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
         Optional<CargoNet> cargoNetwork = SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
 
         if (cargoNetwork.isPresent()) {
@@ -69,7 +71,7 @@ public class CargoNet extends ChestTerminalNetwork {
      * @param l
      *            The {@link Location} marking the manager of this {@link Network}.
      */
-    protected CargoNet(Location l) {
+    protected CargoNet(@Nonnull Location l) {
         super(l);
     }
 
@@ -79,7 +81,7 @@ public class CargoNet extends ChestTerminalNetwork {
     }
 
     @Override
-    public NetworkComponent classifyLocation(Location l) {
+    public NetworkComponent classifyLocation(@Nonnull Location l) {
         String id = BlockStorage.checkID(l);
 
         if (id == null) {

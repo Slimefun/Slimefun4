@@ -294,25 +294,30 @@ class ActiveMiner implements Runnable {
 
             if (state instanceof Chest) {
                 Inventory inv = ((Chest) state).getBlockInventory();
-
-                for (int i = 0; i < inv.getSize(); i++) {
-                    for (MachineFuel fuelType : miner.fuelTypes) {
-                        ItemStack item = inv.getContents()[i];
-
-                        if (fuelType.test(item)) {
-                            ItemUtils.consumeItem(item, false);
-
-                            if (miner instanceof AdvancedIndustrialMiner) {
-                                inv.addItem(new ItemStack(Material.BUCKET));
-                            }
-
-                            return fuelType.getTicks();
-                        }
-                    }
-                }
+                return consumeFuel(inv);
             }
         }
 
+        return 0;
+    }
+
+    private int consumeFuel(Inventory inv) {
+        for (int i = 0; i < inv.getSize(); i++) {
+            for (MachineFuel fuelType : miner.fuelTypes) {
+                ItemStack item = inv.getContents()[i];
+
+                if (fuelType.test(item)) {
+                    ItemUtils.consumeItem(item, false);
+
+                    if (miner instanceof AdvancedIndustrialMiner) {
+                        inv.addItem(new ItemStack(Material.BUCKET));
+                    }
+
+                    return fuelType.getTicks();
+                }
+            }
+        }
+        
         return 0;
     }
 

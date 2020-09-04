@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -12,7 +14,7 @@ import me.mrCookieSlime.EmeraldEnchants.EnchantmentGuide;
 
 class EmeraldEnchantsCategory extends FlexCategory {
 
-    public EmeraldEnchantsCategory(NamespacedKey key) {
+    public EmeraldEnchantsCategory(@Nonnull NamespacedKey key) {
         super(key, new CustomItem(Material.ENCHANTED_BOOK, "&2EmeraldEnchants &a(Enchantment Guide)"), 2);
     }
 

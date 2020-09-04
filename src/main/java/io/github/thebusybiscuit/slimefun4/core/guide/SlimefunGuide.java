@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -29,7 +31,7 @@ public final class SlimefunGuide {
 
     private SlimefunGuide() {}
 
-    public static ItemStack getItem(SlimefunGuideLayout design) {
+    public static ItemStack getItem(@Nonnull SlimefunGuideLayout design) {
         return SlimefunPlugin.getRegistry().getGuideLayout(design).getItem();
     }
 

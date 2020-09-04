@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +37,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class GadgetsListener implements Listener {
 
-    public GadgetsListener(SlimefunPlugin plugin) {
+    public GadgetsListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -63,7 +66,7 @@ public class GadgetsListener implements Listener {
         }
     }
 
-    private void handleChestplate(Player p, SlimefunItem chestplate) {
+    private void handleChestplate(@Nonnull Player p, @Nullable SlimefunItem chestplate) {
         if (chestplate == null || !Slimefun.hasUnlocked(p, chestplate, true)) {
             return;
         }
@@ -80,7 +83,7 @@ public class GadgetsListener implements Listener {
         }
     }
 
-    private void handleBoots(Player p, SlimefunItem boots) {
+    private void handleBoots(@Nonnull Player p, @Nullable SlimefunItem boots) {
         if (boots instanceof JetBoots && Slimefun.hasUnlocked(p, boots, true)) {
             double speed = ((JetBoots) boots).getSpeed();
 

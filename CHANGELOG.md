@@ -34,6 +34,11 @@
 * Industrial Miners can now also mine Gilded Blackstone
 * Added a config option to disable Players from burning when exposed to radiation
 * Added a config option to drop excess items when using /sf give
+* Added Strange Nether Goo
+* Added Villager Rune
+* Added Synthetic Shulker Shells
+* Added Climbing Pick
+* Added item breaking sounds to some slimefun tools
 
 #### Changes
 * Performance improvement for Programmable Android rotations
@@ -51,6 +56,10 @@
 * Small performance improvements for Reactors
 * Electric machines now show their tier in the Inventory name too
 * Removed "Fuel efficiency" attribute for androids, since that was pretty much always at 1.0 anyway...
+* Performance improvements for energy networks
+* (API) Rewritten Block-Energy API
+* Removed "durability" setting from cargo nodes
+* Small performance improvements for radiation
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
@@ -87,6 +96,13 @@
 * Fixed Fluid Pump treating low-level fluids like stationary fluids
 * Fixed Fluid Pump not working on Bubble Columns
 * Fixed #2251
+* Fixed #2257
+* Fixed #2260
+* Fixed #2263
+* Fixed #2265
+* Fixed #2269
+* Fixed #2266
+* Fixed #2275
 
 ## Release Candidate 15 (01 Aug 2020)
 

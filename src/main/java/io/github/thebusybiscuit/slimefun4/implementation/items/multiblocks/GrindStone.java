@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -30,7 +32,7 @@ public class GrindStone extends MultiBlockMachine {
     }
 
     @Override
-    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+    protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
         recipes.add(new ItemStack(Material.BLAZE_ROD));
         recipes.add(new ItemStack(Material.BLAZE_POWDER, 4));
 
@@ -106,6 +108,7 @@ public class GrindStone extends MultiBlockMachine {
                     }
                 }
             }
+
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.unknown-material", true);
         }
     }

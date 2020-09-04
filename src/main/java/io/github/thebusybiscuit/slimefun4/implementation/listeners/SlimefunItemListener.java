@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,7 +33,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 public class SlimefunItemListener implements Listener {
 
-    public SlimefunItemListener(SlimefunPlugin plugin) {
+    public SlimefunItemListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -64,6 +67,8 @@ public class SlimefunItemListener implements Listener {
         }
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private boolean rightClickItem(PlayerInteractEvent e, PlayerRightClickEvent event, boolean defaultValue) {
         Optional<SlimefunItem> optional = event.getSlimefunItem();
 
@@ -79,6 +84,7 @@ public class SlimefunItemListener implements Listener {
         return defaultValue;
     }
 
+    @ParametersAreNonnullByDefault
     private boolean rightClickBlock(PlayerInteractEvent e, PlayerRightClickEvent event) {
         Optional<SlimefunItem> optional = event.getSlimefunBlock();
 
@@ -104,6 +110,7 @@ public class SlimefunItemListener implements Listener {
         return true;
     }
 
+    @ParametersAreNonnullByDefault
     private void openInventory(Player p, String id, PlayerInteractEvent e, PlayerRightClickEvent event) {
         if (!p.isSneaking() || Material.AIR == event.getItem().getType()) {
             e.setCancelled(true);

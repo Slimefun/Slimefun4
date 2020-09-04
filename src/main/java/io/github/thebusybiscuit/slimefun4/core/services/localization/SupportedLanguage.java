@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -59,12 +62,14 @@ enum SupportedLanguage {
     private final boolean releaseReady;
     private final String textureHash;
 
+    @ParametersAreNonnullByDefault
     SupportedLanguage(String id, boolean releaseReady, String textureHash) {
         this.id = id;
         this.releaseReady = releaseReady;
         this.textureHash = textureHash;
     }
 
+    @Nonnull
     public String getLanguageId() {
         return id;
     }
@@ -73,6 +78,7 @@ enum SupportedLanguage {
         return releaseReady;
     }
 
+    @Nonnull
     public String getTexture() {
         return textureHash;
     }

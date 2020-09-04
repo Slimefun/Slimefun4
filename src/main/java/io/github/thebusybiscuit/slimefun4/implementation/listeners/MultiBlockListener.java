@@ -2,6 +2,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.LinkedList;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -32,7 +36,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  */
 public class MultiBlockListener implements Listener {
 
-    public MultiBlockListener(SlimefunPlugin plugin) {
+    public MultiBlockListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -63,6 +67,7 @@ public class MultiBlockListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private boolean compareMaterials(Block b, Material[] blocks, boolean onlyTwoWay) {
         if (!compareMaterialsVertical(b, blocks[1], blocks[4], blocks[7])) {
             return false;
@@ -79,12 +84,15 @@ public class MultiBlockListener implements Listener {
         return false;
     }
 
-    private boolean compareMaterialsVertical(Block b, Material top, Material center, Material bottom) {
+    private boolean compareMaterialsVertical(@Nonnull Block b, @Nullable Material top, @Nullable Material center, @Nullable Material bottom) {
         return (center == null || equals(b.getType(), center)) && (top == null || equals(b.getRelative(BlockFace.UP).getType(), top)) && (bottom == null || equals(b.getRelative(BlockFace.DOWN).getType(), bottom));
     }
 
+    @ParametersAreNonnullByDefault
     private boolean equals(Material a, Material b) {
-        if (a == b) return true;
+        if (a == b) {
+            return true;
+        }
 
         for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
             if (tag.isTagged(a) && tag.isTagged(b)) {

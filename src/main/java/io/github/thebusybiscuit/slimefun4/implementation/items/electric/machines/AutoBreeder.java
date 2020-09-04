@@ -22,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
@@ -90,6 +89,7 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
             public boolean isSynchronized() {
                 return true;
             }
+
         });
     }
 
@@ -99,11 +99,11 @@ public class AutoBreeder extends SlimefunItem implements InventoryBlock, EnergyN
         for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 2.0, 4.0, this::canBreed)) {
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFood, false)) {
-                    if (ChargableBlock.getCharge(b) < ENERGY_CONSUMPTION) {
+                    if (getCharge(b.getLocation()) < ENERGY_CONSUMPTION) {
                         return;
                     }
 
-                    ChargableBlock.addCharge(b, -ENERGY_CONSUMPTION);
+                    removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
                     inv.consumeItem(slot);
 
                     ((Animals) n).setLoveModeTicks(600);

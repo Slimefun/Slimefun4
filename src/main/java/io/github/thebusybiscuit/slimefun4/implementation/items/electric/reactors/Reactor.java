@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -120,7 +124,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         registerDefaultFuelTypes();
     }
 
-    protected void updateInventory(BlockMenu menu, Block b) {
+    protected void updateInventory(@Nonnull BlockMenu menu, @Nonnull Block b) {
         ReactorMode mode = getReactorMode(b.getLocation());
 
         switch (mode) {
@@ -165,40 +169,41 @@ public abstract class Reactor extends AbstractEnergyProvider {
         }
     }
 
-    private void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_1) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.LIME_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_3) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.GREEN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 
-        preset.addItem(1, new CustomItem(getFuelIcon(), "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(1, new CustomItem(getFuelIcon(), "&7Fuel Slot", "", "&fThis Slot accepts radioactive Fuel such as:", "&2Uranium &for &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : border_2) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         if (needsCooling()) {
-            preset.addItem(7, new CustomItem(getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
+            preset.addItem(7, new CustomItem(getCoolant(), "&bCoolant Slot", "", "&fThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
         }
         else {
-            preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
+            preset.addItem(7, new CustomItem(Material.BARRIER, "&bCoolant Slot", "", "&fThis Slot accepts Coolant Cells"));
 
             for (int i : border_4) {
-                preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"), ChestMenuUtils.getEmptyClickHandler());
+                preset.addItem(i, new CustomItem(Material.BARRIER, "&cNo Coolant Required"), ChestMenuUtils.getEmptyClickHandler());
             }
         }
     }
 
-    protected ReactorMode getReactorMode(Location l) {
+    @Nonnull
+    protected ReactorMode getReactorMode(@Nonnull Location l) {
         ReactorMode mode = ReactorMode.GENERATOR;
 
         if (BlockStorage.hasBlockInfo(l) && BlockStorage.getLocationInfo(l, MODE).equals(ReactorMode.PRODUCTION.toString())) {
@@ -208,7 +213,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         return mode;
     }
 
-    public abstract void extraTick(Location l);
+    public abstract void extraTick(@Nonnull Location l);
 
     /**
      * This method returns the {@link ItemStack} that is required to cool this {@link Reactor}.
@@ -216,6 +221,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
      * 
      * @return The {@link ItemStack} required to cool this {@link Reactor}
      */
+    @Nullable
     public abstract ItemStack getCoolant();
 
     /**
@@ -225,6 +231,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
      * 
      * @return The {@link ItemStack} used as the fuel icon for this {@link Reactor}.
      */
+    @Nonnull
     public abstract ItemStack getFuelIcon();
 
     /**
@@ -247,6 +254,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         return new int[] { 19, 28, 37 };
     }
 
+    @Nonnull
     public int[] getCoolantSlots() {
         return needsCooling() ? new int[] { 25, 34, 43 } : new int[0];
     }
@@ -274,33 +282,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
             int timeleft = progress.get(l);
 
             if (timeleft > 0) {
-                int produced = getEnergyProduction();
-                int charge = 0;
-
-                if (data.contains("energy-charge")) {
-                    charge = Integer.parseInt(data.getString("energy-charge"));
-                }
-
-                int space = getCapacity() - charge;
-
-                if (space >= produced || getReactorMode(l) != ReactorMode.GENERATOR) {
-                    progress.put(l, timeleft - 1);
-                    checkForWaterBlocks(l);
-
-                    ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
-
-                    if (needsCooling() && !hasEnoughCoolant(l, inv, accessPort, timeleft)) {
-                        explosionsQueue.add(l);
-                        return 0;
-                    }
-                }
-
-                if (space >= produced) {
-                    return getEnergyProduction();
-                }
-                else {
-                    return 0;
-                }
+                return generateEnergy(l, data, inv, accessPort, timeleft);
             }
             else {
                 createByproduct(l, inv, accessPort);
@@ -309,6 +291,37 @@ public abstract class Reactor extends AbstractEnergyProvider {
         }
         else {
             burnNextFuel(l, inv, accessPort);
+            return 0;
+        }
+    }
+
+    private int generateEnergy(@Nonnull Location l, @Nonnull Config data, @Nonnull BlockMenu inv, @Nullable BlockMenu accessPort, int timeleft) {
+        int produced = getEnergyProduction();
+        String energyData = data.getString("energy-charge");
+        int charge = 0;
+
+        if (energyData != null) {
+            charge = Integer.parseInt(energyData);
+        }
+
+        int space = getCapacity() - charge;
+
+        if (space >= produced || getReactorMode(l) != ReactorMode.GENERATOR) {
+            progress.put(l, timeleft - 1);
+            checkForWaterBlocks(l);
+
+            ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
+
+            if (needsCooling() && !hasEnoughCoolant(l, inv, accessPort, timeleft)) {
+                explosionsQueue.add(l);
+                return 0;
+            }
+        }
+
+        if (space >= produced) {
+            return getEnergyProduction();
+        }
+        else {
             return 0;
         }
     }
@@ -398,7 +411,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
      * 
      * @return Whether the {@link Reactor} was successfully cooled, if not it should explode
      */
-    private boolean hasEnoughCoolant(Location reactor, BlockMenu menu, BlockMenu accessPort, int timeleft) {
+    private boolean hasEnoughCoolant(@Nonnull Location reactor, @Nonnull BlockMenu menu, @Nullable BlockMenu accessPort, int timeleft) {
         boolean requiresCoolant = (processing.get(reactor).getTicks() - timeleft) % COOLANT_DURATION == 0;
 
         if (requiresCoolant) {
@@ -435,6 +448,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         return Math.round(((((COOLANT_DURATION - passed) * 100.0F) / COOLANT_DURATION) * 100.0F) / 100.0F);
     }
 
+    @ParametersAreNonnullByDefault
     private void restockFuel(BlockMenu menu, BlockMenu port) {
         for (int slot : getFuelSlots()) {
             for (MachineFuel fuelType : fuelTypes) {
@@ -446,6 +460,8 @@ public abstract class Reactor extends AbstractEnergyProvider {
         }
     }
 
+    @Nullable
+    @ParametersAreNonnullByDefault
     private MachineFuel findFuel(BlockMenu menu, Map<Integer, Integer> found) {
         for (MachineFuel fuel : fuelTypes) {
             for (int slot : getInputSlots()) {
@@ -459,7 +475,8 @@ public abstract class Reactor extends AbstractEnergyProvider {
         return null;
     }
 
-    protected BlockMenu getAccessPort(Location l) {
+    @Nullable
+    protected BlockMenu getAccessPort(@Nonnull Location l) {
         Location port = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
 
         if (BlockStorage.check(port, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {

@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -18,7 +19,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestSoulboundItem {
+class TestSoulboundItem {
 
     private static SlimefunPlugin plugin;
 
@@ -34,7 +35,8 @@ public class TestSoulboundItem {
     }
 
     @Test
-    public void testNullAndAir() {
+    @DisplayName("Verify that null and air throw Illegal Argument Exceptions")
+    void testNullAndAir() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> SlimefunUtils.setSoulbound(null, true));
 
         ItemStack item = new ItemStack(Material.AIR);
@@ -45,7 +47,8 @@ public class TestSoulboundItem {
     }
 
     @Test
-    public void testSetSoulbound() {
+    @DisplayName("Test whether an Item can be marked as soulbound")
+    void testSetSoulbound() {
         ItemStack item = new CustomItem(Material.DIAMOND, "&cI wanna be soulbound!");
 
         Assertions.assertFalse(SlimefunUtils.isSoulbound(item));
@@ -60,7 +63,8 @@ public class TestSoulboundItem {
     }
 
     @Test
-    public void testDoubleCalls() {
+    @DisplayName("Make sure that marking an item as soulbound twice has no effect")
+    void testDoubleCalls() {
         ItemStack item = new CustomItem(Material.DIAMOND, "&cI wanna be soulbound!");
 
         SlimefunUtils.setSoulbound(item, true);
@@ -75,7 +79,8 @@ public class TestSoulboundItem {
     }
 
     @Test
-    public void testSoulboundSlimefunItem() {
+    @DisplayName("Test that soulbound Slimefun Items are soulbound")
+    void testSoulboundSlimefunItem() {
         SlimefunItem item = new SoulboundMock(new Category(new NamespacedKey(plugin, "soulbound_category"), new CustomItem(Material.REDSTONE, "&4Walshrus forever")));
         item.register(plugin);
 

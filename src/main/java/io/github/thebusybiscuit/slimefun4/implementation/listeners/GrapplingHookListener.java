@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -43,7 +47,7 @@ public class GrapplingHookListener implements Listener {
     private final Map<UUID, GrapplingHookEntity> activeHooks = new HashMap<>();
     private final Set<UUID> invulnerability = new HashSet<>();
 
-    public void register(SlimefunPlugin plugin, GrapplingHook grapplingHook) {
+    public void register(@Nonnull SlimefunPlugin plugin, @Nonnull GrapplingHook grapplingHook) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         this.grapplingHook = grapplingHook;
@@ -133,7 +137,7 @@ public class GrapplingHookListener implements Listener {
         }
     }
 
-    private void handleGrapplingHook(Arrow arrow) {
+    private void handleGrapplingHook(@Nullable Arrow arrow) {
         if (arrow != null && arrow.isValid() && arrow.getShooter() instanceof Player) {
             Player p = (Player) arrow.getShooter();
             GrapplingHookEntity hook = activeHooks.get(p.getUniqueId());
@@ -175,10 +179,11 @@ public class GrapplingHookListener implements Listener {
         }
     }
 
-    public boolean isGrappling(UUID uuid) {
+    public boolean isGrappling(@Nonnull UUID uuid) {
         return activeHooks.containsKey(uuid);
     }
 
+    @ParametersAreNonnullByDefault
     public void addGrapplingHook(Player p, Arrow arrow, Bat bat, boolean dropItem, long despawnTicks) {
         GrapplingHookEntity hook = new GrapplingHookEntity(p, arrow, bat, dropItem);
         UUID uuid = p.getUniqueId();

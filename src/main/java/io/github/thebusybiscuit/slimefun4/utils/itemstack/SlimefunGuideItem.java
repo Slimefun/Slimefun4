@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,15 +26,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefu
  */
 public class SlimefunGuideItem extends ItemStack {
 
-    public SlimefunGuideItem(SlimefunGuideImplementation implementation, String name) {
+    public SlimefunGuideItem(@Nonnull SlimefunGuideImplementation implementation, @Nonnull String name) {
         super(Material.ENCHANTED_BOOK);
 
         ItemMeta meta = getItemMeta();
-
         meta.setDisplayName(ChatColors.color(name));
 
         List<String> lore = new LinkedList<>();
-
         lore.add(implementation instanceof CheatSheetSlimefunGuide ? "&4&lOnly openable by Admins" : "");
         lore.add(ChatColors.color("&eRight Click &8\u21E8 &7Browse Items"));
         lore.add(ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits"));

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -7,8 +8,8 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * The {@link ExplosivePickaxe} is a pickaxe which can destroy blocks in a size of 3 by 3.
- * It also creates a explosion animation.
+ * The {@link ExplosivePickaxe} is a pickaxe which can destroy {@link Block}s
+ * in a size of 3 by 3. It also creates a explosion animation.
  * 
  * @author TheBusyBiscuit
  * 

@@ -12,6 +12,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
@@ -46,7 +49,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     private final NamespacedKey languageKey;
     private final Language defaultLanguage;
 
-    public LocalizationService(SlimefunPlugin plugin, String prefix, String serverDefaultLanguage) {
+    public LocalizationService(@Nonnull SlimefunPlugin plugin, @Nullable String prefix, @Nullable String serverDefaultLanguage) {
         super(plugin);
 
         this.plugin = plugin;
@@ -99,24 +102,29 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     }
 
     @Override
+    @Nonnull
     public NamespacedKey getKey() {
         return languageKey;
     }
 
     @Override
-    public Language getLanguage(String id) {
+    @Nullable
+    public Language getLanguage(@Nonnull String id) {
+        Validate.notNull(id, "The language id cannot be null");
         return languages.get(id);
     }
 
     @Override
+    @Nonnull
     public Collection<Language> getLanguages() {
         return languages.values();
     }
 
     @Override
-    public boolean hasLanguage(String language) {
+    public boolean hasLanguage(@Nonnull String id) {
+        Validate.notNull(id, "The language id cannot be null");
         // Checks if our jar files contains a messages.yml file for that language
-        return containsResource("messages_" + language);
+        return containsResource("messages_" + id);
     }
 
     /**
@@ -127,12 +135,13 @@ public class LocalizationService extends SlimefunLocalization implements Persist
      * 
      * @return Whether or not this {@link Language} is loaded
      */
-    public boolean isLanguageLoaded(String id) {
-        Validate.notNull(id, "The language id cannot be null!");
+    public boolean isLanguageLoaded(@Nonnull String id) {
+        Validate.notNull(id, "The language cannot be null!");
         return languages.containsKey(id);
     }
 
-    private boolean containsResource(String file) {
+    private boolean containsResource(@Nonnull String file) {
+        Validate.notNull(file, "File name cannot be null!");
         return plugin.getClass().getResource("/languages/" + file + ".yml") != null;
     }
 
@@ -142,7 +151,8 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     }
 
     @Override
-    public Language getLanguage(Player p) {
+    public Language getLanguage(@Nonnull Player p) {
+        Validate.notNull("Player cannot be null!");
         Optional<String> language = getString(p, languageKey);
 
         if (language.isPresent()) {
@@ -185,7 +195,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     }
 
     @Override
-    protected void addLanguage(String id, String texture) {
+    protected void addLanguage(@Nonnull String id, @Nonnull String texture) {
         Validate.notNull(id, "The language id cannot be null!");
         Validate.notNull(texture, "The language texture cannot be null");
 
@@ -217,7 +227,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
      * 
      * @return A percentage {@code (0.0 - 100.0)} for the progress of translation of that {@link Language}
      */
-    public double calculateProgress(Language lang) {
+    public double calculateProgress(@Nonnull Language lang) {
         Validate.notNull(lang, "Cannot get the language progress of null");
 
         Set<String> defaultKeys = getTotalKeys(languages.get("en"));
@@ -238,7 +248,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         return Math.min(DoubleHandler.fixDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
     }
 
-    private Set<String> getTotalKeys(Language lang) {
+    private Set<String> getTotalKeys(@Nonnull Language lang) {
         return getKeys(lang.getFiles());
     }
 
@@ -252,7 +262,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         return keys;
     }
 
-    private FileConfiguration streamConfigFile(String file, FileConfiguration defaults) {
+    private FileConfiguration streamConfigFile(@Nonnull String file, @Nullable FileConfiguration defaults) {
         String path = "/languages/" + file;
 
         if (plugin.getClass().getResourceAsStream(path) == null) {

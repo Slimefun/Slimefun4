@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,7 +22,6 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
@@ -27,7 +29,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 
 /**
  * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
@@ -41,7 +42,7 @@ public class DebugFishListener implements Listener {
     private final String greenCheckmark;
     private final String redCross;
 
-    public DebugFishListener(SlimefunPlugin plugin) {
+    public DebugFishListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         greenCheckmark = "&2\u2714";
@@ -73,6 +74,7 @@ public class DebugFishListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void onLeftClick(Player p, Block b, PlayerInteractEvent e) {
         if (p.isSneaking()) {
             if (BlockStorage.hasBlockInfo(b)) {
@@ -84,6 +86,7 @@ public class DebugFishListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void onRightClick(Player p, Block b, BlockFace face) {
         if (p.isSneaking()) {
             Block block = b.getRelative(face);
@@ -100,6 +103,7 @@ public class DebugFishListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void sendInfo(Player p, Block b) {
         SlimefunItem item = BlockStorage.check(b);
 
@@ -144,16 +148,18 @@ public class DebugFishListener implements Listener {
             p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + SlimefunPlugin.getProfiler().getTime(b.getChunk())));
         }
 
-        if (ChargableBlock.isChargable(b)) {
-            p.sendMessage(ChatColors.color("&dChargeable: " + greenCheckmark));
-            p.sendMessage(ChatColors.color("  &dEnergy: &e" + ChargableBlock.getCharge(b) + " / " + ChargableBlock.getMaxCharge(b)));
-        }
-        else {
-            p.sendMessage(ChatColors.color("&dChargeable: " + redCross));
-        }
-
         if (item instanceof EnergyNetComponent) {
-            p.sendMessage(ChatColors.color("  &dEnergyNet Type: &e" + EnergyNet.getComponent(b.getLocation())));
+            EnergyNetComponent component = (EnergyNetComponent) item;
+            p.sendMessage(ChatColors.color("&dEnergyNet Component"));
+            p.sendMessage(ChatColors.color("  &dType: &e" + component.getEnergyComponentType()));
+
+            if (component.isChargeable()) {
+                p.sendMessage(ChatColors.color("  &dChargeable: " + greenCheckmark));
+                p.sendMessage(ChatColors.color("  &dEnergy: &e" + component.getCharge(b.getLocation()) + " / " + component.getCapacity()));
+            }
+            else {
+                p.sendMessage(ChatColors.color("&dChargeable: " + redCross));
+            }
         }
 
         p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(b)));

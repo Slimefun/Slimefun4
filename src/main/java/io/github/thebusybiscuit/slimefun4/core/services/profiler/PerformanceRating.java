@@ -2,6 +2,10 @@ package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
 import java.util.function.Predicate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
 /**
@@ -30,13 +34,14 @@ public enum PerformanceRating implements Predicate<Float> {
     private final ChatColor color;
     private final float threshold;
 
-    PerformanceRating(ChatColor color, float threshold) {
+    PerformanceRating(@Nonnull ChatColor color, float threshold) {
+        Validate.notNull(color, "Color cannot be null");
         this.color = color;
         this.threshold = threshold;
     }
 
     @Override
-    public boolean test(Float value) {
+    public boolean test(@Nullable Float value) {
         if (value == null) {
             // null will only test true for UNKNOWN
             return threshold < 0;
@@ -45,6 +50,7 @@ public enum PerformanceRating implements Predicate<Float> {
         return value <= threshold;
     }
 
+    @Nonnull
     public ChatColor getColor() {
         return color;
     }

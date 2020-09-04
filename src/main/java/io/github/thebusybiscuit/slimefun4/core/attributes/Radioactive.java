@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import javax.annotation.Nonnull;
+
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -12,6 +14,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
+@FunctionalInterface
 public interface Radioactive extends ItemAttribute {
 
     /**
@@ -20,6 +23,7 @@ public interface Radioactive extends ItemAttribute {
      * 
      * @return The level of {@link Radioactivity} of this item.
      */
+    @Nonnull
     Radioactivity getRadioactivity();
 
 }

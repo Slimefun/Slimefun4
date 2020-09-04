@@ -14,6 +14,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -277,7 +279,7 @@ abstract class ChestTerminalNetwork extends Network {
      * 
      * @return The time it took to compute this operation
      */
-    protected long updateTerminals(Set<Location> providers) {
+    protected long updateTerminals(@Nonnull Set<Location> providers) {
         if (terminals.isEmpty()) {
             // Performance improvement - We don't need to compute items for
             // Cargo networks without any Chest Terminals
@@ -316,7 +318,12 @@ abstract class ChestTerminalNetwork extends Network {
             item.error("An Exception was caused while trying to tick Chest terminals", x);
         }
 
-        return SlimefunPlugin.getProfiler().closeEntry(firstTerminal, item, timestamp);
+        if (firstTerminal != null) {
+            return SlimefunPlugin.getProfiler().closeEntry(firstTerminal, item, timestamp);
+        }
+        else {
+            return System.nanoTime() - timestamp;
+        }
     }
 
     private void updateTerminal(Location l, BlockMenu terminal, int slot, int index, List<ItemStackAndInteger> items) {
@@ -361,7 +368,8 @@ abstract class ChestTerminalNetwork extends Network {
         }
     }
 
-    private List<ItemStackAndInteger> findAvailableItems(Set<Location> providers) {
+    @Nonnull
+    private List<ItemStackAndInteger> findAvailableItems(@Nonnull Set<Location> providers) {
         List<ItemStackAndInteger> items = new LinkedList<>();
 
         for (Location l : providers) {

@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
 import java.util.Iterator;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -13,7 +15,7 @@ import me.minebuilders.clearlag.events.EntityRemoveEvent;
 
 class ClearLagHook implements Listener {
 
-    ClearLagHook(SlimefunPlugin plugin) {
+    ClearLagHook(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.plugin.Plugin;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -25,6 +27,7 @@ public class UnregisteredItemException extends RuntimeException {
      * @param item
      *            The {@link SlimefunItem} that was affected by this
      */
+    @ParametersAreNonnullByDefault
     public UnregisteredItemException(SlimefunItem item) {
         super(item.toString() + " has not been registered yet.");
     }

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -17,7 +19,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  */
 public class ItemPickupListener implements Listener {
 
-    public ItemPickupListener(SlimefunPlugin plugin) {
+    public ItemPickupListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

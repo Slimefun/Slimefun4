@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Iterator;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -18,7 +20,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 public class ExplosionsListener implements Listener {
 
-    public ExplosionsListener(SlimefunPlugin plugin) {
+    public ExplosionsListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

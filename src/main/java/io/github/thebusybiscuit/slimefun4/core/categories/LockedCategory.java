@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -46,6 +49,7 @@ public class LockedCategory extends Category {
      *            The parent categories for this category
      * 
      */
+    @ParametersAreNonnullByDefault
     public LockedCategory(NamespacedKey key, ItemStack item, NamespacedKey... parents) {
         this(key, item, 3, parents);
     }
@@ -63,6 +67,7 @@ public class LockedCategory extends Category {
      *            The parent categories for this category
      * 
      */
+    @ParametersAreNonnullByDefault
     public LockedCategory(NamespacedKey key, ItemStack item, int tier, NamespacedKey... parents) {
         super(key, item, tier);
         Validate.noNullElements(parents, "A LockedCategory must not have any 'null' parents!");
@@ -101,6 +106,7 @@ public class LockedCategory extends Category {
      * @see #addParent(Category)
      * @see #removeParent(Category)
      */
+    @Nonnull
     public Set<Category> getParents() {
         return parents;
     }
@@ -131,7 +137,7 @@ public class LockedCategory extends Category {
      * @see #getParents()
      * @see #addParent(Category)
      */
-    public void removeParent(Category category) {
+    public void removeParent(@Nonnull Category category) {
         parents.remove(category);
     }
 
@@ -144,7 +150,7 @@ public class LockedCategory extends Category {
      *            The {@link PlayerProfile} that belongs to the given {@link Player}
      * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
      */
-    public boolean hasUnlocked(Player p, PlayerProfile profile) {
+    public boolean hasUnlocked(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         for (Category category : parents) {
             for (SlimefunItem item : category.getItems()) {
                 // Should probably be replaced with Slimefun.hasUnlocked(...)

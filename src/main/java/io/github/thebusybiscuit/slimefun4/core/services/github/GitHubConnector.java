@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -24,6 +27,7 @@ abstract class GitHubConnector {
     protected String repository;
     protected final GitHubService github;
 
+    @ParametersAreNonnullByDefault
     public GitHubConnector(GitHubService github, String repository) {
         this.github = github;
         this.repository = repository;
@@ -100,7 +104,7 @@ abstract class GitHubConnector {
         }
     }
 
-    private void writeCacheFile(JsonNode node) {
+    private void writeCacheFile(@Nonnull JsonNode node) {
         try (FileOutputStream output = new FileOutputStream(file)) {
             output.write(node.toString().getBytes(StandardCharsets.UTF_8));
         }

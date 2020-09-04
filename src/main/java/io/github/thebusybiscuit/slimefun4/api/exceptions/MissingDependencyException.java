@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
 /**
@@ -24,6 +26,7 @@ public class MissingDependencyException extends RuntimeException {
      * @param dependency
      *            The dependency that is required ("Slimefun")
      */
+    @ParametersAreNonnullByDefault
     public MissingDependencyException(SlimefunAddon addon, String dependency) {
         super("Slimefun Addon \"" + addon.getName() + "\" forgot to define \"" + dependency + "\" as a depend or softdepend inside the plugin.yml file");
     }

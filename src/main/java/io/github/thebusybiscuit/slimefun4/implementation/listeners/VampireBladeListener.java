@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,7 +28,7 @@ public class VampireBladeListener implements Listener {
 
     private final VampireBlade blade;
 
-    public VampireBladeListener(SlimefunPlugin plugin, VampireBlade blade) {
+    public VampireBladeListener(@Nonnull SlimefunPlugin plugin, @Nonnull VampireBlade blade) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
 
         this.blade = blade;

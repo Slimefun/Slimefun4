@@ -9,6 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
@@ -37,22 +40,26 @@ public class Contributor {
     private Optional<UUID> uuid = Optional.empty();
     private boolean locked = false;
 
-    public Contributor(String username, String profile) {
+    public Contributor(@Nonnull String username, @Nonnull String profile) {
         Validate.notNull(username, "Username must never be null!");
-        Validate.notNull(profile, "The profile link must never be null!");
+        Validate.notNull(profile, "The profile cannot be null!");
+
         githubUsername = profile.substring(profile.lastIndexOf('/') + 1);
         minecraftUsername = username;
         profileLink = profile;
     }
 
-    public Contributor(String username) {
+    public Contributor(@Nonnull String username) {
         Validate.notNull(username, "Username must never be null!");
+
         githubUsername = username;
         minecraftUsername = username;
         profileLink = null;
     }
 
-    public void setContribution(String role, int commits) {
+    public void setContribution(@Nonnull String role, int commits) {
+        Validate.notNull(role, "The role cannot be null!");
+
         if (!locked || role.startsWith("translator,")) {
             contributions.put(role, commits);
         }
@@ -63,6 +70,7 @@ public class Contributor {
      *
      * @return the name of this contributor
      */
+    @Nonnull
     public String getName() {
         return githubUsername;
     }
@@ -73,6 +81,7 @@ public class Contributor {
      *
      * @return The MC username of this contributor.
      */
+    @Nonnull
     public String getMinecraftName() {
         return minecraftUsername;
     }
@@ -82,10 +91,12 @@ public class Contributor {
      *
      * @return The GitHub profile of this {@link Contributor}
      */
+    @Nullable
     public String getProfile() {
         return profileLink;
     }
 
+    @Nonnull
     public List<Map.Entry<String, Integer>> getContributions() {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(contributions.entrySet());
         list.sort(Comparator.comparingInt(entry -> -entry.getValue()));
@@ -100,7 +111,7 @@ public class Contributor {
      *            The role for which to count the contributions.
      * @return The amount of contributions this {@link Contributor} submitted as the given role
      */
-    public int getContributions(String role) {
+    public int getContributions(@Nonnull String role) {
         return contributions.getOrDefault(role, 0);
     }
 
@@ -110,7 +121,7 @@ public class Contributor {
      * @param uuid
      *            The {@link UUID} for this {@link Contributor}
      */
-    public void setUniqueId(UUID uuid) {
+    public void setUniqueId(@Nullable UUID uuid) {
         this.uuid = uuid == null ? Optional.empty() : Optional.of(uuid);
     }
 
@@ -120,6 +131,7 @@ public class Contributor {
      * 
      * @return The {@link UUID} of this {@link Contributor}
      */
+    @Nonnull
     public Optional<UUID> getUniqueId() {
         return uuid;
     }
@@ -131,6 +143,7 @@ public class Contributor {
      * 
      * @return A Base64-Head Texture
      */
+    @Nonnull
     public String getTexture() {
         if (!headTexture.isComputed() || !headTexture.isPresent()) {
             GitHubService github = SlimefunPlugin.getGitHubService();
@@ -158,7 +171,7 @@ public class Contributor {
         return headTexture.isComputed();
     }
 
-    public void setTexture(String skin) {
+    public void setTexture(@Nullable String skin) {
         headTexture.compute(skin);
     }
 
@@ -170,6 +183,7 @@ public class Contributor {
         return -getTotalContributions();
     }
 
+    @Nonnull
     public String getDisplayName() {
         return ChatColor.GRAY + githubUsername + (!githubUsername.equals(minecraftUsername) ? ChatColor.DARK_GRAY + " (MC: " + minecraftUsername + ")" : "");
     }

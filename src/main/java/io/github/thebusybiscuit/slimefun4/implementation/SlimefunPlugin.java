@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -165,6 +168,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
+            networkManager = new NetworkManager(200);
             command.register();
             registry.load(config);
         }
@@ -287,6 +291,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    @Nonnull
     private String getStartupTime(long timestamp) {
         long ms = (System.nanoTime() - timestamp) / 1000000;
 
@@ -331,6 +336,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return false;
     }
 
+    @Nonnull
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
@@ -510,6 +516,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * 
      * @return The {@link SlimefunPlugin} instance
      */
+    @Nullable
     public static SlimefunPlugin instance() {
         return instance;
     }
@@ -642,6 +649,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return A {@link Set} of every {@link Plugin} that is dependent on Slimefun
      */
+    @Nonnull
     public static Set<Plugin> getInstalledAddons() {
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName())).collect(Collectors.toSet());
     }

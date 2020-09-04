@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Piglin;
@@ -31,7 +33,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class PiglinListener implements Listener {
 
-    public PiglinListener(SlimefunPlugin plugin) {
+    public PiglinListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -93,7 +95,7 @@ public class PiglinListener implements Listener {
                     int chance = ((PiglinBarterDrop) sfi).getBarteringLootChance();
 
                     if (chance < 1 || chance >= 100) {
-                        sfi.warn("The Piglin Bartering chance must be between 1-99%");
+                        sfi.warn("The Piglin Bartering chance must be between 1-99% on item: " + sfi.getID());
                     }
                     else if (chance > ThreadLocalRandom.current().nextInt(100)) {
                         e.getItemDrop().setItemStack(sfi.getRecipeOutput());

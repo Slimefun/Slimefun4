@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -19,7 +22,7 @@ public class SlimefunGuideListener implements Listener {
 
     private final boolean giveOnFirstJoin;
 
-    public SlimefunGuideListener(SlimefunPlugin plugin, boolean giveOnFirstJoin) {
+    public SlimefunGuideListener(@Nonnull SlimefunPlugin plugin, boolean giveOnFirstJoin) {
         this.giveOnFirstJoin = giveOnFirstJoin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -65,6 +68,8 @@ public class SlimefunGuideListener implements Listener {
         }
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private Result openGuide(PlayerRightClickEvent e, SlimefunGuideLayout layout) {
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
