@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -68,16 +66,10 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
 
             int index = selectedMode.getOrDefault(p.getUniqueId(), 0);
 
-            if (!p.isSneaking()) {
+            if (!p.isSneaking() && removeItemCharge(item, COST)) {
                 SlimefunItem sfItem = modes.get(index).getItem();
-                if (sfItem.getID().equals(SlimefunItems.STAFF_WIND.getItemId()) && (SlimefunUtils.isItemSimilar(p.getInventory().getItemInMainHand(), SlimefunItems.STAFF_WIND, false, false) || SlimefunUtils.isItemSimilar(p.getInventory().getItemInOffHand(), SlimefunItems.STAFF_WIND, false, false))) {
-                    return;
-                }
-                if (removeItemCharge(item, COST)) {
-
-                    if (sfItem != null) {
-                        sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(e));
-                    }
+                if (sfItem != null) {
+                    sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(e));
                 }
             }
             else {
