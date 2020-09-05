@@ -6,6 +6,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
@@ -51,12 +52,14 @@ public class SolarHelmet extends SlimefunItem {
      *            The {@link Player} wearing this {@link SolarHelmet}
      */
     public void rechargeItems(@Nonnull Player p) {
-        recharge(p.getInventory().getHelmet());
-        recharge(p.getInventory().getChestplate());
-        recharge(p.getInventory().getLeggings());
-        recharge(p.getInventory().getBoots());
-        recharge(p.getInventory().getItemInMainHand());
-        recharge(p.getInventory().getItemInOffHand());
+        PlayerInventory inv = p.getInventory();
+
+        recharge(inv.getHelmet());
+        recharge(inv.getChestplate());
+        recharge(inv.getLeggings());
+        recharge(inv.getBoots());
+        recharge(inv.getItemInMainHand());
+        recharge(inv.getItemInOffHand());
     }
 
     private void recharge(@Nullable ItemStack item) {

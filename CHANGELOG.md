@@ -60,6 +60,8 @@
 * (API) Rewritten Block-Energy API
 * Removed "durability" setting from cargo nodes
 * Small performance improvements for radiation
+* Small performance improvements for Auto Disenchanters
+* Magnesium Salt in Magnesium-Salt generators now lasts longer
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction

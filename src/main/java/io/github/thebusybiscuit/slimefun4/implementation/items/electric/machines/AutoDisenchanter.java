@@ -81,7 +81,7 @@ public class AutoDisenchanter extends AContainer {
             ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
             // Disenchanting
-            if (item != null && target != null && target.getType() == Material.BOOK) {
+            if (target != null && target.getType() == Material.BOOK) {
                 int amount = 0;
 
                 for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
@@ -145,14 +145,18 @@ public class AutoDisenchanter extends AContainer {
     }
 
     private boolean isDisenchantable(ItemStack item) {
-        SlimefunItem sfItem = null;
-
-        // stops endless checks of getByItem for empty book stacks.
-        if (item != null && item.getType() != Material.BOOK) {
-            sfItem = SlimefunItem.getByItem(item);
+        if (item == null) {
+            return false;
+        }
+        // stops endless checks of getByItem for books
+        else if (item.getType() != Material.BOOK) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            return sfItem == null || sfItem.isDisenchantable();
+        }
+        else {
+            return true;
         }
 
-        return sfItem == null || sfItem.isDisenchantable();
     }
 
     @Override
