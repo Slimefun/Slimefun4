@@ -48,6 +48,8 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class TickerTask implements Runnable {
 
     private static final Runnable END_ELEMENT = () -> {};
+    private static final long MAX_POLL_NS = 250_000L;
+    private static final long MAX_TICK_NS = 1_500_000L;
 
     // These are "Queues" of blocks that need to be removed or moved.
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
@@ -83,7 +85,6 @@ public class TickerTask implements Runnable {
 
     @Override 
     public final void run() {
-
         // This should not happen. Only case where this may happen is if this task is scheduled or started multiple times.
         if (running) {
             return;
@@ -108,34 +109,30 @@ public class TickerTask implements Runnable {
     }
 
     private void processSyncTasks(final @Nonnull BlockingQueue<Runnable> tasks) {
-
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
-
         // Let's not lag the main thread. Spikes suck. Steady time usage is much better.
-        long endNs = System.nanoTime() + 1_500_000L;
-
+        long endNs = System.nanoTime() + MAX_TICK_NS;
         try {
             while (endNs > System.nanoTime()) {
 
                 // Don't wait on an empty queue for too long.
-                long s = System.nanoTime();
-                Runnable r = tasks.poll(250_000L, TimeUnit.NANOSECONDS);
+                Runnable task = tasks.poll(MAX_POLL_NS, TimeUnit.NANOSECONDS);
 
                 // If the queue is empty, let the server do its thing. We'll check back later.
-                if (r == null) {
+                if (task == null) {
                     break;
                 }
 
                 // The end element is a singleton runnable and represents the end of the ticker task list. Finish up.
-                if (r == END_ELEMENT) {
+                if (task == END_ELEMENT) {
                     finish();
                     return;
                 }
 
                 // Run the synchronous ticker task.
-                r.run();
+                task.run();
             }
         }
         catch (InterruptedException e) {
@@ -152,10 +149,7 @@ public class TickerTask implements Runnable {
     }
 
     private void finish() {
-
         running = false;
-
-
         // Schedule the ticker task to run again once the tick interval has elapsed. Use a synchronous task instead of
         // an asynchronous one to bind the interval to the server clock, not the wall clock.
         Bukkit.getScheduler().runTaskLater(
@@ -166,10 +160,7 @@ public class TickerTask implements Runnable {
     }
 
     private void tick(@Nonnull BlockingQueue<Runnable> syncTasks) {
-
-
         try {
-
             // We don't care about the equality of elements here. Use a
             // list, it has lower add/remove/iterate time complexity and smaller memory footprint.
             SlimefunPlugin.getProfiler().start();
@@ -235,8 +226,6 @@ public class TickerTask implements Runnable {
     }
 
     private void tickChunk(@Nonnull List<BlockTicker> tickers, @Nonnull String chunk, @Nonnull BlockingQueue<Runnable> syncTasks) {
-
-
         try {
             Set<Location> locations = BlockStorage.getTickingLocations(chunk);
             String[] components = PatternUtils.SEMICOLON.split(chunk);
@@ -257,8 +246,6 @@ public class TickerTask implements Runnable {
     }
 
     private void tickLocation(@Nonnull List<BlockTicker> tickers, @Nonnull Location l, @Nonnull BlockingQueue<Runnable> syncTasks) {
-
-
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
@@ -342,7 +329,6 @@ public class TickerTask implements Runnable {
     @ParametersAreNonnullByDefault
     public void queueMove(Location from, Location to) {
         // This collection is iterated over in a different thread. Need to lock it.
-        new Throwable().printStackTrace();
         queueLock.readLock().lock();
         try {
             movingQueue.put(from, to);
@@ -355,7 +341,6 @@ public class TickerTask implements Runnable {
     @ParametersAreNonnullByDefault
     public void queueDelete(Location l, boolean destroy) {
         // This collection is iterated over in a different thread. Need to lock it.
-        new Throwable().printStackTrace();
         queueLock.readLock().lock();
         try {
             deletionQueue.put(l, destroy);
