@@ -54,10 +54,11 @@ public class SolarHelmet extends SlimefunItem {
     public void rechargeItems(@Nonnull Player p) {
         PlayerInventory inv = p.getInventory();
 
-        recharge(inv.getHelmet());
+        // No need to charge the helmet since that slot is occupied by the Solar Helmet
         recharge(inv.getChestplate());
         recharge(inv.getLeggings());
         recharge(inv.getBoots());
+
         recharge(inv.getItemInMainHand());
         recharge(inv.getItemInOffHand());
     }
