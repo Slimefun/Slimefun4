@@ -159,7 +159,7 @@
 
                 <configuration>
 
-                    <!-- Shade bStats and CS-CoreLib2 into the output jar -->
+                    <!-- Shade dependencies into the output jar -->
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
@@ -294,13 +294,15 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Development / Testing dependencies -->
+        <!-- Development dependencies -->
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -360,7 +362,7 @@
             </exclusions>
         </dependency>
 
-        <!-- Third party plugin integrations -->
+        <!-- Third party plugin integrations / soft dependencies -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>

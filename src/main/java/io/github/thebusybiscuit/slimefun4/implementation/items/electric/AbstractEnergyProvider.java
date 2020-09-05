@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,6 +41,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
 
     protected final Set<MachineFuel> fuelTypes = new HashSet<>();
 
+    @ParametersAreNonnullByDefault
     protected AbstractEnergyProvider(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
@@ -81,6 +83,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
     protected abstract void registerDefaultFuelTypes();
 
     @Override
+    @Nonnull
     public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.GENERATOR;
     }

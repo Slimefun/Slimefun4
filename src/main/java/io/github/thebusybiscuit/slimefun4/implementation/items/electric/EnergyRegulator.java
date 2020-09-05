@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -29,6 +30,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class EnergyRegulator extends SlimefunItem {
 
+    @ParametersAreNonnullByDefault
     public EnergyRegulator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 

@@ -76,6 +76,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
     private final Set<Location> explosionsQueue = new HashSet<>();
 
+    @ParametersAreNonnullByDefault
     public Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 

@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -45,6 +46,7 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      * @param recipe
      *            The recipe of how to craft this {@link SlimefunItem}
      */
+    @ParametersAreNonnullByDefault
     public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, radioactivity, item, recipeType, recipe, null);
     }
@@ -65,6 +67,7 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      * @param recipeOutput
      *            The recipe output
      */
+    @ParametersAreNonnullByDefault
     public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 

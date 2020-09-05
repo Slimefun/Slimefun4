@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -29,6 +32,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      * @param android
      *            The {@link AndroidInstance} that triggered this {@link Event}
      */
+    @ParametersAreNonnullByDefault
     public AndroidMineEvent(Block block, AndroidInstance android) {
         this.block = block;
         this.android = android;
@@ -39,6 +43,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      *
      * @return the mined {@link Block}
      */
+    @Nonnull
     public Block getBlock() {
         return block;
     }
@@ -49,6 +54,7 @@ public class AndroidMineEvent extends Event implements Cancellable {
      *
      * @return the involved {@link AndroidInstance}
      */
+    @Nonnull
     public AndroidInstance getAndroid() {
         return android;
     }
@@ -63,10 +69,12 @@ public class AndroidMineEvent extends Event implements Cancellable {
         cancelled = cancel;
     }
 
+    @Nonnull
     public static HandlerList getHandlerList() {
         return handlers;
     }
 
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();

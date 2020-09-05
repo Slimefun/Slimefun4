@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
@@ -37,6 +40,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      * @param block
      *            The placed {@link Block}
      */
+    @ParametersAreNonnullByDefault
     public BlockPlacerPlaceEvent(Block blockPlacer, ItemStack placedItem, Block block) {
         super(block);
 
@@ -49,6 +53,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      *
      * @return The {@link BlockPlacer}
      */
+    @Nonnull
     public Block getBlockPlacer() {
         return blockPlacer;
     }
@@ -58,6 +63,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      * 
      * @return The placed {@link ItemStack}
      */
+    @Nonnull
     public ItemStack getItemStack() {
         return placedItem;
     }
@@ -68,7 +74,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
      * @param item
      *            The {@link ItemStack} to be placed
      */
-    public void setItemStack(ItemStack item) {
+    public void setItemStack(@Nonnull ItemStack item) {
         Validate.notNull(item, "The ItemStack must not be null!");
 
         if (!locked) {
@@ -101,10 +107,12 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
         locked = true;
     }
 
+    @Nonnull
     public static HandlerList getHandlerList() {
         return handlers;
     }
 
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();

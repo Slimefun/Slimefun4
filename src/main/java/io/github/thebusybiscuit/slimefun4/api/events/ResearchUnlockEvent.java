@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -23,15 +26,19 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
     private final Research research;
     private boolean cancelled;
 
-    public ResearchUnlockEvent(Player p, Research research) {
+    public ResearchUnlockEvent(@Nonnull Player p, @Nonnull Research research) {
+        Validate.notNull(p, "The Player cannot be null");
+        Validate.notNull(research, "Research cannot be null");
         this.player = p;
         this.research = research;
     }
 
+    @Nonnull
     public Player getPlayer() {
         return player;
     }
 
+    @Nonnull
     public Research getResearch() {
         return research;
     }
@@ -46,10 +53,12 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
         this.cancelled = cancel;
     }
 
+    @Nonnull
     public static HandlerList getHandlerList() {
         return handlers;
     }
 
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();

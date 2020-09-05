@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -38,6 +41,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
      * @param player
      *            The {@link Player} that started the ritual.
      */
+    @ParametersAreNonnullByDefault
     public AncientAltarCraftEvent(ItemStack output, Block block, Player player) {
         super(player);
 
@@ -50,6 +54,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
      *
      * @return the main altar's block {@link Block}
      */
+    @Nonnull
     public Block getAltarBlock() {
         return block;
     }
@@ -59,6 +64,7 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
      *
      * @return the {@link ItemStack} that would be dropped by the {@link AncientAltar}
      */
+    @Nonnull
     public ItemStack getItem() {
         return output;
     }
@@ -87,10 +93,12 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
         cancelled = cancel;
     }
 
+    @Nonnull
     public static HandlerList getHandlerList() {
         return handlers;
     }
 
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();

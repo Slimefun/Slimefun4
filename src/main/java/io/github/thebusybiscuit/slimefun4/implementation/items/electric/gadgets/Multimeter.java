@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets
 
 import java.util.Optional;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +30,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class Multimeter extends SimpleSlimefunItem<ItemUseHandler> {
 
+    @ParametersAreNonnullByDefault
     public Multimeter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

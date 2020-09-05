@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -32,6 +35,7 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
 
     private boolean cancelled;
 
+    @ParametersAreNonnullByDefault
     public ClimbingPickLaunchEvent(Player player, Vector velocity, ClimbingPick pick, ItemStack itemStack, Block block) {
         super(player);
 
@@ -47,6 +51,7 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
      *
      * @return The {@link Vector} of the applied velocity
      */
+    @Nonnull
     public Vector getVelocity() {
         return velocity;
     }
@@ -57,7 +62,7 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
      * @param velocity
      *            The {@link Vector} velocity to apply
      */
-    public void setVelocity(Vector velocity) {
+    public void setVelocity(@Nonnull Vector velocity) {
         Validate.notNull(velocity);
         this.velocity = velocity;
     }
@@ -67,8 +72,9 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
      *
      * @return The {@link ClimbingPick} that was used
      */
+    @Nonnull
     public ClimbingPick getPick() {
-        return this.pick;
+        return pick;
     }
 
     /**
@@ -76,8 +82,9 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
      *
      * @return The {@link ItemStack} that was used
      */
+    @Nonnull
     public ItemStack getItemStack() {
-        return this.itemStack;
+        return itemStack;
     }
 
     /**
@@ -85,13 +92,14 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
      *
      * @return The {@link Block} that was climbed
      */
+    @Nonnull
     public Block getBlock() {
-        return this.block;
+        return block;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override
@@ -99,10 +107,12 @@ public class ClimbingPickLaunchEvent extends PlayerEvent implements Cancellable 
         this.cancelled = cancel;
     }
 
+    @Nonnull
     public static HandlerList getHandlerList() {
         return handlers;
     }
 
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();

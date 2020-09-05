@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -25,6 +28,7 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
     private final BlockFace clickedFace;
     private boolean cancelled;
 
+    @ParametersAreNonnullByDefault
     public MultiBlockInteractEvent(Player p, MultiBlock mb, Block clicked, BlockFace face) {
         super(p);
         this.multiBlock = mb;
@@ -37,6 +41,7 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
      * 
      * @return The {@link MultiBlock} of this {@link MultiBlockInteractEvent}
      */
+    @Nonnull
     public MultiBlock getMultiBlock() {
         return multiBlock;
     }
@@ -46,6 +51,7 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
      * 
      * @return The {@link Block} that was clicked
      */
+    @Nonnull
     public Block getClickedBlock() {
         return clickedBlock;
     }
@@ -55,6 +61,7 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
      * 
      * @return The {@link BlockFace} that was clicked
      */
+    @Nonnull
     public BlockFace getClickedFace() {
         return clickedFace;
     }
@@ -69,10 +76,12 @@ public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable 
         this.cancelled = cancel;
     }
 
+    @Nonnull
     public static HandlerList getHandlerList() {
         return handlers;
     }
 
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return getHandlerList();
