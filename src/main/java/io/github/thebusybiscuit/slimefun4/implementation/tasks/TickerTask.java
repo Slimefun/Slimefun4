@@ -39,6 +39,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * or not.
  * 
  * @author TheBusyBiscuit
+ * @author Qalle
  * @author Linox
  * 
  * @see BlockTicker
