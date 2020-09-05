@@ -62,7 +62,6 @@
 * Small performance improvements for radiation
 * Small performance improvements for Auto Disenchanters
 * Magnesium Salt in Magnesium-Salt generators now lasts longer
-* Performance improvements for TickerTask(Slimefun ticking)
 
 #### Fixes
 * Fixed Programmable Androids rotating in the wrong direction
