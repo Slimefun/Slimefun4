@@ -105,6 +105,7 @@
 * Fixed #2269
 * Fixed #2266
 * Fixed #2275
+* Fixed Multi Tools consuming hunger points when holding a Wind Staff in your off hand
 
 ## Release Candidate 15 (01 Aug 2020)
 
