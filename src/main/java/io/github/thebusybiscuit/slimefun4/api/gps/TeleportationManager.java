@@ -131,10 +131,10 @@ public final class TeleportationManager {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
 
                 PaperLib.teleportAsync(p, destination).thenAccept(teleported -> {
-                    if (teleported.booleanValue()) {
-                        // This needs to run on the main Thread so we force it, as the
-                        // async teleportation might happen on a seperate Thread.
-                        Slimefun.runSync(() -> {
+                    // This needs to run on the main Thread so we force it, as the
+                    // async teleportation might happen on a seperate Thread.
+                    Slimefun.runSync(() -> {
+                        if (teleported.booleanValue()) {
                             if (resistance) {
                                 p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
                                 SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
@@ -143,9 +143,9 @@ public final class TeleportationManager {
                             Location loc = new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ());
                             destination.getWorld().spawnParticle(Particle.PORTAL, loc, progress * 2, 0.2F, 0.8F, 0.2F);
                             destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
-                            teleporterUsers.remove(uuid);
-                        });
-                    }
+                        }
+                        teleporterUsers.remove(uuid);
+                    });
                 });
             }
             else {
