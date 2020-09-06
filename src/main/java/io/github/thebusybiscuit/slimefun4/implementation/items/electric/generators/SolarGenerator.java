@@ -23,6 +23,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * {@link #getNightEnergy()}.
  * 
  * @author TheBusyBiscuit
+ * @author Linox
  * 
  * @see EnergyNet
  * @see EnergyNetProvider
@@ -75,11 +76,11 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
         else {
             boolean isDaytime = isDaytime(world);
 
-            // Performance optimization for daytime-only solar generators
+            // Performance optimization for daytime-only solar generators.
             if (!isDaytime && getNightEnergy() < 1) {
                 return 0;
             }
-            else if (!world.isChunkLoaded(l.getBlockX() >> 4, l.getBlockZ() >> 4) || l.getBlock().getLightFromSky() < 15) {
+            else if (!world.isChunkLoaded(l.getChunk()) || l.getBlock().getLightFromSky() < 15) {
                 return 0;
             }
             else {
@@ -106,7 +107,7 @@ public class SolarGenerator extends SlimefunItem implements EnergyNetProvider {
     public void preRegister() {
         super.preRegister();
 
-        // This prevents Players from toggling the Daylight sensor
+        // This prevents Players from toggling the Daylight sensor.
         BlockUseHandler handler = PlayerRightClickEvent::cancel;
         addItemHandler(handler);
     }
