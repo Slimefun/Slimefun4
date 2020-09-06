@@ -129,24 +129,7 @@ public final class TeleportationManager {
         if (isValid(p, source)) {
             if (progress > 99) {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
-
-                PaperLib.teleportAsync(p, destination).thenAccept(teleported -> {
-                    // This needs to run on the main Thread so we force it, as the
-                    // async teleportation might happen on a seperate Thread.
-                    Slimefun.runSync(() -> {
-                        if (teleported.booleanValue()) {
-                            if (resistance) {
-                                p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
-                                SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
-                            }
-
-                            Location loc = new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ());
-                            destination.getWorld().spawnParticle(Particle.PORTAL, loc, progress * 2, 0.2F, 0.8F, 0.2F);
-                            destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
-                        }
-                        teleporterUsers.remove(uuid);
-                    });
-                });
+                PaperLib.teleportAsync(p, destination).thenAccept(success -> onTeleport(p, destination, success, resistance));
             }
             else {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleporting")), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
@@ -160,6 +143,32 @@ public final class TeleportationManager {
         else {
             cancel(uuid, p);
         }
+    }
+
+    @ParametersAreNonnullByDefault
+    private void onTeleport(Player p, Location destination, boolean success, boolean resistance) {
+        // This needs to run on the main Thread so we force it, as the
+        // async teleportation might happen on a seperate Thread.
+        Slimefun.runSync(() -> {
+            if (success) {
+                // Apply Resistance Effect, if enabled
+                if (resistance) {
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
+                    SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
+                }
+
+                // Spawn some particles for aesthetic reasons.
+                Location loc = new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ());
+                destination.getWorld().spawnParticle(Particle.PORTAL, loc, 200, 0.2F, 0.8F, 0.2F);
+                destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
+                teleporterUsers.remove(p.getUniqueId());
+            }
+            else {
+                // Make sure the Player is removed from the actively teleporting users
+                // and notified about the failed teleportation
+                cancel(p.getUniqueId(), p);
+            }
+        });
     }
 
 }
