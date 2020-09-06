@@ -7,8 +7,8 @@
 This document should serve the purpose of outlining the behaviour we expect from any participant of the project.
 
 ## Scope
-This Code of Conduct applies to all sections of the [Slimefun4 GitHub repository](https://github.com/TheBusyBiscuit/Slimefun4), our [Slimefun GitHub organization](https://github.com/Slimefun) and all repositories owned by said organization.<br>
-For our official Discord server, please refer to our article on [Discord Rules](https://github.com/TheBusyBiscuit/Slimefun4/wiki/Discord-Rules).
+This Code of Conduct applies to all sections of the [Slimefun4 GitHub repository](https://github.com/Slimefun/Slimefun4), our [Slimefun GitHub organization](https://github.com/Slimefun) and all repositories owned by said organization.<br>
+For our official Discord server, please refer to our article on [Discord Rules](https://github.com/Slimefun/Slimefun4/wiki/Discord-Rules).
 
 Everyone who engages with this project on any of these repositories is expected to follow the Code of Conduct.<br>
 This includes maintainers, contributors, sponsors and anyone who engages in the "Issues" section on GitHub.
@@ -18,8 +18,8 @@ This is an Open-Source project, anyone is welcome to engage and contribute!<br>
 We generally expect users to engage in the Issues section by reporting bugs or commenting on bug reports to give additional context, help, guidance or to propose possible solutions and fixes.
 Pull Requests are very much welcome and encouraged! They keep the project alive, so if you see an Issue and know how to fix it, feel free to create a Pull Request!
 
-Issues that are considered "good first issues", indicated by the [good first issue](https://github.com/TheBusyBiscuit/Slimefun4/labels/good%20first%20issue) label, are generally expected to be beginner-friendly. 
-And even if you shouldn't know where to start or how to proceed, our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord) and its community will be there for you!
+Issues that are considered "good first issues", indicated by the [good first issue](https://github.com/Slimefun/Slimefun4/labels/good%20first%20issue) label, are generally expected to be beginner-friendly. 
+And even if you shouldn't know where to start or how to proceed, our [Discord Server](https://github.com/Slimefun/Slimefun4#discord) and its community will be there for you!
 
 When commenting, please keep in mind that this software is offered for **free**. Don't expect to receive lightning-fast replies 24 hours a day. 
 Everyone here works on this project in their free time and usually has work, school, university or family to take care of, so we appreciate patience and understanding.
@@ -59,7 +59,7 @@ https://github.com/orgs/Slimefun/people
 
 ## Enforcement
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders (labelled on Discord as "Admins" or "Moderators") responsible for enforcement on our [Discord Server](https://github.com/TheBusyBiscuit/Slimefun4#discord).
+reported to the community leaders (labelled on Discord as "Admins" or "Moderators") responsible for enforcement on our [Discord Server](https://github.com/Slimefun/Slimefun4#discord).
 If you want your issue to be handled discreetly, message `TheBusyBiscuit#2610` or `Walshy#9709` privately on Discord and state your concerns.
 
 All complaints will be reviewed and investigated promptly and fairly.
