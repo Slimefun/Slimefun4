@@ -108,7 +108,7 @@ public class TickerTask implements Runnable {
         processSyncTasks(syncTasks);
     }
 
-    private void processSyncTasks(final @Nonnull BlockingQueue<Runnable> tasks) {
+    private void processSyncTasks(@Nonnull final BlockingQueue<Runnable> tasks) {
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
