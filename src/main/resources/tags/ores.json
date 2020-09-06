@@ -1,6 +1,10 @@
 {
 	"values" : [
-		"#minecraft:gold_ores",
+		{
+			"id" : "#minecraft:gold_ores",
+			"required" : false
+		},
+		"minecraft:gold_ore",
 		"minecraft:iron_ore",
 		"minecraft:coal_ore",
 		"minecraft:lapis_ore",

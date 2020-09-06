@@ -73,7 +73,9 @@ public final class TestUtilities {
     public static void registerDefaultTags(ServerMock server) {
         // We really don't need these to be accurate, just fill them with some examples
         // that approximate the actual content
+        server.createMaterialTag(NamespacedKey.minecraft("dirt_like"), Material.DIRT, Material.PODZOL, Material.MYCELIUM);
         server.createMaterialTag(NamespacedKey.minecraft("logs"), Material.OAK_LOG, Material.STRIPPED_OAK_LOG, Material.OAK_WOOD, Material.STRIPPED_OAK_WOOD, Material.ACACIA_LOG, Material.STRIPPED_ACACIA_LOG, Material.ACACIA_WOOD, Material.STRIPPED_ACACIA_WOOD);
+        server.createMaterialTag(NamespacedKey.minecraft("wooden_pressure_plates"), Material.OAK_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE, Material.SPRUCE_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.ACACIA_PRESSURE_PLATE, Material.DARK_OAK_PRESSURE_PLATE);
         server.createMaterialTag(NamespacedKey.minecraft("wooden_trapdoors"), Material.OAK_TRAPDOOR, Material.BIRCH_TRAPDOOR, Material.SPRUCE_TRAPDOOR, Material.JUNGLE_TRAPDOOR, Material.ACACIA_TRAPDOOR, Material.DARK_OAK_TRAPDOOR);
         server.createMaterialTag(NamespacedKey.minecraft("wooden_slabs"), Material.OAK_SLAB, Material.BIRCH_SLAB, Material.JUNGLE_SLAB, Material.SPRUCE_SLAB, Material.ACACIA_SLAB, Material.DARK_OAK_SLAB);
         server.createMaterialTag(NamespacedKey.minecraft("wooden_fences"), Material.OAK_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE, Material.SPRUCE_FENCE, Material.ACACIA_FENCE, Material.DARK_OAK_FENCE);
@@ -83,6 +85,9 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("saplings"), Material.OAK_SAPLING, Material.BIRCH_SAPLING, Material.SPRUCE_SAPLING, Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING);
         server.createMaterialTag(NamespacedKey.minecraft("coral_blocks"), Material.BRAIN_CORAL_BLOCK, Material.BUBBLE_CORAL_BLOCK, Material.FIRE_CORAL_BLOCK, Material.HORN_CORAL_BLOCK, Material.TUBE_CORAL_BLOCK);
         server.createMaterialTag(NamespacedKey.minecraft("corals"), Material.BRAIN_CORAL, Material.BUBBLE_CORAL, Material.FIRE_CORAL, Material.HORN_CORAL, Material.TUBE_CORAL);
+        server.createMaterialTag(NamespacedKey.minecraft("gold_ores"), Material.GOLD_ORE);
+        server.createMaterialTag(NamespacedKey.minecraft("sand"), Material.SAND, Material.RED_SAND);
+        server.createMaterialTag(NamespacedKey.minecraft("crops"), Material.WHEAT, Material.CARROTS, Material.POTATOES, Material.BEETROOTS);
         server.createMaterialTag(NamespacedKey.minecraft("ice"), Material.ICE, Material.PACKED_ICE, Material.FROSTED_ICE, Material.BLUE_ICE);
     }
 

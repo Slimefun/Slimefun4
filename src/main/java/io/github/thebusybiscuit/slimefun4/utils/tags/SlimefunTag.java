@@ -98,6 +98,11 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
+    @Nonnull
+    public Set<Tag<Material>> getSubTags() {
+        return Collections.unmodifiableSet(additionalTags);
+    }
+
     /**
      * This method returns an Array representation for this {@link SlimefunTag}.
      * 

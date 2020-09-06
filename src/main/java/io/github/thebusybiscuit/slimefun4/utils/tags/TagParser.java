@@ -88,7 +88,7 @@ class TagParser implements Keyed {
             }
         }
         else if (PatternUtils.MINECRAFT_TAG.matcher(value).matches()) {
-            String keyValue = PatternUtils.COLON.split(value)[1].toUpperCase(Locale.ROOT);
+            String keyValue = PatternUtils.COLON.split(value)[1];
             NamespacedKey namespacedKey = NamespacedKey.minecraft(keyValue);
             Tag<Material> itemsTag = Bukkit.getTag(Tag.REGISTRY_ITEMS, namespacedKey, Material.class);
             Tag<Material> blocksTag = Bukkit.getTag(Tag.REGISTRY_BLOCKS, namespacedKey, Material.class);
