@@ -16,6 +16,7 @@ public final class PatternUtils {
 
     private PatternUtils() {}
 
+    public static final Pattern COLON = Pattern.compile(":");
     public static final Pattern SEMICOLON = Pattern.compile(";");
     public static final Pattern HASH = Pattern.compile("#");
     public static final Pattern COMMA = Pattern.compile(",");
@@ -27,4 +28,8 @@ public final class PatternUtils {
     public static final Pattern NUMERIC = Pattern.compile("[0-9]+");
 
     public static final Pattern NUMBER_SEPARATOR = Pattern.compile("[,.]");
+
+    public static final Pattern MINECRAFT_MATERIAL = Pattern.compile("minecraft:[a-z_]+");
+    public static final Pattern MINECRAFT_TAG = Pattern.compile("#minecraft:[a-z_]+");
+    public static final Pattern SLIMEFUN_TAG = Pattern.compile("#slimefun:[a-z_]+");
 }

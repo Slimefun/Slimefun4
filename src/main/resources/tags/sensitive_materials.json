@@ -1,0 +1,10 @@
+{
+	"values" : [
+		"#minecraft:saplings",
+		"#minecraft:wooden_pressure_plates",
+		"minecraft:stone_pressure_plate",
+		"minecraft:light_pressure_plate",
+		"minecraft:heavy_weighted_pressure_plate",
+		"minecraft:cake"
+	]
+}

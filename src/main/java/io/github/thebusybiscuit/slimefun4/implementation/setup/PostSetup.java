@@ -23,6 +23,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
@@ -31,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Grind
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -42,6 +44,19 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public final class PostSetup {
 
     private PostSetup() {}
+
+    public static void loadTags() {
+        Slimefun.getLogger().log(Level.INFO, "Loading Tags...");
+
+        for (SlimefunTag tag : SlimefunTag.values()) {
+            try {
+                tag.reload();
+            }
+            catch (TagMisconfigurationException e) {
+                Slimefun.getLogger().log(Level.SEVERE, "Failed to load a Tag!", e);
+            }
+        }
+    }
 
     public static void setupWiki() {
         Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
