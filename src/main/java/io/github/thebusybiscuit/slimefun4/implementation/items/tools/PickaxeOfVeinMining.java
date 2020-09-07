@@ -26,6 +26,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * at once. It even works with the fortune {@link Enchantment}.
  * 
  * @author TheBusyBiscuit
+ * @author Linox
  *
  */
 public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
@@ -60,9 +61,9 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
         for (Block b : blocks) {
             if (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                 b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
-
+                
                 if (getItem().containsEnchantment(Enchantment.SILK_TOUCH)) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItem(drop, fortune));
+                    b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
                 }
                 else {
 
