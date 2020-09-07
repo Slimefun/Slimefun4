@@ -13,30 +13,85 @@ import org.bukkit.Tag;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CropGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTheSeeker;
 
+/**
+ * This enum contains various implementations of the {@link Tag} interface.
+ * Most of them serve some purpose within Slimefun's implementation, some are just pure
+ * extensions of the default Minecraft tags.
+ * The actual tag files are located in the {@literal /src/main/resources/tags} directory
+ * and follow Minecraft's tags.json format.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public enum SlimefunTag implements Tag<Material> {
 
+    /**
+     * Materials which are sensitive to break.
+     * Things like Saplings or Pressure plates which break as well when you break
+     * the block beneath them.
+     */
     SENSITIVE_MATERIALS,
 
-    // Expanding upon Minecraft's tags:
-
+    /**
+     * Minecraft ores.
+     */
     ORES,
+
+    /**
+     * All terracotta variants, does not include glazed terracotta.
+     */
     TERRACOTTA,
+
+    /**
+     * All ice variants, normal, packed, blue and whatever else there is.
+     */
     ICE_VARIANTS,
+
+    /**
+     * All stone variants, normal, andesite, diorite, granite and whatever else may come.
+     */
     STONE_VARIANTS,
+
+    /**
+     * All variants of concrete powder.
+     * Can you believe there is no tag for this already?
+     */
     CONCRETE_POWDERS,
 
-    // Actual Slimefun tags:
-
+    /**
+     * All materials which the {@link ExplosiveShovel} can break.
+     */
     EXPLOSIVE_SHOVEL_BLOCKS,
+
+    /**
+     * All materials (ores) which the {@link PickaxeOfTheSeeker} recognizes.
+     */
     PICKAXE_OF_VEIN_MINING_BLOCKS,
+
+    /**
+     * All materials (crops) which the {@link CropGrowthAccelerator} will recognize.
+     */
     CROP_GROWTH_ACCELERATOR_BLOCKS,
+
+    /**
+     * All materials which the {@link ClimbingPick} is able to climb.
+     */
     CLIMBING_PICK_SURFACES;
 
     private final NamespacedKey key;
     private final Set<Material> includedMaterials = new HashSet<>();
     private final Set<Tag<Material>> additionalTags = new HashSet<>();
 
+    /**
+     * This constructs a new {@link SlimefunTag}.
+     * The {@link NamespacedKey} will be automatically inferred using
+     * {@link SlimefunPlugin} and {@link #name()}.
+     */
     SlimefunTag() {
         key = new NamespacedKey(SlimefunPlugin.instance(), name().toLowerCase(Locale.ROOT));
     }
@@ -48,7 +103,7 @@ public enum SlimefunTag implements Tag<Material> {
      *             This is thrown whenever a {@link SlimefunTag} could not be parsed properly
      */
     public void reload() throws TagMisconfigurationException {
-        new TagParser(this).parse((materials, tags) -> {
+        new TagParser(this).parse(this, (materials, tags) -> {
             this.includedMaterials.clear();
             this.includedMaterials.addAll(materials);
 
@@ -98,6 +153,14 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
+    /**
+     * This returns a {@link Set} of {@link Tag Tags} which are children of this {@link SlimefunTag},
+     * these can be other {@link SlimefunTag SlimefunTags} or regular {@link Tag Tags}.
+     * 
+     * <strong>The returned {@link Set} is immutable</strong>
+     * 
+     * @return An immutable {@link Set} of all sub tags.
+     */
     @Nonnull
     public Set<Tag<Material>> getSubTags() {
         return Collections.unmodifiableSet(additionalTags);
