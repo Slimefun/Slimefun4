@@ -6,7 +6,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -44,7 +43,6 @@ public class TestMonsterJerky implements SlimefunItemTest<MonsterJerky> {
     }
 
     @Test
-    @Disabled("Potion Effects are currently not fully implemented in MockBukkit")
     public void testConsumptionBehaviour() {
         PlayerMock player = server.addPlayer();
         player.addPotionEffect(PotionEffectType.HUNGER.createEffect(20, 2));

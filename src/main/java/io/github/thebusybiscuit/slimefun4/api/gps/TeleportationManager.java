@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -31,6 +35,7 @@ public final class TeleportationManager {
     private final int[] teleporterBorder = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private final int[] teleporterInventory = { 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43 };
 
+    @ParametersAreNonnullByDefault
     public void openTeleporterGUI(Player p, UUID uuid, Block b, int complexity) {
         if (teleporterUsers.contains(p.getUniqueId())) {
             return;
@@ -62,17 +67,8 @@ public final class TeleportationManager {
                 Location l = waypoint.getLocation();
                 double time = DoubleHandler.fixDouble(0.5 * getTeleportationTime(complexity, source, l));
 
-                String[] lore = {
-                        "",
-                        "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName(),
-                        "&8\u21E8 &7X: &f" + l.getX(),
-                        "&8\u21E8 &7Y: &f" + l.getY(),
-                        "&8\u21E8 &7Z: &f" + l.getZ(),
-                        "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + time + "s",
-                        "",
-                        "&8\u21E8 &c" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip")
-                };
-                
+                String[] lore = { "", "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + time + "s", "", "&8\u21E8 &c" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip") };
+
                 menu.addItem(slot, new CustomItem(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), lore));
                 menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     pl.closeInventory();
@@ -87,6 +83,7 @@ public final class TeleportationManager {
         });
     }
 
+    @ParametersAreNonnullByDefault
     public void teleport(UUID uuid, int complexity, Location source, Location destination, boolean resistance) {
         teleporterUsers.add(uuid);
 
@@ -94,6 +91,7 @@ public final class TeleportationManager {
         updateProgress(uuid, Math.max(1, 100 / time), 0, source, destination, resistance);
     }
 
+    @ParametersAreNonnullByDefault
     public int getTeleportationTime(int complexity, Location source, Location destination) {
         if (complexity < 100) return 100;
 
@@ -101,6 +99,7 @@ public final class TeleportationManager {
         return 1 + Math.min(4 * distanceSquared(source, destination) / speed, 40);
     }
 
+    @ParametersAreNonnullByDefault
     private int distanceSquared(Location source, Location destination) {
         if (source.getWorld().getUID().equals(destination.getWorld().getUID())) {
             int distance = (int) source.distanceSquared(destination);
@@ -111,11 +110,11 @@ public final class TeleportationManager {
         }
     }
 
-    private boolean isValid(Player p, Location source) {
-        return p != null && p.getLocation().distanceSquared(source) < 2.0;
+    private boolean isValid(@Nullable Player p, @Nonnull Location source) {
+        return p != null && p.isValid() && p.getWorld().getUID().equals(source.getWorld().getUID()) && p.getLocation().distanceSquared(source) < 2.0;
     }
 
-    private void cancel(UUID uuid, Player p) {
+    private void cancel(@Nonnull UUID uuid, @Nullable Player p) {
         teleporterUsers.remove(uuid);
 
         if (p != null) {
@@ -123,30 +122,14 @@ public final class TeleportationManager {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void updateProgress(UUID uuid, int speed, int progress, Location source, Location destination, boolean resistance) {
         Player p = Bukkit.getPlayer(uuid);
 
         if (isValid(p, source)) {
             if (progress > 99) {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
-
-                PaperLib.teleportAsync(p, destination).thenAccept(teleported -> {
-                    if (teleported.booleanValue()) {
-                        // This needs to run on the main Thread so we force it, as the
-                        // async teleportation might happen on a seperate Thread.
-                        Slimefun.runSync(() -> {
-                            if (resistance) {
-                                p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
-                                SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
-                            }
-
-                            Location loc = new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ());
-                            destination.getWorld().spawnParticle(Particle.PORTAL, loc, progress * 2, 0.2F, 0.8F, 0.2F);
-                            destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
-                            teleporterUsers.remove(uuid);
-                        });
-                    }
-                });
+                PaperLib.teleportAsync(p, destination).thenAccept(success -> onTeleport(p, destination, success, resistance));
             }
             else {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleporting")), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
@@ -160,6 +143,32 @@ public final class TeleportationManager {
         else {
             cancel(uuid, p);
         }
+    }
+
+    @ParametersAreNonnullByDefault
+    private void onTeleport(Player p, Location destination, boolean success, boolean resistance) {
+        // This needs to run on the main Thread so we force it, as the
+        // async teleportation might happen on a seperate Thread.
+        Slimefun.runSync(() -> {
+            if (success) {
+                // Apply Resistance Effect, if enabled
+                if (resistance) {
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 600, 20));
+                    SlimefunPlugin.getLocalization().sendMessage(p, "machines.TELEPORTER.invulnerability");
+                }
+
+                // Spawn some particles for aesthetic reasons.
+                Location loc = new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ());
+                destination.getWorld().spawnParticle(Particle.PORTAL, loc, 200, 0.2F, 0.8F, 0.2F);
+                destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
+                teleporterUsers.remove(p.getUniqueId());
+            }
+            else {
+                // Make sure the Player is removed from the actively teleporting users
+                // and notified about the failed teleportation
+                cancel(p.getUniqueId(), p);
+            }
+        });
     }
 
 }

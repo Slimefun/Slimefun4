@@ -5,6 +5,10 @@ import java.util.Locale;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -35,6 +39,7 @@ public interface SlimefunAddon {
      * 
      * @return The instance of your {@link JavaPlugin}
      */
+    @Nonnull
     JavaPlugin getJavaPlugin();
 
     /**
@@ -42,6 +47,7 @@ public interface SlimefunAddon {
      * 
      * @return The URL for this Plugin's Bug Tracker, or null
      */
+    @Nullable
     String getBugTrackerURL();
 
     /**
@@ -50,6 +56,7 @@ public interface SlimefunAddon {
      * 
      * @return The Name of this {@link SlimefunAddon}
      */
+    @Nonnull
     default String getName() {
         return getJavaPlugin().getName();
     }
@@ -60,6 +67,7 @@ public interface SlimefunAddon {
      * 
      * @return The version of this {@link SlimefunAddon}
      */
+    @Nonnull
     default String getPluginVersion() {
         return getJavaPlugin().getDescription().getVersion();
     }
@@ -70,6 +78,7 @@ public interface SlimefunAddon {
      * 
      * @return The {@link Logger} of this {@link SlimefunAddon}
      */
+    @Nonnull
     default Logger getLogger() {
         return getJavaPlugin().getLogger();
     }
@@ -85,7 +94,9 @@ public interface SlimefunAddon {
      * 
      * @return Whether this {@link SlimefunAddon} depends on the given {@link Plugin}
      */
-    default boolean hasDependency(String dependency) {
+    default boolean hasDependency(@Nonnull String dependency) {
+        Validate.notNull(dependency, "The dependency cannot be null");
+
         // Well... it cannot depend on itself but you get the idea.
         if (getJavaPlugin().getName().equalsIgnoreCase(dependency)) {
             return true;
@@ -101,6 +112,7 @@ public interface SlimefunAddon {
      * 
      * @return A {@link Collection} of every {@link Category} from this addon
      */
+    @Nonnull
     default Collection<Category> getCategories() {
         String namespace = getJavaPlugin().getName().toLowerCase(Locale.ROOT);
         return SlimefunPlugin.getRegistry().getCategories().stream().filter(cat -> cat.getKey().getNamespace().equals(namespace)).collect(Collectors.toList());

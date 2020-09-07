@@ -1,5 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
@@ -15,6 +19,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 /**
  * A quick and easy implementation of {@link SlimefunItem} that also implements the
  * interface {@link Radioactive}.
+ * This implementation is {@link NotPlaceable}!
  * 
  * Simply specify a level of {@link Radioactivity} in the constructor.
  * 
@@ -42,6 +47,7 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      * @param recipe
      *            The recipe of how to craft this {@link SlimefunItem}
      */
+    @ParametersAreNonnullByDefault
     public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, radioactivity, item, recipeType, recipe, null);
     }
@@ -62,18 +68,21 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      * @param recipeOutput
      *            The recipe output
      */
-    public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    @ParametersAreNonnullByDefault
+    public RadioactiveItem(Category category, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
         this.radioactivity = radioactivity;
         addItemHandler(onRightClick());
     }
 
+    @Nonnull
     private ItemUseHandler onRightClick() {
         return PlayerRightClickEvent::cancel;
     }
 
     @Override
+    @Nonnull
     public Radioactivity getRadioactivity() {
         return radioactivity;
     }

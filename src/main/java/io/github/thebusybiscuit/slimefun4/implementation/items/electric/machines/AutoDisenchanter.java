@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -15,10 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -26,9 +23,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
@@ -50,11 +45,6 @@ public class AutoDisenchanter extends AContainer {
     }
 
     @Override
-    public String getInventoryTitle() {
-        return "&5Auto-Disenchanter";
-    }
-
-    @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.DIAMOND_CHESTPLATE);
     }
@@ -70,51 +60,7 @@ public class AutoDisenchanter extends AContainer {
     }
 
     @Override
-    protected void tick(Block b) {
-        BlockMenu menu = BlockStorage.getInventory(b);
-
-        if (isProcessing(b)) {
-            int timeleft = progress.get(b);
-            if (timeleft > 0) {
-                ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
-
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
-                    return;
-                }
-
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
-                progress.put(b, timeleft - 1);
-            }
-            else {
-                menu.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-
-                for (ItemStack item : processing.get(b).getOutput()) {
-                    menu.pushItem(item, getOutputSlots());
-                }
-
-                progress.remove(b);
-                processing.remove(b);
-            }
-        }
-        else {
-            MachineRecipe recipe = findRecipe(menu);
-
-            if (recipe != null) {
-                if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                    return;
-                }
-
-                for (int slot : getInputSlots()) {
-                    menu.consumeItem(slot);
-                }
-
-                processing.put(b, recipe);
-                progress.put(b, recipe.getTicks());
-            }
-        }
-    }
-
-    private MachineRecipe findRecipe(BlockMenu menu) {
+    protected MachineRecipe findNextRecipe(BlockMenu menu) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
 
@@ -135,7 +81,7 @@ public class AutoDisenchanter extends AContainer {
             ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
             // Disenchanting
-            if (item != null && target != null && target.getType() == Material.BOOK) {
+            if (target != null && target.getType() == Material.BOOK) {
                 int amount = 0;
 
                 for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
@@ -162,7 +108,17 @@ public class AutoDisenchanter extends AContainer {
                         EmeraldEnchants.getInstance().getRegistry().applyEnchantment(disenchantedItem, ench.getEnchantment(), 0);
                     }
 
-                    return new MachineRecipe(90 * amount, new ItemStack[] { target, item }, new ItemStack[] { disenchantedItem, book });
+                    MachineRecipe recipe = new MachineRecipe(90 * amount, new ItemStack[] { target, item }, new ItemStack[] { disenchantedItem, book });
+
+                    if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
+                        return null;
+                    }
+
+                    for (int inputSlot : getInputSlots()) {
+                        menu.consumeItem(inputSlot);
+                    }
+
+                    return recipe;
                 }
             }
         }
@@ -189,14 +145,18 @@ public class AutoDisenchanter extends AContainer {
     }
 
     private boolean isDisenchantable(ItemStack item) {
-        SlimefunItem sfItem = null;
-
-        // stops endless checks of getByItem for empty book stacks.
-        if (item != null && item.getType() != Material.BOOK) {
-            sfItem = SlimefunItem.getByItem(item);
+        if (item == null) {
+            return false;
+        }
+        // stops endless checks of getByItem for books
+        else if (item.getType() != Material.BOOK) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            return sfItem == null || sfItem.isDisenchantable();
+        }
+        else {
+            return true;
         }
 
-        return sfItem == null || sfItem.isDisenchantable();
     }
 
     @Override

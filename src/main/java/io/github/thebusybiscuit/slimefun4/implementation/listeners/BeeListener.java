@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  */
 public class BeeListener implements Listener {
 
-    public BeeListener(SlimefunPlugin plugin) {
+    public BeeListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -42,7 +44,9 @@ public class BeeListener implements Listener {
 
             if (profile.hasFullProtectionAgainst(ProtectionType.BEES)) {
                 for (ItemStack armor : p.getInventory().getArmorContents()) {
-                    ItemUtils.damageItem(armor, 1, false);
+                    if (armor != null) {
+                        ItemUtils.damageItem(armor, 1, false);
+                    }
                 }
 
                 e.setDamage(0D);

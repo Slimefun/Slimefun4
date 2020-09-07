@@ -3,13 +3,14 @@ package io.github.thebusybiscuit.slimefun4.testing.tests;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-public class TestPluginClass {
+class TestPluginClass {
 
     @BeforeAll
     public static void load() {
@@ -23,7 +24,8 @@ public class TestPluginClass {
     }
 
     @Test
-    public void verifyTestEnvironment() {
+    @DisplayName("Verify that we are in a UNIT_TEST environment")
+    void verifyTestEnvironment() {
         MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
 
         Assertions.assertEquals(MinecraftVersion.UNIT_TEST, version);
@@ -31,22 +33,28 @@ public class TestPluginClass {
     }
 
     @Test
-    public void testConfigs() {
+    @DisplayName("Verify that config files were loaded")
+    void testConfigs() {
         Assertions.assertNotNull(SlimefunPlugin.getCfg());
         Assertions.assertNotNull(SlimefunPlugin.getResearchCfg());
         Assertions.assertNotNull(SlimefunPlugin.getItemCfg());
     }
 
     @Test
-    public void testGetters() {
+    @DisplayName("Test some static Getters")
+    void testGetters() {
         Assertions.assertNotNull(SlimefunPlugin.getTickerTask());
         Assertions.assertNotNull(SlimefunPlugin.getVersion());
         Assertions.assertNotNull(SlimefunPlugin.getRegistry());
         Assertions.assertNotNull(SlimefunPlugin.getCommand());
+        Assertions.assertNotNull(SlimefunPlugin.getGPSNetwork());
+        Assertions.assertNotNull(SlimefunPlugin.getNetworkManager());
+        Assertions.assertNotNull(SlimefunPlugin.getProfiler());
     }
 
     @Test
-    public void testServicesNotNull() {
+    @DisplayName("Test some Services being not-null")
+    void testServicesNotNull() {
         Assertions.assertNotNull(SlimefunPlugin.getLocalization());
         Assertions.assertNotNull(SlimefunPlugin.getMinecraftRecipeService());
         Assertions.assertNotNull(SlimefunPlugin.getItemDataService());
@@ -57,11 +65,12 @@ public class TestPluginClass {
         Assertions.assertNotNull(SlimefunPlugin.getWorldSettingsService());
         Assertions.assertNotNull(SlimefunPlugin.getGitHubService());
         Assertions.assertNotNull(SlimefunPlugin.getUpdater());
+        Assertions.assertNotNull(SlimefunPlugin.getMetricsService());
     }
 
     @Test
-    public void testListenersNotNull() {
-        Assertions.assertNotNull(SlimefunPlugin.getAncientAltarListener());
+    @DisplayName("Test some Listeners being not-null")
+    void testListenersNotNull() {
         Assertions.assertNotNull(SlimefunPlugin.getGrapplingHookListener());
         Assertions.assertNotNull(SlimefunPlugin.getBackpackListener());
         Assertions.assertNotNull(SlimefunPlugin.getBowListener());

@@ -1,7 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
@@ -27,6 +32,7 @@ public class SolarHelmet extends SlimefunItem {
 
     private final ItemSetting<Double> charge;
 
+    @ParametersAreNonnullByDefault
     public SolarHelmet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double defaultChargingLevel) {
         super(category, item, recipeType, recipe);
 
@@ -45,16 +51,19 @@ public class SolarHelmet extends SlimefunItem {
      * @param p
      *            The {@link Player} wearing this {@link SolarHelmet}
      */
-    public void rechargeItems(Player p) {
-        recharge(p.getInventory().getHelmet());
-        recharge(p.getInventory().getChestplate());
-        recharge(p.getInventory().getLeggings());
-        recharge(p.getInventory().getBoots());
-        recharge(p.getInventory().getItemInMainHand());
-        recharge(p.getInventory().getItemInOffHand());
+    public void rechargeItems(@Nonnull Player p) {
+        PlayerInventory inv = p.getInventory();
+
+        // No need to charge the helmet since that slot is occupied by the Solar Helmet
+        recharge(inv.getChestplate());
+        recharge(inv.getLeggings());
+        recharge(inv.getBoots());
+
+        recharge(inv.getItemInMainHand());
+        recharge(inv.getItemInOffHand());
     }
 
-    private void recharge(ItemStack item) {
+    private void recharge(@Nullable ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem instanceof Rechargeable) {

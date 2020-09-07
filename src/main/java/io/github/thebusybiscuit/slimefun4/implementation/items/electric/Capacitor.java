@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
@@ -26,6 +29,7 @@ public class Capacitor extends SlimefunItem implements EnergyNetComponent {
 
     private final int capacity;
 
+    @ParametersAreNonnullByDefault
     public Capacitor(Category category, int capacity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -33,6 +37,7 @@ public class Capacitor extends SlimefunItem implements EnergyNetComponent {
     }
 
     @Override
+    @Nonnull
     public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CAPACITOR;
     }

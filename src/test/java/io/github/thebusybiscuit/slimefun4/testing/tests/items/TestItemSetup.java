@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class TestItemSetup {
+class TestItemSetup {
 
     private static SlimefunPlugin plugin;
 
@@ -42,7 +43,8 @@ public class TestItemSetup {
 
     @Test
     @Order(value = 1)
-    public void testForExceptions() {
+    @DisplayName("Test whether SlimefunItemSetup.setup() throws any Exceptions")
+    void testForExceptions() {
         // Not really ideal but still important to test.
         // Item amount is variable, so we can't test for that.
         // We are really only concerned about any runtime exceptions here.
@@ -54,16 +56,18 @@ public class TestItemSetup {
 
     @Test
     @Order(value = 2)
-    public void testWikiSetup() {
+    @DisplayName("Test whether PostSetup.setupWiki() throws any Exceptions")
+    void testWikiSetup() {
         Assertions.assertDoesNotThrow(() -> PostSetup.setupWiki());
     }
 
     @Test
     @Order(value = 3)
-    public void testCategoryTranslations() throws IOException {
+    @DisplayName("Test whether every Category is added to the translation files")
+    void testCategoryTranslations() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/categories_en.yml"), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
-            
+
             for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
                 String path = category.getKey().getNamespace() + '.' + category.getKey().getKey();
                 Assertions.assertTrue(config.contains(path));

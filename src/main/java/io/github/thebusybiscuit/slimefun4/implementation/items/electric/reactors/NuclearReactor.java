@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,13 +25,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public abstract class NuclearReactor extends Reactor {
 
+    @ParametersAreNonnullByDefault
     public NuclearReactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-    }
-
-    @Override
-    public String getInventoryTitle() {
-        return "&2Nuclear Reactor";
     }
 
     @Override
@@ -54,7 +53,7 @@ public abstract class NuclearReactor extends Reactor {
     }
 
     @Override
-    public void extraTick(Location l) {
+    public void extraTick(@Nonnull Location l) {
         // This machine does not need to perform anything while ticking
         // The Nether Star Reactor uses this method to generate the Wither Effect
     }

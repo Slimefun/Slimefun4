@@ -4,22 +4,17 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
@@ -59,52 +54,7 @@ public abstract class AutoBrewer extends AContainer {
     }
 
     @Override
-    protected void tick(Block b) {
-        BlockMenu menu = BlockStorage.getInventory(b.getLocation());
-
-        if (isProcessing(b)) {
-            int timeleft = progress.get(b);
-
-            if (timeleft > 0) {
-                ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
-
-                if (ChargableBlock.getCharge(b) < getEnergyConsumption()) {
-                    return;
-                }
-
-                ChargableBlock.addCharge(b, -getEnergyConsumption());
-                progress.put(b, timeleft - 1);
-            }
-            else {
-                menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-
-                for (ItemStack item : processing.get(b).getOutput()) {
-                    menu.pushItem(item, getOutputSlots());
-                }
-
-                progress.remove(b);
-                processing.remove(b);
-            }
-        }
-        else {
-            MachineRecipe recipe = findRecipe(menu);
-
-            if (recipe != null) {
-                if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
-                    return;
-                }
-
-                for (int slot : getInputSlots()) {
-                    menu.consumeItem(slot);
-                }
-
-                processing.put(b, recipe);
-                progress.put(b, recipe.getTicks());
-            }
-        }
-    }
-
-    private MachineRecipe findRecipe(BlockMenu menu) {
+    protected MachineRecipe findNextRecipe(BlockMenu menu) {
         ItemStack input1 = menu.getItemInSlot(getInputSlots()[0]);
         ItemStack input2 = menu.getItemInSlot(getInputSlots()[1]);
 
@@ -113,15 +63,15 @@ public abstract class AutoBrewer extends AContainer {
         }
 
         if (isPotion(input1.getType()) || isPotion(input2.getType())) {
-            boolean slot = isPotion(input1.getType());
-            ItemStack ingredient = slot ? input2 : input1;
+            boolean isPotionInFirstSlot = isPotion(input1.getType());
+            ItemStack ingredient = isPotionInFirstSlot ? input2 : input1;
 
             // Reject any named items
             if (ingredient.hasItemMeta()) {
                 return null;
             }
 
-            ItemStack potionItem = slot ? input1 : input2;
+            ItemStack potionItem = isPotionInFirstSlot ? input1 : input2;
             PotionMeta potion = (PotionMeta) potionItem.getItemMeta();
             ItemStack output = brew(ingredient.getType(), potionItem.getType(), potion);
 
@@ -130,6 +80,15 @@ public abstract class AutoBrewer extends AContainer {
             }
 
             output.setItemMeta(potion);
+
+            if (!InvUtils.fits(menu.toInventory(), output, getOutputSlots())) {
+                return null;
+            }
+
+            for (int slot : getInputSlots()) {
+                menu.consumeItem(slot);
+            }
+
             return new MachineRecipe(30, new ItemStack[] { input1, input2 }, new ItemStack[] { output });
         }
         else {
@@ -155,14 +114,14 @@ public abstract class AutoBrewer extends AContainer {
             else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
                 return new ItemStack(Material.LINGERING_POTION);
             }
-            else {
-                return null;
-            }
-
         }
         else if (input == Material.FERMENTED_SPIDER_EYE) {
-            potion.setBasePotionData(new PotionData(fermentations.get(data.getType()), false, false));
-            return new ItemStack(potionType);
+            PotionType fermented = fermentations.get(data.getType());
+
+            if (fermented != null) {
+                potion.setBasePotionData(new PotionData(fermented, false, false));
+                return new ItemStack(potionType);
+            }
         }
         else if (input == Material.REDSTONE) {
             potion.setBasePotionData(new PotionData(data.getType(), true, data.isUpgraded()));
@@ -172,13 +131,16 @@ public abstract class AutoBrewer extends AContainer {
             potion.setBasePotionData(new PotionData(data.getType(), data.isExtended(), true));
             return new ItemStack(potionType);
         }
-        else if (data.getType() == PotionType.AWKWARD && potionRecipes.containsKey(input)) {
-            potion.setBasePotionData(new PotionData(potionRecipes.get(input), false, false));
-            return new ItemStack(potionType);
+        else if (data.getType() == PotionType.AWKWARD) {
+            PotionType potionRecipe = potionRecipes.get(input);
+
+            if (potionRecipe != null) {
+                potion.setBasePotionData(new PotionData(potionRecipe, false, false));
+                return new ItemStack(potionType);
+            }
         }
-        else {
-            return null;
-        }
+
+        return null;
     }
 
     /**
@@ -194,13 +156,8 @@ public abstract class AutoBrewer extends AContainer {
     }
 
     @Override
-    public String getInventoryTitle() {
-        return "&6Auto-Brewer";
-    }
-
-    @Override
     public ItemStack getProgressBar() {
-        return new ItemStack(Material.CARROT_ON_A_STICK);
+        return new ItemStack(Material.FISHING_ROD);
     }
 
     @Override

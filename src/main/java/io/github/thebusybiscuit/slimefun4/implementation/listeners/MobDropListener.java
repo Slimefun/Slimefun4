@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,7 +32,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class MobDropListener implements Listener {
 
-    public MobDropListener(SlimefunPlugin plugin) {
+    public MobDropListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -60,14 +62,13 @@ public class MobDropListener implements Listener {
         }
     }
 
-    private boolean canDrop(Player p, ItemStack item) {
+    private boolean canDrop(@Nonnull Player p, @Nonnull ItemStack item) {
         SlimefunItem sfi = SlimefunItem.getByItem(item);
 
         if (sfi == null) {
             return true;
         }
         else if (Slimefun.hasUnlocked(p, sfi, true)) {
-
             if (sfi instanceof RandomMobDrop) {
                 int random = ThreadLocalRandom.current().nextInt(100);
 

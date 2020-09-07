@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -21,10 +24,11 @@ class SlimefunTabCompleter implements TabCompleter {
 
     private final SlimefunCommand command;
 
-    public SlimefunTabCompleter(SlimefunCommand command) {
+    public SlimefunTabCompleter(@Nonnull SlimefunCommand command) {
         this.command = command;
     }
 
+    @Nullable
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
@@ -70,7 +74,8 @@ class SlimefunTabCompleter implements TabCompleter {
      *            The typed string
      * @return Sublist if string is not empty
      */
-    private List<String> createReturnList(List<String> list, String string) {
+    @Nonnull
+    private List<String> createReturnList(@Nonnull List<String> list, @Nonnull String string) {
         if (string.length() == 0) {
             return list;
         }
@@ -94,6 +99,7 @@ class SlimefunTabCompleter implements TabCompleter {
         return returnList;
     }
 
+    @Nonnull
     private List<String> getSlimefunItems() {
         List<SlimefunItem> items = SlimefunPlugin.getRegistry().getEnabledSlimefunItems();
         List<String> list = new ArrayList<>(items.size());

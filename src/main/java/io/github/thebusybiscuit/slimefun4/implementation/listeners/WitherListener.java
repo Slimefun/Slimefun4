@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
@@ -23,7 +25,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class WitherListener implements Listener {
 
-    public WitherListener(SlimefunPlugin plugin) {
+    public WitherListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

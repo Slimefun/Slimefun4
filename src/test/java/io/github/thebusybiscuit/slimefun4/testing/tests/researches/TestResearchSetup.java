@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -21,7 +22,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class TestResearchSetup {
+class TestResearchSetup {
 
     @BeforeAll
     public static void load() {
@@ -35,8 +36,9 @@ public class TestResearchSetup {
     }
 
     @Test
+    @DisplayName("Test if ResearchSetup throws an Exception")
     @Order(value = 1)
-    public void testForExceptions() {
+    void testForExceptions() {
         // Not really ideal but still important to test.
         // Research amount is variable, so we can't test for that.
         // We are really only concerned about any runtime exceptions here.
@@ -49,7 +51,8 @@ public class TestResearchSetup {
 
     @Test
     @Order(value = 2)
-    public void testResearchTranslations() throws IOException {
+    @DisplayName("Test if Researches have a translation")
+    void testResearchTranslations() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/researches_en.yml"), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
 

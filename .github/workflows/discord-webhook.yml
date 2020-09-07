@@ -9,8 +9,9 @@ on:
 jobs:
   report:
 
+    name: Discord Webhook
     runs-on: ubuntu-latest
-    if: github.repository == 'TheBusyBiscuit/Slimefun4'
+    if: github.repository == 'Slimefun/Slimefun4'
 
     steps:
     - name: Checkout repository

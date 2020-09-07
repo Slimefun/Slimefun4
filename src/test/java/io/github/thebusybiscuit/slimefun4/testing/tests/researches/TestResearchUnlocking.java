@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -20,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-public class TestResearchUnlocking {
+class TestResearchUnlocking {
 
     private ServerMock server;
     private SlimefunPlugin plugin;
@@ -51,8 +52,9 @@ public class TestResearchUnlocking {
     }
 
     @ParameterizedTest
+    @DisplayName("Test Unlocking Researches")
     @ValueSource(booleans = { true, false })
-    public void testUnlock(boolean instant) throws InterruptedException {
+    void testUnlock(boolean instant) throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
         Player player = server.addPlayer();
         Research research = new Research(new NamespacedKey(plugin, "unlock_me"), 1842, "Unlock me", 500);

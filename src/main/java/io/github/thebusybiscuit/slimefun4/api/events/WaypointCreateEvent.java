@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -32,15 +34,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
     private final boolean deathpoint;
     private boolean cancelled;
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public WaypointCreateEvent(Player player, String name, Location location) {
+    public WaypointCreateEvent(@Nonnull Player player, @Nonnull String name, @Nonnull Location location) {
         super(player);
 
         Validate.notNull(location, "Location must not be null!");
@@ -56,6 +50,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      * 
      * @return The {@link Location} of this waypoint
      */
+    @Nonnull
     public Location getLocation() {
         return location;
     }
@@ -67,7 +62,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      * @param loc
      *            The {@link Location} to set
      */
-    public void setLocation(Location loc) {
+    public void setLocation(@Nonnull Location loc) {
         Validate.notNull(loc, "Cannot set the Location to null!");
         this.location = loc;
     }
@@ -77,6 +72,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      * 
      * @return The name of this waypoint
      */
+    @Nonnull
     public String getName() {
         return name;
     }
@@ -87,7 +83,7 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
      * @param name
      *            The name for this waypoint
      */
-    public void setName(String name) {
+    public void setName(@Nonnull String name) {
         Validate.notEmpty(name, "The name of a waypoint must not be empty!");
         this.name = name;
     }
@@ -110,6 +106,17 @@ public class WaypointCreateEvent extends PlayerEvent implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

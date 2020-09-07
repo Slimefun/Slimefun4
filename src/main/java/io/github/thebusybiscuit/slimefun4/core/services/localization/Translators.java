@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 
@@ -17,7 +20,7 @@ public class Translators {
     private final GitHubService github;
 
     // We maybe should switch to a json file in our resources folder at some point.
-    public Translators(GitHubService github) {
+    public Translators(@Nonnull GitHubService github) {
         this.github = github;
 
         // Translators - German
@@ -31,6 +34,8 @@ public class Translators {
         addTranslator("tnthomastn", SupportedLanguage.FRENCH, true);
         addTranslator("Noumaa", SupportedLanguage.FRENCH, true);
         addTranslator("ishi-sama", SupportedLanguage.FRENCH, true);
+        addTranslator("amarcais53", SupportedLanguage.FRENCH, true);
+        addTranslator("NinoFutur", SupportedLanguage.FRENCH, true);
 
         // Translators - Italian
         addTranslator("xXDOTTORXx", SupportedLanguage.ITALIAN, true);
@@ -128,6 +133,7 @@ public class Translators {
         addTranslator("yumjunstar", SupportedLanguage.KOREAN, true);
         addTranslator("BlWon", SupportedLanguage.KOREAN, true);
         addTranslator("20181241", SupportedLanguage.KOREAN, true);
+        addTranslator("kudansul", SupportedLanguage.KOREAN, true);
 
         // Translators - Indonesian
         addTranslator("diradho", SupportedLanguage.INDONESIAN, false);
@@ -163,10 +169,12 @@ public class Translators {
         addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
+    @ParametersAreNonnullByDefault
     private void addTranslator(String name, SupportedLanguage lang, boolean lock) {
         addTranslator(name, name, lang, lock);
     }
 
+    @ParametersAreNonnullByDefault
     private void addTranslator(String username, String minecraftName, SupportedLanguage lang, boolean lock) {
         Contributor contributor = github.addContributor(minecraftName, "https://github.com/" + username, "translator," + lang.getLanguageId(), 0);
 

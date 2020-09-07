@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.thebusybiscuit</groupId>
+    <groupId>com.github.thebusybiscuit</groupId>
     <artifactId>Slimefun</artifactId>
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
@@ -13,8 +13,8 @@
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
-    <description>Slimefun is a Spigot plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
-    <url>https://github.com/TheBusyBiscuit/Slimefun4</url>
+    <description>Slimefun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
+    <url>https://github.com/Slimefun/Slimefun4</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,7 +22,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.16.1</spigot.version>
+        <spigot.version>1.16.2</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -35,13 +35,13 @@
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/TheBusyBiscuit/Slimefun4/issues</url>
+        <url>https://github.com/Slimefun/Slimefun4/issues</url>
     </issueManagement>
 
     <licenses>
         <license>
             <name>GNU General Public License v3.0</name>
-            <url>https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE</url>
+            <url>https://github.com/Slimefun/Slimefun4/blob/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -57,7 +57,7 @@
         </repository>
         <repository>
             <id>paper-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
             <id>worldedit-repo</id>
@@ -159,7 +159,7 @@
 
                 <configuration>
 
-                    <!-- Shade bStats and CS-CoreLib2 into the output jar -->
+                    <!-- Shade dependencies into the output jar -->
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
@@ -211,7 +211,7 @@
                     <detectOfflineLinks>false</detectOfflineLinks>
                     <additionalJOption>-html5</additionalJOption>
 
-                    <!-- We can reference Bukkit's API in our Javadocs -->
+                    <!-- We can reference the Spigot API in our Javadocs -->
                     <links>
                         <link>${spigot.javadocs}</link>
                     </links>
@@ -294,7 +294,15 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Development / Testing dependencies -->
+        <!-- Development dependencies -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -303,14 +311,22 @@
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit</artifactId>
-            <version>v1.15-d952559324-1</version>
+            <artifactId>MockBukkit-v1.16</artifactId>
+            <version>0.5.0</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.4.6</version>
+            <version>3.5.10</version>
             <scope>test</scope>
         </dependency>
 
@@ -318,7 +334,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.24</version>
+            <version>0.25.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -328,9 +344,16 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.5</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.8.06</version>
+            <version>3.10.00</version>
+            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.code.gson</groupId>
@@ -338,34 +361,35 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.5</version>
-            <scope>compile</scope>
-        </dependency>
 
-        <!-- Third party plugin integrations -->
+        <!-- Third party plugin integrations / soft dependencies -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.2.0-SNAPSHOT</version>
             <scope>provided</scope>
             <exclusions>
-                <!-- This one is ignored because it pops up everytime -->
-                <!-- I try to import File... yes, I want the java.io one... -->
                 <exclusion>
+                    <!-- This one is ignored because it pops up everytime -->
+                    <!-- I try to import File... yes, I want java.io.File -->
                     <groupId>de.schlichtherle</groupId>
                     <artifactId>truezip</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.10.6</version>
+            <version>2.10.9</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>

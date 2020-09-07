@@ -104,7 +104,7 @@ public class RainbowTickHandler extends BlockTicker {
                     }
                 });
 
-                b.setBlockData(block);
+                b.setBlockData(block, false);
                 return;
             }
         }

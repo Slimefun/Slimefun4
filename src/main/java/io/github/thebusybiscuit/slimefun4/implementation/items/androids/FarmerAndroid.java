@@ -17,10 +17,10 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-public abstract class FarmerAndroid extends ProgrammableAndroid {
+public class FarmerAndroid extends ProgrammableAndroid {
 
-    public FarmerAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public FarmerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, tier, item, recipeType, recipe);
     }
 
     @Override

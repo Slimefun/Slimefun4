@@ -17,12 +17,12 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-public abstract class FisherAndroid extends ProgrammableAndroid {
+public class FisherAndroid extends ProgrammableAndroid {
 
     private final RandomizedSet<ItemStack> fishingLoot = new RandomizedSet<>();
 
-    public FisherAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public FisherAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, tier, item, recipeType, recipe);
 
         // Fish
         for (Material fish : MaterialCollections.getAllFishItems()) {

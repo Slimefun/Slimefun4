@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -18,7 +20,7 @@ public class JetBootsTask extends PlayerTask {
 
     private final JetBoots boots;
 
-    public JetBootsTask(Player p, JetBoots boots) {
+    public JetBootsTask(@Nonnull Player p, @Nonnull JetBoots boots) {
         super(p);
         this.boots = boots;
     }

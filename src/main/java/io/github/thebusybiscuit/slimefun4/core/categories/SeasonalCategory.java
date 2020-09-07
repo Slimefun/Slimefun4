@@ -3,6 +3,10 @@ package io.github.thebusybiscuit.slimefun4.core.categories;
 import java.time.LocalDate;
 import java.time.Month;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,8 +38,10 @@ public class SeasonalCategory extends Category {
      * @param item
      *            The display item for this category
      */
+    @ParametersAreNonnullByDefault
     public SeasonalCategory(NamespacedKey key, Month month, int tier, ItemStack item) {
         super(key, item, tier);
+        Validate.notNull(month, "The Month cannot be null");
 
         this.month = month;
     }
@@ -45,12 +51,13 @@ public class SeasonalCategory extends Category {
      * 
      * @return the {@link Month} in which this {@link SeasonalCategory} appears
      */
+    @Nonnull
     public Month getMonth() {
         return month;
     }
 
     @Override
-    public boolean isHidden(Player p) {
+    public boolean isHidden(@Nonnull Player p) {
         // Hide this Category if the month differs
         if (month != LocalDate.now().getMonth()) {
             return true;

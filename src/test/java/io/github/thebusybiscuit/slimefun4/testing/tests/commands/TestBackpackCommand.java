@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -22,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
-public class TestBackpackCommand {
+class TestBackpackCommand {
 
     private static ServerMock server;
 
@@ -52,7 +53,8 @@ public class TestBackpackCommand {
     }
 
     @Test
-    public void testValidBackpack() throws InterruptedException {
+    @DisplayName("Test /sf backpack giving a restored backpack")
+    void testValidBackpack() throws InterruptedException {
         Player player = server.addPlayer();
         player.setOp(true);
         PlayerProfile profile = TestUtilities.awaitProfile(player);
@@ -64,8 +66,9 @@ public class TestBackpackCommand {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "ABC", "-100", "123456789" })
-    public void testNonExistantBackpacks(String id) throws InterruptedException {
+    @DisplayName("Test /sf backpack with invalid id parameters")
+    @ValueSource(strings = { "", "    ", "ABC", "-100", "123456789" })
+    void testNonExistentBackpacks(String id) throws InterruptedException {
         Player player = server.addPlayer();
         player.setOp(true);
         TestUtilities.awaitProfile(player);

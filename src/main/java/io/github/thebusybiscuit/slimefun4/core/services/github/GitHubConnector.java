@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -17,11 +20,14 @@ import kong.unirest.json.JSONException;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 abstract class GitHubConnector {
+    
+    private static final String API_URL = "https://api.github.com/";
 
     protected File file;
     protected String repository;
     protected final GitHubService github;
 
+    @ParametersAreNonnullByDefault
     public GitHubConnector(GitHubService github, String repository) {
         this.github = github;
         this.repository = repository;
@@ -45,7 +51,7 @@ abstract class GitHubConnector {
         }
 
         try {
-            HttpResponse<JsonNode> resp = Unirest.get("https://api.github.com/repos/" + repository + getURLSuffix())
+            HttpResponse<JsonNode> resp = Unirest.get(API_URL + "repos/" + repository + getURLSuffix())
                     .header("User-Agent", "Slimefun4 (https://github.com/Slimefun)")
                     .asJson();
 
@@ -98,7 +104,7 @@ abstract class GitHubConnector {
         }
     }
 
-    private void writeCacheFile(JsonNode node) {
+    private void writeCacheFile(@Nonnull JsonNode node) {
         try (FileOutputStream output = new FileOutputStream(file)) {
             output.write(node.toString().getBytes(StandardCharsets.UTF_8));
         }

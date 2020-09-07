@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -40,7 +42,7 @@ public class Smeltery extends AbstractSmeltery {
     }
 
     @Override
-    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+    protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
         recipes.add(SlimefunItems.IRON_DUST);
         recipes.add(new ItemStack(Material.IRON_INGOT));
     }
@@ -50,7 +52,7 @@ public class Smeltery extends AbstractSmeltery {
         List<ItemStack> items = new ArrayList<>();
 
         for (int i = 0; i < recipes.size() - 1; i += 2) {
-            if (Arrays.stream(recipes.get(i)).skip(1).anyMatch(Objects::nonNull)) {
+            if (recipes.get(i) == null || Arrays.stream(recipes.get(i)).skip(1).anyMatch(Objects::nonNull)) {
                 continue;
             }
 
@@ -102,7 +104,7 @@ public class Smeltery extends AbstractSmeltery {
         }
     }
 
-    private Inventory findIgnitionChamber(Block b) {
+    private Inventory findIgnitionChamber(@Nonnull Block b) {
         for (BlockFace face : faces) {
             if (b.getRelative(face).getType() == Material.DROPPER && BlockStorage.check(b.getRelative(face), "IGNITION_CHAMBER")) {
                 BlockState state = PaperLib.getBlockState(b.getRelative(face), false).getState();

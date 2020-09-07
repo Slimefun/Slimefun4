@@ -5,6 +5,7 @@ import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -67,6 +68,7 @@ public abstract class BioGenerator extends AGenerator {
             registerFuel(new MachineFuel(4, new ItemStack(Material.SHROOMLIGHT)));
             registerFuel(new MachineFuel(2, new ItemStack(Material.CRIMSON_FUNGUS)));
             registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));
+            registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO));
         }
 
         // Leaves
@@ -92,11 +94,6 @@ public abstract class BioGenerator extends AGenerator {
     @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.GOLDEN_HOE);
-    }
-
-    @Override
-    public String getInventoryTitle() {
-        return "&2Bio Reactor";
     }
 
 }

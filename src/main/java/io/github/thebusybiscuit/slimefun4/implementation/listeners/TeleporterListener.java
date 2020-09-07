@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
@@ -21,7 +24,7 @@ public class TeleporterListener implements Listener {
 
     private final BlockFace[] faces = { BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST };
 
-    public TeleporterListener(SlimefunPlugin plugin) {
+    public TeleporterListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -46,15 +49,17 @@ public class TeleporterListener implements Listener {
             }
         }
         else if (id.equals(SlimefunItems.ELEVATOR_PLATE.getItemId())) {
-            ((ElevatorPlate) SlimefunItems.ELEVATOR_PLATE.getItem()).open(e.getPlayer(), e.getClickedBlock());
+            ElevatorPlate elevator = ((ElevatorPlate) SlimefunItems.ELEVATOR_PLATE.getItem());
+            elevator.openInterface(e.getPlayer(), e.getClickedBlock());
         }
     }
 
+    @ParametersAreNonnullByDefault
     private boolean isTeleporterPad(String id, Block b, UUID uuid) {
         return id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED.getItemId()) || (id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL.getItemId()) && BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(uuid.toString()));
     }
 
-    private boolean checkForPylons(Block teleporter) {
+    private boolean checkForPylons(@Nonnull Block teleporter) {
         for (BlockFace face : faces) {
             if (!BlockStorage.check(teleporter.getRelative(face), SlimefunItems.GPS_TELEPORTER_PYLON.getItemId())) {
                 return false;

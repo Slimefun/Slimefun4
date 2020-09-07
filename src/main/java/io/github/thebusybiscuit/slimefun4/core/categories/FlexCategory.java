@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.core.categories;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,10 +26,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public abstract class FlexCategory extends Category {
 
+    @ParametersAreNonnullByDefault
     public FlexCategory(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
     }
 
+    @ParametersAreNonnullByDefault
     public FlexCategory(NamespacedKey key, ItemStack item, int tier) {
         super(key, item, tier);
     }
@@ -44,6 +49,7 @@ public abstract class FlexCategory extends Category {
      * 
      * @return Whether to display this {@link FlexCategory}
      */
+    @ParametersAreNonnullByDefault
     public abstract boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
 
     /**
@@ -61,7 +67,7 @@ public abstract class FlexCategory extends Category {
     public abstract void open(Player p, PlayerProfile profile, SlimefunGuideLayout layout);
 
     @Override
-    public final boolean isHidden(Player p) {
+    public final boolean isHidden(@Nonnull Player p) {
         // We can stop this method right here.
         // We provide a custom method with more parameters for this. See isVisible(...)
         return false;

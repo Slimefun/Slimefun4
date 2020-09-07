@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -47,10 +49,11 @@ public enum Radioactivity {
 
     private final ChatColor color;
 
-    Radioactivity(ChatColor color) {
+    Radioactivity(@Nonnull ChatColor color) {
         this.color = color;
     }
 
+    @Nonnull
     public String getLore() {
         return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " Radiation level: " + color + toString().replace('_', ' ');
     }

@@ -25,7 +25,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -69,18 +68,8 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
-                for (int slot : getInputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
-                for (int slot : getOutputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
+                inv.dropItems(b.getLocation(), getInputSlots());
+                inv.dropItems(b.getLocation(), getOutputSlots());
             }
 
             progress.remove(b.getLocation());
@@ -143,7 +132,6 @@ public abstract class AGenerator extends AbstractEnergyProvider {
     @Override
     public int getGeneratedOutput(Location l, Config data) {
         BlockMenu inv = BlockStorage.getInventory(l);
-        boolean chargeable = getCapacity() > 0;
 
         if (isProcessing(l)) {
             int timeleft = progress.get(l);
@@ -151,8 +139,8 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                if (chargeable) {
-                    int charge = ChargableBlock.getCharge(l);
+                if (isChargeable()) {
+                    int charge = getCharge(l);
 
                     if (getCapacity() - charge >= getEnergyProduction()) {
                         progress.put(l, timeleft - 1);

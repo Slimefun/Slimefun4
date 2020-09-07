@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -16,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 
-public class TestProfileResearches {
+class TestProfileResearches {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -33,7 +34,8 @@ public class TestProfileResearches {
     }
 
     @Test
-    public void testSetResearched() throws InterruptedException {
+    @DisplayName("Test setting a Research as unlocked")
+    void testSetResearched() throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
 
         Player player = server.addPlayer();
@@ -53,7 +55,8 @@ public class TestProfileResearches {
     }
 
     @Test
-    public void testHasUnlocked() throws InterruptedException {
+    @DisplayName("Test checking if Research is unlocked")
+    void testHasUnlocked() throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
 
         Player player = server.addPlayer();
@@ -78,7 +81,8 @@ public class TestProfileResearches {
     }
 
     @Test
-    public void testGetResearches() throws InterruptedException {
+    @DisplayName("Test getting all unlocked Researches")
+    void testGetResearches() throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
 
         Player player = server.addPlayer();

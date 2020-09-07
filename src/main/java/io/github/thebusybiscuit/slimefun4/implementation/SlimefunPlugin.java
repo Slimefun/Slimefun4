@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -45,6 +48,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
@@ -61,6 +65,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
@@ -70,7 +75,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerInteractEntityListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBootsListener;
@@ -82,6 +86,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
@@ -121,7 +126,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
     private final CustomTextureService textureService = new CustomTextureService(new Config(this, "item-models.yml"));
-    private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
+    private final GitHubService gitHubService = new GitHubService("Slimefun/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
     private final MetricsService metricsService = new MetricsService(this);
     private final AutoSavingService autoSavingService = new AutoSavingService();
@@ -143,7 +148,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final Config researches = new Config(this, "Researches.yml");
 
     // Listeners that need to be accessed elsewhere
-    private final AncientAltarListener ancientAltarListener = new AncientAltarListener();
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
     private final BackpackListener backpackListener = new BackpackListener();
     private final SlimefunBowListener bowListener = new SlimefunBowListener();
@@ -164,7 +168,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             local = new LocalizationService(this, "", null);
             gpsNetwork = new GPSNetwork();
+            networkManager = new NetworkManager(200);
             command.register();
+            registry.load(config);
         }
         else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
@@ -207,7 +213,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             networkManager = new NetworkManager(networkSize);
 
             // Setting up bStats
-            new Thread(metricsService::start).start();
+            new Thread(metricsService::start, "Slimefun Metrics").start();
 
             // Starting the Auto-Updater
             if (config.getBoolean("options.auto-update")) {
@@ -255,7 +261,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
-                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(), 0L, config.getInt("options.armor-update-interval") * 20L);
+                boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
+                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
             }
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
@@ -284,6 +291,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    @Nonnull
     private String getStartupTime(long timestamp) {
         long ms = (System.nanoTime() - timestamp) / 1000000;
 
@@ -328,6 +336,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return false;
     }
 
+    @Nonnull
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
@@ -364,7 +373,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Save all registered Worlds
         for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
-                entry.getValue().save(true);
+                entry.getValue().saveAndRemove();
             }
             catch (Exception x) {
                 getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
@@ -440,8 +449,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new FireworksListener(this);
         new WitherListener(this);
         new IronGolemListener(this);
-        new PlayerInteractEntityListener(this);
+        new EntityInteractionListener(this);
         new MobDropListener(this);
+        new VillagerTradingListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
@@ -455,9 +465,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new VampireBladeListener(this, (VampireBlade) SlimefunItems.BLADE_OF_VAMPIRES.getItem());
         new CoolerListener(this, (Cooler) SlimefunItems.COOLER.getItem());
         new SeismicAxeListener(this, (SeismicAxe) SlimefunItems.SEISMIC_AXE.getItem());
+        new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
-        ancientAltarListener.register(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem());
-
         bowListener.register(this);
 
         // Toggleable Listeners for performance reasons
@@ -501,6 +510,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This returns the global instance of {@link SlimefunPlugin}.
+     * This may return null if the {@link Plugin} was disabled.
+     * 
+     * @return The {@link SlimefunPlugin} instance
+     */
+    @Nullable
     public static SlimefunPlugin instance() {
         return instance;
     }
@@ -613,10 +629,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.networkManager;
     }
 
-    public static AncientAltarListener getAncientAltarListener() {
-        return instance.ancientAltarListener;
-    }
-
     public static GrapplingHookListener getGrapplingHookListener() {
         return instance.grapplingHookListener;
     }
@@ -637,6 +649,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return A {@link Set} of every {@link Plugin} that is dependent on Slimefun
      */
+    @Nonnull
     public static Set<Plugin> getInstalledAddons() {
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName())).collect(Collectors.toSet());
     }
@@ -650,6 +663,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.command;
     }
 
+    /**
+     * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
+     * to analyse performance and lag.
+     * 
+     * @return The {@link SlimefunProfiler}
+     */
     public static SlimefunProfiler getProfiler() {
         return instance.profiler;
     }
@@ -684,7 +703,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/TheBusyBiscuit/Slimefun4/issues";
+        return "https://github.com/Slimefun/Slimefun4/issues";
     }
 
 }

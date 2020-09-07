@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -88,6 +91,8 @@ public enum HeadTexture {
     SCRIPT_FARM_DOWN("2d4296b333d25319af3f33051797f9e6d821cd19a014fb7137beb86a4e9e96"),
     SCRIPT_PUSH_ITEMS("90a4dbf6625c42be57a8ba2c330954a76bdf22785540e87a5c9672685238ec"),
     SCRIPT_PULL_FUEL("2432f5282a50745b912be14deda581bd4a09b977a3c32d7e9578491fee8fa7"),
+    SCRIPT_NEW("171d8979c1878a05987a7faf21b56d1b744f9d068c74cffcde1ea1edad5852"),
+    SCRIPT_PAUSE("16139fd1c5654e56e9e4e2c8be7eb2bd5b499d633616663feee99b74352ad64"),
     GLOBE_OVERWORLD("c9c8881e42915a9d29bb61a16fb26d059913204d265df5b439b3d792acd56"),
     GLOBE_NETHER("d83571ff589f1a59bb02b80800fc736116e27c3dcf9efebede8cf1fdde"),
     GLOBE_THE_END("c6cac59b2aae489aa0687b5d802b2555eb14a40bd62b21eb116fa569cdb756"),
@@ -96,11 +101,18 @@ public enum HeadTexture {
     NETHER_STAR_REACTOR("a11ed1d1b25b624665ecdddc3d3a5dff0b9f35e3de77a12f516e60fe8501cc8d"),
     UNKNOWN("46ba63344f49dd1c4f5488e926bf3d9e2b29916a6c50d610bb40a5273dc8c82"),
     MISSING_TEXTURE("e9eb9da26cf2d3341397a7f4913ba3d37d1ad10eae30ab25fa39ceb84bc"),
-    MINECRAFT_CHUNK("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2");
+    MINECRAFT_CHUNK("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2"),
+    CHEST_TERMINAL("7a44ff3a5f49c69cab676bad8d98a063fa78cfa61916fdef3e267557fec18283"),
+    CARGO_ARROW_LEFT("f2599bd986659b8ce2c4988525c94e19ddd39fad08a38284a197f1b70675acc"),
+    CARGO_ARROW_RIGHT("c2f910c47da042e4aa28af6cc81cf48ac6caf37dab35f88db993accb9dfe516"),
+    ADD_NEW_LANGUAGE("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"),
+    IRON_GOLEM("89091d79ea0f59ef7ef94d7bba6e5f17f2f7d4572c44f90f76c4819a714"),
+    PIGLIN_HEAD("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41");
 
     private final String texture;
 
-    HeadTexture(String texture) {
+    HeadTexture(@Nonnull String texture) {
+        Validate.notNull(texture, "Texture cannot be null");
         this.texture = texture;
     }
 

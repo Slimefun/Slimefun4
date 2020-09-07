@@ -18,17 +18,12 @@ public abstract class MagnesiumGenerator extends AGenerator {
 
     @Override
     protected void registerDefaultFuelTypes() {
-        registerFuel(new MachineFuel(12, SlimefunItems.MAGNESIUM_SALT));
+        registerFuel(new MachineFuel(20, SlimefunItems.MAGNESIUM_SALT));
     }
 
     @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.FLINT_AND_STEEL);
-    }
-
-    @Override
-    public String getInventoryTitle() {
-        return "&cMagnesium-powered Generator";
     }
 
 }

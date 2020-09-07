@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -62,7 +65,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         this(category, item, recipe, new ItemStack[0], trigger);
     }
 
-    protected void registerDefaultRecipes(List<ItemStack> recipes) {
+    protected void registerDefaultRecipes(@Nonnull List<ItemStack> recipes) {
         // Override this method to register some default recipes
     }
 
@@ -75,6 +78,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         return displayRecipes;
     }
 
+    @Nonnull
     public MultiBlock getMultiBlock() {
         return multiblock;
     }
@@ -87,7 +91,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     }
 
     @Override
-    public void register(SlimefunAddon addon) {
+    public void register(@Nonnull SlimefunAddon addon) {
         addItemHandler(getInteractionHandler());
         super.register(addon);
     }
@@ -119,7 +123,9 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
 
                 return true;
             }
-            else return false;
+            else {
+                return false;
+            }
         };
     }
 
@@ -156,7 +162,8 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         }
     }
 
-    protected Inventory findOutputChest(Block b, ItemStack output) {
+    @Nullable
+    protected Inventory findOutputChest(@Nonnull Block b, @Nonnull ItemStack output) {
         for (BlockFace face : outputFaces) {
             Block potentialOutput = b.getRelative(face);
 
@@ -181,6 +188,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         return null;
     }
 
+    @Nonnull
     private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
         List<Material> materials = new ArrayList<>();
 

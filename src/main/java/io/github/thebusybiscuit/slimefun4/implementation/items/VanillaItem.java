@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
@@ -38,6 +40,7 @@ public class VanillaItem extends SlimefunItem {
      * @param recipe
      *            the recipe to obtain this {@link VanillaItem}
      */
+    @ParametersAreNonnullByDefault
     public VanillaItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, id, recipeType, recipe);
 

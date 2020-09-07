@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.api.items;
 
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -33,6 +36,7 @@ public class ItemSetting<T> {
      * @param defaultValue
      *            The default value for this {@link ItemSetting}
      */
+    @ParametersAreNonnullByDefault
     public ItemSetting(String key, T defaultValue) {
         Validate.notNull(key, "The key of an ItemSetting is not allowed to be null!");
         Validate.notNull(defaultValue, "The default value of an ItemSetting is not allowed to be null!");
@@ -62,7 +66,7 @@ public class ItemSetting<T> {
      * @param newValue
      *            The new value for this {@link ItemSetting}
      */
-    public void update(T newValue) {
+    public void update(@Nonnull T newValue) {
         if (validateInput(newValue)) {
             this.value = newValue;
         }
@@ -78,6 +82,7 @@ public class ItemSetting<T> {
      * 
      * @return The key under which this setting is stored (relative to the {@link SlimefunItem})
      */
+    @Nonnull
     public String getKey() {
         return key;
     }
@@ -87,6 +92,7 @@ public class ItemSetting<T> {
      * 
      * @return The current value
      */
+    @Nonnull
     public T getValue() {
         Validate.notNull(value, "An ItemSetting was invoked but was not initialized yet.");
 
@@ -98,6 +104,7 @@ public class ItemSetting<T> {
      * 
      * @return The default value
      */
+    @Nonnull
     public T getDefaultValue() {
         return defaultValue;
     }
@@ -109,7 +116,7 @@ public class ItemSetting<T> {
      *            The class of data type you want to compare
      * @return Whether this {@link ItemSetting} stores the given type
      */
-    public boolean isType(Class<?> c) {
+    public boolean isType(@Nonnull Class<?> c) {
         return c.isInstance(defaultValue);
     }
 
@@ -121,7 +128,7 @@ public class ItemSetting<T> {
      *            The {@link SlimefunItem} who called this method
      */
     @SuppressWarnings("unchecked")
-    public void load(SlimefunItem item) {
+    public void load(@Nonnull SlimefunItem item) {
         SlimefunPlugin.getItemCfg().setDefaultValue(item.getID() + '.' + getKey(), getDefaultValue());
         Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getID() + '.' + getKey());
 

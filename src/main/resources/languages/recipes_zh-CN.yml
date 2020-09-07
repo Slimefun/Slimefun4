@@ -118,6 +118,11 @@ slimefun:
     lore:
     - 如合成表所示
     - 用炼油机合成
+  barter_drop:
+    name: 猪灵交易掉落
+    lore:
+    - 使用金锭与猪灵交易
+    - 可以获得此物品
 minecraft:
   shaped:
     name: 有序合成

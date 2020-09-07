@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -33,7 +36,7 @@ public class SlimefunBowListener implements Listener {
 
     private final Map<UUID, SlimefunBow> projectiles = new HashMap<>();
 
-    public void register(SlimefunPlugin plugin) {
+    public void register(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -43,6 +46,7 @@ public class SlimefunBowListener implements Listener {
      * 
      * @return A {@link HashMap} with all actively tracked {@link Arrow Arrows}
      */
+    @Nonnull
     public Map<UUID, SlimefunBow> getProjectileData() {
         return projectiles;
     }
@@ -67,16 +71,14 @@ public class SlimefunBowListener implements Listener {
         }, 4L);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow && e.getEntity() instanceof LivingEntity && e.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
-            SlimefunBow bow = projectiles.get(e.getDamager().getUniqueId());
+            SlimefunBow bow = projectiles.remove(e.getDamager().getUniqueId());
 
-            if (bow != null) {
+            if (!e.isCancelled() && bow != null) {
                 bow.callItemHandler(BowShootHandler.class, handler -> handler.onHit(e, (LivingEntity) e.getEntity()));
             }
-
-            projectiles.remove(e.getDamager().getUniqueId());
         }
     }
 

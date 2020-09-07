@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
@@ -21,7 +23,7 @@ public class ReactorExplodeEvent extends Event {
     private final Location location;
     private final Reactor reactor;
 
-    public ReactorExplodeEvent(Location l, Reactor reactor) {
+    public ReactorExplodeEvent(@Nonnull Location l, @Nonnull Reactor reactor) {
         Validate.notNull(l, "A Location must be provided");
         Validate.notNull(reactor, "A Reactor cannot be null");
 
@@ -34,6 +36,7 @@ public class ReactorExplodeEvent extends Event {
      * 
      * @return The {@link Location} of this explosion
      */
+    @Nonnull
     public Location getLocation() {
         return location;
     }
@@ -43,16 +46,20 @@ public class ReactorExplodeEvent extends Event {
      * 
      * @return The {@link SlimefunItem} instance
      */
+    @Nonnull
     public Reactor getReactor() {
         return reactor;
     }
 
-    public HandlerList getHandlers() {
+    @Nonnull
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

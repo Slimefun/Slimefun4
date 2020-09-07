@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -34,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class BlockPhysicsListener implements Listener {
 
-    public BlockPhysicsListener(SlimefunPlugin plugin) {
+    public BlockPhysicsListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -11,6 +10,11 @@ import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.bukkit.plugin.Plugin;
+
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import kong.unirest.GetRequest;
@@ -19,7 +23,6 @@ import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import org.bukkit.plugin.Plugin;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -32,9 +35,10 @@ import org.bukkit.plugin.Plugin;
  */
 public class MetricsService {
 
+    private static final String API_URL = "https://api.github.com/";
     private static final String REPO_NAME = "MetricsModule";
-    private static final String GH_API = "https://api.github.com/repos/Slimefun/" + REPO_NAME;
-    private static final String GH_RELEASES = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
+    private static final String RELEASES_URL = API_URL + "repos/Slimefun/" + REPO_NAME + "/releases/latest";
+    private static final String DOWNLOAD_URL = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
 
     private final SlimefunPlugin plugin;
     private final File parentFolder;
@@ -46,14 +50,14 @@ public class MetricsService {
 
     static {
         Unirest.config()
-            .concurrency(2, 1)
-            .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
-            .setDefaultHeader("Accept", "application/vnd.github.v3+json")
-            .enableCookieManagement(false)
-            .cookieSpec("ignoreCookies");
+        .concurrency(2, 1)
+        .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
+        .setDefaultHeader("Accept", "application/vnd.github.v3+json")
+        .enableCookieManagement(false)
+        .cookieSpec("ignoreCookies");
     }
 
-    public MetricsService(SlimefunPlugin plugin) {
+    public MetricsService(@Nonnull SlimefunPlugin plugin) {
         this.plugin = plugin;
         this.parentFolder = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "modules");
 
@@ -134,9 +138,10 @@ public class MetricsService {
      *
      * @param currentVersion
      *            The current version which is being used.
-     * @return True if there is an update available.
+     * 
+     * @return if there is an update available.
      */
-    public boolean checkForUpdate(String currentVersion) {
+    public boolean checkForUpdate(@Nullable String currentVersion) {
         if (currentVersion == null || !PatternUtils.NUMERIC.matcher(currentVersion).matches()) {
             return false;
         }
@@ -160,7 +165,7 @@ public class MetricsService {
      */
     private int getLatestVersion() {
         try {
-            HttpResponse<JsonNode> response = Unirest.get(GH_API + "/releases/latest").asJson();
+            HttpResponse<JsonNode> response = Unirest.get(RELEASES_URL).asJson();
 
             if (!response.isSuccess()) {
                 return -1;
@@ -191,14 +196,14 @@ public class MetricsService {
 
         try {
             plugin.getLogger().log(Level.INFO, "# Starting download of MetricsModule build: #{0}", version);
-            
+
             if (file.exists()) {
                 // Delete the file in case we accidentally downloaded it before
                 Files.delete(file.toPath());
             }
-            
+
             AtomicInteger lastPercentPosted = new AtomicInteger();
-            GetRequest request = Unirest.get(GH_RELEASES + "/" + version + "/" + REPO_NAME + ".jar");
+            GetRequest request = Unirest.get(DOWNLOAD_URL + "/" + version + "/" + REPO_NAME + ".jar");
 
             HttpResponse<File> response = request.downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
                 int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));

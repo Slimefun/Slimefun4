@@ -9,6 +9,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -48,7 +51,7 @@ public class GitHubService {
      * @param repository
      *            The repository to create this {@link GitHubService} for
      */
-    public GitHubService(String repository) {
+    public GitHubService(@Nonnull String repository) {
         this.repository = repository;
 
         connectors = new HashSet<>();
@@ -56,7 +59,7 @@ public class GitHubService {
         loadConnectors(false);
     }
 
-    public void start(SlimefunPlugin plugin) {
+    public void start(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
     }
 
@@ -68,17 +71,18 @@ public class GitHubService {
         new Translators(this);
     }
 
-    private void addContributor(String name, String role) {
+    private void addContributor(@Nonnull String name, @Nonnull String role) {
         Contributor contributor = new Contributor(name);
         contributor.setContribution(role, 0);
         contributor.setUniqueId(uuidCache.getUUID(name));
         contributors.put(name, contributor);
     }
 
-    public Contributor addContributor(String minecraftName, String profile, String role, int commits) {
-        String username = profile.substring(profile.lastIndexOf('/') + 1);
+    @Nonnull
+    public Contributor addContributor(@Nonnull String minecraftName, @Nonnull String profileURL, @Nonnull String role, int commits) {
+        String username = profileURL.substring(profileURL.lastIndexOf('/') + 1);
 
-        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profile));
+        Contributor contributor = contributors.computeIfAbsent(username, key -> new Contributor(minecraftName, profileURL));
         contributor.setContribution(role, commits);
         contributor.setUniqueId(uuidCache.getUUID(minecraftName));
         return contributor;
@@ -99,9 +103,9 @@ public class GitHubService {
         connectors.add(new ContributionsConnector(this, "resourcepack", 1, "Slimefun/Resourcepack", "resourcepack"));
 
         // Issues and Pull Requests
-        connectors.add(new GitHubIssuesTracker(this, repository, (issues, pullRequests) -> {
-            this.issues = issues;
-            this.pullRequests = pullRequests;
+        connectors.add(new GitHubIssuesTracker(this, repository, (openIssues, openPullRequests) -> {
+            this.issues = openIssues;
+            this.pullRequests = openPullRequests;
         }));
 
         connectors.add(new GitHubConnector(this, repository) {
@@ -126,6 +130,7 @@ public class GitHubService {
         });
     }
 
+    @Nonnull
     protected Set<GitHubConnector> getConnectors() {
         return connectors;
     }
@@ -139,6 +144,7 @@ public class GitHubService {
      * 
      * @return A {@link ConcurrentMap} containing all {@link Contributor Contributors}
      */
+    @Nonnull
     public ConcurrentMap<String, Contributor> getContributors() {
         return contributors;
     }
@@ -166,7 +172,7 @@ public class GitHubService {
      * 
      * @return The amount of open issues
      */
-    public int getOpenissues() {
+    public int getOpenIssues() {
         return issues;
     }
 
@@ -175,6 +181,7 @@ public class GitHubService {
      * 
      * @return The id of our GitHub Repository
      */
+    @Nonnull
     public String getRepository() {
         return repository;
     }
@@ -193,6 +200,7 @@ public class GitHubService {
      * 
      * @return A {@link LocalDateTime} object representing the date and time of the latest commit
      */
+    @Nonnull
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -220,7 +228,8 @@ public class GitHubService {
         texturesCache.save();
     }
 
-    protected String getCachedTexture(String name) {
+    @Nullable
+    protected String getCachedTexture(@Nonnull String name) {
         return texturesCache.getString(name);
     }
 }

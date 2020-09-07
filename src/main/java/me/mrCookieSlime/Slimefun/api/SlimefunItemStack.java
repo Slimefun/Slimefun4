@@ -8,6 +8,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -38,19 +41,19 @@ public class SlimefunItemStack extends CustomItem {
     private boolean locked = false;
     private String texture = null;
 
-    public SlimefunItemStack(String id, Material type, String name, String... lore) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, String... lore) {
         super(type, name, lore);
 
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, Material type, Color color, String name, String... lore) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
         super(new ItemStack(type), color, name, lore);
 
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, Color color, PotionEffect effect, String name, String... lore) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Color color, @Nonnull PotionEffect effect, @Nullable String name, String... lore) {
         super(Material.POTION, im -> {
             if (name != null) {
                 im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -79,30 +82,30 @@ public class SlimefunItemStack extends CustomItem {
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, ItemStack item, String name, String... lore) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nullable String name, String... lore) {
         super(item, name, lore);
 
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, ItemStack item) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item) {
         super(item);
 
         setItemId(id);
     }
 
-    public SlimefunItemStack(SlimefunItemStack item, int amount) {
+    public SlimefunItemStack(@Nonnull SlimefunItemStack item, int amount) {
         this(item.getItemId(), item);
         setAmount(amount);
     }
 
-    public SlimefunItemStack(String id, ItemStack item, Consumer<ItemMeta> consumer) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nonnull Consumer<ItemMeta> consumer) {
         super(item, consumer);
 
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, Material type, String name, Consumer<ItemMeta> consumer) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
         super(type, meta -> {
             if (name != null) {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -114,18 +117,18 @@ public class SlimefunItemStack extends CustomItem {
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, String texture, String name, String... lore) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nullable String name, String... lore) {
         super(getSkull(id, texture), name, lore);
         this.texture = getTexture(id, texture);
 
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, HeadTexture head, String name, String... lore) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull HeadTexture head, @Nullable String name, String... lore) {
         this(id, head.getTexture(), name, lore);
     }
 
-    public SlimefunItemStack(String id, String texture, String name, Consumer<ItemMeta> consumer) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
         super(getSkull(id, texture), meta -> {
             if (name != null) {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -139,14 +142,14 @@ public class SlimefunItemStack extends CustomItem {
         setItemId(id);
     }
 
-    public SlimefunItemStack(String id, String texture, Consumer<ItemMeta> consumer) {
+    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nonnull Consumer<ItemMeta> consumer) {
         super(getSkull(id, texture), consumer);
         this.texture = getTexture(id, texture);
 
         setItemId(id);
     }
 
-    private void setItemId(String id) {
+    private void setItemId(@Nonnull String id) {
         Validate.notNull(id, "The Item id must never be null!");
         Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 
@@ -169,7 +172,8 @@ public class SlimefunItemStack extends CustomItem {
      * 
      * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
      */
-    public String getItemId() {
+    @Nonnull
+    public final String getItemId() {
         return id;
     }
 
@@ -179,6 +183,7 @@ public class SlimefunItemStack extends CustomItem {
      *
      * @return The {@link SlimefunItem} for this {@link SlimefunItemStack}, null if not found.
      */
+    @Nullable
     public SlimefunItem getItem() {
         return SlimefunItem.getByID(id);
     }
@@ -197,11 +202,13 @@ public class SlimefunItemStack extends CustomItem {
      * 
      * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
      */
-    public <T extends SlimefunItem> T getItem(Class<T> type) {
+    @Nullable
+    public <T extends SlimefunItem> T getItem(@Nonnull Class<T> type) {
         SlimefunItem item = getItem();
         return type.isInstance(item) ? type.cast(item) : null;
     }
 
+    @Nonnull
     public ImmutableItemMeta getImmutableMeta() {
         return immutableMeta;
     }
@@ -246,20 +253,23 @@ public class SlimefunItemStack extends CustomItem {
         return "SlimefunItemStack (" + id + (getAmount() > 1 ? (" x " + getAmount()) : "") + ')';
     }
 
+    @Nonnull
     public Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
     }
 
+    @Nullable
     public String getDisplayName() {
         if (immutableMeta == null) {
             // Just to be extra safe
             return null;
         }
-        
+
         return immutableMeta.getDisplayName().orElse(null);
     }
 
-    private static ItemStack getSkull(String id, String texture) {
+    @Nonnull
+    private static ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
         if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             return new ItemStack(Material.PLAYER_HEAD);
         }
@@ -267,7 +277,11 @@ public class SlimefunItemStack extends CustomItem {
         return SkullItem.fromBase64(getTexture(id, texture));
     }
 
-    private static String getTexture(String id, String texture) {
+    @Nonnull
+    private static String getTexture(@Nonnull String id, @Nonnull String texture) {
+        Validate.notNull(id, "The id cannot be null");
+        Validate.notNull(texture, "The texture cannot be null");
+
         if (texture.startsWith("ey")) {
             return texture;
         }

@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
 - [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
 - [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
@@ -20,7 +21,96 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 16 (07 Sep 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
+
+#### Additions
+* Added an option for Industrial Miners to mine Ancient Debris
+* Added a new language: Korean
+* (API) Added support for adding custom Piglin Barter drops
+* (API) Added BlockPlacerPlaceEvent
+* (API) Added ToolUseHandler
+* Added "Sand -> Sandstone" recipe to the Electric Press
+* Added "Red Sand -> Red Sandstone" recipe to the Electric Press
+* Industrial Miners can now also mine Gilded Blackstone
+* Added a config option to disable Players from burning when exposed to radiation
+* Added a config option to drop excess items when using /sf give
+* Added Strange Nether Goo
+* Added Villager Rune
+* Added Synthetic Shulker Shells
+* Added Climbing Pick
+* Added item breaking sounds to some slimefun tools
+
+#### Changes
+* Performance improvement for Programmable Android rotations
+* Removed Gravel -> Flint recipe from the Grind stone
+* Performance improvements for miner talismans
+* Performance improvements for idling Enhanced Furnaces when using Paper
+* Performance improvements for Rainbow Blocks
+* Crafting a Rag now yields two items
+* Small performance improvements for Slimefun guides
+* Small performance improvements for Cargo networks
+* Small performance improvements for Miner Androids
+* Small performance improvements for all machines, especially Electric Smelteries
+* Small performance improvements for Holograms
+* Small performance improvements for Tree Growth Accelerators
+* Small performance improvements for Reactors
+* Electric machines now show their tier in the Inventory name too
+* Removed "Fuel efficiency" attribute for androids, since that was pretty much always at 1.0 anyway...
+* Performance improvements for energy networks
+* (API) Rewritten Block-Energy API
+* Removed "durability" setting from cargo nodes
+* Small performance improvements for radiation
+* Small performance improvements for Auto Disenchanters
+* Magnesium Salt in Magnesium-Salt generators now lasts longer
+
+#### Fixes
+* Fixed Programmable Androids rotating in the wrong direction
+* Fixed #2176
+* Fixed #2164
+* Fixed #2147
+* Fixed #2179
+* Fixed Reinforced Spawners not working sometimes
+* Fixed Explosive Pickaxe not handling normal Shulker boxes correctly
+* Fixed #2103
+* Fixed #2184
+* Fixed #2183
+* Fixed #2181
+* Fixed #2180
+* Fixed #2122
+* Fixed #2168
+* Fixed #2203
+* Fixed #2205
+* Fixed #2209
+* Fixed #2217
+* Fixed Miner Talisman sending messages when drops were not even doubled
+* Fixed #2077
+* Fixed #2207
+* Fixed ChestTerminal timings showing up as cargo nodes
+* Fixed timings reports never arriving sometimes
+* Fixed #2138
+* Fixed #1951 (again)
+* Fixed Electric Press not working
+* Fixed #2240
+* Fixed #2243
+* Fixed #2249
+* Fixed #1022
+* Fixed #2208
+* Fixed Fluid Pump treating low-level fluids like stationary fluids
+* Fixed Fluid Pump not working on Bubble Columns
+* Fixed #2251
+* Fixed #2257
+* Fixed #2260
+* Fixed #2263
+* Fixed #2265
+* Fixed #2269
+* Fixed #2266
+* Fixed #2275
+* Fixed Multi Tools consuming hunger points when holding a Wind Staff in your off hand
+* Fixed Teleports getting stuck sometimes
+
 ## Release Candidate 15 (01 Aug 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
 
 #### Additions
 * Added "Bone Block -> Bone meal" recipe to the Grind Stone
@@ -46,6 +136,7 @@
 * Optimized Cargo networks for Paper
 * Optimized Multiblocks for Paper
 * Optimized Enhanced Furnaces for Paper
+* Optimized Programmable Androids for Paper
 * General performance improvements for Talismans
 * General performance improvements for GPS Emergency Transmitters
 * General performance improvements for Infused Magnets
@@ -74,6 +165,7 @@
 * Fixed #2166
 
 ## Release Candidate 14 (12 Jul 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 
 #### Additions
 * Added support for Minecraft 1.16

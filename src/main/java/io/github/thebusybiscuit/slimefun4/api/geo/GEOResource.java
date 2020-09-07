@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.geo;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Chunk;
 import org.bukkit.Keyed;
 import org.bukkit.World;
@@ -43,7 +45,7 @@ public interface GEOResource extends Keyed {
      * 
      * @return The default supply found in a {@link Chunk} with the given {@link Biome}
      */
-    int getDefaultSupply(Environment environment, Biome biome);
+    int getDefaultSupply(@Nonnull Environment environment, @Nonnull Biome biome);
 
     /**
      * Returns how much the value may deviate from the default supply (positive only).
@@ -57,6 +59,7 @@ public interface GEOResource extends Keyed {
      * 
      * @return The name of this Resource
      */
+    @Nonnull
     String getName();
 
     /**
@@ -65,6 +68,7 @@ public interface GEOResource extends Keyed {
      * 
      * @return The {@link ItemStack} version of this Resource.
      */
+    @Nonnull
     ItemStack getItem();
 
     /**
@@ -90,7 +94,8 @@ public interface GEOResource extends Keyed {
      *            The {@link Player} to localize the name for.
      * @return The localized name for this {@link GEOResource}
      */
-    default String getName(Player p) {
+    @Nonnull
+    default String getName(@Nonnull Player p) {
         String name = SlimefunPlugin.getLocalization().getResourceString(p, "resources." + getKey().getNamespace() + "." + getKey().getKey());
         return name == null ? getName() : name;
     }

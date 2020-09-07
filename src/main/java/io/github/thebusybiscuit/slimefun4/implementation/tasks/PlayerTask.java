@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -10,7 +12,7 @@ abstract class PlayerTask implements Runnable {
     protected int id;
     protected Player p;
 
-    public PlayerTask(Player p) {
+    PlayerTask(@Nonnull Player p) {
         this.p = p;
     }
 

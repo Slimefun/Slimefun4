@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.seasonal;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.GameMode;
+import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -12,8 +14,18 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link ChristmasPresent} is a seasonal {@link SlimefunItem} that drops a random
+ * gift when being placed down.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see EasterEgg
+ *
+ */
 public class ChristmasPresent extends SimpleSlimefunItem<BlockPlaceHandler> implements NotPlaceable {
 
     private final ItemStack[] gifts;
@@ -26,22 +38,23 @@ public class ChristmasPresent extends SimpleSlimefunItem<BlockPlaceHandler> impl
 
     @Override
     public BlockPlaceHandler getItemHandler() {
-        return (p, e, item) -> {
-            if (isItem(item)) {
+        return new BlockPlaceHandler(false) {
+
+            @Override
+            public void onPlayerPlace(BlockPlaceEvent e) {
                 e.setCancelled(true);
 
                 if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
                     ItemUtils.consumeItem(item, false);
                 }
 
-                FireworkUtils.launchRandom(p, 3);
+                FireworkUtils.launchRandom(e.getPlayer(), 3);
 
+                Block b = e.getBlock();
                 ItemStack gift = gifts[ThreadLocalRandom.current().nextInt(gifts.length)].clone();
-                e.getBlockPlaced().getWorld().dropItemNaturally(e.getBlockPlaced().getLocation(), gift);
-                return true;
+                b.getWorld().dropItemNaturally(b.getLocation(), gift);
             }
 
-            return false;
         };
     }
 
