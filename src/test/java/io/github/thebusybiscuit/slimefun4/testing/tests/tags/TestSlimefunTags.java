@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.utils;
+package io.github.thebusybiscuit.slimefun4.testing.tests.tags;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,6 +52,62 @@ class TestSlimefunTags {
 
         for (SlimefunTag tag : SlimefunTag.values()) {
             assertNotCyclic(tag);
+        }
+    }
+
+    @Test
+    @DisplayName("Test SlimefunTag#isTagged()")
+    void testIsTagged() throws TagMisconfigurationException {
+        for (SlimefunTag tag : SlimefunTag.values()) {
+            tag.reload();
+        }
+
+        // Direct inclusion
+        Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.CAKE));
+
+        // Inclusion through a Minecraft Tag
+        Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.OAK_SAPLING));
+
+        // Inclusion through a Slimefun Tag
+        Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.TORCH));
+    }
+
+    @Test
+    @DisplayName("Test SlimefunTag#toArray()")
+    void testToArray() throws TagMisconfigurationException {
+        for (SlimefunTag tag : SlimefunTag.values()) {
+            tag.reload();
+        }
+
+        for (SlimefunTag tag : SlimefunTag.values()) {
+            Set<Material> values = tag.getValues();
+            Assertions.assertArrayEquals(values.toArray(new Material[0]), tag.toArray());
+        }
+    }
+
+    @Test
+    @DisplayName("Test SlimefunTag#getValues()")
+    void testGetValues() throws TagMisconfigurationException {
+        for (SlimefunTag tag : SlimefunTag.values()) {
+            tag.reload();
+        }
+
+        for (SlimefunTag tag : SlimefunTag.values()) {
+            Set<Material> values = tag.getValues();
+
+            Assertions.assertFalse(values.isEmpty());
+
+            for (Material value : tag.getValues()) {
+                // All values of our tag must be tagged
+                Assertions.assertTrue(tag.isTagged(value));
+            }
+
+            for (Tag<Material> sub : tag.getSubTags()) {
+                for (Material value : sub.getValues()) {
+                    // All values of sub tags should be tagged by our tag too
+                    Assertions.assertTrue(tag.isTagged(value));
+                }
+            }
         }
     }
 

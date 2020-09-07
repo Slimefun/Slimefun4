@@ -44,6 +44,11 @@ public enum SlimefunTag implements Tag<Material> {
      * Minecraft ores.
      */
     ORES,
+    
+    /**
+     * All variants of torches, normal, soulfire and redstone.
+     */
+    TORCHES,
 
     /**
      * All terracotta variants, does not include glazed terracotta.
