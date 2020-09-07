@@ -61,8 +61,14 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
             if (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                 b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
-                for (ItemStack drop : b.getDrops(getItem())) {
+                if (getItem().containsEnchantment(Enchantment.SILK_TOUCH)) {
                     b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItem(drop, fortune));
+                }
+                else {
+
+                    for (ItemStack drop : b.getDrops(getItem())) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItem(drop, fortune));
+                    }
                 }
 
                 b.setType(Material.AIR);
