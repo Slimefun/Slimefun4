@@ -8,11 +8,11 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -27,7 +27,7 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implemen
     @Override
     public ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
-            if (MaterialCollections.getAllOres().contains(e.getBlock().getType()) && !BlockStorage.hasBlockInfo(e.getBlock())) {
+            if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(e.getBlock().getType()) && !BlockStorage.hasBlockInfo(e.getBlock())) {
                 Collection<ItemStack> blockDrops = e.getBlock().getDrops(getItem());
 
                 for (ItemStack drop : blockDrops) {

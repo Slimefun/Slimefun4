@@ -14,9 +14,12 @@ import org.bukkit.Tag;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CropGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfTheSeeker;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PickaxeOfVeinMining;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPickaxe;
 
 /**
  * This enum contains various implementations of the {@link Tag} interface.
@@ -69,9 +72,24 @@ public enum SlimefunTag implements Tag<Material> {
     EXPLOSIVE_SHOVEL_BLOCKS,
 
     /**
-     * All materials (ores) which the {@link PickaxeOfTheSeeker} recognizes.
+     * All materials (ores) which the {@link PickaxeOfVeinMining} recognizes.
      */
     PICKAXE_OF_VEIN_MINING_BLOCKS,
+
+    /**
+     * All materials (ores) which the {@link PickaxeOfTheSeeker} recognizes.
+     */
+    PICKAXE_OF_THE_SEEKER_BLOCKS,
+
+    /**
+     * All materials which the {@link SmeltersPickaxe} will try and smelt.
+     */
+    SMELTERS_PICKAXE_BLOCKS,
+
+    /**
+     * All materials (ores) which the {@link IndustrialMiner} will try to mine.
+     */
+    INDUSTRIAL_MINER_ORES,
 
     /**
      * All materials (crops) which the {@link CropGrowthAccelerator} will recognize.
