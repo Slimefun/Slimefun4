@@ -107,6 +107,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
 * Fixed #2266
 * Fixed #2275
 * Fixed Multi Tools consuming hunger points when holding a Wind Staff in your off hand
+* Fixed Teleports getting stuck sometimes
 
 ## Release Candidate 15 (01 Aug 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
