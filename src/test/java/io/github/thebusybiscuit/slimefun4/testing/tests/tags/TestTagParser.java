@@ -1,12 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.tags;
 
-import java.util.Set;
-
 import javax.annotation.Nonnull;
 
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,7 +46,7 @@ class TestTagParser {
     @DisplayName("Test Nullability check")
     void testNullability() {
         TagParser parser = new TagParser(key);
-        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(null, this::identity));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> parser.parse(null, (a, b) -> {}));
     }
 
     @Test
@@ -106,11 +102,7 @@ class TestTagParser {
 
     private void assertMisconfiguration(@Nonnull String json) {
         TagParser parser = new TagParser(key);
-        Assertions.assertThrows(TagMisconfigurationException.class, () -> parser.parse(json, this::identity));
-    }
-
-    private void identity(Set<Material> a, Set<Tag<Material>> b) {
-
+        Assertions.assertThrows(TagMisconfigurationException.class, () -> parser.parse(json, (a, b) -> {}));
     }
 
 }
