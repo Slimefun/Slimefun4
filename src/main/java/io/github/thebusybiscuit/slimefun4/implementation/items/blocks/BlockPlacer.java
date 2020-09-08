@@ -182,7 +182,7 @@ public class BlockPlacer extends SlimefunItem {
         Bukkit.getPluginManager().callEvent(e);
 
         if (!e.isCancelled()) {
-            facedBlock.setType(item.getType());
+            facedBlock.setType(item.getType(), true);
 
             if (item.hasItemMeta()) {
                 ItemMeta meta = item.getItemMeta();
