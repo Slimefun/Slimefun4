@@ -145,8 +145,7 @@ enum Instruction {
         android.refuel(inv, target);
     });
 
-    private static final Map<String, Instruction> cacheMap = new HashMap<>();
-
+    private static final Map<String, Instruction> nameLookup = new HashMap<>();
     public static final Instruction[] values = values();
 
     private final ItemStack item;
@@ -155,24 +154,28 @@ enum Instruction {
 
     static {
         for (Instruction instruction : values) {
-            cacheMap.put(instruction.name(), instruction);
+            nameLookup.put(instruction.name(), instruction);
         }
     }
 
-    Instruction(AndroidType type, HeadTexture head, AndroidAction method) {
+    @ParametersAreNonnullByDefault
+    Instruction(AndroidType type, HeadTexture head, @Nullable AndroidAction method) {
         this.type = type;
         this.item = SlimefunUtils.getCustomHead(head.getTexture());
         this.method = method;
     }
 
+    @ParametersAreNonnullByDefault
     Instruction(AndroidType type, HeadTexture head) {
         this(type, head, null);
     }
 
+    @Nonnull
     public ItemStack getItem() {
         return item;
     }
 
+    @Nonnull
     public AndroidType getRequiredType() {
         return type;
     }
@@ -189,11 +192,14 @@ enum Instruction {
      * your Java version. It also means that you can avoid an IllegalArgumentException which let's
      * face it is always good.
      *
-     * @param value The value which you would like to look up.
+     * @param value
+     *            The value which you would like to look up.
+     * 
      * @return The {@link Instruction} or null if it does not exist.
      */
     @Nullable
     public static Instruction getFromCache(@Nonnull String value) {
-        return cacheMap.get(value);
+        Validate.notNull(value, "An Instruction cannot be null!");
+        return nameLookup.get(value);
     }
 }
