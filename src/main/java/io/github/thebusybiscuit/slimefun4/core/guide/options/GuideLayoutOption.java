@@ -101,7 +101,7 @@ class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
 
     @Override
     public Optional<SlimefunGuideLayout> getSelectedOption(Player p, ItemStack guide) {
-        for (SlimefunGuideLayout layout : SlimefunGuideLayout.values()) {
+        for (SlimefunGuideLayout layout : SlimefunGuideLayout.values) {
             if (SlimefunUtils.isItemSimilar(guide, SlimefunGuide.getItem(layout), true, false)) {
                 return Optional.of(layout);
             }
