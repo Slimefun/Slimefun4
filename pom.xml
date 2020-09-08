@@ -64,10 +64,6 @@
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
-            <id>bStats-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-        <repository>
             <id>placeholderapi-repo</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
