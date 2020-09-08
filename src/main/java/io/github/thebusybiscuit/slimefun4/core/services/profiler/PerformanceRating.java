@@ -31,6 +31,8 @@ public enum PerformanceRating implements Predicate<Float> {
     HURTFUL(ChatColor.DARK_RED, 500),
     BAD(ChatColor.DARK_RED, Float.MAX_VALUE);
 
+    public static final PerformanceRating[] values = values();
+
     private final ChatColor color;
     private final float threshold;
 

@@ -317,7 +317,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         String currentVersion = ReflectionUtils.getVersion();
 
         if (currentVersion.startsWith("v")) {
-            for (MinecraftVersion version : MinecraftVersion.values()) {
+            for (MinecraftVersion version : MinecraftVersion.values) {
                 if (version.matches(currentVersion)) {
                     minecraftVersion = version;
                     return false;
@@ -344,7 +344,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
-        for (MinecraftVersion version : MinecraftVersion.values()) {
+        for (MinecraftVersion version : MinecraftVersion.values) {
             if (version != MinecraftVersion.UNKNOWN) {
                 list.add(version.getName());
             }

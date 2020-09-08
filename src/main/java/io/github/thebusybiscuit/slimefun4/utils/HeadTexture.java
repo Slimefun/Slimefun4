@@ -109,6 +109,8 @@ public enum HeadTexture {
     IRON_GOLEM("89091d79ea0f59ef7ef94d7bba6e5f17f2f7d4572c44f90f76c4819a714"),
     PIGLIN_HEAD("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41");
 
+    public static final HeadTexture[] values = values();
+
     private final String texture;
 
     HeadTexture(@Nonnull String texture) {
