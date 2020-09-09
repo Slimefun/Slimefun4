@@ -89,6 +89,7 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("sand"), Material.SAND, Material.RED_SAND);
         server.createMaterialTag(NamespacedKey.minecraft("crops"), Material.WHEAT, Material.CARROTS, Material.POTATOES, Material.BEETROOTS);
         server.createMaterialTag(NamespacedKey.minecraft("ice"), Material.ICE, Material.PACKED_ICE, Material.FROSTED_ICE, Material.BLUE_ICE);
+        server.createMaterialTag(NamespacedKey.minecraft("fishes"), Material.COD, Material.SALMON);
     }
 
 }
