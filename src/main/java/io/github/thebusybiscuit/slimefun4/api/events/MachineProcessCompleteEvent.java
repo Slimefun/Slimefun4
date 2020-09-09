@@ -23,7 +23,7 @@ public class MachineProcessCompleteEvent extends Event {
     private final MachineRecipe machineRecipe;
 
     @ParametersAreNonnullByDefault
-    public MachineProcessCompleteEvent(@Nonnull Block block, @Nonnull MachineRecipe machineRecipe) {
+    public MachineProcessCompleteEvent(Block block, MachineRecipe machineRecipe) {
         this.block = block;
         this.machineRecipe = machineRecipe;
     }
