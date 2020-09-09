@@ -51,6 +51,22 @@ public enum SlimefunTag implements Tag<Material> {
     ORES,
 
     /**
+     * Every glass variant, includes both blocks and panes.
+     * Also stained glass and stained glass panes.
+     */
+    GLASS,
+
+    /**
+     * All variants of glass, normal and stained.
+     */
+    GLASS_BLOCKS,
+
+    /**
+     * All variants of glass panes, normal and stained.
+     */
+    GLASS_PANES,
+
+    /**
      * All variants of torches, normal, soulfire and redstone.
      */
     TORCHES,

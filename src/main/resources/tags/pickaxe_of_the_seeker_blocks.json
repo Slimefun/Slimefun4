@@ -2,7 +2,7 @@
 	"values" : [
 		"#slimefun:ores",
 		{
-			"id" : "#minecraft:ancient_debris",
+			"id" : "minecraft:ancient_debris",
 			"required" : false
 		}
 	]

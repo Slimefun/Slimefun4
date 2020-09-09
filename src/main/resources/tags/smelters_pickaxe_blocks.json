@@ -1,5 +1,10 @@
 {
 	"values" : [
-		"#slimefun:ores"
+		{
+			"id" : "#minecraft:gold_ores",
+			"required" : false
+		},
+		"minecraft:gold_ore",
+		"minecraft:iron_ore"
 	]
 }

@@ -9,6 +9,10 @@
 		"minecraft:snow_block",
 		"minecraft:gravel",
 		"minecraft:clay",
-		"minecraft:soul_sand"
+		"minecraft:soul_sand",
+		{
+			"id" : "minecraft:soul_soil",
+			"required" : false
+		}
 	]
 }
