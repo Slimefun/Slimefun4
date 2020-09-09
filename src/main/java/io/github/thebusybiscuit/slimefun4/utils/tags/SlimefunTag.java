@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -44,7 +45,7 @@ public enum SlimefunTag implements Tag<Material> {
      * Minecraft ores.
      */
     ORES,
-    
+
     /**
      * All variants of torches, normal, soulfire and redstone.
      */
@@ -197,6 +198,16 @@ public enum SlimefunTag implements Tag<Material> {
     @Nonnull
     public Material[] toArray() {
         return getValues().toArray(new Material[0]);
+    }
+
+    /**
+     * This returns a {@link Stream} of {@link Material Materials} for this {@link SlimefunTag}.
+     * 
+     * @return A {@link Stream} of {@link Material Materials}
+     */
+    @Nonnull
+    public Stream<Material> stream() {
+        return getValues().stream();
     }
 
 }
