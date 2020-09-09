@@ -328,7 +328,7 @@ abstract class ChestTerminalNetwork extends Network {
     
     @Override
     public void markDirty(@Nonnull Location l) {
-        connectedCache.remove(l);
+        connectorCache.remove(l);
         super.markDirty(l);
     }
 
