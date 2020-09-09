@@ -162,13 +162,14 @@ public class TagParser implements Keyed {
             }
         }
         else if (PatternUtils.SLIMEFUN_TAG.matcher(value).matches()) {
-            try {
-                // Get a SlimefunTag enum value for the given key
-                String keyValue = PatternUtils.COLON.split(value)[1].toUpperCase(Locale.ROOT);
-                SlimefunTag tag = SlimefunTag.valueOf(keyValue);
+            // Get a SlimefunTag enum value for the given key
+            String keyValue = PatternUtils.COLON.split(value)[1].toUpperCase(Locale.ROOT);
+            SlimefunTag tag = SlimefunTag.getTag(keyValue);
+
+            if (tag != null) {
                 tags.add(tag);
             }
-            catch (IllegalArgumentException x) {
+            else {
                 throw new TagMisconfigurationException(key, "There is no '" + value + "' tag in Slimefun");
             }
         }
