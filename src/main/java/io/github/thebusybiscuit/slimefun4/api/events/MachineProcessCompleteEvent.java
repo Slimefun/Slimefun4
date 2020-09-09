@@ -28,7 +28,8 @@ public class MachineProcessCompleteEvent extends Event {
         this.machineRecipe = machineRecipe;
     }
 
-    /** This method returns the {@link Block} of the machine.
+    /**
+     * This method returns the {@link Block} of the machine.
      *
      * @return the {@link Block} of the machine
      */
@@ -37,7 +38,8 @@ public class MachineProcessCompleteEvent extends Event {
         return block;
     }
 
-    /** This returns the used {@link MachineRecipe} in the process.
+    /**
+     * This returns the used {@link MachineRecipe} in the process.
      *
      * @return the {@link MachineRecipe} of the process.
      */
