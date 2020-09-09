@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
@@ -22,7 +23,7 @@ public class MachineProcessCompleteEvent extends Event {
     private final MachineRecipe machineRecipe;
 
     @ParametersAreNonnullByDefault
-    public MachineProcessCompleteEvent(Block block, MachineRecipe machineRecipe) {
+    public MachineProcessCompleteEvent(@Nonnull Block block, @Nonnull MachineRecipe machineRecipe) {
         this.block = block;
         this.machineRecipe = machineRecipe;
     }
@@ -31,6 +32,7 @@ public class MachineProcessCompleteEvent extends Event {
      *
      * @return the {@link Block} of the machine
      */
+    @Nonnull
     public Block getMachine() {
         return block;
     }
@@ -39,16 +41,19 @@ public class MachineProcessCompleteEvent extends Event {
      *
      * @return the {@link MachineRecipe} of the process.
      */
+    @Nonnull
     public MachineRecipe getMachineRecipe() {
         return machineRecipe;
     }
 
-    @Override
-    public HandlerList getHandlers() {
+    @Nonnull
+    public static HandlerList getHandlerList() {
         return handlerList;
     }
 
-    public static HandlerList getHandlerList() {
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
         return handlerList;
     }
 }
