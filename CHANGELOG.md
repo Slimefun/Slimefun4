@@ -24,6 +24,9 @@
 
 ## Release Candidate 17 (TBD)
 
+#### Changes
+* Improved Auto-Updater (Multi-Threading and more)
+
 #### Fixes
 * Fixed #2300
 * Fixed #2296
