@@ -12,7 +12,7 @@ jobs:
 
     name: Translation-Notifier
     runs-on: ubuntu-latest
-    if: github.repository == 'TheBusyBiscuit/Slimefun4'
+    if: github.repository == 'Slimefun/Slimefun4'
 
     steps:
       - name: Discord Notification

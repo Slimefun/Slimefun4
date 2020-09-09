@@ -18,7 +18,7 @@ jobs:
     - name: URL-checker
       uses: SuperKogito/URLs-checker@0.2.1
       with:
-        git_path: https://github.com/TheBusyBiscuit/Slimefun4
+        git_path: https://github.com/Slimefun/Slimefun4
         file_types: .md,.java,.yml
         print_all: False
         retry_count: 2

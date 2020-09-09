@@ -69,7 +69,6 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             if (!p.isSneaking()) {
                 if (removeItemCharge(item, COST)) {
                     SlimefunItem sfItem = modes.get(index).getItem();
-
                     if (sfItem != null) {
                         sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(e));
                     }
