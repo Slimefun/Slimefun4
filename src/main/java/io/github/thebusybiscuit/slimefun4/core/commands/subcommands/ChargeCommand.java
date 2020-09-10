@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * {@link ChargeCommand} adds an in game command which charges any {@link Rechargeable}
- * item to max.
+ * item to maximum charge, defined by {@link Rechargeable#getMaxItemCharge(ItemStack)}.
  *
  * @author FluffyBear
  *

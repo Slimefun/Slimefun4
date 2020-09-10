@@ -36,27 +36,32 @@ class TestChargeCommand {
     }
 
     @Test
-    @DisplayName("Test if /charge charges the item the player is holding")
+    @DisplayName("Test if /sf charge charges the item the player is holding")
     void testCommand() {
         Category category = TestUtilities.getCategory(plugin, "rechargeable");
-        final SlimefunItemStack RECHARGEABLE_ITEM = new SlimefunItemStack("RECHARGEABLE_ITEM", Material.REDSTONE_BLOCK, "Rechargeable Item", "This isn't real", LoreBuilder.powerCharged(0, 100));
-        new RechargeableMock(category, RECHARGEABLE_ITEM, RecipeType.NULL, new ItemStack[9]).register(plugin);
+        final SlimefunItemStack RECHARGEABLE_ITEM = new SlimefunItemStack("SF_CHARGE_TEST_ITEM", Material.REDSTONE_BLOCK, "Rechargeable Item", "This isn't real", LoreBuilder.powerCharged(0, 100));
+        new SlimefunChargeTest(category, RECHARGEABLE_ITEM, RecipeType.NULL, new ItemStack[9]).register(plugin);
 
         Player player = server.addPlayer();
         player.setOp(true);
         player.getInventory().setItemInMainHand(RECHARGEABLE_ITEM.clone());
-        server.execute("slimefun", player, "charge");
 
         ItemStack chargedItemStack = player.getInventory().getItemInMainHand();
         Rechargeable chargedItem = (Rechargeable) SlimefunItem.getByItem(chargedItemStack);
+
+        Assertions.assertEquals(chargedItem.getItemCharge(chargedItemStack), 0);
+        server.execute("slimefun", player, "charge");
+
+        chargedItemStack = player.getInventory().getItemInMainHand();
+        chargedItem = (Rechargeable) SlimefunItem.getByItem(chargedItemStack);
 
         Assertions.assertEquals(chargedItem.getItemCharge(chargedItemStack), chargedItem.getMaxItemCharge(chargedItemStack));
     }
 
 
-    private class RechargeableMock extends SlimefunItem implements Rechargeable {
+    private class SlimefunChargeTest extends SlimefunItem implements Rechargeable {
 
-        public RechargeableMock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        public SlimefunChargeTest(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
             super(category, item, recipeType, recipe);
         }
 
