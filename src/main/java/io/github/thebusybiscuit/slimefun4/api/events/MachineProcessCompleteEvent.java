@@ -24,6 +24,8 @@ public class MachineProcessCompleteEvent extends Event {
 
     @ParametersAreNonnullByDefault
     public MachineProcessCompleteEvent(Block block, MachineRecipe machineRecipe) {
+        super(true);
+        
         this.block = block;
         this.machineRecipe = machineRecipe;
     }
