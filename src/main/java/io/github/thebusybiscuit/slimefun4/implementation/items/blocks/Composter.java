@@ -8,6 +8,7 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -17,7 +18,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
@@ -50,12 +50,12 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
     private List<ItemStack> getMachineRecipes() {
         List<ItemStack> items = new LinkedList<>();
 
-        for (Material leave : MaterialCollections.getAllLeaves()) {
+        for (Material leave : Tag.LEAVES.getValues()) {
             items.add(new ItemStack(leave, 8));
             items.add(new ItemStack(Material.DIRT));
         }
 
-        for (Material sapling : MaterialCollections.getAllSaplings()) {
+        for (Material sapling : Tag.SAPLINGS.getValues()) {
             items.add(new ItemStack(sapling, 8));
             items.add(new ItemStack(Material.DIRT));
         }
