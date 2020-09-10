@@ -297,7 +297,7 @@ public class SlimefunProfiler {
     public PerformanceRating getPerformance() {
         float percentage = getPercentageOfTick();
 
-        for (PerformanceRating rating : PerformanceRating.values()) {
+        for (PerformanceRating rating : PerformanceRating.values) {
             if (rating.test(percentage)) {
                 return rating;
             }

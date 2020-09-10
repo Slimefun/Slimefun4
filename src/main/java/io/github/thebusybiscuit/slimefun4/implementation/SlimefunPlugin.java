@@ -126,7 +126,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
     private final BlockDataService blockDataService = new BlockDataService(this, "slimefun_block");
     private final CustomTextureService textureService = new CustomTextureService(new Config(this, "item-models.yml"));
-    private final GitHubService gitHubService = new GitHubService("TheBusyBiscuit/Slimefun4");
+    private final GitHubService gitHubService = new GitHubService("Slimefun/Slimefun4");
     private final UpdaterService updaterService = new UpdaterService(this, getDescription().getVersion(), getFile());
     private final MetricsService metricsService = new MetricsService(this);
     private final AutoSavingService autoSavingService = new AutoSavingService();
@@ -313,7 +313,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         String currentVersion = ReflectionUtils.getVersion();
 
         if (currentVersion.startsWith("v")) {
-            for (MinecraftVersion version : MinecraftVersion.values()) {
+            for (MinecraftVersion version : MinecraftVersion.values) {
                 if (version.matches(currentVersion)) {
                     minecraftVersion = version;
                     return false;
@@ -340,7 +340,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
-        for (MinecraftVersion version : MinecraftVersion.values()) {
+        for (MinecraftVersion version : MinecraftVersion.values) {
             if (version != MinecraftVersion.UNKNOWN) {
                 list.add(version.getName());
             }
@@ -703,7 +703,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/TheBusyBiscuit/Slimefun4/issues";
+        return "https://github.com/Slimefun/Slimefun4/issues";
     }
 
 }

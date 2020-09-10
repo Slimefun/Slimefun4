@@ -78,7 +78,7 @@ public class TestSlimefunItemRegistration {
 
         Optional<String> wiki = item.getWikipage();
         Assertions.assertTrue(wiki.isPresent());
-        Assertions.assertEquals("https://github.com/TheBusyBiscuit/Slimefun4/wiki/Test", wiki.get());
+        Assertions.assertEquals("https://github.com/Slimefun/Slimefun4/wiki/Test", wiki.get());
     }
 
     @Test
