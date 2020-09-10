@@ -15,7 +15,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * @author poma123
  *
  */
-public class MachineProcessCompleteEvent extends Event {
+public class AsyncMachineProcessCompleteEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
@@ -23,7 +23,9 @@ public class MachineProcessCompleteEvent extends Event {
     private final MachineRecipe machineRecipe;
 
     @ParametersAreNonnullByDefault
-    public MachineProcessCompleteEvent(Block block, MachineRecipe machineRecipe) {
+    public AsyncMachineProcessCompleteEvent(Block block, MachineRecipe machineRecipe) {
+        super(true);
+        
         this.block = block;
         this.machineRecipe = machineRecipe;
     }
