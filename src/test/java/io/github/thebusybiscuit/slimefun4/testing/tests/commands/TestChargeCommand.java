@@ -39,8 +39,8 @@ class TestChargeCommand {
     @DisplayName("Test if /sf charge charges the item the player is holding")
     void testCommand() {
         Category category = TestUtilities.getCategory(plugin, "rechargeable");
-        final SlimefunItemStack RECHARGEABLE_ITEM = new SlimefunItemStack("SF_CHARGE_TEST_ITEM", Material.REDSTONE_BLOCK, "Rechargeable Item", "This isn't real", LoreBuilder.powerCharged(0, 100));
-        new SlimefunChargeTest(category, RECHARGEABLE_ITEM, RecipeType.NULL, new ItemStack[9]).register(plugin);
+        SlimefunItemStack RECHARGEABLE_ITEM = new SlimefunItemStack("SF_CHARGE_TEST_ITEM", Material.REDSTONE_BLOCK, "Rechargeable Item", "This isn't real", LoreBuilder.powerCharged(0, 100));
+        new RechargeableMock(category, RECHARGEABLE_ITEM, RecipeType.NULL, new ItemStack[9]).register(plugin);
 
         Player player = server.addPlayer();
         player.setOp(true);
@@ -59,9 +59,9 @@ class TestChargeCommand {
     }
 
 
-    private class SlimefunChargeTest extends SlimefunItem implements Rechargeable {
+    private class RechargeableMock extends SlimefunItem implements Rechargeable {
 
-        public SlimefunChargeTest(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        public RechargeableMock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
             super(category, item, recipeType, recipe);
         }
 
