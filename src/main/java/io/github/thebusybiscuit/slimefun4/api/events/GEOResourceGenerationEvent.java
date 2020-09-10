@@ -17,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 
 /**
  * This {@link Event} is fired whenever a {@link GEOResource} is being freshly generated.
- * This only ocurs when a {@link GEOScanner} queries the {@link Chunk} for a {@link GEOResource}
+ * This only occurs when a {@link GEOScanner} queries the {@link Chunk} for a {@link GEOResource}
  * but cannot find it.
  * 
  * You can modify this {@link Event} by listening to it.
