@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -73,10 +74,13 @@ public class BlockPlacer extends SlimefunItem {
     private BlockDispenseHandler onBlockDispense() {
         return (e, dispenser, facedBlock, machine) -> {
             if (!hasPermission(dispenser, facedBlock)) {
+                e.setCancelled(true);
                 return;
             }
 
-            if (isShulkerBox(e.getItem().getType())) {
+            Material material = e.getItem().getType();
+
+            if (SlimefunTag.SHULKER_BOXES.isTagged(material)) {
                 // Since vanilla Dispensers can already place Shulker boxes, we
                 // simply fallback to the vanilla behaviour.
                 return;
@@ -84,7 +88,13 @@ public class BlockPlacer extends SlimefunItem {
 
             e.setCancelled(true);
 
-            if (facedBlock.isEmpty() && e.getItem().getType().isBlock() && !isBlacklisted(e.getItem().getType())) {
+            if (!material.isBlock() || SlimefunTag.BLOCK_PLACER_IGNORED_MATERIALS.isTagged(material)) {
+                // Some materials cannot be reliably placed, like beds, it would look
+                // kinda wonky, so we just ignore these altogether
+                return;
+            }
+
+            if (facedBlock.isEmpty() && !isBlacklisted(material)) {
                 SlimefunItem item = SlimefunItem.getByItem(e.getItem());
 
                 if (item != null) {
@@ -123,10 +133,6 @@ public class BlockPlacer extends SlimefunItem {
 
         OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(owner));
         return SlimefunPlugin.getProtectionManager().hasPermission(player, target, ProtectableAction.PLACE_BLOCK);
-    }
-
-    private boolean isShulkerBox(Material type) {
-        return type == Material.SHULKER_BOX || type.name().endsWith("_SHULKER_BOX");
     }
 
     private boolean isBlacklisted(Material type) {

@@ -18,6 +18,7 @@ import org.bukkit.Tag;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CropGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
@@ -39,16 +40,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPic
 public enum SlimefunTag implements Tag<Material> {
 
     /**
-     * Materials which are sensitive to break.
-     * Things like Saplings or Pressure plates which break as well when you break
-     * the block beneath them.
-     */
-    SENSITIVE_MATERIALS,
-
-    /**
      * Minecraft ores.
      */
     ORES,
+
+    /**
+     * All Shulker boxes, normal and colored.
+     */
+    SHULKER_BOXES,
+
+    /**
+     * Every mushroom type, red, brown and nether ones.
+     */
+    MUSHROOMS,
 
     /**
      * Every glass variant, includes both blocks and panes.
@@ -91,6 +95,18 @@ public enum SlimefunTag implements Tag<Material> {
      * Can you believe there is no tag for this already?
      */
     CONCRETE_POWDERS,
+
+    /**
+     * Materials which are sensitive to break.
+     * Things like Saplings or Pressure plates which break as well when you break
+     * the block beneath them.
+     */
+    SENSITIVE_MATERIALS,
+
+    /**
+     * Materials which cannot be reliably placed using a {@link BlockPlacer}.
+     */
+    BLOCK_PLACER_IGNORED_MATERIALS,
 
     /**
      * All materials which the {@link ExplosiveShovel} can break.
@@ -196,13 +212,13 @@ public enum SlimefunTag implements Tag<Material> {
             return Collections.unmodifiableSet(includedMaterials);
         }
         else {
-            Set<Material> values = new HashSet<>(includedMaterials);
+            Set<Material> materials = new HashSet<>(includedMaterials);
 
             for (Tag<Material> tag : additionalTags) {
-                values.addAll(tag.getValues());
+                materials.addAll(tag.getValues());
             }
 
-            return Collections.unmodifiableSet(values);
+            return materials;
         }
     }
 

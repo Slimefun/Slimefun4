@@ -81,6 +81,7 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("wooden_fences"), Material.OAK_FENCE, Material.BIRCH_FENCE, Material.JUNGLE_FENCE, Material.SPRUCE_FENCE, Material.ACACIA_FENCE, Material.DARK_OAK_FENCE);
         server.createMaterialTag(NamespacedKey.minecraft("planks"), Material.OAK_PLANKS, Material.BIRCH_PLANKS, Material.SPRUCE_PLANKS, Material.JUNGLE_PLANKS, Material.ACACIA_PLANKS, Material.DARK_OAK_PLANKS);
         server.createMaterialTag(NamespacedKey.minecraft("small_flowers"), Material.POPPY, Material.DANDELION, Material.AZURE_BLUET, Material.LILY_OF_THE_VALLEY);
+        server.createMaterialTag(NamespacedKey.minecraft("tall_flowers"), Material.PEONY, Material.SUNFLOWER);
         server.createMaterialTag(NamespacedKey.minecraft("leaves"), Material.OAK_LEAVES, Material.BIRCH_LEAVES, Material.SPRUCE_LEAVES, Material.JUNGLE_LEAVES, Material.ACACIA_LEAVES, Material.DARK_OAK_LEAVES);
         server.createMaterialTag(NamespacedKey.minecraft("saplings"), Material.OAK_SAPLING, Material.BIRCH_SAPLING, Material.SPRUCE_SAPLING, Material.JUNGLE_SAPLING, Material.ACACIA_SAPLING, Material.DARK_OAK_SAPLING);
         server.createMaterialTag(NamespacedKey.minecraft("coral_blocks"), Material.BRAIN_CORAL_BLOCK, Material.BUBBLE_CORAL_BLOCK, Material.FIRE_CORAL_BLOCK, Material.HORN_CORAL_BLOCK, Material.TUBE_CORAL_BLOCK);
@@ -89,6 +90,7 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("sand"), Material.SAND, Material.RED_SAND);
         server.createMaterialTag(NamespacedKey.minecraft("crops"), Material.WHEAT, Material.CARROTS, Material.POTATOES, Material.BEETROOTS);
         server.createMaterialTag(NamespacedKey.minecraft("ice"), Material.ICE, Material.PACKED_ICE, Material.FROSTED_ICE, Material.BLUE_ICE);
+        server.createMaterialTag(NamespacedKey.minecraft("beds"), Material.RED_BED, Material.BLUE_BED);
         server.createMaterialTag(NamespacedKey.minecraft("fishes"), Material.COD, Material.SALMON);
     }
 

@@ -24,12 +24,16 @@
 
 ## Release Candidate 17 (TBD)
 
+#### Additions
+* (API) Added custom tags for developers
+
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
 
 #### Fixes
 * Fixed #2300
 * Fixed #2296
+* Fixed #2238
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16

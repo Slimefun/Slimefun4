@@ -1,0 +1,16 @@
+{
+	"values" : [
+		"#slimefun:sensitive_materials",
+		"#slimefun:mushrooms",
+		"#minecraft:tall_flowers",
+		"#minecraft:beds",
+		"#minecraft:doors",
+		"minecraft:sugar_cane",
+		"minecraft:lily_pad",
+		"minecraft:dead_bush",
+		{
+			"id" : "minecraft:bamboo",
+			"required" : false
+		}
+	]
+}
