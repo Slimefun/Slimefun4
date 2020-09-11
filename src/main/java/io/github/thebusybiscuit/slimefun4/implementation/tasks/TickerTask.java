@@ -93,7 +93,7 @@ public class TickerTask implements Runnable {
             return;
         }
         
-        if (!SlimefunPlugin.isEnabled()) {
+        if (!SlimefunPlugin.instance().isEnabled()) {
             return;
         }
 
