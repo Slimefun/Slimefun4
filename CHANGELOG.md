@@ -24,6 +24,9 @@
 
 ## Release Candidate 17 (TBD)
 
+#### Additions
+* Added /sf charge
+
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
 
