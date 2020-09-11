@@ -25,6 +25,7 @@
 ## Release Candidate 17 (TBD)
 
 #### Additions
+* Added /sf charge
 * (API) Added custom tags for developers
 
 #### Changes
