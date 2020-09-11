@@ -497,7 +497,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     private void loadTags() {
-        for (SlimefunTag tag : SlimefunTag.values()) {
+        for (SlimefunTag tag : SlimefunTag.values) {
             try {
                 tag.reload();
             }
