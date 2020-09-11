@@ -564,14 +564,14 @@ public class SlimefunItem implements Placeable {
      * This sets whether or not this {@link SlimefunItem} is allowed to be
      * used in a normal Crafting Table.
      * 
-     * @param useable
+     * @param usable
      *            Whether this {@link SlimefunItem} should be useable in a workbench
      * 
      * @return This instance of {@link SlimefunItem}
      */
     @Nonnull
-    public SlimefunItem setUseableInWorkbench(boolean useable) {
-        this.useableInWorkbench = useable;
+    public SlimefunItem setUseableInWorkbench(boolean usable) {
+        this.useableInWorkbench = usable;
 
         return this;
     }
@@ -717,7 +717,7 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * This method returns the wiki page that has been asigned to this item.
+     * This method returns the wiki page that has been assigned to this item.
      * It will return null, if no wiki page was found.
      * 
      * @see SlimefunItem#addOficialWikipage(String)
@@ -888,7 +888,7 @@ public class SlimefunItem implements Placeable {
             for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
                 if (sfi.isItem(wrapper)) {
                     // If we have to loop all items for the given item, then at least
-                    // set the id via PersistenDataAPI for future performance boosts
+                    // set the id via PersistentDataAPI for future performance boosts
                     SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
 
                     return sfi;

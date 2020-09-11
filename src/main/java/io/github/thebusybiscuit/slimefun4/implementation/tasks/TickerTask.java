@@ -132,7 +132,7 @@ public class TickerTask implements Runnable {
             }
         }
         catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occured while trying to parse Chunk: " + chunk);
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to parse Chunk: " + chunk);
         }
     }
 

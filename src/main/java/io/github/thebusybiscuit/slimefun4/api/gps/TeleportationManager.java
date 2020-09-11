@@ -148,7 +148,7 @@ public final class TeleportationManager {
     @ParametersAreNonnullByDefault
     private void onTeleport(Player p, Location destination, boolean success, boolean resistance) {
         // This needs to run on the main Thread so we force it, as the
-        // async teleportation might happen on a seperate Thread.
+        // async teleportation might happen on a separate Thread.
         Slimefun.runSync(() -> {
             if (success) {
                 // Apply Resistance Effect, if enabled

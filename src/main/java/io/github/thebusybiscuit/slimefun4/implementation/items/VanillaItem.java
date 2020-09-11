@@ -17,7 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * automatically
  * replace it in the recipes by its vanilla equivalent.
  * 
- * A {@link VanillaItem} is also automatically useable in workbenches.
+ * A {@link VanillaItem} is also automatically usable in workbenches.
  *
  * @author TheBusyBiscuit
  * 
