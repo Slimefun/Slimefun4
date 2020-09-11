@@ -56,7 +56,7 @@ class TestVillagerTradingListener {
         InventoryView view = player.openInventory(inv);
         view.setCursor(item);
         InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 1, ClickType.LEFT, InventoryAction.PICKUP_ONE);
-        listener.onPreBrew(event);
+        listener.onPreTrade(event);
         return event;
     }
 

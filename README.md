@@ -106,7 +106,7 @@ Over 100 people have already contributed to this amazing project. You guys are a
 Please consider helping us maintain this project too, your engagement keeps the project alive <3.
 
 ### Translations
-Slimefun4 has recently added suport for translations, note that translations are still _work in progress_.<br>
+Slimefun4 has recently added support for translations, note that translations are still _work in progress_.<br>
 So not everything may be available for translation yet.<br>
 [Read more...](https://github.com/Slimefun/Slimefun4/wiki/Translating-Slimefun)
 

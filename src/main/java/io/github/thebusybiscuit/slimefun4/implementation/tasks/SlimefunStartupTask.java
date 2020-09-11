@@ -57,7 +57,7 @@ public class SlimefunStartupTask implements Runnable {
                 new BlockStorage(world);
             }
             catch (Exception x) {
-                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
             }
         }
 

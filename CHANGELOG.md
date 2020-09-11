@@ -238,7 +238,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 * Fixed a rare concurrency issue with world saving
 * Fixed some contributors showing up twice
 * Fixed #2062
-* Fixed Grappling hooks disappearing when fired at Item frames or paintaings
+* Fixed Grappling hooks disappearing when fired at Item frames or paintings
 * Fixed Grappling hooks not getting removed when the Player leaves
 * Fixed Grappling hooks making Bat sounds
 * Fixed #1959
@@ -284,7 +284,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 * Auto Disenchanting is now a tiny bit faster
 * Small performance improvements
 * Dried Kelp Blocks can now be used as fuel for Tier 1 Androids
-* Androids now have a seperate category in the Slimefun Guide
+* Androids now have a separate category in the Slimefun Guide
 * Android Interface recipes now require steel ingots
 * Changed and unified a couple of tooltips
 * Changed tooltip on jetpacks and jet boots to say "Crouch" instead of "Hold Shift"
@@ -331,7 +331,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 * Fixed #1834
 * Fixed #1843
 * Fixed #1873
-* Fixed Electric Smeltery not prioritisting recipes
+* Fixed Electric Smeltery not prioritising recipes
 * Fixed #1851
 * Fixed #1891
 * Fixed #1893
@@ -431,7 +431,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 * Internal clean up and further documentation
 * Changed Automatic Ignition Chamber to be a Dropper
 * Teleporters are now significantly faster
-* Item permissions have been moved to a seperate permissions.yml file
+* Item permissions have been moved to a separate permissions.yml file
 * Salt now only requires 2 blocks of Sand
 * Fireworks from researching no longer damages entities
 * Very slight performance improvements for Cargo networks
@@ -516,7 +516,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 
 #### Additions
-* Aded preset messages.yml files
+* Added preset messages.yml files
 * Added user-configurable localization
 * Added many more options to the messages.yml
 * Added custom model data support for Languages
@@ -529,8 +529,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 * Added ability to translate messages for Players
 * Added the ability to translate Researches
 * Added StatusEffect API
-* Added translatibility to categories
-* Added translatibility to geo-resources
+* Added translatability to categories
+* Added translatability to geo-resources
 
 #### Changes
 * Removed Solar Array
