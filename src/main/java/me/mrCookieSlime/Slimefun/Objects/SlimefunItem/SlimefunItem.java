@@ -564,14 +564,14 @@ public class SlimefunItem implements Placeable {
      * This sets whether or not this {@link SlimefunItem} is allowed to be
      * used in a normal Crafting Table.
      * 
-     * @param usable
+     * @param useable
      *            Whether this {@link SlimefunItem} should be useable in a workbench
      * 
      * @return This instance of {@link SlimefunItem}
      */
     @Nonnull
-    public SlimefunItem setUseableInWorkbench(boolean usable) {
-        this.useableInWorkbench = usable;
+    public SlimefunItem setUseableInWorkbench(boolean useable) {
+        this.useableInWorkbench = useable;
 
         return this;
     }

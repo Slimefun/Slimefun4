@@ -74,7 +74,7 @@ public class BlockDataService implements PersistentDataService, Keyed {
     /**
      * This method checks whether the given {@link Material} is a Tile Entity.
      * This is used to determine whether the {@link Block} produced by this {@link Material}
-     * produces a {@link TileState}, making it usable as a {@link PersistentDataHolder}.
+     * produces a {@link TileState}, making it useable as a {@link PersistentDataHolder}.
      * 
      * Due to {@link Block#getState()} being a very expensive call performance-wise though,
      * this simple lookup method is used instead.
