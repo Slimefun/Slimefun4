@@ -1,13 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * {@link ChargeCommand} adds an in game command which charges any {@link Rechargeable}
