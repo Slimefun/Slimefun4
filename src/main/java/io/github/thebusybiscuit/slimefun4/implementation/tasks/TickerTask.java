@@ -92,6 +92,10 @@ public class TickerTask implements Runnable {
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
+        
+        if (!SlimefunPlugin.isEnabled()) {
+            return;
+        }
 
         // Don't overload the Bukkit scheduler with a thousand runnables. It doesn't like that. This way, we can spread the
         // time cost over several game ticks and adapt ticker rate to server performance.
