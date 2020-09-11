@@ -62,10 +62,15 @@ public class TickerTask implements Runnable {
     // If too many bugs happen, we delete that Location.
     private final Map<BlockPosition, AtomicInteger> bugs = new ConcurrentHashMap<>();
 
+    // Don't overload the Bukkit scheduler with a thousand runnables. It doesn't like that. This way, we can spread the
+    // time cost over several game ticks and adapt ticker rate to server performance.
+    private final ArrayBlockingQueue<Runnable> syncTasks = new ArrayBlockingQueue<>(32);
+
+
     private int tickRate;
     private boolean halted = false;
     
-    //This needs to be volatile. Visibility is not guaranteed for primitives
+    // This needs to be volatile. Visibility is not guaranteed for primitives
     // across multiple threads, and since this is a Runnable, we cannot control which thread calls Runnable#run().
     private volatile boolean running = false; 
 
@@ -85,48 +90,45 @@ public class TickerTask implements Runnable {
 
     @Override 
     public final void run() {
-        // This should not happen. Only case where this may happen is if this task is scheduled or started multiple times.
+
+        // This should only happen when the plugin gets disabled and the task is already running. Process all
+        // sync tasks before returning, blocking the main thread until the task is complete.
         if (running) {
+            processSyncTasks();
             return;
         }
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
-        
-        if (!SlimefunPlugin.instance().isEnabled()) {
-            return;
-        }
 
-        // Don't overload the Bukkit scheduler with a thousand runnables. It doesn't like that. This way, we can spread the
-        // time cost over several game ticks and adapt ticker rate to server performance.
-        final ArrayBlockingQueue<Runnable> syncTasks = new ArrayBlockingQueue<>(32);
-
-        // Iterate over the ticker tasks. Process the asynchronous ones on the Bukkit async task thread, and queue the sync
+        // Iterate over the ticker tasks. Process the asynchronous ones on the new thread, and queue the sync
         // tasks to the queue.
-        Bukkit.getScheduler().runTaskAsynchronously(
-                SlimefunPlugin.instance(),
-                () -> this.tick(syncTasks)
-        );
+        new Thread(() -> this.tick(), "Slimefun Async Ticker Thread").start();
 
         // Process the synchronous ticker tasks on the main thread.
-        processSyncTasks(syncTasks);
+        processSyncTasks();
     }
 
-    private void processSyncTasks(@Nonnull final BlockingQueue<Runnable> tasks) {
+    private void processSyncTasks() {
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
         // Let's not lag the main thread. Spikes suck. Steady time usage is much better.
         long endNs = System.nanoTime() + MAX_TICK_NS;
         try {
-            while (endNs > System.nanoTime()) {
+            while (endNs > System.nanoTime() || !SlimefunPlugin.isEnabled()) {
 
                 // Don't wait on an empty queue for too long.
-                Runnable task = tasks.poll(MAX_POLL_NS, TimeUnit.NANOSECONDS);
+                Runnable task = syncTasks.poll(MAX_POLL_NS, TimeUnit.NANOSECONDS);
 
-                // If the queue is empty, let the server do its thing. We'll check back later.
                 if (task == null) {
-                    break;
+                    if (SlimefunPlugin.isEnabled()) {
+                        // If the queue is empty, let the server do its thing. We'll check back later.
+                        break;
+                    } else {
+                        // The server expects the plugin to shut down right now. Continue blocking until we are done.
+                        continue;
+                    }
                 }
 
                 // The end element is a singleton runnable and represents the end of the ticker task list. Finish up.
@@ -147,13 +149,19 @@ public class TickerTask implements Runnable {
         // We're not done with the synchronous tickers yet. Give the server a breather and let it progress one tick.
         Bukkit.getScheduler().runTaskLater(
                 SlimefunPlugin.instance(),
-                () -> processSyncTasks(tasks),
+                () -> processSyncTasks(),
                 2L
         );
     }
 
     private void finish() {
         running = false;
+
+        // If the plugin has been disabled, do not schedule the next execution.
+        if (!SlimefunPlugin.isEnabled()) {
+            return;
+        }
+
         // Schedule the ticker task to run again once the tick interval has elapsed. Use a synchronous task instead of
         // an asynchronous one to bind the interval to the server clock, not the wall clock.
         Bukkit.getScheduler().runTaskLater(
@@ -163,7 +171,7 @@ public class TickerTask implements Runnable {
         );
     }
 
-    private void tick(@Nonnull BlockingQueue<Runnable> syncTasks) {
+    private void tick() {
         try {
             // We don't care about the equality of elements here. Use a
             // list, it has lower add/remove/iterate time complexity and smaller memory footprint.
@@ -189,7 +197,7 @@ public class TickerTask implements Runnable {
 
             if (!halted) {
                 for (String chunk : BlockStorage.getTickingChunks()) {
-                    tickChunk(tickers, chunk, syncTasks);
+                    tickChunk(tickers, chunk);
                 }
             }
 
@@ -229,7 +237,7 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tickChunk(@Nonnull List<BlockTicker> tickers, @Nonnull String chunk, @Nonnull BlockingQueue<Runnable> syncTasks) {
+    private void tickChunk(@Nonnull List<BlockTicker> tickers, @Nonnull String chunk) {
         try {
             Set<Location> locations = BlockStorage.getTickingLocations(chunk);
             String[] components = PatternUtils.SEMICOLON.split(chunk);
@@ -240,7 +248,7 @@ public class TickerTask implements Runnable {
 
             if (world != null && world.isChunkLoaded(x, z)) {
                 for (Location l : locations) {
-                    tickLocation(tickers, l, syncTasks);
+                    tickLocation(tickers, l);
                 }
             }
         }
@@ -249,7 +257,7 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tickLocation(@Nonnull List<BlockTicker> tickers, @Nonnull Location l, @Nonnull BlockingQueue<Runnable> syncTasks) {
+    private void tickLocation(@Nonnull List<BlockTicker> tickers, @Nonnull Location l) {
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
