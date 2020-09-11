@@ -116,13 +116,13 @@ public class TickerTask implements Runnable {
         // Let's not lag the main thread. Spikes suck. Steady time usage is much better.
         long endNs = System.nanoTime() + MAX_TICK_NS;
         try {
-            while (endNs > System.nanoTime() || !SlimefunPlugin.isEnabled()) {
+            while (endNs > System.nanoTime() || !SlimefunPlugin.instance().isEnabled()) {
 
                 // Don't wait on an empty queue for too long.
                 Runnable task = syncTasks.poll(MAX_POLL_NS, TimeUnit.NANOSECONDS);
 
                 if (task == null) {
-                    if (SlimefunPlugin.isEnabled()) {
+                    if (SlimefunPlugin.instance().isEnabled()) {
                         // If the queue is empty, let the server do its thing. We'll check back later.
                         break;
                     } else {
@@ -158,7 +158,7 @@ public class TickerTask implements Runnable {
         running = false;
 
         // If the plugin has been disabled, do not schedule the next execution.
-        if (!SlimefunPlugin.isEnabled()) {
+        if (!SlimefunPlugin.instance().isEnabled()) {
             return;
         }
 
