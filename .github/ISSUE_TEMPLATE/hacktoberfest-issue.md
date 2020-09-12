@@ -13,7 +13,7 @@ assignees: ''
 <!-- And post your ideas there, this issue format is for internal purposes only. -->
 <!-- If we like your idea, we will happily convert it into an actual issue. -->
 
-This Issue is part of [Hacktoberfest](https://hacktoberfest.digitalocean.com/) - A yearly event which encourages participation in the open-source community. [Sign up on their website](https://hacktoberfest.digitalocean.com/) and submit **four pull requests** to any public open-source project on GitHub and earn a limited-edition T-shirt!
+This Issue is part of [Hacktoberfest](https://hacktoberfest.digitalocean.com/) - A yearly event which encourages participation in the open-source community. [Sign up on their website](https://hacktoberfest.digitalocean.com/) and submit **four pull requests** to any public open-source project on GitHub and earn a limited-edition T-shirt or plant a tree!
 
 ## :mag_right: Scope
 The following bullet points explain what the scope of this feature should be.
