@@ -1,9 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -16,11 +12,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+
 /**
  * This {@link Listener} is responsible for the slow falling effect given to the player
- * When Nearing the ground when using the Bee Wings.
+ * when nearing the ground while using the Bee Wings.
  *
  * @author beSnow
+ * 
  */
 public class BeeWingListener implements Listener {
 
@@ -31,11 +33,16 @@ public class BeeWingListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onApproachGround(PlayerMoveEvent e) {
         Player player = e.getPlayer();
+        
         if (!player.isGliding()) return;
         if (player.isOnGround()) return;
-        ItemStack helmet = player.getInventory().getChestplate();
-        if (!SlimefunUtils.isItemSimilar(helmet, SlimefunItems.BEE_WINGS, true) && !Slimefun.hasUnlocked(player, helmet, true))
+        
+        ItemStack chestplate = player.getInventory().getChestplate();
+        if (chestplate.getType() != Material.ELYTRA) return;
+        
+        if (!SlimefunUtils.isItemSimilar(chestplate, SlimefunItems.BEE_WINGS, true) && !Slimefun.hasUnlocked(player, chestplate, true)) {
             return;
+        }
 
         double playerDistanceToHighestBlock = (player.getLocation().getY() - player.getWorld().getHighestBlockYAt(player.getLocation(), HeightMap.WORLD_SURFACE));
 
