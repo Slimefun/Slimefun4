@@ -124,11 +124,14 @@ slimefun:
   block_placer: Colocador de Blocos
   scroll_of_dimensional_teleposition: Mudando as Coisas
   special_bows: Robin Hood
+  tome_of_knowledge_sharing: Compartilhando com amigos
   flask_of_knowledge: Armazenamento de XP
   hardened_glass: Suportar Explosões
   golden_apple_juice: Poção Dourada
   cooler: Bebidas Portáteis
+  ancient_altar: Altar Ancião
   wither_proof_obsidian: Obsidiana à Prova de Wither
+  ancient_runes: Runas Elementais
   special_runes: Runas Roxas
   infernal_bonemeal: Farinha de Osso Infernal
   rainbow_blocks: Blocos Coloridos
@@ -166,12 +169,14 @@ slimefun:
   energized_gps_transmitter: Transmissor de Nível Superior
   energy_regulator: Redes de Energia 101
   butcher_androids: Androids Açougueiro
+  organic_food: Comida Orgânica
   auto_breeder: Alimentação Automatizada
   advanced_android: Androids Avançados
   advanced_butcher_android: Androids Avançados - Açougueiro
   advanced_fisherman_android: Androids Avançados - Pescador
   animal_growth_accelerator: Manipulação do Crescimento Animal
   xp_collector: Coletor de XP
+  organic_fertilizer: Fertilizante Orgânico
   crop_growth_accelerator: Acelerador de Crescimento de Sementes
   better_crop_growth_accelerator: Acelerador de Crescimento de Sementes Atualizado
   reactor_essentials: Fundamentos do Reator
@@ -181,6 +186,7 @@ slimefun:
   cargo_nodes: Configuração de Carga
   electric_ingot_machines: Fabricação de Barras Elétricas
   high_tier_electric_ingot_machines: Fabricação de Barras Super Rápida
+  automated_crafting_chamber: Criação Automatizada
   better_food_fabricator: Fabricação de Alimentos Atualizada
   reactor_access_port: Interação do Reator
   fluid_pump: Bomba de Fluido
@@ -224,9 +230,9 @@ slimefun:
   electric_press: Prensa Elétrica
   magnesium_generator: Gerador de Magnésio
   kelp_cookie: Alga Marinha Saborosa
-  tome_of_knowledge_sharing: Compartilhando com amigos
-  ancient_altar: Altar Ancião
-  ancient_runes: Runas Elementais
-  organic_food: Comida Orgânica
-  organic_fertilizer: Fertilizante Orgânico
-  automated_crafting_chamber: Criação Automatizada
+  makeshift_smeltery: Fundição Improvisada
+  tree_growth_accelerator: Árvores mais rápidas
+  industrial_miner: Mineração Industrial
+  advanced_industrial_miner: Melhor mineração
+  magical_zombie_pills: Deszombificação
+  auto_brewer: Cervejaria Industrial

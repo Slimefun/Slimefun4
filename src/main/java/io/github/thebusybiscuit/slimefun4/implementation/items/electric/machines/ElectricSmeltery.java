@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -13,11 +13,12 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -28,6 +29,12 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+/**
+ * The {@link ElectricSmeltery} is an electric version of the standard {@link Smeltery}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public abstract class ElectricSmeltery extends AContainer {
 
     private static final int[] border = { 4, 5, 6, 7, 8, 13, 31, 40, 41, 42, 43, 44 };
@@ -37,7 +44,7 @@ public abstract class ElectricSmeltery extends AContainer {
     public ElectricSmeltery(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), getInventoryTitle()) {
+        new BlockMenuPreset(getID(), getItemName()) {
 
             @Override
             public void init() {
@@ -56,18 +63,30 @@ public abstract class ElectricSmeltery extends AContainer {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
-                if (flow == ItemTransportFlow.WITHDRAW) return getOutputSlots();
+                if (flow == ItemTransportFlow.WITHDRAW) {
+                    return getOutputSlots();
+                }
 
-                List<Integer> slots = new ArrayList<>();
+                int fullSlots = 0;
+                List<Integer> slots = new LinkedList<>();
 
                 for (int slot : getInputSlots()) {
-                    if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), item, true)) {
+                    ItemStack stack = menu.getItemInSlot(slot);
+                    if (stack != null && SlimefunUtils.isItemSimilar(stack, item, true, false)) {
+                        if (stack.getAmount() >= stack.getMaxStackSize()) {
+                            fullSlots++;
+                        }
+
                         slots.add(slot);
                     }
                 }
 
                 if (slots.isEmpty()) {
                     return getInputSlots();
+                }
+                else if (fullSlots == slots.size()) {
+                    // All slots with that item are already full
+                    return new int[0];
                 }
                 else {
                     Collections.sort(slots, compareSlots(menu));
@@ -86,19 +105,8 @@ public abstract class ElectricSmeltery extends AContainer {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
-                for (int slot : getInputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
-
-                for (int slot : getOutputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
+                inv.dropItems(b.getLocation(), getInputSlots());
+                inv.dropItems(b.getLocation(), getOutputSlots());
             }
 
             progress.remove(b);
@@ -116,18 +124,18 @@ public abstract class ElectricSmeltery extends AContainer {
     @Override
     protected void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : inputBorder) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : outputBorder) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, new CustomItem(Material.ORANGE_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : getOutputSlots()) {
             preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
@@ -143,11 +151,6 @@ public abstract class ElectricSmeltery extends AContainer {
                 }
             });
         }
-    }
-
-    @Override
-    public String getInventoryTitle() {
-        return "&cElectric Smeltery";
     }
 
     @Override

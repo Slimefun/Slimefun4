@@ -2,31 +2,32 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class MagicWorkbench extends BackpackCrafter {
 
-    public MagicWorkbench(Category category) {
-        super(category, SlimefunItems.MAGIC_WORKBENCH, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, new ItemStack[0], BlockFace.UP);
+    public MagicWorkbench(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[] { null, null, null, null, null, null, new ItemStack(Material.BOOKSHELF), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER) }, BlockFace.UP);
     }
 
     @Override
@@ -38,21 +39,27 @@ public class MagicWorkbench extends BackpackCrafter {
             return;
         }
 
-        Inventory inv = ((Dispenser) dispenser.getState()).getInventory();
-        List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
+        BlockState state = PaperLib.getBlockState(dispenser, false).getState();
 
-        for (int i = 0; i < inputs.size(); i++) {
-            if (isCraftable(inv, inputs.get(i))) {
-                ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+        if (state instanceof Dispenser) {
+            Dispenser disp = (Dispenser) state;
+            Inventory inv = disp.getInventory();
+            List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
-                if (Slimefun.hasUnlocked(p, output, true)) {
-                    craft(inv, dispenser, p, b, output);
+            for (int i = 0; i < inputs.size(); i++) {
+                if (isCraftable(inv, inputs.get(i))) {
+                    ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+
+                    if (Slimefun.hasUnlocked(p, output, true)) {
+                        craft(inv, dispenser, p, b, output);
+                    }
+
+                    return;
                 }
-
-                return;
             }
+
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
         }
-        SlimefunPlugin.getLocal().sendMessage(p, "machines.pattern-not-found", true);
     }
 
     private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
@@ -68,20 +75,26 @@ public class MagicWorkbench extends BackpackCrafter {
 
             for (int j = 0; j < 9; j++) {
                 if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
-                    if (inv.getContents()[j].getAmount() > 1) inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-                    else inv.setItem(j, null);
+                    if (inv.getContents()[j].getAmount() > 1) {
+                        inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
+                    }
+                    else {
+                        inv.setItem(j, null);
+                    }
                 }
             }
 
             startAnimation(p, b, outputInv, output);
         }
-        else SlimefunPlugin.getLocal().sendMessage(p, "machines.full-inventory", true);
+        else {
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
+        }
     }
 
     private void startAnimation(Player p, Block b, Inventory inv, ItemStack output) {
         for (int j = 0; j < 4; j++) {
             int current = j;
-            Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
+            Slimefun.runSync(() -> {
                 p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 
@@ -99,10 +112,18 @@ public class MagicWorkbench extends BackpackCrafter {
     private Block locateDispenser(Block b) {
         Block block = null;
 
-        if (b.getRelative(1, 0, 0).getType() == Material.DISPENSER) block = b.getRelative(1, 0, 0);
-        else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) block = b.getRelative(0, 0, 1);
-        else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) block = b.getRelative(-1, 0, 0);
-        else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) block = b.getRelative(0, 0, -1);
+        if (b.getRelative(1, 0, 0).getType() == Material.DISPENSER) {
+            block = b.getRelative(1, 0, 0);
+        }
+        else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) {
+            block = b.getRelative(0, 0, 1);
+        }
+        else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) {
+            block = b.getRelative(-1, 0, 0);
+        }
+        else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) {
+            block = b.getRelative(0, 0, -1);
+        }
 
         return block;
     }

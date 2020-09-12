@@ -3,9 +3,10 @@ options:
   # These builds are much more tested and are far less likely to have any issues.
   # Note: When running a stable build auto-updates ONLY update to other stable builds! Perfect eh?
   # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/
-  
+
   auto-update: true
-  chat-prefix: '&a&lSlimefun 4 &7>'
+  backwards-compatibility: true
+  chat-prefix: '&a&lSlimefun 4&7> '
   armor-update-interval: 10
   enable-armor-effects: true
   auto-save-delay-in-minutes: 10
@@ -15,12 +16,15 @@ options:
   legacy-ore-grinder: true
   language: en
   enable-translations: true
-  
+  log-duplicate-block-entries: true
+  burn-players-when-radioactive: true
+  drop-excess-sf-give-items: false
+
 guide:
   default-view-book: false
   show-vanilla-recipes: true
   receive-on-first-join: true
-  
+
 researches:
   free-in-creative-mode: true
   enable-fireworks: true
@@ -38,6 +42,9 @@ items:
   talismans: true
   backpacks: true
   soulbound: true
+
+metrics:
+  auto-update: true
 
 research-ranks:
 - Chicken

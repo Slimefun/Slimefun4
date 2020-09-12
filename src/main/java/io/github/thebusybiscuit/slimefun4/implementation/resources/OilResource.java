@@ -1,17 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
-import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
-class OilResource implements GEOResource {
+class OilResource extends SlimefunResource {
 
-    private final NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance, "oil");
+    OilResource() {
+        super("oil", "Oil", SlimefunItems.OIL_BUCKET, 8, false);
+    }
 
     @Override
     public int getDefaultSupply(Environment environment, Biome biome) {
@@ -72,31 +70,6 @@ class OilResource implements GEOResource {
         default:
             return 10;
         }
-    }
-
-    @Override
-    public NamespacedKey getKey() {
-        return key;
-    }
-
-    @Override
-    public int getMaxDeviation() {
-        return 8;
-    }
-
-    @Override
-    public String getName() {
-        return "Oil";
-    }
-
-    @Override
-    public ItemStack getItem() {
-        return SlimefunItems.BUCKET_OF_OIL.clone();
-    }
-
-    @Override
-    public boolean isObtainableFromGEOMiner() {
-        return false;
     }
 
 }

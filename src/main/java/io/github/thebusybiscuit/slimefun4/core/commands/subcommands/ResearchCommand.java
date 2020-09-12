@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import java.util.Optional;
+import java.util.function.UnaryOperator;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class ResearchCommand extends SubCommand {
 
@@ -18,17 +19,7 @@ class ResearchCommand extends SubCommand {
     private static final String PLACEHOLDER_RESEARCH = "%research%";
 
     ResearchCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "research";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "research", false);
     }
 
     @Override
@@ -39,7 +30,7 @@ class ResearchCommand extends SubCommand {
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (args.length == 3) {
-            if (sender.hasPermission("slimefun.cheat.researches") || !(sender instanceof Player)) {
+            if (!(sender instanceof Player) || sender.hasPermission("slimefun.cheat.researches")) {
                 Optional<Player> player = PlayerList.findByName(args[1]);
 
                 if (player.isPresent()) {
@@ -59,13 +50,13 @@ class ResearchCommand extends SubCommand {
                     });
                 }
                 else {
-                    SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+                    SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
                 }
             }
-            else SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            else SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
         }
     }
 
@@ -73,18 +64,20 @@ class ResearchCommand extends SubCommand {
         Optional<Research> research = getResearchFromString(input);
 
         if (research.isPresent()) {
-            research.get().unlock(p, true);
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(p)));
+            research.get().unlock(p, true, player -> {
+                UnaryOperator<String> variables = msg -> msg.replace(PLACEHOLDER_PLAYER, player.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(player));
+                SlimefunPlugin.getLocalization().sendMessage(player, "messages.give-research", true, variables);
+            });
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
         }
     }
 
     private void researchAll(CommandSender sender, PlayerProfile profile, Player p) {
         for (Research res : SlimefunPlugin.getRegistry().getResearches()) {
             if (!profile.hasUnlocked(res)) {
-                SlimefunPlugin.getLocal().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName(p)));
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.give-research", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()).replace(PLACEHOLDER_RESEARCH, res.getName(p)));
             }
 
             res.unlock(p, true);
@@ -96,7 +89,7 @@ class ResearchCommand extends SubCommand {
             profile.setResearched(research, false);
         }
 
-        SlimefunPlugin.getLocal().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
+        SlimefunPlugin.getLocalization().sendMessage(p, "commands.research.reset", true, msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
     }
 
     private Optional<Research> getResearchFromString(String input) {

@@ -1,134 +1,96 @@
 ---
-minecraft:
-  blasting:
-    lore:
-    - 加熱燒一燒
-    - 成品出來了!
-    name: 高爐合成表
-  campfire:
-    lore:
-    - 加熱燒一燒
-    - "\t\n成品出來了!"
-    name: 營火合成表
-  furnace:
-    lore:
-    - 加熱燒一燒
-    - 成品出來了!
-    name: 熔爐合成表
-  shaped:
-    lore:
-    - 數量一樣
-    - 位置一致
-    - "(原版合成檯)"
-    name: 有序合成
-  shapeless:
-    lore:
-    - 數量一樣
-    - 位置不重要
-    - "(原版合成檯)"
-    name: 無序合成
-  smoking:
-    lore:
-    - 加熱燒一燒
-    - 成品出來了!
-    name: 煙燻爐合成表
-  stonecutting:
-    lore:
-    - 上去磨一磨
-    - "\t\n成品出來了!"
-    name: 切石機合成表
 slimefun:
-  ancient_altar:
+  multiblock:
+    name: 多重方塊
     lore:
-    - 使用古代祭壇
-    - 合成出該物品
-    - 到古代祭壇頁面獲取更多資訊
-    name: 古代祭壇(Ancient Altar)
-  armor_forge:
-    lore:
-    - 在盔甲鍛造檯中
-    - 鍛造出該物品
-    name: 盔甲鍛造檯(Armor Forge)
-  compressor:
-    lore:
-    - 使用壓縮機
-    - 壓縮出該物品
-    name: 壓縮機(Compressor)
+    - 在世界中蓋出該結構
+    - 這不是一個可合成的物品
   enhanced_crafting_table:
+    name: 進階合成檯(Enhanced Crafting Table)
     lore:
     - 在進階合成檯中
     - 合成出該物品
     - 原版工作檯沒用喔
-    name: 進階合成檯(Enhanced Crafting Table)
-  food_composter:
+  armor_forge:
+    name: 盔甲鍛造檯(Armor Forge)
     lore:
-    - 使用堆肥機
-    - 製造該物品
-    name: 堆肥機(Food Composter)
-  food_fabricator:
+    - 在盔甲鍛造檯中
+    - 鍛造出該物品
+  grind_stone:
+    name: 研磨機(Grind Stone)
     lore:
-    - 使用食品加工場
-    - 製造該物品
-    name: 食品加工場(Food Fabricator)
+    - 在研磨機中
+    - 研磨出該物品
+  smeltery:
+    name: 冶(一ㄝˇ )煉爐(Smeltery)
+    lore:
+    - 在冶煉爐中
+    - 冶煉出該物品
+  ore_crusher:
+    name: 礦石粉碎機(Ore Crusher)
+    lore:
+    - 使用礦石粉碎機
+    - 粉碎出該物品
+  mob_drop:
+    name: 怪物掉落物
+    lore:
+    - 擊殺該怪物
+    - 以取得該物品
   gold_pan:
+    name: 掏金盤(Gold Pan)[工具區]
     lore:
     - '使用掏金盤
 
 '
     - 篩出此物品
-    name: 掏金盤(Gold Pan)[工具區]
-  grind_stone:
+  compressor:
+    name: 壓縮機(Compressor)
     lore:
-    - 在研磨機中
-    - 研磨出該物品
-    name: 研磨機(Grind Stone)
-  heated_pressure_chamber:
-    lore:
-    - 使用高溫加壓室
+    - 使用壓縮機
     - 壓縮出該物品
-    name: |-
-      高溫加壓室
-      (Heated Pressure Chamber)
-  juicer:
-    lore:
-    - 使用果汁機
-    - 榨出蓋物品
-    name: 果汁機(Juicer)
-  magic_workbench:
-    lore:
-    - 使用魔法合成檯
-    - 合成出該物品
-    name: 魔法合成檯(Magic Workbench)
-  mob_drop:
-    lore:
-    - 擊殺該怪物
-    - 以取得該物品
-    name: 怪物掉落物
-  multiblock:
-    lore:
-    - 在世界中蓋出該結構
-    - 這不是一個可合成的物品
-    name: 多重方塊
-  ore_crusher:
-    lore:
-    - 使用礦石粉碎機
-    - 粉碎出該物品
-    name: 礦石粉碎機(Ore Crusher)
-  ore_washer:
-    lore:
-    - 使用礦物洗滌機
-    - 篩出該物品
-    name: 礦物洗滌機(Ore Washer)
   pressure_chamber:
+    name: 加壓室(Pressure Chamber)
     lore:
     - 使用加壓室
     - 壓縮出該物品
-    name: 加壓室(Pressure Chamber)
-  smeltery:
+  ore_washer:
+    name: 礦物洗滌機(Ore Washer)
     lore:
-    - 在冶煉爐中
-    - 冶煉出該物品
-    name: 冶(一ㄝˇ )煉爐(Smeltery)
+    - 使用礦物洗滌機
+    - 篩出該物品
+  juicer:
+    name: 果汁機(Juicer)
+    lore:
+    - 使用果汁機
+    - 榨出蓋物品
+  magic_workbench:
+    name: 魔法合成檯(Magic Workbench)
+    lore:
+    - 使用魔法合成檯
+    - 合成出該物品
+  ancient_altar:
+    name: 古代祭壇(Ancient Altar)
+    lore:
+    - 使用古代祭壇
+    - 合成出該物品
+    - 到古代祭壇頁面獲取更多資訊
+  heated_pressure_chamber:
+    name: |-
+      高溫加壓室
+      (Heated Pressure Chamber)
+    lore:
+    - 使用高溫加壓室
+    - 壓縮出該物品
+  food_fabricator:
+    name: 食品加工場(Food Fabricator)
+    lore:
+    - 使用食品加工場
+    - 製造該物品
+  food_composter:
+    name: 堆肥機(Food Composter)
+    lore:
+    - 使用堆肥機
+    - 製造該物品
   freezer:
     name: 冷凍艙(Freezer)
     lore:
@@ -160,3 +122,46 @@ slimefun:
     lore:
     - 使用煉油廠
     - 提煉該物品
+minecraft:
+  shaped:
+    name: 有序合成
+    lore:
+    - 數量一樣
+    - 位置一致
+    - "(原版合成檯)"
+  shapeless:
+    name: 無序合成
+    lore:
+    - 數量一樣
+    - 位置不重要
+    - "(原版合成檯)"
+  furnace:
+    name: 熔爐合成表
+    lore:
+    - 加熱燒一燒
+    - 成品出來了!
+  blasting:
+    name: 高爐合成表
+    lore:
+    - 加熱燒一燒
+    - 成品出來了!
+  smoking:
+    name: 煙燻爐合成表
+    lore:
+    - 加熱燒一燒
+    - 成品出來了!
+  campfire:
+    name: 營火合成表
+    lore:
+    - 加熱燒一燒
+    - "\t\n成品出來了!"
+  stonecutting:
+    name: 切石機合成表
+    lore:
+    - 上去磨一磨
+    - "\t\n成品出來了!"
+  smithing:
+    name: 鍛造台合成表
+    lore:
+    - 鍛造一下下
+    - 成品出來了

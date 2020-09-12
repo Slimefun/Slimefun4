@@ -4,12 +4,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
 import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 /**
  * Represents a {@link Contributor} who contributed to a GitHub repository.
@@ -22,29 +30,36 @@ import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
  */
 public class Contributor {
 
-    private static final String PLACEHOLDER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==";
-
     private final String githubUsername;
     private final String minecraftUsername;
     private final String profileLink;
+
     private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
     private final ComputedOptional<String> headTexture = ComputedOptional.createNew();
 
+    private Optional<UUID> uuid = Optional.empty();
     private boolean locked = false;
 
-    public Contributor(String username, String profile) {
+    public Contributor(@Nonnull String username, @Nonnull String profile) {
+        Validate.notNull(username, "Username must never be null!");
+        Validate.notNull(profile, "The profile cannot be null!");
+
         githubUsername = profile.substring(profile.lastIndexOf('/') + 1);
         minecraftUsername = username;
         profileLink = profile;
     }
 
-    public Contributor(String username) {
+    public Contributor(@Nonnull String username) {
+        Validate.notNull(username, "Username must never be null!");
+
         githubUsername = username;
         minecraftUsername = username;
         profileLink = null;
     }
 
-    public void setContribution(String role, int commits) {
+    public void setContribution(@Nonnull String role, int commits) {
+        Validate.notNull(role, "The role cannot be null!");
+
         if (!locked || role.startsWith("translator,")) {
             contributions.put(role, commits);
         }
@@ -55,6 +70,7 @@ public class Contributor {
      *
      * @return the name of this contributor
      */
+    @Nonnull
     public String getName() {
         return githubUsername;
     }
@@ -65,6 +81,7 @@ public class Contributor {
      *
      * @return The MC username of this contributor.
      */
+    @Nonnull
     public String getMinecraftName() {
         return minecraftUsername;
     }
@@ -74,10 +91,12 @@ public class Contributor {
      *
      * @return The GitHub profile of this {@link Contributor}
      */
+    @Nullable
     public String getProfile() {
         return profileLink;
     }
 
+    @Nonnull
     public List<Map.Entry<String, Integer>> getContributions() {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(contributions.entrySet());
         list.sort(Comparator.comparingInt(entry -> -entry.getValue()));
@@ -92,8 +111,29 @@ public class Contributor {
      *            The role for which to count the contributions.
      * @return The amount of contributions this {@link Contributor} submitted as the given role
      */
-    public int getContributions(String role) {
+    public int getContributions(@Nonnull String role) {
         return contributions.getOrDefault(role, 0);
+    }
+
+    /**
+     * This method sets the {@link UUID} for this {@link Contributor}.
+     * 
+     * @param uuid
+     *            The {@link UUID} for this {@link Contributor}
+     */
+    public void setUniqueId(@Nullable UUID uuid) {
+        this.uuid = uuid == null ? Optional.empty() : Optional.of(uuid);
+    }
+
+    /**
+     * This returns the {@link UUID} for this {@link Contributor}.
+     * This {@link UUID} may be loaded from a cache.
+     * 
+     * @return The {@link UUID} of this {@link Contributor}
+     */
+    @Nonnull
+    public Optional<UUID> getUniqueId() {
+        return uuid;
     }
 
     /**
@@ -103,9 +143,18 @@ public class Contributor {
      * 
      * @return A Base64-Head Texture
      */
+    @Nonnull
     public String getTexture() {
         if (!headTexture.isComputed() || !headTexture.isPresent()) {
-            return PLACEHOLDER_HEAD;
+            GitHubService github = SlimefunPlugin.getGitHubService();
+
+            if (github != null) {
+                String cached = github.getCachedTexture(githubUsername);
+                return cached != null ? cached : HeadTexture.UNKNOWN.getTexture();
+            }
+            else {
+                return HeadTexture.UNKNOWN.getTexture();
+            }
         }
         else {
             return headTexture.get();
@@ -122,7 +171,7 @@ public class Contributor {
         return headTexture.isComputed();
     }
 
-    public void setTexture(String skin) {
+    public void setTexture(@Nullable String skin) {
         headTexture.compute(skin);
     }
 
@@ -134,6 +183,7 @@ public class Contributor {
         return -getTotalContributions();
     }
 
+    @Nonnull
     public String getDisplayName() {
         return ChatColor.GRAY + githubUsername + (!githubUsername.equals(minecraftUsername) ? ChatColor.DARK_GRAY + " (MC: " + minecraftUsername + ")" : "");
     }

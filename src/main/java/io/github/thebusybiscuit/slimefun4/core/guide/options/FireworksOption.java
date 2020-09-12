@@ -10,18 +10,18 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class FireworksOption implements SlimefunGuideOption<Boolean> {
 
     @Override
     public SlimefunAddon getAddon() {
-        return SlimefunPlugin.instance;
+        return SlimefunPlugin.instance();
     }
 
     @Override
     public NamespacedKey getKey() {
-        return new NamespacedKey(SlimefunPlugin.instance, "research_fireworks");
+        return new NamespacedKey(SlimefunPlugin.instance(), "research_fireworks");
     }
 
     @Override

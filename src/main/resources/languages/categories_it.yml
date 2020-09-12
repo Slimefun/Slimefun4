@@ -4,18 +4,18 @@ slimefun:
   tools: Utensili
   items: Oggetti Utili
   food: Cibo
-  basic_machines: Macchine Base
+  basic_machines: Macchinari Base
   electricity: Energia ed Elettricità
-  gps: Macchine a GPS
-  armor: Armatura
+  gps: Macchine basate sul GPS
+  armor: Armature
   magical_items: Oggetti Magici
   magical_gadgets: Gadget Magici
-  misc: Oggetti Misti
-  technical_gadgets: Gadget Tecnici
+  misc: Oggetti Vari
+  technical_gadgets: Gadget Tecnologici
   resources: Risorse
   cargo: Gestione Cargo
-  tech_misc: Componenti Tecnici
-  magical_armor: Armatura Magica
+  tech_misc: Componenti Tecnologici
+  magical_armor: Armature Magiche
   talismans: Talismani (Livello I)
   ender_talismans: Talismani dell'End (Livello II)
   christmas: Natale (dicembre)
@@ -23,3 +23,4 @@ slimefun:
   easter: Pasqua (aprile)
   birthday: Compleanno di TheBusyBiscuit (26 ottobre)
   halloween: Halloween (31 ottobre)
+  androids: Androidi Programmabili

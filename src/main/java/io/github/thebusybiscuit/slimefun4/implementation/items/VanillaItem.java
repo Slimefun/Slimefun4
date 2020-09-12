@@ -1,10 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -38,6 +40,7 @@ public class VanillaItem extends SlimefunItem {
      * @param recipe
      *            the recipe to obtain this {@link VanillaItem}
      */
+    @ParametersAreNonnullByDefault
     public VanillaItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, id, recipeType, recipe);
 

@@ -7,19 +7,20 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-public abstract class FarmerAndroid extends ProgrammableAndroid {
+public class FarmerAndroid extends ProgrammableAndroid {
 
-    public FarmerAndroid(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public FarmerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(category, tier, item, recipeType, recipe);
     }
 
     @Override
@@ -28,9 +29,13 @@ public abstract class FarmerAndroid extends ProgrammableAndroid {
     }
 
     private boolean isFullGrown(Block block) {
-        if (!(block.getBlockData() instanceof Ageable)) return false;
+        BlockData data = block.getBlockData();
 
-        Ageable ageable = ((Ageable) block.getBlockData());
+        if (!(data instanceof Ageable)) {
+            return false;
+        }
+
+        Ageable ageable = (Ageable) data;
         return ageable.getAge() >= ageable.getMaximumAge();
     }
 
@@ -51,7 +56,7 @@ public abstract class FarmerAndroid extends ProgrammableAndroid {
 
     private ItemStack getDropFromCrop(Material crop) {
         Random random = ThreadLocalRandom.current();
-        
+
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) && crop == Material.SWEET_BERRY_BUSH) {
             return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
         }

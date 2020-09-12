@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 
 /**
@@ -20,6 +22,7 @@ public class PrematureCodeException extends RuntimeException {
      * @param message
      *            An error message to display
      */
+    @ParametersAreNonnullByDefault
     public PrematureCodeException(String message) {
         super("Slimefun code was invoked before Slimefun finished loading: " + message);
     }

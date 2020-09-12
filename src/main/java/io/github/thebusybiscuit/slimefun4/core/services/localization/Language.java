@@ -2,16 +2,19 @@ package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * This Class represents a {@link Language} that Slimefun can recognize and use.
@@ -25,6 +28,7 @@ public final class Language {
 
     private final String id;
     private final ItemStack item;
+    private double progress = -1;
 
     private FileConfiguration messages;
     private FileConfiguration researches;
@@ -41,12 +45,12 @@ public final class Language {
      * @param hash
      *            The hash of the skull texture to use
      */
-    public Language(String id, String hash) {
+    public Language(@Nonnull String id, @Nonnull String hash) {
         Validate.notNull(id, "A Language must have an id that is not null!");
         Validate.notNull(hash, "A Language must have a texture that is not null!");
 
         this.id = id;
-        this.item = SkullItem.fromHash(hash);
+        this.item = SlimefunUtils.getCustomHead(hash);
 
         SlimefunPlugin.getItemTextureService().setTexture(item, "_UI_LANGUAGE_" + id.toUpperCase(Locale.ROOT));
     }
@@ -56,47 +60,83 @@ public final class Language {
      * 
      * @return The identifier of this {@link Language}
      */
+    @Nonnull
     public String getId() {
         return id;
     }
 
-    public FileConfiguration getMessages() {
+    /**
+     * This method returns the progress of translation for this {@link Language}.
+     * The progress is determined by the amount of translated strings divided by the amount
+     * of strings in the english {@link Language} file and multiplied by 100.0
+     * 
+     * @return A percentage {@code (0.0 - 100.0)} for the progress of translation of this {@link Language}
+     */
+    public double getTranslationProgress() {
+        if (id.equals("en")) {
+            return 100.0;
+        }
+        else {
+            if (progress < 0) {
+                progress = SlimefunPlugin.getLocalization().calculateProgress(this);
+            }
+
+            return progress;
+        }
+    }
+
+    @Nullable
+    FileConfiguration getMessagesFile() {
         return messages;
     }
 
-    public FileConfiguration getResearches() {
+    @Nullable
+    FileConfiguration getResearchesFile() {
         return researches;
     }
 
-    public FileConfiguration getResources() {
+    @Nullable
+    FileConfiguration getResourcesFile() {
         return resources;
     }
 
-    public FileConfiguration getCategories() {
+    @Nullable
+    FileConfiguration getCategoriesFile() {
         return categories;
     }
 
-    public FileConfiguration getRecipeTypes() {
+    @Nullable
+    FileConfiguration getRecipeTypesFile() {
         return recipeTypes;
     }
 
-    public void setMessages(FileConfiguration config) {
+    public void setMessagesFile(@Nonnull FileConfiguration config) {
+        Validate.notNull(config);
+
         this.messages = config;
     }
 
-    public void setResearches(FileConfiguration config) {
+    public void setResearchesFile(@Nonnull FileConfiguration config) {
+        Validate.notNull(config);
+
         this.researches = config;
     }
 
-    public void setResources(FileConfiguration config) {
+    public void setResourcesFile(@Nonnull FileConfiguration config) {
+        Validate.notNull(config);
+
         this.resources = config;
     }
 
-    public void setCategories(FileConfiguration config) {
+    public void setCategoriesFile(@Nonnull FileConfiguration config) {
+        Validate.notNull(config);
+
         this.categories = config;
     }
 
-    public void setRecipeTypes(FileConfiguration config) {
+    public void setRecipeTypesFile(@Nonnull FileConfiguration config) {
+        Validate.notNull(config);
+
         this.recipeTypes = config;
     }
 
@@ -106,6 +146,7 @@ public final class Language {
      * 
      * @return The {@link ItemStack} used to display this {@link Language}
      */
+    @Nonnull
     public ItemStack getItem() {
         return item;
     }
@@ -118,8 +159,10 @@ public final class Language {
      *            The {@link Player} to localize the name for
      * @return The localized name of this {@link Language}
      */
-    public String getName(Player p) {
-        return SlimefunPlugin.getLocal().getMessage(p, "languages." + id);
+    @Nonnull
+    public String getName(@Nonnull Player p) {
+        String name = SlimefunPlugin.getLocalization().getMessage(p, "languages." + id);
+        return name != null ? name : toString();
     }
 
     /**
@@ -129,7 +172,17 @@ public final class Language {
      * @return Whether this is the default {@link Language} of this {@link Server}
      */
     public boolean isDefault() {
-        return this == SlimefunPlugin.getLocal().getDefaultLanguage();
+        return this == SlimefunPlugin.getLocalization().getDefaultLanguage();
+    }
+
+    @Override
+    public String toString() {
+        return "Language {id= " + id + ", default=" + isDefault() + " }";
+    }
+
+    @Nonnull
+    public FileConfiguration[] getFiles() {
+        return new FileConfiguration[] { getMessagesFile(), getCategoriesFile(), getResearchesFile(), getResourcesFile() };
     }
 
 }

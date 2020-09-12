@@ -1,15 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This Task initializes all items, some listeners and various other stuff.
@@ -32,7 +37,7 @@ public class SlimefunStartupTask implements Runnable {
      * @param runnable
      *            A {@link Runnable} containing additional operations that need to be run
      */
-    public SlimefunStartupTask(SlimefunPlugin plugin, Runnable runnable) {
+    public SlimefunStartupTask(@Nonnull SlimefunPlugin plugin, @Nonnull Runnable runnable) {
         this.plugin = plugin;
         this.runnable = runnable;
     }
@@ -48,7 +53,12 @@ public class SlimefunStartupTask implements Runnable {
         SlimefunPlugin.getWorldSettingsService().load(Bukkit.getWorlds());
 
         for (World world : Bukkit.getWorlds()) {
-            new BlockStorage(world);
+            try {
+                new BlockStorage(world);
+            }
+            catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
+            }
         }
 
         // Load all listeners that depend on items to be enabled

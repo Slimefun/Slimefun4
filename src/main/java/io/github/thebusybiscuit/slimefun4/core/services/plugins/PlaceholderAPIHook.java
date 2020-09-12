@@ -4,19 +4,24 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 class PlaceholderAPIHook extends PlaceholderExpansion {
 
-    @Override
-    public String getAuthor() {
-        return SlimefunPlugin.instance.getDescription().getAuthors().toString();
+    private final String version;
+    private final String author;
+
+    public PlaceholderAPIHook(@Nonnull SlimefunPlugin plugin) {
+        this.version = plugin.getDescription().getVersion();
+        this.author = plugin.getDescription().getAuthors().toString();
     }
 
     @Override
@@ -26,7 +31,12 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return SlimefunPlugin.instance.getDescription().getVersion();
+        return version;
+    }
+
+    @Override
+    public String getAuthor() {
+        return author;
     }
 
     @Override
@@ -85,7 +95,7 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
         }
 
         if (params.equals("timings_lag")) {
-            return SlimefunPlugin.getTicker().getTime() + "ms";
+            return SlimefunPlugin.getProfiler().getTime();
         }
 
         if (params.equals("language")) {
@@ -93,7 +103,7 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
                 return "Unknown";
             }
 
-            return SlimefunPlugin.getLocal().getLanguage((Player) p).getName((Player) p);
+            return SlimefunPlugin.getLocalization().getLanguage((Player) p).getName((Player) p);
         }
 
         return null;

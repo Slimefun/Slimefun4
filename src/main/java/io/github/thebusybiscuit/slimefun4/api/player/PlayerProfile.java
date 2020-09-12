@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,24 +12,38 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.stream.IntStream;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * A class that can store a Player's {@link Research} progress for caching purposes.
@@ -37,43 +52,76 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
  * @author TheBusyBiscuit
  * 
  * @see Research
+ * @see Waypoint
  * @see PlayerBackpack
+ * @see HashedArmorpiece
  *
  */
 public final class PlayerProfile {
 
     private final UUID uuid;
     private final String name;
-    private final Config cfg;
+
+    private final Config configFile;
+    private final Config waypointsFile;
 
     private boolean dirty = false;
     private boolean markedForDeletion = false;
 
     private final Set<Research> researches = new HashSet<>();
+    private final List<Waypoint> waypoints = new ArrayList<>();
     private final Map<Integer, PlayerBackpack> backpacks = new HashMap<>();
     private final GuideHistory guideHistory = new GuideHistory(this);
 
     private final HashedArmorpiece[] armor = { new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece() };
 
-    private PlayerProfile(OfflinePlayer p) {
+    private PlayerProfile(@Nonnull OfflinePlayer p) {
         this.uuid = p.getUniqueId();
         this.name = p.getName();
 
-        cfg = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
+        configFile = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
+        waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
 
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
-            if (cfg.contains("researches." + research.getID())) {
+            if (configFile.contains("researches." + research.getID())) {
                 researches.add(research);
+            }
+        }
+
+        for (String key : waypointsFile.getKeys()) {
+            try {
+                if (waypointsFile.contains(key + ".world") && Bukkit.getWorld(waypointsFile.getString(key + ".world")) != null) {
+                    String waypointName = waypointsFile.getString(key + ".name");
+                    Location loc = waypointsFile.getLocation(key);
+                    waypoints.add(new Waypoint(this, key, loc, waypointName));
+                }
+            }
+            catch (Exception x) {
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
             }
         }
     }
 
+    /**
+     * This method provides a fast way to access the armor of a {@link Player}.
+     * It returns a cached version, represented by {@link HashedArmorpiece}.
+     * 
+     * @return The cached armor for this {@link Player}
+     */
+    @Nonnull
     public HashedArmorpiece[] getArmor() {
         return armor;
     }
 
+    /**
+     * This returns the {@link Config} which is used to store the data.
+     * Only intended for internal usage.
+     * 
+     * @return The {@link Config} associated with this {@link PlayerProfile}
+     */
+    @Nonnull
     public Config getConfig() {
-        return cfg;
+        return configFile;
     }
 
     /**
@@ -81,6 +129,7 @@ public final class PlayerProfile {
      * 
      * @return The {@link UUID} of our {@link PlayerProfile}
      */
+    @Nonnull
     public UUID getUUID() {
         return uuid;
     }
@@ -112,7 +161,8 @@ public final class PlayerProfile {
             backpack.save();
         }
 
-        cfg.save();
+        waypointsFile.save();
+        configFile.save();
         dirty = false;
     }
 
@@ -125,16 +175,16 @@ public final class PlayerProfile {
      * @param unlock
      *            Whether the {@link Research} should be unlocked or locked
      */
-    public void setResearched(Research research, boolean unlock) {
+    public void setResearched(@Nonnull Research research, boolean unlock) {
         Validate.notNull(research, "Research must not be null!");
         dirty = true;
 
         if (unlock) {
-            cfg.setValue("researches." + research.getID(), true);
+            configFile.setValue("researches." + research.getID(), true);
             researches.add(research);
         }
         else {
-            cfg.setValue("researches." + research.getID(), null);
+            configFile.setValue("researches." + research.getID(), null);
             researches.remove(research);
         }
     }
@@ -146,7 +196,7 @@ public final class PlayerProfile {
      *            The {@link Research} that is being queried
      * @return Whether this {@link Research} has been unlocked
      */
-    public boolean hasUnlocked(Research research) {
+    public boolean hasUnlocked(@Nullable Research research) {
         if (research == null) {
             // No Research, no restriction
             return true;
@@ -160,8 +210,61 @@ public final class PlayerProfile {
      * 
      * @return A {@code Hashset<Research>} of all Researches this {@link Player} has unlocked
      */
+    @Nonnull
     public Set<Research> getResearches() {
-        return researches;
+        return ImmutableSet.copyOf(researches);
+    }
+
+    /**
+     * This returns a {@link List} of all {@link Waypoint Waypoints} belonging to this
+     * {@link PlayerProfile}.
+     * 
+     * @return A {@link List} containing every {@link Waypoint}
+     */
+    @Nonnull
+    public List<Waypoint> getWaypoints() {
+        return ImmutableList.copyOf(waypoints);
+    }
+
+    /**
+     * This adds the given {@link Waypoint} to the {@link List} of {@link Waypoint Waypoints}
+     * of this {@link PlayerProfile}.
+     * 
+     * @param waypoint
+     *            The {@link Waypoint} to add
+     */
+    public void addWaypoint(@Nonnull Waypoint waypoint) {
+        Validate.notNull(waypoint, "Cannot add a 'null' waypoint!");
+
+        for (Waypoint wp : waypoints) {
+            if (wp.getId().equals(waypoint.getId())) {
+                throw new IllegalArgumentException("A Waypoint with that id already exists for this Player");
+            }
+        }
+
+        if (waypoints.size() < 21) {
+            waypoints.add(waypoint);
+
+            waypointsFile.setValue(waypoint.getId(), waypoint.getLocation());
+            waypointsFile.setValue(waypoint.getId() + ".name", waypoint.getName());
+            markDirty();
+        }
+    }
+
+    /**
+     * This removes the given {@link Waypoint} from the {@link List} of {@link Waypoint Waypoints}
+     * of this {@link PlayerProfile}.
+     * 
+     * @param waypoint
+     *            The {@link Waypoint} to remove
+     */
+    public void removeWaypoint(@Nonnull Waypoint waypoint) {
+        Validate.notNull(waypoint, "Cannot remove a 'null' waypoint!");
+
+        if (waypoints.remove(waypoint)) {
+            waypointsFile.setValue(waypoint.getId(), null);
+            markDirty();
+        }
     }
 
     /**
@@ -169,18 +272,19 @@ public final class PlayerProfile {
      * The profile can then be removed from RAM.
      */
     public void markForDeletion() {
-        this.markedForDeletion = true;
+        markedForDeletion = true;
     }
 
     /**
      * Call this method if this Profile has unsaved changes.
      */
     public void markDirty() {
-        this.dirty = true;
+        dirty = true;
     }
 
+    @Nonnull
     public PlayerBackpack createBackpack(int size) {
-        IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !cfg.contains("backpacks." + i + ".size"));
+        IntStream stream = IntStream.iterate(0, i -> i + 1).filter(i -> !configFile.contains("backpacks." + i + ".size"));
         int id = stream.findFirst().getAsInt();
 
         PlayerBackpack backpack = new PlayerBackpack(this, id, size);
@@ -189,6 +293,7 @@ public final class PlayerProfile {
         return backpack;
     }
 
+    @Nonnull
     public Optional<PlayerBackpack> getBackpack(int id) {
         if (id < 0) {
             throw new IllegalArgumentException("Backpacks cannot have negative ids!");
@@ -199,7 +304,7 @@ public final class PlayerProfile {
         if (backpack != null) {
             return Optional.of(backpack);
         }
-        else if (cfg.contains("backpacks." + id + ".size")) {
+        else if (configFile.contains("backpacks." + id + ".size")) {
             backpack = new PlayerBackpack(this, id);
             backpacks.put(id, backpack);
             return Optional.of(backpack);
@@ -208,6 +313,7 @@ public final class PlayerProfile {
         return Optional.empty();
     }
 
+    @Nonnull
     public String getTitle() {
         List<String> titles = SlimefunPlugin.getRegistry().getResearchRanks();
 
@@ -217,18 +323,18 @@ public final class PlayerProfile {
         return titles.get(index);
     }
 
-    public void sendStats(CommandSender sender) {
-        Set<Research> researched = getResearches();
-        int levels = researched.stream().mapToInt(Research::getCost).sum();
-        int totalResearches = SlimefunPlugin.getRegistry().getResearches().size();
+    public void sendStats(@Nonnull CommandSender sender) {
+        Set<Research> unlockedResearches = getResearches();
+        int levels = unlockedResearches.stream().mapToInt(Research::getCost).sum();
+        int allResearches = SlimefunPlugin.getRegistry().getResearches().size();
 
-        float progress = Math.round(((researched.size() * 100.0F) / totalResearches) * 100.0F) / 100.0F;
+        float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
 
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Statistics for Player: &b" + name));
         sender.sendMessage("");
         sender.sendMessage(ChatColors.color("&7Title: " + ChatColor.AQUA + getTitle()));
-        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + researched.size() + " / " + totalResearches + ')'));
+        sender.sendMessage(ChatColors.color("&7Research Progress: " + NumberUtils.getColorFromPercentage(progress) + progress + " &r% " + ChatColor.YELLOW + '(' + unlockedResearches.size() + " / " + allResearches + ')'));
         sender.sendMessage(ChatColors.color("&7Total XP Levels spent: " + ChatColor.AQUA + levels));
     }
 
@@ -238,6 +344,7 @@ public final class PlayerProfile {
      * 
      * @return The {@link Player} of this {@link PlayerProfile} or null
      */
+    @Nullable
     public Player getPlayer() {
         return Bukkit.getPlayer(getUUID());
     }
@@ -248,25 +355,28 @@ public final class PlayerProfile {
      * 
      * @return The {@link GuideHistory} of this {@link Player}
      */
+    @Nonnull
     public GuideHistory getGuideHistory() {
         return guideHistory;
     }
 
-    public static boolean fromUUID(UUID uuid, Consumer<PlayerProfile> callback) {
+    public static boolean fromUUID(@Nonnull UUID uuid, @Nonnull Consumer<PlayerProfile> callback) {
         return get(Bukkit.getOfflinePlayer(uuid), callback);
     }
 
     /**
-     * Get the PlayerProfile for a player asynchronously.
+     * Get the {@link PlayerProfile} for a {@link OfflinePlayer} asynchronously.
      *
      * @param p
-     *            The player who's profile to retrieve
+     *            The {@link OfflinePlayer} who's {@link PlayerProfile} to retrieve
      * @param callback
-     *            The callback with the PlayerProfile
+     *            The callback with the {@link PlayerProfile}
      * 
-     * @return If the player was cached or not.
+     * @return If the {@link OfflinePlayer} was cached or not.
      */
-    public static boolean get(OfflinePlayer p, Consumer<PlayerProfile> callback) {
+    public static boolean get(@Nonnull OfflinePlayer p, @Nonnull Consumer<PlayerProfile> callback) {
+        Validate.notNull(p, "Cannot get a PlayerProfile for: null!");
+
         UUID uuid = p.getUniqueId();
         PlayerProfile profile = SlimefunPlugin.getRegistry().getPlayerProfiles().get(uuid);
 
@@ -275,7 +385,7 @@ public final class PlayerProfile {
             return true;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
             PlayerProfile pp = new PlayerProfile(p);
             SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
             callback.accept(pp);
@@ -293,10 +403,10 @@ public final class PlayerProfile {
      * 
      * @return Whether the {@link PlayerProfile} was already loaded
      */
-    public static boolean request(OfflinePlayer p) {
+    public static boolean request(@Nonnull OfflinePlayer p) {
         if (!SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
             // Should probably prevent multiple requests for the same profile in the future
-            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
                 PlayerProfile pp = new PlayerProfile(p);
                 SlimefunPlugin.getRegistry().getPlayerProfiles().put(p.getUniqueId(), pp);
             });
@@ -317,15 +427,17 @@ public final class PlayerProfile {
      * 
      * @return An {@link Optional} describing the result
      */
-    public static Optional<PlayerProfile> find(OfflinePlayer p) {
+    @Nonnull
+    public static Optional<PlayerProfile> find(@Nonnull OfflinePlayer p) {
         return Optional.ofNullable(SlimefunPlugin.getRegistry().getPlayerProfiles().get(p.getUniqueId()));
     }
 
+    @Nonnull
     public static Iterator<PlayerProfile> iterator() {
         return SlimefunPlugin.getRegistry().getPlayerProfiles().values().iterator();
     }
 
-    public static void getBackpack(ItemStack item, Consumer<PlayerBackpack> callback) {
+    public static void getBackpack(@Nullable ItemStack item, @Nonnull Consumer<PlayerBackpack> callback) {
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) {
             return;
         }
@@ -349,11 +461,43 @@ public final class PlayerProfile {
             fromUUID(UUID.fromString(uuid), profile -> {
                 Optional<PlayerBackpack> backpack = profile.getBackpack(number);
 
-                if (backpack.isPresent()) {
-                    callback.accept(backpack.get());
-                }
+                backpack.ifPresent(callback);
             });
         }
+    }
+
+    public boolean hasFullProtectionAgainst(@Nonnull ProtectionType type) {
+        int armorCount = 0;
+        NamespacedKey setId = null;
+
+        for (HashedArmorpiece armorpiece : armor) {
+            Optional<SlimefunArmorPiece> armorPiece = armorpiece.getItem();
+
+            if (!armorPiece.isPresent()) {
+                setId = null;
+            }
+            else if (armorPiece.get() instanceof ProtectiveArmor) {
+                ProtectiveArmor protectedArmor = (ProtectiveArmor) armorPiece.get();
+
+                if (setId == null && protectedArmor.isFullSetRequired()) {
+                    setId = protectedArmor.getArmorSetId();
+                }
+
+                for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
+                    if (protectionType == type) {
+                        if (setId == null) {
+                            return true;
+                        }
+                        else if (setId.equals(protectedArmor.getArmorSetId())) {
+                            armorCount++;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return armorCount == 4;
     }
 
     @Override

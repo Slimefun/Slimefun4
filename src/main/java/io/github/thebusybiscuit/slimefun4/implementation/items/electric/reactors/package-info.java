@@ -1,5 +1,5 @@
 /**
  * This package contains the different implementations of
- * {@link me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor}.
+ * {@link io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor}.
  */
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors;

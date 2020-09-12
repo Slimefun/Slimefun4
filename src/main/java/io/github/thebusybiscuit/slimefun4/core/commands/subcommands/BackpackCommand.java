@@ -9,20 +9,15 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 class BackpackCommand extends SubCommand {
 
     BackpackCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "backpack";
+        super(plugin, cmd, "backpack", false);
     }
 
     @Override
@@ -31,49 +26,43 @@ class BackpackCommand extends SubCommand {
     }
 
     @Override
-    public boolean isHidden() {
-        return false;
-    }
-
-    @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player) || !sender.hasPermission("slimefun.command.backpack")) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             return;
         }
 
         if (args.length != 3) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack <Player> <ID>"));
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack <Player> <ID>"));
             return;
         }
 
-        Player p = (Player) sender;
         if (!PatternUtils.NUMERIC.matcher(args[2]).matches()) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.invalid-id");
+            SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.invalid-id");
+            return;
+        }
+
+        @SuppressWarnings("deprecation")
+        OfflinePlayer backpackOwner = Bukkit.getOfflinePlayer(args[1]);
+
+        if (!(backpackOwner instanceof Player) && !backpackOwner.hasPlayedBefore()) {
+            SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.player-never-joined");
             return;
         }
 
         int id = Integer.parseInt(args[2]);
 
-        @SuppressWarnings("deprecation")
-        OfflinePlayer owner = Bukkit.getOfflinePlayer(args[1]);
-
-        if (!owner.hasPlayedBefore()) {
-            SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.player-never-joined");
-            return;
-        }
-
-        PlayerProfile.get(owner, profile -> {
+        PlayerProfile.get(backpackOwner, profile -> {
             if (!profile.getBackpack(id).isPresent()) {
-                SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.backpack-does-not-exist");
+                SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.backpack-does-not-exist");
                 return;
             }
 
             Slimefun.runSync(() -> {
                 ItemStack item = SlimefunItems.RESTORED_BACKPACK.clone();
-                SlimefunPlugin.getBackpackListener().setBackpackId(p, item, 2, id);
-                p.getInventory().addItem(item);
-                SlimefunPlugin.getLocal().sendMessage(sender, "commands.backpack.restored-backpack-given");
+                SlimefunPlugin.getBackpackListener().setBackpackId(backpackOwner, item, 2, id);
+                ((Player) sender).getInventory().addItem(item);
+                SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.restored-backpack-given");
             });
         });
     }

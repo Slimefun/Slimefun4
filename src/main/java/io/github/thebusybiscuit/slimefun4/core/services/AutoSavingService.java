@@ -5,13 +5,15 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -34,7 +36,7 @@ public class AutoSavingService {
      * @param interval
      *            The interval in which to run this task
      */
-    public void start(SlimefunPlugin plugin, int interval) {
+    public void start(@Nonnull SlimefunPlugin plugin, int interval) {
         this.interval = interval;
 
         plugin.getServer().getScheduler().runTaskTimer(plugin, this::saveAllPlayers, 2000L, interval * 60L * 20L);
@@ -44,7 +46,7 @@ public class AutoSavingService {
 
     /**
      * This method saves every {@link PlayerProfile} in memory and removes profiles
-     * that were markes for deletion.
+     * that were marked for deletion.
      */
     private void saveAllPlayers() {
         Iterator<PlayerProfile> iterator = PlayerProfile.iterator();
@@ -64,7 +66,7 @@ public class AutoSavingService {
         }
 
         if (players > 0) {
-            Slimefun.getLogger().log(Level.INFO, "Auto-Saved Player Data for {0} Player(s)!", players);
+            Slimefun.getLogger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
         }
     }
 
@@ -86,12 +88,14 @@ public class AutoSavingService {
         }
 
         if (!worlds.isEmpty()) {
-            Slimefun.getLogger().log(Level.INFO, "Auto-Saving Block Data... (Next Auto-Save: {0}m)", interval);
+            Slimefun.getLogger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
 
             for (BlockStorage storage : worlds) {
-                storage.save(false);
+                storage.save();
             }
         }
+
+        BlockStorage.saveChunks();
     }
 
 }

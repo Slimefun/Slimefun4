@@ -7,36 +7,27 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class GuideCommand extends SubCommand {
 
     GuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "guide";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "guide", false);
     }
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             if (sender.hasPermission("slimefun.command.guide")) {
-                ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST));
+                SlimefunGuideLayout design = SlimefunGuide.getDefaultLayout();
+                ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(design).clone());
             }
             else {
-                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }
 

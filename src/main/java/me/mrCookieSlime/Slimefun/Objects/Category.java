@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
@@ -19,7 +22,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -49,6 +52,7 @@ public class Category implements Keyed {
      * @param item
      *            The {@link ItemStack} that is used to display this {@link Category}
      */
+    @ParametersAreNonnullByDefault
     public Category(NamespacedKey key, ItemStack item) {
         this(key, item, 3);
     }
@@ -65,6 +69,7 @@ public class Category implements Keyed {
      *            The tier of this {@link Category}, higher tiers will make this {@link Category} appear further down in
      *            the {@link SlimefunGuide}
      */
+    @ParametersAreNonnullByDefault
     public Category(NamespacedKey key, ItemStack item, int tier) {
         Validate.notNull(key, "A Category's NamespacedKey must not be null!");
         Validate.notNull(item, "A Category's ItemStack must not be null!");
@@ -75,6 +80,7 @@ public class Category implements Keyed {
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         this.item.setItemMeta(meta);
         this.tier = tier;
     }
@@ -100,7 +106,7 @@ public class Category implements Keyed {
      * @param item
      *            the {@link SlimefunItem} that should be added to this {@link Category}
      */
-    public void add(SlimefunItem item) {
+    public void add(@Nonnull SlimefunItem item) {
         Validate.notNull(item, "Cannot add null Items to a Category!");
 
         if (items.contains(item)) {
@@ -117,7 +123,8 @@ public class Category implements Keyed {
      * @param item
      *            the {@link SlimefunItem} that should be removed from this {@link Category}
      */
-    public void remove(SlimefunItem item) {
+    public void remove(@Nonnull SlimefunItem item) {
+        Validate.notNull(item, "Cannot remove null from a Category!");
         items.remove(item);
     }
 
@@ -129,10 +136,14 @@ public class Category implements Keyed {
      *            The Player to create this {@link ItemStack} for
      * @return A localized display item for this {@link Category}
      */
-    public ItemStack getItem(Player p) {
+    @Nonnull
+    public ItemStack getItem(@Nonnull Player p) {
         return new CustomItem(item, meta -> {
-            String name = SlimefunPlugin.getLocal().getCategoryName(p, getKey());
-            if (name == null) name = item.getItemMeta().getDisplayName();
+            String name = SlimefunPlugin.getLocalization().getCategoryName(p, getKey());
+
+            if (name == null) {
+                name = item.getItemMeta().getDisplayName();
+            }
 
             if (this instanceof SeasonalCategory) {
                 meta.setDisplayName(ChatColor.GOLD + name);
@@ -141,7 +152,7 @@ public class Category implements Keyed {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category")));
+            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
         });
     }
 
@@ -151,6 +162,7 @@ public class Category implements Keyed {
      * 
      * @return The unlocalized name of this {@link Category}
      */
+    @Nonnull
     public String getUnlocalizedName() {
         return ChatColor.stripColor(item.getItemMeta().getDisplayName());
     }
@@ -160,6 +172,7 @@ public class Category implements Keyed {
      * 
      * @return the list of SlimefunItems bound to this category
      */
+    @Nonnull
     public List<SlimefunItem> getItems() {
         return items;
     }
@@ -199,9 +212,10 @@ public class Category implements Keyed {
      * 
      * @param p
      *            The {@link Player} to check for
+     * 
      * @return Whether this {@link Category} will be hidden to the given {@link Player}
      */
-    public boolean isHidden(Player p) {
+    public boolean isHidden(@Nonnull Player p) {
         for (SlimefunItem slimefunItem : getItems()) {
             if (!slimefunItem.isHidden() && Slimefun.isEnabled(p, slimefunItem, false)) {
                 return false;
@@ -209,6 +223,16 @@ public class Category implements Keyed {
         }
 
         return true;
+    }
+
+    /**
+     * This method returns whether this {@link Category} has been registered yet.
+     * More specifically: Whether {@link #register()} was called or not.
+     * 
+     * @return Whether this {@link Category} has been registered
+     */
+    public boolean isRegistered() {
+        return SlimefunPlugin.getRegistry().getCategories().contains(this);
     }
 
 }

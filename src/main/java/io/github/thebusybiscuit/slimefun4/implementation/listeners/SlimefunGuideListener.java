@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -12,14 +15,14 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 
 public class SlimefunGuideListener implements Listener {
 
     private final boolean giveOnFirstJoin;
 
-    public SlimefunGuideListener(SlimefunPlugin plugin, boolean giveOnFirstJoin) {
+    public SlimefunGuideListener(@Nonnull SlimefunPlugin plugin, boolean giveOnFirstJoin) {
         this.giveOnFirstJoin = giveOnFirstJoin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -33,8 +36,8 @@ public class SlimefunGuideListener implements Listener {
                 return;
             }
 
-            SlimefunGuideLayout type = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book") ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST;
-            p.getInventory().addItem(SlimefunGuide.getItem(type));
+            SlimefunGuideLayout type = SlimefunGuide.getDefaultLayout();
+            p.getInventory().addItem(SlimefunGuide.getItem(type).clone());
         }
     }
 
@@ -65,15 +68,17 @@ public class SlimefunGuideListener implements Listener {
         }
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private Result openGuide(PlayerRightClickEvent e, SlimefunGuideLayout layout) {
         Player p = e.getPlayer();
         ItemStack item = e.getItem();
 
-        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true)) {
+        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true, false)) {
             e.cancel();
 
             if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-item", true);
                 return Result.DENY;
             }
 

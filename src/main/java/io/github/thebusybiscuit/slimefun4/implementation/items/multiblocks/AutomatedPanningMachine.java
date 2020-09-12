@@ -15,20 +15,21 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.MultiBlockMachine;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class AutomatedPanningMachine extends MultiBlockMachine {
 
     private final GoldPan goldPan = (GoldPan) SlimefunItems.GOLD_PAN.getItem();
     private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();
 
-    public AutomatedPanningMachine(Category category) {
-        super(category, SlimefunItems.AUTOMATED_PANNING_MACHINE, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, new ItemStack[0], BlockFace.SELF);
+    public AutomatedPanningMachine(Category category, SlimefunItemStack item) {
+        super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
     public void onInteract(Player p, Block b) {
         ItemStack input = p.getInventory().getItemInMainHand();
 
-        if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.GRAVEL), true) || SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true)) {
+        if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.GRAVEL), true, false) || SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SOUL_SAND), true, false)) {
             Material material = input.getType();
 
             if (p.getGameMode() != GameMode.CREATIVE) {
@@ -75,10 +76,10 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
                 }
             });
 
-            queue.execute(SlimefunPlugin.instance);
+            queue.execute(SlimefunPlugin.instance());
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
         }
     }
 

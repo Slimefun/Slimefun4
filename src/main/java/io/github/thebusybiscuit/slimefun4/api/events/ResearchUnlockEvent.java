@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -19,39 +22,46 @@ public class ResearchUnlockEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private Player player;
-    private Research research;
+    private final Player player;
+    private final Research research;
     private boolean cancelled;
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public ResearchUnlockEvent(Player p, Research research) {
+    public ResearchUnlockEvent(@Nonnull Player p, @Nonnull Research research) {
+        Validate.notNull(p, "The Player cannot be null");
+        Validate.notNull(research, "Research cannot be null");
         this.player = p;
         this.research = research;
     }
 
+    @Nonnull
     public Player getPlayer() {
-        return this.player;
+        return player;
     }
 
+    @Nonnull
     public Research getResearch() {
-        return this.research;
+        return research;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

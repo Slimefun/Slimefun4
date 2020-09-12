@@ -1,10 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Server;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -29,6 +35,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuid
 public class MinecraftRecipeService {
 
     private final Plugin plugin;
+    private final List<Consumer<RecipeSnapshot>> subscriptions = new LinkedList<>();
+
     private RecipeSnapshot snapshot;
 
     /**
@@ -40,7 +48,7 @@ public class MinecraftRecipeService {
      * @param plugin
      *            The {@link Plugin} that requests this Service
      */
-    public MinecraftRecipeService(Plugin plugin) {
+    public MinecraftRecipeService(@Nonnull Plugin plugin) {
         this.plugin = plugin;
     }
 
@@ -49,6 +57,23 @@ public class MinecraftRecipeService {
      */
     public void refresh() {
         snapshot = new RecipeSnapshot(plugin);
+
+        for (Consumer<RecipeSnapshot> subscriber : subscriptions) {
+            subscriber.accept(snapshot);
+        }
+    }
+
+    /**
+     * This method subscribes to the underlying {@link RecipeSnapshot}.
+     * When the {@link Server} has finished loading and a {@link Collection} of all
+     * {@link Recipe Recipes} is created, the given callback will be run.
+     * 
+     * @param subscription
+     *            A callback to run when the {@link RecipeSnapshot} has been created.
+     */
+    public void subscribe(@Nonnull Consumer<RecipeSnapshot> subscription) {
+        Validate.notNull(subscription, "Callback must not be null!");
+        subscriptions.add(subscription);
     }
 
     /**
@@ -60,12 +85,25 @@ public class MinecraftRecipeService {
      * 
      * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
      */
-    public Optional<ItemStack> getFurnaceOutput(ItemStack input) {
-        if (input == null) {
+    @Nonnull
+    public Optional<ItemStack> getFurnaceOutput(@Nullable ItemStack input) {
+        if (snapshot == null || input == null) {
             return Optional.empty();
         }
 
         return snapshot.getRecipeOutput(MinecraftRecipe.FURNACE, input);
+    }
+
+    /**
+     * This returns whether a given {@link ItemStack} can be smelted in a {@link FurnaceRecipe}.
+     * 
+     * @param input
+     *            The {@link ItemStack} to test
+     * 
+     * @return Whether this item can be smelted
+     */
+    public boolean isSmeltable(@Nullable ItemStack input) {
+        return getFurnaceOutput(input).isPresent();
     }
 
     /**
@@ -79,7 +117,8 @@ public class MinecraftRecipeService {
      *            The {@link Recipe} to get the shape from
      * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
      */
-    public RecipeChoice[] getRecipeShape(Recipe recipe) {
+    @Nonnull
+    public RecipeChoice[] getRecipeShape(@Nonnull Recipe recipe) {
         Validate.notNull(recipe, "Recipe must not be null!");
 
         if (recipe instanceof ShapedRecipe) {
@@ -113,8 +152,9 @@ public class MinecraftRecipeService {
      *            The {@link ItemStack} for which to get the recipes
      * @return An array of {@link Recipe Recipes} to craft the given {@link ItemStack}
      */
-    public Recipe[] getRecipesFor(ItemStack item) {
-        if (item == null) {
+    @Nonnull
+    public Recipe[] getRecipesFor(@Nullable ItemStack item) {
+        if (snapshot == null || item == null) {
             return new Recipe[0];
         }
         else {

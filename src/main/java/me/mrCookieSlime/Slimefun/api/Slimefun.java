@@ -4,71 +4,30 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.Research;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ItemState;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * Provides a few convenience methods.
+ * Provides a few static convenience methods.
  *
- * @since 4.0
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * @author Poslovitch
  */
 public final class Slimefun {
 
     private Slimefun() {}
 
     public static Logger getLogger() {
-        return SlimefunPlugin.instance.getLogger();
-    }
-
-    /**
-     * Registers a research.
-     * 
-     * @deprecated The Research class was moved, this method is no longer valid. Please use
-     *             {@link io.github.thebusybiscuit.slimefun4.core.researching.Research#register()} instead.
-     * 
-     * @param research
-     *            The research
-     * @param items
-     *            The items
-     */
-    @Deprecated
-    public static void registerResearch(Research research, ItemStack... items) {
-        for (ItemStack item : items) {
-            research.addItems(SlimefunItem.getByItem(item));
-        }
-
-        research.register();
-    }
-
-    /**
-     * Registers a research.
-     * 
-     * @deprecated The Research class was moved, this method is no longer valid. Please use
-     *             {@link io.github.thebusybiscuit.slimefun4.core.researching.Research#register()} instead.
-     * 
-     * @param key
-     *            The key
-     * @param id
-     *            The id
-     * @param name
-     *            The name
-     * @param cost
-     *            The default cost
-     * @param items
-     *            The items
-     */
-    @Deprecated
-    public static void registerResearch(NamespacedKey key, int id, String name, int cost, ItemStack... items) {
-        registerResearch(new Research(key, id, name, cost), items);
+        return SlimefunPlugin.instance().getLogger();
     }
 
     /**
@@ -132,7 +91,7 @@ public final class Slimefun {
                 }
                 else {
                     if (message && !(sfItem instanceof VanillaItem)) {
-                        SlimefunPlugin.getLocal().sendMessage(p, "messages.not-researched", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-researched", true);
                     }
 
                     return false;
@@ -165,7 +124,7 @@ public final class Slimefun {
         }
         else {
             if (message) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.no-permission", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-permission", true);
             }
 
             return false;
@@ -207,14 +166,14 @@ public final class Slimefun {
     public static boolean isEnabled(Player p, SlimefunItem sfItem, boolean message) {
         if (sfItem.isDisabled()) {
             if (message) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-item", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-item", true);
             }
 
             return false;
         }
         else if (!SlimefunPlugin.getWorldSettingsService().isEnabled(p.getWorld(), sfItem)) {
             if (message) {
-                SlimefunPlugin.getLocal().sendMessage(p, "messages.disabled-in-world", true);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-in-world", true);
             }
 
             return false;
@@ -223,10 +182,28 @@ public final class Slimefun {
     }
 
     public static BukkitTask runSync(Runnable r) {
-        return Bukkit.getScheduler().runTask(SlimefunPlugin.instance, r);
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            r.run();
+            return null;
+        }
+
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
+            return null;
+        }
+
+        return Bukkit.getScheduler().runTask(SlimefunPlugin.instance(), r);
     }
 
     public static BukkitTask runSync(Runnable r, long delay) {
-        return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, r, delay);
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            r.run();
+            return null;
+        }
+
+        if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
+            return null;
+        }
+
+        return Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), r, delay);
     }
 }

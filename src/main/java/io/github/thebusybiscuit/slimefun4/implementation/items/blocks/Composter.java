@@ -8,25 +8,27 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
@@ -48,12 +50,12 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
     private List<ItemStack> getMachineRecipes() {
         List<ItemStack> items = new LinkedList<>();
 
-        for (Material leave : MaterialCollections.getAllLeaves()) {
+        for (Material leave : Tag.LEAVES.getValues()) {
             items.add(new ItemStack(leave, 8));
             items.add(new ItemStack(Material.DIRT));
         }
 
-        for (Material sapling : MaterialCollections.getAllSaplings()) {
+        for (Material sapling : Tag.SAPLINGS.getValues()) {
             items.add(new ItemStack(sapling, 8));
             items.add(new ItemStack(Material.DIRT));
         }
@@ -86,22 +88,22 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                     ItemStack output = getOutput(p, input);
 
                     if (output != null) {
-                        for (int j = 1; j < 12; j++) {
-                            int index = j;
+                        TaskQueue tasks = new TaskQueue();
 
-                            Slimefun.runSync(() -> {
-                                if (index < 11) {
-                                    b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, input.getType().isBlock() ? input.getType() : Material.HAY_BLOCK);
-                                }
-                                else {
-                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                                    pushItem(b, output.clone());
-                                }
-                            }, j * 30L);
-                        }
+                        tasks.thenRepeatEvery(30, 10, () -> {
+                            Material material = input.getType().isBlock() ? input.getType() : Material.HAY_BLOCK;
+                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, material);
+                        });
+
+                        tasks.thenRun(20, () -> {
+                            p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                            pushItem(b, output.clone());
+                        });
+
+                        tasks.execute(SlimefunPlugin.instance());
                     }
                     else {
-                        SlimefunPlugin.getLocal().sendMessage(p, "machines.wrong-item", true);
+                        SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
                     }
                 }
             }
@@ -129,10 +131,14 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
 
                 if (id != null && id.equals("OUTPUT_CHEST")) {
                     // Found the output chest! Now, let's check if we can fit the product in it.
-                    Inventory inv = ((Chest) potentialOutput.getState()).getInventory();
+                    BlockState state = PaperLib.getBlockState(potentialOutput, false).getState();
 
-                    if (InvUtils.fits(inv, output)) {
-                        return Optional.of(inv);
+                    if (state instanceof Chest) {
+                        Inventory inv = ((Chest) state).getInventory();
+
+                        if (InvUtils.fits(inv, output)) {
+                            return Optional.of(inv);
+                        }
                     }
                 }
             }

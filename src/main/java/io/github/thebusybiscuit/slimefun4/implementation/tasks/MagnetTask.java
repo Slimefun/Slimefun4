@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -31,7 +34,7 @@ public class MagnetTask extends PlayerTask {
      * @param radius
      *            The radius in which items should be picked up
      */
-    public MagnetTask(Player p, double radius) {
+    public MagnetTask(@Nonnull Player p, double radius) {
         super(p);
 
         this.radius = radius;
@@ -53,7 +56,7 @@ public class MagnetTask extends PlayerTask {
         }
 
         if (playSound) {
-            p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.25F, 0.9F);
+            p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 0.25F, 0.9F);
         }
     }
 

@@ -4,72 +4,73 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.thebusybiscuit</groupId>
+    <groupId>com.github.thebusybiscuit</groupId>
     <artifactId>Slimefun</artifactId>
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
     <!-- from overriding our local test file -->
-    <version>4.3-UNOFFICIAL</version>
+    <version>4.8-UNOFFICIAL</version>
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
-    <description>Slimefun is a Bukkit / Spigot plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
-    <url>https://github.com/TheBusyBiscuit/Slimefun4</url>
+    <description>Slimefun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
+    <url>https://github.com/Slimefun/Slimefun4</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <!-- Bukkit properties -->
-        <bukkit.version>1.15.2</bukkit.version>
-        <bukkit.javadocs>https://hub.spigotmc.org/javadocs/bukkit/</bukkit.javadocs>
+        <!-- Spigot properties -->
+        <spigot.version>1.16.2</spigot.version>
+        <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
         <sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
         <sonar.organization>thebusybiscuit-github</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.log.level>DEBUG</sonar.log.level>
+        <sonar.exclusions>src/main/java/me/mrCookieSlime/Slimefun/bstats/bukkit/Metrics.java</sonar.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/TheBusyBiscuit/Slimefun4/issues</url>
+        <url>https://github.com/Slimefun/Slimefun4/issues</url>
     </issueManagement>
 
     <licenses>
         <license>
             <name>GNU General Public License v3.0</name>
-            <url>https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE</url>
+            <url>https://github.com/Slimefun/Slimefun4/blob/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
     <repositories>
         <repository>
-            <id>paper-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
+            <id>paper-repo</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>worldedit-worldguard-repo</id>
+            <id>worldedit-repo</id>
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
-            <id>bStats-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
+            <id>placeholderapi-repo</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
         <repository>
-            <id>placeholderapi-repo</id>
-            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <id>walshy-public</id>
+            <url>https://repo.walshy.dev/public/</url>
         </repository>
     </repositories>
 
@@ -113,7 +114,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.0.0-M5</version>
             </plugin>
 
             <!-- Sonarcloud Scanner -->
@@ -151,19 +152,23 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.2.4</version>
 
                 <configuration>
 
-                    <!-- Shade bStats and CS-CoreLib2 into the output jar -->
+                    <!-- Shade dependencies into the output jar -->
                     <relocations>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
-                        </relocation>
                         <relocation>
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
                             <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.paperlib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>kong.unirest</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.unirest</shadedPattern>
                         </relocation>
                     </relocations>
 
@@ -203,9 +208,9 @@
                     <detectOfflineLinks>false</detectOfflineLinks>
                     <additionalJOption>-html5</additionalJOption>
 
-                    <!-- We can reference Bukkit's API in our Javadocs -->
+                    <!-- We can reference the Spigot API in our Javadocs -->
                     <links>
-                        <link>${bukkit.javadocs}</link>
+                        <link>${spigot.javadocs}</link>
                     </links>
 
                     <!-- We can group pakages together in our Javadocs -->
@@ -227,8 +232,16 @@
                             <packages>io.github.thebusybiscuit.slimefun4.utils*</packages>
                         </group>
                         <group>
-                            <title>Slimefun4 - Item Implementations</title>
+                            <title>Slimefun4 - Items</title>
                             <packages>io.github.thebusybiscuit.slimefun4.implementation.items*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Multiblocks</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks*</packages>
+                        </group>
+                        <group>
+                            <title>Slimefun4 - Electrical Machines</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.implementation.items.electric*</packages>
                         </group>
                         <group>
                             <title>Slimefun4 - Old packages</title>
@@ -266,19 +279,27 @@
     <dependencies>
         <!-- Hard dependencies -->
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>${bukkit.version}-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>8081bb4fe4</version>
+            <version>31390302cf</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Development / Testing dependencies -->
+        <!-- Development dependencies -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -287,43 +308,79 @@
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit</artifactId>
-            <version>v1.15-d69d9ca9cb-1</version>
+            <artifactId>MockBukkit-v1.16</artifactId>
+            <version>0.5.0</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.3.3</version>
+            <version>3.5.10</version>
             <scope>test</scope>
         </dependency>
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.thebusybiscuit</groupId>
+            <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.19</version>
+            <version>0.26</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.5</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>3.10.00</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-        <!-- Third party plugin integrations -->
+        <!-- Third party plugin integrations / soft dependencies -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.1.0</version>
+            <version>7.2.0-SNAPSHOT</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- This one is ignored because it pops up everytime -->
+                    <!-- I try to import File... yes, I want java.io.File -->
+                    <groupId>de.schlichtherle</groupId>
+                    <artifactId>truezip</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.10.6</version>
+            <version>2.10.9</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
@@ -331,14 +388,11 @@
             <version>3cd370b5d8</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- System dependency, this project has no maven repository -->
         <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
-            <version>2.9.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Clearlag.jar</systemPath>
+            <version>3.1.6</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -1,145 +1,107 @@
 ---
-minecraft:
-  blasting:
-    lore:
-    - Olvaszd meg ezt a tárgyat egy Kohóban,
-    - hogy elkészítsd a kívánt tárgyat
-    name: Kohó Recept
-  campfire:
-    lore:
-    - Olvaszd meg ezt a tárgyat egy Tábortűzön,
-    - hogy elkészítsd a kívánt tárgyat
-    name: Tábortűz Recept
-  furnace:
-    lore:
-    - Olvaszd meg ezt a tárgyat egy Kemencében,
-    - hogy elkészítsd a kívánt tárgyat
-    name: Kemence Recept
-  shaped:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Normális Barkácsasztal segítségével.
-    - A forma fontos.
-    name: Barkácsrecept Forma
-  shapeless:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Normális Barkácsasztal segítségével.
-    - Ez a Recept forma nélküli.
-    name: Forma Nélküli Barkácsrecept
-  smoking:
-    lore:
-    - Olvaszd meg ezt a tárgyat egy Füstölőben,
-    - hogy elkészítsd a kívánt tárgyat
-    name: Füstölő Recept
-  stonecutting:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Kővágó segítségével
-    name: Kővágó Recept
 slimefun:
-  ancient_altar:
+  multiblock:
+    name: Multiblock
     lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Ancient Altar segítségével.
-    - Keress utána az Ancient Altar-nak a további információkért
-    name: Ancient Altar
-  armor_forge:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Armor Forge segítségével
-    name: Armor Forge
-  compressor:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Compressor segítségével
-    name: Compressor
+    - Építsd meg a látott szerkezetet
+    - az ábra alapján. Ez nem barkácsolás.
   enhanced_crafting_table:
+    name: Enhanced Crafting Table
     lore:
     - Készítsd el ezt a Tárgyat az ábra alapján
     - egy Enhanced Crafting Table-ben.
     - A normális Barkácsasztal nem lesz elegendő!
-    name: Enhanced Crafting Table
-  food_composter:
+  armor_forge:
+    name: Armor Forge
     lore:
     - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Food Composter segítségével
-    name: Food Composter
-  food_fabricator:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Food Fabricator segítségével
-    name: Food Fabricator
-  freezer:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Freezer segítségével
-    name: Freezer
-  geo_miner:
-    lore:
-    - Ez a tárgy összegyűjthető
-    - egy GEO Miner segítségével
-    name: GEO Miner
-  gold_pan:
-    lore:
-    - Használd az Gold Pan-t,
-    - hogy megszerezd ezt a tárgyat
-    name: Gold Pan
+    - egy Armor Forge segítségével
   grind_stone:
+    name: Grind Stone
     lore:
     - Készítsd el ezt a Tárgyat az ábra alapján
     - egy Grind Stone segítségével
-    name: Grind Stone
-  heated_pressure_chamber:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Heated Pressure Chamber segítségével
-    name: Heated Pressure Chamber
-  juicer:
-    lore:
-    - Készítsd el ezt a Gyümölcslevet az ábra alapján
-    - egy Juicer segítségével
-    name: Juicer
-  magic_workbench:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Magic Workbench segítségével
-    name: Magic Workbench
-  mob_drop:
-    lore:
-    - Öld meg ezt az Élőlényt,
-    - hogy megszerezd ezt a tárgyat
-    name: Mob Drop
-  multiblock:
-    lore:
-    - Építsd meg a látott szerkezetet
-    - az ábra alapján. Ez nem barkácsolás.
-    name: Multiblock
-  nuclear_reactor:
-    lore:
-    - Ez a tárgy mellékterméke
-    - a Nuclear Reactor működésének
-    name: Nuclear Reactor
-  ore_crusher:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Ore Crusher segítségével
-    name: Ore Crusher
-  ore_washer:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Ore Washer segítségével
-    name: Ore Washer
-  pressure_chamber:
-    lore:
-    - Készítsd el ezt a Tárgyat az ábra alapján
-    - egy Pressure Chamber segítségével
-    name: Pressure Chamber
   smeltery:
+    name: Smeltery
     lore:
     - Készítsd el ezt a Tárgyat az ábra alapján
     - egy Smeltery segítségével
-    name: Smeltery
+  ore_crusher:
+    name: Ore Crusher
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ore Crusher segítségével
+  mob_drop:
+    name: Élőlény Dobja
+    lore:
+    - Öld meg ezt az Élőlényt,
+    - hogy megszerezd ezt a tárgyat
+  gold_pan:
+    name: Gold Pan
+    lore:
+    - Használd az Gold Pan-t,
+    - hogy megszerezd ezt a tárgyat
+  compressor:
+    name: Compressor
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Compressor segítségével
+  pressure_chamber:
+    name: Pressure Chamber
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Pressure Chamber segítségével
+  ore_washer:
+    name: Ore Washer
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ore Washer segítségével
+  juicer:
+    name: Juicer
+    lore:
+    - Készítsd el ezt a Gyümölcslevet az ábra alapján
+    - egy Juicer segítségével
+  magic_workbench:
+    name: Magic Workbench
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Magic Workbench segítségével
+  ancient_altar:
+    name: Ancient Altar
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Ancient Altar segítségével.
+    - Keress utána az Ancient Altar-nak a további információkért
+  heated_pressure_chamber:
+    name: Heated Pressure Chamber
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Heated Pressure Chamber segítségével
+  food_fabricator:
+    name: Food Fabricator
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Food Fabricator segítségével
+  food_composter:
+    name: Food Composter
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Food Composter segítségével
+  freezer:
+    name: Freezer
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Freezer segítségével
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Ez a tárgy összegyűjthető
+    - egy GEO Miner segítségével
+  nuclear_reactor:
+    name: Nuclear Reactor
+    lore:
+    - Ez a tárgy mellékterméke
+    - a Nuclear Reactor működésének
   oil_pump:
     name: Oil Pump
     lore:
@@ -156,3 +118,51 @@ slimefun:
     lore:
     - Készítsd el ezt a Tárgyat az ábra alapján
     - egy Refinery segítségével
+  barter_drop:
+    name: Piglinek Dobják Cserélésnél
+    lore:
+    - Cseréld el a Piglenekkel Aranyrudakat,
+    - hogy megszerezd ezt a tárgyat
+minecraft:
+  shaped:
+    name: Barkácsrecept Forma
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Normális Barkácsasztal segítségével.
+    - A forma fontos.
+  shapeless:
+    name: Forma Nélküli Barkácsrecept
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Normális Barkácsasztal segítségével.
+    - Ez a Recept forma nélküli.
+  furnace:
+    name: Kemence Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Kemencében,
+    - hogy elkészítsd a kívánt tárgyat
+  blasting:
+    name: Kohó Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Kohóban,
+    - hogy elkészítsd a kívánt tárgyat
+  smoking:
+    name: Füstölő Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Füstölőben,
+    - hogy elkészítsd a kívánt tárgyat
+  campfire:
+    name: Tábortűz Recept
+    lore:
+    - Olvaszd meg ezt a tárgyat egy Tábortűzön,
+    - hogy elkészítsd a kívánt tárgyat
+  stonecutting:
+    name: Kővágó Recept
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Kővágó segítségével
+  smithing:
+    name: Kovácsasztal Recept
+    lore:
+    - Készítsd el ezt a Tárgyat az ábra alapján
+    - egy Kovácsasztal segítségével

@@ -47,6 +47,13 @@ backpack:
   already-open: "&cXin lỗi, cái Ba lô này đã được mở ở một nơi nào khác!"
   no-stack: "&cBạn không thể xếp nhiều Ba lô lại với nhau"
 commands:
+  backpack:
+    backpack-does-not-exist: "&4Không tìm thấy ba lô đó!"
+    description: Lấy bản sao của một ba lô đã có sẵn
+    invalid-id: "&4ID phải là số nguyên dương!"
+    player-never-joined: "&4Không tìm thấy người chơi với tên như vậy!"
+    restored-backpack-given: "&aBa lô của bạn được khôi phục và được thêm vào túi
+      đồ của bạn!"
   cheat: Cho phép bạn gian lận vật phẩm
   give: Đưa cho ai đó vài món đồ Slimefun
   guide: Cung cấp cho bạn một cuốn hướng dẫn Slimefun
@@ -138,6 +145,7 @@ inventory:
 languages:
   af: Tiếng Nam Phi
   ar: Tiếng Ả Rập
+  be: Tiếng Bêlarut
   bg: Tiếng Bulgaria
   cs: Tiếng Séc
   da: Tiếng Đan Mạch
@@ -150,6 +158,7 @@ languages:
   fi: Tiếng Phần Lan
   fr: Tiếng Pháp
   he: Tiếng Do Thái
+  hr: Tiếng Croatia
   hu: Tiếng Hungary
   id: Tiếng Indonesia
   it: Tiếng Ý
@@ -165,6 +174,7 @@ languages:
   ro: Tiếng Rumani
   ru: Tiếng Nga
   sk: Tiếng Slovak
+  sr: Tiếng Serbia
   sv: Tiếng Thụy Điển
   th: Tiếng Thái
   tr: Tiếng Thổ Nhĩ Kỳ
@@ -172,6 +182,7 @@ languages:
   vi: Tiếng Việt
   zh-CN: Tiếng Trung (Trung Quốc)
   zh-TW: Tiếng Trung Quốc (Đài Loan)
+  mk: Tiếng Macedonia
 machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4Bàn thờ không được bao quanh bởi số lượng cần thiết của
@@ -200,6 +211,17 @@ machines:
       chuyện. &r(Mã màu được hỗ trợ!)"
     inventory-title: Trình chỉnh sửa ảnh ba chiều
   ignition-chamber-no-flint: "&cIgnition Chamber đang thiếu Bật Lửa."
+  INDUSTRIAL_MINER:
+    already-running: "&cMáy đào công nghiệp này đang chạy!"
+    destroyed: "&cMáy đào công nghiệp của bạn có vẻ như bị phá hủy."
+    finished: "&eMáy đào công nghiệp của bạn đã chạy xong! Nó đã đào được %ores% khoáng
+      sản(s)!"
+    full-chest: "&cRương của máy đào công nghiệp đã đầy!"
+    no-fuel: "&cMáy đào công nghiệp của bạn hết nhiên liệu! Bỏ nhiên liệu vào rương
+      ở trên."
+    no-permission: "&4Có vẻ như bạn không có quyền để sử dụng máy đào ở đây!"
+    piston-facing: "&cMáy đào công nghiệp của bạn cần 2 pít-tông hướng lên trên!"
+    piston-space: "&cHai cái pít-tông cần hai khối không khí ở trên!"
   in-use: "&cKhối trong túi đồ này hiện đang được mở bởi người chơi khác."
   pattern-not-found: "&eXin lỗi, tôi không thể nhận ra Công Thức này. Vui lòng đặt
     các vật phẩm với mẫu nhất định vào trong Máy Phân Phát."

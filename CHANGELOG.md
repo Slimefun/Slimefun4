@@ -2,7 +2,12 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 12 (TBD)](#release-candidate-12-tbd)
+- [Release Candidate 17 (TBD)](#release-candidate-17-tbd)
+- [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
+- [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
+- [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
+- [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
+- [Release Candidate 12 (27 May 2020)](#release-candidate-12-27-may-2020)
 - [Release Candidate 11 (25 Apr 2020)](#release-candidate-11-25-apr-2020)
 - [Release Candidate 10 (28 Mar 2020)](#release-candidate-10-28-mar-2020)
 - [Release Candidate 9 (07 Mar 2020)](#release-candidate-9-07-mar-2020)
@@ -17,17 +22,308 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 12 (TBD)
+## Release Candidate 17 (TBD)
+
+#### Additions
+* Added /sf charge
+
+#### Changes
+* Improved Auto-Updater (Multi-Threading and more)
+
+#### Fixes
+* Fixed #2300
+* Fixed #2296
+
+## Release Candidate 16 (07 Sep 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
+
+#### Additions
+* Added an option for Industrial Miners to mine Ancient Debris
+* Added a new language: Korean
+* (API) Added support for adding custom Piglin Barter drops
+* (API) Added BlockPlacerPlaceEvent
+* (API) Added ToolUseHandler
+* Added "Sand -> Sandstone" recipe to the Electric Press
+* Added "Red Sand -> Red Sandstone" recipe to the Electric Press
+* Industrial Miners can now also mine Gilded Blackstone
+* Added a config option to disable Players from burning when exposed to radiation
+* Added a config option to drop excess items when using /sf give
+* Added Strange Nether Goo
+* Added Villager Rune
+* Added Synthetic Shulker Shells
+* Added Climbing Pick
+* Added item breaking sounds to some slimefun tools
+
+#### Changes
+* Performance improvement for Programmable Android rotations
+* Removed Gravel -> Flint recipe from the Grind stone
+* Performance improvements for miner talismans
+* Performance improvements for idling Enhanced Furnaces when using Paper
+* Performance improvements for Rainbow Blocks
+* Crafting a Rag now yields two items
+* Small performance improvements for Slimefun guides
+* Small performance improvements for Cargo networks
+* Small performance improvements for Miner Androids
+* Small performance improvements for all machines, especially Electric Smelteries
+* Small performance improvements for Holograms
+* Small performance improvements for Tree Growth Accelerators
+* Small performance improvements for Reactors
+* Electric machines now show their tier in the Inventory name too
+* Removed "Fuel efficiency" attribute for androids, since that was pretty much always at 1.0 anyway...
+* Performance improvements for energy networks
+* (API) Rewritten Block-Energy API
+* Removed "durability" setting from cargo nodes
+* Small performance improvements for radiation
+* Small performance improvements for Auto Disenchanters
+* Magnesium Salt in Magnesium-Salt generators now lasts longer
+
+#### Fixes
+* Fixed Programmable Androids rotating in the wrong direction
+* Fixed #2176
+* Fixed #2164
+* Fixed #2147
+* Fixed #2179
+* Fixed Reinforced Spawners not working sometimes
+* Fixed Explosive Pickaxe not handling normal Shulker boxes correctly
+* Fixed #2103
+* Fixed #2184
+* Fixed #2183
+* Fixed #2181
+* Fixed #2180
+* Fixed #2122
+* Fixed #2168
+* Fixed #2203
+* Fixed #2205
+* Fixed #2209
+* Fixed #2217
+* Fixed Miner Talisman sending messages when drops were not even doubled
+* Fixed #2077
+* Fixed #2207
+* Fixed ChestTerminal timings showing up as cargo nodes
+* Fixed timings reports never arriving sometimes
+* Fixed #2138
+* Fixed #1951 (again)
+* Fixed Electric Press not working
+* Fixed #2240
+* Fixed #2243
+* Fixed #2249
+* Fixed #1022
+* Fixed #2208
+* Fixed Fluid Pump treating low-level fluids like stationary fluids
+* Fixed Fluid Pump not working on Bubble Columns
+* Fixed #2251
+* Fixed #2257
+* Fixed #2260
+* Fixed #2263
+* Fixed #2265
+* Fixed #2269
+* Fixed #2266
+* Fixed #2275
+* Fixed Multi Tools consuming hunger points when holding a Wind Staff in your off hand
+* Fixed Teleports getting stuck sometimes
+
+## Release Candidate 15 (01 Aug 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
+
+#### Additions
+* Added "Bone Block -> Bone meal" recipe to the Grind Stone
+* Added a [Metrics module](https://github.com/Slimefun/MetricsModule) which allows us to release updates to metrics (bStats) independently from the main plugin
+* Added "Compressed Carbon -> Carbon" recipe to the Ore Crusher
+* Added "Carbon -> Coal" recipe to the Ore Crusher
+* Added an option to disable the message "Ignoring duplicate block"
+* Added Iron Golem Assembler
+* Added Reinforced Cloth
+* Added Bee protection to Hazmat Suit
+* Added Enchantment Rune
+* Added Tape Measure
+* Added a permission node for /sf debug_fish
+
+#### Changes
+* Refactored and reworked the Generator API
+* Small performance improvements to Energy networks
+* Big performance improvements to Cargo networks when using ChestTerminal
+* Slight changes to /sf timings
+* Changed recipe of Hazmat Suits
+* Uranium can no longer be placed down
+* Huge performance improvements when using Paper
+* Optimized Cargo networks for Paper
+* Optimized Multiblocks for Paper
+* Optimized Enhanced Furnaces for Paper
+* Optimized Programmable Androids for Paper
+* General performance improvements for Talismans
+* General performance improvements for GPS Emergency Transmitters
+* General performance improvements for Infused Magnets
+* Ancient Altars now support for protection plugins
+* Ancient Pedestals now support for protection plugins
+
+#### Fixes
+* Fixed Slimefun Armor sometimes not applying its effects
+* Fixed #2075
+* Fixed #2093
+* Fixed #2086
+* Fixed #1894
+* Fixed #2097
+* Fixed Wither Assembler requiring more items than it actually consumes
+* Fixed Metrics not updating automatically
+* Fixed #2143
+* Fixed #2145
+* Fixed #2151
+* Fixed old Talismans not working
+* Fixed Talismans sometimes not getting consumed properly
+* Fixed old Infused Magnets not working
+* Fixed old GPS Emergency Transmitters not working
+* Fixed #2156
+* Fixed #2165
+* Fixed #2162
+* Fixed #2166
+
+## Release Candidate 14 (12 Jul 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
+
+#### Additions
+* Added support for Minecraft 1.16
+* Added a starting sound for the Ancient Altar
+* Added config option to disable backwards compatibility and improve performance
+* Added ReactorExplodeEvent to the API
+* Compatibility mode status is now included in /sf versions
+* Added Nether Quartz Ore Crusher Recipe
+* Added a new language: Tagalog
+* Added Magical Zombie Pills
+* Added 1.13 compatibility to the Auto Drier
+* Added Corals to the fuel list for the Bio Generator
+* Added Clay -> Clay blocks recipe to the Electric Press
+* (1.16+) Slimefun guide can now show Smithing Table recipes
+* (1.16+) Added Nether Gold Ore recipe to the Ore Crusher
+* (1.16+) Added Gilded Blackstone recipe to the Ore Crusher
+* (1.16+) Added Shroomlights to the fuel list for the Bio Generator
+* (1.16+) Added Warped and Crimson Fungus to the fuel list for the Bio Generator
+* Added an AoE damage effect to the Explosive Bow
+* Added runtime deprecation warnings for ItemHandlers and Attributes used by Addons
+* Added a proper lag profiler
+* Added per-plugin lag info to /sf timings
+* Added Indonesian translations
+
+#### Changes
+* Coolant Cells now last twice as long
+* Ticking blocks will now catch more errors caused by addons
+* Changed the texture for the Nuclear Reactor
+* Changed the texture for the Nether Star Reactor
+* Crafting Tin cans now produces 8 items instead of 4
+* Multi Tool lore now says "Crouch" instead of "Hold Shift"
+* Items which cannot be distributed by a Cargo Net will be dropped on the ground now instead of getting deleted
+* Slimefun no longer supports CraftBukkit
+* Item Energy is now also stored persistently via NBT
+* Performance improvements to GPS/GEO machines, especially Oil Pump and GEO Miner
+* Performance improvements for ticking blocks
+* Performance improvements to the Cargo Net
+* performance improvements to the Energy Net
+* Performance improvements to Rainbow Blocks
+* Performance improvements to Androids
+* performance improvements to Generators and Electric Machines
+* Cargo timings will now be attributed to the corresponding node and not the Cargo manager
+* Thunderstorms now count as night time for Solar Generators
+* Coolant Cells can no longer be placed on the ground
+* Crafting Nether Ice Coolant Cells now results in 4 items
+* Moved Soulbound Backpack to the "Magical Gadgets" Category
+
+#### Fixes
+* Fixed #2005
+* Fixed #2009
+* Fixed a chunk caching issue for GEO resources
+* Fixed Infused Magnet working even if you haven't researched it
+* Fixed Rainbow blocks duplication glitch when timing the block break right
+* Fixed #1855
+* Fixed some issues with AsyncWorldEdit
+* Fixed some problems with unregistered or fake worlds
+* Fixed a rare concurrency issue with world saving
+* Fixed some contributors showing up twice
+* Fixed #2062
+* Fixed Grappling hooks disappearing when fired at Item frames or paintings
+* Fixed Grappling hooks not getting removed when the Player leaves
+* Fixed Grappling hooks making Bat sounds
+* Fixed #1959
+* Fixed Melon Juice requiring Melons instead of Melon Slices
+* Fixed Cargo networks not showing up in /sf timings
+* Fixed /sf timings reporting slightly inaccurate timings
+* Fixed concurrency-related issues with the profiling
+* Fixed #2066
+* Fixed Rainbow Glass Panes not properly connecting to blocks
+* Fixed Androids turning in the wrong direction
+* Fixed contributors losing their texture after restarts
+* Fixed "korean" showing up as "null"
+* Fixed an issue with moving androids getting stuck
+* Fixed Cargo nodes sometimes preventing chunks from unloading
+* Fixed #2081
+* Fixed a NullPointerException when Generators throw an Error Report
+
+## Release Candidate 13 (16 Jun 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
+
+#### Additions
+* Added Dried Kelp Blocks recipe to the Electric Press
+* Added Bone Blocks recipe to the Electric Press
+* Added thai translations
+* Added Industrial Miner
+* Added Advanced Industrial Miner
+* Added Cocoa Organic Food
+* Added Cocoa Fertilizer
+* Added a configurable limit to the Pickaxe of Vein Mining
+* Added Gold Ingot to Dust recipe to the Electric Ingot Pulverizer
+* Added Saddles to possible fishing loot for the Fishing Android
+* Added Name tags to possible fishing loot for the Fishing Android
+* Added Nautilus Shell to possible fishing loot for the Fishing Android
+* Added Bamboo to possible fishing loot for the Fishing Android
+
+#### Changes
+* Removed Digital Miner
+* Removed Advanced Digital Miner
+* Dried Kelp Blocks can now be used in the Coal Generator
+* Crafting Organic Food/Fertilizer yields more output now
+* Organic Food (Melon) now uses Melon Slices instead of Melon blocks
+* The Seismic Axe now skips the first two blocks to clear your field of view
+* Auto Disenchanting is now a tiny bit faster
+* Small performance improvements
+* Dried Kelp Blocks can now be used as fuel for Tier 1 Androids
+* Androids now have a separate category in the Slimefun Guide
+* Android Interface recipes now require steel ingots
+* Changed and unified a couple of tooltips
+* Changed tooltip on jetpacks and jet boots to say "Crouch" instead of "Hold Shift"
+
+#### Fixes
+* Fixed Ore Washer recipes showing up twice
+* Fixed #1942
+* Fixed a few memory leaks
+* Fixed #1943
+* Fixed Nuclear Reactors accepting Lava as coolant
+* Fixed #1971
+* Fixed #1976
+* Fixed #1988
+* Fixed #1985
+* Fixed a missing texture in the Android Script Editor
+* Fixed #1992
+* Possibly fixed #1951
+* Fixed tab completion for /sf give showing players instead of amounts
+* Fixed #1993
+* Fixed #1907
+* Fixed research fireworks still dealing damage sometimes
+
+## Release Candidate 12 (27 May 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 
 #### Additions
 * Added Ukrainian translations
 * Added /sf backpack to restore lost backpacks
 * Added automated Unit Tests
+* Added WaypointCreateEvent
+* Added an option to call an explosion event when using explosive tools
 
 #### Changes
 * Little performance improvements
 * Bandages, Rags and Splints will no longer be consumed if your health is full and you are not on fire
 * Player Profiles (researches and stuff) are now loaded completely asynchronously
+* The Infused Magnet can no longer be placed down
+* AncientAltar speed can now be changed internally (not available for server owners yet)
+* Finished Italian translations
 
 #### Fixes
 * Fixed #1824
@@ -35,14 +331,29 @@
 * Fixed #1834
 * Fixed #1843
 * Fixed #1873
-* Fixed Electric Smeltery not prioritisting recipes
+* Fixed Electric Smeltery not prioritising recipes
 * Fixed #1851
 * Fixed #1891
 * Fixed #1893
 * Fixed #1897
 * Fixed #1908
+* Fixed #1903
+* Fixed Organic Food/Fertilizer not being recognized
+* Fixed #1883
+* Fixed #1829
+* Fixed some mojang.com connection errors
+* Fixed some very weird SkullMeta serialization problems in 1.15
+* Fixed #1914
+* Fixed file errors with PerWorldSettingsService
+* Fixed ChestTerminals deleting items from Cargo networks (TheBusyBiscuit/ChestTerminal#25)
+* Fixed #1926
+* Fixed #1933
+* Fixed random errors because of Mojang's new player heads backend (Why... Mojang... why?)
+* Fixed Butcher Androids doing incorrect amounts of damage
+* Fixed #1935
 
 ## Release Candidate 11 (25 Apr 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#11
 
 #### Additions
 * Added GEOResourceGenerationEvent
@@ -120,7 +431,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 * Internal clean up and further documentation
 * Changed Automatic Ignition Chamber to be a Dropper
 * Teleporters are now significantly faster
-* Item permissions have been moved to a seperate permissions.yml file
+* Item permissions have been moved to a separate permissions.yml file
 * Salt now only requires 2 blocks of Sand
 * Fireworks from researching no longer damages entities
 * Very slight performance improvements for Cargo networks
@@ -205,7 +516,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 
 #### Additions
-* Aded preset messages.yml files
+* Added preset messages.yml files
 * Added user-configurable localization
 * Added many more options to the messages.yml
 * Added custom model data support for Languages
@@ -218,8 +529,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 * Added ability to translate messages for Players
 * Added the ability to translate Researches
 * Added StatusEffect API
-* Added translatibility to categories
-* Added translatibility to geo-resources
+* Added translatability to categories
+* Added translatability to geo-resources
 
 #### Changes
 * Removed Solar Array

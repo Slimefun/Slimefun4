@@ -1,13 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api.geo;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.OptionalInt;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -17,13 +21,14 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -40,14 +45,28 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 public class ResourceManager {
 
     private final int[] backgroundSlots = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53 };
-    private final ItemStack chunkTexture = SkullItem.fromHash("8449b9318e33158e64a46ab0de121c3d40000e3332c1574932b3c849d8fa0dc2");
     private final Config config;
 
-    public ResourceManager(SlimefunPlugin plugin) {
+    public ResourceManager(@Nonnull SlimefunPlugin plugin) {
         config = new Config(plugin, "resources.yml");
     }
 
-    void register(GEOResource resource) {
+    /**
+     * This method registers the given {@link GEOResource}.
+     * It may never be called directly, use {@link GEOResource#register()} instead.
+     * 
+     * @param resource
+     *            The {@link GEOResource} to register
+     */
+    void register(@Nonnull GEOResource resource) {
+        Validate.notNull(resource, "Cannot register null as a GEO-Resource");
+        Validate.notNull(resource.getKey(), "GEO-Resources must have a NamespacedKey which is not null");
+
+        // Resources may only be registered once
+        if (SlimefunPlugin.getRegistry().getGEOResources().containsKey(resource.getKey())) {
+            throw new IllegalArgumentException("GEO-Resource \"" + resource.getKey() + "\" has already been registered!");
+        }
+
         String key = resource.getKey().getNamespace() + '.' + resource.getKey().getKey();
         boolean enabled = config.getOrSetDefault(key + ".enabled", true);
 
@@ -55,12 +74,32 @@ public class ResourceManager {
             SlimefunPlugin.getRegistry().getGEOResources().add(resource);
         }
 
-        config.save();
+        if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+            config.save();
+        }
     }
 
-    public OptionalInt getSupplies(GEOResource resource, World world, int x, int z) {
-        String key = resource.getKey().toString().replace(':', '-');
+    /**
+     * This method returns the amount of a certain {@link GEOResource} found in a given {@link Chunk}.
+     * The result is an {@link OptionalInt} which will be empty if this {@link GEOResource}
+     * has not been generated at that {@link Location} yet.
+     * 
+     * @param resource
+     *            The {@link GEOResource} to query
+     * @param world
+     *            The {@link World} of this {@link Location}
+     * @param x
+     *            The {@link Chunk} x coordinate
+     * @param z
+     *            The {@link Chunk} z coordinate
+     * 
+     * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
+     */
+    public OptionalInt getSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
+        Validate.notNull(resource, "Cannot get supplies for null");
+        Validate.notNull(world, "World must not be null");
 
+        String key = resource.getKey().toString().replace(':', '-');
         String value = BlockStorage.getChunkInfo(world, x, z, key);
 
         if (value != null) {
@@ -71,23 +110,29 @@ public class ResourceManager {
         }
     }
 
-    public void setSupplies(GEOResource resource, World world, int x, int z, int value) {
+    public void setSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z, int value) {
+        Validate.notNull(resource, "Cannot set supplies for null");
+        Validate.notNull(world, "World cannot be null");
+
         String key = resource.getKey().toString().replace(':', '-');
         BlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
     }
 
-    private int generate(GEOResource resource, World world, int x, int z) {
+    private int generate(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
+        Validate.notNull(resource, "Cannot generate resources for null");
+        Validate.notNull(world, "World cannot be null");
+
         Block block = world.getBlockAt(x << 4, 72, z << 4);
         int value = resource.getDefaultSupply(world.getEnvironment(), block.getBiome());
 
         if (value > 0) {
-            int bound = resource.getMaxDeviation();
+            int max = resource.getMaxDeviation();
 
-            if (bound <= 0) {
+            if (max <= 0) {
                 throw new IllegalStateException("GEO Resource \"" + resource.getKey() + "\" was misconfigured! getMaxDeviation() must return a value higher than zero!");
             }
 
-            value += ThreadLocalRandom.current().nextInt(bound);
+            value += ThreadLocalRandom.current().nextInt(max);
         }
 
         GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, block.getBiome(), x, z, resource, value);
@@ -113,24 +158,24 @@ public class ResourceManager {
      * @param page
      *            The page to display
      */
-    public void scan(Player p, Block block, int page) {
+    public void scan(@Nonnull Player p, @Nonnull Block block, int page) {
         if (SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()) < 600) {
-            SlimefunPlugin.getLocal().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
+            SlimefunPlugin.getLocalization().sendMessages(p, "gps.insufficient-complexity", true, msg -> msg.replace("%complexity%", "600"));
             return;
         }
 
         int x = block.getX() >> 4;
         int z = block.getZ() >> 4;
 
-        ChestMenu menu = new ChestMenu("&4" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.results"));
+        ChestMenu menu = new ChestMenu("&4" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.results"));
 
         for (int slot : backgroundSlots) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(4, new CustomItem(chunkTexture, "&e" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + SlimefunPlugin.getLocal().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(4, new CustomItem(HeadTexture.MINECRAFT_CHUNK.getAsItemStack(), ChatColor.YELLOW + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
         List<GEOResource> resources = new ArrayList<>(SlimefunPlugin.getRegistry().getGEOResources().values());
-        Collections.sort(resources, (a, b) -> a.getName(p).toLowerCase(Locale.ROOT).compareTo(b.getName(p).toLowerCase(Locale.ROOT)));
+        resources.sort(Comparator.comparing(a -> a.getName(p).toLowerCase(Locale.ROOT)));
 
         int index = 10;
         int pages = (resources.size() - 1) / 36 + 1;
@@ -139,9 +184,9 @@ public class ResourceManager {
             GEOResource resource = resources.get(i);
             OptionalInt optional = getSupplies(resource, block.getWorld(), x, z);
             int supplies = optional.isPresent() ? optional.getAsInt() : generate(resource, block.getWorld(), x, z);
-            String suffix = SlimefunPlugin.getLocal().getResourceString(p, supplies == 1 ? "tooltips.unit" : "tooltips.units");
+            String suffix = SlimefunPlugin.getLocalization().getResourceString(p, supplies == 1 ? "tooltips.unit" : "tooltips.units");
 
-            ItemStack item = new CustomItem(resource.getItem(), "&r" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
+            ItemStack item = new CustomItem(resource.getItem(), "&f" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
 
             if (supplies > 1) {
                 item.setAmount(supplies > item.getMaxStackSize() ? item.getMaxStackSize() : supplies);

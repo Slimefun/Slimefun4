@@ -1,0 +1,23 @@
+extends: default
+locale: en_US.UTF-8
+
+yaml-files:
+- '*.yml'
+
+rules:
+
+  ## A warning is sufficient here
+  line-length:
+    max: 180
+    level: warning
+
+  ## We don't need indentation warnings
+  indentation: disable
+
+  ## We don't use yaml files for document purposes
+  document-start: disable
+
+  ## Trailing Spaces for language files are too common and these files are automated anyway
+  trailing-spaces:
+    ignore: |
+      /src/main/resources/languages/*.yml

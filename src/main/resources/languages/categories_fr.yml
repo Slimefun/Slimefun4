@@ -1,25 +1,26 @@
 ---
 slimefun:
-  weapons: Armes
-  tools: Outils
-  items: Objets utiles
-  food: Nourriture
-  basic_machines: Machines basiques
-  electricity: Énergie et électricité
-  gps: Machines GPS
   armor: Armures
-  magical_items: Objets magiques
-  magical_gadgets: Gadgets magiques
-  misc: Objets divers
-  technical_gadgets: Gadgets techniques
-  resources: Ressources
-  cargo: Gestion de la cargaison
-  tech_misc: Composants techniques
-  magical_armor: Armures magiques
-  talismans: Talismans (niveau 1)
-  ender_talismans: Talismans (niveau 2)
-  christmas: Noël (Décembre)
-  valentines_day: Saint-Valentin (14 Février)
-  easter: Pâques (Avril)
+  basic_machines: Machines basiques
   birthday: Anniversaire de TheBusyBiscuit (26 Octobre)
+  cargo: Gestion de la cargaison
+  christmas: Noël (Décembre)
+  easter: Pâques (Avril)
+  electricity: Énergie et électricité
+  ender_talismans: Talismans (niveau 2)
+  food: Nourriture
+  gps: Machines GPS
   halloween: Halloween (31 Octobre)
+  items: Objets utiles
+  magical_armor: Armures magiques
+  magical_gadgets: Gadgets magiques
+  magical_items: Objets magiques
+  misc: Objets divers
+  resources: Ressources
+  talismans: Talismans (niveau 1)
+  tech_misc: Composants techniques
+  technical_gadgets: Gadgets techniques
+  tools: Outils
+  valentines_day: Saint-Valentin (14 Février)
+  weapons: Armes
+  androids: Androïde programmable

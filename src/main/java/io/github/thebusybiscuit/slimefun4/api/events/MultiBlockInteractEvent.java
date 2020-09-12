@@ -1,12 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 
-import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 
 /**
  * This {@link Event} is called when a {@link Player} interacts with a {@link MultiBlock}.
@@ -14,36 +19,21 @@ import io.github.thebusybiscuit.slimefun4.core.MultiBlock;
  * @author TheBusyBiscuit
  *
  */
-public class MultiBlockInteractEvent extends Event implements Cancellable {
+public class MultiBlockInteractEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final Player player;
     private final MultiBlock multiBlock;
     private final Block clickedBlock;
+    private final BlockFace clickedFace;
     private boolean cancelled;
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public MultiBlockInteractEvent(Player p, MultiBlock mb, Block clicked) {
-        this.player = p;
+    @ParametersAreNonnullByDefault
+    public MultiBlockInteractEvent(Player p, MultiBlock mb, Block clicked, BlockFace face) {
+        super(p);
         this.multiBlock = mb;
         this.clickedBlock = clicked;
-    }
-
-    /**
-     * This returns the {@link Player} who interacted with our {@link MultiBlock}
-     * 
-     * @return The {@link Player} who interacted with the {@link MultiBlock}
-     */
-    public Player getPlayer() {
-        return player;
+        this.clickedFace = face;
     }
 
     /**
@@ -51,6 +41,7 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
      * 
      * @return The {@link MultiBlock} of this {@link MultiBlockInteractEvent}
      */
+    @Nonnull
     public MultiBlock getMultiBlock() {
         return multiBlock;
     }
@@ -60,8 +51,19 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
      * 
      * @return The {@link Block} that was clicked
      */
+    @Nonnull
     public Block getClickedBlock() {
         return clickedBlock;
+    }
+
+    /**
+     * This returns the {@link BlockFace} that was clicked.
+     * 
+     * @return The {@link BlockFace} that was clicked
+     */
+    @Nonnull
+    public BlockFace getClickedFace() {
+        return clickedFace;
     }
 
     @Override
@@ -72,6 +74,17 @@ public class MultiBlockInteractEvent extends Event implements Cancellable {
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.IronGolem;
@@ -10,8 +12,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -24,7 +26,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class IronGolemListener implements Listener {
 
-    public IronGolemListener(SlimefunPlugin plugin) {
+    public IronGolemListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -46,7 +48,7 @@ public class IronGolemListener implements Listener {
 
                 if (sfItem != null && !(sfItem instanceof VanillaItem)) {
                     e.setCancelled(true);
-                    SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
+                    SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
 
                     // This is just there to update the Inventory...
                     // Somehow cancelling it isn't enough.

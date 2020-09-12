@@ -1,0 +1,276 @@
+---
+commands:
+  help: แสดงหน้าต่างช่วยเหลือ
+  give: มอบไอเท็ม Slimefun ให้ใครบางคน
+  guide: ให้คู่มือ Slimefun ให้ตัวคุณเอง
+  versions: แสดง Addons ที่ติดตั้งทั้งหมด
+  open_guide: เปิดคู่มือของ Slimefun โดยไม่ใช้หนังสือ
+  stats: แสดงสถิติบางอย่างเกี่ยวกับผู้เล่น
+  research:
+    reset-target: "&cความรู้ของคุณได้รับการรีเซ็ตแล้ว"
+    description: ปลดล็อก / รีเซ็ต การค้นหาสำหรับผู้เล่น
+    reset: "&cคุณได้รีเซ็ตความรู้ของ %player% แล้ว"
+  cheat: ช่วยให้คุณสามารถโกงไอเทม
+  timings: ข้อมูลเกี่ยวกับความแลคของเซิฟเวอร์คุณ
+  teleporter: ดู Waypoint ของผู้เล่นคนอื่น
+  search: ค้นหาคำแนะนำของคุณเพื่อหาคำที่กำหนด
+guide:
+  search:
+    message: "&bคุณต้องการค้นหาอะไร?"
+    name: "&7ค้นหา..."
+    tooltip: "&bคลิกเพื่อค้นหาไอเทม"
+    inventory: 'ค้นหา: %item%'
+  title:
+    main: คู่มือ Slimefun
+    settings: ตั้งค่า & แสดงค่าต่างๆ
+    credits: ผู้มีส่วนร่วมใน Slimefun4
+    addons: Addons สำหรับ Slimefun4
+    bugs: รายงานบัค
+    languages: เลือกภาษาที่คุณต้องการ
+    wiki: Slimefun4 Wiki
+    source: Source Code
+  credits:
+    roles:
+      developer: "&6นักพัฒนา"
+      wiki: "&3คนแก้ไข Wiki"
+      resourcepack: "&cผู้สร้างสรรค์ Resourcepack"
+      translator: "&9นักแปล"
+    commit: ผูกมัด
+    commits: ผู้ทำ
+    profile-link: กดเพื่อดูโปรไฟล์พวกเขาบน GitHub
+  pages:
+    previous: ย้อนกลับ
+    next: หน้าต่อไป
+  languages:
+    translations:
+      name: "&aมีบางอย่างหายไปหรือไม่?"
+      lore: กดเพื่อแปลภาษาด้วยตัวคุณเอง
+    select: คลิกเพื่อเลือกภาษานี้
+    select-default: คลิกเพื่อเลือกภาษาหลัก
+    selected-language: 'เลือกตอนนี้:'
+    updated: "&aคุณได้เปลี่ยนการตั้งค่าภาษาเป็น: &b%lang%"
+  tooltips:
+    open-category: คลิกเพื่อเปิด
+    recipes:
+      generator: ประเภทเชื้อเพลิงที่ใช้งานได้
+      gold-pan: ทรัพยากรที่จะได้รับ
+      machine: คู่มือ ทำในเครื่องนี้
+      miner: คุณสามารถเก็บทรัพยากรด้วย Miner
+    versions-notice: มันสำคัญมาก ที่จะรายงานบัค!
+    wiki: ตรวจสอบไอเท็มนี้บน Slimefun Wiki
+  back:
+    title: กลับ
+    guide: กลับไปยังคู่มือ Slimefun
+    settings: กลับไปยังหน้าตั้งค่า
+  locked: ล็อค
+  cheat:
+    no-multiblocks: "&4คุณไม่สามารถโกงของใน Multiblocks ของคุณได้ คุณต้องสร้างมันขึ้นมาเอง!"
+  locked-category:
+  - เพื่อที่จะปลดล็อครายการนี้
+  - คุณจะต้องปลดล็อคไอเท็มทั้งหมด
+  - ในหน้านี้ก่อน
+messages:
+  unlocked: '&bคุณได้ปลดล็อค &7"%research%"'
+  only-players: "&4คำสั่งนี้สำหรับผู้เล่นเท่านั้น"
+  unknown-player: "&4ไม่รู้จักผู้เล่น: &c%player%"
+  no-permission: "&4คุณต้องได้รับ permission เพื่อกระทำสิ่งนี้"
+  not-online: "&4%player% &cไม่ได้ออนไลน์!"
+  not-valid-item: "&4%item% &cไม่ใช่ไอเทมที่ถูกต้อง!"
+  not-valid-amount: "&4%amount% &cไม่ใช่จำนวนที่ถูกต้อง : ตัวเลขควรมากกว่า 0!"
+  given-item: '&bคุณได้เสก &7"%item%&7" &ax%amount%'
+  give-item: '&bคุณได้เสก &7"%item%&7" &ax%amount% ให้กับ %player%'
+  hungry: "&cคุณหิวเกินไปจะทำเช่นนั้น!"
+  disabled-in-world: "&4&lไอเทมใช้งานในโลกนี้"
+  cannot-place: "&cคุณไม่สามารถวางไอเทมตรงนี้ได้!"
+  no-pvp: "&cคุณไม่สามารถต่อสู้ได้ที่นี่!"
+  opening-guide: "&bกำลังเปิดคู่มือ อาจใช้เวลาซักพัก..."
+  link-prompt: "&eคลิกตรงนี้:"
+  diet-cookie: "&eคุณเริ่มรู้สึกถึงความนุ่ม..."
+  fortune-cookie:
+  - "&7ช่วยด้วย ฉันติดอยู่ในโรงงานคุ้กกี้!"
+  - "&7คุณจะตายพรุ่งนี้...    โดย Creeper"
+  - "&7ในบางช่วงของชีวิต สิ่งแย่ๆก็เกิดขึ้น!!!"
+  - "&7สัปดาห์ถัดไปคุณจะสังเกตเห็นว่านี่ไม่ใช่โลกแห่งความจริงคุณอยู่ในเกมคอมพิวเตอร์ "
+  - "&7รสชาติคุกกี้เริ่มลงตัวแล้ว รออีกสักนิด"
+  - '&7คำสุดท้ายที่คุณจะได้ยินคือ "กำจัด!!!"'
+  - "&7ไม่ว่าจะทำอะไรก็แล้วแต่ อย่ากอด Creeper... ฉันเคยลองแล้ว รู้สึกดีนะ แต่ก็ไม่คุ้ม"
+  - "&742 คำตอบคือ 42"
+  - "&7ทำๆมันไป เดียวปัญหามันก็หายไปเอง"
+  - "&7อย่าขุดลงไป!"
+  not-researched: "&4คุณมีความรู้ไม่เพียงพอที่จะเข้าใจสิ่งนี้"
+  not-enough-xp: "&4คุณมี XP ไม่เพียงพอที่จะปลดล็อก"
+  usage: "&4วิธีใช้: &c%usage%"
+  not-valid-research: "&4%research% &cนี้ไม่ใช่คำสำหรับการค้นหา!"
+  give-research: '&bคุณได้ให้ %player% เรียนรู้&7"%research%&7"'
+  mode-change: "&b%device% เปลี่ยนโหมดเป็น: &9%mode%"
+  disabled-item: "&4&lไอเท็มถูกปิดการใช้งาน! คุณเอาไอเท็มมาจากไหน?"
+  no-tome-yourself: "&cคุณไม่สามารถใช้ &4Tome of Knowledge &cกับตัวเองได้..."
+  multimeter: "&bพลังงานที่เก็บ: &3%stored% &b/ &3%capacity%"
+  talisman:
+    anvil: "&a&oTalisman ของคุณช่วยอุปกรณ์จากการพัง"
+    miner: "&a&oTalisman ของคุณทำให้ได้ดรอปสองเท่า"
+    hunter: "&a&oTalisman ของคุณทำให้ได้ดรอปสองเท่า"
+    lava: "&a&oTalisman ช่วยชีวิตคุณจากการถูกเผา"
+    water: "&a&oTalisman ช่วยคุณจากการจมน้ำ"
+    angel: "&a&oTalisman ช่วยคุณจากการตก"
+    fire: "&a&oTalisman ช่วยคุณไม่ให้ถูกเผาตาย"
+    magician: "&a&oTalisman เพิ่มการเอนชานท์ให้กับคุณ"
+    traveller: "&a&oTalisman เพิ่มความเร็วให้กับคุณ"
+    warrior: "&a&o Talisman เพิ่มความแข็งแกร่งให้คุณขณะนี้"
+    knight: "&a&oTalisman ฟื้นฟูให้คุณ 5 วินาที"
+    whirlwind: "&a&oTalisman ได้สะท้อนกระสุนออกไป"
+    wizard: "&a&oTalisman เพิ่มเอนชานท์โชคลาภให้ แต่ทำให้คุณอาจจะได้เอนชานท์อื่นๆต่ำลง"
+  soulbound-rune:
+    fail: "&cคุณสามารถผูกมัดไอเท็มได้แค่ 1 ชิ้น"
+    success: "&aผูกไอเท็มสำเร็จ ไอเท็มชิ้นนี้จะไม่ดรอปถ้าคุณตาย"
+  research:
+    start: "&7วิญญาณโบราณกำลังบอกอะไรบางอย่างกับคุณ"
+    progress: "&7คุณกำลังศึกษา &b%research% &e(%progress%)"
+  fire-extinguish: "&7ดับไฟแล้ว"
+  radiation: "&4คุณได้รับรังสีจากอันตรายถึงชีวิต! &cกำจัดไอเท็มกัมมันตภาพรังสีทิ้งซะหรือสวมชุด hazmat suit เดียวนี้!"
+  opening-backpack: "&bกำลังเปิดกระเป๋า..."
+  no-iron-golem-heal: "&cนี่มันไม่ใช้แท่งเหล็ก คุณใช้มันรักษา Golems ไม่ได้"
+machines:
+  ELEVATOR:
+    no-destinations: "&4ไม่พบจุดหมาย"
+    pick-a-floor: "&3- เลือกชั้น -"
+    current-floor: "&eคุณกำลังอยู่ที่ชั้น:"
+    click-to-teleport: "&eคลิก &7ไปยังชั้น:"
+    enter-name: "&7โปรดพิมพ์ชั้นที่ต้องการในแชท. &r(รองรับรหัสสี!)"
+    named: "&2สำเร็จ ชื่อของชั้นนี้คือ : &r%floor%"
+  TELEPORTER:
+    gui:
+      tooltip: คลิกเพื่อ teleport
+      time: เวลาโดยประมาณ
+      title: ตำแหน่งของคุณ
+    teleporting: "&3กำลังเทเลพอต..."
+    teleported: "&3เทเลพอตสำเร็จ!"
+    cancelled: "&3เทเลพอตสำเร็จ!"
+    invulnerability: "&b&lคุณได้รับความคงกระพัน 30 วินาที!"
+  pattern-not-found: "&eขอโทษ, ฉันไม่สามารถวิเคราะห์สูตรได้. โปรดวางไอเท็มให้ถูกต้อง."
+  unknown-material: "&eขอโทษ, ไม่รู้จักไอเท็มในตู้ กรุณาใส่ไอเท็มที่ฉันรู้จัก"
+  wrong-item: "&eขอโทษ, ฉันไม่สามารถวิเคาะห์ไอเท็มที่คุณคลิกขวาได้ ตรวจสอบสูตรและดูว่าไอเท็มไหนบ้างที่คุณสามารถใช้ได้"
+  full-inventory: "&eขอโทษนะ, กระเป๋าเต็มแล้ว!!"
+  in-use: "&cกล่องเก็บของถูกผู้เล่นอื่นใช้งานอยู่"
+  ignition-chamber-no-flint: "&cIgnition Chamber ขาด Flint และ Steel."
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4The Altar ต้องถูกล้อมด้วย Pedestals  &c(%pedestals% / 8)"
+    unknown-catalyst: "&4ไม่รู้จัก Catalyst! &cโปรดใช้สูตรที่ถูกต้อง!"
+    unknown-recipe: "&4ไม่รู้จักสูตรนี้ &cโปรดใช้สูตรที่ถูกต้อง!"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4Pedestal ถูกบังอยู่! &cลบสิ่งที่อยู่เหนือ pedestal!"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7โปรดพิมพ์ข้อความที่คุณต้องการแสดง Hologram ในแชท. &r(รองรับรหัสสี!)"
+    inventory-title: แก้ไข Hologram
+  CARGO_NODES:
+    must-be-placed: "&4ต้องวางลงในกล่องหรือเครื่องเท่านั้น!"
+  GPS_CONTROL_PANEL:
+    title: GPS - แผงควบคุม
+    transmitters: ภาพรวมของเครื่องส่งสัญญาณ
+    waypoints: ภาพรวมของตำแหน่ง
+android:
+  scripts:
+    instructions:
+      WAIT: "&eรอ 0.5s"
+      CATCH_FISH: "&bจับปลา"
+      START: "&2เริ่มสคริปท์"
+      REPEAT: "&9สคริปท์อีกครั้ง"
+      GO_FORWARD: "&7ไปข้างหน้า"
+      GO_UP: "&7ขึ้นข้างบน"
+      GO_DOWN: "&7ลงข้างล่าง"
+      TURN_LEFT: "&7เลี้ยวซ้าย"
+      TURN_RIGHT: "&7เลี้ยวขวา"
+      DIG_UP: "&bขุดขึ้น"
+      DIG_FORWARD: "&bขุดด้านหน้า"
+      DIG_DOWN: "&bขุดลงล่าง"
+      MOVE_AND_DIG_UP: "&bขยับและขุดขึ้นข้างบน"
+      MOVE_AND_DIG_FORWARD: "&bขยับและขุดไปด้านหน้า"
+      MOVE_AND_DIG_DOWN: "&bขยับและขุดลงข้างล่าง"
+      ATTACK_MOBS_ANIMALS: "&4โจมตี &c(มอนเตอร์และสัตว์)"
+      ATTACK_MOBS: "&4โจมตี &c(มอนเตอร์)"
+      ATTACK_ANIMALS: "&4โจมตี &c(สัตว์)"
+      ATTACK_ANIMALS_ADULT: "&4โจมตี &c(สัตว์ &7[Adult]&c)"
+      CHOP_TREE: "&cตัดและปลูก"
+      FARM_FORWARD: "&bเก็บเกี่ยวและปลูก"
+      FARM_DOWN: "&bเก็บเกี่ยวและปลูก &7(บล็อคข้างใต้)"
+      FARM_EXOTIC_FORWARD: "&bเก็บเกี่ยวและปลูก ขั้นสูง"
+      FARM_EXOTIC_DOWN: "&bเก็บเกี่ยวและปลูก ขั้นสูง &7(บล็อคข้างใต้)"
+      INTERFACE_ITEMS: "&9ใส่ของที่ต้องการเก็บในหน้าการใช้งาน"
+      INTERFACE_FUEL: "&cดึงเชื้อเพลิงจากด้านหน้า"
+    uploaded:
+    - "&bอัพโหลด..."
+    - "&aอัพโหลดสคริปต์ของคุณแล้ว!"
+    already-uploaded: "&สคริปท์ถูกอัพโหลดแล้ว."
+    enter-name:
+    - 
+    - "&eโปรดตั้งชื่อสำหรับสคริปท์"
+    rating:
+      own: "&4คุณไม่สามารถให้คะแนนสคริปต์ของคุณเองได้!"
+      already: "&4คุณได้ให้คะแนนสำหรับสคริปต์นี้แล้ว!"
+    editor: Script Editor
+  started: "&7Android ของคุณกลับมาทำงานของมันต่อ"
+  stopped: "&7Android ของคุณหยุดการทำงานหลัก"
+anvil:
+  not-working: "&4คุณไม่สามารถใช้ไอเท็ม Slimefun กับ anvil ได้!"
+backpack:
+  already-open: "&cขอโทษ, กระเป๋านี้กำลังถูกเปิดจากที่อื่น!"
+  no-stack: "&cคุณไม่สามารถรวมกระเป๋าไว้ด้วยกันได้"
+miner:
+  no-ores: "&eขอโทษด้วย, ฉันไม่เจอแร่อยู่ใกล้ๆเลย!"
+workbench:
+  not-enhanced: "&4คุณไม่สามารถใช้ไอเท็ม Slimefun กับ workbench ทั่วไปได้"
+gps:
+  deathpoint: "&4จุดตาย &7%date%"
+  waypoint:
+    new: "&eโปรดพิมพ์ชื่อตำแหน่งใหม่ในแชท. &7(Color Codes supported!)"
+    added: "&aสำเร็จ ! เพิ่มตำแหน่งใหม่แล้ว"
+    max: "&4ไม่สามารถเพิ่มตำแหน่งได้มากกว่านี้"
+  insufficient-complexity:
+  - "&4ขาดแคลน GPS Network Complexity: &c%complexity%"
+  - "&4a) คุณยังไม่ได้ติดตั้ง GPS Network "
+  - "&4b) GPS Network ซับซ้อนไม่พอ"
+  geo:
+    scan-required: "&4ต้องใช้ GEO-Scan! &cสแกน chunk  ด้วย GEO-Scanner ก่อน!"
+inventory:
+  no-access: "&4คุณไม่ได้รับอนุญาตให้เข้าถึงบล็อกนี้"
+languages:
+  default: ค่าเริ่มต้นของเซิร์ฟเวอร์
+  en: English
+  de: German
+  fr: French
+  it: Italian
+  es: Spanish
+  pl: Polish
+  sv: Swedish
+  nl: Dutch
+  cs: Czech
+  hu: Hungarian
+  lv: Latvian
+  ru: Russian
+  sk: Slovak
+  zh-TW: Chinese (Taiwan)
+  vi: Vietnamese
+  id: Indonesian
+  zh-CN: Chinese (China)
+  el: Greek
+  he: Hebrew
+  ar: Arabic
+  af: Afrikaans
+  da: Danish
+  fi: Finnish
+  uk: Ukrainian
+  ms: Malay
+  'no': Norwegian
+  ja: Japanese
+  fa: Persian
+  th: Thai
+  ro: Romanian
+  pt: Portuguese (Portugal)
+  pt-BR: Portuguese (Brazil)
+  bg: Bulgarian
+  ko: Korean
+  tr: Turkish
+  hr: Croatian
+  mk: Macedonian
+  sr: Serbian
+  be: Belarusian

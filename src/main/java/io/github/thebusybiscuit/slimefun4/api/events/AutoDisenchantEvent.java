@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -21,18 +23,10 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
     private final ItemStack item;
     private boolean cancelled;
 
-    public AutoDisenchantEvent(ItemStack item) {
+    public AutoDisenchantEvent(@Nonnull ItemStack item) {
         super(true);
 
         this.item = item;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     /**
@@ -40,18 +34,30 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
      * 
      * @return The {@link ItemStack} that is being disenchanted
      */
+    @Nonnull
     public ItemStack getItem() {
-        return this.item;
+        return item;
     }
 
     @Override
     public boolean isCancelled() {
-        return this.cancelled;
+        return cancelled;
     }
 
     @Override
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
+    }
+
+    @Nonnull
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    @Nonnull
+    @Override
+    public HandlerList getHandlers() {
+        return getHandlerList();
     }
 
 }

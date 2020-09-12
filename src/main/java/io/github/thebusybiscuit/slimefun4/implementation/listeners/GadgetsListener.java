@@ -1,10 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
@@ -14,8 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.MagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -34,7 +37,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class GadgetsListener implements Listener {
 
-    public GadgetsListener(SlimefunPlugin plugin) {
+    public GadgetsListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -54,12 +57,16 @@ public class GadgetsListener implements Listener {
             }
 
             if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
-                new MagnetTask(p, ((InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem()).getRadius()).scheduleRepeating(0, 8);
+                InfusedMagnet magnet = (InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem();
+
+                if (Slimefun.hasUnlocked(p, magnet, true)) {
+                    new MagnetTask(p, magnet.getRadius()).scheduleRepeating(0, 8);
+                }
             }
         }
     }
 
-    private void handleChestplate(Player p, SlimefunItem chestplate) {
+    private void handleChestplate(@Nonnull Player p, @Nullable SlimefunItem chestplate) {
         if (chestplate == null || !Slimefun.hasUnlocked(p, chestplate, true)) {
             return;
         }
@@ -68,7 +75,7 @@ public class GadgetsListener implements Listener {
             double thrust = ((Jetpack) chestplate).getThrust();
 
             if (thrust > 0.2) {
-                new JetpackTask(p, thrust).scheduleRepeating(0, 3);
+                new JetpackTask(p, (Jetpack) chestplate).scheduleRepeating(0, 3);
             }
         }
         else if (chestplate instanceof Parachute) {
@@ -76,12 +83,12 @@ public class GadgetsListener implements Listener {
         }
     }
 
-    private void handleBoots(Player p, SlimefunItem boots) {
+    private void handleBoots(@Nonnull Player p, @Nullable SlimefunItem boots) {
         if (boots instanceof JetBoots && Slimefun.hasUnlocked(p, boots, true)) {
             double speed = ((JetBoots) boots).getSpeed();
 
             if (speed > 0.2) {
-                new JetBootsTask(p, speed).scheduleRepeating(0, 2);
+                new JetBootsTask(p, (JetBoots) boots).scheduleRepeating(0, 2);
             }
         }
     }

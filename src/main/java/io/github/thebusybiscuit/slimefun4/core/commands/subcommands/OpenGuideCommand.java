@@ -7,22 +7,12 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class OpenGuideCommand extends SubCommand {
 
     OpenGuideCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
-        super(plugin, cmd);
-    }
-
-    @Override
-    public String getName() {
-        return "open_guide";
-    }
-
-    @Override
-    public boolean isHidden() {
-        return false;
+        super(plugin, cmd, "open_guide", false);
     }
 
     @Override
@@ -33,11 +23,11 @@ class OpenGuideCommand extends SubCommand {
                 SlimefunGuide.openGuide((Player) sender, book ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST);
             }
             else {
-                SlimefunPlugin.getLocal().sendMessage(sender, "messages.no-permission", true);
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
         }
         else {
-            SlimefunPlugin.getLocal().sendMessage(sender, "messages.only-players", true);
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }
 

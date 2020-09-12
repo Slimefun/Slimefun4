@@ -1,25 +1,26 @@
 ---
 slimefun:
-  weapons: Оружие
-  tools: Инструменты
-  items: Полезные предметы
-  food: Еда
   armor: Броня
+  basic_machines: Основные машины
+  birthday: День рождения TheBusyBiscuit (26 октября)
+  cargo: Управление грузом
+  christmas: Рождество (декабрь)
+  easter: Пасха (апрель)
+  electricity: Электричество
+  ender_talismans: Эндер-талисманы
+  food: Еда
+  gps: Машины с применением GPS
+  halloween: Хэллоуин (31 октября)
+  items: Полезные предметы
+  magical_armor: Магическая броня
+  magical_gadgets: Магические приборы
   magical_items: Магические предметы
   misc: Разное
   resources: Ресурсы
-  cargo: Управление грузом
-  tech_misc: Технические компоненты
-  magical_armor: Магическая броня
   talismans: Талисманы
-  ender_talismans: Эндер-талисманы
-  basic_machines: Основные машины
-  electricity: Электричество
-  gps: Машины с применением GPS
-  magical_gadgets: Магические приборы
+  tech_misc: Технические компоненты
   technical_gadgets: Технические приборы
-  christmas: Рождество (декабрь)
+  tools: Инструменты
   valentines_day: День святого Валентина (14 февраля)
-  easter: Пасха (апрель)
-  birthday: День рождения TheBusyBiscuit (26 октября)
-  halloween: Хэллоуин (31 октября)
+  weapons: Оружие
+  androids: Программируемые Андроиды

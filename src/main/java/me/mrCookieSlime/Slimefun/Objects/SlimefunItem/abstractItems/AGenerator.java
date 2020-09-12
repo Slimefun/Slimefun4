@@ -12,25 +12,24 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.GeneratorTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public abstract class AGenerator extends AbstractEnergyGenerator {
+public abstract class AGenerator extends AbstractEnergyProvider {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
@@ -56,8 +55,12 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-                else return getOutputSlots();
+                if (flow == ItemTransportFlow.INSERT) {
+                    return getInputSlots();
+                }
+                else {
+                    return getOutputSlots();
+                }
             }
         };
 
@@ -65,19 +68,10 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
-                for (int slot : getInputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
-                for (int slot : getOutputSlots()) {
-                    if (inv.getItemInSlot(slot) != null) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-                        inv.replaceExistingItem(slot, null);
-                    }
-                }
+                inv.dropItems(b.getLocation(), getInputSlots());
+                inv.dropItems(b.getLocation(), getOutputSlots());
             }
+
             progress.remove(b.getLocation());
             processing.remove(b.getLocation());
             return true;
@@ -114,7 +108,7 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
             });
         }
 
-        preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
@@ -136,79 +130,76 @@ public abstract class AGenerator extends AbstractEnergyGenerator {
     }
 
     @Override
-    protected GeneratorTicker onTick() {
-        return new GeneratorTicker() {
+    public int getGeneratedOutput(Location l, Config data) {
+        BlockMenu inv = BlockStorage.getInventory(l);
 
-            @Override
-            public double generateEnergy(Location l, SlimefunItem sf, Config data) {
-                BlockMenu inv = BlockStorage.getInventory(l);
-                boolean chargeable = ChargableBlock.isChargable(l);
-                int charge = chargeable ? ChargableBlock.getCharge(l) : 0;
+        if (isProcessing(l)) {
+            int timeleft = progress.get(l);
 
-                if (isProcessing(l)) {
-                    int timeleft = progress.get(l);
+            if (timeleft > 0) {
+                ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
-                    if (timeleft > 0) {
-                        ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
+                if (isChargeable()) {
+                    int charge = getCharge(l);
 
-                        if (chargeable) {
-                            if (ChargableBlock.getMaxCharge(l) - charge >= getEnergyProduction()) {
-                                ChargableBlock.addCharge(l, getEnergyProduction());
-                                progress.put(l, timeleft - 1);
-                                return (double) (charge + getEnergyProduction());
-                            }
-
-                            return charge;
-                        }
-                        else {
-                            progress.put(l, timeleft - 1);
-                            return getEnergyProduction();
-                        }
+                    if (getCapacity() - charge >= getEnergyProduction()) {
+                        progress.put(l, timeleft - 1);
+                        return getEnergyProduction();
                     }
-                    else {
-                        ItemStack fuel = processing.get(l).getInput();
 
-                        if (SlimefunUtils.isItemSimilar(fuel, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_FUEL, true) || SlimefunUtils.isItemSimilar(fuel, SlimefunItems.BUCKET_OF_OIL, true)) {
-                            inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
-                        }
-
-                        inv.replaceExistingItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "));
-
-                        progress.remove(l);
-                        processing.remove(l);
-                        return charge;
-                    }
+                    return 0;
                 }
                 else {
-                    Map<Integer, Integer> found = new HashMap<>();
-                    MachineFuel fuel = findRecipe(inv, found);
-
-                    if (fuel != null) {
-                        for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
-                            inv.consumeItem(entry.getKey(), entry.getValue());
-                        }
-
-                        processing.put(l, fuel);
-                        progress.put(l, fuel.getTicks());
-                    }
-
-                    return charge;
+                    progress.put(l, timeleft - 1);
+                    return getEnergyProduction();
                 }
             }
+            else {
+                ItemStack fuel = processing.get(l).getInput();
 
-            @Override
-            public boolean explode(Location l) {
-                return false;
+                if (isBucket(fuel)) {
+                    inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
+                }
+
+                inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
+
+                progress.remove(l);
+                processing.remove(l);
+                return 0;
             }
-        };
+        }
+        else {
+            Map<Integer, Integer> found = new HashMap<>();
+            MachineFuel fuel = findRecipe(inv, found);
+
+            if (fuel != null) {
+                for (Map.Entry<Integer, Integer> entry : found.entrySet()) {
+                    inv.consumeItem(entry.getKey(), entry.getValue());
+                }
+
+                processing.put(l, fuel);
+                progress.put(l, fuel.getTicks());
+            }
+
+            return 0;
+        }
+    }
+
+    private boolean isBucket(ItemStack item) {
+        if (item == null) {
+            return false;
+        }
+
+        ItemStackWrapper wrapper = new ItemStackWrapper(item);
+        return SlimefunUtils.isItemSimilar(wrapper, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.FUEL_BUCKET, true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.OIL_BUCKET, true);
     }
 
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {
-        for (MachineFuel recipe : fuelTypes) {
+        for (MachineFuel fuel : fuelTypes) {
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), recipe.getInput(), true)) {
-                    found.put(slot, recipe.getInput().getAmount());
-                    return recipe;
+                if (fuel.test(menu.getItemInSlot(slot))) {
+                    found.put(slot, fuel.getInput().getAmount());
+                    return fuel;
                 }
             }
         }

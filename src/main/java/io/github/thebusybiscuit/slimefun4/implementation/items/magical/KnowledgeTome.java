@@ -11,14 +11,15 @@ import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
@@ -39,7 +40,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
             List<String> lore = im.getLore();
 
             if (lore.get(1).isEmpty()) {
-                lore.set(0, ChatColor.translateAlternateColorCodes('&', "&7Owner: &b" + p.getName()));
+                lore.set(0, ChatColors.color("&7Owner: &b" + p.getName()));
                 lore.set(1, ChatColor.BLACK + "" + p.getUniqueId());
                 im.setLore(lore);
                 item.setItemMeta(im);
@@ -49,7 +50,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
                 UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
 
                 if (p.getUniqueId().equals(uuid)) {
-                    SlimefunPlugin.getLocal().sendMessage(p, "messages.no-tome-yourself");
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-tome-yourself");
                     return;
                 }
 

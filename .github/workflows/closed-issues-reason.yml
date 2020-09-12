@@ -1,0 +1,57 @@
+name: Respond to closed Issue
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'Bug Report')
+    steps:
+      - name: Query recent commits
+        uses: TheBusyBiscuit/recently-closed-issues@1.1.0
+        id: resolved
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          max_commits: 20
+      - name: Add label
+        if: contains(steps.resolved.outputs.issues, github.event.issue.number)
+        uses: maxkomarychev/octions/octions/issues/add-labels@master
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          labels: 'Resolved'
+      - uses: maxkomarychev/octions/octions/issues/create-comment@master
+        id: comment
+        if: contains(steps.resolved.outputs.issues, github.event.issue.number) == false
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          issue_number: ${{ github.event.issue.number }}
+          body: |-
+            Your issue has been closed by an admin, it may fall under one or more of the following categories.
+            **Please wait for an admin to tick off the points that apply.**
+            <hr>
+
+            * [ ] You did not follow our template. Please follow the Issue template to help us identify your issue more effectively.
+            * [ ] You did not provide any information about your versions (We absolutely need the exact version numbers that are installed on your Server, \"latest\" is not helpful)
+            * [ ] You did not provide a proper description to the problem. Try to write at least 4-6 sentences and/or provide screenshots or videos on how to reproduce this.
+            * [ ] We were unable to reproduce issue, if you think your issue still persists then please comment down below and give a better description on how to reproduce it.
+            * [ ] Your issue was posted in a foreign language, we only accept english issues on here.
+            * [ ] Your issue is not a bug, it is intended to work this way.
+            * [ ] Your issue is not really a bug, it is a limitation or simply something we have no control over.
+            * [ ] Your issue is not a bug, please only use this issue tracker to report bugs. Any other kind of communication should happen on discord.
+            * [ ] Your issue has already been reported before, it is a duplicate. Check the other issues first before posting!
+            * [ ] You posted an error without using pastebin. Please always post errors via pastebin otherwise they become nearly unreadable.
+            * [ ] You seem to be reporting multiple bugs at once. Please make a separate issue for each bug you encountered, so we can properly handle them individually.
+            * [ ] Your issue has already been fixed in a later version of Slimefun or CS-CoreLib, you should update.
+            * [ ] You are using an outdated and unsupported version of Slimefun / CS-CoreLib, again, you should update.
+            * [ ] You are using an unofficially modified build of Slimefun. We only support official versions of Slimefun - for obvious reasons.
+            * [ ] You are using an unsupported version of Minecraft. We only provide support for the Minecraft versions Slimefun was developed for, older versions are not supported anymore.
+            * [ ] You are using a \"stable\" version of Slimefun (prefixed with \"RC - \"), your issue may have been fixed in a development build, so we only accept bug reports from those.
+            * [ ] You are on the wrong issue tracker. We would like to remind you that this Issue Tracker is **only for Slimefun**. To report bugs on any addons, head to the corresponding issue tracker of that addon.
+            <hr>
+
+            Please respond below, if you have any further questions.
+            Do **not** open a new Issue unless explicitly told otherwise, comment below or edit your post instead.<br>
+            Make sure to check out our article on [How to report bugs](https://github.com/Slimefun/Slimefun4/wiki/How-to-report-bugs) for even more information.

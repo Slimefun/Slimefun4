@@ -1,145 +1,107 @@
 ---
-minecraft:
-  blasting:
-    lore:
-    - İstediğiniz eşyayı üretmek için
-    - bu eşyayı Maden Fırınında pişirin.
-    name: Maden Fırını Tarifi
-  campfire:
-    lore:
-    - İstediğiniz eşyayı hazırlamak için
-    - bu eşyayı Kamp Ateşinde pişirin.
-    name: Kamp Ateşi Tarifi
-  furnace:
-    lore:
-    - İstediğiniz eşyayı üretmek için
-    - bu eşyayı Fırında pişirin.
-    name: Fırın Tarifi
-  shaped:
-    lore:
-    - Bu eşyayı normal Üretim Masası kullanarak
-    - gösterildiği gibi üretin.
-    - Tarifin şekline dikkat edin.
-    name: Biçimli Üretim Tarifi
-  shapeless:
-    lore:
-    - Bu eşyayı normal Üretim Masası kullanarak
-    - gösterildiği gibi üretin.
-    - Tarifin şekli önemli değil.
-    name: Biçimsiz Üretim Tarifi
-  smoking:
-    lore:
-    - İstediğiniz eşyayı hazırlamak için
-    - bu eşyayı Duman Fırınında pişirin.
-    name: Duman Fırını Tarifi
-  stonecutting:
-    lore:
-    - İstediğiniz eşyayı üretmek için
-    - Taş Kesici kullanın.
-    name: Taş Kesici Tarifi
 slimefun:
-  ancient_altar:
+  multiblock:
+    name: Yapı İnşa Etme
     lore:
-    - Bu eşyayı Ancient Altar kullanarak
-    - gösterildiği gibi üretin.
-    - Daha fazla bilgi için Ancient Altar sayfasına bakın.
-    name: Ancient Altar
-  armor_forge:
-    lore:
-    - Bu eşyayı bir Armor Forge kullanarak
-    - gösterildiği gibi üretin.
-    name: Armor Forge
-  compressor:
-    lore:
-    - Bu eşyayı Compressor kullanarak
-    - gösterildiği gibi üretin.
-    name: Compressor
+    - Gösterilen yapıyı olduğu gibi inşa edin.
+    - Üretim masasında üretilmez.
   enhanced_crafting_table:
+    name: Enhanced Crafting Table
     lore:
     - Bu eşyayı Enhanced Crafting Tableda
     - gösterildiği gibi üretin.
     - Normal bir Üretim Masası yeterli olmaz!
-    name: Enhanced Crafting Table
-  food_composter:
+  armor_forge:
+    name: Armor Forge
     lore:
-    - Bu eşyayı Food Composter kullanarak
+    - Bu eşyayı bir Armor Forge kullanarak
     - gösterildiği gibi üretin.
-    name: Food Composter
-  food_fabricator:
-    lore:
-    - Bu eşyayı Food Fabricator kullanarak
-    - gösterildiği gibi üretin
-    name: Food Fabricator
-  freezer:
-    lore:
-    - Bu eşyayı Freezer kullanarak
-    - gösterildiği gibi üretin
-    name: Freezer
-  geo_miner:
-    lore:
-    - Bu eşyayı GEO Miner kullanarak
-    - elde edin
-    name: GEO Miner
-  gold_pan:
-    lore:
-    - Bu eşyayı almak için
-    - Gold Pan kullanın.
-    name: Gold Pan
   grind_stone:
+    name: Grind Stone
     lore:
     - Bu eşyayı Grind Stone kullanarak
     - gösterildiği gibi üretin.
-    name: Grind Stone
-  heated_pressure_chamber:
-    lore:
-    - Bu eşyayı Heated Pressure Chamber kullanarak
-    - gösterildiği gibi üretin.
-    name: Heated Pressure Chamber
-  juicer:
-    lore:
-    - Bu eşyayı Juicer kullanarak
-    - gösterildiği gibi üretin.
-    name: Juicer
-  magic_workbench:
-    lore:
-    - Bu eşyayı Magic Workbench kullanarak
-    - gösterildiği gibi üretin.
-    name: Magic Workbench
-  mob_drop:
-    lore:
-    - Bu eşyayı almak için
-    - yaratığı öldürün.
-    name: Yaratıktan Düşürme
-  multiblock:
-    lore:
-    - Gösterilen yapıyı olduğu gibi inşa edin.
-    - Üretim masasında üretilmez.
-    name: Yapı İnşa Etme
-  nuclear_reactor:
-    lore:
-    - Bu eşya Nuclear Reactor'ın
-    - bir yan ürünüdür
-    name: Nuclear Reactor
-  ore_crusher:
-    lore:
-    - Bu eşyayı Ore Crusher kullanarak
-    - gösterildiği gibi üretin.
-    name: Ore Crusher
-  ore_washer:
-    lore:
-    - Bu eşyayı Ore Washer kullanarak
-    - gösterildiği gibi üretin.
-    name: Ore Washer
-  pressure_chamber:
-    lore:
-    - Bu eşyayı Pressure Chamber kullanarak
-    - gösterildiği gibi üretin.
-    name: Pressure Chamber
   smeltery:
+    name: Smeltery
     lore:
     - Bu eşyayı Smeltery kullanarak
     - gösterildiği gibi üretin.
-    name: Smeltery
+  ore_crusher:
+    name: Ore Crusher
+    lore:
+    - Bu eşyayı Ore Crusher kullanarak
+    - gösterildiği gibi üretin.
+  mob_drop:
+    name: Yaratıktan Düşürme
+    lore:
+    - Bu eşyayı almak için
+    - yaratığı öldürün.
+  gold_pan:
+    name: Gold Pan
+    lore:
+    - Bu eşyayı almak için
+    - Gold Pan kullanın.
+  compressor:
+    name: Compressor
+    lore:
+    - Bu eşyayı Compressor kullanarak
+    - gösterildiği gibi üretin.
+  pressure_chamber:
+    name: Pressure Chamber
+    lore:
+    - Bu eşyayı Pressure Chamber kullanarak
+    - gösterildiği gibi üretin.
+  ore_washer:
+    name: Ore Washer
+    lore:
+    - Bu eşyayı Ore Washer kullanarak
+    - gösterildiği gibi üretin.
+  juicer:
+    name: Juicer
+    lore:
+    - Bu eşyayı Juicer kullanarak
+    - gösterildiği gibi üretin.
+  magic_workbench:
+    name: Magic Workbench
+    lore:
+    - Bu eşyayı Magic Workbench kullanarak
+    - gösterildiği gibi üretin.
+  ancient_altar:
+    name: Ancient Altar
+    lore:
+    - Bu eşyayı Ancient Altar kullanarak
+    - gösterildiği gibi üretin.
+    - Daha fazla bilgi için Ancient Altar sayfasına bakın.
+  heated_pressure_chamber:
+    name: Heated Pressure Chamber
+    lore:
+    - Bu eşyayı Heated Pressure Chamber kullanarak
+    - gösterildiği gibi üretin.
+  food_fabricator:
+    name: Food Fabricator
+    lore:
+    - Bu eşyayı Food Fabricator kullanarak
+    - gösterildiği gibi üretin
+  food_composter:
+    name: Food Composter
+    lore:
+    - Bu eşyayı Food Composter kullanarak
+    - gösterildiği gibi üretin.
+  freezer:
+    name: Freezer
+    lore:
+    - Bu eşyayı Freezer kullanarak
+    - gösterildiği gibi üretin
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Bu eşyayı GEO Miner kullanarak
+    - elde edin
+  nuclear_reactor:
+    name: Nuclear Reactor
+    lore:
+    - Bu eşya Nuclear Reactor'ın
+    - bir yan ürünüdür
   oil_pump:
     name: Oil Pump
     lore:
@@ -156,3 +118,51 @@ slimefun:
     lore:
     - Bu eşyayı Refinery kullanarak
     - üretin
+  barter_drop:
+    name: Piglin Takası İle Elde Edilir
+    lore:
+    - Piglinlerle Altın Külçesi takas ederek
+    - bu eşyayı elde edin
+minecraft:
+  shaped:
+    name: Biçimli Üretim Tarifi
+    lore:
+    - Bu eşyayı normal Üretim Masası kullanarak
+    - gösterildiği gibi üretin.
+    - Tarifin şekline dikkat edin.
+  shapeless:
+    name: Biçimsiz Üretim Tarifi
+    lore:
+    - Bu eşyayı normal Üretim Masası kullanarak
+    - gösterildiği gibi üretin.
+    - Tarifin şekli önemli değil.
+  furnace:
+    name: Fırın Tarifi
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - bu eşyayı Fırında pişirin.
+  blasting:
+    name: Maden Fırını Tarifi
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - bu eşyayı Maden Fırınında pişirin.
+  smoking:
+    name: Duman Fırını Tarifi
+    lore:
+    - İstediğiniz eşyayı hazırlamak için
+    - bu eşyayı Duman Fırınında pişirin.
+  campfire:
+    name: Kamp Ateşi Tarifi
+    lore:
+    - İstediğiniz eşyayı hazırlamak için
+    - bu eşyayı Kamp Ateşinde pişirin.
+  stonecutting:
+    name: Taş Kesici Tarifi
+    lore:
+    - İstediğiniz eşyayı üretmek için
+    - Taş Kesici kullanın.
+  smithing:
+    name: Demirci Masası Üretimi
+    lore:
+    - Bu eşyayı Demirci Masası kullanarak
+    - gösterildiği gibi üretin

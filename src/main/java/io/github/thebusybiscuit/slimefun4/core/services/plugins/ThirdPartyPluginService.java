@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +13,7 @@ import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -38,14 +40,23 @@ public class ThirdPartyPluginService {
     // Overridden if ExoticGarden is loaded
     private Function<Block, Optional<ItemStack>> exoticGardenIntegration = b -> Optional.empty();
 
-    public ThirdPartyPluginService(SlimefunPlugin plugin) {
+    public ThirdPartyPluginService(@Nonnull SlimefunPlugin plugin) {
         this.plugin = plugin;
     }
 
     public void start() {
         if (isPluginInstalled("PlaceholderAPI")) {
-            isPlaceholderAPIInstalled = true;
-            new PlaceholderAPIHook().register();
+            try {
+                PlaceholderAPIHook hook = new PlaceholderAPIHook(plugin);
+                hook.register();
+                isPlaceholderAPIInstalled = true;
+            }
+            catch (Exception | LinkageError x) {
+                String version = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI").getDescription().getVersion();
+
+                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating PlaceholderAPI or Slimefun?");
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into PlaceholderAPI v" + version);
+            }
         }
 
         if (isPluginInstalled("EmeraldEnchants")) {
@@ -61,7 +72,7 @@ public class ThirdPartyPluginService {
                 Class.forName("com.sk89q.worldedit.extent.Extent");
                 new WorldEditHook();
             }
-            catch (Throwable x) {
+            catch (Exception | LinkageError x) {
                 String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
 
                 Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
@@ -83,7 +94,7 @@ public class ThirdPartyPluginService {
         });
     }
 
-    private boolean isPluginInstalled(String hook) {
+    private boolean isPluginInstalled(@Nonnull String hook) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
             Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
             return true;

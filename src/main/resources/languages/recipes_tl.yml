@@ -1,0 +1,168 @@
+---
+slimefun:
+  multiblock:
+    name: Multiblock
+    lore:
+    - Buuin ang ipinakita na istraktura.
+    - Hindi ito crafted.
+  enhanced_crafting_table:
+    name: Enhanced Crafting Table
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - sa Enhanced Crafting Table.
+    - Ang isang normal na Crafting Table ay hindi sapat!
+  armor_forge:
+    name: Armor Forge
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Armor Forge.
+  grind_stone:
+    name: Grind Stone
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Grind Stone.
+  smeltery:
+    name: Smeltery
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Smeltery.
+  ore_crusher:
+    name: Ore Crusher
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ng Ore Crusher.
+  mob_drop:
+    name: Mob Drop
+    lore:
+    - Patayin ang mob na iyon upang
+    - makuha ang aytem na ito.
+  gold_pan:
+    name: Gold Pan
+    lore:
+    - Gamitin ang Gold Pan upang
+    - makuha ang aytem na ito.
+  compressor:
+    name: Compressor
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Compressor.
+  pressure_chamber:
+    name: Pressure Chamber
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Pressure Chamber
+  ore_washer:
+    name: Ore Washer
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Ore Washer
+  juicer:
+    name: Juicer
+    lore:
+    - I-craft ang Juice na ito tulad ng ipinakita
+    - gamit ang Juicer.
+  magic_workbench:
+    name: Magic Workbench
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Magic Workbench.
+  ancient_altar:
+    name: Ancient Altar
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Ancient Altar.
+    - Hanapin ang Ancient Altar para sa mga karagdagang Impormasyon.
+  heated_pressure_chamber:
+    name: Heated Pressure Chamber
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Heated Pressure Chamber.
+  food_fabricator:
+    name: Food Fabricator
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Food Fabricator.
+  food_composter:
+    name: Food Composter
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Food Composter.
+  freezer:
+    name: Freezer
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Freezer.
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Ang item na ito ay maaaring tipunin
+    - sa pamamagitan ng paggamit ng isang GEO Miner.
+  nuclear_reactor:
+    name: Nuclear Reactor
+    lore:
+    - Ang Item na ito ay isang byproduct
+    - ng pagpapatakbo ng isang Nuclear Reactor.
+  oil_pump:
+    name: Oil Pump
+    lore:
+    - Ang item na ito ay maaaring tipunin
+    - sa pamamagitan ng paggamit ng isang Oil Pump.
+  pickaxe_of_containment:
+    name: Pickaxe of Containment
+    lore:
+    - Maaaring makuha ang block na ito
+    - sa pamamagitan ng pagmimina ng Spawner kasama
+    - ang Pickaxe of Containment.
+  refinery:
+    name: Refinery
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Refinery.
+  barter_drop:
+    name: Piglin Bartering Drop
+    lore:
+    - Mag-barter kasama ang mga Piglins gamit ang mga
+    - Gold Ingots upang makuha ang aytem na ito.
+minecraft:
+  shaped:
+    name: Shaped Crafting Recipe
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - sa normal na Crafting Table.
+    - Mahalaga ang hugis.
+  shapeless:
+    name: Shapeless Crafting Recipe
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - sa normal na Crafting Table.
+    - Shapeless ang Recipe na ito.
+  furnace:
+    name: Furnace Recipe
+    lore:
+    - Lutuin ang item na ito sa isang Furnace
+    - upang likhain ang iyong ninanais na item.
+  blasting:
+    name: Blast Furnace Recipe
+    lore:
+    - Lutuin ang item na ito sa isang Blast Furnace
+    - upang likhain ang iyong ninanais na item.
+  smoking:
+    name: Smoker Recipe
+    lore:
+    - Lutuin ang item na ito sa isang Smoker
+    - upang likhain ang iyong ninanais na item.
+  campfire:
+    name: Campfire Recipe
+    lore:
+    - Lutuin ang item na ito sa isang Campfire
+    - upang likhain ang iyong ninanais na item.
+  stonecutting:
+    name: Stonecutter Recipe
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Stonecutter.
+  smithing:
+    name: Smithing Table Recipe
+    lore:
+    - I-craft ang item na ito tulad ng ipinakita
+    - gamit ang Smithing Table.

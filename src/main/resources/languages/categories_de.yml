@@ -1,25 +1,26 @@
 ---
 slimefun:
-  weapons: Waffen
-  tools: Werkzeuge
-  items: Nützliche Gegenstände
-  food: Essen
-  basic_machines: Einfache Maschinen
-  electricity: Energie und Elektrizität
-  gps: GPS-basierte Maschinen
   armor: Rüstung
-  magical_items: Magische Gegenstände
-  magical_gadgets: Magische Gadgets
-  misc: Sonstige Gegenstände
-  technical_gadgets: Technische Gadgets
-  resources: Ressourcen
-  cargo: Cargo-Management
-  tech_misc: Technische Komponenten
-  magical_armor: Magische Rüstung
-  talismans: Talismane (Tier I)
-  ender_talismans: Ender-Talismane (Tier II)
-  christmas: Weihnachtszeit (Dezember)
-  valentines_day: Valentinstag (14. Februar)
-  easter: Ostern (April)
+  basic_machines: Einfache Maschinen
   birthday: TheBusyBiscuit's Geburtstag (26. Oktober)
+  cargo: Cargo-Management
+  christmas: Weihnachtszeit (Dezember)
+  easter: Ostern (April)
+  electricity: Energie und Elektrizität
+  ender_talismans: Ender-Talismane (Tier II)
+  food: Essen
+  gps: GPS-basierte Maschinen
   halloween: Halloween (31. Oktober)
+  items: Nützliche Gegenstände
+  magical_armor: Magische Rüstung
+  magical_gadgets: Magische Gadgets
+  magical_items: Magische Gegenstände
+  misc: Sonstige Gegenstände
+  resources: Ressourcen
+  talismans: Talismane (Tier I)
+  tech_misc: Technische Komponenten
+  technical_gadgets: Technische Gadgets
+  tools: Werkzeuge
+  valentines_day: Valentinstag (14. Februar)
+  weapons: Waffen
+  androids: Programmierbare Roboter

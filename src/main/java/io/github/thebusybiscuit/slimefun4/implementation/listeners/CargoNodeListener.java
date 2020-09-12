@@ -1,13 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This {@link Listener} is solely responsible for preventing Cargo Nodes from being placed
@@ -18,21 +22,35 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
  */
 public class CargoNodeListener implements Listener {
 
-    public CargoNodeListener(SlimefunPlugin plugin) {
+    public CargoNodeListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onCargoNodePlace(BlockPlaceEvent e) {
         if (e.getBlock().getY() != e.getBlockAgainst().getY() && isCargoNode(e.getItemInHand())) {
-            SlimefunPlugin.getLocal().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
+            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "machines.CARGO_NODES.must-be-placed", true);
             e.setCancelled(true);
         }
     }
 
-    private boolean isCargoNode(ItemStack item) {
-        return SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_INPUT, false) 
-            || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT, false) 
-            || SlimefunUtils.isItemSimilar(item, SlimefunItems.CARGO_OUTPUT_ADVANCED, false);
+    private boolean isCargoNode(@Nonnull ItemStack item) {
+        if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            ItemStackWrapper wrapper = new ItemStackWrapper(item);
+
+            return SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_INPUT_NODE, false) 
+                || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_OUTPUT_NODE, false) 
+                || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_OUTPUT_NODE_2, false);
+        }
+        
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+        
+        if (sfItem == null) {
+            return false;
+        }
+        
+        return sfItem.getID().equals(SlimefunItems.CARGO_INPUT_NODE.getItemId())
+            || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE.getItemId())
+            || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE_2.getItemId());
     }
 }

@@ -7,18 +7,24 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.ChestedHorse;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -34,19 +40,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman.TalismanEnchantment;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.TalismanEnchantment;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TalismanListener implements Listener {
 
     private final int[] armorSlots = { 39, 38, 37, 36 };
 
-    public TalismanListener(SlimefunPlugin plugin) {
+    public TalismanListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -74,20 +79,50 @@ public class TalismanListener implements Listener {
                 Talisman.checkFor(e, SlimefunItems.TALISMAN_WARRIOR);
             }
 
-            if (e.getCause() == DamageCause.PROJECTILE && ((EntityDamageByEntityEvent) e).getDamager() instanceof Projectile) {
-                Projectile projectile = (Projectile) ((EntityDamageByEntityEvent) e).getDamager();
-
-                if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
-                    Player p = (Player) e.getEntity();
-                    Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
-                    Location loc = p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ());
-                    Projectile clone = (Projectile) e.getEntity().getWorld().spawnEntity(loc, projectile.getType());
-                    clone.setShooter(projectile.getShooter());
-                    clone.setVelocity(direction);
-                    projectile.remove();
-                }
+            if (e.getCause() == DamageCause.PROJECTILE && e instanceof EntityDamageByEntityEvent) {
+                onProjectileDamage((EntityDamageByEntityEvent) e);
             }
         }
+    }
+
+    private void onProjectileDamage(@Nonnull EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
+            Projectile projectile = (Projectile) e.getDamager();
+
+            if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
+                Player p = (Player) e.getEntity();
+                returnProjectile(p, projectile);
+            }
+        }
+    }
+
+    /**
+     * This method is used for the {@link Talisman} of the whirlwind, it returns a copy
+     * of a {@link Projectile} that was fired at a {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player} who was hit
+     * @param projectile
+     *            The {@link Projectile} that hit this {@link Player}
+     */
+    private void returnProjectile(@Nonnull Player p, @Nonnull Projectile projectile) {
+        Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
+        Location loc = p.getEyeLocation().add(direction.getX(), direction.getY(), direction.getZ());
+
+        Projectile returnedProjectile = (Projectile) p.getWorld().spawnEntity(loc, projectile.getType());
+        returnedProjectile.setShooter(projectile.getShooter());
+        returnedProjectile.setVelocity(direction);
+
+        if (projectile instanceof AbstractArrow) {
+            AbstractArrow firedArrow = (AbstractArrow) projectile;
+            AbstractArrow returnedArrow = (AbstractArrow) returnedProjectile;
+
+            returnedArrow.setDamage(firedArrow.getDamage());
+            returnedArrow.setPickupStatus(firedArrow.getPickupStatus());
+            returnedArrow.setPierceLevel(firedArrow.getPierceLevel());
+        }
+
+        projectile.remove();
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -109,6 +144,8 @@ public class TalismanListener implements Listener {
         }
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private Collection<ItemStack> getExtraDrops(LivingEntity entity, Collection<ItemStack> drops) {
         List<ItemStack> items = new ArrayList<>(drops);
 
@@ -186,6 +223,7 @@ public class TalismanListener implements Listener {
         if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
             TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem());
+
             if (enchantment != null) {
                 e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
             }
@@ -194,9 +232,9 @@ public class TalismanListener implements Listener {
         if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
             Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
-            for (Enchantment en : enchantments) {
+            for (Enchantment enchantment : enchantments) {
                 if (random.nextInt(100) < 40) {
-                    e.getEnchantsToAdd().put(en, random.nextInt(3) + 1);
+                    e.getEnchantsToAdd().put(enchantment, random.nextInt(3) + 1);
                 }
             }
 
@@ -204,29 +242,48 @@ public class TalismanListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent e) {
-        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockDropItems(BlockDropItemEvent e) {
+        // We only want to double ores
+        Material type = e.getBlockState().getType();
+        if (type.name().endsWith("_ORE")) {
+            ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
-        if (item.getType() != Material.AIR && item.getAmount() > 0) {
-            List<ItemStack> drops = new ArrayList<>(e.getBlock().getDrops(item));
-            int dropAmount = 1;
+            if (item.getType() != Material.AIR && item.getAmount() > 0 && !item.containsEnchantment(Enchantment.SILK_TOUCH)) {
+                Collection<Item> drops = e.getItems();
 
-            if (item.getEnchantments().containsKey(Enchantment.LOOT_BONUS_BLOCKS) && !item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
-                Random random = ThreadLocalRandom.current();
-                dropAmount = random.nextInt(item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 2) - 1;
-                dropAmount = Math.max(dropAmount, 1);
-                dropAmount = (e.getBlock().getType() == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (dropAmount + 1);
-            }
+                if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
+                    int dropAmount = getAmountWithFortune(type, item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
+                    boolean doubledDrops = false;
 
-            if (!item.getEnchantments().containsKey(Enchantment.SILK_TOUCH) && MaterialCollections.getAllOres().contains(e.getBlock().getType()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
-                for (ItemStack drop : drops) {
-                    if (!drop.getType().isBlock()) {
-                        int amount = Math.max(1, (dropAmount * 2) - drop.getAmount());
-                        e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(drop, amount));
+                    for (Item drop : drops) {
+                        ItemStack droppedItem = drop.getItemStack();
+
+                        if (!droppedItem.getType().isBlock()) {
+                            int amount = Math.max(1, (dropAmount * 2) - droppedItem.getAmount());
+                            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new CustomItem(droppedItem, amount));
+                            doubledDrops = true;
+                        }
+                    }
+
+                    if (doubledDrops) {
+                        SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.miner", true);
                     }
                 }
             }
+        }
+    }
+
+    private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
+        if (fortuneLevel > 0) {
+            Random random = ThreadLocalRandom.current();
+            int amount = random.nextInt(fortuneLevel + 2) - 1;
+            amount = Math.max(amount, 1);
+            amount = (type == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (amount + 1);
+            return amount;
+        }
+        else {
+            return 1;
         }
     }
 }

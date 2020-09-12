@@ -21,14 +21,26 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link SeismicAxe} is an interesting weapon. It spawns ghostly block entities in a straight line
+ * when right-clicked. These blocks launch up from the ground and damage any {@link LivingEntity} in its way.
+ * It is quite similar to a shockwave.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable, DamageableItem {
+
+    private static final float STRENGTH = 1.2F;
+    private static final float DAMAGE = 6;
+    private static final int RANGE = 10;
 
     public SeismicAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -38,45 +50,25 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     public ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
-            List<Block> blocks = p.getLineOfSight(null, 10);
+            List<Block> blocks = p.getLineOfSight(null, RANGE);
 
-            for (int i = 0; i < blocks.size(); i++) {
-                Block b = blocks.get(i);
-                Location ground = b.getLocation();
+            for (int i = 2; i < blocks.size(); i++) {
+                Block ground = findGround(blocks.get(i));
+                Location groundLocation = ground.getLocation();
 
-                if (b.getType() == null || b.getType() == Material.AIR) {
-                    for (int y = ground.getBlockY(); y > 0; y--) {
-                        if (b.getWorld().getBlockAt(b.getX(), y, b.getZ()) != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != null && b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getType() != Material.AIR) {
-                            ground = new Location(b.getWorld(), b.getX(), y, b.getZ());
-                            break;
-                        }
-                    }
-                }
+                ground.getWorld().playEffect(groundLocation, Effect.STEP_SOUND, ground.getType());
 
-                b.getWorld().playEffect(ground, Effect.STEP_SOUND, ground.getBlock().getType());
-
-                if (ground.getBlock().getRelative(BlockFace.UP).getType() == null || ground.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR) {
-                    Location loc = ground.getBlock().getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
-                    FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlock().getBlockData());
+                if (ground.getRelative(BlockFace.UP).getType() == Material.AIR) {
+                    Location loc = ground.getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
+                    FallingBlock block = ground.getWorld().spawnFallingBlock(loc, ground.getBlockData());
                     block.setDropItem(false);
                     block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance, "fake_block"));
+                    block.setMetadata("seismic_axe", new FixedMetadataValue(SlimefunPlugin.instance(), "fake_block"));
                 }
 
                 for (Entity n : ground.getChunk().getEntities()) {
-                    if (n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
-                        Vector vector = n.getLocation().toVector().subtract(p.getLocation().toVector()).normalize().multiply(1.4);
-                        vector.setY(0.9);
-                        n.setVelocity(vector);
-
-                        if (n.getType() != EntityType.PLAYER || p.getWorld().getPVP()) {
-                            EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, 6D);
-                            Bukkit.getPluginManager().callEvent(event);
-
-                            if (!event.isCancelled()) {
-                                ((LivingEntity) n).damage(6D);
-                            }
-                        }
+                    if (n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND && n.getLocation().distance(groundLocation) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
+                        pushEntity(p, n);
                     }
                 }
             }
@@ -85,6 +77,37 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
                 damageItem(p, e.getItem());
             }
         };
+    }
+
+    private void pushEntity(Player p, Entity entity) {
+        if (entity.getType() != EntityType.PLAYER || p.getWorld().getPVP()) {
+            EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, entity, DamageCause.ENTITY_ATTACK, DAMAGE);
+            Bukkit.getPluginManager().callEvent(event);
+
+            // Fixes #2207 - Only apply Vector if the Player is able to damage the entity
+            if (!event.isCancelled()) {
+                Vector vector = entity.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
+                vector.multiply(STRENGTH);
+                vector.setY(0.9);
+                entity.setVelocity(vector);
+
+                ((LivingEntity) entity).damage(event.getDamage());
+            }
+        }
+    }
+
+    private Block findGround(Block b) {
+        if (b.getType() == Material.AIR) {
+            for (int y = 0; y < b.getY(); y++) {
+                Block block = b.getRelative(0, -y, 0);
+
+                if (block.getType() != Material.AIR) {
+                    return block;
+                }
+            }
+        }
+
+        return b;
     }
 
     @Override

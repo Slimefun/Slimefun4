@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -53,7 +53,7 @@ public class PerWorldSettingsService {
             migrate();
         }
         catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "An error occured while migrating old world settings", e);
+            plugin.getLogger().log(Level.WARNING, "An error occurred while migrating old world settings", e);
         }
 
         for (World world : worlds) {
@@ -201,10 +201,10 @@ public class PerWorldSettingsService {
     public void save(World world) {
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
-        Config config = new Config(plugin, "world-settings/" + world + ".yml");
+        Config config = getConfig(world);
 
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-            if (item != null && item.getID() != null) {
+            if (item != null) {
                 String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
                 config.setValue(addon + '.' + item.getID(), !items.contains(item.getID()));
             }
@@ -222,31 +222,14 @@ public class PerWorldSettingsService {
         }
         else {
             Set<String> items = new LinkedHashSet<>();
-            Config config = new Config(plugin, "world-settings/" + name + ".yml");
+            Config config = getConfig(world);
 
             config.getConfiguration().options().header("This file is used to disable certain items in a particular world.\nYou can set any item to 'false' to disable it in the world '" + name + "'.\nYou can also disable an entire addon from Slimefun by setting the respective\nvalue of 'enabled' for that Addon.\n\nItems which are disabled in this world will not show up in the Slimefun Guide.\nYou won't be able to use these items either. Using them will result in a warning message.");
             config.getConfiguration().options().copyHeader(true);
             config.setDefaultValue("enabled", true);
 
             if (config.getBoolean("enabled")) {
-                for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-                    if (item != null && item.getID() != null) {
-                        String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
-                        config.setDefaultValue(addon + ".enabled", true);
-                        config.setDefaultValue(addon + '.' + item.getID(), true);
-
-                        boolean isAddonDisabled = config.getBoolean(addon + ".enabled");
-
-                        if (isAddonDisabled) {
-                            Set<String> blacklist = disabledAddons.computeIfAbsent(plugin, key -> new HashSet<>());
-                            blacklist.add(name);
-                        }
-
-                        if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getID())) {
-                            items.add(item.getID());
-                        }
-                    }
-                }
+                loadItemsFromWorldConfig(name, config, items);
 
                 if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
                     config.save();
@@ -258,6 +241,31 @@ public class PerWorldSettingsService {
 
             return items;
         }
+    }
+
+    private void loadItemsFromWorldConfig(String worldName, Config config, Set<String> items) {
+        for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+            if (item != null) {
+                String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
+                config.setDefaultValue(addon + ".enabled", true);
+                config.setDefaultValue(addon + '.' + item.getID(), true);
+
+                boolean isAddonDisabled = config.getBoolean(addon + ".enabled");
+
+                if (isAddonDisabled) {
+                    Set<String> blacklist = disabledAddons.computeIfAbsent(plugin, key -> new HashSet<>());
+                    blacklist.add(worldName);
+                }
+
+                if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getID())) {
+                    items.add(item.getID());
+                }
+            }
+        }
+    }
+
+    private Config getConfig(World world) {
+        return new Config(plugin, "world-settings/" + world.getName() + ".yml");
     }
 
 }

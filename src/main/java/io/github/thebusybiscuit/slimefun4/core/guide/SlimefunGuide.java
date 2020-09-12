@@ -1,21 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
-import org.bukkit.Material;
+import javax.annotation.Nonnull;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -35,32 +31,8 @@ public final class SlimefunGuide {
 
     private SlimefunGuide() {}
 
-    public static ItemStack getItem(SlimefunGuideLayout design) {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
-        ItemMeta meta = item.getItemMeta();
-        List<String> lore = new LinkedList<>();
-        lore.addAll(Arrays.asList("", ChatColors.color("&eRight Click &8\u21E8 &7Browse Items"), ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits")));
-
-        switch (design) {
-        case BOOK:
-            meta.setDisplayName(ChatColors.color("&aSlimefun Guide &7(Book GUI)"));
-            break;
-        case CHEAT_SHEET:
-            meta.setDisplayName(ChatColors.color("&cSlimefun Guide &4(Cheat Sheet)"));
-            lore.add(0, ChatColors.color("&4&lOnly openable by Admins"));
-            lore.add(0, "");
-            break;
-        case CHEST:
-            meta.setDisplayName(ChatColors.color("&aSlimefun Guide &7(Chest GUI)"));
-            break;
-        default:
-            return null;
-        }
-
-        meta.setLore(lore);
-        SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
-        item.setItemMeta(meta);
-        return item;
+    public static ItemStack getItem(@Nonnull SlimefunGuideLayout design) {
+        return SlimefunPlugin.getRegistry().getGuideLayout(design).getItem();
     }
 
     public static void openCheatMenu(Player p) {
@@ -102,7 +74,7 @@ public final class SlimefunGuide {
 
     private static void openMainMenuAsync(Player player, SlimefunGuideLayout layout, int selectedPage) {
         if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
-            SlimefunPlugin.getLocal().sendMessage(player, "messages.opening-guide");
+            SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 
@@ -131,5 +103,14 @@ public final class SlimefunGuide {
 
     public static boolean isGuideItem(ItemStack item) {
         return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.BOOK), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
+    }
+
+    public static SlimefunGuideLayout getDefaultLayout() {
+        if (SlimefunPlugin.getCfg().getBoolean("guide.default-view-book")) {
+            return SlimefunGuideLayout.BOOK;
+        }
+        else {
+            return SlimefunGuideLayout.CHEST;
+        }
     }
 }

@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockUseHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 
 /**
@@ -35,6 +37,7 @@ public class IncompatibleItemHandlerException extends RuntimeException {
      * @param handler
      *            The {@link ItemHandler} which someone tried to add
      */
+    @ParametersAreNonnullByDefault
     public IncompatibleItemHandlerException(String message, SlimefunItem item, ItemHandler handler) {
         super("The item handler type: \"" + handler.getIdentifier().getSimpleName() + "\" is not compatible with " + item + " (" + message + ')');
     }

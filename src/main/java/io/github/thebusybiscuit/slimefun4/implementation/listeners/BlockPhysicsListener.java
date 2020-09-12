@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -18,7 +20,7 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -34,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class BlockPhysicsListener implements Listener {
 
-    public BlockPhysicsListener(SlimefunPlugin plugin) {
+    public BlockPhysicsListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -89,6 +91,7 @@ public class BlockPhysicsListener implements Listener {
     public void onBucketUse(PlayerBucketEmptyEvent e) {
         // Fix for placing water on player heads
         Location l = e.getBlockClicked().getRelative(e.getBlockFace()).getLocation();
+
         if (BlockStorage.hasBlockInfo(l)) {
             e.setCancelled(true);
         }

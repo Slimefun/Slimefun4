@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -25,7 +25,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     // -1 means "automatically update according to the contents"
     private int size = -1;
 
-    private boolean universal;
+    private final boolean universal;
     private boolean locked;
 
     private ItemManipulationEvent event;
@@ -195,8 +195,8 @@ public abstract class BlockMenuPreset extends ChestMenu {
             try {
                 newInstance(menu, l.getBlock());
             }
-            catch (Throwable x) {
-                getSlimefunItem().error("An eror occured while trying to create a BlockMenu", x);
+            catch (Exception | LinkageError x) {
+                getSlimefunItem().error("An Error occurred while trying to create a BlockMenu", x);
             }
         });
     }

@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SimpleSlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemUseHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class PortableGEOScanner extends SimpleSlimefunItem<ItemUseHandler> {
@@ -24,9 +24,7 @@ public class PortableGEOScanner extends SimpleSlimefunItem<ItemUseHandler> {
             Optional<Block> block = e.getClickedBlock();
             e.cancel();
 
-            if (block.isPresent()) {
-                SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), block.get(), 0);
-            }
+            block.ifPresent(value -> SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), value, 0));
         };
     }
 

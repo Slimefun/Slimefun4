@@ -3,9 +3,12 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -13,9 +16,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public final class ChestMenuUtils {
@@ -35,71 +38,88 @@ public final class ChestMenuUtils {
 
     private static final MenuClickHandler CLICK_HANDLER = (p, s, i, a) -> false;
 
+    @Nonnull
     public static ItemStack getBackground() {
         return UI_BACKGROUND;
     }
 
+    @Nonnull
     public static MenuClickHandler getEmptyClickHandler() {
         return CLICK_HANDLER;
     }
 
-    public static ItemStack getBackButton(Player p, String... lore) {
-        return new CustomItem(BACK_BUTTON, "&7\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.back.title"), lore);
+    @Nonnull
+    public static ItemStack getBackButton(@Nonnull Player p, String... lore) {
+        return new CustomItem(BACK_BUTTON, "&7\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), lore);
     }
 
-    public static ItemStack getMenuButton(Player p) {
-        return new CustomItem(MENU_BUTTON, ChatColor.YELLOW + SlimefunPlugin.getLocal().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + SlimefunPlugin.getLocal().getMessage(p, "guide.tooltips.open-category"));
+    @Nonnull
+    public static ItemStack getMenuButton(@Nonnull Player p) {
+        return new CustomItem(MENU_BUTTON, ChatColor.YELLOW + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.settings"), "", "&7\u21E8 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category"));
     }
 
-    public static ItemStack getSearchButton(Player p) {
+    @Nonnull
+    public static ItemStack getSearchButton(@Nonnull Player p) {
         return new CustomItem(SEARCH_BUTTON, meta -> {
-            meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocal().getMessage(p, "guide.search.name")));
+            meta.setDisplayName(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "guide.search.name")));
 
-            List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E8 " + SlimefunPlugin.getLocal().getMessage(p, "guide.search.tooltip"));
+            List<String> lore = Arrays.asList("", ChatColor.GRAY + "\u21E8 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.search.tooltip"));
             lore.replaceAll(ChatColors::color);
             meta.setLore(lore);
         });
     }
 
+    @Nonnull
     public static ItemStack getWikiButton() {
         return WIKI_BUTTON;
     }
 
-    public static ItemStack getPreviousButton(Player p, int page, int pages) {
+    @Nonnull
+    public static ItemStack getPreviousButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == 1) {
             return new CustomItem(PREV_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.previous"));
+                meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }
-
-        return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
-            meta.setDisplayName(ChatColor.RESET + "\u21E6 " + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.previous"));
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-        });
+        else {
+            return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
+                meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
+                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+            });
+        }
     }
 
-    public static ItemStack getNextButton(Player p, int page, int pages) {
+    @Nonnull
+    public static ItemStack getNextButton(@Nonnull Player p, int page, int pages) {
         if (pages == 1 || page == pages) {
             return new CustomItem(NEXT_BUTTON_INACTIVE, meta -> {
-                meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E8");
+                meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
         }
-
-        return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
-            meta.setDisplayName(ChatColor.RESET + SlimefunPlugin.getLocal().getMessage(p, "guide.pages.next") + " \u21E8");
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
-        });
+        else {
+            return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
+                meta.setDisplayName(ChatColor.WHITE + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
+                meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
+            });
+        }
     }
 
-    public static void drawBackground(ChestMenu menu, int... slots) {
+    public static void drawBackground(@Nonnull ChestMenu menu, int... slots) {
         for (int slot : slots) {
             menu.addItem(slot, getBackground(), getEmptyClickHandler());
         }
     }
 
-    public static void updateProgressbar(ChestMenu menu, int slot, int timeLeft, int time, ItemStack indicator) {
+    public static void updateProgressbar(@Nonnull ChestMenu menu, int slot, int timeLeft, int time, @Nonnull ItemStack indicator) {
+        Inventory inv = menu.toInventory();
+
+        // We don't need to update the progress bar if noone is watching :o
+        if (inv == null || inv.getViewers().isEmpty()) {
+            return;
+        }
+
         ItemStack item = indicator.clone();
         ItemMeta im = item.getItemMeta();
         im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -115,34 +135,30 @@ public final class ChestMenuUtils {
         menu.replaceExistingItem(slot, item);
     }
 
+    @Nonnull
     public static String getProgressBar(int time, int total) {
-        StringBuilder progress = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);
 
-        if (percentage < 16.0F) progress.append("&4");
-        else if (percentage < 32.0F) progress.append("&c");
-        else if (percentage < 48.0F) progress.append("&6");
-        else if (percentage < 64.0F) progress.append("&e");
-        else if (percentage < 80.0F) progress.append("&2");
-        else progress.append("&a");
+        builder.append(NumberUtils.getColorFromPercentage(percentage));
 
         int rest = 20;
         for (int i = (int) percentage; i >= 5; i = i - 5) {
-            progress.append(':');
+            builder.append(':');
             rest--;
         }
 
-        progress.append("&7");
+        builder.append("&7");
 
         for (int i = 0; i < rest; i++) {
-            progress.append(':');
+            builder.append(':');
         }
 
-        progress.append(" - ").append(percentage).append('%');
-        return ChatColors.color(progress.toString());
+        builder.append(" - ").append(percentage).append('%');
+        return ChatColors.color(builder.toString());
     }
 
-    private static short getDurability(ItemStack item, int timeLeft, int max) {
+    private static short getDurability(@Nonnull ItemStack item, int timeLeft, int max) {
         return (short) ((item.getType().getMaxDurability() / max) * timeLeft);
     }
 

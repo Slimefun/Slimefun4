@@ -3,13 +3,15 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import java.util.Locale;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
-import me.mrCookieSlime.Slimefun.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This utility class contains a few static methods that are all about {@link String} manipulation
@@ -22,15 +24,19 @@ public final class ChatUtils {
 
     private ChatUtils() {}
 
-    public static void sendURL(CommandSender sender, String url) {
+    public static void sendURL(@Nonnull CommandSender sender, @Nonnull String url) {
         // If we get access to the URL prompt one day, we can just prompt the link to the Player that way.
         sender.sendMessage("");
-        SlimefunPlugin.getLocal().sendMessage(sender, "messages.link-prompt", false);
+        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.link-prompt", false);
         sender.sendMessage(ChatColors.color("&7&o" + url));
         sender.sendMessage("");
     }
 
-    public static String crop(ChatColor color, String string) {
+    public static String removeColorCodes(@Nonnull String string) {
+        return ChatColor.stripColor(ChatColors.color(string));
+    }
+
+    public static String crop(@Nonnull ChatColor color, @Nonnull String string) {
         if (ChatColor.stripColor(color + string).length() > 19) {
             return (color + ChatColor.stripColor(string)).substring(0, 18) + "...";
         }
@@ -39,18 +45,30 @@ public final class ChatUtils {
         }
     }
 
-    public static String christmas(String text) {
+    public static String christmas(@Nonnull String text) {
         return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);
     }
 
-    public static void awaitInput(Player p, Consumer<String> callback) {
-        ChatInput.waitForPlayer(SlimefunPlugin.instance, p, callback);
+    public static void awaitInput(@Nonnull Player p, @Nonnull Consumer<String> callback) {
+        ChatInput.waitForPlayer(SlimefunPlugin.instance(), p, callback);
     }
 
-    public static String humanize(String string) {
+    /**
+     * This converts a given {@link String} to a human-friendly version.
+     * This can be used to convert enum constants to easier to read words with
+     * spaces and upper case word starts.
+     * 
+     * For example:
+     * {@code ENUM_CONSTANT: Enum Constant}
+     * 
+     * @param string
+     *            The {@link String} to convert
+     * 
+     * @return A human-friendly version of the given {@link String}
+     */
+    public static String humanize(@Nonnull String string) {
         StringBuilder builder = new StringBuilder();
-
-        String[] segments = string.toLowerCase(Locale.ROOT).split("_");
+        String[] segments = PatternUtils.UNDERSCORE.split(string.toLowerCase(Locale.ROOT));
 
         builder.append(Character.toUpperCase(segments[0].charAt(0))).append(segments[0].substring(1));
 

@@ -1,227 +1,137 @@
 ---
-android:
-  scripts:
-    already-uploaded: "&4Ezt a szkriptet már feltöltötték."
-    editor: Szkript Szerkesztő
-    enter-name:
-    - 
-    - "&eKérlek, írd be a szkript nevét"
-    instructions:
-      ATTACK_ANIMALS: "&4Támadj &c(Állatok)"
-      ATTACK_ANIMALS_ADULT: "&4Támadj &c(Állatok &7[Felnőtt]&c)"
-      ATTACK_MOBS: "&4Támadj &c(Ellenséges Élőlények)"
-      ATTACK_MOBS_ANIMALS: "&4Támadj &c(Ellenséges Élőlények és Állatok)"
-      CATCH_FISH: "&bFogj Halat"
-      CHOP_TREE: "&cVágj és Ültess"
-      DIG_DOWN: "&bÁss le"
-      DIG_FORWARD: "&bÁss előre"
-      DIG_UP: "&bÁss"
-      FARM_DOWN: "&bSzüretelj és Ültess &7(Blokk alatt)"
-      FARM_EXOTIC_DOWN: "&bFejlett Szüretelés és Ültetés &7(Blokk alatt)"
-      FARM_EXOTIC_FORWARD: "&bFejlett Szüretelés és Ültetés"
-      FARM_FORWARD: "&bSzüretelj és Ültess"
-      GO_DOWN: "&7Menj lefelé"
-      GO_FORWARD: "&7Menj előre"
-      GO_UP: "&7Menj felfelé"
-      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a csatlakozási Felületről"
-      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a csatlakozási Felületbe"
-      MOVE_AND_DIG_DOWN: "&bMenj és Áss lefelé"
-      MOVE_AND_DIG_FORWARD: "&bMenj és Áss előre"
-      MOVE_AND_DIG_UP: "&bMenj és Áss felfelé"
-      REPEAT: "&9Szkript ismétlése"
-      START: "&2Szkript indítása"
-      TURN_LEFT: "&7Fordulj balra"
-      TURN_RIGHT: "&7Fordulj jobbra"
-      WAIT: "&eVárjon 0.5s"
-    rating:
-      already: "&4Ezt a szkriptet már értékelted!"
-      own: "&4Nem értékelheted a saját szkriptedet!"
-    uploaded:
-    - "&bFeltöltés..."
-    - "&aA szkript sikeresen feltöltve!"
-  started: "&7Az Androidod folytatja a szkript futtatását"
-  stopped: "&7Az Androidod szünetelteti a szkript futtatását"
-anvil:
-  not-working: "&4Nem használhatsz Slimefun tárgyakat az Üllőben!"
-backpack:
-  already-open: "&cSajnáljuk, ez a Hátizsák valahol máshol már nyitva van!"
-  no-stack: "&cNem lehet halmozni a Táskákat"
 commands:
+  help: Megjeleníti ezt a súgóképernyőt
   cheat: Lehetővé teszi a Tárgyak csalását
   give: Adj valakinek Slimefun Tárgyakat
   guide: Adj magadnak egy Slimefun Útmutatót
-  help: Megjeleníti ezt a súgóképernyőt
+  timings: Lag-Információ a Szerverről
+  teleporter: Nézd meg a többi Játékos Útpontjait
+  versions: Az összes telepített Kiegészítőt listázza
+  search: Keresés egy kifejezésre az Útmutatóban
   open_guide: A könyv használata nélkül megnyitja a Slimefun útmutatóját
+  stats: Néhány statisztikát mutat a Játékosról
   research:
     description: A játékosok kutatásainak Feloldása/Visszaállítása
     reset: "&cVisszaállítottad %player% Ismereteit"
     reset-target: "&cAz ismereteidet visszaállították"
-  search: Keresés egy kifejezésre az Útmutatóban
-  stats: Néhány statisztikát mutat a Játékosról
-  teleporter: Nézd meg a többi Játékos Útpontjait
-  timings: Lag-Információ a Szerverről
-  versions: Az összes telepített Kiegészítőt listázza
-gps:
-  deathpoint: "&4Halálpont &7%date%"
-  geo:
-    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunkot
-      a GEO-Szkennerrel!"
-  insufficient-complexity:
-  - "&4Nem megfelelő a GPS Hálózat Komplexitása: &c%complexity%"
-  - "&4a) Még nem telepítetted a GPS Hálózatot"
-  - "&4b) A GPS Hálózatod nem eléggé összetett"
-  waypoint:
-    added: "&aSikeresen megadtad az útpontot"
-    max: "&4Elérted a maximális útpontok számát"
-    new: "&eKérlek, add meg az új útpontot chatben. &7(A Színkódok használhatóak!)"
+  backpack:
+    description: Lekéri egy meglévő hátizsák másolatát
+    invalid-id: "&4Az azonosító nem lehet negatív szám!"
+    player-never-joined: "&4Nincs ilyen nevű játékos!"
+    backpack-does-not-exist: "&4A megadott hátizsák nem létezik!"
+    restored-backpack-given: "&aA hátizsákod visszaállítva és hozzáadva a leltáradhoz!"
 guide:
-  back:
-    guide: Menj vissza a Slimefun Útmutatóba
-    settings: Menj vissza a Beállítások Panelre
-    title: Vissza
+  search:
+    message: "&bMit szeretnél keresni?"
+    name: "&7Keresés..."
+    tooltip: "&bKlikk egy tárgy kereséséhez"
+    inventory: 'Keresés erre: %item%'
+    lore:
+    - "&bMit szeretnél keresni?"
+    - "&7Gépeld be a keresett kifejezést a chatbe"
   cheat:
     no-multiblocks: "&4A Multiblokkban nem tudsz csalni, meg kell építened!"
-  credits:
-    commit: Commit
-    commits: Commits
-    profile-link: Kattints ide, hogy meglátogasd a profilját a GitHub-on
-    roles:
-      developer: "&6Fejlesztő"
-      resourcepack: "&cForráscsomag Művész"
-      translator: "&9Fordító"
-      wiki: "&3Wiki Szerkesztő"
   languages:
+    updated: "&aA nyelvet sikeresen átállítottad erre: &b%lang%"
+    translations:
+      name: "&aHiányzik valami?"
+      lore: Kattints a saját fordítás hozzáadásához
     select: Kattints a nyelv kiválasztásához
     select-default: Kattints az alapértelmezett nyelv kiválasztásához
     selected-language: 'Jelenleg kiválasztva:'
-    translations:
-      lore: Kattints a saját fordítás hozzáadásához
-      name: "&aHiányzik valami?"
-    updated: "&aA nyelvet sikeresen átállítottad erre: &b%lang%"
+  title:
+    main: Slimefun Útmutató
+    settings: Beállítások és Információk
+    languages: Válaszd ki a kívánt nyelvet
+    credits: Slimefun4 Közreműködők
+    wiki: Slimefun4 Wiki
+    addons: A Slimefun4 kiegészítői
+    bugs: Hibajelentések
+    source: Forráskód
+  credits:
+    commit: Commit
+    commits: Commits
+    roles:
+      developer: "&6Fejlesztő"
+      wiki: "&3Wiki Szerkesztő"
+      resourcepack: "&cForráscsomag Művész"
+      translator: "&9Fordító"
+    profile-link: Kattints ide, hogy meglátogasd a profilját a GitHub-on
+  pages:
+    previous: Előző oldal
+    next: Következő oldal
+  tooltips:
+    open-category: Kattints a megnyitáshoz
+    versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
+    wiki: Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin
+    recipes:
+      machine: Ebben a Gépben készített receptek
+      miner: Erőforrások, amelyeket ezzel a Bányásszal szerezhetsz be
+      generator: Rendelkezésre álló üzemanyagtípusok
+      gold-pan: Megszerezhető források
+  back:
+    title: Vissza
+    guide: Menj vissza a Slimefun Útmutatóba
+    settings: Menj vissza a Beállítások Panelre
   locked: LEZÁRVA
   locked-category:
   - Ennek a kategóriának a feloldásához
   - fel kell oldanod az összes tárgyat a
   - következő kategóriákból
-  pages:
-    next: Következő oldal
-    previous: Előző oldal
-  search:
-    inventory: 'Keresés erre: %item%'
-    lore:
-    - "&bMit szeretnél keresni?"
-    - "&7Gépeld be a keresett kifejezést a chatbe"
-    message: "&bMit szeretnél keresni?"
-    name: "&7Keresés..."
-    tooltip: "&bKlikk egy tárgy kereséséhez"
-  title:
-    addons: A Slimefun4 kiegészítői
-    bugs: Hibajelentések
-    credits: Slimefun4 Közreműködők
-    languages: Válaszd ki a kívánt nyelvet
-    main: Slimefun Útmutató
-    settings: Beállítások és Információk
-    source: Forráskód
-    wiki: Slimefun4 Wiki
-  tooltips:
-    open-category: Kattints a megnyitáshoz
-    recipes:
-      generator: Rendelkezésre álló üzemanyagtípusok
-      gold-pan: Megszerezhető források
-      machine: Ebben a Gépben készített receptek
-      miner: Erőforrások, amelyeket ezzel a Bányásszal szerezhetsz be
-    versions-notice: Ezek nagyon fontosak a hibák jelentésekor!
-    wiki: Tekintsd meg ezt a tárgyat a hivatalos Slimefun Wikin
-inventory:
-  no-access: "&4Nincs hozzáférésed ehhez a blokkhoz"
-languages:
-  af: Afrikánsz
-  ar: Arab
-  bg: Bolgár
-  cs: Cseh
-  da: Dán
-  de: Német
-  default: Szerver-Alapértelmezett
-  el: Görög
-  en: Angol
-  es: Spanyol
-  fa: Perzsa
-  fi: Finn
-  fr: Francia
-  he: Héber
-  hu: Magyar
-  id: Indonéz
-  it: Olasz
-  ja: Japán
-  ko: Koreai
-  lv: Lett
-  ms: Maláj
-  nl: Holland
-  'no': Norvég
-  pl: Lengyel
-  pt: Portugál (Portugália)
-  pt-BR: Portugál (Brazília)
-  ro: Román
-  ru: Orosz
-  sk: Szlovák
-  sv: Svéd
-  th: Thai
-  tr: Török
-  uk: Ukrán
-  vi: Vietnami
-  zh-CN: Kínai (Kína)
-  zh-TW: Kínai (Tajvan)
-machines:
-  ANCIENT_ALTAR:
-    not-enough-pedestals: "&4Az Oltár körül nincs elég Talapzat, ami szükséges a működéséhez
-      &c(%pedestals% / 8)"
-    unknown-catalyst: "&4Ismeretlen Katalizátor! &cEhelyett használd a helyes Receptet!"
-    unknown-recipe: "&4Ismeretlen Recept! &cEhelyett használd a helyes Receptet!"
-  ANCIENT_PEDESTAL:
-    obstructed: "&4A Talapzat el van torlaszolva! &cTávolíts el mindent, ami a talapzat
-      felett van!"
-  CARGO_NODES:
-    must-be-placed: "&4Ládára vagy gépre kell helyezni!"
-  ELEVATOR:
-    click-to-teleport: "&eKattints &7erre az emeletre való teleportáláshoz:"
-    current-floor: "&eEz az emelet, amelyen jelenleg tartózkodik:"
-    enter-name: "&7Kérlek írd be a kívánt emelet nevet a Chatbe. &r(A Színkódok is
-      támogatottak!)"
-    named: "&2Sikeresen elnevezted ezt az emeletet: &r%floor%"
-    no-destinations: "&4Nem található úticél"
-    pick-a-floor: "&3- Válassz emeletet -"
-  full-inventory: "&eSajnálom, tele a tárolóm!"
-  GPS_CONTROL_PANEL:
-    title: GPS - Vezérlőpult
-    transmitters: Transzmitter Áttekintése
-    waypoints: Útpont Áttekintése
-  HOLOGRAM_PROJECTOR:
-    enter-text: "&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok
-      is használhatóak!)"
-    inventory-title: Hologram Szerkesztő
-  ignition-chamber-no-flint: "&cA Gyújtókamrából hiányzik a Kovakő és Acél."
-  in-use: "&cEnnek a Blokknak a tárolóját éppen megnyitotta egy másik Játékos."
-  pattern-not-found: "&eSajnálom, nem ismerem fel ezt a Receptet. Kérlek, helyezd
-    a Tárgyakat a megfelelő mintában az Adagolóba."
-  TELEPORTER:
-    cancelled: "&4Teleportálás megszakítva!"
-    gui:
-      time: Becsült idő
-      title: Az útpontjaid
-      tooltip: Klikk a teleportáláshoz
-    invulnerability: "&b&l30 másodperc Sérthetetlenséget kaptál!"
-    teleported: "&3Teleportálva!"
-    teleporting: "&3Teleportálás..."
-  unknown-material: "&eSajnálom, Nem tudtam felismerni a Tárgyat az adagolóban. Kérlek
-    tegyél bele valamit, amit ismerek."
-  wrong-item: "&eSajnálom, nem ismerem fel azt a Tárgyat, amire kattintottál velem.
-    Ellenőrizd a Recepteket, és nézd meg, mely Tárgyakat használhatod."
 messages:
-  cannot-place: "&cNem teheted ezt a blokkot oda!"
-  diet-cookie: "&eNagyon könnyednek érzed magad..."
+  not-researched: "&4Nincs elég ismereted ennek a megértéséhez"
+  not-enough-xp: "&4Nincs elég XP-d ennek a feloldásához"
+  unlocked: '&7"%research%" &bfeloldva'
+  only-players: "&4Ez a parancs csak a Játékosok számára szól"
+  unknown-player: "&4Ismeretlen Játékos: &c%player%"
+  no-permission: "&4Nem rendelkezel a szükséges engedélyekkel ehhez"
+  usage: "&4Használat: &c%usage%"
+  not-online: "&4%player% &cnincs online!"
+  not-valid-item: "&4%item% &cnem megfelelő Tárgy!"
+  not-valid-amount: "&4%amount% &cnem megfelelő mennyiség : 0-nál nagyobbnak kell
+    lennie!"
+  given-item: '&bKaptál &a%amount% &7"%item%&7"&b-t'
+  give-item: '&bAdtál %player%-nek/nak &a%amount% &7"%item%&7"&b-t'
+  not-valid-research: "&4%research% &cnem érvényes Kutatás!"
+  give-research: '&bAdtál %player%-nek/nak &7"%research%&7" &bKutatást'
+  hungry: "&cTúl éhes vagy ehhez!"
+  mode-change: "&b%device% mód állítva erre: &9%mode%"
   disabled-in-world: "&4&lEz a Tárgy tiltva van ebben a világban"
   disabled-item: "&4&lEz a Tárgy le van tiltva! Egyáltalán hogyan szerezted?"
+  no-tome-yourself: "&cNem tudod használni a &4Tome of Knowledge &c-t magadon..."
+  multimeter: "&bTárolt Energia: &3%stored% &b/ &3%capacity%"
+  talisman:
+    anvil: "&a&oA Talizmánod megmentette az eszközöd a töréstől"
+    miner: "&a&oA Talizmánod megduplázta a dobott tárgyakat"
+    hunter: "&a&oA Talizmánod megduplázta a dobott tárgyakat"
+    lava: "&a&oA Talizmánod megmentett a halálos égéstől"
+    water: "&a&oA Talizmánod megmentett a fulladástól"
+    angel: "&a&oA Talizmánod megmentett a zuhanási sérüléstől"
+    fire: "&a&oA Talizmánod megmentett a halálra elégéstől"
+    magician: "&a&oA Talizmánod adott további Fejlesztéseket is"
+    traveller: "&a&oA Talizmánod Gyors sebességet adott neked"
+    warrior: "&a&oA Talizmánodtól növelte az Erőd egy kis időre"
+    knight: "&a&oA Talizmánod adott 5 Másodpercre élet Regenerációt"
+    whirlwind: "&a&oA Talizmánod visszavert egy Távolsági lövést"
+    wizard: "&a&oA Talizmánod erősítette a Szerencse Szinjét, de néhány egyéb Fejlesztés
+      Szint kicsit gyengül"
+  soulbound-rune:
+    fail: "&cEgyszerre csak egy tárgyat köthetsz a lelkedhez."
+    success: "&aSikeresen hozzákötötted ezt a tárgyat a lelkedhez! Megmarad, amikor
+      meghalsz."
+  research:
+    start: "&7Az Ősi Lelkek titokzatos szavakat súgnak a füledbe!"
+    progress: "&7Elkezdtél kíváncsiskodni a következő kutatásról: &b%research% &e(%progress%)"
   fire-extinguish: "&7Eloltottad magad!"
+  cannot-place: "&cNem teheted ezt a blokkot oda!"
+  no-pvp: "&cA pvp itt nem engedélyezett!"
+  radiation: "&4Halálos sugárzásnak vagy kitéve! &cSzabadulj meg a radioaktív tárgytól,
+    vagy viselj Hazmat Suit-ot!"
+  opening-guide: "&bÚtmutató megnyitása, ez eltarthat pár másodpercig..."
+  opening-backpack: "&bHátizsák megnyitása, ez eltarthat pár másodpercig..."
+  no-iron-golem-heal: "&cEz nem egy Vasrúd. Ezt nem használhatod a Vasgólem gyógyítására!"
+  link-prompt: "&eKattints ide:"
+  diet-cookie: "&eNagyon könnyednek érzed magad..."
   fortune-cookie:
   - "&7Segítség, csapdába estem egy Szerencsesüti Gyárban!"
   - "&7Holnap meghalsz...     egy Creeper által"
@@ -235,55 +145,183 @@ messages:
   - "&742. A válasz 42."
   - "&7Walshy egy nap távol tartja a bajokat."
   - "&7Soha ne áss egyenesen!"
-  give-item: '&bAdtál %player%-nek/nak &a%amount% &7"%item%&7"&b-t'
-  given-item: '&bKaptál &a%amount% &7"%item%&7"&b-t'
-  give-research: '&bAdtál %player%-nek/nak &7"%research%&7" &bKutatást'
-  hungry: "&cTúl éhes vagy ehhez!"
-  link-prompt: "&eKattints ide:"
-  mode-change: "&b%device% mód állítva erre: &9%mode%"
-  multimeter: "&bTárolt Energia: &3%stored% &b/ &3%capacity%"
-  no-iron-golem-heal: "&cEz nem egy Vasrúd. Ezt nem használhatod a Vasgólem gyógyítására!"
-  no-permission: "&4Nem rendelkezel a szükséges engedélyekkel ehhez"
-  no-pvp: "&cA pvp itt nem engedélyezett!"
-  not-enough-xp: "&4Nincs elég XP-d ennek a feloldásához"
-  no-tome-yourself: "&cNem tudod használni a &4Tome of Knowledge &c-t magadon..."
-  not-online: "&4%player% &cnincs online!"
-  not-researched: "&4Nincs elég ismereted ennek a megértéséhez"
-  not-valid-amount: "&4%amount% &cnem megfelelő mennyiség : 0-nál nagyobbnak kell
-    lennie!"
-  not-valid-item: "&4%item% &cnem megfelelő Tárgy!"
-  not-valid-research: "&4%research% &cnem érvényes Kutatás!"
-  only-players: "&4Ez a parancs csak a Játékosok számára szól"
-  opening-backpack: "&bHátizsák megnyitása, ez eltarthat pár másodpercig..."
-  opening-guide: "&bÚtmutató megnyitása, ez eltarthat pár másodpercig..."
-  radiation: "&4Halálos sugárzásnak vagy kitéve! &cSzabadulj meg a radioaktív tárgytól,
-    vagy viselj Hazmat Suit-ot!"
-  research:
-    progress: "&7Elkezdel kíváncsiskodni a kutatásról, neve: &b%research% &e(%progress%)"
-    start: "&7Az Ősi Lelkek titokzatos szavakat súgnak a füledbe!"
-  soulbound-rune:
-    fail: "&cEgyszerre csak egy tárgyat köthetsz a lelkedhez."
-    success: "&aSikeresen hozzákötötted ezt a tárgyat a lelkedhez! Megmarad, amikor
-      meghalsz."
-  talisman:
-    angel: "&a&oA Talizmánod megmentett a zuhanási sérüléstől"
-    anvil: "&a&oA Talizmánod megmentette az eszközöd a töréstől"
-    fire: "&a&oA Talizmánod megmentett a halálra elégéstől"
-    hunter: "&a&oA Talizmánod megduplázta a dobott tárgyakat"
-    knight: "&a&oA Talizmánod adott 5 Másodpercre élet Regenerációt"
-    lava: "&a&oA Talizmánod megmentett a halálos égéstől"
-    magician: "&a&oA Talizmánod adott további Fejlesztéseket is"
-    miner: "&a&oA Talizmánod megduplázta a dobott tárgyakat"
-    traveller: "&a&oA Talizmánod Gyors sebességet adott neked"
-    warrior: "&a&oA Talizmánodtól növelte az Erőd egy kis időre"
-    water: "&a&oA Talizmánod megmentett a fulladástól"
-    whirlwind: "&a&oA Talizmánod visszavert egy Távolsági lövést"
-    wizard: "&a&oA Talizmánod erősítette a Szerencse Szinjét, de néhány egyéb Fejlesztés
-      Szint kicsit gyengül"
-  unknown-player: "&4Ismeretlen Játékos: &c%player%"
-  unlocked: '&7"%research%" &bfeloldva'
-  usage: "&4Használat: &c%usage%"
-miner:
-  no-ores: "&eSajnálom, nem találtam semmilyen Ércet a közelben!"
+  - "&7Ez csak egy friss sebesülés!"
+  - "&7Mindig nézd az élet jó oldalát!"
+  - "&7Ez valójában Keksz volt, és nem Süti"
+  - "&7A neon táblák VILÁGÍTANAK!"
+  piglin-barter: "&4Slimefun tárgyakat nem cserélhetsz el a Piglinekkel."
+  enchantment-rune:
+    fail: "&cNem varázsolhatod el ezt a tárgyat."
+    no-enchantment: "&cNem található megfelelő varázslat ehhez az tárgyhoz."
+    success: "&aSikeresen alkalmaztál egy véletlenszerű varázslatot erre a tárgyra."
+  tape-measure:
+    no-anchor: "&cBe kell állítanod egy rögzítést, mielőtt megkezdenéd a mérést!"
+    wrong-world: "&cA rögzítés úgy tűnik egy másik világban van!"
+    distance: "&7A mérés megtörtént. &eA távolság: %distance%"
+    anchor-set: "&aA rögzítés sikeresen beállítva:&e %anchor%"
+machines:
+  pattern-not-found: "&eSajnálom, nem ismerem fel ezt a Receptet. Kérlek, helyezd
+    a Tárgyakat a megfelelő mintában az Adagolóba."
+  unknown-material: "&eSajnálom, Nem tudtam felismerni a Tárgyat az adagolóban. Kérlek
+    tegyél bele valamit, amit ismerek."
+  wrong-item: "&eSajnálom, nem ismerem fel azt a Tárgyat, amire kattintottál velem.
+    Ellenőrizd a Recepteket, és nézd meg, mely Tárgyakat használhatod."
+  full-inventory: "&eSajnálom, tele a tárolóm!"
+  in-use: "&cEnnek a Blokknak a tárolóját éppen megnyitotta egy másik Játékos."
+  ignition-chamber-no-flint: "&cA Gyújtókamrából hiányzik a Kovakő és Acél."
+  ANCIENT_ALTAR:
+    not-enough-pedestals: "&4Az Oltár körül nincs elég Talapzat, ami szükséges a működéséhez
+      &c(%pedestals% / 8)"
+    unknown-catalyst: "&4Ismeretlen Katalizátor! &cEhelyett használd a helyes Receptet!"
+    unknown-recipe: "&4Ismeretlen Recept! &cEhelyett használd a helyes Receptet!"
+  ANCIENT_PEDESTAL:
+    obstructed: "&4A Talapzat el van torlaszolva! &cTávolíts el mindent, ami a talapzat
+      felett van!"
+  HOLOGRAM_PROJECTOR:
+    enter-text: "&7Kérlek, írd be a kívánt Hologram Szöveget a Chatbe. &r(A színkódok
+      is használhatóak!)"
+    inventory-title: Hologram Szerkesztő
+  ELEVATOR:
+    no-destinations: "&4Nem található úticél"
+    pick-a-floor: "&3- Válassz emeletet -"
+    current-floor: "&eEz az emelet, amelyen jelenleg tartózkodik:"
+    click-to-teleport: "&eKattints &7erre az emeletre való teleportáláshoz:"
+    enter-name: "&7Kérlek írd be a kívánt emelet nevet a Chatbe. &r(A Színkódok is
+      támogatottak!)"
+    named: "&2Sikeresen elnevezted ezt az emeletet: &r%floor%"
+  TELEPORTER:
+    teleporting: "&3Teleportálás..."
+    teleported: "&3Teleportálva!"
+    cancelled: "&4Teleportálás megszakítva!"
+    invulnerability: "&b&l30 másodperc Sérthetetlenséget kaptál!"
+    gui:
+      title: Az útpontjaid
+      tooltip: Klikk a teleportáláshoz
+      time: Becsült idő
+  CARGO_NODES:
+    must-be-placed: "&4Ládára vagy gépre kell helyezni!"
+  GPS_CONTROL_PANEL:
+    title: GPS - Vezérlőpult
+    transmitters: Transzmitter Áttekintése
+    waypoints: Útpont Áttekintése
+  INDUSTRIAL_MINER:
+    no-fuel: "&cAz Ipari Bányászodnak elfogyott az üzemanyaga! Tedd az üzemanyagot
+      a fenti ládába."
+    piston-facing: "&cAz Ipari Bányászodhoz szükségesek dugattyúk, amik felfelé néznek!"
+    piston-space: "&cA két dugattyú felett egy üres blokknak kell lennie!"
+    destroyed: "&cÚgy tűnik, hogy az Ipari Bányászod megsemmisült."
+    already-running: "&cEz az Ipari Bányász már fut!"
+    full-chest: "&cAz Ipari Bányász ládája tele van!"
+    no-permission: "&4Úgy tűnik, hogy nincs engedélyed az Ipari Bányász üzemeltetésére
+      itt!"
+    finished: Az Ipari Bányászod kész! Összesen %ores% ércet szerzett!
+anvil:
+  not-working: "&4Nem használhatsz Slimefun tárgyakat az Üllőben!"
+backpack:
+  already-open: "&cSajnáljuk, ez a Hátizsák valahol máshol már nyitva van!"
+  no-stack: "&cNem lehet halmozni a Táskákat"
 workbench:
   not-enhanced: "&4Nem használhatsz Slimefun Tárgyakat normális barkácsasztalban"
+gps:
+  deathpoint: "&4Halálpont &7%date%"
+  waypoint:
+    new: "&eKérlek, add meg az új útpontot chatben. &7(A Színkódok használhatóak!)"
+    added: "&aSikeresen megadtad az útpontot"
+    max: "&4Elérted a maximális útpontok számát"
+  insufficient-complexity:
+  - "&4Nem megfelelő a GPS Hálózat Komplexitása: &c%complexity%"
+  - "&4a) Még nem telepítetted a GPS Hálózatot"
+  - "&4b) A GPS Hálózatod nem eléggé összetett"
+  geo:
+    scan-required: "&4GEO-Vizsgálat szükséges! &cElőbb vizsgáld meg ezt a chunkot
+      a GEO-Szkennerrel!"
+inventory:
+  no-access: "&4Nincs hozzáférésed ehhez a blokkhoz"
+android:
+  started: "&7Az Androidod folytatja a szkript futtatását"
+  stopped: "&7Az Androidod szünetelteti a szkript futtatását"
+  scripts:
+    already-uploaded: "&4Ezt a szkriptet már feltöltötték."
+    instructions:
+      START: "&2Szkript indítása"
+      REPEAT: "&9Szkript ismétlése"
+      WAIT: "&eVárjon 0.5s"
+      GO_FORWARD: "&7Menj előre"
+      GO_UP: "&7Menj felfelé"
+      GO_DOWN: "&7Menj lefelé"
+      TURN_LEFT: "&7Fordulj balra"
+      TURN_RIGHT: "&7Fordulj jobbra"
+      DIG_UP: "&bÁss"
+      DIG_FORWARD: "&bÁss előre"
+      DIG_DOWN: "&bÁss le"
+      MOVE_AND_DIG_UP: "&bMenj és Áss felfelé"
+      MOVE_AND_DIG_FORWARD: "&bMenj és Áss előre"
+      MOVE_AND_DIG_DOWN: "&bMenj és Áss lefelé"
+      ATTACK_MOBS_ANIMALS: "&4Támadj &c(Ellenséges Élőlények és Állatok)"
+      ATTACK_MOBS: "&4Támadj &c(Ellenséges Élőlények)"
+      ATTACK_ANIMALS: "&4Támadj &c(Állatok)"
+      ATTACK_ANIMALS_ADULT: "&4Támadj &c(Állatok &7[Felnőtt]&c)"
+      CHOP_TREE: "&cVágj és Ültess"
+      CATCH_FISH: "&bFogj Halat"
+      FARM_FORWARD: "&bSzüretelj és Ültess"
+      FARM_DOWN: "&bSzüretelj és Ültess &7(Blokk alatt)"
+      FARM_EXOTIC_FORWARD: "&bFejlett Szüretelés és Ültetés"
+      FARM_EXOTIC_DOWN: "&bFejlett Szüretelés és Ültetés &7(Blokk alatt)"
+      INTERFACE_ITEMS: "&9Tegye az Eszköztár Tartalmát a csatlakozási Felületbe"
+      INTERFACE_FUEL: "&cVegyen ki az Üzemanyagot a csatlakozási Felületről"
+    enter-name:
+    - 
+    - "&eKérlek, írd be a szkript nevét"
+    uploaded:
+    - "&bFeltöltés..."
+    - "&aA szkript sikeresen feltöltve!"
+    rating:
+      own: "&4Nem értékelheted a saját szkriptedet!"
+      already: "&4Ezt a szkriptet már értékelted!"
+    editor: Szkript Szerkesztő
+languages:
+  default: Szerver-Alapértelmezett
+  en: Angol
+  de: Német
+  fr: Francia
+  it: Olasz
+  es: Spanyol
+  pl: Lengyel
+  sv: Svéd
+  nl: Holland
+  cs: Cseh
+  hu: Magyar
+  lv: Lett
+  ru: Orosz
+  sk: Szlovák
+  zh-TW: Kínai (Tajvan)
+  vi: Vietnami
+  id: Indonéz
+  zh-CN: Kínai (Kína)
+  el: Görög
+  he: Héber
+  ar: Arab
+  af: Afrikánsz
+  da: Dán
+  fi: Finn
+  uk: Ukrán
+  ms: Maláj
+  'no': Norvég
+  ja: Japán
+  fa: Perzsa
+  th: Thai
+  ro: Román
+  pt: Portugál (Portugália)
+  pt-BR: Portugál (Brazília)
+  bg: Bolgár
+  ko: Koreai
+  tr: Török
+  hr: Horvát
+  mk: Macedóniai
+  sr: Szerb
+  be: Belorusz
+  tl: Tagalog
+brewing_stand:
+  not-working: "&4Nem használhatsz Slimefun tárgyakat a Főzőállványban!"
+miner:
+  no-ores: "&eSajnálom, nem találtam semmilyen Ércet a közelben!"
