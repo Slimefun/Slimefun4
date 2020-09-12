@@ -33,7 +33,7 @@ public class SlimefunGuideItem extends ItemStack {
         meta.setDisplayName(ChatColors.color(name));
 
         List<String> lore = new LinkedList<>();
-        lore.add(implementation instanceof CheatSheetSlimefunGuide ? "&4&lOnly openable by Admins" : "");
+        lore.add(implementation instanceof CheatSheetSlimefunGuide ? ChatColors.color("&4&lOnly openable by Admins") : "");
         lore.add(ChatColors.color("&eRight Click &8\u21E8 &7Browse Items"));
         lore.add(ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits"));
 
