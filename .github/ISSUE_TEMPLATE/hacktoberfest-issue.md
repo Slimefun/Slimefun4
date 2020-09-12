@@ -25,7 +25,7 @@ It should give a general idea of what we want, you can of course deviate from th
 ### :anchor: Difficulty
 Here is our honest estimate on how difficult (on a scale of 1-5) the implementation may be:
 <!-- Please rate on a scale of 1-5 -->
-<!-- white_cirlce = empty; red_circle = filled out -->
+<!-- white_cirlce = empty; large_blue_circle = filled out -->
 :white_circle::white_circle::white_circle::white_circle::white_circle:
 
 ## :construction: Technical Challenges
