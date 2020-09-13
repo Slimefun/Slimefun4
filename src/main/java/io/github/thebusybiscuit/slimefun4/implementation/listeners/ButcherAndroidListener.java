@@ -26,7 +26,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * This {@link Listener} handles the collecton of drops from an {@link Entity} that was
+ * This {@link Listener} handles the collection of drops from an {@link Entity} that was
  * killed by a {@link ButcherAndroid}.
  * 
  * @author TheBusyBiscuit

@@ -717,7 +717,7 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
-     * This method returns the wiki page that has been asigned to this item.
+     * This method returns the wiki page that has been assigned to this item.
      * It will return null, if no wiki page was found.
      * 
      * @see SlimefunItem#addOficialWikipage(String)
@@ -888,7 +888,7 @@ public class SlimefunItem implements Placeable {
             for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
                 if (sfi.isItem(wrapper)) {
                     // If we have to loop all items for the given item, then at least
-                    // set the id via PersistenDataAPI for future performance boosts
+                    // set the id via PersistentDataAPI for future performance boosts
                     SlimefunPlugin.getItemDataService().setItemData(item, sfi.getID());
 
                     return sfi;

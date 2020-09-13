@@ -12,8 +12,8 @@ class UraniumResource extends SlimefunResource {
     }
 
     @Override
-    public int getDefaultSupply(Environment envionment, Biome biome) {
-        if (envionment == Environment.NORMAL) {
+    public int getDefaultSupply(Environment environment, Biome biome) {
+        if (environment == Environment.NORMAL) {
             return 5;
         }
 

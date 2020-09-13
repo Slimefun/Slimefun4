@@ -38,7 +38,7 @@ public class OreWasher extends MultiBlockMachine {
     @Override
     protected void registerDefaultRecipes(List<ItemStack> recipes) {
         // Iron and Gold are displayed as Ore Crusher recipes, as that is their primary
-        // way of obtainining them. But we also wanna display them here, so we just
+        // way of obtaining them. But we also wanna display them here, so we just
         // add these two recipes manually
         recipes.add(SlimefunItems.SIFTED_ORE);
         recipes.add(SlimefunItems.IRON_DUST);

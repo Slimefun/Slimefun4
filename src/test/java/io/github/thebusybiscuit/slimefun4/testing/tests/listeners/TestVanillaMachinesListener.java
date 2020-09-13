@@ -258,7 +258,7 @@ public class TestVanillaMachinesListener {
     }
 
     @Test
-    public void testBrewingithVanillaItem() {
+    public void testBrewingWithVanillaItem() {
         VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.BLAZE_POWDER, true);
         item.register(plugin);
 

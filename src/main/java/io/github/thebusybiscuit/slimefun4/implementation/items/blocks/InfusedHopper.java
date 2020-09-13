@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -54,7 +55,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                 }
 
                 if (sound && !silent.getValue().booleanValue()) {
-                    b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+                    b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1F, 2F);
                 }
             }
 

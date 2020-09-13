@@ -86,7 +86,7 @@ public class Research implements Keyed {
     /**
      * This method returns whether this {@link Research} is enabled.
      * {@code false} can mean that this particular {@link Research} was disabled or that
-     * researches alltogether have been disabled.
+     * researches altogether have been disabled.
      * 
      * @return Whether this {@link Research} is enabled or not
      */
