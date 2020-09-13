@@ -1,13 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
 /**
  * This {@link Event} is fired whenever an {@link AContainer} has completed its process.
@@ -17,7 +18,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 public class AsyncMachineProcessCompleteEvent extends Event {
 
-    private static final HandlerList handlerList = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
     private final Block block;
     private final MachineRecipe machineRecipe;
@@ -25,7 +26,7 @@ public class AsyncMachineProcessCompleteEvent extends Event {
     @ParametersAreNonnullByDefault
     public AsyncMachineProcessCompleteEvent(Block block, MachineRecipe machineRecipe) {
         super(true);
-        
+
         this.block = block;
         this.machineRecipe = machineRecipe;
     }
@@ -52,12 +53,12 @@ public class AsyncMachineProcessCompleteEvent extends Event {
 
     @Nonnull
     public static HandlerList getHandlerList() {
-        return handlerList;
+        return handlers;
     }
 
     @Nonnull
     @Override
     public HandlerList getHandlers() {
-        return handlerList;
+        return getHandlerList();
     }
 }
