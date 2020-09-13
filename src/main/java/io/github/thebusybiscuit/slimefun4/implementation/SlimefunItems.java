@@ -306,64 +306,64 @@ public final class SlimefunItems {
     public static final SlimefunItemStack BEE_BOOTS = new SlimefunItemStack("BEE_BOOTS", Material.GOLDEN_BOOTS, "&e&lBee Boots", "", "&e&oNever have trouble taking off again", "", "&9+ Jump Boost", "&9+ No Fall Damage");
 
     static {
-        Map<Enchantment, Integer> cactus = new HashMap<>();
-        cactus.put(Enchantment.THORNS, 3);
-        cactus.put(Enchantment.DURABILITY, 6);
+        Map<Enchantment, Integer> cactusEnchs = new HashMap<>();
+        cactusEnchs.put(Enchantment.THORNS, 3);
+        cactusEnchs.put(Enchantment.DURABILITY, 6);
 
-        CACTUS_HELMET.addUnsafeEnchantments(cactus);
-        CACTUS_CHESTPLATE.addUnsafeEnchantments(cactus);
-        CACTUS_LEGGINGS.addUnsafeEnchantments(cactus);
-        CACTUS_BOOTS.addUnsafeEnchantments(cactus);
+        CACTUS_HELMET.addUnsafeEnchantments(cactusEnchs);
+        CACTUS_CHESTPLATE.addUnsafeEnchantments(cactusEnchs);
+        CACTUS_LEGGINGS.addUnsafeEnchantments(cactusEnchs);
+        CACTUS_BOOTS.addUnsafeEnchantments(cactusEnchs);
 
-        Map<Enchantment, Integer> damascus = new HashMap<>();
-        damascus.put(Enchantment.DURABILITY, 5);
-        damascus.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+        Map<Enchantment, Integer> damascusEnchs = new HashMap<>();
+        damascusEnchs.put(Enchantment.DURABILITY, 5);
+        damascusEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 
-        DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_LEGGINGS.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascus);
+        DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascusEnchs);
+        DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascusEnchs);
+        DAMASCUS_STEEL_LEGGINGS.addUnsafeEnchantments(damascusEnchs);
+        DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascusEnchs);
 
-        Map<Enchantment, Integer> reinforced = new HashMap<>();
-        reinforced.put(Enchantment.DURABILITY, 9);
-        reinforced.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
+        Map<Enchantment, Integer> reinforcedEnchs = new HashMap<>();
+        reinforcedEnchs.put(Enchantment.DURABILITY, 9);
+        reinforcedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
 
-        REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
+        REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforcedEnchs);
+        REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforcedEnchs);
+        REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforcedEnchs);
+        REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforcedEnchs);
 
-        Map<Enchantment, Integer> gilded = new HashMap<>();
-        gilded.put(Enchantment.DURABILITY, 6);
-        gilded.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
+        Map<Enchantment, Integer> gildedEnchs = new HashMap<>();
+        gildedEnchs.put(Enchantment.DURABILITY, 6);
+        gildedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
 
-        GILDED_IRON_HELMET.addUnsafeEnchantments(gilded);
-        GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gilded);
-        GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gilded);
-        GILDED_IRON_BOOTS.addUnsafeEnchantments(gilded);
+        GILDED_IRON_HELMET.addUnsafeEnchantments(gildedEnchs);
+        GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gildedEnchs);
+        GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gildedEnchs);
+        GILDED_IRON_BOOTS.addUnsafeEnchantments(gildedEnchs);
 
         GOLDEN_HELMET_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
         GOLDEN_CHESTPLATE_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
         GOLDEN_LEGGINGS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
         GOLDEN_BOOTS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
 
-        Map<Enchantment, Integer> slime = new HashMap<>();
-        slime.put(Enchantment.DURABILITY, 4);
-        slime.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        Map<Enchantment, Integer> slimeEnchs = new HashMap<>();
+        slimeEnchs.put(Enchantment.DURABILITY, 4);
+        slimeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 
-        SLIME_HELMET_STEEL.addUnsafeEnchantments(slime);
-        SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slime);
-        SLIME_LEGGINGS_STEEL.addUnsafeEnchantments(slime);
-        SLIME_BOOTS_STEEL.addUnsafeEnchantments(slime);
+        SLIME_HELMET_STEEL.addUnsafeEnchantments(slimeEnchs);
+        SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slimeEnchs);
+        SLIME_LEGGINGS_STEEL.addUnsafeEnchantments(slimeEnchs);
+        SLIME_BOOTS_STEEL.addUnsafeEnchantments(slimeEnchs);
 
-        Map<Enchantment, Integer> bee = new HashMap<>();
-        bee.put(Enchantment.DURABILITY, 4);
-        bee.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        Map<Enchantment, Integer> beeEnchs = new HashMap<>();
+        beeEnchs.put(Enchantment.DURABILITY, 4);
+        beeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 
-        BEE_HELMET.addUnsafeEnchantments(bee);
-        BEE_WINGS.addUnsafeEnchantments(bee);
-        BEE_LEGGINGS.addUnsafeEnchantments(bee);
-        BEE_BOOTS.addUnsafeEnchantments(bee);
+        BEE_HELMET.addUnsafeEnchantments(beeEnchs);
+        BEE_WINGS.addUnsafeEnchantments(beeEnchs);
+        BEE_LEGGINGS.addUnsafeEnchantments(beeEnchs);
+        BEE_BOOTS.addUnsafeEnchantments(beeEnchs);
     }
 
     /* Magical components */
