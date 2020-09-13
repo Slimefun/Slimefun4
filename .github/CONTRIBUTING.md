@@ -82,8 +82,9 @@ To prevent any accidents from happening, please contact us on our [Discord Serve
 
 #### Documentation
 Code documentation is also a great way to improve the maintainability of the project.
-Every class and every public method should have a Javadocs tag assigned to it. 
-Classes should also include an "author" tag to indicate who worked on that class.
+1. Every class and every public method should have a Javadocs section assigned to it. 
+2. Classes should also include an `@author` tag to indicate who worked on that class.
+3. Methods and parameters should be annotated with `@Nullable` or `@Nonnull` to indicate whether or not null values are accepted.
 
 Feel free to visit our [Javadocs](https://slimefun.github.io/javadocs/Slimefun4/docs/overview-summary.html)
 
@@ -92,4 +93,4 @@ Unit Tests help us test the project to work as intended in an automated manner.<
 More or better Unit Tests are always good to have, so feel free to submit a Test and place it in our [src/test/java](https://github.com/Slimefun/Slimefun4/tree/master/src/test/java/io/github/thebusybiscuit/slimefun4/testing) directory
 
 We are using [Junit 5 - Jupiter](https://github.com/junit-team/junit5/) and [MockBukkit](https://github.com/seeseemelk/MockBukkit) as our testing environment.<br>
-Every new Unit Test should have a "DisplayName" annotation with a plain text description on what the Unit Test tests.
+Every new Unit Test should have a `@DisplayName` annotation with a plain text description on what the Unit Test tests.
