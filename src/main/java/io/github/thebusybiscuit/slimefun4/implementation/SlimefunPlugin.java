@@ -220,7 +220,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             if (config.getBoolean("options.auto-update")) {
                 getLogger().log(Level.INFO, "Starting Auto-Updater...");
                 updaterService.start();
-            } else {
+            }
+            else {
                 updaterService.disable();
             }
 
