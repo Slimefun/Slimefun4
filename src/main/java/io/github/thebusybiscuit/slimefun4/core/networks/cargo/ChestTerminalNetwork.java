@@ -453,7 +453,7 @@ abstract class ChestTerminalNetwork extends Network {
             }
         }
         catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Exception occured while trying to read data from a Barrel", x);
+            Slimefun.getLogger().log(Level.SEVERE, "An Exception occurred while trying to read data from a Barrel", x);
         }
     }
 
