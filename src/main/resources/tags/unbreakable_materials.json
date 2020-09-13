@@ -8,6 +8,10 @@
 		"minecraft:end_portal_frame",
 		"minecraft:end_gateway",
 		"minecraft:structure_block",
-		"minecraft:structure_void"
+		"minecraft:structure_void",
+		{
+			"id" : "minecraft:jigsaw",
+			"required" : false
+		}
 	]
 }
