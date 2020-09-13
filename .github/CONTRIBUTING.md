@@ -15,6 +15,22 @@ If you encounter an issue which has already been reported, please don't open a n
 It would be awesome though if you could post a comment on the existing issue which explains how you were able to reproduce this yourself.
 The more context and information we get, the easier we can fix it.
 
+## :toolbox: How to compile Slimefun4
+Slimefun is written in Java and uses [Maven](https://maven.apache.org/) for compilation.<br>
+To compile Slimefun yourself, follow these steps:
+
+1. Clone the project via git<br>
+`$ git clone https://github.com/Slimefun/Slimefun4/`
+2. Compile the project using Maven<br>
+`$ mvn clean package`
+3. Extract the compiled `Slimefun-v4.X-UNOFFICIAL.jar` from your `/target/` directory.
+
+If you are already using an IDE, make sure to import the project via git and set it up as a *Maven project*. 
+Then you should be able build it via Maven using the goals `clean package`.
+
+If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel. 
+**Note that we will not accept any bug reports from custom-compiled versions of Slimefun**.
+
 ## :hammer_and_wrench: 2. Pull Requests: Bug Fixes
 Bugs that have been reported need to be fixed of course.<br>
 Any open Issue on our [Issues Tracker](https://github.com/Slimefun/Slimefun4/issues) is waiting to be fixed.
@@ -23,7 +39,7 @@ This is an Open-Source project and we love Pull Requests.
 So if you have an idea on how to approach a known issue, feel free to make a [Pull Request](https://github.com/Slimefun/Slimefun4/pulls) which fixes this bug.
 You can also comment on the existing Issue, proposing your idea or communicating that you wanna work on this.
 
-## :toolbox: 3. Pull Requests: Additions/Changes
+## :wrench: 3. Pull Requests: Additions/Changes
 Slimefun is an Open-Source project and anyone is allowed to make changes or add content to this plugin!
 
 Please visit our [Discord Server](https://github.com/Slimefun/Slimefun4#discord) and share your ideas first, we hate to reject changes because the community disagrees.<br>
