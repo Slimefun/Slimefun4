@@ -50,6 +50,11 @@ public enum SlimefunTag implements Tag<Material> {
     SHULKER_BOXES,
 
     /**
+     * All command block variants
+     */
+    COMMAND_BLOCKS,
+
+    /**
      * Every mushroom type, red, brown and nether ones.
      */
     MUSHROOMS,
@@ -102,6 +107,11 @@ public enum SlimefunTag implements Tag<Material> {
      * the block beneath them.
      */
     SENSITIVE_MATERIALS,
+
+    /**
+     * These materials are just unbreakable, like bedrock for example.
+     */
+    UNBREAKABLE_MATERIALS,
 
     /**
      * Materials which cannot be reliably placed using a {@link BlockPlacer}.

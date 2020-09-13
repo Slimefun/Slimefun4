@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -49,7 +48,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class BlockPlacer extends SlimefunItem {
 
-    private final ItemSetting<List<String>> blacklist = new ItemSetting<>("unplaceable-blocks", MaterialCollections.getAllUnbreakableBlocks().stream().map(Material::name).collect(Collectors.toList()));
+    private final ItemSetting<List<String>> blacklist = new ItemSetting<>("unplaceable-blocks", SlimefunTag.UNBREAKABLE_MATERIALS.stream().map(Material::name).collect(Collectors.toList()));
 
     public BlockPlacer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
