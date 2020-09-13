@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import org.bukkit.HeightMap;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,8 +38,6 @@ public class BeeWingListener implements Listener {
         if (player.isOnGround()) return;
         
         ItemStack chestplate = player.getInventory().getChestplate();
-        if (chestplate.getType() != Material.ELYTRA) return;
-        
         if (!SlimefunUtils.isItemSimilar(chestplate, SlimefunItems.BEE_WINGS, true) && !Slimefun.hasUnlocked(player, chestplate, true)) {
             return;
         }
