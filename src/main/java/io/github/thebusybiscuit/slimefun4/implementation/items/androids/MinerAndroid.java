@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.InfiniteBlockGenerator;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -30,10 +31,12 @@ public class MinerAndroid extends ProgrammableAndroid {
 
     // Determines the drops a miner android will get
     private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
+    private final ItemSetting<Boolean> firesEvent = new ItemSetting<>("trigger-event-for-generators", true);
 
     @ParametersAreNonnullByDefault
     public MinerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, tier, item, recipeType, recipe);
+        addItemSetting(firesEvent);
     }
 
     @Override
@@ -103,12 +106,12 @@ public class MinerAndroid extends ProgrammableAndroid {
             menu.pushItem(drop, getOutputSlots());
         }
 
-        InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block);
+        InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block, firesEvent.getValue());
 
         if (generator != null) {
             // "poof" a "new" block was generated
-            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.04F, 0.8F);
-            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.5, block.getZ() + 0.5, 6, 0.5, 0.5, 0.5);
+            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.075F, 0.8F);
+            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
         }
         else {
             block.setType(Material.AIR);

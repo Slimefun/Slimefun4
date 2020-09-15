@@ -14,7 +14,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.BlockFromToEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
-import scala.util.control.TailCalls.Call;
 
 /**
  * This enum holds various ways of infinite block generators.
@@ -54,6 +53,10 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
 
     @Override
     public boolean test(@Nonnull Block b) {
+        return test(b, false);
+    }
+
+    public boolean test(@Nonnull Block b, boolean firesEvent) {
         Validate.notNull(b, "Block cannot be null!");
 
         // This will eliminate non-matching base materials
@@ -61,11 +64,14 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
         if (b.getType() == material) {
             switch (this) {
             case COBBLESTONE_GENERATOR:
-                return hasSurroundingMaterials(b, true, Material.WATER, Material.LAVA);
+                return hasSurroundingMaterials(b, firesEvent, Material.WATER, Material.LAVA);
             case STONE_GENERATOR:
                 if (b.getRelative(BlockFace.UP).getType() == Material.LAVA) {
-                    // We manually call the event here since it actually flows from the top
-                    callEvent(b.getRelative(BlockFace.UP), b);
+                    if (firesEvent) {
+                        // We manually call the event here since it actually flows from the top
+                        callEvent(b.getRelative(BlockFace.UP), b);
+                    }
+
                     return hasSurroundingMaterials(b, false, Material.WATER);
                 }
                 else {
@@ -73,7 +79,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
                 }
             case BASALT_GENERATOR:
                 if (b.getRelative(BlockFace.DOWN).getType() == Material.SOUL_SOIL) {
-                    return hasSurroundingMaterials(b, true, Material.LAVA, Material.BLUE_ICE);
+                    return hasSurroundingMaterials(b, firesEvent, Material.LAVA, Material.BLUE_ICE);
                 }
                 else {
                     return false;
@@ -97,9 +103,10 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
 
         for (BlockFace face : sameLevelFaces) {
             Block neighbour = b.getRelative(face);
+            Material neighbourType = neighbour.getType();
 
             for (int i = 0; i < materials.length; i++) {
-                if (neighbour.getType() == materials[i] && !matches[i]) {
+                if (neighbourType == materials[i] && !matches[i]) {
                     matches[i] = true;
                     count++;
 
@@ -144,15 +151,17 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * 
      * @param b
      *            The {@link Block}
+     * @param firesEvent
+     *            Whether ot not a {@link BlockFromToEvent} should be fired
      * 
      * @return An {@link InfiniteBlockGenerator} or null if none was found.
      */
     @Nullable
-    public static InfiniteBlockGenerator findAt(@Nonnull Block b) {
+    public static InfiniteBlockGenerator findAt(@Nonnull Block b, boolean firesEvent) {
         Validate.notNull(b, "Cannot find a generator without a Location!");
 
         for (InfiniteBlockGenerator generator : values) {
-            if (generator.test(b)) {
+            if (generator.test(b, firesEvent)) {
                 return generator;
             }
         }
