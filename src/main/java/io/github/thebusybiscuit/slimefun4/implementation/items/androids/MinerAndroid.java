@@ -31,7 +31,7 @@ public class MinerAndroid extends ProgrammableAndroid {
 
     // Determines the drops a miner android will get
     private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
-    private final ItemSetting<Boolean> firesEvent = new ItemSetting<>("trigger-event-for-generators", true);
+    private final ItemSetting<Boolean> firesEvent = new ItemSetting<>("trigger-event-for-generators", false);
 
     @ParametersAreNonnullByDefault
     public MinerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
