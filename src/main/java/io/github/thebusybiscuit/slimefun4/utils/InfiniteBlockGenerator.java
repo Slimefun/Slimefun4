@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.BlockFromToEvent;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 
 /**
@@ -43,25 +44,47 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
     public static final InfiniteBlockGenerator[] values = values();
     private static final BlockFace[] sameLevelFaces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
 
-    @Nullable
     private final Material material;
 
-    @ParametersAreNonnullByDefault
-    InfiniteBlockGenerator(String type) {
+    InfiniteBlockGenerator(@Nonnull String type) {
         this.material = Material.matchMaterial(type);
+    }
+
+    /**
+     * This returns the generated {@link Material} of this {@link InfiniteBlockGenerator}.
+     * This method can return null if the associated {@link Material} is not available in the current
+     * {@link MinecraftVersion}.
+     * 
+     * @return The generated {@link Material} or null
+     */
+    @Nullable
+    public Material getGeneratedMaterial() {
+        return material;
     }
 
     @Override
     public boolean test(@Nonnull Block b) {
-        return test(b, false);
+        return testAndTrigger(b, false);
     }
 
-    public boolean test(@Nonnull Block b, boolean firesEvent) {
+    /**
+     * Similar to {@link #test(Block)} this tests whether this {@link InfiniteBlockGenerator}
+     * exists at the given {@link Block}.
+     * Optionally this will also trigger a {@link BlockFromToEvent}.
+     * 
+     * @param b
+     *            The {@link Block}
+     * @param firesEvent
+     *            Whether or not to to trigger a {@link BlockFromToEvent}.
+     * 
+     * @return Whether this {@link InfiniteBlockGenerator} exists at the given {@link Block}
+     */
+    public boolean testAndTrigger(@Nonnull Block b, boolean firesEvent) {
         Validate.notNull(b, "Block cannot be null!");
 
         // This will eliminate non-matching base materials
         // If we are on a version without Basalt, it will be null here and not match.
-        if (b.getType() == material) {
+        if (b.getType() == getGeneratedMaterial()) {
             switch (this) {
             case COBBLESTONE_GENERATOR:
                 return hasSurroundingMaterials(b, firesEvent, Material.WATER, Material.LAVA);
@@ -161,7 +184,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
         Validate.notNull(b, "Cannot find a generator without a Location!");
 
         for (InfiniteBlockGenerator generator : values) {
-            if (generator.test(b, firesEvent)) {
+            if (generator.testAndTrigger(b, firesEvent)) {
                 return generator;
             }
         }
