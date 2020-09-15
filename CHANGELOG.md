@@ -29,6 +29,7 @@
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
+* Performance Improvements and Optimizations for Cobblestone generators and mining androids
 
 #### Fixes
 * Fixed #2300
