@@ -59,7 +59,7 @@ public class BeeWingListener implements Listener {
 
         // getDistanceToGround will only fire when playerDistanceToHighestBlock is negative (which happens when a player is flying under an existing structure)
         if (distanceToHighestBlock < 0) {
-            if (getDistanceToGround(loc) > 6) return;
+            if (getDistanceToGround(loc.clone()) > 6) return;
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
             return;
         }
