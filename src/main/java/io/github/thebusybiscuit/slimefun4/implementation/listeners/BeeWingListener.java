@@ -69,7 +69,7 @@ public class BeeWingListener implements Listener {
         }
     }
 
-    /* 
+    /** 
      * Calculates the distance of the given {@link Location} from the ground.
      *
      * @param loc
