@@ -1,8 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -55,33 +52,35 @@ public class BeeWingListener implements Listener {
         }
 
         Location loc = player.getLocation();
-        double distanceToHighestBlock = (loc.getBlockY() - player.getWorld().getHighestBlockYAt(loc, HeightMap.WORLD_SURFACE));
+        int distanceToHighestBlock = (loc.getBlockY() - player.getWorld().getHighestBlockYAt(loc, HeightMap.WORLD_SURFACE));
 
         // getDistanceToGround will only fire when playerDistanceToHighestBlock is negative (which happens when a player is flying under an existing structure)
         if (distanceToHighestBlock < 0) {
-            if (getDistanceToGround(loc.clone()) > 6) return;
+            int distanceToGround = getDistanceToGround(loc.getBlock(), 6);
+            if (distanceToGround < 1) return;
+            
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
             return;
         }
-
-        if (distanceToHighestBlock <= 6) {
+        else if (distanceToHighestBlock <= 6) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
         }
     }
 
     /** 
-     * Calculates the distance of the given {@link Location} from the ground.
+     * Calculates the distance of the given {@link Block} from the ground.
      *
-     * @param loc
-     *            The {@link Location} to calculate from.
+     * @param b
+     *              The {@link Block} to calculate from.
+     * @param limit
+     *              The limit of {@link Block blocks} to check under the given {@link Block b}.
      *
      */
-    private int getDistanceToGround(@Nonnull Location loc) {
-        int y = loc.getBlockY();
-        for (int i = y; i >= 0; i--) {
-            loc.setY(i);
-            if (loc.getBlock().getType().isSolid()) {
-                return y - i;
+    private int getDistanceToGround(@Nonnull Block b, int limit) {
+        for (int i = 1; i <= limit; i++) {
+            Block relative = b.getRelative(0, -i, 0);
+            if (relative.getType().isSolid()) {
+                return i;
             }
         }
         return 0;
