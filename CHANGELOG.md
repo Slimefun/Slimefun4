@@ -36,6 +36,7 @@
 * Fixed colors of Cheat Sheet Slimefun Guide
 * Fixed Cheat Sheet Slimefun Guide being unable to open the settings menu via shift + right click
 * Fixed #2320
+* Fixed some issues with ChestTerminal
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
