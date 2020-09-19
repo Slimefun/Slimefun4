@@ -15,6 +15,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
+import org.bukkit.block.data.Waterlogged;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -107,6 +108,12 @@ public enum SlimefunTag implements Tag<Material> {
      * the block beneath them.
      */
     SENSITIVE_MATERIALS,
+
+    /**
+     * These Materials are sensitive to fluids, they cannot be {@link Waterlogged}
+     * and would break in contact with water.
+     */
+    FLUID_SENSITIVE_MATERIALS,
 
     /**
      * These materials are just unbreakable, like bedrock for example.
