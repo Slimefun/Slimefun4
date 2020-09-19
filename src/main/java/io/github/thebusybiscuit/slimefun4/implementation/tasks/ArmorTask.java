@@ -32,7 +32,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 /**
  * The {@link ArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
  * {@link Radioactive} items or any {@link SlimefunArmorPiece}.
- * It also handles the prevention of radioation through a Hazmat Suit
+ * It also handles the prevention of radiation through a Hazmat Suit
  * 
  * @author TheBusyBiscuit
  *

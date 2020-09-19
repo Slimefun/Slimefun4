@@ -251,7 +251,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     recipeService.refresh();
                 }
                 catch (Exception | LinkageError x) {
-                    getLogger().log(Level.SEVERE, x, () -> "An Exception occured while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
+                    getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
                 }
 
             }), 0);

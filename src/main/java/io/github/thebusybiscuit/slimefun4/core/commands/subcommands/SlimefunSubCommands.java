@@ -37,6 +37,7 @@ public final class SlimefunSubCommands {
         commands.add(new SearchCommand(plugin, cmd));
         commands.add(new DebugFishCommand(plugin, cmd));
         commands.add(new BackpackCommand(plugin, cmd));
+        commands.add(new ChargeCommand(plugin, cmd));
 
         return commands;
     }

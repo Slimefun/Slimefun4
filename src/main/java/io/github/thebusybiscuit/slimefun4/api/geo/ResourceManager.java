@@ -89,9 +89,9 @@ public class ResourceManager {
      * @param world
      *            The {@link World} of this {@link Location}
      * @param x
-     *            The {@link Chunk} x cordinate
+     *            The {@link Chunk} x coordinate
      * @param z
-     *            The {@link Chunk} z cordinate
+     *            The {@link Chunk} z coordinate
      * 
      * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
      */
