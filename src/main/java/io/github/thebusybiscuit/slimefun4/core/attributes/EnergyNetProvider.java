@@ -28,6 +28,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 public interface EnergyNetProvider extends EnergyNetComponent {
 
     @Override
+    @Nonnull
     default EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.GENERATOR;
     }
