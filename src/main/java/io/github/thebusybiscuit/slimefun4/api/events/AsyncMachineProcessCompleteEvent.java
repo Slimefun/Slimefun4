@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
 import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.event.Event;
@@ -25,8 +25,7 @@ public class AsyncMachineProcessCompleteEvent extends Event {
     private final AContainer container;
     private final MachineRecipe machineRecipe;
 
-    @ParametersAreNonnullByDefault
-    public AsyncMachineProcessCompleteEvent(Location l, AContainer container, MachineRecipe machineRecipe) {
+    public AsyncMachineProcessCompleteEvent(@Nonnull Location l, @Nullable AContainer container, @Nullable MachineRecipe machineRecipe) {
         super(true);
 
         this.location = l;
@@ -49,7 +48,7 @@ public class AsyncMachineProcessCompleteEvent extends Event {
      *
      * @return The {@link SlimefunItem} instance of the machine
      */
-    @Nonnull
+    @Nullable
     public AContainer getMachine() {
         return container;
     }
@@ -59,7 +58,7 @@ public class AsyncMachineProcessCompleteEvent extends Event {
      *
      * @return The {@link MachineRecipe} of the process
      */
-    @Nonnull
+    @Nullable
     public MachineRecipe getMachineRecipe() {
         return machineRecipe;
     }

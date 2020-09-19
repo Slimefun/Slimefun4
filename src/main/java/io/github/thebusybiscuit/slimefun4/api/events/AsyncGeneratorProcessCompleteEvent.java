@@ -17,31 +17,19 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author poma123
  *
  */
-public class AsyncGeneratorProcessCompleteEvent extends Event {
+public class AsyncGeneratorProcessCompleteEvent extends AsyncMachineProcessCompleteEvent {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final Location location;
     private final AGenerator generator;
     private final MachineFuel machineFuel;
 
     @ParametersAreNonnullByDefault
     public AsyncGeneratorProcessCompleteEvent(Location l, AGenerator generator, MachineFuel machineFuel) {
-        super(true);
+        super(l, null, null);
 
-        this.location = l;
         this.generator = generator;
         this.machineFuel = machineFuel;
-    }
-
-    /**
-     * This returns the {@link Location} of the generator.
-     *
-     * @return The {@link Location} of the generator
-     */
-    @Nonnull
-    public Location getLocation() {
-        return location;
     }
 
     /**
