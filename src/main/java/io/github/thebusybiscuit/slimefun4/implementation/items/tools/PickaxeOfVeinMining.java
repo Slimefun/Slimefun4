@@ -26,6 +26,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * at once. It even works with the fortune {@link Enchantment}.
  * 
  * @author TheBusyBiscuit
+ * @author Linox
  *
  */
 public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
@@ -51,18 +52,24 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
         return (e, tool, fortune, drops) -> {
             if (MaterialCollections.getAllOres().contains(e.getBlock().getType())) {
                 List<Block> blocks = Vein.find(e.getBlock(), maxBlocks.getValue(), MaterialCollections.getAllOres());
-                breakBlocks(e.getPlayer(), blocks, fortune);
+                breakBlocks(e.getPlayer(), blocks, fortune, tool);
             }
         };
     }
 
-    private void breakBlocks(Player p, List<Block> blocks, int fortune) {
+    private void breakBlocks(Player p, List<Block> blocks, int fortune, ItemStack tool) {
         for (Block b : blocks) {
             if (SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK)) {
                 b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+                
+                if (tool.containsEnchantment(Enchantment.SILK_TOUCH)) {
+                    b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
+                }
+                else {
 
-                for (ItemStack drop : b.getDrops(getItem())) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItem(drop, fortune));
+                    for (ItemStack drop : b.getDrops(tool)) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItem(drop, fortune));
+                    }
                 }
 
                 b.setType(Material.AIR);

@@ -38,7 +38,7 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
         if (n.hasPotionEffect(PotionEffectType.WEAKNESS)) n.removePotionEffect(PotionEffectType.WEAKNESS);
         if (n.hasPotionEffect(PotionEffectType.CONFUSION)) n.removePotionEffect(PotionEffectType.CONFUSION);
         if (n.hasPotionEffect(PotionEffectType.BLINDNESS)) n.removePotionEffect(PotionEffectType.BLINDNESS);
-        if (n.hasPotionEffect(PotionEffectType.BAD_OMEN)) n.removePotionEffect(PotionEffectType.BLINDNESS);
+        if (n.hasPotionEffect(PotionEffectType.BAD_OMEN)) n.removePotionEffect(PotionEffectType.BAD_OMEN);
     }
 
     /**

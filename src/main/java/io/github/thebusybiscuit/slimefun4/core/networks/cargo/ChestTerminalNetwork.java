@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -296,7 +298,8 @@ abstract class ChestTerminalNetwork extends Network {
         try {
             for (Location l : terminals) {
                 BlockMenu terminal = BlockStorage.getInventory(l);
-                int page = Integer.parseInt(BlockStorage.getLocationInfo(l, "page"));
+                String data = BlockStorage.getLocationInfo(l, "page");
+                int page = data == null ? 1 : Integer.parseInt(data);
 
                 if (!items.isEmpty() && items.size() < (page - 1) * TERMINAL_SLOTS.length + 1) {
                     page = 1;
@@ -326,6 +329,13 @@ abstract class ChestTerminalNetwork extends Network {
         }
     }
 
+    @Override
+    public void markDirty(@Nonnull Location l) {
+        connectorCache.remove(l);
+        super.markDirty(l);
+    }
+
+    @ParametersAreNonnullByDefault
     private void updateTerminal(Location l, BlockMenu terminal, int slot, int index, List<ItemStackAndInteger> items) {
         if (items.size() > index) {
             ItemStackAndInteger item = items.get(index);
@@ -384,6 +394,7 @@ abstract class ChestTerminalNetwork extends Network {
         return items;
     }
 
+    @ParametersAreNonnullByDefault
     private void findAllItems(List<ItemStackAndInteger> items, Location l, Block target) {
         UniversalBlockMenu menu = BlockStorage.getUniversalInventory(target);
 
@@ -416,6 +427,7 @@ abstract class ChestTerminalNetwork extends Network {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void gatherItemsFromBarrel(Location l, BlockMenu blockMenu, List<ItemStackAndInteger> items) {
         try {
             Config cfg = BlockStorage.getLocationInfo(blockMenu.getLocation());
@@ -447,17 +459,19 @@ abstract class ChestTerminalNetwork extends Network {
             }
         }
         catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Exception occured while trying to read data from a Barrel", x);
+            Slimefun.getLogger().log(Level.SEVERE, "An Exception occurred while trying to read data from a Barrel", x);
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void handleWithdraw(DirtyChestMenu menu, List<ItemStackAndInteger> items, Location l) {
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
             filter(menu.getItemInSlot(slot), items, l);
         }
     }
 
-    private void filter(ItemStack stack, List<ItemStackAndInteger> items, Location node) {
+    @ParametersAreNonnullByDefault
+    private void filter(@Nullable ItemStack stack, List<ItemStackAndInteger> items, Location node) {
         if (stack != null && CargoUtils.matchesFilter(node.getBlock(), stack)) {
             boolean add = true;
 

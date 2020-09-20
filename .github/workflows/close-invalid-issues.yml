@@ -10,7 +10,7 @@ jobs:
     name: Invalid Issues
     runs-on: ubuntu-latest
 
-    if: contains(github.event.issue.labels.*.name, 'Bug Report') == false
+    if: contains(github.event.issue.labels.*.name, 'Bug Report') == false && contains(github.event.issue.labels.*.name, 'Hacktoberfest') == false
     steps:
     - name: Close Issue
       uses: maxkomarychev/octions/octions/issues/update@master
@@ -31,7 +31,7 @@ jobs:
          issue_number: ${{ github.event.issue.number }}
          body: |-
            Your issue seems to be missing our template.
-           [Click here to create a bug report](https://github.com/TheBusyBiscuit/Slimefun4/issues/new/choose)
+           [Click here to create a bug report](https://github.com/Slimefun/Slimefun4/issues/new/choose)
 
            Please remember that this Bug Tracker is exclusively reserved for Bug reports, any other form
-           of discussion, like suggestions or questions should be posted on our discord server (You can find a link [on our main page](https://github.com/TheBusyBiscuit/Slimefun4#discord)).
+           of discussion, like suggestions or questions should be posted on our discord server (You can find a link [on our main page](https://github.com/Slimefun/Slimefun4#discord)).

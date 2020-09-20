@@ -100,10 +100,10 @@ public final class PostSetup {
 
         if (SlimefunPlugin.getUpdater().getBranch().isOfficial()) {
             sender.sendMessage("");
-            sender.sendMessage(ChatColor.GREEN + " - Source Code:  https://github.com/TheBusyBiscuit/Slimefun4");
-            sender.sendMessage(ChatColor.GREEN + " - Wiki:         https://github.com/TheBusyBiscuit/Slimefun4/wiki");
-            sender.sendMessage(ChatColor.GREEN + " - Addons:       https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons");
-            sender.sendMessage(ChatColor.GREEN + " - Bug Reports:  https://github.com/TheBusyBiscuit/Slimefun4/issues");
+            sender.sendMessage(ChatColor.GREEN + " - Source Code:  https://github.com/Slimefun/Slimefun4");
+            sender.sendMessage(ChatColor.GREEN + " - Wiki:         https://github.com/Slimefun/Slimefun4/wiki");
+            sender.sendMessage(ChatColor.GREEN + " - Addons:       https://github.com/Slimefun/Slimefun4/wiki/Addons");
+            sender.sendMessage(ChatColor.GREEN + " - Bug Reports:  https://github.com/Slimefun/Slimefun4/issues");
             sender.sendMessage(ChatColor.GREEN + " - Discord:      https://discord.gg/fsD4Bkh");
         }
         else {

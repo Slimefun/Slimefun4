@@ -2,7 +2,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 16 (TBD)](#release-candidate-16-tbd)
+- [Release Candidate 17 (TBD)](#release-candidate-17-tbd)
+- [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
 - [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
 - [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
 - [Release Candidate 13 (16 Jun 2020)](#release-candidate-13-16-jun-2020)
@@ -21,7 +22,24 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 16 (TBD)
+## Release Candidate 17 (TBD)
+
+#### Additions
+* Added /sf charge
+
+#### Changes
+* Improved Auto-Updater (Multi-Threading and more)
+
+#### Fixes
+* Fixed #2300
+* Fixed #2296
+* Fixed colors of Cheat Sheet Slimefun Guide
+* Fixed Cheat Sheet Slimefun Guide being unable to open the settings menu via shift + right click
+* Fixed #2320
+* Fixed some issues with ChestTerminal
+
+## Release Candidate 16 (07 Sep 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
 
 #### Additions
 * Added an option for Industrial Miners to mine Ancient Debris
@@ -105,8 +123,11 @@
 * Fixed #2269
 * Fixed #2266
 * Fixed #2275
+* Fixed Multi Tools consuming hunger points when holding a Wind Staff in your off hand
+* Fixed Teleports getting stuck sometimes
 
 ## Release Candidate 15 (01 Aug 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#15
 
 #### Additions
 * Added "Bone Block -> Bone meal" recipe to the Grind Stone
@@ -161,6 +182,7 @@
 * Fixed #2166
 
 ## Release Candidate 14 (12 Jul 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#14
 
 #### Additions
 * Added support for Minecraft 1.16
@@ -220,7 +242,7 @@
 * Fixed a rare concurrency issue with world saving
 * Fixed some contributors showing up twice
 * Fixed #2062
-* Fixed Grappling hooks disappearing when fired at Item frames or paintaings
+* Fixed Grappling hooks disappearing when fired at Item frames or paintings
 * Fixed Grappling hooks not getting removed when the Player leaves
 * Fixed Grappling hooks making Bat sounds
 * Fixed #1959
@@ -266,7 +288,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#13
 * Auto Disenchanting is now a tiny bit faster
 * Small performance improvements
 * Dried Kelp Blocks can now be used as fuel for Tier 1 Androids
-* Androids now have a seperate category in the Slimefun Guide
+* Androids now have a separate category in the Slimefun Guide
 * Android Interface recipes now require steel ingots
 * Changed and unified a couple of tooltips
 * Changed tooltip on jetpacks and jet boots to say "Crouch" instead of "Hold Shift"
@@ -313,7 +335,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#12
 * Fixed #1834
 * Fixed #1843
 * Fixed #1873
-* Fixed Electric Smeltery not prioritisting recipes
+* Fixed Electric Smeltery not prioritising recipes
 * Fixed #1851
 * Fixed #1891
 * Fixed #1893
@@ -413,7 +435,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#10
 * Internal clean up and further documentation
 * Changed Automatic Ignition Chamber to be a Dropper
 * Teleporters are now significantly faster
-* Item permissions have been moved to a seperate permissions.yml file
+* Item permissions have been moved to a separate permissions.yml file
 * Salt now only requires 2 blocks of Sand
 * Fireworks from researching no longer damages entities
 * Very slight performance improvements for Cargo networks
@@ -498,7 +520,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#6
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 
 #### Additions
-* Aded preset messages.yml files
+* Added preset messages.yml files
 * Added user-configurable localization
 * Added many more options to the messages.yml
 * Added custom model data support for Languages
@@ -511,8 +533,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#5
 * Added ability to translate messages for Players
 * Added the ability to translate Researches
 * Added StatusEffect API
-* Added translatibility to categories
-* Added translatibility to geo-resources
+* Added translatability to categories
+* Added translatability to geo-resources
 
 #### Changes
 * Removed Solar Array

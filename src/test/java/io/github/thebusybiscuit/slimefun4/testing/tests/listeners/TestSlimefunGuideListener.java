@@ -59,7 +59,7 @@ class TestSlimefunGuideListener {
 
     /**
      * This returns an {@link Arguments} {@link Stream} of boolean combinations.
-     * It performs a certesian product on two boolean sets.
+     * It performs a cartesian product on two boolean sets.
      * 
      * @return a {@link Stream} of {@link Arguments}
      */

@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.geo;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.OptionalInt;
@@ -89,9 +89,9 @@ public class ResourceManager {
      * @param world
      *            The {@link World} of this {@link Location}
      * @param x
-     *            The {@link Chunk} x cordinate
+     *            The {@link Chunk} x coordinate
      * @param z
-     *            The {@link Chunk} z cordinate
+     *            The {@link Chunk} z coordinate
      * 
      * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
      */
@@ -175,7 +175,7 @@ public class ResourceManager {
 
         menu.addItem(4, new CustomItem(HeadTexture.MINECRAFT_CHUNK.getAsItemStack(), ChatColor.YELLOW + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.chunk"), "", "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": " + block.getWorld().getName(), "&8\u21E8 &7X: " + x + " Z: " + z), ChestMenuUtils.getEmptyClickHandler());
         List<GEOResource> resources = new ArrayList<>(SlimefunPlugin.getRegistry().getGEOResources().values());
-        Collections.sort(resources, (a, b) -> a.getName(p).toLowerCase(Locale.ROOT).compareTo(b.getName(p).toLowerCase(Locale.ROOT)));
+        resources.sort(Comparator.comparing(a -> a.getName(p).toLowerCase(Locale.ROOT)));
 
         int index = 10;
         int pages = (resources.size() - 1) / 36 + 1;

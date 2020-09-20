@@ -16,7 +16,7 @@ import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 /**
- * This is a simple utility classs for spawning random and colorful {@link Firework} rockets.
+ * This is a simple utility class for spawning random and colorful {@link Firework} rockets.
  * 
  * @author TheBusyBiscuit
  *
