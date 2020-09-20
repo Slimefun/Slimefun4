@@ -138,7 +138,6 @@ public class TickerTask implements Runnable {
 
                 // Run the synchronous ticker task.
                 task.run();
-                r.run();
             }
         }
         catch (InterruptedException e) {
@@ -197,7 +196,7 @@ public class TickerTask implements Runnable {
 
             if (!halted) {
                 for (String chunk : BlockStorage.getTickingChunks()) {
-                    tickChunk(tickers, chunk, syncTasks);
+                    tickChunk(tickers, chunk);
                 }
             }
 
@@ -248,7 +247,7 @@ public class TickerTask implements Runnable {
 
             if (world != null && world.isChunkLoaded(x, z)) {
                 for (Location l : locations) {
-                    tickLocation(tickers, l, syncTasks);
+                    tickLocation(tickers, l);
                 }
             }
         }
