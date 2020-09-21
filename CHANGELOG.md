@@ -26,6 +26,7 @@
 
 #### Additions
 * Added /sf charge
+* Added Energized Energy Capacitor
 * (API) Added custom tags for developers
 
 #### Changes
