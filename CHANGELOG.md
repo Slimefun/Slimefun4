@@ -39,6 +39,7 @@
 * Fixed some issues with ChestTerminal
 * Fixed #2325
 * Fixed Climbing Pick having no animation in creative mode
+* Fixed #2322
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
