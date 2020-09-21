@@ -44,17 +44,14 @@ public final class TestUtilities {
     }
 
     public static SlimefunItem mockSlimefunItem(Plugin plugin, String id, ItemStack item) {
-        Category category = new Category(new NamespacedKey(plugin, "test"),
-            new CustomItem(Material.EMERALD, "&4Test Category"));
+        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
 
         return new MockSlimefunItem(category, item, id);
     }
 
     public static VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
-        Category category = new Category(new NamespacedKey(plugin, "test"),
-            new CustomItem(Material.EMERALD, "&4Test Category"));
-        VanillaItem item = new VanillaItem(category,
-            new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
+        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
+        VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
         SlimefunPlugin.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;
     }
