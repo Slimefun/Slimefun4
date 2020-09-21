@@ -1525,8 +1525,8 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new Capacitor(categories.electricity, 524288, SlimefunItems.ENERGIZED_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-                new ItemStack[] {new ItemStack(Material.NETHER_STAR), SlimefunItems.REDSTONE_ALLOY, new ItemStack(Material.NETHER_STAR), new ItemStack(Material.REDSTONE), SlimefunItems.CARBONADO_EDGED_CAPACITOR, new ItemStack(Material.REDSTONE), new ItemStack(Material.NETHER_STAR), SlimefunItems.REDSTONE_ALLOY, new ItemStack(Material.NETHER_STAR)})
-                .register(plugin);
+        new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARBONADO, new ItemStack(Material.NETHER_STAR), SlimefunItems.CARBONADO_EDGED_CAPACITOR, new ItemStack(Material.NETHER_STAR), SlimefunItems.CARBONADO, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARBONADO})
+        .register(plugin);
 
         new SolarGenerator(categories.electricity, 2, 0, SlimefunItems.SOLAR_GENERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.SOLAR_PANEL, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_INGOT, null, SlimefunItems.ALUMINUM_INGOT, null})
