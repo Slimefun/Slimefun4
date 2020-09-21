@@ -1,11 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.testing;
 
-import static org.mockito.Mockito.when;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
+import be.seeseemelk.mockbukkit.ServerMock;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.testing.mocks.MockSlimefunItem;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
@@ -16,15 +19,11 @@ import org.bukkit.plugin.Plugin;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mockito;
 
-import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun4.testing.mocks.MockSlimefunItem;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+import static org.mockito.Mockito.when;
 
 public final class TestUtilities {
 
@@ -44,14 +43,17 @@ public final class TestUtilities {
     }
 
     public static SlimefunItem mockSlimefunItem(Plugin plugin, String id, ItemStack item) {
-        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
+        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test " +
+            "Category"));
 
         return new MockSlimefunItem(category, item, id);
     }
 
     public static VanillaItem mockVanillaItem(Plugin plugin, Material type, boolean enabled) {
-        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test Category"));
-        VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), RecipeType.NULL, new ItemStack[9]);
+        Category category = new Category(new NamespacedKey(plugin, "test"), new CustomItem(Material.EMERALD, "&4Test " +
+            "Category"));
+        VanillaItem item = new VanillaItem(category, new ItemStack(type), type.name(), RecipeType.NULL,
+            new ItemStack[9]);
         SlimefunPlugin.getItemCfg().setValue(type.name() + ".enabled", enabled);
         return item;
     }
@@ -120,7 +122,7 @@ public final class TestUtilities {
         );
         server.createMaterialTag(NamespacedKey.minecraft("wooden_doors"), Material.SPRUCE_DOOR, Material.ACACIA_DOOR,
             Material.OAK_DOOR, Material.JUNGLE_DOOR, Material.DARK_OAK_DOOR, Material.BIRCH_DOOR
-            );
+        );
         server.createMaterialTag(NamespacedKey.minecraft("wooden_pressure_plates"), Material.SPRUCE_PRESSURE_PLATE,
             Material.ACACIA_PRESSURE_PLATE, Material.OAK_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE,
             Material.DARK_OAK_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE
