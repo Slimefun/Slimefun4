@@ -125,9 +125,9 @@ public final class TestUtilities {
             Material.ACACIA_PRESSURE_PLATE, Material.OAK_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE,
             Material.DARK_OAK_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE
         );
-        server.createMaterialTag(NamespacedKey.minecraft("wooden_trapdoors"), Material.SPRUCE_TRAPDOOR,
-            Material.ACACIA_DOOR, Material.OAK_DOOR, Material.JUNGLE_DOOR,
-            Material.DARK_OAK_DOOR, Material.BIRCH_DOOR
+        server.createMaterialTag(NamespacedKey.minecraft("wooden_trapdoors"),
+            Material.SPRUCE_TRAPDOOR, Material.ACACIA_DOOR, Material.OAK_DOOR,
+            Material.JUNGLE_DOOR, Material.DARK_OAK_DOOR, Material.BIRCH_DOOR
         );
 
 
