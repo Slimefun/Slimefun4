@@ -9,6 +9,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -55,6 +58,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private final Map<Material, Double> materialSpeeds;
     private final Set<UUID> users = new HashSet<>();
 
+    @ParametersAreNonnullByDefault
     public ClimbingPick(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
         addItemSetting(dualWielding, damageOnUse);
@@ -123,6 +127,8 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         };
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private ItemStack getOtherHandItem(Player p, EquipmentSlot hand) {
         if (hand == EquipmentSlot.HAND) {
             return p.getInventory().getItemInOffHand();
@@ -132,6 +138,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void climb(Player p, EquipmentSlot hand, ItemStack item, Block block) {
         double power = materialSpeeds.getOrDefault(block.getType(), 0.0);
 
@@ -144,7 +151,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                     power += efficiencyLevel * 0.1;
                 }
 
-                Slimefun.runSync(() -> users.remove(p.getUniqueId()), 3L);
+                Slimefun.runSync(() -> users.remove(p.getUniqueId()), 4L);
                 Vector velocity = new Vector(0, power * BASE_POWER, 0);
                 ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
                 Bukkit.getPluginManager().callEvent(event);
@@ -162,25 +169,37 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void swing(Player p, Block b, EquipmentSlot hand, ItemStack item) {
-        if (p.getGameMode() != GameMode.CREATIVE) {
-            if (isDualWieldingEnabled()) {
-                if (ThreadLocalRandom.current().nextBoolean()) {
-                    damageItem(p, p.getInventory().getItemInMainHand());
-                    playAnimation(p, b, EquipmentSlot.HAND);
-                }
-                else {
-                    damageItem(p, p.getInventory().getItemInOffHand());
-                    playAnimation(p, b, EquipmentSlot.OFF_HAND);
-                }
+        if (isDualWieldingEnabled()) {
+            if (ThreadLocalRandom.current().nextBoolean()) {
+                damageItem(p, p.getInventory().getItemInMainHand());
+                playAnimation(p, b, EquipmentSlot.HAND);
             }
             else {
-                damageItem(p, item);
-                playAnimation(p, b, hand);
+                damageItem(p, p.getInventory().getItemInOffHand());
+                playAnimation(p, b, EquipmentSlot.OFF_HAND);
             }
+        }
+        else {
+            damageItem(p, item);
+            playAnimation(p, b, hand);
         }
     }
 
+    @Override
+    public void damageItem(Player p, ItemStack item) {
+        if (p.getGameMode() != GameMode.CREATIVE) {
+            DamageableItem.super.damageItem(p, item);
+        }
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return damageOnUse.getValue();
+    }
+
+    @ParametersAreNonnullByDefault
     private void playAnimation(Player p, Block b, EquipmentSlot hand) {
         MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
 
@@ -196,11 +215,6 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                 }
             }
         }
-    }
-
-    @Override
-    public boolean isDamageable() {
-        return damageOnUse.getValue();
     }
 
     @Override

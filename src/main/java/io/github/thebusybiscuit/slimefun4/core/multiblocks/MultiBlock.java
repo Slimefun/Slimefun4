@@ -45,6 +45,9 @@ public class MultiBlock {
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
         }
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            SUPPORTED_TAGS.add(Tag.FIRE);
+        }
     }
 
     @Nonnull
