@@ -15,22 +15,6 @@ If you encounter an issue which has already been reported, please don't open a n
 It would be awesome though if you could post a comment on the existing issue which explains how you were able to reproduce this yourself.
 The more context and information we get, the easier we can fix it.
 
-## :toolbox: How to compile Slimefun4
-Slimefun is written in Java and uses [Maven](https://maven.apache.org/) for compilation.<br>
-To compile Slimefun yourself, follow these steps:
-
-1. Clone the project via git<br>
-`$ git clone https://github.com/Slimefun/Slimefun4/`
-2. Compile the project using Maven<br>
-`$ mvn clean package`
-3. Extract the compiled `Slimefun-v4.X-UNOFFICIAL.jar` from your `/target/` directory.
-
-If you are already using an IDE, make sure to import the project via git and set it up as a *Maven project*. 
-Then you should be able build it via Maven using the goals `clean package`.
-
-If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel.<br>
-**Note that we will not accept any bug reports from custom-compiled versions of Slimefun**.
-
 ## :hammer_and_wrench: 2. Pull Requests: Bug Fixes
 Bugs that have been reported need to be fixed of course.<br>
 Any open Issue on our [Issues Tracker](https://github.com/Slimefun/Slimefun4/issues) is waiting to be fixed.
@@ -94,3 +78,19 @@ More or better Unit Tests are always good to have, so feel free to submit a Test
 
 We are using [Junit 5 - Jupiter](https://github.com/junit-team/junit5/) and [MockBukkit](https://github.com/seeseemelk/MockBukkit) as our testing environment.<br>
 Every new Unit Test should have a `@DisplayName` annotation with a plain text description on what the Unit Test tests.
+
+## :toolbox: How to compile Slimefun4
+Slimefun is written in Java and uses [Maven](https://maven.apache.org/) for compilation.<br>
+To compile Slimefun yourself, follow these steps:
+
+1. Clone the project via git<br>
+`$ git clone https://github.com/Slimefun/Slimefun4/`
+2. Compile the project using Maven<br>
+`$ mvn clean package`
+3. Extract the compiled `Slimefun-v4.X-UNOFFICIAL.jar` from your `/target/` directory.
+
+If you are already using an IDE, make sure to import the project via git and set it up as a *Maven project*. 
+Then you should be able build it via Maven using the goals `clean package`.
+
+If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel.<br>
+**Note that we will not accept any bug reports from custom-compiled versions of Slimefun**.

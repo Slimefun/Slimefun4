@@ -1,16 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -56,7 +57,9 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
         for (int x = -4; x <= 4; x++) {
             for (int y = -4; y <= 4; y++) {
                 for (int z = -4; z <= 4; z++) {
-                    if (MaterialCollections.getAllOres().contains(p.getLocation().add(x, y, z).getBlock().getType()) && (closest == null || p.getLocation().distanceSquared(closest.getLocation()) > p.getLocation().distanceSquared(p.getLocation().add(x, y, z)))) {
+                    Material type = p.getLocation().add(x, y, z).getBlock().getType();
+
+                    if (SlimefunTag.PICKAXE_OF_THE_SEEKER_BLOCKS.isTagged(type) && (closest == null || p.getLocation().distanceSquared(closest.getLocation()) > p.getLocation().distanceSquared(p.getLocation().add(x, y, z)))) {
                         closest = p.getLocation().getBlock().getRelative(x, y, z);
                     }
                 }

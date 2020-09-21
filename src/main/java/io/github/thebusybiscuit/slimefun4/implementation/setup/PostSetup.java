@@ -45,7 +45,6 @@ public final class PostSetup {
 
     public static void setupWiki() {
         Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
-
         JsonParser parser = new JsonParser();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {

@@ -17,7 +17,7 @@ assignees: ''
 
 ## :bookmark_tabs: Steps to reproduce the Issue (REQUIRED)
 <!-- Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it. -->
-<!-- Youtube Videos and Screenshots are recommended! -->
+<!-- Youtube Videos and Screenshots are recommended!!! -->
 <!-- Start writing below this line -->
 
 
@@ -30,13 +30,13 @@ assignees: ''
 ## :scroll: Server Log
 <!-- Take a look at your Server Log and post any errors you can find via https://pastebin.com/ -->
 <!-- If you are unsure about it, post your full log, you can find it under /logs/latest.log -->
-<!-- Start writing below this line -->
+<!-- Paste your link(s) below this line -->
 
 
-## :open_file_folder: Error Reports
+## :open_file_folder: /error-reports/ Folder
 <!-- Check the folder /plugins/Slimefun/error-reports/ and upload all files inside that folder. -->
 <!-- You can also post these files via https://pastebin.com/ -->
-<!-- Start writing below this line -->
+<!-- Paste your link(s) below this line -->
 
 
 ## :compass: Environment (REQUIRED)
