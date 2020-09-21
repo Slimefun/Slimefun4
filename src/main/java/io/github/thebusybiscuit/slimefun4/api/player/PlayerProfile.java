@@ -404,6 +404,8 @@ public final class PlayerProfile {
      * @return Whether the {@link PlayerProfile} was already loaded
      */
     public static boolean request(@Nonnull OfflinePlayer p) {
+        Validate.notNull(p, "Cannot request a Profile for null");
+
         if (!SlimefunPlugin.getRegistry().getPlayerProfiles().containsKey(p.getUniqueId())) {
             // Should probably prevent multiple requests for the same profile in the future
             Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
