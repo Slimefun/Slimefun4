@@ -73,28 +73,8 @@ public abstract class CoalGenerator extends AGenerator {
             registerFuel(new MachineFuel(1, new ItemStack(mat)));
         }
 
-        // Banners
-        for (Material mat : Tag.BANNERS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
-        }
-
-        // Carpets
-        for (Material mat : Tag.CARPETS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
-        }
-
         // Signs
         for (Material mat : Tag.SIGNS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
-        }
-
-        // Saplings
-        for (Material mat : Tag.SAPLINGS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
-        }
-
-        // Wool
-        for (Material mat : Tag.WOOL.getValues()) {
             registerFuel(new MachineFuel(1, new ItemStack(mat)));
         }
     }
