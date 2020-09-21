@@ -117,7 +117,7 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("signs"), Material.SPRUCE_SIGN, Material.ACACIA_SIGN,
             Material.OAK_SIGN, Material.JUNGLE_SIGN, Material.DARK_OAK_SIGN, Material.BIRCH_SIGN
         );
-        server.createMaterialTag(NamespacedKey.minecraft("doors"), Material.SPRUCE_DOOR, Material.ACACIA_DOOR,
+        server.createMaterialTag(NamespacedKey.minecraft("wooden_doors"), Material.SPRUCE_DOOR, Material.ACACIA_DOOR,
             Material.OAK_DOOR, Material.JUNGLE_DOOR, Material.DARK_OAK_DOOR, Material.BIRCH_DOOR
         );
         server.createMaterialTag(NamespacedKey.minecraft("wooden_pressure_plates"), Material.SPRUCE_PRESSURE_PLATE,
