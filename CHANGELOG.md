@@ -26,6 +26,7 @@
 
 #### Additions
 * Added /sf charge
+* Added Energized Energy Capacitor
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
