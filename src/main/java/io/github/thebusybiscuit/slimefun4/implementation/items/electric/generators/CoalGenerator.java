@@ -26,7 +26,7 @@ public abstract class CoalGenerator extends AGenerator {
 
         // Boats
         for (Material mat : Tag.ITEMS_BOATS.getValues()) {
-            registerFuel(new MachineFuel(6, new ItemStack(mat)));
+            registerFuel(new MachineFuel(5, new ItemStack(mat)));
         }
 
         // Coal & Charcoal
@@ -35,7 +35,7 @@ public abstract class CoalGenerator extends AGenerator {
 
         // Logs
         for (Material mat : Tag.LOGS.getValues()) {
-            registerFuel(new MachineFuel(2, new ItemStack(mat)));
+            registerFuel(new MachineFuel(4, new ItemStack(mat)));
         }
 
         // Wooden Planks
@@ -60,22 +60,22 @@ public abstract class CoalGenerator extends AGenerator {
 
         // wooden Trapdoors
         for (Material mat : Tag.WOODEN_TRAPDOORS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+            registerFuel(new MachineFuel(3, new ItemStack(mat)));
         }
 
         // Wooden Pressure Plates
         for (Material mat : Tag.WOODEN_PRESSURE_PLATES.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+            registerFuel(new MachineFuel(2, new ItemStack(mat)));
         }
 
         // Wooden Doors
         for (Material mat : Tag.WOODEN_DOORS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+            registerFuel(new MachineFuel(2, new ItemStack(mat)));
         }
 
         // Signs
         for (Material mat : Tag.SIGNS.getValues()) {
-            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+            registerFuel(new MachineFuel(2, new ItemStack(mat)));
         }
     }
 
