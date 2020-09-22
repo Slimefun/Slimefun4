@@ -147,7 +147,7 @@ public class TickerTask implements Runnable {
                     item.getBlockTicker().update();
                     // We are inserting a new timestamp because synchronized
                     // actions are always ran with a 50ms delay (1 game tick)
-                    Slimefun.runSync(() -> {
+                    SlimefunPlugin.runSync(() -> {
                         Block b = l.getBlock();
                         tickBlock(l, b, item, data, System.nanoTime());
                     });
