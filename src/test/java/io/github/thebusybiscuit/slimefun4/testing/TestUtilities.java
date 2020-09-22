@@ -133,5 +133,6 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("beds"), Material.RED_BED, Material.BLUE_BED);
         server.createMaterialTag(NamespacedKey.minecraft("fishes"), Material.COD, Material.SALMON);
         server.createMaterialTag(NamespacedKey.minecraft("doors"), Material.OAK_DOOR, Material.IRON_DOOR);
+        server.createMaterialTag(NamespacedKey.minecraft("tall_flowers"), Material.PEONY, Material.SUNFLOWER);
     }
 }
