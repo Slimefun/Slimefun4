@@ -127,6 +127,7 @@ public final class TestUtilities {
         server.createMaterialTag(NamespacedKey.minecraft("crops"), Material.WHEAT,
             Material.CARROTS, Material.POTATOES, Material.BEETROOTS
         );
+        server.createMaterialTag(NamespacedKey.minecraft("dirt_like"), Material.DIRT, Material.PODZOL, Material.MYCELIUM);
         server.createMaterialTag(NamespacedKey.minecraft("fire"), Material.FIRE, Material.SOUL_FIRE);
         server.createMaterialTag(NamespacedKey.minecraft("gold_ores"), Material.GOLD_ORE);
         server.createMaterialTag(NamespacedKey.minecraft("sand"), Material.SAND, Material.RED_SAND);
