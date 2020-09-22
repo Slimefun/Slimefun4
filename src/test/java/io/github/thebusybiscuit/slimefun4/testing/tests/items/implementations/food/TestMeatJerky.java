@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -17,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.testing.interfaces.SlimefunItemTest;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestMeatJerky implements SlimefunItemTest<MeatJerky> {
+class TestMeatJerky implements SlimefunItemTest<MeatJerky> {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -42,7 +43,8 @@ public class TestMeatJerky implements SlimefunItemTest<MeatJerky> {
     }
 
     @Test
-    public void testConsumptionBehaviour() {
+    @DisplayName("Test Meat Jerky giving extra saturation")
+    void testConsumptionBehaviour() {
         PlayerMock player = server.addPlayer();
         MeatJerky jerky = registerSlimefunItem(plugin, "TEST_MEAT_JERKY");
         float saturation = player.getSaturation();

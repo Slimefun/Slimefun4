@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -24,16 +25,19 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
         this.author = plugin.getDescription().getAuthors().toString();
     }
 
+    @Nonnull
     @Override
     public String getIdentifier() {
         return "slimefun";
     }
 
+    @Nonnull
     @Override
     public String getVersion() {
         return version;
     }
 
+    @Nonnull
     @Override
     public String getAuthor() {
         return author;
@@ -49,9 +53,18 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
         return true;
     }
 
+    private boolean isPlaceholder(@Nullable OfflinePlayer p, boolean requiresProfile, @Nonnull String params, @Nonnull String placeholder) {
+        if (requiresProfile) {
+            return p != null && placeholder.equals(params) && PlayerProfile.request(p);
+        }
+        else {
+            return placeholder.equals(params);
+        }
+    }
+
     @Override
-    public String onRequest(OfflinePlayer p, String params) {
-        if (params.equals("researches_total_xp_levels_spent") && PlayerProfile.request(p)) {
+    public String onRequest(@Nullable OfflinePlayer p, @Nonnull String params) {
+        if (isPlaceholder(p, true, params, "researches_total_xp_levels_spent")) {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
             if (profile.isPresent()) {
@@ -60,7 +73,7 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
             }
         }
 
-        if (params.equals("researches_total_researches_unlocked") && PlayerProfile.request(p)) {
+        if (isPlaceholder(p, true, params, "researches_total_researches_unlocked")) {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
             if (profile.isPresent()) {
@@ -69,11 +82,11 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
             }
         }
 
-        if (params.equals("researches_total_researches")) {
+        if (isPlaceholder(p, false, params, "researches_total_researches")) {
             return String.valueOf(SlimefunPlugin.getRegistry().getResearches().size());
         }
 
-        if (params.equals("researches_percentage_researches_unlocked") && PlayerProfile.request(p)) {
+        if (isPlaceholder(p, true, params, "researches_percentage_researches_unlocked")) {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
             if (profile.isPresent()) {
@@ -82,7 +95,7 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
             }
         }
 
-        if (params.equals("researches_title") && PlayerProfile.request(p)) {
+        if (isPlaceholder(p, true, params, "researches_title")) {
             Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
             if (profile.isPresent()) {
@@ -90,20 +103,17 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
             }
         }
 
-        if (params.equals("gps_complexity")) {
+        if (isPlaceholder(p, false, params, "gps_complexity") && p != null) {
             return String.valueOf(SlimefunPlugin.getGPSNetwork().getNetworkComplexity(p.getUniqueId()));
         }
 
-        if (params.equals("timings_lag")) {
+        if (isPlaceholder(p, false, params, "timings_lag")) {
             return SlimefunPlugin.getProfiler().getTime();
         }
 
-        if (params.equals("language")) {
-            if (!(p instanceof Player)) {
-                return "Unknown";
-            }
-
-            return SlimefunPlugin.getLocalization().getLanguage((Player) p).getName((Player) p);
+        if (isPlaceholder(p, false, params, "language") && p instanceof Player) {
+            Player player = (Player) p;
+            return SlimefunPlugin.getLocalization().getLanguage(player).getName(player);
         }
 
         return null;

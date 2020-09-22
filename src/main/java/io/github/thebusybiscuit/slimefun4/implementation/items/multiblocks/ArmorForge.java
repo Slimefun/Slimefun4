@@ -84,7 +84,7 @@ public class ArmorForge extends MultiBlockMachine {
         for (int j = 0; j < 4; j++) {
             int current = j;
 
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 if (current < 3) {
                     p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
                 }

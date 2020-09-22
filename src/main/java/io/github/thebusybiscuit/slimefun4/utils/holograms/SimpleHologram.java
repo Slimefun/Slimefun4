@@ -10,7 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This utility class provides a few static methods for modifying a simple Text-based Hologram.
@@ -23,14 +23,14 @@ public final class SimpleHologram {
     private SimpleHologram() {}
 
     public static void update(@Nonnull Block b, @Nonnull String name) {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             ArmorStand hologram = getArmorStand(b, true);
             hologram.setCustomName(ChatColors.color(name));
         });
     }
 
     public static void remove(@Nonnull Block b) {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             ArmorStand hologram = getArmorStand(b, false);
 
             if (hologram != null) {
