@@ -274,7 +274,7 @@ public final class ResearchSetup {
         register("shulker_shell", 263, "Synthetic Shulkers", 30, SlimefunItems.SYNTHETIC_SHULKER_SHELL);
         register("villager_rune", 264, "Reset Villager Trades", 26, SlimefunItems.VILLAGER_RUNE, SlimefunItems.STRANGE_NETHER_GOO);
         register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
-        register("containment_backpack", 266, "Containment Backpack", 30, SlimefunItems.CONTAINMENT_BACKPACK);
+        register("containment_backpack", 267, "Containment Backpack", 30, SlimefunItems.CONTAINMENT_BACKPACK);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {

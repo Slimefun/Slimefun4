@@ -8,6 +8,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
+
 /**
  * This implementation of {@link SlimefunBackpack} for Radioactive Items.
  *
@@ -21,13 +23,11 @@ public class ContainmentBackpack extends SlimefunBackpack {
     }
 
     @Override
-    public boolean isItemAllowed(ItemStack item, SlimefunItem itemAsSlimefunItem) {
-        // Shulker Boxes are not allowed!
+    public boolean isItemAllowed(@Nonnull ItemStack item,@Nonnull SlimefunItem itemAsSlimefunItem) {
         if (item.getType() == Material.SHULKER_BOX || item.getType().toString().endsWith("_SHULKER_BOX")) {
             return false;
         }
 
         return !(itemAsSlimefunItem instanceof SlimefunBackpack);
     }
-
 }
