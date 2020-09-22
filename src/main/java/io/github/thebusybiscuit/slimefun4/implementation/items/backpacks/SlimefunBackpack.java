@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -58,6 +60,9 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
     public boolean isItemAllowed(ItemStack item, SlimefunItem itemAsSlimefunItem) {
         // Shulker Boxes are not allowed!
         if (item.getType() == Material.SHULKER_BOX || item.getType().toString().endsWith("_SHULKER_BOX")) {
+            return false;
+        }
+        if (itemAsSlimefunItem instanceof Radioactive) {
             return false;
         }
 
