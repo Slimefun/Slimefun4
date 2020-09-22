@@ -27,6 +27,7 @@
 #### Additions
 * Added /sf charge
 * Added Energized Energy Capacitor
+* Added various new fuel types to the Coal Generator
 * (API) Added custom tags for developers
 
 #### Changes
