@@ -27,6 +27,7 @@
 #### Additions
 * Added /sf charge
 * Added Energized Energy Capacitor
+* Added various new fuel types to the Coal Generator
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
