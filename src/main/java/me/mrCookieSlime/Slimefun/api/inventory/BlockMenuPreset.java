@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class BlockMenuPreset extends ChestMenu {
@@ -189,7 +188,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
     public void newInstance(BlockMenu menu, Location l) {
         Validate.notNull(l, "Cannot create a new BlockMenu without a Location");
 
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             locked = true;
 
             try {
