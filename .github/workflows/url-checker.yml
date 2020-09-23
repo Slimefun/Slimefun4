@@ -23,4 +23,4 @@ jobs:
         print_all: False
         retry_count: 2
         ## These URLs will always be correct, even if their services may be offline right now
-        white_listed_patterns: http://textures.minecraft.net/texture/,https://pastebin.com/,https://www.spigotmc.org/threads/spigot-bungeecord-1-16-1.447405/#post-3852349
+        white_listed_patterns: http://textures.minecraft.net/texture/,https://pastebin.com/,https://www.spigotmc.org/threads/spigot-bungeecord-1-16-1.447405/#post-3852349,https://gitlocalize.com/repo/3841
