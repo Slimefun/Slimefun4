@@ -23,7 +23,7 @@ public class ContainmentBackpack extends SlimefunBackpack {
     }
 
     @Override
-    public boolean isItemAllowed(@Nonnull ItemStack item,@Nonnull SlimefunItem itemAsSlimefunItem) {
+    public boolean isItemAllowed(@Nonnull ItemStack item, @Nonnull SlimefunItem itemAsSlimefunItem) {
         if (item.getType() == Material.SHULKER_BOX || item.getType().toString().endsWith("_SHULKER_BOX")) {
             return false;
         }
