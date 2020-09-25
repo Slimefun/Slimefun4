@@ -1,6 +1,10 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,7 +25,7 @@ public class DirtyChestMenu extends ChestMenu {
     protected ItemManipulationEvent event;
     protected int changes = 1;
 
-    public DirtyChestMenu(BlockMenuPreset preset) {
+    public DirtyChestMenu(@Nonnull BlockMenuPreset preset) {
         super(preset.getTitle());
 
         this.preset = preset;
@@ -49,6 +53,7 @@ public class DirtyChestMenu extends ChestMenu {
         return changes;
     }
 
+    @Nonnull
     public BlockMenuPreset getPreset() {
         return preset;
     }
@@ -77,15 +82,23 @@ public class DirtyChestMenu extends ChestMenu {
         }
     }
 
-    public boolean fits(ItemStack item, int... slots) {
-        return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
+    public boolean fits(@Nonnull ItemStack item, int... slots) {
+        if (getItemInSlot(slots[0]) == null) {
+            // Very small optimization
+            return true;
+        }
+        else {
+            return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
+        }
     }
 
+    @Nullable
     public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
 
+        ItemStackWrapper wrapper = null;
         int amount = item.getAmount();
 
         for (int slot : slots) {
@@ -99,9 +112,15 @@ public class DirtyChestMenu extends ChestMenu {
                 replaceExistingItem(slot, item);
                 return null;
             }
-            else if (stack.getAmount() < stack.getMaxStackSize() && ItemUtils.canStack(item, stack)) {
-                amount -= (stack.getMaxStackSize() - stack.getAmount());
-                stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), stack.getMaxStackSize()));
+            else if (stack.getAmount() < stack.getMaxStackSize()) {
+                if (wrapper == null) {
+                    wrapper = new ItemStackWrapper(item);
+                }
+
+                if (ItemUtils.canStack(wrapper, stack)) {
+                    amount -= (stack.getMaxStackSize() - stack.getAmount());
+                    stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), stack.getMaxStackSize()));
+                }
             }
         }
 
@@ -132,9 +151,14 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public void replaceExistingItem(int slot, ItemStack item, boolean event) {
-        if (event && this.event != null) {
+        if (event) {
             ItemStack previous = getItemInSlot(slot);
-            item = this.event.onEvent(slot, previous, item);
+
+            if (this.event != null) {
+                item = this.event.onEvent(slot, previous, item);
+            }
+
+            item = preset.onItemStackChange(this, slot, previous, item);
         }
 
         super.replaceExistingItem(slot, item);
