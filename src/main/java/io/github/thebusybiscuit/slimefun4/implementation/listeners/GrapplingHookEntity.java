@@ -15,13 +15,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 final class GrapplingHookEntity {
 
     private final boolean dropItem;
-
+    private final boolean keepininv;
     private final Arrow arrow;
     private final Entity leashTarget;
 
     @ParametersAreNonnullByDefault
-    GrapplingHookEntity(Player p, Arrow arrow, Entity leashTarget, boolean dropItem) {
+    GrapplingHookEntity(Player p, Arrow arrow, Entity leashTarget, boolean dropItem, boolean keepininv) {
         this.arrow = arrow;
+        this.keepininv = keepininv;
         this.leashTarget = leashTarget;
         this.dropItem = p.getGameMode() != GameMode.CREATIVE && dropItem;
     }
@@ -33,8 +34,10 @@ final class GrapplingHookEntity {
 
     public void drop(@Nonnull Location l) {
         if (dropItem) {
-            Item item = l.getWorld().dropItem(l, SlimefunItems.GRAPPLING_HOOK.clone());
-            item.setPickupDelay(16);
+            if (!keepininv) {
+                Item item = l.getWorld().dropItem(l, SlimefunItems.GRAPPLING_HOOK.clone());
+                item.setPickupDelay(16);
+            }
         }
     }
 

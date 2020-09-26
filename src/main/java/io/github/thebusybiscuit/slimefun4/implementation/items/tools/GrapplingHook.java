@@ -22,13 +22,14 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
-    private final ItemSetting<Boolean> stayininvonuse = new ItemSetting<>("stay-in-inv-on-use", false); //this set to false will override despawnTicks option
+    private final ItemSetting<Boolean> stayininvonuse = new ItemSetting<>("stay-in-inv-on-use", false);
     private final ItemSetting<Integer> despawnTicks = new ItemSetting<>("despawn-seconds", 60);
 
     public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         addItemSetting(despawnTicks);
+        addItemSetting(stayininvonuse);
     }
 
     @Override
@@ -36,6 +37,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
         return e -> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();
+            Boolean keepininv = stayininvonuse.getValue();
 
             if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();
@@ -48,7 +50,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 ItemStack item = e.getItem();
 
                 if (item.getType() == Material.LEAD) {
-                    if (!stayininvonuse.getValue()) {
+                    if (!keepininv) {
                         item.setAmount(item.getAmount() - 1);
                     }
                 }
@@ -65,10 +67,8 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 bat.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
                 bat.setLeashHolder(arrow);
 
-                if (!stayininvonuse.getValue()) {
-                    boolean state = item.getType() != Material.SHEARS;
-                    SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue());
-                }
+                boolean state = item.getType() != Material.SHEARS;
+                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue(), keepininv);
             }
         };
     }
