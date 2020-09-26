@@ -111,7 +111,8 @@ class CargoNetworkTask implements Runnable {
                 if (inv.getItem(previousSlot) == null) {
                     inv.setItem(previousSlot, stack);
                 }
-                else {
+                // Making sure the item cannot be added to another slot before dropping it on ground
+                else if((stack = inv.addItem(stack).get(0)) != null){
                     inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
                 }
             }
