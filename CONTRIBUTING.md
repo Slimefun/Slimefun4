@@ -92,5 +92,5 @@ To compile Slimefun yourself, follow these steps:
 If you are already using an IDE, make sure to import the project via git and set it up as a *Maven project*. 
 Then you should be able build it via Maven using the goals `clean package`.
 
-If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel.<br>
+If you have any further questions, then please join our [Discord Support Server](https://github.com/Slimefun/Slimefun4#discord) and ask your questions in the `#programming-help` channel.<br>
 **Note that we will not accept any bug reports from custom-compiled versions of Slimefun**.
