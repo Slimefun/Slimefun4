@@ -22,14 +22,14 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
-    private final ItemSetting<Boolean> stayininvonuse = new ItemSetting<>("stay-in-inv-on-use", false);
+    private final ItemSetting<Boolean> consumeOnUse = new ItemSetting<>("consume-on-use", true);
     private final ItemSetting<Integer> despawnTicks = new ItemSetting<>("despawn-seconds", 60);
 
     public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         addItemSetting(despawnTicks);
-        addItemSetting(stayininvonuse);
+        addItemSetting(consumeOnUse);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
         return e -> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();
-            Boolean keepininv = stayininvonuse.getValue();
+            boolean consumeOnUseValue = consumeOnUse.getValue();
 
             if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();
@@ -50,8 +50,8 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 ItemStack item = e.getItem();
 
                 if (item.getType() == Material.LEAD) {
-                    if (!keepininv) {
-                        item.setAmount(item.getAmount() - 1);
+                    if (consumeOnUseValue) {
+                        item.setAmount(item.getAmount() - 1); //If consume on use is enabled, this line will take 1 grappling hook out of player's hand
                     }
                 }
 
@@ -68,7 +68,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 bat.setLeashHolder(arrow);
 
                 boolean state = item.getType() != Material.SHEARS;
-                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue(), keepininv);
+                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue(), consumeOnUseValue);
             }
         };
     }
