@@ -50,8 +50,9 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 ItemStack item = e.getItem();
 
                 if (item.getType() == Material.LEAD) {
+                    //If consume on use is enabled, the if statement below will take 1 grappling hook out of player's hand
                     if (consumeOnUseValue) {
-                        item.setAmount(item.getAmount() - 1); //If consume on use is enabled, this line will take 1 grappling hook out of player's hand
+                        item.setAmount(item.getAmount() - 1);
                     }
                 }
 

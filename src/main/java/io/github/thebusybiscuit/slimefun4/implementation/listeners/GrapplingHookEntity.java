@@ -34,10 +34,11 @@ final class GrapplingHookEntity {
 
     public void drop(@Nonnull Location l) {
         if (dropItem) {
+            //If a grappling hook was consumed, then the below if statement will be executed and will drop one grappling hook on the floor
             if (wasConsumed) {
                 Item item = l.getWorld().dropItem(l, SlimefunItems.GRAPPLING_HOOK.clone());
                 item.setPickupDelay(16);
-            } //If a grappling hook was consumed, then this will drop one on the floor
+            }
         }
     }
 
