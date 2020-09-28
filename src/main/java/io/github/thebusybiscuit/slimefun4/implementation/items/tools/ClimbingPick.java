@@ -36,7 +36,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -151,7 +150,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                     power += efficiencyLevel * 0.1;
                 }
 
-                Slimefun.runSync(() -> users.remove(p.getUniqueId()), 4L);
+                SlimefunPlugin.runSync(() -> users.remove(p.getUniqueId()), 4L);
                 Vector velocity = new Vector(0, power * BASE_POWER, 0);
                 ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
                 Bukkit.getPluginManager().callEvent(event);

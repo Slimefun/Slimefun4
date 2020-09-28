@@ -28,6 +28,7 @@
 * Added /sf charge
 * Added Energized Energy Capacitor
 * Added various new fuel types to the Coal Generator
+* Added a config option for Grappling Hooks to not be consumed on use
 * (API) Added custom tags for developers
 
 #### Changes
@@ -43,6 +44,7 @@
 * Fixed #2325
 * Fixed Climbing Pick having no animation in creative mode
 * Fixed #2322
+* Fixed some cargo incompatibilities with overflowing inventories
 * Fixed #2238
 
 ## Release Candidate 16 (07 Sep 2020)

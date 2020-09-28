@@ -58,9 +58,9 @@ You can find a tutorial on how to contribute to our wiki right here:<br>
 https://github.com/Slimefun/Slimefun4/wiki/Expanding-the-Wiki
 
 ## :star: 6. Pull Requests: Code Quality
-Slimefun uses [sonarcloud.io](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) to monitor Code Quality.
+Slimefun uses [sonarcloud.io](https://sonarcloud.io/dashboard?id=Slimefun_Slimefun4) to monitor Code Quality.
 
-We always welcome quality improvements to the code and the "Code Smells" section on [sonarcloud.io](https://sonarcloud.io/dashboard?id=TheBusyBiscuit_Slimefun4) is a great place to start.
+We always welcome quality improvements to the code and the "Code Smells" section on [sonarcloud.io](https://sonarcloud.io/dashboard?id=Slimefun_Slimefun4) is a great place to start.
 But please keep in mind that some design patterns may not be changed too abruptly if an addon depends on them. 
 To prevent any accidents from happening, please contact us on our [Discord Server](https://github.com/Slimefun/Slimefun4#discord) before-hand and state your intended changes.
 
@@ -92,5 +92,5 @@ To compile Slimefun yourself, follow these steps:
 If you are already using an IDE, make sure to import the project via git and set it up as a *Maven project*. 
 Then you should be able build it via Maven using the goals `clean package`.
 
-If you have any further questions, then please join our [Discord Support Server](#discord) and ask your questions in the `#programming-help` channel.<br>
+If you have any further questions, then please join our [Discord Support Server](https://github.com/Slimefun/Slimefun4#discord) and ask your questions in the `#programming-help` channel.<br>
 **Note that we will not accept any bug reports from custom-compiled versions of Slimefun**.
