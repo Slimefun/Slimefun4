@@ -44,6 +44,7 @@
 * Fixed Climbing Pick having no animation in creative mode
 * Fixed #2322
 * Fixed some cargo incompatibilities with overflowing inventories
+* Fixed #2353
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
