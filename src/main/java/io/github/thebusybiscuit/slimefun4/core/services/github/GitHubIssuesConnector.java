@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import kong.unirest.JsonNode;
@@ -9,20 +10,20 @@ import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
-class GitHubIssuesTracker extends GitHubConnector {
+class GitHubIssuesConnector extends GitHubConnector {
 
-    private final IssuesTrackerConsumer callback;
+    private final IssuesCallback callback;
 
     @ParametersAreNonnullByDefault
-    GitHubIssuesTracker(GitHubService github, String repository, IssuesTrackerConsumer callback) {
+    GitHubIssuesConnector(GitHubService github, String repository, IssuesCallback callback) {
         super(github, repository);
         this.callback = callback;
     }
 
     @Override
-    public void onSuccess(JsonNode element) {
-        if (element.isArray()) {
-            JSONArray array = element.getArray();
+    public void onSuccess(@Nonnull JsonNode response) {
+        if (response.isArray()) {
+            JSONArray array = response.getArray();
 
             int issues = 0;
             int pullRequests = 0;
@@ -41,7 +42,7 @@ class GitHubIssuesTracker extends GitHubConnector {
             callback.accept(issues, pullRequests);
         }
         else {
-            Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", element);
+            Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
         }
     }
 
