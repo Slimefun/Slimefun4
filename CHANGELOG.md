@@ -32,6 +32,7 @@
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
+* General performance improvements
 
 #### Fixes
 * Fixed #2300
