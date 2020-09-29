@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -33,7 +34,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see EntityInteractHandler
  *
  */
-public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler> {
+public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler> implements NotPlaceable {
 
     public MagicalZombiePills(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
