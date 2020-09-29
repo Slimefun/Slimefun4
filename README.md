@@ -76,7 +76,7 @@ Due to the sheer size of this discord server, we need to enforce some [important
 Not following these rules can lead to a kick or even a ban from the server.
 
 <p align="center">
-  <a href="https://discord.gg/fsD4Bkh">
+  <a href="https://discord.gg/slimefun">
     <img src="https://discordapp.com/api/guilds/565557184348422174/widget.png?style=banner3" alt="Discord Invite"/>
   </a>
 </p>
