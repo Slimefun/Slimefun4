@@ -65,6 +65,11 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         };
     }
 
+    /**
+     * This method cancels {@link PlayerRightClickEvent} to prevent placing {@link MagicalZombiePills}.
+     *
+     * @return the {@link ItemUseHandler} of this {@link SlimefunItem}
+     */
     public ItemUseHandler onRightClick() {
         return PlayerRightClickEvent::cancel;
     }
