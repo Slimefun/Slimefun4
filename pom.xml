@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.thebusybiscuit</groupId>
+    <groupId>com.github.slimefun</groupId>
     <artifactId>Slimefun</artifactId>
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
@@ -26,8 +26,8 @@
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
-        <sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
-        <sonar.organization>thebusybiscuit-github</sonar.organization>
+        <sonar.projectKey>Slimefun_Slimefun4</sonar.projectKey>
+        <sonar.organization>slimefun</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.log.level>DEBUG</sonar.log.level>
         <sonar.exclusions>src/main/java/me/mrCookieSlime/Slimefun/bstats/bukkit/Metrics.java</sonar.exclusions>
@@ -323,7 +323,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.5.11</version>
+            <version>3.5.13</version>
             <scope>test</scope>
         </dependency>
 
@@ -343,7 +343,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.10.00</version>
+            <version>3.11.00</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

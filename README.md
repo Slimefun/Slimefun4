@@ -19,7 +19,7 @@ Check out our [Addons](https://github.com/Slimefun/Slimefun4/wiki/Addons), you m
 * **[Bug Tracker](https://github.com/Slimefun/Slimefun4/issues)**
 * **[Wiki](https://github.com/Slimefun/Slimefun4/wiki)**
 * **[FAQ](https://github.com/Slimefun/Slimefun4/wiki/FAQ)**
-* **[How to contribute](https://github.com/Slimefun/Slimefun4/blob/master/.github/CONTRIBUTING.md)**
+* **[How to contribute](https://github.com/Slimefun/Slimefun4/blob/master/CONTRIBUTING.md)**
 
 ## Download Slimefun 4
 (See also: [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun))
@@ -76,7 +76,7 @@ Due to the sheer size of this discord server, we need to enforce some [important
 Not following these rules can lead to a kick or even a ban from the server.
 
 <p align="center">
-  <a href="https://discord.gg/fsD4Bkh">
+  <a href="https://discord.gg/slimefun">
     <img src="https://discordapp.com/api/guilds/565557184348422174/widget.png?style=banner3" alt="Discord Invite"/>
   </a>
 </p>
@@ -105,7 +105,7 @@ Slimefun 4 is an Open-Source project and licensed under
 Over 150+ people have already contributed to this amazing project. You guys are awesome.<br>
 Please consider helping us maintain this project too, your engagement keeps the project alive <3.
 
-You can find more info on how to contribute to this project in our [CONTRIBUTING.md](https://github.com/Slimefun/Slimefun4/blob/master/.github/CONTRIBUTING.md).
+You can find more info on how to contribute to this project in our [CONTRIBUTING.md](https://github.com/Slimefun/Slimefun4/blob/master/CONTRIBUTING.md).
 
 ## Disclaimers
 Slimefun4 uses various systems that collect usage information or download automatic updates as well as the latest information about the project.

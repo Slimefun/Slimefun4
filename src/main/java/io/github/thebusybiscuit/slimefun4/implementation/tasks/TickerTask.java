@@ -50,8 +50,11 @@ public class TickerTask implements Runnable {
     private static final Runnable END_ELEMENT = () -> {};
     private static final long MAX_POLL_NS = 250_000L;
     private static final long MAX_TICK_NS = 1_500_000L;
+    
+    // This Map holds all currently actively ticking locations
+    private final Map<String, Set<Location>> activeTickers = new ConcurrentHashMap<>();
 
-    // These are "Queues" of blocks that need to be removed or moved.
+    // These are "Queues" of blocks that need to be removed or moved
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
@@ -195,8 +198,8 @@ public class TickerTask implements Runnable {
             }
 
             if (!halted) {
-                for (String chunk : BlockStorage.getTickingChunks()) {
-                    tickChunk(tickers, chunk);
+                for (Map.Entry<String, Set<Location>> entry : activeTickers.entrySet()) {
+                    tickChunk(tickers, entry.getKey(), entry.getValue());
                 }
             }
 
@@ -236,9 +239,9 @@ public class TickerTask implements Runnable {
         }
     }
 
-    private void tickChunk(@Nonnull List<BlockTicker> tickers, @Nonnull String chunk) {
+    @ParametersAreNonnullByDefault
+    private void tickChunk(List<BlockTicker> tickers, String chunk, Set<Location> locations) {
         try {
-            Set<Location> locations = BlockStorage.getTickingLocations(chunk);
             String[] components = PatternUtils.SEMICOLON.split(chunk);
 
             World world = Bukkit.getWorld(components[0]);
@@ -361,13 +364,24 @@ public class TickerTask implements Runnable {
         }
     }
 
+    /**
+     * This returns the delay between ticks
+     * 
+     * @return The tick delay
+     */
     public int getTickRate() {
         return tickRate;
     }
 
-    @Override
-    public String toString() {
-        return "TickerTask {\n" + "     HALTED = " + halted + "\n" + "     move = " + movingQueue + "\n" + "     delete = " + deletionQueue + "}";
+    /**
+     * This method returns the {@link Map} of actively ticking locations according to
+     * their chunk id.
+     * 
+     * @return The {@link Map} of active tickers
+     */
+    @Nonnull
+    public Map<String, Set<Location>> getActiveTickers() {
+        return activeTickers;
     }
 
 }

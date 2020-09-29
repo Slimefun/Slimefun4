@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.Bukkit;
 
@@ -29,7 +30,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 class GitHubTask implements Runnable {
 
     private static final int MAX_REQUESTS_PER_MINUTE = 16;
-
     private final GitHubService gitHubService;
 
     GitHubTask(@Nonnull GitHubService github) {
@@ -39,7 +39,6 @@ class GitHubTask implements Runnable {
     @Override
     public void run() {
         gitHubService.getConnectors().forEach(GitHubConnector::pullFile);
-
         grabTextures();
     }
 
@@ -112,12 +111,12 @@ class GitHubTask implements Runnable {
         return 0;
     }
 
+    @Nullable
     private String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws TooManyRequestsException, IOException {
         Optional<UUID> uuid = contributor.getUniqueId();
 
         if (!uuid.isPresent()) {
             uuid = MinecraftAccount.getUUID(contributor.getMinecraftName());
-
             uuid.ifPresent(contributor::setUniqueId);
         }
 

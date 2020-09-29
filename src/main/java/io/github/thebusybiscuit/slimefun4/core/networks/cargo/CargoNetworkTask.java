@@ -108,11 +108,18 @@ class CargoNetworkTask implements Runnable {
             Inventory inv = inventories.get(inputTarget.getLocation());
 
             if (inv != null) {
+                // Check if the original slot hasn't been occupied in the meantime
                 if (inv.getItem(previousSlot) == null) {
                     inv.setItem(previousSlot, stack);
                 }
                 else {
-                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
+                    // Try to add the item into another available slot then
+                    ItemStack rest = inv.addItem(stack).get(0);
+                    
+                    if (rest != null) {
+                        // If the item still couldn't be inserted, simply drop it on the ground
+                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), rest);
+                    }
                 }
             }
             else {

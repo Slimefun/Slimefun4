@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import kong.unirest.HttpResponse;
@@ -19,8 +20,16 @@ import kong.unirest.UnirestException;
 import kong.unirest.json.JSONException;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * The {@link GitHubConnector} is used to connect to the GitHub API service.
+ * It can be extended by subclasses, this just serves as an abstract super class for
+ * other connectors.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ */
 abstract class GitHubConnector {
-    
+
     private static final String API_URL = "https://api.github.com/";
 
     protected File file;
@@ -33,12 +42,23 @@ abstract class GitHubConnector {
         this.repository = repository;
     }
 
+    @Nonnull
     public abstract String getFileName();
 
+    @Nonnull
     public abstract String getURLSuffix();
 
-    public abstract void onSuccess(JsonNode element);
+    /**
+     * This method is called when the connection finished successfully.
+     * 
+     * @param response
+     *            The response
+     */
+    public abstract void onSuccess(@Nonnull JsonNode response);
 
+    /**
+     * This method is called when the connection has failed.
+     */
     public void onFailure() {
         // Don't do anything by default
     }
@@ -61,7 +81,7 @@ abstract class GitHubConnector {
             }
             else {
                 if (github.isLoggingEnabled()) {
-                    Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] {repository + getURLSuffix(), resp.getStatus(), resp.getBody()});
+                    Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] { repository + getURLSuffix(), resp.getStatus(), resp.getBody() });
                 }
 
                 // It has the cached file, let's just read that then
@@ -94,12 +114,13 @@ abstract class GitHubConnector {
         }
     }
 
+    @Nullable
     private JsonNode readCacheFile() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             return new JsonNode(reader.readLine());
         }
         catch (IOException | JSONException e) {
-            Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] {file.getName(), e.getClass().getSimpleName(), e.getMessage()});
+            Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] { file.getName(), e.getClass().getSimpleName(), e.getMessage() });
             return null;
         }
     }
@@ -109,7 +130,7 @@ abstract class GitHubConnector {
             output.write(node.toString().getBytes(StandardCharsets.UTF_8));
         }
         catch (IOException e) {
-            Slimefun.getLogger().log(Level.WARNING, "Failed to populate GitHub cache: {0} - {1}", new Object[] {e.getClass().getSimpleName(), e.getMessage()});
+            Slimefun.getLogger().log(Level.WARNING, "Failed to populate GitHub cache: {0} - {1}", new Object[] { e.getClass().getSimpleName(), e.getMessage() });
         }
     }
 }

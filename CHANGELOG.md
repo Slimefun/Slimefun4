@@ -28,9 +28,11 @@
 * Added /sf charge
 * Added Energized Energy Capacitor
 * Added various new fuel types to the Coal Generator
+* Added a config option for Grappling Hooks to not be consumed on use
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
+* General performance improvements
 
 #### Fixes
 * Fixed #2300
@@ -42,6 +44,9 @@
 * Fixed #2325
 * Fixed Climbing Pick having no animation in creative mode
 * Fixed #2322
+* Fixed some cargo incompatibilities with overflowing inventories
+* Fixed #2353
+* Fixed #2359
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
