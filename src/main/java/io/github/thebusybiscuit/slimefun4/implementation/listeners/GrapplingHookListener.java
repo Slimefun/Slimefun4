@@ -28,7 +28,6 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for the mechanics behind the {@link GrapplingHook}.
@@ -74,7 +73,7 @@ public class GrapplingHookListener implements Listener {
             return;
         }
 
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             if (e.getEntity() instanceof Arrow) {
                 handleGrapplingHook((Arrow) e.getEntity());
             }
@@ -174,7 +173,7 @@ public class GrapplingHookListener implements Listener {
                 p.setVelocity(velocity);
 
                 hook.remove();
-                Slimefun.runSync(() -> activeHooks.remove(p.getUniqueId()), 20L);
+                SlimefunPlugin.runSync(() -> activeHooks.remove(p.getUniqueId()), 20L);
             }
         }
     }
@@ -184,21 +183,21 @@ public class GrapplingHookListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    public void addGrapplingHook(Player p, Arrow arrow, Bat bat, boolean dropItem, long despawnTicks) {
-        GrapplingHookEntity hook = new GrapplingHookEntity(p, arrow, bat, dropItem);
+    public void addGrapplingHook(Player p, Arrow arrow, Bat bat, boolean dropItem, long despawnTicks, boolean wasConsumed) {
+        GrapplingHookEntity hook = new GrapplingHookEntity(p, arrow, bat, dropItem, wasConsumed);
         UUID uuid = p.getUniqueId();
 
         activeHooks.put(uuid, hook);
 
         // To fix issue #253
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             GrapplingHookEntity entity = activeHooks.get(uuid);
 
             if (entity != null) {
                 SlimefunPlugin.getBowListener().getProjectileData().remove(uuid);
                 entity.remove();
 
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     activeHooks.remove(uuid);
                     invulnerability.remove(uuid);
                 }, 20L);

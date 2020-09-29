@@ -9,13 +9,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-public class TestItemDataService {
+class TestItemDataService {
 
     private static SlimefunPlugin plugin;
 
@@ -31,13 +32,15 @@ public class TestItemDataService {
     }
 
     @Test
-    public void testInitialization() {
+    @DisplayName("Test CustomItemDataService constructor")
+    void testInitialization() {
         CustomItemDataService service = new CustomItemDataService(plugin, "test");
         Assertions.assertEquals(new NamespacedKey(plugin, "test"), service.getKey());
     }
 
     @Test
-    public void testSetDataItem() {
+    @DisplayName("Test setting item data for an ItemStack")
+    void testSetDataItem() {
         CustomItemDataService service = new CustomItemDataService(plugin, "test");
         ItemStack item = new ItemStack(Material.EMERALD);
 
@@ -49,7 +52,8 @@ public class TestItemDataService {
     }
 
     @Test
-    public void testSetDataItemMeta() {
+    @DisplayName("Test setting item data for an ItemMeta")
+    void testSetDataItemMeta() {
         CustomItemDataService service = new CustomItemDataService(plugin, "test");
         ItemStack item = new ItemStack(Material.EMERALD);
         ItemMeta meta = item.getItemMeta();

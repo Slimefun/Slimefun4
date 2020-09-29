@@ -16,8 +16,8 @@ import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
 
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * An abstract Network class to manage networks in a stateful way
@@ -217,7 +217,7 @@ public abstract class Network {
      * every {@link Location} that this {@link Network} is connected to.
      */
     public void display() {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             DustOptions options = new DustOptions(Color.BLUE, 3F);
 
             for (Location l : connectedLocations) {

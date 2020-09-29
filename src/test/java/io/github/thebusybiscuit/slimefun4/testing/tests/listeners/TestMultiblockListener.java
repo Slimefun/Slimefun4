@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -24,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockLis
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestMultiblockListener {
+class TestMultiblockListener {
 
     private static SlimefunPlugin plugin;
     private static MultiBlockListener listener;
@@ -48,7 +49,8 @@ public class TestMultiblockListener {
     }
 
     @Test
-    public void testNoMultiblock() {
+    @DisplayName("Test MultiBlocks not messing up normal interactions")
+    void testNoMultiblock() {
         Player player = server.addPlayer();
         World world = server.addSimpleWorld("Multiblock Test World");
         Block b = world.getBlockAt(3456, 90, -100);
@@ -62,7 +64,8 @@ public class TestMultiblockListener {
     }
 
     @Test
-    public void testMultiblock() {
+    @DisplayName("Test MultiBlocks being recognized on right click")
+    void testMultiblock() {
         Player player = server.addPlayer();
         World world = server.addSimpleWorld("Multiblock Test World");
         Block top = world.getBlockAt(1234, 92, -60);

@@ -80,7 +80,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             ChatComponent header = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main") + " -\n\n"));
             header.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
 
-            header.setClickEvent(new ClickEvent(guideSearch, player -> Slimefun.runSync(() -> {
+            header.setClickEvent(new ClickEvent(guideSearch, player -> SlimefunPlugin.runSync(() -> {
                 SlimefunPlugin.getLocalization().sendMessage(player, "guide.search.message");
                 ChatInput.waitForPlayer(SlimefunPlugin.instance(), player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
             }, 1)));
@@ -234,13 +234,13 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
 
             component.setHoverEvent(new HoverEvent(lore));
-            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> displayItem(profile, item, true))));
+            component.setClickEvent(new ClickEvent(key, player -> SlimefunPlugin.runSync(() -> displayItem(profile, item, true))));
             items.add(component);
         }
     }
 
     private void research(Player p, PlayerProfile profile, SlimefunItem item, Research research, Category category, int page) {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
                 if (research.canUnlock(p)) {
                     if (profile.hasUnlocked(research)) {

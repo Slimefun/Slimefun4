@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SlimefunBow;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for tracking {@link Arrow Arrows} fired from a
@@ -64,7 +63,7 @@ public class SlimefunBowListener implements Listener {
 
     @EventHandler
     public void onArrowHit(ProjectileHitEvent e) {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
                 projectiles.remove(e.getEntity().getUniqueId());
             }

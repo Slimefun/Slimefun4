@@ -83,7 +83,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
         menu.addMenuClickHandler(slotPrev, (p, slot, item, action) -> {
             int newChannel = channel - 1;
 
-            if (channel < 0) {
+            if (newChannel < 0) {
                 if (isChestTerminalInstalled) {
                     newChannel = 16;
                 }

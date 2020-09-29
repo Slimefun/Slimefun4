@@ -23,8 +23,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * This {@link Listener} listens for a {@link FoodLevelChangeEvent} or an {@link EntityDamageEvent} for starvation damage
- * and consumes a {@link Juice} from any {@link Cooler} that can be found in the {@link Inventory} of the given {@link Player}.
+ * This {@link Listener} listens for a {@link FoodLevelChangeEvent} or an {@link EntityDamageEvent} for starvation
+ * damage
+ * and consumes a {@link Juice} from any {@link Cooler} that can be found in the {@link Inventory} of the given
+ * {@link Player}.
  * 
  * @author TheBusyBiscuit
  * @author Linox
@@ -55,18 +57,18 @@ public class CoolerListener implements Listener {
             checkAndConsume(p);
         }
     }
-    
+
     @EventHandler
     public void onHungerDamage(EntityDamageEvent e) {
         if (cooler == null || cooler.isDisabled() || !(e.getEntity() instanceof Player)) {
             return;
         }
-        
+
         if (e.getCause() == DamageCause.STARVATION) {
             checkAndConsume((Player) e.getEntity());
         }
     }
-    
+
     private void checkAndConsume(@Nonnull Player p) {
         for (ItemStack item : p.getInventory().getContents()) {
             if (cooler.isItem(item)) {
@@ -92,7 +94,7 @@ public class CoolerListener implements Listener {
     private void takeJuiceFromCooler(@Nonnull Player p, @Nonnull ItemStack cooler) {
         PlayerProfile.getBackpack(cooler, backpack -> {
             if (backpack != null) {
-                Slimefun.runSync(() -> consumeJuice(p, backpack));
+                SlimefunPlugin.runSync(() -> consumeJuice(p, backpack));
             }
         });
     }

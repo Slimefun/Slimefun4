@@ -10,6 +10,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+import javax.annotation.Nonnull;
+
 public abstract class CoalGenerator extends AGenerator {
 
     public CoalGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -22,21 +24,62 @@ public abstract class CoalGenerator extends AGenerator {
         registerFuel(new MachineFuel(12, new ItemStack(Material.BLAZE_ROD)));
         registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
+        // Boats
+        for (Material mat : Tag.ITEMS_BOATS.getValues()) {
+            registerFuel(new MachineFuel(5, new ItemStack(mat)));
+        }
+
         // Coal & Charcoal
         registerFuel(new MachineFuel(8, new ItemStack(Material.COAL)));
         registerFuel(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
 
         // Logs
         for (Material mat : Tag.LOGS.getValues()) {
-            registerFuel(new MachineFuel(2, new ItemStack(mat)));
+            registerFuel(new MachineFuel(4, new ItemStack(mat)));
         }
 
         // Wooden Planks
         for (Material mat : Tag.PLANKS.getValues()) {
             registerFuel(new MachineFuel(1, new ItemStack(mat)));
         }
+
+        // Wooden Slabs
+        for (Material mat : Tag.WOODEN_SLABS.getValues()) {
+            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+        }
+
+        // Wooden Buttons
+        for (Material mat : Tag.WOODEN_BUTTONS.getValues()) {
+            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+        }
+
+        // Wooden Fences
+        for (Material mat : Tag.WOODEN_FENCES.getValues()) {
+            registerFuel(new MachineFuel(1, new ItemStack(mat)));
+        }
+
+        // wooden Trapdoors
+        for (Material mat : Tag.WOODEN_TRAPDOORS.getValues()) {
+            registerFuel(new MachineFuel(3, new ItemStack(mat)));
+        }
+
+        // Wooden Pressure Plates
+        for (Material mat : Tag.WOODEN_PRESSURE_PLATES.getValues()) {
+            registerFuel(new MachineFuel(2, new ItemStack(mat)));
+        }
+
+        // Wooden Doors
+        for (Material mat : Tag.WOODEN_DOORS.getValues()) {
+            registerFuel(new MachineFuel(2, new ItemStack(mat)));
+        }
+
+        // Signs
+        for (Material mat : Tag.SIGNS.getValues()) {
+            registerFuel(new MachineFuel(2, new ItemStack(mat)));
+        }
     }
 
+    @Nonnull
     @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.FLINT_AND_STEEL);

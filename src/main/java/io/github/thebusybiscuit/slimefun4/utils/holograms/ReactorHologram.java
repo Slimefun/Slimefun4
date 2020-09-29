@@ -8,7 +8,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 public final class ReactorHologram {
 
@@ -35,7 +35,7 @@ public final class ReactorHologram {
     }
 
     public static void update(@Nonnull Location l, @Nonnull String name) {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             ArmorStand hologram = getArmorStand(l, true);
 
             if (!hologram.isCustomNameVisible()) {

@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -55,7 +57,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -221,6 +222,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         });
     }
 
+    @ParametersAreNonnullByDefault
     public void openScript(Player p, Block b, String sourceCode) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
         menu.setEmptySlotsClickable(false);
@@ -291,6 +293,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         menu.open(p);
     }
 
+    @ParametersAreNonnullByDefault
     private String addInstruction(String[] script, int index, Instruction instruction) {
         int i = 0;
         StringBuilder builder = new StringBuilder(Instruction.START.name() + '-');
@@ -848,7 +851,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             });
 
             block.setBlockData(blockData);
-            Slimefun.runSync(() -> SkullBlock.setFromBase64(block, texture));
+            SlimefunPlugin.runSync(() -> SkullBlock.setFromBase64(block, texture));
 
             b.setType(Material.AIR);
             BlockStorage.moveBlockInfo(b.getLocation(), block.getLocation());
