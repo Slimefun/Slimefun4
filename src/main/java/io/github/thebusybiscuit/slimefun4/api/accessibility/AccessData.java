@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.accessibility;
+package io.github.thebusybiscuit.slimefun4.api.accessibility;
 
 import javax.annotation.Nonnull;
 
