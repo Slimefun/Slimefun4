@@ -198,7 +198,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Set up localization
             getLogger().log(Level.INFO, "Loading language files...");
-            local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
+            local = new LocalizationService(this, config.getString("options.chat-prefix"),
+                config.getString("options.language"));
 
             // Setting up Networks
             gpsNetwork = new GPSNetwork();
@@ -206,7 +207,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             int networkSize = config.getInt("networks.max-size");
 
             if (networkSize < 1) {
-                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
+                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured!" +
+                    "It must be at least 1, it was set to: {0}", networkSize);
                 networkSize = 1;
             }
 

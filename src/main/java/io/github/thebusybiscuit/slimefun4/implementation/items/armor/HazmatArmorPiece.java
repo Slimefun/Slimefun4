@@ -11,6 +11,8 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+import javax.annotation.Nonnull;
+
 /**
  * Represents 1 {@link SlimefunArmorPiece} of the Hazmat armor set.
  * One of the very few utilisations of {@link ProtectiveArmor}.
@@ -33,6 +35,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveAr
         namespacedKey = new NamespacedKey(SlimefunPlugin.instance(), "hazmat_suit");
     }
 
+    @Nonnull
     @Override
     public ProtectionType[] getProtectionTypes() {
         return types;

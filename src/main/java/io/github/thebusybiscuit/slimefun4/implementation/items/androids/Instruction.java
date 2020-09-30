@@ -146,7 +146,7 @@ enum Instruction {
     });
 
     private static final Map<String, Instruction> nameLookup = new HashMap<>();
-    public static final Instruction[] values = values();
+    protected static final Instruction[] values = values();
 
     private final ItemStack item;
     private final AndroidType type;

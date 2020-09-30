@@ -31,6 +31,6 @@ public enum SlimefunGuideLayout {
      */
     CHEAT_SHEET;
 
-    public static final SlimefunGuideLayout[] values = values();
+    protected static final SlimefunGuideLayout[] values = values();
 
 }

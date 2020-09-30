@@ -50,7 +50,7 @@ public enum MinecraftVersion {
      */
     UNIT_TEST("Unit Test Environment");
 
-    public static final MinecraftVersion[] values = values();
+    protected static final MinecraftVersion[] values = values();
 
     private final String name;
     private final String prefix;

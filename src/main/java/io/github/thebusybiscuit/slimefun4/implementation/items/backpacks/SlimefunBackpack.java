@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see PlayerBackpack
  *
  */
-public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
+public class  SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final int size;
 
