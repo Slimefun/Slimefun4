@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
+import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
@@ -100,7 +101,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         List<Category> categories = new LinkedList<>();
 
         for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
-            if (!category.isHidden(p) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getLayout()))) {
+            if (((!isSurvivalMode() && category instanceof SeasonalCategory) || !category.isHidden(p)) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getLayout()))) {
                 categories.add(category);
             }
         }
