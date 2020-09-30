@@ -47,6 +47,7 @@
 * Fixed some cargo incompatibilities with overflowing inventories
 * Fixed #2353
 * Fixed #2359
+* Fixed #2356
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
