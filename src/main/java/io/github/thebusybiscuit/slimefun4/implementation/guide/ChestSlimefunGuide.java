@@ -101,8 +101,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         List<Category> categories = new LinkedList<>();
 
         for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
-            if (((!isSurvivalMode() && category instanceof SeasonalCategory) || !category.isHidden(p)) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getLayout()))) {
-                categories.add(category);
+            if ((!isSurvivalMode() && category instanceof SeasonalCategory) || !category.isHidden(p)) {
+                if (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getLayout())) {
+                    categories.add(category);
+                }
             }
         }
 
