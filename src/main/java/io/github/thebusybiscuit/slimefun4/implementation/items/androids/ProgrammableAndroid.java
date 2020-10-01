@@ -7,6 +7,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -220,6 +223,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         });
     }
 
+    @ParametersAreNonnullByDefault
     public void openScript(Player p, Block b, String sourceCode) {
         ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + SlimefunPlugin.getLocalization().getMessage(p, "android.scripts.editor"));
         menu.setEmptySlotsClickable(false);
@@ -290,6 +294,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         menu.open(p);
     }
 
+    @ParametersAreNonnullByDefault
     private String addInstruction(String[] script, int index, Instruction instruction) {
         int i = 0;
         StringBuilder builder = new StringBuilder(Instruction.START.name() + '-');
@@ -310,7 +315,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         return builder.toString();
     }
 
-    private String duplicateInstruction(String[] script, int index) {
+    private String duplicateInstruction(@Nonnull String[] script, int index) {
         int i = 0;
         StringBuilder builder = new StringBuilder(Instruction.START + "-");
 
@@ -436,13 +441,9 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         menu.open(p);
     }
 
+    @ParametersAreNonnullByDefault
     private void uploadScript(Player p, Block b, int page) {
         String code = getScript(b.getLocation());
-
-        if (code == null) {
-            return;
-        }
-
         int nextId = 1;
 
         for (Script script : Script.getUploadedScripts(getAndroidType())) {
@@ -541,12 +542,13 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         menu.open(p);
     }
 
-    protected String getScript(Location l) {
+    @Nonnull
+    protected String getScript(@Nonnull Location l) {
         String script = BlockStorage.getLocationInfo(l, "script");
         return script != null ? script : DEFAULT_SCRIPT;
     }
 
-    protected void setScript(Location l, String script) {
+    protected void setScript(@Nonnull Location l, @Nonnull String script) {
         BlockStorage.addBlockInfo(l, "script", script);
     }
 
@@ -783,10 +785,11 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         return false;
     }
 
+    @ParametersAreNonnullByDefault
     private void consumeFuel(Block b, BlockMenu menu) {
         ItemStack item = menu.getItemInSlot(43);
 
-        if (item != null) {
+        if (item != null && item.getType() != Material.AIR) {
             for (MachineFuel fuel : fuelTypes) {
                 if (fuel.test(item)) {
                     menu.consumeItem(43);
@@ -803,12 +806,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         }
     }
 
-    private void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : BORDER) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
         for (int i : OUTPUT_BORDER) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : getOutputSlots()) {

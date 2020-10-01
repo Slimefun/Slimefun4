@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -47,6 +48,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
         drops.addAll(getGoldPanDrops());
         addItemSetting(drops.toArray(new GoldPanDrop[0]));
+        addItemHandler(onEntityInteract());
     }
 
     protected Material getInput() {
@@ -113,6 +115,16 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
 
             e.cancel();
         };
+    }
+
+    /**
+     * This method cancels {@link EntityInteractHandler} to prevent interacting {@link GoldPan}
+     * with entities.
+     *
+     * @return the {@link EntityInteractHandler} of this {@link SlimefunItem}
+     */
+    public EntityInteractHandler onEntityInteract() {
+        return (e, item, offHand) -> e.setCancelled(true);
     }
 
     @Override

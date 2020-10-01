@@ -1,7 +1,6 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -68,6 +67,15 @@ public class DirtyChestMenu extends ChestMenu {
         }
     }
 
+    /**
+     * This method has been deprecated.
+     * 
+     * @deprecated The {@link ItemManipulationEvent} has been deprecated.
+     * 
+     * @param event
+     *            deprecated class
+     */
+    @Deprecated
     public void registerEvent(ItemManipulationEvent event) {
         this.event = event;
     }
