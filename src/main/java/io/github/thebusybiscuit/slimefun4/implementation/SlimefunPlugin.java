@@ -198,8 +198,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Set up localization
             getLogger().log(Level.INFO, "Loading language files...");
-            local = new LocalizationService(this, config.getString("options.chat-prefix"),
-                config.getString("options.language"));
+            local = new LocalizationService(this,
+                config.getString("options.chat-prefix"), config.getString("options.language"));
 
             // Setting up Networks
             gpsNetwork = new GPSNetwork();
@@ -515,7 +515,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This returns the global instance of {@link SlimefunPlugin}.
      * This may return null if the {@link Plugin} was disabled.
-     * 
+     *
      * @return The {@link SlimefunPlugin} instance
      */
     @Nullable
@@ -668,7 +668,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
      * to analyse performance and lag.
-     * 
+     *
      * @return The {@link SlimefunProfiler}
      */
     public static SlimefunProfiler getProfiler() {
@@ -687,7 +687,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns whether this version of Slimefun was newly installed.
      * It will return true if this {@link Server} uses Slimefun for the very first time.
-     * 
+     *
      * @return Whether this is a new installation of Slimefun
      */
     public static boolean isNewlyInstalled() {
