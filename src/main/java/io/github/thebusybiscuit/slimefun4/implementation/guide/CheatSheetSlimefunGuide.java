@@ -53,7 +53,7 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
      */
     @Nonnull
     @Override
-    protected List<Category> getVisibleCategories(Player p, PlayerProfile profile) {
+    protected List<Category> getVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<Category> categories = new LinkedList<>();
 
         for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
