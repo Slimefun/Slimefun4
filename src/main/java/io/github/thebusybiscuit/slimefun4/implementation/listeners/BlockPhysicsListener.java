@@ -62,6 +62,7 @@ public class BlockPhysicsListener implements Listener {
             for (Block b : e.getBlocks()) {
                 if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);
+                    break;
                 }
             }
         }
@@ -76,6 +77,7 @@ public class BlockPhysicsListener implements Listener {
             for (Block b : e.getBlocks()) {
                 if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);
+                    break;
                 }
             }
         }
