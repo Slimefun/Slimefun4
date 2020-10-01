@@ -1,5 +1,5 @@
 # Slimefun 4
-Looking for the download link? [**Click here**](https://github.com/Slimefun/Slimefun4/blob/master/README.md#download-slimefun-4)
+Looking for the download link? [**CLICK HERE **](https://github.com/Slimefun/Slimefun4/blob/master/README.md#download-slimefun-4)
 
 Slimefun is a plugin which aims to turn your Spigot Server into a modpack without ever installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks! Slimefun lets every player decide on their own how much they want to dive into Magic or Tech.<br>
 We got everything from magical wands to nuclear reactors.<br>
@@ -26,7 +26,7 @@ Check out our [Addons](https://github.com/Slimefun/Slimefun4/wiki/Addons), you m
 
 **Due to [Spigot's abandonce of the Bukkit API](https://www.spigotmc.org/threads/spigot-bungeecord-1-16-1.447405/#post-3852349), Slimefun is no longer able to work on CraftBukkit, please switch over to Spigot or Paper if you haven't already.**
 
-Slimefun 4 can be downloaded **for free** on our builds page.<br>
+Slimefun 4 can be downloaded for free **CLICK HERE** on our builds page.<br>
 We currently provide two distinct versions of Slimefun, development builds and "stable" builds.<br>
 Here is a full summary of the differences between the two different versions of Slimefun.
 
