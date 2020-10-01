@@ -1,8 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
+import javax.annotation.Nonnull;
+
 import java.util.LinkedList;
 import java.util.List;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -39,6 +42,16 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
         return false;
     }
 
+    /**
+     * Returns a {@link List} of visible {@link Category} instances that the {@link SlimefunGuide} would display.
+     *
+     * @param p
+     *            The {@link Player} who opened his {@link SlimefunGuide}
+     * @param profile
+     *            The {@link PlayerProfile} of the {@link Player}
+     * @return a {@link List} of visible {@link Category} instances
+     */
+    @Nonnull
     @Override
     protected List<Category> getVisibleCategories(Player p, PlayerProfile profile) {
         List<Category> categories = new LinkedList<>();

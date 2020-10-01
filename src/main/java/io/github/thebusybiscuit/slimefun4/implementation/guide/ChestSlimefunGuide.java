@@ -107,6 +107,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
      *            The {@link PlayerProfile} of the {@link Player}
      * @return a {@link List} of visible {@link Category} instances
      */
+    @Nonnull
     protected List<Category> getVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<Category> categories = new LinkedList<>();
 
