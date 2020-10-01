@@ -33,6 +33,7 @@
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
 * General performance improvements
+* /sf cheat now shows seasonal categories all year through
 
 #### Fixes
 * Fixed #2300
