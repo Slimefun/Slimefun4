@@ -6,10 +6,24 @@ import io.github.thebusybiscuit.slimefun4.api.accessibility.ConcreteAccessLevel;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * Represents an access level for android operations specifically.
+ */
 public enum AndroidAccessLevel implements AccessLevel {
 
+    /**
+     * No access to the android
+     */
     NONE(ConcreteAccessLevel.NONE),
+
+    /**
+     * Some access, able to open the android's UI
+     */
     INTERACT(ConcreteAccessLevel.PARTIAL),
+
+    /**
+     * Full access
+     */
     FULL(ConcreteAccessLevel.FULL);
 
     private final ConcreteAccessLevel equiv;
