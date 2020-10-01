@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.accessibility;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Represents a object holding the {@link AccessLevel}
@@ -18,12 +19,10 @@ public interface AccessData<T> {
     @Nonnull
     AccessLevel getAccessLevel(@Nonnull T object);
 
-    boolean setAccessLevel(@Nonnull T object, @Nonnull AccessLevel newLevel);
+    void setAccessLevel(@Nonnull T object, @Nullable AccessLevel newLevel);
 
-    @Nonnull
-    AccessLevel decrementAccessLevel(@Nonnull T object);
+    boolean hasDataFor(@Nonnull T object);
 
-    @Nonnull
-    AccessLevel incrementAccessLevel(@Nonnull T object);
+    @Nonnull String saveToString();
 
 }

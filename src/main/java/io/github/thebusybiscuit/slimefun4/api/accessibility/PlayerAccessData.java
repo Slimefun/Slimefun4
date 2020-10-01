@@ -19,18 +19,12 @@ public interface PlayerAccessData extends AccessData<UUID> {
         return getAccessLevel(object.getUniqueId());
     }
 
-    default boolean setAccessLevel(@Nonnull Player object, @Nonnull AccessLevel newLevel) {
-        return setAccessLevel(object.getUniqueId(), newLevel);
+    default void setAccessLevel(@Nonnull Player object, @Nonnull AccessLevel newLevel) {
+        setAccessLevel(object.getUniqueId(), newLevel);
     }
 
-    @Nonnull
-    default AccessLevel decrementAccessLevel(@Nonnull Player player) {
-        return decrementAccessLevel(player.getUniqueId());
-    }
-
-    @Nonnull
-    default AccessLevel incrementAccessLevel(@Nonnull Player player) {
-        return incrementAccessLevel(player.getUniqueId());
+    default boolean hasDataFor(@Nonnull final Player object) {
+        return hasDataFor(object.getUniqueId());
     }
 
 

@@ -10,10 +10,16 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.accessibility.AccessManager;
+import io.github.thebusybiscuit.slimefun4.core.attributes.TierAccessible;
+import io.github.thebusybiscuit.slimefun4.implementation.accessibility.PlayerAccessManagerImpl;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -63,8 +69,10 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock, RecipeDisplayItem {
+public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock, RecipeDisplayItem,
+    TierAccessible {
 
+    private static final NamespacedKey NAMESPACE = new NamespacedKey(SlimefunPlugin.instance(), "def-android-friend-data");
     private static final List<BlockFace> POSSIBLE_ROTATIONS = Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private static final int[] OUTPUT_BORDER = { 10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41 };
@@ -73,6 +81,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
     protected final String texture;
     private final int tier;
+    private final AccessManager accessManager = new PlayerAccessManagerImpl(NAMESPACE);
 
     public ProgrammableAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -90,7 +99,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass");
+                boolean open = BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass") || accessManager.hasLevel(p, AndroidAccessLevel.INTERACT);
 
                 if (!open) {
                     SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
@@ -132,7 +141,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         };
 
         registerBlockHandler(getID(), (p, b, stack, reason) -> {
-            boolean allow = reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
+            boolean allow = reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass") || accessManager.hasLevel(p, AndroidAccessLevel.FULL));
 
             if (allow) {
                 BlockMenu inv = BlockStorage.getInventory(b);
@@ -163,6 +172,9 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 BlockStorage.addBlockInfo(b, "fuel", "0");
                 BlockStorage.addBlockInfo(b, "rotation", p.getFacing().getOppositeFace().toString());
                 BlockStorage.addBlockInfo(b, "paused", "true");
+                if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+                    BlockStorage.addBlockInfo(b, NAMESPACE.getKey(), accessManager.saveToString());
+                }
 
                 BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
                     if (data instanceof Rotatable) {
@@ -201,6 +213,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         default:
             throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
         }
+    }
+
+    @Nonnull
+    @Override
+    public AccessManager getAccessManager() {
+        return accessManager;
     }
 
     @Override
