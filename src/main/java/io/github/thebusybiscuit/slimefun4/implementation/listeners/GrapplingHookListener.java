@@ -136,6 +136,16 @@ public class GrapplingHookListener implements Listener {
         }
     }
 
+    // Fixing Issue #2351
+    @EventHandler
+    public void onLeash(PlayerLeashEntityEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        e.setCancelled(true);
+    }
+
     private void handleGrapplingHook(@Nullable Arrow arrow) {
         if (arrow != null && arrow.isValid() && arrow.getShooter() instanceof Player) {
             Player p = (Player) arrow.getShooter();
