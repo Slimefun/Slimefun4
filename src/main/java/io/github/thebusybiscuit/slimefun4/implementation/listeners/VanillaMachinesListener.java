@@ -98,6 +98,19 @@ public class VanillaMachinesListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
+    public void onCartographyTable(InventoryClickEvent e) {
+        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.CARTOGRAPHY && e.getWhoClicked() instanceof Player) {
+            ItemStack item1 = e.getInventory().getContents()[0];
+            ItemStack item2 = e.getInventory().getContents()[1];
+
+            if (checkForUnallowedItems(item1, item2)) {
+                e.setResult(Result.DENY);
+                SlimefunPlugin.getLocalization().sendMessage((Player) e.getWhoClicked(), "cartography_table.not-working", true);
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
     public void onPreBrew(InventoryClickEvent e) {
         Inventory clickedInventory = e.getClickedInventory();
         Inventory topInventory = e.getView().getTopInventory();

@@ -264,6 +264,9 @@ anvil:
 brewing_stand:
   not-working: '&4You cannot use Slimefun Items in a brewing stand!'
 
+cartography_table:
+  not-working: '&4You cannot use Slimefun Items in a cartography table!'
+
 villagers:
   no-trading: '&4You cannot trade Slimefun Items with Villagers!'
 
