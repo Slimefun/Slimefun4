@@ -1,14 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -31,6 +37,19 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
     @Override
     public boolean isSurvivalMode() {
         return false;
+    }
+
+    @Override
+    protected List<Category> getVisibleCategories(Player p, PlayerProfile profile) {
+        List<Category> categories = new LinkedList<>();
+
+        for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
+            if (!(category instanceof FlexCategory)) {
+                categories.add(category);
+            }
+        }
+
+        return categories;
     }
 
     @Override

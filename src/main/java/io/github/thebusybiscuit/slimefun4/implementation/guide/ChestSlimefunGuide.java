@@ -96,7 +96,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         return true;
     }
 
-    private List<Category> getVisibleCategories(Player p, PlayerProfile profile) {
+    protected List<Category> getVisibleCategories(Player p, PlayerProfile profile) {
         List<Category> categories = new LinkedList<>();
 
         for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
