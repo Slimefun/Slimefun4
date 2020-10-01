@@ -146,7 +146,7 @@ public class GrapplingHookListener implements Listener {
             return;
         }
 
-        Player p = (Player)e.getPlayer();
+        Player p = e.getPlayer();
 
         ItemStack item = p.getInventory().getItemInMainHand();
         SlimefunItem slimeItem = SlimefunItem.getByItem(item);
