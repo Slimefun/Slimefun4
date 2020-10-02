@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
  *
  * @author md5sha256
  */
-public interface AccessLevel extends Comparable<AccessLevel> {
+public interface AccessLevel {
 
     /**
      * Obtain the display name for this access level.
@@ -27,7 +27,7 @@ public interface AccessLevel extends Comparable<AccessLevel> {
     /**
      * Obtain the next {@link AccessLevel}. Implementations should adhere to the contract
      * that the next access level has a more privileges. That is to say, unless the next
-     * access level is null, {@link #compareTo(Object)} should return 1.
+     * access level is null, {@link #compare(AccessLevel)} should return 1.
      *
      * @return Returns the next access level, or null.
      */
@@ -37,7 +37,7 @@ public interface AccessLevel extends Comparable<AccessLevel> {
     /**
      * Obtain the previous {@link AccessLevel}. Implementations should adhere to the contract
      * that the previous access level should have less privileges. That is to say, unless the next
-     * access level is null, {@link #compareTo(Object)} should return 1.
+     * access level is null, {@link #compare(AccessLevel)} should return 1.
      *
      * @return Returns the next access level, or null.
      */
@@ -50,7 +50,7 @@ public interface AccessLevel extends Comparable<AccessLevel> {
      * @return Returns the nearest ConcreteAccessLevel that this level's
      * privileges represent.
      * NOTE: Implementations are not guaranteed to "round down"! However,
-     * the result of the {@link #compareTo(Object)} between this object instance
+     * the result of the {@link #compare(AccessLevel)}} between this object instance
      * and the returned concrete access level should be 0.
      */
     @Nonnull
@@ -64,5 +64,13 @@ public interface AccessLevel extends Comparable<AccessLevel> {
     default boolean isConcrete() {
         return this instanceof ConcreteAccessLevel;
     }
+
+    /**
+     * Compare this access level to another.
+     * This method is semantically identical to that of the
+     * {@link Comparable} interface. This method exists for
+     * interoperability with enum values.
+     */
+    int compare(AccessLevel accessLevel);
 
 }

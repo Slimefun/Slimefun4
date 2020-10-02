@@ -10,28 +10,27 @@ import javax.annotation.Nullable;
  *
  * @author md5sha256
  */
-public class ConcreteAccessLevel implements AccessLevel {
+public enum ConcreteAccessLevel implements AccessLevel {
 
     /**
      * Represents an access level where no privileges are allocated.
      */
-    public static final ConcreteAccessLevel NONE = new ConcreteAccessLevel("&cNone");
+    NONE,
+
+    /**
+     * Represents an access level where some privileges are allocated.
+     */
+    PARTIAL,
 
     /**
      * Represents an access level where all privileges are allocated.
      */
-    public static final ConcreteAccessLevel FULL = new ConcreteAccessLevel("&bFull");
-
-    private final String displayName;
-
-    private ConcreteAccessLevel(final String displayName) {
-        this.displayName = displayName;
-    }
+    FULL;
 
     @Nonnull
     @Override
     public String getDisplayName() {
-        return displayName;
+        return toString();
     }
 
     @Nullable
@@ -53,27 +52,18 @@ public class ConcreteAccessLevel implements AccessLevel {
     }
 
     @Override
-    public int compareTo(@Nonnull final AccessLevel level) {
+    public int compare(@Nonnull final AccessLevel level) {
         if (level instanceof ConcreteAccessLevel) {
-            return compare(this, (ConcreteAccessLevel) level);
+            return this.compareTo(((ConcreteAccessLevel) level));
         } else {
             return this.compareTo(level.toConcreteAccessLevel());
         }
     }
 
-    public static int compare(@Nonnull ConcreteAccessLevel primary, @Nonnull ConcreteAccessLevel secondary) {
-        if (primary == secondary) {
-            return 0;
-        }
-        if (primary == NONE) {
-            return -1;
-        } else {
-            return 1;
-        }
-    }
-
+    @Nonnull
     @Override
     public String toString() {
-        return this.displayName;
+        return name().toLowerCase();
     }
+
 }
