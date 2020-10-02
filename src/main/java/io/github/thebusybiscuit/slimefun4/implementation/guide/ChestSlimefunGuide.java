@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
+import javax.annotation.Nonnull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -96,7 +98,17 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         return true;
     }
 
-    private List<Category> getVisibleCategories(Player p, PlayerProfile profile) {
+    /**
+     * Returns a {@link List} of visible {@link Category} instances that the {@link SlimefunGuide} would display.
+     *
+     * @param p
+     *            The {@link Player} who opened his {@link SlimefunGuide}
+     * @param profile
+     *            The {@link PlayerProfile} of the {@link Player}
+     * @return a {@link List} of visible {@link Category} instances
+     */
+    @Nonnull
+    protected List<Category> getVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<Category> categories = new LinkedList<>();
 
         for (Category category : SlimefunPlugin.getRegistry().getCategories()) {

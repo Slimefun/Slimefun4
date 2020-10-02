@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -24,6 +25,8 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -133,6 +136,23 @@ public class GrapplingHookListener implements Listener {
 
         if (e.getEntity() instanceof Arrow) {
             handleGrapplingHook((Arrow) e.getEntity());
+        }
+    }
+
+    // Fixing Issue #2351
+    @EventHandler
+    public void onLeash(PlayerLeashEntityEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        Player p = e.getPlayer();
+
+        ItemStack item = p.getInventory().getItemInMainHand();
+        SlimefunItem slimeItem = SlimefunItem.getByItem(item);
+
+        if (slimeItem instanceof GrapplingHook) {
+            e.setCancelled(true);
         }
     }
 

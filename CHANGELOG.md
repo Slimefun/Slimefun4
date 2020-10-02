@@ -33,6 +33,7 @@
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
 * General performance improvements
+* /sf cheat now shows seasonal categories all year through
 * Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
 * Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 
@@ -49,6 +50,10 @@
 * Fixed some cargo incompatibilities with overflowing inventories
 * Fixed #2353
 * Fixed #2359
+* Fixed #2356
+* Fixed #2358
+* Fixed #2360
+* Fixed #2351
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
