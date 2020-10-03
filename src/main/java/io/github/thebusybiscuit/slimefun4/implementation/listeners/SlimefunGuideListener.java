@@ -63,7 +63,7 @@ public class SlimefunGuideListener implements Listener {
                 openGuide(p, e, SlimefunGuideLayout.CHEST);
             }
         }
-        else if (openGuide(p, e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
+        else if (tryGuide(p, e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             }
