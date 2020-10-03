@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.events.GuideOpenEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
@@ -45,38 +47,46 @@ public class SlimefunGuideListener implements Listener {
     public void onInteract(PlayerRightClickEvent e) {
         Player p = e.getPlayer();
 
-        if (openGuide(e, SlimefunGuideLayout.BOOK) == Result.ALLOW) {
+        if (tryGuide(e, SlimefunGuideLayout.BOOK) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             }
             else {
-                SlimefunGuide.openGuide(p, SlimefunGuideLayout.BOOK);
+                openGuide(p, e, SlimefunGuideLayout.BOOK);
             }
         }
-        else if (openGuide(e, SlimefunGuideLayout.CHEST) == Result.ALLOW) {
+        else if (tryGuide(e, SlimefunGuideLayout.CHEST) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             }
             else {
-                SlimefunGuide.openGuide(p, SlimefunGuideLayout.CHEST);
+                openGuide(p, e, SlimefunGuideLayout.CHEST);
             }
         }
-        else if (openGuide(e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
+        else if (tryGuide(e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
             // We rather just run the command here,
             // all necessary permission checks will be handled there.
             p.chat("/sf cheat");
         }
     }
+    
+    @ParametersAreNonnullByDefault
+    private void openGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
+        GuideOpenEvent event = new GuideOpenEvent(p, e.getItem()) ;
+        Bukkit.getPluginManager().callEvent(event);
+        
+        if (!event.isCancelled()) {
+            e.cancel();
+            SlimefunGuide.openGuide(p, layout);
+        } 
+    } 
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private Result openGuide(PlayerRightClickEvent e, SlimefunGuideLayout layout) {
-        Player p = e.getPlayer();
+    private Result tryGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
         ItemStack item = e.getItem();
-
         if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true, false)) {
-            e.cancel();
-
+            
             if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-item", true);
                 return Result.DENY;
