@@ -30,6 +30,7 @@
 * Added various new fuel types to the Coal Generator
 * Added a config option for Grappling Hooks to not be consumed on use
 * Added Talisman of the Caveman
+* You can now convert any gold ingot into gold dust with slightly less returns
 * (API) Added custom tags for developers
 
 #### Changes
@@ -50,12 +51,12 @@
 * Fixed some cargo incompatibilities with overflowing inventories
 * Fixed #2353
 * Fixed #2359
-* Fixed #2238
 * Fixed #2356
 * Fixed #2358
 * Fixed #2360
 * Fixed #2351
 * Fixed #2357
+* Fixed #2238
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
