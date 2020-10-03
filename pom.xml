@@ -213,7 +213,7 @@
                         <link>${spigot.javadocs}</link>
                     </links>
 
-                    <!-- We can group pakages together in our Javadocs -->
+                    <!-- We can group packages together in our Javadocs -->
                     <groups>
                         <group>
                             <title>Slimefun4 - API</title>
