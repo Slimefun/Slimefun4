@@ -872,6 +872,11 @@ public final class SlimefunItemSetup {
         "knight", 30, new PotionEffect(PotionEffectType.REGENERATION, 100, 3))
         .register(plugin);
 
+        new Talisman(SlimefunItems.TALISMAN_CAVEMAN,
+        new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.GOLDEN_PICKAXE), SlimefunItems.TALISMAN_MINER, SlimefunItems.EARTH_RUNE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
+        false, false, "caveman", 50, new PotionEffect(PotionEffectType.FAST_DIGGING, 800, 2))
+        .register(plugin);
+
         new SlimefunItem(categories.resources, SlimefunItems.GILDED_IRON, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.IRON_DUST, null, null, null, null, null, null, null})
         .register(plugin);

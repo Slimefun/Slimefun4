@@ -151,6 +151,7 @@ messages:
     knight: '&a&oYour Talisman gave you 5 Seconds of Regeneration'
     whirlwind: '&a&oYour Talisman reflected the Projectile'
     wizard: '&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels'
+    caveman: '&a&oYour Talisman gave you haste'
 
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'
