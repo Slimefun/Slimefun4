@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,8 +13,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-
-import javax.annotation.Nonnull;
 
 public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
 

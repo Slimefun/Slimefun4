@@ -11,7 +11,6 @@ import java.util.function.LongConsumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
