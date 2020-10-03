@@ -279,7 +279,8 @@ public final class ResearchSetup {
         register("villager_rune", 264, "Reset Villager Trades", 26, SlimefunItems.VILLAGER_RUNE, SlimefunItems.STRANGE_NETHER_GOO);
         register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
         register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
-        register("energy_connectors", 267, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
+        register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
+        register("energy_connectors", 268, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
     }
 
     private static void register(@Nonnull String key, int id, @Nonnull String name, int defaultCost, @Nonnull ItemStack... items) {
