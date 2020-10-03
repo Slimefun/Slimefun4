@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -31,7 +32,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -290,6 +293,14 @@ public class TalismanListener implements Listener {
         if (e.getBlock().getType().name().endsWith("_ORE")) {
             Talisman.checkFor(e, SlimefunItems.TALISMAN_CAVEMAN);
         }
+    }
+
+    @EventHandler
+    public void onExperienceReceive(PlayerExpChangeEvent e) {
+        if (e.getAmount() <= 0 || !Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE))
+            return;
+
+        e.setAmount(e.getAmount() * 10);
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
