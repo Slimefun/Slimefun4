@@ -287,7 +287,7 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        Talisman.checkFor(e, SlimefunItems.TALISMAN_HASTIER);
+        Talisman.checkFor(e, SlimefunItems.TALISMAN_CAVEMAN);
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
