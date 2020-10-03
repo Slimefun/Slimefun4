@@ -30,6 +30,7 @@
 * Added various new fuel types to the Coal Generator
 * Added a config option for Grappling Hooks to not be consumed on use
 * Added Talisman of the Caveman
+* You can now convert any gold ingot into gold dust with slightly less returns
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
