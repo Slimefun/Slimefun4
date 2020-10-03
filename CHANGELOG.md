@@ -31,6 +31,7 @@
 * Added a config option for Grappling Hooks to not be consumed on use
 * Added Talisman of the Caveman
 * You can now convert any gold ingot into gold dust with slightly less returns
+* (API) Added SlimefunGuideOpenEvent
 * (API) Added custom tags for developers
 
 #### Changes
@@ -56,6 +57,8 @@
 * Fixed #2360
 * Fixed #2351
 * Fixed #2357
+* Fixed Auto Enchanters being unaffected by speed modifications from addons
+* Fixed Auto Disenchanters being unaffected by speed modifications from addons
 * Fixed #2238
 
 ## Release Candidate 16 (07 Sep 2020)
