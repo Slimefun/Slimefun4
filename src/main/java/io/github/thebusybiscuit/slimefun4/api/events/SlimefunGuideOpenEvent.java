@@ -39,6 +39,8 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     /**
      * This returns the {@link Player} that tries to open 
      * the Slimefun Guide.
+     *
+     * @return The {@link Player}
      */
     @Nonnull
     public Player getPlayer() {
@@ -48,6 +50,8 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     /**
      * This returns the {@link ItemStack} that {@link Player} 
      * tries to open the Slimefun Guide with.
+     *
+     * @return The {@link ItemStack}
      */
     @Nonnull
     public ItemStack getGuide() {
@@ -57,6 +61,8 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     /**
      * This returns the {@link SlimefunGuideLayout} of the Slimefun Guide
      * that {@link Player} tries to open.
+     *
+     * @return The {@link SlimefunGuideLayout}
      */
     @Nonnull
     public SlimefunGuideLayout getGuideLayout() {
