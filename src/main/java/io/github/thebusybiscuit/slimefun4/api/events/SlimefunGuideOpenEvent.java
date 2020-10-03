@@ -76,6 +76,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
      *                   The new {@link SlimefunGuideLayout}
      */
     public void setGuideLayout(@Nonnull SlimefunGuideLayout layout) {
+        Validate.notNull(layout, "You must specify a layout that is not-null!");
         this.layout = layout;
     }
 
