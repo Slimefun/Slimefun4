@@ -98,7 +98,7 @@ public class DebugFishListener implements Listener {
                 sendInfo(p, b);
             }
             catch (Exception x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Exception occured while using a Debug-Fish", x);
+                Slimefun.getLogger().log(Level.SEVERE, "An Exception occurred while using a Debug-Fish", x);
             }
         }
     }

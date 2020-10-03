@@ -67,12 +67,12 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
                 if (Slimefun.hasUnlocked(p, this, true)) {
-                    Slimefun.runSync(() -> {
+                    SlimefunPlugin.runSync(() -> {
                         try {
                             addRandomEnchantment(p, item);
                         }
                         catch (Exception x) {
-                            error("An Exception occured while trying to apply an Enchantment Rune", x);
+                            error("An Exception occurred while trying to apply an Enchantment Rune", x);
                         }
                     }, 20L);
                 }
@@ -124,7 +124,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                 // This lightning is just an effect, it deals no damage.
                 l.getWorld().strikeLightningEffect(l);
 
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     // Being sure entities are still valid and not picked up or whatsoever.
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 

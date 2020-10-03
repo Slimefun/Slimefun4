@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -37,6 +38,7 @@ class TestSlimefunGuideListener {
     }
 
     @ParameterizedTest
+    @DisplayName("Test Slimefun Guides being given on first join")
     @MethodSource("cartesianBooleans")
     void testFirstJoin(boolean hasPlayedBefore, boolean giveSlimefunGuide) {
         SlimefunGuideListener listener = new SlimefunGuideListener(plugin, giveSlimefunGuide);
@@ -59,7 +61,7 @@ class TestSlimefunGuideListener {
 
     /**
      * This returns an {@link Arguments} {@link Stream} of boolean combinations.
-     * It performs a certesian product on two boolean sets.
+     * It performs a cartesian product on two boolean sets.
      * 
      * @return a {@link Stream} of {@link Arguments}
      */

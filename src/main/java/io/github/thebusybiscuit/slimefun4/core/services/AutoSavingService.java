@@ -46,7 +46,7 @@ public class AutoSavingService {
 
     /**
      * This method saves every {@link PlayerProfile} in memory and removes profiles
-     * that were markes for deletion.
+     * that were marked for deletion.
      */
     private void saveAllPlayers() {
         Iterator<PlayerProfile> iterator = PlayerProfile.iterator();

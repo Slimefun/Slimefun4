@@ -274,6 +274,8 @@ public final class ResearchSetup {
         register("shulker_shell", 263, "Synthetic Shulkers", 30, SlimefunItems.SYNTHETIC_SHULKER_SHELL);
         register("villager_rune", 264, "Reset Villager Trades", 26, SlimefunItems.VILLAGER_RUNE, SlimefunItems.STRANGE_NETHER_GOO);
         register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
+        register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
+        register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {

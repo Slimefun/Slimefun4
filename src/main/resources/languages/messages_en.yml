@@ -21,7 +21,12 @@ commands:
     player-never-joined: '&4No player with that name could be found!'
     backpack-does-not-exist: '&4The specified backpack does not exist!'
     restored-backpack-given: '&aYour backpack has been restored and was added to your inventory!'
-    
+
+  charge:
+    description: Charges the item you are holding
+    charge-success: Item has been charged!
+    not-rechargeable: This item can not be charged!
+
 guide:
   locked: 'LOCKED'
   work-in-progress: 'This feature is not fully finished yet!'
@@ -146,6 +151,7 @@ messages:
     knight: '&a&oYour Talisman gave you 5 Seconds of Regeneration'
     whirlwind: '&a&oYour Talisman reflected the Projectile'
     wizard: '&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels'
+    caveman: '&a&oYour Talisman gave you haste'
 
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'
@@ -254,20 +260,23 @@ machines:
     finished: '&eYour Industrial Miner has finished! It obtained a total of %ores% ore(s)!'
     
 anvil:
-  not-working: '&4You cannot use Slimefun Items in an anvil!'
+  not-working: '&4You cannot use Slimefun items in an anvil!'
 
 brewing_stand:
-  not-working: '&4You cannot use Slimefun Items in a brewing stand!'
+  not-working: '&4You cannot use Slimefun items in a brewing stand!'
+
+cartography_table:
+  not-working: '&4You cannot use Slimefun items in a cartography table!'
 
 villagers:
-  no-trading: '&4You cannot trade Slimefun Items with Villagers!'
+  no-trading: '&4You cannot trade Slimefun items with Villagers!'
 
 backpack:
   already-open: '&cSorry, this Backpack is open somewhere else!'
   no-stack: '&cYou cannot stack Backpacks'
 
 workbench:
-  not-enhanced: '&4You cannot use Slimefun Items in a normal workbench'
+  not-enhanced: '&4You cannot use Slimefun items in a normal workbench'
 
 gps:
   deathpoint: '&4Deathpoint &7%date%'

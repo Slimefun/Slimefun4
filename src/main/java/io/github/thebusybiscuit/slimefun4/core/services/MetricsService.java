@@ -22,7 +22,6 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -102,7 +101,7 @@ public class MetricsService {
             String version = metricsClass.getPackage().getImplementationVersion();
 
             // This is required to be sync due to bStats.
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 try {
                     start.invoke(null);
                     plugin.getLogger().info("Metrics build #" + version + " started.");

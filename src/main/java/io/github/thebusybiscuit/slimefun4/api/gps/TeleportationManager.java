@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class TeleportationManager {
 
@@ -79,7 +78,7 @@ public final class TeleportationManager {
                 index++;
             }
 
-            Slimefun.runSync(() -> menu.open(p));
+            SlimefunPlugin.runSync(() -> menu.open(p));
         });
     }
 
@@ -137,7 +136,7 @@ public final class TeleportationManager {
                 source.getWorld().spawnParticle(Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
                 source.getWorld().playSound(source, Sound.BLOCK_BEACON_AMBIENT, 1F, 0.6F);
 
-                Slimefun.runSync(() -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10L);
+                SlimefunPlugin.runSync(() -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10L);
             }
         }
         else {
@@ -148,8 +147,8 @@ public final class TeleportationManager {
     @ParametersAreNonnullByDefault
     private void onTeleport(Player p, Location destination, boolean success, boolean resistance) {
         // This needs to run on the main Thread so we force it, as the
-        // async teleportation might happen on a seperate Thread.
-        Slimefun.runSync(() -> {
+        // async teleportation might happen on a separate Thread.
+        SlimefunPlugin.runSync(() -> {
             if (success) {
                 // Apply Resistance Effect, if enabled
                 if (resistance) {

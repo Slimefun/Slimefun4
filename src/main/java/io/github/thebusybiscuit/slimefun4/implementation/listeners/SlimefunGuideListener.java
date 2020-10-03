@@ -63,10 +63,15 @@ public class SlimefunGuideListener implements Listener {
                 openGuide(p, e, SlimefunGuideLayout.CHEST);
             }
         }
-        else if (tryGuide(e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
-            // We rather just run the command here,
-            // all necessary permission checks will be handled there.
-            p.chat("/sf cheat");
+        else if (openGuide(e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
+            if (p.isSneaking()) {
+                SlimefunGuideSettings.openSettings(p, e.getItem());
+            }
+            else {
+                // We rather just run the command here,
+                // all necessary permission checks will be handled there.
+                p.chat("/sf cheat");
+            }
         }
     }
     

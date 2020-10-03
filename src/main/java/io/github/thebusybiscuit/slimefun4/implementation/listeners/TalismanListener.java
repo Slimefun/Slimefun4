@@ -24,6 +24,7 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -45,7 +46,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.TalismanEnchantment;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TalismanListener implements Listener {
 
@@ -133,11 +133,19 @@ public class TalismanListener implements Listener {
 
         LivingEntity entity = e.getEntity();
 
-        if (!(entity instanceof Player) && !(entity instanceof ArmorStand) && Talisman.checkFor(e, SlimefunItems.TALISMAN_HUNTER)) {
+        if (entity instanceof Player || entity instanceof ArmorStand) {
+            // We absolutely don't want to double the
+            // drops from players or ArmorStands
+            return;
+        }
+
+        // We are also excluding entities which can pickup items, this is not perfect
+        // but it at least prevents dupes by tossing items to zombies
+        if (!entity.getCanPickupItems() && Talisman.checkFor(e, SlimefunItems.TALISMAN_HUNTER)) {
             Collection<ItemStack> extraDrops = getExtraDrops(e.getEntity(), e.getDrops());
 
             for (ItemStack drop : extraDrops) {
-                if (drop != null) {
+                if (drop != null && drop.getType() != Material.AIR) {
                     e.getDrops().add(drop.clone());
                 }
             }
@@ -163,7 +171,10 @@ public class TalismanListener implements Listener {
             }
         }
 
-        // Prevent duplication of handheld items or armor
+        // WARNING: This check is broken as entities now set their
+        // equipment to NULL before calling the event!
+
+        // Prevents duplication of handheld items or armor
         EntityEquipment equipment = entity.getEquipment();
         if (equipment != null) {
             for (ItemStack item : equipment.getArmorContents()) {
@@ -205,7 +216,7 @@ public class TalismanListener implements Listener {
             int itemSlot = slot;
 
             // Update the item forcefully
-            Slimefun.runSync(() -> inv.setItem(itemSlot, item), 1L);
+            SlimefunPlugin.runSync(() -> inv.setItem(itemSlot, item), 1L);
         }
     }
 
@@ -271,6 +282,13 @@ public class TalismanListener implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (e.getBlock().getType().name().endsWith("_ORE")) {
+            Talisman.checkFor(e, SlimefunItems.TALISMAN_CAVEMAN);
         }
     }
 

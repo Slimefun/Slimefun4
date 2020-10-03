@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with
@@ -229,7 +228,7 @@ public class EnergyNet extends Network {
                     explodedBlocks.add(loc);
                     BlockStorage.clearBlockInfo(loc);
 
-                    Slimefun.runSync(() -> {
+                    SlimefunPlugin.runSync(() -> {
                         loc.getBlock().setType(Material.LAVA);
                         loc.getWorld().createExplosion(loc, 0F, false);
                     });

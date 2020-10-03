@@ -41,8 +41,7 @@ public class VanillaMachinesListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onGrindstone(InventoryClickEvent e) {
         // The Grindstone was only ever added in MC 1.14
-        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
-        if (!minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
 
@@ -93,6 +92,24 @@ public class VanillaMachinesListener implements Listener {
             if (checkForUnallowedItems(item1, item2)) {
                 e.setResult(Result.DENY);
                 SlimefunPlugin.getLocalization().sendMessage((Player) e.getWhoClicked(), "anvil.not-working", true);
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onCartographyTable(InventoryClickEvent e) {
+        // The Cartography Table was only ever added in MC 1.14
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            return;
+        }
+        
+        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.CARTOGRAPHY && e.getWhoClicked() instanceof Player) {
+            ItemStack item1 = e.getInventory().getContents()[0];
+            ItemStack item2 = e.getInventory().getContents()[1];
+
+            if (checkForUnallowedItems(item1, item2)) {
+                e.setResult(Result.DENY);
+                SlimefunPlugin.getLocalization().sendMessage((Player) e.getWhoClicked(), "cartography_table.not-working", true);
             }
         }
     }

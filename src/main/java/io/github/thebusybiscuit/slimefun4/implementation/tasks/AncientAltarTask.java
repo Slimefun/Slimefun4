@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link AncientAltarTask} is responsible for the animation that happens when a ritual
@@ -103,7 +102,7 @@ public class AncientAltarTask implements Runnable {
         }
 
         this.stage += 1;
-        Slimefun.runSync(this, speed);
+        SlimefunPlugin.runSync(this, speed);
     }
 
     private boolean checkLockedItems() {

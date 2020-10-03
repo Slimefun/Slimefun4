@@ -26,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Represents a research, which is bound to one
@@ -86,7 +85,7 @@ public class Research implements Keyed {
     /**
      * This method returns whether this {@link Research} is enabled.
      * {@code false} can mean that this particular {@link Research} was disabled or that
-     * researches alltogether have been disabled.
+     * researches altogether have been disabled.
      * 
      * @return Whether this {@link Research} is enabled or not
      */
@@ -230,7 +229,7 @@ public class Research implements Keyed {
      */
     public void unlock(@Nonnull Player p, boolean instant, @Nonnull Consumer<Player> callback) {
         if (!instant) {
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)).replace("%progress%", "0%"));
             }, 10L);
@@ -238,7 +237,7 @@ public class Research implements Keyed {
 
         PlayerProfile.get(p, profile -> {
             if (!profile.hasUnlocked(this)) {
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     ResearchUnlockEvent event = new ResearchUnlockEvent(p, this);
                     Bukkit.getPluginManager().callEvent(event);
 
@@ -250,7 +249,7 @@ public class Research implements Keyed {
                             SlimefunPlugin.getLocalization().sendMessage(p, "messages.research.start", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
                             playResearchAnimation(p);
 
-                            Slimefun.runSync(() -> {
+                            SlimefunPlugin.runSync(() -> {
                                 finishResearch(p, profile, callback);
                                 SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().remove(p.getUniqueId());
                             }, (RESEARCH_PROGRESS.length + 1) * 20L);
@@ -275,7 +274,7 @@ public class Research implements Keyed {
         for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
             int j = i;
 
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)).replace("%progress%", RESEARCH_PROGRESS[j - 1] + "%"));
             }, i * 20L);

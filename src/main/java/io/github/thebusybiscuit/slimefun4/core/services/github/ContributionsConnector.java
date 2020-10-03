@@ -33,6 +33,7 @@ class ContributionsConnector extends GitHubConnector {
         aliases.put("BurningBrimstone", "Bluedevil74");
         aliases.put("bverhoeven", "soczol");
         aliases.put("ramdon-person", "ramdon_person");
+        aliases.put("NCBPFluffyBear", "FluffyBear_");
     }
 
     private final String prefix;
@@ -60,14 +61,14 @@ class ContributionsConnector extends GitHubConnector {
     }
 
     @Override
-    public void onSuccess(JsonNode element) {
+    public void onSuccess(@Nonnull JsonNode response) {
         finished = true;
 
-        if (element.isArray()) {
-            computeContributors(element.getArray());
+        if (response.isArray()) {
+            computeContributors(response.getArray());
         }
         else {
-            Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", element);
+            Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
         }
     }
 
@@ -95,7 +96,8 @@ class ContributionsConnector extends GitHubConnector {
             String profile = object.getString("html_url");
 
             if (!blacklist.contains(name)) {
-                github.addContributor(aliases.getOrDefault(name, name), profile, role, commits);
+                String username = aliases.getOrDefault(name, name);
+                github.addContributor(username, profile, role, commits);
             }
         }
     }

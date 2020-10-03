@@ -61,6 +61,7 @@ slimefun:
   water_talisman: Talisman of the Water Breather
   angel_talisman: Talisman of the Angel
   fire_talisman: Talisman of the Firefighter
+  caveman_talisman: Talisman of the Caveman
   lava_crystal: Firey Situation
   magician_talisman: Talisman of the Magician
   traveller_talisman: Talisman of the Traveller
@@ -144,6 +145,7 @@ slimefun:
   hologram_projector: Holograms
   capacitors: Tier 1 Capacitors
   high_tier_capacitors: Tier 2 Capacitors
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: Solar Power Plant
   electric_furnaces: Powered Furnace
   electric_ore_grinding: Crushing and Grinding
