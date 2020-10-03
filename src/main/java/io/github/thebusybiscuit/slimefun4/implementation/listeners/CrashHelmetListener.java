@@ -18,14 +18,17 @@ public class CrashHelmetListener implements Listener {
 
     @EventHandler
     public void onPlayerCrash(EntityDamageEvent e) {
-        if (!(e.getCause() == EntityDamageEvent.DamageCause.FLY_INTO_WALL) || !(e.getEntity() instanceof Player)) {
-            return;
-        }
+        if (!(e.getEntity() instanceof Player)) return;
+        if (!(e.getCause() == EntityDamageEvent.DamageCause.FALL ||
+            e.getCause() == EntityDamageEvent.DamageCause.FLY_INTO_WALL)) return;
 
-        ItemStack stack = ((Player) e.getEntity()).getInventory().getHelmet();
-        SlimefunItem item = SlimefunItem.getByItem(stack);
-        if ((item != null) && (item.getID().equals("CRASH_HELMET"))) {
-            e.setCancelled(true);
+        Player p = (Player) e.getEntity();
+        if (p.isGliding()) {
+            ItemStack stack = p.getInventory().getHelmet();
+            SlimefunItem item = SlimefunItem.getByItem(stack);
+            if ((item != null) && (item.getID().equals("CRASH_HELMET"))) {
+                e.setDamage(0);
+            }
         }
     }
 }
