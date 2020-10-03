@@ -24,7 +24,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
 
     private final Player player;
     private final ItemStack guide;
-    private final SlimefunGuideLayout layout;
+    private SlimefunGuideLayout layout;
     private boolean cancelled;
 
     public SlimefunGuideOpenEvent(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunGuideLayout layout) {
@@ -67,6 +67,16 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     @Nonnull
     public SlimefunGuideLayout getGuideLayout() {
         return layout;
+    }
+    
+    /**
+     * Changes the {@link SlimefunGuideLayout} that was tried to be opened with.
+     *
+     * @param layout
+     *                   The new {@link SlimefunGuideLayout}
+     */
+    public void setGuideLayout(@Nonnull SlimefunGuideLayout layout) {
+        this.layout = layout;
     }
 
     @Override
