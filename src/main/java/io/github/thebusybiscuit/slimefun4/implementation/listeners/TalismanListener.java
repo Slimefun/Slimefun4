@@ -32,6 +32,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -301,6 +302,14 @@ public class TalismanListener implements Listener {
             return;
 
         e.setAmount(e.getAmount() * 10);
+    }
+
+    public void onPlayerDeath(PlayerDeathEvent e) {
+        if (!e.getDeathMessage().contains("void") || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED))
+            return;
+
+        Location bedLocation = e.getEntity().getBedLocation();
+        e.getEntity().teleport(bedLocation);
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
