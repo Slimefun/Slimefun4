@@ -54,7 +54,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
-    private final Map<Material, Double> materialSpeeds;
+    private final Map<Material, Double> materialSpeeds = new EnumMap<>(Material.class);
     private final Set<UUID> users = new HashSet<>();
 
     @ParametersAreNonnullByDefault
@@ -64,7 +64,6 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
         String cfgKey = getID() + ".launch-amounts.";
         Config itemCfg = SlimefunPlugin.getItemCfg();
-        materialSpeeds = new EnumMap<>(Material.class);
 
         for (Material mat : MaterialCollections.getAllIceBlocks()) {
             materialSpeeds.put(mat, itemCfg.getOrSetDefault(cfgKey + mat.name(), 1.0));

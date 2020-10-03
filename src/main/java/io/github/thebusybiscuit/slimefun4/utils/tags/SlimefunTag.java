@@ -158,7 +158,12 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials which the {@link ClimbingPick} is able to climb.
      */
-    CLIMBING_PICK_SURFACES;
+    CLIMBING_PICK_SURFACES,
+
+    /**
+     * All materials (ores) which trigger the Talisman of the Caveman.
+     */
+    CAVEMAN_TALISMAN_TRIGGERS;
 
     private static final Map<String, SlimefunTag> nameLookup = new HashMap<>();
     public static final SlimefunTag[] values = values();
