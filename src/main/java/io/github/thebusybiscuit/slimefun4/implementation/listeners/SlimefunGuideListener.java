@@ -47,7 +47,7 @@ public class SlimefunGuideListener implements Listener {
     public void onInteract(PlayerRightClickEvent e) {
         Player p = e.getPlayer();
 
-        if (tryGuide(p, e, SlimefunGuideLayout.BOOK) == Result.ALLOW) {
+        if (tryOpenGuide(p, e, SlimefunGuideLayout.BOOK) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             }
@@ -55,7 +55,7 @@ public class SlimefunGuideListener implements Listener {
                 openGuide(p, e, SlimefunGuideLayout.BOOK);
             }
         }
-        else if (tryGuide(p, e, SlimefunGuideLayout.CHEST) == Result.ALLOW) {
+        else if (tryOpenGuide(p, e, SlimefunGuideLayout.CHEST) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             }
@@ -63,7 +63,7 @@ public class SlimefunGuideListener implements Listener {
                 openGuide(p, e, SlimefunGuideLayout.CHEST);
             }
         }
-        else if (tryGuide(p, e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
+        else if (tryOpenGuide(p, e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             }
@@ -88,7 +88,7 @@ public class SlimefunGuideListener implements Listener {
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private Result tryGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
+    private Result tryOpenGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
         ItemStack item = e.getItem();
         if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true, false)) {
             
