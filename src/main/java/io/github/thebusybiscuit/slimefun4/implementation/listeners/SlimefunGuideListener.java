@@ -82,7 +82,7 @@ public class SlimefunGuideListener implements Listener {
         
         if (!event.isCancelled()) {
             e.cancel();
-            SlimefunGuide.openGuide(p, layout);
+            SlimefunGuide.openGuide(p, event.getGuideLayout());
         } 
     } 
 
