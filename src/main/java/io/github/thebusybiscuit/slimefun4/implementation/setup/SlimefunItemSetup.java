@@ -1016,6 +1016,10 @@ public final class SlimefunItemSetup {
         new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 20)})
         .register(plugin);
 
+        new SlimefunItem(categories.technicalGadgets, SlimefunItems.CRASH_HELMET, RecipeType.ARMOR_FORGE,
+        new ItemStack[]{new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.IRON_INGOT)})
+        .register(plugin);
+
         new PickaxeOfContainment(categories.tools, SlimefunItems.PICKAXE_OF_CONTAINMENT, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, SlimefunItems.FERROSILICON, null, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
         .register(plugin);
