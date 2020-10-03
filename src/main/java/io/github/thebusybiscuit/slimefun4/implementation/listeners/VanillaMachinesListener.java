@@ -41,8 +41,7 @@ public class VanillaMachinesListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onGrindstone(InventoryClickEvent e) {
         // The Grindstone was only ever added in MC 1.14
-        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
-        if (!minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
 
@@ -100,8 +99,7 @@ public class VanillaMachinesListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onCartographyTable(InventoryClickEvent e) {
         // The Cartography Table was only ever added in MC 1.14
-        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
-        if (!minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
         
