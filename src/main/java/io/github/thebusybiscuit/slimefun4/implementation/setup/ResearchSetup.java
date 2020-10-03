@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -14,8 +16,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * {@link Research} on startup.
  * 
  * @author TheBusyBiscuit
+ * @author Every Slimefun4 Contributor (at least those who added an item...)
  * 
  * @see Research
+ * @see SlimefunItems
  *
  */
 public final class ResearchSetup {
@@ -275,10 +279,13 @@ public final class ResearchSetup {
         register("villager_rune", 264, "Reset Villager Trades", 26, SlimefunItems.VILLAGER_RUNE, SlimefunItems.STRANGE_NETHER_GOO);
         register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
         register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
+        register("energy_connectors", 267, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
     }
 
-    private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
-        Research research = new Research(new NamespacedKey(SlimefunPlugin.instance(), key), id, name, defaultCost);
+    private static void register(@Nonnull String key, int id, @Nonnull String name, int defaultCost, @Nonnull ItemStack... items) {
+        SlimefunPlugin plugin = SlimefunPlugin.instance();
+        if (plugin == null) return;
+        Research research = new Research(new NamespacedKey(plugin, key), id, name, defaultCost);
 
         for (ItemStack item : items) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);

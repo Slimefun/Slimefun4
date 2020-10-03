@@ -66,6 +66,8 @@ public interface EnergyNetComponent extends ItemAttribute {
      */
     default int getCharge(@Nonnull Location l) {
         Validate.notNull(l, "Location was null!");
+        if (!isChargeable()) return 0;
+
         String charge = BlockStorage.getLocationInfo(l, "energy-charge");
 
         if (charge != null) {

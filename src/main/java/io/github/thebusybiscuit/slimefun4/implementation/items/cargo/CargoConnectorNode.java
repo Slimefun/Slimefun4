@@ -12,15 +12,20 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+import javax.annotation.Nonnull;
+
 public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
 
     public CargoConnectorNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 
+    @Nonnull
     @Override
     public BlockUseHandler getItemHandler() {
         return e -> {
+            if (!e.getClickedBlock().isPresent()) return;
+
             Player p = e.getPlayer();
             Block b = e.getClickedBlock().get();
 

@@ -11,6 +11,7 @@ import java.util.function.LongConsumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -71,6 +72,7 @@ public class EnergyNet extends Network {
         }
         else {
             switch (component.getEnergyComponentType()) {
+            case CONNECTOR:
             case CAPACITOR:
                 return NetworkComponent.CONNECTOR;
             case CONSUMER:
@@ -281,6 +283,20 @@ public class EnergyNet extends Network {
         }
 
         return null;
+    }
+
+    /**
+     * This attempts to get an {@link EnergyNet} from a given {@link Location}.
+     * If no suitable {@link EnergyNet} could be found, {@code null} will be returned.
+     *
+     * @param l
+     *            The target {@link Location}
+     *
+     * @return The {@link EnergyNet} at that {@link Location}, or {@code null}
+     */
+    @Nullable
+    public static EnergyNet getNetworkFromLocation(@Nonnull Location l) {
+        return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, EnergyNet.class).orElse(null);
     }
 
     /**

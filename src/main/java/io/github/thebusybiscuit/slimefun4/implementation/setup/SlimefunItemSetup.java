@@ -63,6 +63,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoOutput
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
@@ -1497,6 +1498,11 @@ public final class SlimefunItemSetup {
 
         new EnergyRegulator(categories.electricity, SlimefunItems.ENERGY_REGULATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT})
+        .register(plugin);
+
+        new EnergyConnector(categories.electricity, SlimefunItems.ENERGY_CONNECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.COPPER_INGOT, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON},
+        new SlimefunItemStack(SlimefunItems.ENERGY_CONNECTOR, 8))
         .register(plugin);
 
         new SlimefunItem(categories.misc, SlimefunItems.DUCT_TAPE, RecipeType.ENHANCED_CRAFTING_TABLE,
