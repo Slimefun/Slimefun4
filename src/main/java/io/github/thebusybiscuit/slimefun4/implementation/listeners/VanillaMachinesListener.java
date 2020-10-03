@@ -99,8 +99,13 @@ public class VanillaMachinesListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onCartographyTable(InventoryClickEvent e) {
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) && e.getRawSlot() == 2
-                && e.getInventory().getType() == InventoryType.CARTOGRAPHY && e.getWhoClicked() instanceof Player) {
+        // The Cartography Table was only ever added in MC 1.14
+        MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
+        if (!minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            return;
+        }
+        
+        if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.CARTOGRAPHY && e.getWhoClicked() instanceof Player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
 
