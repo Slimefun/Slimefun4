@@ -24,6 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public final class ResearchSetup {
 
+    private static SlimefunPlugin plugin = null;
     private static boolean alreadyRan = false;
 
     private ResearchSetup() {}
@@ -31,6 +32,11 @@ public final class ResearchSetup {
     public static void setupResearches() {
         if (alreadyRan) {
             throw new UnsupportedOperationException("Researches can only be registered once!");
+        }
+        
+        plugin = SlimefunPlugin.instance();
+        if (plugin == null) {
+            throw new Exception("Plugin cannot be null!");
         }
 
         alreadyRan = true;
@@ -281,11 +287,11 @@ public final class ResearchSetup {
         register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
         register("energy_connectors", 268, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
+        
+        plugin = null;
     }
 
     private static void register(@Nonnull String key, int id, @Nonnull String name, int defaultCost, @Nonnull ItemStack... items) {
-        SlimefunPlugin plugin = SlimefunPlugin.instance();
-        if (plugin == null) return;
         Research research = new Research(new NamespacedKey(plugin, key), id, name, defaultCost);
 
         for (ItemStack item : items) {
