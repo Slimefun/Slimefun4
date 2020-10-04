@@ -55,6 +55,14 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     @Override
     public ClimbingPick registerSlimefunItem(SlimefunPlugin plugin, String id) {
+        try {
+            SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.reload();
+            SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.reload();
+        }
+        catch (TagMisconfigurationException e) {
+            Assertions.fail(e);
+        }
+
         SlimefunItemStack item = new SlimefunItemStack(id, Material.IRON_PICKAXE, "&5Test Pick");
 
         ClimbingPick pick = new ClimbingPick(TestUtilities.getCategory(plugin, "climbing_pick"), item, RecipeType.NULL, new ItemStack[9]) {

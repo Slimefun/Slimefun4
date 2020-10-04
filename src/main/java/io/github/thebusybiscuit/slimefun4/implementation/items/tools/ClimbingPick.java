@@ -139,7 +139,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         double speed = getClimbingSpeed(type);
         int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
 
-        if (efficiencyLevel > 0) {
+        if (speed > 0 && efficiencyLevel > 0) {
             speed += efficiencyLevel * EFFICIENCY_MODIFIER;
         }
 
