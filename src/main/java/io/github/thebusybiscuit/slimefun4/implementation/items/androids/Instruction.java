@@ -146,10 +146,10 @@ enum Instruction {
     });
 
     private static final Map<String, Instruction> nameLookup = new HashMap<>();
-    public static final Instruction[] values = values();
+    public static final Instruction[] valuesCache = values();
 
     static {
-        for (Instruction instruction : values) {
+        for (Instruction instruction : valuesCache) {
             nameLookup.put(instruction.name(), instruction);
         }
     }

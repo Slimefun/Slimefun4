@@ -164,7 +164,7 @@ public enum SlimefunTag implements Tag<Material> {
      * All <strong>weak</strong> materials which the {@link ClimbingPick} is able to climb.
      */
     CLIMBING_PICK_WEAK_SURFACES,
-    
+
     /**
      * This {@link SlimefunTag} holds all surfaces for the {@link ClimbingPick}.
      * This is an aggregation of {@code CLIMBING_PICK_STRONG_SURFACES} and {@code CLIMBING_PICK_WEAK_SURFACES}
@@ -177,10 +177,10 @@ public enum SlimefunTag implements Tag<Material> {
     CAVEMAN_TALISMAN_TRIGGERS;
 
     private static final Map<String, SlimefunTag> nameLookup = new HashMap<>();
-    public static final SlimefunTag[] values = values();
+    public static final SlimefunTag[] valuesCache = values();
 
     static {
-        for (SlimefunTag tag : values) {
+        for (SlimefunTag tag : valuesCache) {
             nameLookup.put(tag.name(), tag);
         }
     }
@@ -212,6 +212,12 @@ public enum SlimefunTag implements Tag<Material> {
             this.additionalTags.clear();
             this.additionalTags.addAll(tags);
         });
+    }
+
+    public static void reloadAll() throws TagMisconfigurationException {
+        for (SlimefunTag tag : valuesCache) {
+            tag.reload();
+        }
     }
 
     @Nonnull

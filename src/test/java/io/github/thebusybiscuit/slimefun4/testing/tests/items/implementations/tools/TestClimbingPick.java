@@ -55,15 +55,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     @Override
     public ClimbingPick registerSlimefunItem(SlimefunPlugin plugin, String id) {
-        try {
-            TestUtilities.registerDefaultTags(server);
-            SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.reload();
-            SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.reload();
-        }
-        catch (TagMisconfigurationException e) {
-            Assertions.fail(e);
-        }
-
         SlimefunItemStack item = new SlimefunItemStack(id, Material.IRON_PICKAXE, "&5Test Pick", id);
         ClimbingPick pick = new ClimbingPick(TestUtilities.getCategory(plugin, "climbing_pick"), item, RecipeType.NULL, new ItemStack[9]) {
 
@@ -93,7 +84,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     private static Stream<Arguments> getStrongSurfaces() throws TagMisconfigurationException {
         TestUtilities.registerDefaultTags(server);
-        SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.reload();
+        SlimefunTag.reloadAll();
         return SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues().stream().map(Arguments::of);
     }
 
@@ -111,7 +102,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
     private static Stream<Arguments> getWeakSurfaces() throws TagMisconfigurationException {
         TestUtilities.registerDefaultTags(server);
-        SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.reload();
+        SlimefunTag.reloadAll();
         return SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.getValues().stream().map(Arguments::of);
     }
 

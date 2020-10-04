@@ -502,7 +502,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     protected List<Instruction> getValidScriptInstructions() {
         List<Instruction> list = new ArrayList<>();
 
-        for (Instruction part : Instruction.values) {
+        for (Instruction part : Instruction.valuesCache) {
             if (part == Instruction.START || part == Instruction.REPEAT) {
                 continue;
             }

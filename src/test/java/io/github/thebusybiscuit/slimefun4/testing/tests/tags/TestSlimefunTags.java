@@ -46,9 +46,7 @@ class TestSlimefunTags {
     @Test
     @DisplayName("Test for infinite loops with Slimefun Tags")
     void testForInfiniteLoops() throws TagMisconfigurationException {
-        for (SlimefunTag tag : SlimefunTag.values()) {
-            tag.reload();
-        }
+        SlimefunTag.reloadAll();
 
         for (SlimefunTag tag : SlimefunTag.values()) {
             assertNotCyclic(tag);
@@ -58,9 +56,7 @@ class TestSlimefunTags {
     @Test
     @DisplayName("Test SlimefunTag#isTagged()")
     void testIsTagged() throws TagMisconfigurationException {
-        for (SlimefunTag tag : SlimefunTag.values()) {
-            tag.reload();
-        }
+        SlimefunTag.reloadAll();
 
         // Direct inclusion
         Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.CAKE));
@@ -75,9 +71,7 @@ class TestSlimefunTags {
     @Test
     @DisplayName("Test SlimefunTag#toArray()")
     void testToArray() throws TagMisconfigurationException {
-        for (SlimefunTag tag : SlimefunTag.values()) {
-            tag.reload();
-        }
+        SlimefunTag.reloadAll();
 
         for (SlimefunTag tag : SlimefunTag.values()) {
             Set<Material> values = tag.getValues();
@@ -88,9 +82,7 @@ class TestSlimefunTags {
     @Test
     @DisplayName("Test SlimefunTag#getValues()")
     void testGetValues() throws TagMisconfigurationException {
-        for (SlimefunTag tag : SlimefunTag.values()) {
-            tag.reload();
-        }
+        SlimefunTag.reloadAll();
 
         for (SlimefunTag tag : SlimefunTag.values()) {
             Set<Material> values = tag.getValues();
@@ -119,8 +111,6 @@ class TestSlimefunTags {
         Assertions.assertEquals(SlimefunTag.SHULKER_BOXES, SlimefunTag.getTag("SHULKER_BOXES"));
         Assertions.assertNull(SlimefunTag.getTag("hello"));
         Assertions.assertThrows(IllegalArgumentException.class, () -> SlimefunTag.getTag(null));
-
-        Assertions.assertArrayEquals(SlimefunTag.values(), SlimefunTag.values);
     }
 
     private void assertNotCyclic(@Nonnull SlimefunTag tag) {

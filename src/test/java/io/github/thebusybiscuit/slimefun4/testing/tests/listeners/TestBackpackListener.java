@@ -55,10 +55,7 @@ class TestBackpackListener {
         server = MockBukkit.mock();
         TestUtilities.registerDefaultTags(server);
         plugin = MockBukkit.load(SlimefunPlugin.class);
-
-        for (SlimefunTag tag : SlimefunTag.values) {
-            tag.reload();
-        }
+        SlimefunTag.reloadAll();
 
         listener = new BackpackListener();
         listener.register(plugin);
