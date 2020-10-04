@@ -310,8 +310,6 @@ public class TalismanListener implements Listener {
         if (dmgCause != DamageCause.VOID || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED))
            return;
 
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-
         Location loc = e.getEntity().getPlayer().getBedSpawnLocation();
         if (loc == null)
             loc = player.getLocation().getWorld().getSpawnLocation();
