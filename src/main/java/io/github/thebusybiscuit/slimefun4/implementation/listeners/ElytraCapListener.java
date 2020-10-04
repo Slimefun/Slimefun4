@@ -1,15 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 
 import javax.annotation.Nonnull;
 
@@ -38,6 +41,9 @@ public class ElytraCapListener implements Listener {
             if (item instanceof ElytraCap) {
                 e.setDamage(0);
                 p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
+                if (p.getGameMode() != GameMode.CREATIVE) {
+                    ((ElytraCap) item).damageItem(p, stack);
+                }
             }
         }
     }
