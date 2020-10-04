@@ -112,7 +112,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         ClimbingPick pick = registerSlimefunItem(plugin, "WEAK_CLIMBING_PICK");
         double speed = pick.getClimbingSpeed(Material.ICE);
 
-        Assertions.assertFalse(SlimefunTag.CLIMBING_PICK_SURFACES.isTagged(Material.ICE));
+        Assertions.assertTrue(SlimefunTag.CLIMBING_PICK_SURFACES.isTagged(Material.ICE));
         Assertions.assertTrue(speed > 0);
     }
 
