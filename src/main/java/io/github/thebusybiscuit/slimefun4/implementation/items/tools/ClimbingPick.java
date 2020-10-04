@@ -143,10 +143,13 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
      */
     public double getClimbingSpeed(@Nonnull ItemStack item, @Nonnull Material type) {
         double speed = getClimbingSpeed(type);
-        int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
 
-        if (speed > 0 && efficiencyLevel > 0) {
-            speed += efficiencyLevel * EFFICIENCY_MODIFIER;
+        if (speed > 0) {
+            int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
+
+            if (efficiencyLevel > 0) {
+                speed += efficiencyLevel * EFFICIENCY_MODIFIER;
+            }
         }
 
         return speed;

@@ -153,4 +153,10 @@ public class ItemSetting<T> {
         }
     }
 
+    @Override
+    public String toString() {
+        T currentValue = this.value != null ? this.value : defaultValue;
+        return getClass().getSimpleName() + " {" + getKey() + " = " + currentValue + " (default: " + getDefaultValue() + ")";
+    }
+
 }
