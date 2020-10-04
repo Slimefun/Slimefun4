@@ -36,7 +36,7 @@ public final class ResearchSetup {
         
         plugin = SlimefunPlugin.instance();
         if (plugin == null) {
-            throw new Exception("Plugin cannot be null!");
+            throw new UnsupportedOperationException("Plugin cannot be null!");
         }
 
         alreadyRan = true;
