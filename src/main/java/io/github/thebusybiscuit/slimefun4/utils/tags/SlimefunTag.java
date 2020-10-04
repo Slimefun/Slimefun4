@@ -156,9 +156,14 @@ public enum SlimefunTag implements Tag<Material> {
     CROP_GROWTH_ACCELERATOR_BLOCKS,
 
     /**
-     * All materials which the {@link ClimbingPick} is able to climb.
+     * All <strong>strong</strong> materials which the {@link ClimbingPick} is able to climb.
      */
-    CLIMBING_PICK_SURFACES,
+    CLIMBING_PICK_STRONG_SURFACES,
+
+    /**
+     * All <strong>weak</strong> materials which the {@link ClimbingPick} is able to climb.
+     */
+    CLIMBING_PICK_WEAK_SURFACES,
 
     /**
      * All materials (ores) which trigger the Talisman of the Caveman.

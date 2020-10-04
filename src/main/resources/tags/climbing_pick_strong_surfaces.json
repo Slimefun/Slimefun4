@@ -1,11 +1,8 @@
 {
 	"values" : [
 		"#slimefun:ice_variants",
-		"#slimefun:concrete_powders",
 		"#slimefun:terracotta",
 		"#slimefun:stone_variants",
-		"#minecraft:sand",
-		"minecraft:gravel",
 		"minecraft:netherrack",
 		{
 			"id" : "minecraft:blackstone",
