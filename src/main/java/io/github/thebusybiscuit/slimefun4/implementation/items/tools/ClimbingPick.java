@@ -52,6 +52,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private static final double MAX_DISTANCE = 4.4;
     private static final double STRONG_SURFACE_DEFAULT = 1.0;
     private static final double WEAK_SURFACE_DEFAULT = 0.6;
+    private static final double EFFICIENCY_MODIFIER = 0.125;
     private static final long COOLDOWN = 4;
 
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
@@ -66,6 +67,9 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         addDefaultSurfaces();
     }
 
+    /**
+     * This method adds every surface that is climbable by default.
+     */
     protected void addDefaultSurfaces() {
         // These are "strong" surfaces, they will give you the biggest boost
         for (Material surface : SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues()) {
@@ -106,6 +110,14 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         return surfaces.values();
     }
 
+    /**
+     * This returns the climbing speed for a given {@link Material}.
+     * 
+     * @param type
+     *            The {@link Material}
+     * 
+     * @return The climbing speed for this {@link Material} or 0.
+     */
     private double getClimbingSpeed(@Nonnull Material type) {
         ClimbableSurface surface = surfaces.get(type);
         return surface != null ? surface.getValue() : 0;
@@ -121,7 +133,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             Block block = e.getClickedBlock().get();
             Player p = e.getPlayer();
 
-            // Check if the Player is standing close to the wall
+            // Check if the Player is standing close enough to the wall
             if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) > MAX_DISTANCE) {
                 return;
             }
@@ -161,8 +173,8 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             if (users.add(p.getUniqueId())) {
                 int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
 
-                if (efficiencyLevel != 0) {
-                    power += efficiencyLevel * 0.1;
+                if (efficiencyLevel > 0) {
+                    power += efficiencyLevel * EFFICIENCY_MODIFIER;
                 }
 
                 SlimefunPlugin.runSync(() -> users.remove(p.getUniqueId()), COOLDOWN);

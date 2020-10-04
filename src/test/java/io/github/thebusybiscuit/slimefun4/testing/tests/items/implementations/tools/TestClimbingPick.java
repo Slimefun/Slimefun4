@@ -68,8 +68,8 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
 
         boolean shouldFireEvent = face != BlockFace.DOWN && face != BlockFace.UP;
 
-        BlockMock block1 = new BlockMock(Material.ICE, blockLocation);
-        simulateRightClickBlock(player, pick, block1, face);
+        BlockMock block = new BlockMock(Material.ICE, blockLocation);
+        simulateRightClickBlock(player, pick, block, face);
 
         if (shouldFireEvent) {
             server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
