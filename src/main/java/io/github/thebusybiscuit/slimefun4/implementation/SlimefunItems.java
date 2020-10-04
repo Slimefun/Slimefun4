@@ -548,7 +548,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack TALISMAN_WIZARD = new SlimefunItemStack("WIZARD_TALISMAN", Material.EMERALD, "&aTalisman of the Wizard", "", "&fWhile you have this Talisman", "&fin your Inventory it allows you to", "&fobtain Fortune Level 4/5 however", "&fit also has a chance to lower the", "&fLevel of some Enchantments on your Item");
     public static final SlimefunItemStack TALISMAN_CAVEMAN = new SlimefunItemStack("CAVEMAN_TALISMAN", Material.EMERALD, "&aTalisman of the Caveman", "", "&fWhile you have this Talisman", "&fin your inventory it gives", "&fyou a 50% chance for a decent", "&fHaste buff when you mine any ore");
     public static final SlimefunItemStack TALISMAN_WISE = new SlimefunItemStack("WISE_TALISMAN", Material.EMERALD, "&aTalisman of the Wise", "", "&fWhile you have this Talisman", "&fin your inventory it gives", "&fyou a 20% chance of doubling", "&fall experience you obtain");
-    public static final SlimefunItemStack TALISMAN_RESURRECTED = new SlimefunItemStack("RESURRECTED_TALISMAN", Material.EMERALD, "&aTalisman of the Resurrected", "", "&fWhile you have this Talisman", "&fin your inventory it will", "&fteleport you back safely when", "&fyou fall in the void");
+    public static final SlimefunItemStack TALISMAN_RESURRECTED = new SlimefunItemStack("RESURRECTED_TALISMAN", Material.EMERALD, "&aTalisman of the Resurrected", "", "&fWhile you have this Talisman", "&fin your inventory it will", "&fteleport you back safely when", "&fyou fall into the void");
 
 
     /* Staves */
