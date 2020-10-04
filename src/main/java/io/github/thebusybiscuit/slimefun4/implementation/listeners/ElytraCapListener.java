@@ -1,7 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,9 +12,14 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class CrashHelmetListener implements Listener {
+/**
+ * The {@link Listener} for the {@link ElytraCap}.
+ *
+ * @author Seggan
+ */
+public class ElytraCapListener implements Listener {
 
-    public CrashHelmetListener(@Nonnull SlimefunPlugin plugin) {
+    public ElytraCapListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -26,8 +33,9 @@ public class CrashHelmetListener implements Listener {
         if (p.isGliding()) {
             ItemStack stack = p.getInventory().getHelmet();
             SlimefunItem item = SlimefunItem.getByItem(stack);
-            if ((item != null) && (item.getID().equals("CRASH_HELMET"))) {
-                e.setDamage(0);
+            if (item instanceof ElytraCap) {
+                e.setCancelled(true);
+                p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 10, 1);
             }
         }
     }

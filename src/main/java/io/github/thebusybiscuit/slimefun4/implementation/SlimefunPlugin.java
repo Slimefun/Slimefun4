@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.CrashHelmetListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraCapListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
@@ -454,7 +454,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new EntityInteractionListener(this);
         new MobDropListener(this);
         new VillagerTradingListener(this);
-        new CrashHelmetListener(this);
+        new ElytraCapListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);

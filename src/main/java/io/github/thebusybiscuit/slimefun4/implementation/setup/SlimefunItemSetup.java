@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -1016,7 +1017,7 @@ public final class SlimefunItemSetup {
         new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 20)})
         .register(plugin);
 
-        new SlimefunItem(categories.technicalGadgets, SlimefunItems.CRASH_HELMET, RecipeType.ARMOR_FORGE,
+        new ElytraCap(categories.technicalGadgets, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,
         new ItemStack[]{new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.IRON_INGOT), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
         .register(plugin);
 
