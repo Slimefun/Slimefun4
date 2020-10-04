@@ -153,7 +153,7 @@ messages:
     wizard: '&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels'
     caveman: '&a&oYour Talisman gave you haste'
     wise: '&a&oYour Talisman doubled your experience drops'
-    resurrected: '&a&oYour talisman a-voided your death'
+    resurrected: '&a&oYour Talisman a-voided your death'
 
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'
