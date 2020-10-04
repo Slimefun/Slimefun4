@@ -117,6 +117,8 @@ class TestSlimefunTags {
         Assertions.assertEquals(SlimefunTag.GLASS_BLOCKS, SlimefunTag.getTag("GLASS_BLOCKS"));
         Assertions.assertEquals(SlimefunTag.ORES, SlimefunTag.getTag("ORES"));
         Assertions.assertEquals(SlimefunTag.SHULKER_BOXES, SlimefunTag.getTag("SHULKER_BOXES"));
+        Assertions.assertNull(SlimefunTag.getTag("hello"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> SlimefunTag.getTag(null));
 
         Assertions.assertArrayEquals(SlimefunTag.values(), SlimefunTag.values);
     }
