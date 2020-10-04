@@ -64,7 +64,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         }
 
         SlimefunItemStack item = new SlimefunItemStack(id, Material.IRON_PICKAXE, "&5Test Pick");
-
         ClimbingPick pick = new ClimbingPick(TestUtilities.getCategory(plugin, "climbing_pick"), item, RecipeType.NULL, new ItemStack[9]) {
 
             @Override
@@ -75,6 +74,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         };
 
         pick.register(plugin);
+        Assertions.assertFalse(pick.getClimbableSurfaces().isEmpty());
         return pick;
     }
 
@@ -124,7 +124,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     @DisplayName("Test Climbing Pick on various Block Faces")
     @EnumSource(value = BlockFace.class, names = { "UP", "DOWN", "NORTH", "EAST", "SOUTH", "WEST" })
     void testItemUse(BlockFace face) {
-        server.getPluginManager().clearEvents();
         PlayerMock player = server.addPlayer();
         ClimbingPick pick = registerSlimefunItem(plugin, "TEST_CLIMBING_PICK_" + face.name());
         Location blockLocation = new Location(player.getLocation().getWorld(), player.getLocation().getBlockX() + 1, player.getLocation().getBlockY(), player.getLocation().getBlockZ());
@@ -137,7 +136,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         if (shouldFireEvent) {
             Assertions.assertTrue(pick.getClimbingSpeed(block.getType()) > 0);
             Assertions.assertTrue(player.getVelocity().length() > 0);
-            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
+            server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class, e -> e.getPlayer() == player && e.getPick() == pick);
         }
         else {
             Assertions.assertEquals(0, player.getVelocity().length());

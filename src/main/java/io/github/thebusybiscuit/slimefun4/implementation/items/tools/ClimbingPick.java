@@ -124,7 +124,6 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
         ClimbableSurface surface = surfaces.get(type);
 
         if (surface != null) {
-            System.out.println(surface.getValue());
             return surface.getValue();
         }
         else {
