@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuid
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This is a static utility class that provides convenient access to the methods
@@ -73,7 +72,7 @@ public final class SlimefunGuide {
     }
 
     private static void openMainMenuAsync(Player player, SlimefunGuideLayout layout, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
+        if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
             SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }

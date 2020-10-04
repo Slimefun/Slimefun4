@@ -45,10 +45,10 @@ If you need help on how to get started, maybe try looking into the following res
     * [Hacktoberfest FAQ](https://hacktoberfest.digitalocean.com/faq)
 * GitHub/Open-Source
     * [How to contribute to Open-Source](https://opensource.guide/how-to-contribute/)
-    * [Working with forks](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks)
-    * [Creating a Pull Request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)
+    * [Working with forks](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/working-with-forks)
+    * [Creating a Pull Request](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)
 * Slimefun
-    * [Contributing to Slimefun](https://github.com/Slimefun/Slimefun4/blob/master/.github/CONTRIBUTING.md)
+    * [Contributing to Slimefun](https://github.com/Slimefun/Slimefun4/blob/master/CONTRIBUTING.md)
     * [Code of Conduct](https://github.com/Slimefun/Slimefun4/blob/master/.github/CODE_OF_CONDUCT.md)
 
 <hr>

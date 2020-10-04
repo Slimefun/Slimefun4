@@ -108,7 +108,7 @@ public class AutoDisenchanter extends AContainer {
                         EmeraldEnchants.getInstance().getRegistry().applyEnchantment(disenchantedItem, ench.getEnchantment(), 0);
                     }
 
-                    MachineRecipe recipe = new MachineRecipe(90 * amount, new ItemStack[] { target, item }, new ItemStack[] { disenchantedItem, book });
+                    MachineRecipe recipe = new MachineRecipe(90 * amount / this.getSpeed() , new ItemStack[] { target, item }, new ItemStack[] { disenchantedItem, book });
 
                     if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                         return null;

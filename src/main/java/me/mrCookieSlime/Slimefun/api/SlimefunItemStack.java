@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class SlimefunItemStack extends CustomItem implements Cloneable {
+public class SlimefunItemStack extends CustomItem {
 
     private String id;
     private ImmutableItemMeta immutableMeta;

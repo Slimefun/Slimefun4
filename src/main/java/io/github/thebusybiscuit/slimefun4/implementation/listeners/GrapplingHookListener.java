@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -24,11 +25,12 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for the mechanics behind the {@link GrapplingHook}.
@@ -74,7 +76,7 @@ public class GrapplingHookListener implements Listener {
             return;
         }
 
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             if (e.getEntity() instanceof Arrow) {
                 handleGrapplingHook((Arrow) e.getEntity());
             }
@@ -137,6 +139,23 @@ public class GrapplingHookListener implements Listener {
         }
     }
 
+    // Fixing Issue #2351
+    @EventHandler
+    public void onLeash(PlayerLeashEntityEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
+        Player p = e.getPlayer();
+
+        ItemStack item = p.getInventory().getItemInMainHand();
+        SlimefunItem slimeItem = SlimefunItem.getByItem(item);
+
+        if (slimeItem instanceof GrapplingHook) {
+            e.setCancelled(true);
+        }
+    }
+
     private void handleGrapplingHook(@Nullable Arrow arrow) {
         if (arrow != null && arrow.isValid() && arrow.getShooter() instanceof Player) {
             Player p = (Player) arrow.getShooter();
@@ -174,7 +193,7 @@ public class GrapplingHookListener implements Listener {
                 p.setVelocity(velocity);
 
                 hook.remove();
-                Slimefun.runSync(() -> activeHooks.remove(p.getUniqueId()), 20L);
+                SlimefunPlugin.runSync(() -> activeHooks.remove(p.getUniqueId()), 20L);
             }
         }
     }
@@ -184,21 +203,21 @@ public class GrapplingHookListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    public void addGrapplingHook(Player p, Arrow arrow, Bat bat, boolean dropItem, long despawnTicks) {
-        GrapplingHookEntity hook = new GrapplingHookEntity(p, arrow, bat, dropItem);
+    public void addGrapplingHook(Player p, Arrow arrow, Bat bat, boolean dropItem, long despawnTicks, boolean wasConsumed) {
+        GrapplingHookEntity hook = new GrapplingHookEntity(p, arrow, bat, dropItem, wasConsumed);
         UUID uuid = p.getUniqueId();
 
         activeHooks.put(uuid, hook);
 
         // To fix issue #253
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             GrapplingHookEntity entity = activeHooks.get(uuid);
 
             if (entity != null) {
                 SlimefunPlugin.getBowListener().getProjectileData().remove(uuid);
                 entity.remove();
 
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     activeHooks.remove(uuid);
                     invulnerability.remove(uuid);
                 }, 20L);

@@ -24,6 +24,7 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -45,7 +46,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.TalismanEnchantment;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class TalismanListener implements Listener {
 
@@ -216,7 +216,7 @@ public class TalismanListener implements Listener {
             int itemSlot = slot;
 
             // Update the item forcefully
-            Slimefun.runSync(() -> inv.setItem(itemSlot, item), 1L);
+            SlimefunPlugin.runSync(() -> inv.setItem(itemSlot, item), 1L);
         }
     }
 
@@ -282,6 +282,13 @@ public class TalismanListener implements Listener {
                     }
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (e.getBlock().getType().name().endsWith("_ORE")) {
+            Talisman.checkFor(e, SlimefunItems.TALISMAN_CAVEMAN);
         }
     }
 
