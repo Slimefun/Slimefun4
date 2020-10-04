@@ -34,8 +34,8 @@ public class ElytraCapListener implements Listener {
             ItemStack stack = p.getInventory().getHelmet();
             SlimefunItem item = SlimefunItem.getByItem(stack);
             if (item instanceof ElytraCap) {
-                e.setCancelled(true);
-                p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 10, 1);
+                e.setDamage(0);
+                p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
             }
         }
     }
