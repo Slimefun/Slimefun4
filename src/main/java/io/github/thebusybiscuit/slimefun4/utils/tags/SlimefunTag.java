@@ -164,6 +164,12 @@ public enum SlimefunTag implements Tag<Material> {
      * All <strong>weak</strong> materials which the {@link ClimbingPick} is able to climb.
      */
     CLIMBING_PICK_WEAK_SURFACES,
+    
+    /**
+     * This {@link SlimefunTag} holds all surfaces for the {@link ClimbingPick}.
+     * This is an aggregation of {@code CLIMBING_PICK_STRONG_SURFACES} and {@code CLIMBING_PICK_WEAK_SURFACES}
+     */
+    CLIMBING_PICK_SURFACES,
 
     /**
      * All materials (ores) which trigger the Talisman of the Caveman.

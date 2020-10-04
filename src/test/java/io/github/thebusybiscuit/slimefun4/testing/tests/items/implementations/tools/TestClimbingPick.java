@@ -83,10 +83,10 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     @DisplayName("Test Climbing Pick on strong surfaces")
     @MethodSource("getStrongSurfaces")
     void testStrongSurfaces(Material surface) {
-        Assertions.assertFalse(SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues().isEmpty());
         ClimbingPick pick = registerSlimefunItem(plugin, "STRONG_CLIMBING_PICK_" + surface.name());
         double speed = pick.getClimbingSpeed(surface);
 
+        Assertions.assertTrue(SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.isTagged(surface));
         Assertions.assertEquals(STRONG_SURFACE_DEFAULT, speed);
         Assertions.assertEquals(1, pick.getClimbableSurfaces().stream().filter(s -> s.getType() == surface).count());
     }
@@ -101,10 +101,10 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     @DisplayName("Test Climbing Pick on weak surfaces")
     @MethodSource("getWeakSurfaces")
     void testWeakSurfaces(Material surface) {
-        Assertions.assertFalse(SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.getValues().isEmpty());
         ClimbingPick pick = registerSlimefunItem(plugin, "WEAK_CLIMBING_PICK_" + surface.name());
         double speed = pick.getClimbingSpeed(surface);
 
+        Assertions.assertTrue(SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.isTagged(surface));
         Assertions.assertEquals(WEAK_SURFACE_DEFAULT, speed);
         Assertions.assertEquals(1, pick.getClimbableSurfaces().stream().filter(s -> s.getType() == surface).count());
     }
@@ -116,10 +116,22 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     }
 
     @Test
+    @DisplayName("Test Climbing Pick on climbable surface")
+    void testClimbable() {
+        ClimbingPick pick = registerSlimefunItem(plugin, "WEAK_CLIMBING_PICK");
+        double speed = pick.getClimbingSpeed(Material.ICE);
+
+        Assertions.assertFalse(SlimefunTag.CLIMBING_PICK_SURFACES.isTagged(Material.ICE));
+        Assertions.assertTrue(speed > 0);
+    }
+
+    @Test
     @DisplayName("Test Climbing Pick on non-climbable surface")
     void testNonClimbable() {
         ClimbingPick pick = registerSlimefunItem(plugin, "NOT_CLIMBING_PICK");
         double speed = pick.getClimbingSpeed(Material.DRAGON_EGG);
+
+        Assertions.assertFalse(SlimefunTag.CLIMBING_PICK_SURFACES.isTagged(Material.DRAGON_EGG));
         Assertions.assertEquals(0, speed);
     }
 
