@@ -20,4 +20,4 @@ jobs:
     - name: YAML Linter
       uses: ibiqlik/action-yamllint@v1.0.0
       with:
-        config_file: '.github/yaml-linter-config.yml'
+        config_file: '.github/configs/yaml-linter.yml'
