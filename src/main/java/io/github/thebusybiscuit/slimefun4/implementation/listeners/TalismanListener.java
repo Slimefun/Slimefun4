@@ -298,8 +298,9 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onExperienceReceive(PlayerExpChangeEvent e) {
-        if (e.getAmount() <= 0 || !Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE))
+        if (e.getAmount() <= 0 || !Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
             return;
+        }
 
         e.setAmount(e.getAmount() * 2);
     }
@@ -309,8 +310,9 @@ public class TalismanListener implements Listener {
         Player player = e.getEntity().getPlayer();
         DamageCause dmgCause = player.getLastDamageCause().getCause();
 
-        if (dmgCause != DamageCause.VOID || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED))
-           return;
+        if (dmgCause != DamageCause.VOID || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED)) {
+            return;
+        }
 
         Location loc = e.getEntity().getPlayer().getBedSpawnLocation();
         if (loc == null)
