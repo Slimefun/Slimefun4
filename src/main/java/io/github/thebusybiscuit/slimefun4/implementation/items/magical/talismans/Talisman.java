@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -219,7 +221,10 @@ public class Talisman extends SlimefunItem {
     }
 
     private static Player getPlayerByEventType(Event e) {
-        if (e instanceof EntityDeathEvent) {
+        if (e instanceof PlayerDeathEvent) {
+            return ((PlayerDeathEvent) e).getEntity().getPlayer();
+        }
+        else if (e instanceof EntityDeathEvent) {
             return ((EntityDeathEvent) e).getEntity().getKiller();
         }
         else if (e instanceof BlockBreakEvent) {

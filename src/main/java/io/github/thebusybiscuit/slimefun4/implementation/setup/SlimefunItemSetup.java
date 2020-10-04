@@ -882,9 +882,9 @@ public final class SlimefunItemSetup {
         false, false, "wise", 20)
         .register(plugin);
 
-        new Talisman(SlimefunItems.TALISMAN_WISE,
+        new Talisman(SlimefunItems.TALISMAN_RESURRECTED,
         new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.TALISMAN_ANGEL, SlimefunItems.ELYTRA_SCALE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3 },
-        true, true, "resurrected", 100, new PotionEffect(PotionEffectType.GLOWING, 400, 0), new PotionEffect(PotionEffectType.ABSORPTION, 800, 9))
+        true, true, "resurrected", new PotionEffect(PotionEffectType.GLOWING, 400, 0), new PotionEffect(PotionEffectType.ABSORPTION, 800, 4), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 20))
         .register(plugin);
 
         new SlimefunItem(categories.resources, SlimefunItems.GILDED_IRON, RecipeType.SMELTERY,

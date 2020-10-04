@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -33,15 +33,13 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerExpChangeEvent;
-import org.bukkit.event.player.PlayerItemBreakEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -301,15 +299,28 @@ public class TalismanListener implements Listener {
         if (e.getAmount() <= 0 || !Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE))
             return;
 
-        e.setAmount(e.getAmount() * 10);
+        e.setAmount(e.getAmount() * 2);
     }
 
+    @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
-        if (!e.getDeathMessage().contains("void") || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED))
-            return;
+        Player player = e.getEntity().getPlayer();
+        DamageCause dmgCause = player.getLastDamageCause().getCause();
 
-        Location bedLocation = e.getEntity().getBedLocation();
-        e.getEntity().teleport(bedLocation);
+        if (dmgCause != DamageCause.VOID || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED))
+           return;
+
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+
+        Location loc = e.getEntity().getPlayer().getBedSpawnLocation();
+        if (loc == null)
+            loc = player.getLocation().getWorld().getSpawnLocation();
+
+        final Location respawnLocation = loc;
+
+        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), () -> {
+            player.teleport(respawnLocation);
+        }, 2);
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
