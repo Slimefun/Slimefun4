@@ -111,6 +111,16 @@ class TestSlimefunTags {
         }
     }
 
+    @Test
+    @DisplayName("Test static SlimefunTag accessors")
+    void testGetTag() {
+        Assertions.assertEquals(SlimefunTag.GLASS_BLOCKS, SlimefunTag.getTag("GLASS_BLOCKS"));
+        Assertions.assertEquals(SlimefunTag.ORES, SlimefunTag.getTag("ORES"));
+        Assertions.assertEquals(SlimefunTag.SHULKER_BOXES, SlimefunTag.getTag("SHULKER_BOXES"));
+
+        Assertions.assertArrayEquals(SlimefunTag.values(), SlimefunTag.values);
+    }
+
     private void assertNotCyclic(@Nonnull SlimefunTag tag) {
         Set<SlimefunTag> visiting = new HashSet<>();
         Set<SlimefunTag> visited = new HashSet<>();
