@@ -122,7 +122,14 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     public double getClimbingSpeed(@Nonnull Material type) {
         Validate.notNull(type, "The surface cannot be null");
         ClimbableSurface surface = surfaces.get(type);
-        return surface != null ? surface.getValue() : 0;
+
+        if (surface != null) {
+            System.out.println(surface.getValue());
+            return surface.getValue();
+        }
+        else {
+            return 0;
+        }
     }
 
     /**
@@ -168,11 +175,9 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             }
 
             // Top and bottom faces won't be allowed
-            if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) {
-                return;
+            if (e.getClickedFace() != BlockFace.DOWN && e.getClickedFace() != BlockFace.UP) {
+                climb(p, e.getHand(), e.getItem(), block);
             }
-
-            climb(p, e.getHand(), e.getItem(), block);
         };
     }
 

@@ -133,7 +133,14 @@ public class ItemSetting<T> {
         Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getID() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
-            this.value = (T) configuredValue;
+            if (validateInput((T) configuredValue)) {
+                this.value = (T) configuredValue;
+            }
+            else {
+                Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
+                Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
+                Slimefun.getLogger().log(Level.WARNING, "{0} is not a valid input!", configuredValue);
+            }
         }
         else {
             this.value = defaultValue;
