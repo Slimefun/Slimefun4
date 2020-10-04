@@ -13,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -49,9 +50,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem, RecipeDisplayItem {
 
-    private static final double MAX_DISTANCE = 4.4;
     private static final double STRONG_SURFACE_DEFAULT = 1.0;
     private static final double WEAK_SURFACE_DEFAULT = 0.6;
+    private static final double MAX_DISTANCE = 4.4;
     private static final double EFFICIENCY_MODIFIER = 0.125;
     private static final long COOLDOWN = 4;
 
@@ -118,9 +119,31 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
      * 
      * @return The climbing speed for this {@link Material} or 0.
      */
-    private double getClimbingSpeed(@Nonnull Material type) {
+    public double getClimbingSpeed(@Nonnull Material type) {
+        Validate.notNull(type, "The surface cannot be null");
         ClimbableSurface surface = surfaces.get(type);
         return surface != null ? surface.getValue() : 0;
+    }
+
+    /**
+     * This returns the climbing speed for a given {@link Material} and the used {@link ItemStack}.
+     * 
+     * @param item
+     *            the {@link ClimbingPick}'s {@link ItemStack}
+     * @param type
+     *            The {@link Material}
+     * 
+     * @return The climbing speed or 0.
+     */
+    public double getClimbingSpeed(@Nonnull ItemStack item, @Nonnull Material type) {
+        double speed = getClimbingSpeed(type);
+        int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
+
+        if (efficiencyLevel > 0) {
+            speed += efficiencyLevel * EFFICIENCY_MODIFIER;
+        }
+
+        return speed;
     }
 
     @Override
@@ -166,17 +189,11 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     @ParametersAreNonnullByDefault
     private void climb(Player p, EquipmentSlot hand, ItemStack item, Block block) {
-        double power = getClimbingSpeed(block.getType());
+        double power = getClimbingSpeed(item, block.getType());
 
         if (power > 0.05) {
-            // Prevent players from spamming this
+            // Prevent players from spamming this item by enforcing a cooldown
             if (users.add(p.getUniqueId())) {
-                int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
-
-                if (efficiencyLevel > 0) {
-                    power += efficiencyLevel * EFFICIENCY_MODIFIER;
-                }
-
                 SlimefunPlugin.runSync(() -> users.remove(p.getUniqueId()), COOLDOWN);
                 Vector velocity = new Vector(0, power, 0);
                 ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
