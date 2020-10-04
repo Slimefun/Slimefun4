@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,6 +33,7 @@ public class ElytraCapListener implements Listener {
         Player p = (Player) e.getEntity();
         if (p.isGliding()) {
             ItemStack stack = p.getInventory().getHelmet();
+            if (!Slimefun.hasUnlocked(p, stack, true)) return;
             SlimefunItem item = SlimefunItem.getByItem(stack);
             if (item instanceof ElytraCap) {
                 e.setDamage(0);
