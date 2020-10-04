@@ -10,10 +10,10 @@ on:
 
 jobs:
   validate:
-  
+
     name: Validate JSON
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
