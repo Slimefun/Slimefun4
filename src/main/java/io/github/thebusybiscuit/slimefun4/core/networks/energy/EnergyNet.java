@@ -49,7 +49,7 @@ public class EnergyNet extends Network {
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
     private final Map<Location, EnergyNetComponent> consumers = new HashMap<>();
 
-    protected EnergyNet(@Nonnull Location l) {
+    public EnergyNet(@Nonnull Location l) {
         super(SlimefunPlugin.getNetworkManager(), l);
     }
 
