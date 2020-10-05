@@ -550,7 +550,6 @@ public final class SlimefunItems {
     public static final SlimefunItemStack TALISMAN_WISE = new SlimefunItemStack("WISE_TALISMAN", Material.EMERALD, "&aTalisman of the Wise", "", "&fWhile you have this Talisman", "&fin your inventory it gives", "&fyou a 20% chance of doubling", "&fall experience you obtain");
     public static final SlimefunItemStack TALISMAN_RESURRECTED = new SlimefunItemStack("RESURRECTED_TALISMAN", Material.EMERALD, "&aTalisman of the Resurrected", "", "&fWhile you have this Talisman", "&fin your inventory it will", "&fteleport you back safely when", "&fyou fall into the void");
 
-
     /* Staves */
     public static final SlimefunItemStack STAFF_ELEMENTAL = new SlimefunItemStack("STAFF_ELEMENTAL", Material.STICK, "&6Elemental Staff");
     public static final SlimefunItemStack STAFF_WIND = new SlimefunItemStack("STAFF_ELEMENTAL_WIND", Material.STICK, "&6Elemental Staff &7- &b&oWind", "", "&7Element: &b&oWind", "", "&eRight Click&7 to launch yourself forward");
