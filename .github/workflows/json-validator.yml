@@ -1,0 +1,24 @@
+name: Validate JSON
+
+on:
+  push:
+    paths:
+    - 'src/main/resources/wiki.json'
+  pull_request:
+    paths:
+    - 'src/main/resources/wiki.json'
+
+jobs:
+  validate:
+
+    name: Validate JSON
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Validate JSON
+      uses: docker://orrosenblatt/validate-json-action:latest@sha256:02370758b8b199e0477da11ecfdd498c75c561685056b5c31b925a4ab95df7f4
+      env:
+        INPUT_SCHEMA: '.github/configs/wiki-schema.json'
+        INPUT_JSONS: 'src/main/resources/wiki.json'
