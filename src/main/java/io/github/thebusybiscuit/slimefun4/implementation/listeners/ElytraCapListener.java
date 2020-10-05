@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -12,9 +14,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 
 /**
  * The {@link Listener} for the {@link ElytraCap}.
@@ -36,13 +38,15 @@ public class ElytraCapListener implements Listener {
         Player p = (Player) e.getEntity();
         if (p.isGliding()) {
             ItemStack stack = p.getInventory().getHelmet();
-            if (!Slimefun.hasUnlocked(p, stack, true)) return;
             SlimefunItem item = SlimefunItem.getByItem(stack);
-            if (item instanceof ElytraCap) {
+            if (!Slimefun.hasUnlocked(p, item, true)) return;
+            if (item instanceof ProtectiveArmor) {
+                if (!Arrays.asList(((ProtectiveArmor) item).getProtectionTypes())
+                    .contains(ProtectionType.FLYING_INTO_WALL)) return;
                 e.setDamage(0);
                 p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
-                if (p.getGameMode() != GameMode.CREATIVE) {
-                    ((ElytraCap) item).damageItem(p, stack);
+                if (p.getGameMode() != GameMode.CREATIVE && item instanceof DamageableItem) {
+                    ((DamageableItem) item).damageItem(p, stack);
                 }
             }
         }
