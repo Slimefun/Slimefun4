@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link ElytraCap} negates damage taken when crashing into a wall using an elytra.
@@ -21,6 +22,7 @@ public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, Pro
 
     private NamespacedKey key;
 
+    @ParametersAreNonnullByDefault
     public ElytraCap(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe, null);
 
