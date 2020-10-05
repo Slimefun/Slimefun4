@@ -48,7 +48,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return (e, item, offhand) -> {
             Entity entity = e.getRightClicked();
 
-            if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
+            if (entity.getType() == EntityType.ZOMBIE_VILLAGER || entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
                 Player p = e.getPlayer();
 
                 if (p.getGameMode() != GameMode.CREATIVE) {
@@ -57,26 +57,20 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
 
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
-                ZombieVillager zombieVillager = (ZombieVillager) entity;
-                zombieVillager.setConversionTime(1);
+                if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
+                    ZombieVillager zombieVillager = (ZombieVillager) entity;
+                    zombieVillager.setConversionTime(1);
 
-                if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-                    zombieVillager.setConversionPlayer(p);
+                    if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+                        zombieVillager.setConversionPlayer(p);
+                    }
                 }
-            }
-            else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)
-                    && entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
-                Player p = e.getPlayer();
-
-                if (p.getGameMode() != GameMode.CREATIVE) {
-                    ItemUtils.consumeItem(item, false);
+                else if (entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
+                    Location loc = entity.getLocation();
+                    
+                    entity.remove();
+                    loc.getWorld().spawnEntity(loc, EntityType.PIGLIN);
                 }
-
-                Location loc = entity.getLocation();
-                p.playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
-
-                entity.remove();
-                loc.getWorld().spawnEntity(loc, EntityType.PIGLIN);
             }
         };
     }
