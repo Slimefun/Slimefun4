@@ -298,11 +298,9 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onExperienceReceive(PlayerExpChangeEvent e) {
-        if (e.getAmount() <= 0 || !Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
-            return;
+        if (e.getAmount() > 0 && Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
+            e.setAmount(e.getAmount() * 2);
         }
-
-        e.setAmount(e.getAmount() * 2);
     }
 
     @EventHandler
