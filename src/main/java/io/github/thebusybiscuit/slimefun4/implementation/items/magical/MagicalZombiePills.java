@@ -72,9 +72,8 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
                     ItemUtils.consumeItem(item, false);
                 }
 
-                p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
-
                 Location loc = entity.getLocation();
+                p.playSound(loc, Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
                 entity.remove();
                 loc.getWorld().spawnEntity(loc, EntityType.PIGLIN);
