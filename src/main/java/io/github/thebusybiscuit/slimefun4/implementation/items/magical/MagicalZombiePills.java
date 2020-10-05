@@ -58,18 +58,11 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
                 if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
-                    ZombieVillager zombieVillager = (ZombieVillager) entity;
-                    zombieVillager.setConversionTime(1);
-
-                    if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
-                        zombieVillager.setConversionPlayer(p);
-                    }
+                    healZombieVillager((ZombieVillager) entity);
                 }
+
                 else if (entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
-                    Location loc = entity.getLocation();
-                    
-                    entity.remove();
-                    loc.getWorld().spawnEntity(loc, EntityType.PIGLIN);
+                    healZombifiedPiglin(entity);
                 }
             }
         };
@@ -82,5 +75,20 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
      */
     public ItemUseHandler onRightClick() {
         return PlayerRightClickEvent::cancel;
+    }
+
+    private void healZombieVillager(ZombieVillager zombieVillager) {
+        zombieVillager.setConversionTime(1);
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+            zombieVillager.setConversionPlayer(p);
+        }
+    }
+
+    private void healZombifiedPiglin(Entity zombiePiglin) {
+        Location loc = zombiePiglin.getLocation();
+
+        zombiePiglin.remove();
+        loc.getWorld().spawnEntity(loc, EntityType.PIGLIN);
     }
 }
