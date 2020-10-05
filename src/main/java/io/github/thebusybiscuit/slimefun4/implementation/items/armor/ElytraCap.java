@@ -17,10 +17,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * The {@link ElytraCap} negates damage taken when crashing into a wall using an elytra.
  *
  * @author Seggan
+ *
+ * @see io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraCrashListener
  */
 public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, ProtectiveArmor {
 
-    private NamespacedKey key;
+    private final NamespacedKey key;
 
     @ParametersAreNonnullByDefault
     public ElytraCap(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
