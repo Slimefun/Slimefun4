@@ -64,16 +64,17 @@ public class TableSaw extends MultiBlockMachine {
         ItemStack item = p.getInventory().getItemInMainHand();
 
         boolean itemIsAPlank = Tag.PLANKS.isTagged(item.getType());
-        Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
+        boolean itemIsALog = Tag.LOGS.isTagged(item.getType());
 
-        if (planks.isPresent() || itemIsAPlank) {
+        if (itemIsALog || itemIsAPlank) {
             ItemStack output = null;
 
             if (p.getGameMode() != GameMode.CREATIVE) {
                 ItemUtils.consumeItem(item, true);
             }
 
-            if (planks.isPresent()) {
+            if (itemIsALog) {
+                Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
                 output = new ItemStack(planks.get(), 8);
             }
             else if (itemIsAPlank) {
