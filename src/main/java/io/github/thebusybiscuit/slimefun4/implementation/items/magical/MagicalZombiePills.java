@@ -3,11 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-import org.bukkit.entity.ZombieVillager;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -50,7 +46,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return (e, item, offhand) -> {
             Entity entity = e.getRightClicked();
 
-            if (entity.getType() == EntityType.ZOMBIE_VILLAGER || entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
+            if (entity instanceof ZombieVillager || entity instanceof PigZombie) {
                 Player p = e.getPlayer();
 
                 if (p.getGameMode() != GameMode.CREATIVE) {
@@ -59,11 +55,11 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
 
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
-                if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
+                if (entity instanceof ZombieVillager) {
                     healZombieVillager((ZombieVillager) entity, p);
                 }
 
-                else if (entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
+                else if (entity instanceof PigZombie) {
                     healZombifiedPiglin(entity);
                 }
             }
