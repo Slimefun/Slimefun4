@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
@@ -50,12 +51,6 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         items.add(new ItemStack(Material.COBBLESTONE, 16));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
-        items.add(new ItemStack(Material.BLACKSTONE, 16));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
-
-        items.add(new ItemStack(Material.BASALT, 16));
-        items.add(new ItemStack(Material.LAVA_BUCKET));
-
         items.add(new ItemStack(Material.NETHERRACK, 16));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
@@ -75,6 +70,14 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
         for (Material sapling : MaterialCollections.getAllTerracottaColors()) {
             items.add(new ItemStack(sapling, 12));
+            items.add(new ItemStack(Material.LAVA_BUCKET));
+        }
+
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            items.add(new ItemStack(Material.BLACKSTONE, 16));
+            items.add(new ItemStack(Material.LAVA_BUCKET));
+
+            items.add(new ItemStack(Material.BASALT, 16));
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
