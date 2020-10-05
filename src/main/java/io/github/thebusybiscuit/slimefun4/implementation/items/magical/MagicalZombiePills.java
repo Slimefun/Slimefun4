@@ -65,7 +65,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
                 }
 
                 else if (entity instanceof PigZombie) {
-                    healZombifiedPiglin(entity);
+                    healZombifiedPiglin((PigZombie) entity);
                 }
             }
         };
@@ -88,7 +88,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         }
     }
 
-    private void healZombifiedPiglin(@Nonnull Entity zombiePiglin) {
+    private void healZombifiedPiglin(@Nonnull PigZombie zombiePiglin) {
         Location loc = zombiePiglin.getLocation();
 
         zombiePiglin.remove();
