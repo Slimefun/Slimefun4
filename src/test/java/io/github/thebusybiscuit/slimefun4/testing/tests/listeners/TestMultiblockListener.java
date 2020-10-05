@@ -35,7 +35,6 @@ class TestMultiblockListener {
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        TestUtilities.registerDefaultTags(server);
         plugin = MockBukkit.load(SlimefunPlugin.class);
         listener = new MultiBlockListener(plugin);
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_LISTENER_TEST", new CustomItem(Material.DIAMOND, "&9Some multiblock item"));
