@@ -3,7 +3,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.ZombieVillager;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
