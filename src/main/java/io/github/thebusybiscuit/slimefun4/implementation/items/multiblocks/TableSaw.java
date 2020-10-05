@@ -77,7 +77,7 @@ public class TableSaw extends MultiBlockMachine {
                 Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
                 output = new ItemStack(planks.get(), 8);
             }
-            else if (itemIsAPlank) {
+            else {
                 output = new ItemStack(Material.STICK, 4);
             }
 
