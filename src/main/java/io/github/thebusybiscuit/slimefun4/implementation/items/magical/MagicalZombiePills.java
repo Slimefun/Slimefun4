@@ -51,7 +51,8 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return (e, item, offhand) -> {
             Entity entity = e.getRightClicked();
 
-            if (entity instanceof ZombieVillager || entity instanceof PigZombie) {
+            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie
+                    || entity instanceof ZombieVillager) {
                 Player p = e.getPlayer();
 
                 if (p.getGameMode() != GameMode.CREATIVE) {
