@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 @FunctionalInterface
-interface IssuesTrackerConsumer {
+interface IssuesCallback {
 
     /**
-     * This method is called when the {@link GitHubIssuesTracker} finished loading.
+     * This method is called when the {@link GitHubIssuesConnector} finished loading.
      * 
      * @param issues
      *            The amount of open Issues

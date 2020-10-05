@@ -76,6 +76,16 @@ public class TestVanillaMachinesListener {
         return event;
     }
 
+    private InventoryClickEvent mockCartographyTableEvent(ItemStack item) {
+        Player player = server.addPlayer();
+        Inventory inv = TestUtilities.mockInventory(InventoryType.CARTOGRAPHY, new ItemStack(Material.FILLED_MAP), item, new ItemStack(Material.FILLED_MAP));
+        InventoryView view = player.openInventory(inv);
+        InventoryClickEvent event = new InventoryClickEvent(view, SlotType.CONTAINER, 2, ClickType.LEFT, InventoryAction.PICKUP_ONE);
+
+        listener.onCartographyTable(event);
+        return event;
+    }
+
     private InventoryClickEvent mockBrewingEvent(ItemStack item) {
         Player player = server.addPlayer();
         Inventory inv = TestUtilities.mockInventory(InventoryType.BREWING);
@@ -239,6 +249,30 @@ public class TestVanillaMachinesListener {
         item.register(plugin);
 
         InventoryClickEvent event = mockAnvilEvent(item.getItem());
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+
+    @Test
+    public void testCartographyTableWithoutSlimefunItems() {
+        InventoryClickEvent event = mockCartographyTableEvent(new ItemStack(Material.PAPER));
+        Assertions.assertEquals(Result.DEFAULT, event.getResult());
+    }
+
+    @Test
+    public void testCartographyTableWithSlimefunItem() {
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MOCKED_PAPER", new CustomItem(Material.PAPER, "&6Mock"));
+        item.register(plugin);
+
+        InventoryClickEvent event = mockCartographyTableEvent(item.getItem());
+        Assertions.assertEquals(Result.DENY, event.getResult());
+    }
+
+    @Test
+    public void testCartographyTableWithVanillaItem() {
+        VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.PAPER, true);
+        item.register(plugin);
+
+        InventoryClickEvent event = mockCartographyTableEvent(item.getItem());
         Assertions.assertEquals(Result.DEFAULT, event.getResult());
     }
 

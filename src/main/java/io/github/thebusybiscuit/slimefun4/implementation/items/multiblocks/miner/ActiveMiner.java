@@ -191,7 +191,7 @@ class ActiveMiner implements Runnable {
                         ores++;
 
                         // Repeat the same column when we hit an ore.
-                        Slimefun.runSync(this, 4);
+                        SlimefunPlugin.runSync(this, 4);
                         return;
                     }
                 }
@@ -232,7 +232,7 @@ class ActiveMiner implements Runnable {
             return;
         }
 
-        Slimefun.runSync(this, 5);
+        SlimefunPlugin.runSync(this, 5);
     }
 
     /**
@@ -317,7 +317,7 @@ class ActiveMiner implements Runnable {
                 }
             }
         }
-        
+
         return 0;
     }
 

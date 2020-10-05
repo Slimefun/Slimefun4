@@ -94,7 +94,7 @@ public class MagicWorkbench extends BackpackCrafter {
     private void startAnimation(Player p, Block b, Inventory inv, ItemStack output) {
         for (int j = 0; j < 4; j++) {
             int current = j;
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 

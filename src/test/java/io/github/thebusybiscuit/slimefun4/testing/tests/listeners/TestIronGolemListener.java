@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -22,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemList
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestIronGolemListener {
+class TestIronGolemListener {
 
     private static SlimefunPlugin plugin;
     private static IronGolemListener listener;
@@ -62,7 +63,8 @@ public class TestIronGolemListener {
     }
 
     @Test
-    public void testWithIron() {
+    @DisplayName("Test Iron Golem Healing not being disturbed")
+    void testWithIron() {
         // This should heal the Iron Golem
         ItemStack item = new ItemStack(Material.IRON_INGOT);
 
@@ -74,7 +76,8 @@ public class TestIronGolemListener {
     }
 
     @Test
-    public void testWithSlimefunIron() {
+    @DisplayName("Test Iron Golem Healing with Slimefun Items being cancelled")
+    void testWithSlimefunIron() {
         SlimefunItem slimefunItem = TestUtilities.mockSlimefunItem(plugin, "SLIMEFUN_IRON", new CustomItem(Material.IRON_INGOT, "&cSlimefun Iron"));
         slimefunItem.register(plugin);
 
@@ -87,7 +90,8 @@ public class TestIronGolemListener {
     }
 
     @Test
-    public void testWithVanillaIron() {
+    @DisplayName("Test Iron Golem Healing with vanilla items not being disturbed")
+    void testWithVanillaIron() {
         VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.IRON_INGOT, true);
         item.register(plugin);
 

@@ -5,24 +5,23 @@ import org.bukkit.block.BlockFace;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestMultiBlocks {
+class TestMultiBlocks {
 
     private static SlimefunPlugin plugin;
 
     @BeforeAll
     public static void load() {
-        ServerMock server = MockBukkit.mock();
-        TestUtilities.registerDefaultTags(server);
+        MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 
@@ -32,7 +31,8 @@ public class TestMultiBlocks {
     }
 
     @Test
-    public void testInvalidConstructors() {
+    @DisplayName("Test Exceptions for invalid MultiBlock constructors")
+    void testInvalidConstructors() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> new MultiBlock(null, null, null));
@@ -44,7 +44,8 @@ public class TestMultiBlocks {
     }
 
     @Test
-    public void testValidConstructor() {
+    @DisplayName("Test MultiBlock constructor")
+    void testValidConstructor() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
         MultiBlock multiblock = new MultiBlock(item, new Material[9], BlockFace.DOWN);
 
@@ -54,7 +55,8 @@ public class TestMultiBlocks {
     }
 
     @Test
-    public void testSymmetry() {
+    @DisplayName("Test symmetric MultiBlocks")
+    void testSymmetry() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         MultiBlock multiblock = new MultiBlock(item, new Material[] { null, null, null, Material.DIAMOND_BLOCK, null, Material.DIAMOND_BLOCK, null, Material.DISPENSER, null }, BlockFace.DOWN);
@@ -65,28 +67,31 @@ public class TestMultiBlocks {
     }
 
     @Test
-    public void testEqual() {
+    @DisplayName("Test equal MultiBlocks being equal")
+    void testEqual() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         MultiBlock multiblock = new MultiBlock(item, new Material[] { Material.BIRCH_WOOD, Material.BIRCH_WOOD, Material.BIRCH_WOOD, null, Material.CRAFTING_TABLE, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.BIRCH_WOOD }, BlockFace.DOWN);
         MultiBlock multiblock2 = new MultiBlock(item, new Material[] { Material.BIRCH_WOOD, Material.BIRCH_WOOD, Material.BIRCH_WOOD, null, Material.CRAFTING_TABLE, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.BIRCH_WOOD }, BlockFace.DOWN);
 
-        Assertions.assertTrue(multiblock.equals(multiblock2));
+        Assertions.assertEquals(multiblock, multiblock2);
     }
 
     @Test
-    public void testEqualWithTags() {
+    @DisplayName("Test equal MultiBlocks with Tags but different Materials being equal")
+    void testEqualWithTags() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         // The wooden fences are different but the structure should still match.
         MultiBlock multiblock = new MultiBlock(item, new Material[] { Material.OAK_FENCE, Material.OAK_FENCE, Material.OAK_FENCE, null, Material.CRAFTING_TABLE, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.BIRCH_WOOD }, BlockFace.DOWN);
         MultiBlock multiblock2 = new MultiBlock(item, new Material[] { Material.BIRCH_FENCE, Material.BIRCH_FENCE, Material.BIRCH_FENCE, null, Material.CRAFTING_TABLE, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.BIRCH_WOOD }, BlockFace.DOWN);
 
-        Assertions.assertTrue(multiblock.equals(multiblock2));
+        Assertions.assertEquals(multiblock, multiblock2);
     }
 
     @Test
-    public void testEqualWithMovingPistons() {
+    @DisplayName("Test MultiBlocks with moving pistons still being equal")
+    void testEqualWithMovingPistons() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PISTON_MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         // Some Pistons are moving but that should not interefere with the Multiblock
@@ -94,12 +99,13 @@ public class TestMultiBlocks {
         MultiBlock multiblock2 = new MultiBlock(item, new Material[] { Material.MOVING_PISTON, Material.PISTON, Material.MOVING_PISTON, null, Material.CRAFTING_TABLE, null, Material.PISTON, Material.STONE, Material.PISTON }, BlockFace.DOWN);
         MultiBlock multiblock3 = new MultiBlock(item, new Material[] { Material.PISTON, Material.PISTON, Material.STICKY_PISTON, null, Material.CRAFTING_TABLE, null, Material.PISTON, Material.STONE, Material.PISTON }, BlockFace.DOWN);
 
-        Assertions.assertTrue(multiblock.equals(multiblock2));
-        Assertions.assertFalse(multiblock.equals(multiblock3));
+        Assertions.assertEquals(multiblock, multiblock2);
+        Assertions.assertNotEquals(multiblock, multiblock3);
     }
 
     @Test
-    public void testNotEqual() {
+    @DisplayName("Test different MultiBlocks not being equal")
+    void testNotEqual() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "MULTIBLOCK_TEST", new CustomItem(Material.BRICK, "&5Multiblock Test"));
 
         MultiBlock multiblock = new MultiBlock(item, new Material[] { Material.BIRCH_WOOD, Material.BIRCH_WOOD, Material.BIRCH_WOOD, null, Material.CRAFTING_TABLE, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.BIRCH_WOOD }, BlockFace.DOWN);
@@ -107,10 +113,10 @@ public class TestMultiBlocks {
         MultiBlock multiblock3 = new MultiBlock(item, new Material[] { Material.DROPPER, Material.BIRCH_WOOD, Material.BIRCH_WOOD, null, Material.DIAMOND_BLOCK, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.TNT }, BlockFace.DOWN);
         MultiBlock multiblock4 = new MultiBlock(item, new Material[] { Material.BIRCH_WOOD, Material.BIRCH_WOOD, Material.BIRCH_WOOD, null, Material.CRAFTING_TABLE, null, Material.BIRCH_WOOD, Material.DISPENSER, Material.BIRCH_WOOD }, BlockFace.SELF);
 
-        Assertions.assertFalse(multiblock.equals(null));
-        Assertions.assertFalse(multiblock.equals(multiblock2));
-        Assertions.assertFalse(multiblock.equals(multiblock3));
-        Assertions.assertFalse(multiblock.equals(multiblock4));
+        Assertions.assertNotEquals(multiblock, null);
+        Assertions.assertNotEquals(multiblock, multiblock2);
+        Assertions.assertNotEquals(multiblock, multiblock3);
+        Assertions.assertNotEquals(multiblock, multiblock4);
     }
 
 }

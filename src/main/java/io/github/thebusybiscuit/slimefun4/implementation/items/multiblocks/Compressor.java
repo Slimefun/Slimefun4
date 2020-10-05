@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Compressor extends MultiBlockMachine {
@@ -83,7 +82,7 @@ public class Compressor extends MultiBlockMachine {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 if (j < 3) {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
                 }
