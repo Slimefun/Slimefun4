@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 /**
- * The {@link ElytraCap} negates damage taken when crashing into a wall using elytra.
+ * The {@link ElytraCap} negates damage taken when crashing into a wall using an elytra.
  *
  * @author Seggan
  */
