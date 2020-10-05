@@ -15,19 +15,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 class TestSlimefunTags {
 
     @BeforeAll
     public static void load() {
-        ServerMock server = MockBukkit.mock();
+        MockBukkit.mock();
         MockBukkit.load(SlimefunPlugin.class);
-        TestUtilities.registerDefaultTags(server);
     }
 
     @AfterAll

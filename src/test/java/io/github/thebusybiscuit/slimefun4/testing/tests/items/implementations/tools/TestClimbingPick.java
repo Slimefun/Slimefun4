@@ -45,7 +45,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     public static void load() {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
-        TestUtilities.registerDefaultTags(server);
     }
 
     @AfterAll
@@ -83,7 +82,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     }
 
     private static Stream<Arguments> getStrongSurfaces() throws TagMisconfigurationException {
-        TestUtilities.registerDefaultTags(server);
         SlimefunTag.reloadAll();
         return SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues().stream().map(Arguments::of);
     }
@@ -101,7 +99,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     }
 
     private static Stream<Arguments> getWeakSurfaces() throws TagMisconfigurationException {
-        TestUtilities.registerDefaultTags(server);
         SlimefunTag.reloadAll();
         return SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.getValues().stream().map(Arguments::of);
     }

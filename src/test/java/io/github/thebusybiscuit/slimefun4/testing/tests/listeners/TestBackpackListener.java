@@ -53,7 +53,6 @@ class TestBackpackListener {
     @BeforeAll
     public static void load() throws TagMisconfigurationException {
         server = MockBukkit.mock();
-        TestUtilities.registerDefaultTags(server);
         plugin = MockBukkit.load(SlimefunPlugin.class);
         SlimefunTag.reloadAll();
 

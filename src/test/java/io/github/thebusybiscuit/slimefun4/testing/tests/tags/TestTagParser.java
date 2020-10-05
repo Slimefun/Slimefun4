@@ -10,10 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.utils.tags.TagParser;
 
 class TestTagParser {
@@ -23,10 +21,8 @@ class TestTagParser {
 
     @BeforeAll
     public static void load() {
-        ServerMock server = MockBukkit.mock();
+        MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
-        TestUtilities.registerDefaultTags(server);
-
         key = new NamespacedKey(plugin, "test");
     }
 
