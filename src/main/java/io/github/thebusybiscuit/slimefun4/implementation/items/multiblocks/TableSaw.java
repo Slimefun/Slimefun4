@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
@@ -79,6 +80,7 @@ public class TableSaw extends MultiBlockMachine {
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
     }
 
+    @Nullable
     private ItemStack getItemsToOutput(@Nonnull ItemStack item) {
         boolean itemIsAPlank = Tag.PLANKS.isTagged(item.getType());
         boolean itemIsALog = Tag.LOGS.isTagged(item.getType());
