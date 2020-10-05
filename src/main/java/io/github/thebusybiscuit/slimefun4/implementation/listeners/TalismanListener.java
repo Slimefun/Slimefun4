@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -308,19 +309,17 @@ public class TalismanListener implements Listener {
         Player player = e.getEntity();
         DamageCause dmgCause = player.getLastDamageCause().getCause();
 
-        if (dmgCause != DamageCause.VOID || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED)) {
-            return;
+        if (dmgCause == DamageCause.VOID && Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED)) {
+            SlimefunPlugin.runSync(() -> {
+                PaperLib.teleportAsync(player, getSafeRespawnLocation(player));
+            }, 2);
         }
+    }
 
-        Location loc = e.getEntity().getPlayer().getBedSpawnLocation();
-        if (loc == null)
-            loc = player.getLocation().getWorld().getSpawnLocation();
+    private Location getSafeRespawnLocation(@Nonnull Player player) {
+        Location bedSpawn = player.getBedSpawnLocation();
 
-        final Location respawnLocation = loc;
-
-        SlimefunPlugin.runSync(() -> {
-            player.teleport(respawnLocation);
-        }, 2);
+        return (bedSpawn != null) ? bedSpawn : player.getLocation().getWorld().getSpawnLocation();
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
