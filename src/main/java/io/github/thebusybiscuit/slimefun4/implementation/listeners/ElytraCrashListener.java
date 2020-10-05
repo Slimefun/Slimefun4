@@ -23,9 +23,9 @@ import java.util.Arrays;
  *
  * @author Seggan
  */
-public class ElytraCapListener implements Listener {
+public class ElytraCrashListener implements Listener {
 
-    public ElytraCapListener(@Nonnull SlimefunPlugin plugin) {
+    public ElytraCrashListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
