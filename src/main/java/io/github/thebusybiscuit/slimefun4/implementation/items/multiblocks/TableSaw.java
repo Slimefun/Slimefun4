@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -47,10 +48,10 @@ public class TableSaw extends MultiBlockMachine {
             }
         }
 
-        for (Material plank : Tag.PLANKS.getValues()) {
-            displayedRecipes.add(new ItemStack(plank));
-            displayedRecipes.add(new ItemStack(Material.STICK, 4));
-        }
+        CustomItem ci = new CustomItem(Material.OAK_PLANKS, "Any Wooden Plank");
+
+        displayedRecipes.add(new ItemStack(ci));
+        displayedRecipes.add(new ItemStack(Material.STICK, 4));
     }
 
     @Override
@@ -62,15 +63,8 @@ public class TableSaw extends MultiBlockMachine {
     public void onInteract(Player p, Block b) {
         ItemStack item = p.getInventory().getItemInMainHand();
 
-        boolean itemIsAPlank = false;
+        boolean itemIsAPlank = Tag.PLANKS.isTagged(item.getType());
         Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
-
-        for (Material plank: Tag.PLANKS.getValues()) {
-            if (item.getType() == plank) {
-                itemIsAPlank = true;
-                break;
-            }
-        }
 
         if (planks.isPresent() || itemIsAPlank) {
             ItemStack output = null;
