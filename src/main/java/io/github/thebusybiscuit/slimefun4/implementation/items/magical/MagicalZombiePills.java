@@ -58,7 +58,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
                 p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
 
                 if (entity.getType() == EntityType.ZOMBIE_VILLAGER) {
-                    healZombieVillager((ZombieVillager) entity);
+                    healZombieVillager((ZombieVillager) entity, p);
                 }
 
                 else if (entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
@@ -77,7 +77,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return PlayerRightClickEvent::cancel;
     }
 
-    private void healZombieVillager(ZombieVillager zombieVillager) {
+    private void healZombieVillager(ZombieVillager zombieVillager, Player p) {
         zombieVillager.setConversionTime(1);
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
