@@ -82,19 +82,16 @@ public class TableSaw extends MultiBlockMachine {
 
     @Nullable
     private ItemStack getItemsToOutput(@Nonnull ItemStack item) {
-        boolean itemIsAPlank = Tag.PLANKS.isTagged(item.getType());
-        boolean itemIsALog = Tag.LOGS.isTagged(item.getType());
-        ItemStack output = null;
-
-        if (itemIsALog) {
+        if (Tag.LOGS.isTagged(item.getType())) {
             Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
-            output = new ItemStack(planks.get(), 8);
+            return new ItemStack(planks.get(), 8);
         }
-        else if (itemIsAPlank){
-            output = new ItemStack(Material.STICK, 4);
+        else if (Tag.PLANKS.isTagged(item.getType())) {
+            return new ItemStack(Material.STICK, 4);
         }
-
-        return output;
+        else {
+            return null;
+        }
     }
 
     private void outputItems(@Nonnull Block b, @Nonnull ItemStack output) {
