@@ -47,7 +47,7 @@ public class TableSaw extends MultiBlockMachine {
             }
         }
 
-        for (Material plank: Tag.PLANKS.getValues()) {
+        for (Material plank : Tag.PLANKS.getValues()) {
             displayedRecipes.add(new ItemStack(plank));
             displayedRecipes.add(new ItemStack(Material.STICK, 4));
         }
