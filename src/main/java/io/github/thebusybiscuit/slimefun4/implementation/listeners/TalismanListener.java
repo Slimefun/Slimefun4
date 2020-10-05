@@ -305,7 +305,7 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
-        Player player = e.getEntity().getPlayer();
+        Player player = e.getEntity();
         DamageCause dmgCause = player.getLastDamageCause().getCause();
 
         if (dmgCause != DamageCause.VOID || !Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED)) {

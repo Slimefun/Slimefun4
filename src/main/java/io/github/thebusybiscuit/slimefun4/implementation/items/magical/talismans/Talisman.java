@@ -221,7 +221,7 @@ public class Talisman extends SlimefunItem {
 
     private static Player getPlayerByEventType(Event e) {
         if (e instanceof PlayerDeathEvent) {
-            return ((PlayerDeathEvent) e).getEntity().getPlayer();
+            return ((PlayerDeathEvent) e).getEntity();
         }
         else if (e instanceof EntityDeathEvent) {
             return ((EntityDeathEvent) e).getEntity().getKiller();
