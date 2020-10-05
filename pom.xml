@@ -311,7 +311,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.10.0</version>
+            <version>0.10.2</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
