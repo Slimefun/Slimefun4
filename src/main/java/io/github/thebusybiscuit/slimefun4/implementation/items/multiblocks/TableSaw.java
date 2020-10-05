@@ -60,16 +60,32 @@ public class TableSaw extends MultiBlockMachine {
 
     @Override
     public void onInteract(Player p, Block b) {
-        ItemStack log = p.getInventory().getItemInMainHand();
+        ItemStack item = p.getInventory().getItemInMainHand();
 
-        Optional<Material> planks = MaterialConverter.getPlanksFromLog(log.getType());
+        boolean itemIsAPlank = false;
+        Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
 
-        if (planks.isPresent()) {
+        for (Material plank: Tag.PLANKS.getValues()) {
+            if (item.getType() == plank) {
+                itemIsAPlank = true;
+                break;
+            }
+        }
+
+        if (planks.isPresent() || itemIsAPlank) {
+            ItemStack output = null;
+
             if (p.getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(log, true);
+                ItemUtils.consumeItem(item, true);
             }
 
-            ItemStack output = new ItemStack(planks.get(), 8);
+            if (planks.isPresent()) {
+                output = new ItemStack(planks.get(), 8);
+            }
+            else if (itemIsAPlank) {
+                output = new ItemStack(Material.STICK, 4);
+            }
+
             Inventory outputChest = findOutputChest(b, output);
 
             if (outputChest != null) {
@@ -79,7 +95,7 @@ public class TableSaw extends MultiBlockMachine {
                 b.getWorld().dropItemNaturally(b.getLocation(), output);
             }
 
-            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
+            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
         }
     }
 
