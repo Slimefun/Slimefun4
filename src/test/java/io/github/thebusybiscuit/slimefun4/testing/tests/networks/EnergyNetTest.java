@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,12 +15,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.any;
 
 class EnergyNetTest {
 
@@ -65,7 +61,7 @@ class EnergyNetTest {
     void testEnergyComponent() {
 
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
-        try (MockedStatic<BlockStorage> theMock = Mockito.mockStatic(BlockStorage.class)) {
+/*        try (MockedStatic<BlockStorage> theMock = Mockito.mockStatic(BlockStorage.class)) {
             theMock.when(() -> {
                 BlockStorage.check(any(Location.class));
             }).thenReturn(item);
@@ -75,7 +71,12 @@ class EnergyNetTest {
             location = new Location(world, 0, 105, 0);
             NetworkComponent actual = energyNet.classifyLocation(location);
             assertNull(actual);
-        }
+        }*/
+
+        world = server.addSimpleWorld("Simple Network World");
+        location = new Location(world, 0, 105, 0);
+        NetworkComponent actual = energyNet.classifyLocation(location);
+        assertNull(actual);
 
     }
 
