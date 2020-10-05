@@ -21,6 +21,8 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+import javax.annotation.Nonnull;
+
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
  * you to turn Logs into Wooden Planks.
@@ -60,7 +62,7 @@ public class TableSaw extends MultiBlockMachine {
     }
 
     @Override
-    public void onInteract(Player p, Block b) {
+    public void onInteract(@Nonnull Player p, @Nonnull Block b) {
         ItemStack item = p.getInventory().getItemInMainHand();
 
         boolean itemIsAPlank = Tag.PLANKS.isTagged(item.getType());
