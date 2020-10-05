@@ -878,7 +878,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new Talisman(SlimefunItems.TALISMAN_WISE,
-        new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, SlimefunItems.TALISMAN_MAGICIAN, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
+        new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, SlimefunItems.TALISMAN_MAGICIAN, SlimefunItems.FILLED_FLASK_OF_KNOWLEDGE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
         false, false, "wise", 20)
         .register(plugin);
 
