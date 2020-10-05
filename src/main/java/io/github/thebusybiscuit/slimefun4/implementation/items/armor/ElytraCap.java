@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 
 /**
- * The {@link ElytraCap} negates damage taken when crashing into a wall using elytra.
+ * The {@link ElytraCap} negates damage taken when crashing into a wall using an elytra.
  *
  * @author Seggan
  */
