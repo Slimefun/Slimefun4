@@ -12,12 +12,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class EnergyNetTest {
 
@@ -33,7 +31,7 @@ class EnergyNetTest {
         plugin = MockBukkit.load(SlimefunPlugin.class);
         world = server.addSimpleWorld("Simple Network World");
         location = new Location(world, 0, 100, 0);
-        energyNet = new EnergyNet(location);
+        energyNet = new MockEnergy(location);
     }
 
     @AfterEach
@@ -41,24 +39,23 @@ class EnergyNetTest {
         MockBukkit.unmock();
     }
 
-    @Test
-    void testGetRange() {
-        assertEquals(6, energyNet.getRange());
-    }
-
     @DisplayName("it will display different component")
     @Test
     void testClassifyLocation() {
         NetworkComponent actual = energyNet.classifyLocation(location);
 
-        assertEquals(NetworkComponent.REGULATOR, actual);
+        Assertions.assertEquals(NetworkComponent.REGULATOR, actual);
 
         location = new Location(world, 0, 101, 0);
-        assertNull(energyNet.classifyLocation(location));
+        Assertions.assertNull(energyNet.classifyLocation(location));
     }
 
+    /**
+     * This test should aim to have location instance of EnergyNetComponent
+     */
+    @DisplayName("it will display a location but the location should be an energynetcomponent")
     @Test
-    void testEnergyComponent() {
+    void testClassifyLocation2() {
 
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
 /*        try (MockedStatic<BlockStorage> theMock = Mockito.mockStatic(BlockStorage.class)) {
@@ -76,9 +73,8 @@ class EnergyNetTest {
         world = server.addSimpleWorld("Simple Network World");
         location = new Location(world, 0, 105, 0);
         NetworkComponent actual = energyNet.classifyLocation(location);
-        assertNull(actual);
+        Assertions.assertNull(actual);
 
     }
-
 
 }

@@ -11,6 +11,7 @@ import java.util.function.LongConsumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -49,7 +50,7 @@ public class EnergyNet extends Network {
     private final Map<Location, EnergyNetComponent> capacitors = new HashMap<>();
     private final Map<Location, EnergyNetComponent> consumers = new HashMap<>();
 
-    public EnergyNet(@Nonnull Location l) {
+    protected EnergyNet(@Nonnull Location l) {
         super(SlimefunPlugin.getNetworkManager(), l);
     }
 
