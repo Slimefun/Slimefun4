@@ -1,14 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 
 import javax.annotation.Nonnull;
 
@@ -17,8 +18,10 @@ import javax.annotation.Nonnull;
  * One of the very few utilisations of {@link ProtectiveArmor}.
  *
  * @author Linox
+ *
  * @see SlimefunArmorPiece
  * @see ProtectiveArmor
+ * 
  */
 public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveArmor {
 
@@ -28,7 +31,7 @@ public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveAr
     public HazmatArmorPiece(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, PotionEffect[] effects) {
         super(category, item, recipeType, recipe, effects);
 
-        types = new ProtectionType[] {ProtectionType.BEES, ProtectionType.RADIATION};
+        types = new ProtectionType[] { ProtectionType.BEES, ProtectionType.RADIATION };
         namespacedKey = new NamespacedKey(SlimefunPlugin.instance(), "hazmat_suit");
     }
 
