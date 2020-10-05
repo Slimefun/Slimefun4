@@ -1,12 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-import org.bukkit.entity.ZombieVillager;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -62,6 +60,21 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
                 if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
                     zombieVillager.setConversionPlayer(p);
                 }
+            }
+            else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)
+                    && entity.getType() == EntityType.ZOMBIFIED_PIGLIN) {
+                Player p = e.getPlayer();
+
+                if (p.getGameMode() != GameMode.CREATIVE) {
+                    ItemUtils.consumeItem(item, false);
+                }
+
+                p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
+
+                Location loc = entity.getLocation();
+
+                entity.remove();
+                loc.getWorld().spawnEntity(loc, EntityType.PIGLIN);
             }
         };
     }
