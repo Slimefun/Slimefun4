@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -50,23 +51,15 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
     public EntityInteractHandler getItemHandler() {
         return (e, item, offhand) -> {
             Entity entity = e.getRightClicked();
+            Player p = e.getPlayer();
 
-            if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie
-                    || entity instanceof ZombieVillager) {
-                Player p = e.getPlayer();
-
-                if (p.getGameMode() != GameMode.CREATIVE) {
-                    ItemUtils.consumeItem(item, false);
-                }
-
-                p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
-
-                if (entity instanceof ZombieVillager) {
-                    healZombieVillager((ZombieVillager) entity, p);
-                }
-                else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie) {
-                    healZombifiedPiglin((PigZombie) entity);
-                }
+            if (entity instanceof ZombieVillager) {
+                useItem(p);
+                healZombieVillager((ZombieVillager) entity, p);
+            }
+            else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie) {
+                useItem(p);
+                healZombifiedPiglin((PigZombie) entity);
             }
         };
     }
@@ -78,6 +71,14 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
      */
     public ItemUseHandler onRightClick() {
         return PlayerRightClickEvent::cancel;
+    }
+
+    private void useItem(@Nonnull Player p) {
+        if (p.getGameMode() != GameMode.CREATIVE) {
+            ItemUtils.consumeItem(item, false);
+        }
+
+        p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, 1);
     }
 
     private void healZombieVillager(@Nonnull ZombieVillager zombieVillager, @Nonnull Player p) {
