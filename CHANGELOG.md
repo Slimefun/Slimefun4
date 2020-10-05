@@ -31,6 +31,7 @@
 * Added a config option for Grappling Hooks to not be consumed on use
 * Added Talisman of the Caveman
 * You can now convert any gold ingot into gold dust with slightly less returns
+* Magical Zombie Pills now also work on Zombified Piglins
 * (API) Added SlimefunGuideOpenEvent
 
 #### Changes
