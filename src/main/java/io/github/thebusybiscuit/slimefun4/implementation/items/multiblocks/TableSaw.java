@@ -66,32 +66,33 @@ public class TableSaw extends MultiBlockMachine {
         boolean itemIsAPlank = Tag.PLANKS.isTagged(item.getType());
         boolean itemIsALog = Tag.LOGS.isTagged(item.getType());
 
-        if (itemIsALog || itemIsAPlank) {
-            ItemStack output = null;
+        ItemStack output = null;
 
-            if (p.getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(item, true);
-            }
-
-            if (itemIsALog) {
-                Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
-                output = new ItemStack(planks.get(), 8);
-            }
-            else {
-                output = new ItemStack(Material.STICK, 4);
-            }
-
-            Inventory outputChest = findOutputChest(b, output);
-
-            if (outputChest != null) {
-                outputChest.addItem(output);
-            }
-            else {
-                b.getWorld().dropItemNaturally(b.getLocation(), output);
-            }
-
-            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
+        if (itemIsALog) {
+            Optional<Material> planks = MaterialConverter.getPlanksFromLog(item.getType());
+            output = new ItemStack(planks.get(), 8);
         }
+        else if (itemIsAPlank){
+            output = new ItemStack(Material.STICK, 4);
+        }
+        else {
+            return;
+        }
+
+        if (p.getGameMode() != GameMode.CREATIVE) {
+            ItemUtils.consumeItem(item, true);
+        }
+
+        Inventory outputChest = findOutputChest(b, output);
+
+        if (outputChest != null) {
+            outputChest.addItem(output);
+        }
+        else {
+            b.getWorld().dropItemNaturally(b.getLocation(), output);
+        }
+
+        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
     }
 
 }
