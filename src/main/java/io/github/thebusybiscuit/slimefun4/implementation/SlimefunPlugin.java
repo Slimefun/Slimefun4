@@ -1,27 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
-
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
@@ -103,6 +81,26 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.Command;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * This is the main class of Slimefun.
@@ -198,7 +196,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Set up localization
             getLogger().log(Level.INFO, "Loading language files...");
-            local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
+            local = new LocalizationService(this,
+                config.getString("options.chat-prefix"), config.getString("options.language"));
 
             // Setting up Networks
             gpsNetwork = new GPSNetwork();
@@ -206,7 +205,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             int networkSize = config.getInt("networks.max-size");
 
             if (networkSize < 1) {
-                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
+                getLogger().log(Level.WARNING,
+                    "Your 'networks.max-size' setting is misconfigured! " +
+                        "It must be at least 1, it was set to: {0}", networkSize);
                 networkSize = 1;
             }
 
@@ -251,7 +252,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                     recipeService.refresh();
                 }
                 catch (Exception | LinkageError x) {
-                    getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
+                    getLogger().log(Level.SEVERE, x, () ->
+                        "An Exception occurred while iterating through the Recipe list on " +
+                            "Minecraft Version " + minecraftVersion.getName() +
+                            " (Slimefun v" + getVersion() + ")"
+                    );
                 }
 
             }), 0);
@@ -262,7 +267,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Armor Update Task
             if (config.getBoolean("options.enable-armor-effects")) {
                 boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
-                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
+                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire),
+                    0L, config.getInt("options.armor-update-interval") * 20L
+                );
             }
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
@@ -281,7 +288,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Slimefun could not be loaded (yet).");
             getLogger().log(Level.INFO, "It appears that you have not installed CS-CoreLib.");
             getLogger().log(Level.INFO, "Please download and install CS-CoreLib manually:");
-            getLogger().log(Level.INFO, "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
+            getLogger().log(Level.INFO,
+                "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/"
+            );
 
             getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
                 sender.sendMessage("You have forgotten to install CS-CoreLib! Slimefun is disabled.");
@@ -326,13 +335,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
             getLogger().log(Level.SEVERE, "###");
             getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", ReflectionUtils.getVersion());
-            getLogger().log(Level.SEVERE, "### but Slimefun v{0} requires you to be using", getDescription().getVersion());
+            getLogger().log(Level.SEVERE, "### but Slimefun v{0} requires you to be using",
+                getDescription().getVersion()
+            );
             getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
             getLogger().log(Level.SEVERE, "#############################################");
             return true;
         }
 
-        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);
+        getLogger().log(Level.WARNING,
+            "We could not determine the version of Minecraft you were using ({0})", currentVersion
+        );
         return false;
     }
 
@@ -376,7 +389,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 entry.getValue().saveAndRemove();
             }
             catch (Exception x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
+                getLogger().log(Level.SEVERE, x, () ->
+                    "An Error occurred while saving Slimefun-Blocks in World '"
+                        + entry.getKey() + "' for Slimefun " + getVersion()
+                );
             }
         }
 
@@ -497,7 +513,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             SlimefunItemSetup.setup(this);
         }
         catch (Exception | LinkageError x) {
-            getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing SlimefunItems for Slimefun " + getVersion());
+            getLogger().log(Level.SEVERE, x, () ->
+                "An Error occurred while initializing SlimefunItems for Slimefun " + getVersion()
+            );
         }
     }
 
@@ -506,14 +524,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             ResearchSetup.setupResearches();
         }
         catch (Exception | LinkageError x) {
-            getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
+            getLogger().log(Level.SEVERE, x, () ->
+                "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion()
+            );
         }
     }
 
     /**
      * This returns the global instance of {@link SlimefunPlugin}.
      * This may return null if the {@link Plugin} was disabled.
-     * 
+     *
      * @return The {@link SlimefunPlugin} instance
      */
     @Nullable
@@ -666,7 +686,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
      * to analyse performance and lag.
-     * 
+     *
      * @return The {@link SlimefunProfiler}
      */
     public static SlimefunProfiler getProfiler() {
@@ -685,7 +705,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns whether this version of Slimefun was newly installed.
      * It will return true if this {@link Server} uses Slimefun for the very first time.
-     * 
+     *
      * @return Whether this is a new installation of Slimefun
      */
     public static boolean isNewlyInstalled() {

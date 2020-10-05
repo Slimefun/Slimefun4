@@ -9,9 +9,9 @@ import org.bukkit.inventory.ItemStack;
  * This enum holds info about a {@link Language} that is embedded in our resources folder.
  * Every enum constant holds the key of that {@link Language} as well as a texture hash
  * for the {@link ItemStack} to display.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Language
  *
  */
@@ -58,7 +58,7 @@ enum SupportedLanguage {
     MACEDONIAN("mk", false, "a0e0b0b5d87a855466980a101a757bcdb5f77d9f7287889f3efa998ee0472fc0"),
     TAGALOG("tl", true, "9306c0c1ce6a9c61bb42a572c49e6d0ed20e0e6b3d122cc64c339cbf78e9e937");
 
-    public static final SupportedLanguage[] values = values();
+    protected static final SupportedLanguage[] values = values();
 
     private final String id;
     private final boolean releaseReady;

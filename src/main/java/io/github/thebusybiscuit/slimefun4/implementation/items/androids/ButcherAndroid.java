@@ -34,7 +34,13 @@ public class ButcherAndroid extends ProgrammableAndroid {
         double damage = getTier() >= 3 ? 20D : 4D * getTier();
         double radius = 4.0 + getTier();
 
-        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test((LivingEntity) n))) {
+        for (Entity n : b.getWorld().getNearbyEntities(b.getLocation(),
+            radius, radius, radius, n -> n instanceof LivingEntity
+                && !(n instanceof ArmorStand)
+                && !(n instanceof Player)
+                && n.isValid()
+                && predicate.test((LivingEntity) n))
+        ) {
             boolean attack = false;
 
             switch (face) {

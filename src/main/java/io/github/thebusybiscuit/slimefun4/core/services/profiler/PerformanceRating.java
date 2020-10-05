@@ -11,9 +11,9 @@ import org.bukkit.ChatColor;
 /**
  * This enum is used to quantify Slimefun's performance impact. This way we can assign a
  * "grade" to each timings report and also use this for metrics collection.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunProfiler
  *
  */
@@ -31,7 +31,7 @@ public enum PerformanceRating implements Predicate<Float> {
     HURTFUL(ChatColor.DARK_RED, 500),
     BAD(ChatColor.DARK_RED, Float.MAX_VALUE);
 
-    public static final PerformanceRating[] values = values();
+    protected static final PerformanceRating[] values = values();
 
     private final ChatColor color;
     private final float threshold;
