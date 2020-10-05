@@ -318,7 +318,7 @@ public class TalismanListener implements Listener {
 
         final Location respawnLocation = loc;
 
-        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), () -> {
+        SlimefunPlugin.runSync(() -> {
             player.teleport(respawnLocation);
         }, 2);
     }
