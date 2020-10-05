@@ -53,4 +53,11 @@ public interface AccessData<T> {
     @Nonnull
     String saveToString();
 
+    /**
+     * Initialize this object's data from a JSON string.
+     *
+     * @param json The serialized data.
+     */
+    void loadFromString(@Nonnull String json);
+
 }

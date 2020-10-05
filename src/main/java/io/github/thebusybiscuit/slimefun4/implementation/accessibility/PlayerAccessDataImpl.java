@@ -27,29 +27,7 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
     }
 
     public PlayerAccessDataImpl(@Nonnull final String data) {
-        final JsonElement element = SHARED_PARSER.parse(data);
-        if (!element.isJsonObject()) {
-            return;
-        }
-        final JsonObject object = element.getAsJsonObject();
-        final Map<String, Class<?>> localCache = new HashMap<>();
-        for (final Map.Entry<String, JsonElement> entry : object.entrySet()) {
-            final String key = entry.getKey();
-            final UUID reconstructedObject;
-            try {
-                reconstructedObject = deserialize(key);
-            } catch (IllegalArgumentException ex) {
-                Slimefun.getLogger().log(Level.WARNING,
-                    "Failed to deserialize data for key: " + key + "! Reason: " + ex.getMessage());
-                continue;
-            }
-            final JsonElement value = entry.getValue();
-            final AccessLevel level;
-            if ((level = deserializeAccessLevel(key, value, localCache)) == null) {
-                continue;
-            }
-            levelMap.put(reconstructedObject, level);
-        }
+      loadFromString(data);
     }
 
     @Nonnull
@@ -151,6 +129,33 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
             object.add(serialize(entry.getKey()), serializeAccessLevel(((Enum<?>) level)));
         }
         return object.getAsString();
+    }
+
+    @Override
+    public void loadFromString(@Nonnull final String json) {
+        final JsonElement element = SHARED_PARSER.parse(json);
+        if (!element.isJsonObject()) {
+            return;
+        }
+        final JsonObject object = element.getAsJsonObject();
+        final Map<String, Class<?>> localCache = new HashMap<>();
+        for (final Map.Entry<String, JsonElement> entry : object.entrySet()) {
+            final String key = entry.getKey();
+            final UUID reconstructedObject;
+            try {
+                reconstructedObject = deserialize(key);
+            } catch (IllegalArgumentException ex) {
+                Slimefun.getLogger().log(Level.WARNING,
+                    "Failed to deserialize data for key: " + key + "! Reason: " + ex.getMessage());
+                continue;
+            }
+            final JsonElement value = entry.getValue();
+            final AccessLevel level;
+            if ((level = deserializeAccessLevel(key, value, localCache)) == null) {
+                continue;
+            }
+            levelMap.put(reconstructedObject, level);
+        }
     }
 
     @Nullable
