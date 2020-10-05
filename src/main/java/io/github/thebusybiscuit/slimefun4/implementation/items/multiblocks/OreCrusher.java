@@ -53,6 +53,36 @@ public class OreCrusher extends MultiBlockMachine {
         recipes.add(SlimefunItems.GOLD_4K);
         recipes.add(SlimefunItems.GOLD_DUST);
 
+        recipes.add(SlimefunItems.GOLD_6K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 2));
+
+        recipes.add(SlimefunItems.GOLD_8K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 2));
+
+        recipes.add(SlimefunItems.GOLD_10K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 3));
+
+        recipes.add(SlimefunItems.GOLD_12K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 3));
+
+        recipes.add(SlimefunItems.GOLD_14K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 4));
+
+        recipes.add(SlimefunItems.GOLD_16K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 4));
+
+        recipes.add(SlimefunItems.GOLD_18K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 5));
+
+        recipes.add(SlimefunItems.GOLD_20K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 5));
+
+        recipes.add(SlimefunItems.GOLD_22K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 6));
+
+        recipes.add(SlimefunItems.GOLD_24K);
+        recipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, 6));
+
         recipes.add(new ItemStack(Material.GRAVEL));
         recipes.add(new ItemStack(Material.SAND));
 

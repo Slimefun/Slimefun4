@@ -32,7 +32,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     public static void load() {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
-        TestUtilities.registerDefaultTags(server);
     }
 
     @AfterAll
