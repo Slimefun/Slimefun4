@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
  *
  * @see SlimefunArmorPiece
  * @see ProtectiveArmor
- * 
+ *
  */
 public class HazmatArmorPiece extends SlimefunArmorPiece implements ProtectiveArmor {
 
