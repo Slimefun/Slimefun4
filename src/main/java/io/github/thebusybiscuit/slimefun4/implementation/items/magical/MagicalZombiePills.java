@@ -23,6 +23,8 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+import javax.annotation.Nonnull;
+
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ZombieVillager} to
  * their {@link Villager} variant. It is also one of the very few utilisations of {@link EntityInteractHandler}.
@@ -77,7 +79,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return PlayerRightClickEvent::cancel;
     }
 
-    private void healZombieVillager(ZombieVillager zombieVillager, Player p) {
+    private void healZombieVillager(@Nonnull ZombieVillager zombieVillager, @Nonnull Player p) {
         zombieVillager.setConversionTime(1);
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -85,7 +87,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         }
     }
 
-    private void healZombifiedPiglin(Entity zombiePiglin) {
+    private void healZombifiedPiglin(@Nonnull Entity zombiePiglin) {
         Location loc = zombiePiglin.getLocation();
 
         zombiePiglin.remove();
