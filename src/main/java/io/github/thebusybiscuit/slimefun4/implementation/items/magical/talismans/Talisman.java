@@ -95,16 +95,16 @@ public class Talisman extends SlimefunItem {
         return effects;
     }
 
+    public SlimefunItemStack getEnderVariant() {
+        return enderTalisman;
+    }
+
     protected String getMessageSuffix() {
         return suffix;
     }
 
     protected boolean isEventCancelled() {
         return cancel;
-    }
-
-    private SlimefunItemStack getEnderVariant() {
-        return enderTalisman;
     }
 
     @Override
