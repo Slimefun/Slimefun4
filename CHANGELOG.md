@@ -61,6 +61,7 @@
 * Fixed Auto Enchanters being unaffected by speed modifications from addons
 * Fixed Auto Disenchanters being unaffected by speed modifications from addons
 * Fixed radioactive items still being radioactive when disabled
+* Fixed #2391
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
