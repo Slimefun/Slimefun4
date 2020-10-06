@@ -47,9 +47,8 @@ public class ElytraCrashListener implements Listener {
             }
             PlayerProfile profile = optional.get();
             HashedArmorpiece helmet = profile.getArmor()[0];
-            SlimefunItem item;
             if (helmet.getItem().isPresent()) {
-                item = helmet.getItem().get();
+                SlimefunItem item = helmet.getItem().get();
                 if (Slimefun.hasUnlocked(p, item, true)
                     && profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
                     e.setDamage(0);
