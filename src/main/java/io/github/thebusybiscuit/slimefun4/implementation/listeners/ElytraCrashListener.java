@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
@@ -39,22 +40,27 @@ public class ElytraCrashListener implements Listener {
 
         Player p = (Player) e.getEntity();
         if (p.isGliding()) {
-            ItemStack stack = p.getInventory().getHelmet();
-            SlimefunItem item = SlimefunItem.getByItem(stack);
-            if (!Slimefun.hasUnlocked(p, item, true)) return;
-            if (item instanceof ProtectiveArmor) {
-                Optional<PlayerProfile> optional = PlayerProfile.find(p);
-                if (!optional.isPresent()) {
-                    PlayerProfile.request(p);
-                    return;
-                }
-                PlayerProfile profile = optional.get();
-
-                if (profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
-                    e.setDamage(0);
-                    p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
-                    if (p.getGameMode() != GameMode.CREATIVE && item instanceof DamageableItem) {
-                        ((DamageableItem) item).damageItem(p, stack);
+            Optional<PlayerProfile> optional = PlayerProfile.find(p);
+            if (!optional.isPresent()) {
+                PlayerProfile.request(p);
+                return;
+            }
+            PlayerProfile profile = optional.get();
+            HashedArmorpiece helmet = profile.getArmor()[0];
+            SlimefunItem item;
+            if (helmet.getItem().isPresent()) {
+                item = helmet.getItem().get();
+            } else {
+                return;
+            }
+            if (Slimefun.hasUnlocked(p, item, true)) {
+                if (item instanceof ProtectiveArmor) {
+                    if (profile.hasFullProtectionAgainst(ProtectionType.FLYING_INTO_WALL)) {
+                        e.setDamage(0);
+                        p.playSound(p.getLocation(), Sound.BLOCK_STONE_HIT, 20, 1);
+                        if (p.getGameMode() != GameMode.CREATIVE && item instanceof DamageableItem) {
+                            ((DamageableItem) item).damageItem(p, p.getInventory().getHelmet());
+                        }
                     }
                 }
             }
