@@ -22,6 +22,7 @@ public class TestPlayerAccessManagerImpl {
     public static void load() {
         MockBukkit.mock();
         MockBukkit.load(SlimefunPlugin.class);
+        SlimefunPlugin.getJsonDeserializationService().registerDeserialization(PlayerAccessDataImpl.class, PlayerAccessDataImpl::new);
     }
 
     @AfterAll
