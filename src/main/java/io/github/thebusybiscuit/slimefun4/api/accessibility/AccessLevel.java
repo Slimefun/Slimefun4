@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.accessibility;
 
+import com.google.gson.JsonElement;
 import io.github.thebusybiscuit.slimefun4.core.attributes.TierAccessible;
 
 import javax.annotation.Nonnull;
@@ -72,5 +73,20 @@ public interface AccessLevel {
      * interoperability with enum values.
      */
     int compare(AccessLevel accessLevel);
+
+    /**
+     * Serialize this access level to a JSON string.
+     * @return Returns the JSON representation of this access level.
+     */
+    @Nonnull
+    String saveToString();
+
+    /**
+     * Serialize this access level to an {@link JsonElement}
+     * @return Returns a JsonElement representing this access level.
+     */
+    @Nonnull
+    JsonElement saveToJsonElement();
+
 
 }

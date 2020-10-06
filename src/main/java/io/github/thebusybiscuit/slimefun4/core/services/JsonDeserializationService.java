@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,8 +14,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Level;
-
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
 /**
  * Represents a mapper between classes and json deserialization logic. This class is
@@ -127,21 +126,35 @@ public class JsonDeserializationService {
      * @param json          The JSON string to deserialize
      * @param <T>           The expected type of the deserialized object
      * @return Return an optional populated with the deserialized object, else it is empty.
+     *
+     * @see #deserialize(Class, JsonElement)
      */
     @Nonnull
     public <T> Optional<T> deserialize(@Nonnull final Class<T> expectedClass, @Nonnull final String json) {
+        return deserialize(expectedClass, parser.parse(json));
+    }
+
+    /**
+     * Attempt to deserialize a given JSON string back to it's object counterpart.
+     *
+     * @param expectedClass The class instance of the expected type
+     * @param json          The {@link JsonElement} to deserialize
+     * @param <T>           The expected type of the deserialized object
+     * @return Return an optional populated with the deserialized object, else it is empty.
+     */
+    public <T> Optional<T> deserialize(@Nonnull final Class<T> expectedClass, @Nonnull final JsonElement json) {
         // Try to get the mapped deserialization logic.
         final Function<JsonElement, ?> function = deserializerMap.get(expectedClass.getCanonicalName());
         if (function == null) {
             if (expectedClass.isEnum()) { // Only try generic serialization if explicit deserialization logic is not present.
-                final Object object = deserializeEnum(parser.parse(json));
+                final Object object = deserializeEnum(json);
                 if (object != null) { // Return the successfully reconstructed object instance.
                     return Optional.of(expectedClass.cast(object));
                 }
             }
             return Optional.empty();
         }
-        return Optional.ofNullable(expectedClass.cast(function.apply(parser.parse(json))));
+        return Optional.ofNullable(expectedClass.cast(function.apply(json)));
     }
 
 }

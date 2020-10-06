@@ -2,8 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.accessibility;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.accessibility.AccessData;
 import io.github.thebusybiscuit.slimefun4.api.accessibility.AccessLevel;
@@ -13,11 +11,15 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.TierAccessible;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
@@ -29,31 +31,40 @@ import java.util.logging.Level;
 
 /**
  * Represents an data wrapper object, responsible for reading from any given {@link SlimefunItem} which is also
- * an instance of {@link TierAccessible}.
+ * an instance of {@link TierAccessible}. This data wrapper object is intended for {@link Player}s,
  *
  * @author md5sha256
  */
 public class PlayerAccessManagerImpl implements AccessManager {
 
+    static {
+        SlimefunPlugin.getJsonDeserializationService().registerDeserialization(PlayerAccessManagerImpl.class, PlayerAccessManagerImpl::new);
+    }
+
     public static final NamespacedKey DATA_KEY =
-        new NamespacedKey(SlimefunPlugin.instance(), "abstract-access-manager-data");
-    protected static final JsonParser SHARED_PARSER = new JsonParser();
-    private final NamespacedKey namespace;
+        new NamespacedKey(SlimefunPlugin.instance(), "player-access-manager-data");
     private final Map<Class<?>, AccessData<?>> dataMap = new HashMap<>();
 
-    public PlayerAccessManagerImpl(@Nonnull final NamespacedKey namespace) {
-        this.namespace = namespace;
+    public PlayerAccessManagerImpl() {
+    }
+
+    public PlayerAccessManagerImpl(@Nonnull final String json) {
+        loadFromString(json);
+    }
+
+    public PlayerAccessManagerImpl(@Nonnull final JsonElement element) {
+        loadFromJsonElement(element);
     }
 
     @Nonnull
     @Override
-    public AccessLevel getLevel(@Nonnull final Player player) {
-        return getLevel(player.getUniqueId());
+    public AccessLevel getAccessLevel(@Nonnull final Player player) {
+        return getAccessLevel(player.getUniqueId());
     }
 
     @Nonnull
     @Override
-    public AccessLevel getLevel(@Nonnull final UUID player) {
+    public AccessLevel getAccessLevel(@Nonnull final UUID player) {
         return getAccessData(UUID.class).map(accessData -> accessData.getAccessLevel(player))
             .orElse(ConcreteAccessLevel.NONE);
     }
@@ -107,22 +118,101 @@ public class PlayerAccessManagerImpl implements AccessManager {
     }
 
     @Override
-    public void load(@Nonnull SlimefunItemStack itemStack) {
+    public void load(@Nonnull NamespacedKey namespace, @Nonnull ItemStack itemStack) {
         reset();
         if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             // This feature was introduced post 1.13. Cannot load newer data on an older version
             return;
         }
         final ItemMeta meta = itemStack.getItemMeta();
-        if (meta == null) {
+        if (meta != null) {
+            load(namespace, meta);
+        }
+
+    }
+
+    @Override
+    public void load(@Nonnull final NamespacedKey namespace, @Nonnull final Block block) {
+        reset();
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
-        final Optional<String> optional = SlimefunPlugin.getItemDataService().getItemData(meta);
-        if (!optional.isPresent()) {
+        final BlockState state = block.getState();
+        if (state instanceof TileState) {
+            load(namespace, ((TileState) state));
+        }
+    }
+
+    @Override
+    public void saveTo(@Nonnull NamespacedKey namespace, @Nonnull final ItemStack item) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            // This feature was introduced post 1.13. Cannot save.
             return;
         }
+        final ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            saveTo(namespace, meta);
+            item.setItemMeta(meta);
+        }
+    }
+
+    @Override
+    public void saveTo(@Nonnull final NamespacedKey namespace, @Nonnull final Block block) {
+        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            return;
+        }
+        final BlockState state = block.getState();
+        if (state instanceof TileState) {
+            saveTo(namespace, ((TileState) state));
+            state.update(true, false);
+        }
+    }
+
+    @Override
+    public void loadFromJsonElement(@Nonnull final JsonElement element) throws IllegalArgumentException {
+        reset();
+        if (!element.isJsonObject()) {
+            return;
+        }
+        for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
+            final String rawClass = entry.getKey();
+            final Class<?> clazz;
+            try {
+                clazz = Class.forName(rawClass);
+            } catch (ClassNotFoundException ex) {
+                Slimefun.getLogger()
+                    .log(Level.WARNING, "Invalid AccessData! Unknown AccessData class: " + rawClass);
+                continue;
+            }
+            if (!AccessData.class.isAssignableFrom(clazz)) {
+                Slimefun.getLogger()
+                    .log(Level.WARNING, "Invalid AccessData! AccessData is not assignable from: " + rawClass);
+                continue;
+            }
+            final Optional<?> optional =
+                SlimefunPlugin.getJsonDeserializationService().deserialize(clazz, entry.getValue());
+            optional.ifPresent((o) -> {
+                AccessData<?> accessData = (AccessData<?>) o;
+                dataMap.put(accessData.getType(), accessData);
+            });
+
+        }
+    }
+
+    @Nonnull
+    @Override
+    public JsonElement saveToJsonElement() {
+        final JsonObject jsonObject = new JsonObject();
+        for (final AccessData<?> accessData : dataMap.values()) {
+            jsonObject.add(accessData.getClass().getCanonicalName(), accessData.saveToJsonElement());
+        }
+        return jsonObject;
+    }
+
+    public void load(@Nonnull final NamespacedKey namespace, @Nonnull PersistentDataHolder holder) {
+        reset();
         final PersistentDataContainer container =
-            meta.getPersistentDataContainer().get(namespace, PersistentDataType.TAG_CONTAINER);
+            holder.getPersistentDataContainer().get(namespace, PersistentDataType.TAG_CONTAINER);
         if (container == null) {
             return;
         }
@@ -132,61 +222,26 @@ public class PlayerAccessManagerImpl implements AccessManager {
         }
     }
 
-    @Override
-    public void saveTo(@Nonnull final SlimefunItemStack item) {
-        if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            // This feature was introduced post 1.13. Cannot save.
-            return;
-        }
-        final ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return;
-        }
-        final PersistentDataContainer base = meta.getPersistentDataContainer();
-        final PersistentDataContainer container =
-            base.getAdapterContext().newPersistentDataContainer();
+    public void saveTo(@Nonnull NamespacedKey namespace, @Nonnull final PersistentDataHolder holder) {
+        final PersistentDataContainer base = holder.getPersistentDataContainer();
+        final PersistentDataContainer container = base.getAdapterContext().newPersistentDataContainer();
         base.set(namespace, PersistentDataType.TAG_CONTAINER, container);
         container.set(DATA_KEY, PersistentDataType.STRING, saveToString());
-        item.setItemMeta(meta);
     }
 
     @Override
-    public void loadFromString(@Nonnull final String data) throws IllegalArgumentException {
-        reset();
-        final JsonElement element = SHARED_PARSER.parse(data);
-        if (!element.isJsonObject()) {
-            return;
-        }
-        final JsonObject jsonObject = element.getAsJsonObject();
-        final String playerAccessDataName = PlayerAccessDataImpl.class.getCanonicalName();
-        for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
-            final String rawClass = entry.getKey();
-            if (!rawClass.equalsIgnoreCase(playerAccessDataName)) {
-                Slimefun.getLogger().log(Level.WARNING, "Unknown data class: " + rawClass);
-                continue;
-            }
-            final PlayerAccessDataImpl accessData = new PlayerAccessDataImpl();
-            final JsonElement raw = entry.getValue();
-            final JsonPrimitive primitive;
-            if (!raw.isJsonPrimitive() || (!(primitive = raw.getAsJsonPrimitive()).isString())) {
-                Slimefun.getLogger().log(Level.WARNING,
-                    "Invalid JSON data for access data class: " + entry.getKey()
-                        + "! JsonElement is not a string");
-                continue;
-            }
-            accessData.deserialize(primitive.getAsString());
-            dataMap.put(Player.class, accessData);
-        }
+    public boolean equals(final Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        final PlayerAccessManagerImpl that = (PlayerAccessManagerImpl) o;
+        return dataMap.equals(that.dataMap);
     }
 
-    @Nonnull
     @Override
-    public String saveToString() {
-        final JsonObject jsonObject = new JsonObject();
-        for (final AccessData<?> accessData : dataMap.values()) {
-            jsonObject
-                .addProperty(accessData.getType().getCanonicalName(), accessData.saveToString());
-        }
-        return jsonObject.toString();
+    public int hashCode() {
+        return dataMap.hashCode();
     }
 }

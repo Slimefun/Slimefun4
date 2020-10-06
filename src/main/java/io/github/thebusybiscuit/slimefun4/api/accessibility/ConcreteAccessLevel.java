@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.accessibility;
 
+import com.google.gson.JsonElement;
+import io.github.thebusybiscuit.slimefun4.core.services.JsonDeserializationService;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -60,10 +63,15 @@ public enum ConcreteAccessLevel implements AccessLevel {
         }
     }
 
-    @Nonnull
     @Override
-    public String toString() {
-        return name().toLowerCase();
+    @Nonnull
+    public JsonElement saveToJsonElement() {
+        return JsonDeserializationService.serializeEnum(this);
     }
 
+    @Override
+    @Nonnull
+    public String saveToString() {
+        return saveToJsonElement().toString();
+    }
 }

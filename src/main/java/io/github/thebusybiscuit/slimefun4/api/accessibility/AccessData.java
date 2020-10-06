@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.accessibility;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -38,6 +41,11 @@ public interface AccessData<T> {
     void setAccessLevel(@Nonnull T object, @Nullable AccessLevel newLevel);
 
     /**
+     * Reset (clear) all held data.
+     */
+    void reset();
+
+    /**
      * Check whether this data object contains a value for a given object.
      *
      * @param object The instance of the object to check.
@@ -51,13 +59,35 @@ public interface AccessData<T> {
      * @return Returns the string representation of the object's current state
      */
     @Nonnull
-    String saveToString();
+    default String saveToString() {
+        return saveToJsonElement().toString();
+    }
+
+    /**
+     * Serialize this object into a {@link JsonElement}
+     *
+     * @return Returns a JsonElement representing the object's current state
+     */
+    @Nonnull
+    JsonElement saveToJsonElement();
+
 
     /**
      * Initialize this object's data from a JSON string.
      *
-     * @param json The serialized data.
+     * @param json The serialized data
+     * @see #loadFromJsonElement(JsonElement)
      */
-    void loadFromString(@Nonnull String json);
+    default void loadFromString(@Nonnull String json) {
+        loadFromJsonElement(new JsonParser().parse(json));
+    }
+
+
+    /**
+     * Initialize this object's data from a JSON element.
+     *
+     * @param element The serialized data.
+     */
+    void loadFromJsonElement(@Nonnull JsonElement element);
 
 }
