@@ -133,7 +133,7 @@ public class JsonDeserializationService {
         // Try to get the mapped deserialization logic.
         final Function<JsonElement, ?> function = deserializerMap.get(expectedClass.getCanonicalName());
         if (function == null) {
-            if (expectedClass.isEnum()) { // Only try generic serialization if explict deserialization logic is not present.
+            if (expectedClass.isEnum()) { // Only try generic serialization if explicit deserialization logic is not present.
                 final Object object = deserializeEnum(parser.parse(json));
                 if (object != null) { // Return the successfully reconstructed object instance.
                     return Optional.of(expectedClass.cast(object));
