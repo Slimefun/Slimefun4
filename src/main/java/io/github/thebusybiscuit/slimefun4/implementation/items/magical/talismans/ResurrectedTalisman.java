@@ -20,15 +20,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-/*
+/**
  * This {@link SlimefunItem} is a special variant of the {@Link Talisman}. This specific {@Link Talisman} saves you
  * from a death caused by the void.
  *
- *
  * @author svr333
  *
- *
  */
+
 public class ResurrectedTalisman extends Talisman {
     private final NamespacedKey locationKey = new NamespacedKey(SlimefunPlugin.instance(), "resurrected_location");
     private Location respawnLocation;
