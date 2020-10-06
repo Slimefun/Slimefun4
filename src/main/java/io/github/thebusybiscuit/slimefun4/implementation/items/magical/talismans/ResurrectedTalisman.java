@@ -30,7 +30,6 @@ import java.util.UUID;
 
 public class ResurrectedTalisman extends Talisman {
     private final NamespacedKey locationKey = new NamespacedKey(SlimefunPlugin.instance(), "resurrected_location");
-    private Location respawnLocation;
 
     public ResurrectedTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, true, true, "resurrected", new PotionEffect(PotionEffectType.GLOWING, 400, 0), new PotionEffect(PotionEffectType.ABSORPTION, 400, 4), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 20));
@@ -43,7 +42,7 @@ public class ResurrectedTalisman extends Talisman {
             Location currentLoc = e.getPlayer().getLocation();
             JsonObject json = createJsonFromLocation(currentLoc);
 
-            PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
+            PersistentDataContainer pdc = e.getItem().getItemMeta().getPersistentDataContainer();
             pdc.set(locationKey, PersistentDataType.STRING, json.toString());
 
             //SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "", true);
@@ -52,7 +51,7 @@ public class ResurrectedTalisman extends Talisman {
     }
 
     @Nullable
-    public Location getSavedLocation(boolean isEnderTalisman) {
+    public Location getSavedLocation(ItemStack item, boolean isEnderTalisman) {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
         String data = pdc.get(locationKey, PersistentDataType.STRING);
 
@@ -64,6 +63,7 @@ public class ResurrectedTalisman extends Talisman {
         }
     }
 
+    @Nonnull
     private JsonObject createJsonFromLocation(@Nonnull Location loc) {
         JsonObject json = new JsonObject();
 
@@ -79,8 +79,12 @@ public class ResurrectedTalisman extends Talisman {
         JsonObject json = new JsonParser().parse(rawData).getAsJsonObject();
 
         UUID uuid = UUID.fromString(json.get("world").getAsString());
-
         World world = Bukkit.getWorld(uuid);
+
+        if (world == null) {
+            return null;
+        }
+
         int x = json.get("x").getAsInt();
         int y = json.get("y").getAsInt();
         int z = json.get("z").getAsInt();

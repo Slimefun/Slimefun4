@@ -320,15 +320,16 @@ public class TalismanListener implements Listener {
         }
     }
 
+    @Nonnull
     private Location getSafeRespawnLocation(@Nonnull Player player) {
         Location savedLoc = null;
         /* Obtain Talisman here */
 
         if (SlimefunUtils.containsSimilarItem(player.getInventory(), talisman.getItem(), true)) {
-            savedLoc = talisman.getSavedLocation(false);
+            savedLoc = talisman.getSavedLocation(talisman, false);
         }
         else if (SlimefunUtils.containsSimilarItem(player.getEnderChest(), talisman.getEnderVariant(), true)) {
-            savedLoc = talisman.getSavedLocation(true);
+            savedLoc = talisman.getSavedLocation(talisman, true);
         }
 
         if (savedLoc != null) {
