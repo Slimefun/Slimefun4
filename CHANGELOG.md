@@ -33,6 +33,7 @@
 * You can now convert any gold ingot into gold dust with slightly less returns
 * Magical Zombie Pills now also work on Zombified Piglins
 * (API) Added SlimefunGuideOpenEvent
+* (API) Added "NotConfigurable" attribute to disable configurability
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
@@ -59,6 +60,7 @@
 * Fixed #2357
 * Fixed Auto Enchanters being unaffected by speed modifications from addons
 * Fixed Auto Disenchanters being unaffected by speed modifications from addons
+* Fixed radioactive items still being radioactive when disabled
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
