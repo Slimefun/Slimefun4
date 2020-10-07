@@ -129,8 +129,7 @@ class TestSlimefunTags {
             if (sub instanceof SlimefunTag) {
                 if (visiting.contains(sub)) {
                     return true;
-                }
-                else if (!visited.contains(sub) && isCyclic(visiting, visited, (SlimefunTag) sub)) {
+                } else if (!visited.contains(sub) && isCyclic(visiting, visited, (SlimefunTag) sub)) {
                     return true;
                 }
             }

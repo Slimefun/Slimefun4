@@ -230,8 +230,7 @@ public enum SlimefunTag implements Tag<Material> {
     public boolean isTagged(@Nonnull Material item) {
         if (includedMaterials.contains(item)) {
             return true;
-        }
-        else {
+        } else {
             // Check if any of our additional Tags contain this Materials
             for (Tag<Material> tag : additionalTags) {
                 if (tag.isTagged(item)) {
@@ -249,8 +248,7 @@ public enum SlimefunTag implements Tag<Material> {
     public Set<Material> getValues() {
         if (additionalTags.isEmpty()) {
             return Collections.unmodifiableSet(includedMaterials);
-        }
-        else {
+        } else {
             Set<Material> materials = new HashSet<>(includedMaterials);
 
             for (Tag<Material> tag : additionalTags) {

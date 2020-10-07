@@ -66,8 +66,7 @@ public class TagParser implements Keyed {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {
             parse(reader.lines().collect(Collectors.joining("")), callback);
-        }
-        catch (IOException x) {
+        } catch (IOException x) {
             throw new TagMisconfigurationException(key, x.getMessage());
         }
     }
@@ -103,26 +102,22 @@ public class TagParser implements Keyed {
                     if (element instanceof JsonPrimitive && ((JsonPrimitive) element).isString()) {
                         // Strings will be parsed directly
                         parsePrimitiveValue(element.getAsString(), materials, tags);
-                    }
-                    else if (element instanceof JsonObject) {
+                    } else if (element instanceof JsonObject) {
                         // JSONObjects can have a "required" property which can make
                         // it optional to resolve the underlying value
                         parseComplexValue(element.getAsJsonObject(), materials, tags);
-                    }
-                    else {
+                    } else {
                         throw new TagMisconfigurationException(key, "Unexpected value format: " + element.getClass().getSimpleName() + " - " + element.toString());
                     }
                 }
 
                 // Run the callback with the filled-in materials and tags
                 callback.accept(materials, tags);
-            }
-            else {
+            } else {
                 // The JSON seems to be empty yet valid
                 throw new TagMisconfigurationException(key, "No values array specified");
             }
-        }
-        catch (IllegalStateException | JsonParseException x) {
+        } catch (IllegalStateException | JsonParseException x) {
             throw new TagMisconfigurationException(key, x.getMessage());
         }
     }
@@ -136,12 +131,10 @@ public class TagParser implements Keyed {
             if (material != null) {
                 // If the Material could be matched, simply add it to our Set
                 materials.add(material);
-            }
-            else {
+            } else {
                 throw new TagMisconfigurationException(key, "Minecraft Material '" + value + "' seems to not exist!");
             }
-        }
-        else if (PatternUtils.MINECRAFT_TAG.matcher(value).matches()) {
+        } else if (PatternUtils.MINECRAFT_TAG.matcher(value).matches()) {
             // Get the actual Key portion and match it to item and block tags.
             String keyValue = PatternUtils.COLON.split(value)[1];
             NamespacedKey namespacedKey = NamespacedKey.minecraft(keyValue);
@@ -151,29 +144,24 @@ public class TagParser implements Keyed {
             if (itemsTag != null) {
                 // We will prioritize the item tag
                 tags.add(itemsTag);
-            }
-            else if (blocksTag != null) {
+            } else if (blocksTag != null) {
                 // If no item tag exists, fall back to the block tag
                 tags.add(blocksTag);
-            }
-            else {
+            } else {
                 // If both fail, then the tag does not exist.
                 throw new TagMisconfigurationException(key, "There is no '" + value + "' tag in Minecraft.");
             }
-        }
-        else if (PatternUtils.SLIMEFUN_TAG.matcher(value).matches()) {
+        } else if (PatternUtils.SLIMEFUN_TAG.matcher(value).matches()) {
             // Get a SlimefunTag enum value for the given key
             String keyValue = PatternUtils.COLON.split(value)[1].toUpperCase(Locale.ROOT);
             SlimefunTag tag = SlimefunTag.getTag(keyValue);
 
             if (tag != null) {
                 tags.add(tag);
-            }
-            else {
+            } else {
                 throw new TagMisconfigurationException(key, "There is no '" + value + "' tag in Slimefun");
             }
-        }
-        else {
+        } else {
             // If no RegEx pattern matched, it's malformed.
             throw new TagMisconfigurationException(key, "Could not recognize value '" + value + "'");
         }
@@ -189,18 +177,15 @@ public class TagParser implements Keyed {
             if (required.getAsBoolean()) {
                 // If this entry is required, parse it like normal
                 parsePrimitiveValue(id.getAsString(), materials, tags);
-            }
-            else {
+            } else {
                 // If the entry is not required, validation will be optional
                 try {
                     parsePrimitiveValue(id.getAsString(), materials, tags);
-                }
-                catch (TagMisconfigurationException x) {
+                } catch (TagMisconfigurationException x) {
                     // This is an optional entry, so we will ignore the validation here
                 }
             }
-        }
-        else {
+        } else {
             throw new TagMisconfigurationException(key, "Found a JSON Object value without an id!");
         }
     }

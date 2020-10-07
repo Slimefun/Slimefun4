@@ -125,8 +125,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
         if (surface != null) {
             return surface.getValue();
-        }
-        else {
+        } else {
             return 0;
         }
     }
