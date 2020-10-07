@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -276,9 +278,11 @@ public final class ResearchSetup {
         register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
         register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
-        register("bee_armor", 268, "Bee Armor", 24, SlimefunItems.BEE_HELMET, SlimefunItems.BEE_WINGS, SlimefunItems.BEE_LEGGINGS, SlimefunItems.BEE_BOOTS);
+        register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
+        register("bee_armor", 269, "Bee Armor", 24, SlimefunItems.BEE_HELMET, SlimefunItems.BEE_WINGS, SlimefunItems.BEE_LEGGINGS, SlimefunItems.BEE_BOOTS);
     }
 
+    @ParametersAreNonnullByDefault
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
         Research research = new Research(new NamespacedKey(SlimefunPlugin.instance(), key), id, name, defaultCost);
 

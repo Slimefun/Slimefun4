@@ -98,8 +98,7 @@ class TestItemStackWrapper {
     private void assertWrapped(ItemStack expected, ItemStack actual) {
         if (expected == null) {
             Assertions.assertNull(actual);
-        }
-        else {
+        } else {
             Assertions.assertTrue(actual instanceof ItemStackWrapper);
             Assertions.assertTrue(SlimefunUtils.isItemSimilar(actual, expected, true));
         }

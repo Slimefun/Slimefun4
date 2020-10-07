@@ -21,12 +21,10 @@ class OpenGuideCommand extends SubCommand {
             if (sender.hasPermission("slimefun.command.open_guide")) {
                 boolean book = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book");
                 SlimefunGuide.openGuide((Player) sender, book ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }

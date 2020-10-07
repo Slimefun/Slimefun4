@@ -38,8 +38,7 @@ public class IronGolemListener implements Listener {
 
             if (e.getHand() == EquipmentSlot.HAND) {
                 item = inv.getItemInMainHand();
-            }
-            else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+            } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
                 item = inv.getItemInOffHand();
             }
 
@@ -54,8 +53,7 @@ public class IronGolemListener implements Listener {
                     // Somehow cancelling it isn't enough.
                     if (e.getHand() == EquipmentSlot.HAND) {
                         inv.setItemInMainHand(item);
-                    }
-                    else if (e.getHand() == EquipmentSlot.OFF_HAND) {
+                    } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
                         inv.setItemInOffHand(item);
                     }
                 }

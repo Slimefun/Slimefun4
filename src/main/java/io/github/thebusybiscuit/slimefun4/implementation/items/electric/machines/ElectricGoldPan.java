@@ -56,8 +56,7 @@ public abstract class ElectricGoldPan extends AContainer implements RecipeDispla
                     menu.consumeItem(slot);
                     return recipe;
                 }
-            }
-            else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true, false)) {
+            } else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.SOUL_SAND), true, false)) {
                 ItemStack output = netherGoldPan.getRandomOutput();
                 MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { output });
 

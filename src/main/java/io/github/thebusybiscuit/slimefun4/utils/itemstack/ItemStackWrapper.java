@@ -37,8 +37,7 @@ public final class ItemStackWrapper extends ItemStack {
 
         if (hasItemMeta) {
             meta = item.getItemMeta();
-        }
-        else {
+        } else {
             meta = null;
         }
     }
@@ -56,8 +55,7 @@ public final class ItemStackWrapper extends ItemStack {
         // This will significantly speed up any loop comparisons if used correctly.
         if (meta == null) {
             throw new UnsupportedOperationException("This ItemStack has no ItemMeta! Make sure to check ItemStack#hasItemMeta() before accessing this method!");
-        }
-        else {
+        } else {
             return meta;
         }
     }
@@ -140,8 +138,7 @@ public final class ItemStackWrapper extends ItemStack {
         for (ItemStack item : items) {
             if (item != null) {
                 list.add(new ItemStackWrapper(item));
-            }
-            else {
+            } else {
                 list.add(null);
             }
         }

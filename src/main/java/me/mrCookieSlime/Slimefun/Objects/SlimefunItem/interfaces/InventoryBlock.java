@@ -47,8 +47,10 @@ public interface InventoryBlock {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-                else return getOutputSlots();
+                if (flow == ItemTransportFlow.INSERT)
+                    return getInputSlots();
+                else
+                    return getOutputSlots();
             }
 
             @Override

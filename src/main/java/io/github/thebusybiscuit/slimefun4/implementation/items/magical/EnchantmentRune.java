@@ -70,8 +70,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     SlimefunPlugin.runSync(() -> {
                         try {
                             addRandomEnchantment(p, item);
-                        }
-                        catch (Exception x) {
+                        } catch (Exception x) {
                             error("An Exception occurred while trying to apply an Enchantment Rune", x);
                         }
                     }, 20L);
@@ -103,8 +102,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             if (potentialEnchantments == null) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.fail", true);
                 return;
-            }
-            else {
+            } else {
                 potentialEnchantments = new ArrayList<>(potentialEnchantments);
             }
 
@@ -140,8 +138,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                         SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.success", true);
                     }
                 }, 10L);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.fail", true);
             }
         }

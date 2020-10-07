@@ -74,8 +74,7 @@ public class CoolerListener implements Listener {
             if (cooler.isItem(item)) {
                 if (Slimefun.hasUnlocked(p, cooler, true)) {
                     takeJuiceFromCooler(p, item);
-                }
-                else {
+                } else {
                     return;
                 }
             }

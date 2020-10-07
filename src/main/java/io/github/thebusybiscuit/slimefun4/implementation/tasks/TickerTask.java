@@ -112,8 +112,7 @@ public class TickerTask implements Runnable {
 
             reset();
             SlimefunPlugin.getProfiler().stop();
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
             reset();
         }
@@ -133,8 +132,7 @@ public class TickerTask implements Runnable {
                     tickLocation(tickers, l);
                 }
             }
-        }
-        catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
             Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to parse Chunk: " + chunk);
         }
     }
@@ -154,8 +152,7 @@ public class TickerTask implements Runnable {
                         Block b = l.getBlock();
                         tickBlock(l, b, item, data, System.nanoTime());
                     });
-                }
-                else {
+                } else {
                     long timestamp = SlimefunPlugin.getProfiler().newEntry();
                     item.getBlockTicker().update();
                     Block b = l.getBlock();
@@ -163,8 +160,7 @@ public class TickerTask implements Runnable {
                 }
 
                 tickers.add(item.getBlockTicker());
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 reportErrors(l, item, x);
             }
         }
@@ -174,11 +170,9 @@ public class TickerTask implements Runnable {
     private void tickBlock(Location l, Block b, SlimefunItem item, Config data, long timestamp) {
         try {
             item.getBlockTicker().tick(b, item, data);
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             reportErrors(l, item, x);
-        }
-        finally {
+        } finally {
             SlimefunPlugin.getProfiler().closeEntry(l, item, timestamp);
         }
     }
@@ -192,8 +186,7 @@ public class TickerTask implements Runnable {
             // Generate a new Error-Report
             new ErrorReport<>(x, l, item);
             bugs.put(position, errors);
-        }
-        else if (errors == 4) {
+        } else if (errors == 4) {
             Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getID() });
             Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
             Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
@@ -202,8 +195,7 @@ public class TickerTask implements Runnable {
 
             BlockStorage.deleteLocationInfoUnsafely(l, true);
             Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance(), () -> l.getBlock().setType(Material.AIR));
-        }
-        else {
+        } else {
             bugs.put(position, errors);
         }
     }

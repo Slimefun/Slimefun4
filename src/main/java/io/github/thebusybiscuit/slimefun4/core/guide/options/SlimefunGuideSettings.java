@@ -113,8 +113,7 @@ public final class SlimefunGuideSettings {
                 ChatUtils.sendURL(pl, "https://github.com/Slimefun/Slimefun4/issues");
                 return false;
             });
-        }
-        else {
+        } else {
             menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 

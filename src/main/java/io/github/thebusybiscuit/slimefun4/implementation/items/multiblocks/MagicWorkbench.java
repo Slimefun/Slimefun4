@@ -77,16 +77,14 @@ public class MagicWorkbench extends BackpackCrafter {
                 if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
                     if (inv.getContents()[j].getAmount() > 1) {
                         inv.setItem(j, new CustomItem(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
-                    }
-                    else {
+                    } else {
                         inv.setItem(j, null);
                     }
                 }
             }
 
             startAnimation(p, b, outputInv, output);
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
@@ -100,8 +98,7 @@ public class MagicWorkbench extends BackpackCrafter {
 
                 if (current < 3) {
                     p.getWorld().playSound(b.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1F, 1F);
-                }
-                else {
+                } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     inv.addItem(output);
                 }
@@ -114,14 +111,11 @@ public class MagicWorkbench extends BackpackCrafter {
 
         if (b.getRelative(1, 0, 0).getType() == Material.DISPENSER) {
             block = b.getRelative(1, 0, 0);
-        }
-        else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) {
+        } else if (b.getRelative(0, 0, 1).getType() == Material.DISPENSER) {
             block = b.getRelative(0, 0, 1);
-        }
-        else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) {
+        } else if (b.getRelative(-1, 0, 0).getType() == Material.DISPENSER) {
             block = b.getRelative(-1, 0, 0);
-        }
-        else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) {
+        } else if (b.getRelative(0, 0, -1).getType() == Material.DISPENSER) {
             block = b.getRelative(0, 0, -1);
         }
 
@@ -135,8 +129,7 @@ public class MagicWorkbench extends BackpackCrafter {
                     if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], false)) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     return false;
                 }
             }

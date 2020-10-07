@@ -102,7 +102,7 @@ public class VanillaMachinesListener implements Listener {
         if (!SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
             return;
         }
-        
+
         if (e.getRawSlot() == 2 && e.getInventory().getType() == InventoryType.CARTOGRAPHY && e.getWhoClicked() instanceof Player) {
             ItemStack item1 = e.getInventory().getContents()[0];
             ItemStack item2 = e.getInventory().getContents()[1];
@@ -127,8 +127,7 @@ public class VanillaMachinesListener implements Listener {
 
             if (clickedInventory.getType() == InventoryType.BREWING) {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
-            }
-            else {
+            } else {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCurrentItem())));
             }
 
@@ -141,8 +140,7 @@ public class VanillaMachinesListener implements Listener {
     private boolean checkForUnallowedItems(@Nullable ItemStack item1, @Nullable ItemStack item2) {
         if (SlimefunGuide.isGuideItem(item1) || SlimefunGuide.isGuideItem(item2)) {
             return true;
-        }
-        else {
+        } else {
             SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
             SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);
 

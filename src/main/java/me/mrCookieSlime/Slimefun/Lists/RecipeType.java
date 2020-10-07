@@ -80,8 +80,7 @@ public class RecipeType implements Keyed {
 
         if (machine.length() > 0) {
             this.key = new NamespacedKey(SlimefunPlugin.instance(), machine.toLowerCase(Locale.ROOT));
-        }
-        else {
+        } else {
             this.key = new NamespacedKey(SlimefunPlugin.instance(), "unknown");
         }
     }
@@ -97,8 +96,7 @@ public class RecipeType implements Keyed {
 
         if (item instanceof SlimefunItemStack) {
             this.machine = ((SlimefunItemStack) item).getItemId();
-        }
-        else {
+        } else {
             this.machine = "";
         }
     }
@@ -118,8 +116,7 @@ public class RecipeType implements Keyed {
     public void register(ItemStack[] recipe, ItemStack result) {
         if (consumer != null) {
             consumer.accept(recipe, result);
-        }
-        else {
+        } else {
             SlimefunItem slimefunItem = SlimefunItem.getByID(this.machine);
 
             if (slimefunItem instanceof MultiBlockMachine) {

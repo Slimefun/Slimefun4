@@ -99,8 +99,7 @@ public class GrindStone extends MultiBlockMachine {
                             inv.removeItem(removing);
                             outputInv.addItem(output);
                             p.getWorld().playSound(p.getLocation(), Sound.BLOCK_WOODEN_BUTTON_CLICK_ON, 1, 1);
-                        }
-                        else {
+                        } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
 

@@ -53,8 +53,7 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
 
                         if (outputInv != null) {
                             craft(p, b, inv, inputs.get(i), output, outputInv);
-                        }
-                        else {
+                        } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
                     }
@@ -73,8 +72,7 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
                 for (int j = 0; j < inv.getContents().length; j++) {
                     if (j == (inv.getContents().length - 1) && !SlimefunUtils.isItemSimilar(inv.getContents()[j], expectedInput, true)) {
                         return false;
-                    }
-                    else if (SlimefunUtils.isItemSimilar(inv.getContents()[j], expectedInput, true)) {
+                    } else if (SlimefunUtils.isItemSimilar(inv.getContents()[j], expectedInput, true)) {
                         break;
                     }
                 }

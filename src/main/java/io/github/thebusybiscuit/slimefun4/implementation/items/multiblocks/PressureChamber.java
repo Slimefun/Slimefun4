@@ -57,8 +57,7 @@ public class PressureChamber extends MultiBlockMachine {
                             inv.removeItem(removing);
 
                             craft(p, b, output, outputInv);
-                        }
-                        else {
+                        } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
 
@@ -82,8 +81,7 @@ public class PressureChamber extends MultiBlockMachine {
 
                 if (j < 3) {
                     p.getWorld().playSound(b.getLocation(), Sound.ENTITY_TNT_PRIMED, 1F, 1F);
-                }
-                else {
+                } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     outputInv.addItem(output);
                 }

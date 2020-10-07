@@ -171,8 +171,7 @@ public class GrapplingHookListener implements Listener {
                     if (target.getY() <= p.getLocation().getY()) {
                         velocity = target.toVector().subtract(p.getLocation().toVector());
                     }
-                }
-                else {
+                } else {
                     Location l = p.getLocation();
                     l.setY(l.getY() + 0.5);
                     p.teleport(l);

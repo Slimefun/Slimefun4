@@ -59,8 +59,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                 if (flow == ItemTransportFlow.INSERT) {
                     return getInputSlots();
-                }
-                else {
+                } else {
                     return getOutputSlots();
                 }
             }
@@ -97,8 +96,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
                         inv.consumeItem(slot);
                         SlimefunPlugin.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
                         return recipe;
-                    }
-                    else {
+                    } else {
                         // Move the empty bucket to the output slot to prevent this
                         // from immediately starting all over again (to prevent lag)
                         ItemStack item = inv.getItemInSlot(slot).clone();

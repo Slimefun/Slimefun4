@@ -54,8 +54,7 @@ public final class HashedArmorpiece {
     public void update(@Nullable ItemStack stack, @Nullable SlimefunItem item) {
         if (stack == null || stack.getType() == Material.AIR) {
             this.hash = 0;
-        }
-        else {
+        } else {
             ItemStack copy = stack.clone();
             ItemMeta meta = copy.getItemMeta();
             ((Damageable) meta).setDamage(0);
@@ -65,8 +64,7 @@ public final class HashedArmorpiece {
 
         if (item instanceof SlimefunArmorPiece) {
             this.item = Optional.of((SlimefunArmorPiece) item);
-        }
-        else {
+        } else {
             this.item = Optional.empty();
         }
     }
@@ -82,8 +80,7 @@ public final class HashedArmorpiece {
     public boolean hasDiverged(@Nullable ItemStack stack) {
         if (stack == null || stack.getType() == Material.AIR) {
             return hash != 0;
-        }
-        else {
+        } else {
             ItemStack copy = stack.clone();
             ItemMeta meta = copy.getItemMeta();
             ((Damageable) meta).setDamage(0);

@@ -43,8 +43,7 @@ public class SlimefunBootsListener implements Listener {
         if (e.getEntity() instanceof Player) {
             if (e.getCause() == DamageCause.FALL) {
                 onFallDamage(e);
-            }
-            else if (e instanceof EntityDamageByEntityEvent) {
+            } else if (e instanceof EntityDamageByEntityEvent) {
                 EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
 
                 if (event.getDamager() instanceof EnderPearl) {
@@ -67,12 +66,10 @@ public class SlimefunBootsListener implements Listener {
             if (boots instanceof StomperBoots) {
                 e.setCancelled(true);
                 ((StomperBoots) boots).stomp(e);
-            }
-            else if (boots.getID().equals("BEE_BOOTS")) {
+            } else if (boots.getID().equals("BEE_BOOTS")) {
                 e.setCancelled(true);
                 e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.BLOCK_HONEY_BLOCK_FALL, 1f, 2f);
-            }
-            else if (boots.getID().equals("SLIME_BOOTS") || boots.getID().equals("SLIME_STEEL_BOOTS")) {
+            } else if (boots.getID().equals("SLIME_BOOTS") || boots.getID().equals("SLIME_STEEL_BOOTS")) {
                 e.setCancelled(true);
             }
         }

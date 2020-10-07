@@ -88,16 +88,14 @@ public class Smeltery extends AbstractSmeltery {
                 }
 
                 p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
 
                 Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
                 fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
                 fire.setType(Material.AIR);
             }
-        }
-        else {
+        } else {
             Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
             fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
             fire.setType(Material.AIR);
