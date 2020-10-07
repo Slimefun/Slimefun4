@@ -372,8 +372,13 @@ final class CargoUtils {
         Config blockData = BlockStorage.getLocationInfo(block.getLocation());
         String id = blockData.getString("id");
 
-        // Cargo Output nodes have no filter actually
-        if (id.equals("CARGO_NODE_OUTPUT")) {
+        if (id == null) {
+            // This should normally not happen but if it does...
+            // Don't accept any items.
+            return false;
+        }
+        else if (id.equals("CARGO_NODE_OUTPUT")) {
+            // Cargo Output nodes have no filter actually
             return true;
         }
 

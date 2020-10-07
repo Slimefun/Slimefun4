@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -20,9 +23,6 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
@@ -66,7 +66,7 @@ public class TableSaw extends MultiBlockMachine {
     @Override
     public void onInteract(@Nonnull Player p, @Nonnull Block b) {
         ItemStack item = p.getInventory().getItemInMainHand();
-        ItemStack output = getItemsToOutput(item.getType());
+        ItemStack output = getOutputFromMaterial(item.getType());
 
         if (output == null) {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
@@ -82,9 +82,10 @@ public class TableSaw extends MultiBlockMachine {
     }
 
     @Nullable
-    private ItemStack getItemsToOutput(@Nonnull Material item) {
+    private ItemStack getOutputFromMaterial(@Nonnull Material item) {
         if (Tag.LOGS.isTagged(item)) {
             Optional<Material> planks = MaterialConverter.getPlanksFromLog(item);
+
             if (planks.isPresent()) {
                 return new ItemStack(planks.get(), 8);
             }
