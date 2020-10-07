@@ -94,3 +94,48 @@ Then you should be able build it via Maven using the goals `clean package`.
 
 If you have any further questions, then please join our [Discord Support Server](https://discord.gg/slimefun) and ask your questions in the `#programming-help` channel.<br>
 **Note that we will not accept any bug reports from custom-compiled versions of Slimefun**.
+
+## :black_nib: Code Style guidelines
+The general gist when it comes to code style: **Try to be consistent!**.<br>
+Try to stay inline with the code that surrounds you, having an entire package or even a single file that's filled with plenty of different and inconsistent code styles is just hard to read or maintain. That's why we wanna make sure everyone follows these simple principles:
+
+1. Imports
+* Don't use wildcard (`*`) imports!
+* Don't import unused classes!
+* Don't use static imports!
+2. Annotations
+* Methods and parameters should be annotated with `@Nullable` or `@Nonnull`!
+* Methods that override a method must be annotated with `@Override`!
+* Interfaces with only one method should be annotated using `@FunctionalInterface`!
+* If you deprecate a method, add an `@deprecated` section to the javadocs explaining why you did it.
+3. Documentation
+* Every class and every public method should have a Javadocs section assigned to it.
+* New packages should have a `package-info.java` file with documentation about the package.
+* Classes should have an `@author` tag.
+4. Unit Tests
+* Try to write Unit Tests where possible.
+* Unit Test classes and methods should have no access modifier, not `public`, `protected` nor `private`.
+* Each Test should have a plain text `@DisplayName` annotation!
+5. General
+* Use **Spaces**, not Tabs!
+* Do not declare multiple fields/variables on the same line! (e.g. Don't do this: `int x, y, z;`)
+* Comments should never go on the same line as code! Always above or below.
+* Use a Logger, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`!
+* Do not use `Collection#forEach(x -> ...)`, use a proper `for (...)` loop!
+* Do not create new `Random` objects, use `ThreadLocalRandom.current()` instead!
+* Always declare Maps or Collections using their base type! (e.g. `List<String> list = new ArrayList<>();`
+* When doing String operations like `String#toUppercase()`, always specify `Locale.ROOT` as an argument!
+* When reading or writing files, always specify the encoding using `StandardCharsets.UTF_8`!
+* Do not use Exceptions to validate data, empty catch blocks are a very bad practice, use other means like a regular expression to validate data.
+* If a parameter is annotated with `@Nonnull`, you should enforce this behaviour by doing `Validate.notNull(variable, "...");` and give a meaningful message about what went wrong
+* Any `switch/case` should always have a `default:` case at the end.
+* If you are working with a resource that must be closed, use a `try/with-resource`, this will automatically close the resource at the end (e.g. `try (InputStream stream = ...) {`)
+* Array designators should be placed behind the type, not the variable name (e.g. `int[] myArray`)
+* Enums must be compared using `==`, not with `.equals()`!
+* If you need both the key and the value from a Map, use `Map#entrySet()`!
+6. Naming conventions
+* Classes should be in *PascalCase* (e.g. `MyAwesomeClass`)
+* Enum constants should be in *SCREAMING_SNAKE_CASE* (e.g. `MY_ENUM_CONSTANT`)
+* Constants (`static final` fields) should be in *SCREAMING_SNAKE_CASE* (e.g. `MY_CONSTANT_FIELD`)
+* Variables, parameters and fields should be in *camelCase* (e.g. `myVariableOrField`)
+* All methods should be in *camelCase* (e.g. `myMethod`)
