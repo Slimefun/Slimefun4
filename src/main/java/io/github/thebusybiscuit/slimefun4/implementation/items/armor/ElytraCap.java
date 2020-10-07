@@ -1,5 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.GameMode;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
@@ -8,11 +16,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraCrashLi
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link ElytraCap} negates damage taken when crashing into a wall using an elytra.
@@ -37,10 +40,17 @@ public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, Pro
         return true;
     }
 
+    @Override
+    public void damageItem(Player p, ItemStack item) {
+        if (p.getGameMode() != GameMode.CREATIVE) {
+            DamageableItem.super.damageItem(p, item);
+        }
+    }
+
     @Nonnull
     @Override
     public ProtectionType[] getProtectionTypes() {
-        return new ProtectionType[] {ProtectionType.FLYING_INTO_WALL};
+        return new ProtectionType[] { ProtectionType.FLYING_INTO_WALL };
     }
 
     @Override

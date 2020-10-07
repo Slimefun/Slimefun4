@@ -402,24 +402,7 @@ public class SlimefunItem implements Placeable {
 
             // Now we can be certain this item should be enabled
             if (state == ItemState.ENABLED) {
-                // Register the Category too if it hasn't been registered yet
-                if (!category.isRegistered()) {
-                    category.register();
-                }
-
-                // Send out deprecation warnings for any classes or intefaces
-                checkForDeprecations(getClass());
-
-                // Add it to the list of enabled items
-                SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
-
-                // Load our Item Handlers
-                loadItemHandlers();
-
-                // Properly mark this Item as radioactive
-                if (this instanceof Radioactive) {
-                    SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
-                }
+                onEnable();
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
@@ -440,6 +423,33 @@ public class SlimefunItem implements Placeable {
         }
     }
 
+    /**
+     * This method is called when this {@link SlimefunItem} is currently being registered
+     * and we are certain that it will be enabled.
+     * 
+     * <strong>This method is for internal purposes, like {@link Category} registration only</strong>
+     */
+    private final void onEnable() {
+        // Register the Category too if it hasn't been registered yet
+        if (!category.isRegistered()) {
+            category.register();
+        }
+
+        // Send out deprecation warnings for any classes or intefaces
+        checkForDeprecations(getClass());
+
+        // Add it to the list of enabled items
+        SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
+
+        // Load our Item Handlers
+        loadItemHandlers();
+
+        // Properly mark this Item as radioactive
+        if (this instanceof Radioactive) {
+            SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
+        }
+    }
+
     private void loadItemHandlers() {
         for (ItemHandler handler : itemhandlers.values()) {
             Optional<IncompatibleItemHandlerException> exception = handler.validate(this);
@@ -451,9 +461,10 @@ public class SlimefunItem implements Placeable {
                 // Make developers or at least Server admins aware that
                 // an Item is using a deprecated ItemHandler
                 checkForDeprecations(handler.getClass());
-                // A bit too spammy atm, will enable it again later
             }
 
+            // If this ItemHandler is "public" (not bound to this SlimefunItem),
+            // we add it to the list of public Item handlers
             if (!handler.isPrivate()) {
                 Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
                 handlerset.add(handler);

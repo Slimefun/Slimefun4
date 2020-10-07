@@ -17,8 +17,12 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * The {@link TableSaw} is an implementation of a {@link MultiBlockMachine} that allows
@@ -27,6 +31,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * It also replaced the old "Saw Mill" from earlier versions.
  * 
  * @author dniym
+ * @author svr333
  * 
  * @see MultiBlockMachine
  *
@@ -46,6 +51,11 @@ public class TableSaw extends MultiBlockMachine {
                 displayedRecipes.add(new ItemStack(planks.get(), 8));
             }
         }
+
+        for (Material plank : Tag.PLANKS.getValues()) {
+            displayedRecipes.add(new ItemStack(plank));
+            displayedRecipes.add(new ItemStack(Material.STICK, 4));
+        }
     }
 
     @Override
@@ -54,28 +64,50 @@ public class TableSaw extends MultiBlockMachine {
     }
 
     @Override
-    public void onInteract(Player p, Block b) {
-        ItemStack log = p.getInventory().getItemInMainHand();
+    public void onInteract(@Nonnull Player p, @Nonnull Block b) {
+        ItemStack item = p.getInventory().getItemInMainHand();
+        ItemStack output = getItemsToOutput(item.getType());
 
-        Optional<Material> planks = MaterialConverter.getPlanksFromLog(log.getType());
+        if (output == null) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
+            return;
+        }
 
-        if (planks.isPresent()) {
-            if (p.getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(log, true);
-            }
+        if (p.getGameMode() != GameMode.CREATIVE) {
+            ItemUtils.consumeItem(item, true);
+        }
 
-            ItemStack output = new ItemStack(planks.get(), 8);
-            Inventory outputChest = findOutputChest(b, output);
+        outputItems(b, output);
+        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
+    }
 
-            if (outputChest != null) {
-                outputChest.addItem(output);
+    @Nullable
+    private ItemStack getItemsToOutput(@Nonnull Material item) {
+        if (Tag.LOGS.isTagged(item)) {
+            Optional<Material> planks = MaterialConverter.getPlanksFromLog(item);
+            if (planks.isPresent()) {
+                return new ItemStack(planks.get(), 8);
             }
             else {
-                b.getWorld().dropItemNaturally(b.getLocation(), output);
+                return null;
             }
-
-            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, log.getType());
+        }
+        else if (Tag.PLANKS.isTagged(item)) {
+            return new ItemStack(Material.STICK, 4);
+        }
+        else {
+            return null;
         }
     }
 
+    private void outputItems(@Nonnull Block b, @Nonnull ItemStack output) {
+        Inventory outputChest = findOutputChest(b, output);
+
+        if (outputChest != null) {
+            outputChest.addItem(output);
+        }
+        else {
+            b.getWorld().dropItemNaturally(b.getLocation(), output);
+        }
+    }
 }
