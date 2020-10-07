@@ -119,15 +119,13 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * Unit Test classes and methods should have no access modifier, not `public`, `protected` nor `private`.
 * Each Test should have a plain text `@DisplayName` annotation!
 #### 5. General best-practices
-* Use **Spaces**, not Tabs!
-* Do not declare multiple fields/variables on the same line! (e.g. Don't do this: `int x, y, z;`)
-* Comments should never go on the same line as code! Always above or below.
-* Use a Logger, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`!
 * Do not use `Collection#forEach(x -> ...)`, use a proper `for (...)` loop!
 * Do not create new `Random` objects, use `ThreadLocalRandom.current()` instead!
 * Always declare Maps or Collections using their base type! (e.g. `List<String> list = new ArrayList<>();`
 * When doing String operations like `String#toUppercase()`, always specify `Locale.ROOT` as an argument!
 * When reading or writing files, always specify the encoding using `StandardCharsets.UTF_8`!
+* Do not declare multiple fields/variables on the same line! (e.g. Don't do this: `int x, y, z;`)
+* Use a Logger, try to avoid `System.out.println(...)` and `Throwable#printStacktrace()`, use `Logger#log` instead!
 * Do not use Exceptions to validate data, empty catch blocks are a very bad practice, use other means like a regular expression to validate data.
 * If a parameter is annotated with `@Nonnull`, you should enforce this behaviour by doing `Validate.notNull(variable, "...");` and give a meaningful message about what went wrong
 * Any `switch/case` should always have a `default:` case at the end.
@@ -141,3 +139,25 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * Constants (`static final` fields) should be in *SCREAMING_SNAKE_CASE* (e.g. `MY_CONSTANT_FIELD`)
 * Variables, parameters and fields should be in *camelCase* (e.g. `myVariableOrField`)
 * All methods should be in *camelCase* (e.g. `myMethod`)
+* Packages must be all lowercase, consecutive words should generally be avoided. (e.g. `io.github.thebusybiscuit.slimefun4.core.something`)
+#### 7. Style preferences
+* Use **Spaces**, not Tabs!
+* We do not enforce any particular width or column limit, but try to prevent your lines from becoming too long.
+* Annotations for methods or fields should never go on the same line, place them on the line above.
+* Comments should never go on the same line as code! Always above or below.
+* Empty blocks like constructors should not occupy more than one line. (e.g. `private MyClass() {}`)
+* Modifiers for classes and fields must follow this order:<br>
+`(public/protected/private) (abstract) (static) (final)`
+* if/else statements should always include a bracket, please avoid one-line statements (e.g. Avoid doing: `if (x == 0) return;`)
+* Slimefun follows the **1TBS / OTBS** Bracket-Style standard (One true brace style):
+```java
+private void example(int x) {
+    if (x < 0) {
+        // x < 0
+    } else if (x > 0) {
+        // x > 0
+    } else {
+        // x == 0
+    }
+}
+```
