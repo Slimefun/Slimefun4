@@ -34,6 +34,7 @@
 * Magical Zombie Pills now also work on Zombified Piglins
 * (API) Added SlimefunGuideOpenEvent
 * (API) Added "NotConfigurable" attribute to disable configurability
+* Added Elytra Cap
 * (API) Added custom tags for developers
 
 #### Changes
@@ -63,6 +64,7 @@
 * Fixed Auto Disenchanters being unaffected by speed modifications from addons
 * Fixed radioactive items still being radioactive when disabled
 * Fixed #2391
+* Fixed #2403
 * Fixed #2238
 
 ## Release Candidate 16 (07 Sep 2020)
