@@ -99,24 +99,24 @@ If you have any further questions, then please join our [Discord Support Server]
 The general gist when it comes to code style: **Try to be consistent!**.<br>
 Try to stay inline with the code that surrounds you, having an entire package or even a single file that's filled with plenty of different and inconsistent code styles is just hard to read or maintain. That's why we wanna make sure everyone follows these simple principles:
 
-1. Imports
+#### 1. Imports
 * Don't use wildcard (`*`) imports!
 * Don't import unused classes!
 * Don't use static imports!
-2. Annotations
+#### 2. Annotations
 * Methods and parameters should be annotated with `@Nullable` or `@Nonnull`!
 * Methods that override a method must be annotated with `@Override`!
 * Interfaces with only one method should be annotated using `@FunctionalInterface`!
 * If you deprecate a method, add an `@deprecated` section to the javadocs explaining why you did it.
-3. Documentation
+#### 3. Documentation
 * Every class and every public method should have a Javadocs section assigned to it.
 * New packages should have a `package-info.java` file with documentation about the package.
 * Classes should have an `@author` tag.
-4. Unit Tests
+#### 4. Unit Tests
 * Try to write Unit Tests where possible.
 * Unit Test classes and methods should have no access modifier, not `public`, `protected` nor `private`.
 * Each Test should have a plain text `@DisplayName` annotation!
-5. General
+#### 5. General best-practices
 * Use **Spaces**, not Tabs!
 * Do not declare multiple fields/variables on the same line! (e.g. Don't do this: `int x, y, z;`)
 * Comments should never go on the same line as code! Always above or below.
@@ -133,7 +133,7 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * Array designators should be placed behind the type, not the variable name (e.g. `int[] myArray`)
 * Enums must be compared using `==`, not with `.equals()`!
 * If you need both the key and the value from a Map, use `Map#entrySet()`!
-6. Naming conventions
+#### 6. Naming conventions
 * Classes should be in *PascalCase* (e.g. `MyAwesomeClass`)
 * Enum constants should be in *SCREAMING_SNAKE_CASE* (e.g. `MY_ENUM_CONSTANT`)
 * Constants (`static final` fields) should be in *SCREAMING_SNAKE_CASE* (e.g. `MY_CONSTANT_FIELD`)
