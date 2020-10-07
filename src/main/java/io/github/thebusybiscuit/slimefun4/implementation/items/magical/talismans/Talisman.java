@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -95,16 +98,16 @@ public class Talisman extends SlimefunItem {
         return effects;
     }
 
-    public SlimefunItemStack getEnderVariant() {
-        return enderTalisman;
-    }
-
     protected String getMessageSuffix() {
         return suffix;
     }
 
     protected boolean isEventCancelled() {
         return cancel;
+    }
+
+    private SlimefunItemStack getEnderVariant() {
+        return enderTalisman;
     }
 
     @Override
@@ -180,8 +183,51 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    public static ItemStack tryFind(SlimefunItem item) {
-        if (!(item instanceof Talisman)) {
+    @Nullable
+    public static ItemStack checkForAndGet(@Nonnull SlimefunItemStack stack, @Nonnull Player player) {
+        return checkForAndGet(stack.getItem(), player);
+    }
+
+    @Nullable
+    public static ItemStack checkForAndGet(@Nonnull SlimefunItem sfItem, @Nonnull Player player) {
+        if (!(sfItem instanceof Talisman)) {
+            return null;
+        }
+
+        Talisman talisman = (Talisman) sfItem;
+
+        ItemStack talismanItem = talisman.getItem();
+        ItemStack enderTalisman = talisman.getEnderVariant();
+
+        if (SlimefunUtils.containsSimilarItem(player.getInventory(), talismanItem, true)) {
+            ItemStack[] contents = player.getInventory().getContents();
+
+            for (int i = 0; i < contents.length; i++) {
+                ItemStack item = contents[i];
+
+                if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
+                    ItemUtils.consumeItem(item, false);
+                    return item;
+                }
+            }
+
+            return null;
+        }
+        else if (SlimefunUtils.containsSimilarItem(player.getEnderChest(), enderTalisman, true)) {
+            ItemStack[] contents = player.getEnderChest().getContents();
+
+            for (int i = 0; i < contents.length; i++) {
+                ItemStack item = contents[i];
+
+                if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
+                    ItemUtils.consumeItem(item, false);
+                    return item;
+                }
+            }
+
+            return null;
+        }
+        else {
             return null;
         }
     }

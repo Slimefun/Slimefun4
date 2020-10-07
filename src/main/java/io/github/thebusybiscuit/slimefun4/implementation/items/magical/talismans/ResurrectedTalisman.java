@@ -29,7 +29,7 @@ import java.util.UUID;
  */
 
 public class ResurrectedTalisman extends Talisman {
-    private final NamespacedKey locationKey = new NamespacedKey(SlimefunPlugin.instance(), "resurrected_location");
+    private static final NamespacedKey locationKey = new NamespacedKey(SlimefunPlugin.instance(), "resurrected_location");
 
     public ResurrectedTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, true, true, "resurrected", new PotionEffect(PotionEffectType.GLOWING, 400, 0), new PotionEffect(PotionEffectType.ABSORPTION, 400, 4), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 20));
@@ -45,15 +45,15 @@ public class ResurrectedTalisman extends Talisman {
             PersistentDataContainer pdc = e.getItem().getItemMeta().getPersistentDataContainer();
             pdc.set(locationKey, PersistentDataType.STRING, json.toString());
 
-            //SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "", true);
-            e.getPlayer().sendMessage("Successfully saved current location. You will teleport here when you fall in the void.");
+            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location", true);
         };
     }
 
     @Nullable
-    public Location getSavedLocation(ItemStack item, boolean isEnderTalisman) {
+    public static Location getSavedLocation(ItemStack item) {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
         String data = pdc.get(locationKey, PersistentDataType.STRING);
+        /* Data here is always null, it doesnt get saved properly */
 
         if (data != null) {
             return parseLocationFromJson(data);
@@ -75,7 +75,8 @@ public class ResurrectedTalisman extends Talisman {
         return json;
     }
 
-    private Location parseLocationFromJson(@Nonnull String rawData) {
+    @Nullable
+    private static Location parseLocationFromJson(@Nonnull String rawData) {
         JsonObject json = new JsonParser().parse(rawData).getAsJsonObject();
 
         UUID uuid = UUID.fromString(json.get("world").getAsString());

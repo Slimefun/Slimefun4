@@ -16,8 +16,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.ArmorStand;
@@ -310,31 +313,26 @@ public class TalismanListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
-        Location respawnLocation = getSafeRespawnLocation(player);
         DamageCause dmgCause = player.getLastDamageCause().getCause();
 
         if (dmgCause == DamageCause.VOID && Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED)) {
             SlimefunPlugin.runSync(() -> {
-                PaperLib.teleportAsync(player, respawnLocation);
+                PaperLib.teleportAsync(player, getSafeRespawnLocation(player));
             }, 2);
         }
     }
 
     @Nonnull
     private Location getSafeRespawnLocation(@Nonnull Player player) {
-        Location savedLoc = null;
-        /* Obtain Talisman here */
+        ItemStack item = Talisman.checkForAndGet(SlimefunItems.TALISMAN_RESURRECTED, player);
 
-        if (SlimefunUtils.containsSimilarItem(player.getInventory(), talisman.getItem(), true)) {
-            savedLoc = talisman.getSavedLocation(talisman, false);
-        }
-        else if (SlimefunUtils.containsSimilarItem(player.getEnderChest(), talisman.getEnderVariant(), true)) {
-            savedLoc = talisman.getSavedLocation(talisman, true);
-        }
+        if (item != null) {
+            Location savedLoc = ResurrectedTalisman.getSavedLocation(item, false);
 
-        if (savedLoc != null) {
-            return savedLoc;
-        }
+            if (savedLoc != null) {
+                return savedLoc;
+            }
+        }    
 
         Location bedSpawn = player.getBedSpawnLocation();
         return (bedSpawn != null) ? bedSpawn : player.getLocation().getWorld().getSpawnLocation();
