@@ -27,10 +27,9 @@ public class GEOScanner extends SimpleSlimefunItem<BlockUseHandler> {
             Block b = e.getClickedBlock().get();
             Player p = e.getPlayer();
 
-            if (p.hasPermission("slimefun.inventory.bypass")
+            if (p.hasPermission("slimefun.gps.bypass")
                 || (SlimefunPlugin.getProtectionManager().hasPermission(
                 p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES))
-                && Slimefun.hasUnlocked(e.getPlayer(), item, false)
             ) {
 
                 SlimefunPlugin.getGPSNetwork().getResourceManager().scan(p, b, 0);

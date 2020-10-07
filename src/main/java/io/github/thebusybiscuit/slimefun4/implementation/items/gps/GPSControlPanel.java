@@ -25,10 +25,9 @@ public class GPSControlPanel extends SimpleSlimefunItem<BlockUseHandler> {
 
             Player p = e.getPlayer();
 
-            if (p.hasPermission("slimefun.inventory.bypass")
+            if (p.hasPermission("slimefun.gps.bypass")
                 || (SlimefunPlugin.getProtectionManager().hasPermission(
                 p, e.getClickedBlock().get().getLocation(), ProtectableAction.ACCESS_INVENTORIES))
-                && Slimefun.hasUnlocked(p, item, false)
             ) {
 
                 SlimefunPlugin.getGPSNetwork().openTransmitterControlPanel(p);
