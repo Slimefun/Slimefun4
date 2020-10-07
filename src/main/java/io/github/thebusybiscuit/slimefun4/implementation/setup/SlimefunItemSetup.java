@@ -39,6 +39,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmor
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoots;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.EnderBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
@@ -1125,6 +1126,10 @@ public final class SlimefunItemSetup {
 
         new SlimefunItem(categories.technicalComponents, SlimefunItems.MAGNET, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.NICKEL_INGOT, SlimefunItems.ALUMINUM_DUST, SlimefunItems.IRON_DUST, SlimefunItems.COBALT_INGOT, null, null, null, null, null})
+        .register(plugin);
+
+        new ElytraCap(categories.magicalGadgets, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,
+        new ItemStack[]{new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
         .register(plugin);
 
         new InfusedMagnet(categories.magicalGadgets, SlimefunItems.INFUSED_MAGNET, RecipeType.MAGIC_WORKBENCH,

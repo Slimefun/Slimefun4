@@ -276,8 +276,9 @@ public final class ResearchSetup {
         register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
         register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
-        register("wise_talisman", 268, "Talisman of the Wise", 20, SlimefunItems.TALISMAN_WISE);
-        register("resurrected_talisman", 269, "Talisman of the Resurrected", 20, SlimefunItems.TALISMAN_RESURRECTED);
+        register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
+        register("wise_talisman", 269, "Talisman of the Wise", 20, SlimefunItems.TALISMAN_WISE);
+        register("resurrected_talisman", 270, "Talisman of the Resurrected", 20, SlimefunItems.TALISMAN_RESURRECTED);
     }
 
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
