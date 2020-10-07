@@ -76,7 +76,6 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.anchor-set", msg -> msg.replace("%anchor%", anchor));
 
         item.setItemMeta(meta);
-
     }
 
     @Nonnull

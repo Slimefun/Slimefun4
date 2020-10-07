@@ -286,7 +286,8 @@ public final class ResearchSetup {
         register("climbing_pick", 265, "Block Raider", 20, SlimefunItems.CLIMBING_PICK);
         register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
-        register("energy_connectors", 268, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
+        register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
+        register("energy_connectors", 269, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
         
         plugin = null;
     }
