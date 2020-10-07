@@ -105,8 +105,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
         if (floors.size() < 2) {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
-        }
-        else {
+        } else {
             openFloorSelector(b, floors, p);
         }
     }
@@ -132,8 +131,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             if (block.getY() == b.getY()) {
                 line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.WHITE + floor, ""));
-            }
-            else {
+            } else {
                 line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.BLACK + floor);
                 line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.WHITE + floor, ""));
                 line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), DATA_KEY + i), player -> teleport(player, floor, block)));

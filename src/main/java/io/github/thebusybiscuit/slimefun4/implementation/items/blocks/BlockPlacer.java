@@ -91,8 +91,7 @@ public class BlockPlacer extends SlimefunItem {
                     if (!(item instanceof NotPlaceable)) {
                         placeSlimefunBlock(item, e.getItem(), facedBlock, dispenser);
                     }
-                }
-                else {
+                } else {
                     placeBlock(e.getItem(), facedBlock, dispenser);
                 }
             }
@@ -153,8 +152,7 @@ public class BlockPlacer extends SlimefunItem {
 
                     if (dispenser.getInventory().containsAtLeast(item, 2)) {
                         dispenser.getInventory().removeItem(new CustomItem(item, 1));
-                    }
-                    else {
+                    } else {
                         SlimefunPlugin.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
                     }
                 }
@@ -168,8 +166,7 @@ public class BlockPlacer extends SlimefunItem {
 
                 if (dispenser.getInventory().containsAtLeast(item, 2)) {
                     dispenser.getInventory().removeItem(new CustomItem(item, 1));
-                }
-                else {
+                } else {
                     SlimefunPlugin.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
                 }
             }
@@ -206,8 +203,7 @@ public class BlockPlacer extends SlimefunItem {
 
             if (dispenser.getInventory().containsAtLeast(item, 2)) {
                 dispenser.getInventory().removeItem(new CustomItem(item, 1));
-            }
-            else {
+            } else {
                 SlimefunPlugin.runSync(() -> dispenser.getInventory().removeItem(item), 2L);
             }
         }

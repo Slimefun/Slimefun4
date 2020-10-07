@@ -37,7 +37,7 @@ class WorldEditHook {
                         }
                     }
                 }
-                
+
                 return getExtent().setBlock(pos, block);
             }
 

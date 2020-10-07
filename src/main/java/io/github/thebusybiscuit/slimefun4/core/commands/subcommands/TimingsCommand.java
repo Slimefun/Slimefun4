@@ -18,8 +18,7 @@ class TimingsCommand extends SubCommand {
         if (sender.hasPermission("slimefun.command.timings") || sender instanceof ConsoleCommandSender) {
             sender.sendMessage("Please wait a second... The results are coming in!");
             SlimefunPlugin.getProfiler().requestSummary(sender);
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
         }
     }

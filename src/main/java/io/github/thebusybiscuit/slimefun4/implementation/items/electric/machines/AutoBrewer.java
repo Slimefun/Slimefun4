@@ -90,8 +90,7 @@ public abstract class AutoBrewer extends AContainer {
             }
 
             return new MachineRecipe(30, new ItemStack[] { input1, input2 }, new ItemStack[] { output });
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -103,35 +102,28 @@ public abstract class AutoBrewer extends AContainer {
             if (input == Material.FERMENTED_SPIDER_EYE) {
                 potion.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
                 return new ItemStack(potionType);
-            }
-            else if (input == Material.NETHER_WART) {
+            } else if (input == Material.NETHER_WART) {
                 potion.setBasePotionData(new PotionData(PotionType.AWKWARD, false, false));
                 return new ItemStack(potionType);
-            }
-            else if (potionType == Material.POTION && input == Material.GUNPOWDER) {
+            } else if (potionType == Material.POTION && input == Material.GUNPOWDER) {
                 return new ItemStack(Material.SPLASH_POTION);
-            }
-            else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
+            } else if (potionType == Material.SPLASH_POTION && input == Material.DRAGON_BREATH) {
                 return new ItemStack(Material.LINGERING_POTION);
             }
-        }
-        else if (input == Material.FERMENTED_SPIDER_EYE) {
+        } else if (input == Material.FERMENTED_SPIDER_EYE) {
             PotionType fermented = fermentations.get(data.getType());
 
             if (fermented != null) {
                 potion.setBasePotionData(new PotionData(fermented, false, false));
                 return new ItemStack(potionType);
             }
-        }
-        else if (input == Material.REDSTONE) {
+        } else if (input == Material.REDSTONE) {
             potion.setBasePotionData(new PotionData(data.getType(), true, data.isUpgraded()));
             return new ItemStack(potionType);
-        }
-        else if (input == Material.GLOWSTONE_DUST) {
+        } else if (input == Material.GLOWSTONE_DUST) {
             potion.setBasePotionData(new PotionData(data.getType(), data.isExtended(), true));
             return new ItemStack(potionType);
-        }
-        else if (data.getType() == PotionType.AWKWARD) {
+        } else if (data.getType() == PotionType.AWKWARD) {
             PotionType potionRecipe = potionRecipes.get(input);
 
             if (potionRecipe != null) {

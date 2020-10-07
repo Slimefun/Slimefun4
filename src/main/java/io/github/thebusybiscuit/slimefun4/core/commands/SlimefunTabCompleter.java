@@ -33,12 +33,10 @@ class SlimefunTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getSubCommandNames(), args[0]);
-        }
-        else if (args.length == 3) {
+        } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
                 return createReturnList(getSlimefunItems(), args[2]);
-            }
-            else if (args[0].equalsIgnoreCase("research")) {
+            } else if (args[0].equalsIgnoreCase("research")) {
                 List<Research> researches = SlimefunPlugin.getRegistry().getResearches();
                 List<String> suggestions = new LinkedList<>();
 
@@ -50,16 +48,13 @@ class SlimefunTabCompleter implements TabCompleter {
                 }
 
                 return createReturnList(suggestions, args[2]);
-            }
-            else {
+            } else {
                 // Returning null will make it fallback to the default arguments (all online players)
                 return null;
             }
-        }
-        else if (args.length == 4 && args[0].equalsIgnoreCase("give")) {
+        } else if (args.length == 4 && args[0].equalsIgnoreCase("give")) {
             return createReturnList(Arrays.asList("1", "2", "4", "8", "16", "32", "64"), args[3]);
-        }
-        else {
+        } else {
             // Returning null will make it fallback to the default arguments (all online players)
             return null;
         }
@@ -90,8 +85,7 @@ class SlimefunTabCompleter implements TabCompleter {
                 if (returnList.size() >= MAX_SUGGESTIONS) {
                     break;
                 }
-            }
-            else if (item.equalsIgnoreCase(input)) {
+            } else if (item.equalsIgnoreCase(input)) {
                 return Collections.emptyList();
             }
         }

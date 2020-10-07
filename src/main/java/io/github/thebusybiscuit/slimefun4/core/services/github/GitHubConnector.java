@@ -78,8 +78,7 @@ abstract class GitHubConnector {
             if (resp.isSuccess()) {
                 onSuccess(resp.getBody());
                 writeCacheFile(resp.getBody());
-            }
-            else {
+            } else {
                 if (github.isLoggingEnabled()) {
                     Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] { repository + getURLSuffix(), resp.getStatus(), resp.getBody() });
                 }
@@ -93,8 +92,7 @@ abstract class GitHubConnector {
                     }
                 }
             }
-        }
-        catch (UnirestException e) {
+        } catch (UnirestException e) {
             if (github.isLoggingEnabled()) {
                 Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
             }
@@ -118,8 +116,7 @@ abstract class GitHubConnector {
     private JsonNode readCacheFile() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             return new JsonNode(reader.readLine());
-        }
-        catch (IOException | JSONException e) {
+        } catch (IOException | JSONException e) {
             Slimefun.getLogger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] { file.getName(), e.getClass().getSimpleName(), e.getMessage() });
             return null;
         }
@@ -128,8 +125,7 @@ abstract class GitHubConnector {
     private void writeCacheFile(@Nonnull JsonNode node) {
         try (FileOutputStream output = new FileOutputStream(file)) {
             output.write(node.toString().getBytes(StandardCharsets.UTF_8));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Slimefun.getLogger().log(Level.WARNING, "Failed to populate GitHub cache: {0} - {1}", new Object[] { e.getClass().getSimpleName(), e.getMessage() });
         }
     }

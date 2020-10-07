@@ -79,7 +79,7 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
 
         return Optional.empty();
     }
-    
+
     @Override
     public Collection<ItemStack> getDrops() {
         // There should be no drops by default since drops are handled by the

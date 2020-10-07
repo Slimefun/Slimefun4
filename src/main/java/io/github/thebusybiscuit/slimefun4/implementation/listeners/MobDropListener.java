@@ -67,8 +67,7 @@ public class MobDropListener implements Listener {
 
         if (sfi == null) {
             return true;
-        }
-        else if (Slimefun.hasUnlocked(p, sfi, true)) {
+        } else if (Slimefun.hasUnlocked(p, sfi, true)) {
             if (sfi instanceof RandomMobDrop) {
                 int random = ThreadLocalRandom.current().nextInt(100);
 
@@ -82,8 +81,7 @@ public class MobDropListener implements Listener {
             }
 
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

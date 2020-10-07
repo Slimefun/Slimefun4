@@ -88,15 +88,12 @@ public class TableSaw extends MultiBlockMachine {
 
             if (planks.isPresent()) {
                 return new ItemStack(planks.get(), 8);
-            }
-            else {
+            } else {
                 return null;
             }
-        }
-        else if (Tag.PLANKS.isTagged(item)) {
+        } else if (Tag.PLANKS.isTagged(item)) {
             return new ItemStack(Material.STICK, 4);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -106,8 +103,7 @@ public class TableSaw extends MultiBlockMachine {
 
         if (outputChest != null) {
             outputChest.addItem(output);
-        }
-        else {
+        } else {
             b.getWorld().dropItemNaturally(b.getLocation(), output);
         }
     }

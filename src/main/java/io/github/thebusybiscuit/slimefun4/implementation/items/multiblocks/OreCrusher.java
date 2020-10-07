@@ -142,8 +142,7 @@ public class OreCrusher extends MultiBlockMachine {
                                 inv.removeItem(removing);
                                 outputInv.addItem(adding);
                                 p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, 1);
-                            }
-                            else {
+                            } else {
                                 SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                             }
                         }

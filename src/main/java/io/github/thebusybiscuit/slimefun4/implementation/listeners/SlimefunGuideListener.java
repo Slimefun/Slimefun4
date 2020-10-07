@@ -50,48 +50,43 @@ public class SlimefunGuideListener implements Listener {
         if (tryOpenGuide(p, e, SlimefunGuideLayout.BOOK) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
-            }
-            else {
+            } else {
                 openGuide(p, e, SlimefunGuideLayout.BOOK);
             }
-        }
-        else if (tryOpenGuide(p, e, SlimefunGuideLayout.CHEST) == Result.ALLOW) {
+        } else if (tryOpenGuide(p, e, SlimefunGuideLayout.CHEST) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
-            }
-            else {
+            } else {
                 openGuide(p, e, SlimefunGuideLayout.CHEST);
             }
-        }
-        else if (tryOpenGuide(p, e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
+        } else if (tryOpenGuide(p, e, SlimefunGuideLayout.CHEAT_SHEET) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
-            }
-            else {
+            } else {
                 // We rather just run the command here,
                 // all necessary permission checks will be handled there.
                 p.chat("/sf cheat");
             }
         }
     }
-    
+
     @ParametersAreNonnullByDefault
     private void openGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
         SlimefunGuideOpenEvent event = new SlimefunGuideOpenEvent(p, e.getItem(), layout);
         Bukkit.getPluginManager().callEvent(event);
-        
+
         if (!event.isCancelled()) {
             e.cancel();
             SlimefunGuide.openGuide(p, event.getGuideLayout());
-        } 
-    } 
+        }
+    }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     private Result tryOpenGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
         ItemStack item = e.getItem();
         if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true, false)) {
-            
+
             if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-item", true);
                 return Result.DENY;

@@ -286,8 +286,7 @@ public class SlimefunItem implements Placeable {
             if (state == ItemState.ENABLED) {
                 if (hidden) {
                     category.remove(this);
-                }
-                else {
+                } else {
                     category.add(this);
                 }
             }
@@ -385,18 +384,15 @@ public class SlimefunItem implements Placeable {
                 // Not-configurable items will be enabled.
                 // Any other settings will remain as default.
                 state = ItemState.ENABLED;
-            }
-            else if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
+            } else if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
                 state = ItemState.ENABLED;
                 useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
                 hidden = SlimefunPlugin.getItemCfg().getBoolean(id + ".hide-in-guide");
                 enchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-enchanting");
                 disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
-            }
-            else if (this instanceof VanillaItem) {
+            } else if (this instanceof VanillaItem) {
                 state = ItemState.VANILLA_FALLBACK;
-            }
-            else {
+            } else {
                 state = ItemState.DISABLED;
             }
 
@@ -417,8 +413,7 @@ public class SlimefunItem implements Placeable {
                 info("Item was registered during runtime.");
                 load();
             }
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             error("Registering " + toString() + " has failed!", x);
         }
     }
@@ -456,8 +451,7 @@ public class SlimefunItem implements Placeable {
 
             if (exception.isPresent()) {
                 throw exception.get();
-            }
-            else {
+            } else {
                 // Make developers or at least Server admins aware that
                 // an Item is using a deprecated ItemHandler
                 checkForDeprecations(handler.getClass());
@@ -644,8 +638,7 @@ public class SlimefunItem implements Placeable {
         if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
             boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -660,8 +653,7 @@ public class SlimefunItem implements Placeable {
             }
 
             recipeType.register(recipe, getRecipeOutput());
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             error("Failed to properly load the Item \"" + id + "\"", x);
         }
     }
@@ -819,8 +811,7 @@ public class SlimefunItem implements Placeable {
         if (handler.isPresent()) {
             try {
                 callable.accept(c.cast(handler.get()));
-            }
-            catch (Exception | LinkageError x) {
+            } catch (Exception | LinkageError x) {
                 error("Could not pass \"" + c.getSimpleName() + "\" for " + toString(), x);
             }
 
@@ -843,8 +834,7 @@ public class SlimefunItem implements Placeable {
     public String toString() {
         if (addon == null) {
             return getClass().getSimpleName() + " - '" + id + "'";
-        }
-        else {
+        } else {
             return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
         }
     }

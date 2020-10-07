@@ -46,31 +46,26 @@ public class UpdaterService {
         if (version.contains("UNOFFICIAL")) {
             // This Server is using a modified build that is not a public release.
             branch = SlimefunBranch.UNOFFICIAL;
-        }
-        else if (version.startsWith("DEV - ")) {
+        } else if (version.startsWith("DEV - ")) {
             // If we are using a development build, we want to switch to our custom
             try {
                 autoUpdater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
 
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
             }
 
             branch = SlimefunBranch.DEVELOPMENT;
-        }
-        else if (version.startsWith("RC - ")) {
+        } else if (version.startsWith("RC - ")) {
             // If we are using a "stable" build, we want to switch to our custom
             try {
                 autoUpdater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/stable", "RC - ");
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 plugin.getLogger().log(Level.SEVERE, "Failed to create AutoUpdater", x);
             }
 
             branch = SlimefunBranch.STABLE;
-        }
-        else {
+        } else {
             branch = SlimefunBranch.UNKNOWN;
         }
 
@@ -111,8 +106,7 @@ public class UpdaterService {
     public void start() {
         if (updater != null) {
             updater.start();
-        }
-        else {
+        } else {
             printBorder();
             plugin.getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
             plugin.getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");

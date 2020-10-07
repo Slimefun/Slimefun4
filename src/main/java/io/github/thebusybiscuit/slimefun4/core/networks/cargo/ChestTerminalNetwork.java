@@ -164,15 +164,13 @@ abstract class ChestTerminalNetwork extends Network {
                 if (is != null) {
                     if (stack == null) {
                         stack = is;
-                    }
-                    else {
+                    } else {
                         stack = new CustomItem(stack, stack.getAmount() + is.getAmount());
                     }
 
                     if (is.getAmount() == item.getAmount()) {
                         break;
-                    }
-                    else {
+                    } else {
                         item = new CustomItem(item, item.getAmount() - is.getAmount());
                     }
                 }
@@ -184,8 +182,7 @@ abstract class ChestTerminalNetwork extends Network {
 
             if (prev == null) {
                 terminal.replaceExistingItem(slot, stack);
-            }
-            else {
+            } else {
                 terminal.replaceExistingItem(slot, new CustomItem(stack, stack.getAmount() + prev.getAmount()));
             }
         }
@@ -316,15 +313,13 @@ abstract class ChestTerminalNetwork extends Network {
                     firstTerminal = l;
                 }
             }
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             item.error("An Exception was caused while trying to tick Chest terminals", x);
         }
 
         if (firstTerminal != null) {
             return SlimefunPlugin.getProfiler().closeEntry(firstTerminal, item, timestamp);
-        }
-        else {
+        } else {
             return System.nanoTime() - timestamp;
         }
     }
@@ -350,8 +345,7 @@ abstract class ChestTerminalNetwork extends Network {
             if (stack.getMaxStackSize() > 1) {
                 int amount = item.getInt() > stack.getMaxStackSize() ? stack.getMaxStackSize() : item.getInt();
                 lore.add(ChatColors.color("&7<Left Click: Request 1 | Right Click: Request " + amount + ">"));
-            }
-            else {
+            } else {
                 lore.add(ChatColors.color("&7<Left Click: Request 1>"));
             }
 
@@ -371,8 +365,7 @@ abstract class ChestTerminalNetwork extends Network {
                 return false;
             });
 
-        }
-        else {
+        } else {
             terminal.replaceExistingItem(slot, terminalPlaceholderItem);
             terminal.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         }
@@ -403,18 +396,15 @@ abstract class ChestTerminalNetwork extends Network {
                 ItemStack is = menu.getItemInSlot(slot);
                 filter(is, items, l);
             }
-        }
-        else if (BlockStorage.hasInventory(target)) {
+        } else if (BlockStorage.hasInventory(target)) {
             BlockMenu blockMenu = BlockStorage.getInventory(target);
 
             if (blockMenu.getPreset().getID().startsWith("BARREL_")) {
                 gatherItemsFromBarrel(l, blockMenu, items);
-            }
-            else {
+            } else {
                 handleWithdraw(blockMenu, items, l);
             }
-        }
-        else if (CargoUtils.hasInventory(target)) {
+        } else if (CargoUtils.hasInventory(target)) {
             BlockState state = PaperLib.getBlockState(target, false).getState();
 
             if (state instanceof InventoryHolder) {
@@ -457,8 +447,7 @@ abstract class ChestTerminalNetwork extends Network {
                     }
                 }
             }
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             Slimefun.getLogger().log(Level.SEVERE, "An Exception occurred while trying to read data from a Barrel", x);
         }
     }

@@ -49,8 +49,7 @@ public final class Slimefun {
 
         if (sfItem != null) {
             return hasUnlocked(p, sfItem, message);
-        }
-        else {
+        } else {
             return true;
         }
     }
@@ -76,8 +75,7 @@ public final class Slimefun {
         if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
             if (sfItem.getResearch() == null) {
                 return true;
-            }
-            else {
+            } else {
                 Optional<PlayerProfile> profile = PlayerProfile.find(p);
 
                 if (!profile.isPresent()) {
@@ -85,11 +83,9 @@ public final class Slimefun {
                     // But we will schedule the Profile for loading.
                     PlayerProfile.request(p);
                     return false;
-                }
-                else if (profile.get().hasUnlocked(sfItem.getResearch())) {
+                } else if (profile.get().hasUnlocked(sfItem.getResearch())) {
                     return true;
-                }
-                else {
+                } else {
                     if (message && !(sfItem instanceof VanillaItem)) {
                         SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-researched", true);
                     }
@@ -118,11 +114,9 @@ public final class Slimefun {
     public static boolean hasPermission(Player p, SlimefunItem item, boolean message) {
         if (item == null) {
             return true;
-        }
-        else if (SlimefunPlugin.getPermissionsService().hasPermission(p, item)) {
+        } else if (SlimefunPlugin.getPermissionsService().hasPermission(p, item)) {
             return true;
-        }
-        else {
+        } else {
             if (message) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-permission", true);
             }
@@ -170,8 +164,7 @@ public final class Slimefun {
             }
 
             return false;
-        }
-        else if (!SlimefunPlugin.getWorldSettingsService().isEnabled(p.getWorld(), sfItem)) {
+        } else if (!SlimefunPlugin.getWorldSettingsService().isEnabled(p.getWorld(), sfItem)) {
             if (message) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-in-world", true);
             }

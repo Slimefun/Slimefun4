@@ -47,8 +47,7 @@ class TestIronGolemListener {
 
         if (hand == EquipmentSlot.HAND) {
             player.getInventory().setItemInMainHand(itemInHand);
-        }
-        else {
+        } else {
             player.getInventory().setItemInOffHand(itemInHand);
         }
 

@@ -47,8 +47,7 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
         if (meta instanceof PotionMeta) {
             effects = ((PotionMeta) meta).getCustomEffects();
-        }
-        else {
+        } else {
             effects = new ArrayList<>();
         }
     }
@@ -82,16 +81,13 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
         if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
             if (p.getInventory().getItemInMainHand().getAmount() == 1) {
                 SlimefunPlugin.runSync(() -> p.getEquipment().getItemInMainHand().setAmount(0));
-            }
-            else {
+            } else {
                 SlimefunPlugin.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
             }
-        }
-        else if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
+        } else if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInOffHand(), true)) {
             if (p.getInventory().getItemInOffHand().getAmount() == 1) {
                 SlimefunPlugin.runSync(() -> p.getEquipment().getItemInOffHand().setAmount(0));
-            }
-            else {
+            } else {
                 SlimefunPlugin.runSync(() -> p.getInventory().removeItem(new ItemStack(Material.GLASS_BOTTLE, 1)));
             }
         }
