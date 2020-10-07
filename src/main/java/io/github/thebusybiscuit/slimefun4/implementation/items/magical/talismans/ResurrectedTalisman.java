@@ -29,7 +29,8 @@ import java.util.UUID;
  */
 
 public class ResurrectedTalisman extends Talisman {
-    private static final NamespacedKey locationKey = new NamespacedKey(SlimefunPlugin.instance(), "resurrected_location");
+    
+    private final NamespacedKey locationKey = new NamespacedKey(SlimefunPlugin.instance(), "resurrected_location");
 
     public ResurrectedTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, true, true, "resurrected", new PotionEffect(PotionEffectType.GLOWING, 400, 0), new PotionEffect(PotionEffectType.ABSORPTION, 400, 4), new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 20));
@@ -50,7 +51,7 @@ public class ResurrectedTalisman extends Talisman {
     }
 
     @Nullable
-    public static Location getSavedLocation(ItemStack item) {
+    public Location getSavedLocation(ItemStack item) {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
         String data = pdc.get(locationKey, PersistentDataType.STRING);
         /* Data here is always null, it doesnt get saved properly */
@@ -76,7 +77,7 @@ public class ResurrectedTalisman extends Talisman {
     }
 
     @Nullable
-    private static Location parseLocationFromJson(@Nonnull String rawData) {
+    private Location parseLocationFromJson(@Nonnull String rawData) {
         JsonObject json = new JsonParser().parse(rawData).getAsJsonObject();
 
         UUID uuid = UUID.fromString(json.get("world").getAsString());
