@@ -1,13 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import org.bukkit.Material;
+import org.bukkit.Tag;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class ElectrifiedCrucible extends AContainer {
 
