@@ -327,7 +327,7 @@ public class TalismanListener implements Listener {
         ItemStack item = Talisman.checkForAndGet(SlimefunItems.TALISMAN_RESURRECTED, player);
 
         if (item != null) {
-            Location savedLoc = ResurrectedTalisman.getSavedLocation(item, false);
+            Location savedLoc = ResurrectedTalisman.getSavedLocation(item);
 
             if (savedLoc != null) {
                 return savedLoc;
