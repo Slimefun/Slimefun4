@@ -66,6 +66,7 @@
 * Fixed radioactive items still being radioactive when disabled
 * Fixed #2391
 * Fixed #2403
+* Fixed #2405
 * Fixed #2238
 
 ## Release Candidate 16 (07 Sep 2020)
