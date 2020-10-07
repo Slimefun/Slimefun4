@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.geo;
 
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
@@ -19,10 +22,22 @@ public class GEOScanner extends SimpleSlimefunItem<BlockUseHandler> {
     @Override
     public BlockUseHandler getItemHandler() {
         return e -> {
-            Block b = e.getClickedBlock().get();
-
             e.cancel();
-            SlimefunPlugin.getGPSNetwork().getResourceManager().scan(e.getPlayer(), b, 0);
+
+            Block b = e.getClickedBlock().get();
+            Player p = e.getPlayer();
+
+            if (p.hasPermission("slimefun.inventory.bypass")
+                || (SlimefunPlugin.getProtectionManager().hasPermission(
+                p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES))
+                && Slimefun.hasUnlocked(e.getPlayer(), item, false)
+            ) {
+
+                SlimefunPlugin.getGPSNetwork().getResourceManager().scan(p, b, 0);
+            } else {
+                SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+
+            }
         };
     }
 }
