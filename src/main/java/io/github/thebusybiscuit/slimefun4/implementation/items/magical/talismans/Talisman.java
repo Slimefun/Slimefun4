@@ -180,6 +180,12 @@ public class Talisman extends SlimefunItem {
         }
     }
 
+    public static ItemStack tryFind(SlimefunItem item) {
+        if (!(item instanceof Talisman)) {
+            return null;
+        }
+    }
+
     private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman) {
         consumeItem(inv, talisman);
         applyTalismanEffects(p, talisman);
