@@ -129,9 +129,10 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * Do not use Exceptions to validate data, empty catch blocks are a very bad practice, use other means like a regular expression to validate data.
 * If a parameter is annotated with `@Nonnull`, you should enforce this behaviour by doing `Validate.notNull(variable, "...");` and give a meaningful message about what went wrong
 * Any `switch/case` should always have a `default:` case at the end.
-* If you are working with a resource that must be closed, use a `try/with-resource`, this will automatically close the resource at the end (e.g. `try (InputStream stream = ...) {`)
-* Array designators should be placed behind the type, not the variable name (e.g. `int[] myArray`)
+* If you are working with a resource that must be closed, use a `try/with-resource`, this will automatically close the resource at the end. (e.g. `try (InputStream stream = ...) {`)
+* Array designators should be placed behind the type, not the variable name. (e.g. `int[] myArray`)
 * Enums must be compared using `==`, not with `.equals()`!
+* Avoid direct string concatenation, use a `StringBuilder` instead!
 * If you need both the key and the value from a Map, use `Map#entrySet()`!
 #### 6. Naming conventions
 * Classes should be in *PascalCase* (e.g. `MyAwesomeClass`)
