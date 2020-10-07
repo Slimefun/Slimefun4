@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialConverter;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -68,6 +69,7 @@ public class TableSaw extends MultiBlockMachine {
         ItemStack output = getItemsToOutput(item.getType());
 
         if (output == null) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
             return;
         }
 
