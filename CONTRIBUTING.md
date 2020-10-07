@@ -146,6 +146,7 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * We do not enforce any particular width or column limit, but try to prevent your lines from becoming too long.
 * Annotations for methods or fields should never go on the same line, place them on the line above.
 * Comments should never go on the same line as code! Always above or below.
+* Make sure that empty lines are truly empty, they should not contain any whitespace characters.
 * Empty blocks like constructors should not occupy more than one line. (e.g. `private MyClass() {}`)
 * Modifiers for classes and fields must follow this order:<br>
 `(public/protected/private) (abstract) (static) (final)`
