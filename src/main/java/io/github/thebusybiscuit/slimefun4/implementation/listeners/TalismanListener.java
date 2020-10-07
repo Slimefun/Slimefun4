@@ -325,14 +325,19 @@ public class TalismanListener implements Listener {
     @Nonnull
     private Location getSafeRespawnLocation(@Nonnull Player player) {
         ItemStack item = Talisman.checkForAndGet(SlimefunItems.TALISMAN_RESURRECTED, player);
+        SlimefunItem sfItem = ResurrectedTalisman.getByItem(item);
 
-        if (item != null) {
-            Location savedLoc = ResurrectedTalisman.getSavedLocation(item);
+        if (sfItem instanceof ResurrectedTalisman) {
+            ResurrectedTalisman talisman = (ResurrectedTalisman) sfItem;
 
-            if (savedLoc != null) {
-                return savedLoc;
-            }
-        }    
+            if (item != null) {
+                Location savedLoc = talisman.getSavedLocation(item);
+    
+                if (savedLoc != null) {
+                    return savedLoc;
+                }
+            }   
+        }        
 
         Location bedSpawn = player.getBedSpawnLocation();
         return (bedSpawn != null) ? bedSpawn : player.getLocation().getWorld().getSpawnLocation();

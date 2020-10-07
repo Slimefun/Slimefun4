@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talisman
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import io.github.thebusybiscuit.cscorelib2.data.PersistentJsonDataType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -11,6 +13,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -29,7 +32,7 @@ import java.util.UUID;
  */
 
 public class ResurrectedTalisman extends Talisman {
-    
+
     private final NamespacedKey locationKey = new NamespacedKey(SlimefunPlugin.instance(), "resurrected_location");
 
     public ResurrectedTalisman(SlimefunItemStack item, ItemStack[] recipe) {
@@ -42,22 +45,23 @@ public class ResurrectedTalisman extends Talisman {
         return e -> {
             Location currentLoc = e.getPlayer().getLocation();
             JsonObject json = createJsonFromLocation(currentLoc);
+            ItemMeta itemMeta = e.getItem().getItemMeta();
 
-            PersistentDataContainer pdc = e.getItem().getItemMeta().getPersistentDataContainer();
-            pdc.set(locationKey, PersistentDataType.STRING, json.toString());
+            itemMeta.getPersistentDataContainer().set(locationKey, PersistentJsonDataType.JSON_OBJECT, json);
+
+            e.getItem().setItemMeta(itemMeta);
 
             SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location", true);
         };
     }
 
     @Nullable
-    public Location getSavedLocation(ItemStack item) {
+    public Location getSavedLocation(@Nonnull ItemStack item) {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        String data = pdc.get(locationKey, PersistentDataType.STRING);
-        /* Data here is always null, it doesnt get saved properly */
+        JsonObject json = pdc.get(locationKey, PersistentJsonDataType.JSON_OBJECT);
 
-        if (data != null) {
-            return parseLocationFromJson(data);
+        if (json != null) {
+            return parseLocationFromJsonObject(json);
         }
         else {
             return null;
@@ -77,9 +81,7 @@ public class ResurrectedTalisman extends Talisman {
     }
 
     @Nullable
-    private Location parseLocationFromJson(@Nonnull String rawData) {
-        JsonObject json = new JsonParser().parse(rawData).getAsJsonObject();
-
+    private Location parseLocationFromJsonObject(@Nonnull JsonObject json) {
         UUID uuid = UUID.fromString(json.get("world").getAsString());
         World world = Bukkit.getWorld(uuid);
 
