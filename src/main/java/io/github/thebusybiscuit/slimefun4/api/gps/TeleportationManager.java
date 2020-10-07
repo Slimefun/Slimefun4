@@ -92,7 +92,8 @@ public final class TeleportationManager {
 
     @ParametersAreNonnullByDefault
     public int getTeleportationTime(int complexity, Location source, Location destination) {
-        if (complexity < 100) return 100;
+        if (complexity < 100)
+            return 100;
 
         int speed = 50_000 + complexity * complexity;
         return 1 + Math.min(4 * distanceSquared(source, destination) / speed, 40);
@@ -103,8 +104,7 @@ public final class TeleportationManager {
         if (source.getWorld().getUID().equals(destination.getWorld().getUID())) {
             int distance = (int) source.distanceSquared(destination);
             return Math.min(distance, 100_000_000);
-        }
-        else {
+        } else {
             return 150_000_000;
         }
     }
@@ -129,8 +129,7 @@ public final class TeleportationManager {
             if (progress > 99) {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
                 PaperLib.teleportAsync(p, destination).thenAccept(success -> onTeleport(p, destination, success, resistance));
-            }
-            else {
+            } else {
                 p.sendTitle(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.teleporting")), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
 
                 source.getWorld().spawnParticle(Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
@@ -138,8 +137,7 @@ public final class TeleportationManager {
 
                 SlimefunPlugin.runSync(() -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10L);
             }
-        }
-        else {
+        } else {
             cancel(uuid, p);
         }
     }
@@ -161,8 +159,7 @@ public final class TeleportationManager {
                 destination.getWorld().spawnParticle(Particle.PORTAL, loc, 200, 0.2F, 0.8F, 0.2F);
                 destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
                 teleporterUsers.remove(p.getUniqueId());
-            }
-            else {
+            } else {
                 // Make sure the Player is removed from the actively teleporting users
                 // and notified about the failed teleportation
                 cancel(p.getUniqueId(), p);

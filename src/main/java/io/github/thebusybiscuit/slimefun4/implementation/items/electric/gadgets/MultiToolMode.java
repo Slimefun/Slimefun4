@@ -11,7 +11,7 @@ class MultiToolMode {
     MultiToolMode(MultiTool multiTool, int id, String itemId) {
         this.item = new ItemSetting<>("mode." + id + ".item", itemId);
         this.enabled = new ItemSetting<>("mode." + id + ".enabled", true);
-        
+
         multiTool.addItemSetting(item, enabled);
     }
 

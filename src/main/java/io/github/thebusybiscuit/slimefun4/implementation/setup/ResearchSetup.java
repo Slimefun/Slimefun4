@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -279,6 +281,7 @@ public final class ResearchSetup {
         register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
     }
 
+    @ParametersAreNonnullByDefault
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
         Research research = new Research(new NamespacedKey(SlimefunPlugin.instance(), key), id, name, defaultCost);
 

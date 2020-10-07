@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -196,8 +196,7 @@ public class IndustrialMiner extends MultiBlockMachine {
 
         if (northern.getType() == Material.PISTON) {
             return new Block[] { northern, chest.getRelative(BlockFace.SOUTH) };
-        }
-        else {
+        } else {
             return new Block[] { chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST) };
         }
     }
@@ -213,9 +212,9 @@ public class IndustrialMiner extends MultiBlockMachine {
     public boolean canMine(Material type) {
         if (SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)) {
             return true;
-        }
-        else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
+
         }
 
         return false;

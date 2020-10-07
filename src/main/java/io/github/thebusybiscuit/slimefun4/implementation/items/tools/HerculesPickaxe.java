@@ -23,11 +23,9 @@ public class HerculesPickaxe extends SimpleSlimefunItem<ToolUseHandler> {
             if (e.getBlock().getType().toString().endsWith("_ORE")) {
                 if (e.getBlock().getType() == Material.IRON_ORE) {
                     drops.add(new CustomItem(SlimefunItems.IRON_DUST, 2));
-                }
-                else if (e.getBlock().getType() == Material.GOLD_ORE) {
+                } else if (e.getBlock().getType() == Material.GOLD_ORE) {
                     drops.add(new CustomItem(SlimefunItems.GOLD_DUST, 2));
-                }
-                else {
+                } else {
                     for (ItemStack drop : e.getBlock().getDrops(tool)) {
                         drops.add(new CustomItem(drop, drop.getAmount() * 2));
                     }

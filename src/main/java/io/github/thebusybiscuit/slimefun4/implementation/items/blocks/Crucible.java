@@ -93,8 +93,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                     if (craft(p, input)) {
                         boolean water = Tag.LEAVES.isTagged(input.getType());
                         generateLiquid(block, water);
-                    }
-                    else {
+                    } else {
                         SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
                     }
                 }
@@ -122,13 +121,11 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     private void generateLiquid(@Nonnull Block block, boolean water) {
         if (block.getType() == (water ? Material.WATER : Material.LAVA)) {
             addLiquidLevel(block, water);
-        }
-        else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
+        } else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
             int level = ((Levelled) block.getBlockData()).getLevel();
             block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
-        }
-        else {
+        } else {
             SlimefunPlugin.runSync(() -> placeLiquid(block, water), 50L);
         }
     }
@@ -142,8 +139,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
         if (level == 0) {
             block.getWorld().playSound(block.getLocation(), water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, 1F, 1F);
-        }
-        else {
+        } else {
             int finalLevel = 7 - level;
             SlimefunPlugin.runSync(() -> runPostTask(block, water ? Sound.ENTITY_PLAYER_SPLASH : Sound.BLOCK_LAVA_POP, finalLevel), 50L);
         }
@@ -152,8 +148,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     private void placeLiquid(@Nonnull Block block, boolean water) {
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
             block.setType(water ? Material.WATER : Material.LAVA);
-        }
-        else {
+        } else {
             if (water && block.getBlockData() instanceof Waterlogged) {
                 Waterlogged wl = (Waterlogged) block.getBlockData();
                 wl.setWaterlogged(true);
@@ -185,8 +180,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
         if (times < 8) {
             SlimefunPlugin.runSync(() -> runPostTask(block, sound, times + 1), 50L);
-        }
-        else {
+        } else {
             block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
         }
     }

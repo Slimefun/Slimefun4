@@ -70,8 +70,7 @@ class PerformanceSummary {
                 String average = NumberUtils.getAsMillis(entry.getValue() / count);
 
                 return entry.getKey() + " - " + count + "x (" + time + " | avg: " + average + ')';
-            }
-            else {
+            } else {
                 return entry.getKey() + " - " + count + "x (" + time + ')';
             }
         });
@@ -100,8 +99,7 @@ class PerformanceSummary {
         if (sender instanceof Player) {
             TextComponent component = summarizeAsTextComponent(count, prefix, results, formatter);
             sender.spigot().sendMessage(component);
-        }
-        else {
+        } else {
             String text = summarizeAsString(count, prefix, results, formatter);
             sender.sendMessage(text);
         }
@@ -125,8 +123,7 @@ class PerformanceSummary {
                 if (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD)) {
                     builder.append("\n").append(ChatColor.YELLOW).append(formatter.apply(entry));
                     shownEntries++;
-                }
-                else {
+                } else {
                     hiddenEntries++;
                 }
             }
@@ -161,8 +158,7 @@ class PerformanceSummary {
                     builder.append("\n  ");
                     builder.append(ChatColor.stripColor(formatter.apply(entry)));
                     shownEntries++;
-                }
-                else {
+                } else {
                     hiddenEntries++;
                 }
             }

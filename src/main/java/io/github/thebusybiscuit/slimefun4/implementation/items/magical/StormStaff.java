@@ -75,13 +75,11 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
                     if (loc.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, loc, ProtectableAction.PVP)) {
                         e.cancel();
                         useItem(p, item, loc);
-                    }
-                    else {
+                    } else {
                         SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-pvp", true);
                     }
                 }
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.hungry", true);
             }
         };
@@ -122,16 +120,14 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
                 // or throw it on the ground
                 p.getWorld().dropItemNaturally(p.getLocation(), seperateItem);
             }
-        }
-        else {
+        } else {
             ItemMeta meta = item.getItemMeta();
             int usesLeft = meta.getPersistentDataContainer().getOrDefault(usageKey, PersistentDataType.INTEGER, MAX_USES);
 
             if (usesLeft == 1) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
                 item.setAmount(0);
-            }
-            else {
+            } else {
                 usesLeft--;
                 meta.getPersistentDataContainer().set(usageKey, PersistentDataType.INTEGER, usesLeft);
 

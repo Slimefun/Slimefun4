@@ -57,8 +57,7 @@ public class CargoManager extends SlimefunItem {
                     if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
                         BlockStorage.addBlockInfo(b, "visualizer", "disabled");
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
-                    }
-                    else {
+                    } else {
                         BlockStorage.addBlockInfo(b, "visualizer", null);
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
                     }

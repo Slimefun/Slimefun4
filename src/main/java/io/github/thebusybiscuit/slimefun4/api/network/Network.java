@@ -122,8 +122,7 @@ public abstract class Network {
     public void markDirty(@Nonnull Location l) {
         if (regulator.equals(l)) {
             manager.unregisterNetwork(this);
-        }
-        else {
+        } else {
             nodeQueue.add(l.clone());
         }
     }
@@ -143,11 +142,9 @@ public abstract class Network {
     private NetworkComponent getCurrentClassification(@Nonnull Location l) {
         if (regulatorNodes.contains(l)) {
             return NetworkComponent.REGULATOR;
-        }
-        else if (connectorNodes.contains(l)) {
+        } else if (connectorNodes.contains(l)) {
             return NetworkComponent.CONNECTOR;
-        }
-        else if (terminusNodes.contains(l)) {
+        } else if (terminusNodes.contains(l)) {
             return NetworkComponent.TERMINUS;
         }
 
@@ -168,20 +165,17 @@ public abstract class Network {
                     // Requires a complete rebuild of the network, so we just throw the current one away.
                     manager.unregisterNetwork(this);
                     return;
-                }
-                else if (currentAssignment == NetworkComponent.TERMINUS) {
+                } else if (currentAssignment == NetworkComponent.TERMINUS) {
                     terminusNodes.remove(l);
                 }
 
                 if (classification == NetworkComponent.REGULATOR) {
                     regulatorNodes.add(l);
                     discoverNeighbors(l);
-                }
-                else if (classification == NetworkComponent.CONNECTOR) {
+                } else if (classification == NetworkComponent.CONNECTOR) {
                     connectorNodes.add(l);
                     discoverNeighbors(l);
-                }
-                else if (classification == NetworkComponent.TERMINUS) {
+                } else if (classification == NetworkComponent.TERMINUS) {
                     terminusNodes.add(l);
                 }
 

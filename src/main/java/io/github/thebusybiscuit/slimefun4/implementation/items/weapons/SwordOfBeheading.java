@@ -43,23 +43,19 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
                 if (random.nextInt(100) < chanceZombie.getValue()) {
                     e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
                 }
-            }
-            else if (e.getEntity() instanceof WitherSkeleton) {
+            } else if (e.getEntity() instanceof WitherSkeleton) {
                 if (random.nextInt(100) < chanceWitherSkeleton.getValue()) {
                     e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                 }
-            }
-            else if (e.getEntity() instanceof Skeleton) {
+            } else if (e.getEntity() instanceof Skeleton) {
                 if (random.nextInt(100) < chanceSkeleton.getValue()) {
                     e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
                 }
-            }
-            else if (e.getEntity() instanceof Creeper) {
+            } else if (e.getEntity() instanceof Creeper) {
                 if (random.nextInt(100) < chanceCreeper.getValue()) {
                     e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
                 }
-            }
-            else if (e.getEntity() instanceof Player && random.nextInt(100) < chancePlayer.getValue()) {
+            } else if (e.getEntity() instanceof Player && random.nextInt(100) < chancePlayer.getValue()) {
                 ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
                 ItemMeta meta = skull.getItemMeta();
                 ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());

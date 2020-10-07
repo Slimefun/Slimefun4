@@ -188,8 +188,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private ItemStack getOtherHandItem(Player p, EquipmentSlot hand) {
         if (hand == EquipmentSlot.HAND) {
             return p.getInventory().getItemInOffHand();
-        }
-        else {
+        } else {
             return p.getInventory().getItemInMainHand();
         }
     }
@@ -212,8 +211,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
                     swing(p, block, hand, item);
                 }
             }
-        }
-        else if (!isDualWieldingEnabled() || hand == EquipmentSlot.HAND) {
+        } else if (!isDualWieldingEnabled() || hand == EquipmentSlot.HAND) {
             // We don't wanna send the message twice, so we check for dual wielding
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.climbing-pick.wrong-material");
         }
@@ -225,13 +223,11 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             if (ThreadLocalRandom.current().nextBoolean()) {
                 damageItem(p, p.getInventory().getItemInMainHand());
                 playAnimation(p, b, EquipmentSlot.HAND);
-            }
-            else {
+            } else {
                 damageItem(p, p.getInventory().getItemInOffHand());
                 playAnimation(p, b, EquipmentSlot.OFF_HAND);
             }
-        }
-        else {
+        } else {
             damageItem(p, item);
             playAnimation(p, b, hand);
         }
@@ -259,8 +255,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
                 if (hand == EquipmentSlot.HAND) {
                     p.swingMainHand();
-                }
-                else {
+                } else {
                     p.swingOffHand();
                 }
             }

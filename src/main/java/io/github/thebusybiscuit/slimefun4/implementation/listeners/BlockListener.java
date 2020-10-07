@@ -64,8 +64,7 @@ public class BlockListener implements Listener {
         if (sfItem != null && Slimefun.isEnabled(e.getPlayer(), sfItem, true) && !(sfItem instanceof NotPlaceable)) {
             if (!Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
                 e.setCancelled(true);
-            }
-            else {
+            } else {
                 if (SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
                     SlimefunPlugin.getBlockDataService().setBlockData(e.getBlock(), sfItem.getID());
                 }
@@ -101,8 +100,7 @@ public class BlockListener implements Listener {
         if (tool != null) {
             if (Slimefun.hasUnlocked(e.getPlayer(), tool, true)) {
                 tool.callItemHandler(ToolUseHandler.class, handler -> handler.onToolUse(e, item, fortune, drops));
-            }
-            else {
+            } else {
                 e.setCancelled(true);
             }
         }
@@ -127,8 +125,7 @@ public class BlockListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-            }
-            else {
+            } else {
                 sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onBlockBreak(e, item, fortune, drops));
             }
 
@@ -177,8 +174,7 @@ public class BlockListener implements Listener {
                         blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), BlockStorage.retrieve(blockAbove));
                         blockAbove.setType(Material.AIR);
                     }
-                }
-                else {
+                } else {
                     blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), BlockStorage.retrieve(blockAbove));
                     blockAbove.setType(Material.AIR);
                 }

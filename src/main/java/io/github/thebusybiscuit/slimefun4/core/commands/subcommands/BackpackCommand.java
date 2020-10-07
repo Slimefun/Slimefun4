@@ -61,12 +61,10 @@ class BackpackCommand extends SubCommand {
                         SlimefunPlugin.getLocalization().sendMessage(sender, "commands.backpack.restored-backpack-given");
                     });
                 });
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }

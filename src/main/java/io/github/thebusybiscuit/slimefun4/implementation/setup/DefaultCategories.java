@@ -52,7 +52,7 @@ class DefaultCategories {
 
     // Locked Categories
     protected final LockedCategory electricity = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "electricity"), new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());
-    protected final LockedCategory androids = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "androids"), new CustomItem(SlimefunItems.PROGRAMMABLE_ANDROID, "&cProgrammable Androids"), 4, basicMachines.getKey());   
+    protected final LockedCategory androids = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "androids"), new CustomItem(SlimefunItems.PROGRAMMABLE_ANDROID, "&cProgrammable Androids"), 4, basicMachines.getKey());
     protected final Category cargo = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "cargo"), new CustomItem(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
     protected final LockedCategory gps = new LockedCategory(new NamespacedKey(SlimefunPlugin.instance(), "gps"), new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines.getKey());
 

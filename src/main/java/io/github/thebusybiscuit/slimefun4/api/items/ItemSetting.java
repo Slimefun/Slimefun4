@@ -69,8 +69,7 @@ public class ItemSetting<T> {
     public void update(@Nonnull T newValue) {
         if (validateInput(newValue)) {
             this.value = newValue;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("The passed value was not valid. (Maybe null?)");
         }
 
@@ -135,14 +134,12 @@ public class ItemSetting<T> {
         if (defaultValue.getClass().isInstance(configuredValue)) {
             if (validateInput((T) configuredValue)) {
                 this.value = (T) configuredValue;
-            }
-            else {
+            } else {
                 Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
                 Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
                 Slimefun.getLogger().log(Level.WARNING, "{0} is not a valid input!", configuredValue);
             }
-        }
-        else {
+        } else {
             this.value = defaultValue;
             String found = configuredValue == null ? "null" : configuredValue.getClass().getSimpleName();
 

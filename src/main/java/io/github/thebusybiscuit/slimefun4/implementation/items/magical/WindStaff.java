@@ -30,7 +30,7 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
                 if (isItem(e.getItem()) && p.getGameMode() != GameMode.CREATIVE) {
                     FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
                     Bukkit.getPluginManager().callEvent(event);
-                    
+
                     if (!event.isCancelled()) {
                         p.setFoodLevel(event.getFoodLevel());
                     }
@@ -40,8 +40,7 @@ public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
                 p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, 1, 1);
                 p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1);
                 p.setFallDistance(0F);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.hungry", true);
             }
         };

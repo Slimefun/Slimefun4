@@ -159,8 +159,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                 return false;
             });
-        }
-        else {
+        } else {
             menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
             menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                 updateInventory(menu, b);
@@ -193,8 +192,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
         if (needsCooling()) {
             preset.addItem(7, new CustomItem(getCoolant(), "&bCoolant Slot", "", "&fThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
-        }
-        else {
+        } else {
             preset.addItem(7, new CustomItem(Material.BARRIER, "&bCoolant Slot", "", "&fThis Slot accepts Coolant Cells"));
 
             for (int i : border_4) {
@@ -284,13 +282,11 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
             if (timeleft > 0) {
                 return generateEnergy(l, data, inv, accessPort, timeleft);
-            }
-            else {
+            } else {
                 createByproduct(l, inv, accessPort);
                 return 0;
             }
-        }
-        else {
+        } else {
             burnNextFuel(l, inv, accessPort);
             return 0;
         }
@@ -321,8 +317,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
         if (space >= produced) {
             return getEnergyProduction();
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -438,8 +433,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
             }
 
             return false;
-        }
-        else {
+        } else {
             ReactorHologram.update(reactor, "&b\u2744 &7" + getPercentage(timeleft, processing.get(reactor).getTicks()) + "%");
         }
 
@@ -484,8 +478,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
         if (BlockStorage.check(port, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {
             return BlockStorage.getInventory(port);
-        }
-        else {
+        } else {
             return null;
         }
     }

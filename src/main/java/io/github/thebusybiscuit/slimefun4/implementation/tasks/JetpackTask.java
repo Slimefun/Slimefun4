@@ -42,8 +42,7 @@ public class JetpackTask extends PlayerTask {
             vector.add(p.getEyeLocation().getDirection().multiply(0.2F));
 
             p.setVelocity(vector);
-        }
-        else {
+        } else {
             Bukkit.getScheduler().cancelTask(id);
         }
     }

@@ -57,8 +57,7 @@ public class BlockPhysicsListener implements Listener {
     public void onPistonExtend(BlockPistonExtendEvent e) {
         if (BlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
-        }
-        else {
+        } else {
             for (Block b : e.getBlocks()) {
                 if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);
@@ -72,8 +71,7 @@ public class BlockPhysicsListener implements Listener {
     public void onPistonRetract(BlockPistonRetractEvent e) {
         if (BlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
-        } 
-        else if (e.isSticky()) {
+        } else if (e.isSticky()) {
             for (Block b : e.getBlocks()) {
                 if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);

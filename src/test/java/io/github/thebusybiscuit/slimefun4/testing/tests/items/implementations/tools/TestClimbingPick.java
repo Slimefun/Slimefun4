@@ -140,8 +140,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
             Assertions.assertTrue(pick.getClimbingSpeed(block.getType()) > 0);
             Assertions.assertTrue(player.getVelocity().length() > 0);
             server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class, e -> e.getPlayer() == player && e.getPick() == pick);
-        }
-        else {
+        } else {
             Assertions.assertEquals(0, player.getVelocity().length());
         }
     }

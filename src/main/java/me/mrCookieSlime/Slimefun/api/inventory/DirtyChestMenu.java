@@ -84,8 +84,7 @@ public class DirtyChestMenu extends ChestMenu {
     public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
         if (handler instanceof SaveHandler) {
             return super.addMenuOpeningHandler(new SaveHandler(this, ((SaveHandler) handler).getOpeningHandler()));
-        }
-        else {
+        } else {
             return super.addMenuOpeningHandler(new SaveHandler(this, handler));
         }
     }
@@ -94,8 +93,7 @@ public class DirtyChestMenu extends ChestMenu {
         if (getItemInSlot(slots[0]) == null) {
             // Very small optimization
             return true;
-        }
-        else {
+        } else {
             return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
         }
     }
@@ -119,8 +117,7 @@ public class DirtyChestMenu extends ChestMenu {
             if (stack == null) {
                 replaceExistingItem(slot, item);
                 return null;
-            }
-            else if (stack.getAmount() < stack.getMaxStackSize()) {
+            } else if (stack.getAmount() < stack.getMaxStackSize()) {
                 if (wrapper == null) {
                     wrapper = new ItemStackWrapper(item);
                 }
@@ -135,8 +132,7 @@ public class DirtyChestMenu extends ChestMenu {
 
         if (amount > 0) {
             return new CustomItem(item, amount);
-        }
-        else {
+        } else {
             return null;
         }
     }

@@ -33,15 +33,13 @@ class GitHubIssuesConnector extends GitHubConnector {
 
                 if (obj.has("pull_request")) {
                     pullRequests++;
-                }
-                else {
+                } else {
                     issues++;
                 }
             }
 
             callback.accept(issues, pullRequests);
-        }
-        else {
+        } else {
             Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
         }
     }

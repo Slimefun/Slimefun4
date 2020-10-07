@@ -38,19 +38,15 @@ public class CargoNodeListener implements Listener {
         if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
             ItemStackWrapper wrapper = new ItemStackWrapper(item);
 
-            return SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_INPUT_NODE, false) 
-                || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_OUTPUT_NODE, false) 
-                || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_OUTPUT_NODE_2, false);
+            return SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_INPUT_NODE, false) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_OUTPUT_NODE, false) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.CARGO_OUTPUT_NODE_2, false);
         }
-        
+
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        
+
         if (sfItem == null) {
             return false;
         }
-        
-        return sfItem.getID().equals(SlimefunItems.CARGO_INPUT_NODE.getItemId())
-            || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE.getItemId())
-            || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE_2.getItemId());
+
+        return sfItem.getID().equals(SlimefunItems.CARGO_INPUT_NODE.getItemId()) || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE.getItemId()) || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE_2.getItemId());
     }
 }

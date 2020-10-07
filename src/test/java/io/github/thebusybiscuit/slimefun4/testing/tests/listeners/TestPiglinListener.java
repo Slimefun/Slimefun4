@@ -64,8 +64,7 @@ class TestPiglinListener {
 
         if (hand == EquipmentSlot.OFF_HAND) {
             player.getInventory().setItemInOffHand(item);
-        }
-        else {
+        } else {
             player.getInventory().setItemInMainHand(item);
         }
 

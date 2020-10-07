@@ -39,16 +39,13 @@ class ChargeCommand extends SubCommand {
                     Rechargeable rechargeableItem = (Rechargeable) slimefunItem;
                     rechargeableItem.setItemCharge(item, rechargeableItem.getMaxItemCharge(item));
                     SlimefunPlugin.getLocalization().sendMessage(sender, "commands.charge.charge-success", true);
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "commands.charge.not-rechargeable", true);
                 }
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }

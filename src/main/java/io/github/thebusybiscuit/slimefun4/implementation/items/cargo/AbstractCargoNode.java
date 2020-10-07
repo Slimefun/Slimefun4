@@ -86,8 +86,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
             if (newChannel < 0) {
                 if (isChestTerminalInstalled) {
                     newChannel = 16;
-                }
-                else {
+                } else {
                     newChannel = 15;
                 }
             }
@@ -100,8 +99,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
         if (channel == 16) {
             menu.replaceExistingItem(slotCurrent, new CustomItem(HeadTexture.CHEST_TERMINAL.getAsItemStack(), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
-        }
-        else {
+        } else {
             menu.replaceExistingItem(slotCurrent, new CustomItem(MaterialCollections.getAllWoolColors().get(channel), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
@@ -114,8 +112,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
                 if (newChannel > 16) {
                     newChannel = 0;
                 }
-            }
-            else if (newChannel > 15) {
+            } else if (newChannel > 15) {
                 newChannel = 0;
             }
 
@@ -128,14 +125,12 @@ abstract class AbstractCargoNode extends SlimefunItem {
     private int getSelectedChannel(Block b) {
         if (!BlockStorage.hasBlockInfo(b)) {
             return 0;
-        }
-        else {
+        } else {
             String frequency = BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY);
 
             if (frequency == null) {
                 return 0;
-            }
-            else {
+            } else {
                 int channel = Integer.parseInt(frequency);
                 return NumberUtils.clamp(0, channel, 16);
             }

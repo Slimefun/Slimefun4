@@ -67,8 +67,7 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
 
                 if (tool.containsEnchantment(Enchantment.SILK_TOUCH)) {
                     b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
-                }
-                else {
+                } else {
                     for (ItemStack drop : b.getDrops(tool)) {
                         b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : new CustomItem(drop, fortune));
                     }

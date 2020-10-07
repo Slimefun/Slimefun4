@@ -47,8 +47,7 @@ public class TeleporterListener implements Listener {
                 UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
                 SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(e.getPlayer(), owner, block, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(owner));
             }
-        }
-        else if (id.equals(SlimefunItems.ELEVATOR_PLATE.getItemId())) {
+        } else if (id.equals(SlimefunItems.ELEVATOR_PLATE.getItemId())) {
             ElevatorPlate elevator = ((ElevatorPlate) SlimefunItems.ELEVATOR_PLATE.getItem());
             elevator.openInterface(e.getPlayer(), e.getClickedBlock());
         }
