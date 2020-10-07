@@ -34,6 +34,7 @@
 * Magical Zombie Pills now also work on Zombified Piglins
 * (API) Added SlimefunGuideOpenEvent
 * (API) Added "NotConfigurable" attribute to disable configurability
+* Added Elytra Cap
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
