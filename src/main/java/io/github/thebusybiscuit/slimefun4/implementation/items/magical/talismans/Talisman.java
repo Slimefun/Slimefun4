@@ -206,7 +206,6 @@ public class Talisman extends SlimefunItem {
                 ItemStack item = contents[i];
 
                 if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
-                    ItemUtils.consumeItem(item, false);
                     return item;
                 }
             }
@@ -220,7 +219,6 @@ public class Talisman extends SlimefunItem {
                 ItemStack item = contents[i];
 
                 if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
-                    ItemUtils.consumeItem(item, false);
                     return item;
                 }
             }
@@ -306,5 +304,4 @@ public class Talisman extends SlimefunItem {
 
         return true;
     }
-
 }
