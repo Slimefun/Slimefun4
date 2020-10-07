@@ -103,8 +103,9 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * Don't use wildcard (`*`) imports!
 * Don't import unused classes!
 * Don't use static imports!
+* Always use imports, even in javadocs, don't write out the full location of a class.
 #### 2. Annotations
-* Methods and parameters should be annotated with `@Nullable` or `@Nonnull`!
+* Methods and parameters should be annotated with `@Nullable` (`javax.annotation.Nullable`) or `@Nonnull`(`javax.annotation.Nonnull`)!
 * Methods that override a method must be annotated with `@Override`!
 * Interfaces with only one method should be annotated using `@FunctionalInterface`!
 * If you deprecate a method, add an `@deprecated` section to the javadocs explaining why you did it.
@@ -112,6 +113,7 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * Every class and every public method should have a Javadocs section assigned to it.
 * New packages should have a `package-info.java` file with documentation about the package.
 * Classes should have an `@author` tag.
+* If there are any other relevant classes related to yours, add them using the `@see` tag.
 #### 4. Unit Tests
 * Try to write Unit Tests where possible.
 * Unit Test classes and methods should have no access modifier, not `public`, `protected` nor `private`.
