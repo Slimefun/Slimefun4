@@ -35,6 +35,7 @@
 * (API) Added SlimefunGuideOpenEvent
 * (API) Added "NotConfigurable" attribute to disable configurability
 * Added Elytra Cap
+* Added Planks to Sticks recipe to the Table Saw
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
