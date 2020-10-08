@@ -66,8 +66,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
                 if (charge >= getEnergyConsumption()) {
                     SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, true);
                     removeCharge(b.getLocation(), getEnergyConsumption());
-                }
-                else {
+                } else {
                     SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
                 }
             }

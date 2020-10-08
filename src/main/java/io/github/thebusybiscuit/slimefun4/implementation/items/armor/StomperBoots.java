@@ -83,8 +83,7 @@ public class StomperBoots extends SlimefunItem {
         // As the distance approaches zero we might slip into a "division by zero" when normalizing
         if (origin.distanceSquared(target) < 0.05) {
             return new Vector(0, 1, 0);
-        }
-        else {
+        } else {
             Vector direction = target.toVector().subtract(origin.toVector());
             return direction.normalize().multiply(1.4);
         }

@@ -92,8 +92,7 @@ public final class SlimefunUtils {
     public static boolean isSoulbound(@Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return false;
-        }
-        else {
+        } else {
             ItemMeta meta = item.hasItemMeta() ? item.getItemMeta() : null;
 
             if (hasSoulboundFlag(meta)) {
@@ -113,8 +112,7 @@ public final class SlimefunUtils {
 
             if (sfItem instanceof Soulbound) {
                 return !sfItem.isDisabled();
-            }
-            else if (meta != null) {
+            } else if (meta != null) {
                 return meta.hasLore() && meta.getLore().contains(SOULBOUND_LORE);
             }
 
@@ -252,10 +250,14 @@ public final class SlimefunUtils {
     }
 
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
-        if (item == null) return sfitem == null;
-        if (sfitem == null) return false;
-        if (item.getType() != sfitem.getType()) return false;
-        if (checkAmount && item.getAmount() < sfitem.getAmount()) return false;
+        if (item == null)
+            return sfitem == null;
+        if (sfitem == null)
+            return false;
+        if (item.getType() != sfitem.getType())
+            return false;
+        if (checkAmount && item.getAmount() < sfitem.getAmount())
+            return false;
 
         if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
             return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId());
@@ -273,12 +275,10 @@ public final class SlimefunUtils {
 
                 ImmutableItemMeta meta = ((SlimefunItemStack) sfitem).getImmutableMeta();
                 return equalsItemMeta(itemMeta, meta, checkLore);
-            }
-            else if (sfitem.hasItemMeta()) {
+            } else if (sfitem.hasItemMeta()) {
                 return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
             }
-        }
-        else {
+        } else {
             return !sfitem.hasItemMeta();
         }
 
@@ -290,20 +290,16 @@ public final class SlimefunUtils {
 
         if (itemMeta.hasDisplayName() != displayName.isPresent()) {
             return false;
-        }
-        else if (itemMeta.hasDisplayName() && displayName.isPresent() && !itemMeta.getDisplayName().equals(displayName.get())) {
+        } else if (itemMeta.hasDisplayName() && displayName.isPresent() && !itemMeta.getDisplayName().equals(displayName.get())) {
             return false;
-        }
-        else if (!checkLore) {
+        } else if (!checkLore) {
             return true;
-        }
-        else {
+        } else {
             Optional<List<String>> itemLore = meta.getLore();
 
             if (itemMeta.hasLore() && itemLore.isPresent()) {
                 return equalsLore(itemMeta.getLore(), itemLore.get());
-            }
-            else {
+            } else {
                 return !itemMeta.hasLore() && !itemLore.isPresent();
             }
         }
@@ -312,17 +308,13 @@ public final class SlimefunUtils {
     private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta sfitemMeta, boolean checkLore) {
         if (itemMeta.hasDisplayName() != sfitemMeta.hasDisplayName()) {
             return false;
-        }
-        else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
+        } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
             return false;
-        }
-        else if (!checkLore) {
+        } else if (!checkLore) {
             return true;
-        }
-        else if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
+        } else if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
             return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
-        }
-        else {
+        } else {
             return !itemMeta.hasLore() && !sfitemMeta.hasLore();
         }
     }
@@ -358,14 +350,11 @@ public final class SlimefunUtils {
 
                 if (level <= 0.25) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
-                }
-                else if (level <= 0.5) {
+                } else if (level <= 0.5) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
-                }
-                else if (level <= 0.75) {
+                } else if (level <= 0.75) {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
-                }
-                else {
+                } else {
                     SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_100.getTexture());
                 }
             }

@@ -151,8 +151,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             if (isSource(fluid)) {
                 return fluid;
             }
-        }
-        else if (fluid.getType() == Material.LAVA) {
+        } else if (fluid.getType() == Material.LAVA) {
             List<Block> list = Vein.find(fluid, RANGE, block -> block.getType() == fluid.getType());
 
             for (int i = list.size() - 1; i >= 0; i--) {
@@ -169,11 +168,9 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private ItemStack getFilledBucket(Block fluid) {
         if (fluid.getType() == Material.LAVA) {
             return new ItemStack(Material.LAVA_BUCKET);
-        }
-        else if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
+        } else if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
             return new ItemStack(Material.WATER_BUCKET);
-        }
-        else {
+        } else {
             // Fallback for any new liquids
             return new ItemStack(Material.BUCKET);
         }

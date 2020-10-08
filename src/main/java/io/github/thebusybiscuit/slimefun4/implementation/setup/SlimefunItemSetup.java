@@ -219,8 +219,7 @@ public final class SlimefunItemSetup {
             YELLOW_DYE = Material.YELLOW_DYE;
             BLACK_DYE = Material.BLACK_DYE;
             GREEN_DYE = Material.GREEN_DYE;
-        }
-        else {
+        } else {
             RED_DYE = Material.valueOf("ROSE_RED");
             YELLOW_DYE = Material.valueOf("DANDELION_YELLOW");
             BLACK_DYE = Material.valueOf("INK_SAC");
@@ -3098,11 +3097,9 @@ public final class SlimefunItemSetup {
         for (int i = 0; i < 4; i++) {
             if (vanilla) {
                 new VanillaItem(category, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
-            }
-            else if (i < effects.length && effects[i].length > 0) {
+            } else if (i < effects.length && effects[i].length > 0) {
                 new SlimefunArmorPiece(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(addon);
-            }
-            else {
+            } else {
                 new SlimefunItem(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
             }
         }

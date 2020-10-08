@@ -101,8 +101,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
                         });
 
                         tasks.execute(SlimefunPlugin.instance());
-                    }
-                    else {
+                    } else {
                         SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
                     }
                 }
@@ -115,8 +114,7 @@ public class Composter extends SimpleSlimefunItem<BlockUseHandler> implements Re
 
         if (outputChest.isPresent()) {
             outputChest.get().addItem(output);
-        }
-        else {
+        } else {
             Location loc = b.getRelative(BlockFace.UP).getLocation();
             b.getWorld().dropItemNaturally(loc, output);
         }

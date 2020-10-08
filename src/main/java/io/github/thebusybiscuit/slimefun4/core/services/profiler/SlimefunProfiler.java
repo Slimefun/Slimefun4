@@ -164,8 +164,7 @@ public class SlimefunProfiler {
                     }
                     return;
                 }
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
                 Thread.currentThread().interrupt();
             }

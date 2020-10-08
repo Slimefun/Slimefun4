@@ -256,8 +256,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     BlockStorage.getInventory(b).open(pl);
                     return false;
                 });
-            }
-            else {
+            } else {
                 Instruction instruction = Instruction.getFromCache(script[i]);
 
                 if (instruction == null) {
@@ -276,13 +275,11 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                         String code = duplicateInstruction(script, index);
                         setScript(b.getLocation(), code);
                         openScript(pl, b, code);
-                    }
-                    else if (action.isRightClicked()) {
+                    } else if (action.isRightClicked()) {
                         String code = deleteInstruction(script, index);
                         setScript(b.getLocation(), code);
                         openScript(pl, b, code);
-                    }
-                    else {
+                    } else {
                         editInstruction(pl, b, script, index);
                     }
 
@@ -303,8 +300,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             if (i > 0) {
                 if (i == index) {
                     builder.append(instruction).append('-');
-                }
-                else if (i < script.length - 1) {
+                } else if (i < script.length - 1) {
                     builder.append(current).append('-');
                 }
             }
@@ -323,8 +319,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             if (i > 0) {
                 if (i == index) {
                     builder.append(script[i]).append('-').append(script[i]).append('-');
-                }
-                else if (i < script.length - 1) {
+                } else if (i < script.length - 1) {
                     builder.append(instruction).append('-');
                 }
             }
@@ -409,23 +404,19 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
             if (target >= scripts.size()) {
                 break;
-            }
-            else {
+            } else {
                 Script script = scripts.get(target);
                 menu.addItem(index, script.getAsItemStack(this, p), (player, slot, stack, action) -> {
                     if (action.isShiftClicked()) {
                         if (script.isAuthor(player)) {
                             SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.own", true);
-                        }
-                        else if (script.canRate(player)) {
+                        } else if (script.canRate(player)) {
                             script.rate(player, !action.isRightClicked());
                             openScriptDownloader(player, b, page);
-                        }
-                        else {
+                        } else {
                             SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.already", true);
                         }
-                    }
-                    else if (!action.isRightClicked()) {
+                    } else if (!action.isRightClicked()) {
                         script.download();
                         setScript(b.getLocation(), script.getSourceCode());
                         openScriptEditor(player, b);
@@ -643,8 +634,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
             if (fuel < 0.001) {
                 consumeFuel(b, menu);
-            }
-            else {
+            } else {
                 String code = data.getString("script");
                 String[] script = PatternUtils.DASH.split(code == null ? DEFAULT_SCRIPT : code);
 
@@ -703,8 +693,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
         if (index == POSSIBLE_ROTATIONS.size()) {
             index = 0;
-        }
-        else if (index < 0) {
+        } else if (index < 0) {
             index = POSSIBLE_ROTATIONS.size() - 1;
         }
 
@@ -736,8 +725,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
                         if (optional.isPresent()) {
                             menu.replaceExistingItem(slot, optional.get());
-                        }
-                        else {
+                        } else {
                             menu.replaceExistingItem(slot, null);
                         }
                     }
@@ -769,8 +757,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             menu.replaceExistingItem(43, newFuel);
             dispenser.setItem(slot, null);
             return true;
-        }
-        else if (SlimefunUtils.isItemSimilar(newFuel, currentFuel, true, false)) {
+        } else if (SlimefunUtils.isItemSimilar(newFuel, currentFuel, true, false)) {
             int rest = newFuel.getType().getMaxStackSize() - currentFuel.getAmount();
 
             if (rest > 0) {

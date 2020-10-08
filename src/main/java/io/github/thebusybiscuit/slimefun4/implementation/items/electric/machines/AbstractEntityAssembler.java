@@ -95,8 +95,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                 if (flow == ItemTransportFlow.INSERT) {
                     return inputSlots;
-                }
-                else {
+                } else {
                     return new int[0];
                 }
             }
@@ -162,8 +161,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                 updateBlockInventory(menu, b);
                 return false;
             });
-        }
-        else {
+        } else {
             menu.replaceExistingItem(22, new CustomItem(Material.REDSTONE, "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
             menu.addMenuClickHandler(22, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(false));
@@ -254,8 +252,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                 if (amount >= bodyCount) {
                     inv.consumeItem(slot, bodyCount);
                     break;
-                }
-                else {
+                } else {
                     bodyCount -= amount;
                     inv.replaceExistingItem(slot, null);
                 }
@@ -269,8 +266,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                 if (amount >= headCount) {
                     inv.consumeItem(slot, headCount);
                     break;
-                }
-                else {
+                } else {
                     headCount -= amount;
                     inv.replaceExistingItem(slot, null);
                 }

@@ -78,17 +78,14 @@ class GitHubTask implements Runnable {
             try {
                 if (skins.containsKey(contributor.getMinecraftName())) {
                     contributor.setTexture(skins.get(contributor.getMinecraftName()));
-                }
-                else {
+                } else {
                     contributor.setTexture(pullTexture(contributor, skins));
                     return contributor.getUniqueId().isPresent() ? 1 : 2;
                 }
-            }
-            catch (IllegalArgumentException x) {
+            } catch (IllegalArgumentException x) {
                 // There cannot be a texture found because it is not a valid MC username
                 contributor.setTexture(null);
-            }
-            catch (IOException x) {
+            } catch (IOException x) {
                 // Too many requests
                 Slimefun.getLogger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
                 Slimefun.getLogger().log(Level.WARNING, "This usually means mojang.com is down or started to rate-limit this connection, this is not an error message!");
@@ -99,8 +96,7 @@ class GitHubTask implements Runnable {
                 }
 
                 return -1;
-            }
-            catch (TooManyRequestsException x) {
+            } catch (TooManyRequestsException x) {
                 Slimefun.getLogger().log(Level.WARNING, "Received a rate-limit from mojang.com, retrying in 4 minutes");
                 Bukkit.getScheduler().runTaskLaterAsynchronously(SlimefunPlugin.instance(), this::grabTextures, 4 * 60 * 20L);
 
@@ -124,8 +120,7 @@ class GitHubTask implements Runnable {
             Optional<String> skin = MinecraftAccount.getSkin(uuid.get());
             skins.put(contributor.getMinecraftName(), skin.orElse(""));
             return skin.orElse(null);
-        }
-        else {
+        } else {
             return null;
         }
     }

@@ -75,8 +75,7 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
                     }
                 }
             }
-        }
-        else {
+        } else {
             for (Block block : blocks) {
                 if (canBreak(p, block)) {
                     breakBlock(p, item, block, fortune, drops);
@@ -112,14 +111,11 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
     protected boolean canBreak(Player p, Block b) {
         if (b.isEmpty() || b.isLiquid()) {
             return false;
-        }
-        else if (MaterialCollections.getAllUnbreakableBlocks().contains(b.getType())) {
+        } else if (MaterialCollections.getAllUnbreakableBlocks().contains(b.getType())) {
             return false;
-        }
-        else if (!b.getWorld().getWorldBorder().isInside(b.getLocation())) {
+        } else if (!b.getWorld().getWorldBorder().isInside(b.getLocation())) {
             return false;
-        }
-        else {
+        } else {
             return SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK);
         }
     }
@@ -136,11 +132,9 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
                 drops.add(BlockStorage.retrieve(b));
             }
-        }
-        else if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.SHULKER_BOX || b.getType().name().endsWith("_SHULKER_BOX")) {
+        } else if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.SHULKER_BOX || b.getType().name().endsWith("_SHULKER_BOX")) {
             b.breakNaturally(item);
-        }
-        else {
+        } else {
             boolean applyFortune = b.getType().name().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE;
 
             for (ItemStack drop : b.getDrops(getItem())) {

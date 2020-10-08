@@ -299,8 +299,7 @@ public class TalismanListener implements Listener {
             amount = Math.max(amount, 1);
             amount = (type == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (amount + 1);
             return amount;
-        }
-        else {
+        } else {
             return 1;
         }
     }

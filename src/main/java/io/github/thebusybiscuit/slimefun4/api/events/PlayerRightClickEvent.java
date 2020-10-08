@@ -47,8 +47,7 @@ public class PlayerRightClickEvent extends Event {
 
         if (e.getItem() == null || e.getItem().getType() == Material.AIR || e.getItem().getAmount() == 0) {
             itemStack = Optional.empty();
-        }
-        else {
+        } else {
             itemStack = Optional.of(e.getItem());
         }
     }
@@ -101,8 +100,7 @@ public class PlayerRightClickEvent extends Event {
         if (!slimefunItem.isComputed()) {
             if (itemStack.isPresent()) {
                 slimefunItem.compute(SlimefunItem.getByItem(itemStack.get()));
-            }
-            else {
+            } else {
                 slimefunItem = ComputedOptional.empty();
             }
         }
@@ -115,8 +113,7 @@ public class PlayerRightClickEvent extends Event {
         if (!slimefunBlock.isComputed()) {
             if (clickedBlock.isPresent()) {
                 slimefunBlock.compute(BlockStorage.check(clickedBlock.get()));
-            }
-            else {
+            } else {
                 slimefunBlock = ComputedOptional.empty();
             }
         }

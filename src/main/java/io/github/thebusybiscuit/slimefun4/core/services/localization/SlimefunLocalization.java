@@ -160,8 +160,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         if (value != null) {
             return value;
-        }
-        else {
+        } else {
             Language fallback = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
             return fallback.getResourcesFile().getString(key);
         }
@@ -199,8 +198,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         if (sender instanceof Player) {
             sender.sendMessage(ChatColors.color(prefix + getMessage((Player) sender, key)));
-        }
-        else {
+        } else {
             sender.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + getMessage(key))));
         }
     }
@@ -224,8 +222,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         if (sender instanceof Player) {
             sender.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) sender, key))));
-        }
-        else {
+        } else {
             sender.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + function.apply(getMessage(key)))));
         }
     }
@@ -239,8 +236,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
                 String message = ChatColors.color(prefix + translation);
                 sender.sendMessage(message);
             }
-        }
-        else {
+        } else {
             for (String translation : getMessages(key)) {
                 String message = ChatColors.color(prefix + translation);
                 sender.sendMessage(ChatColor.stripColor(message));
@@ -257,8 +253,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
                 String message = ChatColors.color(prefix + function.apply(translation));
                 sender.sendMessage(message);
             }
-        }
-        else {
+        } else {
             for (String translation : getMessages(key)) {
                 String message = ChatColors.color(prefix + function.apply(translation));
                 sender.sendMessage(ChatColor.stripColor(message));

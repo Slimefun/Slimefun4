@@ -173,8 +173,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             networkManager = new NetworkManager(200);
             command.register();
             registry.load(config);
-        }
-        else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+        } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
 
             PaperLib.suggestPaper(this);
@@ -221,8 +220,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             if (config.getBoolean("options.auto-update")) {
                 getLogger().log(Level.INFO, "Starting Auto-Updater...");
                 updaterService.start();
-            }
-            else {
+            } else {
                 updaterService.disable();
             }
 
@@ -251,8 +249,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 // This try/catch should prevent buggy Spigot builds from blocking item loading
                 try {
                     recipeService.refresh();
-                }
-                catch (Exception | LinkageError x) {
+                } catch (Exception | LinkageError x) {
                     getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
                 }
 
@@ -274,8 +271,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
-        }
-        else {
+        } else {
             instance = null;
 
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
@@ -299,8 +295,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         if (ms > 1000) {
             return DoubleHandler.fixDouble(ms / 1000.0) + "s";
-        }
-        else {
+        } else {
             return DoubleHandler.fixDouble(ms) + "ms";
         }
     }
@@ -376,8 +371,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
                 entry.getValue().saveAndRemove();
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
             }
         }
@@ -498,8 +492,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void loadItems() {
         try {
             SlimefunItemSetup.setup(this);
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing SlimefunItems for Slimefun " + getVersion());
         }
     }
@@ -507,8 +500,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void loadResearches() {
         try {
             ResearchSetup.setupResearches();
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
         }
     }

@@ -45,8 +45,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
                 im.setLore(lore);
                 item.setItemMeta(im);
                 p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
-            }
-            else {
+            } else {
                 UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
 
                 if (p.getUniqueId().equals(uuid)) {

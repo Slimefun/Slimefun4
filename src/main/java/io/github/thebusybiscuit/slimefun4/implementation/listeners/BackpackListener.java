@@ -94,8 +94,7 @@ public class BackpackListener implements Listener {
                             e.setCancelled(true);
                         }
                     }
-                }
-                else if (!isAllowed((SlimefunBackpack) backpack, e.getCurrentItem())) {
+                } else if (!isAllowed((SlimefunBackpack) backpack, e.getCurrentItem())) {
                     e.setCancelled(true);
                 }
             }
@@ -115,8 +114,7 @@ public class BackpackListener implements Listener {
             if (Slimefun.hasUnlocked(p, backpack, true) && !PlayerProfile.get(p, profile -> openBackpack(p, item, profile, backpack.getSize()))) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.opening-backpack");
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "backpack.no-stack", true);
         }
     }
@@ -139,8 +137,7 @@ public class BackpackListener implements Listener {
                     backpack.open(p);
                 }
             });
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "backpack.already-open", true);
         }
     }

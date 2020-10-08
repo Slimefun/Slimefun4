@@ -95,8 +95,7 @@ public final class PlayerProfile {
                     Location loc = waypointsFile.getLocation(key);
                     waypoints.add(new Waypoint(this, key, loc, waypointName));
                 }
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 Slimefun.getLogger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
             }
         }
@@ -182,8 +181,7 @@ public final class PlayerProfile {
         if (unlock) {
             configFile.setValue("researches." + research.getID(), true);
             researches.add(research);
-        }
-        else {
+        } else {
             configFile.setValue("researches." + research.getID(), null);
             researches.remove(research);
         }
@@ -303,8 +301,7 @@ public final class PlayerProfile {
 
         if (backpack != null) {
             return Optional.of(backpack);
-        }
-        else if (configFile.contains("backpacks." + id + ".size")) {
+        } else if (configFile.contains("backpacks." + id + ".size")) {
             backpack = new PlayerBackpack(this, id);
             backpacks.put(id, backpack);
             return Optional.of(backpack);
@@ -477,8 +474,7 @@ public final class PlayerProfile {
 
             if (!armorPiece.isPresent()) {
                 setId = null;
-            }
-            else if (armorPiece.get() instanceof ProtectiveArmor) {
+            } else if (armorPiece.get() instanceof ProtectiveArmor) {
                 ProtectiveArmor protectedArmor = (ProtectiveArmor) armorPiece.get();
 
                 if (setId == null && protectedArmor.isFullSetRequired()) {
@@ -489,8 +485,7 @@ public final class PlayerProfile {
                     if (protectionType == type) {
                         if (setId == null) {
                             return true;
-                        }
-                        else if (setId.equals(protectedArmor.getArmorSetId())) {
+                        } else if (setId.equals(protectedArmor.getArmorSetId())) {
                             armorCount++;
                         }
                     }

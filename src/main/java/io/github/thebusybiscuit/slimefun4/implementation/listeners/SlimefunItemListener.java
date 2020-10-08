@@ -75,8 +75,7 @@ public class SlimefunItemListener implements Listener {
         if (optional.isPresent()) {
             if (Slimefun.hasUnlocked(e.getPlayer(), optional.get(), true)) {
                 return optional.get().callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(event));
-            }
-            else {
+            } else {
                 event.setUseItem(Result.DENY);
             }
         }
@@ -120,18 +119,15 @@ public class SlimefunItemListener implements Listener {
 
                 if (menu.canOpen(e.getClickedBlock(), p)) {
                     menu.open(p);
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
                 }
-            }
-            else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
+            } else if (BlockStorage.getStorage(e.getClickedBlock().getWorld()).hasInventory(e.getClickedBlock().getLocation())) {
                 BlockMenu menu = BlockStorage.getInventory(e.getClickedBlock().getLocation());
 
                 if (menu.canOpen(e.getClickedBlock(), p)) {
                     menu.open(p);
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
                 }
             }

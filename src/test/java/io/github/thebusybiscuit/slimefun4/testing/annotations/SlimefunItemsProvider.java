@@ -32,8 +32,7 @@ public class SlimefunItemsProvider implements ArgumentsProvider, AnnotationConsu
         try {
             field = clazz.getField(fieldName);
             return (ItemStack) field.get(null);
-        }
-        catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
             throw new IllegalArgumentException("Could not find field SlimefunItems." + fieldName);
         }
     }

@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
-import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -24,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public final class ResearchSetup {
 
-    private static SlimefunPlugin plugin = null;
     private static boolean alreadyRan = false;
 
     private ResearchSetup() {}
@@ -32,11 +31,6 @@ public final class ResearchSetup {
     public static void setupResearches() {
         if (alreadyRan) {
             throw new UnsupportedOperationException("Researches can only be registered once!");
-        }
-        
-        plugin = SlimefunPlugin.instance();
-        if (plugin == null) {
-            throw new UnsupportedOperationException("Plugin cannot be null!");
         }
 
         alreadyRan = true;
@@ -288,12 +282,11 @@ public final class ResearchSetup {
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
         register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
         register("energy_connectors", 269, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
-        
-        plugin = null;
     }
 
-    private static void register(@Nonnull String key, int id, @Nonnull String name, int defaultCost, @Nonnull ItemStack... items) {
-        Research research = new Research(new NamespacedKey(plugin, key), id, name, defaultCost);
+    @ParametersAreNonnullByDefault
+    private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
+        Research research = new Research(new NamespacedKey(SlimefunPlugin.instance(), key), id, name, defaultCost);
 
         for (ItemStack item : items) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);

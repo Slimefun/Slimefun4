@@ -59,8 +59,7 @@ public interface DamageableItem extends ItemAttribute {
             if (damageable.getDamage() >= item.getType().getMaxDurability()) {
                 p.playSound(p.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
                 item.setAmount(0);
-            }
-            else {
+            } else {
                 damageable.setDamage(damageable.getDamage() + 1);
                 item.setItemMeta(meta);
             }
