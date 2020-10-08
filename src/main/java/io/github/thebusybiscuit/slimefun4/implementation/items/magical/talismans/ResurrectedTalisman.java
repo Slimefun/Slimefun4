@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talisman
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentJsonDataType;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+
 import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -46,11 +48,14 @@ public class ResurrectedTalisman extends Talisman {
             JsonObject json = createJsonFromLocation(currentLoc);
             ItemMeta itemMeta = e.getItem().getItemMeta();
 
-            itemMeta.getPersistentDataContainer().set(locationKey, PersistentJsonDataType.JSON_OBJECT, json);
+            if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), currentLoc, ProtectableAction.PLACE_BLOCK)) {
+                itemMeta.getPersistentDataContainer().set(locationKey, PersistentJsonDataType.JSON_OBJECT, json);
+                e.getItem().setItemMeta(itemMeta);
+    
+                SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location", true);
+            }
 
-            e.getItem().setItemMeta(itemMeta);
-
-            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location", true);
+            SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location-failed", true);
         };
     }
 
