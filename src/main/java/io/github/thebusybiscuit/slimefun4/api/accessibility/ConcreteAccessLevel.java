@@ -2,9 +2,12 @@ package io.github.thebusybiscuit.slimefun4.api.accessibility;
 
 import com.google.gson.JsonElement;
 import io.github.thebusybiscuit.slimefun4.core.services.JsonDeserializationService;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.Translators;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Locale;
 
 /**
  * Concrete access levels are defined to be constant and always present.
@@ -32,19 +35,26 @@ public enum ConcreteAccessLevel implements AccessLevel {
 
     @Nonnull
     @Override
-    public String getDisplayName() {
+    public String getRawDisplayName() {
+        return toString();
+    }
+
+    @Nonnull
+    @Override
+    public String getDisplayName(@Nonnull Player player) {
+        // TODO Translations?
         return toString();
     }
 
     @Nullable
     @Override
-    public AccessLevel next() {
+    public AccessLevel getNextLevel() {
         return this == NONE ? FULL : null;
     }
 
     @Nullable
     @Override
-    public AccessLevel previous() {
+    public AccessLevel getPreviousLevel() {
         return this == FULL ? NONE : null;
     }
 
@@ -55,12 +65,8 @@ public enum ConcreteAccessLevel implements AccessLevel {
     }
 
     @Override
-    public int compare(@Nonnull final AccessLevel level) {
-        if (level instanceof ConcreteAccessLevel) {
-            return this.compareTo(((ConcreteAccessLevel) level));
-        } else {
-            return this.compareTo(level.toConcreteAccessLevel());
-        }
+    public int compare(@Nonnull AccessLevel level) {
+        return this.compareTo(level.toConcreteAccessLevel());
     }
 
     @Override

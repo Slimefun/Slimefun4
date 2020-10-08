@@ -23,7 +23,8 @@ import java.util.logging.Level;
  */
 public class JsonDeserializationService {
 
-    public static final String ENUM_CLASS_KEY = "enum-class", ENUM_VALUE_KEY = "value";
+    public static final String ENUM_CLASS_KEY = "enum-class";
+    public static final String ENUM_VALUE_KEY = "value";
 
     private final JsonParser parser = new JsonParser();
     private final Map<String, Function<JsonElement, ?>> deserializerMap = new HashMap<>();
@@ -39,19 +40,20 @@ public class JsonDeserializationService {
      * @see #serializeEnum(Enum)
      */
     @Nullable
-    public static Enum<?> deserializeEnum(@Nonnull final JsonElement element) {
+    public static Enum<?> deserializeEnum(@Nonnull JsonElement element) {
         if (!element.isJsonObject()) {
             return null;
         }
-        final JsonObject object = element.getAsJsonObject();
-        final JsonElement clazz = object.get(ENUM_CLASS_KEY), value = object.get(ENUM_VALUE_KEY);
-        final JsonPrimitive clazzString, enumValue;
+        JsonObject object = element.getAsJsonObject();
+        JsonElement clazz = object.get(ENUM_CLASS_KEY), value = object.get(ENUM_VALUE_KEY);
+        JsonPrimitive clazzString;
+        JsonPrimitive enumValue;
         if (!clazz.isJsonPrimitive() || !((clazzString = (JsonPrimitive) clazz).isString())
                 || !value.isJsonPrimitive() || !((enumValue = (JsonPrimitive) value)).isString()) {
             return null;
         }
         try {
-            final String rawClazz = clazzString.getAsString(), rawValue = enumValue.getAsString();
+            String rawClazz = clazzString.getAsString(), rawValue = enumValue.getAsString();
             Class<?> classObj = Class.forName(rawClazz);
             if (classObj.isEnum()) {
                 return Enum.valueOf((Class<? extends Enum>) classObj, rawValue);
@@ -70,8 +72,8 @@ public class JsonDeserializationService {
      * @see #deserializeEnum(JsonElement)
      */
     @Nonnull
-    public static JsonObject serializeEnum(@Nonnull final Enum<?> value) {
-        final JsonObject object = new JsonObject();
+    public static JsonObject serializeEnum(@Nonnull Enum<?> value) {
+        JsonObject object = new JsonObject();
         object.addProperty(ENUM_CLASS_KEY, value.getClass().getCanonicalName());
         object.addProperty(ENUM_VALUE_KEY, value.name());
         return object;
@@ -84,7 +86,7 @@ public class JsonDeserializationService {
      * @return Returns whether deserialization logic was registered for the given class.
      * @see #registerDeserialization(Class, Function)
      */
-    public boolean isDeserializationRegistered(@Nonnull final Class<?> clazz) {
+    public boolean isDeserializationRegistered(@Nonnull Class<?> clazz) {
         return deserializerMap.containsKey(clazz.getCanonicalName());
     }
 
@@ -95,7 +97,7 @@ public class JsonDeserializationService {
      * @param deserializer The deserialization logic.
      * @param <T>          The type parameter, can be any object.
      */
-    public <T> void registerDeserialization(@Nonnull final Class<T> clazz, @Nonnull final Function<JsonElement, ?> deserializer) {
+    public <T> void registerDeserialization(@Nonnull Class<T> clazz, @Nonnull Function<JsonElement, ?> deserializer) {
         deserializerMap.put(clazz.getCanonicalName(), deserializer);
     }
 
@@ -105,7 +107,7 @@ public class JsonDeserializationService {
      * @param clazz The {@link Class} instance
      * @see #unregisterDeserialization(String)
      */
-    public void unregisterDeserialization(@Nonnull final Class<?> clazz) {
+    public void unregisterDeserialization(@Nonnull Class<?> clazz) {
         deserializerMap.remove(clazz.getCanonicalName());
     }
 
@@ -115,7 +117,7 @@ public class JsonDeserializationService {
      * @param clazz The canonical name of the class instance {@link Class#getCanonicalName()}
      * @see #unregisterDeserialization(Class)
      */
-    public void unregisterDeserialization(@Nonnull final String clazz) {
+    public void unregisterDeserialization(@Nonnull String clazz) {
         deserializerMap.remove(clazz);
     }
 
@@ -130,7 +132,7 @@ public class JsonDeserializationService {
      * @see #deserialize(Class, JsonElement)
      */
     @Nonnull
-    public <T> Optional<T> deserialize(@Nonnull final Class<T> expectedClass, @Nonnull final String json) {
+    public <T> Optional<T> deserialize(@Nonnull Class<T> expectedClass, @Nonnull String json) {
         return deserialize(expectedClass, parser.parse(json));
     }
 
@@ -142,13 +144,15 @@ public class JsonDeserializationService {
      * @param <T>           The expected type of the deserialized object
      * @return Return an optional populated with the deserialized object, else it is empty.
      */
-    public <T> Optional<T> deserialize(@Nonnull final Class<T> expectedClass, @Nonnull final JsonElement json) {
+    public <T> Optional<T> deserialize(@Nonnull Class<T> expectedClass, @Nonnull JsonElement json) {
         // Try to get the mapped deserialization logic.
-        final Function<JsonElement, ?> function = deserializerMap.get(expectedClass.getCanonicalName());
+        Function<JsonElement, ?> function = deserializerMap.get(expectedClass.getCanonicalName());
         if (function == null) {
-            if (expectedClass.isEnum()) { // Only try generic serialization if explicit deserialization logic is not present.
-                final Object object = deserializeEnum(json);
-                if (object != null) { // Return the successfully reconstructed object instance.
+            // Only try generic serialization if explicit deserialization logic is not present.
+            if (expectedClass.isEnum()) {
+                Object object = deserializeEnum(json);
+                // Return the successfully reconstructed object instance.
+                if (object != null) {
                     return Optional.of(expectedClass.cast(object));
                 }
             }

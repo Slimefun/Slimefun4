@@ -16,8 +16,8 @@ public class TestJsonDeserializationService {
     @DisplayName("Test if default enum serialization and deserialization is persistent and consistent")
     public void testDefaultEnumDeserialization() {
         JsonDeserializationService service = new JsonDeserializationService();
-        final String data = JsonDeserializationService.serializeEnum(Material.AIR).toString();
-        final Optional<Material> optional = service.deserialize(Material.class, data);
+        String data = JsonDeserializationService.serializeEnum(Material.AIR).toString();
+        Optional<Material> optional = service.deserialize(Material.class, data);
         Assertions.assertTrue(optional.isPresent());
         Assertions.assertEquals(optional.get(), Material.AIR);
     }
@@ -27,8 +27,8 @@ public class TestJsonDeserializationService {
     public void testOverridingEnumDeserialization() {
         JsonDeserializationService service = new JsonDeserializationService();
         service.registerDeserialization(Material.class, this::deserialize);
-        final JsonElement element = serialize(Material.CARROT);
-        final Optional<Material> optional = service.deserialize(Material.class, element.toString());
+        JsonElement element = serialize(Material.CARROT);
+        Optional<Material> optional = service.deserialize(Material.class, element.toString());
         Assertions.assertTrue(optional.isPresent());
         Assertions.assertEquals(optional.get(), Material.AIR);
     }
@@ -48,14 +48,14 @@ public class TestJsonDeserializationService {
     /**
      * Dummy serialization
      */
-    private JsonObject serialize(final Material material) {
+    private JsonObject serialize(Material material) {
         return JsonDeserializationService.serializeEnum(material);
     }
 
     /**
      * Dummy deserialization to always return air.
      */
-    private Material deserialize(final JsonElement element) {
+    private Material deserialize(JsonElement element) {
         return JsonDeserializationService.deserializeEnum(element) == null ? null : Material.AIR;
     }
 

@@ -30,15 +30,13 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
 
     private final Map<UUID, AccessLevel> levelMap = new HashMap<>();
 
-    public PlayerAccessDataImpl() {
+    public PlayerAccessDataImpl() { }
 
-    }
-
-    public PlayerAccessDataImpl(@Nonnull final String data) {
+    public PlayerAccessDataImpl(@Nonnull String data) {
         loadFromString(data);
     }
 
-    public PlayerAccessDataImpl(@Nonnull final JsonElement data) {
+    public PlayerAccessDataImpl(@Nonnull JsonElement data) {
         loadFromJsonElement(data);
     }
 
@@ -49,21 +47,21 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
     }
 
     private static AccessLevel deserializeAccessLevel(
-        @Nonnull final String key, @Nonnull final JsonElement element) {
+        @Nonnull String key, @Nonnull JsonElement element) {
         if (!element.isJsonObject()) {
             Slimefun.getLogger().log(Level.WARNING,
                 "Invalid AccessData for key: " + key + "! Element is not a JsonObject!");
             return null;
         }
-        final JsonObject object = element.getAsJsonObject();
-        final JsonElement raw = object.get(JsonDeserializationService.ENUM_CLASS_KEY);
-        final JsonPrimitive rawString;
+        JsonObject object = element.getAsJsonObject();
+        JsonElement raw = object.get(JsonDeserializationService.ENUM_CLASS_KEY);
+        JsonPrimitive rawString;
         if (!raw.isJsonPrimitive() || !((rawString = raw.getAsJsonPrimitive()).isString())) {
             Slimefun.getLogger().log(Level.WARNING,
                 "Invalid AccessLevel for key: " + key + "! Element is not a String!");
             return null;
         }
-        final Class<?> clazz;
+        Class<?> clazz;
         try {
             clazz = Class.forName(rawString.getAsString());
         } catch (ClassNotFoundException ex) {
@@ -74,8 +72,7 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
         }
         if (!AccessLevel.class.isAssignableFrom(clazz)) {
             Slimefun.getLogger().log(Level.WARNING,
-                "Invalid AccessLevel for key:" + key + "! Class is not an access level: " + clazz
-                    .getCanonicalName());
+                "Invalid AccessLevel for key:" + key + "! Class is not an access level: " + clazz.getCanonicalName());
             return null;
         }
         return (AccessLevel) SlimefunPlugin.getJsonDeserializationService()
@@ -84,12 +81,12 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
 
     @Nonnull
     @Override
-    public AccessLevel getAccessLevel(@Nonnull final UUID player) {
+    public AccessLevel getAccessLevel(@Nonnull UUID player) {
         return levelMap.getOrDefault(player, ConcreteAccessLevel.NONE);
     }
 
     @Override
-    public void setAccessLevel(@Nonnull final UUID player, @Nullable final AccessLevel newLevel) {
+    public void setAccessLevel(@Nonnull UUID player, @Nullable AccessLevel newLevel) {
         levelMap.remove(player);
         if (newLevel != null) {
             levelMap.put(player, newLevel);
@@ -97,35 +94,35 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
     }
 
     @Override
-    public void reset() {
+    public void clear() {
         levelMap.clear();
     }
 
     @Override
-    public boolean hasDataFor(@Nonnull final UUID object) {
+    public boolean hasDataFor(@Nonnull UUID object) {
         return levelMap.containsKey(object);
     }
 
     @Nonnull
     @Override
     public JsonElement saveToJsonElement() {
-        final JsonObject object = new JsonObject();
-        for (final Map.Entry<UUID, AccessLevel> entry : levelMap.entrySet()) {
-            final AccessLevel level = entry.getValue();
+        JsonObject object = new JsonObject();
+        for (Map.Entry<UUID, AccessLevel> entry : levelMap.entrySet()) {
+            AccessLevel level = entry.getValue();
             object.add(serialize(entry.getKey()), level.saveToJsonElement());
         }
         return object;
     }
 
     @Override
-    public void loadFromJsonElement(@Nonnull final JsonElement element) {
+    public void loadFromJsonElement(@Nonnull JsonElement element) {
         if (!element.isJsonObject()) {
             return;
         }
-        final JsonObject object = element.getAsJsonObject();
-        for (final Map.Entry<String, JsonElement> entry : object.entrySet()) {
-            final String key = entry.getKey();
-            final UUID reconstructedObject;
+        JsonObject object = element.getAsJsonObject();
+        for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
+            String key = entry.getKey();
+            UUID reconstructedObject;
             try {
                 reconstructedObject = deserialize(key);
             } catch (IllegalArgumentException ex) {
@@ -133,8 +130,8 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
                     "Failed to deserialize data for key: " + key + "! Reason: " + ex.getMessage());
                 continue;
             }
-            final JsonElement value = entry.getValue();
-            final AccessLevel level;
+            JsonElement value = entry.getValue();
+            AccessLevel level;
             if ((level = deserializeAccessLevel(key, value)) != null) {
                 levelMap.put(reconstructedObject, level);
             }
@@ -142,23 +139,23 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
     }
 
     @Nullable
-    protected UUID deserialize(@Nonnull final String input) throws IllegalArgumentException {
+    protected UUID deserialize(@Nonnull String input) throws IllegalArgumentException {
         return UUID.fromString(input);
     }
 
     @Nonnull
-    protected String serialize(@Nonnull final UUID data) {
+    protected String serialize(@Nonnull UUID data) {
         return data.toString();
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
 
-        final PlayerAccessDataImpl that = (PlayerAccessDataImpl) o;
+        PlayerAccessDataImpl that = (PlayerAccessDataImpl) o;
         return levelMap.equals(that.levelMap);
     }
 

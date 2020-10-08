@@ -31,16 +31,17 @@ public class TestPlayerAccessDataImpl {
     @Test
     @DisplayName("Test if default values for undefined behaviour are correct")
     public void testDefaults() {
-        final UUID random = UUID.randomUUID();
+        UUID random = UUID.randomUUID();
         PlayerAccessData accessData = new PlayerAccessDataImpl();
         Assertions.assertFalse(accessData.hasDataFor(random));
-        Assertions.assertEquals(accessData.getAccessLevel(random), ConcreteAccessLevel.NONE); // Default is NONE
+        // Default is NONE
+        Assertions.assertEquals(accessData.getAccessLevel(random), ConcreteAccessLevel.NONE);
     }
 
     @Test
     @DisplayName("Test if added values are persisted correctly")
     public void testAdd() {
-        final UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         PlayerAccessData accessData = new PlayerAccessDataImpl();
         accessData.setAccessLevel(uuid, ConcreteAccessLevel.PARTIAL);
         Assertions.assertEquals(accessData.getAccessLevel(uuid), ConcreteAccessLevel.PARTIAL);
@@ -52,7 +53,7 @@ public class TestPlayerAccessDataImpl {
     @Test
     @DisplayName("Test if added values are removed correctly")
     public void testRemove() {
-        final UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         PlayerAccessData accessData = new PlayerAccessDataImpl();
         accessData.setAccessLevel(uuid, ConcreteAccessLevel.PARTIAL);
         Assertions.assertEquals(accessData.getAccessLevel(uuid), ConcreteAccessLevel.PARTIAL);
@@ -64,7 +65,7 @@ public class TestPlayerAccessDataImpl {
     @Test
     @DisplayName("Test if serialization and deserialization is working")
     public void testSerialization() {
-        final UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         PlayerAccessData accessData = new PlayerAccessDataImpl();
         accessData.setAccessLevel(uuid, ConcreteAccessLevel.PARTIAL);
         JsonElement serial = accessData.saveToJsonElement();
@@ -75,7 +76,7 @@ public class TestPlayerAccessDataImpl {
     @Test
     @DisplayName("Test if the equals method is correct")
     public void testEquals() {
-        final UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         PlayerAccessData accessData = new PlayerAccessDataImpl();
         accessData.setAccessLevel(uuid, ConcreteAccessLevel.PARTIAL);
         PlayerAccessData secondary = new PlayerAccessDataImpl();

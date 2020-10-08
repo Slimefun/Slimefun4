@@ -33,20 +33,21 @@ public class TestPlayerAccessManagerImpl {
     @Test
     @DisplayName("Test if default values for undefined behaviour are correct")
     public void testDefaults() {
-        final UUID random = UUID.randomUUID();
+        UUID random = UUID.randomUUID();
         AccessManager accessManager = new PlayerAccessManagerImpl();
         Assertions.assertFalse(accessManager.hasDataFor(random));
-        Assertions.assertEquals(accessManager.getAccessLevel(random), ConcreteAccessLevel.NONE); // Default is NONE
+        // Default is NONE
+        Assertions.assertEquals(accessManager.getAccessLevel(random), ConcreteAccessLevel.NONE);
     }
 
     @Test
     @DisplayName("Test if added values are persisted correctly")
     public void testAdd() {
-        final UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         AccessManager accessManager = new PlayerAccessManagerImpl();
-        final AccessData<UUID> def = new PlayerAccessDataImpl();
+        AccessData<UUID> def = new PlayerAccessDataImpl();
         def.setAccessLevel(uuid, ConcreteAccessLevel.FULL);
-        final AccessData<UUID> accessData = accessManager.getOrRegisterAccessData(UUID.class, new PlayerAccessDataImpl());
+        AccessData<UUID> accessData = accessManager.getOrRegisterAccessData(UUID.class, new PlayerAccessDataImpl());
         Assertions.assertNotEquals(accessData, def);
         Assertions.assertTrue(accessManager.getAccessData(UUID.class).isPresent());
         Assertions.assertFalse(accessManager.hasDataFor(uuid));
@@ -58,13 +59,13 @@ public class TestPlayerAccessManagerImpl {
     @Test
     @DisplayName("Test if values are removed and if reset is functioning correctly")
     public void testReset() {
-        final UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
         AccessManager accessManager = new PlayerAccessManagerImpl();
-        final AccessData<UUID> def = new PlayerAccessDataImpl();
+        AccessData<UUID> def = new PlayerAccessDataImpl();
         def.setAccessLevel(uuid, ConcreteAccessLevel.FULL);
         accessManager.getOrRegisterAccessData(UUID.class, def);
         Assertions.assertTrue(accessManager.hasDataFor(uuid));
-        accessManager.reset();
+        accessManager.clear();
         Assertions.assertFalse(accessManager.hasDataFor(uuid));
         def.setAccessLevel(uuid, ConcreteAccessLevel.FULL);
         accessManager.getOrRegisterAccessData(UUID.class, def);
@@ -76,9 +77,9 @@ public class TestPlayerAccessManagerImpl {
     @Test
     @DisplayName("Test if serialization and deserialization is working")
     public void testSerialization() {
-        final UUID uuid = UUID.randomUUID();
-        final AccessManager accessManager = new PlayerAccessManagerImpl();
-        final AccessData<UUID> accessData = accessManager.getOrRegisterAccessData(UUID.class, new PlayerAccessDataImpl());
+        UUID uuid = UUID.randomUUID();
+        AccessManager accessManager = new PlayerAccessManagerImpl();
+        AccessData<UUID> accessData = accessManager.getOrRegisterAccessData(UUID.class, new PlayerAccessDataImpl());
         accessData.setAccessLevel(uuid, ConcreteAccessLevel.FULL);
         JsonElement serial = accessManager.saveToJsonElement();
         AccessManager reconstructed = SlimefunPlugin.getJsonDeserializationService().deserialize(PlayerAccessManagerImpl.class, serial).orElse(null);
@@ -88,11 +89,11 @@ public class TestPlayerAccessManagerImpl {
     @Test
     @DisplayName("Test if the equals method is correct")
     public void testEquals() {
-        final UUID uuid = UUID.randomUUID();
-        final AccessManager accessManager = new PlayerAccessManagerImpl();
-        final AccessData<UUID> accessData = accessManager.getOrRegisterAccessData(UUID.class, new PlayerAccessDataImpl());
+        UUID uuid = UUID.randomUUID();
+        AccessManager accessManager = new PlayerAccessManagerImpl();
+        AccessData<UUID> accessData = accessManager.getOrRegisterAccessData(UUID.class, new PlayerAccessDataImpl());
         accessData.setAccessLevel(uuid, ConcreteAccessLevel.FULL);
-        final AccessManager secondary = new PlayerAccessManagerImpl();
+        AccessManager secondary = new PlayerAccessManagerImpl();
         secondary.getOrRegisterAccessData(UUID.class, accessData);
         Assertions.assertEquals(accessManager, secondary);
     }

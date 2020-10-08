@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
  *
  * @author md5sha256
  */
-public interface TierAccessible {
+public interface TieredAccessible {
 
     @Nonnull
     AccessManager getAccessManager();

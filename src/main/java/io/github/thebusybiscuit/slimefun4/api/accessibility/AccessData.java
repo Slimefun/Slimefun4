@@ -43,7 +43,7 @@ public interface AccessData<T> {
     /**
      * Reset (clear) all held data.
      */
-    void reset();
+    void clear();
 
     /**
      * Check whether this data object contains a value for a given object.

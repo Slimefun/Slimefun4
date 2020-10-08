@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.accessibility;
 
 import com.google.gson.JsonElement;
-import io.github.thebusybiscuit.slimefun4.core.attributes.TierAccessible;
+import io.github.thebusybiscuit.slimefun4.core.attributes.TieredAccessible;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -11,7 +12,7 @@ import javax.annotation.Nullable;
  * access level tress can be created.
  *
  * @see ConcreteAccessLevel
- * @see TierAccessible
+ * @see TieredAccessible
  *
  * @author md5sha256
  */
@@ -20,10 +21,13 @@ public interface AccessLevel {
     /**
      * Obtain the display name for this access level.
      *
+     *
      * @return Returns a never null {@link String}, the display name to use in chat.
      */
     @Nonnull
-    String getDisplayName();
+    String getRawDisplayName();
+
+    @Nonnull String getDisplayName(@Nonnull Player player);
 
     /**
      * Obtain the next {@link AccessLevel}. Implementations should adhere to the contract
@@ -33,7 +37,7 @@ public interface AccessLevel {
      * @return Returns the next access level, or null.
      */
     @Nullable
-    AccessLevel next();
+    AccessLevel getNextLevel();
 
     /**
      * Obtain the previous {@link AccessLevel}. Implementations should adhere to the contract
@@ -43,7 +47,7 @@ public interface AccessLevel {
      * @return Returns the next access level, or null.
      */
     @Nullable
-    AccessLevel previous();
+    AccessLevel getPreviousLevel();
 
     /**
      * Get the nearest equivalent {@link ConcreteAccessLevel}.

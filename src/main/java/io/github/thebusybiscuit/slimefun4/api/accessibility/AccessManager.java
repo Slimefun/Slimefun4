@@ -26,7 +26,9 @@ public interface AccessManager {
      * @return Returns the access level this player has.
      */
     @Nonnull
-    AccessLevel getAccessLevel(@Nonnull Player player);
+    default AccessLevel getAccessLevel(@Nonnull Player player) {
+        return getAccessLevel(player.getUniqueId());
+    }
 
     /**
      * Get the {@link AccessLevel} for a player, defaulting to {@link ConcreteAccessLevel#NONE} if {@link #hasDataFor(Object)} is false.
@@ -60,7 +62,7 @@ public interface AccessManager {
      */
     @Nonnull
     <T> AccessData<T> getOrRegisterAccessData(@Nonnull Class<T> clazz,
-                                              @Nonnull final AccessData<T> def);
+                                              @Nonnull AccessData<T> def);
 
     /**
      * Check whether a {@link Player} has a given {@link AccessLevel} or higher.
@@ -92,7 +94,7 @@ public interface AccessManager {
      * @param object The instance of the object.
      * @return Returns whether the manager has data for a given object.
      */
-    boolean hasDataFor(@Nonnull Object object);
+    <T> boolean hasDataFor(@Nonnull T object);
 
     /**
      * @return Returns whether this access manager has no data.
@@ -100,19 +102,19 @@ public interface AccessManager {
     boolean isEmpty();
 
     /**
-     * Reset this manager to an empty state.
+     * Clear all data held in this manager.
      */
-    void reset();
+    void clear();
 
     /**
-     * Purge all currently held data and read from the {@link ItemStack}
+     * Reload all currently held data and read from the {@link ItemStack}
      *
      * @param itemStack The instance of the {@link ItemStack}
      */
     void load(@Nonnull NamespacedKey namespace, @Nonnull ItemStack itemStack);
 
     /**
-     * Purge all currently held data and read from the {@link Block}
+     * Reload all currently held data and read from the {@link Block}
      *
      * @param block The instance of the {@link Block}
      */
@@ -143,7 +145,7 @@ public interface AccessManager {
     }
 
     /**
-     * Purge all currently held data and read from the String data.
+     * Reload all currently held data and read from the {@link JsonElement}
      *
      * @param data The serialized data in string form.
      * @throws IllegalArgumentException Thrown if the data is invalid.
