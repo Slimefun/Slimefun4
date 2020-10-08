@@ -16,7 +16,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * {@link Research} on startup.
  * 
  * @author TheBusyBiscuit
- * @author Every Slimefun4 Contributor (at least those who added an item...)
  * 
  * @see Research
  * @see SlimefunItems
