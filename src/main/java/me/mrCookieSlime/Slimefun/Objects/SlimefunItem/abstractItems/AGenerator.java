@@ -59,8 +59,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                 if (flow == ItemTransportFlow.INSERT) {
                     return getInputSlots();
-                }
-                else {
+                } else {
                     return getOutputSlots();
                 }
             }
@@ -88,11 +87,11 @@ public abstract class AGenerator extends AbstractEnergyProvider {
         }
 
         for (int i : border_in) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_out) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : getOutputSlots()) {
@@ -150,13 +149,11 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                     }
 
                     return 0;
-                }
-                else {
+                } else {
                     progress.put(l, timeleft - 1);
                     return getEnergyProduction();
                 }
-            }
-            else {
+            } else {
                 ItemStack fuel = processing.get(l).getInput();
 
                 if (isBucket(fuel)) {
@@ -171,8 +168,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                 processing.remove(l);
                 return 0;
             }
-        }
-        else {
+        } else {
             Map<Integer, Integer> found = new HashMap<>();
             MachineFuel fuel = findRecipe(inv, found);
 

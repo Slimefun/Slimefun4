@@ -40,22 +40,18 @@ class ResearchCommand extends SubCommand {
                     PlayerProfile.get(p, profile -> {
                         if (args[2].equalsIgnoreCase("all")) {
                             researchAll(sender, profile, p);
-                        }
-                        else if (args[2].equalsIgnoreCase("reset")) {
+                        } else if (args[2].equalsIgnoreCase("reset")) {
                             reset(profile, p);
-                        }
-                        else {
+                        } else {
                             giveResearch(sender, p, args[2]);
                         }
                     });
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
                 }
-            }
-            else SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
-        }
-        else {
+            } else
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
         }
     }
@@ -68,8 +64,7 @@ class ResearchCommand extends SubCommand {
                 UnaryOperator<String> variables = msg -> msg.replace(PLACEHOLDER_PLAYER, player.getName()).replace(PLACEHOLDER_RESEARCH, research.get().getName(player));
                 SlimefunPlugin.getLocalization().sendMessage(player, "messages.give-research", true, variables);
             });
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
         }
     }

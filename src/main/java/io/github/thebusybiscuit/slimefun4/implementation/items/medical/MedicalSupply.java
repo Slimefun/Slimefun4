@@ -31,14 +31,22 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
      *            The {@link LivingEntity} to clear the effects from.
      */
     public void clearNegativeEffects(@Nonnull LivingEntity n) {
-        if (n.hasPotionEffect(PotionEffectType.POISON)) n.removePotionEffect(PotionEffectType.POISON);
-        if (n.hasPotionEffect(PotionEffectType.WITHER)) n.removePotionEffect(PotionEffectType.WITHER);
-        if (n.hasPotionEffect(PotionEffectType.SLOW)) n.removePotionEffect(PotionEffectType.SLOW);
-        if (n.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) n.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-        if (n.hasPotionEffect(PotionEffectType.WEAKNESS)) n.removePotionEffect(PotionEffectType.WEAKNESS);
-        if (n.hasPotionEffect(PotionEffectType.CONFUSION)) n.removePotionEffect(PotionEffectType.CONFUSION);
-        if (n.hasPotionEffect(PotionEffectType.BLINDNESS)) n.removePotionEffect(PotionEffectType.BLINDNESS);
-        if (n.hasPotionEffect(PotionEffectType.BAD_OMEN)) n.removePotionEffect(PotionEffectType.BAD_OMEN);
+        if (n.hasPotionEffect(PotionEffectType.POISON))
+            n.removePotionEffect(PotionEffectType.POISON);
+        if (n.hasPotionEffect(PotionEffectType.WITHER))
+            n.removePotionEffect(PotionEffectType.WITHER);
+        if (n.hasPotionEffect(PotionEffectType.SLOW))
+            n.removePotionEffect(PotionEffectType.SLOW);
+        if (n.hasPotionEffect(PotionEffectType.SLOW_DIGGING))
+            n.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+        if (n.hasPotionEffect(PotionEffectType.WEAKNESS))
+            n.removePotionEffect(PotionEffectType.WEAKNESS);
+        if (n.hasPotionEffect(PotionEffectType.CONFUSION))
+            n.removePotionEffect(PotionEffectType.CONFUSION);
+        if (n.hasPotionEffect(PotionEffectType.BLINDNESS))
+            n.removePotionEffect(PotionEffectType.BLINDNESS);
+        if (n.hasPotionEffect(PotionEffectType.BAD_OMEN))
+            n.removePotionEffect(PotionEffectType.BAD_OMEN);
     }
 
     /**

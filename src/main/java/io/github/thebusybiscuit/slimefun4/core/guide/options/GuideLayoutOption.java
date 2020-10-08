@@ -40,11 +40,9 @@ class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
 
             if (layout == SlimefunGuideLayout.CHEST) {
                 item.setType(Material.CHEST);
-            }
-            else if (layout == SlimefunGuideLayout.BOOK) {
+            } else if (layout == SlimefunGuideLayout.BOOK) {
                 item.setType(Material.BOOK);
-            }
-            else {
+            } else {
                 item.setType(Material.COMMAND_BLOCK);
             }
 
@@ -93,8 +91,7 @@ class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
             }
 
             return SlimefunGuideLayout.CHEST;
-        }
-        else {
+        } else {
             return layout == SlimefunGuideLayout.CHEST ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST;
         }
     }

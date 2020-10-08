@@ -197,8 +197,7 @@ class ActiveMiner implements Runnable {
                 }
 
                 nextColumn();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occurred while running an Industrial Miner at " + new BlockPosition(chest));
                 stop();
             }
@@ -213,12 +212,10 @@ class ActiveMiner implements Runnable {
     private void nextColumn() {
         if (x < end.getX()) {
             x++;
-        }
-        else if (z < end.getZ()) {
+        } else if (z < end.getZ()) {
             x = start.getX();
             z++;
-        }
-        else {
+        } else {
             // The Miner has finished
             stop();
 
@@ -261,22 +258,18 @@ class ActiveMiner implements Runnable {
                     if (InvUtils.fits(inv, item)) {
                         inv.addItem(item);
                         return true;
-                    }
-                    else {
+                    } else {
                         stop("machines.INDUSTRIAL_MINER.chest-full");
                     }
-                }
-                else {
+                } else {
                     // I won't question how this happened...
                     stop("machines.INDUSTRIAL_MINER.destroyed");
                 }
-            }
-            else {
+            } else {
                 // The chest has been destroyed
                 stop("machines.INDUSTRIAL_MINER.destroyed");
             }
-        }
-        else {
+        } else {
             stop("machines.INDUSTRIAL_MINER.no-fuel");
         }
 
@@ -334,8 +327,7 @@ class ActiveMiner implements Runnable {
             if (block.getType() == Material.MOVING_PISTON) {
                 // Yeah it isn't really cool when this happens
                 block.getRelative(BlockFace.UP).setType(Material.AIR);
-            }
-            else if (block.getType() == Material.PISTON) {
+            } else if (block.getType() == Material.PISTON) {
                 Block above = block.getRelative(BlockFace.UP);
 
                 // Check if the above block is valid
@@ -345,23 +337,19 @@ class ActiveMiner implements Runnable {
                     // Check if the piston is actually facing upwards
                     if (piston.getFacing() == BlockFace.UP) {
                         setExtended(block, piston, extended);
-                    }
-                    else {
+                    } else {
                         // The pistons must be facing upwards
                         stop("machines.INDUSTRIAL_MINER.piston-facing");
                     }
-                }
-                else {
+                } else {
                     // The pistons must be facing upwards
                     stop("machines.INDUSTRIAL_MINER.piston-space");
                 }
-            }
-            else {
+            } else {
                 // The piston has been destroyed
                 stop("machines.INDUSTRIAL_MINER.destroyed");
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "An Error occurred while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
             stop();
         }
@@ -377,8 +365,7 @@ class ActiveMiner implements Runnable {
             head.setFacing(BlockFace.UP);
 
             block.getRelative(BlockFace.UP).setBlockData(head, false);
-        }
-        else {
+        } else {
             block.getRelative(BlockFace.UP).setType(Material.AIR);
         }
 

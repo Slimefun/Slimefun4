@@ -122,8 +122,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
                 }
 
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         };
@@ -156,8 +155,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         // check for the dispenser, only refactored.
         if (outputInv == null && InvUtils.fits(placeCheckerInv, product)) {
             return dispInv;
-        }
-        else {
+        } else {
             return outputInv;
         }
     }
@@ -195,11 +193,9 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         for (ItemStack item : items) {
             if (item == null) {
                 materials.add(null);
-            }
-            else if (item.getType() == Material.FLINT_AND_STEEL) {
+            } else if (item.getType() == Material.FLINT_AND_STEEL) {
                 materials.add(Material.FIRE);
-            }
-            else {
+            } else {
                 materials.add(item.getType());
             }
         }

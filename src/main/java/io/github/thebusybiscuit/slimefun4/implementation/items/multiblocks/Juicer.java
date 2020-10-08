@@ -56,8 +56,7 @@ public class Juicer extends MultiBlockMachine {
                             outputInv.addItem(adding);
                             p.getWorld().playSound(b.getLocation(), Sound.ENTITY_PLAYER_SPLASH, 1F, 1F);
                             p.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.HAY_BLOCK);
-                        }
-                        else {
+                        } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
 

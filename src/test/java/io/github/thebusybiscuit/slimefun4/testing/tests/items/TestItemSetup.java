@@ -17,11 +17,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
-import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 
 @TestMethodOrder(value = OrderAnnotation.class)
@@ -31,9 +29,8 @@ class TestItemSetup {
 
     @BeforeAll
     public static void load() {
-        ServerMock server = MockBukkit.mock();
+        MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
-        TestUtilities.registerDefaultTags(server);
     }
 
     @AfterAll

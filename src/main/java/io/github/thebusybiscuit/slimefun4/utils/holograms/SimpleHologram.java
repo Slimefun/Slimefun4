@@ -51,8 +51,7 @@ public final class SimpleHologram {
 
         if (!createIfNoneExists) {
             return null;
-        }
-        else {
+        } else {
             return create(l);
         }
     }

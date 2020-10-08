@@ -115,8 +115,7 @@ public class Metrics {
             config.options().header("bStats collects some data for plugin authors like how many servers are using their plugins.\n" + "To honor their work, you should not disable it.\n" + "This has nearly no effect on the server performance!\n" + "Check out https://bStats.org/ to learn more :)").copyDefaults(true);
             try {
                 config.save(configFile);
-            }
-            catch (IOException ignored) {}
+            } catch (IOException ignored) {}
         }
 
         // Load the data
@@ -134,8 +133,7 @@ public class Metrics {
                     service.getField("B_STATS_VERSION"); // Our identifier :)
                     found = true; // We aren't the first
                     break;
-                }
-                catch (NoSuchFieldException ignored) {}
+                } catch (NoSuchFieldException ignored) {}
             }
             // Register our service
             Bukkit.getServicesManager().register(Metrics.class, this, plugin, ServicePriority.Normal);
@@ -235,8 +233,7 @@ public class Metrics {
             // This fixes java.lang.NoSuchMethodError: org.bukkit.Bukkit.getOnlinePlayers()Ljava/util/Collection;
             Method onlinePlayersMethod = Class.forName("org.bukkit.Server").getMethod("getOnlinePlayers");
             playerAmount = onlinePlayersMethod.getReturnType().equals(Collection.class) ? ((Collection<?>) onlinePlayersMethod.invoke(Bukkit.getServer())).size() : ((Player[]) onlinePlayersMethod.invoke(Bukkit.getServer())).length;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             playerAmount = Bukkit.getOnlinePlayers().size(); // Just use the new method if the Reflection failed
         }
         int onlineMode = Bukkit.getOnlineMode() ? 1 : 0;
@@ -285,8 +282,7 @@ public class Metrics {
                         Object plugin = provider.getService().getMethod("getPluginData").invoke(provider.getProvider());
                         if (plugin instanceof JsonObject) {
                             pluginData.add((JsonObject) plugin);
-                        }
-                        else { // old bstats version compatibility
+                        } else { // old bstats version compatibility
                             try {
                                 Class<?> jsonObjectJsonSimple = Class.forName("org.json.simple.JSONObject");
                                 if (plugin.getClass().isAssignableFrom(jsonObjectJsonSimple)) {
@@ -296,19 +292,16 @@ public class Metrics {
                                     JsonObject object = new JsonParser().parse(jsonString).getAsJsonObject();
                                     pluginData.add(object);
                                 }
-                            }
-                            catch (ClassNotFoundException e) {
+                            } catch (ClassNotFoundException e) {
                                 // minecraft version 1.14+
                                 if (logFailedRequests) {
                                     this.plugin.getLogger().log(Level.SEVERE, "Encountered unexpected exception", e);
                                 }
                             }
                         }
-                    }
-                    catch (NullPointerException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {}
+                    } catch (NullPointerException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {}
                 }
-            }
-            catch (NoSuchFieldException ignored) {}
+            } catch (NoSuchFieldException ignored) {}
         }
 
         data.add("plugins", pluginData);
@@ -318,8 +311,7 @@ public class Metrics {
             try {
                 // Send the data
                 sendData(plugin, data);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 // Something went wrong! :(
                 if (logFailedRequests) {
                     plugin.getLogger().log(Level.WARNING, "Could not submit plugin stats of " + plugin.getName(), e);
@@ -432,8 +424,7 @@ public class Metrics {
                     return null;
                 }
                 chart.add("data", data);
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 if (logFailedRequests) {
                     Bukkit.getLogger().log(Level.WARNING, "Failed to get data for custom chart with id " + chartId, t);
                 }

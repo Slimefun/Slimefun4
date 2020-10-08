@@ -31,8 +31,7 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
 
             if (closest == null) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "miner.no-ores");
-            }
-            else {
+            } else {
                 double l = closest.getX() + 0.5 - p.getLocation().getX();
                 double w = closest.getZ() + 0.5 - p.getLocation().getZ();
 

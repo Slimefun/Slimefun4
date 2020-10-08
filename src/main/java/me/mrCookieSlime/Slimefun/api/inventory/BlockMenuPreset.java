@@ -143,8 +143,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
         if (size % 9 == 0 && size >= 0 && size < 55) {
             this.size = size;
             return this;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("The size of a BlockMenuPreset must be a multiple of 9 and within the bounds 0-54, received: " + size);
         }
     }
@@ -197,8 +196,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
                     emptySlots.add(i);
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < size; i++) {
                 if (!occupiedSlots.contains(i)) {
                     emptySlots.add(i);
@@ -244,8 +242,7 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
             try {
                 newInstance(menu, l.getBlock());
-            }
-            catch (Exception | LinkageError x) {
+            } catch (Exception | LinkageError x) {
                 getSlimefunItem().error("An Error occurred while trying to create a BlockMenu", x);
             }
         });

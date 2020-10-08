@@ -65,8 +65,7 @@ public class BlockDataService implements PersistentDataService, Keyed {
 
         if (state instanceof TileState) {
             return getString((TileState) state, namespacedKey);
-        }
-        else {
+        } else {
             return Optional.empty();
         }
     }

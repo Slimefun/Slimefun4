@@ -24,6 +24,7 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -284,6 +285,13 @@ public class TalismanListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (e.getBlock().getType().name().endsWith("_ORE")) {
+            Talisman.checkFor(e, SlimefunItems.TALISMAN_CAVEMAN);
+        }
+    }
+
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
         if (fortuneLevel > 0) {
             Random random = ThreadLocalRandom.current();
@@ -291,8 +299,7 @@ public class TalismanListener implements Listener {
             amount = Math.max(amount, 1);
             amount = (type == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (amount + 1);
             return amount;
-        }
-        else {
+        } else {
             return 1;
         }
     }

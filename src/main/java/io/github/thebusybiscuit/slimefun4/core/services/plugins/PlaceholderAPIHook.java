@@ -56,8 +56,7 @@ class PlaceholderAPIHook extends PlaceholderExpansion {
     private boolean isPlaceholder(@Nullable OfflinePlayer p, boolean requiresProfile, @Nonnull String params, @Nonnull String placeholder) {
         if (requiresProfile) {
             return p != null && placeholder.equals(params) && PlayerProfile.request(p);
-        }
-        else {
+        } else {
             return placeholder.equals(params);
         }
     }

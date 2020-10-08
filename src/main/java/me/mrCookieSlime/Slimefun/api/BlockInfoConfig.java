@@ -53,8 +53,7 @@ public class BlockInfoConfig extends Config {
 
         if (value == null) {
             data.remove(path);
-        }
-        else {
+        } else {
             data.put(path, (String) value);
         }
     }

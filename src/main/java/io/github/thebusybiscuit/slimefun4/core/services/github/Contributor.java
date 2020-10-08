@@ -176,12 +176,10 @@ public class Contributor {
             if (github != null) {
                 String cached = github.getCachedTexture(githubUsername);
                 return cached != null ? cached : HeadTexture.UNKNOWN.getTexture();
-            }
-            else {
+            } else {
                 return HeadTexture.UNKNOWN.getTexture();
             }
-        }
-        else {
+        } else {
             return headTexture.get();
         }
     }

@@ -137,8 +137,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
 
         if (value != null) {
             return Integer.parseInt(value);
-        }
-        else {
+        } else {
             BlockStorage.addBlockInfo(b, DATA_KEY, "0");
             return 0;
         }

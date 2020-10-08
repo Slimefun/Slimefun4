@@ -96,12 +96,10 @@ public class MinerAndroid extends ProgrammableAndroid {
                     block.setType(Material.AIR);
                     move(b, face, block);
                 }
-            }
-            else {
+            } else {
                 move(b, face, block);
             }
-        }
-        else {
+        } else {
             move(b, face, block);
         }
     }

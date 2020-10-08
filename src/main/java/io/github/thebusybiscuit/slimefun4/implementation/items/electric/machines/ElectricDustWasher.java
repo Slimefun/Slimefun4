@@ -52,8 +52,7 @@ public abstract class ElectricDustWasher extends AContainer {
                     menu.consumeItem(slot);
                     return recipe;
                 }
-            }
-            else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
+            } else if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), SlimefunItems.PULVERIZED_ORE, true)) {
                 MachineRecipe recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[0], new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER });
 
                 if (menu.fits(recipe.getOutput()[0], getOutputSlots())) {

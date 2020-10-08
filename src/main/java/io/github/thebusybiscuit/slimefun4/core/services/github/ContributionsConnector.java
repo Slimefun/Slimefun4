@@ -66,8 +66,7 @@ class ContributionsConnector extends GitHubConnector {
 
         if (response.isArray()) {
             computeContributors(response.getArray());
-        }
-        else {
+        } else {
             Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
         }
     }

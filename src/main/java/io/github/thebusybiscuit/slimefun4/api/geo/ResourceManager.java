@@ -104,8 +104,7 @@ public class ResourceManager {
 
         if (value != null) {
             return OptionalInt.of(Integer.parseInt(value));
-        }
-        else {
+        } else {
             return OptionalInt.empty();
         }
     }
@@ -202,13 +201,15 @@ public class ResourceManager {
 
         menu.addItem(47, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
         menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
-            if (page > 0) scan(pl, block, page - 1);
+            if (page > 0)
+                scan(pl, block, page - 1);
             return false;
         });
 
         menu.addItem(51, ChestMenuUtils.getNextButton(p, page + 1, pages));
         menu.addMenuClickHandler(51, (pl, slot, item, action) -> {
-            if (page + 1 < pages) scan(pl, block, page + 1);
+            if (page + 1 < pages)
+                scan(pl, block, page + 1);
             return false;
         });
 
