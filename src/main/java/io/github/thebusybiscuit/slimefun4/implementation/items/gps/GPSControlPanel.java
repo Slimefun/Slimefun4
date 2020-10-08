@@ -1,5 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
 
+import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,21 +25,24 @@ public class GPSControlPanel extends SimpleSlimefunItem<BlockUseHandler> {
 
     @Override
     public BlockUseHandler getItemHandler() {
-        return e ->  {
+        return e -> {
             e.cancel();
 
             Player p = e.getPlayer();
+            Optional<Block> block = e.getClickedBlock();
 
-            if (p.hasPermission("slimefun.gps.bypass")
-                || (SlimefunPlugin.getProtectionManager().hasPermission(
-                p, e.getClickedBlock().get().getLocation(), ProtectableAction.ACCESS_INVENTORIES))
-            ) {
-
-                SlimefunPlugin.getGPSNetwork().openTransmitterControlPanel(p);
-            } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
-
+            if (block.isPresent()) {
+                if (hasAccess(p, block.get().getLocation())) {
+                    SlimefunPlugin.getGPSNetwork().openTransmitterControlPanel(p);
+                } else {
+                    SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
+                }
             }
         };
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean hasAccess(Player p, Location l) {
+        return p.hasPermission("slimefun.gps.bypass") || (SlimefunPlugin.getProtectionManager().hasPermission(p, l, ProtectableAction.ACCESS_INVENTORIES));
     }
 }
