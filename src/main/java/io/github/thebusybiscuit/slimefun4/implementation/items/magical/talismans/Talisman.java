@@ -162,7 +162,6 @@ public class Talisman extends SlimefunItem {
         }
 
         if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
-<<<<<<< HEAD
             activateTalisman(e, p, p.getInventory(), talisman);
             return retrieveTalismanFromInventory(p.getInventory(), talisman);
         }
@@ -182,26 +181,6 @@ public class Talisman extends SlimefunItem {
 
             if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
                 return item;
-=======
-            if (Slimefun.hasUnlocked(p, talisman, true)) {
-                activateTalisman(e, p, p.getInventory(), talisman);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            ItemStack enderTalisman = talisman.getEnderVariant();
-
-            if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
-                if (Slimefun.hasUnlocked(p, talisman, true)) {
-                    activateTalisman(e, p, p.getEnderChest(), talisman);
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
->>>>>>> 20405a775bfe896f09d8c4793451ae75d254255a
             }
         }
 

@@ -100,7 +100,8 @@ public class TalismanListener implements Listener {
         if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
             Projectile projectile = (Projectile) e.getDamager();
 
-            if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
+            ItemStack possibleTalisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND);
+            if (possibleTalisman != null) {
                 Player p = (Player) e.getEntity();
                 returnProjectile(p, projectile);
             }
@@ -152,7 +153,8 @@ public class TalismanListener implements Listener {
 
         // We are also excluding entities which can pickup items, this is not perfect
         // but it at least prevents dupes by tossing items to zombies
-        if (!entity.getCanPickupItems() && Talisman.checkFor(e, SlimefunItems.TALISMAN_HUNTER)) {
+        ItemStack possibleTalisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_HUNTER);
+        if (!entity.getCanPickupItems() && possibleTalisman != null) {
             Collection<ItemStack> extraDrops = getExtraDrops(e.getEntity(), e.getDrops());
 
             for (ItemStack drop : extraDrops) {
@@ -201,7 +203,8 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onItemBreak(PlayerItemBreakEvent e) {
-        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_ANVIL)) {
+        ItemStack possibleTalisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_ANVIL);
+        if (possibleTalisman != null) {
             PlayerInventory inv = e.getPlayer().getInventory();
             int slot = inv.getHeldItemSlot();
 
@@ -241,8 +244,9 @@ public class TalismanListener implements Listener {
     @EventHandler
     public void onEnchant(EnchantItemEvent e) {
         Random random = ThreadLocalRandom.current();
+        ItemStack possibleTalisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN);
 
-        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
+        if (possibleTalisman != null) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
             TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem());
 
@@ -250,8 +254,11 @@ public class TalismanListener implements Listener {
                 e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
             }
         }
+        ItemStack possibleWizardTalisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD);
 
-        if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
+        if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) 
+        && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) 
+        && possibleWizardTalisman != null) {
             Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
             for (Enchantment enchantment : enchantments) {
@@ -274,7 +281,8 @@ public class TalismanListener implements Listener {
             if (item.getType() != Material.AIR && item.getAmount() > 0 && !item.containsEnchantment(Enchantment.SILK_TOUCH)) {
                 Collection<Item> drops = e.getItems();
 
-                if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
+                ItemStack possibleTalisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER);
+                if (possibleTalisman != null) {
                     int dropAmount = getAmountWithFortune(type, item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
                     boolean doubledDrops = false;
 
@@ -305,7 +313,8 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onExperienceReceive(PlayerExpChangeEvent e) {
-        if (e.getAmount() > 0 && Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
+        ItemStack possibleTalisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE);
+        if (e.getAmount() > 0 && possibleTalisman != null) {
             e.setAmount(e.getAmount() * 2);
         }
     }
