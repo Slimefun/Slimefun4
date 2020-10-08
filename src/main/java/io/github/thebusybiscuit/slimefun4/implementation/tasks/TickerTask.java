@@ -312,7 +312,7 @@ public class TickerTask implements Runnable {
         if (errors == 1) {
             // Generate a new Error-Report
             new ErrorReport<>(x, l, item);
-            bugs.put(position, errors);
+            bugs.put(position, new AtomicInteger(errors));
         } else if (errors >= 4) {
             Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getID() });
             Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
