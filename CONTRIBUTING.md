@@ -143,6 +143,7 @@ Try to stay inline with the code that surrounds you, having an entire package or
 * Packages must be all lowercase, consecutive words should generally be avoided. (e.g. `io.github.thebusybiscuit.slimefun4.core.something`)
 #### 7. Style preferences
 * Use **Spaces**, not Tabs!
+* One class per file! Please don't put multiple classes into one file, this also applies to enums, make a seperate file for new classes or enums.
 * Try to keep ternary operators to a minimum, only in return statements. (e.g. avoid doing this: `int y = x == null ? 1: 2`)
 * Try to keep so-called "guard blocks" to a minimum. One guard block is fine but having multiple guard blocks before getting to the actual code... Well, you might wanna refactor your code there. Example:
 ```java
