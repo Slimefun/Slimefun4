@@ -97,7 +97,11 @@ If you have any further questions, then please join our [Discord Support Server]
 
 ## :black_nib: Code Style guidelines
 The general gist when it comes to code style: **Try to be consistent!**.<br>
-Try to stay inline with the code that surrounds you, having an entire package or even a single file that's filled with plenty of different and inconsistent code styles is just hard to read or maintain. That's why we wanna make sure everyone follows these simple principles:
+Try to stay inline with the code that surrounds you, having an entire package or even a single file that's filled with plenty of different and inconsistent code styles is just hard to read or maintain. That's why we wanna make sure everyone follows these principles.
+
+*Note that these are just guidelines, we may request changes on your pull request if we think there are changes necessary. 
+But we won't reject your Pull Request completely due to a few styling inconsistencies, we can always refactor code later. 
+But do try to follow our code style as best as you can.*
 
 #### 1. Imports
 * Don't use wildcard (`*`) imports!
