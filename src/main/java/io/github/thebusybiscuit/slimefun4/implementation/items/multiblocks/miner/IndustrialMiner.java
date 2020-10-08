@@ -195,8 +195,7 @@ public class IndustrialMiner extends MultiBlockMachine {
 
         if (northern.getType() == Material.PISTON) {
             return new Block[] { northern, chest.getRelative(BlockFace.SOUTH) };
-        }
-        else {
+        } else {
             return new Block[] { chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST) };
         }
     }
@@ -212,12 +211,10 @@ public class IndustrialMiner extends MultiBlockMachine {
     public boolean canMine(Material type) {
         if (type.name().endsWith("_ORE")) {
             return true;
-        }
-        else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             if (type == Material.GILDED_BLACKSTONE) {
                 return true;
-            }
-            else if (type == Material.ANCIENT_DEBRIS) {
+            } else if (type == Material.ANCIENT_DEBRIS) {
                 return canMineAncientDebris.getValue();
             }
         }

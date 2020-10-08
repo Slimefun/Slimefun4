@@ -244,8 +244,7 @@ public class Research implements Keyed {
                     if (!event.isCancelled()) {
                         if (instant) {
                             finishResearch(p, profile, callback);
-                        }
-                        else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
+                        } else if (SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
                             SlimefunPlugin.getLocalization().sendMessage(p, "messages.research.start", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, getName(p)));
                             playResearchAnimation(p);
 

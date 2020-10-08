@@ -79,8 +79,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
         if (!locked) {
             this.placedItem = item;
-        }
-        else {
+        } else {
             SlimefunItem.getByItem(placedItem).warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
         }
     }
@@ -94,8 +93,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
     public void setCancelled(boolean cancel) {
         if (!locked) {
             cancelled = cancel;
-        }
-        else {
+        } else {
             SlimefunItem.getByItem(placedItem).warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
         }
     }

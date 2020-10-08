@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 
 /**
- * This {@link Event} is called whenever a {@link Player} tries to open the Slimefun Guide book. 
+ * This {@link Event} is called whenever a {@link Player} tries to open the Slimefun Guide book.
  * 
  * @author Linox
  *
@@ -37,7 +37,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     }
 
     /**
-     * This returns the {@link Player} that tries to open 
+     * This returns the {@link Player} that tries to open
      * the Slimefun Guide.
      *
      * @return The {@link Player}
@@ -48,7 +48,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     }
 
     /**
-     * This returns the {@link ItemStack} that {@link Player} 
+     * This returns the {@link ItemStack} that {@link Player}
      * tries to open the Slimefun Guide with.
      *
      * @return The {@link ItemStack}
@@ -57,7 +57,7 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     public ItemStack getGuide() {
         return guide;
     }
-    
+
     /**
      * This returns the {@link SlimefunGuideLayout} of the Slimefun Guide
      * that {@link Player} tries to open.
@@ -68,12 +68,12 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     public SlimefunGuideLayout getGuideLayout() {
         return layout;
     }
-    
+
     /**
      * Changes the {@link SlimefunGuideLayout} that was tried to be opened with.
      *
      * @param layout
-     *                   The new {@link SlimefunGuideLayout}
+     *            The new {@link SlimefunGuideLayout}
      */
     public void setGuideLayout(@Nonnull SlimefunGuideLayout layout) {
         Validate.notNull(layout, "You must specify a layout that is not-null!");

@@ -80,8 +80,7 @@ public class Talisman extends SlimefunItem {
             }
 
             enderTalisman = new SlimefunItemStack("ENDER_" + getID(), getItem().getType(), name, lore.toArray(new String[0]));
-        }
-        else {
+        } else {
             enderTalisman = null;
         }
     }
@@ -163,6 +162,7 @@ public class Talisman extends SlimefunItem {
         }
 
         if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
+<<<<<<< HEAD
             activateTalisman(e, p, p.getInventory(), talisman);
             return retrieveTalismanFromInventory(p.getInventory(), talisman);
         }
@@ -182,6 +182,26 @@ public class Talisman extends SlimefunItem {
 
             if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
                 return item;
+=======
+            if (Slimefun.hasUnlocked(p, talisman, true)) {
+                activateTalisman(e, p, p.getInventory(), talisman);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            ItemStack enderTalisman = talisman.getEnderVariant();
+
+            if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
+                if (Slimefun.hasUnlocked(p, talisman, true)) {
+                    activateTalisman(e, p, p.getEnderChest(), talisman);
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+>>>>>>> 20405a775bfe896f09d8c4793451ae75d254255a
             }
         }
 
@@ -237,20 +257,15 @@ public class Talisman extends SlimefunItem {
         }
         else if (e instanceof EntityDeathEvent) {
             return ((EntityDeathEvent) e).getEntity().getKiller();
-        }
-        else if (e instanceof BlockBreakEvent) {
+        } else if (e instanceof BlockBreakEvent) {
             return ((BlockBreakEvent) e).getPlayer();
-        }
-        else if (e instanceof BlockDropItemEvent) {
+        } else if (e instanceof BlockDropItemEvent) {
             return ((BlockDropItemEvent) e).getPlayer();
-        }
-        else if (e instanceof PlayerEvent) {
+        } else if (e instanceof PlayerEvent) {
             return ((PlayerEvent) e).getPlayer();
-        }
-        else if (e instanceof EntityEvent) {
+        } else if (e instanceof EntityEvent) {
             return (Player) ((EntityEvent) e).getEntity();
-        }
-        else if (e instanceof EnchantItemEvent) {
+        } else if (e instanceof EnchantItemEvent) {
             return ((EnchantItemEvent) e).getEnchanter();
         }
 

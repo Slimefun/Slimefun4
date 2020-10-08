@@ -60,7 +60,6 @@ class TestChargeCommand {
         Assertions.assertEquals(chargedItem.getItemCharge(chargedItemStack), chargedItem.getMaxItemCharge(chargedItemStack));
     }
 
-
     private class RechargeableMock extends SlimefunItem implements Rechargeable {
 
         public RechargeableMock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

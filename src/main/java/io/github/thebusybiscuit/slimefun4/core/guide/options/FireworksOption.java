@@ -30,8 +30,7 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
             boolean enabled = getSelectedOption(p, guide).orElse(true);
             ItemStack item = new CustomItem(Material.FIREWORK_ROCKET, "&bFireworks: &" + (enabled ? "aYes" : "4No"), "", "&7You can now toggle whether you", "&7will be presented with a big firework", "&7upon researching an item.", "", "&7\u21E8 &eClick to " + (enabled ? "disable" : "enable") + " your fireworks");
             return Optional.of(item);
-        }
-        else {
+        } else {
             return Optional.empty();
         }
     }

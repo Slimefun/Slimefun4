@@ -81,8 +81,7 @@ public class AncientPedestal extends SlimefunItem {
             ItemMeta meta = item.getItemStack().getItemMeta();
 
             return meta.hasDisplayName() && meta.getDisplayName().startsWith(ITEM_PREFIX);
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -95,8 +94,7 @@ public class AncientPedestal extends SlimefunItem {
             ItemMeta im = stack.getItemMeta();
             im.setDisplayName(null);
             stack.setItemMeta(im);
-        }
-        else {
+        } else {
             ItemMeta im = stack.getItemMeta();
 
             if (!customName.startsWith(String.valueOf(ChatColor.COLOR_CHAR))) {

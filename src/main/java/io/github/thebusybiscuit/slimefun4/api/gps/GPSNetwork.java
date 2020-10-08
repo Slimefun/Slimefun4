@@ -73,8 +73,7 @@ public class GPSNetwork {
 
         if (online) {
             set.add(l);
-        }
-        else {
+        } else {
             set.remove(l);
         }
     }
@@ -118,8 +117,7 @@ public class GPSNetwork {
     public int countTransmitters(@Nonnull UUID uuid) {
         if (!transmitters.containsKey(uuid)) {
             return 0;
-        }
-        else {
+        } else {
             return transmitters.get(uuid).size();
         }
     }
@@ -150,7 +148,8 @@ public class GPSNetwork {
 
         int index = 0;
         for (Location l : getTransmitters(p.getUniqueId())) {
-            if (index >= inventory.length) break;
+            if (index >= inventory.length)
+                break;
 
             SlimefunItem sfi = BlockStorage.check(l);
             if (sfi instanceof GPSTransmitter) {
@@ -185,14 +184,11 @@ public class GPSNetwork {
     public ItemStack getIcon(@Nonnull String name, @Nonnull Environment environment) {
         if (name.startsWith("player:death ")) {
             return HeadTexture.DEATHPOINT.getAsItemStack();
-        }
-        else if (environment == Environment.NETHER) {
+        } else if (environment == Environment.NETHER) {
             return HeadTexture.GLOBE_NETHER.getAsItemStack();
-        }
-        else if (environment == Environment.THE_END) {
+        } else if (environment == Environment.THE_END) {
             return HeadTexture.GLOBE_THE_END.getAsItemStack();
-        }
-        else {
+        } else {
             return HeadTexture.GLOBE_OVERWORLD.getAsItemStack();
         }
     }
@@ -220,7 +216,8 @@ public class GPSNetwork {
 
             int index = 0;
             for (Waypoint waypoint : profile.getWaypoints()) {
-                if (index >= inventory.length) break;
+                if (index >= inventory.length)
+                    break;
                 int slot = inventory[index];
 
                 Location l = waypoint.getLocation();

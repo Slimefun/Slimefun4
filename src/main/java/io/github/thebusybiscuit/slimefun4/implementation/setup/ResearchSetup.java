@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -281,6 +283,7 @@ public final class ResearchSetup {
         register("resurrected_talisman", 270, "Talisman of the Resurrected", 20, SlimefunItems.TALISMAN_RESURRECTED);
     }
 
+    @ParametersAreNonnullByDefault
     private static void register(String key, int id, String name, int defaultCost, ItemStack... items) {
         Research research = new Research(new NamespacedKey(SlimefunPlugin.instance(), key), id, name, defaultCost);
 

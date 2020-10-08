@@ -171,8 +171,7 @@ public class TestSlimefunItemRegistration {
             Assertions.assertTrue(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
 
             SlimefunPlugin.getRegistry().setBackwardsCompatible(false);
-        }
-        else {
+        } else {
             Assertions.assertFalse(sfItem.isItem(item));
             Assertions.assertFalse(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
         }

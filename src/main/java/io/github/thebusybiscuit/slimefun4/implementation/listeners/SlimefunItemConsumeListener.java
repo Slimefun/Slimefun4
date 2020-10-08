@@ -35,8 +35,7 @@ public class SlimefunItemConsumeListener implements Listener {
         if (sfItem != null) {
             if (Slimefun.hasUnlocked(p, sfItem, true)) {
                 sfItem.callItemHandler(ItemConsumptionHandler.class, handler -> handler.onConsume(e, p, item));
-            }
-            else {
+            } else {
                 e.setCancelled(true);
             }
         }

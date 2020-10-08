@@ -274,11 +274,9 @@ public class SlimefunItemStack extends CustomItem {
 
         if (texture.startsWith("ey")) {
             return texture;
-        }
-        else if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+        } else if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
             return Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
     }

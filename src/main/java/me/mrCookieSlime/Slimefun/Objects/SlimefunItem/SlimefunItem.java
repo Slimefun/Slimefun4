@@ -286,8 +286,7 @@ public class SlimefunItem implements Placeable {
             if (state == ItemState.ENABLED) {
                 if (hidden) {
                     category.remove(this);
-                }
-                else {
+                } else {
                     category.add(this);
                 }
             }
@@ -385,41 +384,21 @@ public class SlimefunItem implements Placeable {
                 // Not-configurable items will be enabled.
                 // Any other settings will remain as default.
                 state = ItemState.ENABLED;
-            }
-            else if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
+            } else if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
                 state = ItemState.ENABLED;
                 useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
                 hidden = SlimefunPlugin.getItemCfg().getBoolean(id + ".hide-in-guide");
                 enchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-enchanting");
                 disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
-            }
-            else if (this instanceof VanillaItem) {
+            } else if (this instanceof VanillaItem) {
                 state = ItemState.VANILLA_FALLBACK;
-            }
-            else {
+            } else {
                 state = ItemState.DISABLED;
             }
 
             // Now we can be certain this item should be enabled
             if (state == ItemState.ENABLED) {
-                // Register the Category too if it hasn't been registered yet
-                if (!category.isRegistered()) {
-                    category.register();
-                }
-
-                // Send out deprecation warnings for any classes or intefaces
-                checkForDeprecations(getClass());
-
-                // Add it to the list of enabled items
-                SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
-
-                // Load our Item Handlers
-                loadItemHandlers();
-
-                // Properly mark this Item as radioactive
-                if (this instanceof Radioactive) {
-                    SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
-                }
+                onEnable();
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
@@ -434,9 +413,35 @@ public class SlimefunItem implements Placeable {
                 info("Item was registered during runtime.");
                 load();
             }
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             error("Registering " + toString() + " has failed!", x);
+        }
+    }
+
+    /**
+     * This method is called when this {@link SlimefunItem} is currently being registered
+     * and we are certain that it will be enabled.
+     * 
+     * <strong>This method is for internal purposes, like {@link Category} registration only</strong>
+     */
+    private final void onEnable() {
+        // Register the Category too if it hasn't been registered yet
+        if (!category.isRegistered()) {
+            category.register();
+        }
+
+        // Send out deprecation warnings for any classes or intefaces
+        checkForDeprecations(getClass());
+
+        // Add it to the list of enabled items
+        SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
+
+        // Load our Item Handlers
+        loadItemHandlers();
+
+        // Properly mark this Item as radioactive
+        if (this instanceof Radioactive) {
+            SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
         }
     }
 
@@ -446,14 +451,14 @@ public class SlimefunItem implements Placeable {
 
             if (exception.isPresent()) {
                 throw exception.get();
-            }
-            else {
+            } else {
                 // Make developers or at least Server admins aware that
                 // an Item is using a deprecated ItemHandler
                 checkForDeprecations(handler.getClass());
-                // A bit too spammy atm, will enable it again later
             }
 
+            // If this ItemHandler is "public" (not bound to this SlimefunItem),
+            // we add it to the list of public Item handlers
             if (!handler.isPrivate()) {
                 Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
                 handlerset.add(handler);
@@ -633,8 +638,7 @@ public class SlimefunItem implements Placeable {
         if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
             boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
             return SlimefunUtils.isItemSimilar(item, this.item, !loreInsensitive);
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -649,8 +653,7 @@ public class SlimefunItem implements Placeable {
             }
 
             recipeType.register(recipe, getRecipeOutput());
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             error("Failed to properly load the Item \"" + id + "\"", x);
         }
     }
@@ -808,8 +811,7 @@ public class SlimefunItem implements Placeable {
         if (handler.isPresent()) {
             try {
                 callable.accept(c.cast(handler.get()));
-            }
-            catch (Exception | LinkageError x) {
+            } catch (Exception | LinkageError x) {
                 error("Could not pass \"" + c.getSimpleName() + "\" for " + toString(), x);
             }
 
@@ -832,8 +834,7 @@ public class SlimefunItem implements Placeable {
     public String toString() {
         if (addon == null) {
             return getClass().getSimpleName() + " - '" + id + "'";
-        }
-        else {
+        } else {
             return getClass().getSimpleName() + " - '" + id + "' (" + addon.getName() + " v" + addon.getPluginVersion() + ')';
         }
     }

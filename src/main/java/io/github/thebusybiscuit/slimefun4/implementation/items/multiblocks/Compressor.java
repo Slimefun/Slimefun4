@@ -64,8 +64,7 @@ public class Compressor extends MultiBlockMachine {
                             inv.removeItem(removing);
 
                             craft(p, output, outputInv);
-                        }
-                        else {
+                        } else {
                             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }
 
@@ -85,8 +84,7 @@ public class Compressor extends MultiBlockMachine {
             SlimefunPlugin.runSync(() -> {
                 if (j < 3) {
                     p.getWorld().playSound(p.getLocation(), j == 1 ? Sound.BLOCK_PISTON_CONTRACT : Sound.BLOCK_PISTON_EXTEND, 1F, j == 0 ? 1F : 2F);
-                }
-                else {
+                } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
                     outputInv.addItem(output);
                 }

@@ -24,16 +24,13 @@ class SearchCommand extends SubCommand {
                 if (args.length > 1) {
                     String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
                     PlayerProfile.get((Player) sender, profile -> SlimefunGuide.openSearch(profile, query, true, true));
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf search <SearchTerm>"));
                 }
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }

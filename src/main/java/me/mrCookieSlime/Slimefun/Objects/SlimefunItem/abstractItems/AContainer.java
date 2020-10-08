@@ -167,7 +167,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 
         for (MachineRecipe recipe : recipes) {
-            if (recipe.getInput().length != 1) continue;
+            if (recipe.getInput().length != 1) {
+                continue;
+            }
 
             displayRecipes.add(recipe.getInput()[0]);
             displayRecipes.add(recipe.getOutput()[0]);
@@ -245,8 +247,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 }
                 progress.put(b, timeleft - 1);
-            }
-            else {
+            } else {
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                 for (ItemStack output : processing.get(b).getOutput()) {
@@ -258,8 +259,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 progress.remove(b);
                 processing.remove(b);
             }
-        }
-        else {
+        } else {
             MachineRecipe next = findNextRecipe(inv);
 
             if (next != null) {
@@ -302,8 +302,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 }
 
                 return recipe;
-            }
-            else {
+            } else {
                 found.clear();
             }
         }

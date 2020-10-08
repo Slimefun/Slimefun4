@@ -28,8 +28,7 @@ class MockNetwork extends Network {
     public NetworkComponent classifyLocation(Location l) {
         if (l.equals(regulator)) {
             return NetworkComponent.REGULATOR;
-        }
-        else {
+        } else {
             return locations.get(l);
         }
     }

@@ -43,8 +43,7 @@ public class VillagerTradingListener implements Listener {
 
             if (clickedInventory.getType() == InventoryType.MERCHANT) {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
-            }
-            else {
+            } else {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCurrentItem())));
             }
 

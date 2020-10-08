@@ -50,8 +50,7 @@ public class ThirdPartyPluginService {
                 PlaceholderAPIHook hook = new PlaceholderAPIHook(plugin);
                 hook.register();
                 isPlaceholderAPIInstalled = true;
-            }
-            catch (Exception | LinkageError x) {
+            } catch (Exception | LinkageError x) {
                 String version = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI").getDescription().getVersion();
 
                 Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating PlaceholderAPI or Slimefun?");
@@ -71,8 +70,7 @@ public class ThirdPartyPluginService {
             try {
                 Class.forName("com.sk89q.worldedit.extent.Extent");
                 new WorldEditHook();
-            }
-            catch (Exception | LinkageError x) {
+            } catch (Exception | LinkageError x) {
                 String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
 
                 Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
@@ -98,8 +96,7 @@ public class ThirdPartyPluginService {
         if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
             Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

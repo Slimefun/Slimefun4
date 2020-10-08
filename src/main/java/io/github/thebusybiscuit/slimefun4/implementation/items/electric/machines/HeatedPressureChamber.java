@@ -61,8 +61,7 @@ public abstract class HeatedPressureChamber extends AContainer {
 
                 if (slots.isEmpty()) {
                     return getInputSlots();
-                }
-                else {
+                } else {
                     Collections.sort(slots, compareSlots(menu));
                     int[] array = new int[slots.size()];
 

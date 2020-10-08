@@ -147,8 +147,7 @@ public class Category implements Keyed {
 
             if (this instanceof SeasonalCategory) {
                 meta.setDisplayName(ChatColor.GOLD + name);
-            }
-            else {
+            } else {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
