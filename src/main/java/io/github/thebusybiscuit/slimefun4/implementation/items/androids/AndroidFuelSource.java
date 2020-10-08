@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 /**
  * This enum covers all different fuel sources a {@link ProgrammableAndroid} can have.
@@ -30,7 +32,7 @@ public enum AndroidFuelSource {
 
     private final String[] lore;
 
-    AndroidFuelSource(String... lore) {
+    AndroidFuelSource(@Nonnull String... lore) {
         this.lore = lore;
     }
 
@@ -39,8 +41,9 @@ public enum AndroidFuelSource {
      * 
      * @return An {@link ItemStack} to display
      */
+    @Nonnull
     public ItemStack getItem() {
-        return new CustomItem(SlimefunItems.COAL_GENERATOR, "&8\u21E9 &cFuel Input &8\u21E9", lore);
+        return new CustomItem(HeadTexture.GENERATOR.getAsItemStack(), "&8\u21E9 &cFuel Input &8\u21E9", lore);
     }
 
 }

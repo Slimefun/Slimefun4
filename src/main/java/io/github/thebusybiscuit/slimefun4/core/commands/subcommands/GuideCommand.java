@@ -21,12 +21,10 @@ class GuideCommand extends SubCommand {
             if (sender.hasPermission("slimefun.command.guide")) {
                 SlimefunGuideLayout design = SlimefunGuide.getDefaultLayout();
                 ((Player) sender).getInventory().addItem(SlimefunGuide.getItem(design).clone());
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }

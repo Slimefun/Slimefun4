@@ -42,8 +42,7 @@ public class JetBootsTask extends PlayerTask {
             Vector vector = new Vector(p.getEyeLocation().getDirection().getX() * boots.getSpeed() + offset, gravity, p.getEyeLocation().getDirection().getZ() * boots.getSpeed() - offset);
 
             p.setVelocity(vector);
-        }
-        else {
+        } else {
             Bukkit.getScheduler().cancelTask(id);
         }
     }

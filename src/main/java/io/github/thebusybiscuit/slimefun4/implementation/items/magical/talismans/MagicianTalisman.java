@@ -27,8 +27,7 @@ public class MagicianTalisman extends Talisman {
                 for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
                     enchantments.add(new TalismanEnchantment(enchantment, i));
                 }
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 Slimefun.getLogger().log(Level.SEVERE, x, () -> "The following Exception occurred while trying to register the following Enchantment: " + enchantment);
             }
         }

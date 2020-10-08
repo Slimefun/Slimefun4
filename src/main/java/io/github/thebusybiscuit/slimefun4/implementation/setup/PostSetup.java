@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -59,8 +61,7 @@ public final class PostSetup {
                     item.addOficialWikipage(entry.getValue().getAsString());
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Slimefun.getLogger().log(Level.SEVERE, "Failed to load wiki.json file", e);
         }
     }
@@ -74,8 +75,7 @@ public final class PostSetup {
             if (item == null) {
                 Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
                 iterator.remove();
-            }
-            else {
+            } else {
                 item.load();
             }
         }
@@ -104,9 +104,8 @@ public final class PostSetup {
             sender.sendMessage(ChatColor.GREEN + " - Wiki:         https://github.com/Slimefun/Slimefun4/wiki");
             sender.sendMessage(ChatColor.GREEN + " - Addons:       https://github.com/Slimefun/Slimefun4/wiki/Addons");
             sender.sendMessage(ChatColor.GREEN + " - Bug Reports:  https://github.com/Slimefun/Slimefun4/issues");
-            sender.sendMessage(ChatColor.GREEN + " - Discord:      https://discord.gg/fsD4Bkh");
-        }
-        else {
+            sender.sendMessage(ChatColor.GREEN + " - Discord:      https://discord.gg/slimefun");
+        } else {
             sender.sendMessage(ChatColor.GREEN + " - UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
         }
 
@@ -157,8 +156,7 @@ public final class PostSetup {
             for (ItemStack[] recipe : grinder.getRecipes()) {
                 if (input == null) {
                     input = recipe;
-                }
-                else {
+                } else {
                     if (input[0] != null && recipe[0] != null) {
                         grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
                     }
@@ -175,8 +173,7 @@ public final class PostSetup {
             for (ItemStack[] recipe : crusher.getRecipes()) {
                 if (input == null) {
                     input = recipe;
-                }
-                else {
+                } else {
                     if (input[0] != null && recipe[0] != null) {
                         grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
                     }
@@ -206,8 +203,7 @@ public final class PostSetup {
             for (ItemStack[] output : smeltery.getRecipes()) {
                 if (input == null) {
                     input = output;
-                }
-                else {
+                } else {
                     if (input[0] != null && output[0] != null) {
                         addSmelteryRecipe(input, output, makeshiftSmeltery);
                     }
@@ -245,13 +241,12 @@ public final class PostSetup {
 
             registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[] { ingredients.get(0) }, new ItemStack[] { output[0] });
             registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[] { output[0] }, new ItemStack[] { ingredients.get(0) });
-        }
-        else {
+        } else {
             registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[] { output[0] });
         }
     }
 
-    private static boolean isDust(ItemStack item) {
+    private static boolean isDust(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
         return sfItem != null && sfItem.getID().endsWith("_DUST");
     }

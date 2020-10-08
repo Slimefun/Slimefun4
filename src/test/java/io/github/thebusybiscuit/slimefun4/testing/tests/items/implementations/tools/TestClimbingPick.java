@@ -32,7 +32,6 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
     public static void load() {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
-        TestUtilities.registerDefaultTags(server);
     }
 
     @AfterAll
@@ -74,8 +73,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         if (shouldFireEvent) {
             server.getPluginManager().assertEventFired(ClimbingPickLaunchEvent.class);
             Assertions.assertTrue(player.getVelocity().length() > 0);
-        }
-        else {
+        } else {
             Assertions.assertEquals(0, player.getVelocity().length());
         }
     }

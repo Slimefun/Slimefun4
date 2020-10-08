@@ -53,7 +53,7 @@ class TestItemPickupListener {
         if (flag) {
             SlimefunUtils.markAsNoPickup(item, "Unit Test");
         }
-        
+
         EntityPickupItemEvent event = new EntityPickupItemEvent(player, item, 1);
         listener.onEntityPickup(event);
 
@@ -69,13 +69,13 @@ class TestItemPickupListener {
         if (flag) {
             SlimefunUtils.markAsNoPickup(item, "Unit Test");
         }
-        
+
         InventoryPickupItemEvent event = new InventoryPickupItemEvent(inventory, item);
         listener.onHopperPickup(event);
 
         Assertions.assertEquals(flag, event.isCancelled());
     }
-    
+
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
     void testAltarProbeForEntities(boolean flag) {
@@ -84,27 +84,26 @@ class TestItemPickupListener {
 
         if (flag) {
             stack = new CustomItem(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
-        }
-        else {
+        } else {
             stack = new CustomItem(Material.DIAMOND, "&5Just a normal named diamond");
         }
-        
+
         AtomicBoolean removed = new AtomicBoolean(false);
         Item item = new ItemEntityMock(server, UUID.randomUUID(), stack) {
-            
+
             @Override
             public void remove() {
                 removed.set(true);
             }
         };
-        
+
         EntityPickupItemEvent event = new EntityPickupItemEvent(player, item, 1);
         listener.onEntityPickup(event);
 
         Assertions.assertEquals(flag, event.isCancelled());
         Assertions.assertEquals(flag, removed.get());
     }
-    
+
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
     void testAltarProbeForInventories(boolean flag) {
@@ -113,14 +112,13 @@ class TestItemPickupListener {
 
         if (flag) {
             stack = new CustomItem(Material.DIAMOND, AncientPedestal.ITEM_PREFIX + System.nanoTime());
-        }
-        else {
+        } else {
             stack = new CustomItem(Material.DIAMOND, "&5Just a normal named diamond");
         }
-        
+
         AtomicBoolean removed = new AtomicBoolean(false);
         Item item = new ItemEntityMock(server, UUID.randomUUID(), stack) {
-            
+
             @Override
             public void remove() {
                 removed.set(true);

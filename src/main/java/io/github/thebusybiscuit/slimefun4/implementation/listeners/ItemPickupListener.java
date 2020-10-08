@@ -27,8 +27,7 @@ public class ItemPickupListener implements Listener {
     public void onEntityPickup(EntityPickupItemEvent e) {
         if (SlimefunUtils.hasNoPickupFlag(e.getItem())) {
             e.setCancelled(true);
-        }
-        else if (e.getItem().getItemStack().hasItemMeta()) {
+        } else if (e.getItem().getItemStack().hasItemMeta()) {
             ItemMeta meta = e.getItem().getItemStack().getItemMeta();
 
             if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {
@@ -42,8 +41,7 @@ public class ItemPickupListener implements Listener {
     public void onHopperPickup(InventoryPickupItemEvent e) {
         if (SlimefunUtils.hasNoPickupFlag(e.getItem())) {
             e.setCancelled(true);
-        }
-        else if (e.getItem().getItemStack().hasItemMeta()) {
+        } else if (e.getItem().getItemStack().hasItemMeta()) {
             ItemMeta meta = e.getItem().getItemStack().getItemMeta();
 
             if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {

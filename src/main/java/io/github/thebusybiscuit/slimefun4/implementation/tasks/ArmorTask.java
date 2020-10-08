@@ -32,7 +32,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 /**
  * The {@link ArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
  * {@link Radioactive} items or any {@link SlimefunArmorPiece}.
- * It also handles the prevention of radioation through a Hazmat Suit
+ * It also handles the prevention of radiation through a Hazmat Suit
  * 
  * @author TheBusyBiscuit
  *
@@ -112,7 +112,7 @@ public class ArmorTask implements Runnable {
             }
 
             if (item != null && armorpiece.getItem().isPresent()) {
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
 
                     if (Slimefun.hasUnlocked(p, slimefunArmor, true)) {
@@ -172,7 +172,7 @@ public class ArmorTask implements Runnable {
                 // If the item is enabled in the world, then make radioactivity do its job
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
 
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     p.addPotionEffects(radiationEffects);
 
                     // if radiative fire is enabled

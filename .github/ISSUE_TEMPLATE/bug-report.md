@@ -9,37 +9,37 @@ assignees: ''
 
 <!-- FILL IN THE FORM BELOW -->
 
-## Description (REQUIRED)
+## :round_pushpin: Description (REQUIRED)
 <!-- A clear and detailed description of what went wrong. -->
 <!-- The more information you can provide, the easier we can handle this problem. -->
 <!-- Start writing below this line -->
 
 
-## Steps to reproduce the Issue (REQUIRED)
+## :bookmark_tabs: Steps to reproduce the Issue (REQUIRED)
 <!-- Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it. -->
-<!-- Youtube Videos and Screenshots are recommended! -->
+<!-- Youtube Videos and Screenshots are recommended!!! -->
 <!-- Start writing below this line -->
 
 
-## Expected behavior (REQUIRED)
+## :bulb: Expected behavior (REQUIRED)
 <!-- What were you expecting to happen? -->
 <!-- What do you think would have been the correct behaviour? -->
 <!-- Start writing below this line -->
 
 
-## Server Log
+## :scroll: Server Log
 <!-- Take a look at your Server Log and post any errors you can find via https://pastebin.com/ -->
 <!-- If you are unsure about it, post your full log, you can find it under /logs/latest.log -->
-<!-- Start writing below this line -->
+<!-- Paste your link(s) below this line -->
 
 
-## Error Reports
+## :open_file_folder: /error-reports/ Folder
 <!-- Check the folder /plugins/Slimefun/error-reports/ and upload all files inside that folder. -->
 <!-- You can also post these files via https://pastebin.com/ -->
-<!-- Start writing below this line -->
+<!-- Paste your link(s) below this line -->
 
 
-## Environment (REQUIRED)
+## :compass: Environment (REQUIRED)
 <!-- Any info without the exact version numbers will be closed! -->
 <!-- "latest" IS NOT A VERSION NUMBER. -->
 <!-- We recommend running "/sf versions" and showing us a screenshot of that. -->

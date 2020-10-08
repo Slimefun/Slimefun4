@@ -55,9 +55,8 @@ public class SlimefunStartupTask implements Runnable {
         for (World world : Bukkit.getWorlds()) {
             try {
                 new BlockStorage(world);
-            }
-            catch (Exception x) {
-                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occured while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
+            } catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
             }
         }
 

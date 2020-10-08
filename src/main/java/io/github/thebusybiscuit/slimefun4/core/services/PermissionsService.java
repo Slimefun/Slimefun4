@@ -93,8 +93,7 @@ public class PermissionsService {
 
         if (permission == null || permission.equals("none")) {
             return Optional.empty();
-        }
-        else {
+        } else {
             return Optional.of(permission);
         }
     }

@@ -1,0 +1,7 @@
+# Modifications to the source code should be handled by the review team
+*.java              @Slimefun/code-reviewers
+
+# Modifications to sensitive files should be reviewed by maintainers
+/.github/           @Slimefun/slimefun4-maintainers
+pom.xml             @Slimefun/slimefun4-maintainers
+CONTRIBUTING.md     @Slimefun/slimefun4-maintainers

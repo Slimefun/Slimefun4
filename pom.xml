@@ -4,12 +4,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.thebusybiscuit</groupId>
+    <groupId>com.github.slimefun</groupId>
     <artifactId>Slimefun</artifactId>
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
     <!-- from overriding our local test file -->
-    <version>4.3-UNOFFICIAL</version>
+    <version>4.8-UNOFFICIAL</version>
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
@@ -22,14 +22,15 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.16.2</spigot.version>
+        <spigot.version>1.16.3</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
-        <sonar.projectKey>TheBusyBiscuit_Slimefun4</sonar.projectKey>
-        <sonar.organization>thebusybiscuit-github</sonar.organization>
+        <sonar.projectKey>Slimefun_Slimefun4</sonar.projectKey>
+        <sonar.organization>slimefun</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.log.level>DEBUG</sonar.log.level>
+        <sonar.exclusions>src/main/java/me/mrCookieSlime/Slimefun/bstats/bukkit/Metrics.java</sonar.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -48,10 +49,6 @@
 
     <repositories>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -60,12 +57,12 @@
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>worldedit-repo</id>
-            <url>https://maven.sk89q.com/repo/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>bStats-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
+            <id>worldedit-repo</id>
+            <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
             <id>placeholderapi-repo</id>
@@ -80,6 +77,7 @@
     <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+        <defaultGoal>clean package</defaultGoal>
 
         <finalName>${project.name} v${project.version}</finalName>
 
@@ -131,7 +129,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.5</version>
+                <version>0.8.6</version>
 
                 <executions>
                     <execution>
@@ -162,16 +160,16 @@
                     <!-- Shade dependencies into the output jar -->
                     <relocations>
                         <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>me.mrCookieSlime.Slimefun.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
                             <shadedPattern>me.mrCookieSlime.Slimefun.cscorelib2</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.paperlib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>kong.unirest</pattern>
+                            <shadedPattern>io.github.thebusybiscuit.slimefun4.libraries.unirest</shadedPattern>
                         </relocation>
                     </relocations>
 
@@ -216,7 +214,7 @@
                         <link>${spigot.javadocs}</link>
                     </links>
 
-                    <!-- We can group pakages together in our Javadocs -->
+                    <!-- We can group packages together in our Javadocs -->
                     <groups>
                         <group>
                             <title>Slimefun4 - API</title>
@@ -290,7 +288,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib</artifactId>
-            <version>31390302cf</version>
+            <version>1.7</version>
             <scope>provided</scope>
         </dependency>
 
@@ -306,13 +304,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.6.2</version>
+            <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.5.0</version>
+            <version>0.10.2</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -326,7 +324,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.5.10</version>
+            <version>3.5.13</version>
             <scope>test</scope>
         </dependency>
 
@@ -334,13 +332,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.25.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
+            <version>0.26</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -352,7 +344,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.10.00</version>
+            <version>3.11.00</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

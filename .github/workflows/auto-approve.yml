@@ -10,7 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: hmarr/auto-approve-action@v2.0.0
+    - name: Approve via actions
+      uses: hmarr/auto-approve-action@v2.0.0
+      if: github.actor == 'gitlocalize-app[bot]'
+      with:
+        github-token: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Approve via TheBusyBot
+      uses: hmarr/auto-approve-action@v2.0.0
       if: github.actor == 'gitlocalize-app[bot]' || github.actor == 'renovate[bot]'
       with:
         github-token: "${{ secrets.ACCESS_TOKEN }}"
+    - name: Add Translations label
+      uses: maxkomarychev/octions/octions/issues/add-labels@master
+      if: github.actor == 'gitlocalize-app[bot]'
+      with:
+         token: ${{ secrets.ACCESS_TOKEN }}
+         issue_number: ${{ github.event.pull_request.number }}
+         labels: 'Translations Update'

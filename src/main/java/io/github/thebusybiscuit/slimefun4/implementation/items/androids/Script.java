@@ -221,8 +221,7 @@ public final class Script {
                     if (config.contains("code") && config.contains("author")) {
                         scripts.add(new Script(config));
                     }
-                }
-                catch (Exception x) {
+                } catch (Exception x) {
                     Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to load Android Script '" + file.getName() + "'");
                 }
             }

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -21,6 +22,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
+import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
@@ -64,6 +66,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListene
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraCrashListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
@@ -101,7 +104,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 /**
@@ -171,8 +173,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             networkManager = new NetworkManager(200);
             command.register();
             registry.load(config);
-        }
-        else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+        } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
 
             PaperLib.suggestPaper(this);
@@ -219,8 +220,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             if (config.getBoolean("options.auto-update")) {
                 getLogger().log(Level.INFO, "Starting Auto-Updater...");
                 updaterService.start();
-            }
-            else {
+            } else {
                 updaterService.disable();
             }
 
@@ -241,7 +241,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             registerListeners();
 
             // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
-            Slimefun.runSync(new SlimefunStartupTask(this, () -> {
+            runSync(new SlimefunStartupTask(this, () -> {
                 protections = new ProtectionManager(getServer());
                 textureService.register(registry.getAllSlimefunItems(), true);
                 permissionsService.register(registry.getAllSlimefunItems(), true);
@@ -249,9 +249,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 // This try/catch should prevent buggy Spigot builds from blocking item loading
                 try {
                     recipeService.refresh();
-                }
-                catch (Exception | LinkageError x) {
-                    getLogger().log(Level.SEVERE, x, () -> "An Exception occured while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
+                } catch (Exception | LinkageError x) {
+                    getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
                 }
 
             }), 0);
@@ -272,8 +271,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             // Hooray!
             getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
-        }
-        else {
+        } else {
             instance = null;
 
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
@@ -297,8 +295,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         if (ms > 1000) {
             return DoubleHandler.fixDouble(ms / 1000.0) + "s";
-        }
-        else {
+        } else {
             return DoubleHandler.fixDouble(ms) + "ms";
         }
     }
@@ -313,7 +310,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         String currentVersion = ReflectionUtils.getVersion();
 
         if (currentVersion.startsWith("v")) {
-            for (MinecraftVersion version : MinecraftVersion.values()) {
+            for (MinecraftVersion version : MinecraftVersion.values) {
                 if (version.matches(currentVersion)) {
                     minecraftVersion = version;
                     return false;
@@ -340,7 +337,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
-        for (MinecraftVersion version : MinecraftVersion.values()) {
+        for (MinecraftVersion version : MinecraftVersion.values) {
             if (version != MinecraftVersion.UNKNOWN) {
                 list.add(version.getName());
             }
@@ -374,8 +371,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
             try {
                 entry.getValue().saveAndRemove();
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
             }
         }
@@ -452,6 +448,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new EntityInteractionListener(this);
         new MobDropListener(this);
         new VillagerTradingListener(this);
+        new ElytraCrashListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
@@ -495,8 +492,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void loadItems() {
         try {
             SlimefunItemSetup.setup(this);
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing SlimefunItems for Slimefun " + getVersion());
         }
     }
@@ -504,8 +500,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void loadResearches() {
         try {
             ResearchSetup.setupResearches();
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
         }
     }
@@ -704,6 +699,65 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Override
     public String getBugTrackerURL() {
         return "https://github.com/Slimefun/Slimefun4/issues";
+    }
+
+    /**
+     * This method schedules a delayed synchronous task for Slimefun.
+     * <strong>For Slimefun only, not for addons.</strong>
+     * 
+     * This method should only be invoked by Slimefun itself.
+     * Addons must schedule their own tasks using their own {@link Plugin} instance.
+     * 
+     * @param runnable
+     *            The {@link Runnable} to run
+     * @param delay
+     *            The delay for this task
+     * 
+     * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
+     */
+    @Nullable
+    public static BukkitTask runSync(@Nonnull Runnable runnable, long delay) {
+        Validate.notNull(runnable, "Cannot run null");
+        Validate.isTrue(delay >= 0, "The delay cannot be negative");
+
+        if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            runnable.run();
+            return null;
+        }
+
+        if (instance == null || !instance.isEnabled()) {
+            return null;
+        }
+
+        return instance.getServer().getScheduler().runTaskLater(instance, runnable, delay);
+    }
+
+    /**
+     * This method schedules a synchronous task for Slimefun.
+     * <strong>For Slimefun only, not for addons.</strong>
+     * 
+     * This method should only be invoked by Slimefun itself.
+     * Addons must schedule their own tasks using their own {@link Plugin} instance.
+     * 
+     * @param runnable
+     *            The {@link Runnable} to run
+     * 
+     * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
+     */
+    @Nullable
+    public static BukkitTask runSync(@Nonnull Runnable runnable) {
+        Validate.notNull(runnable, "Cannot run null");
+
+        if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            runnable.run();
+            return null;
+        }
+
+        if (instance == null || !instance.isEnabled()) {
+            return null;
+        }
+
+        return instance.getServer().getScheduler().runTask(instance, runnable);
     }
 
 }

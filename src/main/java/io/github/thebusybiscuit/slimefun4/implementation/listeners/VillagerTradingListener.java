@@ -31,7 +31,7 @@ public class VillagerTradingListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPreBrew(InventoryClickEvent e) {
+    public void onPreTrade(InventoryClickEvent e) {
         Inventory clickedInventory = e.getClickedInventory();
         Inventory topInventory = e.getView().getTopInventory();
 
@@ -43,8 +43,7 @@ public class VillagerTradingListener implements Listener {
 
             if (clickedInventory.getType() == InventoryType.MERCHANT) {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCursor())));
-            }
-            else {
+            } else {
                 e.setCancelled(isUnallowed(SlimefunItem.getByItem(e.getCurrentItem())));
             }
 

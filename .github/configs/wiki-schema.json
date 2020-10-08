@@ -1,0 +1,9 @@
+{
+	"type" : "object",
+	"additionalProperties" : false,
+	"patternProperties" : {
+		"^[A-Z0-9_]+$" : {
+			"type" : "string"
+		}
+	}
+}

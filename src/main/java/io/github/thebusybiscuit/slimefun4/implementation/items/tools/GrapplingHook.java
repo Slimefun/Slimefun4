@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.UUID;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -12,22 +14,38 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link GrapplingHook} is a simple {@link SlimefunItem} which allows a {@link Player}
+ * to launch towards a target destination via right click.
+ * It also has a cool visual effect where it shows a leash following a fired {@link Arrow}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see GrapplingHookListener
+ *
+ */
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
+    private final ItemSetting<Boolean> consumeOnUse = new ItemSetting<>("consume-on-use", true);
     private final ItemSetting<Integer> despawnTicks = new ItemSetting<>("despawn-seconds", 60);
 
+    @ParametersAreNonnullByDefault
     public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         addItemSetting(despawnTicks);
+        addItemSetting(consumeOnUse);
     }
 
     @Override
@@ -35,6 +53,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
         return e -> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();
+            boolean isConsumed = consumeOnUse.getValue();
 
             if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();
@@ -46,8 +65,9 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
                 ItemStack item = e.getItem();
 
-                if (item.getType() == Material.LEAD) {
-                    item.setAmount(item.getAmount() - 1);
+                if (item.getType() == Material.LEAD && isConsumed) {
+                    // If consume on use is enabled, consume one item
+                    ItemUtils.consumeItem(item, false);
                 }
 
                 Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -63,7 +83,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
                 bat.setLeashHolder(arrow);
 
                 boolean state = item.getType() != Material.SHEARS;
-                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue());
+                SlimefunPlugin.getGrapplingHookListener().addGrapplingHook(p, arrow, bat, state, despawnTicks.getValue(), isConsumed);
             }
         };
     }

@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
@@ -29,6 +32,7 @@ public interface ProtectiveArmor extends ItemAttribute {
      *
      * @return The {@link ProtectionType}s.
      */
+    @Nonnull
     ProtectionType[] getProtectionTypes();
 
     /**
@@ -44,5 +48,6 @@ public interface ProtectiveArmor extends ItemAttribute {
      *
      * @return The set {@link NamespacedKey}, <code>null</code> if none is found.
      */
+    @Nullable
     NamespacedKey getArmorSetId();
 }

@@ -23,10 +23,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * This {@link Listener} handles the collecton of drops from an {@link Entity} that was
+ * This {@link Listener} handles the collection of drops from an {@link Entity} that was
  * killed by a {@link ButcherAndroid}.
  * 
  * @author TheBusyBiscuit
@@ -45,7 +44,7 @@ public class ButcherAndroidListener implements Listener {
         if (e.getEntity().hasMetadata(METADATA_KEY)) {
             AndroidInstance obj = (AndroidInstance) e.getEntity().getMetadata(METADATA_KEY).get(0).value();
 
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 List<ItemStack> items = new ArrayList<>();
 
                 // Collect any nearby dropped items

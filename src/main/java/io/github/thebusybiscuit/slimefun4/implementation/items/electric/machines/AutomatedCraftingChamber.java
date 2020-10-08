@@ -61,8 +61,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
                         newInstance(menu, b);
                         return false;
                     });
-                }
-                else {
+                } else {
                     menu.replaceExistingItem(6, new CustomItem(Material.REDSTONE, "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
                     menu.addMenuClickHandler(6, (p, slot, item, action) -> {
                         BlockStorage.addBlockInfo(b, "enabled", String.valueOf(false));
@@ -235,8 +234,10 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
             ItemStack item = menu.getItemInSlot(getInputSlots()[j]);
             if (item != null && item.getAmount() == 1) {
-                if (craftLast) lastIteration = true;
-                else return "";
+                if (craftLast)
+                    lastIteration = true;
+                else
+                    return "";
             }
 
             builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
@@ -247,7 +248,8 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
         // we're only executing the last possible shaped recipe
         // we don't want to allow this to be pressed instead of the default timer-based
         // execution to prevent abuse and auto clickers
-        if (craftLast && !lastIteration) return "";
+        if (craftLast && !lastIteration)
+            return "";
 
         return builder.toString();
     }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -75,11 +77,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         }
 
         for (int i : BORDER_IN) {
-            preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : BORDER_OUT) {
-            preset.addItem(i, new CustomItem(Material.ORANGE_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         preset.addItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
@@ -165,7 +167,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         List<ItemStack> displayRecipes = new ArrayList<>(recipes.size() * 2);
 
         for (MachineRecipe recipe : recipes) {
-            if (recipe.getInput().length != 1) continue;
+            if (recipe.getInput().length != 1) {
+                continue;
+            }
 
             displayRecipes.add(recipe.getInput()[0]);
             displayRecipes.add(recipe.getOutput()[0]);
@@ -241,24 +245,21 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                     }
 
                     removeCharge(b.getLocation(), getEnergyConsumption());
-                    progress.put(b, timeleft - 1);
                 }
-                else {
-                    progress.put(b, timeleft - 1);
-                }
-            }
-            else {
+                progress.put(b, timeleft - 1);
+            } else {
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                 for (ItemStack output : processing.get(b).getOutput()) {
                     inv.pushItem(output.clone(), getOutputSlots());
                 }
 
+                Bukkit.getPluginManager().callEvent(new AsyncMachineProcessCompleteEvent(b.getLocation(), AContainer.this, getProcessing(b)));
+
                 progress.remove(b);
                 processing.remove(b);
             }
-        }
-        else {
+        } else {
             MachineRecipe next = findNextRecipe(inv);
 
             if (next != null) {
@@ -301,8 +302,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 }
 
                 return recipe;
-            }
-            else {
+            } else {
                 found.clear();
             }
         }
