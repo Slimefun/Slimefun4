@@ -314,30 +314,28 @@ public class TalismanListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
         Player player = e.getEntity();
         DamageCause dmgCause = player.getLastDamageCause().getCause();
+        ItemStack talisman = Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED);
 
-        if (dmgCause == DamageCause.VOID && Talisman.checkFor(e, SlimefunItems.TALISMAN_RESURRECTED)) {
+        if (dmgCause == DamageCause.VOID && talisman != null) {
             SlimefunPlugin.runSync(() -> {
-                PaperLib.teleportAsync(player, getSafeRespawnLocation(player));
+                PaperLib.teleportAsync(player, getSafeRespawnLocation(talisman, player));
             }, 2);
         }
     }
 
     @Nonnull
-    private Location getSafeRespawnLocation(@Nonnull Player player) {
-        ItemStack item = Talisman.checkForAndGet(SlimefunItems.TALISMAN_RESURRECTED, player);
-        SlimefunItem sfItem = ResurrectedTalisman.getByItem(item);
+    private Location getSafeRespawnLocation(@Nonnull ItemStack item, @Nonnull Player player) {
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem instanceof ResurrectedTalisman) {
             ResurrectedTalisman talisman = (ResurrectedTalisman) sfItem;
 
-            if (item != null) {
-                Location savedLoc = talisman.getSavedLocation(item);
+            Location savedLoc = talisman.getSavedLocation(item);
     
-                if (savedLoc != null) {
-                    return savedLoc;
-                }
-            }   
-        }        
+            if (savedLoc != null) {
+                return savedLoc;
+            } 
+        }         
 
         Location bedSpawn = player.getBedSpawnLocation();
         return (bedSpawn != null) ? bedSpawn : player.getLocation().getWorld().getSpawnLocation();

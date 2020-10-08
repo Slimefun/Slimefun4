@@ -135,99 +135,61 @@ public class Talisman extends SlimefunItem {
         return talisman.getMessageSuffix() != null;
     }
 
-    public static boolean checkFor(Event e, SlimefunItemStack stack) {
+    public static ItemStack checkFor(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
         return checkFor(e, stack.getItem());
     }
 
-    public static boolean checkFor(Event e, SlimefunItem item) {
+    @Nullable
+    public static ItemStack checkFor(@Nonnull Event e, @Nonnull SlimefunItem item) {
         if (!(item instanceof Talisman)) {
-            return false;
+            return null;
         }
 
         Talisman talisman = (Talisman) item;
         if (ThreadLocalRandom.current().nextInt(100) > talisman.getChance()) {
-            return false;
+            return null;
         }
 
         Player p = getPlayerByEventType(e);
         if (p == null || !pass(p, talisman)) {
-            return false;
-        }
-
-        ItemStack talismanItem = talisman.getItem();
-
-        if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
-            if (Slimefun.hasUnlocked(p, talisman, true)) {
-                activateTalisman(e, p, p.getInventory(), talisman);
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            ItemStack enderTalisman = talisman.getEnderVariant();
-
-            if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
-                if (Slimefun.hasUnlocked(p, talisman, true)) {
-                    activateTalisman(e, p, p.getEnderChest(), talisman);
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            }
-            else {
-                return false;
-            }
-        }
-    }
-
-    @Nullable
-    public static ItemStack checkForAndGet(@Nonnull SlimefunItemStack stack, @Nonnull Player player) {
-        return checkForAndGet(stack.getItem(), player);
-    }
-
-    @Nullable
-    public static ItemStack checkForAndGet(@Nonnull SlimefunItem sfItem, @Nonnull Player player) {
-        if (!(sfItem instanceof Talisman)) {
             return null;
         }
-
-        Talisman talisman = (Talisman) sfItem;
 
         ItemStack talismanItem = talisman.getItem();
         ItemStack enderTalisman = talisman.getEnderVariant();
 
-        if (SlimefunUtils.containsSimilarItem(player.getInventory(), talismanItem, true)) {
-            ItemStack[] contents = player.getInventory().getContents();
+        if (!Slimefun.hasUnlocked(p, talisman, true)) {
+            return null;
+        }
 
-            for (int i = 0; i < contents.length; i++) {
-                ItemStack item = contents[i];
+        if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
+            activateTalisman(e, p, p.getInventory(), talisman);
+            return retrieveTalismanFromInventory(p.getInventory(), talisman);
+        }
+        else if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) { 
+            activateTalisman(e, p, p.getEnderChest(), talisman);
+            return retrieveTalismanFromInventory(p.getEnderChest(), talisman);
+        }
 
-                if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
-                    return item;
-                }
+        return null;
+    }
+
+    @Nullable
+    private static ItemStack retrieveTalismanFromInventory(@Nonnull Inventory inv, @Nonnull Talisman talisman) {
+        ItemStack[] contents = inv.getContents();
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack item = contents[i];
+
+            if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
+                return item;
             }
-
-            return null;
         }
-        else if (SlimefunUtils.containsSimilarItem(player.getEnderChest(), enderTalisman, true)) {
-            ItemStack[] contents = player.getEnderChest().getContents();
 
-            for (int i = 0; i < contents.length; i++) {
-                ItemStack item = contents[i];
-
-                if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
-                    return item;
-                }
-            }
-
-            return null;
-        }
-        else {
-            return null;
-        }
+        /* The point of this method is that it only gets called when youre sure there is 
+        *  a talisman in the inventory, so that it never returns null.
+        *  However, this method will be nullable since there is an if statement and it needs
+        *  to return something */
+        return null;
     }
 
     private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman) {
