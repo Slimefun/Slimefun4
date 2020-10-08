@@ -12,7 +12,7 @@ jobs:
 
     name: Clean up Imports
     runs-on: ubuntu-latest
-    if: 'github.event.pull_request.base.repo.full_name == Slimefun/Slimefun4'
+    if: github.event.pull_request.base.repo.full_name == 'Slimefun/Slimefun4'
 
     steps:
     - name: Checkout repository
