@@ -36,12 +36,14 @@
 * (API) Added "NotConfigurable" attribute to disable configurability
 * Added Elytra Cap
 * Added Planks to Sticks recipe to the Table Saw
+* Added "slimefun.gps.bypass" permission to open GPS devices anywhere
 * (API) Added custom tags for developers
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
 * General performance improvements
 * /sf cheat now shows seasonal categories all year through
+* GPS devices now require chest-access in that area to be used
 
 #### Fixes
 * Fixed #2300
