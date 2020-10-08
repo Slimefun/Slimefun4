@@ -12,7 +12,7 @@ jobs:
 
     name: Clean up Imports
     runs-on: ubuntu-latest
-    if: '$ {{ secrets.ACCESS_TOKEN }} != null'
+    if: '${{ secrets.ACCESS_TOKEN }} != null'
 
     steps:
     - name: Checkout repository
@@ -27,4 +27,4 @@ jobs:
         files: '**/*.java'
         skipCommit: false
         args: "--fix-imports-only --replace"
-        githubToken: $ {{ secrets.ACCESS_TOKEN }}
+        githubToken: ${{ secrets.ACCESS_TOKEN }}
