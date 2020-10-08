@@ -89,12 +89,10 @@ public class MinerAndroid extends ProgrammableAndroid {
                     breakBlock(menu, drops, block);
                     move(b, face, block);
                 }
-            }
-            else {
+            } else {
                 move(b, face, block);
             }
-        }
-        else {
+        } else {
             move(b, face, block);
         }
     }

@@ -83,8 +83,7 @@ abstract class BackpackCrafter extends MultiBlockMachine {
                     break;
                 }
             }
-        }
-        else {
+        } else {
             for (int line = 0; line < output.getItemMeta().getLore().size(); line++) {
                 if (output.getItemMeta().getLore().get(line).equals(ChatColors.color("&7ID: <ID>"))) {
                     int target = line;

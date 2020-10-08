@@ -64,21 +64,18 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
                     if (outputChest != null) {
                         outputChest.addItem(output.clone());
-                    }
-                    else {
+                    } else {
                         b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
                     }
 
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                }
-                else {
+                } else {
                     p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 1F, 1F);
                 }
             });
 
             queue.execute(SlimefunPlugin.instance());
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.wrong-item", true);
         }
     }

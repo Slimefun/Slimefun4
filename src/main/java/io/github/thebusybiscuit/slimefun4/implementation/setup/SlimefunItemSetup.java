@@ -33,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FisherAn
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ProgrammableAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.WoodcutterAndroid;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.ElytraCap;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.FarmerShoes;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
@@ -132,11 +133,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Knowledge
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicalZombiePills;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.TelepositionScroll;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WaterStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WindStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
@@ -217,8 +218,7 @@ public final class SlimefunItemSetup {
             YELLOW_DYE = Material.YELLOW_DYE;
             BLACK_DYE = Material.BLACK_DYE;
             GREEN_DYE = Material.GREEN_DYE;
-        }
-        else {
+        } else {
             RED_DYE = Material.valueOf("ROSE_RED");
             YELLOW_DYE = Material.valueOf("DANDELION_YELLOW");
             BLACK_DYE = Material.valueOf("INK_SAC");
@@ -870,6 +870,11 @@ public final class SlimefunItemSetup {
         new Talisman(SlimefunItems.TALISMAN_KNIGHT,
         new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.GILDED_IRON, SlimefunItems.TALISMAN_WARRIOR, SlimefunItems.GILDED_IRON, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
         "knight", 30, new PotionEffect(PotionEffectType.REGENERATION, 100, 3))
+        .register(plugin);
+
+        new Talisman(SlimefunItems.TALISMAN_CAVEMAN,
+        new ItemStack[] { SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.GOLDEN_PICKAXE), SlimefunItems.TALISMAN_MINER, SlimefunItems.EARTH_RUNE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
+        false, false, "caveman", 50, new PotionEffect(PotionEffectType.FAST_DIGGING, 800, 2))
         .register(plugin);
 
         new SlimefunItem(categories.resources, SlimefunItems.GILDED_IRON, RecipeType.SMELTERY,
@@ -3068,6 +3073,10 @@ public final class SlimefunItemSetup {
             new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3))
             .register(plugin);
         }
+
+        new ElytraCap(categories.magicalArmor, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,
+        new ItemStack[]{new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
+        .register(plugin);
     }
 
     private static void registerArmorSet(Category category, ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, PotionEffect[][] effects, SlimefunAddon addon) {
@@ -3082,11 +3091,9 @@ public final class SlimefunItemSetup {
         for (int i = 0; i < 4; i++) {
             if (vanilla) {
                 new VanillaItem(category, items[i], idSyntax + components[i], RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
-            }
-            else if (i < effects.length && effects[i].length > 0) {
+            } else if (i < effects.length && effects[i].length > 0) {
                 new SlimefunArmorPiece(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i), effects[i]).register(addon);
-            }
-            else {
+            } else {
                 new SlimefunItem(category, new SlimefunItemStack(idSyntax + components[i], items[i]), RecipeType.ARMOR_FORGE, recipes.get(i)).register(addon);
             }
         }

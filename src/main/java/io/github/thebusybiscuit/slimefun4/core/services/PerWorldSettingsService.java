@@ -106,8 +106,7 @@ public class PerWorldSettingsService {
 
         if (enabled) {
             items.remove(item.getID());
-        }
-        else {
+        } else {
             items.add(item.getID());
         }
     }
@@ -126,8 +125,7 @@ public class PerWorldSettingsService {
 
         if (enabled) {
             disabledWorlds.remove(world.getUID());
-        }
-        else {
+        } else {
             disabledWorlds.add(world.getUID());
         }
     }
@@ -196,8 +194,7 @@ public class PerWorldSettingsService {
 
         if (optional.isPresent()) {
             return optional.get();
-        }
-        else {
+        } else {
             Set<String> items = new LinkedHashSet<>();
             Config config = getConfig(world);
 
@@ -212,8 +209,7 @@ public class PerWorldSettingsService {
                 if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
                     config.save();
                 }
-            }
-            else {
+            } else {
                 disabledWorlds.add(world.getUID());
             }
 

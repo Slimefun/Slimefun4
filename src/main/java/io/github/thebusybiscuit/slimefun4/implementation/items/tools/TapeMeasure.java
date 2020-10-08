@@ -52,8 +52,7 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
 
                 if (e.getPlayer().isSneaking()) {
                     setAnchor(e.getPlayer(), e.getItem(), block);
-                }
-                else {
+                } else {
                     measure(e.getPlayer(), e.getItem(), block);
                 }
             }
@@ -76,7 +75,6 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
         SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.anchor-set", msg -> msg.replace("%anchor%", anchor));
 
         item.setItemMeta(meta);
-
     }
 
     @Nonnull
@@ -97,13 +95,11 @@ public class TapeMeasure extends SimpleSlimefunItem<ItemUseHandler> implements N
                 int z = json.get("z").getAsInt();
                 Location loc = new Location(p.getWorld(), x, y, z);
                 return Optional.of(loc);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.wrong-world");
                 return Optional.empty();
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.tape-measure.no-anchor");
             return Optional.empty();
         }

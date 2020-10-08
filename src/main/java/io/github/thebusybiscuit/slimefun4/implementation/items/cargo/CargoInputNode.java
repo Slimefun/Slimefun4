@@ -44,8 +44,7 @@ public class CargoInputNode extends AbstractFilterNode {
                 updateBlockMenu(menu, b);
                 return false;
             });
-        }
-        else {
+        } else {
             menu.replaceExistingItem(24, new CustomItem(HeadTexture.ENERGY_REGULATOR.getAsItemStack(), "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, ROUND_ROBIN_MODE, String.valueOf(false));

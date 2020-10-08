@@ -70,8 +70,7 @@ public interface EnergyNetComponent extends ItemAttribute {
 
         if (charge != null) {
             return Integer.parseInt(charge);
-        }
-        else {
+        } else {
             return 0;
         }
     }

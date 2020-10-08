@@ -66,8 +66,7 @@ class TestBeeListener {
 
         if (hasArmor) {
             Assertions.assertEquals(0, event.getDamage());
-        }
-        else {
+        } else {
             Assertions.assertEquals(damage, event.getDamage());
         }
     }

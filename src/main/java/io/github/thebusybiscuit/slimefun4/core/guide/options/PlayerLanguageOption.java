@@ -50,8 +50,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
 
             ItemStack item = new CustomItem(language.getItem(), "&7" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.selected-language") + " &a" + languageName, lore.toArray(new String[0]));
             return Optional.of(item);
-        }
-        else {
+        } else {
             return Optional.empty();
         }
     }
@@ -70,8 +69,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
     public void setSelectedOption(Player p, ItemStack guide, String value) {
         if (value == null) {
             PersistentDataAPI.remove(p, getKey());
-        }
-        else {
+        } else {
             PersistentDataAPI.setString(p, getKey(), value);
         }
     }
@@ -88,15 +86,13 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
                     SlimefunGuideSettings.openSettings(pl, guide);
                     return false;
                 });
-            }
-            else if (i == 7) {
+            } else if (i == 7) {
                 menu.addItem(7, new CustomItem(SlimefunUtils.getCustomHead(HeadTexture.ADD_NEW_LANGUAGE.getTexture()), SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + SlimefunPlugin.getLocalization().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
                     ChatUtils.sendURL(pl, "https://github.com/Slimefun/Slimefun4/wiki/Translating-Slimefun");
                     pl.closeInventory();
                     return false;
                 });
-            }
-            else {
+            } else {
                 menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
         }

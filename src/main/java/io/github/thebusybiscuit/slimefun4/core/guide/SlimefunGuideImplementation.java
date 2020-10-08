@@ -71,8 +71,7 @@ public interface SlimefunGuideImplementation {
 
         if (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
-        }
-        else {
+        } else {
             p.setLevel(p.getLevel() - research.getCost());
             research.unlock(p, false, callback);
         }

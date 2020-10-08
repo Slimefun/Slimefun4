@@ -100,13 +100,12 @@ public class StatusEffect implements Keyed {
 
             if (timestamp == 0 || timestamp >= System.currentTimeMillis()) {
                 return true;
-            }
-            else {
+            } else {
                 clear(p);
                 return false;
             }
-        }
-        else return false;
+        } else
+            return false;
     }
 
     /**
@@ -124,8 +123,8 @@ public class StatusEffect implements Keyed {
             String[] data = PatternUtils.SEMICOLON.split(optional.get());
             return OptionalInt.of(Integer.parseInt(data[0]));
 
-        }
-        else return OptionalInt.empty();
+        } else
+            return OptionalInt.empty();
     }
 
     /**

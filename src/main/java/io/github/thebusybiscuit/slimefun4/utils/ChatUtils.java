@@ -39,8 +39,7 @@ public final class ChatUtils {
     public static String crop(@Nonnull ChatColor color, @Nonnull String string) {
         if (ChatColor.stripColor(color + string).length() > 19) {
             return (color + ChatColor.stripColor(string)).substring(0, 18) + "...";
-        }
-        else {
+        } else {
             return color + ChatColor.stripColor(string);
         }
     }

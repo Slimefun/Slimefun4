@@ -72,16 +72,14 @@ public class LocalizationService extends SlimefunLocalization implements Persist
 
             if (hasLanguage(serverDefaultLanguage)) {
                 setLanguage(serverDefaultLanguage, !serverDefaultLanguage.equals(language));
-            }
-            else {
+            } else {
                 setLanguage("en", false);
                 plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
             }
 
             Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
             save();
-        }
-        else {
+        } else {
             translationsEnabled = false;
             defaultLanguage = null;
         }
@@ -186,8 +184,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream(path), StandardCharsets.UTF_8))) {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
             getConfig().getConfiguration().setDefaults(config);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file: \"" + path + "\"");
         }
 
@@ -277,8 +274,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
             }
 
             return config;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + path + "\"");
             return null;
         }

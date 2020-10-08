@@ -26,17 +26,14 @@ class StatsCommand extends SubCommand {
 
                 if (player.isPresent()) {
                     PlayerProfile.get(player.get(), profile -> profile.sendStats(sender));
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
                 }
-            }
-            else SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
-        }
-        else if (sender instanceof Player) {
+            } else
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
+        } else if (sender instanceof Player) {
             PlayerProfile.get((Player) sender, profile -> profile.sendStats(sender));
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }
