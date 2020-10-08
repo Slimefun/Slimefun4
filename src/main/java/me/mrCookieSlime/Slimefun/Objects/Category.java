@@ -132,6 +132,9 @@ public class Category implements Keyed {
      * This method returns a localized display item of this {@link Category}
      * for the specified {@link Player}.
      * 
+     * If the first line is set to "lore", up to 4 following lines will be
+     * added to the category ItemStack before the space and click hint.
+     *
      * @param p
      *            The Player to create this {@link ItemStack} for
      * @return A localized display item for this {@link Category}
@@ -140,6 +143,7 @@ public class Category implements Keyed {
     public ItemStack getItem(@Nonnull Player p) {
         return new CustomItem(item, meta -> {
             String name = SlimefunPlugin.getLocalization().getCategoryName(p, getKey());
+            String clickToOpen = ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category");
 
             if (name == null) {
                 name = item.getItemMeta().getDisplayName();
@@ -151,7 +155,18 @@ public class Category implements Keyed {
                 meta.setDisplayName(ChatColor.YELLOW + name);
             }
 
-            meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
+            if (item.getItemMeta() != null && item.getItemMeta().getLore() != null && item.getItemMeta().getLore().get(0).equals("lore")) {
+                List<String> lore = item.getItemMeta().getLore();
+                lore.remove(0);
+                if (lore.size() > 5) {
+                    lore.subList(5, lore.size()).clear();
+                }
+                lore.add("");
+                lore.add(clickToOpen);
+                meta.setLore(lore);
+            } else {
+                meta.setLore(Arrays.asList("", clickToOpen));
+            }
         });
     }
 
