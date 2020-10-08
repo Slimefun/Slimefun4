@@ -1,14 +1,11 @@
 package me.mrCookieSlime.Slimefun.Objects;
 
-import org.bukkit.event.Event;
-import java.lang.annotation.*;
-import javax.annotation.Nullable;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import org.bukkit.block.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
-import java.lang.Runnable;
-import org.bukkit.advancement.Advancement;
 
 /**
  * A {@link SlimefunBlockHandler} handles breaking and placing of blocks.
