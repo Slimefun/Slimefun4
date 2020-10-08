@@ -27,4 +27,3 @@ jobs:
         files: '**/*.java'
         skipCommit: false
         args: "--fix-imports-only --replace"
-        githubToken: ${{ secrets.ACCESS_TOKEN }}
