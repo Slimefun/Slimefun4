@@ -2,25 +2,24 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talisman
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import io.github.thebusybiscuit.cscorelib2.data.PersistentJsonDataType;
+import org.bukkit.potion.PotionEffectType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import javax.annotation.Nonnull;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.Runnable;
 import java.util.UUID;
 
 /**
