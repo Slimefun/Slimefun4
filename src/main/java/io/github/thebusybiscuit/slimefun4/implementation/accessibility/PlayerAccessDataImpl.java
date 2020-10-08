@@ -46,12 +46,12 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
         return UUID.class;
     }
 
-    private static AccessLevel deserializeAccessLevel(
-        @Nonnull String key, @Nonnull JsonElement element) {
+
+    private static boolean validateAccessLevel(@Nonnull String key, @Nonnull JsonElement element) {
         if (!element.isJsonObject()) {
             Slimefun.getLogger().log(Level.WARNING,
                 "Invalid AccessData for key: " + key + "! Element is not a JsonObject!");
-            return null;
+            return false;
         }
         JsonObject object = element.getAsJsonObject();
         JsonElement raw = object.get(JsonDeserializationService.ENUM_CLASS_KEY);
@@ -59,25 +59,29 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
         if (!raw.isJsonPrimitive() || !((rawString = raw.getAsJsonPrimitive()).isString())) {
             Slimefun.getLogger().log(Level.WARNING,
                 "Invalid AccessLevel for key: " + key + "! Element is not a String!");
-            return null;
+            return false;
         }
+        return resolveAccessLevelClass(rawString.getAsString()) != null;
+    }
+
+    @Nullable
+    private static Class<? extends AccessLevel> resolveAccessLevelClass(@Nonnull String rawClass) {
         Class<?> clazz;
         try {
-            clazz = Class.forName(rawString.getAsString());
+            clazz = Class.forName(rawClass);
         } catch (ClassNotFoundException ex) {
-            Slimefun.getLogger().log(Level.WARNING,
-                "Invalid AccessLevel for key: " + key + "! Unknown AccessLevel class: " + rawString
-                    .getAsString());
+            Slimefun.getLogger()
+                .log(Level.WARNING, "Invalid AccessData! Unknown AccessData class: " + rawClass);
             return null;
         }
         if (!AccessLevel.class.isAssignableFrom(clazz)) {
-            Slimefun.getLogger().log(Level.WARNING,
-                "Invalid AccessLevel for key:" + key + "! Class is not an access level: " + clazz.getCanonicalName());
+            Slimefun.getLogger()
+                .log(Level.WARNING, "Invalid AccessData! AccessLevel is not assignable from: " + rawClass);
             return null;
         }
-        return (AccessLevel) SlimefunPlugin.getJsonDeserializationService()
-            .deserialize(clazz, object).orElse(null);
+        return clazz.asSubclass(AccessLevel.class);
     }
+
 
     @Nonnull
     @Override
@@ -119,21 +123,23 @@ public class PlayerAccessDataImpl implements PlayerAccessData {
         if (!element.isJsonObject()) {
             return;
         }
+        JsonDeserializationService service = SlimefunPlugin.getJsonDeserializationService();
         JsonObject object = element.getAsJsonObject();
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
-            String key = entry.getKey();
+            String rawClass = entry.getKey();
             UUID reconstructedObject;
             try {
-                reconstructedObject = deserialize(key);
+                reconstructedObject = deserialize(rawClass);
             } catch (IllegalArgumentException ex) {
                 Slimefun.getLogger().log(Level.WARNING,
-                    "Failed to deserialize data for key: " + key + "! Reason: " + ex.getMessage());
+                    "Failed to deserialize data for key: " + rawClass + "! Reason: " + ex.getMessage());
                 continue;
             }
             JsonElement value = entry.getValue();
-            AccessLevel level;
-            if ((level = deserializeAccessLevel(key, value)) != null) {
-                levelMap.put(reconstructedObject, level);
+            Class<? extends AccessLevel> clazz = resolveAccessLevelClass(rawClass);
+            if (clazz != null) {
+                service.deserialize(clazz, value, jsonElement -> validateAccessLevel(rawClass, jsonElement))
+                    .ifPresent(accessLevel -> levelMap.put(reconstructedObject, accessLevel));
             }
         }
     }

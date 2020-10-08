@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 
 /**
@@ -28,9 +29,6 @@ public class JsonDeserializationService {
 
     private final JsonParser parser = new JsonParser();
     private final Map<String, Function<JsonElement, ?>> deserializerMap = new HashMap<>();
-
-    public JsonDeserializationService() {
-    }
 
     /**
      * Convenience method to deserialize an {@link Enum} which was serialized via {@link #serializeEnum(Enum)}
@@ -136,6 +134,10 @@ public class JsonDeserializationService {
         return deserialize(expectedClass, parser.parse(json));
     }
 
+    public <T> Optional<T> deserialize(@Nonnull Class<T> expectedClass, @Nonnull String json, @Nullable Function<String, Boolean> validator) {
+        return deserialize(expectedClass, parser.parse(json), validator == null ? null : raw -> validator.apply(raw.toString()));
+    }
+
     /**
      * Attempt to deserialize a given JSON string back to it's object counterpart.
      *
@@ -145,6 +147,17 @@ public class JsonDeserializationService {
      * @return Return an optional populated with the deserialized object, else it is empty.
      */
     public <T> Optional<T> deserialize(@Nonnull Class<T> expectedClass, @Nonnull JsonElement json) {
+        return deserialize(expectedClass, json, null);
+    }
+
+    public <T> Optional<T> deserialize(@Nonnull Class<T> expectedClass, @Nonnull JsonElement json, @Nullable
+                                       Function<JsonElement, Boolean> validator) {
+        if (validator != null) {
+            boolean valid = validator.apply(json);
+            if (!valid) {
+                return Optional.empty();
+            }
+        }
         // Try to get the mapped deserialization logic.
         Function<JsonElement, ?> function = deserializerMap.get(expectedClass.getCanonicalName());
         if (function == null) {

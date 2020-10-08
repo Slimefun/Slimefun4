@@ -9,6 +9,8 @@ import io.github.thebusybiscuit.slimefun4.api.accessibility.AccessManager;
 import io.github.thebusybiscuit.slimefun4.api.accessibility.ConcreteAccessLevel;
 import io.github.thebusybiscuit.slimefun4.core.attributes.TieredAccessible;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import org.bukkit.NamespacedKey;
@@ -23,6 +25,7 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -41,8 +44,6 @@ public class PlayerAccessManagerImpl implements AccessManager {
         SlimefunPlugin.getJsonDeserializationService().registerDeserialization(PlayerAccessManagerImpl.class, PlayerAccessManagerImpl::new);
     }
 
-    public static final NamespacedKey DATA_KEY =
-        new NamespacedKey(SlimefunPlugin.instance(), "player-access-manager-data");
     private final Map<Class<?>, AccessData<?>> dataMap = new HashMap<>();
 
     public PlayerAccessManagerImpl() { }
@@ -54,6 +55,25 @@ public class PlayerAccessManagerImpl implements AccessManager {
     public PlayerAccessManagerImpl(@Nonnull JsonElement element) {
         loadFromJsonElement(element);
     }
+
+    @Nullable
+    private static Class<? extends AccessData> resolveAccessDataClass(@Nonnull String rawClass) {
+        Class<?> clazz;
+        try {
+            clazz = Class.forName(rawClass);
+        } catch (ClassNotFoundException ex) {
+            Slimefun.getLogger()
+                .log(Level.WARNING, "Invalid AccessData! Unknown AccessData class: " + rawClass);
+            return null;
+        }
+        if (!AccessData.class.isAssignableFrom(clazz)) {
+            Slimefun.getLogger()
+                .log(Level.WARNING, "Invalid AccessData! AccessData is not assignable from: " + rawClass);
+            return null;
+        }
+        return clazz.asSubclass(AccessData.class);
+    }
+
 
     @Nonnull
     @Override
@@ -85,8 +105,7 @@ public class PlayerAccessManagerImpl implements AccessManager {
 
     @Nonnull
     @Override
-    public <T> AccessData<T> getOrRegisterAccessData(@Nonnull Class<T> clazz,
-                                                     @Nonnull AccessData<T> def) {
+    public <T> AccessData<T> getOrRegisterAccessData(@Nonnull Class<T> clazz, @Nonnull AccessData<T> def) {
         return getAccessData(clazz).orElseGet(() -> {
             dataMap.put(clazz, def);
             return def;
@@ -123,8 +142,8 @@ public class PlayerAccessManagerImpl implements AccessManager {
             // This feature was introduced post 1.13. Cannot load newer data on an older version
             return;
         }
-        ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
+        ItemMeta meta;
+        if (itemStack.hasItemMeta() && (meta = itemStack.getItemMeta()) != null) {
             load(namespace, meta);
         }
 
@@ -137,7 +156,7 @@ public class PlayerAccessManagerImpl implements AccessManager {
             // This feature was introduced post 1.13. Cannot load newer data on an older version
             return;
         }
-        BlockState state = block.getState();
+        BlockState state = PaperLib.getBlockState(block, true).getState();
         if (state instanceof TileState) {
             load(namespace, ((TileState) state));
         }
@@ -209,10 +228,7 @@ public class PlayerAccessManagerImpl implements AccessManager {
     }
 
     public void saveTo(@Nonnull NamespacedKey namespace, @Nonnull PersistentDataHolder holder) {
-        PersistentDataContainer base = holder.getPersistentDataContainer();
-        PersistentDataContainer container = base.getAdapterContext().newPersistentDataContainer();
-        base.set(namespace, PersistentDataType.TAG_CONTAINER, container);
-        container.set(DATA_KEY, PersistentDataType.STRING, saveToString());
+        holder.getPersistentDataContainer().set(namespace, PersistentDataType.STRING, saveToString());
     }
 
     @Override
@@ -231,20 +247,4 @@ public class PlayerAccessManagerImpl implements AccessManager {
         return dataMap.hashCode();
     }
 
-    private static Class<? extends AccessData> resolveAccessDataClass(@Nonnull String rawClass) {
-        Class<?> clazz;
-        try {
-            clazz = Class.forName(rawClass);
-        } catch (ClassNotFoundException ex) {
-            Slimefun.getLogger()
-                .log(Level.WARNING, "Invalid AccessData! Unknown AccessData class: " + rawClass);
-            return null;
-        }
-        if (!AccessData.class.isAssignableFrom(clazz)) {
-            Slimefun.getLogger()
-                .log(Level.WARNING, "Invalid AccessData! AccessData is not assignable from: " + rawClass);
-            return null;
-        }
-        return clazz.asSubclass(AccessData.class);
-    }
 }
