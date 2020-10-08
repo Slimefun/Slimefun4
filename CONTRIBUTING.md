@@ -121,7 +121,7 @@ Try to stay inline with the code that surrounds you, having an entire package or
 #### 5. General best-practices
 * Do not use `Collection#forEach(x -> ...)`, use a proper `for (...)` loop!
 * Do not create new `Random` objects, use `ThreadLocalRandom.current()` instead!
-* Always declare Maps or Collections using their base type! (e.g. `List<String> list = new ArrayList<>();`
+* Always declare Maps or Collections using their base type! (e.g. `List<String> list = new ArrayList<>();`)
 * When doing String operations like `String#toUppercase()`, always specify `Locale.ROOT` as an argument!
 * When reading or writing files, always specify the encoding using `StandardCharsets.UTF_8`!
 * Do not declare multiple fields/variables on the same line! (e.g. Don't do this: `int x, y, z;`)
