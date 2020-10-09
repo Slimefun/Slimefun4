@@ -1,0 +1,29 @@
+name: Clean up Imports
+
+on:
+  push:
+    paths:
+    - 'src/main/java/**'
+
+jobs:
+  cleanup:
+
+    name: Clean up Imports
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.repo.full_name != 'Slimefun/Slimefun4'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2.3.3
+    - name: Set up Java JDK 11
+      uses: actions/setup-java@v1.4.3
+      with:
+        java-version: 11
+    - name: Google Java Format
+      uses: axel-op/googlejavaformat-action@v3.4.0
+      with:
+        files: '**/*.java'
+        skipCommit: false
+        commitMessage: "[CI skip] Cleaned up Imports"
+        args: "--fix-imports-only --replace"
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
