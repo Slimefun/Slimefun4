@@ -106,7 +106,7 @@ messages:
   no-permission: "&4Ehhez nincs jogod"
   usage: "&4Használat: &c%usage%"
   not-online: "&4%player% &cjelenleg nem elérhető!"
-  not-valid-item: "&4%item% &cnem megfelelő Tárgy!"
+  not-valid-item: "&4%item% &cnem megfelelő tárgy!"
   not-valid-amount: "&4%amount% &cnem megfelelő mennyiség: 0-nál nagyobbnak kell lennie!"
   given-item: '&bKaptál &a%amount% darab &7"%item%&7"&b-t'
   give-item: '&bAdtál %player%-nek/nak &a%amount% &7"%item%&7"&b-t'
@@ -125,7 +125,7 @@ messages:
     water: "&a&oA talizmánod megmentett a fulladástól"
     angel: "&a&oA talizmánod megmentett a zuhanási sérüléstől"
     fire: "&a&oA talizmánod megmentett a halálra elégéstől"
-    magician: "&a&oA talizmánod adott további Fejlesztéseket is"
+    magician: "&a&oA talizmánod adott további fejlesztéseket is"
     traveller: "&a&oA talizmánod gyors sebességet adott neked"
     warrior: "&a&oA talizmánodtól növelte az erőd egy kis időre"
     knight: "&a&oA talizmánod adott 5 másodpercre Regenerációt"
@@ -356,4 +356,4 @@ villagers:
 cartography_table:
   not-working: "&4Nem használhatsz Slimefun tárgyakat térképasztalban."
 miner:
-  no-ores: "&eSajnálom, nem találtam semmilyen Ércet a közelben!"
+  no-ores: "&eSajnálom, nem találtam semmilyen ércet a közelben!"
