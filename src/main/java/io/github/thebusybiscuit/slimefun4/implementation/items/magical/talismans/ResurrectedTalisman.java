@@ -46,9 +46,11 @@ public class ResurrectedTalisman extends Talisman {
         return e -> {
             Location currentLoc = e.getPlayer().getLocation();
             JsonObject json = createJsonFromLocation(currentLoc);
-            ItemMeta itemMeta = e.getItem().getItemMeta();
 
-            if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), currentLoc, ProtectableAction.PLACE_BLOCK)) {
+            if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), currentLoc, ProtectableAction.PLACE_BLOCK)
+            && e.getItem().hasItemMeta()) {
+                ItemMeta itemMeta = e.getItem().getItemMeta();
+                
                 itemMeta.getPersistentDataContainer().set(locationKey, PersistentJsonDataType.JSON_OBJECT, json);
                 e.getItem().setItemMeta(itemMeta);
     
