@@ -69,7 +69,8 @@ public class MaterialTagSetting extends ItemSetting<List<String>> {
      *            Our {@link Tag}
      * @return The {@link String} {@link List}
      */
-    private static List<String> getAsStringList(Tag<Material> tag) {
+    @Nonnull
+    private static List<String> getAsStringList(@Nonnull Tag<Material> tag) {
         return tag.getValues().stream().map(Material::name).collect(Collectors.toList());
     }
 
