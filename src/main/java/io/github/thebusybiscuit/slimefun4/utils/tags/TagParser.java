@@ -35,6 +35,8 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  * The {@link TagParser} is responsible for parsing a JSON input into a {@link SlimefunTag}.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see SlimefunTag
  *
  */
 public class TagParser implements Keyed {

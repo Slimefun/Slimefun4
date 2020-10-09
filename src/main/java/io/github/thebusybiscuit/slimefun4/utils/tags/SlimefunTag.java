@@ -36,6 +36,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPic
  * and follow Minecraft's tags.json format.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see TagParser
  *
  */
 public enum SlimefunTag implements Tag<Material> {
@@ -214,6 +216,17 @@ public enum SlimefunTag implements Tag<Material> {
         });
     }
 
+    /**
+     * This method reloads every single {@link SlimefunTag} from the resources directory.
+     * It is equivalent to running {@link #reload()} on every single {@link SlimefunTag} manually.
+     * 
+     * Do keep in mind though that any misconfigured {@link SlimefunTag} will abort the entire
+     * method and throw a {@link TagMisconfigurationException}. So one faulty {@link SlimefunTag}
+     * will stop the reloading process.
+     * 
+     * @throws TagMisconfigurationException
+     *             This is thrown if one of the {@link SlimefunTag SlimefunTags} could not be parsed correctly
+     */
     public static void reloadAll() throws TagMisconfigurationException {
         for (SlimefunTag tag : valuesCache) {
             tag.reload();

@@ -38,6 +38,7 @@
 * Added Planks to Sticks recipe to the Table Saw
 * Added "slimefun.gps.bypass" permission to open GPS devices anywhere
 * (API) Added custom tags for developers
+* The range of the Seeker Pickaxe is now configurable
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)

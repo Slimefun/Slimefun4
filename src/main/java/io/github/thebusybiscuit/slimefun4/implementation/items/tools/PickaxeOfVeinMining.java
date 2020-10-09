@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -33,15 +34,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
 
-    private final ItemSetting<Integer> maxBlocks = new ItemSetting<Integer>("max-blocks", 16) {
-
-        @Override
-        public boolean validateInput(Integer input) {
-            // We do not wanna allow any negative values here
-            return super.validateInput(input) && input.intValue() > 0;
-        }
-
-    };
+    private final ItemSetting<Integer> maxBlocks = new IntRangeSetting("max-blocks", 1, 16, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public PickaxeOfVeinMining(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
