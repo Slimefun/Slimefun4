@@ -79,7 +79,6 @@
         <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 
         <finalName>${project.name} v${project.version}</finalName>
-        <defaultGoal>clean package</defaultGoal>
 
         <plugins>
             <!-- Compiler plugin -->
