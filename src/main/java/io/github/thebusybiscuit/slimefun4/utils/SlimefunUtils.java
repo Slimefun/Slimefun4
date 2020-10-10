@@ -215,7 +215,7 @@ public final class SlimefunUtils {
 
         String base64 = texture;
 
-        if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+        if (PatternUtils.HEXADECIMAL.matcher(texture).matches()) {
             base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
         }
 

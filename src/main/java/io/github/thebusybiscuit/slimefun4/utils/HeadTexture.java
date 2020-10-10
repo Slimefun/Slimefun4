@@ -115,6 +115,7 @@ public enum HeadTexture {
 
     HeadTexture(@Nonnull String texture) {
         Validate.notNull(texture, "Texture cannot be null");
+        Validate.isTrue(PatternUtils.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
         this.texture = texture;
     }
 
