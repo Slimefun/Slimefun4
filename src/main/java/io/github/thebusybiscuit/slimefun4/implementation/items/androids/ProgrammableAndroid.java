@@ -257,7 +257,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                     return false;
                 });
             } else {
-                Instruction instruction = Instruction.getFromCache(script[i]);
+                Instruction instruction = Instruction.getInstruction(script[i]);
 
                 if (instruction == null) {
                     SlimefunPlugin.instance().getLogger().log(Level.WARNING, "Failed to parse Android instruction: {0}, maybe your server is out of date?", script[i]);
@@ -493,7 +493,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     protected List<Instruction> getValidScriptInstructions() {
         List<Instruction> list = new ArrayList<>();
 
-        for (Instruction part : Instruction.values) {
+        for (Instruction part : Instruction.valuesCache) {
             if (part == Instruction.START || part == Instruction.REPEAT) {
                 continue;
             }
@@ -646,7 +646,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 }
 
                 BlockStorage.addBlockInfo(b, "fuel", String.valueOf(fuel - 1));
-                Instruction instruction = Instruction.getFromCache(script[index]);
+                Instruction instruction = Instruction.getInstruction(script[index]);
 
                 if (instruction == null) {
                     SlimefunPlugin.instance().getLogger().log(Level.WARNING, "Failed to parse Android instruction: {0}, maybe your server is out of date?", script[index]);

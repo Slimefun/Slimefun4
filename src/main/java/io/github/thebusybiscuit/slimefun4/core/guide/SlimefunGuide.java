@@ -78,15 +78,20 @@ public final class SlimefunGuide {
     }
 
     public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, int selectedPage) {
-        if (category == null)
+        if (category == null) {
             return;
+        }
+
         SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, selectedPage);
     }
 
     public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
         SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST);
-        if (!survival)
+
+        if (!survival) {
             layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEAT_SHEET);
+        }
+
         layout.openSearch(profile, input, addToHistory);
     }
 

@@ -4,12 +4,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -25,7 +25,7 @@ public class FisherAndroid extends ProgrammableAndroid {
         super(category, tier, item, recipeType, recipe);
 
         // Fish
-        for (Material fish : MaterialCollections.getAllFishItems()) {
+        for (Material fish : Tag.ITEMS_FISHES.getValues()) {
             fishingLoot.add(new ItemStack(fish), 25);
         }
 

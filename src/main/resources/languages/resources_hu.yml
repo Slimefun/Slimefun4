@@ -1,24 +1,24 @@
 ---
 tooltips:
-  results: GEO-Vizsgálat Eredmények
-  chunk: Vizsgált Chunk
+  results: GEO-vizsgálat eredmények
+  chunk: Vizsgált chunk
   world: Világ
-  unit: Egység
-  units: Egységek
+  unit: egység
+  units: egység
 resources:
   slimefun:
     oil: Olaj
-    nether_ice: Nether Jég
+    nether_ice: Nether jég
     salt: Só
     uranium: Uránium
   slimefunorechunks:
-    iron_ore_chunk: Vasérc Chunk
-    gold_ore_chunk: Aranyérc Chunk
-    copper_ore_chunk: Rézérc Chunk
-    tin_ore_chunk: Ónérc Chunk
-    silver_ore_chunk: Ezüstérc Chunk
-    aluminum_ore_chunk: Alumínium Érc Chunk
-    lead_ore_chunk: Ólomérc Chunk
-    zinc_ore_chunk: Cinkérc Chunk
-    nickel_ore_chunk: Nikkelérc Chunk
-    cobalt_ore_chunk: Kobalt Érc Chunk
+    iron_ore_chunk: Vasérc chunk
+    gold_ore_chunk: Aranyérc chunk
+    copper_ore_chunk: Rézérc chunk
+    tin_ore_chunk: Ónérc chunk
+    silver_ore_chunk: Ezüstérc chunk
+    aluminum_ore_chunk: Alumíniumérc chunk
+    lead_ore_chunk: Ólomérc chunk
+    zinc_ore_chunk: Cinkérc chunk
+    nickel_ore_chunk: Nikkelérc chunk
+    cobalt_ore_chunk: Kobaltérc Chunk

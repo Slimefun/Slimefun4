@@ -262,6 +262,7 @@
 
                 <includes>
                     <include>*</include>
+                    <include>tags/*</include>
                     <include>languages/*</include>
                 </includes>
             </resource>
@@ -344,7 +345,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.00</version>
+            <version>3.11.01</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

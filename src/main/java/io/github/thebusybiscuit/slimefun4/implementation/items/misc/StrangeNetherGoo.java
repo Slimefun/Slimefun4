@@ -4,6 +4,7 @@ import org.bukkit.entity.Piglin;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -23,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class StrangeNetherGoo extends SlimefunItem implements PiglinBarterDrop {
 
-    private final ItemSetting<Integer> chance = new ItemSetting<>("barter-chance", 7);
+    private final ItemSetting<Integer> chance = new IntRangeSetting("barter-chance", 0, 7, 100);
 
     public StrangeNetherGoo(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

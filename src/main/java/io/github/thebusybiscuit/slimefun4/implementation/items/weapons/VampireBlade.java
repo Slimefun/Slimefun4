@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -25,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class VampireBlade extends SlimefunItem {
 
     private static final double HEALING_AMOUNT = 4.0;
-    private final ItemSetting<Integer> chance = new ItemSetting<>("chance", 45);
+    private final ItemSetting<Integer> chance = new IntRangeSetting("chance", 0, 45, 100);
 
     public VampireBlade(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

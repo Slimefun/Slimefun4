@@ -1,5 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 
 import org.bukkit.attribute.Attribute;
@@ -16,12 +20,31 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefunItem<T> {
 
+    private final Set<PotionEffectType> curedEffects = new HashSet<>();
     private final int healAmount;
 
     public MedicalSupply(Category category, int healAmount, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         this.healAmount = healAmount;
+
+        curedEffects.add(PotionEffectType.POISON);
+        curedEffects.add(PotionEffectType.WITHER);
+        curedEffects.add(PotionEffectType.SLOW);
+        curedEffects.add(PotionEffectType.SLOW_DIGGING);
+        curedEffects.add(PotionEffectType.WEAKNESS);
+        curedEffects.add(PotionEffectType.CONFUSION);
+        curedEffects.add(PotionEffectType.BLINDNESS);
+        curedEffects.add(PotionEffectType.BAD_OMEN);
+    }
+
+    /**
+     * This returns the {@link PotionEffect PotionEffects} cured from this {@link MedicalSupply}.
+     * 
+     * @return An immutable {@link Set} of cured {@link PotionEffect PotionEffects}
+     */
+    public Set<PotionEffectType> getCuredEffects() {
+        return Collections.unmodifiableSet(curedEffects);
     }
 
     /**
@@ -31,22 +54,11 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
      *            The {@link LivingEntity} to clear the effects from.
      */
     public void clearNegativeEffects(@Nonnull LivingEntity n) {
-        if (n.hasPotionEffect(PotionEffectType.POISON))
-            n.removePotionEffect(PotionEffectType.POISON);
-        if (n.hasPotionEffect(PotionEffectType.WITHER))
-            n.removePotionEffect(PotionEffectType.WITHER);
-        if (n.hasPotionEffect(PotionEffectType.SLOW))
-            n.removePotionEffect(PotionEffectType.SLOW);
-        if (n.hasPotionEffect(PotionEffectType.SLOW_DIGGING))
-            n.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-        if (n.hasPotionEffect(PotionEffectType.WEAKNESS))
-            n.removePotionEffect(PotionEffectType.WEAKNESS);
-        if (n.hasPotionEffect(PotionEffectType.CONFUSION))
-            n.removePotionEffect(PotionEffectType.CONFUSION);
-        if (n.hasPotionEffect(PotionEffectType.BLINDNESS))
-            n.removePotionEffect(PotionEffectType.BLINDNESS);
-        if (n.hasPotionEffect(PotionEffectType.BAD_OMEN))
-            n.removePotionEffect(PotionEffectType.BAD_OMEN);
+        for (PotionEffectType effect : curedEffects) {
+            if (n.hasPotionEffect(effect)) {
+                n.removePotionEffect(effect);
+            }
+        }
     }
 
     /**
