@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
  * @author TheBusyBiscuit
  * 
  * @see ItemSetting
+ * @see DoubleRangeSetting
  *
  */
 public class IntRangeSetting extends ItemSetting<Integer> {
