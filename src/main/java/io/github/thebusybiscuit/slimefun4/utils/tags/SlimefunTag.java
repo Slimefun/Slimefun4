@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.utils.tags;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -188,7 +189,7 @@ public enum SlimefunTag implements Tag<Material> {
     }
 
     private final NamespacedKey key;
-    private final Set<Material> includedMaterials = new HashSet<>();
+    private final Set<Material> includedMaterials = EnumSet.noneOf(Material.class);
     private final Set<Tag<Material>> additionalTags = new HashSet<>();
 
     /**
@@ -262,7 +263,8 @@ public enum SlimefunTag implements Tag<Material> {
         if (additionalTags.isEmpty()) {
             return Collections.unmodifiableSet(includedMaterials);
         } else {
-            Set<Material> materials = new HashSet<>(includedMaterials);
+            Set<Material> materials = EnumSet.noneOf(Material.class);
+            materials.addAll(includedMaterials);
 
             for (Tag<Material> tag : additionalTags) {
                 materials.addAll(tag.getValues());

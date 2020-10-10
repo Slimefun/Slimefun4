@@ -250,20 +250,17 @@ public final class SlimefunUtils {
     }
 
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
-        if (item == null)
+        if (item == null) {
             return sfitem == null;
-        if (sfitem == null)
+        } else if (sfitem == null) {
             return false;
-        if (item.getType() != sfitem.getType())
+        } else if (item.getType() != sfitem.getType()) {
             return false;
-        if (checkAmount && item.getAmount() < sfitem.getAmount())
+        } else if (checkAmount && item.getAmount() < sfitem.getAmount()) {
             return false;
-
-        if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
+        } else if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
             return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId());
-        }
-
-        if (item.hasItemMeta()) {
+        } else if (item.hasItemMeta()) {
             ItemMeta itemMeta = item.getItemMeta();
 
             if (sfitem instanceof SlimefunItemStack) {
@@ -277,12 +274,12 @@ public final class SlimefunUtils {
                 return equalsItemMeta(itemMeta, meta, checkLore);
             } else if (sfitem.hasItemMeta()) {
                 return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
+            } else {
+                return false;
             }
         } else {
             return !sfitem.hasItemMeta();
         }
-
-        return false;
     }
 
     private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ImmutableItemMeta meta, boolean checkLore) {

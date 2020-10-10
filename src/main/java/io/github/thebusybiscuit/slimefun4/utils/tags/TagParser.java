@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class TagParser implements Keyed {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {
             parse(reader.lines().collect(Collectors.joining("")), callback);
         } catch (IOException x) {
-            throw new TagMisconfigurationException(key, x.getMessage());
+            throw new TagMisconfigurationException(key, x);
         }
     }
 
@@ -90,7 +91,7 @@ public class TagParser implements Keyed {
         Validate.notNull(json, "Cannot parse a null String");
 
         try {
-            Set<Material> materials = new HashSet<>();
+            Set<Material> materials = EnumSet.noneOf(Material.class);
             Set<Tag<Material>> tags = new HashSet<>();
 
             JsonParser parser = new JsonParser();
@@ -120,7 +121,7 @@ public class TagParser implements Keyed {
                 throw new TagMisconfigurationException(key, "No values array specified");
             }
         } catch (IllegalStateException | JsonParseException x) {
-            throw new TagMisconfigurationException(key, x.getMessage());
+            throw new TagMisconfigurationException(key, x);
         }
     }
 

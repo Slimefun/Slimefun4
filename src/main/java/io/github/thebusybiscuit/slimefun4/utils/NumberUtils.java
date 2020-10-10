@@ -27,19 +27,30 @@ public final class NumberUtils {
         return LocalDateTime.parse(date.substring(0, date.length() - 1));
     }
 
+    /**
+     * This will return a representative color for the given percentage.
+     * Lower levels will result in a darker tone of red, higher levels will
+     * result in more brighter shades of green.
+     * 
+     * @param percentage
+     *            The amount of percentage as a float
+     * 
+     * @return A representative {@link ChatColor}
+     */
     public static ChatColor getColorFromPercentage(float percentage) {
-        if (percentage < 16.0F)
+        if (percentage < 16.0F) {
             return ChatColor.DARK_RED;
-        else if (percentage < 32.0F)
+        } else if (percentage < 32.0F) {
             return ChatColor.RED;
-        else if (percentage < 48.0F)
+        } else if (percentage < 48.0F) {
             return ChatColor.GOLD;
-        else if (percentage < 64.0F)
+        } else if (percentage < 64.0F) {
             return ChatColor.YELLOW;
-        else if (percentage < 80.0F)
+        } else if (percentage < 80.0F) {
             return ChatColor.DARK_GREEN;
-        else
+        } else {
             return ChatColor.GREEN;
+        }
     }
 
     public static String getElapsedTime(@Nonnull LocalDateTime date) {
