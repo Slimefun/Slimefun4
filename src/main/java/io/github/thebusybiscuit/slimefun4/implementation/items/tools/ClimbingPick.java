@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -24,8 +26,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.ClimbingPickLaunchEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -34,6 +34,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.ClimbableSurface;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -49,51 +51,108 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem, RecipeDisplayItem {
 
-    private static final double BASE_POWER = 1;
+    private static final double STRONG_SURFACE_DEFAULT = 1.0;
+    private static final double WEAK_SURFACE_DEFAULT = 0.6;
     private static final double MAX_DISTANCE = 4.4;
+    private static final double EFFICIENCY_MODIFIER = 0.125;
+    private static final long COOLDOWN = 4;
 
     private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
-    private final Map<Material, Double> materialSpeeds;
+    private final Map<Material, ClimbableSurface> surfaces = new EnumMap<>(Material.class);
     private final Set<UUID> users = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public ClimbingPick(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
         addItemSetting(dualWielding, damageOnUse);
+        addDefaultSurfaces();
+    }
 
-        String cfgKey = getID() + ".launch-amounts.";
-        Config itemCfg = SlimefunPlugin.getItemCfg();
-        materialSpeeds = new EnumMap<>(Material.class);
-
-        for (Material mat : MaterialCollections.getAllIceBlocks()) {
-            materialSpeeds.put(mat, itemCfg.getOrSetDefault(cfgKey + mat.name(), 1.0));
+    /**
+     * This method adds every surface that is climbable by default.
+     */
+    protected void addDefaultSurfaces() {
+        // These are "strong" surfaces, they will give you the biggest boost
+        for (Material surface : SlimefunTag.CLIMBING_PICK_STRONG_SURFACES.getValues()) {
+            addSurface(surface, STRONG_SURFACE_DEFAULT);
         }
 
-        for (Material mat : MaterialCollections.getAllConcretePowderColors()) {
-            materialSpeeds.put(mat, itemCfg.getOrSetDefault(cfgKey + mat.name(), 1.0));
-        }
-
-        for (Material mat : MaterialCollections.getAllTerracottaColors()) {
-            materialSpeeds.put(mat, itemCfg.getOrSetDefault(cfgKey + mat.name(), 1.0));
-        }
-
-        materialSpeeds.put(Material.GRAVEL, itemCfg.getOrSetDefault(cfgKey + Material.GRAVEL.name(), 0.4));
-        materialSpeeds.put(Material.SAND, itemCfg.getOrSetDefault(cfgKey + Material.SAND.name(), 0.4));
-        materialSpeeds.put(Material.STONE, itemCfg.getOrSetDefault(cfgKey + Material.STONE.name(), 0.6));
-        materialSpeeds.put(Material.DIORITE, itemCfg.getOrSetDefault(cfgKey + Material.DIORITE.name(), 0.6));
-        materialSpeeds.put(Material.GRANITE, itemCfg.getOrSetDefault(cfgKey + Material.GRANITE.name(), 0.6));
-        materialSpeeds.put(Material.ANDESITE, itemCfg.getOrSetDefault(cfgKey + Material.ANDESITE.name(), 0.6));
-        materialSpeeds.put(Material.NETHERRACK, itemCfg.getOrSetDefault(cfgKey + Material.NETHERRACK.name(), 0.6));
-
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            materialSpeeds.put(Material.BLACKSTONE, itemCfg.getOrSetDefault(cfgKey + Material.BLACKSTONE.name(), 0.6));
-            materialSpeeds.put(Material.BASALT, itemCfg.getOrSetDefault(cfgKey + Material.BASALT.name(), 0.7));
+        // These are "weak" surfaces, you can still climb them but they don't have
+        // such a high boost as the "strong" surfaces
+        for (Material surface : SlimefunTag.CLIMBING_PICK_WEAK_SURFACES.getValues()) {
+            addSurface(surface, WEAK_SURFACE_DEFAULT);
         }
     }
 
+    protected void addSurface(@Nonnull Material type, double defaultValue) {
+        ClimbableSurface surface = new ClimbableSurface(type, defaultValue);
+        addItemSetting(surface);
+        surfaces.put(type, surface);
+    }
+
+    /**
+     * This returns whether the {@link ClimbingPick} needs to be held in both
+     * arms to work.
+     * 
+     * @return Whether dual wielding is enabled
+     */
     public boolean isDualWieldingEnabled() {
         return dualWielding.getValue();
+    }
+
+    /**
+     * This method returns a {@link Collection} of every {@link ClimbableSurface} the
+     * {@link ClimbingPick} can climb.
+     * 
+     * @return A {@link Collection} of every {@link ClimbableSurface}
+     */
+    @Nonnull
+    public Collection<ClimbableSurface> getClimbableSurfaces() {
+        return surfaces.values();
+    }
+
+    /**
+     * This returns the climbing speed for a given {@link Material}.
+     * 
+     * @param type
+     *            The {@link Material}
+     * 
+     * @return The climbing speed for this {@link Material} or 0.
+     */
+    public double getClimbingSpeed(@Nonnull Material type) {
+        Validate.notNull(type, "The surface cannot be null");
+        ClimbableSurface surface = surfaces.get(type);
+
+        if (surface != null) {
+            return surface.getValue();
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * This returns the climbing speed for a given {@link Material} and the used {@link ItemStack}.
+     * 
+     * @param item
+     *            the {@link ClimbingPick}'s {@link ItemStack}
+     * @param type
+     *            The {@link Material}
+     * 
+     * @return The climbing speed or 0.
+     */
+    public double getClimbingSpeed(@Nonnull ItemStack item, @Nonnull Material type) {
+        double speed = getClimbingSpeed(type);
+
+        if (speed > 0) {
+            int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
+
+            if (efficiencyLevel > 0) {
+                speed += efficiencyLevel * EFFICIENCY_MODIFIER;
+            }
+        }
+
+        return speed;
     }
 
     @Override
@@ -106,7 +165,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             Block block = e.getClickedBlock().get();
             Player p = e.getPlayer();
 
-            // Check if the Player is standing close to the wall
+            // Check if the Player is standing close enough to the wall
             if (p.getLocation().distanceSquared(block.getLocation().add(0.5, 0.5, 0.5)) > MAX_DISTANCE) {
                 return;
             }
@@ -118,11 +177,9 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
             }
 
             // Top and bottom faces won't be allowed
-            if (e.getClickedFace() == BlockFace.DOWN || e.getClickedFace() == BlockFace.UP) {
-                return;
+            if (e.getClickedFace() != BlockFace.DOWN && e.getClickedFace() != BlockFace.UP) {
+                climb(p, e.getHand(), e.getItem(), block);
             }
-
-            climb(p, e.getHand(), e.getItem(), block);
         };
     }
 
@@ -138,19 +195,13 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     @ParametersAreNonnullByDefault
     private void climb(Player p, EquipmentSlot hand, ItemStack item, Block block) {
-        double power = materialSpeeds.getOrDefault(block.getType(), 0.0);
+        double power = getClimbingSpeed(item, block.getType());
 
         if (power > 0.05) {
-            // Prevent players from spamming this
+            // Prevent players from spamming this item by enforcing a cooldown
             if (users.add(p.getUniqueId())) {
-                int efficiencyLevel = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
-
-                if (efficiencyLevel != 0) {
-                    power += efficiencyLevel * 0.1;
-                }
-
-                SlimefunPlugin.runSync(() -> users.remove(p.getUniqueId()), 4L);
-                Vector velocity = new Vector(0, power * BASE_POWER, 0);
+                SlimefunPlugin.runSync(() -> users.remove(p.getUniqueId()), COOLDOWN);
+                Vector velocity = new Vector(0, power, 0);
                 ClimbingPickLaunchEvent event = new ClimbingPickLaunchEvent(p, velocity, this, item, block);
                 Bukkit.getPluginManager().callEvent(event);
 
@@ -215,7 +266,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> display = new ArrayList<>();
 
-        for (Material mat : materialSpeeds.keySet()) {
+        for (Material mat : surfaces.keySet()) {
             display.add(new ItemStack(mat));
         }
 

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.listeners;
 
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -21,25 +22,28 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.mockito.Mockito;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestBackpackListener {
+class TestBackpackListener {
 
     private static final int BACKPACK_SIZE = 27;
     private static ServerMock server;
@@ -47,9 +51,11 @@ public class TestBackpackListener {
     private static BackpackListener listener;
 
     @BeforeAll
-    public static void load() {
+    public static void load() throws TagMisconfigurationException {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(SlimefunPlugin.class);
+        SlimefunTag.reloadAll();
+
         listener = new BackpackListener();
         listener.register(plugin);
     }
@@ -89,7 +95,8 @@ public class TestBackpackListener {
     }
 
     @Test
-    public void testIllegalSetId() {
+    @DisplayName("Verify an Exception is thrown when setting a backpack id to invalid items")
+    void testIllegalSetId() {
         Player player = server.addPlayer();
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> listener.setBackpackId(null, null, 1, 1));
@@ -100,7 +107,8 @@ public class TestBackpackListener {
     }
 
     @Test
-    public void testSetId() throws InterruptedException {
+    @DisplayName("Test if backpack id is properly applied to the lore")
+    void testSetId() throws InterruptedException {
         Player player = server.addPlayer();
         ItemStack item = new CustomItem(Material.CHEST, "&cA mocked Backpack", "", "&7Size: &e" + BACKPACK_SIZE, "&7ID: <ID>", "", "&7&eRight Click&7 to open");
 
@@ -116,7 +124,8 @@ public class TestBackpackListener {
     }
 
     @Test
-    public void testOpenBackpack() throws InterruptedException {
+    @DisplayName("Test backpacks opening to Players")
+    void testOpenBackpack() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerBackpack backpack = openMockBackpack(player, "TEST_OPEN_BACKPACK", 27);
         InventoryView view = player.getOpenInventory();
@@ -124,7 +133,8 @@ public class TestBackpackListener {
     }
 
     @Test
-    public void testCloseBackpack() throws InterruptedException {
+    @DisplayName("Test backpacks being marked dirty on close")
+    void testCloseBackpack() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerBackpack backpack = openMockBackpack(player, "TEST_CLOSE_BACKPACK", 27);
         listener.onClose(new InventoryCloseEvent(player.getOpenInventory()));
@@ -133,12 +143,12 @@ public class TestBackpackListener {
     }
 
     @Test
-    public void testBackpackDropNormalItem() throws InterruptedException {
+    @DisplayName("Test backpacks not disturbing normal item dropping")
+    void testBackpackDropNormalItem() throws InterruptedException {
         Player player = server.addPlayer();
         openMockBackpack(player, "DROP_NORMAL_ITEM_BACKPACK_TEST", 27);
 
-        Item item = Mockito.mock(Item.class);
-        Mockito.when(item.getItemStack()).thenReturn(new ItemStack(Material.SUGAR_CANE));
+        Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.SUGAR_CANE));
         PlayerDropItemEvent event = new PlayerDropItemEvent(player, item);
         listener.onItemDrop(event);
 
@@ -157,20 +167,23 @@ public class TestBackpackListener {
     }
 
     @ParameterizedTest
+    @DisplayName("Test backpacks allowing normal materials")
     @EnumSource(value = Material.class, names = { "AIR", "DIAMOND", "STONE" })
-    public void areItemsAllowed(Material type) throws InterruptedException {
+    void areItemsAllowed(Material type) throws InterruptedException {
         Assertions.assertTrue(isAllowed("BACKPACK_ALLOWANCE_" + type.name(), new ItemStack(type)));
     }
 
     @ParameterizedTest
+    @DisplayName("Test backpacks rejecting certain materials")
     @EnumSource(value = Material.class, names = { "SHULKER_BOX", "RED_SHULKER_BOX", "BLUE_SHULKER_BOX", "BLACK_SHULKER_BOX" })
-    public void areShulkerBoxesAllowed(Material type) throws InterruptedException {
+    void areShulkerBoxesAllowed(Material type) throws InterruptedException {
         Assertions.assertFalse(isAllowed("BACKPACK_ALLOWANCE_" + type.name(), new ItemStack(type)));
     }
 
     @ParameterizedTest
+    @DisplayName("Test backpacks hotbar key exploits")
     @EnumSource(value = Material.class, names = { "AIR", "SHULKER_BOX" })
-    public void testHotbarKey(Material type) throws InterruptedException {
+    void testHotbarKey(Material type) throws InterruptedException {
         Player player = server.addPlayer();
         openMockBackpack(player, "BACKPACK_HOTBAR_" + type.name(), 9);
 
