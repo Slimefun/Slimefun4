@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -20,7 +21,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class MeatJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
-    private final ItemSetting<Integer> saturation = new ItemSetting<>("saturation-level", 6);
+    private final ItemSetting<Integer> saturation = new IntRangeSetting("saturation-level", 0, 6, Integer.MAX_VALUE);
 
     public MeatJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

@@ -146,17 +146,17 @@ enum Instruction {
     });
 
     private static final Map<String, Instruction> nameLookup = new HashMap<>();
-    public static final Instruction[] values = values();
+    public static final Instruction[] valuesCache = values();
+
+    static {
+        for (Instruction instruction : valuesCache) {
+            nameLookup.put(instruction.name(), instruction);
+        }
+    }
 
     private final ItemStack item;
     private final AndroidType type;
     private final AndroidAction method;
-
-    static {
-        for (Instruction instruction : values) {
-            nameLookup.put(instruction.name(), instruction);
-        }
-    }
 
     @ParametersAreNonnullByDefault
     Instruction(AndroidType type, HeadTexture head, @Nullable AndroidAction method) {
@@ -198,7 +198,7 @@ enum Instruction {
      * @return The {@link Instruction} or null if it does not exist.
      */
     @Nullable
-    public static Instruction getFromCache(@Nonnull String value) {
+    public static Instruction getInstruction(@Nonnull String value) {
         Validate.notNull(value, "An Instruction cannot be null!");
         return nameLookup.get(value);
     }

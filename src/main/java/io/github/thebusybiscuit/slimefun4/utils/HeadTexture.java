@@ -109,7 +109,7 @@ public enum HeadTexture {
     IRON_GOLEM("89091d79ea0f59ef7ef94d7bba6e5f17f2f7d4572c44f90f76c4819a714"),
     PIGLIN_HEAD("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41");
 
-    public static final HeadTexture[] values = values();
+    public static final HeadTexture[] valuesCache = values();
 
     private final String texture;
 
@@ -123,6 +123,7 @@ public enum HeadTexture {
      * 
      * @return The associated texture hash
      */
+    @Nonnull
     public String getTexture() {
         return texture;
     }
@@ -132,6 +133,7 @@ public enum HeadTexture {
      * 
      * @return A custom head {@link ItemStack}
      */
+    @Nonnull
     public ItemStack getAsItemStack() {
         return SlimefunUtils.getCustomHead(getTexture());
     }

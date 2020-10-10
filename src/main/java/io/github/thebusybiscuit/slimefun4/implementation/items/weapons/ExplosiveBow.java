@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
+import java.util.Collection;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -11,11 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-
-import java.util.Collection;
 
 /**
  * The {@link ExplosiveBow} is a {@link SlimefunBow} which creates a fake explosion when it hits
@@ -30,14 +31,7 @@ import java.util.Collection;
  */
 public class ExplosiveBow extends SlimefunBow {
 
-    private final ItemSetting<Integer> range = new ItemSetting<Integer>("explosion-range", 3) {
-
-        @Override
-        public boolean validateInput(Integer input) {
-            return super.validateInput(input) && input > 0;
-        }
-
-    };
+    private final ItemSetting<Integer> range = new IntRangeSetting("explosion-range", 1, 3, Integer.MAX_VALUE);
 
     public ExplosiveBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, recipe);
