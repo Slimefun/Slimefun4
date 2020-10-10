@@ -115,12 +115,13 @@ public enum HeadTexture {
     RED_UP_ARROW("2d9287616343d833e9e7317159caa2cb3e59745113962c1379052ce478884fa"),
     RED_DOWN_ARROW("a3852bf616f31ed67c37de4b0baa2c5f8d8fca82e72dbcafcba66956a81c4");
 
-    public static final HeadTexture[] values = values();
+    public static final HeadTexture[] valuesCache = values();
 
     private final String texture;
 
     HeadTexture(@Nonnull String texture) {
         Validate.notNull(texture, "Texture cannot be null");
+        Validate.isTrue(PatternUtils.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
         this.texture = texture;
     }
 
@@ -129,6 +130,7 @@ public enum HeadTexture {
      * 
      * @return The associated texture hash
      */
+    @Nonnull
     public String getTexture() {
         return texture;
     }
@@ -138,6 +140,7 @@ public enum HeadTexture {
      * 
      * @return A custom head {@link ItemStack}
      */
+    @Nonnull
     public ItemStack getAsItemStack() {
         return SlimefunUtils.getCustomHead(getTexture());
     }

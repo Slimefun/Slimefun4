@@ -37,6 +37,8 @@
 * Added Elytra Cap
 * Added Planks to Sticks recipe to the Table Saw
 * Added "slimefun.gps.bypass" permission to open GPS devices anywhere
+* (API) Added custom tags for developers
+* The range of the Seeker Pickaxe is now configurable
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
@@ -69,6 +71,7 @@
 * Fixed #2403
 * Fixed #2405
 * Fixed #2412
+* Fixed #2238
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
