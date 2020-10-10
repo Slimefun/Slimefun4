@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import org.bukkit.entity.Piglin;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,6 +36,11 @@ public class StrangeNetherGoo extends SlimefunItem implements PiglinBarterDrop {
     @Override
     public int getBarteringLootChance() {
         return chance.getValue();
+    }
+
+    @Override
+    public void preRegister() {
+        addItemHandler((ItemUseHandler) PlayerRightClickEvent::cancel);
     }
 
 }
