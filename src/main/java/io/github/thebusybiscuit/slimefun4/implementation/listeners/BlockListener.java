@@ -63,7 +63,7 @@ public class BlockListener implements Listener {
         sensitiveMaterials.addAll(Tag.WOODEN_PRESSURE_PLATES.getValues());
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
         if (BlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
@@ -87,7 +87,7 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock());
 
