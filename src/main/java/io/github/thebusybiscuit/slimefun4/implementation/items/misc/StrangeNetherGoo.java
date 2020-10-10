@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Piglin;
 import org.bukkit.inventory.ItemStack;
@@ -51,7 +52,7 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
 
     public void use(PlayerRightClickEvent e) {
         if (e.getClickedBlock().isPresent()) {
-            if (e.getClickedBlock().get().getType().name().contains("SIGN")) {
+            if (Tag.SIGNS.isTagged(e.getClickedBlock().get().getType())) {
                 e.cancel();
             }
         }
