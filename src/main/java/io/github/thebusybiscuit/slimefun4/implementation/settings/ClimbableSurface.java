@@ -6,6 +6,7 @@ import org.bukkit.Material;
 
 import io.github.thebusybiscuit.slimefun4.api.events.ClimbingPickLaunchEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 
 /**
@@ -17,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPic
  * @see ClimbingPickLaunchEvent
  *
  */
-public class ClimbableSurface extends ItemSetting<Double> {
+public class ClimbableSurface extends DoubleRangeSetting {
 
     private final Material type;
 
@@ -30,13 +31,8 @@ public class ClimbableSurface extends ItemSetting<Double> {
      *            The default launch amount
      */
     public ClimbableSurface(@Nonnull Material surface, double defaultValue) {
-        super("launch-amounts." + surface.name(), defaultValue);
+        super("launch-amounts." + surface.name(), 0, defaultValue, Double.MAX_VALUE);
         this.type = surface;
-    }
-
-    @Override
-    public boolean validateInput(Double input) {
-        return super.validateInput(input) && input >= 0;
     }
 
     /**
