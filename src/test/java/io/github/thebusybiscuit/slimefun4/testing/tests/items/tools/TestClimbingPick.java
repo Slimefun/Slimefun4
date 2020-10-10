@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.tools;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.tools;
 
 import java.util.stream.Stream;
 

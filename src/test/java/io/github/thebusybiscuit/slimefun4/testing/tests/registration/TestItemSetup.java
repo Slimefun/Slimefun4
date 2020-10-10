@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items;
+package io.github.thebusybiscuit.slimefun4.testing.tests.registration;
 
 import java.io.BufferedReader;
 import java.io.IOException;

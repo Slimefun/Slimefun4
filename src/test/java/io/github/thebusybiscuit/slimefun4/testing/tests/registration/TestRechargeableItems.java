@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items;
+package io.github.thebusybiscuit.slimefun4.testing.tests.registration;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

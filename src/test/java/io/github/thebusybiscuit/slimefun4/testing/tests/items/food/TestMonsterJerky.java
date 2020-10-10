@@ -1,7 +1,6 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.food;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.food;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.junit.jupiter.api.AfterAll;
@@ -14,13 +13,13 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.MonsterJerky;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.testing.interfaces.SlimefunItemTest;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-class TestDietCookie implements SlimefunItemTest<DietCookie> {
+class TestMonsterJerky implements SlimefunItemTest<MonsterJerky> {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -37,23 +36,24 @@ class TestDietCookie implements SlimefunItemTest<DietCookie> {
     }
 
     @Override
-    public DietCookie registerSlimefunItem(SlimefunPlugin plugin, String id) {
-        SlimefunItemStack item = new SlimefunItemStack(id, Material.COOKIE, "&5Test Cookie");
-        DietCookie cookie = new DietCookie(TestUtilities.getCategory(plugin, "diet_cookie"), item, RecipeType.NULL, new ItemStack[9]);
-        cookie.register(plugin);
-        return cookie;
+    public MonsterJerky registerSlimefunItem(SlimefunPlugin plugin, String id) {
+        SlimefunItemStack item = new SlimefunItemStack(id, Material.ROTTEN_FLESH, "&5Test Monster Jerky");
+        MonsterJerky jerky = new MonsterJerky(TestUtilities.getCategory(plugin, "monster_jerky"), item, RecipeType.NULL, new ItemStack[9]);
+        jerky.register(plugin);
+        return jerky;
     }
 
     @Test
-    @DisplayName("Test Diet Cookies giving Levitation Effect")
+    @DisplayName("Test Monster Jerky giving Saturation and removing Hunger")
     void testConsumptionBehaviour() {
         PlayerMock player = server.addPlayer();
-        DietCookie cookie = registerSlimefunItem(plugin, "TEST_DIET_COOKIE");
+        player.addPotionEffect(PotionEffectType.HUNGER.createEffect(20, 2));
+        MonsterJerky jerky = registerSlimefunItem(plugin, "TEST_MONSTER_JERKY");
 
-        simulateConsumption(player, cookie);
+        simulateConsumption(player, jerky);
 
-        player.assertSoundHeard(Sound.ENTITY_GENERIC_EAT);
-        Assertions.assertTrue(player.hasPotionEffect(PotionEffectType.LEVITATION));
+        Assertions.assertFalse(player.hasPotionEffect(PotionEffectType.HUNGER));
+        Assertions.assertTrue(player.hasPotionEffect(PotionEffectType.SATURATION));
     }
 
 }

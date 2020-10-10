@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.food;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.food;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
