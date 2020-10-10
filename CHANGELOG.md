@@ -37,6 +37,7 @@
 * Added Elytra Cap
 * Added Planks to Sticks recipe to the Table Saw
 * Added "slimefun.gps.bypass" permission to open GPS devices anywhere
+* Added Energy Connector
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
