@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,8 +21,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -209,14 +210,11 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
      */
     public boolean canMine(Material type) {
-        if (type.name().endsWith("_ORE")) {
+        if (SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)) {
             return true;
         } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            if (type == Material.GILDED_BLACKSTONE) {
-                return true;
-            } else if (type == Material.ANCIENT_DEBRIS) {
-                return canMineAncientDebris.getValue();
-            }
+            return type == Material.ANCIENT_DEBRIS && canMineAncientDebris.getValue();
+
         }
 
         return false;

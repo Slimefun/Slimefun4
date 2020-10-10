@@ -1,0 +1,16 @@
+{
+	"values" : [
+		"#slimefun:ice_variants",
+		"#slimefun:terracotta",
+		"#slimefun:stone_variants",
+		"minecraft:netherrack",
+		{
+			"id" : "minecraft:blackstone",
+			"required" : false
+		},
+		{
+			"id" : "minecraft:basalt",
+			"required" : false
+		}
+	]
+}

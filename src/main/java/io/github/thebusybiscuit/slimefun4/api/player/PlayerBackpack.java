@@ -28,13 +28,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListe
  */
 public class PlayerBackpack {
 
+    private static final String CONFIG_PREFIX = "backpacks.";
+
     private final PlayerProfile profile;
     private final int id;
     private final Config cfg;
 
     private Inventory inventory;
     private int size;
-    private static final String CONFIG_PREFIX = "backpacks.";
 
     /**
      * This constructor loads an existing Backpack

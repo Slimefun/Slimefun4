@@ -13,7 +13,6 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
@@ -21,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -111,7 +111,7 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
     protected boolean canBreak(Player p, Block b) {
         if (b.isEmpty() || b.isLiquid()) {
             return false;
-        } else if (MaterialCollections.getAllUnbreakableBlocks().contains(b.getType())) {
+        } else if (SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(b.getType())) {
             return false;
         } else if (!b.getWorld().getWorldBorder().isInside(b.getLocation())) {
             return false;
