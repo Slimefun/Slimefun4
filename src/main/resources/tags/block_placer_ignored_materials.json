@@ -2,9 +2,18 @@
 	"values" : [
 		"#slimefun:sensitive_materials",
 		"#slimefun:mushrooms",
-		"#minecraft:tall_flowers",
-		"#minecraft:beds",
-		"#minecraft:doors",
+		{
+			"id" : "#minecraft:tall_flowers",
+			"required" : false
+		},
+		{
+			"id" : "#minecraft:beds",
+			"required" : false
+		},
+		{
+			"id" : "#minecraft:doors",
+			"required" : false
+		},
 		"minecraft:sugar_cane",
 		"minecraft:lily_pad",
 		"minecraft:dead_bush",

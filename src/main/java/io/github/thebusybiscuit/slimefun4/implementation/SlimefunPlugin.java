@@ -498,7 +498,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             try {
                 tag.reload();
             } catch (TagMisconfigurationException e) {
-                getLogger().log(Level.SEVERE, "Failed to load a Tag!", e);
+                getLogger().log(Level.SEVERE, e, () -> "Failed to load Tag: " + tag.name());
             }
         }
     }

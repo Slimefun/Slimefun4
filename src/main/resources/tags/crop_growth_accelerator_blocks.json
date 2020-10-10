@@ -1,6 +1,15 @@
 {
 	"values" : [
-		"#minecraft:crops",
+		{
+			"id" : "#minecraft:crops",
+			"required" : false
+		},
+		"minecraft:beetroots",
+		"minecraft:carrots",
+		"minecraft:potatoes",
+		"minecraft:wheat",
+		"minecraft:melon_stem",
+		"minecraft:pumpkin_stem",
 		"minecraft:nether_wart",
 		"minecraft:cocoa",
 		{
