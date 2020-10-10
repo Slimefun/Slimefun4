@@ -44,9 +44,15 @@ public class MaterialTagSetting extends ItemSetting<List<String>> {
         return defaultTag;
     }
 
+    @Nonnull
+    @Override
+    protected String getErrorMessage() {
+        return "This List can only contain Materials in the format of e.g. REDSTONE_BLOCK";
+    }
+
     @Override
     public boolean validateInput(List<String> input) {
-        if (input != null) {
+        if (super.validateInput(input)) {
             for (String value : input) {
                 Material material = Material.matchMaterial(value);
 

@@ -39,10 +39,19 @@ public class EnumSetting<T extends Enum<T>> extends ItemSetting<String> {
      * This returns an array of valid {@link Enum} values.
      * This method may be overridden to further limit the allowed values.
      * 
-     * @return An array of allowed {@link Enum} constants.
+     * @return An array of allowed {@link Enum} constants
      */
-    public Enum<T>[] getAllowedValues() {
+    public T[] getAllowedValues() {
         return enumClass.getEnumConstants();
+    }
+
+    /**
+     * This will attempt to get the configured value as a constant of the desired {@link Enum}.
+     * 
+     * @return The value as an {@link Enum} constant
+     */
+    public T getAsEnumConstant() {
+        return Enum.valueOf(enumClass, getValue());
     }
 
     @Override
