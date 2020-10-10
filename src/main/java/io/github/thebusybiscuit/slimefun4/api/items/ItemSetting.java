@@ -120,6 +120,17 @@ public class ItemSetting<T> {
     }
 
     /**
+     * This is an error message which should provide further context on what values
+     * are allowed.
+     * 
+     * @return An error message which is displayed when this {@link ItemSetting} is misconfigured.
+     */
+    @Nonnull
+    protected String getErrorMessage() {
+        return "Only '" + defaultValue.getClass().getSimpleName() + "' values are allowed!";
+    }
+
+    /**
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
      * 
@@ -138,6 +149,7 @@ public class ItemSetting<T> {
                 Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
                 Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
                 Slimefun.getLogger().log(Level.WARNING, "{0} is not a valid input!", configuredValue);
+                Slimefun.getLogger().log(Level.WARNING, getErrorMessage());
             }
         } else {
             this.value = defaultValue;
