@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -33,9 +34,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 /**
  * A {@link GoldPan} is a {@link SlimefunItem} which allows you to obtain various
  * resources from Gravel.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see NetherGoldPan
  * @see AutomatedPanningMachine
  * @see ElectricGoldPan
@@ -53,11 +54,12 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         drops.addAll(getGoldPanDrops());
         addItemSetting(drops.toArray(new GoldPanDrop[0]));
         addItemHandler(onEntityInteract());
+        addItemHandler(onRightClick());
     }
 
     /**
      * This method returns the target {@link Material} for this {@link GoldPan}.
-     * 
+     *
      * @return The {@link Material} this {@link GoldPan} can be used on
      */
     @Nonnull
@@ -97,7 +99,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
     /**
      * This returns a random output {@link ItemStack} that can be obtained via
      * this {@link GoldPan}.
-     * 
+     *
      * @return a random {@link ItemStack} obtained by this {@link GoldPan}
      */
     @Nonnull
@@ -105,11 +107,17 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return randomizer.getRandom();
     }
 
+    @Nonnull
     @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.gold-pan";
     }
 
+    private ItemUseHandler onRightClick() {
+        return PlayerRightClickEvent::cancel;
+    }
+
+    @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
         return e -> {
@@ -144,6 +152,7 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
         return (e, item, offHand) -> e.setCancelled(true);
     }
 
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> recipes = new LinkedList<>();
