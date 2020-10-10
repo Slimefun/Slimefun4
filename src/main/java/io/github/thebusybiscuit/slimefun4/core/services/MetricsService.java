@@ -22,7 +22,6 @@ import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -102,17 +101,15 @@ public class MetricsService {
             String version = metricsClass.getPackage().getImplementationVersion();
 
             // This is required to be sync due to bStats.
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 try {
                     start.invoke(null);
                     plugin.getLogger().info("Metrics build #" + version + " started.");
-                }
-                catch (Exception | LinkageError e) {
+                } catch (Exception | LinkageError e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }
             });
-        }
-        catch (Exception | LinkageError e) {
+        } catch (Exception | LinkageError e) {
             plugin.getLogger().log(Level.WARNING, "Failed to load the metrics module. Maybe the jar is corrupt?", e);
         }
     }
@@ -126,8 +123,7 @@ public class MetricsService {
             if (moduleClassLoader != null) {
                 moduleClassLoader.close();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             plugin.getLogger().log(Level.WARNING, "Could not clean up module class loader. Some memory may have been leaked.");
         }
     }
@@ -178,8 +174,7 @@ public class MetricsService {
             }
 
             return node.getObject().getInt("tag_name");
-        }
-        catch (UnirestException e) {
+        } catch (UnirestException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to fetch latest builds for Metrics: {0}", e.getMessage());
             return -1;
         }
@@ -225,11 +220,9 @@ public class MetricsService {
                 hasDownloadedUpdate = true;
                 return true;
             }
-        }
-        catch (UnirestException e) {
+        } catch (UnirestException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down?");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
         }
 

@@ -112,7 +112,7 @@ public class ArmorTask implements Runnable {
             }
 
             if (item != null && armorpiece.getItem().isPresent()) {
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     SlimefunArmorPiece slimefunArmor = armorpiece.getItem().get();
 
                     if (Slimefun.hasUnlocked(p, slimefunArmor, true)) {
@@ -172,7 +172,7 @@ public class ArmorTask implements Runnable {
                 // If the item is enabled in the world, then make radioactivity do its job
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
 
-                Slimefun.runSync(() -> {
+                SlimefunPlugin.runSync(() -> {
                     p.addPotionEffects(radiationEffects);
 
                     // if radiative fire is enabled

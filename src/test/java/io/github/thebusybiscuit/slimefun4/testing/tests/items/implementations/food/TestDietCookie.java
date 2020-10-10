@@ -7,6 +7,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -19,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.testing.interfaces.SlimefunItemTest;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestDietCookie implements SlimefunItemTest<DietCookie> {
+class TestDietCookie implements SlimefunItemTest<DietCookie> {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -44,7 +45,8 @@ public class TestDietCookie implements SlimefunItemTest<DietCookie> {
     }
 
     @Test
-    public void testConsumptionBehaviour() {
+    @DisplayName("Test Diet Cookies giving Levitation Effect")
+    void testConsumptionBehaviour() {
         PlayerMock player = server.addPlayer();
         DietCookie cookie = registerSlimefunItem(plugin, "TEST_DIET_COOKIE");
 

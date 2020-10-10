@@ -77,8 +77,7 @@ public class GadgetsListener implements Listener {
             if (thrust > 0.2) {
                 new JetpackTask(p, (Jetpack) chestplate).scheduleRepeating(0, 3);
             }
-        }
-        else if (chestplate instanceof Parachute) {
+        } else if (chestplate instanceof Parachute) {
             new ParachuteTask(p).scheduleRepeating(0, 3);
         }
     }

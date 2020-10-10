@@ -83,12 +83,10 @@ public abstract class ElectricSmeltery extends AContainer {
 
                 if (slots.isEmpty()) {
                     return getInputSlots();
-                }
-                else if (fullSlots == slots.size()) {
+                } else if (fullSlots == slots.size()) {
                     // All slots with that item are already full
                     return new int[0];
-                }
-                else {
+                } else {
                     Collections.sort(slots, compareSlots(menu));
                     int[] array = new int[slots.size()];
 

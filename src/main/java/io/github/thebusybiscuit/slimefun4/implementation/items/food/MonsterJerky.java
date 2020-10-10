@@ -5,10 +5,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -27,7 +27,7 @@ public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     @Override
     public ItemConsumptionHandler getItemHandler() {
-        return (e, p, item) -> Slimefun.runSync(() -> {
+        return (e, p, item) -> SlimefunPlugin.runSync(() -> {
             if (p.hasPotionEffect(PotionEffectType.HUNGER)) {
                 p.removePotionEffect(PotionEffectType.HUNGER);
             }

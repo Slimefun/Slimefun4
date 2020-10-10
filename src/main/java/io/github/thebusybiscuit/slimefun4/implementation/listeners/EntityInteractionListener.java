@@ -39,8 +39,7 @@ public class EntityInteractionListener implements Listener {
 
         if (e.getHand() == EquipmentSlot.OFF_HAND) {
             itemStack = e.getPlayer().getInventory().getItemInOffHand();
-        }
-        else {
+        } else {
             itemStack = e.getPlayer().getInventory().getItemInMainHand();
         }
 
