@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
@@ -141,7 +142,11 @@ public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements Recip
      * @return the {@link EntityInteractHandler} of this {@link SlimefunItem}
      */
     public EntityInteractHandler onEntityInteract() {
-        return (e, item, offHand) -> e.setCancelled(true);
+        return (e, item, offHand) -> {
+            if (!(e.getRightClicked() instanceof ItemFrame)) {
+                e.setCancelled(true);
+            }
+        };
     }
 
     @Override
