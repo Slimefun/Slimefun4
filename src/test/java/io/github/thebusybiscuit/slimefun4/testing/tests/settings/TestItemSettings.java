@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items;
+package io.github.thebusybiscuit.slimefun4.testing.tests.settings;
 
 import java.util.Optional;
 
@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -15,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class TestItemSettings {
+class TestItemSettings {
 
     private static SlimefunPlugin plugin;
 
@@ -31,7 +32,8 @@ public class TestItemSettings {
     }
 
     @Test
-    public void testIllegalItemSettings() {
+    @DisplayName("Test illegal Item Settings arguments")
+    void testIllegalItemSettings() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
@@ -42,7 +44,8 @@ public class TestItemSettings {
     }
 
     @Test
-    public void testAddItemSetting() {
+    @DisplayName("Test adding an Item Setting")
+    void testAddItemSetting() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
         ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
 
@@ -64,7 +67,8 @@ public class TestItemSettings {
     }
 
     @Test
-    public void testUpdateItemSetting() {
+    @DisplayName("Test updating an Item Settings value")
+    void testUpdateItemSetting() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST_3", new CustomItem(Material.DIAMOND, "&cTest"));
         ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
 
@@ -80,10 +84,12 @@ public class TestItemSettings {
     }
 
     @Test
-    public void testAlreadyExistingItemSetting() {
+    @DisplayName("Test Item Settings double-registration")
+    void testAlreadyExistingItemSetting() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
 
-        item.addItemSetting(new ItemSetting<>("test", "Hello World"));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting(new ItemSetting<>("test", "Hello World")));
+        item.addItemSetting(setting);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting(setting));
     }
 }

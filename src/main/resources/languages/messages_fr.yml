@@ -21,6 +21,10 @@ commands:
     backpack-does-not-exist: "&4Le sac à dos spécifié n'existe pas!"
     restored-backpack-given: "&aVotre sac à dos a été restauré et a été ajouté à votre
       inventaire!"
+  charge:
+    description: Charge l'objet que vous avez en main
+    charge-success: L'objet a été chargé !
+    not-rechargeable: Cet objet ne peut pas être chargé !
 guide:
   search:
     message: "&bQue souhaitez-vous rechercher?"
@@ -133,6 +137,7 @@ messages:
     whirlwind: "&a&oVotre talisman a renvoyé le projectile"
     wizard: "&a&oVotre talisman vous a donné un meilleur niveau de Fortune mais a
       peut-être diminué plusieurs autres enchantements"
+    caveman: "&a&oVotre Talisman vous a donné Célérité"
   soulbound-rune:
     fail: "&cVous pouvez lier un seul objet à la fois à votre âme"
     success: "&aVous avez réussi à lier cet objet à votre âme! Vous le garderez quand
@@ -335,7 +340,6 @@ languages:
   zh-CN: Chinois (Chine)
   el: Grec
   he: Hébreu
-  pt-BR: Portugais (Brésil)
   ar: Arabe
   af: Afrikaans
   da: Danois
@@ -348,6 +352,7 @@ languages:
   th: Thaï
   ro: Roumain
   pt: Portugais (Portugal)
+  pt-BR: Portugais (Brésil)
   bg: Bulgare
   ko: Coréen
   tr: Turc
@@ -361,5 +366,8 @@ brewing_stand:
 villagers:
   no-trading: "&4Vous ne pouvez pas échanger des objets Slimefun avec les villageois
     !"
+cartography_table:
+  not-working: "&4Vous ne pouvez pas utiliser d'objets Slimefun dans une table de
+    cartographie !"
 miner:
   no-ores: "&eDésolé, je n'ai pas pu trouver de minerai à proximité !"

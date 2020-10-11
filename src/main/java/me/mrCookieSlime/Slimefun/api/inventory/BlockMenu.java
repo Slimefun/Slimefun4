@@ -33,8 +33,9 @@ public class BlockMenu extends DirtyChestMenu {
         this.location = l;
 
         for (int i = 0; i < 54; i++) {
-            if (cfg.contains(String.valueOf(i)))
+            if (cfg.contains(String.valueOf(i))) {
                 addItem(i, cfg.getItem(String.valueOf(i)));
+            }
         }
 
         preset.clone(this);
@@ -101,6 +102,7 @@ public class BlockMenu extends DirtyChestMenu {
     public void dropItems(Location l, int... slots) {
         for (int slot : slots) {
             ItemStack item = getItemInSlot(slot);
+
             if (item != null) {
                 l.getWorld().dropItemNaturally(l, item);
                 replaceExistingItem(slot, null);

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +25,12 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+/**
+ * A {@link Script} represents runnable code for a {@link ProgrammableAndroid}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public final class Script {
 
     private final Config config;
@@ -29,7 +38,13 @@ public final class Script {
     private final String author;
     private final String code;
 
-    private Script(Config config) {
+    /**
+     * This constructs a new {@link Script} from the given {@link Config}.
+     * 
+     * @param config
+     *            The {@link Config}
+     */
+    private Script(@Nonnull Config config) {
         Validate.notNull(config);
 
         this.config = config;
@@ -52,6 +67,7 @@ public final class Script {
      * 
      * @return The name
      */
+    @Nonnull
     public String getName() {
         return name;
     }
@@ -62,6 +78,7 @@ public final class Script {
      * 
      * @return The author of this {@link Script}
      */
+    @Nonnull
     public String getAuthor() {
         return author;
     }
@@ -73,6 +90,7 @@ public final class Script {
      * 
      * @return The code for this {@link Script}
      */
+    @Nonnull
     public String getSourceCode() {
         return code;
     }
@@ -86,7 +104,7 @@ public final class Script {
      * 
      * @return Whether the given {@link OfflinePlayer} is the author of this {@link Script}.
      */
-    public boolean isAuthor(OfflinePlayer p) {
+    public boolean isAuthor(@Nonnull OfflinePlayer p) {
         return p.getUniqueId().equals(config.getUUID("author"));
     }
 
@@ -99,7 +117,7 @@ public final class Script {
      * 
      * @return Whether the given {@link Player} is able to rate this {@link Script}
      */
-    public boolean canRate(Player p) {
+    public boolean canRate(@Nonnull Player p) {
         if (isAuthor(p)) {
             return false;
         }
@@ -109,7 +127,8 @@ public final class Script {
         return !upvoters.contains(p.getUniqueId().toString()) && !downvoters.contains(p.getUniqueId().toString());
     }
 
-    ItemStack getAsItemStack(ProgrammableAndroid android, Player p) {
+    @Nonnull
+    ItemStack getAsItemStack(@Nonnull ProgrammableAndroid android, @Nonnull Player p) {
         List<String> lore = new LinkedList<>();
         lore.add("&7by &r" + getAuthor());
         lore.add("");
@@ -128,6 +147,7 @@ public final class Script {
         return new CustomItem(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
     }
 
+    @Nonnull
     private String getScriptRatingPercentage() {
         float percentage = getRating();
         return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.RESET + "% ";
@@ -181,7 +201,7 @@ public final class Script {
         config.save();
     }
 
-    public void rate(Player p, boolean positive) {
+    public void rate(@Nonnull Player p, boolean positive) {
         config.reload();
 
         String path = "rating." + (positive ? "positive" : "negative");
@@ -192,7 +212,8 @@ public final class Script {
         config.save();
     }
 
-    public static List<Script> getUploadedScripts(AndroidType androidType) {
+    @Nonnull
+    public static List<Script> getUploadedScripts(@Nonnull AndroidType androidType) {
         List<Script> scripts = new LinkedList<>();
 
         loadScripts(scripts, androidType);
@@ -205,7 +226,7 @@ public final class Script {
         return scripts;
     }
 
-    private static void loadScripts(List<Script> scripts, AndroidType type) {
+    private static void loadScripts(@Nonnull List<Script> scripts, @Nonnull AndroidType type) {
         File directory = new File("plugins/Slimefun/scripts/" + type.name());
         if (!directory.exists()) {
             directory.mkdirs();
@@ -228,6 +249,7 @@ public final class Script {
         }
     }
 
+    @ParametersAreNonnullByDefault
     public static void upload(Player p, AndroidType androidType, int id, String name, String code) {
         Config config = new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + id + ".sfs");
 

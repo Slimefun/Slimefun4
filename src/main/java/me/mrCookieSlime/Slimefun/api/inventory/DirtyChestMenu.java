@@ -82,10 +82,11 @@ public class DirtyChestMenu extends ChestMenu {
 
     @Override
     public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
-        if (handler instanceof SaveHandler) {
-            return super.addMenuOpeningHandler(new SaveHandler(this, ((SaveHandler) handler).getOpeningHandler()));
+        if (handler instanceof MenuSavingHandler) {
+            MenuOpeningHandler openingHandler = ((MenuSavingHandler) handler).getOpeningHandler();
+            return super.addMenuOpeningHandler(new MenuSavingHandler(this, openingHandler));
         } else {
-            return super.addMenuOpeningHandler(new SaveHandler(this, handler));
+            return super.addMenuOpeningHandler(new MenuSavingHandler(this, handler));
         }
     }
 
@@ -168,28 +169,6 @@ public class DirtyChestMenu extends ChestMenu {
 
         super.replaceExistingItem(slot, item);
         markDirty();
-    }
-
-    public static class SaveHandler implements MenuOpeningHandler {
-
-        private final DirtyChestMenu menu;
-        private final MenuOpeningHandler handler;
-
-        public SaveHandler(DirtyChestMenu menu, MenuOpeningHandler handler) {
-            this.menu = menu;
-            this.handler = handler;
-        }
-
-        @Override
-        public void onOpen(Player p) {
-            handler.onOpen(p);
-            menu.markDirty();
-        }
-
-        public MenuOpeningHandler getOpeningHandler() {
-            return handler;
-        }
-
     }
 
 }

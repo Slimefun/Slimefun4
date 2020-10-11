@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.tools;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.tools;
 
 import java.util.stream.Stream;
 
@@ -134,7 +134,7 @@ class TestClimbingPick implements SlimefunItemTest<ClimbingPick> {
         boolean shouldFireEvent = face != BlockFace.DOWN && face != BlockFace.UP;
 
         BlockMock block = new BlockMock(Material.ICE, blockLocation);
-        simulateRightClickBlock(player, pick, block, face);
+        simulateRightClickBlock(player, pick, pick.getItem().clone(), block, face);
 
         if (shouldFireEvent) {
             Assertions.assertTrue(pick.getClimbingSpeed(block.getType()) > 0);

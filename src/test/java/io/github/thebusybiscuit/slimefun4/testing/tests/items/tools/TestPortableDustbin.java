@@ -1,7 +1,8 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.implementations.backpacks;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.tools;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -12,13 +13,13 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.EnderBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.PortableDustbin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.testing.interfaces.SlimefunItemTest;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-class TestEnderBackpack implements SlimefunItemTest<EnderBackpack> {
+class TestPortableDustbin implements SlimefunItemTest<PortableDustbin> {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -35,23 +36,24 @@ class TestEnderBackpack implements SlimefunItemTest<EnderBackpack> {
     }
 
     @Override
-    public EnderBackpack registerSlimefunItem(SlimefunPlugin plugin, String id) {
-        SlimefunItemStack item = new SlimefunItemStack(id, Material.ENDER_CHEST, "&5Test Ender Backpack");
-        EnderBackpack backpack = new EnderBackpack(TestUtilities.getCategory(plugin, "ender_backpack"), item, RecipeType.NULL, new ItemStack[9]);
-        backpack.register(plugin);
-        return backpack;
+    public PortableDustbin registerSlimefunItem(SlimefunPlugin plugin, String id) {
+        SlimefunItemStack item = new SlimefunItemStack(id, Material.BUCKET, "&4Test Dustbin");
+        PortableDustbin dustbin = new PortableDustbin(TestUtilities.getCategory(plugin, "dustbin"), item, RecipeType.NULL, new ItemStack[9]);
+        dustbin.register(plugin);
+        return dustbin;
     }
 
     @Test
-    @DisplayName("Test Ender Backpack opening Enderchest")
+    @DisplayName("Test Dustbin opening an empty Inventory")
     void testRightClickBehaviour() {
         Player player = server.addPlayer();
-        EnderBackpack backpack = registerSlimefunItem(plugin, "TEST_ENDER_BACKPACK");
+        PortableDustbin dustbin = registerSlimefunItem(plugin, "TEST_PORTABLE_DUSTBIN");
 
-        simulateRightClick(player, backpack);
+        simulateRightClick(player, dustbin);
 
-        // We expect the Enderchest to be open now
-        Assertions.assertEquals(player.getEnderChest(), player.getOpenInventory().getTopInventory());
+        // We expect an empty Inventory to be open now
+        Inventory openInventory = player.getOpenInventory().getTopInventory();
+        Assertions.assertTrue(openInventory.isEmpty());
     }
 
 }
