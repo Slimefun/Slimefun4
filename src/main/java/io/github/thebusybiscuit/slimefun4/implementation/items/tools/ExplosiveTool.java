@@ -52,8 +52,6 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
     @Override
     public ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
-            if (e.isCancelled()) return;
-            
             Player p = e.getPlayer();
             Block b = e.getBlock();
 
