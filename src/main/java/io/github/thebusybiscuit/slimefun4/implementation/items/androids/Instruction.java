@@ -146,7 +146,7 @@ enum Instruction {
     });
 
     private static final Map<String, Instruction> nameLookup = new HashMap<>();
-    protected static final Instruction[] values = values();
+    protected static final Instruction[] valuesCache = values();
 
     static {
         for (Instruction instruction : valuesCache) {
