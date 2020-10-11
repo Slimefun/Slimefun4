@@ -30,6 +30,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
@@ -99,6 +100,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -175,7 +177,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             registry.load(config);
         } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             long timestamp = System.nanoTime();
-
             PaperLib.suggestPaper(this);
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
@@ -227,6 +228,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             // Registering all GEO Resources
             getLogger().log(Level.INFO, "Loading GEO-Resources...");
             GEOResourcesSetup.setup();
+
+            getLogger().log(Level.INFO, "Loading Tags...");
+            loadTags();
 
             getLogger().log(Level.INFO, "Loading items...");
             loadItems();
@@ -310,7 +314,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         String currentVersion = ReflectionUtils.getVersion();
 
         if (currentVersion.startsWith("v")) {
-            for (MinecraftVersion version : MinecraftVersion.values) {
+            for (MinecraftVersion version : MinecraftVersion.valuesCache) {
                 if (version.matches(currentVersion)) {
                     minecraftVersion = version;
                     return false;
@@ -337,7 +341,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
-        for (MinecraftVersion version : MinecraftVersion.values) {
+        for (MinecraftVersion version : MinecraftVersion.valuesCache) {
             if (version != MinecraftVersion.UNKNOWN) {
                 list.add(version.getName());
             }
@@ -487,6 +491,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         // Clear the Slimefun Guide History upon Player Leaving
         new PlayerProfileListener(this);
+    }
+
+    private void loadTags() {
+        for (SlimefunTag tag : SlimefunTag.valuesCache) {
+            try {
+                tag.reload();
+            } catch (TagMisconfigurationException e) {
+                getLogger().log(Level.SEVERE, e, () -> "Failed to load Tag: " + tag.name());
+            }
+        }
     }
 
     private void loadItems() {

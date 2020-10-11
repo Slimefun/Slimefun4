@@ -233,16 +233,22 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
             int next = page - 1;
-            if (next != page && next > 0)
+
+            if (next != page && next > 0) {
                 openCategory(profile, category, next);
+            }
+
             return false;
         });
 
         menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
         menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
             int next = page + 1;
-            if (next != page && next <= pages)
+
+            if (next != page && next <= pages) {
                 openCategory(profile, category, next);
+            }
+
             return false;
         });
 

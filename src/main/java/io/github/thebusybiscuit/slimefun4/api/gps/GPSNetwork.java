@@ -148,10 +148,12 @@ public class GPSNetwork {
 
         int index = 0;
         for (Location l : getTransmitters(p.getUniqueId())) {
-            if (index >= inventory.length)
+            if (index >= inventory.length) {
                 break;
+            }
 
             SlimefunItem sfi = BlockStorage.check(l);
+
             if (sfi instanceof GPSTransmitter) {
                 int slot = inventory[index];
 
@@ -216,8 +218,10 @@ public class GPSNetwork {
 
             int index = 0;
             for (Waypoint waypoint : profile.getWaypoints()) {
-                if (index >= inventory.length)
+                if (index >= inventory.length) {
                     break;
+                }
+
                 int slot = inventory[index];
 
                 Location l = waypoint.getLocation();

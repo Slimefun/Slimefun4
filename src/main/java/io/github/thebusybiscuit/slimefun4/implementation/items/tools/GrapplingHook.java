@@ -16,6 +16,7 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -38,7 +39,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final ItemSetting<Boolean> consumeOnUse = new ItemSetting<>("consume-on-use", true);
-    private final ItemSetting<Integer> despawnTicks = new ItemSetting<>("despawn-seconds", 60);
+    private final ItemSetting<Integer> despawnTicks = new IntRangeSetting("despawn-seconds", 0, 60, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public GrapplingHook(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

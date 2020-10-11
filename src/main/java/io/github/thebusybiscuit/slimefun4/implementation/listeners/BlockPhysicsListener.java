@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.entity.EntityType;
@@ -21,6 +20,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -85,12 +85,8 @@ public class BlockPhysicsListener implements Listener {
     public void onLiquidFlow(BlockFromToEvent e) {
         Block block = e.getToBlock();
 
-        if (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD || Tag.SAPLINGS.isTagged(block.getType())) {
-            String item = BlockStorage.checkID(block);
-
-            if (item != null) {
-                e.setCancelled(true);
-            }
+        if (SlimefunTag.FLUID_SENSITIVE_MATERIALS.isTagged(block.getType()) && BlockStorage.hasBlockInfo(block)) {
+            e.setCancelled(true);
         }
     }
 
