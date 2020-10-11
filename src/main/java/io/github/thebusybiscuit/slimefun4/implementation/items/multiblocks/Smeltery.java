@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.papermc.lib.PaperLib;
@@ -33,7 +34,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Smeltery extends AbstractSmeltery {
 
     private final BlockFace[] faces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
-    private final ItemSetting<Integer> fireBreakingChance = new ItemSetting<>("fire-breaking-chance", 34);
+    private final ItemSetting<Integer> fireBreakingChance = new IntRangeSetting("fire-breaking-chance", 0, 34, 100);
 
     public Smeltery(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
@@ -88,16 +89,14 @@ public class Smeltery extends AbstractSmeltery {
                 }
 
                 p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "machines.ignition-chamber-no-flint", true);
 
                 Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
                 fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
                 fire.setType(Material.AIR);
             }
-        }
-        else {
+        } else {
             Block fire = b.getRelative(BlockFace.DOWN).getRelative(BlockFace.DOWN);
             fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
             fire.setType(Material.AIR);

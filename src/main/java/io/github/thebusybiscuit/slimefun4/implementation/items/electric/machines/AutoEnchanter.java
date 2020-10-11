@@ -97,7 +97,7 @@ public class AutoEnchanter extends AContainer {
                         EmeraldEnchants.getInstance().getRegistry().applyEnchantment(enchantedItem, ench.getEnchantment(), ench.getLevel());
                     }
 
-                    MachineRecipe recipe = new MachineRecipe(75 * amount, new ItemStack[] { target, item }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
+                    MachineRecipe recipe = new MachineRecipe(75 * amount / this.getSpeed(), new ItemStack[] { target, item }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
 
                     if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                         return null;

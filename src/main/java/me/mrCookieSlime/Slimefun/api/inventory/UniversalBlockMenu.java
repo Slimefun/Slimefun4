@@ -33,7 +33,10 @@ public class UniversalBlockMenu extends DirtyChestMenu {
     }
 
     public void save() {
-        if (!isDirty()) return;
+        if (!isDirty()) {
+            return;
+        }
+
         // To force CS-CoreLib to build the Inventory
         this.getContents();
 

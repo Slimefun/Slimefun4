@@ -78,8 +78,7 @@ public class EnhancedCraftingTable extends BackpackCrafter {
 
             outputInv.addItem(output);
 
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
@@ -91,8 +90,7 @@ public class EnhancedCraftingTable extends BackpackCrafter {
                     if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], false)) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     return false;
                 }
             }

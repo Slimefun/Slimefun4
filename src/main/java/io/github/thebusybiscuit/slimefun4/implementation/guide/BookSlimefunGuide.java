@@ -80,7 +80,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             ChatComponent header = new ChatComponent(ChatColors.color("&b&l- " + SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main") + " -\n\n"));
             header.setHoverEvent(new HoverEvent(ChestMenuUtils.getSearchButton(p)));
 
-            header.setClickEvent(new ClickEvent(guideSearch, player -> Slimefun.runSync(() -> {
+            header.setClickEvent(new ClickEvent(guideSearch, player -> SlimefunPlugin.runSync(() -> {
                 SlimefunPlugin.getLocalization().sendMessage(player, "guide.search.message");
                 ChatInput.waitForPlayer(SlimefunPlugin.instance(), player, msg -> SlimefunGuide.openSearch(profile, msg, true, true));
             }, 1)));
@@ -157,8 +157,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.RED, ItemUtils.getItemName(category.getItem(p))) + "\n");
             chatComponent.setHoverEvent(new HoverEvent(lore));
             lines.add(chatComponent);
-        }
-        else {
+        } else {
             ChatComponent chatComponent = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, ItemUtils.getItemName(category.getItem(p))) + "\n");
             chatComponent.setHoverEvent(new HoverEvent(ItemUtils.getItemName(category.getItem(p)), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
             chatComponent.setClickEvent(new ClickEvent(category.getKey(), pl -> openCategory(profile, category, 1)));
@@ -176,8 +175,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
         if (category instanceof FlexCategory) {
             ((FlexCategory) category).open(p, profile, getLayout());
-        }
-        else if (category.getItems().size() < 250) {
+        } else if (category.getItems().size() < 250) {
             profile.getGuideHistory().add(category, page);
 
             List<ChatComponent> items = new LinkedList<>();
@@ -187,8 +185,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                     if (Slimefun.isEnabled(p, slimefunItem, false)) {
                         addSlimefunItem(category, page, p, profile, slimefunItem, items);
                     }
-                }
-                else {
+                } else {
                     ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.DARK_RED, ItemUtils.getItemName(slimefunItem.getItem())) + "\n");
 
                     List<String> lore = new ArrayList<>();
@@ -205,8 +202,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
 
             openBook(p, profile, items, true);
-        }
-        else {
+        } else {
             p.sendMessage(ChatColor.RED + "That Category is too big to open :/");
         }
     }
@@ -222,8 +218,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             component.setClickEvent(new ClickEvent(key, player -> research(player, profile, item, research, category, page)));
 
             items.add(component);
-        }
-        else {
+        } else {
             ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.DARK_GREEN, item.getItemName()) + "\n");
 
             List<String> lore = new ArrayList<>();
@@ -234,23 +229,21 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
 
             component.setHoverEvent(new HoverEvent(lore));
-            component.setClickEvent(new ClickEvent(key, player -> Slimefun.runSync(() -> displayItem(profile, item, true))));
+            component.setClickEvent(new ClickEvent(key, player -> SlimefunPlugin.runSync(() -> displayItem(profile, item, true))));
             items.add(component);
         }
     }
 
     private void research(Player p, PlayerProfile profile, SlimefunItem item, Research research, Category category, int page) {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
                 if (research.canUnlock(p)) {
                     if (profile.hasUnlocked(research)) {
                         openCategory(profile, category, page);
-                    }
-                    else {
+                    } else {
                         unlockItem(p, item, pl -> openCategory(profile, category, page));
                     }
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-enough-xp", true);
                 }
             }

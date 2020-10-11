@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
-public class SlimefunItemStack extends CustomItem implements Cloneable {
+public class SlimefunItemStack extends CustomItem {
 
     private String id;
     private ImmutableItemMeta immutableMeta;
@@ -274,11 +274,9 @@ public class SlimefunItemStack extends CustomItem implements Cloneable {
 
         if (texture.startsWith("ey")) {
             return texture;
-        }
-        else if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+        } else if (PatternUtils.HEXADECIMAL.matcher(texture).matches()) {
             return Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
     }

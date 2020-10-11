@@ -164,8 +164,7 @@ public class SlimefunProfiler {
                     }
                     return;
                 }
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
                 Thread.currentThread().interrupt();
             }
@@ -297,7 +296,7 @@ public class SlimefunProfiler {
     public PerformanceRating getPerformance() {
         float percentage = getPercentageOfTick();
 
-        for (PerformanceRating rating : PerformanceRating.values) {
+        for (PerformanceRating rating : PerformanceRating.valuesCache) {
             if (rating.test(percentage)) {
                 return rating;
             }

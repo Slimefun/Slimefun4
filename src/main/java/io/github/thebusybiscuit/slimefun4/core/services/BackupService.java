@@ -42,8 +42,7 @@ public class BackupService implements Runnable {
         if (backups.size() > MAX_BACKUPS) {
             try {
                 purgeBackups(backups);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 Slimefun.getLogger().log(Level.WARNING, "Could not delete an old backup", e);
             }
         }
@@ -58,12 +57,10 @@ public class BackupService implements Runnable {
                     }
 
                     Slimefun.getLogger().log(Level.INFO, "Backed up Slimefun data to: {0}", file.getName());
-                }
-                else {
+                } else {
                     Slimefun.getLogger().log(Level.WARNING, "Could not create backup-file: {0}", file.getName());
                 }
-            }
-            catch (IOException x) {
+            } catch (IOException x) {
                 Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
             }
         }

@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
-import org.bukkit.Material;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -9,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -28,6 +32,7 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final int size;
 
+    @ParametersAreNonnullByDefault
     public SlimefunBackpack(int size, Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -55,9 +60,9 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
      * 
      * @return Whether the given {@link ItemStack} is allowed to be put into this {@link SlimefunBackpack}
      */
-    public boolean isItemAllowed(ItemStack item, SlimefunItem itemAsSlimefunItem) {
+    public boolean isItemAllowed(@Nonnull ItemStack item, @Nullable SlimefunItem itemAsSlimefunItem) {
         // Shulker Boxes are not allowed!
-        if (item.getType() == Material.SHULKER_BOX || item.getType().toString().endsWith("_SHULKER_BOX")) {
+        if (SlimefunTag.SHULKER_BOXES.isTagged(item.getType())) {
             return false;
         }
 

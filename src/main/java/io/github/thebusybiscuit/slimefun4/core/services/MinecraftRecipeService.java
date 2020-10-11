@@ -138,8 +138,7 @@ public class MinecraftRecipeService {
             }
 
             return choices.toArray(new RecipeChoice[0]);
-        }
-        else {
+        } else {
             return snapshot.getRecipeInput(recipe);
         }
     }
@@ -156,8 +155,7 @@ public class MinecraftRecipeService {
     public Recipe[] getRecipesFor(@Nullable ItemStack item) {
         if (snapshot == null || item == null) {
             return new Recipe[0];
-        }
-        else {
+        } else {
             return snapshot.getRecipesFor(item).toArray(new Recipe[0]);
         }
     }

@@ -24,6 +24,7 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -44,8 +45,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.TalismanEnchantment;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 
 public class TalismanListener implements Listener {
 
@@ -216,7 +217,7 @@ public class TalismanListener implements Listener {
             int itemSlot = slot;
 
             // Update the item forcefully
-            Slimefun.runSync(() -> inv.setItem(itemSlot, item), 1L);
+            SlimefunPlugin.runSync(() -> inv.setItem(itemSlot, item), 1L);
         }
     }
 
@@ -285,6 +286,13 @@ public class TalismanListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+        if (SlimefunTag.CAVEMAN_TALISMAN_TRIGGERS.isTagged(e.getBlock().getType())) {
+            Talisman.checkFor(e, SlimefunItems.TALISMAN_CAVEMAN);
+        }
+    }
+
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
         if (fortuneLevel > 0) {
             Random random = ThreadLocalRandom.current();
@@ -292,8 +300,7 @@ public class TalismanListener implements Listener {
             amount = Math.max(amount, 1);
             amount = (type == Material.LAPIS_ORE ? 4 + random.nextInt(5) : 1) * (amount + 1);
             return amount;
-        }
-        else {
+        } else {
             return 1;
         }
     }

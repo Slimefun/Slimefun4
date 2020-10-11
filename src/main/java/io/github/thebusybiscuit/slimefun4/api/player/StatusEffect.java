@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nonnull;
+
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -27,10 +29,11 @@ public class StatusEffect implements Keyed {
 
     private final NamespacedKey key;
 
-    public StatusEffect(NamespacedKey key) {
+    public StatusEffect(@Nonnull NamespacedKey key) {
         this.key = key;
     }
 
+    @Nonnull
     @Override
     public NamespacedKey getKey() {
         return key;
@@ -48,7 +51,7 @@ public class StatusEffect implements Keyed {
      * @param unit
      *            The {@link TimeUnit} for the given duration
      */
-    public void add(Player p, int duration, TimeUnit unit) {
+    public void add(@Nonnull Player p, int duration, @Nonnull TimeUnit unit) {
         add(p, 1, duration, unit);
     }
 
@@ -64,7 +67,7 @@ public class StatusEffect implements Keyed {
      * @param unit
      *            The {@link TimeUnit} for the given duration
      */
-    public void add(Player p, int level, int duration, TimeUnit unit) {
+    public void add(@Nonnull Player p, int level, int duration, @Nonnull TimeUnit unit) {
         PersistentDataAPI.setString(p, getKey(), level + ";" + System.currentTimeMillis() + unit.toMillis(duration));
     }
 
@@ -77,7 +80,7 @@ public class StatusEffect implements Keyed {
      * @param level
      *            The level of this effect
      */
-    public void addPermanent(Player p, int level) {
+    public void addPermanent(@Nonnull Player p, int level) {
         PersistentDataAPI.setString(p, getKey(), level + ";0");
     }
 
@@ -91,7 +94,7 @@ public class StatusEffect implements Keyed {
      *            The {@link Player} to check for
      * @return Whether this {@link StatusEffect} is currently applied
      */
-    public boolean isPresent(Player p) {
+    public boolean isPresent(@Nonnull Player p) {
         Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
 
         if (optional.isPresent()) {
@@ -100,13 +103,13 @@ public class StatusEffect implements Keyed {
 
             if (timestamp == 0 || timestamp >= System.currentTimeMillis()) {
                 return true;
-            }
-            else {
+            } else {
                 clear(p);
                 return false;
             }
+        } else {
+            return false;
         }
-        else return false;
     }
 
     /**
@@ -117,15 +120,16 @@ public class StatusEffect implements Keyed {
      *            The {@link Player} to check for
      * @return An {@link OptionalInt} that describes the result
      */
-    public OptionalInt getLevel(Player p) {
+    @Nonnull
+    public OptionalInt getLevel(@Nonnull Player p) {
         Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
 
         if (optional.isPresent()) {
             String[] data = PatternUtils.SEMICOLON.split(optional.get());
             return OptionalInt.of(Integer.parseInt(data[0]));
-
+        } else {
+            return OptionalInt.empty();
         }
-        else return OptionalInt.empty();
     }
 
     /**
@@ -134,7 +138,7 @@ public class StatusEffect implements Keyed {
      * @param p
      *            The {@link Player} to clear it from
      */
-    public void clear(Player p) {
+    public void clear(@Nonnull Player p) {
         PersistentDataAPI.remove(p, getKey());
     }
 

@@ -1,242 +1,248 @@
 ---
 slimefun:
   walking_sticks: Sétapálcák
-  portable_crafter: Hordozható Barkácsoló
+  portable_crafter: Hordozható barkácsoló
   fortune_cookie: Szerencsesüti
-  portable_dustbin: Hordozható Kuka
-  meat_jerky: Pácolt Hús
-  armor_forge: Páncél Barkácsolás
-  glowstone_armor: Izzókő Páncél
-  lumps: Rögök és Varázslat
-  ender_backpack: Ender Hátizsák
-  ender_armor: Ender Páncél
-  magic_eye_of_ender: Varázslatos Ender Szeme
+  portable_dustbin: Hordozható szemetes
+  meat_jerky: Pácolt hús
+  armor_forge: Páncél barkácsolás
+  glowstone_armor: Izzókő páncél
+  lumps: Rögök és varázslat
+  ender_backpack: Ender hátizsák
+  ender_armor: Ender páncél
+  magic_eye_of_ender: Varázslatos Ender szeme
   magic_sugar: Varázscukor
-  monster_jerky: Pácolt Szörnyhús
-  slime_armor: Nyálka Páncél
-  sword_of_beheading: Lefejezés Kardja
-  basic_circuit_board: Alapvető Áramköri Lap
-  advanced_circuit_board: Fejlett Áramköri Lap
+  monster_jerky: Pácolt szörnyhús
+  slime_armor: Nyálkás páncél
+  sword_of_beheading: Lefejezés kardja
+  basic_circuit_board: Alapvető áramköri lap
+  advanced_circuit_board: Fejlett áramköri lap
   smeltery: Kohó
   steel: Acélkor
   misc_power_items: Fontos energiával kapcsolatos tárgyak
-  battery: Az első Akkumulátorod
+  battery: Az első akkumulátorod
   steel_plate: Acéllemez
   steel_thruster: Acélhajtómű
   parachute: Ejtőernyő
   grappling_hook: Vasmacska
   jetpacks: Jetpackek
-  multitools: Többfunkciós Eszközök
+  multitools: Többfunkciós eszközök
   solar_panel_and_helmet: Napenergia
-  elemental_staff: Elemi Pálcák
+  elemental_staff: Elemi pálcák
   grind_stone: Köszörűkő
-  cactus_armor: Kaktusz Ruha
+  cactus_armor: Kaktusz ruha
   gold_pan: Aranymosó
-  magical_book_cover: Varázslatos Könyvkötés
-  slimefun_metals: Új Fémek
-  ore_crusher: Érc Duplázás
+  magical_book_cover: Varázslatos könyvkötés
+  slimefun_metals: Új fémek
+  ore_crusher: Érc duplázás
   bronze: Bronzkészítés
-  alloys: Speciális Ötvözetek
+  alloys: Speciális ötvözetek
   compressor_and_carbon: Szénkészítés
-  gilded_iron_armor: Aranyozott Vaspáncél
-  synthetic_diamond: Szintetikus Gyémántok
+  gilded_iron_armor: Aranyozott vaspáncél
+  synthetic_diamond: Szintetikus gyémántok
   pressure_chamber: Nyomáskamra
-  synthetic_sapphire: Szintetikus Zafírok
-  damascus_steel: Damaszkuszi Acél
-  damascus_steel_armor: Damaszkuszi Acél Páncél
-  reinforced_alloy: Megerősített Ötvözet
-  carbonado: Fekete Gyémántok
-  magic_workbench: Varázslatos Barkácsasztal
-  wind_staff: Szél Pálca
-  reinforced_armor: Megerősített Páncél
+  synthetic_sapphire: Szintetikus zafírok
+  damascus_steel: Damaszkuszi acél
+  damascus_steel_armor: Damaszkuszi acélpáncél
+  reinforced_alloy: Megerősített ötvözet
+  carbonado: Fekete gyémántok
+  magic_workbench: Varázslatos barkácsasztal
+  wind_staff: Szélpálca
+  reinforced_armor: Megerősített páncél
   ore_washer: Ércmosó
-  gold_carats: Tiszta Arany
+  gold_carats: Színarany
   silicon: Szilícium-völgy
-  fire_staff: Tűz Pálca
-  smelters_pickaxe: Olvasztó Csákány
-  common_talisman: Gyakori Talizmán
-  anvil_talisman: Az Üllő Talizmánja
-  miner_talisman: A Bányász Talizmánja
-  hunter_talisman: A Vadász Talizmánja
-  lava_talisman: A Láva Járó Talizmánja
-  water_talisman: A Vízlélegzés Talizmánja
-  angel_talisman: Az Angyal Talizmánja
-  fire_talisman: A Tűzoltó Talizmánja
-  lava_crystal: Tüzes Helyzet
-  magician_talisman: A Bűvész Talizmánja
-  traveller_talisman: Az Utazó Talizmánja
-  warrior_talisman: A Harcos Talizmánja
-  knight_talisman: A Lovag Talizmánja
-  gilded_iron: Fényes Vas
-  synthetic_emerald: Hamis Drágakő
-  chainmail_armor: Lánc Páncél
-  whirlwind_talisman: A Forgószél Talizmánja
-  wizard_talisman: A Varázsló Talizmánja
-  lumber_axe: Fadöntő Fejsze
-  hazmat_suit: Vegyvédelmi Ruha
+  fire_staff: Tűzpálca
+  smelters_pickaxe: Olvasztó csákány
+  common_talisman: Gyakori talizmán
+  anvil_talisman: Az Üllő talizmánja
+  miner_talisman: A Bányász talizmánja
+  hunter_talisman: A Vadász talizmánja
+  lava_talisman: A Lávajáró talizmánja
+  water_talisman: A Vízlélegzés talizmánja
+  angel_talisman: Az Angyal talizmánja
+  fire_talisman: A Tűzoltó talizmánja
+  lava_crystal: Tüzes helyzet
+  magician_talisman: A Bűvész talizmánja
+  traveller_talisman: Az Utazó talizmánja
+  warrior_talisman: A Harcos talizmánja
+  knight_talisman: A Lovag talizmánja
+  gilded_iron: Fényes vas
+  synthetic_emerald: Hamis drágakő
+  chainmail_armor: Láncpáncél
+  whirlwind_talisman: A Forgószél talizmánja
+  wizard_talisman: A Varázsló talizmánja
+  lumber_axe: Fadöntő fejsze
+  hazmat_suit: Vegyvédelmi ruha
   uranium: Radioaktív
-  crushed_ore: Ércek Tisztítása
-  redstone_alloy: Redstone Ötvözet
-  carbonado_tools: Felső Szintű Gépek
+  crushed_ore: Ércek tisztítása
+  redstone_alloy: Redstone ötvözet
+  carbonado_tools: Magasszintű gépek
   first_aid: Elsősegély
-  gold_armor: Fényes Páncél
-  night_vision_googles: Éjjellátó Szemüvegek
-  pickaxe_of_containment: Csomagtartó Csákány
-  hercules_pickaxe: Herkules Csákány
-  table_saw: Asztali Fűrész
-  slime_steel_armor: Nyálkás Acél Páncél
-  blade_of_vampires: Vámpírok Pengéje
-  water_staff: Víz Pálca
+  gold_armor: Fényes páncél
+  night_vision_googles: Éjjellátó szemüvegek
+  pickaxe_of_containment: Csomagtartó csákány
+  hercules_pickaxe: Herkules csákány
+  table_saw: Asztali fűrész
+  slime_steel_armor: Nyálkás acélpáncél
+  blade_of_vampires: Vámpírok pengéje
+  water_staff: Vízpálca
   24k_gold_block: Aranyváros
-  composter: Föld Komposztáló
-  farmer_shoes: Farmer Cipők
+  composter: Föld komposztáló
+  farmer_shoes: Farmer cipők
   explosive_tools: Robbanóeszközök
-  automated_panning_machine: Automatizált Aranymosó
-  boots_of_the_stomper: A Taposás Cipője
-  pickaxe_of_the_seeker: A Kutatók Csákánya
+  automated_panning_machine: Automatizált aranymosó
+  boots_of_the_stomper: A Taposás cipője
+  pickaxe_of_the_seeker: A Kutatók csákánya
   backpacks: Hátizsákok
-  woven_backpack: Szőtt Hátizsák
+  woven_backpack: Szőtt hátizsák
   crucible: Olvasztótégely
-  gilded_backpack: Aranyozott Hátizsák
-  armored_jetpack: Páncélozott Jetpack
-  ender_talismans: Ender Talizmánok
-  nickel_and_cobalt: Még több Érc
-  magnet: Mágneses Fémek
-  infused_magnet: Infúziós Mágnesek
-  cobalt_pickaxe: Gyors Csákány
+  gilded_backpack: Aranyozott hátizsák
+  armored_jetpack: Páncélozott jetpack
+  ender_talismans: Ender talizmánok
+  nickel_and_cobalt: Még több érc
+  magnet: Mágneses fémek
+  infused_magnet: Infúziós mágnesek
+  cobalt_pickaxe: Gyors csákány
   essence_of_afterlife: Szellemidézés
-  bound_backpack: Lélekhez Kötött Tárolás
-  jetboots: Sugárhajtású Csizma
-  armored_jetboots: Páncélozott Sugárhajtású Csizmák
-  seismic_axe: Szeizmikus Fejsze
-  pickaxe_of_vein_mining: 'Ér Bányász Csákány '
-  bound_weapons: Lélekhez Kötött Fegyverek
-  bound_tools: Lélélekhez Kötött Eszközök
-  bound_armor: Lélekhez Kötött Páncél
-  juicer: Ízletes Italok
-  repaired_spawner: Spawnerek Javítása
-  enhanced_furnace: Továbbfejlesztett Kemence
-  more_enhanced_furnaces: Jobb Kemencék
-  high_tier_enhanced_furnaces: Magas Szintű Kemence
-  reinforced_furnace: Megerősített Kemence
-  carbonado_furnace: Karbonádó Szélű Kemence
+  bound_backpack: Lélekhez kötött tárolás
+  jetboots: Sugárhajtású csizma
+  armored_jetboots: Páncélozott sugárhajtású csizmák
+  seismic_axe: Szeizmikus fejsze
+  pickaxe_of_vein_mining: 'Ércbányász csákány '
+  bound_weapons: Lélekhez kötött fegyverek
+  bound_tools: Lélekhez kötött eszközök
+  bound_armor: Lélekhez kötött páncél
+  juicer: Ízletes italok
+  repaired_spawner: Spawnerek javítása
+  enhanced_furnace: Továbbfejlesztett kemence
+  more_enhanced_furnaces: Jobb kemencék
+  high_tier_enhanced_furnaces: Magasszintű kemence
+  reinforced_furnace: Megerősített kemence
+  carbonado_furnace: Karbonádó élű kemence
   electric_motor: Felmelegítés
-  block_placer: Blokk Lehelyező
-  scroll_of_dimensional_teleposition: Megfordítva a dolgokat
+  block_placer: Blokk lehelyező
+  scroll_of_dimensional_teleposition: Megfordítja a dolgokat
   special_bows: Robin Hood
-  tome_of_knowledge_sharing: Megosztás a barátokkal
-  flask_of_knowledge: XP Tároló
-  hardened_glass: Robbanások Ellen
-  golden_apple_juice: Arany Főzet
-  cooler: Hordozható Italok
-  ancient_altar: Ősi Oltár
-  wither_proof_obsidian: Wither-Védett Obszidián
-  ancient_runes: Elemi Rúnák
-  special_runes: Lila Rúnák
-  infernal_bonemeal: Pokoli Csontliszt
-  rainbow_blocks: Szivárvány Blokkok
-  infused_hopper: Pokoli Tölcsér
-  wither_proof_glass: Wither-Védett Üveg
-  duct_tape: Szövetbetétes Ragasztószalag
+  tome_of_knowledge_sharing: Megosztás barátokkal
+  flask_of_knowledge: XP-tároló
+  hardened_glass: Robbanások ellen
+  golden_apple_juice: Aranyfőzet
+  cooler: Hordozható italok
+  ancient_altar: Ősi oltár
+  wither_proof_obsidian: Wither-biztos obszidián
+  ancient_runes: Elemi rúnák
+  special_runes: Lila rúnák
+  infernal_bonemeal: Pokoli csontliszt
+  rainbow_blocks: Szivárvány blokkok
+  infused_hopper: Infúziós tölcsér
+  wither_proof_glass: Wither-biztos üveg
+  duct_tape: Ragasztószalag
   plastic_sheet: Műanyag
   android_memory_core: Memóriamag
   oil: Olaj
   fuel: Üzemanyag
   hologram_projector: Hologramok
-  capacitors: 1. Szintű Kondenzátorok
-  high_tier_capacitors: 2. Szintű Kondenzátorok
-  solar_generators: Napenergia Erőmű
-  electric_furnaces: Erős Kemence
-  electric_ore_grinding: Zúzás és Őrlés
-  heated_pressure_chamber: Fűtött Nyomáskamra
+  capacitors: 1. szintű kondenzátorok
+  high_tier_capacitors: 2. szintű kondenzátorok
+  solar_generators: Napenergia-erőmű
+  electric_furnaces: Elektromos kemence
+  electric_ore_grinding: Zúzás és őrlés
+  heated_pressure_chamber: Fűtött nyomáskamra
   coal_generator: Széngenerátor
   bio_reactor: Bioreaktor
-  auto_enchanting: Automatikus Fejlesztés és Fejlesztés Törlés
-  auto_anvil: Automatikus Üllő
+  auto_enchanting: Automatikus enchantolás és enchant levétel
+  auto_anvil: Automatikus üllő
   multimeter: Teljesítménymérés
-  gps_setup: Alapvető GPS Beállítás
-  gps_emergency_transmitter: GPS Vészhelyzeti Útpont
-  programmable_androids: Programozható Androidok
-  android_interfaces: Android Csatlakozási Felületek
-  geo_scanner: GEO-Vizsgálatok
+  gps_setup: Alapvető GPS-beállítás
+  gps_emergency_transmitter: Vészhelyzeti GPS-útpont
+  programmable_androids: Programozható androidok
+  android_interfaces: Android csatlakozási felületek
+  geo_scanner: GEO-vizsgálatok
   combustion_reactor: Égésreaktor
-  teleporter: Teleportáló Alapelemek
-  teleporter_activation_plates: Teleportáló Aktiválás
-  better_solar_generators: Továbbfejlesztett Napelemes Generátorok
-  better_gps_transmitters: Továbbfejlesztett Transzmitterek
+  teleporter: Teleportálás alapösszetevői
+  teleporter_activation_plates: Teleportálás aktiválása
+  better_solar_generators: Továbbfejlesztett napelemes generátorok
+  better_gps_transmitters: Továbbfejlesztett transzmitterek
   elevator: Liftek
-  energized_solar_generator: Teljes-Munkaidős Napenergia
-  energized_gps_transmitter: Legfelső Szintű Transzmitter
+  energized_solar_generator: Folyamatos napenergia
+  energized_gps_transmitter: Magasszintű transzmitter
   energy_regulator: Energiahálózatok 101
-  butcher_androids: Hentes Androidok
+  butcher_androids: Hentes androidok
   organic_food: Bioélelmiszerek
-  auto_breeder: Automatizált Etetés
-  advanced_android: Speciális Androidok
-  advanced_butcher_android: Fejlett Androidok - Hentes
-  advanced_fisherman_android: Fejlett Androidok - Halász
-  animal_growth_accelerator: Az állatok Növekedésének Manipulálása
-  xp_collector: XP Gyűjtő
-  organic_fertilizer: Organikus Trágya
-  crop_growth_accelerator: Növény Növekedés Gyorsító
-  better_crop_growth_accelerator: Továbbfejlesztett Növény Növekedés Gyorsító
-  reactor_essentials: Reaktor Alapjai
+  auto_breeder: Automatizált etetés
+  advanced_android: Fejlett androidok
+  advanced_butcher_android: Fejlett androidok - Hentes
+  advanced_fisherman_android: Fejlett androidok - Halász
+  animal_growth_accelerator: Az állatok növekedésének manipulálása
+  xp_collector: XP-gyűjtő
+  organic_fertilizer: Organikus trágya
+  crop_growth_accelerator: Növény növekedés gyorsító
+  better_crop_growth_accelerator: Továbbfejlesztett növény növekedés gyorsító
+  reactor_essentials: Reaktor alapjai
   nuclear_reactor: Atomerőmű
   freezer: Fagyasztó Úr
-  cargo_basics: Szállítmány Alapjai
-  cargo_nodes: Szállítmány Beállítása
-  electric_ingot_machines: Elektromos Öntvénygyártás
-  high_tier_electric_ingot_machines: Szupergyors Öntvénygyártás
-  automated_crafting_chamber: Automatizált Barkácsolás
-  better_food_fabricator: Továbbfejlesztett Élelmiszergyártás
-  reactor_access_port: Reaktor Kölcsönhatás
-  fluid_pump: Folyadék Szivattyú
-  better_freezer: Továbbfejlesztett Fagyasztó
-  boosted_uranium: Soha Véget Nem Érő Kör
+  cargo_basics: Szállítmánykezelés alapjai
+  cargo_nodes: Szállítmánykezelés beállítása
+  electric_ingot_machines: Elektromos öntvénygyártás
+  high_tier_electric_ingot_machines: Szupergyors öntvénygyártás
+  automated_crafting_chamber: Automatizált barkácsolás
+  better_food_fabricator: Továbbfejlesztett élelmiszergyártás
+  reactor_access_port: Reaktor hozzáférés
+  fluid_pump: Folyadék szivattyú
+  better_freezer: Továbbfejlesztett fagyasztó
+  boosted_uranium: Soha véget nem érő kör
   trash_can: Szemetes
-  advanced_output_node: Speciális Kimeneti Csomópont
+  advanced_output_node: Speciális kimeneti csomópont
   carbon_press: Szénprés
-  electric_smeltery: Elektromos Olvasztó
-  better_electric_furnace: Továbbfejlesztett Elektromos Kemence
-  better_carbon_press: Továbbfejlesztett Szénprés
-  empowered_android: Felhatalmazott Androidok
-  empowered_butcher_android: Felhatalmazott Androidok - Hentes
-  empowered_fisherman_android: Felhatalmazott Androidok - Halász
-  high_tier_carbon_press: Végleges Szénprés
-  wither_assembler: Automatizált Wither Ölő
-  better_heated_pressure_chamber: Továbbfejlesztett Fűtött Nyomású Kamra
+  electric_smeltery: Elektromos olvasztó
+  better_electric_furnace: Továbbfejlesztett elektromos kemence
+  better_carbon_press: Továbbfejlesztett szénprés
+  empowered_android: Fejlesztett androidok
+  empowered_butcher_android: Fejlesztett androidok - Hentes
+  empowered_fisherman_android: Fejlesztett androidok - Halász
+  high_tier_carbon_press: Legmagasabb szintű szénprés
+  wither_assembler: Automatizált wither ölő
+  better_heated_pressure_chamber: Továbbfejlesztett fűtött nyomáskamra
   elytra: Kitinszárnyak
-  special_elytras: Speciális Kitinszárnyak
-  electric_crucible: Elektromos Olvasztótégely
-  better_electric_crucibles: Forró Olvasztótégelyek
-  advanced_electric_smeltery: Fejlett Elektromos Olvasztómű
-  advanced_farmer_android: Fejlett Androidok - Farmer
+  special_elytras: Speciális kitinszárnyak
+  electric_crucible: Elektromos olvasztótégely
+  better_electric_crucibles: Forró olvasztótégelyek
+  advanced_electric_smeltery: Fejlett elektromos olvasztómű
+  advanced_farmer_android: Fejlesztett androidok - Farmer
   lava_generator: Lávagenerátor
-  nether_ice: Nether Jéghűtő
-  nether_star_reactor: Nethercsillag Reaktor
-  blistering_ingots: Hólyagos Radioaktivitás
-  automatic_ignition_chamber: Automatikus Gyújtókamra
-  output_chest: Alapvető Gépek Kimeneti Láda
-  copper_wire: Hígított Vezetőképesség
-  radiant_backpack: Sugárzó Hátizsák
-  auto_drier: Egy Száraz Nap
-  diet_cookie: Diétás Süti
-  storm_staff: Vihar Pálca
-  soulbound_rune: Lélekhez Kötött Rúna
-  geo_miner: GEO-Bányász
-  lightning_rune: Villám Rúna
-  totem_of_undying: Életmentés Toteme
+  nether_ice: Netherjég hűtő
+  nether_star_reactor: Nethercsillag reaktor
+  blistering_ingots: Hólyagos radioaktivitás
+  automatic_ignition_chamber: Automatikus gyújtókamra
+  output_chest: Alapvető gépek kimeneti láda
+  copper_wire: Hígított vezetőképesség
+  radiant_backpack: Sugárzó hátizsák
+  auto_drier: Egy száraz nap
+  diet_cookie: Diétás süti
+  storm_staff: Viharpálca
+  soulbound_rune: Lélekhez kötött rúna
+  geo_miner: GEO-bányász
+  lightning_rune: Villám rúna
+  totem_of_undying: Életmentés toteme
   charging_bench: Töltőpad
-  nether_gold_pan: Nether Aranymosó
-  electric_press: Elektromos Prés
-  magnesium_generator: Energia Magnéziumból
-  kelp_cookie: Ízletes Moszat
-  makeshift_smeltery: Improvizált Olvasztó
-  tree_growth_accelerator: Gyorsabb Fák
-  industrial_miner: Ipari Bányászat
-  advanced_industrial_miner: Jobb Bányászat
-  magical_zombie_pills: Zombi Átváltoztató
-  auto_brewer: Ipari Sörgyár
-  enchantment_rune: Ősi Varázslat
-  lead_clothing: Ólom Ruházat
+  nether_gold_pan: Nether aranymosó
+  electric_press: Elektromos prés
+  magnesium_generator: Energia magnéziumból
+  kelp_cookie: Ízletes hínár
+  makeshift_smeltery: Improvizált olvasztó
+  tree_growth_accelerator: Gyorsabb fák
+  industrial_miner: Ipari bányászat
+  advanced_industrial_miner: Jobb bányászat
+  magical_zombie_pills: Zombi átváltoztató
+  auto_brewer: Ipari sörgyár
+  enchantment_rune: Ősi enchantolás
+  lead_clothing: Ólom ruházat
   tape_measure: Mérőszalag
-  iron_golem_assembler: Automatizált Vasgólemek
+  iron_golem_assembler: Automatizált vasgólemek
+  climbing_pick: Block Raider
+  shulker_shell: Szintetikus shulkerek
+  villager_rune: Falusiak alaphelyzetbe állítása
+  caveman_talisman: Az Ősember talizmánja
+  even_higher_tier_capacitors: 3. szintű kondenzátorok
+  elytra_cap: Ütközésvédelem

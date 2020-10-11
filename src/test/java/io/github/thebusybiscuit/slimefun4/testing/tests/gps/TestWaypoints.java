@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -15,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 
-public class TestWaypoints {
+class TestWaypoints {
 
     private static ServerMock server;
 
@@ -31,7 +32,8 @@ public class TestWaypoints {
     }
 
     @Test
-    public void testAddWaypointToProfile() throws InterruptedException {
+    @DisplayName("Test Waypoints being added to the profile")
+    void testAddWaypointToProfile() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -48,7 +50,8 @@ public class TestWaypoints {
     }
 
     @Test
-    public void testRemoveWaypointFromProfile() throws InterruptedException {
+    @DisplayName("Test Waypoints being removed from the profile")
+    void testRemoveWaypointFromProfile() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -68,7 +71,8 @@ public class TestWaypoints {
     }
 
     @Test
-    public void testWaypointAlreadyExisting() throws InterruptedException {
+    @DisplayName("Verify that two waypoints cannot have the same name")
+    void testWaypointAlreadyExisting() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -81,7 +85,8 @@ public class TestWaypoints {
     }
 
     @Test
-    public void testTooManyWaypoints() throws InterruptedException {
+    @DisplayName("Verify that a maximum amount of waypoints is enforced")
+    void testTooManyWaypoints() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -95,7 +100,8 @@ public class TestWaypoints {
     }
 
     @Test
-    public void testWaypointEvent() throws InterruptedException {
+    @DisplayName("Verify that a WaypointCreateEvent is thrown")
+    void testWaypointEvent() throws InterruptedException {
         GPSNetwork network = new GPSNetwork();
         Player player = server.addPlayer();
         TestUtilities.awaitProfile(player);
@@ -105,7 +111,8 @@ public class TestWaypoints {
     }
 
     @Test
-    public void testWaypointComparison() throws InterruptedException {
+    @DisplayName("Test equal Waypoints being equal")
+    void testWaypointComparison() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -121,7 +128,8 @@ public class TestWaypoints {
     }
 
     @Test
-    public void testIsDeathpoint() throws InterruptedException {
+    @DisplayName("Test Deathpoints being recognized as Deathpoints")
+    void testIsDeathpoint() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 

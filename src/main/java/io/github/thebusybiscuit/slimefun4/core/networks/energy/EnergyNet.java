@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link EnergyNet} is an implementation of {@link Network} that deals with
@@ -69,8 +68,7 @@ public class EnergyNet extends Network {
 
         if (component == null) {
             return null;
-        }
-        else {
+        } else {
             switch (component.getEnergyComponentType()) {
             case CAPACITOR:
                 return NetworkComponent.CONNECTOR;
@@ -103,8 +101,7 @@ public class EnergyNet extends Network {
             case GENERATOR:
                 if (component instanceof EnergyNetProvider) {
                     generators.put(l, (EnergyNetProvider) component);
-                }
-                else if (component instanceof SlimefunItem) {
+                } else if (component instanceof SlimefunItem) {
                     ((SlimefunItem) component).warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
                 }
                 break;
@@ -127,8 +124,7 @@ public class EnergyNet extends Network {
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
             SimpleHologram.update(b, "&4No Energy Network found");
-        }
-        else {
+        } else {
             int supply = tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors();
             int remainingEnergy = supply;
             int demand = 0;
@@ -147,8 +143,7 @@ public class EnergyNet extends Network {
                         if (remainingEnergy > availableSpace) {
                             component.setCharge(loc, capacity);
                             remainingEnergy -= availableSpace;
-                        }
-                        else {
+                        } else {
                             component.setCharge(loc, charge + remainingEnergy);
                             remainingEnergy = 0;
                         }
@@ -175,13 +170,11 @@ public class EnergyNet extends Network {
                 if (remainingEnergy > capacity) {
                     component.setCharge(loc, capacity);
                     remainingEnergy -= capacity;
-                }
-                else {
+                } else {
                     component.setCharge(loc, remainingEnergy);
                     remainingEnergy = 0;
                 }
-            }
-            else {
+            } else {
                 component.setCharge(loc, 0);
             }
         }
@@ -195,13 +188,11 @@ public class EnergyNet extends Network {
                 if (remainingEnergy > capacity) {
                     component.setCharge(loc, capacity);
                     remainingEnergy -= capacity;
-                }
-                else {
+                } else {
                     component.setCharge(loc, remainingEnergy);
                     remainingEnergy = 0;
                 }
-            }
-            else {
+            } else {
                 component.setCharge(loc, 0);
             }
         }
@@ -229,16 +220,14 @@ public class EnergyNet extends Network {
                     explodedBlocks.add(loc);
                     BlockStorage.clearBlockInfo(loc);
 
-                    Slimefun.runSync(() -> {
+                    SlimefunPlugin.runSync(() -> {
                         loc.getBlock().setType(Material.LAVA);
                         loc.getWorld().createExplosion(loc, 0F, false);
                     });
-                }
-                else {
+                } else {
                     supply += energy;
                 }
-            }
-            catch (Exception | LinkageError t) {
+            } catch (Exception | LinkageError t) {
                 explodedBlocks.add(loc);
                 new ErrorReport<>(t, loc, item);
             }
@@ -266,8 +255,7 @@ public class EnergyNet extends Network {
         if (demand > supply) {
             String netLoss = DoubleHandler.getFancyDouble(Math.abs(supply - demand));
             SimpleHologram.update(b, "&4&l- &c" + netLoss + " &7J &e\u26A1");
-        }
-        else {
+        } else {
             String netGain = DoubleHandler.getFancyDouble(supply - demand);
             SimpleHologram.update(b, "&2&l+ &a" + netGain + " &7J &e\u26A1");
         }
@@ -299,8 +287,7 @@ public class EnergyNet extends Network {
 
         if (energyNetwork.isPresent()) {
             return energyNetwork.get();
-        }
-        else {
+        } else {
             EnergyNet network = new EnergyNet(l);
             SlimefunPlugin.getNetworkManager().registerNetwork(network);
             return network;

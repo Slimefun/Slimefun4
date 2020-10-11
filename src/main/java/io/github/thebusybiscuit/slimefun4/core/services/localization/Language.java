@@ -75,8 +75,7 @@ public final class Language {
     public double getTranslationProgress() {
         if (id.equals("en")) {
             return 100.0;
-        }
-        else {
+        } else {
             if (progress < 0) {
                 progress = SlimefunPlugin.getLocalization().calculateProgress(this);
             }

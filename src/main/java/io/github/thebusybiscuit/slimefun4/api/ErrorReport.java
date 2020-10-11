@@ -27,7 +27,6 @@ import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This class represents an {@link ErrorReport}.
@@ -53,7 +52,7 @@ public class ErrorReport<T extends Throwable> {
         this.throwable = throwable;
         this.addon = addon;
 
-        Slimefun.runSync(() -> print(printer));
+        SlimefunPlugin.runSync(() -> print(printer));
     }
 
     @ParametersAreNonnullByDefault
@@ -183,8 +182,7 @@ public class ErrorReport<T extends Throwable> {
             }
 
             addon.getLogger().log(Level.WARNING, "");
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
         }
     }
@@ -199,8 +197,7 @@ public class ErrorReport<T extends Throwable> {
                 if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
                     addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
                 }
-            }
-            else {
+            } else {
                 plugins.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
 
                 if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
@@ -228,8 +225,7 @@ public class ErrorReport<T extends Throwable> {
     public static void tryCatch(@Nonnull Function<Exception, ErrorReport<Exception>> function, @Nonnull Runnable runnable) {
         try {
             runnable.run();
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             function.apply(x);
         }
     }

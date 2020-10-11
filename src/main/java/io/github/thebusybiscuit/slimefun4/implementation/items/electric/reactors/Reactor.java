@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -37,7 +38,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -159,8 +159,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                 return false;
             });
-        }
-        else {
+        } else {
             menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Access Port", "", "&cNot detected", "", "&7Access Port must be", "&7placed 3 blocks above", "&7a reactor!"));
             menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                 updateInventory(menu, b);
@@ -193,8 +192,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
         if (needsCooling()) {
             preset.addItem(7, new CustomItem(getCoolant(), "&bCoolant Slot", "", "&fThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
-        }
-        else {
+        } else {
             preset.addItem(7, new CustomItem(Material.BARRIER, "&bCoolant Slot", "", "&fThis Slot accepts Coolant Cells"));
 
             for (int i : border_4) {
@@ -284,13 +282,11 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
             if (timeleft > 0) {
                 return generateEnergy(l, data, inv, accessPort, timeleft);
-            }
-            else {
+            } else {
                 createByproduct(l, inv, accessPort);
                 return 0;
             }
-        }
-        else {
+        } else {
             burnNextFuel(l, inv, accessPort);
             return 0;
         }
@@ -321,8 +317,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
         if (space >= produced) {
             return getEnergyProduction();
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -332,7 +327,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         boolean explosion = explosionsQueue.contains(l);
 
         if (explosion) {
-            Slimefun.runSync(() -> {
+            SlimefunPlugin.runSync(() -> {
                 ReactorExplodeEvent event = new ReactorExplodeEvent(l, Reactor.this);
                 Bukkit.getPluginManager().callEvent(event);
 
@@ -349,7 +344,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
     }
 
     private void checkForWaterBlocks(Location l) {
-        Slimefun.runSync(() -> {
+        SlimefunPlugin.runSync(() -> {
             // We will pick a surrounding block at random and see if this is water.
             // If it isn't, then we will make it explode.
             int index = ThreadLocalRandom.current().nextInt(WATER_BLOCKS.length);
@@ -375,6 +370,8 @@ public abstract class Reactor extends AbstractEnergyProvider {
                 }
             }
         }
+
+        Bukkit.getPluginManager().callEvent(new AsyncReactorProcessCompleteEvent(l, Reactor.this, getProcessing(l)));
 
         progress.remove(l);
         processing.remove(l);
@@ -436,8 +433,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
             }
 
             return false;
-        }
-        else {
+        } else {
             ReactorHologram.update(reactor, "&b\u2744 &7" + getPercentage(timeleft, processing.get(reactor).getTicks()) + "%");
         }
 
@@ -482,8 +478,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
         if (BlockStorage.check(port, SlimefunItems.REACTOR_ACCESS_PORT.getItemId())) {
             return BlockStorage.getInventory(port);
-        }
-        else {
+        } else {
             return null;
         }
     }

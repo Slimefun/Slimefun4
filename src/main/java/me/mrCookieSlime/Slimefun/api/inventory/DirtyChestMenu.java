@@ -2,6 +2,9 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
@@ -21,7 +24,7 @@ public class DirtyChestMenu extends ChestMenu {
     protected ItemManipulationEvent event;
     protected int changes = 1;
 
-    public DirtyChestMenu(BlockMenuPreset preset) {
+    public DirtyChestMenu(@Nonnull BlockMenuPreset preset) {
         super(preset.getTitle());
 
         this.preset = preset;
@@ -49,6 +52,7 @@ public class DirtyChestMenu extends ChestMenu {
         return changes;
     }
 
+    @Nonnull
     public BlockMenuPreset getPreset() {
         return preset;
     }
@@ -63,29 +67,45 @@ public class DirtyChestMenu extends ChestMenu {
         }
     }
 
+    /**
+     * This method has been deprecated.
+     * 
+     * @deprecated The {@link ItemManipulationEvent} has been deprecated.
+     * 
+     * @param event
+     *            deprecated class
+     */
+    @Deprecated
     public void registerEvent(ItemManipulationEvent event) {
         this.event = event;
     }
 
     @Override
     public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
-        if (handler instanceof SaveHandler) {
-            return super.addMenuOpeningHandler(new SaveHandler(this, ((SaveHandler) handler).getOpeningHandler()));
-        }
-        else {
-            return super.addMenuOpeningHandler(new SaveHandler(this, handler));
+        if (handler instanceof MenuSavingHandler) {
+            MenuOpeningHandler openingHandler = ((MenuSavingHandler) handler).getOpeningHandler();
+            return super.addMenuOpeningHandler(new MenuSavingHandler(this, openingHandler));
+        } else {
+            return super.addMenuOpeningHandler(new MenuSavingHandler(this, handler));
         }
     }
 
-    public boolean fits(ItemStack item, int... slots) {
-        return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
+    public boolean fits(@Nonnull ItemStack item, int... slots) {
+        if (getItemInSlot(slots[0]) == null) {
+            // Very small optimization
+            return true;
+        } else {
+            return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
+        }
     }
 
+    @Nullable
     public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
 
+        ItemStackWrapper wrapper = null;
         int amount = item.getAmount();
 
         for (int slot : slots) {
@@ -98,17 +118,22 @@ public class DirtyChestMenu extends ChestMenu {
             if (stack == null) {
                 replaceExistingItem(slot, item);
                 return null;
-            }
-            else if (stack.getAmount() < stack.getMaxStackSize() && ItemUtils.canStack(item, stack)) {
-                amount -= (stack.getMaxStackSize() - stack.getAmount());
-                stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), stack.getMaxStackSize()));
+            } else if (stack.getAmount() < stack.getMaxStackSize()) {
+                if (wrapper == null) {
+                    wrapper = new ItemStackWrapper(item);
+                }
+
+                if (ItemUtils.canStack(wrapper, stack)) {
+                    amount -= (stack.getMaxStackSize() - stack.getAmount());
+                    stack.setAmount(Math.min(stack.getAmount() + item.getAmount(), stack.getMaxStackSize()));
+                    item.setAmount(amount);
+                }
             }
         }
 
         if (amount > 0) {
             return new CustomItem(item, amount);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -132,35 +157,18 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public void replaceExistingItem(int slot, ItemStack item, boolean event) {
-        if (event && this.event != null) {
+        if (event) {
             ItemStack previous = getItemInSlot(slot);
-            item = this.event.onEvent(slot, previous, item);
+
+            if (this.event != null) {
+                item = this.event.onEvent(slot, previous, item);
+            }
+
+            item = preset.onItemStackChange(this, slot, previous, item);
         }
 
         super.replaceExistingItem(slot, item);
         markDirty();
-    }
-
-    public static class SaveHandler implements MenuOpeningHandler {
-
-        private final DirtyChestMenu menu;
-        private final MenuOpeningHandler handler;
-
-        public SaveHandler(DirtyChestMenu menu, MenuOpeningHandler handler) {
-            this.menu = menu;
-            this.handler = handler;
-        }
-
-        @Override
-        public void onOpen(Player p) {
-            handler.onOpen(p);
-            menu.markDirty();
-        }
-
-        public MenuOpeningHandler getOpeningHandler() {
-            return handler;
-        }
-
     }
 
 }

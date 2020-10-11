@@ -26,6 +26,9 @@ public final class ChestMenuUtils {
     private ChestMenuUtils() {}
 
     private static final ItemStack UI_BACKGROUND = new SlimefunItemStack("_UI_BACKGROUND", Material.GRAY_STAINED_GLASS_PANE, " ");
+    private static final ItemStack INPUT_SLOT = new SlimefunItemStack("_UI_INPUT_SLOT", Material.CYAN_STAINED_GLASS_PANE, " ");
+    private static final ItemStack OUTPUT_SLOT = new SlimefunItemStack("_UI_OUTPUT_SLOT", Material.ORANGE_STAINED_GLASS_PANE, " ");
+
     private static final ItemStack BACK_BUTTON = new SlimefunItemStack("_UI_BACK", Material.ENCHANTED_BOOK, "&7\u21E6 Back", meta -> meta.addItemFlags(ItemFlag.HIDE_ENCHANTS));
     private static final ItemStack MENU_BUTTON = new SlimefunItemStack("_UI_MENU", Material.COMPARATOR, "&eSettings / Info", "", "&7\u21E8 Click to see more");
     private static final ItemStack SEARCH_BUTTON = new SlimefunItemStack("_UI_SEARCH", Material.NAME_TAG, "&bSearch");
@@ -41,6 +44,16 @@ public final class ChestMenuUtils {
     @Nonnull
     public static ItemStack getBackground() {
         return UI_BACKGROUND;
+    }
+
+    @Nonnull
+    public static ItemStack getInputSlotTexture() {
+        return INPUT_SLOT;
+    }
+
+    @Nonnull
+    public static ItemStack getOutputSlotTexture() {
+        return OUTPUT_SLOT;
     }
 
     @Nonnull
@@ -81,8 +94,7 @@ public final class ChestMenuUtils {
                 meta.setDisplayName(ChatColor.DARK_GRAY + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
-        }
-        else {
+        } else {
             return new CustomItem(PREV_BUTTON_ACTIVE, meta -> {
                 meta.setDisplayName(ChatColor.WHITE + "\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.previous"));
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
@@ -97,8 +109,7 @@ public final class ChestMenuUtils {
                 meta.setDisplayName(ChatColor.DARK_GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));
             });
-        }
-        else {
+        } else {
             return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> {
                 meta.setDisplayName(ChatColor.WHITE + SlimefunPlugin.getLocalization().getMessage(p, "guide.pages.next") + " \u21E8");
                 meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")"));

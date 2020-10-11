@@ -27,9 +27,24 @@
 #### Additions
 * Added /sf charge
 * Added Energized Energy Capacitor
+* Added various new fuel types to the Coal Generator
+* Added a config option for Grappling Hooks to not be consumed on use
+* Added Talisman of the Caveman
+* You can now convert any gold ingot into gold dust with slightly less returns
+* Magical Zombie Pills now also work on Zombified Piglins
+* (API) Added SlimefunGuideOpenEvent
+* (API) Added "NotConfigurable" attribute to disable configurability
+* Added Elytra Cap
+* Added Planks to Sticks recipe to the Table Saw
+* Added "slimefun.gps.bypass" permission to open GPS devices anywhere
+* (API) Added custom tags for developers
+* The range of the Seeker Pickaxe is now configurable
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
+* General performance improvements
+* /sf cheat now shows seasonal categories all year through
+* GPS devices now require chest-access in that area to be used
 
 #### Fixes
 * Fixed #2300
@@ -41,6 +56,25 @@
 * Fixed #2325
 * Fixed Climbing Pick having no animation in creative mode
 * Fixed #2322
+* Fixed some cargo incompatibilities with overflowing inventories
+* Fixed #2353
+* Fixed #2359
+* Fixed #2356
+* Fixed #2358
+* Fixed #2360
+* Fixed #2351
+* Fixed #2357
+* Fixed Auto Enchanters being unaffected by speed modifications from addons
+* Fixed Auto Disenchanters being unaffected by speed modifications from addons
+* Fixed radioactive items still being radioactive when disabled
+* Fixed #2391
+* Fixed #2403
+* Fixed #2405
+* Fixed #2412
+* Fixed #2238
+* Fixed #2439
+* Fixed #2420
+* Fixed #2422
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
