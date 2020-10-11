@@ -92,17 +92,17 @@ public class TickerTask implements Runnable {
                 removals.remove();
             }
 
-            if (!halted) {
-                for (Map.Entry<String, Set<Location>> entry : activeTickers.entrySet()) {
-                    tickChunk(tickers, entry.getKey(), entry.getValue());
-                }
-            }
-
             Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
             while (moves.hasNext()) {
                 Map.Entry<Location, Location> entry = moves.next();
                 BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
                 moves.remove();
+            }
+
+            if (!halted) {
+                for (Map.Entry<String, Set<Location>> entry : activeTickers.entrySet()) {
+                    tickChunk(tickers, entry.getKey(), entry.getValue());
+                }
             }
 
             // Start a new tick cycle for every BlockTicker
