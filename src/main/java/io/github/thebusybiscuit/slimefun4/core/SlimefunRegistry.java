@@ -11,6 +11,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -47,7 +50,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  * @author TheBusyBiscuit
  *
  */
-public class SlimefunRegistry {
+public final class SlimefunRegistry {
 
     private final Map<String, SlimefunItem> slimefunIds = new HashMap<>();
     private final List<SlimefunItem> slimefunItems = new ArrayList<>();
@@ -86,7 +89,9 @@ public class SlimefunRegistry {
 
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
-    public void load(Config cfg) {
+    public void load(@Nonnull Config cfg) {
+        Validate.notNull(cfg, "The Config cannot be null!");
+
         boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
 
         layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
