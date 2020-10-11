@@ -81,12 +81,48 @@ slimefun:
     name: " Food Fabricator"
     lore:
     - Maak dit item zoals afgebeeld
-    - met behulp van een Food Fabricator.
+    - Met behulp van een Food Fabricator
   food_composter:
     name: " Food Composter"
     lore:
     - Maak dit item zoals afgebeeld
     - met behulp van een Food Composter.
+  freezer:
+    name: Freezer
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Freezer
+  geo_miner:
+    name: GEO Miner
+    lore:
+    - Dit item kan worden verzameld
+    - met behulp van een GEO Miner
+  nuclear_reactor:
+    name: Nuclear Reactor
+    lore:
+    - Dit item is een bijproduct
+    - als je een kernreactor gebruikt
+  oil_pump:
+    name: Oil Pump
+    lore:
+    - Dit item kan worden verzameld
+    - door een Oil Pump te gebruiken
+  pickaxe_of_containment:
+    name: de Pickaxe of Containment
+    lore:
+    - Dit blok kan worden verzameld
+    - door een Spawner te minen met
+    - Pickaxe of Containment
+  refinery:
+    name: Refinery
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Refinery
+  barter_drop:
+    name: Piglin ruilhandel drop
+    lore:
+    - 'Ruil Goud met Piglins '
+    - Om dit item te verkrijgen
 minecraft:
   shaped:
     name: Gevormd Verwerkingsrecept
@@ -125,3 +161,8 @@ minecraft:
     lore:
     - Maak dit item zoals afgebeeld
     - met behulp van een Steenzaag.
+  smithing:
+    name: Smeedstafel recept
+    lore:
+    - Maak dit item zoals afgebeeld
+    - met behulp van een Smeedstafel

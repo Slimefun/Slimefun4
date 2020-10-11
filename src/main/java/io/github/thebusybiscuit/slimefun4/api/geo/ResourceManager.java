@@ -201,15 +201,19 @@ public class ResourceManager {
 
         menu.addItem(47, ChestMenuUtils.getPreviousButton(p, page + 1, pages));
         menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
-            if (page > 0)
+            if (page > 0) {
                 scan(pl, block, page - 1);
+            }
+
             return false;
         });
 
         menu.addItem(51, ChestMenuUtils.getNextButton(p, page + 1, pages));
         menu.addMenuClickHandler(51, (pl, slot, item, action) -> {
-            if (page + 1 < pages)
+            if (page + 1 < pages) {
                 scan(pl, block, page + 1);
+            }
+
             return false;
         });
 

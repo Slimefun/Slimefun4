@@ -48,12 +48,7 @@ public class MetricsService {
     private boolean hasDownloadedUpdate = false;
 
     static {
-        Unirest.config()
-        .concurrency(2, 1)
-        .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
-        .setDefaultHeader("Accept", "application/vnd.github.v3+json")
-        .enableCookieManagement(false)
-        .cookieSpec("ignoreCookies");
+        Unirest.config().concurrency(2, 1).setDefaultHeader("User-Agent", "MetricsModule Auto-Updater").setDefaultHeader("Accept", "application/vnd.github.v3+json").enableCookieManagement(false).cookieSpec("ignoreCookies");
     }
 
     public MetricsService(@Nonnull SlimefunPlugin plugin) {
@@ -221,7 +216,7 @@ public class MetricsService {
                 return true;
             }
         } catch (UnirestException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down?");
+            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}", e.getMessage());
         } catch (IOException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
         }

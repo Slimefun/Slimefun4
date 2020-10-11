@@ -99,6 +99,9 @@ public class Translators {
         addTranslator("Dr4gonD", "DragonD", SupportedLanguage.DUTCH, true);
         addTranslator("svr333", SupportedLanguage.DUTCH, false);
         addTranslator("PabloMarcendo", SupportedLanguage.DUTCH, true);
+        addTranslator("milvantiou", SupportedLanguage.DUTCH, true);
+        addTranslator("Sven313D", SupportedLanguage.DUTCH, true);
+        addTranslator("TypischTeun", SupportedLanguage.DUTCH, true);
 
         // Translators - Danish
         addTranslator("Mini-kun", SupportedLanguage.DANISH, true);

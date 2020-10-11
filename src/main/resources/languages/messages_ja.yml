@@ -20,6 +20,10 @@ commands:
     player-never-joined: "&4その名前のプレイヤーが見つかりません！"
     backpack-does-not-exist: "&4指定したバックパックは存在しません！"
     restored-backpack-given: "&aバックパックが返還されました！"
+  charge:
+    description: 手に持っているアイテムを充電
+    charge-success: アイテムは充電されました！
+    not-rechargeable: このアイテムは充電できません！
 guide:
   search:
     message: "&b検索ワードをチャットで入力してください"
@@ -127,6 +131,7 @@ messages:
     knight: "&a&oタリスマンが再生効果を付与した"
     whirlwind: "&a&oタリスマンが飛び道具から身を護った"
     wizard: "&a&oタリスマンが高レベルの幸運を付与したが、他のエンチャントレベルは下がってしまった"
+    caveman: "&a&oタリスマンが採掘速度を上昇させた"
   soulbound-rune:
     fail: "&c一度に複数アイテムとのバインディングはできません"
     success: "&aアイテムとのバインディングが確立した！リスポーン時に当該アイテムは手繰り寄せられます"
@@ -307,6 +312,7 @@ languages:
   el: ギリシャ語
   he: ヘブライ語
   pt: ポルトガル語（ポルトガル）
+  pt-BR: ポルトガル語（ブラジル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -318,7 +324,6 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
-  pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語
   tr: トルコ語
@@ -331,5 +336,7 @@ brewing_stand:
   not-working: "&4Slimefunアイテムは醸造台で使えません！"
 villagers:
   no-trading: "&4Slimefunアイテムは村人との取引に使用できません！"
+cartography_table:
+  not-working: "&4Slimefunアイテムは製図台を使用できません！"
 miner:
   no-ores: "&e周辺には鉱石が見つかりませんでした！"

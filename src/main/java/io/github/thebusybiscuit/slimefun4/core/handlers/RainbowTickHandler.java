@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -10,7 +13,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.GlassPane;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollection;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
@@ -34,16 +36,20 @@ public class RainbowTickHandler extends BlockTicker {
     private final boolean glassPanes;
     private Material material;
 
-    public RainbowTickHandler(Material... materials) {
+    public RainbowTickHandler(@Nonnull List<Material> materials) {
         Validate.noNullElements(materials, "A RainbowTicker cannot have a Material that is null!");
 
-        if (materials.length == 0) {
+        if (materials.isEmpty()) {
             throw new IllegalArgumentException("A RainbowTicker must have at least one Material associated with it!");
         }
 
         glassPanes = containsGlassPanes(materials);
-        iterator = new LoopIterator<>(Arrays.asList(materials));
+        iterator = new LoopIterator<>(materials);
         material = iterator.next();
+    }
+
+    public RainbowTickHandler(Material... materials) {
+        this(Arrays.asList(materials));
     }
 
     /**
@@ -57,7 +63,7 @@ public class RainbowTickHandler extends BlockTicker {
      * 
      * @return Whether the array contained any {@link GlassPane} materials
      */
-    private boolean containsGlassPanes(Material[] materials) {
+    private boolean containsGlassPanes(@Nonnull List<Material> materials) {
         if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             // BlockData is not available to us during Unit Tests :/
             return false;
@@ -73,10 +79,6 @@ public class RainbowTickHandler extends BlockTicker {
         }
 
         return false;
-    }
-
-    public RainbowTickHandler(MaterialCollection collection) {
-        this(collection.getAsArray());
     }
 
     @Override
