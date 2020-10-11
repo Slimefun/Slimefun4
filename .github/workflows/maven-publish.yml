@@ -25,5 +25,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: MoreTools
+        name: Slimefun-UNOFFICIAL
         path: target/*.jar
