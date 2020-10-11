@@ -1506,7 +1506,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new EnergyConnector(categories.electricity, SlimefunItems.ENERGY_CONNECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.COPPER_INGOT, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.CARBON},
+        new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON},
         new SlimefunItemStack(SlimefunItems.ENERGY_CONNECTOR, 8))
         .register(plugin);
 
