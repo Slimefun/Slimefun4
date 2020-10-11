@@ -59,14 +59,14 @@ public class MinerAndroid extends ProgrammableAndroid {
             OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")));
 
             if (SlimefunPlugin.getProtectionManager().hasPermission(owner, block.getLocation(), ProtectableAction.BREAK_BLOCK)) {
+                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
 
-                // We only want to break non-Slimefun blocks.
+                // We only want to break non-Slimefun blocks by default, although an addon may want it differently.
                 String blockId = BlockStorage.checkID(block);
                 if (blockId != null) {
-                    return;
+                    event.setCancelled(true);
                 }
 
-                AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
                 Bukkit.getPluginManager().callEvent(event);
 
                 if (!event.isCancelled()) {
