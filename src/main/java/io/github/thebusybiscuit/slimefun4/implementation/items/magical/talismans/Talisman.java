@@ -134,12 +134,20 @@ public class Talisman extends SlimefunItem {
         return talisman.getMessageSuffix() != null;
     }
 
-    public static ItemStack checkFor(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
-        return checkFor(e, stack.getItem());
+    public static boolean tryActivate(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
+        return (tryActivateAndGet(e, stack.getItem()) != null);
+    }
+
+    public static boolean tryActivate(@Nonnull Event e, @Nonnull SlimefunItem item) {
+        return (tryActivateAndGet(e, item) != null);
+    }
+
+    public static ItemStack tryActivateAndGet(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
+        return tryActivateAndGet(e, stack.getItem());
     }
 
     @Nullable
-    public static ItemStack checkFor(@Nonnull Event e, @Nonnull SlimefunItem item) {
+    public static ItemStack tryActivateAndGet(@Nonnull Event e, @Nonnull SlimefunItem item) {
         if (!(item instanceof Talisman)) {
             return null;
         }
@@ -154,23 +162,25 @@ public class Talisman extends SlimefunItem {
             return null;
         }
 
-        ItemStack talismanItem = talisman.getItem();
-        ItemStack enderTalisman = talisman.getEnderVariant();
-
         if (!Slimefun.hasUnlocked(p, talisman, true)) {
             return null;
         }
 
-        if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
+        ItemStack possibleTalisman = retrieveTalismanFromInventory(p.getInventory(), talisman);
+
+        if (possibleTalisman != null) {
             activateTalisman(e, p, p.getInventory(), talisman);
-            return retrieveTalismanFromInventory(p.getInventory(), talisman);
-        }
-        else if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) { 
-            activateTalisman(e, p, p.getEnderChest(), talisman);
-            return retrieveTalismanFromInventory(p.getEnderChest(), talisman);
+            return possibleTalisman;
         }
 
-        return null;
+        possibleTalisman = retrieveTalismanFromInventory(p.getEnderChest(), talisman);
+
+        if (possibleTalisman != null) {
+            activateTalisman(e, p, p.getEnderChest(), talisman);
+            return possibleTalisman;
+        }
+
+        return possibleTalisman;
     }
 
     @Nullable
