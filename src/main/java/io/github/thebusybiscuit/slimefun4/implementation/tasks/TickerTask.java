@@ -142,8 +142,7 @@ public class TickerTask implements Runnable {
                 // Run the synchronous ticker task.
                 task.run();
             }
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return;
         }
@@ -192,8 +191,7 @@ public class TickerTask implements Runnable {
                     BlockStorage.deleteLocationInfoUnsafely(entry.getKey(), entry.getValue());
                     removals.remove();
                 }
-            }
-            finally {
+            } finally {
                 queueLock.writeLock().unlock();
             }
 
@@ -212,8 +210,7 @@ public class TickerTask implements Runnable {
                     BlockStorage.moveLocationInfoUnsafely(entry.getKey(), entry.getValue());
                     moves.remove();
                 }
-            }
-            finally {
+            } finally {
                 queueLock.writeLock().unlock();
             }
 
@@ -225,13 +222,12 @@ public class TickerTask implements Runnable {
             SlimefunPlugin.getProfiler().stop();
         } catch (Exception | LinkageError x) {
             Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
-        }
-        finally {
+        } finally {
             try {
                 // Notify the sync task processor that the end of the ticker list has been reached.
                 syncTasks.put(END_ELEMENT);
-            }
-            catch (InterruptedException e) {
+
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 return;
             }
@@ -339,8 +335,7 @@ public class TickerTask implements Runnable {
         queueLock.readLock().lock();
         try {
             movingQueue.put(from, to);
-        }
-        finally {
+        } finally {
             queueLock.readLock().unlock();
         }
     }
@@ -351,8 +346,7 @@ public class TickerTask implements Runnable {
         queueLock.readLock().lock();
         try {
             deletionQueue.put(l, destroy);
-        }
-        finally {
+        } finally {
             queueLock.readLock().unlock();
         }
     }
