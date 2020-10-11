@@ -14,7 +14,12 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-// This interface should be reconsidered and moved at some point too
+/**
+ * 
+ * @deprecated This interface is not designed to be used by addons.
+ *
+ */
+@Deprecated
 public interface InventoryBlock {
 
     /**
@@ -47,10 +52,11 @@ public interface InventoryBlock {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-                if (flow == ItemTransportFlow.INSERT)
+                if (flow == ItemTransportFlow.INSERT) {
                     return getInputSlots();
-                else
+                } else {
                     return getOutputSlots();
+                }
             }
 
             @Override
