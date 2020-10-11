@@ -49,6 +49,7 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
     public ItemUseHandler getItemHandler() {
         return e -> {
             Optional<Block> block = e.getClickedBlock();
+
             if (block.isPresent() && Tag.SIGNS.isTagged(block.get().getType())) {
                 e.cancel();
             }
