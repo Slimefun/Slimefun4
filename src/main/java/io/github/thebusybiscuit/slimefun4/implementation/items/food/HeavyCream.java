@@ -1,16 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 /**
  * This {@link SlimefunItem} can be obtained by crafting, it's
@@ -28,18 +29,16 @@ public class HeavyCream extends SimpleSlimefunItem<ItemUseHandler> {
     @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
-        return this::use;
-    }
-
-    public void use(PlayerRightClickEvent e) {
-        if (e.getClickedBlock().isPresent()) {
-            if (!e.getClickedBlock().get().getType().isInteractable()) {
+        return e -> {
+            Optional<Block> block = e.getClickedBlock();
+            if (block.isPresent()) {
+                if (!block.get().getType().isInteractable()) {
+                    e.cancel();
+                }
+            } else {
                 e.cancel();
             }
-        }
-        else {
-            e.cancel();
-        }
+        };
     }
 
 }

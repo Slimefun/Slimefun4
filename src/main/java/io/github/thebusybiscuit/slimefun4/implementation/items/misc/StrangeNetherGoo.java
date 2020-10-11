@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -18,6 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * This {@link SlimefunItem} can only be obtained via bartering with a {@link Piglin}, its
@@ -47,15 +47,12 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
     @Nonnull
     @Override
     public ItemUseHandler getItemHandler() {
-        return this::use;
-    }
-
-    public void use(PlayerRightClickEvent e) {
-        if (e.getClickedBlock().isPresent()) {
-            if (Tag.SIGNS.isTagged(e.getClickedBlock().get().getType())) {
+        return e -> {
+            Optional<Block> block = e.getClickedBlock();
+            if (block.isPresent() && Tag.SIGNS.isTagged(block.get().getType())) {
                 e.cancel();
             }
-        }
+        };
     }
 
 }
