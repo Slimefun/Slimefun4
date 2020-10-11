@@ -53,10 +53,10 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
             Player p = e.getPlayer();
 
             if (entity instanceof ZombieVillager) {
-                useItem(p);
+                useItem(p, item);
                 healZombieVillager((ZombieVillager) entity, p);
             } else if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16) && entity instanceof PigZombie) {
-                useItem(p);
+                useItem(p, item);
                 healZombifiedPiglin((PigZombie) entity);
             }
         };
@@ -71,7 +71,7 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return PlayerRightClickEvent::cancel;
     }
 
-    private void useItem(@Nonnull Player p) {
+    private void useItem(@Nonnull Player p, @Nonnull ItemStack item) {
         if (p.getGameMode() != GameMode.CREATIVE) {
             ItemUtils.consumeItem(item, false);
         }

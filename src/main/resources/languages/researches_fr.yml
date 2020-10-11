@@ -143,8 +143,8 @@ slimefun:
   oil: Pétrole
   fuel: Fioul
   hologram_projector: Hologrammes
-  capacitors: Condensateurs de niveau 1
-  high_tier_capacitors: Condensateurs de niveau 2
+  capacitors: Condensateur de niveau 1
+  high_tier_capacitors: Condensateur de niveau 2
   solar_generators: Centrale solaire
   electric_furnaces: Fourneau électrique
   electric_ore_grinding: Concassage et broyage
@@ -243,3 +243,6 @@ slimefun:
   climbing_pick: Piolet d'escalade
   shulker_shell: Carapace de Shulker synthétique
   villager_rune: Réinitialiser les échanges des villageois
+  caveman_talisman: Talisman de l'Homme des cavernes
+  even_higher_tier_capacitors: Condensateurs de niveau 3
+  elytra_cap: Matériel d'urgence

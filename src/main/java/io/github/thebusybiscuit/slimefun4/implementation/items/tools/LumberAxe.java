@@ -12,7 +12,6 @@ import org.bukkit.block.data.Orientable;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
@@ -49,7 +48,7 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
 
     private ToolUseHandler onBlockBreak() {
         return (e, tool, fortune, drops) -> {
-            if (MaterialCollections.getAllLogs().contains(e.getBlock().getType())) {
+            if (Tag.LOGS.isTagged(e.getBlock().getType())) {
                 List<Block> logs = Vein.find(e.getBlock(), MAX_BROKEN, b -> Tag.LOGS.isTagged(b.getType()));
 
                 if (logs.contains(e.getBlock())) {
