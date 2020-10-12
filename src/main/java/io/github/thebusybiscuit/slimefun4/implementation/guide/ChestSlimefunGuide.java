@@ -300,7 +300,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                             }
                         }
                     }
-
                 }
                 return false;
             });
