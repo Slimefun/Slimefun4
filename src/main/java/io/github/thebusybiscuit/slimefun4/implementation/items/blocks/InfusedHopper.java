@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -12,17 +14,16 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.TickingBlock;
+import io.github.thebusybiscuit.slimefun4.core.attributes.TickingMethod;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
+public class InfusedHopper extends SlimefunItem implements TickingBlock {
 
     private final ItemSetting<Boolean> silent = new ItemSetting<>("silent", false);
     private final ItemSetting<Double> radius = new DoubleRangeSetting("radius", 0.1, 3.5, Double.MAX_VALUE);
@@ -34,37 +35,31 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
     }
 
     @Override
-    public BlockTicker getItemHandler() {
-        return new BlockTicker() {
+    public TickingMethod getTickingMethod() {
+        return TickingMethod.MAIN_THREAD;
+    }
 
-            @Override
-            public void tick(Block b, SlimefunItem sfItem, Config data) {
-                if (b.getType() != Material.HOPPER) {
-                    // we're no longer a hopper, we were probably destroyed. skipping this tick.
-                    BlockStorage.clearBlockInfo(b);
-                    return;
-                }
+    @Override
+    public void tick(@Nonnull Block b) {
+        if (b.getType() != Material.HOPPER) {
+            // we're no longer a hopper, we were probably destroyed. skipping this tick.
+            BlockStorage.clearBlockInfo(b);
+            return;
+        }
 
-                Location l = b.getLocation().add(0.5, 1.2, 0.5);
-                boolean sound = false;
-                double range = radius.getValue();
+        Location l = b.getLocation().add(0.5, 1.2, 0.5);
+        boolean sound = false;
+        double range = radius.getValue();
 
-                for (Entity item : b.getWorld().getNearbyEntities(l, range, range, range, n -> isValidItem(l, n))) {
-                    item.setVelocity(new Vector(0, 0.1, 0));
-                    item.teleport(l);
-                    sound = true;
-                }
+        for (Entity item : b.getWorld().getNearbyEntities(l, range, range, range, n -> isValidItem(l, n))) {
+            item.setVelocity(new Vector(0, 0.1, 0));
+            item.teleport(l);
+            sound = true;
+        }
 
-                if (sound && !silent.getValue().booleanValue()) {
-                    b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1F, 2F);
-                }
-            }
-
-            @Override
-            public boolean isSynchronized() {
-                return true;
-            }
-        };
+        if (sound && !silent.getValue().booleanValue()) {
+            b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1F, 2F);
+        }
     }
 
     private boolean isValidItem(Location l, Entity entity) {

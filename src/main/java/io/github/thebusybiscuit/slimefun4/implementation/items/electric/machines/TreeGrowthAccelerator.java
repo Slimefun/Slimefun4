@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Particle;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -43,7 +45,7 @@ public class TreeGrowthAccelerator extends AbstractGrowthAccelerator {
     }
 
     @Override
-    protected void tick(Block b) {
+    public void tick(@Nonnull Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
         if (getCharge(b.getLocation()) >= ENERGY_CONSUMPTION) {

@@ -25,6 +25,6 @@ public enum TickingMethod {
      * {@link Thread}, this will be better performance-wise but make sure to deal
      * with any concurrency-related issues!
      */
-    NEW_THREAD;
+    SEPERATE_THREAD;
 
 }

@@ -86,7 +86,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockPlaceHandle
 
     @Override
     public TickingMethod getTickingMethod() {
-        return TickingMethod.NEW_THREAD;
+        return TickingMethod.SEPERATE_THREAD;
     }
 
     @Override
