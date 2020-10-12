@@ -6,9 +6,16 @@ import org.bukkit.block.Block;
 
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.TickingBlock;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+/**
+ * 
+ * @deprecated Deprecated. Implement the {@link TickingBlock} interface instead.
+ *
+ */
+@Deprecated
 public abstract class BlockTicker implements ItemHandler {
 
     protected boolean unique = true;

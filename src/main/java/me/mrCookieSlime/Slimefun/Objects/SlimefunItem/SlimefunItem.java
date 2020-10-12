@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -32,9 +33,12 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.TickingBlock;
+import io.github.thebusybiscuit.slimefun4.core.attributes.TickingMethod;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -44,6 +48,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -379,6 +384,7 @@ public class SlimefunItem implements Placeable {
         return addon;
     }
 
+    @Nullable
     public BlockTicker getBlockTicker() {
         return blockTicker;
     }
@@ -485,13 +491,42 @@ public class SlimefunItem implements Placeable {
         // Add it to the list of enabled items
         SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
 
-        // Load our Item Handlers
-        loadItemHandlers();
+        // Register it as a TickingBlock
+        if (this instanceof TickingBlock) {
+            // Check if the item isn't misconfigured
+            if (itemStackTemplate.getType().isBlock() && !(this instanceof NotPlaceable)) {
+                TickingBlock ticker = (TickingBlock) this;
+
+                // Temporary compatibility bridge
+                addItemHandler(new BlockTicker() {
+
+                    @Override
+                    public void tick(Block b, SlimefunItem item, Config data) {
+                        ticker.tick(b);
+                    }
+
+                    @Override
+                    public boolean isSynchronized() {
+                        return ticker.getTickingMethod() == TickingMethod.MAIN_THREAD;
+                    }
+
+                    @Override
+                    public void uniqueTick() {
+                        ticker.onTickCycleStart();
+                    }
+                });
+            } else {
+                warn("This item is non-placable but has been marked as a 'TickingBlock', this is a bug!");
+            }
+        }
 
         // Properly mark this Item as radioactive
         if (this instanceof Radioactive) {
             SlimefunPlugin.getRegistry().getRadioactiveItems().add(this);
         }
+
+        // Load our Item Handlers
+        loadItemHandlers();
     }
 
     private void loadItemHandlers() {
