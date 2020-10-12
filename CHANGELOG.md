@@ -40,6 +40,8 @@
 * (API) Added custom tags for developers
 * The range of the Seeker Pickaxe is now configurable
 * Added Energy Connector
+* Blackstone can now be turned into lava using a Crucible
+* Basalt can now be turned into lava using a Crucible
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
