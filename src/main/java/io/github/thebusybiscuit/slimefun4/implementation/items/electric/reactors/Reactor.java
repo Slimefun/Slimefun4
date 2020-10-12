@@ -360,7 +360,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
         if (processing.get(l).getOutput() != null) {
-            inv.pushItem(processing.get(l).getOutput(), getOutputSlots());
+            inv.pushItem(processing.get(l).getOutput().clone(), getOutputSlots());
         }
 
         if (accessPort != null) {
