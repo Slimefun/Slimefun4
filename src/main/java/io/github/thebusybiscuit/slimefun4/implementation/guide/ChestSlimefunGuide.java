@@ -10,6 +10,8 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PreCanUnlockResearchEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -284,15 +286,20 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, new CustomItem(Material.BARRIER, ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
-                    if (research.canUnlock(pl)) {
-                        if (profile.hasUnlocked(research)) {
-                            openCategory(profile, category, page);
-                        } else {
-                            unlockItem(pl, sfitem, player -> openCategory(profile, category, page));
-                        }
+                    if (profile.hasUnlocked(research)) {
+                        openCategory(profile, category, page);
                     } else {
-                        SlimefunPlugin.getLocalization().sendMessage(pl, "messages.not-enough-xp", true);
+                        PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(p,research,profile,sfitem,category);
+                        Bukkit.getPluginManager().callEvent(event);
+                        if(!event.isCancelled()) {
+                            if (research.canUnlock(pl)) {
+                                unlockItem(pl, sfitem, player -> openCategory(profile, category, page));
+                            } else {
+                                SlimefunPlugin.getLocalization().sendMessage(pl, "messages.not-enough-xp", true);
+                            }
+                        }
                     }
+
                 }
 
                 return false;

@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PreCanUnlockResearchEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -237,15 +239,20 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     private void research(Player p, PlayerProfile profile, SlimefunItem item, Research research, Category category, int page) {
         SlimefunPlugin.runSync(() -> {
             if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
-                if (research.canUnlock(p)) {
-                    if (profile.hasUnlocked(research)) {
-                        openCategory(profile, category, page);
-                    } else {
-                        unlockItem(p, item, pl -> openCategory(profile, category, page));
-                    }
+                if (profile.hasUnlocked(research)) {
+                    openCategory(profile, category, page);
                 } else {
-                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-enough-xp", true);
+                    PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(p,research,profile,item,category);
+                    Bukkit.getPluginManager().callEvent(event);
+                    if(!event.isCancelled()) {
+                        if (research.canUnlock(p)) {
+                            unlockItem(p, item, pl -> openCategory(profile, category, page));
+                        } else {
+                            SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-enough-xp", true);
+                        }
+                    }
                 }
+
             }
         });
     }
