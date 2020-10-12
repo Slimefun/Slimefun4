@@ -39,6 +39,7 @@
 * Added "slimefun.gps.bypass" permission to open GPS devices anywhere
 * (API) Added custom tags for developers
 * The range of the Seeker Pickaxe is now configurable
+* Added Energy Connector
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
