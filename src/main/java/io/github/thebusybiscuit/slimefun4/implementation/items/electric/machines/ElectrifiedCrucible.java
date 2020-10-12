@@ -33,10 +33,8 @@ public abstract class ElectrifiedCrucible extends AContainer {
         }
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            registerRecipe(10, new ItemStack[] {new ItemStack(Material.BUCKET),
-                new ItemStack(Material.BLACKSTONE, 8)}, new ItemStack[] {new ItemStack(Material.LAVA_BUCKET)});
-            registerRecipe(10, new ItemStack[] {new ItemStack(Material.BUCKET), new ItemStack(Material.BASALT, 8)},
-                new ItemStack[] {new ItemStack(Material.LAVA_BUCKET)});
+            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.BLACKSTONE, 8) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
+            registerRecipe(10, new ItemStack[] { new ItemStack(Material.BUCKET), new ItemStack(Material.BASALT, 12) }, new ItemStack[] { new ItemStack(Material.LAVA_BUCKET) });
         }
     }
 
