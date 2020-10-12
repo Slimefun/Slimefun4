@@ -247,7 +247,7 @@ public final class PostSetup {
 
     private static boolean isDust(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        return sfItem != null && sfItem.getID().endsWith("_DUST");
+        return sfItem != null && sfItem.getId().endsWith("_DUST");
     }
 
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {

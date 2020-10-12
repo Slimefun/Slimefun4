@@ -28,7 +28,7 @@ public abstract class AbstractGrowthAccelerator extends SlimefunItem implements 
 
         createPreset(this, this::constructMenu);
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {

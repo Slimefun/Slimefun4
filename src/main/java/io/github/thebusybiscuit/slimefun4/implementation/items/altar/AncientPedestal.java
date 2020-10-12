@@ -53,7 +53,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
     public AncientPedestal(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
-        SlimefunItem.registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        SlimefunItem.registerBlockHandler(getId(), (p, b, tool, reason) -> {
             Optional<Item> entity = getPlacedItem(b);
 
             if (entity.isPresent()) {

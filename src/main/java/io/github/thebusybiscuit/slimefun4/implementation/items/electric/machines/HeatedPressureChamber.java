@@ -28,7 +28,7 @@ public abstract class HeatedPressureChamber extends AContainer {
     public HeatedPressureChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), getItemName()) {
+        new BlockMenuPreset(getId(), getItemName()) {
 
             @Override
             public void init() {

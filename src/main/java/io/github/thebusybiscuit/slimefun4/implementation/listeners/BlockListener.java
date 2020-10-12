@@ -66,10 +66,10 @@ public class BlockListener implements Listener {
                 e.setCancelled(true);
             } else {
                 if (SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
-                    SlimefunPlugin.getBlockDataService().setBlockData(e.getBlock(), sfItem.getID());
+                    SlimefunPlugin.getBlockDataService().setBlockData(e.getBlock(), sfItem.getId());
                 }
 
-                BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getID(), true);
+                BlockStorage.addBlockInfo(e.getBlock(), "id", sfItem.getId(), true);
                 sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
             }
         }
@@ -118,7 +118,7 @@ public class BlockListener implements Listener {
         }
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-            SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+            SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getId());
 
             if (blockHandler != null) {
                 if (!blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK)) {
@@ -167,7 +167,7 @@ public class BlockListener implements Listener {
             SlimefunItem sfItem = BlockStorage.check(blockAbove);
 
             if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-                SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+                SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getId());
 
                 if (blockHandler != null) {
                     if (blockHandler.onBreak(p, blockAbove, sfItem, UnregisterReason.PLAYER_BREAK)) {
