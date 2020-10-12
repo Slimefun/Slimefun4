@@ -24,7 +24,9 @@ public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
     @Override
     public BlockUseHandler getItemHandler() {
         return e -> {
-            if (!e.getClickedBlock().isPresent()) return;
+            if (!e.getClickedBlock().isPresent()) {
+                return;
+            }
 
             Player p = e.getPlayer();
             Block b = e.getClickedBlock().get();
