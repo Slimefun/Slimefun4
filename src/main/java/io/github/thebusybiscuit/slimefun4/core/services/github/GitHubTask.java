@@ -88,7 +88,7 @@ class GitHubTask implements Runnable {
             } catch (IOException x) {
                 // Too many requests
                 Slimefun.getLogger().log(Level.WARNING, "Attempted to connect to mojang.com, got this response: {0}: {1}", new Object[] { x.getClass().getSimpleName(), x.getMessage() });
-                Slimefun.getLogger().log(Level.WARNING, "This usually means mojang.com is down or started to rate-limit this connection, this is not an error message!");
+                Slimefun.getLogger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, this is not an error message!");
 
                 // Retry after 5 minutes if it was rate-limiting
                 if (x.getMessage().contains("429")) {
