@@ -242,9 +242,10 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                 if (profile.hasUnlocked(research)) {
                     openCategory(profile, category, page);
                 } else {
-                    PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(p,research,profile,item,category);
+                    PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(p, research, item);
                     Bukkit.getPluginManager().callEvent(event);
-                    if(!event.isCancelled()) {
+
+                    if (!event.isCancelled()) {
                         if (research.canUnlock(p)) {
                             unlockItem(p, item, pl -> openCategory(profile, category, page));
                         } else {
@@ -252,7 +253,6 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                         }
                     }
                 }
-
             }
         });
     }

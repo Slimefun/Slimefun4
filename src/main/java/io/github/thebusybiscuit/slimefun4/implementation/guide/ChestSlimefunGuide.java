@@ -289,9 +289,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                     if (profile.hasUnlocked(research)) {
                         openCategory(profile, category, page);
                     } else {
-                        PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(p,research,profile,sfitem,category);
+                        PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(p, research, sfitem);
                         Bukkit.getPluginManager().callEvent(event);
-                        if(!event.isCancelled()) {
+
+                        if (!event.isCancelled()) {
                             if (research.canUnlock(pl)) {
                                 unlockItem(pl, sfitem, player -> openCategory(profile, category, page));
                             } else {
@@ -301,7 +302,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
                     }
 
                 }
-
                 return false;
             });
         } else {

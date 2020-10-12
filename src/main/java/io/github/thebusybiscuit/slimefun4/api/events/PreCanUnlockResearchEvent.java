@@ -13,64 +13,55 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * This {@link Event} is called whenever a {@link Player} click to unlock a research.
+ * This is called called before {@link Research#canUnlock(Player)}
+ * The event is not called for the cheat sheet
+ *
+ * @author uiytt
+ *
+ * @see ChestSlimefunGuide
+ * @see BookSlimefunGuide
+ *
+ */
 public class PreCanUnlockResearchEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled = false;
 
     private final Player player;
     private final Research research;
-    private final PlayerProfile profile;
     private final SlimefunItem slimefunItem;
-    private final Category category;
 
-    /**
-     * This {@link Event} is called whenever a {@link Player} click to unlock a research.
-     * This is called called before {@link Research#canUnlock(Player)}
-     * The event is not called for the cheat sheet
-     *
-     * @author uiytt
-     *
-     * @see ChestSlimefunGuide
-     * @see BookSlimefunGuide
-     *
-     */
-    public PreCanUnlockResearchEvent(@Nonnull Player p, @Nonnull Research research, @Nonnull PlayerProfile profile, @Nonnull SlimefunItem slimefunItem, @Nonnull Category category) {
+    private boolean cancelled;
+
+
+    @ParametersAreNonnullByDefault
+    public PreCanUnlockResearchEvent(Player p, Research research, SlimefunItem slimefunItem) {
         Validate.notNull(p, "The Player cannot be null");
         Validate.notNull(research, "Research cannot be null");
-        Validate.notNull(profile, "PlayerProfile cannot be null");
         Validate.notNull(slimefunItem, "SlimefunItem cannot be null");
-        Validate.notNull(category, "Category cannot be null");
 
         this.player = p;
         this.research = research;
-        this.profile = profile;
         this.slimefunItem = slimefunItem;
-        this.category = category;
     }
 
     @Nonnull
     public Player getPlayer() {
-        return this.player;
-    }
-    @Nonnull
-    public Research getResearch() {
-        return this.research;
-    }
-    @Nonnull
-    public PlayerProfile getProfile() {
-        return this.profile;
-    }
-    @Nonnull
-    public SlimefunItem getSlimefunItem() {
-        return this.slimefunItem;
-    }
-    @Nonnull
-    public Category getCategory() {
-        return this.category;
+        return player;
     }
 
+    @Nonnull
+    public Research getResearch() {
+        return research;
+    }
+
+    @Nonnull
+    public SlimefunItem getSlimefunItem() {
+        return slimefunItem;
+    }
 
     @Nonnull
     public static HandlerList getHandlerList() {
