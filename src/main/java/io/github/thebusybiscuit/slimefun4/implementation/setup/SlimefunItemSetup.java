@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AdvancedFarmerAndroid;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInterface;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FarmerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FisherAndroid;
@@ -110,11 +111,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.BirthdayCake;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.FortuneCookie;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.HeavyCream;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MagicSugar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MeatJerky;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MonsterJerky;
-import io.github.thebusybiscuit.slimefun4.implementation.items.food.HeavyCream;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.OilPump;
@@ -2181,11 +2182,11 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.ELECTRO_MAGNET, null, null, SlimefunItems.GPS_TRANSMITTER, null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
         .register(plugin);
 
-        new SlimefunItem(categories.androids, SlimefunItems.ANDROID_INTERFACE_ITEMS, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new AndroidInterface(categories.androids, SlimefunItems.ANDROID_INTERFACE_ITEMS, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.BLUE_STAINED_GLASS), SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET})
         .register(plugin);
 
-        new SlimefunItem(categories.androids, SlimefunItems.ANDROID_INTERFACE_FUEL, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new AndroidInterface(categories.androids, SlimefunItems.ANDROID_INTERFACE_FUEL, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET, new ItemStack(Material.RED_STAINED_GLASS), SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET})
         .register(plugin);
 
