@@ -41,12 +41,12 @@ public class PermissionsService {
     public void register(@Nonnull Iterable<SlimefunItem> items, boolean save) {
         for (SlimefunItem item : items) {
             if (item != null) {
-                String path = item.getID() + ".permission";
+                String path = item.getId() + ".permission";
 
                 config.setDefaultValue(path, "none");
-                config.setDefaultValue(item.getID() + ".lore", new String[] { "&rYou do not have the permission", "&rto access this item." });
+                config.setDefaultValue(item.getId() + ".lore", new String[] { "&rYou do not have the permission", "&rto access this item." });
 
-                permissions.put(item.getID(), config.getString(path));
+                permissions.put(item.getId(), config.getString(path));
             }
         }
 
@@ -72,7 +72,7 @@ public class PermissionsService {
             return true;
         }
 
-        String permission = permissions.get(item.getID());
+        String permission = permissions.get(item.getId());
         return permission == null || permission.equals("none") || p.hasPermission(permission);
     }
 
@@ -89,7 +89,7 @@ public class PermissionsService {
     @Nonnull
     public Optional<String> getPermission(@Nonnull SlimefunItem item) {
         Validate.notNull(item, "Cannot get permissions for null");
-        String permission = permissions.get(item.getID());
+        String permission = permissions.get(item.getId());
 
         if (permission == null || permission.equals("none")) {
             return Optional.empty();
@@ -108,7 +108,7 @@ public class PermissionsService {
      */
     public void setPermission(@Nonnull SlimefunItem item, @Nullable String permission) {
         Validate.notNull(item, "You cannot set the permission for null");
-        permissions.put(item.getID(), permission != null ? permission : "none");
+        permissions.put(item.getId(), permission != null ? permission : "none");
     }
 
     /**
@@ -124,7 +124,7 @@ public class PermissionsService {
 
     @Nonnull
     public List<String> getLore(@Nonnull SlimefunItem item) {
-        List<String> lore = config.getStringList(item.getID() + ".lore");
+        List<String> lore = config.getStringList(item.getId() + ".lore");
         return lore == null ? Arrays.asList("LORE NOT FOUND") : lore;
     }
 

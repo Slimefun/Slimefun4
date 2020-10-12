@@ -127,7 +127,7 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
         SlimefunItem sfItem = BlockStorage.check(b);
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
-            SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getID());
+            SlimefunBlockHandler handler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getId());
 
             if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
                 drops.add(BlockStorage.retrieve(b));

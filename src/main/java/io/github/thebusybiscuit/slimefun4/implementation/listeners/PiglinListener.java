@@ -94,7 +94,7 @@ public class PiglinListener implements Listener {
                     int chance = ((PiglinBarterDrop) sfi).getBarteringLootChance();
 
                     if (chance < 1 || chance >= 100) {
-                        sfi.warn("The Piglin Bartering chance must be between 1-99% on item: " + sfi.getID());
+                        sfi.warn("The Piglin Bartering chance must be between 1-99% on item: " + sfi.getId());
                     } else if (chance > ThreadLocalRandom.current().nextInt(100)) {
                         e.getItemDrop().setItemStack(sfi.getRecipeOutput());
                         return;

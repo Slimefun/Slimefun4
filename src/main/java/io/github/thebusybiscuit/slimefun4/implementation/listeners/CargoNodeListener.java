@@ -47,6 +47,6 @@ public class CargoNodeListener implements Listener {
             return false;
         }
 
-        return sfItem.getID().equals(SlimefunItems.CARGO_INPUT_NODE.getItemId()) || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE.getItemId()) || sfItem.getID().equals(SlimefunItems.CARGO_OUTPUT_NODE_2.getItemId());
+        return sfItem.getId().equals(SlimefunItems.CARGO_INPUT_NODE.getItemId()) || sfItem.getId().equals(SlimefunItems.CARGO_OUTPUT_NODE.getItemId()) || sfItem.getId().equals(SlimefunItems.CARGO_OUTPUT_NODE_2.getItemId());
     }
 }

@@ -43,7 +43,7 @@ public interface InventoryBlock {
     }
 
     default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
-        new BlockMenuPreset(item.getID(), title) {
+        new BlockMenuPreset(item.getId(), title) {
 
             @Override
             public void init() {

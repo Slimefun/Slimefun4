@@ -45,7 +45,7 @@ public class ChristmasPresent extends SimpleSlimefunItem<BlockPlaceHandler> impl
                 e.setCancelled(true);
 
                 if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-                    ItemUtils.consumeItem(item, false);
+                    ItemUtils.consumeItem(e.getItemInHand(), false);
                 }
 
                 FireworkUtils.launchRandom(e.getPlayer(), 3);

@@ -119,7 +119,7 @@ public class MultiBlock {
 
     @Override
     public int hashCode() {
-        return Objects.hash(item.getID(), blocks, trigger, isSymmetric);
+        return Objects.hash(item.getId(), blocks, trigger, isSymmetric);
     }
 
     private boolean compareBlocks(Material a, @Nullable Material b) {
@@ -161,6 +161,6 @@ public class MultiBlock {
 
     @Override
     public String toString() {
-        return "MultiBlock (" + item.getID() + ") {" + Arrays.toString(blocks) + "}";
+        return "MultiBlock (" + item.getId() + ") {" + Arrays.toString(blocks) + "}";
     }
 }
