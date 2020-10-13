@@ -15,12 +15,12 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
-class PlaceholderAPIHook extends PlaceholderExpansion {
+class PlaceholderAPIIntegration extends PlaceholderExpansion {
 
     private final String version;
     private final String author;
 
-    public PlaceholderAPIHook(@Nonnull SlimefunPlugin plugin) {
+    public PlaceholderAPIIntegration(@Nonnull SlimefunPlugin plugin) {
         this.version = plugin.getDescription().getVersion();
         this.author = plugin.getDescription().getAuthors().toString();
     }

@@ -13,9 +13,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.minebuilders.clearlag.events.EntityRemoveEvent;
 
-class ClearLagHook implements Listener {
+class ClearLagIntegration implements Listener {
 
-    ClearLagHook(@Nonnull SlimefunPlugin plugin) {
+    ClearLagIntegration(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

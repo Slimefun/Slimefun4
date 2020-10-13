@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -34,12 +35,18 @@ public class ThirdPartyPluginService {
     private boolean isExoticGardenInstalled = false;
     private boolean isChestTerminalInstalled = false;
     private boolean isEmeraldEnchantsInstalled = false;
-    private boolean isCoreProtectInstalled = false;
-    private boolean isPlaceholderAPIInstalled = false;
 
-    // Overridden if ExoticGarden is loaded
+    /**
+     * This gets overridden if ExoticGarden is loaded
+     */
     private Function<Block, Optional<ItemStack>> exoticGardenIntegration = b -> Optional.empty();
 
+    /**
+     * This initializes the {@link ThirdPartyPluginService}
+     * 
+     * @param plugin
+     *            Our instance of {@link SlimefunPlugin}
+     */
     public ThirdPartyPluginService(@Nonnull SlimefunPlugin plugin) {
         this.plugin = plugin;
     }
@@ -47,9 +54,8 @@ public class ThirdPartyPluginService {
     public void start() {
         if (isPluginInstalled("PlaceholderAPI")) {
             try {
-                PlaceholderAPIHook hook = new PlaceholderAPIHook(plugin);
+                PlaceholderAPIIntegration hook = new PlaceholderAPIIntegration(plugin);
                 hook.register();
-                isPlaceholderAPIInstalled = true;
             } catch (Exception | LinkageError x) {
                 String version = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI").getDescription().getVersion();
 
@@ -69,13 +75,18 @@ public class ThirdPartyPluginService {
         if (isPluginInstalled("WorldEdit")) {
             try {
                 Class.forName("com.sk89q.worldedit.extent.Extent");
-                new WorldEditHook();
+                new WorldEditIntegration();
             } catch (Exception | LinkageError x) {
                 String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
 
                 Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
                 Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
             }
+        }
+
+        // mcMMO Block Placer Integration
+        if (isPluginInstalled("mcMMO")) {
+            new McMMOIntegration(plugin);
         }
 
         /*
@@ -85,7 +96,7 @@ public class ThirdPartyPluginService {
          */
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (isPluginInstalled("ClearLag")) {
-                new ClearLagHook(plugin);
+                new ClearLagIntegration(plugin);
             }
 
             isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
@@ -101,6 +112,7 @@ public class ThirdPartyPluginService {
         }
     }
 
+    @ParametersAreNonnullByDefault
     public void loadExoticGarden(Plugin plugin, Function<Block, Optional<ItemStack>> method) {
         if (plugin.getName().equals("ExoticGarden")) {
             isExoticGardenInstalled = true;
@@ -118,14 +130,6 @@ public class ThirdPartyPluginService {
 
     public boolean isEmeraldEnchantsInstalled() {
         return isEmeraldEnchantsInstalled;
-    }
-
-    public boolean isCoreProtectInstalled() {
-        return isCoreProtectInstalled;
-    }
-
-    public boolean isPlaceholderAPIInstalled() {
-        return isPlaceholderAPIInstalled;
     }
 
     public Optional<ItemStack> harvestExoticGardenPlant(Block block) {

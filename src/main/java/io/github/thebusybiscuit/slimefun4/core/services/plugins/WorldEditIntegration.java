@@ -14,9 +14,9 @@ import com.sk89q.worldedit.world.block.BlockStateHolder;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-class WorldEditHook {
+class WorldEditIntegration {
 
-    WorldEditHook() {
+    WorldEditIntegration() {
         WorldEdit.getInstance().getEventBus().register(this);
     }
 

@@ -42,6 +42,7 @@
 * Added Energy Connector
 * Blackstone can now be turned into lava using a Crucible
 * Basalt can now be turned into lava using a Crucible
+* Added mcMMO support/integration
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
@@ -84,6 +85,7 @@
 * Fixed Steel Thrusters being used to milk cows
 * Fixed #2424
 * Fixed #2468
+* Fixed #2454
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
