@@ -42,6 +42,7 @@
 * Added Energy Connector
 * Blackstone can now be turned into lava using a Crucible
 * Basalt can now be turned into lava using a Crucible
+* Added "Tainted Sheep" (You can dye a Sheep using Strange Nether Goo)
 * Added mcMMO support/integration
 
 #### Changes
@@ -85,6 +86,7 @@
 * Fixed Steel Thrusters being used to milk cows
 * Fixed #2424
 * Fixed #2468
+* Fixed #2414
 * Fixed #2454
 
 ## Release Candidate 16 (07 Sep 2020)
