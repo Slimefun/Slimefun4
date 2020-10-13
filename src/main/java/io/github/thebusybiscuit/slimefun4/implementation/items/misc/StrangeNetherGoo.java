@@ -67,7 +67,7 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
 
     private EntityInteractHandler onRightClickEntity() {
         return (e, item, hand) -> {
-            if ((e.getRightClicked() instanceof Sheep)) {
+            if (e.getRightClicked() instanceof Sheep) {
                 Sheep s = (Sheep) e.getRightClicked();
 
                 if (s.getCustomName() != null) {
