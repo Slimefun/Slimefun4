@@ -8,7 +8,6 @@ import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Piglin;
 import org.bukkit.entity.Sheep;
 import org.bukkit.inventory.ItemStack;
@@ -68,13 +67,12 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
 
     private EntityInteractHandler onRightClickEntity() {
         return (e, item, hand) -> {
-            if ((e.getRightClicked() instanceof Sheep) && (e.getRightClicked() instanceof LivingEntity)) {
+            if ((e.getRightClicked() instanceof Sheep)) {
                 Sheep s = (Sheep) e.getRightClicked();
 
                 if (s.getCustomName() != null) {
-                    if (s.getCustomName().equals(ChatColor.DARK_PURPLE+"Tainted Sheep") && s.getColor() == DyeColor.PURPLE) {
-                        return;
-                    }
+                    e.setCancelled(true);
+                    return;
                 }
 
                 if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
@@ -84,7 +82,7 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
                 // Give Sheep color, name and effect
                 s.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 2));
                 s.setColor(DyeColor.PURPLE);
-                s.setCustomName(ChatColor.DARK_PURPLE+"Tainted Sheep");
+                s.setCustomName(ChatColor.DARK_PURPLE + "Tainted Sheep");
                 e.setCancelled(true);
 
             }
