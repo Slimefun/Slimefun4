@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
-import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,17 +12,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -32,14 +34,17 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class HologramProjector extends SlimefunItem {
 
+    private final String DEFAULT_OFFSET = "0.5";
+
     private static final String X_OFFSET_PARAMETER = "x_offset";
     private static final String Y_OFFSET_PARAMETER = "y_offset";
     private static final String Z_OFFSET_PARAMETER = "z_offset";
     private static final int[] BORDER = {1, 3, 5, 7, 8, 10, 12, 14, 16, 17};
 
-    private final DoubleRangeSetting maxDistance = new DoubleRangeSetting("max-horizontal-offset", 0.0, 5.0, 10.0);
+    private final ItemSetting<Double> maxDistance = new DoubleRangeSetting("max-horizontal-offset", 0.0, 5.0, 10.0);
 
-    public HologramProjector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public HologramProjector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
+                             ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onPlace(), onRightClick(), onBreak());
@@ -53,9 +58,9 @@ public class HologramProjector extends SlimefunItem {
             public void onPlayerPlace(BlockPlaceEvent e) {
                 Block b = e.getBlockPlaced();
                 BlockStorage.addBlockInfo(b, "text", "Edit me via the Projector");
-                BlockStorage.addBlockInfo(b, X_OFFSET_PARAMETER, "0.5");
-                BlockStorage.addBlockInfo(b, Y_OFFSET_PARAMETER, "0.5");
-                BlockStorage.addBlockInfo(b, Z_OFFSET_PARAMETER, "0.5");
+                BlockStorage.addBlockInfo(b, X_OFFSET_PARAMETER, DEFAULT_OFFSET);
+                BlockStorage.addBlockInfo(b, Y_OFFSET_PARAMETER, DEFAULT_OFFSET);
+                BlockStorage.addBlockInfo(b, Z_OFFSET_PARAMETER, DEFAULT_OFFSET);
                 BlockStorage.addBlockInfo(b, "owner", e.getPlayer().getUniqueId().toString());
 
                 getArmorStand(b, true);
@@ -80,9 +85,10 @@ public class HologramProjector extends SlimefunItem {
 
             // Updates old holograms to use new coordinate system
             if (BlockStorage.getLocationInfo(b.getLocation(), Y_OFFSET_PARAMETER) == null) {
-                BlockStorage.addBlockInfo(b, X_OFFSET_PARAMETER, "0.5");
-                BlockStorage.addBlockInfo(b, Y_OFFSET_PARAMETER, BlockStorage.getLocationInfo(b.getLocation(), "offset"));
-                BlockStorage.addBlockInfo(b, Z_OFFSET_PARAMETER, "0.5");
+                BlockStorage.addBlockInfo(b, X_OFFSET_PARAMETER, DEFAULT_OFFSET);
+                BlockStorage.addBlockInfo(b, Y_OFFSET_PARAMETER, BlockStorage.getLocationInfo(b.getLocation(), "offset")
+                );
+                BlockStorage.addBlockInfo(b, Z_OFFSET_PARAMETER, DEFAULT_OFFSET);
             }
 
             if (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString())) {
@@ -93,15 +99,17 @@ public class HologramProjector extends SlimefunItem {
         };
     }
 
-    private void openEditor(Player p, Block projector) {
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR.inventory-title"));
+    private void openEditor(Player p, @Nonnull Block projector) {
+        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR" +
+                ".inventory-title"));
 
         for (int s : BORDER) {
             menu.addItem(s, new CustomItem(ChestMenuUtils.getBackground(), " "));
             menu.addMenuClickHandler(s, ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(0, new CustomItem(Material.NAME_TAG, "&7Text &e(Click to edit)", "", ChatColor.WHITE + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
+        String text = ChatColor.WHITE + ChatColors.color(BlockStorage.getLocationInfo(projector.getLocation(), "text"));
+        menu.addItem(0, new CustomItem(Material.NAME_TAG, "&7Text &e(Click to edit)", "", text));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             pl.closeInventory();
             SlimefunPlugin.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
@@ -121,21 +129,19 @@ public class HologramProjector extends SlimefunItem {
             ArmorStand hologram = getArmorStand(projector, true);
             hologram.teleport(projector.getLocation().add(0.5, 0.5, 0.5));
 
-            BlockStorage.addBlockInfo(projector, X_OFFSET_PARAMETER, "0.5");
-            BlockStorage.addBlockInfo(projector, Y_OFFSET_PARAMETER, "0.5");
-            BlockStorage.addBlockInfo(projector, Z_OFFSET_PARAMETER, "0.5");
+            BlockStorage.addBlockInfo(projector, X_OFFSET_PARAMETER, DEFAULT_OFFSET);
+            BlockStorage.addBlockInfo(projector, Y_OFFSET_PARAMETER, DEFAULT_OFFSET);
+            BlockStorage.addBlockInfo(projector, Z_OFFSET_PARAMETER, DEFAULT_OFFSET);
             openEditor(pl, projector);
             return false;
         });
 
-        createSelector(2, HeadTexture.RED_UP_ARROW.getAsItemStack(), 'X', '+', X_OFFSET_PARAMETER, 0.1F, 0.5F, projector, menu);
-        createSelector(11, HeadTexture.RED_DOWN_ARROW.getAsItemStack(), 'X', '-', X_OFFSET_PARAMETER, -0.1F, -0.5F, projector, menu);
-
-        createSelector(4, HeadTexture.LIME_UP_ARROW.getAsItemStack(), 'Y', '+', Y_OFFSET_PARAMETER, 0.1F, 0.5F, projector, menu);
-        createSelector(13, HeadTexture.LIME_DOWN_ARROW.getAsItemStack(), 'Y', '-', Y_OFFSET_PARAMETER, -0.1F, -0.5F, projector, menu);
-
-        createSelector(6, HeadTexture.BLUE_UP_ARROW.getAsItemStack(), 'Z', '+', Z_OFFSET_PARAMETER, 0.1F, 0.5F, projector, menu);
-        createSelector(15, HeadTexture.BLUE_DOWN_ARROW.getAsItemStack(), 'Z', '-', Z_OFFSET_PARAMETER, -0.1F, -0.5F, projector, menu);
+        createSelector(Type.X_POSITIVE, projector, menu);
+        createSelector(Type.X_NEGATIVE, projector, menu);
+        createSelector(Type.Y_POSITIVE, projector, menu);
+        createSelector(Type.Y_NEGATIVE, projector, menu);
+        createSelector(Type.Z_POSITIVE, projector, menu);
+        createSelector(Type.Z_NEGATIVE, projector, menu);
 
         menu.open(p);
     }
@@ -174,35 +180,62 @@ public class HologramProjector extends SlimefunItem {
         }
     }
 
-    private void createSelector(int menuSlot, ItemStack button, char coordinate, char direction, String parameter, float smallChange, float largeChange, Block projector, ChestMenu menu) {
+    private void createSelector(Type type, @Nonnull Block projector, @Nonnull ChestMenu menu) {
 
-        menu.addItem(menuSlot, new CustomItem(button,
-            "&7" + coordinate + " Offset (" + direction + ") &e" + DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), parameter))),
-            "", "&eLeft Click: &7+0.1", "&eRight Click: &7+0.5"));
-        menu.addMenuClickHandler(menuSlot, (pl, slot, item, action) -> {
-            double storedOffset = Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), parameter));
-            double offset;
+        double currentOffset = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(
+                projector.getLocation(), type.parameter)));
 
-            offset = action.isRightClicked() ? largeChange : smallChange;
+        menu.addItem(type.slot, new CustomItem(type.button.getAsItemStack(), "&7" + type.coordinate + " Offset (" + type.direction + ") &e" + currentOffset, "", "&eLeft Click: &7" + type.direction + Math.abs(type.smallChange), "&eRight Click: &7" + type.direction + Math.abs(type.smallChange)));
+        menu.addMenuClickHandler(type.slot, (pl, slot, item, action) -> {
+            double storedOffset = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), type.parameter)));
+            double offset = action.isRightClicked() ? type.largeChange : type.smallChange;
 
-            if ((coordinate == 'X' || coordinate == 'Z')
-                && offset + storedOffset > maxDistance.getValue()) {
-                return false;
+            if ((type.coordinate == 'X' || type.coordinate == 'Z') && offset + storedOffset >
+                    maxDistance.getValue()) {
+                offset = maxDistance.getValue() - storedOffset;
             }
+
             ArmorStand hologram = getArmorStand(projector, true);
 
-            if (coordinate == 'X') {
+            if (type.coordinate == 'X') {
                 hologram.teleport(hologram.getLocation().add(offset, 0, 0));
-            } else if (coordinate == 'Y') {
+            } else if (type.coordinate == 'Y') {
                 hologram.teleport(hologram.getLocation().add(0, offset, 0));
-            } else if (coordinate == 'Z') {
+            } else {
                 hologram.teleport(hologram.getLocation().add(0, 0, offset));
             }
 
-            BlockStorage.addBlockInfo(projector, parameter,
-                String.valueOf(storedOffset + offset));
+            BlockStorage.addBlockInfo(projector, type.parameter, String.valueOf(storedOffset + offset));
             openEditor(pl, projector);
             return false;
         });
+    }
+
+    private enum Type {
+        X_POSITIVE(2, HeadTexture.RED_UP_ARROW, 'X', '+', X_OFFSET_PARAMETER, 0.1F, 0.5F),
+        X_NEGATIVE(11, HeadTexture.RED_DOWN_ARROW, 'X', '-', X_OFFSET_PARAMETER, -0.1F, -0.5F),
+        Y_POSITIVE(4, HeadTexture.LIME_UP_ARROW, 'Y', '+', Y_OFFSET_PARAMETER, 0.1F, 0.5F),
+        Y_NEGATIVE(13, HeadTexture.LIME_DOWN_ARROW, 'Y', '-', Y_OFFSET_PARAMETER, -0.1F, -0.5F),
+        Z_POSITIVE(6, HeadTexture.BLUE_UP_ARROW, 'Z', '+', Z_OFFSET_PARAMETER, 0.1F, 0.5F),
+        Z_NEGATIVE(15, HeadTexture.BLUE_DOWN_ARROW, 'Z', '-', Z_OFFSET_PARAMETER, -0.1F, -0.5F);
+
+        int slot;
+        HeadTexture button;
+        char coordinate;
+        char direction;
+        String parameter;
+        float smallChange;
+        float largeChange;
+
+        Type(int slot, HeadTexture button,
+             char coordinate, char direction, String parameter, float smallChange, float largeChange) {
+            this.slot = slot;
+            this.button = button;
+            this.coordinate = coordinate;
+            this.direction = direction;
+            this.parameter = parameter;
+            this.smallChange = smallChange;
+            this.largeChange = largeChange;
+        }
     }
 }
