@@ -42,6 +42,7 @@
 * Added Energy Connector
 * Blackstone can now be turned into lava using a Crucible
 * Basalt can now be turned into lava using a Crucible
+* Added "Tainted Sheep" (You can dye a Sheep using Strange Nether Goo)
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
