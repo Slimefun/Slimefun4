@@ -83,6 +83,7 @@
 * Fixed #2450
 * Fixed Steel Thrusters being used to milk cows
 * Fixed #2424
+* Fixed #2468
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16
