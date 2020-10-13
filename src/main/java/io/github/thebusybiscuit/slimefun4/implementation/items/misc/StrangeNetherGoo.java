@@ -1,23 +1,32 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
+import javax.annotation.Nonnull;
+import java.util.Optional;
+
+import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Piglin;
+import org.bukkit.entity.Sheep;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
+import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-
-import javax.annotation.Nonnull;
-import java.util.Optional;
 
 /**
  * This {@link SlimefunItem} can only be obtained via bartering with a {@link Piglin}, its
@@ -37,6 +46,7 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
         super(category, item, recipeType, recipe);
 
         addItemSetting(chance);
+        addItemHandler(onRightClickEntity());
     }
 
     @Override
@@ -56,4 +66,28 @@ public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> impleme
         };
     }
 
+    private EntityInteractHandler onRightClickEntity() {
+        return (e, item, hand) -> {
+            if ((e.getRightClicked() instanceof Sheep) && (e.getRightClicked() instanceof LivingEntity)) {
+                Sheep s = (Sheep) e.getRightClicked();
+
+                if (s.getCustomName() != null) {
+                    if (s.getCustomName().equals(ChatColor.DARK_PURPLE+"Tainted Sheep") && s.getColor() == DyeColor.PURPLE) {
+                        return;
+                    }
+                }
+
+                if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+                    ItemUtils.consumeItem(item, false);
+                }
+
+                // Give Sheep color, name and effect
+                s.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 60, 2));
+                s.setColor(DyeColor.PURPLE);
+                s.setCustomName(ChatColor.DARK_PURPLE+"Tainted Sheep");
+                e.setCancelled(true);
+
+            }
+        };
+    }
 }
