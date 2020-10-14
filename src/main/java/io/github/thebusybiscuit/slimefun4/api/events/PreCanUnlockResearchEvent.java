@@ -16,9 +16,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
- * This {@link Event} is called whenever a {@link Player} click to unlock a research.
- * This is called called before {@link Research#canUnlock(Player)}
- * The event is not called for the cheat sheet
+ * This {@link Event} is called whenever a {@link Player} clicks to unlock a research.
+ * This is called before {@link Research#canUnlock(Player)}.
+ * The event is not called for the cheat sheet.
  *
  * @author uiytt
  *
