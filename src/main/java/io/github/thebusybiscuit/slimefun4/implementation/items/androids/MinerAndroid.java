@@ -62,8 +62,7 @@ public class MinerAndroid extends ProgrammableAndroid {
                 AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
 
                 // We only want to break non-Slimefun blocks by default, although an addon may want it differently.
-                String blockId = BlockStorage.checkID(block);
-                if (blockId != null) {
+                if (BlockStorage.hasBlockInfo(block)) {
                     event.setCancelled(true);
                 }
 
