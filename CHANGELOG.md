@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 17 (TBD)](#release-candidate-17-tbd)
+- [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
 - [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
 - [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
 - [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
@@ -22,7 +22,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 17 (TBD)
+## Release Candidate 17 (17 Oct 2020)
 
 #### Additions
 * Added /sf charge
