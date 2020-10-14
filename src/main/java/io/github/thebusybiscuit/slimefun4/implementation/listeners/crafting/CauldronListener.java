@@ -30,7 +30,7 @@ public class CauldronListener implements SlimefunCraftingListener {
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onAnvil(PlayerInteractEvent e) {
+    public void onCauldronUse(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block block = e.getClickedBlock();
 
