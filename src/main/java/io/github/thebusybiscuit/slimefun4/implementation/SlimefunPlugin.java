@@ -89,10 +89,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.AnvilListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.BrewingStandListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CartographyTableListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CauldronListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
@@ -445,7 +450,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new DeathpointListener(this);
         new ExplosionsListener(this);
         new DebugFishListener(this);
-        new VanillaMachinesListener(this);
         new FireworksListener(this);
         new WitherListener(this);
         new IronGolemListener(this);
@@ -453,6 +457,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new MobDropListener(this);
         new VillagerTradingListener(this);
         new ElytraCrashListener(this);
+        new CraftingTableListener(this);
+        new AnvilListener(this);
+        new BrewingStandListener(this);
+        new CauldronListener(this);
+
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+            new GrindstoneListener(this);
+            new CartographyTableListener(this);
+        }
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
