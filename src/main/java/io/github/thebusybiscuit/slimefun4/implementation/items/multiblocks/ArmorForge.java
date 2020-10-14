@@ -24,8 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-import javax.annotation.Nonnull;
-
 public class ArmorForge extends MultiBlockMachine {
 
     public ArmorForge(Category category, SlimefunItemStack item) {
