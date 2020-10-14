@@ -8,7 +8,13 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PreCanUnlockResearchEvent;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -187,6 +193,42 @@ public class Research implements Keyed {
     @Nonnull
     public List<SlimefunItem> getAffectedItems() {
         return items;
+    }
+
+    /**
+     * Handle what to do when a {@link Player} clicks on an un-researched item in
+     * a {@link SlimefunGuideImplementation}.
+     *
+     * @author TheBusyBiscuit, uiytt
+     *
+     * @param guide The {@link SlimefunGuideImplementation} used.
+     * @param player The {@link Player} who clicked on the item.
+     * @param profile The {@link PlayerProfile} of that {@link Player}.
+     * @param sfItem The {@link SlimefunItem} on which the {@link Player} clicked.
+     * @param category The {@link Category} where the {@link Player} was.
+     * @param page The page number of where the {@link Player} was in the {@link Category};
+     *
+     * @see ChestSlimefunGuide
+     * @see BookSlimefunGuide
+     */
+    @ParametersAreNonnullByDefault
+    public void guideClickInteraction(SlimefunGuideImplementation guide, Player player, PlayerProfile profile, SlimefunItem sfItem, Category category, int page) {
+        if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(player.getUniqueId())) {
+            if (profile.hasUnlocked(this)) {
+                guide.openCategory(profile, category, page);
+            } else {
+                PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(player, this, sfItem);
+                Bukkit.getPluginManager().callEvent(event);
+
+                if (!event.isCancelled()) {
+                    if (this.canUnlock(player)) {
+                        guide.unlockItem(player, sfItem, pl -> guide.openCategory(profile, category, page));
+                    } else {
+                        SlimefunPlugin.getLocalization().sendMessage(player, "messages.not-enough-xp", true);
+                    }
+                }
+            }
+        }
     }
 
     /**
