@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -23,6 +24,8 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+import javax.annotation.Nonnull;
+
 public class ArmorForge extends MultiBlockMachine {
 
     public ArmorForge(Category category, SlimefunItemStack item) {
@@ -31,8 +34,8 @@ public class ArmorForge extends MultiBlockMachine {
 
     @Override
     public void onInteract(Player p, Block b) {
-        Block dispBlock = b.getRelative(BlockFace.DOWN);
-        BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
+        Block dispenser = b.getRelative(BlockFace.DOWN);
+        BlockState state = PaperLib.getBlockState(dispenser, false).getState();
 
         if (state instanceof Dispenser) {
             Dispenser disp = (Dispenser) state;
@@ -44,13 +47,7 @@ public class ArmorForge extends MultiBlockMachine {
                     ItemStack output = RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
 
                     if (Slimefun.hasUnlocked(p, output, true)) {
-                        Inventory outputInv = findOutputInventory(output, dispBlock, inv);
-
-                        if (outputInv != null) {
-                            craft(p, output, inv, outputInv);
-                        } else {
-                            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
-                        }
+                        craft(p, output, inv, dispenser);
                     }
 
                     return;
@@ -71,26 +68,51 @@ public class ArmorForge extends MultiBlockMachine {
         return true;
     }
 
-    private void craft(Player p, ItemStack output, Inventory inv, Inventory outputInv) {
-        for (int j = 0; j < 9; j++) {
-            ItemStack item = inv.getContents()[j];
+    private Inventory createVirtualInventory(Inventory inv) {
+        Inventory fakeInv = Bukkit.createInventory(null, 9, "Fake Inventory");
 
-            if (item != null && item.getType() != Material.AIR) {
-                ItemUtils.consumeItem(item, true);
+        for (int j = 0; j < inv.getContents().length; j++) {
+            ItemStack stack = inv.getContents()[j];
+
+            if (stack != null) {
+                stack = stack.clone();
+                ItemUtils.consumeItem(stack, true);
             }
+
+            fakeInv.setItem(j, stack);
         }
 
-        for (int j = 0; j < 4; j++) {
-            int current = j;
+        return fakeInv;
+    }
 
-            SlimefunPlugin.runSync(() -> {
-                if (current < 3) {
-                    p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
-                } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
-                    outputInv.addItem(output);
+    private void craft(Player p, ItemStack output, Inventory inv, Block dispenser) {
+        Inventory fakeInv = createVirtualInventory(inv);
+        Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
+
+        if (outputInv != null) {
+            for (int j = 0; j < 9; j++) {
+                ItemStack item = inv.getContents()[j];
+
+                if (item != null && item.getType() != Material.AIR) {
+                    ItemUtils.consumeItem(item, true);
                 }
-            }, j * 20L);
+            }
+
+            for (int j = 0; j < 4; j++) {
+                int current = j;
+
+                SlimefunPlugin.runSync(() -> {
+                    if (current < 3) {
+                        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
+                    } else {
+                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                        outputInv.addItem(output);
+                    }
+                }, j * 20L);
+            }
+
+        } else {
+            SlimefunPlugin.getLocalization().sendMessage(p, "machines.full-inventory", true);
         }
     }
 
