@@ -15,6 +15,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+/**
+ * This handles all integrations with {@link mcMMO}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 class McMMOIntegration implements Listener {
 
     McMMOIntegration(@Nonnull SlimefunPlugin plugin) {
@@ -36,6 +42,16 @@ class McMMOIntegration implements Listener {
         }
     }
 
+    /**
+     * This method checks if an {@link ItemStack} can be salvaged or not.
+     * We basically don't want players to salvage any {@link SlimefunItem} unless
+     * it is a {@link VanillaItem}.
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
+     * @return Whether this item can be safely salvaged
+     */
     private boolean isSalvageable(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
         return sfItem == null || sfItem instanceof VanillaItem;

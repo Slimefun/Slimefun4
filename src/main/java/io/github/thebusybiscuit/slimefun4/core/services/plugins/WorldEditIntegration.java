@@ -14,6 +14,13 @@ import com.sk89q.worldedit.world.block.BlockStateHolder;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
+/**
+ * This handles all integrations with {@link WorldEdit}.
+ * If an are is cleared, we also wanna clear all Slimefun-related block data.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 class WorldEditIntegration {
 
     WorldEditIntegration() {

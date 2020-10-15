@@ -92,6 +92,7 @@
 * Fixed #2411
 * Fixed #2423
 * Fixed #2452
+* Fixed a dupe bug with mcMMO
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16

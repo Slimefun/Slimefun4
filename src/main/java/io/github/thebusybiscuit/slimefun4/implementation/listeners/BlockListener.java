@@ -83,6 +83,11 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
+        if (SlimefunPlugin.getThirdPartySupportService().isEventFaked(e)) {
+            // This is a "fake" event, we can ignore it.
+            return;
+        }
+
         checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock());
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();

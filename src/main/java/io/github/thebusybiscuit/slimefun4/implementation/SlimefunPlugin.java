@@ -181,8 +181,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             command.register();
             registry.load(config);
         } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+            getLogger().log(Level.INFO, "CS-CoreLib was detected!");
             long timestamp = System.nanoTime();
             PaperLib.suggestPaper(this);
+
+            if (PaperLib.isPaper()) {
+                getLogger().log(Level.INFO, "Paper was detected! Performance optimizations have been applied.");
+            }
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
             if (isVersionUnsupported()) {
@@ -275,7 +280,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
             ticker.start(this);
+
+            getLogger().log(Level.INFO, "Loading Third-Party plugin integrations...");
             thirdPartySupportService.start();
+
             gitHubService.start(this);
 
             // Hooray!
