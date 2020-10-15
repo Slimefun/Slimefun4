@@ -17,31 +17,27 @@
               "#minecraft:wall_signs",
               "#minecraft:wooden_pressure_plates",
               {
-                        "id": "#minecraft:nether_sprouts",
+                        "id": "minecraft:nether_sprouts",
                         "required": false
               },
               {
-                        "id": "#minecraft:crimson_roots",
+                        "id": "minecraft:crimson_roots",
                         "required": false
               },
               {
-                        "id": "#minecraft:twisting_vines",
+                        "id": "minecraft:twisting_vines",
                         "required": false
               },
               {
-                        "id": "#warped_roots",
+                        "id": "minecraft:warped_roots",
                         "required": false
               },
               {
-                        "id": "#weeping_vines",
+                        "id": "minecraft:weeping_vines",
                         "required": false
               },
               {
-                        "id": "#polished_blackstone_pressure_plate",
-                        "required": false
-              },
-              {
-                        "id": "#warped_roots",
+                        "id": "minecraft:polished_blackstone_pressure_plate",
                         "required": false
               },
               "minecraft:sugar_cane",
