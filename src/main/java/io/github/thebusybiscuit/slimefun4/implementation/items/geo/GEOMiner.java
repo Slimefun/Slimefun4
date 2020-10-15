@@ -41,7 +41,7 @@ public abstract class GEOMiner extends AContainer implements RecipeDisplayItem {
         super(category, item, recipeType, recipe);
 
         addItemHandler(onPlace());
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             SimpleHologram.remove(b);
 
             BlockMenu inv = BlockStorage.getInventory(b);

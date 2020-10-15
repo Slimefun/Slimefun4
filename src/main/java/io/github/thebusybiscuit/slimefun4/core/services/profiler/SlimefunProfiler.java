@@ -344,7 +344,7 @@ public class SlimefunProfiler {
     public String getTime(@Nonnull SlimefunItem item) {
         Validate.notNull("Cannot get timings for a null SlimefunItem");
 
-        long time = getByItem().getOrDefault(item.getID(), 0L);
+        long time = getByItem().getOrDefault(item.getId(), 0L);
         return NumberUtils.getAsMillis(time);
     }
 

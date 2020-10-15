@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.EmeraldEnchants.EnchantmentGuide;
 
+@Deprecated
 class EmeraldEnchantsCategory extends FlexCategory {
 
     public EmeraldEnchantsCategory(@Nonnull NamespacedKey key) {

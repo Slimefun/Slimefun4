@@ -80,7 +80,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
     public Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), getInventoryTitle()) {
+        new BlockMenuPreset(getId(), getInventoryTitle()) {
 
             @Override
             public void init() {
@@ -107,7 +107,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
             }
         };
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {

@@ -65,6 +65,10 @@
             <url>https://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public</url>
+        </repository>
+        <repository>
             <id>placeholderapi-repo</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
@@ -311,7 +315,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.10.2</version>
+            <version>0.13.0</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -367,6 +371,32 @@
                     <!-- I try to import File... yes, I want java.io.File -->
                     <groupId>de.schlichtherle</groupId>
                     <artifactId>truezip</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.java.truevfs</groupId>
+                    <artifactId>truevfs-profile-default_2.13</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>2.1.149</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sk89q.worldguard</groupId>
+                    <artifactId>worldguard-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sk89q.worldguard</groupId>
+                    <artifactId>worldguard-legacy</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

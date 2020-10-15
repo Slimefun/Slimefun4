@@ -208,7 +208,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     private void addSlimefunItem(Category category, int page, Player p, PlayerProfile profile, SlimefunItem item, List<ChatComponent> items) {
-        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance(), item.getID().toLowerCase(Locale.ROOT));
+        NamespacedKey key = new NamespacedKey(SlimefunPlugin.instance(), item.getId().toLowerCase(Locale.ROOT));
 
         if (!Slimefun.hasUnlocked(p, item, false) && item.getResearch() != null) {
             Research research = item.getResearch();

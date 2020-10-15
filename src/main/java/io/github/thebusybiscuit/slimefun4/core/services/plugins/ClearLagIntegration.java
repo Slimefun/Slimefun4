@@ -11,11 +11,19 @@ import org.bukkit.event.Listener;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.minebuilders.clearlag.Clearlag;
 import me.minebuilders.clearlag.events.EntityRemoveEvent;
 
-class ClearLagHook implements Listener {
+/**
+ * This handles all integrations with {@link Clearlag}.
+ * We don't want it to clear our altar items.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+class ClearLagIntegration implements Listener {
 
-    ClearLagHook(@Nonnull SlimefunPlugin plugin) {
+    ClearLagIntegration(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

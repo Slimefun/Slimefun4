@@ -50,7 +50,7 @@ public class TestSlimefunItemRegistration {
 
         Assertions.assertEquals(ItemState.ENABLED, item.getState());
         Assertions.assertFalse(item.isDisabled());
-        Assertions.assertEquals(id, item.getID());
+        Assertions.assertEquals(id, item.getId());
         Assertions.assertEquals(item, SlimefunItem.getByID(id));
     }
 
@@ -176,7 +176,7 @@ public class TestSlimefunItemRegistration {
             Assertions.assertFalse(sfItem.isItem(new CustomItem(Material.BEACON, "&cItem Test")));
         }
 
-        Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getID(), item)));
+        Assertions.assertEquals(sfItem, SlimefunItem.getByItem(new SlimefunItemStack(sfItem.getId(), item)));
     }
 
     @Test
