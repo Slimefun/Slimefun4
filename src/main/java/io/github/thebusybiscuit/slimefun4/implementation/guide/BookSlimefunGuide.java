@@ -240,27 +240,6 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private void research(Player p, PlayerProfile profile, SlimefunItem item, Research research, Category category, int page) {
-        SlimefunPlugin.runSync(() -> {
-            if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
-                if (profile.hasUnlocked(research)) {
-                    openCategory(profile, category, page);
-                } else {
-                    PreCanUnlockResearchEvent event = new PreCanUnlockResearchEvent(p, research, item);
-                    Bukkit.getPluginManager().callEvent(event);
-
-                    if (!event.isCancelled()) {
-                        if (research.canUnlock(p)) {
-                            unlockItem(p, item, pl -> openCategory(profile, category, page));
-                        } else {
-                            SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-enough-xp", true);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
     @Override
     public void openSearch(PlayerProfile profile, String input, boolean addToHistory) {
         // We need to write a book implementation for this at some point
