@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
-import javax.annotation.Nonnull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -9,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,7 +26,6 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
@@ -68,18 +67,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     private final ItemStack item;
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
-    private final Sound sound;
+    private final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
     private final boolean showVanillaRecipes;
 
     public ChestSlimefunGuide(boolean vanillaRecipes) {
         showVanillaRecipes = vanillaRecipes;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
-
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            sound = Sound.ITEM_BOOK_PAGE_TURN;
-        } else {
-            sound = Sound.ENTITY_BAT_TAKEOFF;
-        }
     }
 
     @Override
