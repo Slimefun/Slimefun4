@@ -13,7 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -39,9 +38,7 @@ final class RechargeableHelper {
         BigDecimal decimal = BigDecimal.valueOf(charge).setScale(2, RoundingMode.HALF_UP);
         float value = decimal.floatValue();
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            meta.getPersistentDataContainer().set(CHARGE_KEY, PersistentDataType.FLOAT, value);
-        }
+        meta.getPersistentDataContainer().set(CHARGE_KEY, PersistentDataType.FLOAT, value);
 
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         for (int i = 0; i < lore.size(); i++) {
@@ -59,13 +56,11 @@ final class RechargeableHelper {
     }
 
     static float getCharge(@Nonnull ItemMeta meta) {
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            Float value = meta.getPersistentDataContainer().get(CHARGE_KEY, PersistentDataType.FLOAT);
+        Float value = meta.getPersistentDataContainer().get(CHARGE_KEY, PersistentDataType.FLOAT);
 
-            // If persistent data is available, we just return this value
-            if (value != null) {
-                return value;
-            }
+        // If persistent data is available, we just return this value
+        if (value != null) {
+            return value;
         }
 
         // If no persistent data exists, we will just fall back to the lore

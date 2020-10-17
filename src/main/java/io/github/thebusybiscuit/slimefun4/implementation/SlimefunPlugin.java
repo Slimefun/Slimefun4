@@ -469,11 +469,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new AnvilListener(this);
         new BrewingStandListener(this);
         new CauldronListener(this);
-
-        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            new GrindstoneListener(this);
-            new CartographyTableListener(this);
-        }
+        new GrindstoneListener(this);
+        new CartographyTableListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);

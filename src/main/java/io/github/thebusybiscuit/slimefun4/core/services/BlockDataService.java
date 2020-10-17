@@ -11,9 +11,6 @@ import org.bukkit.block.TileState;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
  * it is responsible for storing NBT data inside a {@link TileState}.
@@ -83,9 +80,8 @@ public class BlockDataService implements PersistentDataService, Keyed {
      * @return Whether the given {@link Material} is considered a Tile Entity
      */
     public boolean isTileEntity(Material type) {
-        if (type == null || !SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            // We can only store data on Tile Entities in 1.14+
-            // So we will just return false here in that case.
+        if (type == null || type.isAir()) {
+            // Cannot store data on air
             return false;
         }
 

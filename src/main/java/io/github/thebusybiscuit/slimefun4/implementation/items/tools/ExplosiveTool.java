@@ -56,7 +56,7 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             Player p = e.getPlayer();
             Block b = e.getBlock();
 
-            b.getWorld().createExplosion(b.getLocation(), 0.0F);
+            b.getWorld().createExplosion(b.getLocation(), 0);
             b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
             List<Block> blocks = findBlocks(b);
@@ -123,8 +123,9 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
 
     private void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
         SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
+        Material material = b.getType();
 
-        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
+        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, material);
         SlimefunItem sfItem = BlockStorage.check(b);
 
         if (sfItem != null && !sfItem.useVanillaBlockBreaking()) {
@@ -133,15 +134,15 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
                 drops.add(BlockStorage.retrieve(b));
             }
-        } else if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.SHULKER_BOX || b.getType().name().endsWith("_SHULKER_BOX")) {
+        } else if (material == Material.PLAYER_HEAD || SlimefunTag.SHULKER_BOXES.isTagged(material)) {
             b.breakNaturally(item);
         } else {
-            // if mined whit silk_touch tool
-            if (item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+            // Check if the block was mined using Silk Touch
+            if (item.containsEnchantment(Enchantment.SILK_TOUCH)) {
                 b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
             } else {
-                // else mined without silk_touch tool
-                boolean applyFortune = b.getType().name().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE;
+                boolean applyFortune = SlimefunTag.FORTUNE_COMPATIBLE_ORES.isTagged(material);
+
                 for (ItemStack drop : b.getDrops(getItem())) {
                     // For some reason this check is necessary with Paper
                     if (drop != null && drop.getType() != Material.AIR) {
