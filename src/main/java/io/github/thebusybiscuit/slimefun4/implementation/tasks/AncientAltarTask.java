@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link AncientAltarTask} is responsible for the animation that happens when a ritual
@@ -103,7 +102,7 @@ public class AncientAltarTask implements Runnable {
         }
 
         this.stage += 1;
-        Slimefun.runSync(this, speed);
+        SlimefunPlugin.runSync(this, speed);
     }
 
     private boolean checkLockedItems() {
@@ -131,8 +130,7 @@ public class AncientAltarTask implements Runnable {
 
         if (!item.isPresent() || positionLock.remove(item.get()) == null) {
             abort();
-        }
-        else {
+        } else {
             Item entity = item.get();
             particleLocations.add(pedestal.getLocation().add(0.5, 1.5, 0.5));
             items.add(pedestalItem.getOriginalItemStack(entity));
@@ -180,8 +178,7 @@ public class AncientAltarTask implements Runnable {
             // This should re-enable altar blocks on craft completion.
             listener.getAltarsInUse().remove(altar.getLocation());
             listener.getAltars().remove(altar);
-        }
-        else {
+        } else {
             dropLocation.getWorld().playSound(dropLocation, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1F, 1F);
         }
     }

@@ -16,7 +16,7 @@ import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 /**
- * This is a simple utility classs for spawning random and colorful {@link Firework} rockets.
+ * This is a simple utility class for spawning random and colorful {@link Firework} rockets.
  * 
  * @author TheBusyBiscuit
  *
@@ -31,6 +31,7 @@ public final class FireworkUtils {
         createFirework(l, color);
     }
 
+    @Nonnull
     public static Firework createFirework(@Nonnull Location l, @Nonnull Color color) {
         Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
         FireworkMeta meta = fw.getFireworkMeta();
@@ -56,10 +57,12 @@ public final class FireworkUtils {
         }
     }
 
+    @Nonnull
     public static FireworkEffect getRandomEffect(@Nonnull Random random, @Nonnull Color color) {
         return FireworkEffect.builder().flicker(random.nextBoolean()).withColor(color).with(random.nextBoolean() ? Type.BALL : Type.BALL_LARGE).trail(random.nextBoolean()).build();
     }
 
+    @Nonnull
     private static Color getRandomColor() {
         return COLORS[ThreadLocalRandom.current().nextInt(COLORS.length)];
     }

@@ -19,12 +19,10 @@ class CheatCommand extends SubCommand {
         if (sender instanceof Player) {
             if (sender.hasPermission("slimefun.cheat.items")) {
                 SlimefunGuide.openCheatMenu((Player) sender);
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
-        }
-        else {
+        } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.only-players", true);
         }
     }

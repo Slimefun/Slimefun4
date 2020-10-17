@@ -70,8 +70,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                 Optional<Material> sapling = MaterialConverter.getSaplingFromLog(log.getType());
 
                 sapling.ifPresent(log::setType);
-            }
-            else {
+            } else {
                 log.setType(Material.AIR);
             }
         }

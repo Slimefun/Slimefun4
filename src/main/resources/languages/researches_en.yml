@@ -61,6 +61,7 @@ slimefun:
   water_talisman: Talisman of the Water Breather
   angel_talisman: Talisman of the Angel
   fire_talisman: Talisman of the Firefighter
+  caveman_talisman: Talisman of the Caveman
   lava_crystal: Firey Situation
   magician_talisman: Talisman of the Magician
   traveller_talisman: Talisman of the Traveller
@@ -144,6 +145,7 @@ slimefun:
   hologram_projector: Holograms
   capacitors: Tier 1 Capacitors
   high_tier_capacitors: Tier 2 Capacitors
+  even_higher_tier_capacitors: Tier 3 Capacitors
   solar_generators: Solar Power Plant
   electric_furnaces: Powered Furnace
   electric_ore_grinding: Crushing and Grinding
@@ -167,6 +169,7 @@ slimefun:
   energized_solar_generator: Full-Time Solar Power
   energized_gps_transmitter: Top Tier Transmitter
   energy_regulator: Energy Networks 101
+  energy_connectors: Wired Connections
   butcher_androids: Butcher Androids
   organic_food: Organic Food
   auto_breeder: Automated Feeding
@@ -242,3 +245,4 @@ slimefun:
   tape_measure: Tape Measure
   iron_golem_assembler: Automated Iron Golems
   villager_rune: Reset Villager Trades
+  elytra_cap: Crash Gear

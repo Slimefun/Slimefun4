@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Piston;
 import org.bukkit.entity.EntityType;
@@ -21,6 +20,7 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -32,6 +32,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @author VoidAngel
  * @author Poslovitch
  * @author TheBusyBiscuit
+ * @author AccelShark
  *
  */
 public class BlockPhysicsListener implements Listener {
@@ -54,21 +55,27 @@ public class BlockPhysicsListener implements Listener {
 
     @EventHandler
     public void onPistonExtend(BlockPistonExtendEvent e) {
-        for (Block b : e.getBlocks()) {
-            if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
-                e.setCancelled(true);
-                return;
+        if (BlockStorage.hasBlockInfo(e.getBlock())) {
+            e.setCancelled(true);
+        } else {
+            for (Block b : e.getBlocks()) {
+                if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
+                    e.setCancelled(true);
+                    break;
+                }
             }
         }
     }
 
     @EventHandler
     public void onPistonRetract(BlockPistonRetractEvent e) {
-        if (e.isSticky()) {
+        if (BlockStorage.hasBlockInfo(e.getBlock())) {
+            e.setCancelled(true);
+        } else if (e.isSticky()) {
             for (Block b : e.getBlocks()) {
                 if (BlockStorage.hasBlockInfo(b) || (b.getRelative(e.getDirection()).getType() == Material.AIR && BlockStorage.hasBlockInfo(b.getRelative(e.getDirection())))) {
                     e.setCancelled(true);
-                    return;
+                    break;
                 }
             }
         }
@@ -78,12 +85,8 @@ public class BlockPhysicsListener implements Listener {
     public void onLiquidFlow(BlockFromToEvent e) {
         Block block = e.getToBlock();
 
-        if (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD || Tag.SAPLINGS.isTagged(block.getType())) {
-            String item = BlockStorage.checkID(block);
-
-            if (item != null) {
-                e.setCancelled(true);
-            }
+        if (SlimefunTag.FLUID_SENSITIVE_MATERIALS.isTagged(block.getType()) && BlockStorage.hasBlockInfo(block)) {
+            e.setCancelled(true);
         }
     }
 

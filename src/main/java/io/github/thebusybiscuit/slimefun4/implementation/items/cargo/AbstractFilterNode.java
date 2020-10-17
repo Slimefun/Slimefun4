@@ -32,7 +32,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
     public AbstractFilterNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
@@ -74,8 +74,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
                 updateBlockMenu(menu, b);
                 return false;
             });
-        }
-        else {
+        } else {
             menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
             menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, FILTER_TYPE, "whitelist");
@@ -93,8 +92,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
                 updateBlockMenu(menu, b);
                 return false;
             });
-        }
-        else {
+        } else {
             menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, FILTER_LORE, String.valueOf(true));

@@ -1,8 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,8 +10,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.World;
 
@@ -38,7 +38,7 @@ public class PerWorldSettingsService {
     private final Map<SlimefunAddon, Set<String>> disabledAddons = new HashMap<>();
     private final Set<UUID> disabledWorlds = new HashSet<>();
 
-    public PerWorldSettingsService(SlimefunPlugin plugin) {
+    public PerWorldSettingsService(@Nonnull SlimefunPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -48,14 +48,7 @@ public class PerWorldSettingsService {
      * @param worlds
      *            An {@link Iterable} of {@link World Worlds} to load
      */
-    public void load(Iterable<World> worlds) {
-        try {
-            migrate();
-        }
-        catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "An error occurred while migrating old world settings", e);
-        }
-
+    public void load(@Nonnull Iterable<World> worlds) {
         for (World world : worlds) {
             load(world);
         }
@@ -67,39 +60,9 @@ public class PerWorldSettingsService {
      * @param world
      *            The {@link World} to load
      */
-    public void load(World world) {
+    public void load(@Nonnull World world) {
+        Validate.notNull(world, "Cannot load a world that is null");
         disabledItems.putIfAbsent(world.getUID(), loadWorldFromConfig(world));
-    }
-
-    /**
-     * Temporary migration method for the old system
-     * 
-     * @throws IOException
-     *             This will be thrown if we failed to delete the old {@link File}
-     */
-    private void migrate() throws IOException {
-        Config oldConfig = new Config(plugin, "whitelist.yml");
-
-        if (oldConfig.getFile().exists()) {
-            for (String world : oldConfig.getKeys()) {
-                Config newConfig = new Config(plugin, "world-settings/" + world + ".yml");
-                newConfig.setDefaultValue("enabled", oldConfig.getBoolean(world + ".enabled"));
-
-                for (String id : oldConfig.getKeys(world + ".enabled-items")) {
-                    SlimefunItem item = SlimefunItem.getByID(id);
-
-                    if (item != null) {
-                        String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
-                        newConfig.setDefaultValue(addon + ".enabled", true);
-                        newConfig.setDefaultValue(addon + '.' + id, oldConfig.getBoolean(world + ".enabled-items." + id));
-                    }
-                }
-
-                newConfig.save();
-            }
-
-            Files.delete(oldConfig.getFile().toPath());
-        }
     }
 
     /**
@@ -112,14 +75,17 @@ public class PerWorldSettingsService {
      * 
      * @return Whether the given {@link SlimefunItem} is enabled in that {@link World}
      */
-    public boolean isEnabled(World world, SlimefunItem item) {
+    public boolean isEnabled(@Nonnull World world, @Nonnull SlimefunItem item) {
+        Validate.notNull(world, "The world cannot be null");
+        Validate.notNull(item, "The SlimefunItem cannot be null");
+
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         if (disabledWorlds.contains(world.getUID())) {
             return false;
         }
 
-        return !items.contains(item.getID());
+        return !items.contains(item.getId());
     }
 
     /**
@@ -132,14 +98,16 @@ public class PerWorldSettingsService {
      * @param enabled
      *            Whether the given {@link SlimefunItem} should be enabled in that world
      */
-    public void setEnabled(World world, SlimefunItem item, boolean enabled) {
+    public void setEnabled(@Nonnull World world, @Nonnull SlimefunItem item, boolean enabled) {
+        Validate.notNull(world, "The world cannot be null");
+        Validate.notNull(item, "The SlimefunItem cannot be null");
+
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         if (enabled) {
-            items.remove(item.getID());
-        }
-        else {
-            items.add(item.getID());
+            items.remove(item.getId());
+        } else {
+            items.add(item.getId());
         }
     }
 
@@ -151,13 +119,13 @@ public class PerWorldSettingsService {
      * @param enabled
      *            Whether this {@link World} should be enabled or not
      */
-    public void setEnabled(World world, boolean enabled) {
+    public void setEnabled(@Nonnull World world, boolean enabled) {
+        Validate.notNull(world, "null is not a valid World");
         load(world);
 
         if (enabled) {
             disabledWorlds.remove(world.getUID());
-        }
-        else {
+        } else {
             disabledWorlds.add(world.getUID());
         }
     }
@@ -170,7 +138,8 @@ public class PerWorldSettingsService {
      * 
      * @return Whether this {@link World} is enabled
      */
-    public boolean isWorldEnabled(World world) {
+    public boolean isWorldEnabled(@Nonnull World world) {
+        Validate.notNull(world, "null is not a valid World");
         load(world);
 
         return !disabledWorlds.contains(world.getUID());
@@ -186,7 +155,9 @@ public class PerWorldSettingsService {
      * 
      * @return Whether this addon is enabled in that {@link World}
      */
-    public boolean isAddonEnabled(World world, SlimefunAddon addon) {
+    public boolean isAddonEnabled(@Nonnull World world, @Nonnull SlimefunAddon addon) {
+        Validate.notNull(world, "World cannot be null");
+        Validate.notNull(addon, "Addon cannot be null");
         return isWorldEnabled(world) && disabledAddons.getOrDefault(addon, Collections.emptySet()).contains(world.getName());
     }
 
@@ -198,7 +169,8 @@ public class PerWorldSettingsService {
      * @param world
      *            The {@link World} to save
      */
-    public void save(World world) {
+    public void save(@Nonnull World world) {
+        Validate.notNull(world, "Cannot save a World that does not exist");
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         Config config = getConfig(world);
@@ -206,21 +178,23 @@ public class PerWorldSettingsService {
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             if (item != null) {
                 String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
-                config.setValue(addon + '.' + item.getID(), !items.contains(item.getID()));
+                config.setValue(addon + '.' + item.getId(), !items.contains(item.getId()));
             }
         }
 
         config.save();
     }
 
-    private Set<String> loadWorldFromConfig(World world) {
+    @Nonnull
+    private Set<String> loadWorldFromConfig(@Nonnull World world) {
+        Validate.notNull(world, "Cannot load a World that does not exist");
+
         String name = world.getName();
         Optional<Set<String>> optional = disabledItems.get(world.getUID());
 
         if (optional.isPresent()) {
             return optional.get();
-        }
-        else {
+        } else {
             Set<String> items = new LinkedHashSet<>();
             Config config = getConfig(world);
 
@@ -231,11 +205,11 @@ public class PerWorldSettingsService {
             if (config.getBoolean("enabled")) {
                 loadItemsFromWorldConfig(name, config, items);
 
+                // We don't actually wanna write to disk during a Unit test
                 if (SlimefunPlugin.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
                     config.save();
                 }
-            }
-            else {
+            } else {
                 disabledWorlds.add(world.getUID());
             }
 
@@ -243,13 +217,14 @@ public class PerWorldSettingsService {
         }
     }
 
-    private void loadItemsFromWorldConfig(String worldName, Config config, Set<String> items) {
+    private void loadItemsFromWorldConfig(@Nonnull String worldName, @Nonnull Config config, @Nonnull Set<String> items) {
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             if (item != null) {
                 String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
                 config.setDefaultValue(addon + ".enabled", true);
-                config.setDefaultValue(addon + '.' + item.getID(), true);
+                config.setDefaultValue(addon + '.' + item.getId(), true);
 
+                // Whether the entire addon has been disabled
                 boolean isAddonDisabled = config.getBoolean(addon + ".enabled");
 
                 if (isAddonDisabled) {
@@ -257,14 +232,24 @@ public class PerWorldSettingsService {
                     blacklist.add(worldName);
                 }
 
-                if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getID())) {
-                    items.add(item.getID());
+                if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getId())) {
+                    items.add(item.getId());
                 }
             }
         }
     }
 
-    private Config getConfig(World world) {
+    /**
+     * This method returns the relevant {@link Config} for the given {@link World}
+     * 
+     * @param world
+     *            Our {@link World}
+     * 
+     * @return The corresponding {@link Config}
+     */
+    @Nonnull
+    private Config getConfig(@Nonnull World world) {
+        Validate.notNull(world, "World cannot be null");
         return new Config(plugin, "world-settings/" + world.getName() + ".yml");
     }
 

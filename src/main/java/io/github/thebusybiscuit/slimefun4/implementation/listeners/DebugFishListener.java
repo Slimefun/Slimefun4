@@ -63,12 +63,10 @@ public class DebugFishListener implements Listener {
             if (p.hasPermission("slimefun.debugging")) {
                 if (e.getAction() == Action.LEFT_CLICK_BLOCK) {
                     onLeftClick(p, e.getClickedBlock(), e);
-                }
-                else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                } else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                     onRightClick(p, e.getClickedBlock(), e.getBlockFace());
                 }
-            }
-            else {
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-permission", true);
             }
         }
@@ -80,8 +78,7 @@ public class DebugFishListener implements Listener {
             if (BlockStorage.hasBlockInfo(b)) {
                 BlockStorage.clearBlockInfo(b);
             }
-        }
-        else {
+        } else {
             e.setCancelled(false);
         }
     }
@@ -92,13 +89,11 @@ public class DebugFishListener implements Listener {
             Block block = b.getRelative(face);
             block.setType(Material.PLAYER_HEAD);
             SkullBlock.setFromHash(block, HeadTexture.MISSING_TEXTURE.getTexture());
-        }
-        else if (BlockStorage.hasBlockInfo(b)) {
+        } else if (BlockStorage.hasBlockInfo(b)) {
             try {
                 sendInfo(p, b);
-            }
-            catch (Exception x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Exception occured while using a Debug-Fish", x);
+            } catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, "An Exception occurred while using a Debug-Fish", x);
             }
         }
     }
@@ -109,7 +104,7 @@ public class DebugFishListener implements Listener {
 
         p.sendMessage(" ");
         p.sendMessage(ChatColors.color("&d" + b.getType() + " &e@ X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ()));
-        p.sendMessage(ChatColors.color("&dId: " + "&e" + item.getID()));
+        p.sendMessage(ChatColors.color("&dId: " + "&e" + item.getId()));
         p.sendMessage(ChatColors.color("&dPlugin: " + "&e" + item.getAddon().getName()));
 
         if (b.getState() instanceof Skull) {
@@ -118,27 +113,23 @@ public class DebugFishListener implements Listener {
             // Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
             if (b.getType() == Material.PLAYER_WALL_HEAD) {
                 p.sendMessage(ChatColors.color("  &dFacing: &e" + ((Directional) b.getBlockData()).getFacing().toString()));
-            }
-            else {
+            } else {
                 p.sendMessage(ChatColors.color("  &dRotation: &e" + ((Rotatable) b.getBlockData()).getRotation().toString()));
             }
         }
 
         if (BlockStorage.getStorage(b.getWorld()).hasInventory(b.getLocation())) {
             p.sendMessage(ChatColors.color("&dInventory: " + greenCheckmark));
-        }
-        else {
+        } else {
             p.sendMessage(ChatColors.color("&dInventory: " + redCross));
         }
 
         if (item.isTicking()) {
             p.sendMessage(ChatColors.color("&dTicking: " + greenCheckmark));
             p.sendMessage(ChatColors.color("  &dAsync: &e" + (item.getBlockTicker().isSynchronized() ? redCross : greenCheckmark)));
-        }
-        else if (item instanceof EnergyNetProvider) {
+        } else if (item instanceof EnergyNetProvider) {
             p.sendMessage(ChatColors.color("&dTicking: &3Indirect (Generator)"));
-        }
-        else {
+        } else {
             p.sendMessage(ChatColors.color("&dTicking: " + redCross));
         }
 
@@ -156,8 +147,7 @@ public class DebugFishListener implements Listener {
             if (component.isChargeable()) {
                 p.sendMessage(ChatColors.color("  &dChargeable: " + greenCheckmark));
                 p.sendMessage(ChatColors.color("  &dEnergy: &e" + component.getCharge(b.getLocation()) + " / " + component.getCapacity()));
-            }
-            else {
+            } else {
                 p.sendMessage(ChatColors.color("&dChargeable: " + redCross));
             }
         }

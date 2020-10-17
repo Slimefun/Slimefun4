@@ -24,7 +24,7 @@ public class CargoManager extends SlimefunItem {
     public CargoManager(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             SimpleHologram.remove(b);
             return true;
         });
@@ -57,8 +57,7 @@ public class CargoManager extends SlimefunItem {
                     if (BlockStorage.getLocationInfo(b.getLocation(), "visualizer") == null) {
                         BlockStorage.addBlockInfo(b, "visualizer", "disabled");
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
-                    }
-                    else {
+                    } else {
                         BlockStorage.addBlockInfo(b, "visualizer", null);
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
                     }

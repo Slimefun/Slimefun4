@@ -5,7 +5,7 @@ description: Slimefun basically turns your entire Server into a FTB modpack with
 website: https://github.com/Slimefun
 
 main: io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin
-softdepend: [CS-CoreLib, PlaceholderAPI, WorldEdit, EmeraldEnchants]
+softdepend: [CS-CoreLib, PlaceholderAPI, WorldEdit, EmeraldEnchants, mcMMO]
 
 api-version: '1.13'
 
@@ -49,6 +49,9 @@ permissions:
   slimefun.command.backpack:
     description: Allows you to do /sf backpack
     default: op
+  slimefun.command.charge:
+    description: Allows you to do /sf charge
+    default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
     default: op
@@ -57,6 +60,9 @@ permissions:
     default: op
   slimefun.inventory.bypass:
     description: Allows you to open all Slimefun Machines
+    default: op
+  slimefun.gps.bypass:
+    description: Allows you to open all GPS inventories
     default: op
   slimefun.debugging:
     description: Allows you to use the debugging tool from Slimefun

@@ -44,7 +44,7 @@ public abstract class ElectricSmeltery extends AContainer {
     public ElectricSmeltery(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), getItemName()) {
+        new BlockMenuPreset(getId(), getItemName()) {
 
             @Override
             public void init() {
@@ -83,12 +83,10 @@ public abstract class ElectricSmeltery extends AContainer {
 
                 if (slots.isEmpty()) {
                     return getInputSlots();
-                }
-                else if (fullSlots == slots.size()) {
+                } else if (fullSlots == slots.size()) {
                     // All slots with that item are already full
                     return new int[0];
-                }
-                else {
+                } else {
                     Collections.sort(slots, compareSlots(menu));
                     int[] array = new int[slots.size()];
 
@@ -101,7 +99,7 @@ public abstract class ElectricSmeltery extends AContainer {
             }
         };
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {

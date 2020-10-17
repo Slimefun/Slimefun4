@@ -3,6 +3,9 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
@@ -38,10 +42,11 @@ public abstract class AGenerator extends AbstractEnergyProvider {
     private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
+    @ParametersAreNonnullByDefault
     public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(id, getInventoryTitle()) {
+        new BlockMenuPreset(item.getItemId(), getInventoryTitle()) {
 
             @Override
             public void init() {
@@ -57,14 +62,13 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                 if (flow == ItemTransportFlow.INSERT) {
                     return getInputSlots();
-                }
-                else {
+                } else {
                     return getOutputSlots();
                 }
             }
         };
 
-        registerBlockHandler(id, (p, b, tool, reason) -> {
+        registerBlockHandler(item.getItemId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
@@ -86,11 +90,11 @@ public abstract class AGenerator extends AbstractEnergyProvider {
         }
 
         for (int i : border_in) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_out) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : getOutputSlots()) {
@@ -148,13 +152,11 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                     }
 
                     return 0;
-                }
-                else {
+                } else {
                     progress.put(l, timeleft - 1);
                     return getEnergyProduction();
                 }
-            }
-            else {
+            } else {
                 ItemStack fuel = processing.get(l).getInput();
 
                 if (isBucket(fuel)) {
@@ -163,12 +165,13 @@ public abstract class AGenerator extends AbstractEnergyProvider {
 
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
+                Bukkit.getPluginManager().callEvent(new AsyncGeneratorProcessCompleteEvent(l, AGenerator.this, getProcessing(l)));
+
                 progress.remove(l);
                 processing.remove(l);
                 return 0;
             }
-        }
-        else {
+        } else {
             Map<Integer, Integer> found = new HashMap<>();
             MachineFuel fuel = findRecipe(inv, found);
 

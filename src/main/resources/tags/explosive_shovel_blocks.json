@@ -1,0 +1,22 @@
+{
+	"values" : [
+		"#minecraft:sand",
+		"#slimefun:concrete_powders",
+		"minecraft:dirt",
+		"minecraft:coarse_dirt",
+		"minecraft:grass_block",
+		"minecraft:grass_path",
+		"minecraft:farmland",
+		"minecraft:podzol",
+		"minecraft:mycelium",
+		"minecraft:snow",
+		"minecraft:snow_block",
+		"minecraft:gravel",
+		"minecraft:clay",
+		"minecraft:soul_sand",
+		{
+			"id" : "minecraft:soul_soil",
+			"required" : false
+		}
+	]
+}

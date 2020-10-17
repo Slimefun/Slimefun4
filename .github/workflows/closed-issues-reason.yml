@@ -43,7 +43,7 @@ jobs:
             * [ ] Your issue is not a bug, please only use this issue tracker to report bugs. Any other kind of communication should happen on discord.
             * [ ] Your issue has already been reported before, it is a duplicate. Check the other issues first before posting!
             * [ ] You posted an error without using pastebin. Please always post errors via pastebin otherwise they become nearly unreadable.
-            * [ ] You seem to be reporting multiple bugs at once. Please make a seperate issue for each bug you encountered, so we can properly handle them individually.
+            * [ ] You seem to be reporting multiple bugs at once. Please make a separate issue for each bug you encountered, so we can properly handle them individually.
             * [ ] Your issue has already been fixed in a later version of Slimefun or CS-CoreLib, you should update.
             * [ ] You are using an outdated and unsupported version of Slimefun / CS-CoreLib, again, you should update.
             * [ ] You are using an unofficially modified build of Slimefun. We only support official versions of Slimefun - for obvious reasons.

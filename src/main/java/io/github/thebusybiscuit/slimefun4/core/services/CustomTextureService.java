@@ -51,6 +51,8 @@ public class CustomTextureService {
         config.setDefaultValue("SLIMEFUN_GUIDE", 0);
 
         config.setDefaultValue("_UI_BACKGROUND", 0);
+        config.setDefaultValue("_UI_INPUT_SLOT", 0);
+        config.setDefaultValue("_UI_OUTPUT_SLOT", 0);
         config.setDefaultValue("_UI_BACK", 0);
         config.setDefaultValue("_UI_MENU", 0);
         config.setDefaultValue("_UI_SEARCH", 0);
@@ -62,9 +64,9 @@ public class CustomTextureService {
 
         for (SlimefunItem item : items) {
             if (item != null) {
-                config.setDefaultValue(item.getID(), 0);
+                config.setDefaultValue(item.getId(), 0);
 
-                if (config.getInt(item.getID()) != 0) {
+                if (config.getInt(item.getId()) != 0) {
                     modified = true;
                 }
             }

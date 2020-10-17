@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuid
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This is a static utility class that provides convenient access to the methods
@@ -42,14 +41,11 @@ public final class SlimefunGuide {
     public static void openGuide(Player p, ItemStack guide) {
         if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
             openGuide(p, SlimefunGuideLayout.CHEST);
-        }
-        else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
+        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
             openGuide(p, SlimefunGuideLayout.BOOK);
-        }
-        else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
+        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
             openGuide(p, SlimefunGuideLayout.CHEAT_SHEET);
-        }
-        else {
+        } else {
             // When using /sf cheat or /sf open_guide, ItemStack is null.
             openGuide(p, SlimefunGuideLayout.CHEST);
         }
@@ -66,14 +62,13 @@ public final class SlimefunGuide {
             PlayerProfile profile = optional.get();
             SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
             profile.getGuideHistory().openLastEntry(guide);
-        }
-        else {
+        } else {
             openMainMenuAsync(p, layout, 1);
         }
     }
 
     private static void openMainMenuAsync(Player player, SlimefunGuideLayout layout, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> Slimefun.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
+        if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
             SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
@@ -83,13 +78,20 @@ public final class SlimefunGuide {
     }
 
     public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, int selectedPage) {
-        if (category == null) return;
+        if (category == null) {
+            return;
+        }
+
         SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, selectedPage);
     }
 
     public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
         SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST);
-        if (!survival) layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEAT_SHEET);
+
+        if (!survival) {
+            layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEAT_SHEET);
+        }
+
         layout.openSearch(profile, input, addToHistory);
     }
 
@@ -108,8 +110,7 @@ public final class SlimefunGuide {
     public static SlimefunGuideLayout getDefaultLayout() {
         if (SlimefunPlugin.getCfg().getBoolean("guide.default-view-book")) {
             return SlimefunGuideLayout.BOOK;
-        }
-        else {
+        } else {
             return SlimefunGuideLayout.CHEST;
         }
     }

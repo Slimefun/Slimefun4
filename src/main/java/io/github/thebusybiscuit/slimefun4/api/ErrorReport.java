@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -26,7 +27,6 @@ import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This class represents an {@link ErrorReport}.
@@ -41,7 +41,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class ErrorReport<T extends Throwable> {
 
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
-    private static int count;
+    private static final AtomicInteger count = new AtomicInteger(0);
 
     private SlimefunAddon addon;
     private T throwable;
@@ -52,7 +52,7 @@ public class ErrorReport<T extends Throwable> {
         this.throwable = throwable;
         this.addon = addon;
 
-        Slimefun.runSync(() -> print(printer));
+        SlimefunPlugin.runSync(() -> print(printer));
     }
 
     @ParametersAreNonnullByDefault
@@ -81,7 +81,7 @@ public class ErrorReport<T extends Throwable> {
             }
 
             stream.println("Slimefun Data:");
-            stream.println("  ID: " + item.getID());
+            stream.println("  ID: " + item.getId());
             stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
             stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
             stream.println();
@@ -92,7 +92,7 @@ public class ErrorReport<T extends Throwable> {
     public ErrorReport(T throwable, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
             stream.println("SlimefunItem:");
-            stream.println("  ID: " + item.getID());
+            stream.println("  ID: " + item.getId());
             stream.println("  Plugin: " + (item.getAddon() == null ? "Unknown" : item.getAddon().getName()));
             stream.println();
         });
@@ -124,12 +124,12 @@ public class ErrorReport<T extends Throwable> {
      * @return The amount of {@link ErrorReport ErrorReports} created.
      */
     public static int count() {
-        return count;
+        return count.get();
     }
 
     private void print(@Nonnull Consumer<PrintStream> printer) {
         this.file = getNewFile();
-        count++;
+        count.incrementAndGet();
 
         try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8.name())) {
             stream.println();
@@ -182,8 +182,7 @@ public class ErrorReport<T extends Throwable> {
             }
 
             addon.getLogger().log(Level.WARNING, "");
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             addon.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving an Error-Report for Slimefun " + SlimefunPlugin.getVersion());
         }
     }
@@ -198,8 +197,7 @@ public class ErrorReport<T extends Throwable> {
                 if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
                     addons.add("  + " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
                 }
-            }
-            else {
+            } else {
                 plugins.add("  - " + plugin.getName() + ' ' + plugin.getDescription().getVersion());
 
                 if (plugin.getDescription().getDepend().contains(dependency) || plugin.getDescription().getSoftDepend().contains(dependency)) {
@@ -227,8 +225,7 @@ public class ErrorReport<T extends Throwable> {
     public static void tryCatch(@Nonnull Function<Exception, ErrorReport<Exception>> function, @Nonnull Runnable runnable) {
         try {
             runnable.run();
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             function.apply(x);
         }
     }

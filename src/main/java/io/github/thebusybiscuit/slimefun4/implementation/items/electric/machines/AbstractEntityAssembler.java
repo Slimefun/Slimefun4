@@ -28,7 +28,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -63,7 +62,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     public AbstractEntityAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), item.getImmutableMeta().getDisplayName().orElse("Entity Assembler")) {
+        new BlockMenuPreset(getId(), item.getImmutableMeta().getDisplayName().orElse("Entity Assembler")) {
 
             @Override
             public void init() {
@@ -96,8 +95,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                 if (flow == ItemTransportFlow.INSERT) {
                     return inputSlots;
-                }
-                else {
+                } else {
                     return new int[0];
                 }
             }
@@ -119,7 +117,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         };
 
         addItemHandler(onPlace());
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             if (reason == UnregisterReason.EXPLODE) {
                 return false;
             }
@@ -163,8 +161,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                 updateBlockInventory(menu, b);
                 return false;
             });
-        }
-        else {
+        } else {
             menu.replaceExistingItem(22, new CustomItem(Material.REDSTONE, "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
             menu.addMenuClickHandler(22, (p, slot, item, action) -> {
                 BlockStorage.addBlockInfo(b, KEY_ENABLED, String.valueOf(false));
@@ -206,7 +203,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                         removeCharge(b.getLocation(), getEnergyConsumption());
                         double offset = Double.parseDouble(BlockStorage.getLocationInfo(b.getLocation(), KEY_OFFSET));
 
-                        Slimefun.runSync(() -> {
+                        SlimefunPlugin.runSync(() -> {
                             Location loc = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
                             spawnEntity(loc);
 
@@ -255,8 +252,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                 if (amount >= bodyCount) {
                     inv.consumeItem(slot, bodyCount);
                     break;
-                }
-                else {
+                } else {
                     bodyCount -= amount;
                     inv.replaceExistingItem(slot, null);
                 }
@@ -270,8 +266,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                 if (amount >= headCount) {
                     inv.consumeItem(slot, headCount);
                     break;
-                }
-                else {
+                } else {
                     headCount -= amount;
                     inv.replaceExistingItem(slot, null);
                 }

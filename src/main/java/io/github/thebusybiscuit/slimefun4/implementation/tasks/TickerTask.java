@@ -38,6 +38,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class TickerTask implements Runnable {
 
+    // This Map holds all currently actively ticking locations
+    private final Map<String, Set<Location>> activeTickers = new ConcurrentHashMap<>();
+
     // These are "Queues" of blocks that need to be removed or moved
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
@@ -90,8 +93,8 @@ public class TickerTask implements Runnable {
             }
 
             if (!halted) {
-                for (String chunk : BlockStorage.getTickingChunks()) {
-                    tickChunk(tickers, chunk);
+                for (Map.Entry<String, Set<Location>> entry : activeTickers.entrySet()) {
+                    tickChunk(tickers, entry.getKey(), entry.getValue());
                 }
             }
 
@@ -109,16 +112,15 @@ public class TickerTask implements Runnable {
 
             reset();
             SlimefunPlugin.getProfiler().stop();
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
             reset();
         }
     }
 
-    private void tickChunk(@Nonnull Set<BlockTicker> tickers, @Nonnull String chunk) {
+    @ParametersAreNonnullByDefault
+    private void tickChunk(Set<BlockTicker> tickers, String chunk, Set<Location> locations) {
         try {
-            Set<Location> locations = BlockStorage.getTickingLocations(chunk);
             String[] components = PatternUtils.SEMICOLON.split(chunk);
 
             World world = Bukkit.getWorld(components[0]);
@@ -130,9 +132,8 @@ public class TickerTask implements Runnable {
                     tickLocation(tickers, l);
                 }
             }
-        }
-        catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occured while trying to parse Chunk: " + chunk);
+        } catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to parse Chunk: " + chunk);
         }
     }
 
@@ -147,12 +148,11 @@ public class TickerTask implements Runnable {
                     item.getBlockTicker().update();
                     // We are inserting a new timestamp because synchronized
                     // actions are always ran with a 50ms delay (1 game tick)
-                    Slimefun.runSync(() -> {
+                    SlimefunPlugin.runSync(() -> {
                         Block b = l.getBlock();
                         tickBlock(l, b, item, data, System.nanoTime());
                     });
-                }
-                else {
+                } else {
                     long timestamp = SlimefunPlugin.getProfiler().newEntry();
                     item.getBlockTicker().update();
                     Block b = l.getBlock();
@@ -160,8 +160,7 @@ public class TickerTask implements Runnable {
                 }
 
                 tickers.add(item.getBlockTicker());
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 reportErrors(l, item, x);
             }
         }
@@ -171,11 +170,9 @@ public class TickerTask implements Runnable {
     private void tickBlock(Location l, Block b, SlimefunItem item, Config data, long timestamp) {
         try {
             item.getBlockTicker().tick(b, item, data);
-        }
-        catch (Exception | LinkageError x) {
+        } catch (Exception | LinkageError x) {
             reportErrors(l, item, x);
-        }
-        finally {
+        } finally {
             SlimefunPlugin.getProfiler().closeEntry(l, item, timestamp);
         }
     }
@@ -189,9 +186,8 @@ public class TickerTask implements Runnable {
             // Generate a new Error-Report
             new ErrorReport<>(x, l, item);
             bugs.put(position, errors);
-        }
-        else if (errors == 4) {
-            Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getID() });
+        } else if (errors == 4) {
+            Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getId() });
             Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
             Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
             Slimefun.getLogger().log(Level.SEVERE, " ");
@@ -199,8 +195,7 @@ public class TickerTask implements Runnable {
 
             BlockStorage.deleteLocationInfoUnsafely(l, true);
             Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance(), () -> l.getBlock().setType(Material.AIR));
-        }
-        else {
+        } else {
             bugs.put(position, errors);
         }
     }
@@ -223,13 +218,24 @@ public class TickerTask implements Runnable {
         deletionQueue.put(l, destroy);
     }
 
+    /**
+     * This returns the delay between ticks
+     * 
+     * @return The tick delay
+     */
     public int getTickRate() {
         return tickRate;
     }
 
-    @Override
-    public String toString() {
-        return "TickerTask {\n" + "     HALTED = " + halted + "\n" + "     move = " + movingQueue + "\n" + "     delete = " + deletionQueue + "}";
+    /**
+     * This method returns the {@link Map} of actively ticking locations according to
+     * their chunk id.
+     * 
+     * @return The {@link Map} of active tickers
+     */
+    @Nonnull
+    public Map<String, Set<Location>> getActiveTickers() {
+        return activeTickers;
     }
 
 }

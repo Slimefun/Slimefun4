@@ -21,6 +21,10 @@ commands:
     backpack-does-not-exist: "&4Ang tinukoy na backpack ay hindi umiiral!"
     restored-backpack-given: "&aAng iyong backpack ay naibalik at naidagdag sa iyong
       imbentaryo!"
+  charge:
+    description: I-chacharge ang item ng iyong hinahawakan.
+    charge-success: Na-charge na ang item!
+    not-rechargeable: Hindi puedeng i-charge ang item na ito.
 guide:
   search:
     message: "&bAno ang hinahanap mo?"
@@ -53,6 +57,7 @@ guide:
     addons: Ang mga Addons para sa Slimefun4
     bugs: Mga Bug Reports
     source: Ang Source Code
+    versions: Mga na-install na versions
   credits:
     commit: Commit
     commits: Mga Commits
@@ -62,6 +67,12 @@ guide:
       resourcepack: "&cResourcepack Artist"
       translator: "&9Translator"
     profile-link: I-click ito upang bisitahin ang kanilang profile sa GitHub.
+    open: Pindutin ito upang makita ang aming mga nag-ambag
+    description:
+    - "&7Ang Slimefun ay isang proyekto na bukas na mapagkukunan"
+    - "&7at pinapanatili ng isang malaking pamayanan ng mga tao."
+    - "&7Mga hanggang &e%contributors% &7na mga tao ang tumutulong sa"
+    - "&7Slimefun sa buong lahat ng mga taong ito."
   pages:
     previous: Nakaraang pahina.
     next: Susunod na pahina.
@@ -74,6 +85,7 @@ guide:
       miner: Mga mapagkukunan na maaari mong makuha sa Miner na ito.
       generator: Magagamit na mga uri ng gasolina.
       gold-pan: Mga mapagkukunan na maaari mong makuha.
+      climbing-pick: Mga ibabaw na maaari mong akyatin
   back:
     title: Balik
     guide: Bumalik sa Slimefun Guide
@@ -175,6 +187,11 @@ messages:
   multi-tool:
     mode-change: "&b%device% napalitan ang mode sa: &9%mode%"
     not-shears: "&cBawal gamitin ang Multi-Tool bilang shears!"
+  climbing-pick:
+    dual-wielding: "&4Kailangan mong hawakan ang Climbing Picks ng dalawang kamay
+      upang magamit ito!"
+    wrong-material: "&cHindi ka maaaring umakyat sa ibabaw na ito. Suriin ang iyong
+      Slimefun Guide para sa karagdagang impormasyon!"
   mode-change: "&b%device% mode ay pinalitan ng: &9%mode%"
 machines:
   pattern-not-found: "&ePasensiya na, hindi ko maintindihan ang Recipe na ito. Pakilagay
@@ -239,6 +256,7 @@ machines:
       %ores% ore(s)!"
 anvil:
   not-working: "&4Hindi puwedeng gamitin ang mga Slimefun Aytem sa isang Anvil!"
+  mcmmo-salvaging: "&4Bawal i-salvage ang mga Slimefun items!"
 backpack:
   already-open: "&cSorry, ang backpack na ito ay nakabukas na sa ibang lugar!"
   no-stack: "&cHindi puwedeng i-stack ang mga Backpack."
@@ -349,3 +367,7 @@ brewing_stand:
   not-working: "&4Hindi ka maaaring gumamit ng mga Item ng Slimefun sa Brewing Stand!"
 villagers:
   no-trading: "&4Hindi ka maaaring mag-trade ng mga Slimefun Items sa mga villagers!"
+cartography_table:
+  not-working: "&4Hindi mo puedeng gamitin ang mga Slimefun items sa cartography table!"
+cauldron:
+  no-discoloring: "&4Hindi mo puedeng i-discolor ang Slimefun Armor."

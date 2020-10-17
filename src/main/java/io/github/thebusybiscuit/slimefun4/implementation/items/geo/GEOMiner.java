@@ -41,7 +41,7 @@ public abstract class GEOMiner extends AContainer implements RecipeDisplayItem {
         super(category, item, recipeType, recipe);
 
         addItemHandler(onPlace());
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             SimpleHologram.remove(b);
 
             BlockMenu inv = BlockStorage.getInventory(b);
@@ -148,19 +148,16 @@ public abstract class GEOMiner extends AContainer implements RecipeDisplayItem {
 
                 removeCharge(b.getLocation(), getEnergyConsumption());
                 progress.put(b, timeleft - 1);
-            }
-            else {
+            } else {
                 inv.replaceExistingItem(4, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
                 inv.pushItem(processing.get(b).getOutput()[0], getOutputSlots());
 
                 progress.remove(b);
                 processing.remove(b);
             }
-        }
-        else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
+        } else if (!BlockStorage.hasChunkInfo(b.getWorld(), b.getX() >> 4, b.getZ() >> 4)) {
             SimpleHologram.update(b, "&4GEO-Scan required!");
-        }
-        else {
+        } else {
             start(b, inv);
         }
     }

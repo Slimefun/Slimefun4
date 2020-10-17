@@ -81,7 +81,7 @@ public class SlimefunProfiler {
     /**
      * This method schedules a given amount of entries for the future.
      * Be careful to {@link #closeEntry(Location, SlimefunItem, long)} all of them again!
-     * No {@link PerformanceSummary} will be sent until all entires were closed.
+     * No {@link PerformanceSummary} will be sent until all entries were closed.
      * 
      * If the specified amount is negative, scheduled entries will be removed
      * 
@@ -164,8 +164,7 @@ public class SlimefunProfiler {
                     }
                     return;
                 }
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
                 Thread.currentThread().interrupt();
             }
@@ -297,7 +296,7 @@ public class SlimefunProfiler {
     public PerformanceRating getPerformance() {
         float percentage = getPercentageOfTick();
 
-        for (PerformanceRating rating : PerformanceRating.values()) {
+        for (PerformanceRating rating : PerformanceRating.valuesCache) {
             if (rating.test(percentage)) {
                 return rating;
             }
@@ -345,7 +344,7 @@ public class SlimefunProfiler {
     public String getTime(@Nonnull SlimefunItem item) {
         Validate.notNull("Cannot get timings for a null SlimefunItem");
 
-        long time = getByItem().getOrDefault(item.getID(), 0L);
+        long time = getByItem().getOrDefault(item.getId(), 0L);
         return NumberUtils.getAsMillis(time);
     }
 

@@ -12,6 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -27,8 +28,7 @@ public class MagicianTalisman extends Talisman {
                 for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
                     enchantments.add(new TalismanEnchantment(enchantment, i));
                 }
-            }
-            catch (Exception x) {
+            } catch (Exception x) {
                 Slimefun.getLogger().log(Level.SEVERE, x, () -> "The following Exception occurred while trying to register the following Enchantment: " + enchantment);
             }
         }

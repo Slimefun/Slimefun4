@@ -47,8 +47,7 @@ class ItemRequest {
         if (obj instanceof ItemRequest) {
             ItemRequest request = (ItemRequest) obj;
             return Objects.equals(item, request.item) && Objects.equals(terminal, request.terminal) && slot == request.slot && flow == request.flow;
-        }
-        else {
+        } else {
             return false;
         }
     }

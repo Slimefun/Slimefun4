@@ -243,16 +243,6 @@ public class SlimefunItemStack extends CustomItem {
         locked = true;
     }
 
-    @Override
-    public ItemStack clone() {
-        return new SlimefunItemStack(id, this);
-    }
-
-    @Override
-    public String toString() {
-        return "SlimefunItemStack (" + id + (getAmount() > 1 ? (" x " + getAmount()) : "") + ')';
-    }
-
     @Nonnull
     public Optional<String> getSkullTexture() {
         return Optional.ofNullable(texture);
@@ -284,12 +274,32 @@ public class SlimefunItemStack extends CustomItem {
 
         if (texture.startsWith("ey")) {
             return texture;
-        }
-        else if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+        } else if (PatternUtils.HEXADECIMAL.matcher(texture).matches()) {
             return Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
+    }
+
+    @Override
+    public ItemStack clone() {
+        return new SlimefunItemStack(id, this);
+    }
+
+    @Override
+    public String toString() {
+        return "SlimefunItemStack (" + id + (getAmount() > 1 ? (" x " + getAmount()) : "") + ')';
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        // We don't want people to override this, it should use the super method
+        return super.equals(obj);
+    }
+
+    @Override
+    public final int hashCode() {
+        // We don't want people to override this, it should use the super method
+        return super.hashCode();
     }
 }

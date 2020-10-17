@@ -6,12 +6,12 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterials;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -51,7 +51,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
 
         });
 
-        new BlockMenuPreset(getID(), ChatUtils.removeColorCodes(item.getItemMeta().getDisplayName())) {
+        new BlockMenuPreset(getId(), ChatUtils.removeColorCodes(item.getItemMeta().getDisplayName())) {
 
             @Override
             public void init() {
@@ -83,11 +83,10 @@ abstract class AbstractCargoNode extends SlimefunItem {
         menu.addMenuClickHandler(slotPrev, (p, slot, item, action) -> {
             int newChannel = channel - 1;
 
-            if (channel < 0) {
+            if (newChannel < 0) {
                 if (isChestTerminalInstalled) {
                     newChannel = 16;
-                }
-                else {
+                } else {
                     newChannel = 15;
                 }
             }
@@ -100,9 +99,8 @@ abstract class AbstractCargoNode extends SlimefunItem {
         if (channel == 16) {
             menu.replaceExistingItem(slotCurrent, new CustomItem(HeadTexture.CHEST_TERMINAL.getAsItemStack(), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
-        }
-        else {
-            menu.replaceExistingItem(slotCurrent, new CustomItem(MaterialCollections.getAllWoolColors().get(channel), "&bChannel ID: &3" + (channel + 1)));
+        } else {
+            menu.replaceExistingItem(slotCurrent, new CustomItem(ColoredMaterials.WOOL.get(channel), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
 
@@ -114,8 +112,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
                 if (newChannel > 16) {
                     newChannel = 0;
                 }
-            }
-            else if (newChannel > 15) {
+            } else if (newChannel > 15) {
                 newChannel = 0;
             }
 
@@ -128,14 +125,12 @@ abstract class AbstractCargoNode extends SlimefunItem {
     private int getSelectedChannel(Block b) {
         if (!BlockStorage.hasBlockInfo(b)) {
             return 0;
-        }
-        else {
+        } else {
             String frequency = BlockStorage.getLocationInfo(b.getLocation(), FREQUENCY);
 
             if (frequency == null) {
                 return 0;
-            }
-            else {
+            } else {
                 int channel = Integer.parseInt(frequency);
                 return NumberUtils.clamp(0, channel, 16);
             }

@@ -1,0 +1,24 @@
+---
+tooltips:
+  results: Резултати от ГЕО-сканиране
+  chunk: Сканиран Чънк
+  world: Свят
+  unit: Единица
+  units: Единици
+resources:
+  slimefun:
+    oil: Масло
+    nether_ice: Лед от Недъра
+    salt: Сол
+    uranium: Уран
+  slimefunorechunks:
+    iron_ore_chunk: Чънк с Желязна Руда
+    gold_ore_chunk: Чънк със Златна Руда
+    copper_ore_chunk: Чънк с Медна Руда
+    tin_ore_chunk: Чънк със Калаена Руда
+    silver_ore_chunk: Чънк със Сребърна Руда
+    aluminum_ore_chunk: Чънк с Алуминиева Руда
+    lead_ore_chunk: Чънк с Олова Руда
+    zinc_ore_chunk: Чънк с Цинкова Руда
+    nickel_ore_chunk: Чънк с Никелова Руда
+    cobalt_ore_chunk: Чънк с Кобалтова Руда

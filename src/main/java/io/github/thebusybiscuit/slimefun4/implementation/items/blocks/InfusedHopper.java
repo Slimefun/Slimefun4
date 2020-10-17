@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -23,7 +25,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
     private final ItemSetting<Boolean> silent = new ItemSetting<>("silent", false);
-    private final ItemSetting<Double> radius = new ItemSetting<>("radius", 3.5);
+    private final ItemSetting<Double> radius = new DoubleRangeSetting("radius", 0.1, 3.5, Double.MAX_VALUE);
 
     public InfusedHopper(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -54,7 +56,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                 }
 
                 if (sound && !silent.getValue().booleanValue()) {
-                    b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F);
+                    b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1F, 2F);
                 }
             }
 

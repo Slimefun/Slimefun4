@@ -73,8 +73,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
                         sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(e));
                     }
                 }
-            }
-            else {
+            } else {
                 index = nextIndex(index);
 
                 SlimefunItem selectedItem = modes.get(index).getItem();

@@ -104,13 +104,12 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
-        String id = slimefunBlock.get().getID();
+        String id = slimefunBlock.get().getId();
 
-        if (id.equals(pedestalItem.getID())) {
+        if (id.equals(pedestalItem.getId())) {
             e.cancel();
             usePedestal(b, e.getPlayer());
-        }
-        else if (id.equals(altarItem.getID())) {
+        } else if (id.equals(altarItem.getId())) {
             if (!Slimefun.hasUnlocked(e.getPlayer(), altarItem, true) || altarsInUse.contains(b.getLocation())) {
                 e.cancel();
                 return;
@@ -149,13 +148,12 @@ public class AncientAltarListener implements Listener {
                 // place the item onto the pedestal
                 pedestalItem.placeItem(p, pedestal);
             }
-        }
-        else if (!removedItems.contains(stack.get().getUniqueId())) {
+        } else if (!removedItems.contains(stack.get().getUniqueId())) {
             Item entity = stack.get();
             UUID uuid = entity.getUniqueId();
             removedItems.add(uuid);
 
-            Slimefun.runSync(() -> removedItems.remove(uuid), 30L);
+            SlimefunPlugin.runSync(() -> removedItems.remove(uuid), 30L);
 
             entity.remove();
             p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
@@ -180,8 +178,7 @@ public class AncientAltarListener implements Listener {
 
                 if (catalyst.getType() != Material.AIR) {
                     startRitual(p, altar, pedestals, catalyst);
-                }
-                else {
+                } else {
                     altars.remove(altar);
                     SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-catalyst", true);
 
@@ -192,8 +189,7 @@ public class AncientAltarListener implements Listener {
                     // Unknown catalyst, no longer in use
                     altarsInUse.remove(altar.getLocation());
                 }
-            }
-            else {
+            } else {
                 altars.remove(altar);
                 SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
 
@@ -228,9 +224,8 @@ public class AncientAltarListener implements Listener {
                 b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 1, 1);
 
                 AncientAltarTask task = new AncientAltarTask(this, b, altarItem.getSpeed(), result.get(), pedestals, consumed, p);
-                Slimefun.runSync(task, 10L);
-            }
-            else {
+                SlimefunPlugin.runSync(task, 10L);
+            } else {
                 altars.remove(b);
 
                 for (Block block : pedestals) {
@@ -240,8 +235,7 @@ public class AncientAltarListener implements Listener {
                 // Item not unlocked, no longer in use.
                 altarsInUse.remove(b.getLocation());
             }
-        }
-        else {
+        } else {
             altars.remove(b);
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.ANCIENT_ALTAR.unknown-recipe", true);
 
@@ -265,7 +259,7 @@ public class AncientAltarListener implements Listener {
         if (pedestal.getType() == Material.DISPENSER) {
             String id = BlockStorage.checkID(pedestal);
 
-            if (id != null && id.equals(pedestalItem.getID())) {
+            if (id != null && id.equals(pedestalItem.getId())) {
                 SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.cannot-place", true);
                 e.setCancelled(true);
             }
@@ -276,28 +270,28 @@ public class AncientAltarListener implements Listener {
     private List<Block> getPedestals(@Nonnull Block altar) {
         List<Block> list = new ArrayList<>();
 
-        if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getId())) {
             list.add(altar.getRelative(2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(3, 0, 0), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(3, 0, 0), pedestalItem.getId())) {
             list.add(altar.getRelative(3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(2, 0, 2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(2, 0, 2), pedestalItem.getId())) {
             list.add(altar.getRelative(2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, 3), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(0, 0, 3), pedestalItem.getId())) {
             list.add(altar.getRelative(0, 0, 3));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, 2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, 2), pedestalItem.getId())) {
             list.add(altar.getRelative(-2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(-3, 0, 0), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-3, 0, 0), pedestalItem.getId())) {
             list.add(altar.getRelative(-3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, -2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, -2), pedestalItem.getId())) {
             list.add(altar.getRelative(-2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, -3), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(0, 0, -3), pedestalItem.getId())) {
             list.add(altar.getRelative(0, 0, -3));
         }
 
@@ -350,8 +344,7 @@ public class AncientAltarListener implements Listener {
                 for (int j = 1; j < 8; j++) {
                     if (!SlimefunUtils.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
                         break;
-                    }
-                    else if (j == 7) {
+                    } else if (j == 7) {
                         return Optional.of(recipe.getOutput());
                     }
                 }
