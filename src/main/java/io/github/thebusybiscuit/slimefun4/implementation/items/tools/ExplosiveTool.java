@@ -8,6 +8,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -135,12 +136,17 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
         } else if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.SHULKER_BOX || b.getType().name().endsWith("_SHULKER_BOX")) {
             b.breakNaturally(item);
         } else {
-            boolean applyFortune = b.getType().name().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE;
-
-            for (ItemStack drop : b.getDrops(getItem())) {
-                // For some reason this check is necessary with Paper
-                if (drop != null && drop.getType() != Material.AIR) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
+            // if mined whit silk_touch tool
+            if (item.getEnchantments().containsKey(Enchantment.SILK_TOUCH)) {
+                b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
+            } else {
+                // else mined without silk_touch tool
+                boolean applyFortune = b.getType().name().endsWith("_ORE") && b.getType() != Material.IRON_ORE && b.getType() != Material.GOLD_ORE;
+                for (ItemStack drop : b.getDrops(getItem())) {
+                    // For some reason this check is necessary with Paper
+                    if (drop != null && drop.getType() != Material.AIR) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
+                    }
                 }
             }
 
