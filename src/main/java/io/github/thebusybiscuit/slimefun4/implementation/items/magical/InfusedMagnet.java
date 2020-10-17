@@ -5,6 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -21,7 +22,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class InfusedMagnet extends UnplaceableBlock {
 
-    private final ItemSetting<Double> radius = new ItemSetting<>("pickup-radius", 6.0);
+    private final ItemSetting<Double> radius = new DoubleRangeSetting("pickup-radius", 0.1, 6.0, Double.MAX_VALUE);
 
     public InfusedMagnet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

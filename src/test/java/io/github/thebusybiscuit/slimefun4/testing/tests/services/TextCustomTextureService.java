@@ -60,17 +60,17 @@ class TextCustomTextureService {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "TEXTURE_TEST", new ItemStack(Material.LANTERN));
         String version = "Unit Test v1.0";
 
-        config.setValue(item.getID(), 300);
+        config.setValue(item.getId(), 300);
         config.setValue("version", version);
 
         service.register(Arrays.asList(item), false);
 
         Assertions.assertTrue(service.isActive());
         Assertions.assertEquals(version, service.getVersion());
-        Assertions.assertEquals(300, service.getModelData(item.getID()));
+        Assertions.assertEquals(300, service.getModelData(item.getId()));
 
         ItemStack stack = new ItemStack(Material.DIAMOND);
-        service.setTexture(stack, item.getID());
+        service.setTexture(stack, item.getId());
 
         Assertions.assertTrue(stack.getItemMeta().hasCustomModelData());
         Assertions.assertEquals(300, stack.getItemMeta().getCustomModelData());

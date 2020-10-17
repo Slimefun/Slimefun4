@@ -47,7 +47,6 @@ public final class PostSetup {
 
     public static void setupWiki() {
         Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
-
         JsonParser parser = new JsonParser();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
@@ -248,7 +247,7 @@ public final class PostSetup {
 
     private static boolean isDust(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        return sfItem != null && sfItem.getID().endsWith("_DUST");
+        return sfItem != null && sfItem.getId().endsWith("_DUST");
     }
 
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {

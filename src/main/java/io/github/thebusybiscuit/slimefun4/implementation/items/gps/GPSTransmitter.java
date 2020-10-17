@@ -28,7 +28,7 @@ public abstract class GPSTransmitter extends SimpleSlimefunItem<BlockTicker> imp
         this.capacity = 4 << (2 * tier);
 
         addItemHandler(onPlace());
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             UUID owner = UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner"));
             SlimefunPlugin.getGPSNetwork().updateTransmitter(b.getLocation(), owner, false);
             return true;

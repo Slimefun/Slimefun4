@@ -34,7 +34,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
         oil = SlimefunPlugin.getRegistry().getGEOResources().get(new NamespacedKey(SlimefunPlugin.instance(), "oil")).orElse(null);
 
-        new BlockMenuPreset(getID(), getInventoryTitle()) {
+        new BlockMenuPreset(getId(), getInventoryTitle()) {
 
             @Override
             public void init() {

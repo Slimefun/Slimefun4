@@ -94,7 +94,7 @@ abstract class GitHubConnector {
             }
         } catch (UnirestException e) {
             if (github.isLoggingEnabled()) {
-                Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.");
+                Slimefun.getLogger().log(Level.WARNING, "Could not connect to GitHub in time.", e);
             }
 
             // It has the cached file, let's just read that then

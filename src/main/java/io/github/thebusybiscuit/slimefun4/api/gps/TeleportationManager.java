@@ -92,8 +92,9 @@ public final class TeleportationManager {
 
     @ParametersAreNonnullByDefault
     public int getTeleportationTime(int complexity, Location source, Location destination) {
-        if (complexity < 100)
+        if (complexity < 100) {
             return 100;
+        }
 
         int speed = 50_000 + complexity * complexity;
         return 1 + Math.min(4 * distanceSquared(source, destination) / speed, 40);

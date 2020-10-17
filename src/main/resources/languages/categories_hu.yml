@@ -2,25 +2,25 @@
 slimefun:
   weapons: Fegyverek
   tools: Eszközök
-  items: Hasznos Tárgyak
+  items: Hasznos tárgyak
   food: Étel
-  basic_machines: Alapvető Gépek
-  electricity: Energia és Elektromosság
-  gps: GPS-alapú Gépek
+  basic_machines: Alapvető gépek
+  electricity: Energia és elektromosság
+  gps: GPS-alapú gépek
   armor: Páncél
-  magical_items: Varázslatos Tárgyak
-  magical_gadgets: Varázslatos Kütyük
-  misc: Egyéb Tárgyak
-  technical_gadgets: Technikai Kütyük
+  magical_items: Varázslatos tárgyak
+  magical_gadgets: Varázslatos kütyük
+  misc: Egyéb tárgyak
+  technical_gadgets: Technikai kütyük
   resources: Erőforrások
-  cargo: Szállítmány Kezelés
-  tech_misc: Műszaki Alkatrészek
-  magical_armor: Varázslatos Páncél
-  talismans: Talizmánok (I. Szint)
-  ender_talismans: Ender Talizmánok (II. Szint)
+  cargo: Szállítmánykezelés
+  tech_misc: Műszaki alkatrészek
+  magical_armor: Varázslatos páncél
+  talismans: Talizmánok (I. szint)
+  ender_talismans: Ender talizmánok (II. szint)
   christmas: Karácsony (December)
-  valentines_day: Valentin Nap (Február 14.)
+  valentines_day: Valentin nap (Február 14.)
   easter: Húsvét (Április)
   birthday: TheBusyBiscuit születésnapja (Október 26.)
   halloween: Halloween (Október 31.)
-  androids: Programozható Androidok
+  androids: Programozható androidok
