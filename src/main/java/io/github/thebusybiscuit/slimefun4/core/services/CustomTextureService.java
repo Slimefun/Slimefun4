@@ -10,8 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -101,10 +99,7 @@ public class CustomTextureService {
 
     public void setTexture(@Nonnull ItemMeta im, @Nonnull String id) {
         int data = getModelData(id);
-
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            im.setCustomModelData(data == 0 ? null : data);
-        }
+        im.setCustomModelData(data == 0 ? null : data);
     }
 
 }

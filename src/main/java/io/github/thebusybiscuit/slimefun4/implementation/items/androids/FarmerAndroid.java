@@ -10,8 +10,6 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -57,10 +55,6 @@ public class FarmerAndroid extends ProgrammableAndroid {
     private ItemStack getDropFromCrop(Material crop) {
         Random random = ThreadLocalRandom.current();
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14) && crop == Material.SWEET_BERRY_BUSH) {
-            return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
-        }
-
         switch (crop) {
         case WHEAT:
             return new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
@@ -74,6 +68,8 @@ public class FarmerAndroid extends ProgrammableAndroid {
             return new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
         case NETHER_WART:
             return new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
+        case SWEET_BERRY_BUSH:
+            return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
         default:
             return null;
         }

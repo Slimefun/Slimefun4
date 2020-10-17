@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
@@ -41,11 +40,8 @@ public final class SlimefunGuideSettings {
 
     static {
         options.add(new GuideLayoutOption());
-
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            options.add(new FireworksOption());
-            options.add(new PlayerLanguageOption());
-        }
+        options.add(new FireworksOption());
+        options.add(new PlayerLanguageOption());
     }
 
     private SlimefunGuideSettings() {}
