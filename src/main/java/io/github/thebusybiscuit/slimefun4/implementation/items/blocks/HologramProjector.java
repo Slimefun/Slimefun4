@@ -43,8 +43,8 @@ public class HologramProjector extends SlimefunItem {
 
     private final ItemSetting<Double> maxDistance = new DoubleRangeSetting("max-horizontal-offset", 0.0, 5.0, 10.0);
 
-    public HologramProjector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe,
-                             ItemStack recipeOutput) {
+    @Nonnull
+    public HologramProjector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
         addItemHandler(onPlace(), onRightClick(), onBreak());
@@ -99,9 +99,8 @@ public class HologramProjector extends SlimefunItem {
         };
     }
 
-    private void openEditor(Player p, @Nonnull Block projector) {
-        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR" +
-                ".inventory-title"));
+    private void openEditor(@Nonnull Player p, @Nonnull Block projector) {
+        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR" + ".inventory-title"));
 
         for (int s : BORDER) {
             menu.addItem(s, new CustomItem(ChestMenuUtils.getBackground(), " "));
@@ -185,7 +184,7 @@ public class HologramProjector extends SlimefunItem {
         double currentOffset = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(
                 projector.getLocation(), type.parameter)));
 
-        menu.addItem(type.slot, new CustomItem(type.button.getAsItemStack(), "&7" + type.coordinate + " Offset (" + type.direction + ") &e" + currentOffset, "", "&eLeft Click: &7" + type.direction + Math.abs(type.smallChange), "&eRight Click: &7" + type.direction + Math.abs(type.smallChange)));
+        menu.addItem(type.slot, new CustomItem(type.button.getAsItemStack(), "&7" + type.coordinate + " Offset (" + type.direction + ") &e" + currentOffset, "", "&eLeft Click: &7" + type.direction + Math.abs(type.smallChange), "&eRight Click: &7" + type.direction + Math.abs(type.largeChange)));
         menu.addMenuClickHandler(type.slot, (pl, slot, item, action) -> {
             double storedOffset = DoubleHandler.fixDouble(Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), type.parameter)));
             double offset = action.isRightClicked() ? type.largeChange : type.smallChange;
@@ -214,8 +213,10 @@ public class HologramProjector extends SlimefunItem {
     private enum Type {
         X_POSITIVE(2, HeadTexture.RED_UP_ARROW, 'X', '+', X_OFFSET_PARAMETER, 0.1F, 0.5F),
         X_NEGATIVE(11, HeadTexture.RED_DOWN_ARROW, 'X', '-', X_OFFSET_PARAMETER, -0.1F, -0.5F),
+
         Y_POSITIVE(4, HeadTexture.LIME_UP_ARROW, 'Y', '+', Y_OFFSET_PARAMETER, 0.1F, 0.5F),
         Y_NEGATIVE(13, HeadTexture.LIME_DOWN_ARROW, 'Y', '-', Y_OFFSET_PARAMETER, -0.1F, -0.5F),
+
         Z_POSITIVE(6, HeadTexture.BLUE_UP_ARROW, 'Z', '+', Z_OFFSET_PARAMETER, 0.1F, 0.5F),
         Z_NEGATIVE(15, HeadTexture.BLUE_DOWN_ARROW, 'Z', '-', Z_OFFSET_PARAMETER, -0.1F, -0.5F);
 
