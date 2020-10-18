@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -64,14 +65,14 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int CATEGORY_SIZE = 36;
+    private static final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
 
-    private final ItemStack item;
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
-    private final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
+    private final ItemStack item;
     private final boolean showVanillaRecipes;
 
-    public ChestSlimefunGuide(boolean vanillaRecipes) {
-        showVanillaRecipes = vanillaRecipes;
+    public ChestSlimefunGuide(boolean showVanillaRecipes) {
+        this.showVanillaRecipes = showVanillaRecipes;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
@@ -125,7 +126,6 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-
         List<Category> categories = getVisibleCategories(p, profile);
 
         int index = 9;
@@ -334,26 +334,14 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         int index = 9;
         // Find items and add them
         for (SlimefunItem slimefunItem : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-            String itemName = ChatColor.stripColor(slimefunItem.getItemName()).toLowerCase(Locale.ROOT);
-
             if (index == 44) {
                 break;
             }
 
-            if (!itemName.isEmpty() && (itemName.equals(searchTerm) || itemName.contains(searchTerm))) {
+            if (isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = new CustomItem(slimefunItem.getItem(), meta -> {
-                    List<String> lore = null;
                     Category category = slimefunItem.getCategory();
-
-                    if (category != null) {
-                        ItemStack categoryItem = category.getItem(p);
-
-                        if (categoryItem != null && categoryItem.hasItemMeta() && categoryItem.getItemMeta().hasDisplayName()) {
-                            lore = Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + categoryItem.getItemMeta().getDisplayName());
-                        }
-                    }
-
-                    meta.setLore(lore);
+                    meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + category.getDisplayName(p)));
                     meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS);
                 });
 
@@ -377,6 +365,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.open(p);
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean isSearchFilterApplicable(SlimefunItem slimefunItem, String searchTerm) {
+        String itemName = ChatColor.stripColor(slimefunItem.getItemName()).toLowerCase(Locale.ROOT);
+        return !itemName.isEmpty() && (itemName.equals(searchTerm) || itemName.contains(searchTerm));
     }
 
     @Override
