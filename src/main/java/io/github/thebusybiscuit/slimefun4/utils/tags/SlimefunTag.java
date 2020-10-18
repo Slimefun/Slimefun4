@@ -122,6 +122,11 @@ public enum SlimefunTag implements Tag<Material> {
     CONCRETE_POWDERS,
 
     /**
+     * All the types of pressure plates.
+     */
+    PRESSURE_PLATES,
+
+    /**
      * Materials which are sensitive to break.
      * Things like Saplings or Pressure plates which break as well when you break
      * the block beneath them.
@@ -193,12 +198,7 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * All materials (ores) which trigger the Talisman of the Caveman.
      */
-    CAVEMAN_TALISMAN_TRIGGERS,
-
-    /**
-     * All the types of pressure plates.
-     */
-    PRESSURE_PLATES;
+    CAVEMAN_TALISMAN_TRIGGERS;
 
     private static final Map<String, SlimefunTag> nameLookup = new HashMap<>();
     public static final SlimefunTag[] valuesCache = values();
