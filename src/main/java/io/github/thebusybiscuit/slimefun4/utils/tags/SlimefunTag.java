@@ -127,6 +127,11 @@ public enum SlimefunTag implements Tag<Material> {
     PRESSURE_PLATES,
 
     /**
+     * All tall flowers because minecraft doesn't have a tag for this
+     */
+    TALL_FLOWERS,
+
+    /**
      * Materials which are sensitive to break.
      * Things like Saplings or Pressure plates which break as well when you break
      * the block beneath them.

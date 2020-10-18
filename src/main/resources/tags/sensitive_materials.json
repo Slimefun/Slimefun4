@@ -2,7 +2,7 @@
 	"values" : [
 		"#minecraft:saplings",
 		"#slimefun:torches",
-		"minecraft:cake",
-		"#slimefun:pressure_plates"
+		"#slimefun:pressure_plates",
+		"minecraft:cake"
 	]
 }
