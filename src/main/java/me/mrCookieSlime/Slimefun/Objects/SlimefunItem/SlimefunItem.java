@@ -498,7 +498,9 @@ public class SlimefunItem implements Placeable {
                 TickingBlock ticker = (TickingBlock) this;
 
                 // Temporary compatibility bridge
-                addItemHandler(new BlockTicker() {
+                ticking = true;
+                SlimefunPlugin.getRegistry().getTickerBlocks().add(getId());
+                blockTicker = new BlockTicker() {
 
                     @Override
                     public void tick(Block b, SlimefunItem item, Config data) {
@@ -514,7 +516,7 @@ public class SlimefunItem implements Placeable {
                     public void uniqueTick() {
                         ticker.onTickCycleStart();
                     }
-                });
+                };
             } else {
                 warn("This item is non-placable but has been marked as a 'TickingBlock', this is a bug!");
             }
