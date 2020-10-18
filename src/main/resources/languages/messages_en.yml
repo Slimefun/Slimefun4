@@ -261,6 +261,7 @@ machines:
     
 anvil:
   not-working: '&4You cannot use Slimefun items in an anvil!'
+  mcmmo-salvaging: '&4You cannot salvage Slimefun items!'
 
 brewing_stand:
   not-working: '&4You cannot use Slimefun items in a brewing stand!'
@@ -277,6 +278,9 @@ backpack:
 
 workbench:
   not-enhanced: '&4You cannot use Slimefun items in a normal workbench'
+
+cauldron:
+  no-discoloring: '&4You cannot discolor Slimefun Armor'
 
 gps:
   deathpoint: '&4Deathpoint &7%date%'

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -45,12 +47,13 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
 
     protected final List<MachineRecipe> recipes = new ArrayList<>();
 
+    @ParametersAreNonnullByDefault
     public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         createPreset(this, getInventoryTitle(), this::constructMenu);
 
-        registerBlockHandler(id, (p, b, tool, reason) -> {
+        registerBlockHandler(item.getItemId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
@@ -66,6 +69,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         registerDefaultRecipes();
     }
 
+    @ParametersAreNonnullByDefault
     public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         this(category, item, recipeType, recipe);
         this.recipeOutput = recipeOutput;

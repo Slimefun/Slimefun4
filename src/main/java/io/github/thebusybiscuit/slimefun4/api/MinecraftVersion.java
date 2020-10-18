@@ -16,12 +16,6 @@ public enum MinecraftVersion {
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.14
-     * (The Update Aquatic)
-     */
-    MINECRAFT_1_13("1.13.x"),
-
-    /**
-     * This constant represents Minecraft (Java Edition) Version 1.14
      * (The "Village &amp; Pillage" Update)
      */
     MINECRAFT_1_14("1.14.x"),
@@ -50,7 +44,7 @@ public enum MinecraftVersion {
      */
     UNIT_TEST("Unit Test Environment");
 
-    public static final MinecraftVersion[] values = values();
+    public static final MinecraftVersion[] valuesCache = values();
 
     private final String name;
     private final String prefix;

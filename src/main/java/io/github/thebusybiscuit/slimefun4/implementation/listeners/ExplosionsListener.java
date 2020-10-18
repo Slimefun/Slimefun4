@@ -36,7 +36,7 @@ public class ExplosionsListener implements Listener {
                 blocks.remove();
 
                 if (!(item instanceof WitherProof)) {
-                    SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(item.getID());
+                    SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(item.getId());
                     boolean success = true;
 
                     if (blockHandler != null) {

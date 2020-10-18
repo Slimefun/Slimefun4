@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -144,18 +146,16 @@ public class AutoDisenchanter extends AContainer {
         book.setItemMeta(meta);
     }
 
-    private boolean isDisenchantable(ItemStack item) {
+    private boolean isDisenchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        }
-        // stops endless checks of getByItem for books
-        else if (item.getType() != Material.BOOK) {
+        } else if (item.getType() != Material.BOOK) {
+            // ^ This stops endless checks of getByItem for books
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             return sfItem == null || sfItem.isDisenchantable();
         } else {
             return true;
         }
-
     }
 
     @Override

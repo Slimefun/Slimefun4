@@ -85,7 +85,7 @@ public class PerWorldSettingsService {
             return false;
         }
 
-        return !items.contains(item.getID());
+        return !items.contains(item.getId());
     }
 
     /**
@@ -105,9 +105,9 @@ public class PerWorldSettingsService {
         Set<String> items = disabledItems.computeIfAbsent(world.getUID(), id -> loadWorldFromConfig(world));
 
         if (enabled) {
-            items.remove(item.getID());
+            items.remove(item.getId());
         } else {
-            items.add(item.getID());
+            items.add(item.getId());
         }
     }
 
@@ -178,7 +178,7 @@ public class PerWorldSettingsService {
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             if (item != null) {
                 String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
-                config.setValue(addon + '.' + item.getID(), !items.contains(item.getID()));
+                config.setValue(addon + '.' + item.getId(), !items.contains(item.getId()));
             }
         }
 
@@ -222,7 +222,7 @@ public class PerWorldSettingsService {
             if (item != null) {
                 String addon = item.getAddon().getName().toLowerCase(Locale.ROOT);
                 config.setDefaultValue(addon + ".enabled", true);
-                config.setDefaultValue(addon + '.' + item.getID(), true);
+                config.setDefaultValue(addon + '.' + item.getId(), true);
 
                 // Whether the entire addon has been disabled
                 boolean isAddonDisabled = config.getBoolean(addon + ".enabled");
@@ -232,8 +232,8 @@ public class PerWorldSettingsService {
                     blacklist.add(worldName);
                 }
 
-                if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getID())) {
-                    items.add(item.getID());
+                if (!isAddonDisabled || !config.getBoolean(addon + '.' + item.getId())) {
+                    items.add(item.getId());
                 }
             }
         }

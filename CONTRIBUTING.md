@@ -159,7 +159,7 @@ if (something) {
 // Actual code...
 ```
 * if/else statements should always include a bracket, please avoid one-line statements. (e.g. Avoid doing: `if (x == 0) return;`)
-* We do not enforce any particular width or column limit, but try to prevent your lines from becoming too long.
+* We do not enforce any particular width or column limit, just try to prevent your lines from becoming too long. But please avoid line-wrapping.
 * Annotations for methods or fields should never go on the same line, place them on the line above.
 * Comments should never go on the same line as code! Always above or below.
 * Make sure that empty lines are truly empty, they should not contain any whitespace characters.

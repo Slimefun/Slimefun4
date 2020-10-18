@@ -11,6 +11,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.Nonnull;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -19,14 +22,12 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
@@ -47,7 +48,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  * @author TheBusyBiscuit
  *
  */
-public class SlimefunRegistry {
+public final class SlimefunRegistry {
 
     private final Map<String, SlimefunItem> slimefunIds = new HashMap<>();
     private final List<SlimefunItem> slimefunItems = new ArrayList<>();
@@ -86,7 +87,9 @@ public class SlimefunRegistry {
 
     private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
-    public void load(Config cfg) {
+    public void load(@Nonnull Config cfg) {
+        Validate.notNull(cfg, "The Config cannot be null!");
+
         boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
 
         layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
@@ -95,7 +98,7 @@ public class SlimefunRegistry {
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
-        backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility") || SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14);
+        backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility");
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");

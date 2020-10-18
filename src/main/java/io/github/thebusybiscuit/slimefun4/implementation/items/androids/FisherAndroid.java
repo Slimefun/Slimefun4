@@ -4,14 +4,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.RandomizedSet;
-import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -25,7 +23,7 @@ public class FisherAndroid extends ProgrammableAndroid {
         super(category, tier, item, recipeType, recipe);
 
         // Fish
-        for (Material fish : MaterialCollections.getAllFishItems()) {
+        for (Material fish : Tag.ITEMS_FISHES.getValues()) {
             fishingLoot.add(new ItemStack(fish), 25);
         }
 
@@ -37,10 +35,7 @@ public class FisherAndroid extends ProgrammableAndroid {
         fishingLoot.add(new ItemStack(Material.STICK), 5);
         fishingLoot.add(new ItemStack(Material.ROTTEN_FLESH), 3);
         fishingLoot.add(new ItemStack(Material.LEATHER), 2);
-
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            fishingLoot.add(new ItemStack(Material.BAMBOO), 3);
-        }
+        fishingLoot.add(new ItemStack(Material.BAMBOO), 3);
 
         // "loot"
         fishingLoot.add(new ItemStack(Material.SADDLE), 1);

@@ -22,6 +22,10 @@ commands:
     player-never-joined: "&4Bu adda bir oyuncu bulunamadı!"
     backpack-does-not-exist: "&4Böyle bir sırt çantası yok."
     restored-backpack-given: "&aSırt çantanız bulundu ve envanterinize teslim edildi!"
+  charge:
+    description: Elinizdeki eşyayı şarj eder
+    charge-success: Eşyanız şarz edildi!
+    not-rechargeable: Bu eşya şarz edilemez!
 guide:
   search:
     message: "&bNe aramak istersiniz?"
@@ -130,6 +134,7 @@ messages:
     whirlwind: "&a&oTılsımın Mermiyi yansıttı"
     wizard: "&a&oTılsımın sana daha yüksek seviye Servet verdi ama başka bir Büyünün
       seviyesini düşürmüş olabilir."
+    caveman: "&a&oTılsımın sana acele efekti verdi"
   soulbound-rune:
     fail: "&cBir seferde sadece bir eşyayı ruhuna bağlayabilirsin."
     success: "&aBu eşyayı ruhuna başarıyla bağladın! Öldüğünde saklayacaksın."
@@ -346,5 +351,7 @@ brewing_stand:
   not-working: "&4Slimefun eşyalarını simya standında kullanamazsın!"
 villagers:
   no-trading: "&4Köylülerle Slimefun eşyalarını kullanarak ticaret yapamazsın!"
+cartography_table:
+  not-working: "&4Slimefun eşyalarını bir haritacılık masasında kullanamazsın!"
 miner:
   no-ores: "&eÜzgünüm, yakınlarda herhangi bir cevher bulamadım!"

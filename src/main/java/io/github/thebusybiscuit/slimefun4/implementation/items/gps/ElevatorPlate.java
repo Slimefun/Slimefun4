@@ -87,7 +87,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             Block block = b.getWorld().getBlockAt(b.getX(), y, b.getZ());
 
-            if (block.getType() == getItem().getType() && BlockStorage.check(block, getID())) {
+            if (block.getType() == getItem().getType() && BlockStorage.check(block, getId())) {
                 floors.add(block);
             }
         }

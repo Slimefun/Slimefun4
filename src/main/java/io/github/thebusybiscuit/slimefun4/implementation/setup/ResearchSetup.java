@@ -15,9 +15,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * This static setup class is used to register all default implementations of
  * {@link Research} on startup.
  * 
- * @author TheBusyBiscuit
- * 
  * @see Research
+ * @see SlimefunItems
  *
  */
 public final class ResearchSetup {
@@ -279,6 +278,7 @@ public final class ResearchSetup {
         register("even_higher_tier_capacitors", 266, "Tier 3 Capacitors", 40, SlimefunItems.ENERGIZED_CAPACITOR);
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
         register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
+        register("energy_connectors", 269, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
     }
 
     @ParametersAreNonnullByDefault

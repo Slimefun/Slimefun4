@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,9 +20,14 @@ public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 
+    @Nonnull
     @Override
     public BlockUseHandler getItemHandler() {
         return e -> {
+            if (!e.getClickedBlock().isPresent()) {
+                return;
+            }
+
             Player p = e.getPlayer();
             Block b = e.getClickedBlock().get();
 

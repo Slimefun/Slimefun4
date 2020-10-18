@@ -1,0 +1,16 @@
+{
+	"values" : [
+		"#minecraft:sand",
+		"#slimefun:concrete_powders",
+		"#slimefun:dirt_variants",
+		"minecraft:snow",
+		"minecraft:snow_block",
+		"minecraft:gravel",
+		"minecraft:clay",
+		"minecraft:soul_sand",
+		{
+			"id" : "minecraft:soul_soil",
+			"required" : false
+		}
+	]
+}

@@ -21,6 +21,10 @@ commands:
     backpack-does-not-exist: "&4Der angegebene Rucksack konnte nicht gefunden werden!"
     restored-backpack-given: "&aDein Rucksack wurde erfolgreich wiederhergestellt
       und deinem Inventar hinzugefügt!"
+  charge:
+    description: Lädt das Item in deiner Hand auf
+    charge-success: Dein Item wurde erfolgreich aufgeladen!
+    not-rechargeable: Dieses Item kann nicht aufgeladen werden!
 guide:
   search:
     message: "&bWonach möchtest du suchen?"
@@ -130,6 +134,7 @@ messages:
     whirlwind: "&a&oDein Talisman hat soeben ein Projektil reflektiert"
     wizard: "&a&oDein Talisman hat dein Glück-Level erhöht aber möglicherweise das
       Level einer anderen Verzauberung vermindert"
+    caveman: "&a&oDein Talisman hat dir einen Abbau-Boost verschafft"
   soulbound-rune:
     fail: "&cDu kannst nicht mehrere Items auf einmal an deine Seele binden"
     success: "&aDu hast dieses Item erfolgreich an deine Seele gebunden! Solltest
@@ -329,7 +334,6 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
-  pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   ar: Arabisch
   af: Afrikaans
@@ -342,6 +346,7 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
+  pt: Portugiesisch (Portugal)
   bg: Bulgarisch
   ko: Koreanisch
   tr: Türkisch
@@ -354,5 +359,7 @@ brewing_stand:
   not-working: "&4Items von Slimefun können nicht zum Brauen verwendet werden!"
 villagers:
   no-trading: "&4Items von Slimefun können nicht zum Handeln verwendet werden!"
+cartography_table:
+  not-working: "&4Slimefun Items können nicht in einem Kartentisch verwendet werden!"
 miner:
   no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"
