@@ -41,10 +41,8 @@ public class MultiBlock {
         SUPPORTED_TAGS.add(Tag.LOGS);
         SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
         SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
-        }
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             SUPPORTED_TAGS.add(Tag.FIRE);
         }

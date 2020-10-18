@@ -74,7 +74,7 @@ public abstract class CoalGenerator extends AGenerator {
         }
 
         // Signs
-        for (Material mat : Tag.SIGNS.getValues()) {
+        for (Material mat : Tag.STANDING_SIGNS.getValues()) {
             registerFuel(new MachineFuel(2, new ItemStack(mat)));
         }
     }

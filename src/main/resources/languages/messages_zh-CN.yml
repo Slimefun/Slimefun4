@@ -20,6 +20,10 @@ commands:
     player-never-joined: "&4找不到叫这个名字的玩家!"
     backpack-does-not-exist: "&4你指定的背包不存在!"
     restored-backpack-given: "&a你的背包已被恢复并且已经放入了你的物品栏!"
+  charge:
+    description: 为你手持的物品充电
+    charge-success: 充电完成!
+    not-rechargeable: 这个物品不能充电!
 guide:
   search:
     message: "&b你想要搜索什么?"
@@ -127,6 +131,7 @@ messages:
     knight: "&a&o你的护身符给予了你 5 秒的生命恢复"
     whirlwind: "&a&o你的护身符反弹了所有的弹射物"
     wizard: "&a&o你的护身符使一个附魔的等级提高了, 同时其他附魔等级将会下降"
+    caveman: "&a&o你的护身符给予了你急迫效果"
   soulbound-rune:
     fail: "&c一次只能灵魂绑定一个物品."
     success: "&a物品绑定成功! 在你死亡后此物品将不会掉落."
@@ -223,6 +228,7 @@ machines:
     finished: "&e你的工业矿机采矿已完成! 总共开采了 %ores% 个矿石!"
 anvil:
   not-working: "&4你不能在铁砧里使用 Slimefun 的物品"
+  mcmmo-salvaging: "&4你不能分解 Slimefun 物品!"
 backpack:
   already-open: "&c抱歉, 这个背包已在别处打开了!"
   no-stack: "&c你不能同时手持两个背包"
@@ -331,5 +337,9 @@ brewing_stand:
   not-working: "&4你不能在酿造台中使用 Slimefun 物品!"
 villagers:
   no-trading: "&4你不能用 Slimefun 的物品和村民交易!"
+cartography_table:
+  not-working: "&4你不能在制图台中使用 Slimefun 物品!"
+cauldron:
+  no-discoloring: "&4你不能用炼药锅清洗 Slimefun 物品上的颜色"
 miner:
   no-ores: "&e抱歉, 周围找不到矿石了!"

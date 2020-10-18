@@ -255,6 +255,7 @@ machines:
 anvil:
   not-working: "&4Vous ne pouvez pas utiliser des objets Slimefun dans une enclume
     !"
+  mcmmo-salvaging: "&4Vous ne pouvez pas recycler des objets Slimefun !"
 backpack:
   already-open: "&cDésolé, ce Backpack est ouvert quelque part ailleurs !"
   no-stack: "&cVous ne pouvez pas stack les Backpacks"
@@ -340,6 +341,7 @@ languages:
   zh-CN: Chinois (Chine)
   el: Grec
   he: Hébreu
+  pt: Portugais (Portugal)
   ar: Arabe
   af: Afrikaans
   da: Danois
@@ -351,7 +353,6 @@ languages:
   fa: Persan
   th: Thaï
   ro: Roumain
-  pt: Portugais (Portugal)
   pt-BR: Portugais (Brésil)
   bg: Bulgare
   ko: Coréen
@@ -369,5 +370,7 @@ villagers:
 cartography_table:
   not-working: "&4Vous ne pouvez pas utiliser d'objets Slimefun dans une table de
     cartographie !"
+cauldron:
+  no-discoloring: "&4Vous ne pouvez pas décolorer  une armure Slimefun"
 miner:
   no-ores: "&eDésolé, je n'ai pas pu trouver de minerai à proximité !"
