@@ -1,22 +1,10 @@
 {
 	"values" : [
 		"#slimefun:sensitive_materials",
-		"#slimefun:mushrooms",
-		"#minecraft:tall_flowers",
+		"#slimefun:pressure_plates",
 		"#minecraft:beds",
-		"#minecraft:doors",
-		"minecraft:bamboo",
-		"#minecraft:rails",
-		"#minecraft:small_flowers",
-		"#minecraft:coral_blocks",
-		"#minecraft:coral_plants",
-		"#minecraft:small_flowers",
-		"#minecraft:buttons",
-		"#minecraft:banners",
-		"#minecraft:signs",
-		"#minecraft:standing_signs",
-		"#minecraft:wall_signs",
-		"#minecraft:wooden_pressure_plates",
+		"minecraft:cake",
+
 		{
 			"id" : "minecraft:nether_sprouts",
 			"required" : false
@@ -36,26 +24,7 @@
 		{
 			"id" : "minecraft:weeping_vines",
 			"required" : false
-		},
-		{
-			"id" : "minecraft:polished_blackstone_pressure_plate",
-			"required" : false
-		},
-		"minecraft:sugar_cane",
-		"minecraft:lily_pad",
-		"minecraft:dead_bush",
-		"minecraft:fern",
-		"minecraft:grass",
-		"minecraft:seagrass",
-		"minecraft:tall_seagrass",
-		"minecraft:cactus",
-		"minecraft:kelp",
-		"minecraft:ladder",
-		"minecraft:snow",
-		"minecraft:lever",
-		"minecraft:repeater",
-		"minecraft:tripwire_hook",
-		"minecraft:tall_grass",
-		"minecraft:large_fern"
+		}
+
 	]
 }
