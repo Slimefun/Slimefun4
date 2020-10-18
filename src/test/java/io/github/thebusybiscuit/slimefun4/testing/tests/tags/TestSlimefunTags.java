@@ -8,6 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
+import org.bukkit.entity.Slime;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -63,6 +64,7 @@ class TestSlimefunTags {
 
         // Inclusion through a Slimefun Tag
         Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.TORCH));
+        Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.OAK_PRESSURE_PLATE));
     }
 
     @Test
