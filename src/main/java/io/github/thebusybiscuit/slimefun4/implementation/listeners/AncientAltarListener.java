@@ -104,12 +104,12 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
-        String id = slimefunBlock.get().getID();
+        String id = slimefunBlock.get().getId();
 
-        if (id.equals(pedestalItem.getID())) {
+        if (id.equals(pedestalItem.getId())) {
             e.cancel();
             usePedestal(b, e.getPlayer());
-        } else if (id.equals(altarItem.getID())) {
+        } else if (id.equals(altarItem.getId())) {
             if (!Slimefun.hasUnlocked(e.getPlayer(), altarItem, true) || altarsInUse.contains(b.getLocation())) {
                 e.cancel();
                 return;
@@ -259,7 +259,7 @@ public class AncientAltarListener implements Listener {
         if (pedestal.getType() == Material.DISPENSER) {
             String id = BlockStorage.checkID(pedestal);
 
-            if (id != null && id.equals(pedestalItem.getID())) {
+            if (id != null && id.equals(pedestalItem.getId())) {
                 SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.cannot-place", true);
                 e.setCancelled(true);
             }
@@ -270,28 +270,28 @@ public class AncientAltarListener implements Listener {
     private List<Block> getPedestals(@Nonnull Block altar) {
         List<Block> list = new ArrayList<>();
 
-        if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getId())) {
             list.add(altar.getRelative(2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(3, 0, 0), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(3, 0, 0), pedestalItem.getId())) {
             list.add(altar.getRelative(3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(2, 0, 2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(2, 0, 2), pedestalItem.getId())) {
             list.add(altar.getRelative(2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, 3), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(0, 0, 3), pedestalItem.getId())) {
             list.add(altar.getRelative(0, 0, 3));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, 2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, 2), pedestalItem.getId())) {
             list.add(altar.getRelative(-2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(-3, 0, 0), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-3, 0, 0), pedestalItem.getId())) {
             list.add(altar.getRelative(-3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, -2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, -2), pedestalItem.getId())) {
             list.add(altar.getRelative(-2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, -3), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(0, 0, -3), pedestalItem.getId())) {
             list.add(altar.getRelative(0, 0, -3));
         }
 

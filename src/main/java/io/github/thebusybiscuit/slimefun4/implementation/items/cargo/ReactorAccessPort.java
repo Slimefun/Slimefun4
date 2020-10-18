@@ -35,7 +35,7 @@ public class ReactorAccessPort extends SlimefunItem {
     public ReactorAccessPort(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), "&2Reactor Access Port") {
+        new BlockMenuPreset(getId(), "&2Reactor Access Port") {
 
             @Override
             public void init() {
@@ -94,7 +94,7 @@ public class ReactorAccessPort extends SlimefunItem {
             }
         };
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {

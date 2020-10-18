@@ -41,10 +41,8 @@ public class MultiBlock {
         SUPPORTED_TAGS.add(Tag.LOGS);
         SUPPORTED_TAGS.add(Tag.WOODEN_TRAPDOORS);
         SUPPORTED_TAGS.add(Tag.WOODEN_SLABS);
+        SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            SUPPORTED_TAGS.add(Tag.WOODEN_FENCES);
-        }
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             SUPPORTED_TAGS.add(Tag.FIRE);
         }
@@ -119,7 +117,7 @@ public class MultiBlock {
 
     @Override
     public int hashCode() {
-        return Objects.hash(item.getID(), blocks, trigger, isSymmetric);
+        return Objects.hash(item.getId(), blocks, trigger, isSymmetric);
     }
 
     private boolean compareBlocks(Material a, @Nullable Material b) {
@@ -161,6 +159,6 @@ public class MultiBlock {
 
     @Override
     public String toString() {
-        return "MultiBlock (" + item.getID() + ") {" + Arrays.toString(blocks) + "}";
+        return "MultiBlock (" + item.getId() + ") {" + Arrays.toString(blocks) + "}";
     }
 }

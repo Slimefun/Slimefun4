@@ -62,7 +62,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     public AbstractEntityAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), item.getImmutableMeta().getDisplayName().orElse("Entity Assembler")) {
+        new BlockMenuPreset(getId(), item.getImmutableMeta().getDisplayName().orElse("Entity Assembler")) {
 
             @Override
             public void init() {
@@ -117,7 +117,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         };
 
         addItemHandler(onPlace());
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             if (reason == UnregisterReason.EXPLODE) {
                 return false;
             }

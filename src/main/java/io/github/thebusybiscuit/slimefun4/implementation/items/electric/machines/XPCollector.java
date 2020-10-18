@@ -38,7 +38,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
         createPreset(this, this::constructMenu);
 
         addItemHandler(onPlace());
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {

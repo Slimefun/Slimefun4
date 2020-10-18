@@ -120,6 +120,17 @@ public class ItemSetting<T> {
     }
 
     /**
+     * This is an error message which should provide further context on what values
+     * are allowed.
+     * 
+     * @return An error message which is displayed when this {@link ItemSetting} is misconfigured.
+     */
+    @Nonnull
+    protected String getErrorMessage() {
+        return "Only '" + defaultValue.getClass().getSimpleName() + "' values are allowed!";
+    }
+
+    /**
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
      * 
@@ -128,16 +139,17 @@ public class ItemSetting<T> {
      */
     @SuppressWarnings("unchecked")
     public void load(@Nonnull SlimefunItem item) {
-        SlimefunPlugin.getItemCfg().setDefaultValue(item.getID() + '.' + getKey(), getDefaultValue());
-        Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getID() + '.' + getKey());
+        SlimefunPlugin.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
+        Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getId() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
             if (validateInput((T) configuredValue)) {
                 this.value = (T) configuredValue;
             } else {
                 Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
-                Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
+                Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
                 Slimefun.getLogger().log(Level.WARNING, "{0} is not a valid input!", configuredValue);
+                Slimefun.getLogger().log(Level.WARNING, getErrorMessage());
             }
         } else {
             this.value = defaultValue;
@@ -145,7 +157,7 @@ public class ItemSetting<T> {
 
             Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
             Slimefun.getLogger().log(Level.WARNING, "Please only use settings that are valid.");
-            Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
+            Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
             Slimefun.getLogger().log(Level.WARNING, "Expected \"{0}\" but found: \"{1}\"", new Object[] { defaultValue.getClass().getSimpleName(), found });
         }
     }

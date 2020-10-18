@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.ItemEntityMock;
-import be.seeseemelk.mockbukkit.inventory.ChestInventoryMock;
+import be.seeseemelk.mockbukkit.inventory.HopperInventoryMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
@@ -63,7 +63,7 @@ class TestItemPickupListener {
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
     void testNoPickupFlagForInventories(boolean flag) {
-        Inventory inventory = new ChestInventoryMock(null, 5);
+        Inventory inventory = new HopperInventoryMock(null);
         Item item = new ItemEntityMock(server, UUID.randomUUID(), new ItemStack(Material.COMPASS));
 
         if (flag) {
@@ -107,7 +107,7 @@ class TestItemPickupListener {
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
     void testAltarProbeForInventories(boolean flag) {
-        Inventory inventory = new ChestInventoryMock(null, 5);
+        Inventory inventory = new HopperInventoryMock(null);
         ItemStack stack;
 
         if (flag) {

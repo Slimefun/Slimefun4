@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.items.settings;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 
@@ -22,9 +25,16 @@ public class DoubleRangeSetting extends ItemSetting<Double> {
     @ParametersAreNonnullByDefault
     public DoubleRangeSetting(String key, double min, double defaultValue, double max) {
         super(key, defaultValue);
+        Validate.isTrue(defaultValue >= min && defaultValue <= max, "The default value is not in range.");
 
         this.min = min;
         this.max = max;
+    }
+
+    @Nonnull
+    @Override
+    protected String getErrorMessage() {
+        return "Only decimal numbers from " + min + '-' + max + "(inclusive) are allowed!";
     }
 
     @Override
@@ -37,7 +47,7 @@ public class DoubleRangeSetting extends ItemSetting<Double> {
      * 
      * @return The minimum value
      */
-    public double getMinimum() {
+    public final double getMinimum() {
         return min;
     }
 
@@ -46,7 +56,7 @@ public class DoubleRangeSetting extends ItemSetting<Double> {
      * 
      * @return The maximum value
      */
-    public double getMaximum() {
+    public final double getMaximum() {
         return max;
     }
 

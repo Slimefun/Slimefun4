@@ -29,8 +29,9 @@ class StatsCommand extends SubCommand {
                 } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace("%player%", args[1]));
                 }
-            } else
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            }
         } else if (sender instanceof Player) {
             PlayerProfile.get((Player) sender, profile -> profile.sendStats(sender));
         } else {
