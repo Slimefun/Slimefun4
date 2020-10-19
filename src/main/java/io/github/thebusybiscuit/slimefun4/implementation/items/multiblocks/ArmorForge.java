@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -64,6 +66,7 @@ public class ArmorForge extends BackpackCrafter {
         return true;
     }
 
+    @ParametersAreNonnullByDefault
     private void craft(Player p, ItemStack output, Inventory inv, Block dispenser) {
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
