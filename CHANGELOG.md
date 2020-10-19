@@ -33,6 +33,7 @@
 #### Fixes
 * Fixed #2448
 * Fixed #2470
+* Fixed #2478
 
 ## Release Candidate 17 (17 Oct 2020)
 
