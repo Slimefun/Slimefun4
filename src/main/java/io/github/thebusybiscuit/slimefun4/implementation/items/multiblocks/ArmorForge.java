@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -15,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
@@ -24,7 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class ArmorForge extends MultiBlockMachine {
+public class ArmorForge extends BackpackCrafter {
 
     public ArmorForge(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), null }, BlockFace.SELF);
@@ -64,23 +62,6 @@ public class ArmorForge extends MultiBlockMachine {
         }
 
         return true;
-    }
-
-    private Inventory createVirtualInventory(Inventory inv) {
-        Inventory fakeInv = Bukkit.createInventory(null, 9, "Fake Inventory");
-
-        for (int j = 0; j < inv.getContents().length; j++) {
-            ItemStack stack = inv.getContents()[j];
-
-            if (stack != null) {
-                stack = stack.clone();
-                ItemUtils.consumeItem(stack, true);
-            }
-
-            fakeInv.setItem(j, stack);
-        }
-
-        return fakeInv;
     }
 
     private void craft(Player p, ItemStack output, Inventory inv, Block dispenser) {
