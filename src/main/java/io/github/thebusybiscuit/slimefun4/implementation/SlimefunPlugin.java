@@ -487,6 +487,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);
+        backpackListener.register(this);
 
         // Toggleable Listeners for performance reasons
         if (config.getBoolean("items.talismans")) {
@@ -495,10 +496,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         if (config.getBoolean("items.soulbound")) {
             new SoulboundListener(this);
-        }
-
-        if (config.getBoolean("items.backpacks")) {
-            backpackListener.register(this);
         }
 
         // Handle Slimefun Guide being given on Join

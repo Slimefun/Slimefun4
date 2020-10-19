@@ -31,6 +31,8 @@
 * Removed 1.13 support
 
 #### Fixes
+* Fixed #2448
+* Fixed #2470
 
 ## Release Candidate 17 (17 Oct 2020)
 
