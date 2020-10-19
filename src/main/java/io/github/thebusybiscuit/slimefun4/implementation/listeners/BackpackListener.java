@@ -29,6 +29,8 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.HazmatBackpack;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -104,6 +106,9 @@ public class BackpackListener implements Listener {
     private boolean isAllowed(@Nonnull SlimefunBackpack backpack, @Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
+        }
+        if (backpack instanceof HazmatBackpack && !(SlimefunItem.getByItem(item) instanceof Radioactive)) {
+            return false;
         }
 
         return backpack.isItemAllowed(item, SlimefunItem.getByItem(item));

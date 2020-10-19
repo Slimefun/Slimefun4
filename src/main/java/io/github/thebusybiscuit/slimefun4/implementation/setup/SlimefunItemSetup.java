@@ -44,6 +44,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.EnderBa
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SoulboundBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.HazmatBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BrokenSpawner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
@@ -1091,6 +1092,10 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new RestoredBackpack(categories.usefulItems).register(plugin);
+
+        new HazmatBackpack(27, categories.usefulItems, SlimefunItems.HAZMAT_BACKPACK, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.REINFORCED_CLOTH, SlimefunItems.COOLING_UNIT, SlimefunItems.REINFORCED_CLOTH, SlimefunItems.LEAD_INGOT, SlimefunItems.BACKPACK_LARGE, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_CLOTH, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_CLOTH})
+        .register(plugin);
 
         new SlimefunItem(categories.technicalComponents, SlimefunItems.MAGNET, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.NICKEL_INGOT, SlimefunItems.ALUMINUM_DUST, SlimefunItems.IRON_DUST, SlimefunItems.COBALT_INGOT, null, null, null, null, null})
