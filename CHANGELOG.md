@@ -35,6 +35,7 @@
 * Fixed #2470
 * Fixed #2478
 * Fixed #2493
+* Fixed a missing slot in the contributors menu
 
 ## Release Candidate 17 (17 Oct 2020)
 
