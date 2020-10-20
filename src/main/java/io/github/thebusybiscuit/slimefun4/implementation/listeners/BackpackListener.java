@@ -107,11 +107,15 @@ public class BackpackListener implements Listener {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
-        if (backpack instanceof HazmatBackpack && !(SlimefunItem.getByItem(item) instanceof Radioactive)) {
+        SlimefunItem sfitem = SlimefunItem.getByItem(item);
+        if (backpack instanceof HazmatBackpack && !(sfitem instanceof Radioactive)) {
+            return false;
+        }
+        if (sfitem instanceof Radioactive && !(backpack instanceof HazmatBackpack)) {
             return false;
         }
 
-        return backpack.isItemAllowed(item, SlimefunItem.getByItem(item));
+        return backpack.isItemAllowed(item, sfitem);
     }
 
     public void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
