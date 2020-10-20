@@ -32,8 +32,10 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 final class CargoUtils {
 
-    // Whitelist or blacklist slots
-    private static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
+    /**
+     * These are the slots where our filter items sit.
+     */
+    static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
 
     private CargoUtils() {}
 
@@ -391,7 +393,7 @@ final class CargoUtils {
             }
         }
 
-        // Check if there are event non-air items
+        // Check if there are any non-air items
         if (itemsToCompare > 0) {
             // Only create the Wrapper if its worth it
             if (itemsToCompare > 1) {
