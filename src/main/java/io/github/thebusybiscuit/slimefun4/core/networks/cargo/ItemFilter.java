@@ -96,6 +96,8 @@ class ItemFilter implements Predicate<ItemStack> {
                 }
             }
         }
+
+        this.dirty = false;
     }
 
     /**
