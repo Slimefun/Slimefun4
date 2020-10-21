@@ -302,7 +302,7 @@ public class TalismanListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         if (SlimefunTag.CAVEMAN_TALISMAN_TRIGGERS.isTagged(e.getBlock().getType())) {
-            Talisman.tryActivate(e, SlimefunItems.TALISMAN_WISE);
+            Talisman.tryActivate(e, SlimefunItems.TALISMAN_CAVEMAN);
         }
     }
 

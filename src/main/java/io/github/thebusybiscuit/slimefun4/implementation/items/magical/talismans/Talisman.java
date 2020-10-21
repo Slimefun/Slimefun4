@@ -135,11 +135,11 @@ public class Talisman extends SlimefunItem {
     }
 
     public static boolean tryActivate(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
-        return (tryActivateAndGet(e, stack.getItem()) != null);
+        return tryActivateAndGet(e, stack.getItem()) != null;
     }
 
     public static boolean tryActivate(@Nonnull Event e, @Nonnull SlimefunItem item) {
-        return (tryActivateAndGet(e, item) != null);
+        return tryActivateAndGet(e, item) != null;
     }
 
     public static ItemStack tryActivateAndGet(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
@@ -162,20 +162,16 @@ public class Talisman extends SlimefunItem {
             return null;
         }
 
-        if (!Slimefun.hasUnlocked(p, talisman, true)) {
-            return null;
-        }
-
         ItemStack possibleTalisman = retrieveTalismanFromInventory(p.getInventory(), talisman);
 
-        if (possibleTalisman != null) {
+        if (possibleTalisman != null && Slimefun.hasUnlocked(p, talisman, true)) {
             activateTalisman(e, p, p.getInventory(), talisman);
             return possibleTalisman;
         }
 
         possibleTalisman = retrieveTalismanFromInventory(p.getEnderChest(), talisman);
 
-        if (possibleTalisman != null) {
+        if (possibleTalisman != null && Slimefun.hasUnlocked(p, talisman, true)) {
             activateTalisman(e, p, p.getEnderChest(), talisman);
             return possibleTalisman;
         }
@@ -194,10 +190,6 @@ public class Talisman extends SlimefunItem {
             }
         }
 
-        /* The point of this method is that it only gets called when youre sure there is 
-        *  a talisman in the inventory, so that it never returns null.
-        *  However, this method will be nullable since there is an if statement and it needs
-        *  to return something */
         return null;
     }
 
