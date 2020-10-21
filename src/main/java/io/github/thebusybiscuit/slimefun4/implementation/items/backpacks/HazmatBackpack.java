@@ -6,6 +6,8 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * This implementation of {@link SlimefunBackpack} is used for holding {@link Radioactive} items.
  *
@@ -14,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class HazmatBackpack extends SlimefunBackpack {
 
+    @ParametersAreNonnullByDefault
     public HazmatBackpack(int size, Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(size, category, item, recipeType, recipe);
     }

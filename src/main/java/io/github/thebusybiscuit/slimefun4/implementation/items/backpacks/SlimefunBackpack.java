@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
@@ -63,6 +64,12 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
     public boolean isItemAllowed(@Nonnull ItemStack item, @Nullable SlimefunItem itemAsSlimefunItem) {
         // Shulker Boxes are not allowed!
         if (SlimefunTag.SHULKER_BOXES.isTagged(item.getType())) {
+            return false;
+        }
+        if (SlimefunItem.getByID(getId()) instanceof HazmatBackpack && !(itemAsSlimefunItem instanceof Radioactive)) {
+            return false;
+        }
+        if (itemAsSlimefunItem instanceof Radioactive && !(SlimefunItem.getByID(getId()) instanceof HazmatBackpack)) {
             return false;
         }
 
