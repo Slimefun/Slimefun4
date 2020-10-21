@@ -96,7 +96,7 @@ public class SlimefunItemListener implements Listener {
             boolean interactable = optional.get().callItemHandler(BlockUseHandler.class, handler -> handler.onRightClick(event));
 
             if (!interactable) {
-                String id = optional.get().getID();
+                String id = optional.get().getId();
                 Player p = e.getPlayer();
 
                 if (BlockMenuPreset.isInventory(id)) {

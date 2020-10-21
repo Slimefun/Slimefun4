@@ -356,7 +356,7 @@ public class BlockStorage {
         SlimefunItem sfitem = SlimefunItem.getByItem(item);
 
         if (sfitem != null) {
-            addBlockInfo(block, "id", sfitem.getID(), true);
+            addBlockInfo(block, "id", sfitem.getId(), true);
         }
     }
 

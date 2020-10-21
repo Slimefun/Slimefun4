@@ -81,7 +81,7 @@ public class ErrorReport<T extends Throwable> {
             }
 
             stream.println("Slimefun Data:");
-            stream.println("  ID: " + item.getID());
+            stream.println("  ID: " + item.getId());
             stream.println("  Inventory: " + BlockStorage.getStorage(l.getWorld()).hasInventory(l));
             stream.println("  Data: " + BlockStorage.getBlockInfoAsJson(l));
             stream.println();
@@ -92,7 +92,7 @@ public class ErrorReport<T extends Throwable> {
     public ErrorReport(T throwable, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
             stream.println("SlimefunItem:");
-            stream.println("  ID: " + item.getID());
+            stream.println("  ID: " + item.getId());
             stream.println("  Plugin: " + (item.getAddon() == null ? "Unknown" : item.getAddon().getName()));
             stream.println();
         });

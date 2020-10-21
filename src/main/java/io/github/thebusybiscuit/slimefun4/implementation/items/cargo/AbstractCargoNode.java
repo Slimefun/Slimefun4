@@ -51,7 +51,7 @@ abstract class AbstractCargoNode extends SlimefunItem {
 
         });
 
-        new BlockMenuPreset(getID(), ChatUtils.removeColorCodes(item.getItemMeta().getDisplayName())) {
+        new BlockMenuPreset(getId(), ChatUtils.removeColorCodes(item.getItemMeta().getDisplayName())) {
 
             @Override
             public void init() {

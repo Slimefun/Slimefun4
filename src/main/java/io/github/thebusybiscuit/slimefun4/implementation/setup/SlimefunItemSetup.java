@@ -27,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AdvancedFarmerAndroid;
+import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInterface;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ButcherAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FarmerAndroid;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FisherAndroid;
@@ -64,6 +65,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoOutput
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.TrashCan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyConnector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
@@ -111,11 +113,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.BirthdayCake;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.DietCookie;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.FortuneCookie;
+import io.github.thebusybiscuit.slimefun4.implementation.items.food.HeavyCream;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.Juice;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MagicSugar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MeatJerky;
 import io.github.thebusybiscuit.slimefun4.implementation.items.food.MonsterJerky;
-import io.github.thebusybiscuit.slimefun4.implementation.items.food.HeavyCream;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOScanner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.OilPump;
@@ -151,6 +153,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuit
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.SteelThruster;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.StrangeNetherGoo;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.SyntheticEmerald;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.ArmorForge;
@@ -201,8 +204,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 /**
  * This static utility class holds the recipes of all items.
  * This is the place where all items from Slimefun are registered.
- * 
- * @author TheBusyBiscuit
  *
  */
 public final class SlimefunItemSetup {
@@ -608,7 +609,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, new ItemStack(Material.FLINT), SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.COMPRESSED_CARBON})
         .register(plugin);
 
-        new SlimefunItem(categories.technicalComponents, SlimefunItems.STEEL_THRUSTER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new SteelThruster(categories.technicalComponents, SlimefunItems.STEEL_THRUSTER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.STEEL_PLATE, new ItemStack(Material.FIRE_CHARGE), SlimefunItems.STEEL_PLATE})
         .register(plugin);
 
@@ -1515,13 +1516,18 @@ public final class SlimefunItemSetup {
         new ItemStack[] {SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.SILVER_INGOT})
         .register(plugin);
 
+        new EnergyConnector(categories.electricity, SlimefunItems.ENERGY_CONNECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, new ItemStack(Material.REDSTONE_BLOCK), SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON, SlimefunItems.COPPER_WIRE, SlimefunItems.CARBON},
+        new SlimefunItemStack(SlimefunItems.ENERGY_CONNECTOR, 8))
+        .register(plugin);
+
         new SlimefunItem(categories.misc, SlimefunItems.DUCT_TAPE, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.ALUMINUM_DUST, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER), new ItemStack(Material.PAPER)}, 
         new SlimefunItemStack(SlimefunItems.DUCT_TAPE, 2))
         .register(plugin);
 
         new Capacitor(categories.electricity, 128, SlimefunItems.SMALL_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.DURALUMIN_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.DURALUMIN_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.SULFATE, new ItemStack(Material.REDSTONE), SlimefunItems.DURALUMIN_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.DURALUMIN_INGOT})
+        new ItemStack[] {SlimefunItems.DURALUMIN_INGOT, SlimefunItems.SULFATE, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.ENERGY_CONNECTOR, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.DURALUMIN_INGOT, new ItemStack(Material.REDSTONE), SlimefunItems.DURALUMIN_INGOT})
         .register(plugin);
 
         new Capacitor(categories.electricity, 512, SlimefunItems.MEDIUM_CAPACITOR, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -2191,11 +2197,11 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.ELECTRO_MAGNET, null, null, SlimefunItems.GPS_TRANSMITTER, null, null, SlimefunItems.ESSENCE_OF_AFTERLIFE, null})
         .register(plugin);
 
-        new SlimefunItem(categories.androids, SlimefunItems.ANDROID_INTERFACE_ITEMS, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new AndroidInterface(categories.androids, SlimefunItems.ANDROID_INTERFACE_ITEMS, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.BASIC_CIRCUIT_BOARD, new ItemStack(Material.BLUE_STAINED_GLASS), SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET})
         .register(plugin);
 
-        new SlimefunItem(categories.androids, SlimefunItems.ANDROID_INTERFACE_FUEL, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new AndroidInterface(categories.androids, SlimefunItems.ANDROID_INTERFACE_FUEL, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET, new ItemStack(Material.RED_STAINED_GLASS), SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET, SlimefunItems.STEEL_INGOT, SlimefunItems.PLASTIC_SHEET})
         .register(plugin);
 

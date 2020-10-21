@@ -3,6 +3,8 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,10 +42,11 @@ public abstract class AGenerator extends AbstractEnergyProvider {
     private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
+    @ParametersAreNonnullByDefault
     public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(id, getInventoryTitle()) {
+        new BlockMenuPreset(item.getItemId(), getInventoryTitle()) {
 
             @Override
             public void init() {
@@ -65,7 +68,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             }
         };
 
-        registerBlockHandler(id, (p, b, tool, reason) -> {
+        registerBlockHandler(item.getItemId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {

@@ -46,7 +46,7 @@ class ProfiledBlock {
     }
 
     public String getId() {
-        return item.getID();
+        return item.getId();
     }
 
     public SlimefunAddon getAddon() {

@@ -64,9 +64,9 @@ public class CustomTextureService {
 
         for (SlimefunItem item : items) {
             if (item != null) {
-                config.setDefaultValue(item.getID(), 0);
+                config.setDefaultValue(item.getId(), 0);
 
-                if (config.getInt(item.getID()) != 0) {
+                if (config.getInt(item.getId()) != 0) {
                     modified = true;
                 }
             }

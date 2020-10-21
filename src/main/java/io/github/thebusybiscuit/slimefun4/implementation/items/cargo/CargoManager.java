@@ -24,7 +24,7 @@ public class CargoManager extends SlimefunItem {
     public CargoManager(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             SimpleHologram.remove(b);
             return true;
         });
