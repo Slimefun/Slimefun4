@@ -39,15 +39,19 @@ public class SlimefunBootsListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player) {
-            if (e.getCause() == DamageCause.FALL) {
+        if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
                 onFallDamage(e);
-            } else if (e instanceof EntityDamageByEntityEvent) {
-                EntityDamageByEntityEvent event = (EntityDamageByEntityEvent) e;
+        }
+    }
 
-                if (event.getDamager() instanceof EnderPearl) {
-                    onEnderPearlDamage(e);
-                }
+    @EventHandler
+    public void onEnderPearlDamage(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof EnderPearl && e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
+
+            if (boots != null && boots.getId().equals("ENDER_BOOTS") && Slimefun.hasUnlocked(p, boots, true)) {
+                e.setCancelled(true);
             }
         }
     }
@@ -68,15 +72,6 @@ public class SlimefunBootsListener implements Listener {
             } else if (boots.getId().equals("SLIME_BOOTS") || boots.getId().equals("SLIME_STEEL_BOOTS")) {
                 e.setCancelled(true);
             }
-        }
-    }
-
-    private void onEnderPearlDamage(@Nonnull EntityDamageEvent e) {
-        Player p = (Player) e.getEntity();
-        SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
-
-        if (boots != null && boots.getId().equals("ENDER_BOOTS") && Slimefun.hasUnlocked(p, boots, true)) {
-            e.setCancelled(true);
         }
     }
 
