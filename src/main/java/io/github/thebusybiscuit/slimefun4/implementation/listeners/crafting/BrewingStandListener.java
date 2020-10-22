@@ -55,10 +55,8 @@ public class BrewingStandListener implements SlimefunCraftingListener {
 
     @EventHandler
     public void hopperOnBrew(InventoryMoveItemEvent e) {
-        if (e.getDestination().getType().equals(InventoryType.BREWING)) {
-            if (isUnallowed(SlimefunItem.getByItem(e.getItem()))) {
-                e.setCancelled(true);
-            }
+        if (e.getDestination().getType() == InventoryType.BREWING && isUnallowed(e.getItem())) {
+            e.setCancelled(true);
         }
     }
 }
