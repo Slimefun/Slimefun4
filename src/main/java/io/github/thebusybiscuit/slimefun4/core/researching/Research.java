@@ -199,7 +199,8 @@ public class Research implements Keyed {
      * Handle what to do when a {@link Player} clicks on an un-researched item in
      * a {@link SlimefunGuideImplementation}.
      *
-     * @author TheBusyBiscuit, uiytt
+     * @author TheBusyBiscuit
+     * @author uiytt
      *
      * @param guide The {@link SlimefunGuideImplementation} used.
      * @param player The {@link Player} who clicked on the item.
