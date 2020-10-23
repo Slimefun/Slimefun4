@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PreCanUnlockResearchEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -218,9 +216,9 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
             component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
             component.setClickEvent(new ClickEvent(key, player ->
-                    SlimefunPlugin.runSync(() -> {
-                        research.guideClickInteraction(this, player, profile, item, category, page);
-                    })
+                    SlimefunPlugin.runSync(() ->
+                        research.unlockFromGuide(this, player, profile, item, category, page)
+                    )
             ));
 
             items.add(component);

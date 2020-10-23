@@ -11,11 +11,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 
 /**
- * This {@link Event} is called whenever a {@link Player} clicks to unlock a research.
+ * This {@link Event} is called whenever a {@link Player} clicks to unlock a {@link Research}.
  * This is called before {@link Research#canUnlock(Player)}.
- * The event is not called for the cheat sheet.
+ * The {@link Event} is not called for {@link CheatSheetSlimefunGuide}.
  *
  * @author uiytt
  *
@@ -23,7 +24,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuid
  * @see BookSlimefunGuide
  *
  */
-public class PreCanUnlockResearchEvent extends Event implements Cancellable {
+public class PlayerPreResearchEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
@@ -34,7 +35,7 @@ public class PreCanUnlockResearchEvent extends Event implements Cancellable {
 
 
     @ParametersAreNonnullByDefault
-    public PreCanUnlockResearchEvent(Player p, Research research, SlimefunItem slimefunItem) {
+    public PlayerPreResearchEvent(Player p, Research research, SlimefunItem slimefunItem) {
         Validate.notNull(p, "The Player cannot be null");
         Validate.notNull(research, "Research cannot be null");
         Validate.notNull(slimefunItem, "SlimefunItem cannot be null");

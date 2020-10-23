@@ -2,8 +2,7 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.researches;
 
 import java.util.Optional;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PreCanUnlockResearchEvent;
-import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import org.bukkit.GameMode;
@@ -188,7 +187,7 @@ class TestResearches {
     }
 
     @Test
-    @DisplayName("Test PreCanUnlockResearchEvent")
+    @DisplayName("Test PlayerPreResearchEvent")
     void testPreCanUnlockResearchEvent() throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
 
@@ -201,9 +200,9 @@ class TestResearches {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
 
-        research.guideClickInteraction(guide,player,profile,sfItem,sfItem.getCategory(),0);
+        research.unlockFromGuide(guide, player, profile, sfItem, sfItem.getCategory(), 0);
 
-        server.getPluginManager().assertEventFired(PreCanUnlockResearchEvent.class, event -> {
+        server.getPluginManager().assertEventFired(PlayerPreResearchEvent.class, event -> {
             Assertions.assertEquals(player, event.getPlayer());
             Assertions.assertEquals(research, event.getResearch());
             Assertions.assertEquals(sfItem,event.getSlimefunItem());
