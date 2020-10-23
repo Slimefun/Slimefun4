@@ -10,9 +10,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
-import me.mrCookieSlime.Slimefun.Objects.Category;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -29,6 +26,9 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
