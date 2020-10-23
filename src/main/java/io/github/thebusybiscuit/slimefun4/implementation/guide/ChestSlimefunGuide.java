@@ -283,7 +283,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
             menu.addItem(index, new CustomItem(Material.BARRIER, ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                research.guideClickInteraction(this, p, profile, sfitem, category, page);
+                research.unlockFromGuide(this, p, profile, sfitem, category, page);
                 return false;
             });
         } else {
