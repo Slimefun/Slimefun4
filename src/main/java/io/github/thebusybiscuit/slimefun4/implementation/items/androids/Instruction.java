@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-enum Instruction {
+public enum Instruction {
 
     // Start and End Parts
     START(AndroidType.NONE, HeadTexture.SCRIPT_START),
