@@ -535,11 +535,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @Nonnull
     public String getScript(@Nonnull Location l) {
+        Validate.notNull(l, "Location for android not specified");
         String script = BlockStorage.getLocationInfo(l, "script");
         return script != null ? script : DEFAULT_SCRIPT;
     }
 
     public void setScript(@Nonnull Location l, @Nonnull String script) {
+        Validate.notNull(l, "Location for android not specified");
+        Validate.notNull(script, "No script given");
         BlockStorage.addBlockInfo(l, "script", script);
     }
 
