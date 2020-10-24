@@ -102,7 +102,7 @@ public enum Instruction {
     }),
 
     ATTACK_ANIMALS_ADULT(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
-        Predicate<LivingEntity> predicate = e -> e instanceof Animals && e instanceof Ageable && ((Ageable) e).isAdult();
+        Predicate<LivingEntity> predicate = e -> e instanceof Animals && ((Ageable) e).isAdult();
         android.attack(b, face, predicate);
     }),
 
