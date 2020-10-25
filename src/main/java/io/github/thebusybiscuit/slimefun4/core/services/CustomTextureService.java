@@ -49,6 +49,7 @@ public class CustomTextureService {
         config.setDefaultValue("SLIMEFUN_GUIDE", 0);
 
         config.setDefaultValue("_UI_BACKGROUND", 0);
+        config.setDefaultValue("_UI_NO_PERMISSION", 0);
         config.setDefaultValue("_UI_NOT_RESEARCHED", 0);
         config.setDefaultValue("_UI_INPUT_SLOT", 0);
         config.setDefaultValue("_UI_OUTPUT_SLOT", 0);
