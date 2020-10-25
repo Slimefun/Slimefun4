@@ -58,6 +58,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -69,6 +70,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 24, 25, 26, 27, 33, 35, 36, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private static final int[] OUTPUT_BORDER = { 10, 11, 12, 13, 14, 19, 23, 28, 32, 37, 38, 39, 40, 41 };
     private static final String DEFAULT_SCRIPT = "START-TURN_LEFT-REPEAT";
+    private static final int MAX_SCRIPT_LENGTH = 54;
 
     protected final List<MachineFuel> fuelTypes = new ArrayList<>();
     protected final String texture;
@@ -407,19 +409,23 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             } else {
                 Script script = scripts.get(target);
                 menu.addItem(index, script.getAsItemStack(this, p), (player, slot, stack, action) -> {
-                    if (action.isShiftClicked()) {
-                        if (script.isAuthor(player)) {
-                            SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.own", true);
-                        } else if (script.canRate(player)) {
-                            script.rate(player, !action.isRightClicked());
-                            openScriptDownloader(player, b, page);
-                        } else {
-                            SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.already", true);
+                    try {
+                        if (action.isShiftClicked()) {
+                            if (script.isAuthor(player)) {
+                                SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.own", true);
+                            } else if (script.canRate(player)) {
+                                script.rate(player, !action.isRightClicked());
+                                openScriptDownloader(player, b, page);
+                            } else {
+                                SlimefunPlugin.getLocalization().sendMessage(player, "android.scripts.rating.already", true);
+                            }
+                        } else if (!action.isRightClicked()) {
+                            script.download();
+                            setScript(b.getLocation(), script.getSourceCode());
+                            openScriptEditor(player, b);
                         }
-                    } else if (!action.isRightClicked()) {
-                        script.download();
-                        setScript(b.getLocation(), script.getSourceCode());
-                        openScriptEditor(player, b);
+                    } catch (Exception x) {
+                        Slimefun.getLogger().log(Level.SEVERE, "An Exception was thrown when a User tried to download a Script!", x);
                     }
 
                     return false;
@@ -543,14 +549,9 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     public void setScript(@Nonnull Location l, @Nonnull String script) {
         Validate.notNull(l, "Location for android not specified");
         Validate.notNull(script, "No script given");
-
-        if (!script.startsWith(Instruction.START.name())) {
-            throw new IllegalArgumentException("A script must begin with a 'START' token.");
-        }
-
-        if (!script.startsWith(Instruction.REPEAT.name())) {
-            throw new IllegalArgumentException("A script must end with a 'REPEAT' token.");
-        }
+        Validate.isTrue(script.startsWith(Instruction.START.name() + '-'), "A script must begin with a 'START' token.");
+        Validate.isTrue(script.endsWith('-' + Instruction.REPEAT.name()), "A script must end with a 'REPEAT' token.");
+        Validate.isTrue(PatternUtils.DASH.split(script).length <= MAX_SCRIPT_LENGTH, "Scripts may not have more than " + MAX_SCRIPT_LENGTH + " segments");
 
         BlockStorage.addBlockInfo(l, "script", script);
     }
