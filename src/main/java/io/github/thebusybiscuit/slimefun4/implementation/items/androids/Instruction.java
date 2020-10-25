@@ -20,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-enum Instruction {
+public enum Instruction {
 
     // Start and End Parts
     START(AndroidType.NONE, HeadTexture.SCRIPT_START),
@@ -102,7 +102,7 @@ enum Instruction {
     }),
 
     ATTACK_ANIMALS_ADULT(AndroidType.FIGHTER, HeadTexture.SCRIPT_ATTACK, (android, b, inv, face) -> {
-        Predicate<LivingEntity> predicate = e -> e instanceof Animals && e instanceof Ageable && ((Ageable) e).isAdult();
+        Predicate<LivingEntity> predicate = e -> e instanceof Animals && ((Ageable) e).isAdult();
         android.attack(b, face, predicate);
     }),
 
