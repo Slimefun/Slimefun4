@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -243,15 +244,16 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             if (timeleft > 0) {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 
-                if (isChargeable()) {
-                    if (getCharge(b.getLocation()) < getEnergyConsumption()) {
-                        return;
-                    }
-
-                    removeCharge(b.getLocation(), getEnergyConsumption());
+                if (!takeCharge(b.getLocation())) {
+                    return;
                 }
+
                 progress.put(b, timeleft - 1);
             } else {
+                if (!takeCharge(b.getLocation())) {
+                    return;
+                }
+
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                 for (ItemStack output : processing.get(b).getOutput()) {
@@ -271,6 +273,17 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 progress.put(b, next.getTicks());
             }
         }
+    }
+
+    protected boolean takeCharge(Location l) {
+        if (isChargeable()) {
+            if (getCharge(l) < getEnergyConsumption()) {
+                return false;
+            }
+
+            removeCharge(l, getEnergyConsumption());
+        }
+        return true;
     }
 
     protected MachineRecipe findNextRecipe(BlockMenu inv) {
