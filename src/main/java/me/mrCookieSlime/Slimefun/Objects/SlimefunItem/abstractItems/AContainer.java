@@ -249,10 +249,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 }
 
                 progress.put(b, timeleft - 1);
-            } else {
-                if (!takeCharge(b.getLocation())) {
-                    return;
-                }
+            } else if (takeCharge(b.getLocation())) {
 
                 inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
