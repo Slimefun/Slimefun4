@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -281,6 +282,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * @return Whether charge was taken if its chargeable
      */
     protected boolean takeCharge(@Nonnull Location l) {
+        Validate.notNull(l, "Can't attempt to take charge from a null location!");
+
         if (isChargeable()) {
             if (getCharge(l) < getEnergyConsumption()) {
                 return false;
