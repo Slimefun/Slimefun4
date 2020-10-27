@@ -82,7 +82,7 @@ class ContributionsConnector extends GitHubConnector {
     }
 
     @Override
-    public String getURLSuffix() {
+    public String getEndpoint() {
         return "/contributors?per_page=100&page=" + page;
     }
 

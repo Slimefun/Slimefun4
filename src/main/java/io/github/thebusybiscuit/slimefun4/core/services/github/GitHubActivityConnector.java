@@ -35,7 +35,7 @@ class GitHubActivityConnector extends GitHubConnector {
     }
 
     @Override
-    public String getURLSuffix() {
+    public String getEndpoint() {
         return "";
     }
 

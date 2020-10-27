@@ -28,6 +28,12 @@ public class CustomTextureService {
     private String version = null;
     private boolean modified = false;
 
+    /**
+     * This creates a new {@link CustomTextureService} for the provided {@link Config}
+     * 
+     * @param config
+     *            The {@link Config} to read custom model data from
+     */
     public CustomTextureService(@Nonnull Config config) {
         this.config = config;
         config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n0 means there is no data assigned to that item.\n\n" + "There is no official Slimefun resource pack at the moment.");
@@ -84,22 +90,60 @@ public class CustomTextureService {
         return version;
     }
 
+    /**
+     * This returns true if any custom model data was configured.
+     * If every item id has no configured custom model data, it will return false.
+     * 
+     * @return Whether any custom model data was configured
+     */
     public boolean isActive() {
         return modified;
     }
 
+    /**
+     * This returns the configured custom model data for a given id.
+     * 
+     * @param id
+     *            The id to get the data for
+     * 
+     * @return The configured custom model data
+     */
     public int getModelData(@Nonnull String id) {
         Validate.notNull(id, "Cannot get the ModelData for 'null'");
         return config.getInt(id);
     }
 
+    /**
+     * This method sets the custom model data for this {@link ItemStack}
+     * to the value configured for the provided item id.
+     * 
+     * @param im
+     *            The {@link ItemStack} to set the custom model data for
+     * @param id
+     *            The id for which to get the configured model data
+     */
     public void setTexture(@Nonnull ItemStack item, @Nonnull String id) {
+        Validate.notNull(item, "The Item cannot be null!");
+        Validate.notNull(id, "Cannot store null on an Item!");
+
         ItemMeta im = item.getItemMeta();
         setTexture(im, id);
         item.setItemMeta(im);
     }
 
+    /**
+     * This method sets the custom model data for this {@link ItemMeta}
+     * to the value configured for the provided item id.
+     * 
+     * @param im
+     *            The {@link ItemMeta} to set the custom model data for
+     * @param id
+     *            The id for which to get the configured model data
+     */
     public void setTexture(@Nonnull ItemMeta im, @Nonnull String id) {
+        Validate.notNull(im, "The ItemMeta cannot be null!");
+        Validate.notNull(id, "Cannot store null on an ItemMeta!");
+
         int data = getModelData(id);
         im.setCustomModelData(data == 0 ? null : data);
     }

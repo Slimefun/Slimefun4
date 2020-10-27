@@ -29,6 +29,12 @@
 
 #### Changes
 * Removed 1.13 support
+* Cooling Units can no longer be placed down
+* Heating Coils can no longer be placed down
+* Electric Motors can no longer be placed down
+* Cargo Motors can no longer be placed down
+* Magnets can no longer be placed down
+* Electromagnets can no longer be placed down
 
 #### Fixes
 * Fixed #2448

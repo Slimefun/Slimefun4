@@ -50,7 +50,7 @@ class GitHubIssuesConnector extends GitHubConnector {
     }
 
     @Override
-    public String getURLSuffix() {
+    public String getEndpoint() {
         return "/issues?per_page=100";
     }
 
