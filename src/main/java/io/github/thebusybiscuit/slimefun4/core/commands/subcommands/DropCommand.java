@@ -15,6 +15,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+/**
+ * The drop command drops a {@link SlimefunItem} of
+ * a specified quantity at the specified coordinates.
+ *
+ * @author NCBPFluffyBear
+ * @author TheBusyBiscuit (Based off of GiveCommand)
+ */
 class DropCommand extends SubCommand {
 
     private static final String PLACEHOLDER_WORLD = "%world%";
