@@ -45,6 +45,8 @@
 * Fixed color codes in script downloading screen
 * Fixed #2505
 * Fixed contributors not showing correctly
+* Fixed #2469
+* Fixed #2509
 
 ## Release Candidate 17 (17 Oct 2020)
 
