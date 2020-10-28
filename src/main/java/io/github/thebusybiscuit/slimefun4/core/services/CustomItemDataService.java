@@ -2,6 +2,10 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -35,7 +39,7 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
      * @param key
      *            The key under which to store data
      */
-    public CustomItemDataService(Plugin plugin, String key) {
+    public CustomItemDataService(@Nonnull Plugin plugin, @Nonnull String key) {
         // Null-Validation is performed in the NamespacedKey constructor
         namespacedKey = new NamespacedKey(plugin, key);
     }
@@ -45,13 +49,37 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
         return namespacedKey;
     }
 
-    public void setItemData(ItemStack item, String id) {
+    /**
+     * This method stores the given id on the provided {@link ItemStack} via
+     * persistent data.
+     * 
+     * @param item
+     *            The {@link ItemStack} to store data on
+     * @param id
+     *            The id to store on the {@link ItemStack}
+     */
+    public void setItemData(@Nonnull ItemStack item, @Nonnull String id) {
+        Validate.notNull(item, "The Item cannot be null!");
+        Validate.notNull(id, "Cannot store null on an Item!");
+
         ItemMeta im = item.getItemMeta();
         setItemData(im, id);
         item.setItemMeta(im);
     }
 
-    public void setItemData(ItemMeta im, String id) {
+    /**
+     * This method stores the given id on the provided {@link ItemMeta} via
+     * persistent data.
+     * 
+     * @param im
+     *            The {@link ItemMeta} to store data on
+     * @param id
+     *            The id to store on the {@link ItemMeta}
+     */
+    public void setItemData(@Nonnull ItemMeta im, @Nonnull String id) {
+        Validate.notNull(im, "The ItemMeta cannot be null!");
+        Validate.notNull(id, "Cannot store null on an ItemMeta!");
+
         setString(im, namespacedKey, id);
     }
 
@@ -65,7 +93,8 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
      * 
      * @return An {@link Optional} describing the result
      */
-    public Optional<String> getItemData(ItemStack item) {
+    @Nonnull
+    public Optional<String> getItemData(@Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR || !item.hasItemMeta()) {
             return Optional.empty();
         }
@@ -82,7 +111,10 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
      * 
      * @return An {@link Optional} describing the result
      */
-    public Optional<String> getItemData(ItemMeta meta) {
+    @Nonnull
+    public Optional<String> getItemData(@Nonnull ItemMeta meta) {
+        Validate.notNull(meta, "Cannot read data from null!");
+
         return getString(meta, namespacedKey);
     }
 

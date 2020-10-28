@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,10 +39,14 @@ class GitHubTask implements Runnable {
 
     @Override
     public void run() {
-        gitHubService.getConnectors().forEach(GitHubConnector::pullFile);
+        gitHubService.getConnectors().forEach(GitHubConnector::download);
         grabTextures();
     }
 
+    /**
+     * This method will pull the skin textures for every {@link Contributor} and store
+     * the {@link UUID} and received skin inside a local cache {@link File}.
+     */
     private void grabTextures() {
         // Store all queried usernames to prevent 429 responses for pinging the
         // same URL twice in one run.

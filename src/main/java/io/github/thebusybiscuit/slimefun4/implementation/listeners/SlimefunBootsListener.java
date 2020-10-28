@@ -40,7 +40,7 @@ public class SlimefunBootsListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player && e.getCause() == DamageCause.FALL) {
-                onFallDamage(e);
+            onFallDamage(e);
         }
     }
 

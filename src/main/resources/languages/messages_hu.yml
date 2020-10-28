@@ -244,6 +244,7 @@ machines:
     finished: Az Industrial Miner-ed kész! Összesen %ores% ércet szerzett!
 anvil:
   not-working: "&4Nem használhatsz Slimefun tárgyakat az üllőben!"
+  mcmmo-salvaging: "&4Nem hasznosíthatsz újra Slimefun tárgyakat!"
 backpack:
   already-open: "&cSajnáljuk, ez a hátizsák valahol máshol már nyitva van!"
   no-stack: "&cNem halmozhatsz hátizsákokat"
@@ -306,7 +307,7 @@ android:
     rating:
       own: "&4Nem értékelheted a saját szkriptedet!"
       already: "&4Ezt a szkriptet már értékelted!"
-    editor: Szkript Szerkesztő
+    editor: Szkript szerkesztő
 languages:
   default: Szerver-alapértelmezett
   en: Angol
@@ -328,7 +329,6 @@ languages:
   zh-CN: Kínai (Kína)
   el: Görög
   he: Héber
-  pt-BR: Portugál (Brazília)
   ar: Arab
   af: Afrikaans
   da: Dán
@@ -341,6 +341,7 @@ languages:
   th: Thai
   ro: Román
   pt: Portugál (Portugália)
+  pt-BR: Portugál (Brazília)
   bg: Bolgár
   ko: Koreai
   tr: Török
@@ -355,5 +356,7 @@ villagers:
   no-trading: "&4Nem cserélhetsz Slimefun tárgyakat falusiakkal!"
 cartography_table:
   not-working: "&4Nem használhatsz Slimefun tárgyakat térképasztalban."
+cauldron:
+  no-discoloring: "&4Nem színteleníthetsz Slimefun páncélt!"
 miner:
   no-ores: "&eSajnálom, nem találtam semmilyen ércet a közelben!"

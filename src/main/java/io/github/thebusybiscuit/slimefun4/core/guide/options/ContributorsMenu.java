@@ -37,7 +37,7 @@ final class ContributorsMenu {
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
-        ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 52);
+        ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 53);
 
         menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", "&7" + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.settings"))));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
