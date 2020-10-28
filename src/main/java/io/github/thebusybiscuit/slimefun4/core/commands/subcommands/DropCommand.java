@@ -1,17 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.players.PlayerList;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -34,10 +30,8 @@ class DropCommand extends SubCommand {
 
     @Override
     public void onExecute(CommandSender sender, String[] args) {
-        if (sender.hasPermission("slimefun.cheat.items") || !(sender instanceof Player)) {
+        if (!(sender instanceof Player) || sender.hasPermission("slimefun.cheat.items")) {
             if (args.length > 2) {
-
-
                 if (args.length > 5) {
                     SlimefunItem sfItem = SlimefunItem.getByID(args[5].toUpperCase(Locale.ROOT));
 
