@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -37,6 +39,11 @@ class GitHubActivityConnector extends GitHubConnector {
     @Override
     public String getEndpoint() {
         return "";
+    }
+
+    @Override
+    public Map<String, Object> getParameters() {
+        return new HashMap<>();
     }
 
 }

@@ -44,6 +44,7 @@
 * Fixed a missing slot in the contributors menu
 * Fixed color codes in script downloading screen
 * Fixed #2505
+* Fixed contributors not showing correctly
 
 ## Release Candidate 17 (17 Oct 2020)
 

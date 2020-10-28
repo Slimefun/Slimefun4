@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -32,10 +32,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 abstract class GitHubConnector {
 
     private static final String API_URL = "https://api.github.com/";
-    private static final String HEADER = "Slimefun4 (https://github.com/Slimefun)";
+    private static final String USER_AGENT = "Slimefun4 (https://github.com/Slimefun)";
 
     protected final GitHubService github;
-    private final String repository;
     private final String url;
     private File file;
 
@@ -49,7 +48,6 @@ abstract class GitHubConnector {
      */
     GitHubConnector(@Nonnull GitHubService github, @Nonnull String repository) {
         this.github = github;
-        this.repository = repository;
         this.url = API_URL + "repos/" + repository + getEndpoint();
     }
 
@@ -69,6 +67,14 @@ abstract class GitHubConnector {
      */
     @Nonnull
     public abstract String getEndpoint();
+
+    /**
+     * This {@link Map} contains the query parameters for our {@link URL}.
+     * 
+     * @return A {@link Map} with our query parameters
+     */
+    @Nonnull
+    public abstract Map<String, Object> getParameters();
 
     /**
      * This method is called when the connection finished successfully.
@@ -98,15 +104,19 @@ abstract class GitHubConnector {
         }
 
         try {
-            GetRequest request = Unirest.get(url).header("User-Agent", HEADER);
-            HttpResponse<JsonNode> response = request.asJson();
+            // @formatter:off
+            HttpResponse<JsonNode> response = Unirest.get(url)
+                    .queryString(getParameters())
+                    .header("User-Agent", USER_AGENT)
+                    .asJson();
+            // @formatter:on
 
             if (response.isSuccess()) {
                 onSuccess(response.getBody());
                 writeCacheFile(response.getBody());
             } else {
                 if (github.isLoggingEnabled()) {
-                    Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] { repository + getEndpoint(), response.getStatus(), response.getBody() });
+                    Slimefun.getLogger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] { url, response.getStatus(), response.getBody() });
                 }
 
                 // It has the cached file, let's just read that then
