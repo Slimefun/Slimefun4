@@ -117,7 +117,7 @@ public class CustomTextureService {
      * This method sets the custom model data for this {@link ItemStack}
      * to the value configured for the provided item id.
      * 
-     * @param im
+     * @param item
      *            The {@link ItemStack} to set the custom model data for
      * @param id
      *            The id for which to get the configured model data

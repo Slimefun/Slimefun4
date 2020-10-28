@@ -278,7 +278,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     /**
      * This method will remove charge from a location if it is chargeable.
      *
-     * @param l location to try to remove charge from
+     * @param l
+     *            location to try to remove charge from
      * @return Whether charge was taken if its chargeable
      */
     protected boolean takeCharge(@Nonnull Location l) {
