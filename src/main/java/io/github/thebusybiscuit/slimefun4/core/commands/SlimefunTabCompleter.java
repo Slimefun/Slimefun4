@@ -6,10 +6,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -17,6 +20,9 @@ import org.bukkit.command.TabCompleter;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+
+import com.google.common.base.Functions;
+import com.google.common.collect.Lists;
 
 class SlimefunTabCompleter implements TabCompleter {
 
@@ -33,6 +39,22 @@ class SlimefunTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getSubCommandNames(), args[0]);
+        } else if (args[0].equalsIgnoreCase("drop")) {
+            if (args.length == 2) {
+                List<String> worldnames = new LinkedList<>();
+                for (World world : Bukkit.getWorlds()) {
+                    worldnames.add(world.getName());
+                }
+                return createReturnList(worldnames, args[1]);
+            } else if (args.length <= 5) {
+                return createReturnList(Collections.singletonList("1"), args[args.length - 1]);
+            } else if (args.length == 6) {
+                return createReturnList(getSlimefunItems(), args[5]);
+            } else if (args.length == 7) {
+                return createReturnList(Arrays.asList("1", "2", "4", "8", "16", "32", "64"), args[6]);
+            } else {
+                return null;
+            }
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
                 return createReturnList(getSlimefunItems(), args[2]);

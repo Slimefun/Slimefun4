@@ -2,6 +2,7 @@ commands:
   help: Displays this help screen
   cheat: Allows you to cheat Items
   give: Give somebody some Slimefun Items
+  drop: Drops Slimefun items at a location
   guide: Gives yourself a Slimefun Guide
   timings: Lag-Info about your Server
   teleporter: See other Player's Waypoints
@@ -124,6 +125,7 @@ messages:
   not-valid-amount: '&4%amount% &cis not a valid amount : it must be higher than 0!'
   given-item: '&bYou have been given &a%amount% &7"%item%&7"'
   give-item: '&bYou have given %player% &a%amount% &7"%item%&7"'
+  drop-item: '&a%amount% &7"%item%&7" &bhas been dropped at &a%world%&7: &a%x%&7, &a%y%&7, &a%z%'
   not-valid-research: '&4%research% &cis not a valid Research!'
   give-research: '&bYou have given %player% the Research &7"%research%&7"'
   hungry: '&cYou are too hungry to do that!'
