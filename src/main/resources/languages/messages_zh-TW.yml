@@ -87,11 +87,11 @@ messages:
   no-permission: "&4您沒有執行此動作所需的權限"
   usage: "&4用法: &c%usage%"
   not-online: "&4%player% &c還未上線!"
-  not-valid-item: "&4%item% &c不存在!"
-  not-valid-amount: "&4%amount% &c不是有效數量：數值必須大於0!"
+  invalid-item: "&4%item% &c不存在!"
+  invalid-amount: "&4%amount% &c不是有效數量：數值必須大於0!"
   given-item: '&b你已獲得 &a%amount% &7"%item%&7"'
   give-item: '&b你已給予%player% &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &c不存在!"
+  invalid-research: "&4%research% &c不存在!"
   give-research: '&b你已給予%player% 研究項目&7"%research%&7"'
   hungry: "&c你太餓了，做不了這個！"
   mode-change: "&b%device% 模式切換至: &9%mode%"
