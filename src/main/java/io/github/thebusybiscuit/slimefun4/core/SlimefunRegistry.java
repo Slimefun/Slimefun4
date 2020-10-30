@@ -22,14 +22,12 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
@@ -100,7 +98,7 @@ public final class SlimefunRegistry {
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
-        backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility") || SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_14);
+        backwardsCompatibility = cfg.getBoolean("options.backwards-compatibility");
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");

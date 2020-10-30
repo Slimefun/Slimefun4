@@ -121,7 +121,7 @@ public final class SlimefunUtils {
     }
 
     private static boolean hasSoulboundFlag(@Nullable ItemMeta meta) {
-        if (meta != null && SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+        if (meta != null) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
 
             if (container.has(SOULBOUND_KEY, PersistentDataType.BYTE)) {
@@ -154,16 +154,14 @@ public final class SlimefunUtils {
         boolean isSoulbound = isSoulbound(item);
         ItemMeta meta = item.getItemMeta();
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            PersistentDataContainer container = meta.getPersistentDataContainer();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
 
-            if (makeSoulbound && !isSoulbound) {
-                container.set(SOULBOUND_KEY, PersistentDataType.BYTE, (byte) 1);
-            }
+        if (makeSoulbound && !isSoulbound) {
+            container.set(SOULBOUND_KEY, PersistentDataType.BYTE, (byte) 1);
+        }
 
-            if (!makeSoulbound && isSoulbound) {
-                container.remove(SOULBOUND_KEY);
-            }
+        if (!makeSoulbound && isSoulbound) {
+            container.remove(SOULBOUND_KEY);
         }
 
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();

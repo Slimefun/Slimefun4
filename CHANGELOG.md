@@ -2,7 +2,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 17 (TBD)](#release-candidate-17-tbd)
+- [Release Candidate 18 (TBD)](#release-candidate-18-tbd)
+- [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
 - [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
 - [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
 - [Release Candidate 14 (12 Jul 2020)](#release-candidate-14-12-jul-2020)
@@ -22,7 +23,33 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 17 (TBD)
+## Release Candidate 18 (TBD)
+
+#### Additions
+
+#### Changes
+* Removed 1.13 support
+* Cooling Units can no longer be placed down
+* Heating Coils can no longer be placed down
+* Electric Motors can no longer be placed down
+* Cargo Motors can no longer be placed down
+* Magnets can no longer be placed down
+* Electromagnets can no longer be placed down
+
+#### Fixes
+* Fixed #2448
+* Fixed #2470
+* Fixed #2478
+* Fixed #2493
+* Fixed a missing slot in the contributors menu
+* Fixed color codes in script downloading screen
+* Fixed #2505
+* Fixed contributors not showing correctly
+* Fixed #2469
+* Fixed #2509
+* Fixed #2499
+
+## Release Candidate 17 (17 Oct 2020)
 
 #### Additions
 * Added /sf charge
@@ -40,6 +67,10 @@
 * (API) Added custom tags for developers
 * The range of the Seeker Pickaxe is now configurable
 * Added Energy Connector
+* Blackstone can now be turned into lava using a Crucible
+* Basalt can now be turned into lava using a Crucible
+* Added "Tainted Sheep" (You can dye a Sheep using Strange Nether Goo)
+* Added mcMMO support/integration
 
 #### Changes
 * Improved Auto-Updater (Multi-Threading and more)
@@ -81,6 +112,14 @@
 * Fixed #2450
 * Fixed Steel Thrusters being used to milk cows
 * Fixed #2424
+* Fixed #2468
+* Fixed #2414
+* Fixed #2454
+* Fixed #2457
+* Fixed #2411
+* Fixed #2423
+* Fixed #2452
+* Fixed a dupe bug with mcMMO
 
 ## Release Candidate 16 (07 Sep 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#16

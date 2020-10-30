@@ -89,10 +89,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemL
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.VanillaMachinesListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WitherListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.AnvilListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.BrewingStandListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CartographyTableListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CauldronListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
@@ -176,8 +181,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             command.register();
             registry.load(config);
         } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+            getLogger().log(Level.INFO, "CS-CoreLib was detected!");
             long timestamp = System.nanoTime();
             PaperLib.suggestPaper(this);
+
+            if (PaperLib.isPaper()) {
+                getLogger().log(Level.INFO, "Paper was detected! Performance optimizations have been applied.");
+            }
 
             // We wanna ensure that the Server uses a compatible version of Minecraft
             if (isVersionUnsupported()) {
@@ -270,7 +280,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
             ticker.start(this);
+
+            getLogger().log(Level.INFO, "Loading Third-Party plugin integrations...");
             thirdPartySupportService.start();
+
             gitHubService.start(this);
 
             // Hooray!
@@ -445,7 +458,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new DeathpointListener(this);
         new ExplosionsListener(this);
         new DebugFishListener(this);
-        new VanillaMachinesListener(this);
         new FireworksListener(this);
         new WitherListener(this);
         new IronGolemListener(this);
@@ -453,6 +465,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new MobDropListener(this);
         new VillagerTradingListener(this);
         new ElytraCrashListener(this);
+        new CraftingTableListener(this);
+        new AnvilListener(this);
+        new BrewingStandListener(this);
+        new CauldronListener(this);
+        new GrindstoneListener(this);
+        new CartographyTableListener(this);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
@@ -469,6 +487,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);
+        backpackListener.register(this);
 
         // Toggleable Listeners for performance reasons
         if (config.getBoolean("items.talismans")) {
@@ -477,10 +496,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         if (config.getBoolean("items.soulbound")) {
             new SoulboundListener(this);
-        }
-
-        if (config.getBoolean("items.backpacks")) {
-            backpackListener.register(this);
         }
 
         // Handle Slimefun Guide being given on Join
