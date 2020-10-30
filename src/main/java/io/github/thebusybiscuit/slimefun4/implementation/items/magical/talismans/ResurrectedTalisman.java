@@ -42,17 +42,18 @@ public class ResurrectedTalisman extends Talisman {
         addItemHandler(getItemHandler());
     }
 
+    @Nonnull
     public ItemUseHandler getItemHandler() {
         return e -> {
             Location currentLoc = e.getPlayer().getLocation();
             JsonObject json = createJsonFromLocation(currentLoc);
+            ItemStack item = e.getItem();
 
-            if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), currentLoc, ProtectableAction.PLACE_BLOCK)
-            && e.getItem().hasItemMeta()) {
-                ItemMeta itemMeta = e.getItem().getItemMeta();
+            if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), currentLoc, ProtectableAction.PLACE_BLOCK) && item.hasItemMeta()) {
+                ItemMeta itemMeta = item.getItemMeta();
                 
                 itemMeta.getPersistentDataContainer().set(locationKey, PersistentJsonDataType.JSON_OBJECT, json);
-                e.getItem().setItemMeta(itemMeta);
+                item.setItemMeta(itemMeta);
     
                 SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location", true);
             }
@@ -68,8 +69,7 @@ public class ResurrectedTalisman extends Talisman {
 
         if (json != null) {
             return parseLocationFromJsonObject(json);
-        }
-        else {
+        } else {
             return null;
         }
     }
