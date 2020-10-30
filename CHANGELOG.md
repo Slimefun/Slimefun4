@@ -29,6 +29,12 @@
 
 #### Changes
 * Removed 1.13 support
+* Cooling Units can no longer be placed down
+* Heating Coils can no longer be placed down
+* Electric Motors can no longer be placed down
+* Cargo Motors can no longer be placed down
+* Magnets can no longer be placed down
+* Electromagnets can no longer be placed down
 
 #### Fixes
 * Fixed #2448
@@ -36,6 +42,11 @@
 * Fixed #2478
 * Fixed #2493
 * Fixed a missing slot in the contributors menu
+* Fixed color codes in script downloading screen
+* Fixed #2505
+* Fixed contributors not showing correctly
+* Fixed #2469
+* Fixed #2509
 
 ## Release Candidate 17 (17 Oct 2020)
 

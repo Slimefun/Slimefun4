@@ -32,6 +32,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * 
  * @see EnhancedCraftingTable
  * @see MagicWorkbench
+ * @see ArmorForge
  *
  */
 abstract class BackpackCrafter extends MultiBlockMachine {
