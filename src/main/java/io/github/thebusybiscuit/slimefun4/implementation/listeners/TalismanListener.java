@@ -320,9 +320,8 @@ public class TalismanListener implements Listener {
         ItemStack talisman = Talisman.tryActivateAndGet(e, SlimefunItems.TALISMAN_RESURRECTED);
 
         if (dmgCause == DamageCause.VOID && talisman != null) {
-            SlimefunPlugin.runSync(() -> {
-                PaperLib.teleportAsync(player, getSafeRespawnLocation(talisman, player));
-            }, 2);
+            // This event is cancelled by the Talisman, so they don't actually die, we just teleport them after 2 ticks.
+            SlimefunPlugin.runSync(() -> PaperLib.teleportAsync(player, getSafeRespawnLocation(talisman, player)), 2);
         }
     }
 
