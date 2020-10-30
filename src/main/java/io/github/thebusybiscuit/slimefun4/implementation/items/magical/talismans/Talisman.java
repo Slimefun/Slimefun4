@@ -180,14 +180,14 @@ public class Talisman extends SlimefunItem {
             return null;
         }
 
-        ItemStack possibleTalisman = retrieveTalismanFromInventory(p.getInventory(), talisman);
+        ItemStack possibleTalisman = retrieveTalismanFromInventory(p.getInventory(), talisman.getItem());
 
         if (possibleTalisman != null && Slimefun.hasUnlocked(p, talisman, true)) {
             activateTalisman(e, p, p.getInventory(), talisman, possibleTalisman);
             return possibleTalisman;
         }
 
-        possibleTalisman = retrieveTalismanFromInventory(p.getEnderChest(), talisman);
+        possibleTalisman = retrieveTalismanFromInventory(p.getEnderChest(), talisman.getEnderVariant());
 
         if (possibleTalisman != null && Slimefun.hasUnlocked(p, talisman, true)) {
             activateTalisman(e, p, p.getEnderChest(), talisman, possibleTalisman);
@@ -198,13 +198,9 @@ public class Talisman extends SlimefunItem {
     }
 
     @Nullable
-    private static ItemStack retrieveTalismanFromInventory(@Nonnull Inventory inv, @Nonnull Talisman talisman) {
-        ItemStack[] contents = inv.getContents();
-
-        for (int i = 0; i < contents.length; i++) {
-            ItemStack item = contents[i];
-
-            if (talisman.isItem(item)) {
+    private static ItemStack retrieveTalismanFromInventory(@Nonnull Inventory inv, @Nonnull ItemStack talismanItem) {
+        for (ItemStack item : inv) {
+            if (SlimefunUtils.isItemSimilar(item, talismanItem, false, false) {
                 return item;
             }
         }
