@@ -275,6 +275,8 @@ public abstract class AGenerator extends AbstractEnergyProvider {
 
     @Override
     public void register(@Nonnull SlimefunAddon addon) {
+        this.addon = addon;
+
         if (energyCapacity < 0) {
             warn("The capacity has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
