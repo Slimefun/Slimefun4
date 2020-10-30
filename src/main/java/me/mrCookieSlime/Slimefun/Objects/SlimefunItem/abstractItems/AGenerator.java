@@ -248,7 +248,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
     public final AGenerator setCapacity(int capacity) {
-        Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
+        Validate.isTrue(capacity >= 0, "The capacity cannot be negative!");
 
         if (getState() == ItemState.UNREGISTERED) {
             this.energyCapacity = capacity;
@@ -266,9 +266,8 @@ public abstract class AGenerator extends AbstractEnergyProvider {
      * 
      * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
      */
-    public final AGenerator setEnergyConsumption(int energyProduced) {
-        Validate.isTrue(energyProduced > 0, "The energy consumption must be greater than zero!");
-        Validate.isTrue(energyProduced <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+    public final AGenerator setEnergyProduction(int energyProduced) {
+        Validate.isTrue(energyProduced > 0, "The energy production must be greater than zero!");
 
         this.energyProducedPerTick = energyProduced;
         return this;
@@ -276,7 +275,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
 
     @Override
     public void register(@Nonnull SlimefunAddon addon) {
-        if (energyCapacity <= 0) {
+        if (energyCapacity < 0) {
             warn("The capacity has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
         }
@@ -286,7 +285,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyProduction(...)' before registering!");
         }
 
-        if (energyCapacity > 0 && energyProducedPerTick > 0) {
+        if (energyCapacity >= 0 && energyProducedPerTick > 0) {
             super.register(addon);
         }
     }
