@@ -223,7 +223,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
      * 
      * @return The max amount of electricity this Block can store.
      */
-    public final int getCapacity() {
+    public int getCapacity() {
         return energyCapacity;
     }
 
@@ -233,7 +233,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
      * @return The rate of energy consumption
      */
     @Override
-    public final int getEnergyProduction() {
+    public int getEnergyProduction() {
         return energyProducedPerTick;
     }
 
