@@ -223,22 +223,22 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     public void register(@Nonnull SlimefunAddon addon) {
         this.addon = addon;
 
-        if (energyCapacity <= 0) {
+        if (getCapacity() <= 0) {
             warn("The capacity has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
         }
 
-        if (energyConsumedPerTick <= 0) {
+        if (getEnergyConsumption() <= 0) {
             warn("The energy consumption has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyConsumption(...)' before registering!");
         }
 
-        if (processingSpeed <= 0) {
+        if (getSpeed() <= 0) {
             warn("The processing speed has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setProcessingSpeed(...)' before registering!");
         }
 
-        if (energyCapacity > 0 && energyConsumedPerTick > 0 && processingSpeed > 0) {
+        if (getCapacity() > 0 && getEnergyConsumption() > 0 && getSpeed() > 0) {
             super.register(addon);
         }
     }
