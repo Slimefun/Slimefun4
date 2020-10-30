@@ -182,19 +182,27 @@ public class Talisman extends SlimefunItem {
 
         ItemStack possibleTalisman = retrieveTalismanFromInventory(p.getInventory(), talisman.getItem());
 
-        if (possibleTalisman != null && Slimefun.hasUnlocked(p, talisman, true)) {
-            activateTalisman(e, p, p.getInventory(), talisman, possibleTalisman);
-            return possibleTalisman;
+        if (possibleTalisman != null) {
+            if (Slimefun.hasUnlocked(p, talisman, true)) {
+                activateTalisman(e, p, p.getInventory(), talisman, possibleTalisman);
+                return possibleTalisman;
+            } else {
+                return null;
+            }
         }
 
         possibleTalisman = retrieveTalismanFromInventory(p.getEnderChest(), talisman.getEnderVariant());
 
-        if (possibleTalisman != null && Slimefun.hasUnlocked(p, talisman, true)) {
-            activateTalisman(e, p, p.getEnderChest(), talisman, possibleTalisman);
-            return possibleTalisman;
+        if (possibleTalisman != null) {
+            if (Slimefun.hasUnlocked(p, talisman, true)) {
+                activateTalisman(e, p, p.getEnderChest(), talisman, possibleTalisman);
+                return possibleTalisman;
+            } else {
+                return null;
+            }
         }
 
-        return possibleTalisman;
+        return null;
     }
 
     @Nullable
