@@ -208,7 +208,7 @@ public class Talisman extends SlimefunItem {
     @Nullable
     private static ItemStack retrieveTalismanFromInventory(@Nonnull Inventory inv, @Nonnull ItemStack talismanItem) {
         for (ItemStack item : inv) {
-            if (SlimefunUtils.isItemSimilar(item, talismanItem, false, false) {
+            if (SlimefunUtils.isItemSimilar(item, talismanItem, false, false)) {
                 return item;
             }
         }
