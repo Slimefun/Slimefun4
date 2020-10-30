@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -58,6 +59,9 @@ public class BlockDataService implements PersistentDataService, Keyed {
      *            The value to store
      */
     public void setBlockData(@Nonnull Block b, @Nonnull String value) {
+        Validate.notNull(b, "The block cannot be null!");
+        Validate.notNull(value, "The value cannot be null!");
+
         BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
         BlockState state = result.getState();
 
@@ -78,6 +82,8 @@ public class BlockDataService implements PersistentDataService, Keyed {
      * @return The stored value
      */
     public Optional<String> getBlockData(@Nonnull Block b) {
+        Validate.notNull(b, "The block cannot be null!");
+
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof TileState) {

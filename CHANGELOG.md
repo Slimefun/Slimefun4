@@ -47,6 +47,7 @@
 * Fixed contributors not showing correctly
 * Fixed #2469
 * Fixed #2509
+* Fixed #2499
 
 ## Release Candidate 17 (17 Oct 2020)
 
