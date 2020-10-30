@@ -188,6 +188,7 @@ public class TalismanListener implements Listener {
 
         // Prevents duplication of handheld items or armor
         EntityEquipment equipment = entity.getEquipment();
+
         if (equipment != null) {
             for (ItemStack item : equipment.getArmorContents()) {
                 items.remove(item);
@@ -252,9 +253,7 @@ public class TalismanListener implements Listener {
             }
         }
 
-        if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) 
-        && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) 
-        && Talisman.tryActivate(e, SlimefunItems.TALISMAN_WIZARD)) {
+        if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.tryActivate(e, SlimefunItems.TALISMAN_WIZARD)) {
             Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
 
             for (Enchantment enchantment : enchantments) {
@@ -271,6 +270,7 @@ public class TalismanListener implements Listener {
     public void onBlockDropItems(BlockDropItemEvent e) {
         // We only want to double ores
         Material type = e.getBlockState().getType();
+
         if (type.name().endsWith("_ORE")) {
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
@@ -341,7 +341,7 @@ public class TalismanListener implements Listener {
         }         
 
         Location bedSpawn = player.getBedSpawnLocation();
-        return (bedSpawn != null) ? bedSpawn : player.getLocation().getWorld().getSpawnLocation();
+        return bedSpawn != null ? bedSpawn : player.getLocation().getWorld().getSpawnLocation();
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
