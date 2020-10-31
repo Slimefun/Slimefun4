@@ -105,12 +105,12 @@ messages:
   no-permission: "&4Wala kang permiso para gawin ito."
   usage: "&4Paggamit: &c%usage%"
   not-online: "&cHindi online si &4%player%!"
-  not-valid-item: "&cHindi valid ang &4%item%!"
-  not-valid-amount: "&cHindi valid ang amount na &4%amount% : dapat ito'y mas mataas
+  invalid-item: "&cHindi valid ang &4%item%!"
+  invalid-amount: "&cHindi valid ang amount na &4%amount% : dapat ito'y mas mataas
     kaysa sa 0!"
   given-item: '&bIka''y binigyan ng &a%amount% &7"%item%&7"'
   give-item: '&bBinigyan mo si %player% ng &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &cay hindi valid na Research!"
+  invalid-research: "&4%research% &cay hindi valid na Research!"
   give-research: '&bBinigyan mo si %player% ng Research &7"%research%&7"'
   hungry: "&cIkaw ay sobrang gutom para gawin ito!"
   disabled-in-world: "&4&lDinisable ang Aytem sa world na ito."
