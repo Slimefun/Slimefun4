@@ -81,12 +81,12 @@ messages:
   no-permission: "&4Brak uprawnień"
   usage: "&4Użycie: &c%usage%"
   not-online: "&4%player% &cnie jest online!"
-  not-valid-item: "&4%item% &cnie jest poprawnym przedmiotem!"
-  not-valid-amount: "&4%amount% &cnie jest prawidłową ilością: ilość musi być większa
+  invalid-item: "&4%item% &cnie jest poprawnym przedmiotem!"
+  invalid-amount: "&4%amount% &cnie jest prawidłową ilością: ilość musi być większa
     od 0!"
   given-item: '&bOtrzymano &a%amount% &7"%item%&7"'
   give-item: '&bDodano przedmiot do plecaka gracza %player%: &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &cnie jest poprawnym Badaniem!"
+  invalid-research: "&4%research% &cnie jest poprawnym Badaniem!"
   give-research: '&bOdblokowano badanie &7"%research%&7" dla gracza %player%'
   hungry: "&cJesteś zbyt głodny, żeby to zrobić!"
   mode-change: "&bTryb urządzenia %device% został zmieniony na: &9%mode%"

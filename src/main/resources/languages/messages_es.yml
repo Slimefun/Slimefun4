@@ -102,12 +102,12 @@ messages:
   no-permission: "&4No tienes el permiso requerido para hacer esto."
   usage: "&4Uso: &c%usage%"
   not-online: "&c¡&4%player% &cno está conectado!"
-  not-valid-item: "&c¡&4%item% &cno es un objeto válido!"
-  not-valid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a
+  invalid-item: "&c¡&4%item% &cno es un objeto válido!"
+  invalid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a
     0!"
   given-item: '&bTe han dado &a%amount% &7"%item%&7"'
   give-item: '&bLe has dado a %player%, &a%amount% &7"%item%&7"'
-  not-valid-research: "&c¡&4%research% &cno es un conocimiento válido!"
+  invalid-research: "&c¡&4%research% &cno es un conocimiento válido!"
   give-research: '&bLe has dado a %player% la investigación &7"%research%&7"'
   hungry: "&c¡Tienes demasiada hambre para hacer eso!"
   disabled-in-world: "&4&lEste item ha sido desactivado en el mundo."
