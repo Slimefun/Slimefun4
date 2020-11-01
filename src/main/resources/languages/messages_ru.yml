@@ -107,12 +107,12 @@ messages:
   no-permission: "&4У Вас недостаточно прав, чтобы сделать это"
   usage: "&4Использование: &c%usage%"
   not-online: "&4%player% &cсейчас не в игре!"
-  not-valid-item: "&4%item% &cне является допустимым предметом!"
-  not-valid-amount: "&4%amount% &cне является допустимым числом: количество должно
+  invalid-item: "&4%item% &cне является допустимым предметом!"
+  invalid-amount: "&4%amount% &cне является допустимым числом: количество должно
     быть больше нуля!"
   given-item: '&bВам выдали &a%amount% &7"%item%&7"'
   give-item: '&bВы выдали игроку %player% &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &cне является допустимым исследованием!"
+  invalid-research: "&4%research% &cне является допустимым исследованием!"
   give-research: '&bВы выдали игроку %player% исследование &7"%research%&7"'
   hungry: "&cВы слишком голодны для этого!"
   disabled-in-world: "&4&lДанный предмет отключен в этом мире"
