@@ -205,7 +205,7 @@ class TestResearches {
         server.getPluginManager().assertEventFired(PlayerPreResearchEvent.class, event -> {
             Assertions.assertEquals(player, event.getPlayer());
             Assertions.assertEquals(research, event.getResearch());
-            Assertions.assertEquals(sfItem,event.getSlimefunItem());
+            Assertions.assertEquals(sfItem, event.getSlimefunItem());
             Assertions.assertFalse(event.isCancelled());
             return true;
         });
