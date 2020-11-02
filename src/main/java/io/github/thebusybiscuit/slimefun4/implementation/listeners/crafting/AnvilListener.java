@@ -15,8 +15,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
- * {@link BrewingStand}.
+ * This {@link Listener} prevents any {@link SlimefunItem} from being used in an
+ * anvil.
  * 
  * @author TheBusyBiscuit
  *
