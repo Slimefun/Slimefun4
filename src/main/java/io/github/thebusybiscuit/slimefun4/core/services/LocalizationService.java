@@ -167,7 +167,7 @@ public class LocalizationService extends SlimefunLocalization {
         return getDefaultLanguage();
     }
 
-    private void setLanguage(String language, boolean reset) {
+    private void setLanguage(@Nonnull String language, boolean reset) {
         // Clearing out the old Language (if necessary)
         if (reset) {
             getConfig().clear();

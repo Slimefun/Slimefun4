@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
+import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -48,8 +49,12 @@ public class RainbowTickHandler extends BlockTicker {
         material = iterator.next();
     }
 
-    public RainbowTickHandler(Material... materials) {
+    public RainbowTickHandler(@Nonnull Material... materials) {
         this(Arrays.asList(materials));
+    }
+
+    public RainbowTickHandler(@Nonnull ColoredMaterial material) {
+        this(material.asList());
     }
 
     /**
