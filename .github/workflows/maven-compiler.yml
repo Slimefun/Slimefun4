@@ -4,9 +4,6 @@ on:
   push:
     branches:
     - master
-    paths:
-    - 'src/**'
-    - 'pom.xml'
   pull_request:
     branches:
     - master
@@ -19,6 +16,9 @@ jobs:
 
     name: Maven build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        spigot: ["1.14.4", "1.15.2", "1.16.4"]
 
     steps:
     - name: Checkout repository
@@ -28,4 +28,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn package --file pom.xml
+      run: mvn package --file pom.xml -Dspigot.version=${{ matrix.spigot }}
