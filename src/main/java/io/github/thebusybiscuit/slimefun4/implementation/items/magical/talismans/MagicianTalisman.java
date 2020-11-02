@@ -7,8 +7,13 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import org.bukkit.Material;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -16,10 +21,18 @@ import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchan
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link MagicianTalisman} is a special kind of {@link Talisman} which awards a {@link Player}
+ * with an extra {@link Enchantment} when they enchant their {@link ItemStack}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class MagicianTalisman extends Talisman {
 
     private final Set<TalismanEnchantment> enchantments = new HashSet<>();
 
+    @ParametersAreNonnullByDefault
     public MagicianTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, false, false, "magician", 80);
 
@@ -47,13 +60,31 @@ public class MagicianTalisman extends Talisman {
      * 
      * @return An applicable {@link TalismanEnchantment} or null
      */
-    public TalismanEnchantment getRandomEnchantment(ItemStack item) {
-        if (item == null || item.getType() == Material.AIR) {
-            return null;
+    @Nullable
+    public TalismanEnchantment getRandomEnchantment(@Nonnull ItemStack item, @Nonnull Set<Enchantment> existingEnchantments) {
+        Validate.notNull(item, "The ItemStack cannot be null");
+        Validate.notNull(existingEnchantments, "The Enchantments Set cannot be null");
+
+        // @formatter:off
+        List<TalismanEnchantment> enabled = enchantments.stream()
+                .filter(e -> e.getEnchantment().canEnchantItem(item))
+                .filter(e -> hasConflicts(existingEnchantments, e))
+                .filter(TalismanEnchantment::getValue)
+                .collect(Collectors.toList());
+        // @formatter:on
+
+        return enabled.isEmpty() ? null : enabled.get(ThreadLocalRandom.current().nextInt(enabled.size()));
+    }
+
+    @ParametersAreNonnullByDefault
+    private boolean hasConflicts(Set<Enchantment> enchantments, TalismanEnchantment ench) {
+        for (Enchantment existing : enchantments) {
+            if (existing.conflictsWith(ench.getEnchantment())) {
+                return false;
+            }
         }
 
-        List<TalismanEnchantment> enabled = enchantments.stream().filter(e -> e.getEnchantment().canEnchantItem(item)).filter(TalismanEnchantment::getValue).collect(Collectors.toList());
-        return enabled.isEmpty() ? null : enabled.get(ThreadLocalRandom.current().nextInt(enabled.size()));
+        return true;
     }
 
 }

@@ -1,22 +1,29 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Optional;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
@@ -27,7 +34,7 @@ import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
  * @author TheBusyBiscuit
  *
  */
-public class BlockDataService implements PersistentDataService, Keyed {
+public class BlockDataService implements Keyed {
 
     private final NamespacedKey namespacedKey;
 
@@ -62,14 +69,27 @@ public class BlockDataService implements PersistentDataService, Keyed {
         Validate.notNull(b, "The block cannot be null!");
         Validate.notNull(value, "The value cannot be null!");
 
-        BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
+        // Due to a bug on older versions, Persistent Data is nullable for non-snapshots
+        boolean useSnapshot = SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_16);
+
+        BlockStateSnapshotResult result = PaperLib.getBlockState(b, useSnapshot);
         BlockState state = result.getState();
 
         if (state instanceof TileState) {
-            setString((TileState) state, namespacedKey, value);
+            try {
+                PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+                container.set(namespacedKey, PersistentDataType.STRING, value);
 
-            if (result.isSnapshot()) {
-                state.update();
+                if (result.isSnapshot()) {
+                    state.update();
+                }
+            } catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
+
+                String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
+                Slimefun.getLogger().log(Level.SEVERE, () -> serverSoftware + " | " + Bukkit.getVersion() + " | " + Bukkit.getBukkitVersion());
+
+                Slimefun.getLogger().log(Level.SEVERE, "An Exception was thrown while trying to set Persistent Data for a Block", x);
             }
         }
     }
@@ -87,7 +107,8 @@ public class BlockDataService implements PersistentDataService, Keyed {
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof TileState) {
-            return getString((TileState) state, namespacedKey);
+            PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+            return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
         } else {
             return Optional.empty();
         }

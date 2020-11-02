@@ -315,7 +315,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.13.0</version>
+            <version>0.13.1</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -349,7 +349,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.02</version>
+            <version>3.11.03</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

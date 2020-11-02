@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
@@ -243,26 +243,27 @@ public class TalismanListener implements Listener {
     @EventHandler
     public void onEnchant(EnchantItemEvent e) {
         Random random = ThreadLocalRandom.current();
+        Map<Enchantment, Integer> enchantments = e.getEnchantsToAdd();
 
+        // Magician Talisman
         if (Talisman.tryActivate(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
-            TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem());
+            TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
 
             if (enchantment != null) {
-                e.getEnchantsToAdd().put(enchantment.getEnchantment(), enchantment.getLevel());
+                enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
             }
         }
 
-        if (!e.getEnchantsToAdd().containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.tryActivate(e, SlimefunItems.TALISMAN_WIZARD)) {
-            Set<Enchantment> enchantments = e.getEnchantsToAdd().keySet();
-
-            for (Enchantment enchantment : enchantments) {
+        // Wizard Talisman
+        if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.tryActivate(e, SlimefunItems.TALISMAN_WIZARD)) {
+            for (Enchantment enchantment : enchantments.keySet()) {
                 if (random.nextInt(100) < 40) {
                     e.getEnchantsToAdd().put(enchantment, random.nextInt(3) + 1);
                 }
             }
 
-            e.getEnchantsToAdd().put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+            enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
         }
     }
 

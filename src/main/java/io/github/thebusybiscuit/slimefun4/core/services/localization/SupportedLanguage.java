@@ -58,8 +58,6 @@ enum SupportedLanguage {
     MACEDONIAN("mk", false, "a0e0b0b5d87a855466980a101a757bcdb5f77d9f7287889f3efa998ee0472fc0"),
     TAGALOG("tl", true, "9306c0c1ce6a9c61bb42a572c49e6d0ed20e0e6b3d122cc64c339cbf78e9e937");
 
-    public static final SupportedLanguage[] valuesCache = values();
-
     private final String id;
     private final boolean releaseReady;
     private final String textureHash;
@@ -71,11 +69,22 @@ enum SupportedLanguage {
         this.textureHash = textureHash;
     }
 
+    /**
+     * This returns the id of this {@link Language}.
+     * 
+     * @return
+     */
     @Nonnull
     public String getLanguageId() {
         return id;
     }
 
+    /**
+     * This returns whether this {@link SupportedLanguage} is "release-ready".
+     * A release-ready {@link Language} will be available in RC builds of Slimefun.
+     * 
+     * @return Whether this {@link Language} is "release-ready"
+     */
     public boolean isReadyForRelease() {
         return releaseReady;
     }

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -20,20 +21,14 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
  * @see SlimefunTag
  *
  */
-public final class ColoredMaterials {
-
-    /**
-     * We don't want any instances of this class, so we set the
-     * constructor to be private.
-     */
-    private ColoredMaterials() {}
+public enum ColoredMaterial {
 
     // @formatter:off (We want this to stay formatted like this)
     
     /**
      * This {@link List} contains all wool colors ordered by their appearance ingame.
      */
-    public static final List<Material> WOOL = asList(new Material[] {
+    WOOL(new Material[] {
             Material.WHITE_WOOL,
             Material.ORANGE_WOOL,
             Material.MAGENTA_WOOL,
@@ -50,12 +45,12 @@ public final class ColoredMaterials {
             Material.GREEN_WOOL,
             Material.RED_WOOL,
             Material.BLACK_WOOL
-    });
+    }),
 
     /**
      * This {@link List} contains all stained glass colors ordered by their appearance ingame.
      */
-    public static final List<Material> STAINED_GLASS = asList(new Material[] {
+    STAINED_GLASS(new Material[] {
             Material.WHITE_STAINED_GLASS,
             Material.ORANGE_STAINED_GLASS,
             Material.MAGENTA_STAINED_GLASS,
@@ -72,12 +67,12 @@ public final class ColoredMaterials {
             Material.GREEN_STAINED_GLASS,
             Material.RED_STAINED_GLASS,
             Material.BLACK_STAINED_GLASS
-    });
+    }),
 
     /**
      * This {@link List} contains all stained glass pane colors ordered by their appearance ingame.
      */
-    public static final List<Material> STAINED_GLASS_PANE = asList(new Material[] {
+    STAINED_GLASS_PANE(new Material[] {
             Material.WHITE_STAINED_GLASS_PANE,
             Material.ORANGE_STAINED_GLASS_PANE,
             Material.MAGENTA_STAINED_GLASS_PANE,
@@ -94,12 +89,12 @@ public final class ColoredMaterials {
             Material.GREEN_STAINED_GLASS_PANE,
             Material.RED_STAINED_GLASS_PANE,
             Material.BLACK_STAINED_GLASS_PANE
-    });
+    }),
 
     /**
      * This {@link List} contains all terracotta colors ordered by their appearance ingame.
      */
-    public static final List<Material> TERRACOTTA = asList(new Material[] {
+    TERRACOTTA(new Material[] {
             Material.WHITE_TERRACOTTA,
             Material.ORANGE_TERRACOTTA,
             Material.MAGENTA_TERRACOTTA,
@@ -116,12 +111,12 @@ public final class ColoredMaterials {
             Material.GREEN_TERRACOTTA,
             Material.RED_TERRACOTTA,
             Material.BLACK_TERRACOTTA
-    });
+    }),
 
     /**
      * This {@link List} contains all glazed terracotta colors ordered by their appearance ingame.
      */
-    public static final List<Material> GLAZED_TERRACOTTA = asList(new Material[] {
+    GLAZED_TERRACOTTA(new Material[] {
             Material.WHITE_GLAZED_TERRACOTTA,
             Material.ORANGE_GLAZED_TERRACOTTA,
             Material.MAGENTA_GLAZED_TERRACOTTA,
@@ -138,12 +133,12 @@ public final class ColoredMaterials {
             Material.GREEN_GLAZED_TERRACOTTA,
             Material.RED_GLAZED_TERRACOTTA,
             Material.BLACK_GLAZED_TERRACOTTA
-    });
+    }),
 
     /**
      * This {@link List} contains all concrete colors ordered by their appearance ingame.
      */
-    public static final List<Material> CONCRETE = asList(new Material[] {
+    CONCRETE(new Material[] {
             Material.WHITE_CONCRETE,
             Material.ORANGE_CONCRETE,
             Material.MAGENTA_CONCRETE,
@@ -164,12 +159,38 @@ public final class ColoredMaterials {
     
     // @formatter:on
 
-    @Nonnull
-    private static List<Material> asList(@Nonnull Material[] materials) {
+    private final List<Material> list;
+
+    /**
+     * This creates a new constant of {@link ColoredMaterial}.
+     * The array must have a length of 16 and cannot contain null elements!
+     * 
+     * @param materials
+     *            The {@link Material Materials} for this {@link ColoredMaterial}.
+     */
+    ColoredMaterial(@Nonnull Material[] materials) {
         Validate.noNullElements(materials, "The List cannot contain any null elements");
         Validate.isTrue(materials.length == 16, "Expected 16, received: " + materials.length + ". Did you miss a color?");
 
-        return Collections.unmodifiableList(Arrays.asList(materials));
+        list = Collections.unmodifiableList(Arrays.asList(materials));
+    }
+
+    @Nonnull
+    public List<Material> asList() {
+        return list;
+    }
+
+    @Nonnull
+    public Material get(int index) {
+        Validate.isTrue(index >= 0 && index < 16, "The index must be between 0 and 15 (inclusive).");
+
+        return list.get(index);
+    }
+
+    public Material get(@Nonnull DyeColor color) {
+        Validate.notNull(color, "Color cannot be null!");
+
+        return get(color.ordinal());
     }
 
 }

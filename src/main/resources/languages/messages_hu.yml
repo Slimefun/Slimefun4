@@ -106,11 +106,11 @@ messages:
   no-permission: "&4Ehhez nincs jogod"
   usage: "&4Használat: &c%usage%"
   not-online: "&4%player% &cjelenleg nem elérhető!"
-  not-valid-item: "&4%item% &cnem megfelelő tárgy!"
-  not-valid-amount: "&4%amount% &cnem megfelelő mennyiség: 0-nál nagyobbnak kell lennie!"
+  invalid-item: "&4%item% &cnem megfelelő tárgy!"
+  invalid-amount: "&4%amount% &cnem megfelelő mennyiség: 0-nál nagyobbnak kell lennie!"
   given-item: '&bKaptál &a%amount% darab &7"%item%&7"&b-t'
   give-item: '&bAdtál %player%-nek/nak &a%amount% &7"%item%&7"&b-t'
-  not-valid-research: "&4%research% &cnem érvényes Kutatás!"
+  invalid-research: "&4%research% &cnem érvényes Kutatás!"
   give-research: '&bMegadtad %player% játékosnak a(z) &7"%research%&7" &bkutatást'
   hungry: "&cTúl éhes vagy ehhez!"
   disabled-in-world: "&4&lEz a tárgy tiltva van ebben a világban"
