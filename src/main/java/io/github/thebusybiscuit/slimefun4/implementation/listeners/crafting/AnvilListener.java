@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
@@ -15,8 +14,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
- * {@link BrewingStand}.
+ * This {@link Listener} prevents any {@link SlimefunItem} from being used in an
+ * anvil.
  * 
  * @author TheBusyBiscuit
  *

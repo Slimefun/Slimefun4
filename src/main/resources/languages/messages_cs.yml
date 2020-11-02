@@ -100,11 +100,11 @@ messages:
   no-permission: "&4Na tohle nemáš dostatečné povolení"
   usage: "&4Použití: &c%usage%"
   not-online: "&4%player% &czrovna není připojen!"
-  not-valid-item: "&4%item% &cnení platný item!"
-  not-valid-amount: "&4%amount% &cnení platné číslo : musí být větší než 0!"
+  invalid-item: "&4%item% &cnení platný item!"
+  invalid-amount: "&4%amount% &cnení platné číslo : musí být větší než 0!"
   given-item: '&bDostal jsi &a%amount% &7"%item%&7"'
   give-item: '&bDal jsi %player% &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &cnení platný výzkum!"
+  invalid-research: "&4%research% &cnení platný výzkum!"
   give-research: '&bUdělil jsi %player% výzkum  &7"%research%&7"'
   hungry: "&cJsi moc hladový na to, abys to zvládl!"
   disabled-in-world: "&4&lTahle věc není v tomhle světě povolená"
