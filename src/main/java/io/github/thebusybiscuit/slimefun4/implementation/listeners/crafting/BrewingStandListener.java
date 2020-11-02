@@ -17,7 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
- * {@link BrewingStand}.
+ * brewing stand.
  * 
  * @author VoidAngel
  * @author SoSeDiK
