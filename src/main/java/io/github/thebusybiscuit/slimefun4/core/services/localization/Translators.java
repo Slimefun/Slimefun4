@@ -120,6 +120,7 @@ public class Translators {
         // Translators - Chinese (Taiwan)
         addTranslator("BrineYT", "HeroBrineKing", SupportedLanguage.CHINESE_TAIWAN, true);
         addTranslator("mio9", SupportedLanguage.CHINESE_TAIWAN, true);
+        addTranslator("ALiangLiang", SupportedLanguage.CHINESE_TAIWAN, true);
 
         // Translators - Arabic
         addTranslator("mohkamfer", "AgentBabbie", SupportedLanguage.ARABIC, false);
