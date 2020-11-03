@@ -271,23 +271,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         if (isSurvivalMode() && !Slimefun.hasPermission(p, sfitem, false)) {
             List<String> message = SlimefunPlugin.getPermissionsService().getLore(sfitem);
-            menu.addItem(index, new CustomItem(Material.BARRIER, sfitem.getItemName(), message.toArray(new String[0])));
+            menu.addItem(index, new CustomItem(ChestMenuUtils.getNoPermissionItem(), sfitem.getItemName(), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
-            menu.addItem(index, new CustomItem(Material.BARRIER, ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
+            menu.addItem(index, new CustomItem(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ItemUtils.getItemName(sfitem.getItem()), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
-                if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(pl.getUniqueId())) {
-                    if (research.canUnlock(pl)) {
-                        if (profile.hasUnlocked(research)) {
-                            openCategory(profile, category, page);
-                        } else {
-                            unlockItem(pl, sfitem, player -> openCategory(profile, category, page));
-                        }
-                    } else {
-                        SlimefunPlugin.getLocalization().sendMessage(pl, "messages.not-enough-xp", true);
-                    }
-                }
-
+                research.unlockFromGuide(this, p, profile, sfitem, category, page);
                 return false;
             });
         } else {

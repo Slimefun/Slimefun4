@@ -108,11 +108,11 @@ messages:
   no-permission: "&4Bunu yapmak için gerekli izniniz yok"
   usage: "&4Kullanış: &c%usage%"
   not-online: "&4%player% &coyunda değil!"
-  not-valid-item: "&4%item% &cgeçerli bir eşya değil!"
-  not-valid-amount: "&4%amount% &cgeçerli bir miktar değil : 0 dan büyük olmalı!"
+  invalid-item: "&4%item% &cgeçerli bir eşya değil!"
+  invalid-amount: "&4%amount% &cgeçerli bir miktar değil : 0 dan büyük olmalı!"
   given-item: '&a%amount% &badet &7"%item%&7" &bsana verildi.'
   give-item: '&b%player% adlı oyuncuya &a%amount% &badet &7"%item%&7" &bverdin.'
-  not-valid-research: "&4%research% &cgeçerli bir araştırma değil!"
+  invalid-research: "&4%research% &cgeçerli bir araştırma değil!"
   give-research: '&b%player% adlı oyuncu için bir araştırmayı açtın: &7"%research%&7"'
   hungry: "&cBunu yapmak için çok açsın!"
   disabled-in-world: "&4&lBu eşya bu dünyada devre dışı bırakıldı."

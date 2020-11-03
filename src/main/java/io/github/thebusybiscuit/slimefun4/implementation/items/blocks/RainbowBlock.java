@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.TickingBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.TickingMethod;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -49,6 +50,11 @@ public class RainbowBlock extends SlimefunItem implements TickingBlock {
         glassPanes = containsGlassPanes(materials);
         iterator = new LoopIterator<>(materials);
         material = iterator.next();
+    }
+
+    @ParametersAreNonnullByDefault
+    public RainbowBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, ColoredMaterial material) {
+        this(category, item, recipeType, recipe, recipeOutput, material.asList());
     }
 
     @ParametersAreNonnullByDefault

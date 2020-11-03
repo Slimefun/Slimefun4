@@ -29,6 +29,9 @@ public final class ChestMenuUtils {
     private static final ItemStack INPUT_SLOT = new SlimefunItemStack("_UI_INPUT_SLOT", Material.CYAN_STAINED_GLASS_PANE, " ");
     private static final ItemStack OUTPUT_SLOT = new SlimefunItemStack("_UI_OUTPUT_SLOT", Material.ORANGE_STAINED_GLASS_PANE, " ");
 
+    private static final ItemStack NO_PERMISSION = new SlimefunItemStack("_UI_NO_PERMISSION", Material.BARRIER, "No Permission");
+    private static final ItemStack NOT_RESEARCHED = new SlimefunItemStack("_UI_NOT_RESEARCHED", Material.BARRIER, "Not researched");
+
     private static final ItemStack BACK_BUTTON = new SlimefunItemStack("_UI_BACK", Material.ENCHANTED_BOOK, "&7\u21E6 Back", meta -> meta.addItemFlags(ItemFlag.HIDE_ENCHANTS));
     private static final ItemStack MENU_BUTTON = new SlimefunItemStack("_UI_MENU", Material.COMPARATOR, "&eSettings / Info", "", "&7\u21E8 Click to see more");
     private static final ItemStack SEARCH_BUTTON = new SlimefunItemStack("_UI_SEARCH", Material.NAME_TAG, "&bSearch");
@@ -44,6 +47,16 @@ public final class ChestMenuUtils {
     @Nonnull
     public static ItemStack getBackground() {
         return UI_BACKGROUND;
+    }
+
+    @Nonnull
+    public static ItemStack getNoPermissionItem() {
+        return NO_PERMISSION;
+    }
+
+    @Nonnull
+    public static ItemStack getNotResearchedItem() {
+        return NOT_RESEARCHED;
     }
 
     @Nonnull
