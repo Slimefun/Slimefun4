@@ -27,6 +27,7 @@
 
 #### Additions
 * The Smelters Pick now also works on Ancient Debris
+* (API) Added PlayerPreResearchEvent
 
 #### Changes
 * Removed 1.13 support
