@@ -213,6 +213,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      */
     public final AContainer setEnergyConsumption(int energyConsumption) {
         Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
+        Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
         Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
 
         this.energyConsumedPerTick = energyConsumption;
