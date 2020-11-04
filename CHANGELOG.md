@@ -27,6 +27,8 @@
 
 #### Additions
 * The Smelters Pick now also works on Ancient Debris
+* (API) Added PlayerPreResearchEvent
+* Added a config option to disable network visualizations
 
 #### Changes
 * Removed 1.13 support
@@ -36,6 +38,7 @@
 * Cargo Motors can no longer be placed down
 * Magnets can no longer be placed down
 * Electromagnets can no longer be placed down
+* Performance improvements to Cargo network visualizations
 
 #### Fixes
 * Fixed #2448
@@ -52,6 +55,9 @@
 * Fixed #2527
 * Fixed #2519
 * Fixed #2517
+* Fixed Magician Talisman sometimes drawing invalid enchantments
+* Fixed id conflicts for external Enchantment sources (e.g. plugins) for the Magician Talisman settings
+* Fixed network visualizers spawning particles for other player heads
 
 ## Release Candidate 17 (17 Oct 2020)
 
