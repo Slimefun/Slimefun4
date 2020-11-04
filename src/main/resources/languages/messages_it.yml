@@ -249,9 +249,9 @@ messages:
   no-tome-yourself: "&cNon puoi utilizzare il &4Tomo della conoscienza &c su te stesso
     ..."
   not-online: "&4%player% &cnon è online!"
-  not-valid-amount: "&4%amount% &cnon è una valida quantità: deve essere maggiore
+  invalid-amount: "&4%amount% &cnon è una valida quantità: deve essere maggiore
     di 0!"
-  not-valid-research: "&4%research% &cnon è una ricerca valida!"
+  invalid-research: "&4%research% &cnon è una ricerca valida!"
   only-players: "&4Questo comando è solo per i players"
   opening-backpack: "&bAprendo lo zaino, potrebbero essere necessari alcuni secondi
     ..."
@@ -282,7 +282,7 @@ messages:
   unlocked: '&bHai sbloccato &7 "%research%"'
   usage: "&4Utilizzo: &c%usage%"
   not-researched: "&4Non hai abbastanza conoscenze per capirlo!"
-  not-valid-item: "&4%item% &cnon è un oggetto valido!"
+  invalid-item: "&4%item% &cnon è un oggetto valido!"
   disabled-in-world: "&4&lQuesto oggetto è stato disattivato in questo mondo!"
   disabled-item: "&4& lQuesto oggetto è stato disabilitato! Come l'hai ottenuto?"
   radiation: "&4Sei stato esposto a radiazioni mortali! &cSbarazzati dell'oggetto

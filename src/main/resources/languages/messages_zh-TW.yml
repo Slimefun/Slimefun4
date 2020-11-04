@@ -20,6 +20,10 @@ commands:
     player-never-joined: "&4找不到該ID的玩家"
     backpack-does-not-exist: "&4該背包不存在!"
     restored-backpack-given: "&a你的背包已被修復並放到你的物品欄中!"
+  charge:
+    description: 為你手中的物品充電
+    charge-success: 此物品以充電完成!
+    not-rechargeable: 此物品不可被充電!
 guide:
   search:
     message: "&c你要搜尋什麼?"
@@ -39,6 +43,12 @@ guide:
     select: 點擊選擇此語言
     select-default: 點擊選擇默認語言
     selected-language: 當前選擇：
+    change: 點擊以選取新語言
+    description:
+    - "&7你現在可以選擇 Slimefun"
+    - "&7介面的語言"
+    - "&7不過科技物品礙於技術"
+    - "&7暫時沒有辦法翻譯"
   title:
     main: Slimefun指南
     settings: 設置及資訊
@@ -48,6 +58,7 @@ guide:
     addons: Slimefun4的附加插件
     bugs: 錯誤報告
     source: 來源代碼
+    versions: 安裝版本
   credits:
     commit: 成員
     commits: 成員
@@ -57,6 +68,12 @@ guide:
       resourcepack: "&7資源包製作人員"
       translator: "&9翻譯人員"
     profile-link: 點擊觀看他們在GitHub上的個人資料
+    open: 點擊查看貢獻者
+    description:
+    - "&7Slimefun 是個開放性的計畫"
+    - "&7由一大群人一起開發和構想"
+    - "&7超過 &e%contributors% &7個人在這些年中"
+    - "&7花時間開發Slimefun"
   pages:
     previous: 上一頁
     next: 下一頁
@@ -69,6 +86,7 @@ guide:
       miner: 此挖礦機可獲取的資源
       generator: 可以使用的燃料
       gold-pan: 可以獲取的資源
+      climbing-pick: 你可以攀爬的平面材質
   back:
     title: 上一頁
     guide: 回到Slimefun指南
@@ -78,6 +96,7 @@ guide:
   - 要解鎖此分類
   - 必須先解鎖下列分類
   - 的所有物品
+  work-in-progress: 此功能尚未開發完成!
 messages:
   not-researched: "&4你太笨了"
   not-enough-xp: "&4你沒有足夠的經驗值用以解鎖這個"
@@ -87,14 +106,10 @@ messages:
   no-permission: "&4您沒有執行此動作所需的權限"
   usage: "&4用法: &c%usage%"
   not-online: "&4%player% &c還未上線!"
-  not-valid-item: "&4%item% &c不存在!"
-  not-valid-amount: "&4%amount% &c不是有效數量：數值必須大於0!"
   given-item: '&b你已獲得 &a%amount% &7"%item%&7"'
   give-item: '&b你已給予%player% &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &c不存在!"
   give-research: '&b你已給予%player% 研究項目&7"%research%&7"'
   hungry: "&c你太餓了，做不了這個！"
-  mode-change: "&b%device% 模式切換至: &9%mode%"
   disabled-in-world: "&4&l此物品在此世界中已被禁用"
   disabled-item: "&4&l此物品已被禁用!你到底是怎樣得到的?"
   no-tome-yourself: "&c你不能在自己身上使用 &4知識之書&c..."
@@ -113,6 +128,7 @@ messages:
     knight: "&a&o你的護身符給了你5秒的回復時間"
     whirlwind: "&a&o你的護身符反射了投射物"
     wizard: "&a&o你的護身符為你升高了幸運等級，但也降低了其他附魔等級"
+    caveman: "&a&o你的護身符給了你挖掘加速效果"
   soulbound-rune:
     fail: "&c你一次只能魂綁一個物品。"
     success: "&a您已成功將此物品綁定魂綁!死後不會噴掉。"
@@ -143,6 +159,26 @@ messages:
   - "&7永遠保持樂觀積極!"
   - "&7這不是普通的餅乾"
   - "&7霓虹燈好帥!"
+  piglin-barter: "&4你不能用 Slimefun 物品和豬布林交易"
+  enchantment-rune:
+    fail: "&c你無法附魔該物品"
+    no-enchantment: "&c找不到可以附在該物品上的附魔"
+    success: "&a你已成功地在該物品上附上了一個隨機的附魔"
+  tape-measure:
+    no-anchor: "&c你需要設錨點才能開始測量！"
+    wrong-world: "&c你的錨點在另外一個世界"
+    distance: "&7測量成功 &e距離: %distance%"
+    anchor-set: "&a成功設置錨點:&e %anchor%"
+  multi-tool:
+    mode-change: "&b%device% 模式切換成: &9%mode%"
+    not-shears: "&c不要把它當剪刀用!"
+  climbing-pick:
+    dual-wielding: "&4你需要雙手都握著攀爬鎬才能攀爬"
+    wrong-material: "&c你無法攀爬這種平面 使用你的科技書以獲取更多資訊"
+  invalid-item: "&4%item% &c不存在!"
+  invalid-amount: "&4%amount% &c不是有效數量：數值必須大於0!"
+  invalid-research: "&4%research% &c不存在!"
+  mode-change: "&b%device% 模式切換至: &9%mode%"
 machines:
   pattern-not-found: "&e查無此合成表 請確認使用的機器或合成表的材料"
   unknown-material: "&e這個機器不能處理這個物品 請確認使用的機器或合成表的材料"
@@ -192,6 +228,7 @@ machines:
     finished: "&e你的工業挖礦機已挖掘完畢 共挖到 %ores% 個!"
 anvil:
   not-working: "&4科技物品需要用自動鐵砧+修理膠帶!"
+  mcmmo-salvaging: "&4你不能回收利用 Slimefun 物品!"
 backpack:
   already-open: "&c別人正在使用這個背包!"
   no-stack: "&c背包不能疊!"
@@ -203,6 +240,7 @@ gps:
     new: "&e輸入傳送點名稱 &7(Color Codes supported!)"
     added: "&a成功新增傳送點"
     max: "&4傳送點已達上限"
+    duplicate: "&4已經有叫做 &f%waypoint% &4的傳送點了"
   insufficient-complexity:
   - "&4GPS信號不足 &c%complexity%"
   - "&4a) GPS基礎設施未放置"
@@ -274,6 +312,7 @@ languages:
   zh-CN: 中文（簡體）
   el: 希臘語
   he: 希伯來語
+  pt: 葡萄牙文（葡萄牙）
   ar: 阿拉伯文
   af: 南非語
   da: 丹麥文
@@ -285,7 +324,6 @@ languages:
   fa: 波斯語
   th: 泰語
   ro: 羅馬尼亞語
-  pt: 葡萄牙文（葡萄牙）
   pt-BR: 葡萄牙文（巴西）
   bg: 保加利亞語
   ko: 韓語
@@ -295,5 +333,13 @@ languages:
   sr: 塞爾維亞語
   be: 白俄羅斯語
   tl: 他加祿語
+brewing_stand:
+  not-working: "&4你不能用 Slimefun 物品釀造!"
+villagers:
+  no-trading: "&4你不能用 Slimefun 物品交易!"
+cartography_table:
+  not-working: "&4你不能在製圖桌上使用 Slimefun 物品!"
+cauldron:
+  no-discoloring: "&4你不能把 Slimefun 物品的顏色消除!"
 miner:
   no-ores: "&e附近沒礦了!"
