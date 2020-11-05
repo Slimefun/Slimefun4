@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.Map;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -227,6 +228,32 @@ final class CargoUtils {
             if (matchesFilter(network, node, is)) {
                 inv.setItem(slot, null);
                 return new ItemStackAndInteger(is, slot);
+            }
+        }
+
+        return null;
+    }
+    
+    /**
+     * The method is used to withdraw the target item stack of the slot.
+     */
+    static ItemStackAndInteger withdraw(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, ItemStackAndInteger itemStackAndSlot) {
+        DirtyChestMenu menu = getChestMenu(target);
+
+        if (menu != null) {
+            Inventory inventory = inventories.get(target.getLocation());
+            int slot = itemStackAndSlot.getInt();
+
+            menu.replaceExistingItem(slot, null);
+            return itemStackAndSlot;
+        } else if (hasInventory(target)) {
+            Inventory inventory = inventories.get(target.getLocation());
+            ItemStack is = itemStackAndSlot.getItem();
+            int slot = itemStackAndSlot.getInt();
+
+            if (matchesFilter(network, node, is)) {
+                inventory.setItem(slot, null);
+                return itemStackAndSlot;
             }
         }
 
