@@ -100,6 +100,10 @@ class CargoNetworkTask implements Runnable {
         // List all output nodes with same frequency
         List<Location> destinations = outputNodes.get(frequency);
 
+        if (destinations == null) {
+            return;
+        }
+
         // Get the avalible input target slot. The item stack of the slot is cheched which
         // could inserted to some destinations.
         ItemStackAndInteger slot = getInputTargetSlot(network, inputNode.getBlock(), inputTarget, destinations);

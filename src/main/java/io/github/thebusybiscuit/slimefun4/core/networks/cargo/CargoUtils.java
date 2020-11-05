@@ -236,12 +236,22 @@ final class CargoUtils {
     
     /**
      * The method is used to withdraw the target item stack of the slot.
+     *
+     * @param network
+     * @param inventories
+     * @param node
+     *            The input node. It's an input node.
+     * @param target
+     *            The input target. It's a chest or some container block.
+     * @param itemStackAndSlot
+     *            The target item stack and slot we want to withdraw.
+     *
+     * @return If withdraw successfully, return the target ItemStackAndInteger.
      */
     static ItemStackAndInteger withdraw(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, ItemStackAndInteger itemStackAndSlot) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
-            Inventory inventory = inventories.get(target.getLocation());
             int slot = itemStackAndSlot.getInt();
 
             menu.replaceExistingItem(slot, null);
