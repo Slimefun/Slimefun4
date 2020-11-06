@@ -66,13 +66,13 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> {
         if (SlimefunTag.SHULKER_BOXES.isTagged(item.getType())) {
             return false;
         }
-        if (SlimefunItem.getByID(getId()) instanceof HazmatBackpack && !(itemAsSlimefunItem instanceof Radioactive)) {
+        if (this instanceof HazmatBackpack && !(itemAsSlimefunItem instanceof Radioactive)) {
             return false;
         }
-        if (itemAsSlimefunItem instanceof Radioactive && !(SlimefunItem.getByID(getId()) instanceof HazmatBackpack)) {
+        if (itemAsSlimefunItem instanceof Radioactive && !(this instanceof HazmatBackpack)) {
             return false;
         }
-
+    
         return !(itemAsSlimefunItem instanceof SlimefunBackpack);
     }
 
