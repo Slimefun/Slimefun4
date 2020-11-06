@@ -16,8 +16,8 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
     - name: YAML Linter
-      uses: ibiqlik/action-yamllint@v1.0.0
+      uses: ibiqlik/action-yamllint@v2.0.0
       with:
         config_file: '.github/configs/yaml-linter.yml'

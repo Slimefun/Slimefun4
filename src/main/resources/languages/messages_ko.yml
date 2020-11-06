@@ -90,11 +90,11 @@ messages:
   no-permission: "&4이 작업에 필요한 권한이 없습니다."
   usage: "&4사용량: &c%usage%\n"
   not-online: "&4%player% &cis가 온라인 상태가 아닙니다!"
-  not-valid-item: "&4%item% &cis가 올바른 아이템이 아닙니다!"
-  not-valid-amount: "&4%amount% &cis 유효한 금액이 아닙니다. 0보다 커야 합니다!"
+  invalid-item: "&4%item% &cis가 올바른 아이템이 아닙니다!"
+  invalid-amount: "&4%amount% &cis 유효한 금액이 아닙니다. 0보다 커야 합니다!"
   given-item: '&b당신은 &a%amount% &7"%item%&7"을 받았다.'
   give-item: '&b%player% &a%amount% &7"%item%&7"을(를) 제공하셨습니다.'
-  not-valid-research: "&4%research% &cis가 유효하지 않은 연구!\n"
+  invalid-research: "&4%research% &cis가 유효하지 않은 연구!\n"
   give-research: '&b%player%에 Research &7"%research%&7"을(를) 제공했습니다.
 
 '

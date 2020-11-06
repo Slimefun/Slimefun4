@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -50,8 +52,15 @@ class GitHubIssuesConnector extends GitHubConnector {
     }
 
     @Override
-    public String getURLSuffix() {
-        return "/issues?per_page=100";
+    public String getEndpoint() {
+        return "/issues";
+    }
+
+    @Override
+    public Map<String, Object> getParameters() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("per_page", 100);
+        return parameters;
     }
 
 }

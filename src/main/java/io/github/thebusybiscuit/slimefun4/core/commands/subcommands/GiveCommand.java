@@ -40,7 +40,7 @@ class GiveCommand extends SubCommand {
                     if (sfItem != null) {
                         giveItem(sender, p, sfItem, args);
                     } else {
-                        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
+                        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.invalid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
                     }
                 } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
@@ -70,7 +70,7 @@ class GiveCommand extends SubCommand {
 
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.invalid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
             }
         }
     }

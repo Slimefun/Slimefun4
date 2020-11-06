@@ -16,11 +16,28 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 class ContributionsConnector extends GitHubConnector {
 
-    // GitHub Bots that do not count as Contributors
-    // (includes "invalid-email-address" because it is an invalid contributor)
-    private static final List<String> blacklist = Arrays.asList("invalid-email-address", "renovate-bot", "TheBusyBot", "ImgBotApp", "imgbot", "imgbot[bot]", "github-actions[bot]", "gitlocalize-app", "gitlocalize-app[bot]", "mt-gitlocalize");
+    /*
+     * @formatter:off
+     * GitHub Bots that do not count as Contributors
+     * (includes "invalid-email-address" because it is an invalid contributor)
+     */
+    private static final List<String> blacklist = Arrays.asList(
+        "invalid-email-address",
+        "renovate-bot",
+        "TheBusyBot",
+        "ImgBotApp",
+        "imgbot",
+        "imgbot[bot]",
+        "github-actions[bot]",
+        "gitlocalize-app",
+        "gitlocalize-app[bot]",
+        "mt-gitlocalize"
+    );
 
-    // Matches a GitHub name with a Minecraft name.
+    /*
+     * @formatter:on
+     * Matches a GitHub name with a Minecraft name.
+     */
     private static final Map<String, String> aliases = new HashMap<>();
 
     // Should probably be switched to UUIDs at some point...
@@ -82,8 +99,16 @@ class ContributionsConnector extends GitHubConnector {
     }
 
     @Override
-    public String getURLSuffix() {
-        return "/contributors?per_page=100&page=" + page;
+    public String getEndpoint() {
+        return "/contributors";
+    }
+
+    @Override
+    public Map<String, Object> getParameters() {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("per_page", 100);
+        parameters.put("page", page);
+        return parameters;
     }
 
     private void computeContributors(@Nonnull JSONArray array) {

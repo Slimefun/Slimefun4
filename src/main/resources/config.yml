@@ -37,6 +37,7 @@ URID:
 networks:
   max-size: 200
   cargo-ticker-delay: 0
+  enable-visualizer: true
 
 items:
   talismans: true

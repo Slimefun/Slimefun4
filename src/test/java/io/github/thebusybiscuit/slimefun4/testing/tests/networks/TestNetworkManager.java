@@ -37,15 +37,15 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test illegal network size arguments")
     void testIllegalNetworkSize() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(-100));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(0));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(-100, false));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(0, false));
     }
 
     @Test
     @DisplayName("Test maximum network size")
     void testGetMaxNetworkSize() {
         int size = 50;
-        NetworkManager manager = new NetworkManager(size);
+        NetworkManager manager = new NetworkManager(size, false);
 
         Assertions.assertEquals(size, manager.getMaxSize());
     }
@@ -53,7 +53,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test network list")
     void testGetNetworkList() {
-        NetworkManager manager = new NetworkManager(10);
+        NetworkManager manager = new NetworkManager(10, false);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
 
@@ -82,7 +82,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test getting a network at a location")
     void testGetNetworkAtLocation() {
-        NetworkManager manager = new NetworkManager(10);
+        NetworkManager manager = new NetworkManager(10, false);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
         Location loc2 = new Location(world, 0, 200, 0);
@@ -104,7 +104,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test getting all networks at a location")
     void testGetNetworksAtLocation() {
-        NetworkManager manager = new NetworkManager(10);
+        NetworkManager manager = new NetworkManager(10, false);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
         Location loc2 = new Location(world, 0, 200, 0);
@@ -120,7 +120,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test a single node network")
     void testSingleNodeNetwork() {
-        NetworkManager manager = new NetworkManager(1);
+        NetworkManager manager = new NetworkManager(1, false);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
 
@@ -134,7 +134,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test networks connecting via corners")
     void testCornerConnection() {
-        NetworkManager manager = new NetworkManager(100);
+        NetworkManager manager = new NetworkManager(100, false);
         World world = server.addSimpleWorld("Simple Network World");
         Map<Location, NetworkComponent> map = new HashMap<>();
 
