@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.HazmatBackpack;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -45,6 +44,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.EnderBa
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.RestoredBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SoulboundBackpack;
+import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.HazmatBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BrokenSpawner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Composter;
