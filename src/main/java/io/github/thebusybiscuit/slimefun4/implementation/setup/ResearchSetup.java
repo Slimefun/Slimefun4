@@ -279,6 +279,8 @@ public final class ResearchSetup {
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
         register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
         register("energy_connectors", 269, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
+        register("wise_talisman", 270, "Talisman of the Wise", 20, SlimefunItems.TALISMAN_WISE);
+        register("resurrected_talisman", 271, "Talisman of the Resurrected", 20, SlimefunItems.TALISMAN_RESURRECTED);
     }
 
     @ParametersAreNonnullByDefault
