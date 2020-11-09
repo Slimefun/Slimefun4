@@ -54,13 +54,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAlta
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
@@ -479,7 +480,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
-            new BeeWingListener(this);
+            new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
         }
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {

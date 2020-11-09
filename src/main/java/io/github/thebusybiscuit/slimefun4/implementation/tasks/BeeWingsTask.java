@@ -10,6 +10,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
+
+/**
+ * This {@link PlayerTask} is responsible for the repeating checks for our {@link BeeWings}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see BeeWings
+ * @see BeeWingsListener
+ *
+ */
 public class BeeWingsTask extends PlayerTask {
 
     private Location lastLocation;
@@ -21,17 +33,14 @@ public class BeeWingsTask extends PlayerTask {
 
     @Override
     protected void executeTask() {
-        if (p.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
-            return;
-        }
-
         if (p.getLocation().getY() < lastLocation.getY()) {
             Location loc = p.getLocation();
             int distanceToHighestBlock = (loc.getBlockY() - loc.getWorld().getHighestBlockYAt(loc, HeightMap.WORLD_SURFACE));
 
-            // getDistanceToGround will only fire when playerDistanceToHighestBlock is negative (which happens when a
-            // player
-            // is flying under an existing structure)
+            /*
+             * getDistanceToGround will only fire when playerDistanceToHighestBlock is negative
+             * (which happens when a player flies beneath an existing structure)
+             */
             if (distanceToHighestBlock < 0) {
                 int distanceToGround = getDistanceToGround(loc.getBlock(), 6);
 
@@ -39,13 +48,18 @@ public class BeeWingsTask extends PlayerTask {
                     return;
                 }
 
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
+                slowDown();
             } else if (distanceToHighestBlock <= 6) {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
+                slowDown();
             }
         }
 
         lastLocation = p.getLocation();
+    }
+
+    private void slowDown() {
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
+        p.setGliding(false);
     }
 
     /**
@@ -65,13 +79,14 @@ public class BeeWingsTask extends PlayerTask {
                 return i;
             }
         }
+
         return 0;
     }
 
     @Override
     protected boolean isValid() {
         // The task is only valid as long as the Player is alive and gliding
-        if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isGliding()) {
+        if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isGliding() || p.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
             Bukkit.getScheduler().cancelTask(id);
             return false;
         }
