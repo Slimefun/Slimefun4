@@ -31,6 +31,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPlaceable {
 
+    /**
+     * This is the level of {@link Radioactivity} for this {@link SlimefunItem}
+     */
     private final Radioactivity radioactivity;
 
     /**

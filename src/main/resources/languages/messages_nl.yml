@@ -83,12 +83,12 @@ messages:
   no-permission: "&4Je hebt geen toestemming om deze actie uit te voeren"
   usage: "&4Gebruik, zoals: &c%usage%"
   not-online: "&4%player% &cis niet online!"
-  not-valid-item: "&4%item% &cis geen geldig voorwerp!"
-  not-valid-amount: "&4%amount% &cis geen geldige hoeveelheid: het moet meer zijn
+  invalid-item: "&4%item% &cis geen geldig voorwerp!"
+  invalid-amount: "&4%amount% &cis geen geldige hoeveelheid: het moet meer zijn
     dan 0!"
   given-item: '&bJe hebt &a%amount% keer &7"%item%&7" ontvangen'
   give-item: '&bJe hebt %player% &a%amount% keer &7"%item%&7" gegeven'
-  not-valid-research: "&4%research% &cis geen geldig Slimefun onderzoek"
+  invalid-research: "&4%research% &cis geen geldig Slimefun onderzoek"
   give-research: '&bJe hebt %player% de kennis over &7"%research%&7" gegeven'
   hungry: "&cJe hebt teveel honger om zoiets te doen!"
   disabled-in-world: "&4&lDit voorwerp is uitgeschakeld in deze wereld"

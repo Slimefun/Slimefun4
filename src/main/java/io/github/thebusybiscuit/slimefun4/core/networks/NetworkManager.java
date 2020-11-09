@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListen
 public class NetworkManager {
 
     private final int maxNodes;
+    private final boolean enableVisualizer;
     private final List<Network> networks = new LinkedList<>();
 
     /**
@@ -37,8 +38,10 @@ public class NetworkManager {
      * @param maxStepSize
      *            The maximum amount of nodes a {@link Network} can have
      */
-    public NetworkManager(int maxStepSize) {
+    public NetworkManager(int maxStepSize, boolean enableVisualizer) {
         Validate.isTrue(maxStepSize > 0, "The maximal Network size must be above zero!");
+
+        this.enableVisualizer = enableVisualizer;
         maxNodes = maxStepSize;
     }
 
@@ -50,6 +53,15 @@ public class NetworkManager {
      */
     public int getMaxSize() {
         return maxNodes;
+    }
+
+    /**
+     * This returns whether the {@link Network} visualizer is enabled.
+     * 
+     * @return Whether the {@link Network} visualizer is enabled
+     */
+    public boolean isVisualizerEnabled() {
+        return enableVisualizer;
     }
 
     /**

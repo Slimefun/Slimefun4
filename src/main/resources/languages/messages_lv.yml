@@ -56,11 +56,11 @@ messages:
   no-permission: "&4Tev šo nav atļauts darīt"
   usage: "&4Pamācība: &c%usage%"
   not-online: "&4%player%&c nav pieslēdzies!"
-  not-valid-item: "&4%item% &cneeksistē!"
-  not-valid-amount: "&4%amount% &cnav pareizs daudzums : tam jābūt lielākam par 0!"
+  invalid-item: "&4%item% &cneeksistē!"
+  invalid-amount: "&4%amount% &cnav pareizs daudzums : tam jābūt lielākam par 0!"
   given-item: '&bTev iedeva &a%amount% &7"%item%&7"'
   give-item: '&bTu iedevi %player% &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &cis nav eksistējošs atklājums!"
+  invalid-research: "&4%research% &cis nav eksistējošs atklājums!"
   give-research: '&bTu iedevi %player% atklājumu ar nosaukumu &7"%research%&7"'
   hungry: "&cTu esi pārāk izsalcis, lai šo darītu!"
   mode-change: "&b%device% režīms nomainīts uz &9%mode%"

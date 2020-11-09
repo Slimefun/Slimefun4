@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.researches;
 
 import java.util.Optional;
 
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import org.mockito.Mockito;
 
 class TestResearches {
 
@@ -180,6 +184,31 @@ class TestResearches {
         Assertions.assertFalse(research.canUnlock(player));
         player.setLevel(8);
         Assertions.assertTrue(research.canUnlock(player));
+    }
+
+    @Test
+    @DisplayName("Test PlayerPreResearchEvent")
+    void testPreCanUnlockResearchEvent() throws InterruptedException {
+        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+
+        NamespacedKey key = new NamespacedKey(plugin, "simple_research");
+        Research research = new Research(key, 250, "Test", 10);
+        research.register();
+
+        SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
+        Player player = server.addPlayer();
+        PlayerProfile profile = TestUtilities.awaitProfile(player);
+        SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, "RESEARCH_TEST", new CustomItem(Material.TORCH, "&bResearch Test"));
+
+        research.unlockFromGuide(guide, player, profile, sfItem, sfItem.getCategory(), 0);
+
+        server.getPluginManager().assertEventFired(PlayerPreResearchEvent.class, event -> {
+            Assertions.assertEquals(player, event.getPlayer());
+            Assertions.assertEquals(research, event.getResearch());
+            Assertions.assertEquals(sfItem, event.getSlimefunItem());
+            Assertions.assertFalse(event.isCancelled());
+            return true;
+        });
     }
 
 }

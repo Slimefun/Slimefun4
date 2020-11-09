@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.events.CoolerFeedPlayerEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -81,6 +82,8 @@ class TestCoolerListener {
 
         FoodLevelChangeEvent event = new FoodLevelChangeEvent(player, 16);
         listener.onHungerLoss(event);
+
         Assertions.assertTrue(player.hasPotionEffect(PotionEffectType.HEALTH_BOOST));
+        server.getPluginManager().assertEventFired(CoolerFeedPlayerEvent.class, e -> e.getPlayer() == player && e.getCooler() == cooler);
     }
 }

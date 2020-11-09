@@ -176,11 +176,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         instance = this;
 
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
-            local = new LocalizationService(this, "", null);
-            gpsNetwork = new GPSNetwork();
-            networkManager = new NetworkManager(200);
-            command.register();
-            registry.load(config);
+            onUnitTestStart();
         } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             getLogger().log(Level.INFO, "CS-CoreLib was detected!");
             long timestamp = System.nanoTime();
@@ -223,7 +219,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 networkSize = 1;
             }
 
-            networkManager = new NetworkManager(networkSize);
+            networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"));
 
             // Setting up bStats
             new Thread(metricsService::start, "Slimefun Metrics").start();
@@ -305,6 +301,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 return true;
             });
         }
+    }
+
+    private void onUnitTestStart() {
+        local = new LocalizationService(this, "", null);
+        gpsNetwork = new GPSNetwork();
+        networkManager = new NetworkManager(200, true);
+        command.register();
+        registry.load(config);
     }
 
     @Nonnull
@@ -489,6 +493,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new AncientAltarListener(this, (AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem(), (AncientPedestal) SlimefunItems.ANCIENT_PEDESTAL.getItem());
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);
+        backpackListener.register(this);
 
         // Toggleable Listeners for performance reasons
         if (config.getBoolean("items.talismans")) {
@@ -497,10 +502,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         if (config.getBoolean("items.soulbound")) {
             new SoulboundListener(this);
-        }
-
-        if (config.getBoolean("items.backpacks")) {
-            backpackListener.register(this);
         }
 
         // Handle Slimefun Guide being given on Join

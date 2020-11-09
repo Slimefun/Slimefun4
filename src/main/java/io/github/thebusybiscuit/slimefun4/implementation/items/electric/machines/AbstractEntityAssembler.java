@@ -66,17 +66,9 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public void init() {
-                for (int i : border) {
-                    addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                }
-
-                for (int i : headBorder) {
-                    addItem(i, new CustomItem(getHeadBorder(), " "), ChestMenuUtils.getEmptyClickHandler());
-                }
-
-                for (int i : bodyBorder) {
-                    addItem(i, new CustomItem(getBodyBorder(), " "), ChestMenuUtils.getEmptyClickHandler());
-                }
+                drawBackground(border);
+                drawBackground(new CustomItem(getHeadBorder(), " "), headBorder);
+                drawBackground(new CustomItem(getBodyBorder(), " "), bodyBorder);
 
                 constructMenu(this);
             }
