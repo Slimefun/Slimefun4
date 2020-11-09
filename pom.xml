@@ -349,7 +349,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.04</version>
+            <version>3.11.05</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
