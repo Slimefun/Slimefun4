@@ -29,6 +29,7 @@
 * The Smelters Pick now also works on Ancient Debris
 * (API) Added PlayerPreResearchEvent
 * Added a config option to disable network visualizations
+* (API) Added CoolerFeedPlayerEvent
 
 #### Changes
 * Removed 1.13 support
