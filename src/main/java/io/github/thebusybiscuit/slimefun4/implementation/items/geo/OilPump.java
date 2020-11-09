@@ -25,7 +25,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public abstract class OilPump extends AContainer implements RecipeDisplayItem {
+public class OilPump extends AContainer implements RecipeDisplayItem {
 
     private final GEOResource oil;
 

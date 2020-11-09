@@ -11,7 +11,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public abstract class FoodComposter extends AContainer implements RecipeDisplayItem {
+public class FoodComposter extends AContainer implements RecipeDisplayItem {
 
     public FoodComposter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

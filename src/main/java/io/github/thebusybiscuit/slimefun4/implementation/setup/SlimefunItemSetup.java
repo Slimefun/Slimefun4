@@ -1534,547 +1534,234 @@ public final class SlimefunItemSetup {
         
         new ChargingBench(categories.electricity, SlimefunItems.CHARGING_BENCH, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.ELECTRO_MAGNET, null, SlimefunItems.BATTERY, new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BATTERY, null, SlimefunItems.SMALL_CAPACITOR, null})
+        .setCapacity(128)
+        .setEnergyConsumption(10)
+        .setProcessingSpeed(1)
         .register(plugin);
 
         new ElectricFurnace(categories.electricity, SlimefunItems.ELECTRIC_FURNACE, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.FURNACE), null, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 2;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 64;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.FURNACE), null, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON})
+        .setCapacity(64)
+        .setEnergyConsumption(2)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricFurnace(categories.electricity, SlimefunItems.ELECTRIC_FURNACE_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_FURNACE, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 3;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 2;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_FURNACE, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON})
+        .setCapacity(128)
+        .setEnergyConsumption(3)
+        .setProcessingSpeed(2)
+        .register(plugin);
 
         new ElectricFurnace(categories.electricity, SlimefunItems.ELECTRIC_FURNACE_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_FURNACE_2, SlimefunItems.STEEL_INGOT, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 5;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 4;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_FURNACE_2, SlimefunItems.STEEL_INGOT, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON})
+        .setCapacity(128)
+        .setEnergyConsumption(5)
+        .setProcessingSpeed(4)
+        .register(plugin);
 
         new ElectricGoldPan(categories.electricity, SlimefunItems.ELECTRIC_GOLD_PAN, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.GOLD_PAN, null, new ItemStack(Material.FLINT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.FLINT), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 1;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.GOLD_PAN, null, new ItemStack(Material.FLINT), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.FLINT), SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT, SlimefunItems.ALUMINUM_INGOT})
+        .setCapacity(128)
+        .setEnergyConsumption(1)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricGoldPan(categories.electricity, SlimefunItems.ELECTRIC_GOLD_PAN_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.GOLD_PAN, null, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_GOLD_PAN, new ItemStack(Material.IRON_INGOT), SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 2;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 3;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.GOLD_PAN, null, new ItemStack(Material.IRON_INGOT), SlimefunItems.ELECTRIC_GOLD_PAN, new ItemStack(Material.IRON_INGOT), SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT})
+        .setCapacity(128)
+        .setEnergyConsumption(2)
+        .setProcessingSpeed(3)
+        .register(plugin);
 
         new ElectricGoldPan(categories.electricity, SlimefunItems.ELECTRIC_GOLD_PAN_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.GOLD_PAN, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRIC_GOLD_PAN_2, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COBALT_INGOT, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.COBALT_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 7;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 10;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.GOLD_PAN, null, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ELECTRIC_GOLD_PAN_2, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COBALT_INGOT, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.COBALT_INGOT})
+        .setCapacity(512)
+        .setEnergyConsumption(7)
+        .setProcessingSpeed(10)
+        .register(plugin);
 
         new ElectricDustWasher(categories.electricity, SlimefunItems.ELECTRIC_DUST_WASHER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.WATER_BUCKET), null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_GOLD_PAN, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 3;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.WATER_BUCKET), null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_GOLD_PAN, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT, SlimefunItems.COPPER_INGOT})
+        .setCapacity(128)
+        .setEnergyConsumption(3)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricDustWasher(categories.electricity, SlimefunItems.ELECTRIC_DUST_WASHER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.WATER_BUCKET), null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_DUST_WASHER, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 5;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 2;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.WATER_BUCKET), null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_DUST_WASHER, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT})
+        .setCapacity(128)
+        .setEnergyConsumption(5)
+        .setProcessingSpeed(2)
+        .register(plugin);
 
         new ElectricDustWasher(categories.electricity, SlimefunItems.ELECTRIC_DUST_WASHER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.WATER_BUCKET), null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_DUST_WASHER_2, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CORINTHIAN_BRONZE_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 15;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 10;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.WATER_BUCKET), null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.ELECTRIC_DUST_WASHER_2, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.CORINTHIAN_BRONZE_INGOT})
+        .setCapacity(512)
+        .setEnergyConsumption(15)
+        .setProcessingSpeed(10)
+        .register(plugin);
 
         new ElectricIngotFactory(categories.electricity, SlimefunItems.ELECTRIC_INGOT_FACTORY, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.FLINT_AND_STEEL), null, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_DUST_WASHER, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 4;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.FLINT_AND_STEEL), null, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_DUST_WASHER, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT})
+        .setCapacity(256)
+        .setEnergyConsumption(4)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricIngotFactory(categories.electricity, SlimefunItems.ELECTRIC_INGOT_FACTORY_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.GILDED_IRON, new ItemStack(Material.FLINT_AND_STEEL), SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_INGOT_FACTORY, SlimefunItems.HEATING_COIL, SlimefunItems.BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.BRASS_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 7;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 2;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.GILDED_IRON, new ItemStack(Material.FLINT_AND_STEEL), SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_INGOT_FACTORY, SlimefunItems.HEATING_COIL, SlimefunItems.BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.BRASS_INGOT})
+        .setCapacity(256)
+        .setEnergyConsumption(7)
+        .setProcessingSpeed(2)
+        .register(plugin);
 
         new ElectricIngotFactory(categories.electricity, SlimefunItems.ELECTRIC_INGOT_FACTORY_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.GILDED_IRON, new ItemStack(Material.FLINT_AND_STEEL), SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_INGOT_FACTORY_2, SlimefunItems.HEATING_COIL, SlimefunItems.BRASS_INGOT, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BRASS_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 20;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 8;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.GILDED_IRON, new ItemStack(Material.FLINT_AND_STEEL), SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_INGOT_FACTORY_2, SlimefunItems.HEATING_COIL, SlimefunItems.BRASS_INGOT, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.BRASS_INGOT})
+        .setCapacity(512)
+        .setEnergyConsumption(20)
+        .setProcessingSpeed(8)
+        .register(plugin);
 
         new ElectrifiedCrucible(categories.electricity, SlimefunItems.ELECTRIFIED_CRUCIBLE, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.CRUCIBLE, SlimefunItems.LEAD_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.LEAD_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 24;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 1024;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.CRUCIBLE, SlimefunItems.LEAD_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LARGE_CAPACITOR, SlimefunItems.LEAD_INGOT})
+        .setCapacity(1024)
+        .setEnergyConsumption(24)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectrifiedCrucible(categories.electricity, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 40;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 1024;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 2;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT})
+        .setCapacity(1024)
+        .setEnergyConsumption(40)
+        .setProcessingSpeed(2)
+        .register(plugin);
 
         new ElectrifiedCrucible(categories.electricity, SlimefunItems.ELECTRIFIED_CRUCIBLE_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 60;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 1024;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 4;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.STEEL_PLATE, SlimefunItems.POWER_CRYSTAL, SlimefunItems.STEEL_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT})
+        .setCapacity(1024)
+        .setEnergyConsumption(60)
+        .setProcessingSpeed(4)
+        .register(plugin);
 
         new ElectricOreGrinder(categories.electricity, SlimefunItems.ELECTRIC_ORE_GRINDER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.DIAMOND_PICKAXE), null, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 6;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.DIAMOND_PICKAXE), null, SlimefunItems.GILDED_IRON, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON})
+        .setCapacity(128)
+        .setEnergyConsumption(6)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricOreGrinder(categories.electricity, SlimefunItems.ELECTRIC_ORE_GRINDER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.DIAMOND_PICKAXE), null, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_ORE_GRINDER, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GILDED_IRON}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 15;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 4;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.DIAMOND_PICKAXE), null, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_ORE_GRINDER, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GILDED_IRON})
+        .setCapacity(512)
+        .setEnergyConsumption(15)
+        .setProcessingSpeed(4)
+        .register(plugin);
 
         new HeatedPressureChamber(categories.electricity, SlimefunItems.HEATED_PRESSURE_CHAMBER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.GLASS), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 5;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.GLASS), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT})
+        .setCapacity(128)
+        .setEnergyConsumption(5)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new HeatedPressureChamber(categories.electricity, SlimefunItems.HEATED_PRESSURE_CHAMBER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATED_PRESSURE_CHAMBER, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.REINFORCED_ALLOY_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 22;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 5;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATED_PRESSURE_CHAMBER, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.REINFORCED_ALLOY_INGOT})
+        .setCapacity(256)
+        .setEnergyConsumption(22)
+        .setProcessingSpeed(5)
+        .register(plugin);
 
         new ElectricIngotPulverizer(categories.electricity, SlimefunItems.ELECTRIC_INGOT_PULVERIZER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.ELECTRIC_ORE_GRINDER, null, SlimefunItems.LEAD_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT})
+        .setCapacity(512)
+        .setEnergyConsumption(7)
+        .setProcessingSpeed(1)
         .register(plugin);
 
         new CoalGenerator(categories.electricity, SlimefunItems.COAL_GENERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.HEATING_COIL, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, SlimefunItems.NICKEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.NICKEL_INGOT, null, SlimefunItems.NICKEL_INGOT, null}) {
-            
-            @Override
-            public int getEnergyProduction() {
-                return 8;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 64;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.HEATING_COIL, new ItemStack(Material.FURNACE), SlimefunItems.HEATING_COIL, SlimefunItems.NICKEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.NICKEL_INGOT, null, SlimefunItems.NICKEL_INGOT, null})
+        .setCapacity(64)
+        .setEnergyProduction(8)
+        .register(plugin);
 
         new CoalGenerator(categories.electricity, SlimefunItems.COAL_GENERATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {new ItemStack(Material.MAGMA_BLOCK), SlimefunItems.HEATING_COIL, new ItemStack(Material.MAGMA_BLOCK), SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.COAL_GENERATOR, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
-            
-            @Override
-            public int getEnergyProduction() {
-                return 15;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {new ItemStack(Material.MAGMA_BLOCK), SlimefunItems.HEATING_COIL, new ItemStack(Material.MAGMA_BLOCK), SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.COAL_GENERATOR, SlimefunItems.HARDENED_METAL_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null})
+        .setCapacity(256)
+        .setEnergyProduction(15)
+        .register(plugin);
 
         new BioGenerator(categories.electricity, SlimefunItems.BIO_REACTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.HEATING_COIL, SlimefunItems.COMPOSTER, SlimefunItems.HEATING_COIL, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null}) {
-
-            @Override
-            public int getEnergyProduction() {
-                return 4;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.HEATING_COIL, SlimefunItems.COMPOSTER, SlimefunItems.HEATING_COIL, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT, null, SlimefunItems.ALUMINUM_BRASS_INGOT, null})
+        .setCapacity(128)
+        .setEnergyProduction(4)
+        .register(plugin);
 
         new AutoDrier(categories.electricity, SlimefunItems.AUTO_DRIER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[]{null, null, null, SlimefunItems.HEATING_COIL, new ItemStack(Material.SMOKER), SlimefunItems.HEATING_COIL, null, new ItemStack(Material.CAMPFIRE), null})
+        .setCapacity(128)
+        .setEnergyConsumption(5)
+        .setProcessingSpeed(1)
         .register(plugin);
 
         new AutoBrewer(categories.electricity, SlimefunItems.AUTO_BREWER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.HEATING_COIL, null, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.BREWING_STAND), SlimefunItems.REINFORCED_PLATE, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.HEATING_COIL, null, SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.BREWING_STAND), SlimefunItems.REINFORCED_PLATE, null, SlimefunItems.ELECTRIC_MOTOR, null})
+        .setCapacity(128)
+        .setEnergyConsumption(6)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricPress(categories.electricity, SlimefunItems.ELECTRIC_PRESS, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON), null, SlimefunItems.MEDIUM_CAPACITOR, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 8;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON), null, SlimefunItems.MEDIUM_CAPACITOR, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT})
+        .setCapacity(256)
+        .setEnergyConsumption(8)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricPress(categories.electricity, SlimefunItems.ELECTRIC_PRESS_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {new ItemStack(Material.STICKY_PISTON), SlimefunItems.ELECTRIC_PRESS, new ItemStack(Material.STICKY_PISTON), SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 20;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 1024;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 3;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {new ItemStack(Material.STICKY_PISTON), SlimefunItems.ELECTRIC_PRESS, new ItemStack(Material.STICKY_PISTON), SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.DAMASCUS_STEEL_INGOT})
+        .setCapacity(1024)
+        .setEnergyConsumption(20)
+        .setProcessingSpeed(3)
+        .register(plugin);
         
         new SlimefunItem(categories.resources, SlimefunItems.MAGNESIUM_SALT, RecipeType.HEATED_PRESSURE_CHAMBER,
         new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT, null, null, null, null, null, null, null})
         .register(plugin);
         
         new MagnesiumGenerator(categories.electricity, SlimefunItems.MAGNESIUM_GENERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.COMPRESSED_CARBON, new ItemStack(Material.WATER_BUCKET), SlimefunItems.COMPRESSED_CARBON, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT}) {
-            
-            @Override
-            public int getEnergyProduction() {
-                return 18;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.COMPRESSED_CARBON, new ItemStack(Material.WATER_BUCKET), SlimefunItems.COMPRESSED_CARBON, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT, SlimefunItems.DURALUMIN_INGOT})
+        .setCapacity(128)
+        .setEnergyProduction(18)
+        .register(plugin);
 
         new AutoEnchanter(categories.electricity, SlimefunItems.AUTO_ENCHANTER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN})
+        .setCapacity(128)
+        .setEnergyConsumption(9)
+        .setProcessingSpeed(1)
         .register(plugin);
 
         new AutoDisenchanter(categories.electricity, SlimefunItems.AUTO_DISENCHANTER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.REDSTONE), new ItemStack(Material.ANVIL), new ItemStack(Material.REDSTONE), SlimefunItems.CARBONADO, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN})
+        .setCapacity(128)
+        .setEnergyConsumption(9)
+        .setProcessingSpeed(1)
         .register(plugin);
 
         new AutoAnvil(categories.electricity, 10, SlimefunItems.AUTO_ANVIL, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.ANVIL), null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK)}) {
-
-            @Override
-            public int getCapacity() {
-                return 128;
-            }
-
-            @Override
-            public int getEnergyConsumption() {
-                return 12;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, new ItemStack(Material.ANVIL), null, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK)})
+        .setCapacity(128)
+        .setEnergyConsumption(12)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new AutoAnvil(categories.electricity, 25, SlimefunItems.AUTO_ANVIL_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.AUTO_ANVIL, null, SlimefunItems.STEEL_PLATE, SlimefunItems.HEATING_COIL, SlimefunItems.STEEL_PLATE, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK)}) {
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getEnergyConsumption() {
-                return 16;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.AUTO_ANVIL, null, SlimefunItems.STEEL_PLATE, SlimefunItems.HEATING_COIL, SlimefunItems.STEEL_PLATE, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK)})
+        .setCapacity(256)
+        .setEnergyConsumption(16)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new Multimeter(categories.technicalGadgets, SlimefunItems.MULTIMETER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.COPPER_INGOT, null, SlimefunItems.COPPER_INGOT, null, SlimefunItems.REDSTONE_ALLOY, null, null, SlimefunItems.GOLD_6K, null})
@@ -2432,44 +2119,18 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new OilPump(categories.gps, SlimefunItems.OIL_PUMP, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT, null, new ItemStack(Material.BUCKET), null}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 14;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.STEEL_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.STEEL_INGOT, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT, null, new ItemStack(Material.BUCKET), null})
+        .setCapacity(256)
+        .setEnergyConsumption(14)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new GEOMiner(categories.gps, SlimefunItems.GEO_MINER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.MEDIUM_CAPACITOR, new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.OIL_PUMP, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
-            
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 24;
-            }
-            
-        }.register(plugin);
+        new ItemStack[] {new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.MEDIUM_CAPACITOR, new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.OIL_PUMP, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null})
+        .setCapacity(512)
+        .setEnergyConsumption(24)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new SlimefunItem(categories.resources, SlimefunItems.OIL_BUCKET, new RecipeType(new NamespacedKey(plugin, "oil_pump"), SlimefunItems.OIL_PUMP),
         new ItemStack[] {null, null, null, null, new ItemStack(Material.BUCKET), null, null, null, null})
@@ -2484,69 +2145,29 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new Refinery(categories.electricity, SlimefunItems.REFINERY, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.HARDENED_GLASS, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.HARDENED_GLASS, SlimefunItems.HARDENED_GLASS, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.HARDENED_GLASS, new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON)}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 16;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.HARDENED_GLASS, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.HARDENED_GLASS, SlimefunItems.HARDENED_GLASS, SlimefunItems.REDSTONE_ALLOY, SlimefunItems.HARDENED_GLASS, new ItemStack(Material.PISTON), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PISTON)})
+        .setCapacity(256)
+        .setEnergyConsumption(16)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new LavaGenerator(categories.electricity, SlimefunItems.LAVA_GENERATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.GOLD_16K, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL}) {
-            
-            @Override
-            public int getEnergyProduction() {
-                return 10;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.GOLD_16K, null, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL})
+        .setCapacity(512)
+        .setEnergyProduction(10)
+        .register(plugin);
 
         new LavaGenerator(categories.electricity, SlimefunItems.LAVA_GENERATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.LAVA_GENERATOR, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.HEATING_COIL, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.HEATING_COIL}) {
-            
-            @Override
-            public int getEnergyProduction() {
-                return 20;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 1024;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.CORINTHIAN_BRONZE_INGOT, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.LAVA_GENERATOR, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.HEATING_COIL, SlimefunItems.COMPRESSED_CARBON, SlimefunItems.HEATING_COIL})
+        .setCapacity(1024)
+        .setEnergyProduction(20)
+        .register(plugin);
 
         new CombustionGenerator(categories.electricity, SlimefunItems.COMBUSTION_REACTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.STEEL_INGOT, SlimefunItems.HEATING_COIL}) {
-            
-            @Override
-            public int getEnergyProduction() {
-                return 12;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.STEEL_INGOT, null, SlimefunItems.STEEL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.STEEL_INGOT, SlimefunItems.HEATING_COIL})
+        .setCapacity(256)
+        .setEnergyProduction(12)
+        .register(plugin);
 
         new TeleporterPylon(categories.gps, SlimefunItems.GPS_TELEPORTER_PYLON, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.ZINC_INGOT, new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT, new ItemStack(Material.GLASS), SlimefunItems.HEATING_COIL, new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT, new ItemStack(Material.GLASS), SlimefunItems.ZINC_INGOT}, 
@@ -2592,44 +2213,18 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new FoodFabricator(categories.electricity, SlimefunItems.FOOD_FABRICATOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.BILLON_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.TIN_CAN, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.TIN_CAN, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 7;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.BILLON_INGOT, SlimefunItems.SILVER_INGOT, SlimefunItems.BILLON_INGOT, SlimefunItems.TIN_CAN, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.TIN_CAN, null, SlimefunItems.ELECTRIC_MOTOR, null})
+        .setCapacity(256)
+        .setEnergyConsumption(7)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new FoodFabricator(categories.electricity, SlimefunItems.FOOD_FABRICATOR_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.ELECTRO_MAGNET, null}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 24;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 6;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.ELECTRO_MAGNET, null})
+        .setCapacity(512)
+        .setEnergyConsumption(24)
+        .setProcessingSpeed(6)
+        .register(plugin);
 
         new OrganicFood(categories.misc, SlimefunItems.WHEAT_ORGANIC_FOOD, Material.WHEAT)
         .register(plugin);
@@ -2678,44 +2273,18 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new FoodComposter(categories.electricity, SlimefunItems.FOOD_COMPOSTER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.TIN_CAN, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.TIN_CAN, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 8;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.TIN_CAN, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.TIN_CAN, null, SlimefunItems.ELECTRIC_MOTOR, null})
+        .setCapacity(256)
+        .setEnergyConsumption(8)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new FoodComposter(categories.electricity, SlimefunItems.FOOD_COMPOSTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.ELECTRO_MAGNET, null}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 26;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 10;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HARDENED_METAL_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.FOOD_COMPOSTER, SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.ELECTRO_MAGNET, null})
+        .setCapacity(512)
+        .setEnergyConsumption(26)
+        .setProcessingSpeed(10)
+        .register(plugin);
 
         new OrganicFertilizer(categories.misc, SlimefunItems.WHEAT_FERTILIZER, SlimefunItems.WHEAT_ORGANIC_FOOD)
         .register(plugin);
@@ -2788,34 +2357,18 @@ public final class SlimefunItemSetup {
         }.register(plugin);
 
         new Freezer(categories.electricity, SlimefunItems.FREEZER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.SILVER_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PACKED_ICE), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COOLING_UNIT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.COOLING_UNIT}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 9;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.SILVER_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.PACKED_ICE), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.COOLING_UNIT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.COOLING_UNIT})
+        .setCapacity(256)
+        .setEnergyConsumption(9)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new Freezer(categories.electricity, SlimefunItems.FREEZER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, SlimefunItems.SILVER_INGOT, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.FREEZER, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COOLING_UNIT, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.COOLING_UNIT}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 15;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 2;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {null, SlimefunItems.SILVER_INGOT, null, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.FREEZER, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.COOLING_UNIT, SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.COOLING_UNIT})
+        .setCapacity(256)
+        .setEnergyConsumption(15)
+        .setProcessingSpeed(2)
+        .register(plugin);
 
         new CoolantCell(categories.technicalComponents, SlimefunItems.REACTOR_COOLANT_CELL, RecipeType.FREEZER,
         new ItemStack[] {new ItemStack(Material.BLUE_ICE), null, null, null, null, null, null, null, null})
@@ -2924,104 +2477,39 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new CarbonPress(categories.electricity, SlimefunItems.CARBON_PRESS, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.HEATED_PRESSURE_CHAMBER, SlimefunItems.CARBON, SlimefunItems.HEATING_COIL, SlimefunItems.CARBONADO, SlimefunItems.HEATING_COIL}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 10;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 256;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.CARBON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBON, SlimefunItems.CARBON, SlimefunItems.HEATED_PRESSURE_CHAMBER, SlimefunItems.CARBON, SlimefunItems.HEATING_COIL, SlimefunItems.CARBONADO, SlimefunItems.HEATING_COIL})
+        .setCapacity(256)
+        .setEnergyConsumption(10)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new CarbonPress(categories.electricity, SlimefunItems.CARBON_PRESS_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.CARBON, SlimefunItems.CARBON_PRESS, SlimefunItems.CARBON, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.HEATING_COIL}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 25;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 3;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.CARBON, SlimefunItems.CARBON_PRESS, SlimefunItems.CARBON, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.HEATING_COIL})
+        .setCapacity(512)
+        .setEnergyConsumption(25)
+        .setProcessingSpeed(3)
+        .register(plugin);
 
         new CarbonPress(categories.electricity, SlimefunItems.CARBON_PRESS_3, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBON_PRESS_2, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.HEATING_COIL}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 90;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 15;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.CARBONADO, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBON_PRESS_2, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRO_MAGNET, SlimefunItems.HEATING_COIL})
+        .setCapacity(512)
+        .setEnergyConsumption(90)
+        .setProcessingSpeed(15)
+        .register(plugin);
 
         new ElectricSmeltery(categories.electricity, SlimefunItems.ELECTRIC_SMELTERY, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {new ItemStack(Material.NETHER_BRICKS), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.NETHER_BRICKS), SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_INGOT_FACTORY, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON}) {
-
-            @Override
-            public int getEnergyConsumption() {
-                return 10;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 512;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 1;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {new ItemStack(Material.NETHER_BRICKS), SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.NETHER_BRICKS), SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_INGOT_FACTORY, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON})
+        .setCapacity(512)
+        .setEnergyConsumption(10)
+        .setProcessingSpeed(1)
+        .register(plugin);
 
         new ElectricSmeltery(categories.electricity, SlimefunItems.ELECTRIC_SMELTERY_2, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_SMELTERY, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON}) {
-            
-            @Override
-            public int getEnergyConsumption() {
-                return 20;
-            }
-
-            @Override
-            public int getCapacity() {
-                return 1024;
-            }
-
-            @Override
-            public int getSpeed() {
-                return 3;
-            }
-
-        }.register(plugin);
+        new ItemStack[] {SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.DAMASCUS_STEEL_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.ELECTRIC_SMELTERY, SlimefunItems.HEATING_COIL, SlimefunItems.GILDED_IRON, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.GILDED_IRON})
+        .setCapacity(1024)
+        .setEnergyConsumption(20)
+        .setProcessingSpeed(3)
+        .register(plugin);
 
         new IronGolemAssembler(categories.electricity, SlimefunItems.IRON_GOLEM_ASSEMBLER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.ADVANCED_CIRCUIT_BOARD, SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.IRON_BLOCK), SlimefunItems.ANDROID_MEMORY_CORE, new ItemStack(Material.IRON_BLOCK), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.CARBONADO_EDGED_CAPACITOR})
