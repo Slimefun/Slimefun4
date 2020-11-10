@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
 
@@ -23,6 +24,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListe
  *
  */
 public class BeeWingsTask extends PlayerTask {
+    
+    private static final int MIN_ALTITUDE = 4;
 
     private Location lastLocation;
 
@@ -38,7 +41,7 @@ public class BeeWingsTask extends PlayerTask {
             int distanceToHighestBlock = (loc.getBlockY() - loc.getWorld().getHighestBlockYAt(loc, HeightMap.WORLD_SURFACE));
 
             /*
-             * getDistanceToGround will only fire when playerDistanceToHighestBlock is negative
+             * getDistanceToGround will only fire when distanceToHighestBlock is negative
              * (which happens when a player flies beneath an existing structure)
              */
             if (distanceToHighestBlock < 0) {
@@ -49,7 +52,7 @@ public class BeeWingsTask extends PlayerTask {
                 }
 
                 slowDown();
-            } else if (distanceToHighestBlock <= 6) {
+            } else if (distanceToHighestBlock <= MIN_ALTITUDE) {
                 slowDown();
             }
         }
@@ -58,8 +61,11 @@ public class BeeWingsTask extends PlayerTask {
     }
 
     private void slowDown() {
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0));
+        SlimefunPlugin.getLocalization().sendMessage(p, "messages.bee-suit-slow-fall");
+        
         p.setGliding(false);
+        p.setFallDistance(0);
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 50, 0));
     }
 
     /**
