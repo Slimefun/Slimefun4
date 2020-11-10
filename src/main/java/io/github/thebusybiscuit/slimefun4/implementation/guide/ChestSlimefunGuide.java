@@ -479,16 +479,8 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        Optional<String> wiki = item.getWikipage();
 
-        if (wiki.isPresent()) {
-            menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
-            menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, wiki.get());
-                return false;
-            });
-        }
+        addWiki(item, menu, p);
 
         RecipeChoiceTask task = new RecipeChoiceTask();
 
@@ -510,6 +502,19 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         if (!task.isEmpty()) {
             task.start(menu.toInventory());
+        }
+    }
+
+    private void addWiki(SlimefunItem item, ChestMenu menu, Player p) {
+        Optional<String> wiki = item.getWikipage();
+
+        if (wiki.isPresent()) {
+            menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, ChatColor.WHITE + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "guide.tooltips.open-category")));
+            menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
+                pl.closeInventory();
+                ChatUtils.sendURL(pl, wiki.get());
+                return false;
+            });
         }
     }
 
@@ -548,7 +553,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             }
         }
 
-        menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
+        menu.addItem(10, recipeType.getItem(p), clickHandler);
 
         MenuClickHandler handler;
 
@@ -568,9 +573,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     @Override
     public void displayRecipeUses(@Nonnull PlayerProfile profile, @Nonnull SlimefunItemRecipeUse recipeUse, boolean addToHistory) {
-        SlimefunItem item = recipeUse.getItem();
+        Player p = profile.getPlayer();
 
-        if (profile.getGuideHistory().containsRecipeUses(item)) {
+        if (p == null) {
             return;
         }
 
@@ -578,6 +583,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         //no uses
         if (uses.size() == 0) {
+            return;
+        }
+
+        SlimefunItem item = recipeUse.getItem();
+
+        if (profile.getGuideHistory().containsRecipeUses(item)) {
             return;
         }
 
@@ -589,16 +600,10 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        Player p = profile.getPlayer();
-
-        if (p == null) {
-            return;
-        }
-
         //only keeps 1 page in history
         if (addToHistory) {
             Object last = profile.getGuideHistory().getLastObject();
-            if ((last instanceof SlimefunItemRecipeUse && ((SlimefunItemRecipeUse) last).getItem() == item)) {
+            if (last instanceof SlimefunItemRecipeUse && ((SlimefunItemRecipeUse) last).getItem() == item) {
                 profile.getGuideHistory().replaceLastEntry(recipeUse);
             } else {
                 profile.getGuideHistory().add(recipeUse);
@@ -609,18 +614,16 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         int displayItemSpot = uses.get(page).getSecondValue();
         boolean useRecipeDisplayItems = displayItemSpot >= 0;
 
-        ChestMenu menu = new ChestMenu("Uses of " + item.getItemName());
+        ChestMenu menu = new ChestMenu(ChatColor.stripColor(item.getItemName()) + "Uses");
+
+        addWiki(item, menu, p);
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), sound, 1, 1));
 
-        for (int i = 1; i < 9; i++) {
-            menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-        }
-
         addBackButton(menu, 0, p, profile);
 
-        MenuClickHandler clickHandler = (pl, slot, itemStack, action) -> {
+        MenuClickHandler normalClickHandler = (pl, slot, itemStack, action) -> {
             try {
                 if (action.isRightClicked()) {
                     SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
@@ -636,46 +639,56 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         };
 
+        MenuClickHandler usesOnlyClickHandler = (player, i, itemStack, clickAction) -> {
+            if (clickAction.isRightClicked()) {
+                SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+                if (sfItem != null && sfItem != item) {
+                    displayRecipeUses(profile, new SlimefunItemRecipeUse(sfItem, 0), true);
+                }
+            }
+            return false;
+        };
+
         if (useRecipeDisplayItems && use instanceof RecipeDisplayItem) { //RecipeDisplayItem recipe
             List<ItemStack> displayRecipes = ((RecipeDisplayItem) use).getDisplayRecipes();
 
-            menu.addItem(19, use.getItem(), clickHandler);
-            menu.addItem(22, displayRecipes.get(displayItemSpot), ChestMenuUtils.getEmptyClickHandler());
-            menu.addItem(25, displayRecipes.get(displayItemSpot + 1), clickHandler);
+            menu.addItem(10, use.getItem(), normalClickHandler);
+            menu.addItem(13, displayRecipes.get(displayItemSpot), normalClickHandler);
+            menu.addItem(16, displayRecipes.get(displayItemSpot + 1), normalClickHandler);
 
         } else { //normal sf recipe
 
             for (int i = 0; i < 9; i++) {
-                menu.addItem(recipeSlots[i] + 9, use.getRecipe()[i], clickHandler);
+                menu.addItem(recipeSlots[i], use.getRecipe()[i], normalClickHandler);
 
                 if (use instanceof MultiBlockMachine) {
                     RecipeChoiceTask task = new RecipeChoiceTask();
 
                     for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
                         if (tag.isTagged(use.getRecipe()[i].getType())) {
-                            task.add(recipeSlots[i] + 9, tag);
+                            task.add(recipeSlots[i], tag);
                             break;
                         }
                     }
                 }
             }
 
-            menu.addItem(19, use.getRecipeType().getItem(p), ChestMenuUtils.getEmptyClickHandler());
-            menu.addItem(25, use.getRecipeOutput(), clickHandler);
+            menu.addItem(10, use.getRecipeType().getItem(p), normalClickHandler);
+            menu.addItem(16, use.getRecipeOutput(), usesOnlyClickHandler);
         }
 
-        for (int i = 36; i < 45; i++) {
+        for (int i = 27; i < 36; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(37, ChestMenuUtils.getPreviousButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
+        menu.addItem(28, ChestMenuUtils.getPreviousButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
             if (page > 0) {
                 displayRecipeUses(profile, new SlimefunItemRecipeUse(item, page - 1), true);
             }
             return false;
         });
 
-        menu.addItem(43, ChestMenuUtils.getNextButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
+        menu.addItem(34, ChestMenuUtils.getNextButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
             if (page < uses.size() - 1) {
                 displayRecipeUses(profile, new SlimefunItemRecipeUse(item, page + 1), true);
             }

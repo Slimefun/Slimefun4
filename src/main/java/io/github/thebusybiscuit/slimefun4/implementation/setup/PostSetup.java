@@ -268,12 +268,15 @@ public final class PostSetup {
     }
 
     private static void loadRecipeUses() {
+        Slimefun.getLogger().log(Level.INFO, "Loading item usages...");
+
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             List<Pair<SlimefunItem, Integer>> uses = new ArrayList<>();
 
             //add the items uses in other recipes
             for (SlimefunItem checkingItem : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
-                if (ArrayUtils.contains(checkingItem.getRecipe(), item.getItem())) {
+                //add normal recipe usage and RecipeType usage
+                if (ArrayUtils.contains(checkingItem.getRecipe(), item.getItem()) || checkingItem.getRecipeType().getMachine() == item) {
                     uses.add(new Pair<>(checkingItem, -1)); //-1 means not a recipeDisplayItem
                 }
 
@@ -281,7 +284,7 @@ public final class PostSetup {
                 if (checkingItem instanceof RecipeDisplayItem) {
                     List<ItemStack> displayRecipes = ((RecipeDisplayItem) checkingItem).getDisplayRecipes();
 
-                    for (ItemStack display : displayRecipes) { //checks for duplicate display item/normal recipes
+                    for (ItemStack display : displayRecipes) {
                         if (item.getItem() == display) {
 
                             int index = displayRecipes.indexOf(item.getItem());

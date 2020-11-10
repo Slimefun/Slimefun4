@@ -1,7 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
@@ -177,31 +179,18 @@ public class GuideHistory {
     }
 
     /**
-     * This method checks if a {@link Player}s history contains a certain {@link SlimefunItem}
+     * This method checks if a {@link Player}s history contains a certain {@link SlimefunItemRecipeUse} regardless of page, excluding the last
      *
-     * @param item {@link SlimefunItem} to check for
-     * @return whether the history contains that {@link SlimefunItem}
-     */
-    public boolean containsSlimefunItem(SlimefunItem item) {
-        for (GuideEntry<?> entry : queue) {
-            if (Objects.equals(entry.getIndexedObject(), item)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * This method checks if a {@link Player}s history contains a certain {@link SlimefunItem}'s recipe uses
-     *
-     * @param item {@link SlimefunItem} recipe uses to check for
-     * @return whether the history contains that {@link SlimefunItem}'s recipe uses
+     * @param item {@link SlimefunItem} recipe use item to check for
+     * @return whether the history contains that {@link SlimefunItemRecipeUse}
      */
     public boolean containsRecipeUses(SlimefunItem item) {
+        int spot = 0;
         for (GuideEntry<?> entry : queue) {
-            if (entry.getIndexedObject() instanceof SlimefunItemRecipeUse && ((SlimefunItemRecipeUse) entry.getIndexedObject()).getItem().equals(item)) {
+            if (spot < queue.size() - 1 && entry.getIndexedObject() instanceof SlimefunItemRecipeUse && ((SlimefunItemRecipeUse) entry.getIndexedObject()).getItem().equals(item)) {
                 return true;
             }
+             spot++;
         }
         return false;
     }
