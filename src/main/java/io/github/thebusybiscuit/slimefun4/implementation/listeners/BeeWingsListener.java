@@ -21,6 +21,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author Linox
  * @author TheBusyBiscuit
  * 
+ * @see BeeWings
+ * @see BeeWingsTask
+ * 
  */
 public class BeeWingsListener implements Listener {
 
@@ -42,7 +45,7 @@ public class BeeWingsListener implements Listener {
         ItemStack chestplate = player.getInventory().getChestplate();
 
         if (wings.isItem(chestplate) && Slimefun.hasUnlocked(player, chestplate, true)) {
-            new BeeWingsTask(player).scheduleRepeating(4, 1);
+            new BeeWingsTask(player).scheduleRepeating(3, 1);
         }
     }
 }

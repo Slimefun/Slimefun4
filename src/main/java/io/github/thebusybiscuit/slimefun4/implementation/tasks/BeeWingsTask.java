@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListe
 /**
  * This {@link PlayerTask} is responsible for the repeating checks for our {@link BeeWings}.
  * 
+ * @author beSnow
  * @author TheBusyBiscuit
  * 
  * @see BeeWings
@@ -24,7 +25,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListe
  *
  */
 public class BeeWingsTask extends PlayerTask {
-    
+
     private static final int MIN_ALTITUDE = 4;
 
     private Location lastLocation;
@@ -62,10 +63,9 @@ public class BeeWingsTask extends PlayerTask {
 
     private void slowDown() {
         SlimefunPlugin.getLocalization().sendMessage(p, "messages.bee-suit-slow-fall");
-        
-        p.setGliding(false);
+
         p.setFallDistance(0);
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 50, 0));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 60, 0));
     }
 
     /**
