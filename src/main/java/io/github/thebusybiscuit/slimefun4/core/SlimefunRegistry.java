@@ -15,7 +15,6 @@ import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.collections.Pair;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
@@ -114,7 +113,7 @@ public final class SlimefunRegistry {
      * Auto-Loading will automatically call {@link SlimefunItem#load()} when the item is registered.
      * Normally that method is called after the {@link Server} finished starting up.
      * But in the unusual scenario if a {@link SlimefunItem} is registered after that, this is gonna cover that.
-     *
+     * 
      * @return Whether auto-loading is enabled
      */
     public boolean isAutoLoadingEnabled() {
