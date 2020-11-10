@@ -13,6 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 
+import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
@@ -53,6 +55,8 @@ public final class SlimefunRegistry {
     private final Map<String, SlimefunItem> slimefunIds = new HashMap<>();
     private final List<SlimefunItem> slimefunItems = new ArrayList<>();
     private final List<SlimefunItem> enabledItems = new ArrayList<>();
+
+    private Map<SlimefunItem, List<SlimefunItem>> slimefunItemUses = null;
 
     private final List<Category> categories = new ArrayList<>();
     private final List<MultiBlock> multiblocks = new LinkedList<>();
@@ -102,6 +106,24 @@ public final class SlimefunRegistry {
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
+    }
+
+    public void loadRecipeUses() {
+        Map<SlimefunItem, List<SlimefunItem>> recipeUses = new HashMap<>();
+
+        for (SlimefunItem item : enabledItems) {
+            List<SlimefunItem> uses = new ArrayList<>();
+
+            for (SlimefunItem checkingItem : enabledItems) {
+                if (ArrayUtils.contains(checkingItem.getRecipe(), item.getItem())) {
+                    uses.add(checkingItem);
+                }
+
+                //add display item stuff
+            }
+
+            recipeUses.put(item, uses);
+        }
     }
 
     /**
@@ -155,6 +177,15 @@ public final class SlimefunRegistry {
      */
     public List<SlimefunItem> getEnabledSlimefunItems() {
         return enabledItems;
+    }
+
+    /**
+     * This {@link Map} contains the recipe uses for each {@link SlimefunItem} in other {@link SlimefunItem}s
+     *
+     * @return A {@link Map} containing the recipe uses for each {@link SlimefunItem} in other {@link SlimefunItem}s
+     */
+    public Map<SlimefunItem, List<SlimefunItem>> getSlimefunItemUses() {
+        return slimefunItemUses;
     }
 
     public List<Research> getResearches() {

@@ -87,6 +87,17 @@ public class GuideHistory {
     }
 
     /**
+     * This method stores the given {@link SlimefunItemRecipeUses} in this {@link GuideHistory}.
+     *
+     * @param item
+     *            The {@link SlimefunItemRecipeUses} that should be added to this {@link GuideHistory}
+     */
+    public void add(@Nonnull SlimefunItemRecipeUses item) {
+        Validate.notNull(item, "Cannot add a non-existing SlimefunItemRecipeUses to the GuideHistory!");
+        queue.add(new GuideEntry<>(item, 0));
+    }
+
+    /**
      * This method stores the given search term in this {@link GuideHistory}.
      * 
      * @param searchTerm
@@ -168,6 +179,8 @@ public class GuideHistory {
             guide.openMainMenu(profile, 1);
         } else if (entry.getIndexedObject() instanceof Category) {
             guide.openCategory(profile, (Category) entry.getIndexedObject(), entry.getPage());
+        } else if (entry.getIndexedObject() instanceof SlimefunItemRecipeUses) {
+            guide.displayRecipeUses(profile, (SlimefunItemRecipeUses) entry.getIndexedObject(), false);
         } else if (entry.getIndexedObject() instanceof SlimefunItem) {
             guide.displayItem(profile, (SlimefunItem) entry.getIndexedObject(), false);
         } else if (entry.getIndexedObject() instanceof ItemStack) {

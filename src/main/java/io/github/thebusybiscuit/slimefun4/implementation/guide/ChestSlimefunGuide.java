@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunItemRecipeUses;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -514,7 +515,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
             try {
-                if (itemstack != null && itemstack.getType() != Material.BARRIER) {
+                if (action.isRightClicked()) {
+                    SlimefunItem sfItem = SlimefunItem.getByItem(itemstack);
+                    if (sfItem != null) {
+                        displayRecipeUses(profile, new SlimefunItemRecipeUses(sfItem, 0), true);
+                    }
+                } else if (itemstack != null && itemstack.getType() != Material.BARRIER) {
                     displayItem(profile, itemstack, 0, true);
                 }
             } catch (Exception | LinkageError x) {
@@ -541,6 +547,56 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
         menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
+    }
+
+    @Override
+    public void displayRecipeUses(PlayerProfile profile, SlimefunItemRecipeUses itemUses, boolean addToHistory) {
+        Player p = profile.getPlayer();
+
+        if (p == null) {
+            return;
+        }
+
+        SlimefunItem item = itemUses.getItem();
+        int page = itemUses.getPage();
+        List<SlimefunItem> uses = itemUses.getUses();
+
+        //check for out of bounds
+        if (page >= uses.size()) {
+            displayRecipeUses(profile, new SlimefunItemRecipeUses(item, 0), true);
+            return;
+        }
+
+        if (addToHistory) {
+            profile.getGuideHistory().add(itemUses);
+        }
+
+        ChestMenu menu = new ChestMenu("Uses of " + item.getItemName());
+
+        menu.setEmptySlotsClickable(false);
+        menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), sound, 1, 1));
+
+        displayItem(menu, profile, p, item, item.getRecipeOutput(), item.getRecipeType(), item.getRecipe(), new RecipeChoiceTask());
+
+        for (int i = 36; i < 45; i++) {
+            menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+        }
+
+        menu.addItem(37, ChestMenuUtils.getPreviousButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
+            if (page > 0) {
+                displayRecipeUses(profile, new SlimefunItemRecipeUses(item, page - 1), true);
+            }
+            return false;
+        });
+
+        menu.addItem(44, ChestMenuUtils.getPreviousButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
+            if (page < uses.size() - 1) {
+                displayRecipeUses(profile, new SlimefunItemRecipeUses(item, page + 1), true);
+            }
+            return false;
+        });
+
+        menu.open(p);
     }
 
     protected void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {

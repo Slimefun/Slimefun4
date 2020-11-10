@@ -103,6 +103,10 @@ public final class SlimefunGuide {
         SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
     }
 
+    public static void displayItemRecipeUses(PlayerProfile profile, SlimefunItemRecipeUses itemUses, boolean addToHistory) {
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayRecipeUses(profile, itemUses, addToHistory);
+    }
+
     public static boolean isGuideItem(ItemStack item) {
         return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.BOOK), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
     }
