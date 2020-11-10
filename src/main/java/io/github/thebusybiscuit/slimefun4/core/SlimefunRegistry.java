@@ -13,7 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.collections.Pair;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
@@ -46,7 +47,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 /**
  * This class houses a lot of instances of {@link Map} and {@link List} that hold
  * various mappings and collections related to {@link SlimefunItem}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -56,7 +57,7 @@ public final class SlimefunRegistry {
     private final List<SlimefunItem> slimefunItems = new ArrayList<>();
     private final List<SlimefunItem> enabledItems = new ArrayList<>();
 
-    private Map<SlimefunItem, List<SlimefunItem>> slimefunItemUses = null;
+    private Map<SlimefunItem, List<Pair<SlimefunItem, Integer>>> slimefunItemUses = null;
 
     private final List<Category> categories = new ArrayList<>();
     private final List<MultiBlock> multiblocks = new LinkedList<>();
@@ -109,21 +110,35 @@ public final class SlimefunRegistry {
     }
 
     public void loadRecipeUses() {
-        Map<SlimefunItem, List<SlimefunItem>> recipeUses = new HashMap<>();
+        Map<SlimefunItem, List<Pair<SlimefunItem, Integer>>> recipeUses = new HashMap<>();
 
         for (SlimefunItem item : enabledItems) {
-            List<SlimefunItem> uses = new ArrayList<>();
+            List<Pair<SlimefunItem, Integer>> uses = new ArrayList<>();
 
             for (SlimefunItem checkingItem : enabledItems) {
                 if (ArrayUtils.contains(checkingItem.getRecipe(), item.getItem())) {
-                    uses.add(checkingItem);
+                    uses.add(new Pair<>(checkingItem, -1));
                 }
 
-                //add display item stuff
+                if (checkingItem instanceof RecipeDisplayItem) {
+                   List<ItemStack> displayRecipes = ((RecipeDisplayItem) checkingItem).getDisplayRecipes();
+
+                    for (ItemStack display : displayRecipes) { //checks for duplicate display item/normal recipes
+                        if (item.getItem() == display) {
+
+                            int index = displayRecipes.indexOf(item.getItem());
+                            if (index % 2 == 0 && displayRecipes.size() > index + 1) {
+                               uses.add(new Pair<>(checkingItem, displayRecipes.indexOf(item.getItem())));
+                            }
+                        }
+                    }
+                }
             }
 
             recipeUses.put(item, uses);
         }
+
+        slimefunItemUses = recipeUses;
     }
 
     /**
@@ -131,7 +146,7 @@ public final class SlimefunRegistry {
      * Auto-Loading will automatically call {@link SlimefunItem#load()} when the item is registered.
      * Normally that method is called after the {@link Server} finished starting up.
      * But in the unusual scenario if a {@link SlimefunItem} is registered after that, this is gonna cover that.
-     * 
+     *
      * @return Whether auto-loading is enabled
      */
     public boolean isAutoLoadingEnabled() {
@@ -142,7 +157,7 @@ public final class SlimefunRegistry {
      * This method returns whether backwards-compatibility is enabled.
      * Backwards compatibility allows Slimefun to recognize items from older versions but comes
      * at a huge performance cost.
-     * 
+     *
      * @return Whether backwards compatibility is enabled
      */
     public boolean isBackwardsCompatible() {
@@ -163,7 +178,7 @@ public final class SlimefunRegistry {
 
     /**
      * This {@link List} contains every {@link SlimefunItem}, even disabled items.
-     * 
+     *
      * @return A {@link List} containing every {@link SlimefunItem}
      */
     public List<SlimefunItem> getAllSlimefunItems() {
@@ -172,7 +187,7 @@ public final class SlimefunRegistry {
 
     /**
      * This {@link List} contains every <strong>enabled</strong> {@link SlimefunItem}.
-     * 
+     *
      * @return A {@link List} containing every enabled {@link SlimefunItem}
      */
     public List<SlimefunItem> getEnabledSlimefunItems() {
@@ -181,10 +196,12 @@ public final class SlimefunRegistry {
 
     /**
      * This {@link Map} contains the recipe uses for each {@link SlimefunItem} in other {@link SlimefunItem}s
+     * The boolean part of the pair represents whether the {@link SlimefunItem} is part of the main recipe
+     * or the {@link RecipeDisplayItem} slots
      *
      * @return A {@link Map} containing the recipe uses for each {@link SlimefunItem} in other {@link SlimefunItem}s
      */
-    public Map<SlimefunItem, List<SlimefunItem>> getSlimefunItemUses() {
+    public Map<SlimefunItem, List<Pair<SlimefunItem, Integer>>> getSlimefunItemUses() {
         return slimefunItemUses;
     }
 
@@ -231,7 +248,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Map} connecting the {@link EntityType} with a {@link Set}
      * of {@link ItemStack ItemStacks} which would be dropped when an {@link Entity} of that type was killed.
-     * 
+     *
      * @return The {@link Map} of custom mob drops
      */
     public Map<EntityType, Set<ItemStack>> getMobDrops() {
@@ -241,7 +258,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Set} of {@link ItemStack ItemStacks} which can be obtained by bartering
      * with {@link Piglin Piglins}.
-     * 
+     *
      * @return A {@link Set} of bartering drops
      */
     public Set<ItemStack> getBarteringDrops() {
@@ -294,9 +311,9 @@ public final class SlimefunRegistry {
 
     /**
      * This method returns a list of recipes for the {@link AutomatedCraftingChamber}
-     * 
+     *
      * @deprecated This just a really bad way to do this. Someone needs to rewrite this.
-     * 
+     *
      * @return A list of recipes for the {@link AutomatedCraftingChamber}
      */
     @Deprecated

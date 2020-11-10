@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.collections.Pair;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 import java.util.List;
@@ -13,14 +14,15 @@ public class SlimefunItemRecipeUses {
 
     private final SlimefunItem item;
     private final int page;
-    private final List<SlimefunItem> uses;
+    private final List<Pair<SlimefunItem, Integer>> uses;
 
     public SlimefunItemRecipeUses(SlimefunItem item, int page) {
         this.item = item;
         this.page = page;
 
+        //first time a player uses this it loads all recipe uses
         if (SlimefunPlugin.getRegistry().getSlimefunItemUses() == null) {
-            SlimefunPlugin.getRegistry().loadRecipeUses();
+            SlimefunPlugin.getRegistry().loadRecipeUses(); //move this to first time opening guide
         }
 
         this.uses = SlimefunPlugin.getRegistry().getSlimefunItemUses().get(item);
@@ -34,7 +36,7 @@ public class SlimefunItemRecipeUses {
         return this.page;
     }
 
-    public List<SlimefunItem> getUses() {
+    public List<Pair<SlimefunItem, Integer>> getUses() {
         return this.uses;
     }
 }

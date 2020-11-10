@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunItemRecipeUses;
+import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.collections.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -284,7 +285,9 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, sfitem.getItem());
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 try {
-                    if (isSurvivalMode()) {
+                    if (action.isRightClicked()) {
+                        displayRecipeUses(profile, new SlimefunItemRecipeUses(sfitem, 0), true);
+                    } else if (isSurvivalMode()) {
                         displayItem(profile, sfitem, true);
                     } else {
                         if (sfitem instanceof MultiBlockMachine) {
@@ -546,11 +549,25 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
-        menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
+
+        MenuClickHandler handler;
+
+        if (item instanceof SlimefunItem) {
+            handler = (player, i, itemStack, clickAction) -> {
+                if (clickAction.isRightClicked()) {
+                    displayRecipeUses(profile, new SlimefunItemRecipeUses((SlimefunItem) item, 0), true);
+                }
+                return false;
+            };
+        } else {
+            handler = ChestMenuUtils.getEmptyClickHandler();
+        }
+
+        menu.addItem(16, output, handler);
     }
 
     @Override
-    public void displayRecipeUses(PlayerProfile profile, SlimefunItemRecipeUses itemUses, boolean addToHistory) {
+    public void displayRecipeUses(@Nonnull PlayerProfile profile, @Nonnull SlimefunItemRecipeUses itemUses, boolean addToHistory) {
         Player p = profile.getPlayer();
 
         if (p == null) {
@@ -559,7 +576,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         SlimefunItem item = itemUses.getItem();
         int page = itemUses.getPage();
-        List<SlimefunItem> uses = itemUses.getUses();
+        List<Pair<SlimefunItem, Integer>> uses = itemUses.getUses();
+
+        //no uses
+        if (uses.size() == 0) {
+            return;
+        }
 
         //check for out of bounds
         if (page >= uses.size()) {
@@ -567,16 +589,74 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
+        //only keeps 1 page in history
         if (addToHistory) {
-            profile.getGuideHistory().add(itemUses);
+            Object last = profile.getGuideHistory().getLastObject();
+            if ((last instanceof SlimefunItemRecipeUses && ((SlimefunItemRecipeUses) last).getItem() == item)) {
+                profile.getGuideHistory().replaceLastEntry(itemUses);
+            } else {
+                profile.getGuideHistory().add(itemUses);
+            }
         }
+
+        SlimefunItem use = uses.get(page).getFirstValue();
+        int displayItemSpot = uses.get(page).getSecondValue();
+        boolean useRecipeDisplayItems = displayItemSpot >= 0;
 
         ChestMenu menu = new ChestMenu("Uses of " + item.getItemName());
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), sound, 1, 1));
 
-        displayItem(menu, profile, p, item, item.getRecipeOutput(), item.getRecipeType(), item.getRecipe(), new RecipeChoiceTask());
+        for (int i = 1; i < 9; i++) {
+            menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+        }
+
+        addBackButton(menu, 0, p, profile);
+
+        MenuClickHandler clickHandler = (pl, slot, itemStack, action) -> {
+            try {
+                if (action.isRightClicked()) {
+                    SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
+                    if (sfItem != null && sfItem != item) {
+                        displayRecipeUses(profile, new SlimefunItemRecipeUses(sfItem, 0), true);
+                    }
+                } else if (itemStack != null && itemStack.getType() != Material.BARRIER) {
+                    displayItem(profile, itemStack, 0, true);
+                }
+            } catch (Exception | LinkageError x) {
+                printErrorMessage(pl, x);
+            }
+            return false;
+        };
+
+        if (useRecipeDisplayItems && use instanceof RecipeDisplayItem) { //RecipeDisplayItem recipe
+            List<ItemStack> displayRecipes = ((RecipeDisplayItem) use).getDisplayRecipes();
+
+            menu.addItem(19, use.getItem(), ChestMenuUtils.getEmptyClickHandler());
+            menu.addItem(22, displayRecipes.get(displayItemSpot), clickHandler);
+            menu.addItem(25, displayRecipes.get(displayItemSpot + 1), ChestMenuUtils.getEmptyClickHandler());
+
+        } else { //normal sf recipe
+
+            for (int i = 0; i < 9; i++) {
+                menu.addItem(recipeSlots[i] + 9, use.getRecipe()[i], clickHandler);
+
+                if (use instanceof MultiBlockMachine) {
+                    RecipeChoiceTask task = new RecipeChoiceTask();
+
+                    for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
+                        if (tag.isTagged(use.getRecipe()[i].getType())) {
+                            task.add(recipeSlots[i] + 9, tag);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            menu.addItem(19, use.getRecipeType().getItem(p), ChestMenuUtils.getEmptyClickHandler());
+            menu.addItem(25, use.getRecipeOutput(), ChestMenuUtils.getEmptyClickHandler());
+        }
 
         for (int i = 36; i < 45; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
@@ -589,7 +669,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         });
 
-        menu.addItem(44, ChestMenuUtils.getPreviousButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
+        menu.addItem(43, ChestMenuUtils.getNextButton(p, page + 1, uses.size()), (player, i, itemStack, clickAction) -> {
             if (page < uses.size() - 1) {
                 displayRecipeUses(profile, new SlimefunItemRecipeUses(item, page + 1), true);
             }

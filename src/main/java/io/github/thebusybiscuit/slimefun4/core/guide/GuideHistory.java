@@ -108,6 +108,20 @@ public class GuideHistory {
         queue.add(new GuideEntry<>(searchTerm, 0));
     }
 
+    /**
+     * This method replaces the last entry in this {@link GuideHistory}.
+     *
+     * @param item entry to add in place of old
+     */
+    public void replaceLastEntry(Object item) {
+        queue.removeLast();
+        if (item instanceof SlimefunItemRecipeUses) {
+            add((SlimefunItemRecipeUses) item);
+        } else if (item instanceof SlimefunItem) {
+            add((SlimefunItem) item);
+        }
+    }
+
     private <T> void refresh(@Nonnull T object, int page) {
         Validate.notNull(object, "Cannot add a null Entry to the GuideHistory!");
         Validate.isTrue(page >= 0, "page must not be negative!");
@@ -133,7 +147,7 @@ public class GuideHistory {
     /**
      * Retrieves the last page in the {@link SlimefunGuide} that was visited by a {@link Player}.
      * Optionally also rewinds the history back to that entry.
-     * 
+     *
      * @param remove
      *            Whether to remove the current entry so it moves back to the entry returned.
      * @return The last Guide Entry that was saved to the given Players guide history.
@@ -145,6 +159,20 @@ public class GuideHistory {
         }
 
         return queue.isEmpty() ? null : queue.getLast();
+    }
+
+    /**
+     * This method gets the last object in the {@link Player}s history.
+     *
+     * @return the last object in the {@link Player}s history.
+     */
+    @Nullable
+    public Object getLastObject() {
+        GuideEntry<?> lastEntry = getLastEntry(false);
+        if (lastEntry != null) {
+            return lastEntry.getIndexedObject();
+        }
+        return null;
     }
 
     /**
