@@ -103,7 +103,7 @@ public final class SlimefunGuide {
         SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
     }
 
-    public static void displayItemRecipeUses(PlayerProfile profile, SlimefunItemRecipeUses itemUses, boolean addToHistory) {
+    public static void displayItemRecipeUses(PlayerProfile profile, SlimefunItemRecipeUse itemUses, boolean addToHistory) {
         SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayRecipeUses(profile, itemUses, addToHistory);
     }
 

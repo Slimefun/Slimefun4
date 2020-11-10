@@ -66,7 +66,7 @@ public interface SlimefunGuideImplementation {
 
     void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory);
 
-    void displayRecipeUses(PlayerProfile profile, SlimefunItemRecipeUses itemUses, boolean addToHistory);
+    void displayRecipeUses(PlayerProfile profile, SlimefunItemRecipeUse itemUses, boolean addToHistory);
 
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         Research research = sfitem.getResearch();

@@ -57,7 +57,7 @@ public final class SlimefunRegistry {
     private final List<SlimefunItem> slimefunItems = new ArrayList<>();
     private final List<SlimefunItem> enabledItems = new ArrayList<>();
 
-    private Map<SlimefunItem, List<Pair<SlimefunItem, Integer>>> slimefunItemUses = null;
+    private final Map<SlimefunItem, List<Pair<SlimefunItem, Integer>>> slimefunItemUses = new HashMap<>();
 
     private final List<Category> categories = new ArrayList<>();
     private final List<MultiBlock> multiblocks = new LinkedList<>();
@@ -107,38 +107,6 @@ public final class SlimefunRegistry {
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
-    }
-
-    public void loadRecipeUses() {
-        Map<SlimefunItem, List<Pair<SlimefunItem, Integer>>> recipeUses = new HashMap<>();
-
-        for (SlimefunItem item : enabledItems) {
-            List<Pair<SlimefunItem, Integer>> uses = new ArrayList<>();
-
-            for (SlimefunItem checkingItem : enabledItems) {
-                if (ArrayUtils.contains(checkingItem.getRecipe(), item.getItem())) {
-                    uses.add(new Pair<>(checkingItem, -1));
-                }
-
-                if (checkingItem instanceof RecipeDisplayItem) {
-                   List<ItemStack> displayRecipes = ((RecipeDisplayItem) checkingItem).getDisplayRecipes();
-
-                    for (ItemStack display : displayRecipes) { //checks for duplicate display item/normal recipes
-                        if (item.getItem() == display) {
-
-                            int index = displayRecipes.indexOf(item.getItem());
-                            if (index % 2 == 0 && displayRecipes.size() > index + 1) {
-                               uses.add(new Pair<>(checkingItem, displayRecipes.indexOf(item.getItem())));
-                            }
-                        }
-                    }
-                }
-            }
-
-            recipeUses.put(item, uses);
-        }
-
-        slimefunItemUses = recipeUses;
     }
 
     /**

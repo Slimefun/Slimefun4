@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunItemRecipeUses;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunItemRecipeUse;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -256,7 +256,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void displayRecipeUses(PlayerProfile profile, SlimefunItemRecipeUses itemUses, boolean addToHistory) {
+    public void displayRecipeUses(PlayerProfile profile, SlimefunItemRecipeUse itemUses, boolean addToHistory) {
         SlimefunGuide.displayItemRecipeUses(profile, itemUses, addToHistory);
     }
 }

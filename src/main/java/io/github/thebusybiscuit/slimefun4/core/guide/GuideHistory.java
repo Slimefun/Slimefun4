@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -87,13 +88,13 @@ public class GuideHistory {
     }
 
     /**
-     * This method stores the given {@link SlimefunItemRecipeUses} in this {@link GuideHistory}.
+     * This method stores the given {@link SlimefunItemRecipeUse} in this {@link GuideHistory}.
      *
      * @param item
-     *            The {@link SlimefunItemRecipeUses} that should be added to this {@link GuideHistory}
+     *            The {@link SlimefunItemRecipeUse} that should be added to this {@link GuideHistory}
      */
-    public void add(@Nonnull SlimefunItemRecipeUses item) {
-        Validate.notNull(item, "Cannot add a non-existing SlimefunItemRecipeUses to the GuideHistory!");
+    public void add(@Nonnull SlimefunItemRecipeUse item) {
+        Validate.notNull(item, "Cannot add a non-existing SlimefunItemRecipeUse to the GuideHistory!");
         queue.add(new GuideEntry<>(item, 0));
     }
 
@@ -115,8 +116,8 @@ public class GuideHistory {
      */
     public void replaceLastEntry(Object item) {
         queue.removeLast();
-        if (item instanceof SlimefunItemRecipeUses) {
-            add((SlimefunItemRecipeUses) item);
+        if (item instanceof SlimefunItemRecipeUse) {
+            add((SlimefunItemRecipeUse) item);
         } else if (item instanceof SlimefunItem) {
             add((SlimefunItem) item);
         }
@@ -176,6 +177,36 @@ public class GuideHistory {
     }
 
     /**
+     * This method checks if a {@link Player}s history contains a certain {@link SlimefunItem}
+     *
+     * @param item {@link SlimefunItem} to check for
+     * @return whether the history contains that {@link SlimefunItem}
+     */
+    public boolean containsSlimefunItem(SlimefunItem item) {
+        for (GuideEntry<?> entry : queue) {
+            if (Objects.equals(entry.getIndexedObject(), item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method checks if a {@link Player}s history contains a certain {@link SlimefunItem}'s recipe uses
+     *
+     * @param item {@link SlimefunItem} recipe uses to check for
+     * @return whether the history contains that {@link SlimefunItem}'s recipe uses
+     */
+    public boolean containsRecipeUses(SlimefunItem item) {
+        for (GuideEntry<?> entry : queue) {
+            if (entry.getIndexedObject() instanceof SlimefunItemRecipeUse && ((SlimefunItemRecipeUse) entry.getIndexedObject()).getItem().equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * This method opens the last opened entry to the associated {@link PlayerProfile}
      * of this {@link GuideHistory}.
      * 
@@ -207,8 +238,8 @@ public class GuideHistory {
             guide.openMainMenu(profile, 1);
         } else if (entry.getIndexedObject() instanceof Category) {
             guide.openCategory(profile, (Category) entry.getIndexedObject(), entry.getPage());
-        } else if (entry.getIndexedObject() instanceof SlimefunItemRecipeUses) {
-            guide.displayRecipeUses(profile, (SlimefunItemRecipeUses) entry.getIndexedObject(), false);
+        } else if (entry.getIndexedObject() instanceof SlimefunItemRecipeUse) {
+            guide.displayRecipeUses(profile, (SlimefunItemRecipeUse) entry.getIndexedObject(), false);
         } else if (entry.getIndexedObject() instanceof SlimefunItem) {
             guide.displayItem(profile, (SlimefunItem) entry.getIndexedObject(), false);
         } else if (entry.getIndexedObject() instanceof ItemStack) {

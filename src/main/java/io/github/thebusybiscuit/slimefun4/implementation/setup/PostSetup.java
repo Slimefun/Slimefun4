@@ -16,6 +16,9 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.collections.Pair;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -82,6 +85,8 @@ public final class PostSetup {
         loadAutomaticCraftingChamber();
         loadOreGrinderRecipes();
         loadSmelteryRecipes();
+
+        loadRecipeUses();
 
         CommandSender sender = Bukkit.getConsoleSender();
 
@@ -259,6 +264,47 @@ public final class PostSetup {
                     container.registerRecipe(seconds, input, output);
                 }
             }
+        }
+    }
+
+    private static void loadRecipeUses() {
+        for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+            List<Pair<SlimefunItem, Integer>> uses = new ArrayList<>();
+
+            //add the items uses in other recipes
+            for (SlimefunItem checkingItem : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
+                if (ArrayUtils.contains(checkingItem.getRecipe(), item.getItem())) {
+                    uses.add(new Pair<>(checkingItem, -1)); //-1 means not a recipeDisplayItem
+                }
+
+                //add any uses within recipeDisplayItems
+                if (checkingItem instanceof RecipeDisplayItem) {
+                    List<ItemStack> displayRecipes = ((RecipeDisplayItem) checkingItem).getDisplayRecipes();
+
+                    for (ItemStack display : displayRecipes) { //checks for duplicate display item/normal recipes
+                        if (item.getItem() == display) {
+
+                            int index = displayRecipes.indexOf(item.getItem());
+                            if (index % 2 == 0 && displayRecipes.size() > index + 1) {
+                                uses.add(new Pair<>(checkingItem, displayRecipes.indexOf(item.getItem())));
+                            }
+                        }
+                    }
+                }
+            }
+
+            //add the item's display recipes
+            if (item instanceof RecipeDisplayItem) {
+                List<ItemStack> displayRecipes = ((RecipeDisplayItem) item).getDisplayRecipes();
+
+                for (int i = 0; i + 1 < displayRecipes.size() ; i+=2) {
+                    if (displayRecipes.get(i) != null && displayRecipes.get(i + 1) != null) {
+                        uses.add(new Pair<>(item, i));
+                    }
+                }
+            }
+
+            SlimefunPlugin.getRegistry().getSlimefunItemUses().put(item, uses);
         }
     }
 }
