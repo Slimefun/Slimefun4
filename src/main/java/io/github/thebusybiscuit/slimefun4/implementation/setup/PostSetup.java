@@ -284,8 +284,8 @@ public final class PostSetup {
                 if (checkingItem instanceof RecipeDisplayItem) {
                     List<ItemStack> displayRecipes = ((RecipeDisplayItem) checkingItem).getDisplayRecipes();
 
-                    for (int i = 0; i + 1 < displayRecipes.size() ; i+=2) {
-                        if (item.getItem() == displayRecipes.get(i)) {
+                    for (int i = 0; i < displayRecipes.size() ; i+=2) {
+                        if (item.equals(SlimefunItem.getByItem(displayRecipes.get(i)))) {
                             uses.add(new Pair<>(checkingItem, i));
                         }
                     }
@@ -302,7 +302,13 @@ public final class PostSetup {
                     continue;
                 }
                 
-                SlimefunItem slot = SlimefunItem.getByItem(((RecipeDisplayItem) use.getFirstValue()).getDisplayRecipes().get(use.getSecondValue() + 1));
+                List<ItemStack> displayRecipes = ((RecipeDisplayItem) use.getFirstValue()).getDisplayRecipes();
+                
+                if (use.getSecondValue() + 1 >= displayRecipes.size()) {
+                    continue;
+                }
+                
+                SlimefunItem slot = SlimefunItem.getByItem(displayRecipes.get(use.getSecondValue() + 1));
                 if (slot != null && uses.contains(new Pair<>(slot, -1))) {
                     iterator.remove();
                 }
