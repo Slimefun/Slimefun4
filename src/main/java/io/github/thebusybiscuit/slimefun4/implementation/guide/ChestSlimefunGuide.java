@@ -582,7 +582,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         List<Pair<SlimefunItem, Integer>> uses = recipeUse.getUses();
 
         //no uses
-        if (uses.size() == 0) {
+        if (uses == null || uses.size() == 0) {
             return;
         }
 
@@ -614,7 +614,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         int displayItemSpot = uses.get(page).getSecondValue();
         boolean useRecipeDisplayItems = displayItemSpot >= 0;
 
-        ChestMenu menu = new ChestMenu(ChatColor.stripColor(item.getItemName()) + "Uses");
+        ChestMenu menu = new ChestMenu(ChatColor.stripColor(item.getItemName()) + " Uses");
 
         addWiki(item, menu, p);
 
@@ -650,7 +650,11 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         };
 
         if (useRecipeDisplayItems && use instanceof RecipeDisplayItem) { //RecipeDisplayItem recipe
-            List<ItemStack> displayRecipes = ((RecipeDisplayItem) use).getDisplayRecipes();
+
+            List<ItemStack> displayRecipes = new ArrayList<>(((RecipeDisplayItem) use).getDisplayRecipes());
+            if (displayRecipes.size() % 2 == 1) {
+                displayRecipes.add(null);
+            }
 
             menu.addItem(10, use.getItem(), normalClickHandler);
             menu.addItem(13, displayRecipes.get(displayItemSpot), normalClickHandler);

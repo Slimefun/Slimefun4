@@ -4,6 +4,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.CSCoreLibPlugin.cscorelib2.collections.Pair;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -16,12 +18,13 @@ public class SlimefunItemRecipeUse {
     private final int page;
     private final List<Pair<SlimefunItem, Integer>> uses;
 
-    public SlimefunItemRecipeUse(SlimefunItem item, int page) {
+    public SlimefunItemRecipeUse(@Nonnull SlimefunItem item, int page) {
         this.item = item;
         this.page = page;
         this.uses = SlimefunPlugin.getRegistry().getSlimefunItemUses().get(item);
     }
-
+    
+    @Nonnull
     public SlimefunItem getItem() {
         return this.item;
     }
@@ -30,6 +33,7 @@ public class SlimefunItemRecipeUse {
         return this.page;
     }
 
+    @Nullable
     public List<Pair<SlimefunItem, Integer>> getUses() {
         return this.uses;
     }

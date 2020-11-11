@@ -268,7 +268,7 @@ public final class PostSetup {
     }
 
     private static void loadRecipeUses() {
-        Slimefun.getLogger().log(Level.INFO, "Loading item usages...");
+        Slimefun.getLogger().log(Level.INFO, "Loading Slimefun item uses in recipes, this may take a moment...");
 
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getEnabledSlimefunItems()) {
             List<Pair<SlimefunItem, Integer>> uses = new ArrayList<>();
@@ -284,24 +284,46 @@ public final class PostSetup {
                 if (checkingItem instanceof RecipeDisplayItem) {
                     List<ItemStack> displayRecipes = ((RecipeDisplayItem) checkingItem).getDisplayRecipes();
 
-                    for (ItemStack display : displayRecipes) {
-                        if (item.getItem() == display) {
-
-                            int index = displayRecipes.indexOf(item.getItem());
-                            if (index % 2 == 0 && displayRecipes.size() > index + 1) {
-                                uses.add(new Pair<>(checkingItem, displayRecipes.indexOf(item.getItem())));
-                            }
+                    for (int i = 0; i + 1 < displayRecipes.size() ; i+=2) {
+                        if (item.getItem() == displayRecipes.get(i)) {
+                            uses.add(new Pair<>(checkingItem, i));
                         }
                     }
                 }
             }
-
-            //add the item's display recipes
+            
+            //remove duplicate recipes from RecipeDisplayItems
+            Iterator<Pair<SlimefunItem, Integer>> iterator = uses.iterator();
+            
+            while (iterator.hasNext()) {
+                Pair<SlimefunItem, Integer> use = iterator.next();
+                
+                if (use.getSecondValue() == -1 || !(use.getFirstValue() instanceof RecipeDisplayItem)) {
+                    continue;
+                }
+                
+                SlimefunItem slot = SlimefunItem.getByItem(((RecipeDisplayItem) use.getFirstValue()).getDisplayRecipes().get(use.getSecondValue() + 1));
+                if (slot != null && uses.contains(new Pair<>(slot, -1))) {
+                    iterator.remove();
+                }
+            }
+            
+            //add the item's own display recipes
             if (item instanceof RecipeDisplayItem) {
                 List<ItemStack> displayRecipes = ((RecipeDisplayItem) item).getDisplayRecipes();
 
-                for (int i = 0; i + 1 < displayRecipes.size() ; i+=2) {
-                    if (displayRecipes.get(i) != null && displayRecipes.get(i + 1) != null) {
+                for (int i = 0; i < displayRecipes.size() ; i+=2) {
+                    
+                    //don't add it if theres already a normal recipe for it
+                    if (displayRecipes.size() > i + 1 ) {
+                        SlimefunItem slot = SlimefunItem.getByItem(displayRecipes.get(i + 1));
+                        if (slot != null && uses.contains(new Pair<>(slot, -1))) {
+                           continue;
+                        }
+                    }
+                    
+                    //both cant be null
+                    if (displayRecipes.get(i) != null || (displayRecipes.size() > i + 1 && displayRecipes.get(i + 1) != null)) { 
                         uses.add(new Pair<>(item, i));
                     }
                 }
