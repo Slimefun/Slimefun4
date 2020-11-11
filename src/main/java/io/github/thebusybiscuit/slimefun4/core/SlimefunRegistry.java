@@ -46,7 +46,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 /**
  * This class houses a lot of instances of {@link Map} and {@link List} that hold
  * various mappings and collections related to {@link SlimefunItem}.
- *
+ * 
  * @author TheBusyBiscuit
  *
  */
@@ -124,7 +124,7 @@ public final class SlimefunRegistry {
      * This method returns whether backwards-compatibility is enabled.
      * Backwards compatibility allows Slimefun to recognize items from older versions but comes
      * at a huge performance cost.
-     *
+     * 
      * @return Whether backwards compatibility is enabled
      */
     public boolean isBackwardsCompatible() {
@@ -145,7 +145,7 @@ public final class SlimefunRegistry {
 
     /**
      * This {@link List} contains every {@link SlimefunItem}, even disabled items.
-     *
+     * 
      * @return A {@link List} containing every {@link SlimefunItem}
      */
     public List<SlimefunItem> getAllSlimefunItems() {
@@ -154,7 +154,7 @@ public final class SlimefunRegistry {
 
     /**
      * This {@link List} contains every <strong>enabled</strong> {@link SlimefunItem}.
-     *
+     * 
      * @return A {@link List} containing every enabled {@link SlimefunItem}
      */
     public List<SlimefunItem> getEnabledSlimefunItems() {
@@ -165,7 +165,7 @@ public final class SlimefunRegistry {
      * This {@link Map} contains the recipe uses for each {@link SlimefunItem} in other {@link SlimefunItem}s
      * The boolean part of the pair represents whether the {@link SlimefunItem} is part of the main recipe
      * or the {@link RecipeDisplayItem} slots
-     *
+     * 
      * @return A {@link Map} containing the recipe uses for each {@link SlimefunItem} in other {@link SlimefunItem}s
      */
     public Map<SlimefunItem, List<Pair<SlimefunItem, Integer>>> getSlimefunItemUses() {
@@ -215,7 +215,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Map} connecting the {@link EntityType} with a {@link Set}
      * of {@link ItemStack ItemStacks} which would be dropped when an {@link Entity} of that type was killed.
-     *
+     * 
      * @return The {@link Map} of custom mob drops
      */
     public Map<EntityType, Set<ItemStack>> getMobDrops() {
@@ -225,7 +225,7 @@ public final class SlimefunRegistry {
     /**
      * This returns a {@link Set} of {@link ItemStack ItemStacks} which can be obtained by bartering
      * with {@link Piglin Piglins}.
-     *
+     * 
      * @return A {@link Set} of bartering drops
      */
     public Set<ItemStack> getBarteringDrops() {
@@ -278,9 +278,9 @@ public final class SlimefunRegistry {
 
     /**
      * This method returns a list of recipes for the {@link AutomatedCraftingChamber}
-     *
+     * 
      * @deprecated This just a really bad way to do this. Someone needs to rewrite this.
-     *
+     * 
      * @return A list of recipes for the {@link AutomatedCraftingChamber}
      */
     @Deprecated
