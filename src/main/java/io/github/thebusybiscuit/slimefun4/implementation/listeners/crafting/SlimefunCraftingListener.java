@@ -27,7 +27,7 @@ interface SlimefunCraftingListener extends Listener {
         }
 
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        return sfItem != null && !(sfItem instanceof VanillaItem) && !sfItem.isDisabled();
+        return isUnallowed(sfItem);
     }
 
     default boolean isUnallowed(@Nullable SlimefunItem item) {
