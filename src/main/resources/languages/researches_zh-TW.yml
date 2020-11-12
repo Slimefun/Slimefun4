@@ -46,7 +46,7 @@ slimefun:
   damascus_steel_armor: 大馬士革鋼套裝
   reinforced_alloy: 強化合金錠
   carbonado: 黑鑽石
-  magic_workbench: 魔術合成檯
+  magic_workbench: 魔法合成檯
   wind_staff: 元素杖—風
   reinforced_armor: 強化合金錠套裝
   ore_washer: 礦物洗滌機
@@ -93,7 +93,7 @@ slimefun:
   explosive_tools: 爆炸性的突破
   automated_panning_machine: 懶人掏金盤
   boots_of_the_stomper: 踐踏之靴
-  pickaxe_of_the_seeker: 合法X-ray
+  pickaxe_of_the_seeker: 合法 X-ray
   backpacks: 背包
   woven_backpack: 手織背包
   crucible: 坩鍋
@@ -150,12 +150,12 @@ slimefun:
   electric_ore_grinding: 電動研磨
   heated_pressure_chamber: 高溫加壓室
   coal_generator: 乾淨的煤
-  bio_reactor: 生化反應爐
+  bio_reactor: 生質能反應爐
   auto_enchanting: 附魔&退魔檯
   auto_anvil: 電動鐵砧
   multimeter: 電力測量
-  gps_setup: GPS基礎組件
-  gps_emergency_transmitter: GPS求救信號
+  gps_setup: GPS 基礎組件
+  gps_emergency_transmitter: GPS 求救信號
   programmable_androids: 機器人
   android_interfaces: 機器人接口
   geo_scanner: 地質掃描
@@ -166,19 +166,19 @@ slimefun:
   better_gps_transmitters: 高階GPS信號發送器
   elevator: 電梯
   energized_solar_generator: 這...這不科學!
-  energized_gps_transmitter: 頂級GPS信號發送器
+  energized_gps_transmitter: 頂級 GPS 信號發送器
   energy_regulator: 電力核心
   butcher_androids: 屠夫機器人
   organic_food: 有機食品
   auto_breeder: 幫你餵動物
   advanced_android: 進階機器人
-  advanced_butcher_android: 進階機器人–屠夫
-  advanced_fisherman_android: 進階機器人— 漁夫
+  advanced_butcher_android: 進階機器人—屠夫
+  advanced_fisherman_android: 進階機器人—漁夫
   animal_growth_accelerator: 動物轉大人
   xp_collector: 經驗收集器
   organic_fertilizer: 有機堆肥
   crop_growth_accelerator: 金坷垃
-  better_crop_growth_accelerator: 金坷垃2.0
+  better_crop_growth_accelerator: 金坷垃 2.0
   reactor_essentials: 反應爐必需品
   nuclear_reactor: 核分裂反應爐
   freezer: 我的超人裝呢
@@ -199,7 +199,7 @@ slimefun:
   better_electric_furnace: 升級版電磁爐
   better_carbon_press: 升級版碳壓縮機
   empowered_android: 頂級機器人
-  empowered_butcher_android: 頂級機器人-屠夫
+  empowered_butcher_android: 頂級機器人—屠夫
   empowered_fisherman_android: 頂級機器人—漁夫
   high_tier_carbon_press: 終極碳壓縮機
   wither_assembler: 凋零農場
@@ -233,10 +233,17 @@ slimefun:
   makeshift_smeltery: 自動冶煉
   tree_growth_accelerator: 自動金坷垃
   industrial_miner: 工業化採礦
-  advanced_industrial_miner: 工業化採礦 - 改
+  advanced_industrial_miner: 工業化採礦—改
   magical_zombie_pills: 救贖藥丸
   auto_brewer: 工業化釀造
   enchantment_rune: 古代附魔
   lead_clothing: 防輻射衣
   tape_measure: 捲尺
   iron_golem_assembler: 鐵巨人召喚機
+  climbing_pick: 飛簷走壁
+  shulker_shell: 工業界伏殼
+  villager_rune: 讓村民失業
+  caveman_talisman: 穴居人護符
+  even_higher_tier_capacitors: 第三級電容器
+  elytra_cap: 體驗動能
+  energy_connectors: 電線

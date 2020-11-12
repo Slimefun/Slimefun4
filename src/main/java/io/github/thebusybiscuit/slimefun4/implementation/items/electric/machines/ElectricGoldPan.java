@@ -17,7 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
-public abstract class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
+public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
     private final GoldPan goldPan = (GoldPan) SlimefunItems.GOLD_PAN.getItem();
     private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();

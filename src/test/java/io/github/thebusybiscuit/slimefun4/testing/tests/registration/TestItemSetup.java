@@ -17,10 +17,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 @TestMethodOrder(value = OrderAnnotation.class)
 class TestItemSetup {
@@ -53,13 +55,22 @@ class TestItemSetup {
 
     @Test
     @Order(value = 2)
+    @DisplayName("Assert all Items enabled")
+    void testNoDisabledItems() {
+        for (SlimefunItem item : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
+            Assertions.assertNotEquals(ItemState.UNREGISTERED, item.getState(), item.toString() + " was not registered?");
+        }
+    }
+
+    @Test
+    @Order(value = 3)
     @DisplayName("Test whether PostSetup.setupWiki() throws any Exceptions")
     void testWikiSetup() {
         Assertions.assertDoesNotThrow(() -> PostSetup.setupWiki());
     }
 
     @Test
-    @Order(value = 3)
+    @Order(value = 4)
     @DisplayName("Test whether every Category is added to the translation files")
     void testCategoryTranslations() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/languages/categories_en.yml"), StandardCharsets.UTF_8))) {

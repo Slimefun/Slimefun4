@@ -14,11 +14,11 @@ resources:
   slimefunorechunks:
     iron_ore_chunk: 鐵石塊
     gold_ore_chunk: 金石塊
-    copper_ore_chunk: 銅礦塊
-    tin_ore_chunk: 錫礦塊
+    copper_ore_chunk: 銅石塊
+    tin_ore_chunk: 錫石塊
     silver_ore_chunk: 銀石塊
     aluminum_ore_chunk: 鋁石塊
     lead_ore_chunk: 鉛石塊
-    zinc_ore_chunk: 鋅礦塊
-    nickel_ore_chunk: 鎳礦塊
+    zinc_ore_chunk: 鋅石塊
+    nickel_ore_chunk: 鎳石塊
     cobalt_ore_chunk: 鈷石塊

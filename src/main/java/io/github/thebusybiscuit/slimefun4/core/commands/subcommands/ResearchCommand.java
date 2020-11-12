@@ -66,7 +66,7 @@ class ResearchCommand extends SubCommand {
                 SlimefunPlugin.getLocalization().sendMessage(player, "messages.give-research", true, variables);
             });
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.invalid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
         }
     }
 

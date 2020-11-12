@@ -1,15 +1,30 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Optional;
+import java.util.logging.Level;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang.Validate;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
@@ -20,11 +35,21 @@ import org.bukkit.plugin.Plugin;
  * @author TheBusyBiscuit
  *
  */
-public class BlockDataService implements PersistentDataService, Keyed {
+public class BlockDataService implements Keyed {
 
     private final NamespacedKey namespacedKey;
 
-    public BlockDataService(Plugin plugin, String key) {
+    /**
+     * This creates a new {@link BlockDataService} for the given {@link Plugin}.
+     * The {@link Plugin} and key will together form a {@link NamespacedKey} used to store
+     * data on a {@link TileState}.
+     * 
+     * @param plugin
+     *            The {@link Plugin} responsible for this service
+     * @param key
+     *            The key under which to store data
+     */
+    public BlockDataService(@Nonnull Plugin plugin, @Nonnull String key) {
         namespacedKey = new NamespacedKey(plugin, key);
     }
 
@@ -41,12 +66,32 @@ public class BlockDataService implements PersistentDataService, Keyed {
      * @param value
      *            The value to store
      */
-    public void setBlockData(Block b, String value) {
-        BlockState state = b.getState();
+    public void setBlockData(@Nonnull Block b, @Nonnull String value) {
+        Validate.notNull(b, "The block cannot be null!");
+        Validate.notNull(value, "The value cannot be null!");
+
+        // Due to a bug on older versions, Persistent Data is nullable for non-snapshots
+        boolean useSnapshot = SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_16);
+
+        BlockStateSnapshotResult result = PaperLib.getBlockState(b, useSnapshot);
+        BlockState state = result.getState();
 
         if (state instanceof TileState) {
-            setString((TileState) state, namespacedKey, value);
-            state.update();
+            try {
+                PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+                container.set(namespacedKey, PersistentDataType.STRING, value);
+
+                if (result.isSnapshot()) {
+                    state.update();
+                }
+            } catch (Exception x) {
+                Slimefun.getLogger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
+
+                String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
+                Slimefun.getLogger().log(Level.SEVERE, () -> serverSoftware + " | " + Bukkit.getVersion() + " | " + Bukkit.getBukkitVersion());
+
+                Slimefun.getLogger().log(Level.SEVERE, "An Exception was thrown while trying to set Persistent Data for a Block", x);
+            }
         }
     }
 
@@ -57,11 +102,14 @@ public class BlockDataService implements PersistentDataService, Keyed {
      *            The {@link Block} to retrieve data from
      * @return The stored value
      */
-    public Optional<String> getBlockData(Block b) {
-        BlockState state = b.getState();
+    public Optional<String> getBlockData(@Nonnull Block b) {
+        Validate.notNull(b, "The block cannot be null!");
+
+        BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof TileState) {
-            return getString((TileState) state, namespacedKey);
+            PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+            return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
         } else {
             return Optional.empty();
         }
@@ -77,9 +125,10 @@ public class BlockDataService implements PersistentDataService, Keyed {
      * 
      * @param type
      *            The {@link Material} to check for
+     * 
      * @return Whether the given {@link Material} is considered a Tile Entity
      */
-    public boolean isTileEntity(Material type) {
+    public boolean isTileEntity(@Nullable Material type) {
         if (type == null || type.isAir()) {
             // Cannot store data on air
             return false;
@@ -104,8 +153,10 @@ public class BlockDataService implements PersistentDataService, Keyed {
         case BARREL:
         case SPAWNER:
         case BEACON:
+            // All of the above Materials are Tile Entities
             return true;
         default:
+            // Otherwise we assume they're not Tile Entities
             return false;
         }
     }

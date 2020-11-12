@@ -57,7 +57,8 @@ public class GitHubService {
     }
 
     public void start(@Nonnull SlimefunPlugin plugin) {
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
+        GitHubTask task = new GitHubTask(this);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, task, 80L, 60 * 60 * 20L);
     }
 
     /**
