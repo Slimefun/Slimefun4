@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.VanillaContainer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -26,7 +27,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * @author Linox
  *
  */
-public class AutoBrewer extends AContainer {
+public class AutoBrewer extends VanillaContainer {
 
     private static final Map<Material, PotionType> potionRecipes = new EnumMap<>(Material.class);
     private static final Map<PotionType, PotionType> fermentations = new EnumMap<>(PotionType.class);

@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.VanillaContainer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see ElectricIngotFactory
  *
  */
-public class ElectricIngotPulverizer extends AContainer implements RecipeDisplayItem {
+public class ElectricIngotPulverizer extends VanillaContainer implements RecipeDisplayItem {
 
     public ElectricIngotPulverizer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

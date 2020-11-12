@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.VanillaContainer;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +23,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author Linox
  *
  */
-public class AutoDrier extends AContainer implements RecipeDisplayItem {
+public class AutoDrier extends VanillaContainer implements RecipeDisplayItem {
 
     private List<ItemStack> recipeList;
 
