@@ -67,7 +67,6 @@ public class SlimefunItemListener implements Listener {
         }
     }
 
-    @Nonnull
     @ParametersAreNonnullByDefault
     private boolean rightClickItem(PlayerInteractEvent e, PlayerRightClickEvent event, boolean defaultValue) {
         Optional<SlimefunItem> optional = event.getSlimefunItem();

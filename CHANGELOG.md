@@ -60,6 +60,7 @@
 * Fixed id conflicts for external Enchantment sources (e.g. plugins) for the Magician Talisman settings
 * Fixed network visualizers spawning particles for other player heads
 * Fixed #2418
+* Fixed #2446
 
 ## Release Candidate 17 (17 Oct 2020)
 
