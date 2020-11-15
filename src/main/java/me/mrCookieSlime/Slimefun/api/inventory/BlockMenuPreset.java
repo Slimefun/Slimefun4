@@ -15,6 +15,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -120,6 +121,33 @@ public abstract class BlockMenuPreset extends ChestMenu {
     @Override
     public void replaceExistingItem(int slot, ItemStack item) {
         throw new UnsupportedOperationException("BlockMenuPreset does not support this method.");
+    }
+
+    /**
+     * This method will draw unclickable background items into this {@link BlockMenuPreset}.
+     * 
+     * @param item
+     *            The {@link ItemStack} that should be used as background
+     * @param slots
+     *            The slots which should be treated as background
+     */
+    public void drawBackground(@Nonnull ItemStack item, @Nonnull int[] slots) {
+        Validate.notNull(item, "The background item cannot be null!");
+        checkIfLocked();
+
+        for (int slot : slots) {
+            addItem(slot, item, ChestMenuUtils.getEmptyClickHandler());
+        }
+    }
+
+    /**
+     * This method will draw unclickable background items into this {@link BlockMenuPreset}.
+     * 
+     * @param slots
+     *            The slots which should be treated as background
+     */
+    public void drawBackground(@Nonnull int[] slots) {
+        drawBackground(ChestMenuUtils.getBackground(), slots);
     }
 
     @Override

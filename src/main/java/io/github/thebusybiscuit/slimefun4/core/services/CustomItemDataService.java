@@ -11,6 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -26,7 +28,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see SlimefunItemStack
  *
  */
-public class CustomItemDataService implements PersistentDataService, Keyed {
+public class CustomItemDataService implements Keyed {
 
     private final NamespacedKey namespacedKey;
 
@@ -71,16 +73,17 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
      * This method stores the given id on the provided {@link ItemMeta} via
      * persistent data.
      * 
-     * @param im
+     * @param meta
      *            The {@link ItemMeta} to store data on
      * @param id
      *            The id to store on the {@link ItemMeta}
      */
-    public void setItemData(@Nonnull ItemMeta im, @Nonnull String id) {
-        Validate.notNull(im, "The ItemMeta cannot be null!");
+    public void setItemData(@Nonnull ItemMeta meta, @Nonnull String id) {
+        Validate.notNull(meta, "The ItemMeta cannot be null!");
         Validate.notNull(id, "Cannot store null on an ItemMeta!");
 
-        setString(im, namespacedKey, id);
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(namespacedKey, PersistentDataType.STRING, id);
     }
 
     /**
@@ -115,7 +118,8 @@ public class CustomItemDataService implements PersistentDataService, Keyed {
     public Optional<String> getItemData(@Nonnull ItemMeta meta) {
         Validate.notNull(meta, "Cannot read data from null!");
 
-        return getString(meta, namespacedKey);
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
     }
 
 }

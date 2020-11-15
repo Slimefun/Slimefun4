@@ -5,6 +5,10 @@
 			"required" : false
 		},
 		"minecraft:gold_ore",
-		"minecraft:iron_ore"
+		"minecraft:iron_ore",
+		{
+			"id" : "minecraft:ancient_debris",
+			"required" : false
+		}
 	]
 }

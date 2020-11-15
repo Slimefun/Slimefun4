@@ -237,10 +237,10 @@ messages:
   no-tome-yourself: "&cVocê não pode usar o &4Tomo do Conhecimento  &cem si mesmo..."
   not-online: "&4%player% &cnão está online!"
   not-researched: "&4Você não tem conhecimento suficiente para entender sobre isso."
-  not-valid-amount: "&4%amount% &cnão é uma quantidade válida (precisa ser maior que
+  invalid-amount: "&4%amount% &cnão é uma quantidade válida (precisa ser maior que
     0)!"
-  not-valid-item: "&4%item% &cnão é um item válido!"
-  not-valid-research: "&4%research% &cnão é uma Pesquisa válida!"
+  invalid-item: "&4%item% &cnão é um item válido!"
+  invalid-research: "&4%research% &cnão é uma Pesquisa válida!"
   only-players: "&4Este comando é apenas para jogadores"
   opening-backpack: "&bAbrindo a mochila, isso pode levar alguns segundos..."
   opening-guide: "&bAbrindo o guia, isso pode levar alguns segundos..."

@@ -3,8 +3,11 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,7 +18,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessCompleteEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
@@ -41,6 +46,9 @@ public abstract class AGenerator extends AbstractEnergyProvider {
     private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
     private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
+
+    private int energyProducedPerTick = -1;
+    private int energyCapacity = -1;
 
     @ParametersAreNonnullByDefault
     public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -188,7 +196,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
         }
     }
 
-    private boolean isBucket(ItemStack item) {
+    private boolean isBucket(@Nullable ItemStack item) {
         if (item == null) {
             return false;
         }
@@ -208,6 +216,80 @@ public abstract class AGenerator extends AbstractEnergyProvider {
         }
 
         return null;
+    }
+
+    /**
+     * This method returns the max amount of electricity this machine can hold.
+     * 
+     * @return The max amount of electricity this Block can store.
+     */
+    public int getCapacity() {
+        return energyCapacity;
+    }
+
+    /**
+     * This method returns the amount of energy that is consumed per operation.
+     * 
+     * @return The rate of energy consumption
+     */
+    @Override
+    public int getEnergyProduction() {
+        return energyProducedPerTick;
+    }
+
+    /**
+     * This sets the energy capacity for this machine.
+     * This method <strong>must</strong> be called before registering the item
+     * and only before registering.
+     * 
+     * @param capacity
+     *            The amount of energy this machine can store
+     * 
+     * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
+     */
+    public final AGenerator setCapacity(int capacity) {
+        Validate.isTrue(capacity >= 0, "The capacity cannot be negative!");
+
+        if (getState() == ItemState.UNREGISTERED) {
+            this.energyCapacity = capacity;
+            return this;
+        } else {
+            throw new IllegalStateException("You cannot modify the capacity after the Item was registered.");
+        }
+    }
+
+    /**
+     * This method sets the energy produced by this machine per tick.
+     * 
+     * @param energyProduced
+     *            The energy produced per tick
+     * 
+     * @return This method will return the current instance of {@link AGenerator}, so that can be chained.
+     */
+    public final AGenerator setEnergyProduction(int energyProduced) {
+        Validate.isTrue(energyProduced > 0, "The energy production must be greater than zero!");
+
+        this.energyProducedPerTick = energyProduced;
+        return this;
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+        this.addon = addon;
+
+        if (getCapacity() < 0) {
+            warn("The capacity has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
+        }
+
+        if (getEnergyProduction() <= 0) {
+            warn("The energy consumption has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyProduction(...)' before registering!");
+        }
+
+        if (getCapacity() >= 0 && getEnergyProduction() > 0) {
+            super.register(addon);
+        }
     }
 
 }

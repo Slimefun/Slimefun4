@@ -38,16 +38,6 @@ public class AutoEnchanter extends AContainer {
     }
 
     @Override
-    public int getEnergyConsumption() {
-        return 9;
-    }
-
-    @Override
-    public int getCapacity() {
-        return 128;
-    }
-
-    @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
         for (int slot : getInputSlots()) {
             ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
@@ -126,11 +116,6 @@ public class AutoEnchanter extends AContainer {
         }
 
         return sfItem == null || sfItem.isEnchantable();
-    }
-
-    @Override
-    public int getSpeed() {
-        return 1;
     }
 
     @Override
