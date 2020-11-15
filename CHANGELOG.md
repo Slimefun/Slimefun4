@@ -30,6 +30,7 @@
 * (API) Added PlayerPreResearchEvent
 * Added a config option to disable network visualizations
 * (API) Added CoolerFeedPlayerEvent
+* Added a config option to delete excess cargo network items
 
 #### Changes
 * Removed 1.13 support

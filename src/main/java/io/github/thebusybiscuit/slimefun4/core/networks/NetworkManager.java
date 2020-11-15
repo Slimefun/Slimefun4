@@ -14,6 +14,7 @@ import org.bukkit.Server;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
+import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 
 /**
@@ -30,6 +31,7 @@ public class NetworkManager {
 
     private final int maxNodes;
     private final boolean enableVisualizer;
+    private final boolean deleteExcessItems;
     private final List<Network> networks = new LinkedList<>();
 
     /**
@@ -37,12 +39,27 @@ public class NetworkManager {
      * 
      * @param maxStepSize
      *            The maximum amount of nodes a {@link Network} can have
+     * @param enableVisualizer
+     *            Whether the {@link Network} visualizer is enabled
+     * @param deleteExcessItems
+     *            Whether excess items from a {@link CargoNet} should be voided
      */
-    public NetworkManager(int maxStepSize, boolean enableVisualizer) {
+    public NetworkManager(int maxStepSize, boolean enableVisualizer, boolean deleteExcessItems) {
         Validate.isTrue(maxStepSize > 0, "The maximal Network size must be above zero!");
 
         this.enableVisualizer = enableVisualizer;
+        this.deleteExcessItems = deleteExcessItems;
         maxNodes = maxStepSize;
+    }
+
+    /**
+     * This creates a new {@link NetworkManager} with the given capacity.
+     * 
+     * @param maxStepSize
+     *            The maximum amount of nodes a {@link Network} can have
+     */
+    public NetworkManager(int maxStepSize) {
+        this(maxStepSize, true, false);
     }
 
     /**
@@ -62,6 +79,16 @@ public class NetworkManager {
      */
     public boolean isVisualizerEnabled() {
         return enableVisualizer;
+    }
+
+    /**
+     * This returns whether excess items from a {@link CargoNet} should be voided
+     * instead of being dropped to the ground.
+     * 
+     * @return Whether to delete excess items
+     */
+    public boolean isItemDeletionEnabled() {
+        return deleteExcessItems;
     }
 
     /**

@@ -218,7 +218,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 networkSize = 1;
             }
 
-            networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"));
+            networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
 
             // Setting up bStats
             new Thread(metricsService::start, "Slimefun Metrics").start();
@@ -305,7 +305,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void onUnitTestStart() {
         local = new LocalizationService(this, "", null);
         gpsNetwork = new GPSNetwork();
-        networkManager = new NetworkManager(200, true);
+        networkManager = new NetworkManager(200);
         command.register();
         registry.load(config);
     }
