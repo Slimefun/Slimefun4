@@ -145,10 +145,9 @@ public class BlockPlacer extends SlimefunItem {
 
     private void placeSlimefunBlock(SlimefunItem sfItem, ItemStack item, Block block, Dispenser dispenser) {
         BlockPlacerPlaceEvent e = new BlockPlacerPlaceEvent(dispenser.getBlock(), item, block);
-        Bukkit.getPluginManager().callEvent(e);
         
-        if(!dispenser.getInventory().getViewers().isEmpty()){
-        	e.setCancelled(true);
+        if(dispenser.getInventory().getViewers().isEmpty()) {
+        	Bukkit.getPluginManager().callEvent(e);
         }
 
         if (!e.isCancelled()) {
@@ -185,10 +184,9 @@ public class BlockPlacer extends SlimefunItem {
 
     private void placeBlock(ItemStack item, Block facedBlock, Dispenser dispenser) {
         BlockPlacerPlaceEvent e = new BlockPlacerPlaceEvent(dispenser.getBlock(), item, facedBlock);
-        Bukkit.getPluginManager().callEvent(e);
         
-        if(!dispenser.getInventory().getViewers().isEmpty()){
-        	e.setCancelled(true);
+        if(dispenser.getInventory().getViewers().isEmpty()) {
+        	Bukkit.getPluginManager().callEvent(e);
         }
 
         if (!e.isCancelled()) {
