@@ -96,7 +96,7 @@ public class BlockPlacer extends SlimefunItem {
             if (facedBlock.isEmpty() && !isBlacklisted(material)) {
                 SlimefunItem item = SlimefunItem.getByItem(e.getItem());
 
-                if (item != null) {
+                if (item != null && dispenser.getInventory().getViewers().isEmpty()) {
                     // Check if this Item can even be placed down
                     if (!(item instanceof NotPlaceable)) {
                         placeSlimefunBlock(item, e.getItem(), facedBlock, dispenser);
@@ -145,10 +145,7 @@ public class BlockPlacer extends SlimefunItem {
 
     private void placeSlimefunBlock(SlimefunItem sfItem, ItemStack item, Block block, Dispenser dispenser) {
         BlockPlacerPlaceEvent e = new BlockPlacerPlaceEvent(dispenser.getBlock(), item, block);
-        
-        if(dispenser.getInventory().getViewers().isEmpty()) {
-        	Bukkit.getPluginManager().callEvent(e);
-        }
+        Bukkit.getPluginManager().callEvent(e);
 
         if (!e.isCancelled()) {
             boolean hasItemHandler = sfItem.callItemHandler(BlockPlaceHandler.class, handler -> {
@@ -184,10 +181,7 @@ public class BlockPlacer extends SlimefunItem {
 
     private void placeBlock(ItemStack item, Block facedBlock, Dispenser dispenser) {
         BlockPlacerPlaceEvent e = new BlockPlacerPlaceEvent(dispenser.getBlock(), item, facedBlock);
-        
-        if(dispenser.getInventory().getViewers().isEmpty()) {
-        	Bukkit.getPluginManager().callEvent(e);
-        }
+        Bukkit.getPluginManager().callEvent(e);
 
         if (!e.isCancelled()) {
             facedBlock.setType(item.getType());
