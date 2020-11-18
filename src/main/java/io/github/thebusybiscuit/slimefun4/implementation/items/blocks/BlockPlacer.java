@@ -93,10 +93,10 @@ public class BlockPlacer extends SlimefunItem {
                 return;
             }
 
-            if (facedBlock.isEmpty() && !isBlacklisted(material)) {
+            if (facedBlock.isEmpty() && !isBlacklisted(material) && dispenser.getInventory().getViewers().isEmpty()) {
                 SlimefunItem item = SlimefunItem.getByItem(e.getItem());
 
-                if (item != null && dispenser.getInventory().getViewers().isEmpty()) {
+                if (item != null) {
                     // Check if this Item can even be placed down
                     if (!(item instanceof NotPlaceable)) {
                         placeSlimefunBlock(item, e.getItem(), facedBlock, dispenser);
