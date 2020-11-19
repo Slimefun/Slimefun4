@@ -128,7 +128,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitte
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.PersonalActivationPlate;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.TeleporterPylon;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.EnchantmentRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalBonemeal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeFlask;
@@ -136,12 +135,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Knowledge
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicalZombiePills;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.TelepositionScroll;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WaterStaff;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WindStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.EnchantmentRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.SoulboundRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.VillagerRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WaterStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WindStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Bandage;
