@@ -20,6 +20,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * The {@link Listener} responsible for a {@link Player} interacting with an {@link Entity}.
  *
  * @author Linox
+ * @author TheBusyBiscuit
  *
  * @see EntityInteractHandler
  *

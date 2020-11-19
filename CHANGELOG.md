@@ -65,6 +65,7 @@
 * Fixed #2446
 * Fixed CoreProtect not recognizing Slimefun blocks getting broken
 * Fixed #2447
+* Fixed #2558
 
 ## Release Candidate 17 (17 Oct 2020)
 

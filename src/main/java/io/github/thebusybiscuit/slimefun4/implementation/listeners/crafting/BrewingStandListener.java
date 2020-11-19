@@ -22,6 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @author VoidAngel
  * @author SoSeDiK
+ * @author CURVX
  *
  */
 public class BrewingStandListener implements SlimefunCraftingListener {
