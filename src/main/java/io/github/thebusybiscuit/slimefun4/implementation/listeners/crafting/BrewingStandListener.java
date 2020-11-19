@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
@@ -52,4 +53,10 @@ public class BrewingStandListener implements SlimefunCraftingListener {
         }
     }
 
+    @EventHandler
+    public void hopperOnBrew(InventoryMoveItemEvent e) {
+        if (e.getDestination().getType() == InventoryType.BREWING && isUnallowed(e.getItem())) {
+            e.setCancelled(true);
+        }
+    }
 }
