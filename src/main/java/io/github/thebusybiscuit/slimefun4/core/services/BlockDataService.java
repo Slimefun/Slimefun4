@@ -93,22 +93,28 @@ public class BlockDataService implements Keyed {
      * 
      * @param b
      *            The {@link Block} to retrieve data from
+     * 
      * @return The stored value
      */
     public Optional<String> getBlockData(@Nonnull Block b) {
         Validate.notNull(b, "The block cannot be null!");
 
-        /**
-         * Don't use PaperLib here, it seems to be quite buggy in block-placing scenarios
-         * and it would be too tedious to check for individual build versions to circumvent this.
-         */
-        BlockState state = b.getState();
+        BlockState state = PaperLib.getBlockState(b, false).getState();
+        PersistentDataContainer container = getPersistentDataContainer(state);
 
-        if (state instanceof TileState) {
-            PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+        if (container != null) {
             return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
         } else {
             return Optional.empty();
+        }
+    }
+
+    @Nullable
+    private PersistentDataContainer getPersistentDataContainer(@Nonnull BlockState state) {
+        if (state instanceof TileState) {
+            return ((TileState) state).getPersistentDataContainer();
+        } else {
+            return null;
         }
     }
 

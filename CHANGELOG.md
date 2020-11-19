@@ -42,6 +42,8 @@
 * Magnets can no longer be placed down
 * Electromagnets can no longer be placed down
 * Performance improvements to Cargo network visualizations
+* General performance improvements
+* Improved performance for radioactive items
 
 #### Fixes
 * Fixed #2448

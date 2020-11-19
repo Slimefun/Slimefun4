@@ -42,11 +42,14 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class SlimefunProfiler {
 
-    // A minecraft server tick is 50ms and Slimefun ticks are stretched across
-    // two ticks (sync and async blocks), so we use 100ms as a reference here
+    /**
+     * A minecraft server tick is 50ms and Slimefun ticks are stretched
+     * across two ticks (sync and async blocks), so we use 100ms as a reference here
+     */
     private static final int MAX_TICK_DURATION = 100;
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(5);
+    private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(5);
+    private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
@@ -117,7 +120,7 @@ public class SlimefunProfiler {
 
         long elapsedTime = System.nanoTime() - timestamp;
 
-        executor.execute(() -> {
+        executor.submit(() -> {
             ProfiledBlock block = new ProfiledBlock(l, item);
 
             // Merge (if we have multiple samples for whatever reason)
@@ -162,6 +165,7 @@ public class SlimefunProfiler {
                         iterator.next().sendMessage("Your timings report has timed out, we were still waiting for " + queued.get() + " samples to be collected :/");
                         iterator.remove();
                     }
+
                     return;
                 }
             } catch (InterruptedException e) {

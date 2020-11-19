@@ -384,11 +384,13 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         Validate.notNull(l, "Can't attempt to take charge from a null location!");
 
         if (isChargeable()) {
-            if (getCharge(l) < getEnergyConsumption()) {
+            int charge = getCharge(l);
+
+            if (charge < getEnergyConsumption()) {
                 return false;
             }
 
-            removeCharge(l, getEnergyConsumption());
+            setCharge(l, charge - getEnergyConsumption());
             return true;
         } else {
             return true;

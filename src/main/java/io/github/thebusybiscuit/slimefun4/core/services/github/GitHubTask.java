@@ -39,8 +39,12 @@ class GitHubTask implements Runnable {
 
     @Override
     public void run() {
-        gitHubService.getConnectors().forEach(GitHubConnector::download);
+        connectAndCache();
         grabTextures();
+    }
+
+    private void connectAndCache() {
+        gitHubService.getConnectors().forEach(GitHubConnector::download);
     }
 
     /**
