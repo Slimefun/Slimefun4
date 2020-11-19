@@ -69,6 +69,7 @@
 * Fixed #2447
 * Fixed #2558
 * Fixed a duplication bug with the Block Placer
+* Fixed Slimefun Guide Settings showing "last activity" as a negative number
 
 ## Release Candidate 17 (17 Oct 2020)
 

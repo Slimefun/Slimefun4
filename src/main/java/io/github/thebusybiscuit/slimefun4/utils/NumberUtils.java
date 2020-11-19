@@ -130,7 +130,8 @@ public final class NumberUtils {
     public static String getElapsedTime(@Nonnull LocalDateTime start, @Nonnull LocalDateTime end) {
         Validate.notNull(start, "Provided start was null");
         Validate.notNull(end, "Provided end was null");
-        long hours = Duration.between(start, end).toHours();
+
+        long hours = Duration.between(end, start).toHours();
 
         if (hours == 0) {
             return "< 1h";
