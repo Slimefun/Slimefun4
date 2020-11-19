@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -161,15 +162,36 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final BackpackListener backpackListener = new BackpackListener();
     private final SlimefunBowListener bowListener = new SlimefunBowListener();
 
+    /**
+     * Our default constructor for {@link SlimefunPlugin}.
+     */
     public SlimefunPlugin() {
         super();
     }
 
+    /**
+     * This constructor is invoked in Unit Test environments only.
+     * 
+     * @param loader
+     *            Our {@link JavaPluginLoader}
+     * @param description
+     *            A {@link PluginDescriptionFile}
+     * @param dataFolder
+     *            The data folder
+     * @param file
+     *            A {@link File} for this {@link Plugin}
+     */
+    @ParametersAreNonnullByDefault
     public SlimefunPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
         super(loader, description, dataFolder, file);
+
+        // This is only invoked during a Unit Test
         minecraftVersion = MinecraftVersion.UNIT_TEST;
     }
 
+    /**
+     * This is called when the {@link Plugin} has been loaded and enabled on a {@link Server}.
+     */
     @Override
     public void onEnable() {
         instance = this;
@@ -302,12 +324,83 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This is our start method for a Unit Test environment.
+     */
     private void onUnitTestStart() {
         local = new LocalizationService(this, "", null);
         gpsNetwork = new GPSNetwork();
         networkManager = new NetworkManager(200);
         command.register();
         registry.load(config);
+        loadTags();
+    }
+
+    /**
+     * This method gets called when the {@link Plugin} gets disabled.
+     * Most often it is called when the {@link Server} is shutting down or reloading.
+     */
+    @Override
+    public void onDisable() {
+        // Slimefun never loaded successfully, so we don't even bother doing stuff here
+        if (instance() == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
+            return;
+        }
+
+        // Cancel all tasks from this plugin immediately
+        Bukkit.getScheduler().cancelTasks(this);
+
+        // Finishes all started movements/removals of block data
+        ticker.halt();
+        ticker.run();
+
+        // Save all Player Profiles that are still in memory
+        PlayerProfile.iterator().forEachRemaining(profile -> {
+            if (profile.isDirty()) {
+                profile.save();
+            }
+        });
+
+        // Save all registered Worlds
+        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
+            try {
+                entry.getValue().saveAndRemove();
+            } catch (Exception x) {
+                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
+            }
+        }
+
+        for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
+            menu.save();
+        }
+
+        // Create a new backup zip
+        backupService.run();
+
+        metricsService.cleanUp();
+
+        /**
+         * Prevent Memory Leaks for reloads...
+         * These static Maps should really be removed at some point...
+         */
+        AContainer.processing = null;
+        AContainer.progress = null;
+
+        AGenerator.processing = null;
+        AGenerator.progress = null;
+
+        Reactor.processing = null;
+        Reactor.progress = null;
+
+        instance = null;
+
+        /**
+         * Close all inventories on the server to prevent item dupes
+         * (Incase some idiot uses /reload)
+         */
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.closeInventory();
+        }
     }
 
     @Nonnull
@@ -365,65 +458,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
 
         return list;
-    }
-
-    @Override
-    public void onDisable() {
-        // Slimefun never loaded successfully, so we don't even bother doing stuff here
-        if (instance() == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
-            return;
-        }
-
-        // Cancel all tasks from this plugin immediately
-        Bukkit.getScheduler().cancelTasks(this);
-
-        // Finishes all started movements/removals of block data
-        ticker.halt();
-        ticker.run();
-
-        // Save all Player Profiles that are still in memory
-        PlayerProfile.iterator().forEachRemaining(profile -> {
-            if (profile.isDirty()) {
-                profile.save();
-            }
-        });
-
-        // Save all registered Worlds
-        for (Map.Entry<String, BlockStorage> entry : getRegistry().getWorlds().entrySet()) {
-            try {
-                entry.getValue().saveAndRemove();
-            } catch (Exception x) {
-                getLogger().log(Level.SEVERE, x, () -> "An Error occurred while saving Slimefun-Blocks in World '" + entry.getKey() + "' for Slimefun " + getVersion());
-            }
-        }
-
-        for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
-            menu.save();
-        }
-
-        // Create a new backup zip
-        backupService.run();
-
-        metricsService.cleanUp();
-
-        // Prevent Memory Leaks
-        // These static Maps should be removed at some point...
-        AContainer.processing = null;
-        AContainer.progress = null;
-
-        AGenerator.processing = null;
-        AGenerator.progress = null;
-
-        Reactor.processing = null;
-        Reactor.progress = null;
-
-        instance = null;
-
-        // Close all inventories on the server to prevent item dupes
-        // (Incase some idiot uses /reload)
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            p.closeInventory();
-        }
     }
 
     private void createDirectories() {
@@ -515,7 +549,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void loadTags() {
         for (SlimefunTag tag : SlimefunTag.valuesCache) {
             try {
-                tag.reload();
+                // Only reload "empty" (or unloaded) Tags
+                if (tag.isEmpty()) {
+                    tag.reload();
+                }
             } catch (TagMisconfigurationException e) {
                 getLogger().log(Level.SEVERE, e, () -> "Failed to load Tag: " + tag.name());
             }

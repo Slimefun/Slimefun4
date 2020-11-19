@@ -86,7 +86,7 @@ class TestCauldronListener {
     @Test
     @DisplayName("Test Cauldron being cancelled with slimefun leather armor")
     void testCauldronWithSlimefunLeatherArmor() {
-        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK_LEATHER", new CustomItem(Material.LEATHER_BOOTS, "&6Mock"));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CAULDRON_TEST_MOCK_LEATHER", new CustomItem(Material.LEATHER_BOOTS, "&6Mock Leather Armor"));
         item.register(plugin);
 
         PlayerInteractEvent event = mockCauldronEvent(item.getItem());
