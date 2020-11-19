@@ -34,8 +34,9 @@ public class CapacitorTextureUpdateTask implements Runnable {
     @Override
     public void run() {
         Block b = l.getBlock();
+        Material type = b.getType();
 
-        if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
+        if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
             if (filledPercentage <= 0.25) {
                 SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
             } else if (filledPercentage <= 0.5) {

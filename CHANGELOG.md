@@ -44,6 +44,8 @@
 * Performance improvements to Cargo network visualizations
 * General performance improvements
 * Improved performance for radioactive items
+* Memory/GC improvements for the profiler
+* Performance improvements for the Fluid Pump
 
 #### Fixes
 * Fixed #2448

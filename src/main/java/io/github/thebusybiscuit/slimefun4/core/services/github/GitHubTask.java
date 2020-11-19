@@ -52,8 +52,10 @@ class GitHubTask implements Runnable {
      * the {@link UUID} and received skin inside a local cache {@link File}.
      */
     private void grabTextures() {
-        // Store all queried usernames to prevent 429 responses for pinging the
-        // same URL twice in one run.
+        /**
+         * Store all queried usernames to prevent 429 responses for pinging
+         * the same URL twice in one run.
+         */
         Map<String, String> skins = new HashMap<>();
         int requests = 0;
 
@@ -77,8 +79,11 @@ class GitHubTask implements Runnable {
             }
         }
 
-        // We only wanna save this if all Connectors finished already
-        // This will run multiple times but thats okay, this way we get as much data as possible stored
+        /**
+         * We only wanna save this if all Connectors finished already.
+         * This will run multiple times but thats okay, this way we get as much
+         * data as possible stored.
+         */
         gitHubService.saveCache();
     }
 

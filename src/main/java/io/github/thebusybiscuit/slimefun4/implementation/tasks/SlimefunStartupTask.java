@@ -83,6 +83,7 @@ public class SlimefunStartupTask implements Runnable {
                 return true;
             }
         }
+
         return false;
     }
 

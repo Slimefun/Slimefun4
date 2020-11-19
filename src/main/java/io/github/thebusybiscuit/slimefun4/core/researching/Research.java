@@ -117,6 +117,7 @@ public class Research implements Keyed {
      * 
      * @param p
      *            The {@link Player} to translate this name for.
+     * 
      * @return The localized Name of this {@link Research}.
      */
     @Nonnull
@@ -197,12 +198,18 @@ public class Research implements Keyed {
      * Handle what to do when a {@link Player} clicks on an un-researched item in
      * a {@link SlimefunGuideImplementation}.
      *
-     * @param guide The {@link SlimefunGuideImplementation} used.
-     * @param player The {@link Player} who clicked on the item.
-     * @param profile The {@link PlayerProfile} of that {@link Player}.
-     * @param sfItem The {@link SlimefunItem} on which the {@link Player} clicked.
-     * @param category The {@link Category} where the {@link Player} was.
-     * @param page The page number of where the {@link Player} was in the {@link Category};
+     * @param guide
+     *            The {@link SlimefunGuideImplementation} used.
+     * @param player
+     *            The {@link Player} who clicked on the item.
+     * @param profile
+     *            The {@link PlayerProfile} of that {@link Player}.
+     * @param sfItem
+     *            The {@link SlimefunItem} on which the {@link Player} clicked.
+     * @param category
+     *            The {@link Category} where the {@link Player} was.
+     * @param page
+     *            The page number of where the {@link Player} was in the {@link Category};
      *
      */
     @ParametersAreNonnullByDefault
@@ -230,6 +237,7 @@ public class Research implements Keyed {
      * 
      * @param p
      *            The {@link Player} to check
+     * 
      * @return Whether that {@link Player} can unlock this {@link Research}
      */
     public boolean canUnlock(@Nonnull Player p) {

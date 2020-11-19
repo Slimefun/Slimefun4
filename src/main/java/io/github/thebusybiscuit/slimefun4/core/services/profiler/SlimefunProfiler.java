@@ -50,6 +50,7 @@ public class SlimefunProfiler {
 
     private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(5);
     private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
+
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
@@ -234,9 +235,10 @@ public class SlimefunProfiler {
         Map<String, Long> map = new HashMap<>();
 
         for (Map.Entry<ProfiledBlock, Long> entry : timings.entrySet()) {
-            String world = entry.getKey().getPosition().getWorld().getName();
-            int x = entry.getKey().getPosition().getChunkX();
-            int z = entry.getKey().getPosition().getChunkZ();
+            ProfiledBlock block = entry.getKey();
+            String world = block.getWorld().getName();
+            int x = block.getChunkX();
+            int z = block.getChunkZ();
 
             map.merge(world + " (" + x + ',' + z + ')', entry.getValue(), Long::sum);
         }
@@ -249,9 +251,9 @@ public class SlimefunProfiler {
         int blocks = 0;
 
         for (ProfiledBlock block : timings.keySet()) {
-            String world = block.getPosition().getWorld().getName();
-            int x = block.getPosition().getChunkX();
-            int z = block.getPosition().getChunkZ();
+            String world = block.getWorld().getName();
+            int x = block.getChunkX();
+            int z = block.getChunkZ();
 
             if (chunk.equals(world + " (" + x + ',' + z + ')')) {
                 blocks++;
@@ -290,6 +292,7 @@ public class SlimefunProfiler {
     protected float getPercentageOfTick() {
         float millis = totalElapsedTime / 1000000.0F;
         float fraction = (millis * 100.0F) / MAX_TICK_DURATION;
+
         return Math.round((fraction * 100.0F) / 100.0F);
     }
 
@@ -311,6 +314,7 @@ public class SlimefunProfiler {
         return PerformanceRating.UNKNOWN;
     }
 
+    @Nonnull
     public String getTime() {
         return NumberUtils.getAsMillis(totalElapsedTime);
     }
@@ -330,6 +334,7 @@ public class SlimefunProfiler {
      */
     public boolean hasTimings(@Nonnull Block b) {
         Validate.notNull("Cannot get timings for a null Block");
+
         return timings.containsKey(new ProfiledBlock(b));
     }
 

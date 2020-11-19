@@ -108,6 +108,7 @@ public class NetworkManager {
         }
 
         Validate.notNull(type, "Type must not be null");
+
         for (Network network : networks) {
             if (type.isInstance(network) && network.connectsTo(l)) {
                 return Optional.of(type.cast(network));
