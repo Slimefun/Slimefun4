@@ -68,6 +68,7 @@
 * Fixed CoreProtect not recognizing Slimefun blocks getting broken
 * Fixed #2447
 * Fixed #2558
+* Fixed a duplication bug with the Block Placer
 
 ## Release Candidate 17 (17 Oct 2020)
 
