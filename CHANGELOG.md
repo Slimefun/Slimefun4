@@ -31,6 +31,7 @@
 * Added a config option to disable network visualizations
 * (API) Added CoolerFeedPlayerEvent
 * Added a config option to delete excess cargo network items
+* Added an item setting to configure the Wind Staff velocity
 
 #### Changes
 * Removed 1.13 support
