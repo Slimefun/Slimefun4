@@ -38,7 +38,7 @@ public class Contributor {
     private final ComputedOptional<String> headTexture = ComputedOptional.createNew();
 
     private Optional<UUID> uuid = Optional.empty();
-    private boolean locked = false;
+    private boolean immutable = false;
 
     /**
      * This creates a new {@link Contributor} with the given ingame name and GitHub profile.
@@ -84,7 +84,7 @@ public class Contributor {
         Validate.notNull(role, "The role cannot be null!");
         Validate.isTrue(commits >= 0, "Contributions cannot be negative");
 
-        if (!locked || role.startsWith("translator,")) {
+        if (!immutable || role.startsWith("translator,")) {
             contributions.put(role, commits);
         }
     }
@@ -120,6 +120,13 @@ public class Contributor {
         return profileLink;
     }
 
+    /**
+     * This returns a {@link List} of contributions for this {@link Contributor}.
+     * Each {@link Entry} consists of a {@link String} (for the role) and an {@link Integer}
+     * (for the amount of commits).
+     * 
+     * @return A {@link List} of contributions for this {@link Contributor}
+     */
     @Nonnull
     public List<Map.Entry<String, Integer>> getContributions() {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(contributions.entrySet());
@@ -214,16 +221,35 @@ public class Contributor {
         return contributions.values().stream().mapToInt(Integer::intValue).sum();
     }
 
-    public int index() {
-        return -getTotalContributions();
-    }
-
+    /**
+     * This returns the final display name for this {@link Contributor}.
+     * The display name is basically the GitHub username but if the Minecraft username differs,
+     * it will be appended in brackets behind the GitHub username.
+     * 
+     * @return The final display name of this {@link Contributor}.
+     */
     @Nonnull
     public String getDisplayName() {
         return ChatColor.GRAY + githubUsername + (!githubUsername.equals(minecraftUsername) ? ChatColor.DARK_GRAY + " (MC: " + minecraftUsername + ")" : "");
     }
 
-    public void lock() {
-        locked = true;
+    /**
+     * This returns the position on where to order this {@link Contributor}.
+     * This is just a convenience method for a {@link Comparator}, it is equivalent to
+     * {@link #getTotalContributions()} multiplied by minus one.
+     * 
+     * @return The position of this {@link Contributor} in terms for positioning and ordering.
+     */
+    public int getPosition() {
+        return -getTotalContributions();
+    }
+
+    /**
+     * This marks this {@link Contributor} as immutable.
+     * Immutable {@link Contributor Contributors} will no longer be assigned any contributions.
+     * This is useful when you want to prevent some commits from counting twice.
+     */
+    public void setImmutable() {
+        immutable = true;
     }
 }

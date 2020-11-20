@@ -21,9 +21,27 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
  */
 public class CapacitorTextureUpdateTask implements Runnable {
 
+    /**
+     * The {@link Location} of the {@link Capacitor}.
+     */
     private final Location l;
+
+    /**
+     * The level of how "full" this {@link Capacitor} is.
+     * From 0.0 to 1.0.
+     */
     private final double filledPercentage;
 
+    /**
+     * This creates a new {@link CapacitorTextureUpdateTask} with the given parameters.
+     * 
+     * @param l
+     *            The {@link Location} of the {@link Capacitor}
+     * @param charge
+     *            The amount of charge in this {@link Capacitor}
+     * @param capacity
+     *            The capacity of this {@link Capacitor}
+     */
     public CapacitorTextureUpdateTask(@Nonnull Location l, double charge, double capacity) {
         Validate.notNull(l, "The Location cannot be null");
 
@@ -36,6 +54,7 @@ public class CapacitorTextureUpdateTask implements Runnable {
         Block b = l.getBlock();
         Material type = b.getType();
 
+        // Ensure that this Block is still a Player Head
         if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
             if (filledPercentage <= 0.25) {
                 SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());

@@ -79,6 +79,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PiglinListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SeismicAxeListener;
@@ -117,7 +118,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 /**
  * This is the main class of Slimefun.
  * This is where all the magic starts, take a look around.
- * Feel like home.
  *
  * @author TheBusyBiscuit
  */
@@ -509,6 +509,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new CauldronListener(this);
         new GrindstoneListener(this);
         new CartographyTableListener(this);
+        new NetworkListener(this, networkManager);
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);

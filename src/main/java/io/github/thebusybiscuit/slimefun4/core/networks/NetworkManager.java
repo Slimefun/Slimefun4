@@ -169,8 +169,11 @@ public class NetworkManager {
     public void updateAllNetworks(@Nonnull Location l) {
         Validate.notNull(l, "The Location cannot be null");
 
-        for (Network network : getNetworksFromLocation(l, Network.class)) {
-            network.markDirty(l);
+        // No need to create a sublist and loop through it if there are no Networks
+        if (!networks.isEmpty()) {
+            for (Network network : getNetworksFromLocation(l, Network.class)) {
+                network.markDirty(l);
+            }
         }
     }
 

@@ -46,7 +46,7 @@ final class ContributorsMenu {
         });
 
         List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getGitHubService().getContributors().values());
-        contributors.sort(Comparator.comparingInt(Contributor::index));
+        contributors.sort(Comparator.comparingInt(Contributor::getPosition));
 
         for (int i = page * 36; i < contributors.size() && i < (page + 1) * 36; i++) {
             Contributor contributor = contributors.get(i);

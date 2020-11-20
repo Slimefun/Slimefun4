@@ -252,6 +252,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * identify all instances of the same {@link AContainer}.
      * This way we can add the recipes to all instances of the same machine.
      * 
+     * <strong>This method will be deprecated and replaced in the future</strong>
+     * 
      * @return The identifier of this machine
      */
     @Nonnull
