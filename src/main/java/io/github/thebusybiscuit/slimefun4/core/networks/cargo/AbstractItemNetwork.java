@@ -342,7 +342,7 @@ abstract class AbstractItemNetwork extends Network {
     }
 
     /**
-     * This will markt the {@link ItemFilter} of the given node dirty.
+     * This will mark the {@link ItemFilter} of the given node dirty.
      * It will also invalidate the cached rotation.
      * 
      * @param node
