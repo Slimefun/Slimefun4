@@ -420,6 +420,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack RAINBOW_GLASS_PANE = new SlimefunItemStack("RAINBOW_GLASS_PANE", Material.WHITE_STAINED_GLASS_PANE, "&5Rainbow Glass Pane", "", RAINBOW);
     public static final SlimefunItemStack RAINBOW_CONCRETE = new SlimefunItemStack("RAINBOW_CONCRETE", Material.WHITE_CONCRETE, "&5Rainbow Concrete", "", RAINBOW);
     public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA = new SlimefunItemStack("RAINBOW_GLAZED_TERRACOTTA", Material.WHITE_GLAZED_TERRACOTTA, "&5Rainbow Glazed Terracotta", "", RAINBOW);
+    public static final SlimefunItemStack RAINBOW_BED = new SlimefunItemStack("RAINBOW_BED", Material.WHITE_BED, "&5Rainbow Bed", "", RAINBOW);
 
     /* Seasonal */
     private static final String CHRISTMAS = ChatUtils.christmas("[Christmas Edition]");

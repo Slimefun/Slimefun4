@@ -155,6 +155,28 @@ public enum ColoredMaterial {
             Material.GREEN_CONCRETE,
             Material.RED_CONCRETE,
             Material.BLACK_CONCRETE
+    }),
+
+    /**
+     * This {@link List} contains all bed colors ordered by their appearance ingame.
+     */
+    BED(new Material[] {
+            Material.WHITE_BED,
+            Material.ORANGE_BED,
+            Material.MAGENTA_BED,
+            Material.LIGHT_BLUE_BED,
+            Material.YELLOW_BED,
+            Material.LIME_BED,
+            Material.PINK_BED,
+            Material.GRAY_BED,
+            Material.LIGHT_GRAY_BED,
+            Material.CYAN_BED,
+            Material.PURPLE_BED,
+            Material.BLUE_BED,
+            Material.BROWN_BED,
+            Material.GREEN_BED,
+            Material.RED_BED,
+            Material.BLACK_BED
     });
     
     // @formatter:on

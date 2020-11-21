@@ -2009,6 +2009,11 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.RAINBOW_GLAZED_TERRACOTTA, 8), new RainbowTickHandler(ColoredMaterial.GLAZED_TERRACOTTA))
         .register(plugin);
 
+        new RainbowBlock(categories.magicalGadgets, SlimefunItems.RAINBOW_BED, RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] {new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.WHITE_WOOL), null, SlimefunItems.RAINBOW_RUNE, null, new ItemStack(Material.OAK_PLANKS), new ItemStack(Material.OAK_PLANKS), new ItemStack(Material.OAK_PLANKS)},
+        new SlimefunItemStack(SlimefunItems.RAINBOW_BED, 8), new RainbowTickHandler(ColoredMaterial.BED))
+        .register(plugin);
+
         // Christmas
 
         new RainbowBlock(categories.christmas, SlimefunItems.RAINBOW_WOOL_XMAS, RecipeType.ANCIENT_ALTAR,
