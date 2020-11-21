@@ -19,7 +19,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 /**
  * This {@link Listener} makes sure that an {@link IronGolem} cannot be healed with
  * a {@link SlimefunItem}.
- * This fixes Issue 1332.
  * 
  * @author TheBusyBiscuit
  *
@@ -42,6 +41,7 @@ public class IronGolemListener implements Listener {
                 item = inv.getItemInOffHand();
             }
 
+            // Check if the Golem was clicked using an Iron Ingot
             if (item != null && item.getType() == Material.IRON_INGOT) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
@@ -49,8 +49,10 @@ public class IronGolemListener implements Listener {
                     e.setCancelled(true);
                     SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
 
-                    // This is just there to update the Inventory...
-                    // Somehow cancelling it isn't enough.
+                    /**
+                     * This is just there to update the Inventory...
+                     * Somehow cancelling it isn't enough.
+                     */
                     if (e.getHand() == EquipmentSlot.HAND) {
                         inv.setItemInMainHand(item);
                     } else if (e.getHand() == EquipmentSlot.OFF_HAND) {
@@ -60,5 +62,12 @@ public class IronGolemListener implements Listener {
             }
         }
     }
+
+    // @EventHandler
+    // public void onIronGolemSpawn(PLEASE_GIMME_AN_EVENT e) {
+    // if (e.getBlock().getType() == Material.IRON_BLOCK) {
+    // e.setCancelled(true);
+    // }
+    // }
 
 }
