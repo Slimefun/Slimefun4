@@ -76,7 +76,7 @@ public class Contributor {
      * specified role.
      * 
      * @param role
-     *            The role
+     *            The role of this {@link Contributor}
      * @param commits
      *            The amount of contributions made as that role
      */
@@ -122,7 +122,7 @@ public class Contributor {
 
     /**
      * This returns a {@link List} of contributions for this {@link Contributor}.
-     * Each {@link Entry} consists of a {@link String} (for the role) and an {@link Integer}
+     * Each entry consists of a {@link String} (for the role) and an {@link Integer}
      * (for the amount of commits).
      * 
      * @return A {@link List} of contributions for this {@link Contributor}
@@ -144,6 +144,8 @@ public class Contributor {
      * @return The amount of contributions this {@link Contributor} submitted as the given role
      */
     public int getContributions(@Nonnull String role) {
+        Validate.notNull(role, "The role cannot be null!");
+
         return contributions.getOrDefault(role, 0);
     }
 

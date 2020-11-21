@@ -76,6 +76,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
@@ -87,7 +88,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBoots
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunBowListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunGuideListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemConsumeListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.SlimefunItemInteractListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
@@ -483,7 +484,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     private void registerListeners() {
         new SlimefunBootsListener(this);
-        new SlimefunItemListener(this);
+        new SlimefunItemInteractListener(this);
         new SlimefunItemConsumeListener(this);
         new BlockPhysicsListener(this);
         new CargoNodeListener(this);
@@ -493,6 +494,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new BlockListener(this);
         new EnhancedFurnaceListener(this);
         new ItemPickupListener(this);
+        new ItemDropListener(this);
         new DeathpointListener(this);
         new ExplosionsListener(this);
         new DebugFishListener(this);
