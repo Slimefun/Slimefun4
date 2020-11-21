@@ -19,7 +19,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @author CURVX
  *
  */
-
 public class HopperListener implements SlimefunCraftingListener {
 
     public HopperListener(@Nonnull SlimefunPlugin plugin) {
