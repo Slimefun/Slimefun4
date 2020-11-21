@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.api.inventory.AbstractVanillaBlockInventory;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,12 +10,13 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.VanillaContainer;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * This {@link Listener} prevents item from being transferred to a
- * {@link VanillaContainer} using a hopper.
+ * {@link AbstractVanillaBlockInventory} using a hopper.
+ *
+ * @author CURVX
  *
  */
 
@@ -25,12 +27,10 @@ public class HopperListener implements SlimefunCraftingListener {
     }
 
     @EventHandler
-    public void fromHopper(InventoryMoveItemEvent e) {
+    public void onHopperInsert(InventoryMoveItemEvent e) {
         Location loc = e.getDestination().getLocation();
-        if (e.getSource().getType() == InventoryType.HOPPER && loc != null && BlockStorage.hasBlockInfo(loc)) {
-            if (BlockStorage.check(loc.getBlock()) instanceof VanillaContainer) {
+        if (e.getSource().getType() == InventoryType.HOPPER && loc != null && BlockStorage.check(loc.getBlock()) instanceof AbstractVanillaBlockInventory) {
                 e.setCancelled(true);
-            }
         }
     }
 }
