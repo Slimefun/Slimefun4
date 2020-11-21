@@ -75,6 +75,7 @@
 * Fixed Armor Stands getting damaged/pushed by Explosive Bow
 * Fixed Sword of Beheading dropping Zombie/Skeleton Skulls from Zombie/Skeleton subvariants
 * Fixed #2518
+* Fixed #2421
 
 ## Release Candidate 17 (17 Oct 2020)
 
