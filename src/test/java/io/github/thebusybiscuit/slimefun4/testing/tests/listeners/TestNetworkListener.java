@@ -25,7 +25,7 @@ class TestNetworkListener {
 
     private static SlimefunPlugin plugin;
     private static NetworkListener listener;
-    private static NetworkManager manager = new NetworkManager(80, false);
+    private static NetworkManager manager = new NetworkManager(80);
     private static ServerMock server;
 
     @BeforeAll

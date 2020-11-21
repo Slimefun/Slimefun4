@@ -11,7 +11,7 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 
-public class JetpackTask extends PlayerTask {
+public class JetpackTask extends AbstractPlayerTask {
 
     private static final float COST = 0.08F;
 

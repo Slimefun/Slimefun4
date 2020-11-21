@@ -300,6 +300,18 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
+    public boolean isEmpty() {
+        if (!includedMaterials.isEmpty()) {
+            /**
+             * Without even needing to generate a Set we can safely
+             * return false if there are directly included Materials
+             */
+            return false;
+        } else {
+            return getValues().isEmpty();
+        }
+    }
+
     /**
      * This returns a {@link Set} of {@link Tag Tags} which are children of this {@link SlimefunTag},
      * these can be other {@link SlimefunTag SlimefunTags} or regular {@link Tag Tags}.

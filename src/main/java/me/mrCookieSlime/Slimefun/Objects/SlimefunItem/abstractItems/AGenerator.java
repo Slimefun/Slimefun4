@@ -63,7 +63,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES);
+                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
             @Override
@@ -152,7 +152,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                 ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
                 if (isChargeable()) {
-                    int charge = getCharge(l);
+                    int charge = getCharge(l, data);
 
                     if (getCapacity() - charge >= getEnergyProduction()) {
                         progress.put(l, timeleft - 1);

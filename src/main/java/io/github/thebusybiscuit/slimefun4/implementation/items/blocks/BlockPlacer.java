@@ -79,21 +79,25 @@ public class BlockPlacer extends SlimefunItem {
             Material material = e.getItem().getType();
 
             if (SlimefunTag.SHULKER_BOXES.isTagged(material)) {
-                // Since vanilla Dispensers can already place Shulker boxes, we
-                // simply fallback to the vanilla behaviour.
+                /**
+                 * Since vanilla Dispensers can already place Shulker boxes,
+                 * we simply fallback to the vanilla behaviour.
+                 */
                 return;
             }
 
             e.setCancelled(true);
 
             if (!material.isBlock() || SlimefunTag.BLOCK_PLACER_IGNORED_MATERIALS.isTagged(material)) {
-                // Some materials cannot be reliably placed, like beds, it would look
-                // kinda wonky, so we just ignore these altogether.
-                // The event has already been cancelled too, so they won't drop.
+                /**
+                 * Some materials cannot be reliably placed, like beds,
+                 * it would look kinda wonky, so we just ignore these altogether.
+                 * The event has already been cancelled too, so they won't drop.
+                 */
                 return;
             }
 
-            if (facedBlock.isEmpty() && !isBlacklisted(material)) {
+            if (facedBlock.isEmpty() && !isBlacklisted(material) && dispenser.getInventory().getViewers().isEmpty()) {
                 SlimefunItem item = SlimefunItem.getByItem(e.getItem());
 
                 if (item != null) {
@@ -123,9 +127,11 @@ public class BlockPlacer extends SlimefunItem {
         String owner = BlockStorage.getLocationInfo(dispenser.getLocation(), "owner");
 
         if (owner == null) {
-            // If no owner was set, then we will fallback to the previous behaviour:
-            // Allowing block placers to bypass protection, newly placed Block placers
-            // will respect protection plugins.
+            /**
+             * If no owner was set, then we will fallback to the previous behaviour:
+             * Allowing block placers to bypass protection, newly placed Block placers
+             * will respect protection plugins.
+             */
             return true;
         }
 

@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMa
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
- * This {@link PlayerTask} is run when a {@link Player} carries an {@link InfusedMagnet}.
+ * This {@link AbstractPlayerTask} is run when a {@link Player} carries an {@link InfusedMagnet}.
  * It manages the automatic pickup of nearby items.
  * 
  * @author TheBusyBiscuit
@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @see InfusedMagnet
  *
  */
-public class MagnetTask extends PlayerTask {
+public class MagnetTask extends AbstractPlayerTask {
 
     private final double radius;
 

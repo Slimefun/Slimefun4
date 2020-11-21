@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -37,23 +39,41 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test illegal network size arguments")
     void testIllegalNetworkSize() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(-100, false));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(0, false));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(-100));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new NetworkManager(0));
     }
 
     @Test
     @DisplayName("Test maximum network size")
     void testGetMaxNetworkSize() {
         int size = 50;
-        NetworkManager manager = new NetworkManager(size, false);
+        NetworkManager manager = new NetworkManager(size);
 
         Assertions.assertEquals(size, manager.getMaxSize());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    @DisplayName("Test visualizer setting")
+    void testVisualizerSetting(boolean enabled) {
+        NetworkManager manager = new NetworkManager(200, enabled, false);
+
+        Assertions.assertEquals(enabled, manager.isVisualizerEnabled());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    @DisplayName("Test item deletion setting")
+    void testItemDeletionSetting(boolean enabled) {
+        NetworkManager manager = new NetworkManager(200, true, enabled);
+
+        Assertions.assertEquals(enabled, manager.isItemDeletionEnabled());
     }
 
     @Test
     @DisplayName("Test network list")
     void testGetNetworkList() {
-        NetworkManager manager = new NetworkManager(10, false);
+        NetworkManager manager = new NetworkManager(10);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
 
@@ -82,7 +102,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test getting a network at a location")
     void testGetNetworkAtLocation() {
-        NetworkManager manager = new NetworkManager(10, false);
+        NetworkManager manager = new NetworkManager(10);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
         Location loc2 = new Location(world, 0, 200, 0);
@@ -104,7 +124,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test getting all networks at a location")
     void testGetNetworksAtLocation() {
-        NetworkManager manager = new NetworkManager(10, false);
+        NetworkManager manager = new NetworkManager(10);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
         Location loc2 = new Location(world, 0, 200, 0);
@@ -120,7 +140,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test a single node network")
     void testSingleNodeNetwork() {
-        NetworkManager manager = new NetworkManager(1, false);
+        NetworkManager manager = new NetworkManager(1);
         World world = server.addSimpleWorld("Simple Network World");
         Location loc = new Location(world, 0, 100, 0);
 
@@ -134,7 +154,7 @@ class TestNetworkManager {
     @Test
     @DisplayName("Test networks connecting via corners")
     void testCornerConnection() {
-        NetworkManager manager = new NetworkManager(100, false);
+        NetworkManager manager = new NetworkManager(100);
         World world = server.addSimpleWorld("Simple Network World");
         Map<Location, NetworkComponent> map = new HashMap<>();
 

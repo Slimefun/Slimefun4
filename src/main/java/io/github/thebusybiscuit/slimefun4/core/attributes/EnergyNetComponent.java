@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -65,14 +66,36 @@ public interface EnergyNetComponent extends ItemAttribute {
      * @return The charge stored at that {@link Location}
      */
     default int getCharge(@Nonnull Location l) {
+        // Emergency fallback, this cannot hold a charge, so we'll just return zero
+        if (!isChargeable()) {
+            return 0;
+        }
+
+        return getCharge(l, BlockStorage.getLocationInfo(l));
+    }
+
+    /**
+     * This returns the currently stored charge at a given {@link Location}.
+     * This is a more performance saving option if you already have a {@link Config}
+     * object for this {@link Location}.
+     * 
+     * @param l
+     *            The target {@link Location}
+     * @param data
+     *            The data at this {@link Location}
+     * 
+     * @return The charge stored at that {@link Location}
+     */
+    default int getCharge(@Nonnull Location l, @Nonnull Config data) {
         Validate.notNull(l, "Location was null!");
+        Validate.notNull(data, "data was null!");
 
         // Emergency fallback, this cannot hold a charge, so we'll just return zero
         if (!isChargeable()) {
             return 0;
         }
 
-        String charge = BlockStorage.getLocationInfo(l, "energy-charge");
+        String charge = data.getString("energy-charge");
 
         if (charge != null) {
             return Integer.parseInt(charge);

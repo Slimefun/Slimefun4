@@ -30,6 +30,9 @@
 * (API) Added PlayerPreResearchEvent
 * Added a config option to disable network visualizations
 * (API) Added CoolerFeedPlayerEvent
+* Added a config option to delete excess cargo network items
+* Added an item setting to configure the Wind Staff velocity
+* Added an item setting to the Infused Hopper to toggle it with redstone
 
 #### Changes
 * Removed 1.13 support
@@ -40,6 +43,10 @@
 * Magnets can no longer be placed down
 * Electromagnets can no longer be placed down
 * Performance improvements to Cargo network visualizations
+* General performance improvements
+* Improved performance for radioactive items
+* Memory/GC improvements for the profiler
+* Performance improvements for the Fluid Pump
 
 #### Fixes
 * Fixed #2448
@@ -59,6 +66,17 @@
 * Fixed Magician Talisman sometimes drawing invalid enchantments
 * Fixed id conflicts for external Enchantment sources (e.g. plugins) for the Magician Talisman settings
 * Fixed network visualizers spawning particles for other player heads
+* Fixed #2418
+* Fixed #2446
+* Fixed CoreProtect not recognizing Slimefun blocks getting broken
+* Fixed #2447
+* Fixed #2558
+* Fixed a duplication bug with the Block Placer
+* Fixed Slimefun Guide Settings showing "last activity" as a negative number
+* Fixed Armor Stands getting damaged/pushed by Explosive Bow
+* Fixed Sword of Beheading dropping Zombie/Skeleton Skulls from Zombie/Skeleton subvariants
+* Fixed #2518
+* Fixed #2421
 
 ## Release Candidate 17 (17 Oct 2020)
 

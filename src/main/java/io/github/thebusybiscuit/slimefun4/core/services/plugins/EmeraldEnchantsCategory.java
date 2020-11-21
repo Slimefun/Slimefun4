@@ -11,7 +11,14 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import me.mrCookieSlime.EmeraldEnchants.EnchantmentGuide;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 
+/**
+ * This is the EmeraldEnchants {@link Category}
+ * 
+ * @deprecated Support for EmeraldEnchants is being faded out
+ *
+ */
 @Deprecated
 class EmeraldEnchantsCategory extends FlexCategory {
 

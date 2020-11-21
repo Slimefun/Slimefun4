@@ -128,7 +128,7 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
-        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, pedestal, ProtectableAction.ACCESS_INVENTORIES)) {
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, pedestal, ProtectableAction.INTERACT_BLOCK)) {
             SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
             return;
         }
@@ -162,7 +162,7 @@ public class AncientAltarListener implements Listener {
     }
 
     private void useAltar(@Nonnull Block altar, @Nonnull Player p) {
-        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, altar, ProtectableAction.ACCESS_INVENTORIES)) {
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, altar, ProtectableAction.INTERACT_BLOCK)) {
             SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
             return;
         }

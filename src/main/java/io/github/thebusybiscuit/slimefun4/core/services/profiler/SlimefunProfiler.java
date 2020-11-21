@@ -42,11 +42,15 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class SlimefunProfiler {
 
-    // A minecraft server tick is 50ms and Slimefun ticks are stretched across
-    // two ticks (sync and async blocks), so we use 100ms as a reference here
+    /**
+     * A minecraft server tick is 50ms and Slimefun ticks are stretched
+     * across two ticks (sync and async blocks), so we use 100ms as a reference here
+     */
     private static final int MAX_TICK_DURATION = 100;
 
-    private final ExecutorService executor = Executors.newFixedThreadPool(5);
+    private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(5);
+    private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
+
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
@@ -139,8 +143,6 @@ public class SlimefunProfiler {
             return;
         }
 
-        // Since we got more than one Thread in our pool,
-        // blocking this one is (hopefully) completely fine
         executor.execute(this::finishReport);
     }
 
@@ -151,6 +153,10 @@ public class SlimefunProfiler {
         // Wait for all timing results to come in
         while (!running.get() && queued.get() > 0) {
             try {
+                /**
+                 * Since we got more than one Thread in our pool,
+                 * blocking this one is (hopefully) completely fine
+                 */
                 Thread.sleep(1);
                 iterations--;
 
@@ -162,6 +168,7 @@ public class SlimefunProfiler {
                         iterator.next().sendMessage("Your timings report has timed out, we were still waiting for " + queued.get() + " samples to be collected :/");
                         iterator.remove();
                     }
+
                     return;
                 }
             } catch (InterruptedException e) {
@@ -228,9 +235,10 @@ public class SlimefunProfiler {
         Map<String, Long> map = new HashMap<>();
 
         for (Map.Entry<ProfiledBlock, Long> entry : timings.entrySet()) {
-            String world = entry.getKey().getPosition().getWorld().getName();
-            int x = entry.getKey().getPosition().getChunkX();
-            int z = entry.getKey().getPosition().getChunkZ();
+            ProfiledBlock block = entry.getKey();
+            String world = block.getWorld().getName();
+            int x = block.getChunkX();
+            int z = block.getChunkZ();
 
             map.merge(world + " (" + x + ',' + z + ')', entry.getValue(), Long::sum);
         }
@@ -243,9 +251,9 @@ public class SlimefunProfiler {
         int blocks = 0;
 
         for (ProfiledBlock block : timings.keySet()) {
-            String world = block.getPosition().getWorld().getName();
-            int x = block.getPosition().getChunkX();
-            int z = block.getPosition().getChunkZ();
+            String world = block.getWorld().getName();
+            int x = block.getChunkX();
+            int z = block.getChunkZ();
 
             if (chunk.equals(world + " (" + x + ',' + z + ')')) {
                 blocks++;
@@ -284,6 +292,7 @@ public class SlimefunProfiler {
     protected float getPercentageOfTick() {
         float millis = totalElapsedTime / 1000000.0F;
         float fraction = (millis * 100.0F) / MAX_TICK_DURATION;
+
         return Math.round((fraction * 100.0F) / 100.0F);
     }
 
@@ -305,6 +314,7 @@ public class SlimefunProfiler {
         return PerformanceRating.UNKNOWN;
     }
 
+    @Nonnull
     public String getTime() {
         return NumberUtils.getAsMillis(totalElapsedTime);
     }
@@ -324,6 +334,7 @@ public class SlimefunProfiler {
      */
     public boolean hasTimings(@Nonnull Block b) {
         Validate.notNull("Cannot get timings for a null Block");
+
         return timings.containsKey(new ProfiledBlock(b));
     }
 

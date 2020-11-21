@@ -26,19 +26,19 @@ class TestNumberUtils {
     @Test
     @DisplayName("Test elapsed time string")
     void testElapsedTime() {
-        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime current = LocalDateTime.now();
 
-        LocalDateTime a = start.plusDays(1);
-        Assertions.assertEquals("1d", NumberUtils.getElapsedTime(start, a));
+        LocalDateTime a = current.minusDays(1);
+        Assertions.assertEquals("1d", NumberUtils.getElapsedTime(current, a));
 
-        LocalDateTime b = start.plusHours(25);
-        Assertions.assertEquals("1d 1h", NumberUtils.getElapsedTime(start, b));
+        LocalDateTime b = current.minusHours(25);
+        Assertions.assertEquals("1d 1h", NumberUtils.getElapsedTime(current, b));
 
-        LocalDateTime c = start.plusHours(1);
-        Assertions.assertEquals("1h", NumberUtils.getElapsedTime(start, c));
+        LocalDateTime c = current.minusHours(1);
+        Assertions.assertEquals("1h", NumberUtils.getElapsedTime(current, c));
 
-        LocalDateTime d = start.plusMinutes(12);
-        Assertions.assertEquals("< 1h", NumberUtils.getElapsedTime(start, d));
+        LocalDateTime d = current.minusMinutes(12);
+        Assertions.assertEquals("< 1h", NumberUtils.getElapsedTime(current, d));
     }
 
     @Test

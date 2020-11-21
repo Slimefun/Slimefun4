@@ -33,7 +33,7 @@ public class PlayerPreResearchEvent extends Event implements Cancellable {
     private final Research research;
     private final SlimefunItem slimefunItem;
     private boolean cancelled;
-    
+
     @ParametersAreNonnullByDefault
     public PlayerPreResearchEvent(Player p, Research research, SlimefunItem slimefunItem) {
         Validate.notNull(p, "The Player cannot be null");

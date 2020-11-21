@@ -183,7 +183,7 @@ public class Translators {
         Contributor contributor = github.addContributor(minecraftName, "https://github.com/" + username, "translator," + lang.getLanguageId(), 0);
 
         if (lock) {
-            contributor.lock();
+            contributor.setImmutable();
         }
     }
 

@@ -91,12 +91,14 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public boolean fits(@Nonnull ItemStack item, int... slots) {
-        if (getItemInSlot(slots[0]) == null) {
-            // Very small optimization
-            return true;
-        } else {
-            return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
+        for (int slot : slots) {
+            // A small optimization for empty slots
+            if (getItemInSlot(slot) == null) {
+                return true;
+            }
         }
+
+        return InvUtils.fits(toInventory(), new ItemStackWrapper(item), slots);
     }
 
     @Nullable
