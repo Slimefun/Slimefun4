@@ -180,11 +180,11 @@ public class RainbowTickHandler extends BlockTicker {
     }
 
     private void setBedBlock(Block b, Material material, BlockFace facing, Part part, boolean doPhysics) {
-		b.setType(material, false);
+        b.setType(material, false);
         BlockData data = b.getBlockData();
         
 		if (data instanceof Bed) {
-			((Bed) data).setFacing(facing);
+            ((Bed) data).setFacing(facing);
             ((Bed) data).setPart(part);
         }
         
