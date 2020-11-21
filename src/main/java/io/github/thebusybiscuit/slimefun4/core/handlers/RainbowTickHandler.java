@@ -10,7 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.GlassPane;
+import org.bukkit.block.data.type.Bed.Part;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -35,6 +37,7 @@ public class RainbowTickHandler extends BlockTicker {
 
     private final LoopIterator<Material> iterator;
     private final boolean glassPanes;
+    private final boolean bed;
     private Material material;
 
     public RainbowTickHandler(@Nonnull List<Material> materials) {
@@ -45,6 +48,7 @@ public class RainbowTickHandler extends BlockTicker {
         }
 
         glassPanes = containsGlassPanes(materials);
+        bed = containsBed(materials);
         iterator = new LoopIterator<>(materials);
         material = iterator.next();
     }
@@ -86,6 +90,21 @@ public class RainbowTickHandler extends BlockTicker {
         return false;
     }
 
+    private boolean containsBed(@Nonnull List<Material> materials) {
+        if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            // BlockData is not available to us during Unit Tests :/
+            return false;
+        }
+
+        for (Material type : materials) {
+            if (type.createBlockData() instanceof Bed) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public void tick(Block b, SlimefunItem item, Config data) {
         if (b.getType() == Material.AIR) {
@@ -114,6 +133,15 @@ public class RainbowTickHandler extends BlockTicker {
                 b.setBlockData(block, false);
                 return;
             }
+        } else if (bed) {
+            BlockData blockData = b.getBlockData();
+
+            if (blockData instanceof Bed) {
+                Bed bed = (Bed) blockData;
+                setBed(b, material, bed.getFacing());
+            }
+
+            return;
         }
 
         b.setType(material, false);
@@ -127,6 +155,40 @@ public class RainbowTickHandler extends BlockTicker {
     @Override
     public boolean isSynchronized() {
         return true;
+    }
+
+    private void setBed(Block b, Material material, BlockFace facing) {
+        switch (facing) {
+            default:
+            case NORTH:
+                setBedBlock(b, material, BlockFace.SOUTH, Part.FOOT, false);
+                setBedBlock(b.getRelative(0, 0, 1), material, BlockFace.SOUTH, Part.HEAD, true);
+                break;
+            case SOUTH:
+                setBedBlock(b.getRelative(0, 0, 1), material, BlockFace.NORTH, Part.FOOT, false);
+                setBedBlock(b, material, BlockFace.NORTH, Part.HEAD, true);
+                break;
+            case EAST:
+                setBedBlock(b, material, BlockFace.WEST, Part.FOOT, false);
+                setBedBlock(b.getRelative(1, 0, 0), material, BlockFace.WEST, Part.HEAD, true);
+                break;
+            case WEST:
+                setBedBlock(b.getRelative(1, 0, 0), material, BlockFace.EAST, Part.FOOT, false);
+                setBedBlock(b, material, BlockFace.EAST, Part.HEAD, true);
+                break;
+        }
+    }
+
+    private void setBedBlock(Block b, Material material, BlockFace facing, Part part, boolean doPhysics) {
+		b.setType(material, false);
+        BlockData data = b.getBlockData();
+        
+		if (data instanceof Bed) {
+			((Bed) data).setFacing(facing);
+            ((Bed) data).setPart(part);
+        }
+        
+        b.setBlockData(data, doPhysics);
     }
 
 }
