@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
@@ -24,6 +26,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class Parachute extends SlimefunItem {
 
+    @ParametersAreNonnullByDefault
     public Parachute(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, RecipeType.ENHANCED_CRAFTING_TABLE, recipe);
     }

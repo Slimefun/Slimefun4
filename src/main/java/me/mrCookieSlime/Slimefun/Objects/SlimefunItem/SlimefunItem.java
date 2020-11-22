@@ -719,15 +719,11 @@ public class SlimefunItem implements Placeable {
      * This method is used for internal purposes only.
      */
     public void load() {
-        try {
-            if (!hidden) {
-                category.add(this);
-            }
-
-            recipeType.register(recipe, getRecipeOutput());
-        } catch (Exception x) {
-            error("Failed to properly load the Item \"" + id + "\"", x);
+        if (!hidden) {
+            category.add(this);
         }
+
+        recipeType.register(recipe, getRecipeOutput());
     }
 
     /**

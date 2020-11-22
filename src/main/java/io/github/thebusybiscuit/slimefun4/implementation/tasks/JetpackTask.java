@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -23,11 +22,6 @@ public class JetpackTask extends AbstractPlayerTask {
     }
 
     @Override
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    @Override
     protected void executeTask() {
         if (p.getInventory().getChestplate() == null || p.getInventory().getChestplate().getType() == Material.AIR) {
             return;
@@ -43,7 +37,7 @@ public class JetpackTask extends AbstractPlayerTask {
 
             p.setVelocity(vector);
         } else {
-            Bukkit.getScheduler().cancelTask(id);
+            cancel();
         }
     }
 }

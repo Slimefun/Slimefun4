@@ -38,15 +38,19 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class TickerTask implements Runnable {
 
-    // This Map holds all currently actively ticking locations
+    /**
+     *  This Map holds all currently actively ticking locations.
+     */
     private final Map<String, Set<Location>> activeTickers = new ConcurrentHashMap<>();
 
     // These are "Queues" of blocks that need to be removed or moved
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
-    // This Map tracks how many bugs have occurred in a given Location
-    // If too many bugs happen, we delete that Location
+    /**
+     *  This Map tracks how many bugs have occurred in a given Location .
+     *  If too many bugs happen, we delete that Location.
+     */
     private final Map<BlockPosition, Integer> bugs = new ConcurrentHashMap<>();
 
     private int tickRate;

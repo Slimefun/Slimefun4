@@ -359,6 +359,7 @@ public enum SlimefunTag implements Tag<Material> {
     @Nullable
     public static SlimefunTag getTag(@Nonnull String value) {
         Validate.notNull(value, "A tag cannot be null!");
+
         return nameLookup.get(value);
     }
 
