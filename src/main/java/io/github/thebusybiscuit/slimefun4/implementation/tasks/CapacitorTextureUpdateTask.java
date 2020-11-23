@@ -57,12 +57,16 @@ public class CapacitorTextureUpdateTask implements Runnable {
         // Ensure that this Block is still a Player Head
         if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
             if (filledPercentage <= 0.25) {
+                // 0-25% capacity
                 SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
             } else if (filledPercentage <= 0.5) {
+                // 25-50% capacity
                 SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
             } else if (filledPercentage <= 0.75) {
+                // 50-75% capacity
                 SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
             } else {
+                // 75-100% capacity
                 SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_100.getTexture());
             }
         }
