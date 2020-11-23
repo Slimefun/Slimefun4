@@ -1,9 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -17,9 +15,6 @@ import org.bukkit.inventory.meta.Repairable;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -54,7 +49,6 @@ public class AutoDisenchanter extends AContainer {
     @Override
     protected MachineRecipe findNextRecipe(BlockMenu menu) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
-        Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
 
         for (int slot : getInputSlots()) {
             ItemStack item = menu.getItemInSlot(slot);
@@ -81,24 +75,12 @@ public class AutoDisenchanter extends AContainer {
                     amount++;
                 }
 
-                if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
-                    for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                        amount++;
-                        emeraldEnchantments.add(enchantment);
-                    }
-                }
-
                 if (amount > 0) {
                     ItemStack disenchantedItem = item.clone();
                     disenchantedItem.setAmount(1);
 
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
                     transferEnchantments(disenchantedItem, book, enchantments);
-
-                    for (ItemEnchantment ench : emeraldEnchantments) {
-                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(book, ench.getEnchantment(), ench.getLevel());
-                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(disenchantedItem, ench.getEnchantment(), 0);
-                    }
 
                     MachineRecipe recipe = new MachineRecipe(90 * amount / this.getSpeed(), new ItemStack[] { target, item }, new ItemStack[] { disenchantedItem, book });
 

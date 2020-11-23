@@ -95,7 +95,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
     }
 
     @Nonnull
-    public Set<MachineFuel> getFuelTypes2() {
+    public Set<MachineFuel> getFuelTypes() {
         return fuelTypes;
     }
 

@@ -415,12 +415,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.github.TheBusyBiscuit</groupId>
-            <artifactId>EmeraldEnchants2</artifactId>
-            <version>3cd370b5d8</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>me.minebuilders</groupId>
             <artifactId>clearlag-core</artifactId>
             <version>3.1.6</version>

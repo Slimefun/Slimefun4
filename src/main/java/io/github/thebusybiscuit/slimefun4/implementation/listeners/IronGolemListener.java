@@ -63,11 +63,4 @@ public class IronGolemListener implements Listener {
         }
     }
 
-    // @EventHandler
-    // public void onIronGolemSpawn(PLEASE_GIMME_AN_EVENT e) {
-    // if (e.getBlock().getType() == Material.IRON_BLOCK) {
-    // e.setCancelled(true);
-    // }
-    // }
-
 }

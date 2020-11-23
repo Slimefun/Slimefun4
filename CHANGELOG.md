@@ -47,6 +47,7 @@
 * Improved performance for radioactive items
 * Memory/GC improvements for the profiler
 * Performance improvements for the Fluid Pump
+* Removed EmeraldEnchants integration
 
 #### Fixes
 * Fixed #2448

@@ -32,8 +32,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -96,15 +94,6 @@ public final class SlimefunUtils {
 
             if (hasSoulboundFlag(meta)) {
                 return true;
-            }
-
-            if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
-                // We wanna operate on a copy now
-                item = item.clone();
-
-                for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                    EmeraldEnchants.getInstance().getRegistry().applyEnchantment(item, enchantment.getEnchantment(), 0);
-                }
             }
 
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
