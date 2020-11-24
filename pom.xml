@@ -337,7 +337,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.27.2</version>
+            <version>0.27.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
