@@ -33,6 +33,8 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
+import javax.annotation.Nonnull;
+
 /**
  * The {@link BookSlimefunGuide} is a {@link SlimefunGuideImplementation} which
  * uses a {@link CustomBookInterface} to display the contents of the {@link SlimefunGuide}.
@@ -56,6 +58,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Book GUI)");
     }
 
+    @Nonnull
     @Override
     public SlimefunGuideLayout getLayout() {
         return SlimefunGuideLayout.BOOK;
@@ -66,6 +69,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         return true;
     }
 
+    @Nonnull
     @Override
     public ItemStack getItem() {
         return item;
@@ -229,7 +233,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
 
             component.setHoverEvent(new HoverEvent(lore));
-            component.setClickEvent(new ClickEvent(key, player -> SlimefunPlugin.runSync(() -> displayItem(profile, item, true))));
+            component.setClickEvent(new ClickEvent(key, player -> SlimefunPlugin.runSync(() -> displaySlimefunItem(profile, item, 0, true))));
             items.add(component);
         }
     }
@@ -246,8 +250,8 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-        SlimefunGuide.displayItem(profile, item, addToHistory);
+    public void displaySlimefunItem(PlayerProfile profile, SlimefunItem item, int index, boolean addToHistory) {
+        SlimefunGuide.displaySlimefunItem(profile, item, addToHistory);
     }
 
 }

@@ -2,9 +2,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItemRecipe;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -220,9 +222,24 @@ public final class SlimefunItemSetup {
         DefaultCategories categories = new DefaultCategories();
 
         // @formatter:off (We will need to refactor this one day)
-        new SlimefunItem(categories.weapons, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
-        .register(plugin);
+        new SlimefunItem(categories.weapons, SlimefunItems.GRANDMAS_WALKING_STICK,
+                new SlimefunItemRecipe(RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                        null, new ItemStack(Material.OAK_LOG), null,
+                        null, new ItemStack(Material.OAK_LOG), null,
+                        null, new ItemStack(Material.OAK_LOG), null}, SlimefunItems.GRANDMAS_WALKING_STICK),
+                new SlimefunItemRecipe(RecipeType.ENHANCED_CRAFTING_TABLE, new ItemStack[] {
+                        null, new ItemStack(Material.OAK_LOG), null,
+                        null, new ItemStack(Material.SPONGE), null,
+                        null, new ItemStack(Material.OAK_LOG), null}, new SlimefunItemStack(SlimefunItems.GRANDMAS_WALKING_STICK, 2))
+        ).register(plugin);
+        
+        Objects.requireNonNull(SlimefunItem.getByItem(SlimefunItems.GRANDMAS_WALKING_STICK)).addRecipe(new SlimefunItemRecipe(RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {
+                null, new ItemStack(Material.OAK_LOG), null,
+                null, new ItemStack(Material.DRAGON_HEAD), null,
+                null, new ItemStack(Material.OAK_LOG), null},
+                new SlimefunItemStack(SlimefunItems.GOLD_24K, 2)
+        ));
         
         new SlimefunItem(categories.weapons, SlimefunItems.GRANDPAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.LEATHER), new ItemStack(Material.OAK_LOG), new ItemStack(Material.LEATHER), null, new ItemStack(Material.OAK_LOG), null, null, new ItemStack(Material.OAK_LOG), null})
@@ -2131,6 +2148,14 @@ public final class SlimefunItemSetup {
         .setEnergyConsumption(24)
         .setProcessingSpeed(1)
         .register(plugin);
+    
+        Objects.requireNonNull(SlimefunItem.getByItem(SlimefunItems.GEO_MINER)).addRecipe(new SlimefunItemRecipe(RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {
+                        null, new ItemStack(Material.OAK_LOG), null,
+                        null, new ItemStack(Material.DRAGON_HEAD), null,
+                        null, new ItemStack(Material.OAK_LOG), null},
+                new SlimefunItemStack(SlimefunItems.GOLD_24K, 2)
+        ));
 
         new SlimefunItem(categories.resources, SlimefunItems.OIL_BUCKET, new RecipeType(new NamespacedKey(plugin, "oil_pump"), SlimefunItems.OIL_PUMP),
         new ItemStack[] {null, null, null, null, new ItemStack(Material.BUCKET), null, null, null, null})

@@ -99,8 +99,8 @@ public final class SlimefunGuide {
         SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, 0, addToHistory);
     }
 
-    public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+    public static void displaySlimefunItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displaySlimefunItem(profile, item, 0, addToHistory);
     }
 
     public static boolean isGuideItem(ItemStack item) {

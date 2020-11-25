@@ -81,9 +81,9 @@ public class GuideHistory {
      * @param item
      *            The {@link SlimefunItem} that should be added to this {@link GuideHistory}
      */
-    public void add(@Nonnull SlimefunItem item) {
+    public void add(@Nonnull SlimefunItem item, int page) {
         Validate.notNull(item, "Cannot add a non-existing SlimefunItem to the GuideHistory!");
-        queue.add(new GuideEntry<>(item, 0));
+        refresh(item, page);
     }
 
     /**
@@ -169,7 +169,7 @@ public class GuideHistory {
         } else if (entry.getIndexedObject() instanceof Category) {
             guide.openCategory(profile, (Category) entry.getIndexedObject(), entry.getPage());
         } else if (entry.getIndexedObject() instanceof SlimefunItem) {
-            guide.displayItem(profile, (SlimefunItem) entry.getIndexedObject(), false);
+            guide.displaySlimefunItem(profile, (SlimefunItem) entry.getIndexedObject(), entry.getPage(), false);
         } else if (entry.getIndexedObject() instanceof ItemStack) {
             guide.displayItem(profile, (ItemStack) entry.getIndexedObject(), entry.getPage(), false);
         } else if (entry.getIndexedObject() instanceof String) {

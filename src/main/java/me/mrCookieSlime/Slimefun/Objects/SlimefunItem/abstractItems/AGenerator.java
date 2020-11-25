@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItemRecipe;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -51,8 +52,8 @@ public abstract class AGenerator extends AbstractEnergyProvider {
     private int energyCapacity = -1;
 
     @ParametersAreNonnullByDefault
-    public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AGenerator(Category category, SlimefunItemStack item, SlimefunItemRecipe recipe) {
+        super(category, item, recipe);
 
         new BlockMenuPreset(item.getItemId(), getInventoryTitle()) {
 
@@ -90,6 +91,11 @@ public abstract class AGenerator extends AbstractEnergyProvider {
         });
 
         registerDefaultFuelTypes();
+    }
+
+    @ParametersAreNonnullByDefault
+    public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(category, item, new SlimefunItemRecipe(recipeType, recipe, item));
     }
 
     private void constructMenu(BlockMenuPreset preset) {

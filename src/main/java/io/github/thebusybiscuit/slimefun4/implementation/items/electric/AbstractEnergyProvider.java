@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItemRecipe;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -44,7 +45,12 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
 
     @ParametersAreNonnullByDefault
     protected AbstractEnergyProvider(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+        this(category, item, new SlimefunItemRecipe(recipeType, recipe, item));
+    }
+    
+    @ParametersAreNonnullByDefault
+    protected AbstractEnergyProvider(Category category, SlimefunItemStack item, SlimefunItemRecipe recipe) {
+        super(category, item, recipe);
     }
 
     /**

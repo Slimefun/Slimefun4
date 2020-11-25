@@ -72,8 +72,8 @@ class TestGuideOpening {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "OPEN_SLIMEFUN_ITEM", new CustomItem(Material.PRISMARINE_SHARD, "&5Some Shard I guess"));
 
         SlimefunGuideImplementation guide = Mockito.mock(SlimefunGuideImplementation.class);
-        PlayerProfile profile = prepare(guide, history -> history.add(item));
-        Mockito.verify(guide).displayItem(profile, item, false);
+        PlayerProfile profile = prepare(guide, history -> history.add(item, 0));
+        Mockito.verify(guide).displaySlimefunItem(profile, item, 0, false);
     }
 
     @Test

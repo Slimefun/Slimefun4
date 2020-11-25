@@ -65,11 +65,13 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
         return categories;
     }
 
+    @Nonnull
     @Override
     public SlimefunGuideLayout getLayout() {
         return SlimefunGuideLayout.CHEAT_SHEET;
     }
 
+    @Nonnull
     @Override
     public ItemStack getItem() {
         return item;

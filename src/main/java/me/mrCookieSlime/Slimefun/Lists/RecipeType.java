@@ -28,6 +28,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAlta
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+import javax.annotation.Nonnull;
+
 public class RecipeType implements Keyed {
 
     public static final RecipeType MULTIBLOCK = new RecipeType(new NamespacedKey(SlimefunPlugin.instance(), "multiblock"), new CustomItem(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
@@ -119,7 +121,7 @@ public class RecipeType implements Keyed {
         } else {
             SlimefunItem slimefunItem = SlimefunItem.getByID(this.machine);
 
-            if (slimefunItem instanceof MultiBlockMachine) {
+            if (slimefunItem instanceof MultiBlockMachine && result != null) {
                 ((MultiBlockMachine) slimefunItem).addRecipe(recipe, result);
             }
         }
@@ -137,6 +139,7 @@ public class RecipeType implements Keyed {
         return SlimefunItem.getByID(machine);
     }
 
+    @Nonnull
     @Override
     public NamespacedKey getKey() {
         return key;

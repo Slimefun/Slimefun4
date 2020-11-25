@@ -64,11 +64,15 @@ public interface SlimefunGuideImplementation {
 
     void displayItem(PlayerProfile profile, ItemStack item, int index, boolean addToHistory);
 
-    void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory);
+    void displaySlimefunItem(PlayerProfile profile, SlimefunItem item, int index, boolean addToHistory);
 
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         Research research = sfitem.getResearch();
 
+        if (research == null) {
+            return;
+        }
+        
         if (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {

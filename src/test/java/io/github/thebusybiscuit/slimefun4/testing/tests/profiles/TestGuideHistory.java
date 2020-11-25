@@ -83,12 +83,12 @@ class TestGuideHistory {
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         GuideHistory history = profile.getGuideHistory();
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((SlimefunItem) null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> history.add((SlimefunItem) null, 0));
 
         Assertions.assertEquals(0, history.size());
 
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "HISTORIC_ITEM", new CustomItem(Material.DIORITE, "&4I am really running out of ideas for item names"));
-        history.add(item);
+        history.add(item, 0);
 
         Assertions.assertEquals(1, history.size());
     }

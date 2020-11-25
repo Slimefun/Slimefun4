@@ -1,9 +1,11 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -65,6 +67,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * 
  * @see SlimefunItemStack
  * @see SlimefunAddon
+ * @see SlimefunItemRecipe
  *
  */
 public class SlimefunItem implements Placeable {
@@ -100,10 +103,11 @@ public class SlimefunItem implements Placeable {
      * This is a reference to the associated {@link Research}, can be null.
      */
     private Research research;
-
-    private ItemStack[] recipe;
-    private RecipeType recipeType;
-    protected ItemStack recipeOutput;
+    
+    /**
+     * All recipes for this {@link SlimefunItem}
+     */
+    private final List<SlimefunItemRecipe> recipes;
 
     protected boolean enchantable = true;
     protected boolean disenchantable = true;
@@ -120,6 +124,50 @@ public class SlimefunItem implements Placeable {
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
+     *
+     * @param category
+     *            The {@link Category} this {@link SlimefunItem} belongs to
+     * @param item
+     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipe
+     *            The first {@link SlimefunItemRecipe} of this {@link SlimefunItem}
+     */
+    public SlimefunItem(Category category, SlimefunItemStack item, SlimefunItemRecipe recipe) {
+        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(item, "'item' is not allowed to be null!");
+        Validate.notNull(recipe, "'recipe' is not allowed to be null!");
+        
+        this.category = category;
+        this.itemStackTemplate = item;
+        this.id = item.getItemId();
+        this.recipes = new ArrayList<>();
+        this.recipes.add(recipe);
+    }
+
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     *
+     * @param category
+     *            The {@link Category} this {@link SlimefunItem} belongs to
+     * @param item
+     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipes
+     *            {@link SlimefunItemRecipe}'s of this {@link SlimefunItem}
+     */
+    public SlimefunItem(Category category, SlimefunItemStack item, SlimefunItemRecipe... recipes) {
+        Validate.notNull(category, "'category' is not allowed to be null!");
+        Validate.notNull(item, "'item' is not allowed to be null!");
+        Validate.notNull(recipes, "'recipes' are not allowed to be null!");
+        
+        this.category = category;
+        this.itemStackTemplate = item;
+        this.id = item.getItemId();
+        this.recipes = new ArrayList<>();
+        this.recipes.addAll(Arrays.asList(recipes));
+    }
+
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
      * 
      * @param category
      *            The {@link Category} this {@link SlimefunItem} belongs to
@@ -131,7 +179,7 @@ public class SlimefunItem implements Placeable {
      *            An Array representing the recipe of this {@link SlimefunItem}
      */
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        this(category, item, recipeType, recipe, null);
+        this(category, item, new SlimefunItemRecipe(recipeType, recipe, item));
     }
 
     /**
@@ -149,16 +197,25 @@ public class SlimefunItem implements Placeable {
      *            The result of crafting this item
      */
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        this(category, item, new SlimefunItemRecipe(recipeType, recipe, recipeOutput));
+    }
+    
+    /**
+     * This creates a new {@link SlimefunItem} from the given arguments.
+     *
+     * @param category
+     *            The {@link Category} this {@link SlimefunItem} belongs to
+     * @param item
+     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     */
+    public SlimefunItem(Category category, SlimefunItemStack item) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
-        Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
 
         this.category = category;
         this.itemStackTemplate = item;
         this.id = item.getItemId();
-        this.recipeType = recipeType;
-        this.recipe = recipe;
-        this.recipeOutput = recipeOutput;
+        this.recipes = new ArrayList<>();
     }
 
     // Previously deprecated constructor, now only for internal purposes
@@ -171,8 +228,8 @@ public class SlimefunItem implements Placeable {
         this.category = category;
         this.itemStackTemplate = item;
         this.id = id;
-        this.recipeType = recipeType;
-        this.recipe = recipe;
+        this.recipes = new ArrayList<>();
+        this.recipes.add(new SlimefunItemRecipe(recipeType, recipe, item));
     }
 
     /**
@@ -234,22 +291,89 @@ public class SlimefunItem implements Placeable {
         return category;
     }
 
+    /**
+     * @deprecated use getRecipe(...) instead!
+     *
+     * @return The recipe of the first {@link SlimefunItemRecipe} of this {@link SlimefunItem}
+     */
+    @Deprecated
+    @Nonnull
     public ItemStack[] getRecipe() {
-        return recipe;
-    }
-
-    public RecipeType getRecipeType() {
-        return recipeType;
+        SlimefunItemRecipe recipe = getRecipe(0);
+        if (recipe == null) {
+            return new ItemStack[9];
+        }
+        return recipe.getInput();
     }
 
     /**
-     * This method returns the result of crafting this {@link SlimefunItem}
+     * @deprecated use getRecipe(...) instead!
+     *
+     * @return The {@link RecipeType} of the first {@link SlimefunItemRecipe} of this {@link SlimefunItem}
+     */
+    @Deprecated
+    @Nonnull
+    public RecipeType getRecipeType() {
+        SlimefunItemRecipe recipe = getRecipe(0);
+        if (recipe == null) {
+            return RecipeType.NULL;
+        }
+        return recipe.getType();
+    }
+
+    /**
+     * @deprecated use getRecipe(...) instead!
      * 
-     * @return The recipe output of this {@link SlimefunItem}
+     * This method returns the output of the first {@link SlimefunItemRecipe} of this {@link SlimefunItem}
+     *
+     * @return The output of the first {@link SlimefunItemRecipe} of this {@link SlimefunItem}
+     */
+    @Deprecated
+    @Nullable
+    public ItemStack getRecipeOutput() {
+        SlimefunItemRecipe recipe = getRecipe(0);
+        if (recipe == null) {
+            return itemStackTemplate;
+        }
+        return recipe.getOutput();
+    }
+    
+    /**
+     * This method gets the {@link SlimefunItemRecipe} at index i of this {@link SlimefunItem}'s recipes
+     * 
+     * @return the {@link SlimefunItemRecipe} at index i of this {@link SlimefunItem}'s recipes
+     */
+    @Nullable
+    public SlimefunItemRecipe getRecipe(int i) {
+        if (i < 0 || i >= this.recipes.size()) {
+            return null;
+        }
+        return this.recipes.get(i);
+    }
+    
+    /**
+     * This method gets all {@link SlimefunItemRecipe}'s of this {@link SlimefunItem}
+     *
+     * @return all {@link SlimefunItemRecipe}'s of this {@link SlimefunItem}
      */
     @Nonnull
-    public ItemStack getRecipeOutput() {
-        return recipeOutput != null ? recipeOutput.clone() : itemStackTemplate.clone();
+    public List<SlimefunItemRecipe> getAllRecipes() {
+        return this.recipes;
+    }
+    
+    /**
+     * This method gets the {@link SlimefunItemRecipe} at index i of this {@link SlimefunItem}'s recipes
+     *
+     * @return the {@link SlimefunItemRecipe} at index i of this {@link SlimefunItem}'s recipes
+     */
+    @Nullable
+    public SlimefunItemRecipe getRecipeByType(@Nonnull RecipeType recipeType) {
+        for (SlimefunItemRecipe recipe : this.recipes) {
+            if (recipe.getType() == recipeType) {
+                return recipe;
+            }
+        }
+        return null;
     }
 
     /**
@@ -402,10 +526,6 @@ public class SlimefunItem implements Placeable {
             checkForConflicts();
 
             preRegister();
-
-            if (recipe == null || recipe.length < 9) {
-                recipe = new ItemStack[] { null, null, null, null, null, null, null, null, null };
-            }
 
             SlimefunPlugin.getRegistry().getAllSlimefunItems().add(this);
             SlimefunPlugin.getRegistry().getSlimefunItemIds().put(id, this);
@@ -609,18 +729,41 @@ public class SlimefunItem implements Placeable {
 
         this.research = research;
     }
-
-    public void setRecipe(ItemStack[] recipe) {
-        if (recipe == null || recipe.length != 9) {
+    
+    /**
+     * This method adds an {@link SlimefunItemRecipe} to this {@link SlimefunItem}
+     * 
+     * @param recipe {@link SlimefunItemRecipe} to be added to this {@link SlimefunItem}
+     */
+    public void addRecipe(@Nonnull SlimefunItemRecipe recipe) {
+        //if a recipe is added after the item loads
+        if (this.state == ItemState.ENABLED) {
+            recipe.enable();
+        }
+    
+        this.recipes.add(recipe);
+    }
+    
+    /**
+     * @deprecated Add a recipe with addRecipe(...) instead!
+     */
+    @Deprecated
+    public void setRecipe(ItemStack[] newRecipe) {
+        if (newRecipe == null || newRecipe.length != 9) {
             throw new IllegalArgumentException("Recipes must be of length 9");
         }
-
-        this.recipe = recipe;
+        SlimefunItemRecipe recipe = this.recipes.get(0);
+        this.recipes.add(0, new SlimefunItemRecipe(recipe.getType(), newRecipe, recipe.getOutput()));
     }
-
-    public void setRecipeType(@Nonnull RecipeType type) {
-        Validate.notNull(type, "The RecipeType is not allowed to be null!");
-        this.recipeType = type;
+    
+    /**
+     * @deprecated Add a recipe with addRecipe(...) instead!
+     */
+    @Deprecated
+    public void setRecipeType(@Nonnull RecipeType newType) {
+        Validate.notNull(newType, "The RecipeType is not allowed to be null!");
+        SlimefunItemRecipe recipe = this.recipes.get(0);
+        this.recipes.add(0, new SlimefunItemRecipe(newType, recipe.getInput(), recipe.getOutput()));
     }
 
     /**
@@ -639,17 +782,24 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
+     * @deprecated Add a recipe with addRecipe(...) instead!
+     * 
      * This method will set the result of crafting this {@link SlimefunItem}.
      * If null is passed, then it will use the default item as the recipe result.
      * 
      * @param output
      *            The {@link ItemStack} that will be the result of crafting this {@link SlimefunItem}
      */
+    @Deprecated
     public void setRecipeOutput(@Nullable ItemStack output) {
-        this.recipeOutput = output;
+        SlimefunItemRecipe recipe = this.recipes.get(0);
+        if (output != null) {
+            this.recipes.add(0, new SlimefunItemRecipe(recipe.getType(), recipe.getInput(), output));
+        }
     }
 
     /**
+     * 
      * This method returns whether or not this {@link SlimefunItem} is allowed to
      * be used in a Crafting Table.
      * 
@@ -723,8 +873,11 @@ public class SlimefunItem implements Placeable {
             if (!hidden) {
                 category.add(this);
             }
-
-            recipeType.register(recipe, getRecipeOutput());
+            
+            for (SlimefunItemRecipe recipe : this.recipes) {
+                recipe.enable();
+            }
+            
         } catch (Exception x) {
             error("Failed to properly load the Item \"" + id + "\"", x);
         }
@@ -911,13 +1064,15 @@ public class SlimefunItem implements Placeable {
         }
     }
 
+    @Nonnull
     @Override
     public Collection<ItemStack> getDrops() {
         return Arrays.asList(itemStackTemplate.clone());
     }
 
+    @Nonnull
     @Override
-    public Collection<ItemStack> getDrops(Player p) {
+    public Collection<ItemStack> getDrops(@Nonnull Player p) {
         return getDrops();
     }
 

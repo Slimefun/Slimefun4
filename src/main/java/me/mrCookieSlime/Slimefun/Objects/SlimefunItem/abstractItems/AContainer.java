@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItemRecipe;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -57,8 +58,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
-    public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+    public AContainer(Category category, SlimefunItemStack item, SlimefunItemRecipe recipe) {
+        super(category, item, recipe);
 
         createPreset(this, getInventoryTitle(), this::constructMenu);
 
@@ -79,9 +80,13 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     }
 
     @ParametersAreNonnullByDefault
+    public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        this(category, item, new SlimefunItemRecipe(recipeType, recipe, item));
+    }
+
+    @ParametersAreNonnullByDefault
     public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
-        this(category, item, recipeType, recipe);
-        this.recipeOutput = recipeOutput;
+        this(category, item, new SlimefunItemRecipe(recipeType, recipe, recipeOutput));
     }
 
     protected void constructMenu(BlockMenuPreset preset) {
