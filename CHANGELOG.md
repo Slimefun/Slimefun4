@@ -48,6 +48,7 @@
 * Memory/GC improvements for the profiler
 * Performance improvements for the Fluid Pump
 * Removed EmeraldEnchants integration
+* Memory and performance improvements for ticking blocks
 
 #### Fixes
 * Fixed #2448

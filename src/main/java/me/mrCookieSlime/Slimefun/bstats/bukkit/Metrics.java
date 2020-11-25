@@ -92,6 +92,13 @@ public class Metrics {
         this.plugin = plugin;
         this.pluginId = pluginId;
 
+        plugin.getLogger().log(Level.WARNING, "=================================================");
+        plugin.getLogger().log(Level.WARNING, "{0} is using a deprecated version of", plugin.getName());
+        plugin.getLogger().log(Level.WARNING, "bStats which is bundled with Slimefun.");
+        plugin.getLogger().log(Level.WARNING, "Future versions will not include this file anymore.");
+        plugin.getLogger().log(Level.WARNING, "{0} needs to be updated as soon as possible.", plugin.getName());
+        plugin.getLogger().log(Level.WARNING, "=================================================");
+
         // Get the config file
         File bStatsFolder = new File(plugin.getDataFolder().getParentFile(), "bStats");
         File configFile = new File(bStatsFolder, "config.yml");

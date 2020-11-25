@@ -48,7 +48,7 @@ public class SlimefunProfiler {
      */
     private static final int MAX_TICK_DURATION = 100;
 
-    private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(5);
+    private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(8);
     private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
 
     private final AtomicBoolean running = new AtomicBoolean(false);
