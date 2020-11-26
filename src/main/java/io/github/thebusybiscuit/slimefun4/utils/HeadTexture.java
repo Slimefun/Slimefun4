@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -123,7 +124,7 @@ public enum HeadTexture {
         Validate.isTrue(PatternUtils.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
 
         this.texture = texture;
-        this.uuid = UUID.nameUUIDFromBytes(texture.getBytes());
+        this.uuid = UUID.nameUUIDFromBytes(texture.getBytes(StandardCharsets.UTF_8));
     }
 
     /**

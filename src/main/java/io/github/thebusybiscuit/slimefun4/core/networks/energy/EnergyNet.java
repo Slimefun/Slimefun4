@@ -238,7 +238,10 @@ public class EnergyNet extends Network {
         }
 
         // Remove all generators which have exploded
-        generators.keySet().removeAll(explodedBlocks);
+        if (!explodedBlocks.isEmpty()) {
+            generators.keySet().removeAll(explodedBlocks);
+        }
+        
         return supply;
     }
 

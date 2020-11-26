@@ -9,8 +9,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 abstract class AbstractPlayerTask implements Runnable {
 
+    protected final Player p;
     private int id;
-    protected Player p;
 
     AbstractPlayerTask(@Nonnull Player p) {
         this.p = p;
@@ -29,7 +29,7 @@ abstract class AbstractPlayerTask implements Runnable {
     }
 
     @Override
-    public void run() {
+    public final void run() {
         if (isValid()) {
             executeTask();
         }
@@ -38,7 +38,7 @@ abstract class AbstractPlayerTask implements Runnable {
     /**
      * This method cancels this {@link AbstractPlayerTask}.
      */
-    public void cancel() {
+    public final void cancel() {
         Bukkit.getScheduler().cancelTask(id);
     }
 
@@ -50,7 +50,7 @@ abstract class AbstractPlayerTask implements Runnable {
      */
     protected boolean isValid() {
         if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isSneaking()) {
-            Bukkit.getScheduler().cancelTask(id);
+            cancel();
             return false;
         }
 
