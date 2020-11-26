@@ -75,4 +75,22 @@ class TestNumberUtils {
         Assertions.assertEquals("5.25", NumberUtils.roundDecimalNumber(5.249999999999));
     }
 
+    @Test
+    @DisplayName("Test compact decimals")
+    void testCompactDecimals() {
+        Assertions.assertEquals("-40.2", NumberUtils.getCompactDouble(-40.2));
+        Assertions.assertEquals("1.23", NumberUtils.getCompactDouble(1.234546));
+        Assertions.assertEquals("999", NumberUtils.getCompactDouble(999.0));
+        Assertions.assertEquals("1K", NumberUtils.getCompactDouble(1000.0));
+        Assertions.assertEquals("2.5K", NumberUtils.getCompactDouble(2500.0));
+        Assertions.assertEquals("720K", NumberUtils.getCompactDouble(720000.0));
+        Assertions.assertEquals("1M", NumberUtils.getCompactDouble(1000000.0));
+        Assertions.assertEquals("40M", NumberUtils.getCompactDouble(40000000.0));
+        Assertions.assertEquals("1B", NumberUtils.getCompactDouble(1000000000.0));
+        Assertions.assertEquals("1.23B", NumberUtils.getCompactDouble(1230000000.0));
+        Assertions.assertEquals("1T", NumberUtils.getCompactDouble(1000000000000.0));
+        Assertions.assertEquals("1Q", NumberUtils.getCompactDouble(1000000000000000.0));
+        Assertions.assertEquals("-2Q", NumberUtils.getCompactDouble(-2000000000000000.0));
+    }
+
 }

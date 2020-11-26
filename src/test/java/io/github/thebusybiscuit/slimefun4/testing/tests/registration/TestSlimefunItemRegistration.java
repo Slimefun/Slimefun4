@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -15,6 +16,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -24,7 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestSlimefunItemRegistration {
+class TestSlimefunItemRegistration {
 
     private static SlimefunPlugin plugin;
 
@@ -40,7 +43,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testSuccessfulRegistration() {
+    @DisplayName("Test SlimefunItem registering properly")
+    void testSuccessfulRegistration() {
         String id = "TEST_ITEM";
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, id, new CustomItem(Material.DIAMOND, "&cTest"));
 
@@ -55,7 +59,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testDisabledItem() {
+    @DisplayName("Test disabled SlimefunItem being disabled")
+    void testDisabledItem() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DISABLED_ITEM", new CustomItem(Material.DIAMOND, "&cTest"));
         SlimefunPlugin.getItemCfg().setValue("DISABLED_ITEM.enabled", false);
         item.register(plugin);
@@ -65,7 +70,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testWikiPages() {
+    @DisplayName("Test wiki pages getting assigned correctly")
+    void testWikiPages() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "WIKI_ITEM", new CustomItem(Material.BOOK, "&cTest"));
         item.register(plugin);
 
@@ -82,7 +88,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testVanillaItemFallback() {
+    @DisplayName("Test VanillaItem falling back to vanilla.")
+    void testVanillaItemFallback() {
         VanillaItem item = TestUtilities.mockVanillaItem(plugin, Material.ACACIA_SIGN, false);
         item.register(plugin);
 
@@ -92,7 +99,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testIdConflict() {
+    @DisplayName("Test id conflicts being handled with an exception")
+    void testIdConflict() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DUPLICATE_ID", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
@@ -104,7 +112,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testRecipe() {
+    @DisplayName("Test SlimefunItem registering Recipes properly")
+    void testRecipe() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_TEST", new CustomItem(Material.DIAMOND, "&dAnother one bites the test"));
 
         ItemStack[] recipe = { null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null, null, new ItemStack(Material.DIAMOND), null };
@@ -119,7 +128,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testRecipeOutput() {
+    @DisplayName("Test Recipe outputs being handled correctly")
+    void testRecipeOutput() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_OUTPUT_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
@@ -134,7 +144,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testRecipeType() {
+    @DisplayName("Test Recipe Types being handled properly")
+    void testRecipeType() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "RECIPE_TYPE_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
@@ -150,8 +161,9 @@ public class TestSlimefunItemRegistration {
     }
 
     @ParameterizedTest
+    @DisplayName("Test SlimefunItem#isItem(...)")
     @ValueSource(booleans = { true, false })
-    public void testIsItem(boolean compatibility) {
+    void testIsItem(boolean compatibility) {
         CustomItem item = new CustomItem(Material.BEACON, "&cItem Test");
         String id = "IS_ITEM_TEST" + (compatibility ? "_COMPATIBLE" : "");
         SlimefunItem sfItem = TestUtilities.mockSlimefunItem(plugin, id, item);
@@ -180,7 +192,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testCategoryRegistration() {
+    @DisplayName("Test Category registration when registering an item")
+    void testCategoryRegistration() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
         item.load();
@@ -202,7 +215,8 @@ public class TestSlimefunItemRegistration {
     }
 
     @Test
-    public void testHiddenItem() {
+    @DisplayName("Test hidden items being hidden")
+    void testHiddenItem() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "HIDDEN_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.setHidden(true);
         item.register(plugin);
@@ -228,5 +242,23 @@ public class TestSlimefunItemRegistration {
         item.setHidden(true);
         Assertions.assertTrue(item.isHidden());
         Assertions.assertFalse(category.contains(item));
+    }
+
+    @Test
+    @DisplayName("Test WrongItemStackException")
+    void testWrongItemStackException() {
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "WRONG_ITEMSTACK_EXCEPTION", new CustomItem(Material.NETHER_STAR, "&4Do not modify me"));
+        item.register(plugin);
+        item.load();
+
+        ItemStack itemStack = item.getItem();
+        Assertions.assertThrows(WrongItemStackException.class, () -> itemStack.setAmount(40));
+    }
+
+    @Test
+    @DisplayName("Test UnregisteredItemException")
+    void testUnregisteredItemException() {
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "UNREGISTERED_ITEM_EXCEPTION", new CustomItem(Material.NETHER_STAR, "&4Do not modify me"));
+        Assertions.assertThrows(UnregisteredItemException.class, () -> item.getAddon());
     }
 }
