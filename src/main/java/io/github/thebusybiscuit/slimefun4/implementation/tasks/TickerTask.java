@@ -30,8 +30,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * The {@link TickerTask} is responsible for ticking every {@link BlockTicker}, synchronous
- * or not.
+ * The {@link TickerTask} is responsible for ticking every {@link BlockTicker},
+ * synchronous or not.
  * 
  * @author TheBusyBiscuit
  * 
@@ -75,7 +75,7 @@ public class TickerTask implements Runnable {
     /**
      * This method resets this {@link TickerTask} to run again.
      */
-    public void reset() {
+    private void reset() {
         running = false;
     }
 
@@ -91,6 +91,7 @@ public class TickerTask implements Runnable {
             SlimefunPlugin.getProfiler().start();
             Set<BlockTicker> tickers = new HashSet<>();
 
+            // Remove any deleted blocks
             Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
             while (removals.hasNext()) {
                 Map.Entry<Location, Boolean> entry = removals.next();
@@ -98,12 +99,24 @@ public class TickerTask implements Runnable {
                 removals.remove();
             }
 
+            // Fixes #2576 - Remove any deleted instances of BlockStorage
+            Iterator<BlockStorage> worlds = SlimefunPlugin.getRegistry().getWorlds().values().iterator();
+            while (worlds.hasNext()) {
+                BlockStorage storage = worlds.next();
+
+                if (storage.isMarkedForRemoval()) {
+                    worlds.remove();
+                }
+            }
+
+            // Run our ticker code
             if (!halted) {
                 for (Map.Entry<ChunkPosition, Set<Location>> entry : tickingLocations.entrySet()) {
                     tickChunk(entry.getKey(), tickers, entry.getValue());
                 }
             }
 
+            // Move any moved block data
             Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
             while (moves.hasNext()) {
                 Map.Entry<Location, Location> entry = moves.next();

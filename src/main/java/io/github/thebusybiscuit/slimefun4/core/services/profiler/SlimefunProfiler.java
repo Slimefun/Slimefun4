@@ -20,6 +20,7 @@ import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -48,10 +49,21 @@ public class SlimefunProfiler {
      */
     private static final int MAX_TICK_DURATION = 100;
 
-    private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(8);
+    /**
+     * Our internal instance of {@link SlimefunThreadFactory}, it provides the naming
+     * convention for our {@link Thread} pool and also the count of this pool.
+     */
+    private final SlimefunThreadFactory threadFactory = new SlimefunThreadFactory(2);
+
+    /**
+     * This is our {@link Thread} pool to evaluate timings data.
+     * We cannot use the {@link BukkitScheduler} here because we need to evaluate
+     * this data in split seconds.
+     * So we cannot simply wait until the next server tick for this.
+     */
     private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
 
-    private final AtomicBoolean running = new AtomicBoolean(false);
+    private final AtomicBoolean isProfiling = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
     private long totalElapsedTime;
@@ -60,10 +72,19 @@ public class SlimefunProfiler {
     private final Queue<CommandSender> requests = new ConcurrentLinkedQueue<>();
 
     /**
+     * This method terminates the {@link SlimefunProfiler}.
+     * We need to call this method when the {@link Server} shuts down to prevent any
+     * of our {@link Thread Threads} from being kept alive.
+     */
+    public void kill() {
+        executor.shutdown();
+    }
+
+    /**
      * This method starts the profiling, data from previous runs will be cleared.
      */
     public void start() {
-        running.set(true);
+        isProfiling.set(true);
         queued.set(0);
         timings.clear();
     }
@@ -74,7 +95,7 @@ public class SlimefunProfiler {
      * @return A timestamp, best fed back into {@link #closeEntry(Location, SlimefunItem, long)}
      */
     public long newEntry() {
-        if (!running.get()) {
+        if (!isProfiling.get()) {
             return 0;
         }
 
@@ -93,7 +114,7 @@ public class SlimefunProfiler {
      *            The amount of entries that should be scheduled. Can be negative
      */
     public void scheduleEntries(int amount) {
-        if (running.get()) {
+        if (isProfiling.get()) {
             queued.getAndAdd(amount);
         }
     }
@@ -136,7 +157,7 @@ public class SlimefunProfiler {
      * This stops the profiling.
      */
     public void stop() {
-        running.set(false);
+        isProfiling.set(false);
 
         if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             // Slimefun has been disabled
@@ -151,7 +172,7 @@ public class SlimefunProfiler {
         int iterations = 4000;
 
         // Wait for all timing results to come in
-        while (!running.get() && queued.get() > 0) {
+        while (!isProfiling.get() && queued.get() > 0) {
             try {
                 /**
                  * Since we got more than one Thread in our pool,
@@ -177,7 +198,7 @@ public class SlimefunProfiler {
             }
         }
 
-        if (running.get() && queued.get() > 0) {
+        if (isProfiling.get() && queued.get() > 0) {
             // Looks like the next profiling has already started, abort!
             return;
         }

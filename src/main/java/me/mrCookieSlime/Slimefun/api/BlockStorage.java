@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,14 +56,24 @@ public class BlockStorage {
     private final Map<String, Config> blocksCache = new ConcurrentHashMap<>();
 
     private static int chunkChanges = 0;
-    private int changes = 0;
 
+    private int changes = 0;
+    private AtomicBoolean isMarkedForRemoval = new AtomicBoolean(false);
+
+    @Nullable
     public static BlockStorage getStorage(@Nonnull World world) {
         return SlimefunPlugin.getRegistry().getWorlds().get(world.getName());
     }
 
-    public static BlockStorage getForcedStorage(@Nonnull World world) {
-        return isWorldRegistered(world.getName()) ? SlimefunPlugin.getRegistry().getWorlds().get(world.getName()) : new BlockStorage(world);
+    @Nonnull
+    public static BlockStorage getOrCreate(@Nonnull World world) {
+        BlockStorage storage = SlimefunPlugin.getRegistry().getWorlds().get(world.getName());
+
+        if (storage == null) {
+            return new BlockStorage(world);
+        } else {
+            return storage;
+        }
     }
 
     private static String serializeLocation(Location l) {
@@ -321,7 +332,11 @@ public class BlockStorage {
 
     public void saveAndRemove() {
         save();
-        SlimefunPlugin.getRegistry().getWorlds().remove(world.getName());
+        isMarkedForRemoval.set(true);
+    }
+
+    public boolean isMarkedForRemoval() {
+        return isMarkedForRemoval.get();
     }
 
     public static void saveChunks() {
@@ -496,15 +511,13 @@ public class BlockStorage {
 
         storage.storage.put(l, cfg);
         String id = cfg.getString("id");
+        BlockMenuPreset preset = BlockMenuPreset.getPreset(id);
 
-        if (BlockMenuPreset.isInventory(id)) {
+        if (preset != null) {
             if (BlockMenuPreset.isUniversalInventory(id)) {
-                if (!SlimefunPlugin.getRegistry().getUniversalInventories().containsKey(id)) {
-                    storage.loadUniversalInventory(BlockMenuPreset.getPreset(id));
-                }
+                SlimefunPlugin.getRegistry().getUniversalInventories().computeIfAbsent(id, key -> new UniversalBlockMenu(preset));
             } else if (!storage.hasInventory(l)) {
                 File file = new File(PATH_INVENTORIES + serializeLocation(l) + ".sfi");
-                BlockMenuPreset preset = BlockMenuPreset.getPreset(id);
 
                 if (file.exists()) {
                     BlockMenu inventory = new BlockMenu(preset, l, new io.github.thebusybiscuit.cscorelib2.config.Config(file));
@@ -559,6 +572,10 @@ public class BlockStorage {
      */
     public static void deleteLocationInfoUnsafely(Location l, boolean destroy) {
         BlockStorage storage = getStorage(l.getWorld());
+
+        if (storage == null) {
+            throw new IllegalStateException("World \"" + l.getWorld().getName() + "\" seems to have been deleted. Do not call unsafe methods directly!");
+        }
 
         if (hasBlockInfo(l)) {
             refreshCache(storage, l, getLocationInfo(l).getString("id"), null, destroy);
@@ -686,8 +703,8 @@ public class BlockStorage {
         return id != null && id.equals(slimefunItem);
     }
 
-    public static boolean isWorldRegistered(String name) {
-        return SlimefunPlugin.getRegistry().getWorlds().containsKey(name);
+    public static boolean isWorldLoaded(World world) {
+        return SlimefunPlugin.getRegistry().getWorlds().containsKey(world.getName());
     }
 
     public BlockMenu loadInventory(Location l, BlockMenuPreset preset) {
@@ -713,11 +730,6 @@ public class BlockStorage {
         if (menu != null) {
             menu.reload();
         }
-    }
-
-    public void loadUniversalInventory(BlockMenuPreset preset) {
-        UniversalBlockMenu inventory = new UniversalBlockMenu(preset);
-        SlimefunPlugin.getRegistry().getUniversalInventories().put(preset.getID(), inventory);
     }
 
     public void clearInventory(Location l) {
@@ -788,7 +800,7 @@ public class BlockStorage {
 
     public static Config getChunkInfo(World world, int x, int z) {
         try {
-            if (!isWorldRegistered(world.getName())) {
+            if (!isWorldLoaded(world)) {
                 return emptyBlockData;
             }
 

@@ -241,7 +241,7 @@ public class EnergyNet extends Network {
         if (!explodedBlocks.isEmpty()) {
             generators.keySet().removeAll(explodedBlocks);
         }
-        
+
         return supply;
     }
 

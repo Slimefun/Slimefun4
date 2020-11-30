@@ -356,6 +356,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         ticker.halt();
         ticker.run();
 
+        // Kill our Profiler Threads
+        profiler.kill();
+
         // Save all Player Profiles that are still in memory
         PlayerProfile.iterator().forEachRemaining(profile -> {
             if (profile.isDirty()) {
