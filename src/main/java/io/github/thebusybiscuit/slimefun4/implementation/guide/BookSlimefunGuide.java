@@ -215,7 +215,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
 
             ChatComponent component = new ChatComponent(ChatUtils.crop(ChatColor.RED, item.getItemName()) + "\n");
             component.setHoverEvent(new HoverEvent(ChatColor.RESET + item.getItemName(), ChatColor.DARK_RED.toString() + ChatColor.BOLD + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", ChatColor.GREEN + "> Click to unlock", "", ChatColor.GRAY + "Cost: " + ChatColor.AQUA.toString() + research.getCost() + " Level(s)"));
-            component.setClickEvent(new ClickEvent(key, player -> research(player, profile, item, research, category, page)));
+            component.setClickEvent(new ClickEvent(key, player -> SlimefunPlugin.runSync(() -> research.unlockFromGuide(this, player, profile, item, category, page))));
 
             items.add(component);
         } else {
@@ -232,22 +232,6 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             component.setClickEvent(new ClickEvent(key, player -> SlimefunPlugin.runSync(() -> displayItem(profile, item, true))));
             items.add(component);
         }
-    }
-
-    private void research(Player p, PlayerProfile profile, SlimefunItem item, Research research, Category category, int page) {
-        SlimefunPlugin.runSync(() -> {
-            if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(p.getUniqueId())) {
-                if (research.canUnlock(p)) {
-                    if (profile.hasUnlocked(research)) {
-                        openCategory(profile, category, page);
-                    } else {
-                        unlockItem(p, item, pl -> openCategory(profile, category, page));
-                    }
-                } else {
-                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-enough-xp", true);
-                }
-            }
-        });
     }
 
     @Override

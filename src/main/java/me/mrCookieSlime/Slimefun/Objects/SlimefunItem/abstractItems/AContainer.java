@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -17,7 +20,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -46,6 +51,10 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     public static Map<Block, Integer> progress = new HashMap<>();
 
     protected final List<MachineRecipe> recipes = new ArrayList<>();
+
+    private int energyConsumedPerTick = -1;
+    private int energyCapacity = -1;
+    private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
     public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -114,6 +123,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * 
      * @return The title of the {@link Inventory} of this {@link AContainer}
      */
+    @Nonnull
     public String getInventoryTitle() {
         return getItemName();
     }
@@ -129,11 +139,22 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     public abstract ItemStack getProgressBar();
 
     /**
+     * This method returns the max amount of electricity this machine can hold.
+     * 
+     * @return The max amount of electricity this Block can store.
+     */
+    public int getCapacity() {
+        return energyCapacity;
+    }
+
+    /**
      * This method returns the amount of energy that is consumed per operation.
      * 
      * @return The rate of energy consumption
      */
-    public abstract int getEnergyConsumption();
+    public int getEnergyConsumption() {
+        return energyConsumedPerTick;
+    }
 
     /**
      * This method returns the speed at which this machine will operate.
@@ -142,7 +163,86 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * 
      * @return The speed of this machine
      */
-    public abstract int getSpeed();
+    public int getSpeed() {
+        return processingSpeed;
+    }
+
+    /**
+     * This sets the energy capacity for this machine.
+     * This method <strong>must</strong> be called before registering the item
+     * and only before registering.
+     * 
+     * @param capacity
+     *            The amount of energy this machine can store
+     * 
+     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     */
+    public final AContainer setCapacity(int capacity) {
+        Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
+
+        if (getState() == ItemState.UNREGISTERED) {
+            this.energyCapacity = capacity;
+            return this;
+        } else {
+            throw new IllegalStateException("You cannot modify the capacity after the Item was registered.");
+        }
+    }
+
+    /**
+     * This sets the speed of this machine.
+     * 
+     * @param speed
+     *            The speed multiplier for this machine, must be above zero
+     * 
+     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     */
+    public final AContainer setProcessingSpeed(int speed) {
+        Validate.isTrue(speed > 0, "The speed must be greater than zero!");
+
+        this.processingSpeed = speed;
+        return this;
+    }
+
+    /**
+     * This method sets the energy consumed by this machine per tick.
+     * 
+     * @param energyConsumption
+     *            The energy consumed per tick
+     * 
+     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     */
+    public final AContainer setEnergyConsumption(int energyConsumption) {
+        Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
+        Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
+        Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+
+        this.energyConsumedPerTick = energyConsumption;
+        return this;
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+        this.addon = addon;
+
+        if (getCapacity() <= 0) {
+            warn("The capacity has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
+        }
+
+        if (getEnergyConsumption() <= 0) {
+            warn("The energy consumption has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyConsumption(...)' before registering!");
+        }
+
+        if (getSpeed() <= 0) {
+            warn("The processing speed has not been configured correctly. The Item was disabled.");
+            warn("Make sure to call '" + getClass().getSimpleName() + "#setProcessingSpeed(...)' before registering!");
+        }
+
+        if (getCapacity() > 0 && getEnergyConsumption() > 0 && getSpeed() > 0) {
+            super.register(addon);
+        }
+    }
 
     /**
      * This method returns an internal identifier that is used to identify this {@link AContainer}
@@ -152,8 +252,11 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * identify all instances of the same {@link AContainer}.
      * This way we can add the recipes to all instances of the same machine.
      * 
+     * <strong>This method will be deprecated and replaced in the future</strong>
+     * 
      * @return The identifier of this machine
      */
+    @Nonnull
     public abstract String getMachineIdentifier();
 
     /**
@@ -238,31 +341,30 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         BlockMenu inv = BlockStorage.getInventory(b);
 
         if (isProcessing(b)) {
-            int timeleft = progress.get(b);
 
-            if (timeleft > 0) {
-                ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+            if (takeCharge(b.getLocation())) {
 
-                if (isChargeable()) {
-                    if (getCharge(b.getLocation()) < getEnergyConsumption()) {
-                        return;
+                int timeleft = progress.get(b);
+
+                if (timeleft > 0) {
+                    ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+
+                    progress.put(b, timeleft - 1);
+                } else {
+
+                    inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
+
+                    for (ItemStack output : processing.get(b).getOutput()) {
+                        inv.pushItem(output.clone(), getOutputSlots());
                     }
 
-                    removeCharge(b.getLocation(), getEnergyConsumption());
+                    Bukkit.getPluginManager().callEvent(new AsyncMachineProcessCompleteEvent(b.getLocation(), AContainer.this, getProcessing(b)));
+
+                    progress.remove(b);
+                    processing.remove(b);
                 }
-                progress.put(b, timeleft - 1);
-            } else {
-                inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-
-                for (ItemStack output : processing.get(b).getOutput()) {
-                    inv.pushItem(output.clone(), getOutputSlots());
-                }
-
-                Bukkit.getPluginManager().callEvent(new AsyncMachineProcessCompleteEvent(b.getLocation(), AContainer.this, getProcessing(b)));
-
-                progress.remove(b);
-                processing.remove(b);
             }
+
         } else {
             MachineRecipe next = findNextRecipe(inv);
 
@@ -270,6 +372,30 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 processing.put(b, next);
                 progress.put(b, next.getTicks());
             }
+        }
+    }
+
+    /**
+     * This method will remove charge from a location if it is chargeable.
+     *
+     * @param l
+     *            location to try to remove charge from
+     * @return Whether charge was taken if its chargeable
+     */
+    protected boolean takeCharge(@Nonnull Location l) {
+        Validate.notNull(l, "Can't attempt to take charge from a null location!");
+
+        if (isChargeable()) {
+            int charge = getCharge(l);
+
+            if (charge < getEnergyConsumption()) {
+                return false;
+            }
+
+            setCharge(l, charge - getEnergyConsumption());
+            return true;
+        } else {
+            return true;
         }
     }
 

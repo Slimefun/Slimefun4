@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -20,6 +24,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -32,22 +37,27 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * 
  * @see EnhancedCraftingTable
  * @see MagicWorkbench
+ * @see ArmorForge
  *
  */
-abstract class BackpackCrafter extends MultiBlockMachine {
+abstract class AbstractCraftingTable extends MultiBlockMachine {
 
-    BackpackCrafter(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+    @ParametersAreNonnullByDefault
+    AbstractCraftingTable(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
         super(category, item, recipe, trigger);
     }
 
-    protected Inventory createVirtualInventory(Inventory inv) {
+    @Nonnull
+    protected Inventory createVirtualInventory(@Nonnull Inventory inv) {
         Inventory fakeInv = Bukkit.createInventory(null, 9, "Fake Inventory");
 
         for (int j = 0; j < inv.getContents().length; j++) {
             ItemStack stack = inv.getContents()[j];
 
-            // Fixes #2103 - Properly simulating the consumption
-            // (which may leave behind empty buckets or glass bottles)
+            /**
+             * Fixes #2103 - Properly simulating the consumption
+             * (which may leave behind empty buckets or glass bottles)
+             */
             if (stack != null) {
                 stack = stack.clone();
                 ItemUtils.consumeItem(stack, true);
@@ -59,18 +69,24 @@ abstract class BackpackCrafter extends MultiBlockMachine {
         return fakeInv;
     }
 
+    @ParametersAreNonnullByDefault
     protected void upgradeBackpack(Player p, Inventory inv, SlimefunBackpack backpack, ItemStack output) {
-        ItemStack backpackItem = null;
+        ItemStack input = null;
 
         for (int j = 0; j < 9; j++) {
             if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR && SlimefunItem.getByItem(inv.getContents()[j]) instanceof SlimefunBackpack) {
-                backpackItem = inv.getContents()[j];
+                input = inv.getContents()[j];
                 break;
             }
         }
 
+        // Fixes #2574 - Carry over the Soulbound status
+        if (SlimefunUtils.isSoulbound(input)) {
+            SlimefunUtils.setSoulbound(output, true);
+        }
+
         int size = backpack.getSize();
-        Optional<String> id = retrieveID(backpackItem, size);
+        Optional<String> id = retrieveID(input, size);
 
         if (id.isPresent()) {
             for (int line = 0; line < output.getItemMeta().getLore().size(); line++) {
@@ -99,7 +115,8 @@ abstract class BackpackCrafter extends MultiBlockMachine {
         }
     }
 
-    private Optional<String> retrieveID(ItemStack backpack, int size) {
+    @Nonnull
+    private Optional<String> retrieveID(@Nullable ItemStack backpack, int size) {
         if (backpack != null) {
             for (String line : backpack.getItemMeta().getLore()) {
                 if (line.startsWith(ChatColors.color("&7ID: ")) && line.contains("#")) {

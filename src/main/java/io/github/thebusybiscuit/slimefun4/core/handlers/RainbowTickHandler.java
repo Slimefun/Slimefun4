@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
+import io.github.thebusybiscuit.slimefun4.utils.ColoredMaterial;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -48,8 +49,12 @@ public class RainbowTickHandler extends BlockTicker {
         material = iterator.next();
     }
 
-    public RainbowTickHandler(Material... materials) {
+    public RainbowTickHandler(@Nonnull Material... materials) {
         this(Arrays.asList(materials));
+    }
+
+    public RainbowTickHandler(@Nonnull ColoredMaterial material) {
+        this(material.asList());
     }
 
     /**
@@ -70,9 +75,11 @@ public class RainbowTickHandler extends BlockTicker {
         }
 
         for (Material type : materials) {
-            // This BlockData is purely virtual and only created on startup, it should have
-            // no impact on performance, in fact it should save performance as it preloads
-            // the data but also saves heavy calls for other Materials
+            /**
+             * This BlockData is purely virtual and only created on startup, it should have
+             * no impact on performance, in fact it should save performance as it preloads
+             * the data but also saves heavy calls for other Materials
+             */
             if (type.createBlockData() instanceof GlassPane) {
                 return true;
             }
@@ -84,8 +91,10 @@ public class RainbowTickHandler extends BlockTicker {
     @Override
     public void tick(Block b, SlimefunItem item, Config data) {
         if (b.getType() == Material.AIR) {
-            // The block was broken, setting the Material now would result in a
-            // duplication glitch
+            /**
+             * The block was broken, setting the Material now would result in a
+             * duplication glitch
+             */
             return;
         }
 

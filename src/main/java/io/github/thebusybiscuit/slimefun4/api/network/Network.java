@@ -9,11 +9,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Particle.DustOptions;
 
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -103,13 +100,16 @@ public abstract class Network {
         return regulatorNodes.size() + connectorNodes.size() + terminusNodes.size();
     }
 
+    /**
+     * This method adds the given {@link Location} to this {@link Network}.
+     * 
+     * @param l
+     *            The {@link Location} to add
+     */
     protected void addLocationToNetwork(@Nonnull Location l) {
-        if (connectedLocations.contains(l)) {
-            return;
+        if (connectedLocations.add(l.clone())) {
+            markDirty(l);
         }
-
-        connectedLocations.add(l.clone());
-        markDirty(l);
     }
 
     /**
@@ -132,10 +132,15 @@ public abstract class Network {
      * 
      * @param l
      *            The {@link Location} to check for
+     * 
      * @return Whether the given {@link Location} is part of this {@link Network}
      */
     public boolean connectsTo(@Nonnull Location l) {
-        return connectedLocations.contains(l);
+        if (regulator.equals(l)) {
+            return true;
+        } else {
+            return connectedLocations.contains(l);
+        }
     }
 
     @Nullable
@@ -211,17 +216,9 @@ public abstract class Network {
      * every {@link Location} that this {@link Network} is connected to.
      */
     public void display() {
-        SlimefunPlugin.runSync(() -> {
-            DustOptions options = new DustOptions(Color.BLUE, 3F);
-
-            for (Location l : connectedLocations) {
-                Material type = l.getBlock().getType();
-
-                if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
-                    l.getWorld().spawnParticle(Particle.REDSTONE, l.getX() + 0.5, l.getY() + 0.5, l.getZ() + 0.5, 1, 0, 0, 0, 1, options);
-                }
-            }
-        });
+        if (manager.isVisualizerEnabled()) {
+            SlimefunPlugin.runSync(new NetworkVisualizer(this));
+        }
     }
 
     /**

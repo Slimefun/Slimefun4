@@ -113,6 +113,7 @@ public class ItemSetting<T> {
      * 
      * @param c
      *            The class of data type you want to compare
+     * 
      * @return Whether this {@link ItemSetting} stores the given type
      */
     public boolean isType(@Nonnull Class<?> c) {
@@ -137,14 +138,19 @@ public class ItemSetting<T> {
      * @param item
      *            The {@link SlimefunItem} who called this method
      */
-    @SuppressWarnings("unchecked")
     public void load(@Nonnull SlimefunItem item) {
+        Validate.notNull(item, "Cannot apply settings for a non-existing SlimefunItem");
+
         SlimefunPlugin.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
         Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getId() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
-            if (validateInput((T) configuredValue)) {
-                this.value = (T) configuredValue;
+            // We can suppress the warning here, we did an isInstance(...) check before!
+            @SuppressWarnings("unchecked")
+            T newValue = (T) configuredValue;
+
+            if (validateInput(newValue)) {
+                this.value = newValue;
             } else {
                 Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
                 Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });

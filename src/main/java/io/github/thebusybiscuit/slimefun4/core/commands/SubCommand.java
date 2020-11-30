@@ -77,6 +77,7 @@ public abstract class SubCommand {
      * 
      * @param sender
      *            The {@link CommandSender} who requested the description
+     * 
      * @return A possibly localized description of this {@link SubCommand}
      */
     @Nonnull

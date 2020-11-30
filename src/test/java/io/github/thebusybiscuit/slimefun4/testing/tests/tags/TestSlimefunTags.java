@@ -63,6 +63,7 @@ class TestSlimefunTags {
 
         // Inclusion through a Slimefun Tag
         Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.TORCH));
+        Assertions.assertTrue(SlimefunTag.SENSITIVE_MATERIALS.isTagged(Material.OAK_PRESSURE_PLATE));
     }
 
     @Test

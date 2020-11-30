@@ -75,8 +75,8 @@ messages:
   unknown-player: "&4ไม่รู้จักผู้เล่น: &c%player%"
   no-permission: "&4คุณต้องได้รับ permission เพื่อกระทำสิ่งนี้"
   not-online: "&4%player% &cไม่ได้ออนไลน์!"
-  not-valid-item: "&4%item% &cไม่ใช่ไอเทมที่ถูกต้อง!"
-  not-valid-amount: "&4%amount% &cไม่ใช่จำนวนที่ถูกต้อง : ตัวเลขควรมากกว่า 0!"
+  invalid-item: "&4%item% &cไม่ใช่ไอเทมที่ถูกต้อง!"
+  invalid-amount: "&4%amount% &cไม่ใช่จำนวนที่ถูกต้อง : ตัวเลขควรมากกว่า 0!"
   given-item: '&bคุณได้เสก &7"%item%&7" &ax%amount%'
   give-item: '&bคุณได้เสก &7"%item%&7" &ax%amount% ให้กับ %player%'
   hungry: "&cคุณหิวเกินไปจะทำเช่นนั้น!"
@@ -100,7 +100,7 @@ messages:
   not-researched: "&4คุณมีความรู้ไม่เพียงพอที่จะเข้าใจสิ่งนี้"
   not-enough-xp: "&4คุณมี XP ไม่เพียงพอที่จะปลดล็อก"
   usage: "&4วิธีใช้: &c%usage%"
-  not-valid-research: "&4%research% &cนี้ไม่ใช่คำสำหรับการค้นหา!"
+  invalid-research: "&4%research% &cนี้ไม่ใช่คำสำหรับการค้นหา!"
   give-research: '&bคุณได้ให้ %player% เรียนรู้&7"%research%&7"'
   mode-change: "&b%device% เปลี่ยนโหมดเป็น: &9%mode%"
   disabled-item: "&4&lไอเท็มถูกปิดการใช้งาน! คุณเอาไอเท็มมาจากไหน?"

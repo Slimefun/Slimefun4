@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
@@ -108,16 +111,20 @@ public enum HeadTexture {
     CARGO_ARROW_RIGHT("c2f910c47da042e4aa28af6cc81cf48ac6caf37dab35f88db993accb9dfe516"),
     ADD_NEW_LANGUAGE("3edd20be93520949e6ce789dc4f43efaeb28c717ee6bfcbbe02780142f716"),
     IRON_GOLEM("89091d79ea0f59ef7ef94d7bba6e5f17f2f7d4572c44f90f76c4819a714"),
-    PIGLIN_HEAD("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41");
+    PIGLIN_HEAD("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41"),
+    NECROTIC_SKULL("7953b6c68448e7e6b6bf8fb273d7203acd8e1be19e81481ead51f45de59a8");
 
     public static final HeadTexture[] valuesCache = values();
 
     private final String texture;
+    private final UUID uuid;
 
     HeadTexture(@Nonnull String texture) {
         Validate.notNull(texture, "Texture cannot be null");
         Validate.isTrue(PatternUtils.HEXADECIMAL.matcher(texture).matches(), "Textures must be in hexadecimal.");
+
         this.texture = texture;
+        this.uuid = UUID.nameUUIDFromBytes(texture.getBytes(StandardCharsets.UTF_8));
     }
 
     /**
@@ -128,6 +135,18 @@ public enum HeadTexture {
     @Nonnull
     public String getTexture() {
         return texture;
+    }
+
+    /**
+     * This returns the {@link UUID} for this {@link HeadTexture}.
+     * The {@link UUID} is generated from the texture and cached for
+     * performance reasons.
+     * 
+     * @return The {@link UUID} for this {@link HeadTexture}
+     */
+    @Nonnull
+    public UUID getUniqueId() {
+        return uuid;
     }
 
     /**

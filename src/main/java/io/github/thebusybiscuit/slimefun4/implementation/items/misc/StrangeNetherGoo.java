@@ -21,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.PiglinBarterDrop;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.VillagerRune;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
