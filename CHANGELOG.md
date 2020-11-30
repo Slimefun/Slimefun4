@@ -79,6 +79,7 @@
 * Fixed Sword of Beheading dropping Zombie/Skeleton Skulls from Zombie/Skeleton subvariants
 * Fixed #2518
 * Fixed #2421
+* Fixed #2574
 
 ## Release Candidate 17 (17 Oct 2020)
 
