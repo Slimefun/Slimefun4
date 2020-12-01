@@ -83,6 +83,7 @@
 * Fixed color in android script downloading screen
 * Fixed #2576
 * Fixed #2496
+* Fixed #2585
 
 ## Release Candidate 17 (17 Oct 2020)
 
