@@ -62,6 +62,11 @@ public enum SlimefunTag implements Tag<Material> {
      * All command block variants
      */
     COMMAND_BLOCKS,
+    
+    /**
+     * All variants of Spawn Eggs
+     */
+    SPAWN_EGGS,
 
     /**
      * Every mushroom type, red, brown and nether ones.

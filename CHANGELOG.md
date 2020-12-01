@@ -33,6 +33,8 @@
 * Added a config option to delete excess cargo network items
 * Added an item setting to configure the Wind Staff velocity
 * Added an item setting to the Infused Hopper to toggle it with redstone
+* Added an item setting to prevent Reinforced Spawners from being changed by Spawn Eggs
+* Added 4 bricks -> 1 brick block recipe to the Electric Press
 
 #### Changes
 * Removed 1.13 support
