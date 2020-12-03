@@ -33,7 +33,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
  * 
  * @see CargoNet
  * @see CargoUtils
- * @see ChestTerminalNetwork
+ * @see AbstractItemNetwork
  *
  */
 class CargoNetworkTask implements Runnable {
@@ -96,7 +96,7 @@ class CargoNetworkTask implements Runnable {
 
     @ParametersAreNonnullByDefault
     private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
-        ItemStackAndInteger slot = CargoUtils.withdraw(inventories, inputNode.getBlock(), inputTarget);
+        ItemStackAndInteger slot = CargoUtils.withdraw(network, inventories, inputNode.getBlock(), inputTarget);
 
         if (slot == null) {
             return;
@@ -160,7 +160,7 @@ class CargoNetworkTask implements Runnable {
             Optional<Block> target = network.getAttachedBlock(output);
 
             if (target.isPresent()) {
-                item = CargoUtils.insert(inventories, output.getBlock(), target.get(), item);
+                item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), item);
 
                 if (item == null) {
                     break;
