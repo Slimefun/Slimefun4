@@ -17,13 +17,8 @@ interface SlimefunCraftingListener extends Listener {
         } else {
             SlimefunItem sfItem1 = SlimefunItem.getByItem(item1);
             SlimefunItem sfItem2 = SlimefunItem.getByItem(item2);
-
-            if (isUnallowed(sfItem1) || isUnallowed(sfItem2)) {
-                return true;
-            }
+            return isUnallowed(sfItem1) || isUnallowed(sfItem2);
         }
-
-        return false;
     }
 
     default boolean isUnallowed(@Nullable ItemStack item) {
@@ -32,7 +27,7 @@ interface SlimefunCraftingListener extends Listener {
         }
 
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        return !(sfItem instanceof VanillaItem) && !sfItem.isDisabled();
+        return isUnallowed(sfItem);
     }
 
     default boolean isUnallowed(@Nullable SlimefunItem item) {

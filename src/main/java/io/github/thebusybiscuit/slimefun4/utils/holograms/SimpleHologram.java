@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.utils.holograms;
 
+import java.util.Collection;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -42,9 +44,10 @@ public final class SimpleHologram {
     @Nullable
     private static ArmorStand getArmorStand(@Nonnull Block b, boolean createIfNoneExists) {
         Location l = new Location(b.getWorld(), b.getX() + 0.5, b.getY() + 0.7F, b.getZ() + 0.5);
+        Collection<Entity> holograms = b.getWorld().getNearbyEntities(l, 0.2, 0.2, 0.2, SimpleHologram::isPossibleHologram);
 
-        for (Entity n : l.getChunk().getEntities()) {
-            if (n instanceof ArmorStand && l.distanceSquared(n.getLocation()) < 0.4D && isPossibleHologram((ArmorStand) n)) {
+        for (Entity n : holograms) {
+            if (n instanceof ArmorStand) {
                 return (ArmorStand) n;
             }
         }
@@ -56,8 +59,14 @@ public final class SimpleHologram {
         }
     }
 
-    private static boolean isPossibleHologram(@Nonnull ArmorStand armorstand) {
-        return armorstand.isValid() && armorstand.isSilent() && armorstand.isMarker() && !armorstand.hasGravity() && armorstand.isCustomNameVisible();
+    private static boolean isPossibleHologram(@Nonnull Entity n) {
+        if (n instanceof ArmorStand) {
+            ArmorStand armorstand = (ArmorStand) n;
+            return armorstand.isValid() && armorstand.isSilent() && armorstand.isMarker() && !armorstand.hasGravity() && armorstand.isCustomNameVisible();
+        } else {
+            return false;
+        }
+
     }
 
     @Nonnull

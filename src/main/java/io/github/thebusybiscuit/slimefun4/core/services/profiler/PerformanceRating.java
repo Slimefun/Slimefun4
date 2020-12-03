@@ -45,7 +45,7 @@ public enum PerformanceRating implements Predicate<Float> {
     @Override
     public boolean test(@Nullable Float value) {
         if (value == null) {
-            // null will only test true for UNKNOWN
+            // This way null will only test true for UNKNOWN
             return threshold < 0;
         }
 

@@ -27,9 +27,9 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * 
  * @see ElytraCap
  */
-public class ElytraCrashListener implements Listener {
+public class ElytraImpactListener implements Listener {
 
-    public ElytraCrashListener(@Nonnull SlimefunPlugin plugin) {
+    public ElytraImpactListener(@Nonnull SlimefunPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

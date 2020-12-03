@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -44,19 +48,23 @@ public class Talisman extends SlimefunItem {
     protected final PotionEffect[] effects;
     protected final int chance;
 
-    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, PotionEffect... effects) {
+    @ParametersAreNonnullByDefault
+    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, PotionEffect... effects) {
         this(item, recipe, consumable, cancelEvent, messageSuffix, 100, effects);
     }
 
-    public Talisman(SlimefunItemStack item, ItemStack[] recipe, String messageSuffix, int chance, PotionEffect... effects) {
+    @ParametersAreNonnullByDefault
+    public Talisman(SlimefunItemStack item, ItemStack[] recipe, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
         this(item, recipe, true, true, messageSuffix, chance, effects);
     }
 
-    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
+    @ParametersAreNonnullByDefault
+    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
         this(TALISMANS_CATEGORY, item, recipe, consumable, cancelEvent, messageSuffix, chance, effects);
     }
 
-    protected Talisman(Category category, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, String messageSuffix, int chance, PotionEffect... effects) {
+    @ParametersAreNonnullByDefault
+    protected Talisman(Category category, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
         super(category, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItem(item, consumable ? 4 : 1));
 
         this.consumable = consumable;
@@ -81,14 +89,26 @@ public class Talisman extends SlimefunItem {
         }
     }
 
+    /**
+     * This returns whether the {@link Talisman} will be consumed upon use.
+     * 
+     * @return Whether this {@link Talisman} is consumed on use.
+     */
     public boolean isConsumable() {
         return consumable;
     }
 
+    /**
+     * This returns the chance of this {@link Talisman} activating.
+     * The chance will be between 1 and 100.
+     * 
+     * @return The chance of this {@link Talisman} activating.
+     */
     public int getChance() {
         return chance;
     }
 
+    @Nonnull
     public PotionEffect[] getEffects() {
         return effects;
     }
@@ -101,6 +121,7 @@ public class Talisman extends SlimefunItem {
         return cancel;
     }
 
+    @Nullable
     private SlimefunItemStack getEnderVariant() {
         return enderTalisman;
     }
@@ -114,10 +135,10 @@ public class Talisman extends SlimefunItem {
     @Override
     public void load() {
         super.load();
-        createEnderTalisman();
+        loadEnderTalisman();
     }
 
-    protected void createEnderTalisman() {
+    void loadEnderTalisman() {
         EnderTalisman talisman = (EnderTalisman) SlimefunItem.getByItem(getEnderVariant());
         Optional<Research> research = Research.getResearch(new NamespacedKey(SlimefunPlugin.instance(), "ender_talismans"));
 
@@ -126,14 +147,16 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static boolean hasMessage(Talisman talisman) {
+    private static boolean hasMessage(@Nonnull Talisman talisman) {
         return talisman.getMessageSuffix() != null;
     }
 
+    @ParametersAreNonnullByDefault
     public static boolean checkFor(Event e, SlimefunItemStack stack) {
         return checkFor(e, stack.getItem());
     }
 
+    @ParametersAreNonnullByDefault
     public static boolean checkFor(Event e, SlimefunItem item) {
         if (!(item instanceof Talisman)) {
             return false;
@@ -153,7 +176,7 @@ public class Talisman extends SlimefunItem {
 
         if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
             if (Slimefun.hasUnlocked(p, talisman, true)) {
-                activateTalisman(e, p, p.getInventory(), talisman);
+                activateTalisman(e, p, p.getInventory(), talisman, talismanItem);
                 return true;
             } else {
                 return false;
@@ -163,7 +186,7 @@ public class Talisman extends SlimefunItem {
 
             if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
                 if (Slimefun.hasUnlocked(p, talisman, true)) {
-                    activateTalisman(e, p, p.getEnderChest(), talisman);
+                    activateTalisman(e, p, p.getEnderChest(), talisman, enderTalisman);
                     return true;
                 } else {
                     return false;
@@ -174,38 +197,43 @@ public class Talisman extends SlimefunItem {
         }
     }
 
-    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman) {
-        consumeItem(inv, talisman);
+    @ParametersAreNonnullByDefault
+    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman, ItemStack talismanItem) {
+        consumeItem(inv, talisman, talismanItem);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
         sendMessage(p, talisman);
     }
 
+    @ParametersAreNonnullByDefault
     private static void applyTalismanEffects(Player p, Talisman talisman) {
         for (PotionEffect effect : talisman.getEffects()) {
             p.addPotionEffect(effect);
         }
     }
 
+    @ParametersAreNonnullByDefault
     private static void cancelEvent(Event e, Talisman talisman) {
         if (e instanceof Cancellable && talisman.isEventCancelled()) {
             ((Cancellable) e).setCancelled(true);
         }
     }
 
+    @ParametersAreNonnullByDefault
     private static void sendMessage(Player p, Talisman talisman) {
         if (hasMessage(talisman)) {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.talisman." + talisman.getMessageSuffix(), true);
         }
     }
 
-    private static void consumeItem(Inventory inv, Talisman talisman) {
+    @ParametersAreNonnullByDefault
+    private static void consumeItem(Inventory inv, Talisman talisman, ItemStack talismanItem) {
         if (talisman.isConsumable()) {
             ItemStack[] contents = inv.getContents();
             for (int i = 0; i < contents.length; i++) {
                 ItemStack item = contents[i];
 
-                if (SlimefunUtils.isItemSimilar(item, talisman.getItem(), true, false)) {
+                if (SlimefunUtils.isItemSimilar(item, talismanItem, true, false)) {
                     ItemUtils.consumeItem(item, false);
                     return;
                 }

@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -21,6 +20,8 @@ import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
@@ -37,7 +38,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @see Language
  *
  */
-public class LocalizationService extends SlimefunLocalization implements PersistentDataService {
+public class LocalizationService extends SlimefunLocalization {
 
     private static final String LANGUAGE_PATH = "language";
 
@@ -151,10 +152,12 @@ public class LocalizationService extends SlimefunLocalization implements Persist
     @Override
     public Language getLanguage(@Nonnull Player p) {
         Validate.notNull("Player cannot be null!");
-        Optional<String> language = getString(p, languageKey);
 
-        if (language.isPresent()) {
-            Language lang = languages.get(language.get());
+        PersistentDataContainer container = p.getPersistentDataContainer();
+        String language = container.get(languageKey, PersistentDataType.STRING);
+
+        if (language != null) {
+            Language lang = languages.get(language);
 
             if (lang != null) {
                 return lang;
@@ -164,7 +167,7 @@ public class LocalizationService extends SlimefunLocalization implements Persist
         return getDefaultLanguage();
     }
 
-    private void setLanguage(String language, boolean reset) {
+    private void setLanguage(@Nonnull String language, boolean reset) {
         // Clearing out the old Language (if necessary)
         if (reset) {
             getConfig().clear();

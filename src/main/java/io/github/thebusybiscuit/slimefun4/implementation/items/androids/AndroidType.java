@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
+import javax.annotation.Nonnull;
+
 /**
  * This enum holds all the different types a {@link ProgrammableAndroid} can represent.
  * 
@@ -55,7 +57,7 @@ public enum AndroidType {
      */
     NON_FIGHTER;
 
-    boolean isType(AndroidType type) {
+    boolean isType(@Nonnull AndroidType type) {
         return type == NONE || type == this || (type == NON_FIGHTER && this != FIGHTER);
     }
 

@@ -66,17 +66,9 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public void init() {
-                for (int i : border) {
-                    addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                }
-
-                for (int i : headBorder) {
-                    addItem(i, new CustomItem(getHeadBorder(), " "), ChestMenuUtils.getEmptyClickHandler());
-                }
-
-                for (int i : bodyBorder) {
-                    addItem(i, new CustomItem(getBodyBorder(), " "), ChestMenuUtils.getEmptyClickHandler());
-                }
+                drawBackground(border);
+                drawBackground(new CustomItem(getHeadBorder(), " "), headBorder);
+                drawBackground(new CustomItem(getBodyBorder(), " "), bodyBorder);
 
                 constructMenu(this);
             }
@@ -88,7 +80,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES);
+                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
             @Override
@@ -191,7 +183,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                     return;
                 }
 
-                if (lifetime % 60 == 0 && getCharge(b.getLocation()) >= getEnergyConsumption()) {
+                if (lifetime % 60 == 0 && getCharge(b.getLocation(), data) >= getEnergyConsumption()) {
                     BlockMenu menu = BlockStorage.getInventory(b);
 
                     boolean hasBody = findResource(menu, getBody(), bodySlots);

@@ -52,7 +52,7 @@ public class StomperBoots extends SlimefunItem {
                 n.setVelocity(velocity);
 
                 // Check if it's not a Player or if PvP is enabled
-                if (!(n instanceof Player) || (p.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, n.getLocation(), ProtectableAction.PVP))) {
+                if (!(n instanceof Player) || (p.getWorld().getPVP() && SlimefunPlugin.getProtectionManager().hasPermission(p, n.getLocation(), ProtectableAction.ATTACK_PLAYER))) {
                     EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, n, DamageCause.ENTITY_ATTACK, fallDamageEvent.getDamage() / 2);
                     Bukkit.getPluginManager().callEvent(event);
 

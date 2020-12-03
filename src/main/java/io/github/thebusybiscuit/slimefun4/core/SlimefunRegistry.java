@@ -31,7 +31,6 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -84,8 +83,6 @@ public final class SlimefunRegistry {
     private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
     private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
-
-    private final Map<String, ItemStack> automatedCraftingChamberRecipes = new HashMap<>();
 
     public void load(@Nonnull Config cfg) {
         Validate.notNull(cfg, "The Config cannot be null!");
@@ -259,18 +256,6 @@ public final class SlimefunRegistry {
 
     public KeyMap<GEOResource> getGEOResources() {
         return geoResources;
-    }
-
-    /**
-     * This method returns a list of recipes for the {@link AutomatedCraftingChamber}
-     * 
-     * @deprecated This just a really bad way to do this. Someone needs to rewrite this.
-     * 
-     * @return A list of recipes for the {@link AutomatedCraftingChamber}
-     */
-    @Deprecated
-    public Map<String, ItemStack> getAutomatedCraftingChamberRecipes() {
-        return automatedCraftingChamberRecipes;
     }
 
     public boolean logDuplicateBlockEntries() {

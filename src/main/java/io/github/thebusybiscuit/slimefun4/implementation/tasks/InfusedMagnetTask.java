@@ -13,7 +13,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMa
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
- * This {@link PlayerTask} is run when a {@link Player} carries an {@link InfusedMagnet}.
+ * This {@link AbstractPlayerTask} is run when a {@link Player} carries an {@link InfusedMagnet}.
  * It manages the automatic pickup of nearby items.
  * 
  * @author TheBusyBiscuit
@@ -21,12 +21,15 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
  * @see InfusedMagnet
  *
  */
-public class MagnetTask extends PlayerTask {
+public class InfusedMagnetTask extends AbstractPlayerTask {
 
+    /**
+     * The radius in which an {@link Item} is picked up.
+     */
     private final double radius;
 
     /**
-     * This creates a new {@link MagnetTask} for the given {@link Player} with the given
+     * This creates a new {@link InfusedMagnetTask} for the given {@link Player} with the given
      * pickup radius.
      * 
      * @param p
@@ -34,7 +37,7 @@ public class MagnetTask extends PlayerTask {
      * @param radius
      *            The radius in which items should be picked up
      */
-    public MagnetTask(@Nonnull Player p, double radius) {
+    public InfusedMagnetTask(@Nonnull Player p, double radius) {
         super(p);
 
         this.radius = radius;
@@ -55,6 +58,7 @@ public class MagnetTask extends PlayerTask {
             }
         }
 
+        // Only play a sound if an Item was found
         if (playSound) {
             p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 0.25F, 0.9F);
         }

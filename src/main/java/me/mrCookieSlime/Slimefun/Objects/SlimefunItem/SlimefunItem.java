@@ -84,7 +84,7 @@ public class SlimefunItem implements Placeable {
      * This is a reference to the {@link SlimefunAddon} that registered this
      * {@link SlimefunItem}, if the item has not been registered yet, it will be null.
      */
-    private SlimefunAddon addon;
+    protected SlimefunAddon addon;
 
     /**
      * This is the state of this {@link SlimefunItem}.
@@ -719,15 +719,11 @@ public class SlimefunItem implements Placeable {
      * This method is used for internal purposes only.
      */
     public void load() {
-        try {
-            if (!hidden) {
-                category.add(this);
-            }
-
-            recipeType.register(recipe, getRecipeOutput());
-        } catch (Exception x) {
-            error("Failed to properly load the Item \"" + id + "\"", x);
+        if (!hidden) {
+            category.add(this);
         }
+
+        recipeType.register(recipe, getRecipeOutput());
     }
 
     /**
@@ -930,6 +926,8 @@ public class SlimefunItem implements Placeable {
      *            The message to send
      */
     public void info(@Nonnull String message) {
+        Validate.notNull(addon, "Cannot log a message for an unregistered item!");
+
         String msg = toString() + ": " + message;
         addon.getLogger().log(Level.INFO, msg);
     }
@@ -943,6 +941,8 @@ public class SlimefunItem implements Placeable {
      *            The message to send
      */
     public void warn(@Nonnull String message) {
+        Validate.notNull(addon, "Cannot send a warning for an unregistered item!");
+
         String msg = toString() + ": " + message;
         addon.getLogger().log(Level.WARNING, msg);
 
@@ -962,6 +962,8 @@ public class SlimefunItem implements Placeable {
      *            The {@link Throwable} to throw as a stacktrace.
      */
     public void error(@Nonnull String message, @Nonnull Throwable throwable) {
+        Validate.notNull(addon, "Cannot send an error for an unregistered item!");
+
         addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
 
         if (addon.getBugTrackerURL() != null) {
@@ -975,6 +977,20 @@ public class SlimefunItem implements Placeable {
         if (throwable instanceof RuntimeException && SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             throw (RuntimeException) throwable;
         }
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof SlimefunItem) {
+            return ((SlimefunItem) obj).getId().equals(getId());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public final int hashCode() {
+        return getId().hashCode();
     }
 
     @Nullable
@@ -1026,4 +1042,5 @@ public class SlimefunItem implements Placeable {
     public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
         SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
     }
+
 }

@@ -2,9 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -33,6 +37,7 @@ public class ExplosiveBow extends SlimefunBow {
 
     private final ItemSetting<Integer> range = new IntRangeSetting("explosion-range", 1, 3, Integer.MAX_VALUE);
 
+    @ParametersAreNonnullByDefault
     public ExplosiveBow(Category category, SlimefunItemStack item, ItemStack[] recipe) {
         super(category, item, recipe);
 
@@ -44,8 +49,9 @@ public class ExplosiveBow extends SlimefunBow {
         return (e, target) -> {
             target.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, target.getLocation(), 1);
             target.getWorld().playSound(target.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 1);
+            int radius = range.getValue();
 
-            Collection<Entity> entites = target.getWorld().getNearbyEntities(target.getLocation(), range.getValue(), range.getValue(), range.getValue(), entity -> entity instanceof LivingEntity && entity.isValid());
+            Collection<Entity> entites = target.getWorld().getNearbyEntities(target.getLocation(), radius, radius, radius, this::canDamage);
             for (Entity nearby : entites) {
                 LivingEntity entity = (LivingEntity) nearby;
 
@@ -69,6 +75,10 @@ public class ExplosiveBow extends SlimefunBow {
                 }
             }
         };
+    }
+
+    private boolean canDamage(@Nonnull Entity n) {
+        return n instanceof LivingEntity && !(n instanceof ArmorStand) && n.isValid();
     }
 
     private double calculateDamage(double distanceSquared, double originalDamage) {
