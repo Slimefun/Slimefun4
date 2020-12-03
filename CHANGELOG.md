@@ -28,6 +28,7 @@
 
 #### Changes
 * Performance optimizations for Cargo networks
+* Removed an old version of bStats
 
 ## Release Candidate 18 (03 Dec 2020)
 

@@ -30,7 +30,6 @@
         <sonar.organization>slimefun</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.log.level>DEBUG</sonar.log.level>
-        <sonar.exclusions>src/main/java/me/mrCookieSlime/Slimefun/bstats/bukkit/Metrics.java</sonar.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
