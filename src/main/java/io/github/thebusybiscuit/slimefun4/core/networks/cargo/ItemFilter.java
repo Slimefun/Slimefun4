@@ -23,6 +23,9 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  * It is a snapshot of a cargo node's configuration.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see CargoNet
+ * @see CargoNetworkTask
  *
  */
 class ItemFilter implements Predicate<ItemStack> {
@@ -105,13 +108,13 @@ class ItemFilter implements Predicate<ItemStack> {
      * This will clear the {@link ItemFilter} and reject <strong>any</strong>
      * {@link ItemStack}.
      * 
-     * @param defaultValue
-     *            The new default value.
+     * @param rejectOnMatch
+     *            Whether the item should be rejected on matches
      */
-    private void clear(boolean defaultValue) {
+    private void clear(boolean rejectOnMatch) {
         this.items.clear();
         this.checkLore = false;
-        this.rejectOnMatch = defaultValue;
+        this.rejectOnMatch = rejectOnMatch;
     }
 
     /**
