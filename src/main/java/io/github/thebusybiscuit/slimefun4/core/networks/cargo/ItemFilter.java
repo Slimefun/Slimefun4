@@ -29,8 +29,9 @@ class ItemFilter implements Predicate<ItemStack> {
 
     /**
      * Our {@link List} of items to check against, might be empty.
+     * This has a maximum capacity of 9.
      */
-    private final List<ItemStackWrapper> items = new ArrayList<>();
+    private final List<ItemStackWrapper> items = new ArrayList<>(9);
 
     /**
      * Our default value for this {@link ItemFilter}.
@@ -39,7 +40,7 @@ class ItemFilter implements Predicate<ItemStack> {
      * A default value of {@literal false} means that it will return false if no
      * match was found. Only items that match will make it past this {@link ItemFilter}.
      */
-    private boolean defaultValue;
+    private boolean rejectOnMatch;
 
     /**
      * Whether we should also compare the lore.
@@ -86,7 +87,7 @@ class ItemFilter implements Predicate<ItemStack> {
         } else {
             this.items.clear();
             this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
-            this.defaultValue = !Objects.equals(blockData.getString("filter-type"), "whitelist");
+            this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
 
             for (int slot : CargoUtils.FILTER_SLOTS) {
                 ItemStack stack = menu.getItemInSlot(slot);
@@ -110,7 +111,7 @@ class ItemFilter implements Predicate<ItemStack> {
     private void clear(boolean defaultValue) {
         this.items.clear();
         this.checkLore = false;
-        this.defaultValue = defaultValue;
+        this.rejectOnMatch = defaultValue;
     }
 
     /**
@@ -119,7 +120,7 @@ class ItemFilter implements Predicate<ItemStack> {
      * @return Whether the filter is outdated.
      */
     public boolean isDirty() {
-        return dirty;
+        return this.dirty;
     }
 
     /**
@@ -131,16 +132,22 @@ class ItemFilter implements Predicate<ItemStack> {
 
     @Override
     public boolean test(@Nonnull ItemStack item) {
-        // An empty Filter does not need to be iterated over.
+        /**
+         * An empty Filter does not need to be iterated over.
+         * We can just return our default value in this scenario.
+         */
         if (items.isEmpty()) {
-            return defaultValue;
+            return rejectOnMatch;
         }
 
+        // The amount of potential matches with that item.
         int potentialMatches = 0;
 
-        // This is a first check for materials to see if we might even have any match.
-        // If there is no potential match then we won't need to perform the quite
-        // intense operation .getItemMeta()
+        /*
+         * This is a first check for materials to see if we might even have any match.
+         * If there is no potential match then we won't need to perform the quite
+         * intense operation .getItemMeta()
+         */
         for (ItemStackWrapper stack : items) {
             if (stack.getType() == item.getType()) {
                 // We found a potential match based on the Material
@@ -150,25 +157,31 @@ class ItemFilter implements Predicate<ItemStack> {
 
         if (potentialMatches == 0) {
             // If there is no match, we can safely assume the default value
-            return defaultValue;
+            return rejectOnMatch;
         } else {
-            // If there is more than one potential match, create a wrapper to save
-            // performance on the Item Meta otherwise just use the item directly.
+            /*
+             * If there is more than one potential match, create a wrapper to save
+             * performance on the ItemMeta otherwise just use the item directly.
+             */
             ItemStack subject = potentialMatches == 1 ? item : new ItemStackWrapper(item);
 
-            // If there is only one match, we won't need to create a Wrapper
-            // and thus only perform .getItemMeta() once
+            /*
+             * If there is only one match, we won't need to create a Wrapper
+             * and thus only perform .getItemMeta() once
+             */
             for (ItemStackWrapper stack : items) {
                 if (SlimefunUtils.isItemSimilar(subject, stack, checkLore, false)) {
-                    // The filter has found a match, we can return the opposite
-                    // of our default value. If we exclude items, this is where we
-                    // would return false. Otherwise we return true.
-                    return !defaultValue;
+                    /*
+                     * The filter has found a match, we can return the opposite
+                     * of our default value. If we exclude items, this is where we
+                     * would return false. Otherwise we return true.
+                     */
+                    return !rejectOnMatch;
                 }
             }
 
-            // If no particular item was matched, we fallback to the default value.
-            return defaultValue;
+            // If no particular item was matched, we fallback to our default value.
+            return rejectOnMatch;
         }
     }
 

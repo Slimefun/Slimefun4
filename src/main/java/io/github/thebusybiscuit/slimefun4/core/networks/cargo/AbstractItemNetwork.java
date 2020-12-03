@@ -458,20 +458,20 @@ abstract class AbstractItemNetwork extends Network {
             int stored = Integer.parseInt(data);
 
             for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) blockMenu, ItemTransportFlow.WITHDRAW, null)) {
-                ItemStack is = blockMenu.getItemInSlot(slot);
+                ItemStack stack = blockMenu.getItemInSlot(slot);
 
-                if (is != null && CargoUtils.matchesFilter(this, l.getBlock(), is)) {
+                if (stack != null && CargoUtils.matchesFilter(this, l.getBlock(), stack)) {
                     boolean add = true;
 
                     for (ItemStackAndInteger item : items) {
-                        if (SlimefunUtils.isItemSimilar(is, item.getItemStackWrapper(), true, false)) {
+                        if (SlimefunUtils.isItemSimilar(stack, item.getItemStackWrapper(), true, false)) {
                             add = false;
-                            item.add(is.getAmount() + stored);
+                            item.add(stack.getAmount() + stored);
                         }
                     }
 
                     if (add) {
-                        items.add(new ItemStackAndInteger(is, is.getAmount() + stored));
+                        items.add(new ItemStackAndInteger(stack, stack.getAmount() + stored));
                     }
                 }
             }
