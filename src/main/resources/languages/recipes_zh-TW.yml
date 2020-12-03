@@ -122,6 +122,11 @@ slimefun:
     lore:
     - 使用煉油廠
     - 提煉該物品
+  barter_drop:
+    name: 豬布林交易
+    lore:
+    - 用黃金和豬布林
+    - 交易以獲取此物品
 minecraft:
   shaped:
     name: 有序合成

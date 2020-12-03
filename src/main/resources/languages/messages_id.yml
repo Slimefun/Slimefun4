@@ -83,11 +83,11 @@ messages:
   no-permission: "&4Anda Tidak Memiliki Izin Untuk Ini"
   usage: "&4Penggunaan: &c%usage%"
   not-online: "&4%player% &cTidak Sedang Bermain Disini!"
-  not-valid-item: "&4%item% &cBenda Ini Tidak sah"
-  not-valid-amount: "&4%amount% &cJumlah Ini Salah : Harus Lebih Tinggi Dari 0!"
+  invalid-item: "&4%item% &cBenda Ini Tidak sah"
+  invalid-amount: "&4%amount% &cJumlah Ini Salah : Harus Lebih Tinggi Dari 0!"
   given-item: '&bAnda Telah Diberikan &a%amount% &7"%item%&7"'
   give-item: '&bAnda Telah Memberi %player% &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &cIni Bukan Penelitian Yang Benar!"
+  invalid-research: "&4%research% &cIni Bukan Penelitian Yang Benar!"
   give-research: '&bAnda Telah Memberi %player% Penelitian &7"%research%&7"'
   hungry: "&cAnda Terlalu Lapar Untuk Ini "
   mode-change: "&b%device% Mode Telah Berubah Menjadi: &9%mode%"

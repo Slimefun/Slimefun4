@@ -13,7 +13,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public abstract class BioGenerator extends AGenerator {
+public class BioGenerator extends AGenerator {
 
     public BioGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -48,15 +48,12 @@ public abstract class BioGenerator extends AGenerator {
         registerFuel(new MachineFuel(20, new ItemStack(Material.DRIED_KELP_BLOCK)));
         registerFuel(new MachineFuel(1, new ItemStack(Material.SEAGRASS)));
         registerFuel(new MachineFuel(2, new ItemStack(Material.SEA_PICKLE)));
+        registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
+        registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            registerFuel(new MachineFuel(1, new ItemStack(Material.BAMBOO)));
-            registerFuel(new MachineFuel(2, new ItemStack(Material.SWEET_BERRIES)));
-
-            // Small Flowers (formally just dandelions and poppies).
-            for (Material m : Tag.SMALL_FLOWERS.getValues()) {
-                registerFuel(new MachineFuel(1, new ItemStack(m)));
-            }
+        // Small Flowers (formally just dandelions and poppies).
+        for (Material m : Tag.SMALL_FLOWERS.getValues()) {
+            registerFuel(new MachineFuel(1, new ItemStack(m)));
         }
 
         if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {

@@ -35,6 +35,7 @@ public class TeleporterListener implements Listener {
         }
 
         String id = BlockStorage.checkID(e.getClickedBlock());
+
         if (id == null) {
             return;
         }
@@ -55,7 +56,13 @@ public class TeleporterListener implements Listener {
 
     @ParametersAreNonnullByDefault
     private boolean isTeleporterPad(String id, Block b, UUID uuid) {
-        return id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED.getItemId()) || (id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL.getItemId()) && BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(uuid.toString()));
+        if (id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED.getItemId())) {
+            return true;
+        } else if (id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL.getItemId())) {
+            return BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(uuid.toString());
+        } else {
+            return false;
+        }
     }
 
     private boolean checkForPylons(@Nonnull Block teleporter) {

@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +15,6 @@ import org.bukkit.plugin.Plugin;
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
@@ -38,7 +36,6 @@ public class ThirdPartyPluginService {
     private boolean initialized = false;
     private boolean isExoticGardenInstalled = false;
     private boolean isChestTerminalInstalled = false;
-    private boolean isEmeraldEnchantsInstalled = false;
     private boolean isMcMMOInstalled = false;
 
     /**
@@ -78,13 +75,6 @@ public class ThirdPartyPluginService {
             }
         }
 
-        if (isPluginInstalled("EmeraldEnchants")) {
-            isEmeraldEnchantsInstalled = true;
-            Plugin emeraldEnchants = plugin.getServer().getPluginManager().getPlugin("EmeraldEnchants");
-            FlexCategory category = new EmeraldEnchantsCategory(new NamespacedKey(emeraldEnchants, "enchantment_guide"));
-            category.register();
-        }
-
         // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
         if (isPluginInstalled("WorldEdit")) {
             try {
@@ -101,9 +91,6 @@ public class ThirdPartyPluginService {
         // mcMMO Integration
         if (isPluginInstalled("mcMMO")) {
             try {
-                // This makes sure that the FakeEvent interface is present.
-                // Class.forName("com.gmail.nossr50.events.fake.FakeEvent");
-
                 new McMMOIntegration(plugin);
                 isMcMMOInstalled = true;
             } catch (Exception | LinkageError x) {
@@ -152,10 +139,6 @@ public class ThirdPartyPluginService {
         return isChestTerminalInstalled;
     }
 
-    public boolean isEmeraldEnchantsInstalled() {
-        return isEmeraldEnchantsInstalled;
-    }
-
     public Optional<ItemStack> harvestExoticGardenPlant(Block block) {
         return exoticGardenIntegration.apply(block);
     }
@@ -170,7 +153,7 @@ public class ThirdPartyPluginService {
      * @return Whether this is a fake event
      */
     public boolean isEventFaked(@Nonnull Event event) {
-        // TODO: Change this to FakeEvent once the new mcMMO build was released
+        // This can be changed to "FakeEvent" in a later version
         return isMcMMOInstalled && event instanceof FakeBlockBreakEvent;
     }
 

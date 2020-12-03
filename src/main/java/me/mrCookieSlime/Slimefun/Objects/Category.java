@@ -134,6 +134,7 @@ public class Category implements Keyed {
      * 
      * @param p
      *            The Player to create this {@link ItemStack} for
+     * 
      * @return A localized display item for this {@link Category}
      */
     @Nonnull
@@ -164,6 +165,26 @@ public class Category implements Keyed {
     @Nonnull
     public String getUnlocalizedName() {
         return ChatColor.stripColor(item.getItemMeta().getDisplayName());
+    }
+
+    /**
+     * This returns the localized display name of this {@link Category} for the given {@link Player}.
+     * The method will fall back to {@link #getUnlocalizedName()} if no translation was found.
+     * 
+     * @param p
+     *            The {@link Player} who to translate the name for
+     * 
+     * @return The localized name of this {@link Category}
+     */
+    @Nonnull
+    public String getDisplayName(@Nonnull Player p) {
+        String localized = SlimefunPlugin.getLocalization().getCategoryName(p, getKey());
+
+        if (localized != null) {
+            return localized;
+        } else {
+            return getUnlocalizedName();
+        }
     }
 
     /**

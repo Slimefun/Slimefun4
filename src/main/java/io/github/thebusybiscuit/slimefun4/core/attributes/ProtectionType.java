@@ -7,6 +7,7 @@ import org.bukkit.entity.Bee;
  * prevents the damage from.
  *
  * @author Linox
+ * @author Seggan
  *
  * @see ProtectiveArmor
  *

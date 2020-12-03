@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
+package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

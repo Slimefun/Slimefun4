@@ -19,7 +19,6 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @deprecated This interface is not designed to be used by addons.
  *
  */
-// @Deprecated - commented out because we are not ready to send out warnings yet
 public interface InventoryBlock {
 
     /**

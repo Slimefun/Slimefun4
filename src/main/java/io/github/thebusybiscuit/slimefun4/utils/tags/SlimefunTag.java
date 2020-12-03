@@ -35,9 +35,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.SmeltersPic
  * extensions of the default Minecraft tags.
  * The actual tag files are located in the {@literal /src/main/resources/tags} directory
  * and follow Minecraft's tags.json format.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see TagParser
  *
  */
@@ -49,6 +49,11 @@ public enum SlimefunTag implements Tag<Material> {
     ORES,
 
     /**
+     * All minecraft ores that can be affected by fortune.
+     */
+    FORTUNE_COMPATIBLE_ORES,
+
+    /**
      * All Shulker boxes, normal and colored.
      */
     SHULKER_BOXES,
@@ -57,6 +62,11 @@ public enum SlimefunTag implements Tag<Material> {
      * All command block variants
      */
     COMMAND_BLOCKS,
+    
+    /**
+     * All variants of Spawn Eggs
+     */
+    SPAWN_EGGS,
 
     /**
      * Every mushroom type, red, brown and nether ones.
@@ -105,10 +115,26 @@ public enum SlimefunTag implements Tag<Material> {
     STONE_VARIANTS,
 
     /**
+     * All dirt variants. Dirt, coarse dirt, grass, mycelium.
+     * This also includes farmland and grass paths.
+     */
+    DIRT_VARIANTS,
+
+    /**
      * All variants of concrete powder.
      * Can you believe there is no tag for this already?
      */
     CONCRETE_POWDERS,
+
+    /**
+     * All the types of pressure plates.
+     */
+    PRESSURE_PLATES,
+
+    /**
+     * All tall flowers because minecraft doesn't have a tag for this
+     */
+    TALL_FLOWERS,
 
     /**
      * Materials which are sensitive to break.
@@ -208,7 +234,7 @@ public enum SlimefunTag implements Tag<Material> {
 
     /**
      * This method reloads this {@link SlimefunTag} from our resources directory.
-     * 
+     *
      * @throws TagMisconfigurationException
      *             This is thrown whenever a {@link SlimefunTag} could not be parsed properly
      */
@@ -225,11 +251,11 @@ public enum SlimefunTag implements Tag<Material> {
     /**
      * This method reloads every single {@link SlimefunTag} from the resources directory.
      * It is equivalent to running {@link #reload()} on every single {@link SlimefunTag} manually.
-     * 
+     *
      * Do keep in mind though that any misconfigured {@link SlimefunTag} will abort the entire
      * method and throw a {@link TagMisconfigurationException}. So one faulty {@link SlimefunTag}
      * will stop the reloading process.
-     * 
+     *
      * @throws TagMisconfigurationException
      *             This is thrown if one of the {@link SlimefunTag SlimefunTags} could not be parsed correctly
      */
@@ -279,12 +305,24 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
+    public boolean isEmpty() {
+        if (!includedMaterials.isEmpty()) {
+            /**
+             * Without even needing to generate a Set we can safely
+             * return false if there are directly included Materials
+             */
+            return false;
+        } else {
+            return getValues().isEmpty();
+        }
+    }
+
     /**
      * This returns a {@link Set} of {@link Tag Tags} which are children of this {@link SlimefunTag},
      * these can be other {@link SlimefunTag SlimefunTags} or regular {@link Tag Tags}.
-     * 
+     *
      * <strong>The returned {@link Set} is immutable</strong>
-     * 
+     *
      * @return An immutable {@link Set} of all sub tags.
      */
     @Nonnull
@@ -294,7 +332,7 @@ public enum SlimefunTag implements Tag<Material> {
 
     /**
      * This method returns an Array representation for this {@link SlimefunTag}.
-     * 
+     *
      * @return A {@link Material} array for this {@link Tag}
      */
     @Nonnull
@@ -304,7 +342,7 @@ public enum SlimefunTag implements Tag<Material> {
 
     /**
      * This returns a {@link Stream} of {@link Material Materials} for this {@link SlimefunTag}.
-     * 
+     *
      * @return A {@link Stream} of {@link Material Materials}
      */
     @Nonnull
@@ -320,12 +358,13 @@ public enum SlimefunTag implements Tag<Material> {
      *
      * @param value
      *            The value which you would like to look up.
-     * 
+     *
      * @return The {@link SlimefunTag} or null if it does not exist.
      */
     @Nullable
     public static SlimefunTag getTag(@Nonnull String value) {
         Validate.notNull(value, "A tag cannot be null!");
+
         return nameLookup.get(value);
     }
 

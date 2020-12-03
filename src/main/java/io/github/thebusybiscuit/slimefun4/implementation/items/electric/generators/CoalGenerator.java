@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 import javax.annotation.Nonnull;
 
-public abstract class CoalGenerator extends AGenerator {
+public class CoalGenerator extends AGenerator {
 
     public CoalGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
