@@ -2,6 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
+- [Release Candidate 19 (TBD)](#release-candidate-19-tbd)
 - [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
 - [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
 - [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
@@ -22,6 +23,11 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Release Candidate 19 (TBD)
+
+#### Changes
+* Performance optimizations for Cargo networks
 
 ## Release Candidate 18 (03 Dec 2020)
 
