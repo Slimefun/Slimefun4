@@ -23,8 +23,10 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -107,22 +109,29 @@ public abstract class Reactor extends AbstractEnergyProvider {
             }
         };
 
-        registerBlockHandler(getId(), (p, b, tool, reason) -> {
-            BlockMenu inv = BlockStorage.getInventory(b);
-
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getFuelSlots());
-                inv.dropItems(b.getLocation(), getCoolantSlots());
-                inv.dropItems(b.getLocation(), getOutputSlots());
-            }
-
-            progress.remove(b.getLocation());
-            processing.remove(b.getLocation());
-            SimpleHologram.remove(b);
-            return true;
-        });
-
+        addItemHandler(onBreak());
         registerDefaultFuelTypes();
+    }
+
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+        return new SimpleBlockBreakHandler() {
+
+            @Override
+            public void onBlockBreaking(@Nonnull Block b) {
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), getFuelSlots());
+                    inv.dropItems(b.getLocation(), getCoolantSlots());
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
+
+                progress.remove(b.getLocation());
+                processing.remove(b.getLocation());
+                SimpleHologram.remove(b);
+            }
+        };
     }
 
     protected void updateInventory(@Nonnull BlockMenu menu, @Nonnull Block b) {

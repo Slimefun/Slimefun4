@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,8 +11,10 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -34,8 +37,11 @@ public class ReactorAccessPort extends SlimefunItem {
     private final int[] inputBorder = { 15, 16, 17, 24, 26, 33, 35, 42, 44, 51, 52, 53 };
     private final int[] outputBorder = { 30, 31, 32, 39, 41, 48, 50 };
 
+    @ParametersAreNonnullByDefault
     public ReactorAccessPort(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        addItemHandler(onBreak());
 
         new BlockMenuPreset(getId(), "&2Reactor Access Port") {
 
@@ -95,18 +101,23 @@ public class ReactorAccessPort extends SlimefunItem {
                 }
             }
         };
+    }
 
-        registerBlockHandler(getId(), (p, b, tool, reason) -> {
-            BlockMenu inv = BlockStorage.getInventory(b);
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+        return new SimpleBlockBreakHandler() {
 
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getFuelSlots());
-                inv.dropItems(b.getLocation(), getCoolantSlots());
-                inv.dropItems(b.getLocation(), getOutputSlots());
+            @Override
+            public void onBlockBreaking(@Nonnull Block b) {
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), getFuelSlots());
+                    inv.dropItems(b.getLocation(), getCoolantSlots());
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
             }
-
-            return true;
-        });
+        };
     }
 
     private void constructMenu(@Nonnull BlockMenuPreset preset) {

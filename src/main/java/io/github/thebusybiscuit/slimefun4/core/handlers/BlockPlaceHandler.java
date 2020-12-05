@@ -58,7 +58,7 @@ public abstract class BlockPlaceHandler implements ItemHandler {
     }
 
     @Override
-    public Class<? extends ItemHandler> getIdentifier() {
+    public final Class<? extends ItemHandler> getIdentifier() {
         return BlockPlaceHandler.class;
     }
 }

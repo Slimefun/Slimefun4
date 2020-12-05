@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.OptionalInt;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,8 +18,10 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
@@ -37,31 +42,41 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem {
     private static final int[] OUTPUT_SLOTS = { 29, 30, 31, 32, 33, 38, 39, 40, 41, 42 };
     private static final int PROCESSING_TIME = 14;
 
+    @ParametersAreNonnullByDefault
     public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         addItemHandler(onPlace());
-        registerBlockHandler(getId(), (p, b, stack, reason) -> {
-            SimpleHologram.remove(b);
-
-            BlockMenu inv = BlockStorage.getInventory(b);
-
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getOutputSlots());
-            }
-
-            progress.remove(b);
-            processing.remove(b);
-            return true;
-        });
+        addItemHandler(onBreak());
     }
 
+    @Nonnull
     private BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
                 SimpleHologram.update(e.getBlock(), "&7Idling...");
+            }
+        };
+    }
+
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+        return new SimpleBlockBreakHandler() {
+
+            @Override
+            public void onBlockBreaking(@Nonnull Block b) {
+                SimpleHologram.remove(b);
+
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
+
+                progress.remove(b);
+                processing.remove(b);
             }
         };
     }
