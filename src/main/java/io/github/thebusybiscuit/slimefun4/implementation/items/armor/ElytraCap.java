@@ -12,7 +12,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraCrashListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraImpactListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -22,7 +22,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  *
  * @author Seggan
  *
- * @see ElytraCrashListener
+ * @see ElytraImpactListener
  */
 public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, ProtectiveArmor {
 

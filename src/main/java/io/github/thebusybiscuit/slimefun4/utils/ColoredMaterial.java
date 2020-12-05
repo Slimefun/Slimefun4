@@ -159,6 +159,9 @@ public enum ColoredMaterial {
     
     // @formatter:on
 
+    /**
+     * This is our {@link List} of {@link Material Materials}, the backbone of this enum.
+     */
     private final List<Material> list;
 
     /**
@@ -175,11 +178,25 @@ public enum ColoredMaterial {
         list = Collections.unmodifiableList(Arrays.asList(materials));
     }
 
+    /**
+     * This returns an ordered {@link List} of {@link Material Materials}
+     * that are part o this {@link ColoredMaterial}.
+     * 
+     * @return An ordered {@link List} of {@link Material Materials}
+     */
     @Nonnull
     public List<Material> asList() {
         return list;
     }
 
+    /**
+     * This returns the {@link Material} at the given index.
+     * 
+     * @param index
+     *            The index
+     * 
+     * @return The {@link Material} at that index
+     */
     @Nonnull
     public Material get(int index) {
         Validate.isTrue(index >= 0 && index < 16, "The index must be between 0 and 15 (inclusive).");
@@ -187,6 +204,15 @@ public enum ColoredMaterial {
         return list.get(index);
     }
 
+    /**
+     * This returns the {@link Material} with the given {@link DyeColor}.
+     * 
+     * @param color
+     *            The {@link DyeColor}
+     * 
+     * @return The {@link Material} with that {@link DyeColor}
+     */
+    @Nonnull
     public Material get(@Nonnull DyeColor color) {
         Validate.notNull(color, "Color cannot be null!");
 

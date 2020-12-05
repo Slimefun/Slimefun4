@@ -120,6 +120,7 @@ public class Translators {
         // Translators - Chinese (Taiwan)
         addTranslator("BrineYT", "HeroBrineKing", SupportedLanguage.CHINESE_TAIWAN, true);
         addTranslator("mio9", SupportedLanguage.CHINESE_TAIWAN, true);
+        addTranslator("ALiangLiang", SupportedLanguage.CHINESE_TAIWAN, true);
 
         // Translators - Arabic
         addTranslator("mohkamfer", "AgentBabbie", SupportedLanguage.ARABIC, false);
@@ -164,12 +165,17 @@ public class Translators {
         // Translators - Tagalog
         addTranslator("sccooottttie", SupportedLanguage.TAGALOG, true);
 
+        // Translators - Portuguese
+        addTranslator("Gusstavo", SupportedLanguage.PORTUGUESE_PORTUGAL, true);
+
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("yurinogueira", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Sakanas", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("krazybeat", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("Gusstavo", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
     @ParametersAreNonnullByDefault
@@ -182,7 +188,7 @@ public class Translators {
         Contributor contributor = github.addContributor(minecraftName, "https://github.com/" + username, "translator," + lang.getLanguageId(), 0);
 
         if (lock) {
-            contributor.lock();
+            contributor.setImmutable();
         }
     }
 

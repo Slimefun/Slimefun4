@@ -27,7 +27,7 @@ public class SeasonalCategory extends Category {
     private final Month month;
 
     /**
-     * The constructor for a SeasonCategory.
+     * The constructor for a {@link SeasonalCategory}.
      * 
      * @param key
      *            The {@link NamespacedKey} that is used to identify this {@link Category}

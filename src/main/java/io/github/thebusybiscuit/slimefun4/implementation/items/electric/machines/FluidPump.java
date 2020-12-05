@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -16,13 +17,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.Vein;
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.TickingBlock;
 import io.github.thebusybiscuit.slimefun4.core.attributes.TickingMethod;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -51,6 +52,9 @@ public class FluidPump extends SlimefunItem implements InventoryBlock, EnergyNet
     private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
+    private final ItemStack emptyBucket = new ItemStackWrapper(Material.BUCKET);
+
+    @ParametersAreNonnullByDefault
     public FluidPump(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -68,16 +72,16 @@ public class FluidPump extends SlimefunItem implements InventoryBlock, EnergyNet
         });
     }
 
-    private void constructMenu(BlockMenuPreset preset) {
+    private void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : border) {
-            preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : inputBorder) {
-            preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
         for (int i : outputBorder) {
-            preset.addItem(i, new CustomItem(Material.ORANGE_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : getOutputSlots()) {
@@ -129,7 +133,7 @@ public class FluidPump extends SlimefunItem implements InventoryBlock, EnergyNet
             BlockMenu menu = BlockStorage.getInventory(b);
 
             for (int slot : getInputSlots()) {
-                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), new ItemStack(Material.BUCKET), true, false)) {
+                if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), emptyBucket, true, false)) {
                     ItemStack bucket = getFilledBucket(fluid);
 
                     if (!menu.fits(bucket, getOutputSlots())) {
@@ -154,9 +158,11 @@ public class FluidPump extends SlimefunItem implements InventoryBlock, EnergyNet
     @Nullable
     private Block findNextFluid(@Nonnull Block fluid) {
         if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
-            // With water we can be sure to find an infinite source whenever we go
-            // further than a block, so we can just remove the water here and save
-            // ourselves all of that computing...
+            /**
+             * With water we can be sure to find an infinite source whenever we
+             * go further than a block, so we can just remove the water here and
+             * save ourselves all of that computing...
+             */
             if (isSource(fluid)) {
                 return fluid;
             }
@@ -175,7 +181,8 @@ public class FluidPump extends SlimefunItem implements InventoryBlock, EnergyNet
         return null;
     }
 
-    private ItemStack getFilledBucket(Block fluid) {
+    @Nonnull
+    private ItemStack getFilledBucket(@Nonnull Block fluid) {
         if (fluid.getType() == Material.LAVA) {
             return new ItemStack(Material.LAVA_BUCKET);
         } else if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {

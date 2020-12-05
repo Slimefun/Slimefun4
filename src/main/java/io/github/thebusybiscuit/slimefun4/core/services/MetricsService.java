@@ -140,7 +140,7 @@ public class MetricsService {
     }
 
     /**
-     * This will close the child classloader and mark all the resources held under this no longer
+     * This will close the child {@link ClassLoader} and mark all the resources held under this no longer
      * in use, they will be cleaned up the next GC run.
      */
     public void cleanUp() {

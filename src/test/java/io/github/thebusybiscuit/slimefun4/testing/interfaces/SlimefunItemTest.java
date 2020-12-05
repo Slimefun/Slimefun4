@@ -17,6 +17,15 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+/**
+ * This is a convenient interface for us to use in unit test classes
+ * that test the functionality of a particular {@link SlimefunItem}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @param <T>
+ *            The class type of {@link SlimefunItem} you want to test
+ */
 @FunctionalInterface
 public interface SlimefunItemTest<T extends SlimefunItem> {
 

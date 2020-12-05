@@ -7,16 +7,16 @@ import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
-abstract class PlayerTask implements Runnable {
+abstract class AbstractPlayerTask implements Runnable {
 
-    protected int id;
-    protected Player p;
+    protected final Player p;
+    private int id;
 
-    PlayerTask(@Nonnull Player p) {
+    AbstractPlayerTask(@Nonnull Player p) {
         this.p = p;
     }
 
-    public void setID(int id) {
+    private void setID(int id) {
         this.id = id;
     }
 
@@ -29,21 +29,28 @@ abstract class PlayerTask implements Runnable {
     }
 
     @Override
-    public void run() {
+    public final void run() {
         if (isValid()) {
             executeTask();
         }
     }
 
     /**
-     * This method checks if this {@link PlayerTask} should be continued or cancelled.
-     * It will also cancel this {@link PlayerTask} if it became invalid.
+     * This method cancels this {@link AbstractPlayerTask}.
+     */
+    public final void cancel() {
+        Bukkit.getScheduler().cancelTask(id);
+    }
+
+    /**
+     * This method checks if this {@link AbstractPlayerTask} should be continued or cancelled.
+     * It will also cancel this {@link AbstractPlayerTask} if it became invalid.
      * 
-     * @return Whether this {@link PlayerTask} is still valid
+     * @return Whether this {@link AbstractPlayerTask} is still valid
      */
     protected boolean isValid() {
         if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isSneaking()) {
-            Bukkit.getScheduler().cancelTask(id);
+            cancel();
             return false;
         }
 
