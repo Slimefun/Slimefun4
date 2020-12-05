@@ -41,6 +41,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  *
  * @author TheBusyBiscuit
  * @author Linox
+ * @author Patbox
  *
  * @see BlockPlaceHandler
  * @see BlockBreakHandler
@@ -59,12 +60,15 @@ public class BlockListener implements Listener {
         // While this can cause ghost blocks it also prevents them from replacing grass
         // or saplings etc...
         Block block = e.getBlock();
-        SlimefunItem sfItem = BlockStorage.check(block);
 
-        if (sfItem != null) {
-            if (e.getBlockReplacedState().getType().isAir()) {
+        if (e.getBlockReplacedState().getType().isAir()) {
+            SlimefunItem sfItem = BlockStorage.check(block);
+
+            if (sfItem != null) {
                 for (ItemStack item : sfItem.getDrops()) {
-                    if (item != null && !item.getType().isAir()) { block.getWorld().dropItemNaturally(block.getLocation(), item); }
+                    if (!item.getType().isAir()) {
+                        block.getWorld().dropItemNaturally(block.getLocation(), item);
+                    }
                 }
                 BlockStorage.clearBlockInfo(block);
             } else {
