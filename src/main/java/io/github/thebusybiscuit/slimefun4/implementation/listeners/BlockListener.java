@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -58,7 +61,18 @@ public class BlockListener implements Listener {
         // This prevents Players from placing a block where another block already exists
         // While this can cause ghost blocks it also prevents them from replacing grass
         // or saplings etc...
-        if (BlockStorage.hasBlockInfo(e.getBlock())) {
+        Block block = e.getBlock();
+        if (BlockStorage.hasBlockInfo(block)) {
+            if (e.getBlockReplacedState().getType().isAir()) {
+                Iterator<ItemStack> item = BlockStorage.check(block).getDrops().iterator();
+                World world = block.getWorld();
+                Location loc = block.getLocation();
+                while (item.hasNext()) {
+                    world.dropItem(loc, item.next());
+                }
+                BlockStorage.clearBlockInfo(block);
+                return;
+            }
             e.setCancelled(true);
         }
     }
