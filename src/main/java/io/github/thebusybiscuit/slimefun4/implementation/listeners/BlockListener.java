@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -41,10 +38,10 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
  * and {@link BlockBreakEvent}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Linox
- * 
+ *
  * @see BlockPlaceHandler
  * @see BlockBreakHandler
  * @see ToolUseHandler
@@ -62,18 +59,17 @@ public class BlockListener implements Listener {
         // While this can cause ghost blocks it also prevents them from replacing grass
         // or saplings etc...
         Block block = e.getBlock();
-        if (BlockStorage.hasBlockInfo(block)) {
+        SlimefunItem sfItem = BlockStorage.check(block);
+
+        if (sfItem != null) {
             if (e.getBlockReplacedState().getType().isAir()) {
-                Iterator<ItemStack> item = BlockStorage.check(block).getDrops().iterator();
-                World world = block.getWorld();
-                Location loc = block.getLocation();
-                while (item.hasNext()) {
-                    world.dropItem(loc, item.next());
+                for (ItemStack item : sfItem.getDrops()) {
+                    if (item != null && !item.getType().isAir()) { block.getWorld().dropItemNaturally(block.getLocation(), item); }
                 }
                 BlockStorage.clearBlockInfo(block);
-                return;
+            } else {
+                e.setCancelled(true);
             }
-            e.setCancelled(true);
         }
     }
 
@@ -184,7 +180,7 @@ public class BlockListener implements Listener {
      * This method checks for a sensitive {@link Block}.
      * Sensitive {@link Block Blocks} are pressure plates or saplings, which should be broken
      * when the block beneath is broken as well.
-     * 
+     *
      * @param p
      *            The {@link Player} who broke this {@link Block}
      * @param b
