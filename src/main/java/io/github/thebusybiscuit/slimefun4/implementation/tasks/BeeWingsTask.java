@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -24,7 +23,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListe
  * @see BeeWingsListener
  *
  */
-public class BeeWingsTask extends PlayerTask {
+public class BeeWingsTask extends AbstractPlayerTask {
 
     private static final int MIN_ALTITUDE = 4;
 
@@ -93,7 +92,7 @@ public class BeeWingsTask extends PlayerTask {
     protected boolean isValid() {
         // The task is only valid as long as the Player is alive and gliding
         if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isGliding() || p.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
-            Bukkit.getScheduler().cancelTask(id);
+            cancel();
             return false;
         }
 
