@@ -242,6 +242,7 @@ public final class SlimefunRegistry {
         return globalItemHandlers;
     }
 
+    @Deprecated
     public Map<String, SlimefunBlockHandler> getBlockHandlers() {
         return blockHandlers;
     }
