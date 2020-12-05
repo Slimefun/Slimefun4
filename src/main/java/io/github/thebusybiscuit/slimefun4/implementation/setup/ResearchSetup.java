@@ -15,8 +15,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * This static setup class is used to register all default implementations of
  * {@link Research} on startup.
  *
- * @author TheBusyBiscuit
- *
  * @see Research
  * @see SlimefunItems
  *
