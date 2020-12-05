@@ -29,6 +29,12 @@
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
+* General performance improvements
+* Improvements to the BlockBreakHandler (API)
+
+#### Fixes
+* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
+* Fixed #2560
 
 ## Release Candidate 18 (03 Dec 2020)
 

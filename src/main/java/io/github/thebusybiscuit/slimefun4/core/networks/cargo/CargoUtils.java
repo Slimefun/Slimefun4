@@ -30,7 +30,7 @@ final class CargoUtils {
     /**
      * These are the slots where our filter items sit.
      */
-    static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
+    private static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
 
     private CargoUtils() {}
 
@@ -222,11 +222,11 @@ final class CargoUtils {
         int maxSlot = range[1];
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack is = contents[slot];
+            ItemStack item = contents[slot];
 
-            if (matchesFilter(network, node, is)) {
+            if (matchesFilter(network, node, item)) {
                 inv.setItem(slot, null);
-                return new ItemStackAndInteger(is, slot);
+                return new ItemStackAndInteger(item, slot);
             }
         }
 
@@ -330,9 +330,9 @@ final class CargoUtils {
     static DirtyChestMenu getChestMenu(@Nonnull Block block) {
         if (BlockStorage.hasInventory(block)) {
             return BlockStorage.getInventory(block);
+        } else {
+            return BlockStorage.getUniversalInventory(block);
         }
-
-        return BlockStorage.getUniversalInventory(block);
     }
 
     static boolean matchesFilter(@Nonnull AbstractItemNetwork network, @Nonnull Block node, @Nullable ItemStack item) {
