@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -20,10 +19,7 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.papermc.lib.PaperLib;
-import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -70,20 +66,17 @@ public class BlockDataService implements Keyed {
         Validate.notNull(b, "The block cannot be null!");
         Validate.notNull(value, "The value cannot be null!");
 
-        // Due to a bug on older versions, Persistent Data is nullable for non-snapshots
-        boolean useSnapshot = SlimefunPlugin.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_16);
-
-        BlockStateSnapshotResult result = PaperLib.getBlockState(b, useSnapshot);
-        BlockState state = result.getState();
+        /**
+         * Don't use PaperLib here, it seems to be quite buggy in block-placing scenarios
+         * and it would be too tedious to check for individual build versions to circumvent this.
+         */
+        BlockState state = b.getState();
 
         if (state instanceof TileState) {
             try {
                 PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
                 container.set(namespacedKey, PersistentDataType.STRING, value);
-
-                if (result.isSnapshot()) {
-                    state.update();
-                }
+                state.update();
             } catch (Exception x) {
                 Slimefun.getLogger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
 
@@ -100,18 +93,28 @@ public class BlockDataService implements Keyed {
      * 
      * @param b
      *            The {@link Block} to retrieve data from
+     * 
      * @return The stored value
      */
     public Optional<String> getBlockData(@Nonnull Block b) {
         Validate.notNull(b, "The block cannot be null!");
 
         BlockState state = PaperLib.getBlockState(b, false).getState();
+        PersistentDataContainer container = getPersistentDataContainer(state);
 
-        if (state instanceof TileState) {
-            PersistentDataContainer container = ((TileState) state).getPersistentDataContainer();
+        if (container != null) {
             return Optional.ofNullable(container.get(namespacedKey, PersistentDataType.STRING));
         } else {
             return Optional.empty();
+        }
+    }
+
+    @Nullable
+    private PersistentDataContainer getPersistentDataContainer(@Nonnull BlockState state) {
+        if (state instanceof TileState) {
+            return ((TileState) state).getPersistentDataContainer();
+        } else {
+            return null;
         }
     }
 

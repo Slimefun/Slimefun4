@@ -252,6 +252,8 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * identify all instances of the same {@link AContainer}.
      * This way we can add the recipes to all instances of the same machine.
      * 
+     * <strong>This method will be deprecated and replaced in the future</strong>
+     * 
      * @return The identifier of this machine
      */
     @Nonnull
@@ -384,11 +386,13 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         Validate.notNull(l, "Can't attempt to take charge from a null location!");
 
         if (isChargeable()) {
-            if (getCharge(l) < getEnergyConsumption()) {
+            int charge = getCharge(l);
+
+            if (charge < getEnergyConsumption()) {
                 return false;
             }
 
-            removeCharge(l, getEnergyConsumption());
+            setCharge(l, charge - getEnergyConsumption());
             return true;
         } else {
             return true;

@@ -51,7 +51,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.Crucible;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFurnace;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HardenedGlass;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.InfusedHopper;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RainbowBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
@@ -129,20 +128,21 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.gps.PersonalActiv
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.TeleporterPylon;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.EnchantmentRune;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfernalBonemeal;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedHopper;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeFlask;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.MagicalZombiePills;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundRune;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.TelepositionScroll;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.VillagerRune;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WaterStaff;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.WindStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.EnchantmentRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.SoulboundRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes.VillagerRune;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WaterStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.WindStaff;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Bandage;
@@ -202,7 +202,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * This static utility class holds the recipes of all items.
+ * This class holds the recipes of all items.
  * This is the place where all items from Slimefun are registered.
  *
  */

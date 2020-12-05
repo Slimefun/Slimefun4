@@ -24,8 +24,20 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  */
 public class UpdaterService {
 
+    /**
+     * Our {@link SlimefunPlugin} instance.
+     */
     private final SlimefunPlugin plugin;
+
+    /**
+     * Our {@link Updater} implementation.
+     */
     private final Updater updater;
+
+    /**
+     * The {@link SlimefunBranch} we are currently on.
+     * If this is an official {@link SlimefunBranch}, auto updates will be enabled.
+     */
     private final SlimefunBranch branch;
 
     /**

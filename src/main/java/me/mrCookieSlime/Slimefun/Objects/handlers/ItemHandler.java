@@ -47,6 +47,7 @@ public interface ItemHandler {
      * 
      * @param item
      *            The {@link SlimefunItem} to validate
+     * 
      * @return An {@link Optional} describing the result, it will contain an {@link IncompatibleItemHandlerException}
      *         should there be an issue
      */

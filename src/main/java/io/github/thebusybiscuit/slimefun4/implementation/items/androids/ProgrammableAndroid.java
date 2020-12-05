@@ -496,6 +496,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         menu.open(p);
     }
 
+    @Nonnull
     protected List<Instruction> getValidScriptInstructions() {
         List<Instruction> list = new ArrayList<>();
 
@@ -593,8 +594,9 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         }
     }
 
-    public void registerFuelType(MachineFuel fuel) {
+    public void registerFuelType(@Nonnull MachineFuel fuel) {
         Validate.notNull(fuel, "Cannot register null as a Fuel type");
+
         fuelTypes.add(fuel);
     }
 

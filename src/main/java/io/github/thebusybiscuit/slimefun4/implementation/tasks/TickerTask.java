@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,17 +11,18 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
+import io.github.thebusybiscuit.cscorelib2.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -28,8 +30,8 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * The {@link TickerTask} is responsible for ticking every {@link BlockTicker}, synchronous
- * or not.
+ * The {@link TickerTask} is responsible for ticking every {@link BlockTicker},
+ * synchronous or not.
  * 
  * @author TheBusyBiscuit
  * 
@@ -38,15 +40,19 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class TickerTask implements Runnable {
 
-    // This Map holds all currently actively ticking locations
-    private final Map<String, Set<Location>> activeTickers = new ConcurrentHashMap<>();
+    /**
+     * This Map holds all currently actively ticking locations.
+     */
+    private final Map<ChunkPosition, Set<Location>> tickingLocations = new ConcurrentHashMap<>();
 
     // These are "Queues" of blocks that need to be removed or moved
     private final Map<Location, Location> movingQueue = new ConcurrentHashMap<>();
     private final Map<Location, Boolean> deletionQueue = new ConcurrentHashMap<>();
 
-    // This Map tracks how many bugs have occurred in a given Location
-    // If too many bugs happen, we delete that Location
+    /**
+     * This Map tracks how many bugs have occurred in a given Location .
+     * If too many bugs happen, we delete that Location.
+     */
     private final Map<BlockPosition, Integer> bugs = new ConcurrentHashMap<>();
 
     private int tickRate;
@@ -69,7 +75,7 @@ public class TickerTask implements Runnable {
     /**
      * This method resets this {@link TickerTask} to run again.
      */
-    public void reset() {
+    private void reset() {
         running = false;
     }
 
@@ -85,6 +91,7 @@ public class TickerTask implements Runnable {
             SlimefunPlugin.getProfiler().start();
             Set<BlockTicker> tickers = new HashSet<>();
 
+            // Remove any deleted blocks
             Iterator<Map.Entry<Location, Boolean>> removals = deletionQueue.entrySet().iterator();
             while (removals.hasNext()) {
                 Map.Entry<Location, Boolean> entry = removals.next();
@@ -92,12 +99,24 @@ public class TickerTask implements Runnable {
                 removals.remove();
             }
 
-            if (!halted) {
-                for (Map.Entry<String, Set<Location>> entry : activeTickers.entrySet()) {
-                    tickChunk(tickers, entry.getKey(), entry.getValue());
+            // Fixes #2576 - Remove any deleted instances of BlockStorage
+            Iterator<BlockStorage> worlds = SlimefunPlugin.getRegistry().getWorlds().values().iterator();
+            while (worlds.hasNext()) {
+                BlockStorage storage = worlds.next();
+
+                if (storage.isMarkedForRemoval()) {
+                    worlds.remove();
                 }
             }
 
+            // Run our ticker code
+            if (!halted) {
+                for (Map.Entry<ChunkPosition, Set<Location>> entry : tickingLocations.entrySet()) {
+                    tickChunk(entry.getKey(), tickers, entry.getValue());
+                }
+            }
+
+            // Move any moved block data
             Iterator<Map.Entry<Location, Location>> moves = movingQueue.entrySet().iterator();
             while (moves.hasNext()) {
                 Map.Entry<Location, Location> entry = moves.next();
@@ -119,21 +138,16 @@ public class TickerTask implements Runnable {
     }
 
     @ParametersAreNonnullByDefault
-    private void tickChunk(Set<BlockTicker> tickers, String chunk, Set<Location> locations) {
+    private void tickChunk(ChunkPosition chunk, Set<BlockTicker> tickers, Set<Location> locations) {
         try {
-            String[] components = PatternUtils.SEMICOLON.split(chunk);
-
-            World world = Bukkit.getWorld(components[0]);
-            int x = Integer.parseInt(components[components.length - 2]);
-            int z = Integer.parseInt(components[components.length - 1]);
-
-            if (world != null && world.isChunkLoaded(x, z)) {
+            // Only continue if the Chunk is actually loaded
+            if (chunk.isLoaded()) {
                 for (Location l : locations) {
                     tickLocation(tickers, l);
                 }
             }
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to parse Chunk: " + chunk);
+            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to resolve Chunk: " + chunk);
         }
     }
 
@@ -146,8 +160,11 @@ public class TickerTask implements Runnable {
                 if (item.getBlockTicker().isSynchronized()) {
                     SlimefunPlugin.getProfiler().scheduleEntries(1);
                     item.getBlockTicker().update();
-                    // We are inserting a new timestamp because synchronized
-                    // actions are always ran with a 50ms delay (1 game tick)
+
+                    /**
+                     * We are inserting a new timestamp because synchronized actions
+                     * are always ran with a 50ms delay (1 game tick)
+                     */
                     SlimefunPlugin.runSync(() -> {
                         Block b = l.getBlock();
                         tickBlock(l, b, item, data, System.nanoTime());
@@ -210,12 +227,34 @@ public class TickerTask implements Runnable {
 
     @ParametersAreNonnullByDefault
     public void queueMove(Location from, Location to) {
+        Validate.notNull(from, "Source Location cannot be null!");
+        Validate.notNull(to, "Target Location cannot be null!");
+
         movingQueue.put(from, to);
     }
 
     @ParametersAreNonnullByDefault
     public void queueDelete(Location l, boolean destroy) {
+        Validate.notNull(l, "Location must not be null!");
+
         deletionQueue.put(l, destroy);
+    }
+
+    /**
+     * This method checks if the given {@link Location} has been reserved
+     * by this {@link TickerTask}.
+     * A reserved {@link Location} does not currently hold any data but will
+     * be occupied upon the next tick.
+     * Checking this ensures that our {@link Location} does not get treated like a normal
+     * {@link Location} as it is theoretically "moving".
+     * 
+     * @param l
+     *            The {@link Location} to check
+     * 
+     * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
+     */
+    public boolean isReserved(@Nonnull Location l) {
+        return movingQueue.containsValue(l);
     }
 
     /**
@@ -228,14 +267,82 @@ public class TickerTask implements Runnable {
     }
 
     /**
-     * This method returns the {@link Map} of actively ticking locations according to
-     * their chunk id.
+     * This method returns a <strong>read-only</strong> {@link Map}
+     * representation of every {@link ChunkPosition} and its corresponding
+     * {@link Set} of ticking {@link Location Locations}.
      * 
-     * @return The {@link Map} of active tickers
+     * This does include any {@link Location} from an unloaded {@link Chunk} too!
+     * 
+     * @return A {@link Map} representation of all ticking {@link Location Locations}
      */
     @Nonnull
-    public Map<String, Set<Location>> getActiveTickers() {
-        return activeTickers;
+    public Map<ChunkPosition, Set<Location>> getLocations() {
+        return Collections.unmodifiableMap(tickingLocations);
+    }
+
+    /**
+     * This method returns a <strong>read-only</strong> {@link Set}
+     * of all ticking {@link Location Locations} in a given {@link Chunk}.
+     * The {@link Chunk} does not have to be loaded.
+     * If no {@link Location} is present, the returned {@link Set} will be empty.
+     * 
+     * @param chunk
+     *            The {@link Chunk}
+     * 
+     * @return A {@link Set} of all ticking {@link Location Locations}
+     */
+    @Nonnull
+    public Set<Location> getLocations(@Nonnull Chunk chunk) {
+        Validate.notNull(chunk, "The Chunk cannot be null!");
+
+        Set<Location> locations = tickingLocations.getOrDefault(new ChunkPosition(chunk), new HashSet<>());
+        return Collections.unmodifiableSet(locations);
+    }
+
+    /**
+     * This enables the ticker at the given {@link Location} and adds it to our "queue".
+     * 
+     * @param l
+     *            The {@link Location} to activate
+     */
+    public void enableTicker(@Nonnull Location l) {
+        Validate.notNull(l, "Location cannot be null!");
+
+        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
+        Set<Location> newValue = new HashSet<>();
+        Set<Location> oldValue = tickingLocations.putIfAbsent(chunk, newValue);
+
+        /**
+         * This is faster than doing computeIfAbsent(...)
+         * on a ConcurrentHashMap because it won't block the Thread for too long
+         */
+        if (oldValue != null) {
+            oldValue.add(l);
+        } else {
+            newValue.add(l);
+        }
+    }
+
+    /**
+     * This method disables the ticker at the given {@link Location} and removes it from our internal
+     * "queue".
+     * 
+     * @param l
+     *            The {@link Location} to remove
+     */
+    public void disableTicker(@Nonnull Location l) {
+        Validate.notNull(l, "Location cannot be null!");
+
+        ChunkPosition chunk = new ChunkPosition(l.getWorld(), l.getBlockX() >> 4, l.getBlockZ() >> 4);
+        Set<Location> locations = tickingLocations.get(chunk);
+
+        if (locations != null) {
+            locations.remove(l);
+
+            if (locations.isEmpty()) {
+                tickingLocations.remove(chunk);
+            }
+        }
     }
 
 }
