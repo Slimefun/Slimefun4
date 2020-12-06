@@ -1661,7 +1661,7 @@ public final class SlimefunItemSetup {
         new ElectricOreGrinder(categories.electricity, SlimefunItems.ELECTRIC_ORE_GRINDER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.REINFORCED_PLATE, SlimefunItems.HEATING_COIL, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ELECTRIC_ORE_GRINDER_2, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.ELECTRIC_ORE_GRINDER_2, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.HEATING_COIL, SlimefunItems.BLISTERING_INGOT_3})
         .setCapacity(1024)
-        .setEnergyConsumption(90)
+        .setEnergyConsumption(45)
         .setProcessingSpeed(10)
         .register(plugin);
 
