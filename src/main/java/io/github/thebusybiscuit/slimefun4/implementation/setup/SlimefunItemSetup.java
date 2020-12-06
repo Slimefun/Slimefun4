@@ -1658,6 +1658,13 @@ public final class SlimefunItemSetup {
         .setProcessingSpeed(4)
         .register(plugin);
 
+        new ElectricOreGrinder(categories.electricity, SlimefunItems.ELECTRIC_ORE_GRINDER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {SlimefunItems.REINFORCED_PLATE, SlimefunItems.HEATING_COIL, SlimefunItems.REINFORCED_PLATE, SlimefunItems.ELECTRIC_ORE_GRINDER_2, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.ELECTRIC_ORE_GRINDER_2, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.HEATING_COIL, SlimefunItems.BLISTERING_INGOT_3})
+        .setCapacity(1024)
+        .setEnergyConsumption(90)
+        .setProcessingSpeed(10)
+        .register(plugin);
+
         new HeatedPressureChamber(categories.electricity, SlimefunItems.HEATED_PRESSURE_CHAMBER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.LEAD_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, new ItemStack(Material.GLASS), SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT})
         .setCapacity(128)
