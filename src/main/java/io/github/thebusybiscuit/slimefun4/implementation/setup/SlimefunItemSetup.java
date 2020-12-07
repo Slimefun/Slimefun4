@@ -1660,9 +1660,9 @@ public final class SlimefunItemSetup {
 
         new ElectricOreGrinder(categories.electricity, SlimefunItems.ELECTRIC_ORE_GRINDER_3, RecipeType.ENHANCED_CRAFTING_TABLE,
             new ItemStack[] {null, new ItemStack(Material.DIAMOND_PICKAXE), null, SlimefunItems.CARBONADO, SlimefunItems.ELECTRIC_ORE_GRINDER_3, SlimefunItems.CARBONADO, SlimefunItems.GILDED_IRON, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.GILDED_IRON})
-            .setCapacity(512)
-            .setEnergyConsumption(15)
-            .setProcessingSpeed(4)
+            .setCapacity(1024)
+            .setEnergyConsumption(28)
+            .setProcessingSpeed(10)
             .register(plugin);
 
         new HeatedPressureChamber(categories.electricity, SlimefunItems.HEATED_PRESSURE_CHAMBER, RecipeType.ENHANCED_CRAFTING_TABLE,
