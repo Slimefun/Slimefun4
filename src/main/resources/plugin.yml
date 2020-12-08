@@ -5,7 +5,14 @@ description: Slimefun basically turns your entire Server into a FTB modpack with
 website: https://github.com/Slimefun
 
 main: io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin
-softdepend: [CS-CoreLib, PlaceholderAPI, WorldEdit, EmeraldEnchants, mcMMO]
+
+softdepend:
+- CS-CoreLib
+- PlaceholderAPI
+- WorldEdit
+- ClearLag
+- mcMMO
+- ItemsAdder
 
 api-version: '1.14'
 
