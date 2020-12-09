@@ -94,6 +94,8 @@
 * Fixed #2496
 * Fixed #2585
 * Fixed #2583
+* Fixed a couple of compatibility issues with ItemsAdder
+* Fixed #2575
 
 ## Release Candidate 17 (17 Oct 2020)
 

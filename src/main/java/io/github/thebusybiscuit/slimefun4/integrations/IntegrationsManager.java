@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
@@ -40,11 +41,16 @@ public class IntegrationsManager {
      */
     private boolean isEnabled = false;
 
+    // Soft dependencies
     private boolean isPlaceholderAPIInstalled = false;
     private boolean isWorldEditInstalled = false;
     private boolean isMcMMOInstalled = false;
     private boolean isClearLagInstalled = false;
     private boolean isItemsAdderInstalled = false;
+
+    // Addon support
+    private boolean isChestTerminalInstalled = false;
+    private boolean isExoticGardenInstalled = false;
 
     /**
      * This initializes the {@link IntegrationsManager}
@@ -102,11 +108,22 @@ public class IntegrationsManager {
 
         // ItemsAdder Integration (custom blocks)
         load("ItemsAdder", integration -> isItemsAdderInstalled = true);
+
+        // Load any integrations which aren't dependencies (loadBefore)
+        plugin.getServer().getScheduler().runTask(plugin, this::onServerStart);
     }
 
-    protected boolean isPluginInstalled(@Nonnull String hook) {
-        if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
-            Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
+    /**
+     * This method is called when the {@link Server} has finished loading its plugins.
+     */
+    private void onServerStart() {
+        isChestTerminalInstalled = isAddonInstalled("ChestTerminal");
+        isExoticGardenInstalled = isAddonInstalled("ExoticGarden");
+    }
+
+    private boolean isAddonInstalled(@Nonnull String addon) {
+        if (plugin.getServer().getPluginManager().isPluginEnabled(addon)) {
+            Slimefun.getLogger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
             return true;
         } else {
             return false;
@@ -122,7 +139,7 @@ public class IntegrationsManager {
      * @param consumer
      *            The callback to run if that {@link Plugin} is installed and enabled
      */
-    protected void load(@Nonnull String pluginName, @Nonnull Consumer<Plugin> consumer) {
+    private void load(@Nonnull String pluginName, @Nonnull Consumer<Plugin> consumer) {
         Plugin integration = plugin.getServer().getPluginManager().getPlugin(pluginName);
 
         if (integration != null && integration.isEnabled()) {
@@ -185,6 +202,14 @@ public class IntegrationsManager {
 
     public boolean isItemsAdderInstalled() {
         return isItemsAdderInstalled;
+    }
+
+    public boolean isChestTerminalInstalled() {
+        return isChestTerminalInstalled;
+    }
+
+    public boolean isExoticGardenInstalled() {
+        return isExoticGardenInstalled;
     }
 
 }

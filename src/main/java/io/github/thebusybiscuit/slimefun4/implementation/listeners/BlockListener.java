@@ -87,12 +87,12 @@ public class BlockListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
         // Simply ignore any events that were faked by other plugins
-        if (SlimefunPlugin.getThirdPartySupportService().isEventFaked(e)) {
+        if (SlimefunPlugin.getIntegrations().isEventFaked(e)) {
             return;
         }
 
         // Also ignore custom blocks which were placed by other plugins
-        if (SlimefunPlugin.getThirdPartySupportService().isCustomBlock(e.getBlock())) {
+        if (SlimefunPlugin.getIntegrations().isCustomBlock(e.getBlock())) {
             return;
         }
 

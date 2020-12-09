@@ -115,6 +115,8 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             return false;
         } else if (!b.getWorld().getWorldBorder().isInside(b.getLocation())) {
             return false;
+        } else if (SlimefunPlugin.getIntegrations().isCustomBlock(b)) {
+            return false;
         } else {
             return SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.BREAK_BLOCK);
         }

@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -22,18 +21,18 @@ import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
  * 
  * @author TheBusyBiscuit
  * 
+ * @deprecated Renamed to {@link IntegrationsManager}
+ * 
  * @see SlimefunPlugin
  *
  */
+@Deprecated
 public class ThirdPartyPluginService extends IntegrationsManager {
 
     /**
      * This gets overridden if ExoticGarden is loaded
      */
     private Function<Block, Optional<ItemStack>> exoticGardenIntegration = b -> Optional.empty();
-
-    private boolean isChestTerminalInstalled = false;
-    private boolean isExoticGardenInstalled = false;
 
     /**
      * This initializes the {@link ThirdPartyPluginService}
@@ -45,29 +44,15 @@ public class ThirdPartyPluginService extends IntegrationsManager {
         super(plugin);
     }
 
-    @Override
-    public void start() {
-        super.start();
-
-        plugin.getServer().getScheduler().runTask(plugin, () -> isChestTerminalInstalled = isPluginInstalled("ChestTerminal"));
-    }
-
-    @ParametersAreNonnullByDefault
+    @Deprecated
     public void loadExoticGarden(Plugin plugin, Function<Block, Optional<ItemStack>> method) {
+        // TODO: Move this method to IntegrationsManager and think of a better way to handle this
         if (plugin.getName().equals("ExoticGarden")) {
-            isExoticGardenInstalled = true;
             exoticGardenIntegration = method;
         }
     }
 
-    public boolean isExoticGardenInstalled() {
-        return isExoticGardenInstalled;
-    }
-
-    public boolean isChestTerminalInstalled() {
-        return isChestTerminalInstalled;
-    }
-
+    @Deprecated
     public Optional<ItemStack> harvestExoticGardenPlant(Block block) {
         return exoticGardenIntegration.apply(block);
     }
