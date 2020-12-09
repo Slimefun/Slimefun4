@@ -18,7 +18,7 @@ public class MiningAndroidListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onEntityExplode(AndroidMineEvent e) {
+    public void onAndroidMine(AndroidMineEvent e) {
         SlimefunItem item = BlockStorage.check(e.getBlock());
 
         item.callItemHandler(BlockBreakHandler.class, handler -> {
