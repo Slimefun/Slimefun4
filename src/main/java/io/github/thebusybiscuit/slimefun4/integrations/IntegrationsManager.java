@@ -4,11 +4,14 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
 
+import dev.lone.itemsadder.api.ItemsAdder;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -133,6 +136,19 @@ public class IntegrationsManager {
     public boolean isEventFaked(@Nonnull Event event) {
         // This can be changed to "FakeEvent" in a later version
         return isMcMMOInstalled && event instanceof FakeBlockBreakEvent;
+    }
+
+    /**
+     * This checks if one of our third party integrations has placed a custom
+     * {@link Block} at this {@link Location}.
+     * 
+     * @param block
+     *            The {@link Block} to check
+     * 
+     * @return Whether a different custom {@link Block} exists at that {@link Location}
+     */
+    public boolean isCustomBlock(@Nonnull Block block) {
+        return isItemsAdderInstalled && ItemsAdder.isCustomBlock(block);
     }
 
     public boolean isPlaceholderAPIInstalled() {
