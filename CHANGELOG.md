@@ -30,6 +30,10 @@
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
 
+#### Fixes
+* Fixed a couple of compatibility issues with ItemsAdder
+* Fixed #2575
+
 ## Release Candidate 18 (03 Dec 2020)
 
 #### Additions
@@ -94,8 +98,6 @@
 * Fixed #2496
 * Fixed #2585
 * Fixed #2583
-* Fixed a couple of compatibility issues with ItemsAdder
-* Fixed #2575
 
 ## Release Candidate 17 (17 Oct 2020)
 
