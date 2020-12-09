@@ -10,7 +10,7 @@ jobs:
     name: Invalid Issues
     runs-on: ubuntu-latest
 
-    if: contains(github.event.issue.labels.*.name, 'Bug Report') == false && contains(github.event.issue.labels.*.name, 'Hacktoberfest') == false
+    if: contains(github.event.issue.labels.*.name, '🐞 Bug Report') == false && contains(github.event.issue.labels.*.name, 'Hacktoberfest') == false
     steps:
     - name: Close Issue
       uses: maxkomarychev/octions/octions/issues/update@master

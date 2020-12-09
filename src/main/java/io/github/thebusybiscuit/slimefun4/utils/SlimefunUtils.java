@@ -32,8 +32,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -48,7 +46,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public final class SlimefunUtils {
 
-    private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
     private static final String NO_PICKUP_METADATA = "no_pickup";
 
     private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance(), "soulbound");
@@ -96,15 +93,6 @@ public final class SlimefunUtils {
 
             if (hasSoulboundFlag(meta)) {
                 return true;
-            }
-
-            if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
-                // We wanna operate on a copy now
-                item = item.clone();
-
-                for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                    EmeraldEnchants.getInstance().getRegistry().applyEnchantment(item, enchantment.getEnchantment(), 0);
-                }
             }
 
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
@@ -313,23 +301,54 @@ public final class SlimefunUtils {
         }
     }
 
-    private static boolean equalsLore(@Nonnull List<String> lore, @Nonnull List<String> lore2) {
-        StringBuilder string1 = new StringBuilder();
-        StringBuilder string2 = new StringBuilder();
+    /**
+     * This checks if the two provided lores are equal.
+     * This method will ignore any lines such as the soulbound one.
+     * 
+     * @param lore1
+     *            The first lore
+     * @param lore2
+     *            The second lore
+     * 
+     * @return Whether the two lores are equal
+     */
+    public static boolean equalsLore(@Nonnull List<String> lore1, @Nonnull List<String> lore2) {
+        Validate.notNull(lore1, "Cannot compare lore that is null!");
+        Validate.notNull(lore2, "Cannot compare lore that is null!");
 
-        for (String string : lore) {
-            if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
-                string1.append("-NEW LINE-").append(string);
+        List<String> longerList = lore1.size() > lore2.size() ? lore1 : lore2;
+        List<String> shorterList = lore1.size() > lore2.size() ? lore2 : lore1;
+
+        int a = 0;
+        int b = 0;
+
+        for (; a < longerList.size(); a++) {
+            if (isLineIgnored(longerList.get(a))) {
+                continue;
+            }
+
+            while (shorterList.size() > b && isLineIgnored(shorterList.get(b))) {
+                b++;
+            }
+
+            if (b >= shorterList.size()) {
+                return false;
+            } else if (longerList.get(a).equals(shorterList.get(b))) {
+                b++;
+            } else {
+                return false;
             }
         }
 
-        for (String string : lore2) {
-            if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
-                string2.append("-NEW LINE-").append(string);
-            }
+        while (shorterList.size() > b && isLineIgnored(shorterList.get(b))) {
+            b++;
         }
 
-        return string1.toString().equals(string2.toString());
+        return b == shorterList.size();
+    }
+
+    private static boolean isLineIgnored(@Nonnull String line) {
+        return line.equals(SOULBOUND_LORE);
     }
 
     public static void updateCapacitorTexture(@Nonnull Location l, int charge, int capacity) {

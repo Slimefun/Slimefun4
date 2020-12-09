@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -36,6 +37,11 @@ public class CargoOutputNode extends AbstractCargoNode {
     @Override
     protected void updateBlockMenu(BlockMenu menu, Block b) {
         addChannelSelector(b, menu, 12, 13, 14);
+    }
+
+    @Override
+    protected void markDirty(Location loc) {
+        // No need to mark anything as dirty, there is no item filter.
     }
 
 }

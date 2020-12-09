@@ -719,15 +719,11 @@ public class SlimefunItem implements Placeable {
      * This method is used for internal purposes only.
      */
     public void load() {
-        try {
-            if (!hidden) {
-                category.add(this);
-            }
-
-            recipeType.register(recipe, getRecipeOutput());
-        } catch (Exception x) {
-            error("Failed to properly load the Item \"" + id + "\"", x);
+        if (!hidden) {
+            category.add(this);
         }
+
+        recipeType.register(recipe, getRecipeOutput());
     }
 
     /**
@@ -983,6 +979,20 @@ public class SlimefunItem implements Placeable {
         }
     }
 
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof SlimefunItem) {
+            return ((SlimefunItem) obj).getId().equals(getId());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public final int hashCode() {
+        return getId().hashCode();
+    }
+
     @Nullable
     public static SlimefunItem getByID(@Nonnull String id) {
         return SlimefunPlugin.getRegistry().getSlimefunItemIds().get(id);
@@ -1032,4 +1042,5 @@ public class SlimefunItem implements Placeable {
     public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
         SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
     }
+
 }

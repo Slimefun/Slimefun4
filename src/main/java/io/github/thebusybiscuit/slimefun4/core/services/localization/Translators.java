@@ -165,12 +165,17 @@ public class Translators {
         // Translators - Tagalog
         addTranslator("sccooottttie", SupportedLanguage.TAGALOG, true);
 
+        // Translators - Portuguese
+        addTranslator("Gusstavo", SupportedLanguage.PORTUGUESE_PORTUGAL, true);
+
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("yurinogueira", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Sakanas", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("krazybeat", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("Gusstavo", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
     @ParametersAreNonnullByDefault

@@ -4,7 +4,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -43,7 +42,7 @@ public class JetBootsTask extends AbstractPlayerTask {
 
             p.setVelocity(vector);
         } else {
-            Bukkit.getScheduler().cancelTask(id);
+            cancel();
         }
     }
 }

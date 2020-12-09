@@ -53,7 +53,7 @@ public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> impleme
 
     @Nonnull
     @Override
-    public EnergyNetComponentType getEnergyComponentType() {
+    public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONNECTOR;
     }
 

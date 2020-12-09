@@ -19,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -63,12 +64,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListe
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DeathpointListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DebugFishListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.DispenserListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraCrashListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.ElytraImpactListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurnaceListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.EntityInteractionListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
@@ -111,7 +113,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTa
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -356,6 +357,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         ticker.halt();
         ticker.run();
 
+        // Kill our Profiler Threads
+        profiler.kill();
+
         // Save all Player Profiles that are still in memory
         PlayerProfile.iterator().forEachRemaining(profile -> {
             if (profile.isDirty()) {
@@ -379,6 +383,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Create a new backup zip
         backupService.run();
 
+        // Close and unload any resources from our Metrics Service
         metricsService.cleanUp();
 
         /**
@@ -438,8 +443,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
             getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
             getLogger().log(Level.SEVERE, "###");
-            getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", ReflectionUtils.getVersion());
-            getLogger().log(Level.SEVERE, "### but Slimefun v{0} requires you to be using", getDescription().getVersion());
+            getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", currentVersion);
+            getLogger().log(Level.SEVERE, "### but Slimefun {0} requires you to be using", getDescription().getVersion());
             getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
             getLogger().log(Level.SEVERE, "#############################################");
             return true;
@@ -454,7 +459,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         List<String> list = new ArrayList<>();
 
         for (MinecraftVersion version : MinecraftVersion.valuesCache) {
-            if (version != MinecraftVersion.UNKNOWN) {
+            if (!version.isVirtual()) {
                 list.add(version.getName());
             }
         }
@@ -483,6 +488,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This method registers all of our {@link Listener Listeners}.
+     */
     private void registerListeners() {
         new SlimefunBootsListener(this);
         new SlimefunItemInteractListener(this);
@@ -505,20 +513,23 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new EntityInteractionListener(this);
         new MobDropListener(this);
         new VillagerTradingListener(this);
-        new ElytraCrashListener(this);
+        new ElytraImpactListener(this);
         new CraftingTableListener(this);
         new AnvilListener(this);
         new BrewingStandListener(this);
         new CauldronListener(this);
         new GrindstoneListener(this);
         new CartographyTableListener(this);
-        new HopperListener(this);
+        new ButcherAndroidListener(this);
         new NetworkListener(this, networkManager);
+        new HopperListener(this);
 
+        // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
         }
 
+        // Piglins were added in 1.16
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
             new PiglinListener(this);
         }
@@ -762,8 +773,15 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.isNewlyInstalled;
     }
 
+    @Nonnull
     public static String getCSCoreLibVersion() {
-        return CSCoreLib.getLib().getDescription().getVersion();
+        Plugin cscorelib = instance.getServer().getPluginManager().getPlugin("CS-CoreLib");
+
+        if (cscorelib == null) {
+            throw new IllegalStateException("CS-CoreLib is not installed.");
+        } else {
+            return cscorelib.getDescription().getVersion();
+        }
     }
 
     @Override

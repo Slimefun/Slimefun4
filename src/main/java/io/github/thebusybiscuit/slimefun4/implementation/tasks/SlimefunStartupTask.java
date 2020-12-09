@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -59,14 +58,9 @@ public class SlimefunStartupTask implements Runnable {
             }
         }
 
-        // Load all listeners that depend on items to be enabled
-
+        // Only load this Listener if the corresponding items are enabled
         if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
             new TeleporterListener(plugin);
-        }
-
-        if (isEnabled("PROGRAMMABLE_ANDROID_BUTCHER", "PROGRAMMABLE_ANDROID_2_BUTCHER", "PROGRAMMABLE_ANDROID_3_BUTCHER")) {
-            new ButcherAndroidListener(plugin);
         }
     }
 

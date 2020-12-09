@@ -201,7 +201,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
- * This static utility class holds the recipes of all items.
+ * This class holds the recipes of all items.
  * This is the place where all items from Slimefun are registered.
  *
  */

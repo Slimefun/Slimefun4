@@ -9,14 +9,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 abstract class AbstractPlayerTask implements Runnable {
 
-    protected int id;
-    protected Player p;
+    protected final Player p;
+    private int id;
 
     AbstractPlayerTask(@Nonnull Player p) {
         this.p = p;
     }
 
-    public void setID(int id) {
+    private void setID(int id) {
         this.id = id;
     }
 
@@ -29,10 +29,17 @@ abstract class AbstractPlayerTask implements Runnable {
     }
 
     @Override
-    public void run() {
+    public final void run() {
         if (isValid()) {
             executeTask();
         }
+    }
+
+    /**
+     * This method cancels this {@link AbstractPlayerTask}.
+     */
+    public final void cancel() {
+        Bukkit.getScheduler().cancelTask(id);
     }
 
     /**
@@ -43,7 +50,7 @@ abstract class AbstractPlayerTask implements Runnable {
      */
     protected boolean isValid() {
         if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isSneaking()) {
-            Bukkit.getScheduler().cancelTask(id);
+            cancel();
             return false;
         }
 
