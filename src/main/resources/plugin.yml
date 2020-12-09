@@ -1,10 +1,12 @@
 name: Slimefun
 version: ${project.version}
+
 author: The Slimefun 4 Community
-description: Slimefun basically turns your entire Server into a FTB modpack without installing a single mod
 website: https://github.com/Slimefun
+description: Slimefun basically turns your entire Server into a FTB modpack without installing a single mod
 
 main: io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin
+api-version: '1.14'
 
 softdepend:
 - CS-CoreLib
@@ -14,12 +16,10 @@ softdepend:
 - mcMMO
 - ItemsAdder
 
-api-version: '1.14'
-
 commands:
   slimefun:
-    description: Slimefun command
     aliases: sf
+    description: Slimefun base command
     usage: You either forgot to install CS-CoreLib or you installed an unsupported version.
 
 permissions:

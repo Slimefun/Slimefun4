@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.integrations;
 
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -29,7 +30,15 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class IntegrationsManager {
 
+    /**
+     * This is our instance of {@link SlimefunPlugin}.
+     */
     protected final SlimefunPlugin plugin;
+
+    /**
+     * This boolean determines whether {@link #start()} was run.
+     */
+    private boolean isEnabled = false;
 
     private boolean isPlaceholderAPIInstalled = false;
     private boolean isWorldEditInstalled = false;
@@ -48,71 +57,51 @@ public class IntegrationsManager {
     }
 
     /**
+     * This method returns whether the {@link IntegrationsManager} was enabled yet.
+     * 
+     * @return Whether this {@link IntegrationsManager} has been enabled already.
+     */
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    /**
      * This method initializes all third party integrations.
      */
     public void start() {
-        // PlaceholderAPI hook to provide playerholders from Slimefun.
-        if (isPluginInstalled("PlaceholderAPI")) {
-            try {
-                PlaceholderAPIIntegration hook = new PlaceholderAPIIntegration(plugin);
-                hook.register();
-                isPlaceholderAPIInstalled = true;
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI").getDescription().getVersion();
-
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating PlaceholderAPI or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into PlaceholderAPI v" + version);
-            }
+        if (isEnabled) {
+            // Prevent double-registration
+            throw new UnsupportedOperationException("All integrations have already been loaded.");
+        } else {
+            isEnabled = true;
         }
+
+        // PlaceholderAPI hook to provide playerholders from Slimefun.
+        load("PlaceholderAPI", integration -> {
+            new PlaceholderAPIIntegration(plugin).register();
+            isPlaceholderAPIInstalled = true;
+        });
 
         // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-        if (isPluginInstalled("WorldEdit")) {
-            try {
-                Class.forName("com.sk89q.worldedit.extent.Extent");
-                new WorldEditIntegration();
-                isWorldEditInstalled = true;
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
-
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
-            }
-        }
+        load("WorldEdit", integration -> {
+            new WorldEditIntegration().register();
+            isWorldEditInstalled = true;
+        });
 
         // mcMMO Integration
-        if (isPluginInstalled("mcMMO")) {
-            try {
-                new McMMOIntegration(plugin);
-                isMcMMOInstalled = true;
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("mcMMO").getDescription().getVersion();
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating mcMMO or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into mcMMO v" + version);
-            }
-        }
-
-        // ItemsAdder Integration
-        if (isPluginInstalled("ItemsAdder")) {
-            try {
-                isItemsAdderInstalled = true;
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("ItemsAdder").getDescription().getVersion();
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating ItemsAdder or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into ItemsAdder v" + version);
-            }
-        }
+        load("mcMMO", integration -> {
+            new McMMOIntegration(plugin).register();
+            isMcMMOInstalled = true;
+        });
 
         // ClearLag integration (to prevent display items from getting deleted)
-        if (isPluginInstalled("ClearLag")) {
-            try {
-                new ClearLagIntegration(plugin);
-                isClearLagInstalled = true;
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("ClearLag").getDescription().getVersion();
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating ClearLag or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into ClearLag v" + version);
-            }
-        }
+        load("ClearLag", integration -> {
+            new ClearLagIntegration(plugin).register();
+            isClearLagInstalled = true;
+        });
+
+        // ItemsAdder Integration (custom blocks)
+        load("ItemsAdder", integration -> isItemsAdderInstalled = true);
     }
 
     protected boolean isPluginInstalled(@Nonnull String hook) {
@@ -121,6 +110,32 @@ public class IntegrationsManager {
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * This method loads an integration with a {@link Plugin} of the specified name.
+     * If that {@link Plugin} is installed and enabled, the provided callback will be run.
+     * 
+     * @param pluginName
+     *            The name of this {@link Plugin}
+     * @param consumer
+     *            The callback to run if that {@link Plugin} is installed and enabled
+     */
+    protected void load(@Nonnull String pluginName, @Nonnull Consumer<Plugin> consumer) {
+        Plugin integration = plugin.getServer().getPluginManager().getPlugin(pluginName);
+
+        if (integration != null && integration.isEnabled()) {
+            String version = integration.getDescription().getVersion();
+            Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
+
+            try {
+                // Run our callback
+                consumer.accept(integration);
+            } catch (Exception | LinkageError x) {
+                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating {0} or Slimefun?", pluginName);
+                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
+            }
         }
     }
 
@@ -147,6 +162,7 @@ public class IntegrationsManager {
      * 
      * @return Whether a different custom {@link Block} exists at that {@link Location}
      */
+    @SuppressWarnings("deprecation")
     public boolean isCustomBlock(@Nonnull Block block) {
         return isItemsAdderInstalled && ItemsAdder.isCustomBlock(block);
     }
