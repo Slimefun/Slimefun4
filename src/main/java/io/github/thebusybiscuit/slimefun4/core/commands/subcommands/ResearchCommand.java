@@ -49,8 +49,9 @@ class ResearchCommand extends SubCommand {
                 } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
                 }
-            } else
+            } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
+            }
         } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf research <Player> <all/reset/Research>"));
         }
@@ -65,7 +66,7 @@ class ResearchCommand extends SubCommand {
                 SlimefunPlugin.getLocalization().sendMessage(player, "messages.give-research", true, variables);
             });
         } else {
-            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
+            SlimefunPlugin.getLocalization().sendMessage(sender, "messages.invalid-research", true, msg -> msg.replace(PLACEHOLDER_RESEARCH, input));
         }
     }
 

@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -42,6 +45,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     private static final float DAMAGE = 6;
     private static final int RANGE = 10;
 
+    @ParametersAreNonnullByDefault
     public SeismicAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
@@ -96,7 +100,8 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
         }
     }
 
-    private Block findGround(Block b) {
+    @Nonnull
+    private Block findGround(@Nonnull Block b) {
         if (b.getType() == Material.AIR) {
             for (int y = 0; y < b.getY(); y++) {
                 Block block = b.getRelative(0, -y, 0);

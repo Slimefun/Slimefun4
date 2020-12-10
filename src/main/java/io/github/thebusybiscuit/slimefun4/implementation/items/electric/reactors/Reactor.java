@@ -80,7 +80,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
     public Reactor(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), getInventoryTitle()) {
+        new BlockMenuPreset(getId(), getInventoryTitle()) {
 
             @Override
             public void init() {
@@ -98,7 +98,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES);
+                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
             @Override
@@ -107,7 +107,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
             }
         };
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {
@@ -360,7 +360,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         inv.replaceExistingItem(22, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
 
         if (processing.get(l).getOutput() != null) {
-            inv.pushItem(processing.get(l).getOutput(), getOutputSlots());
+            inv.pushItem(processing.get(l).getOutput().clone(), getOutputSlots());
         }
 
         if (accessPort != null) {

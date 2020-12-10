@@ -1,10 +1,8 @@
 {
 	"values" : [
 		"#minecraft:sand",
-		"#minecraft:dirt_like",
 		"#slimefun:concrete_powders",
-		"minecraft:farmland",
-		"minecraft:grass_path",
+		"#slimefun:dirt_variants",
 		"minecraft:snow",
 		"minecraft:snow_block",
 		"minecraft:gravel",

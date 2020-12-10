@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -11,9 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -24,27 +21,14 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class AutoEnchanter extends AContainer {
 
-    private final int emeraldEnchantsLimit;
-
+    @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-
-        emeraldEnchantsLimit = SlimefunPlugin.getCfg().getInt("options.emerald-enchantment-limit");
     }
 
     @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.GOLDEN_CHESTPLATE);
-    }
-
-    @Override
-    public int getEnergyConsumption() {
-        return 9;
-    }
-
-    @Override
-    public int getCapacity() {
-        return 128;
     }
 
     @Override
@@ -61,9 +45,7 @@ public class AutoEnchanter extends AContainer {
 
             if (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
                 Map<Enchantment, Integer> enchantments = new HashMap<>();
-                Set<ItemEnchantment> emeraldEnchantments = new HashSet<>();
                 int amount = 0;
-                int specialAmount = 0;
                 EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 
                 for (Map.Entry<Enchantment, Integer> e : meta.getStoredEnchants().entrySet()) {
@@ -73,28 +55,12 @@ public class AutoEnchanter extends AContainer {
                     }
                 }
 
-                if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
-                    for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                        if (EmeraldEnchants.getInstance().getRegistry().isApplicable(target, enchantment.getEnchantment()) && EmeraldEnchants.getInstance().getRegistry().getEnchantmentLevel(target, enchantment.getEnchantment().getName()) < enchantment.getLevel()) {
-                            amount++;
-                            specialAmount++;
-                            emeraldEnchantments.add(enchantment);
-                        }
-                    }
-
-                    specialAmount += EmeraldEnchants.getInstance().getRegistry().getEnchantments(target).size();
-                }
-
-                if (amount > 0 && specialAmount <= emeraldEnchantsLimit) {
+                if (amount > 0) {
                     ItemStack enchantedItem = target.clone();
                     enchantedItem.setAmount(1);
 
                     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
                         enchantedItem.addUnsafeEnchantment(entry.getKey(), entry.getValue());
-                    }
-
-                    for (ItemEnchantment ench : emeraldEnchantments) {
-                        EmeraldEnchants.getInstance().getRegistry().applyEnchantment(enchantedItem, ench.getEnchantment(), ench.getLevel());
                     }
 
                     MachineRecipe recipe = new MachineRecipe(75 * amount / this.getSpeed(), new ItemStack[] { target, item }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
@@ -126,11 +92,6 @@ public class AutoEnchanter extends AContainer {
         }
 
         return sfItem == null || sfItem.isEnchantable();
-    }
-
-    @Override
-    public int getSpeed() {
-        return 1;
     }
 
     @Override

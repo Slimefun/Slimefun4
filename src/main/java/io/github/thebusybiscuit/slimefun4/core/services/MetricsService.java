@@ -34,9 +34,26 @@ import kong.unirest.UnirestException;
  */
 public class MetricsService {
 
+    /**
+     * The URL pointing towards the GitHub API.
+     */
     private static final String API_URL = "https://api.github.com/";
+
+    /**
+     * The Name of our repository
+     */
     private static final String REPO_NAME = "MetricsModule";
+
+    /**
+     * The URL pointing towards the /releases/ endpoint of our
+     * Metrics repository
+     */
     private static final String RELEASES_URL = API_URL + "repos/Slimefun/" + REPO_NAME + "/releases/latest";
+
+    /**
+     * The URL pointing towards the download location for a
+     * GitHub release of our Metrics repository
+     */
     private static final String DOWNLOAD_URL = "https://github.com/Slimefun/" + REPO_NAME + "/releases/download";
 
     private final SlimefunPlugin plugin;
@@ -48,14 +65,22 @@ public class MetricsService {
     private boolean hasDownloadedUpdate = false;
 
     static {
+        // @formatter:off (We want this to stay this nicely aligned :D )
         Unirest.config()
-        .concurrency(2, 1)
-        .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
-        .setDefaultHeader("Accept", "application/vnd.github.v3+json")
-        .enableCookieManagement(false)
-        .cookieSpec("ignoreCookies");
+            .concurrency(2, 1)
+            .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
+            .setDefaultHeader("Accept", "application/vnd.github.v3+json")
+            .enableCookieManagement(false)
+            .cookieSpec("ignoreCookies");
+        // @formatter:on
     }
 
+    /**
+     * This constructs a new instance of our {@link MetricsService}.
+     * 
+     * @param plugin
+     *            Our {@link SlimefunPlugin} instance
+     */
     public MetricsService(@Nonnull SlimefunPlugin plugin) {
         this.plugin = plugin;
         this.parentFolder = new File(plugin.getDataFolder(), "cache" + File.separatorChar + "modules");
@@ -115,7 +140,7 @@ public class MetricsService {
     }
 
     /**
-     * This will close the child classloader and mark all the resources held under this no longer
+     * This will close the child {@link ClassLoader} and mark all the resources held under this no longer
      * in use, they will be cleaned up the next GC run.
      */
     public void cleanUp() {
@@ -221,7 +246,7 @@ public class MetricsService {
                 return true;
             }
         } catch (UnirestException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down?");
+            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}", e.getMessage());
         } catch (IOException e) {
             plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
         }

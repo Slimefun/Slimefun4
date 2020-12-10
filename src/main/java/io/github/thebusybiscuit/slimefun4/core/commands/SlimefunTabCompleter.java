@@ -99,7 +99,7 @@ class SlimefunTabCompleter implements TabCompleter {
         List<String> list = new ArrayList<>(items.size());
 
         for (SlimefunItem item : items) {
-            list.add(item.getID());
+            list.add(item.getId());
         }
 
         return list;

@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -72,6 +73,14 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             items.add(new ItemStack(Material.LAVA_BUCKET));
         }
 
+        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            items.add(new ItemStack(Material.BLACKSTONE, 8));
+            items.add(new ItemStack(Material.LAVA_BUCKET));
+
+            items.add(new ItemStack(Material.BASALT, 12));
+            items.add(new ItemStack(Material.LAVA_BUCKET));
+        }
+
         return items;
     }
 
@@ -86,7 +95,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
                 Player p = e.getPlayer();
                 Block b = optional.get();
 
-                if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES)) {
+                if (p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK)) {
                     ItemStack input = e.getItem();
                     Block block = b.getRelative(BlockFace.UP);
 

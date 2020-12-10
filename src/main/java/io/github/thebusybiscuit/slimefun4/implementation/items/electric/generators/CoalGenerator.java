@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 import javax.annotation.Nonnull;
 
-public abstract class CoalGenerator extends AGenerator {
+public class CoalGenerator extends AGenerator {
 
     public CoalGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -74,7 +74,7 @@ public abstract class CoalGenerator extends AGenerator {
         }
 
         // Signs
-        for (Material mat : Tag.SIGNS.getValues()) {
+        for (Material mat : Tag.STANDING_SIGNS.getValues()) {
             registerFuel(new MachineFuel(2, new ItemStack(mat)));
         }
     }

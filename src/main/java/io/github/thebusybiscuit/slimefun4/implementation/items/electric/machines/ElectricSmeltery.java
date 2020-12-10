@@ -35,7 +35,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @author TheBusyBiscuit
  *
  */
-public abstract class ElectricSmeltery extends AContainer {
+public class ElectricSmeltery extends AContainer {
 
     private static final int[] border = { 4, 5, 6, 7, 8, 13, 31, 40, 41, 42, 43, 44 };
     private static final int[] inputBorder = { 0, 1, 2, 3, 9, 12, 18, 21, 27, 30, 36, 37, 38, 39 };
@@ -44,7 +44,7 @@ public abstract class ElectricSmeltery extends AContainer {
     public ElectricSmeltery(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), getItemName()) {
+        new BlockMenuPreset(getId(), getItemName()) {
 
             @Override
             public void init() {
@@ -53,7 +53,7 @@ public abstract class ElectricSmeltery extends AContainer {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES);
+                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
             @Override
@@ -99,7 +99,7 @@ public abstract class ElectricSmeltery extends AContainer {
             }
         };
 
-        registerBlockHandler(getID(), (p, b, tool, reason) -> {
+        registerBlockHandler(getId(), (p, b, tool, reason) -> {
             BlockMenu inv = BlockStorage.getInventory(b);
 
             if (inv != null) {

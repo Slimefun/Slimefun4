@@ -102,21 +102,6 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem {
     }
 
     @Override
-    public int getEnergyConsumption() {
-        return 5;
-    }
-
-    @Override
-    public int getSpeed() {
-        return 1;
-    }
-
-    @Override
-    public int getCapacity() {
-        return 128;
-    }
-
-    @Override
     public String getMachineIdentifier() {
         return "AUTO_DRIER";
     }

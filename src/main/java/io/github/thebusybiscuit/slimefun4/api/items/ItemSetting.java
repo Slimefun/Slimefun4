@@ -113,10 +113,22 @@ public class ItemSetting<T> {
      * 
      * @param c
      *            The class of data type you want to compare
+     * 
      * @return Whether this {@link ItemSetting} stores the given type
      */
     public boolean isType(@Nonnull Class<?> c) {
         return c.isInstance(defaultValue);
+    }
+
+    /**
+     * This is an error message which should provide further context on what values
+     * are allowed.
+     * 
+     * @return An error message which is displayed when this {@link ItemSetting} is misconfigured.
+     */
+    @Nonnull
+    protected String getErrorMessage() {
+        return "Only '" + defaultValue.getClass().getSimpleName() + "' values are allowed!";
     }
 
     /**
@@ -126,18 +138,24 @@ public class ItemSetting<T> {
      * @param item
      *            The {@link SlimefunItem} who called this method
      */
-    @SuppressWarnings("unchecked")
     public void load(@Nonnull SlimefunItem item) {
-        SlimefunPlugin.getItemCfg().setDefaultValue(item.getID() + '.' + getKey(), getDefaultValue());
-        Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getID() + '.' + getKey());
+        Validate.notNull(item, "Cannot apply settings for a non-existing SlimefunItem");
+
+        SlimefunPlugin.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
+        Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getId() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
-            if (validateInput((T) configuredValue)) {
-                this.value = (T) configuredValue;
+            // We can suppress the warning here, we did an isInstance(...) check before!
+            @SuppressWarnings("unchecked")
+            T newValue = (T) configuredValue;
+
+            if (validateInput(newValue)) {
+                this.value = newValue;
             } else {
                 Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
-                Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
+                Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
                 Slimefun.getLogger().log(Level.WARNING, "{0} is not a valid input!", configuredValue);
+                Slimefun.getLogger().log(Level.WARNING, getErrorMessage());
             }
         } else {
             this.value = defaultValue;
@@ -145,7 +163,7 @@ public class ItemSetting<T> {
 
             Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
             Slimefun.getLogger().log(Level.WARNING, "Please only use settings that are valid.");
-            Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getID(), getKey() });
+            Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
             Slimefun.getLogger().log(Level.WARNING, "Expected \"{0}\" but found: \"{1}\"", new Object[] { defaultValue.getClass().getSimpleName(), found });
         }
     }

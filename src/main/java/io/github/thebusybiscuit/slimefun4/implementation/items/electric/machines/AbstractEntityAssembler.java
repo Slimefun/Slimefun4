@@ -62,21 +62,13 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     public AbstractEntityAssembler(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getID(), item.getImmutableMeta().getDisplayName().orElse("Entity Assembler")) {
+        new BlockMenuPreset(getId(), item.getImmutableMeta().getDisplayName().orElse("Entity Assembler")) {
 
             @Override
             public void init() {
-                for (int i : border) {
-                    addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-                }
-
-                for (int i : headBorder) {
-                    addItem(i, new CustomItem(getHeadBorder(), " "), ChestMenuUtils.getEmptyClickHandler());
-                }
-
-                for (int i : bodyBorder) {
-                    addItem(i, new CustomItem(getBodyBorder(), " "), ChestMenuUtils.getEmptyClickHandler());
-                }
+                drawBackground(border);
+                drawBackground(new CustomItem(getHeadBorder(), " "), headBorder);
+                drawBackground(new CustomItem(getBodyBorder(), " "), bodyBorder);
 
                 constructMenu(this);
             }
@@ -88,7 +80,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES);
+                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
             @Override
@@ -117,7 +109,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         };
 
         addItemHandler(onPlace());
-        registerBlockHandler(getID(), (p, b, stack, reason) -> {
+        registerBlockHandler(getId(), (p, b, stack, reason) -> {
             if (reason == UnregisterReason.EXPLODE) {
                 return false;
             }
@@ -191,7 +183,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                     return;
                 }
 
-                if (lifetime % 60 == 0 && getCharge(b.getLocation()) >= getEnergyConsumption()) {
+                if (lifetime % 60 == 0 && getCharge(b.getLocation(), data) >= getEnergyConsumption()) {
                     BlockMenu menu = BlockStorage.getInventory(b);
 
                     boolean hasBody = findResource(menu, getBody(), bodySlots);

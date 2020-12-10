@@ -54,21 +54,6 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
     }
 
     @Override
-    public int getEnergyConsumption() {
-        return 7;
-    }
-
-    @Override
-    public int getSpeed() {
-        return 1;
-    }
-
-    @Override
-    public int getCapacity() {
-        return 512;
-    }
-
-    @Override
     public String getMachineIdentifier() {
         return "ELECTRIC_INGOT_PULVERIZER";
     }

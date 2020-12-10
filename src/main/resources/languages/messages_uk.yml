@@ -84,12 +84,12 @@ messages:
   no-permission: "&4У Вас недостатньо прав для цього"
   usage: "&4Використання: &c%usage%"
   not-online: "&4%player% &cзараз не знаходиться у грі!"
-  not-valid-item: "&4%item% &cне є достовірним предметом!"
-  not-valid-amount: "&4%amount% &cне є допустимою кількістю: значення повинно бути
+  invalid-item: "&4%item% &cне є достовірним предметом!"
+  invalid-amount: "&4%amount% &cне є допустимою кількістю: значення повинно бути
     більшим за 0!"
   given-item: '&bВам видали &a%amount% &7"%item%&7"'
   give-item: '&bВи видали гравцю %player% &a%amount% &7"%item%&7"'
-  not-valid-research: "&4%research% &cне є правильним дослідженням!"
+  invalid-research: "&4%research% &cне є правильним дослідженням!"
   give-research: '&bВи видали грацю %player% дослідження &7"%research%&7"'
   hungry: "&cВи занадто голодні для цього!"
   mode-change: "&b%device% | Режим змінено на: &9%mode%"

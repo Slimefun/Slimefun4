@@ -250,10 +250,10 @@ messages:
   no-tome-yourself: "&cDu kan inte använda &4Tome of Knowledge &cpå dig själv"
   not-online: "&4%player% &cär inte online!"
   not-researched: "&4Du har inte tillräckligt mycket kunskap för att förstå detta"
-  not-valid-amount: "&4%amount% &cär inget giltigt antal : det måste vara större än
+  invalid-amount: "&4%amount% &cär inget giltigt antal : det måste vara större än
     noll!"
-  not-valid-item: "&4%item% &cär inget giltigt föremål!"
-  not-valid-research: "&4%research% &cär ingen giltig forskning!"
+  invalid-item: "&4%item% &cär inget giltigt föremål!"
+  invalid-research: "&4%research% &cär ingen giltig forskning!"
   only-players: "&4Detta kommando är endast för spelare"
   opening-backpack: "&bÖppnar ryggsäck. Detta kan ta några sekunder..."
   opening-guide: "&bÖppnar handboken. Detta kan ta några sekunder..."

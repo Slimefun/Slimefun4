@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -84,11 +85,12 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
 
     @Override
     @Nonnull
-    public EnergyNetComponentType getEnergyComponentType() {
+    public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.GENERATOR;
     }
 
     public void registerFuel(@Nonnull MachineFuel fuel) {
+        Validate.notNull(fuel, "Machine Fuel cannot be null!");
         fuelTypes.add(fuel);
     }
 

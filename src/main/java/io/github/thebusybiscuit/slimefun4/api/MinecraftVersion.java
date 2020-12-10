@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Server;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
@@ -13,12 +14,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  *
  */
 public enum MinecraftVersion {
-
-    /**
-     * This constant represents Minecraft (Java Edition) Version 1.14
-     * (The Update Aquatic)
-     */
-    MINECRAFT_1_13("1.13.x"),
 
     /**
      * This constant represents Minecraft (Java Edition) Version 1.14
@@ -42,21 +37,45 @@ public enum MinecraftVersion {
      * This constant represents an exceptional state in which we were unable
      * to identify the Minecraft Version we are using
      */
-    UNKNOWN("Unknown"),
+    UNKNOWN("Unknown", true),
 
     /**
      * This is a very special state that represents the environment being a Unit
      * Test and not an actual running Minecraft Server.
      */
-    UNIT_TEST("Unit Test Environment");
+    UNIT_TEST("Unit Test Environment", true);
 
     public static final MinecraftVersion[] valuesCache = values();
 
     private final String name;
+    private final boolean virtual;
     private final String prefix;
 
+    /**
+     * This constructs a new {@link MinecraftVersion} with the given name.
+     * This constructor forces the {@link MinecraftVersion} to be real.
+     * It must be a real version of Minecraft.
+     * 
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     */
     MinecraftVersion(String name) {
+        this(name, false);
+    }
+
+    /**
+     * This constructs a new {@link MinecraftVersion} with the given name.
+     * A virtual {@link MinecraftVersion} (unknown or unit test) is not an actual
+     * version of Minecraft but rather a state of the {@link Server} software.
+     * 
+     * @param name
+     *            The display name of this {@link MinecraftVersion}
+     * @param virtual
+     *            Whether this {@link MinecraftVersion} is virtual
+     */
+    MinecraftVersion(String name, boolean virtual) {
         this.name = name;
+        this.virtual = virtual;
         this.prefix = name().replace("MINECRAFT_", "v") + '_';
     }
 
@@ -67,6 +86,19 @@ public enum MinecraftVersion {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * This returns whether this {@link MinecraftVersion} is virtual or not.
+     * A virtual {@link MinecraftVersion} does not actually exist but is rather
+     * a state of the {@link Server} software used.
+     * Virtual {@link MinecraftVersion MinecraftVersions} include "UNKNOWN" and
+     * "UNIT TEST".
+     * 
+     * @return Whether this {@link MinecraftVersion} is virtual or not
+     */
+    public boolean isVirtual() {
+        return virtual;
     }
 
     /**

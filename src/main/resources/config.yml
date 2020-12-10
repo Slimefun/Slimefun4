@@ -10,7 +10,6 @@ options:
   armor-update-interval: 10
   enable-armor-effects: true
   auto-save-delay-in-minutes: 10
-  emerald-enchantment-limit: 2
   legacy-ore-washer: false
   legacy-dust-washer: false
   legacy-ore-grinder: true
@@ -37,10 +36,11 @@ URID:
 networks:
   max-size: 200
   cargo-ticker-delay: 0
+  enable-visualizer: true
+  delete-excess-items: false
 
 items:
   talismans: true
-  backpacks: true
   soulbound: true
 
 metrics:

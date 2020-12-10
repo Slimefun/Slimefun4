@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -25,6 +26,9 @@ import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -113,6 +117,7 @@ public class Research implements Keyed {
      * 
      * @param p
      *            The {@link Player} to translate this name for.
+     * 
      * @return The localized Name of this {@link Research}.
      */
     @Nonnull
@@ -190,10 +195,49 @@ public class Research implements Keyed {
     }
 
     /**
+     * Handle what to do when a {@link Player} clicks on an un-researched item in
+     * a {@link SlimefunGuideImplementation}.
+     *
+     * @param guide
+     *            The {@link SlimefunGuideImplementation} used.
+     * @param player
+     *            The {@link Player} who clicked on the item.
+     * @param profile
+     *            The {@link PlayerProfile} of that {@link Player}.
+     * @param sfItem
+     *            The {@link SlimefunItem} on which the {@link Player} clicked.
+     * @param category
+     *            The {@link Category} where the {@link Player} was.
+     * @param page
+     *            The page number of where the {@link Player} was in the {@link Category};
+     *
+     */
+    @ParametersAreNonnullByDefault
+    public void unlockFromGuide(SlimefunGuideImplementation guide, Player player, PlayerProfile profile, SlimefunItem sfItem, Category category, int page) {
+        if (!SlimefunPlugin.getRegistry().getCurrentlyResearchingPlayers().contains(player.getUniqueId())) {
+            if (profile.hasUnlocked(this)) {
+                guide.openCategory(profile, category, page);
+            } else {
+                PlayerPreResearchEvent event = new PlayerPreResearchEvent(player, this, sfItem);
+                Bukkit.getPluginManager().callEvent(event);
+
+                if (!event.isCancelled()) {
+                    if (this.canUnlock(player)) {
+                        guide.unlockItem(player, sfItem, pl -> guide.openCategory(profile, category, page));
+                    } else {
+                        SlimefunPlugin.getLocalization().sendMessage(player, "messages.not-enough-xp", true);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Checks if the {@link Player} can unlock this {@link Research}.
      * 
      * @param p
      *            The {@link Player} to check
+     * 
      * @return Whether that {@link Player} can unlock this {@link Research}
      */
     public boolean canUnlock(@Nonnull Player p) {

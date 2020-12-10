@@ -106,11 +106,11 @@ messages:
   no-permission: "&4権限がありません"
   usage: "&4使用法: &c%usage%"
   not-online: "&4%player% &cはオンラインではありません！"
-  not-valid-item: "&4%item% &cは正しくないアイテムです"
-  not-valid-amount: "&4%amount% &cの部分には、正の整数を指定してください"
+  invalid-item: "&4%item% &cは正しくないアイテムです"
+  invalid-amount: "&4%amount% &cの部分には、正の整数を指定してください"
   given-item: "&b%item%を%amount%個与えられました"
   give-item: "&b%player%に%item%を%amount%個与えました"
-  not-valid-research: "&4%research%&cは正しくないリサーチです"
+  invalid-research: "&4%research%&cは正しくないリサーチです"
   give-research: "&b%player%のリサーチ%research%を完了させました"
   hungry: "&c空腹のため使えません"
   disabled-in-world: "&4&lこのワールドでは使用できません"
@@ -228,6 +228,7 @@ machines:
     finished: "&eIndustrial Minerの稼働完了！合計で%ores%個の鉱石を入手しました！"
 anvil:
   not-working: "&4Slimefunアイテムは金床を利用できません！"
+  mcmmo-salvaging: "&4Slimefunアイテムはサルベージできません！"
 backpack:
   already-open: "&cこのバックパックはどこかで使用中です！"
   no-stack: "&cバックパックはスタックされていると使用できません！"
@@ -312,7 +313,6 @@ languages:
   el: ギリシャ語
   he: ヘブライ語
   pt: ポルトガル語（ポルトガル）
-  pt-BR: ポルトガル語（ブラジル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -324,6 +324,7 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
+  pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語
   tr: トルコ語
@@ -338,5 +339,7 @@ villagers:
   no-trading: "&4Slimefunアイテムは村人との取引に使用できません！"
 cartography_table:
   not-working: "&4Slimefunアイテムは製図台を使用できません！"
+cauldron:
+  no-discoloring: "&4Slimefunアイテムの脱色はできません"
 miner:
   no-ores: "&e周辺には鉱石が見つかりませんでした！"

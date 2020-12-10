@@ -31,4 +31,18 @@ public class TagMisconfigurationException extends Exception {
         super("Tag '" + key + "' has been misconfigured: " + message);
     }
 
+    /**
+     * This constructs a new {@link TagMisconfigurationException} for the given
+     * {@link SlimefunTag}'s {@link NamespacedKey} with the provided context.
+     * 
+     * @param key
+     *            The {@link NamespacedKey} of our {@link SlimefunTag}
+     * @param cause
+     *            The {@link Throwable} which has caused this to happen
+     */
+    @ParametersAreNonnullByDefault
+    public TagMisconfigurationException(NamespacedKey key, Throwable cause) {
+        super("Tag '" + key + "' has been misconfigured (" + cause.getMessage() + ')', cause);
+    }
+
 }

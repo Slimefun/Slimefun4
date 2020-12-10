@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -25,7 +25,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -36,6 +35,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -104,12 +104,12 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
-        String id = slimefunBlock.get().getID();
+        String id = slimefunBlock.get().getId();
 
-        if (id.equals(pedestalItem.getID())) {
+        if (id.equals(pedestalItem.getId())) {
             e.cancel();
             usePedestal(b, e.getPlayer());
-        } else if (id.equals(altarItem.getID())) {
+        } else if (id.equals(altarItem.getId())) {
             if (!Slimefun.hasUnlocked(e.getPlayer(), altarItem, true) || altarsInUse.contains(b.getLocation())) {
                 e.cancel();
                 return;
@@ -128,7 +128,7 @@ public class AncientAltarListener implements Listener {
             return;
         }
 
-        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, pedestal, ProtectableAction.ACCESS_INVENTORIES)) {
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, pedestal, ProtectableAction.INTERACT_BLOCK)) {
             SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
             return;
         }
@@ -162,7 +162,7 @@ public class AncientAltarListener implements Listener {
     }
 
     private void useAltar(@Nonnull Block altar, @Nonnull Player p) {
-        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, altar, ProtectableAction.ACCESS_INVENTORIES)) {
+        if (!SlimefunPlugin.getProtectionManager().hasPermission(p, altar, ProtectableAction.INTERACT_BLOCK)) {
             SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access", true);
             return;
         }
@@ -259,7 +259,7 @@ public class AncientAltarListener implements Listener {
         if (pedestal.getType() == Material.DISPENSER) {
             String id = BlockStorage.checkID(pedestal);
 
-            if (id != null && id.equals(pedestalItem.getID())) {
+            if (id != null && id.equals(pedestalItem.getId())) {
                 SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.cannot-place", true);
                 e.setCancelled(true);
             }
@@ -270,28 +270,28 @@ public class AncientAltarListener implements Listener {
     private List<Block> getPedestals(@Nonnull Block altar) {
         List<Block> list = new ArrayList<>();
 
-        if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(2, 0, -2), pedestalItem.getId())) {
             list.add(altar.getRelative(2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(3, 0, 0), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(3, 0, 0), pedestalItem.getId())) {
             list.add(altar.getRelative(3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(2, 0, 2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(2, 0, 2), pedestalItem.getId())) {
             list.add(altar.getRelative(2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, 3), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(0, 0, 3), pedestalItem.getId())) {
             list.add(altar.getRelative(0, 0, 3));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, 2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, 2), pedestalItem.getId())) {
             list.add(altar.getRelative(-2, 0, 2));
         }
-        if (BlockStorage.check(altar.getRelative(-3, 0, 0), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-3, 0, 0), pedestalItem.getId())) {
             list.add(altar.getRelative(-3, 0, 0));
         }
-        if (BlockStorage.check(altar.getRelative(-2, 0, -2), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(-2, 0, -2), pedestalItem.getId())) {
             list.add(altar.getRelative(-2, 0, -2));
         }
-        if (BlockStorage.check(altar.getRelative(0, 0, -3), pedestalItem.getID())) {
+        if (BlockStorage.check(altar.getRelative(0, 0, -3), pedestalItem.getId())) {
             list.add(altar.getRelative(0, 0, -3));
         }
 
@@ -312,11 +312,8 @@ public class AncientAltarListener implements Listener {
                 return Optional.empty();
             }
 
-            ItemStack spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
-            ItemMeta im = spawner.getItemMeta();
-            im.setLore(Arrays.asList(wrapper.getItemMeta().getLore().get(0)));
-            spawner.setItemMeta(im);
-            return Optional.of(spawner);
+            RepairedSpawner spawner = (RepairedSpawner) SlimefunItems.REPAIRED_SPAWNER.getItem();
+            return Optional.of(spawner.getItemForEntityType(spawner.getEntityType(wrapper).orElse(EntityType.PIG)));
         }
 
         return checkRecipe(wrapper, items);

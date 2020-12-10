@@ -14,7 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +23,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.item.ImmutableItemMeta;
-import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
@@ -32,9 +30,8 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
-import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -49,7 +46,6 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public final class SlimefunUtils {
 
-    private static final String EMERALDENCHANTS_LORE = ChatColor.YELLOW.toString() + ChatColor.YELLOW.toString() + ChatColor.GRAY.toString();
     private static final String NO_PICKUP_METADATA = "no_pickup";
 
     private static final NamespacedKey SOULBOUND_KEY = new NamespacedKey(SlimefunPlugin.instance(), "soulbound");
@@ -99,15 +95,6 @@ public final class SlimefunUtils {
                 return true;
             }
 
-            if (SlimefunPlugin.getThirdPartySupportService().isEmeraldEnchantsInstalled()) {
-                // We wanna operate on a copy now
-                item = item.clone();
-
-                for (ItemEnchantment enchantment : EmeraldEnchants.getInstance().getRegistry().getEnchantments(item)) {
-                    EmeraldEnchants.getInstance().getRegistry().applyEnchantment(item, enchantment.getEnchantment(), 0);
-                }
-            }
-
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
             if (sfItem instanceof Soulbound) {
@@ -121,7 +108,7 @@ public final class SlimefunUtils {
     }
 
     private static boolean hasSoulboundFlag(@Nullable ItemMeta meta) {
-        if (meta != null && SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
+        if (meta != null) {
             PersistentDataContainer container = meta.getPersistentDataContainer();
 
             if (container.has(SOULBOUND_KEY, PersistentDataType.BYTE)) {
@@ -154,16 +141,14 @@ public final class SlimefunUtils {
         boolean isSoulbound = isSoulbound(item);
         ItemMeta meta = item.getItemMeta();
 
-        if (SlimefunPlugin.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_14)) {
-            PersistentDataContainer container = meta.getPersistentDataContainer();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
 
-            if (makeSoulbound && !isSoulbound) {
-                container.set(SOULBOUND_KEY, PersistentDataType.BYTE, (byte) 1);
-            }
+        if (makeSoulbound && !isSoulbound) {
+            container.set(SOULBOUND_KEY, PersistentDataType.BYTE, (byte) 1);
+        }
 
-            if (!makeSoulbound && isSoulbound) {
-                container.remove(SOULBOUND_KEY);
-            }
+        if (!makeSoulbound && isSoulbound) {
+            container.remove(SOULBOUND_KEY);
         }
 
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
@@ -215,7 +200,7 @@ public final class SlimefunUtils {
 
         String base64 = texture;
 
-        if (PatternUtils.ALPHANUMERIC.matcher(texture).matches()) {
+        if (PatternUtils.HEXADECIMAL.matcher(texture).matches()) {
             base64 = Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}").getBytes(StandardCharsets.UTF_8));
         }
 
@@ -250,20 +235,17 @@ public final class SlimefunUtils {
     }
 
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
-        if (item == null)
+        if (item == null) {
             return sfitem == null;
-        if (sfitem == null)
+        } else if (sfitem == null) {
             return false;
-        if (item.getType() != sfitem.getType())
+        } else if (item.getType() != sfitem.getType()) {
             return false;
-        if (checkAmount && item.getAmount() < sfitem.getAmount())
+        } else if (checkAmount && item.getAmount() < sfitem.getAmount()) {
             return false;
-
-        if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
+        } else if (sfitem instanceof SlimefunItemStack && item instanceof SlimefunItemStack) {
             return ((SlimefunItemStack) item).getItemId().equals(((SlimefunItemStack) sfitem).getItemId());
-        }
-
-        if (item.hasItemMeta()) {
+        } else if (item.hasItemMeta()) {
             ItemMeta itemMeta = item.getItemMeta();
 
             if (sfitem instanceof SlimefunItemStack) {
@@ -277,12 +259,12 @@ public final class SlimefunUtils {
                 return equalsItemMeta(itemMeta, meta, checkLore);
             } else if (sfitem.hasItemMeta()) {
                 return equalsItemMeta(itemMeta, sfitem.getItemMeta(), checkLore);
+            } else {
+                return false;
             }
         } else {
             return !sfitem.hasItemMeta();
         }
-
-        return false;
     }
 
     private static boolean equalsItemMeta(@Nonnull ItemMeta itemMeta, @Nonnull ImmutableItemMeta meta, boolean checkLore) {
@@ -319,46 +301,61 @@ public final class SlimefunUtils {
         }
     }
 
-    private static boolean equalsLore(@Nonnull List<String> lore, @Nonnull List<String> lore2) {
-        StringBuilder string1 = new StringBuilder();
-        StringBuilder string2 = new StringBuilder();
+    /**
+     * This checks if the two provided lores are equal.
+     * This method will ignore any lines such as the soulbound one.
+     * 
+     * @param lore1
+     *            The first lore
+     * @param lore2
+     *            The second lore
+     * 
+     * @return Whether the two lores are equal
+     */
+    public static boolean equalsLore(@Nonnull List<String> lore1, @Nonnull List<String> lore2) {
+        Validate.notNull(lore1, "Cannot compare lore that is null!");
+        Validate.notNull(lore2, "Cannot compare lore that is null!");
 
-        for (String string : lore) {
-            if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
-                string1.append("-NEW LINE-").append(string);
+        List<String> longerList = lore1.size() > lore2.size() ? lore1 : lore2;
+        List<String> shorterList = lore1.size() > lore2.size() ? lore2 : lore1;
+
+        int a = 0;
+        int b = 0;
+
+        for (; a < longerList.size(); a++) {
+            if (isLineIgnored(longerList.get(a))) {
+                continue;
+            }
+
+            while (shorterList.size() > b && isLineIgnored(shorterList.get(b))) {
+                b++;
+            }
+
+            if (b >= shorterList.size()) {
+                return false;
+            } else if (longerList.get(a).equals(shorterList.get(b))) {
+                b++;
+            } else {
+                return false;
             }
         }
 
-        for (String string : lore2) {
-            if (!string.equals(SOULBOUND_LORE) && !string.startsWith(EMERALDENCHANTS_LORE)) {
-                string2.append("-NEW LINE-").append(string);
-            }
+        while (shorterList.size() > b && isLineIgnored(shorterList.get(b))) {
+            b++;
         }
 
-        return string1.toString().equals(string2.toString());
+        return b == shorterList.size();
+    }
+
+    private static boolean isLineIgnored(@Nonnull String line) {
+        return line.equals(SOULBOUND_LORE);
     }
 
     public static void updateCapacitorTexture(@Nonnull Location l, int charge, int capacity) {
         Validate.notNull(l, "Cannot update a texture for null");
         Validate.isTrue(capacity > 0, "Capacity must be greater than zero!");
 
-        SlimefunPlugin.runSync(() -> {
-            Block b = l.getBlock();
-
-            if (b.getType() == Material.PLAYER_HEAD || b.getType() == Material.PLAYER_WALL_HEAD) {
-                double level = (double) charge / capacity;
-
-                if (level <= 0.25) {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
-                } else if (level <= 0.5) {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
-                } else if (level <= 0.75) {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
-                } else {
-                    SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_100.getTexture());
-                }
-            }
-        });
+        SlimefunPlugin.runSync(new CapacitorTextureUpdateTask(l, charge, capacity));
     }
 
 }

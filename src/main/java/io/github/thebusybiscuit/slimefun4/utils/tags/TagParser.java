@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class TagParser implements Keyed {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream(path), StandardCharsets.UTF_8))) {
             parse(reader.lines().collect(Collectors.joining("")), callback);
         } catch (IOException x) {
-            throw new TagMisconfigurationException(key, x.getMessage());
+            throw new TagMisconfigurationException(key, x);
         }
     }
 
@@ -90,7 +91,7 @@ public class TagParser implements Keyed {
         Validate.notNull(json, "Cannot parse a null String");
 
         try {
-            Set<Material> materials = new HashSet<>();
+            Set<Material> materials = EnumSet.noneOf(Material.class);
             Set<Tag<Material>> tags = new HashSet<>();
 
             JsonParser parser = new JsonParser();
@@ -103,10 +104,12 @@ public class TagParser implements Keyed {
                 for (JsonElement element : values) {
                     if (element instanceof JsonPrimitive && ((JsonPrimitive) element).isString()) {
                         // Strings will be parsed directly
-                        parsePrimitiveValue(element.getAsString(), materials, tags);
+                        parsePrimitiveValue(element.getAsString(), materials, tags, true);
                     } else if (element instanceof JsonObject) {
-                        // JSONObjects can have a "required" property which can make
-                        // it optional to resolve the underlying value
+                        /**
+                         * JSONObjects can have a "required" property which can
+                         * make it optional to resolve the underlying value
+                         */
                         parseComplexValue(element.getAsJsonObject(), materials, tags);
                     } else {
                         throw new TagMisconfigurationException(key, "Unexpected value format: " + element.getClass().getSimpleName() + " - " + element.toString());
@@ -120,12 +123,12 @@ public class TagParser implements Keyed {
                 throw new TagMisconfigurationException(key, "No values array specified");
             }
         } catch (IllegalStateException | JsonParseException x) {
-            throw new TagMisconfigurationException(key, x.getMessage());
+            throw new TagMisconfigurationException(key, x);
         }
     }
 
     @ParametersAreNonnullByDefault
-    private void parsePrimitiveValue(String value, Set<Material> materials, Set<Tag<Material>> tags) throws TagMisconfigurationException {
+    private void parsePrimitiveValue(String value, Set<Material> materials, Set<Tag<Material>> tags, boolean throwException) throws TagMisconfigurationException {
         if (PatternUtils.MINECRAFT_MATERIAL.matcher(value).matches()) {
             // Match the NamespacedKey against Materials
             Material material = Material.matchMaterial(value);
@@ -133,7 +136,7 @@ public class TagParser implements Keyed {
             if (material != null) {
                 // If the Material could be matched, simply add it to our Set
                 materials.add(material);
-            } else {
+            } else if (throwException) {
                 throw new TagMisconfigurationException(key, "Minecraft Material '" + value + "' seems to not exist!");
             }
         } else if (PatternUtils.MINECRAFT_TAG.matcher(value).matches()) {
@@ -149,7 +152,7 @@ public class TagParser implements Keyed {
             } else if (blocksTag != null) {
                 // If no item tag exists, fall back to the block tag
                 tags.add(blocksTag);
-            } else {
+            } else if (throwException) {
                 // If both fail, then the tag does not exist.
                 throw new TagMisconfigurationException(key, "There is no '" + value + "' tag in Minecraft.");
             }
@@ -160,10 +163,10 @@ public class TagParser implements Keyed {
 
             if (tag != null) {
                 tags.add(tag);
-            } else {
+            } else if (throwException) {
                 throw new TagMisconfigurationException(key, "There is no '" + value + "' tag in Slimefun");
             }
-        } else {
+        } else if (throwException) {
             // If no RegEx pattern matched, it's malformed.
             throw new TagMisconfigurationException(key, "Could not recognize value '" + value + "'");
         }
@@ -176,17 +179,13 @@ public class TagParser implements Keyed {
 
         // Check if the entry contains elements of the correct type
         if (id instanceof JsonPrimitive && ((JsonPrimitive) id).isString() && required instanceof JsonPrimitive && ((JsonPrimitive) required).isBoolean()) {
-            if (required.getAsBoolean()) {
-                // If this entry is required, parse it like normal
-                parsePrimitiveValue(id.getAsString(), materials, tags);
-            } else {
-                // If the entry is not required, validation will be optional
-                try {
-                    parsePrimitiveValue(id.getAsString(), materials, tags);
-                } catch (TagMisconfigurationException x) {
-                    // This is an optional entry, so we will ignore the validation here
-                }
-            }
+            boolean isRequired = required.getAsBoolean();
+
+            /**
+             * If the Tag is required, an exception may be thrown.
+             * Otherwise it will just ignore the value
+             */
+            parsePrimitiveValue(id.getAsString(), materials, tags, isRequired);
         } else {
             throw new TagMisconfigurationException(key, "Found a JSON Object value without an id!");
         }

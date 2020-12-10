@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,6 +38,7 @@ public class GitHubService {
     private boolean logging = false;
 
     private LocalDateTime lastUpdate = LocalDateTime.now();
+
     private int openIssues = 0;
     private int pendingPullRequests = 0;
     private int publicForks = 0;
@@ -56,8 +58,18 @@ public class GitHubService {
         loadConnectors(false);
     }
 
+    /**
+     * This will start the {@link GitHubService} and run the asynchronous {@link GitHubTask}
+     * every so often to update its data.
+     * 
+     * @param plugin
+     *            Our instance of {@link SlimefunPlugin}
+     */
     public void start(@Nonnull SlimefunPlugin plugin) {
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new GitHubTask(this), 80L, 60 * 60 * 20L);
+        long period = TimeUnit.HOURS.toMillis(1);
+        GitHubTask task = new GitHubTask(this);
+
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, task, 80L, period);
     }
 
     /**
@@ -214,8 +226,16 @@ public class GitHubService {
         texturesCache.save();
     }
 
+    /**
+     * This returns the cached skin texture for a given username.
+     * 
+     * @param username
+     *            The minecraft username
+     * 
+     * @return The cached skin texture for that user (or null)
+     */
     @Nullable
-    protected String getCachedTexture(@Nonnull String name) {
-        return texturesCache.getString(name);
+    protected String getCachedTexture(@Nonnull String username) {
+        return texturesCache.getString(username);
     }
 }
