@@ -36,6 +36,9 @@
 * Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
 * Fixed #2560
 
+#### Fixes
+* Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
+
 ## Release Candidate 18 (03 Dec 2020)
 
 #### Additions
