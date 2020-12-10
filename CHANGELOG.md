@@ -30,6 +30,9 @@
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
 
+#### Fixes
+* Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
+
 ## Release Candidate 18 (03 Dec 2020)
 
 #### Additions
