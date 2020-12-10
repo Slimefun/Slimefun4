@@ -66,14 +66,14 @@ public class BlockListener implements Listener {
 
             if (sfItem != null) {
                 for (ItemStack item : sfItem.getDrops()) {
-                    if (!item.getType().isAir()) {
+                    if (item != null && !item.getType().isAir()) {
                         block.getWorld().dropItemNaturally(block.getLocation(), item);
                     }
                 }
                 BlockStorage.clearBlockInfo(block);
-            } else {
-                e.setCancelled(true);
             }
+        } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
+            e.setCancelled(true);
         }
     }
 
