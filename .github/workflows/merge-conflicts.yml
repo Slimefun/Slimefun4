@@ -14,5 +14,5 @@ jobs:
     steps:
     - uses: mschilde/auto-label-merge-conflicts@master
       with:
-        CONFLICT_LABEL_NAME: 'Merge Conflicts'
+        CONFLICT_LABEL_NAME: '⚡ Merge Conflicts'
         GITHUB_TOKEN: "${{ secrets.ACCESS_TOKEN }}"
