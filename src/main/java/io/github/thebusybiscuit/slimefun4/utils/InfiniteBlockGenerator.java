@@ -11,10 +11,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.block.BlockState;
+import org.bukkit.event.block.BlockFormEvent;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
+import io.papermc.lib.PaperLib;
 
 /**
  * This enum holds various ways of infinite block generators.
@@ -62,62 +64,49 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
         return material;
     }
 
-    @Override
-    public boolean test(@Nonnull Block b) {
-        return testAndTrigger(b, false);
-    }
-
     /**
      * Similar to {@link #test(Block)} this tests whether this {@link InfiniteBlockGenerator}
      * exists at the given {@link Block}.
-     * Optionally this will also trigger a {@link BlockFromToEvent}.
      * 
      * @param b
      *            The {@link Block}
-     * @param firesEvent
-     *            Whether or not to to trigger a {@link BlockFromToEvent}.
      * 
      * @return Whether this {@link InfiniteBlockGenerator} exists at the given {@link Block}
      */
-    public boolean testAndTrigger(@Nonnull Block b, boolean firesEvent) {
+    @Override
+    public boolean test(@Nonnull Block b) {
         Validate.notNull(b, "Block cannot be null!");
 
-        // This will eliminate non-matching base materials
-        // If we are on a version without Basalt, it will be null here and not match.
+        /*
+         * This will eliminate non-matching base materials If we
+         * are on a version without Basalt, it will be null here and not match.
+         */
         if (b.getType() == getGeneratedMaterial()) {
             switch (this) {
             case COBBLESTONE_GENERATOR:
-                return hasSurroundingMaterials(b, firesEvent, Material.WATER, Material.LAVA);
+                return hasSurroundingMaterials(b, Material.WATER, Material.LAVA);
             case STONE_GENERATOR:
                 if (b.getRelative(BlockFace.UP).getType() == Material.LAVA) {
-                    if (firesEvent) {
-                        // We manually call the event here since it actually flows from the top
-                        callEvent(b.getRelative(BlockFace.UP), b);
-                    }
-
-                    return hasSurroundingMaterials(b, false, Material.WATER);
-                }
-                else {
+                    return hasSurroundingMaterials(b, Material.WATER);
+                } else {
                     return false;
                 }
             case BASALT_GENERATOR:
                 if (b.getRelative(BlockFace.DOWN).getType() == Material.SOUL_SOIL) {
-                    return hasSurroundingMaterials(b, firesEvent, Material.LAVA, Material.BLUE_ICE);
-                }
-                else {
+                    return hasSurroundingMaterials(b, Material.LAVA, Material.BLUE_ICE);
+                } else {
                     return false;
                 }
             default:
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     @ParametersAreNonnullByDefault
-    private boolean hasSurroundingMaterials(Block b, boolean firesEvent, Material... materials) {
+    private boolean hasSurroundingMaterials(Block b, Material... materials) {
         Validate.notNull(b, "The Block cannot be null!");
         Validate.notEmpty(materials, "Materials need to have a size of at least one!");
 
@@ -132,12 +121,6 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
                 if (neighbourType == materials[i] && !matches[i]) {
                     matches[i] = true;
                     count++;
-
-                    // This is our "trigger" material for the Event
-                    if (firesEvent && i == 0) {
-                        callEvent(neighbour, b);
-                    }
-
                     break;
                 }
             }
@@ -151,7 +134,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
     }
 
     /**
-     * This method calls a {@link BlockFromToEvent} for this {@link InfiniteBlockGenerator}.
+     * This method calls a {@link BlockFormEvent} for this {@link InfiniteBlockGenerator}.
      * There are a few plugins who catch these events to inject custom {@link Material Materials} into
      * Cobblestone Generators, so we wanna give them the oppurtunity to catch this as well.
      * 
@@ -160,11 +143,12 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * @param to
      *            The {@link Block} our liquid has flown to / solidified at.
      * 
-     * @return Our called {@link BlockFromToEvent}
+     * @return Our called {@link BlockFormEvent}
      */
     @Nonnull
-    private BlockFromToEvent callEvent(@Nonnull Block from, @Nonnull Block to) {
-        BlockFromToEvent event = new BlockFromToEvent(from, to);
+    public BlockFormEvent callEvent(@Nonnull Block block) {
+        BlockState state = PaperLib.getBlockState(block, false).getState();
+        BlockFormEvent event = new BlockFormEvent(block, state);
         Bukkit.getPluginManager().callEvent(event);
         return event;
     }
@@ -174,17 +158,15 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * 
      * @param b
      *            The {@link Block}
-     * @param firesEvent
-     *            Whether ot not a {@link BlockFromToEvent} should be fired
      * 
      * @return An {@link InfiniteBlockGenerator} or null if none was found.
      */
     @Nullable
-    public static InfiniteBlockGenerator findAt(@Nonnull Block b, boolean firesEvent) {
+    public static InfiniteBlockGenerator findAt(@Nonnull Block b) {
         Validate.notNull(b, "Cannot find a generator without a Location!");
 
         for (InfiniteBlockGenerator generator : values) {
-            if (generator.testAndTrigger(b, firesEvent)) {
+            if (generator.test(b)) {
                 return generator;
             }
         }

@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockFormEvent;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -47,11 +47,11 @@ class TestInfiniteBlockGenerators {
 
         block.setType(Material.STONE);
         Assertions.assertFalse(InfiniteBlockGenerator.COBBLESTONE_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
 
         block.setType(Material.COBBLESTONE);
         Assertions.assertFalse(InfiniteBlockGenerator.COBBLESTONE_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
     }
 
     @ParameterizedTest
@@ -67,11 +67,13 @@ class TestInfiniteBlockGenerators {
         block.getRelative(water).setType(Material.WATER);
         block.getRelative(lava).setType(Material.LAVA);
 
-        Assertions.assertTrue(generator.testAndTrigger(block, true));
-        server.getPluginManager().assertEventFired(BlockFromToEvent.class);
+        Assertions.assertTrue(generator.test(block));
+        Assertions.assertNotNull(generator.callEvent(block));
+
+        server.getPluginManager().assertEventFired(BlockFormEvent.class);
         server.getPluginManager().clearEvents();
 
-        Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block));
     }
 
     @Test
@@ -82,15 +84,15 @@ class TestInfiniteBlockGenerators {
 
         block.setType(Material.COBBLESTONE);
         Assertions.assertFalse(InfiniteBlockGenerator.BASALT_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
 
         block.setType(Material.BASALT);
         Assertions.assertFalse(InfiniteBlockGenerator.BASALT_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
 
         block.getRelative(BlockFace.DOWN).setType(Material.SOUL_SOIL);
         Assertions.assertFalse(InfiniteBlockGenerator.BASALT_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
     }
 
     @ParameterizedTest
@@ -107,11 +109,13 @@ class TestInfiniteBlockGenerators {
         block.getRelative(ice).setType(Material.BLUE_ICE);
         block.getRelative(lava).setType(Material.LAVA);
 
-        Assertions.assertTrue(generator.testAndTrigger(block, true));
-        server.getPluginManager().assertEventFired(BlockFromToEvent.class);
+        Assertions.assertTrue(generator.test(block));
+        Assertions.assertNotNull(generator.callEvent(block));
+
+        server.getPluginManager().assertEventFired(BlockFormEvent.class);
         server.getPluginManager().clearEvents();
 
-        Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block));
     }
 
     @Test
@@ -122,15 +126,15 @@ class TestInfiniteBlockGenerators {
 
         block.setType(Material.COBBLESTONE);
         Assertions.assertFalse(InfiniteBlockGenerator.STONE_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
 
         block.setType(Material.STONE);
         Assertions.assertFalse(InfiniteBlockGenerator.STONE_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
 
         block.getRelative(BlockFace.UP).setType(Material.LAVA);
         Assertions.assertFalse(InfiniteBlockGenerator.STONE_GENERATOR.test(block));
-        Assertions.assertNull(InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertNull(InfiniteBlockGenerator.findAt(block));
     }
 
     @ParameterizedTest
@@ -146,11 +150,13 @@ class TestInfiniteBlockGenerators {
         block.getRelative(BlockFace.UP).setType(Material.LAVA);
         block.getRelative(water).setType(Material.WATER);
 
-        Assertions.assertTrue(generator.testAndTrigger(block, true));
-        server.getPluginManager().assertEventFired(BlockFromToEvent.class);
+        Assertions.assertTrue(generator.test(block));
+        Assertions.assertNotNull(generator.callEvent(block));
+
+        server.getPluginManager().assertEventFired(BlockFormEvent.class);
         server.getPluginManager().clearEvents();
 
-        Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block, false));
+        Assertions.assertEquals(generator, InfiniteBlockGenerator.findAt(block));
     }
 
     private static Stream<Arguments> provideFaces() {

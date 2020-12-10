@@ -29,6 +29,8 @@
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
+* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
+* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 
 ## Release Candidate 18 (03 Dec 2020)
 
@@ -123,8 +125,6 @@
 * General performance improvements
 * /sf cheat now shows seasonal categories all year through
 * GPS devices now require chest-access in that area to be used
-* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
-* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 
 #### Fixes
 * Fixed #2300

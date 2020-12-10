@@ -104,14 +104,17 @@ public class MinerAndroid extends ProgrammableAndroid {
             menu.pushItem(drop, getOutputSlots());
         }
 
-        InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block, firesEvent.getValue());
+        InfiniteBlockGenerator generator = InfiniteBlockGenerator.findAt(block);
 
         if (generator != null) {
+            if (firesEvent.getValue()) {
+                generator.callEvent(block);
+            }
+
             // "poof" a "new" block was generated
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.075F, 0.8F);
             block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
-        }
-        else {
+        } else {
             block.setType(Material.AIR);
         }
     }
