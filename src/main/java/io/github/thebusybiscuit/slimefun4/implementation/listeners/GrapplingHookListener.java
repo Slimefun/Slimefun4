@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -21,16 +20,17 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityPortalEnterEvent;
+import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This {@link Listener} is responsible for the mechanics behind the {@link GrapplingHook}.
@@ -55,13 +55,9 @@ public class GrapplingHookListener implements Listener {
         this.grapplingHook = grapplingHook;
     }
 
-    private boolean isEnabled() {
-        return grapplingHook != null && !grapplingHook.isDisabled();
-    }
-
     @EventHandler
     public void onArrowHitEntity(EntityDamageByEntityEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
@@ -72,7 +68,7 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onArrowHitSurface(ProjectileHitEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
@@ -85,7 +81,7 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onArrowHitHanging(HangingBreakByEntityEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
@@ -97,7 +93,7 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
@@ -108,7 +104,7 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onLeave(PlayerKickEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
@@ -119,7 +115,7 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onFallDamage(EntityDamageEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
@@ -130,7 +126,7 @@ public class GrapplingHookListener implements Listener {
 
     @EventHandler
     public void onPortalEnter(EntityPortalEnterEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
@@ -142,7 +138,7 @@ public class GrapplingHookListener implements Listener {
     // Fixing Issue #2351
     @EventHandler
     public void onLeash(PlayerLeashEntityEvent e) {
-        if (!isEnabled()) {
+        if (grapplingHook.isDisabled()) {
             return;
         }
 
