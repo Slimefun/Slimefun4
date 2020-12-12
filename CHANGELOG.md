@@ -26,6 +26,9 @@
 
 ## Release Candidate 19 (TBD)
 
+#### Additions
+* Added Bee Armor (1.15+ only)
+
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats

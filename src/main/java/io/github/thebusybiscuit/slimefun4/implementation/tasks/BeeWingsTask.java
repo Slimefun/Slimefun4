@@ -14,7 +14,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
 
 /**
- * This {@link PlayerTask} is responsible for the repeating checks for our {@link BeeWings}.
+ * This task is responsible for the repeating checks for our {@link BeeWings}.
  * 
  * @author beSnow
  * @author TheBusyBiscuit
