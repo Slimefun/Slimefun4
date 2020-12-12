@@ -2,20 +2,21 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
-import java.util.Optional;
 
-import org.bukkit.ChatColor;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.block.CreatureSpawner;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -28,14 +29,32 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see BrokenSpawner
  *
  */
-public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
+public class RepairedSpawner extends AbstractMonsterSpawner {
 
+    private final ItemSetting<Boolean> allowSpawnEggs = new ItemSetting<>("allow-spawn-eggs", true);
+
+    @ParametersAreNonnullByDefault
     public RepairedSpawner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        addItemSetting(allowSpawnEggs);
+
+        addItemHandler(onInteract());
+        addItemHandler(onPlace());
     }
 
-    @Override
-    public BlockPlaceHandler getItemHandler() {
+    @Nonnull
+    private BlockUseHandler onInteract() {
+        return e -> {
+            if (!allowSpawnEggs.getValue() && SlimefunTag.SPAWN_EGGS.isTagged(e.getItem().getType())) {
+                // Disallow spawn eggs from being used on Reinforced Spawners if disabled
+                e.cancel();
+            }
+        };
+    }
+
+    @Nonnull
+    private BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(true) {
 
             @Override
@@ -48,42 +67,29 @@ public class RepairedSpawner extends SimpleSlimefunItem<BlockPlaceHandler> {
                 onPlace(e.getItemStack(), e);
             }
 
+            @ParametersAreNonnullByDefault
             private void onPlace(ItemStack item, BlockEvent e) {
-                Optional<EntityType> entity = getEntityType(item);
-
-                if (entity.isPresent() && e.getBlock().getType() == Material.SPAWNER) {
-                    CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-                    spawner.setSpawnedType(entity.get());
-                    spawner.update(true, false);
+                /**
+                 * This may no longer be needed at some point but for legacy items
+                 * we still need to set the spawned EntityType manually
+                 */
+                if (e.getBlock().getType() == Material.SPAWNER) {
+                    getEntityType(item).ifPresent(entity -> {
+                        CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
+                        spawner.setSpawnedType(entity);
+                        spawner.update(true, false);
+                    });
                 }
             }
         };
     }
 
-    /**
-     * This method tries to obtain an {@link EntityType} from a given {@link ItemStack}.
-     * The provided {@link ItemStack} must be a {@link RepairedSpawner} item.
-     * 
-     * @param item
-     *            The {@link ItemStack} to extract the {@link EntityType} from
-     * 
-     * @return An {@link Optional} describing the result
-     */
-    public Optional<EntityType> getEntityType(ItemStack item) {
-        for (String line : item.getItemMeta().getLore()) {
-            if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
-                EntityType type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
-                return Optional.of(type);
-            }
-        }
-
-        return Optional.empty();
-    }
-
     @Override
     public Collection<ItemStack> getDrops() {
-        // There should be no drops by default since drops are handled by the
-        // Pickaxe of Containment exclusively.
+        /**
+         * There should be no drops by default since drops are handled
+         * by the Pickaxe of Containment exclusively.
+         */
         return new ArrayList<>();
     }
 

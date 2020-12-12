@@ -38,7 +38,7 @@ public class Capacitor extends SlimefunItem implements EnergyNetComponent {
 
     @Override
     @Nonnull
-    public EnergyNetComponentType getEnergyComponentType() {
+    public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CAPACITOR;
     }
 

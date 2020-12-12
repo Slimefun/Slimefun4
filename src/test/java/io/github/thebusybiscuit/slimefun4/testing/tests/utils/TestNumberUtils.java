@@ -26,19 +26,19 @@ class TestNumberUtils {
     @Test
     @DisplayName("Test elapsed time string")
     void testElapsedTime() {
-        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime current = LocalDateTime.now();
 
-        LocalDateTime a = start.plusDays(1);
-        Assertions.assertEquals("1d", NumberUtils.getElapsedTime(start, a));
+        LocalDateTime a = current.minusDays(1);
+        Assertions.assertEquals("1d", NumberUtils.getElapsedTime(current, a));
 
-        LocalDateTime b = start.plusHours(25);
-        Assertions.assertEquals("1d 1h", NumberUtils.getElapsedTime(start, b));
+        LocalDateTime b = current.minusHours(25);
+        Assertions.assertEquals("1d 1h", NumberUtils.getElapsedTime(current, b));
 
-        LocalDateTime c = start.plusHours(1);
-        Assertions.assertEquals("1h", NumberUtils.getElapsedTime(start, c));
+        LocalDateTime c = current.minusHours(1);
+        Assertions.assertEquals("1h", NumberUtils.getElapsedTime(current, c));
 
-        LocalDateTime d = start.plusMinutes(12);
-        Assertions.assertEquals("< 1h", NumberUtils.getElapsedTime(start, d));
+        LocalDateTime d = current.minusMinutes(12);
+        Assertions.assertEquals("< 1h", NumberUtils.getElapsedTime(current, d));
     }
 
     @Test
@@ -73,6 +73,24 @@ class TestNumberUtils {
     @DisplayName("Test decimal rounding")
     void testRounding() {
         Assertions.assertEquals("5.25", NumberUtils.roundDecimalNumber(5.249999999999));
+    }
+
+    @Test
+    @DisplayName("Test compact decimals")
+    void testCompactDecimals() {
+        Assertions.assertEquals("-40.2", NumberUtils.getCompactDouble(-40.2));
+        Assertions.assertEquals("1.23", NumberUtils.getCompactDouble(1.234546));
+        Assertions.assertEquals("999", NumberUtils.getCompactDouble(999.0));
+        Assertions.assertEquals("1K", NumberUtils.getCompactDouble(1000.0));
+        Assertions.assertEquals("2.5K", NumberUtils.getCompactDouble(2500.0));
+        Assertions.assertEquals("720K", NumberUtils.getCompactDouble(720000.0));
+        Assertions.assertEquals("1M", NumberUtils.getCompactDouble(1000000.0));
+        Assertions.assertEquals("40M", NumberUtils.getCompactDouble(40000000.0));
+        Assertions.assertEquals("1B", NumberUtils.getCompactDouble(1000000000.0));
+        Assertions.assertEquals("1.23B", NumberUtils.getCompactDouble(1230000000.0));
+        Assertions.assertEquals("1T", NumberUtils.getCompactDouble(1000000000000.0));
+        Assertions.assertEquals("1Q", NumberUtils.getCompactDouble(1000000000000000.0));
+        Assertions.assertEquals("-2Q", NumberUtils.getCompactDouble(-2000000000000000.0));
     }
 
 }

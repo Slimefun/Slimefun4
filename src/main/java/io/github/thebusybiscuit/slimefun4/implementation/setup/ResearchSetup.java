@@ -14,7 +14,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 /**
  * This static setup class is used to register all default implementations of
  * {@link Research} on startup.
- * 
+ *
  * @see Research
  * @see SlimefunItems
  *
@@ -279,7 +279,8 @@ public final class ResearchSetup {
         register("caveman_talisman", 267, "Talisman of the Caveman", 20, SlimefunItems.TALISMAN_CAVEMAN);
         register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
         register("energy_connectors", 269, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
-        register("hazmat_backpack", 270, "Fallout Prepared", 30, SlimefunItems.HAZMAT_BACKPACK);
+        register("bee_armor", 270, "Bee Armor", 24, SlimefunItems.BEE_HELMET, SlimefunItems.BEE_WINGS, SlimefunItems.BEE_LEGGINGS, SlimefunItems.BEE_BOOTS);
+        register("hazmat_backpack", 271, "Fallout Prepared", 30, SlimefunItems.HAZMAT_BACKPACK);
     }
 
     @ParametersAreNonnullByDefault

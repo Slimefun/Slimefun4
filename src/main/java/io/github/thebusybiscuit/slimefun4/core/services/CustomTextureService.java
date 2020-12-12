@@ -23,9 +23,22 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class CustomTextureService {
 
+    /**
+     * The {@link Config} object in which the Server Owner can configure the item models.
+     */
     private final Config config;
 
+    /**
+     * This nullable {@link StringBuffer} represents the "version" of the used item-models file.
+     * This version is served with our resource pack.
+     */
     private String version = null;
+
+    /**
+     * This boolean represents whether the file was modified anyway.
+     * This is equivalent to at least one value being set to a number which
+     * is not zero!
+     */
     private boolean modified = false;
 
     /**
@@ -110,6 +123,7 @@ public class CustomTextureService {
      */
     public int getModelData(@Nonnull String id) {
         Validate.notNull(id, "Cannot get the ModelData for 'null'");
+
         return config.getInt(id);
     }
 

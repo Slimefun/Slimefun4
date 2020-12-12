@@ -96,6 +96,9 @@ class TestRecipeService {
         Optional<ItemStack> optional2 = service.getFurnaceOutput(new ItemStack(Material.COBBLESTONE));
         Assertions.assertTrue(optional2.isPresent());
         Assertions.assertEquals(result, optional2.get());
+
+        // Cobblestone should be smeltable
+        Assertions.assertTrue(service.isSmeltable(new ItemStack(Material.COBBLESTONE)));
     }
 
     @Test

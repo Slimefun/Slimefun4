@@ -62,6 +62,11 @@ public enum SlimefunTag implements Tag<Material> {
      * All command block variants
      */
     COMMAND_BLOCKS,
+    
+    /**
+     * All variants of Spawn Eggs
+     */
+    SPAWN_EGGS,
 
     /**
      * Every mushroom type, red, brown and nether ones.
@@ -300,6 +305,18 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
+    public boolean isEmpty() {
+        if (!includedMaterials.isEmpty()) {
+            /**
+             * Without even needing to generate a Set we can safely
+             * return false if there are directly included Materials
+             */
+            return false;
+        } else {
+            return getValues().isEmpty();
+        }
+    }
+
     /**
      * This returns a {@link Set} of {@link Tag Tags} which are children of this {@link SlimefunTag},
      * these can be other {@link SlimefunTag SlimefunTags} or regular {@link Tag Tags}.
@@ -347,6 +364,7 @@ public enum SlimefunTag implements Tag<Material> {
     @Nullable
     public static SlimefunTag getTag(@Nonnull String value) {
         Validate.notNull(value, "A tag cannot be null!");
+
         return nameLookup.get(value);
     }
 

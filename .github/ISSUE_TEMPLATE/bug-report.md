@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report a Bug or an Issue with Slimefun 4.
 title: ''
-labels: Bug Report
+labels: '🐞 Bug Report'
 assignees: ''
 
 ---

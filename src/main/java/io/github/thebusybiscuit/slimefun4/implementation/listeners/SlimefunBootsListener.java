@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
@@ -16,7 +17,9 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.EnderBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.FarmerShoes;
+import io.github.thebusybiscuit.slimefun4.implementation.items.armor.LongFallBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoots;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -26,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * This {@link Listener} is responsible for handling all boots provided by
  * Slimefun, such as the {@link StomperBoots} or any {@link SlimefunArmorPiece} that
  * is a pair of boots and needs to listen to an {@link EntityDamageEvent}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
  *
@@ -50,7 +53,7 @@ public class SlimefunBootsListener implements Listener {
             Player p = (Player) e.getEntity();
             SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
-            if (boots != null && boots.getId().equals("ENDER_BOOTS") && Slimefun.hasUnlocked(p, boots, true)) {
+            if (boots instanceof EnderBoots && Slimefun.hasUnlocked(p, boots, true)) {
                 e.setCancelled(true);
             }
         }
@@ -69,8 +72,12 @@ public class SlimefunBootsListener implements Listener {
             if (boots instanceof StomperBoots) {
                 e.setCancelled(true);
                 ((StomperBoots) boots).stomp(e);
-            } else if (boots.getId().equals("SLIME_BOOTS") || boots.getId().equals("SLIME_STEEL_BOOTS")) {
+            } else if (boots instanceof LongFallBoots) {
                 e.setCancelled(true);
+
+                if (boots.getId().equals("BEE_BOOTS")) {
+                    e.getEntity().getWorld().playSound(e.getEntity().getLocation(), Sound.BLOCK_HONEY_BLOCK_FALL, 1f, 2f);
+                }
             }
         }
     }

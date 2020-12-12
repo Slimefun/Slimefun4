@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.StormStaff;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
@@ -302,56 +302,70 @@ public final class SlimefunItems {
 
     public static final SlimefunItemStack BOOTS_OF_THE_STOMPER = new SlimefunItemStack("BOOTS_OF_THE_STOMPER", Material.LEATHER_BOOTS, Color.AQUA, "&bBoots of the Stomper", "", "&9All Fall Damage you receive", "&9will be applied to nearby Mobs/Players", "", "&9+ No Fall Damage");
 
+    public static final SlimefunItemStack BEE_HELMET = new SlimefunItemStack("BEE_HELMET", Material.GOLDEN_HELMET, "&e&lBee Helmet", " ", "&fBzzzzzzz");
+    public static final SlimefunItemStack BEE_WINGS = new SlimefunItemStack("BEE_WINGS", Material.ELYTRA, "&e&lBee Wings", " ", "&fBzzzzzzz", " ", "&9Activates Slow falling", "&9when approaching the ground");
+    public static final SlimefunItemStack BEE_LEGGINGS = new SlimefunItemStack("BEE_LEGGINGS", Material.GOLDEN_LEGGINGS, "&e&lBee Leggings", " ", "&fBzzzzzzz");
+    public static final SlimefunItemStack BEE_BOOTS = new SlimefunItemStack("BEE_BOOTS", Material.GOLDEN_BOOTS, "&e&lBee Boots", "", "&fBzzzzzzz", "", "&9+ Jump Boost", "&9+ No Fall Damage");
+
     static {
-        Map<Enchantment, Integer> cactus = new HashMap<>();
-        cactus.put(Enchantment.THORNS, 3);
-        cactus.put(Enchantment.DURABILITY, 6);
+        Map<Enchantment, Integer> cactusEnchs = new HashMap<>();
+        cactusEnchs.put(Enchantment.THORNS, 3);
+        cactusEnchs.put(Enchantment.DURABILITY, 6);
 
-        CACTUS_HELMET.addUnsafeEnchantments(cactus);
-        CACTUS_CHESTPLATE.addUnsafeEnchantments(cactus);
-        CACTUS_LEGGINGS.addUnsafeEnchantments(cactus);
-        CACTUS_BOOTS.addUnsafeEnchantments(cactus);
+        CACTUS_HELMET.addUnsafeEnchantments(cactusEnchs);
+        CACTUS_CHESTPLATE.addUnsafeEnchantments(cactusEnchs);
+        CACTUS_LEGGINGS.addUnsafeEnchantments(cactusEnchs);
+        CACTUS_BOOTS.addUnsafeEnchantments(cactusEnchs);
 
-        Map<Enchantment, Integer> damascus = new HashMap<>();
-        damascus.put(Enchantment.DURABILITY, 5);
-        damascus.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+        Map<Enchantment, Integer> damascusEnchs = new HashMap<>();
+        damascusEnchs.put(Enchantment.DURABILITY, 5);
+        damascusEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
 
-        DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_LEGGINGS.addUnsafeEnchantments(damascus);
-        DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascus);
+        DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascusEnchs);
+        DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascusEnchs);
+        DAMASCUS_STEEL_LEGGINGS.addUnsafeEnchantments(damascusEnchs);
+        DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascusEnchs);
 
-        Map<Enchantment, Integer> reinforced = new HashMap<>();
-        reinforced.put(Enchantment.DURABILITY, 9);
-        reinforced.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
+        Map<Enchantment, Integer> reinforcedEnchs = new HashMap<>();
+        reinforcedEnchs.put(Enchantment.DURABILITY, 9);
+        reinforcedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
 
-        REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforced);
-        REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
+        REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforcedEnchs);
+        REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforcedEnchs);
+        REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforcedEnchs);
+        REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforcedEnchs);
 
-        Map<Enchantment, Integer> gilded = new HashMap<>();
-        gilded.put(Enchantment.DURABILITY, 6);
-        gilded.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
+        Map<Enchantment, Integer> gildedEnchs = new HashMap<>();
+        gildedEnchs.put(Enchantment.DURABILITY, 6);
+        gildedEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
 
-        GILDED_IRON_HELMET.addUnsafeEnchantments(gilded);
-        GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gilded);
-        GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gilded);
-        GILDED_IRON_BOOTS.addUnsafeEnchantments(gilded);
+        GILDED_IRON_HELMET.addUnsafeEnchantments(gildedEnchs);
+        GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gildedEnchs);
+        GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gildedEnchs);
+        GILDED_IRON_BOOTS.addUnsafeEnchantments(gildedEnchs);
 
         GOLDEN_HELMET_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
         GOLDEN_CHESTPLATE_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
         GOLDEN_LEGGINGS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
         GOLDEN_BOOTS_12K.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
 
-        Map<Enchantment, Integer> slime = new HashMap<>();
-        slime.put(Enchantment.DURABILITY, 4);
-        slime.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+        Map<Enchantment, Integer> slimeEnchs = new HashMap<>();
+        slimeEnchs.put(Enchantment.DURABILITY, 4);
+        slimeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
 
-        SLIME_HELMET_STEEL.addUnsafeEnchantments(slime);
-        SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slime);
-        SLIME_LEGGINGS_STEEL.addUnsafeEnchantments(slime);
-        SLIME_BOOTS_STEEL.addUnsafeEnchantments(slime);
+        SLIME_HELMET_STEEL.addUnsafeEnchantments(slimeEnchs);
+        SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slimeEnchs);
+        SLIME_LEGGINGS_STEEL.addUnsafeEnchantments(slimeEnchs);
+        SLIME_BOOTS_STEEL.addUnsafeEnchantments(slimeEnchs);
+
+        Map<Enchantment, Integer> beeEnchs = new HashMap<>();
+        beeEnchs.put(Enchantment.DURABILITY, 4);
+        beeEnchs.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+
+        BEE_HELMET.addUnsafeEnchantments(beeEnchs);
+        BEE_WINGS.addUnsafeEnchantments(beeEnchs);
+        BEE_LEGGINGS.addUnsafeEnchantments(beeEnchs);
+        BEE_BOOTS.addUnsafeEnchantments(beeEnchs);
     }
 
     /* Magical components */
@@ -404,7 +418,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack ELECTRIC_MOTOR = new SlimefunItemStack("ELECTRIC_MOTOR", HeadTexture.MOTOR, "&cElectric Motor");
     public static final SlimefunItemStack CARGO_MOTOR = new SlimefunItemStack("CARGO_MOTOR", HeadTexture.MOTOR, "&3Cargo Motor");
     public static final SlimefunItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new SlimefunItemStack("SCROLL_OF_DIMENSIONAL_TELEPOSITION", Material.PAPER, "&6Scroll of Dimensional Teleposition", "", "&cThis Scroll is capable of creating", "&ca temporary black Hole which pulls", "&cnearby Entities into itself and sends", "&cthem into another Dimension where", "&ceverything is turned around", "", "&fIn other words: Makes Entities turn by 180 Degrees");
-    public static final SlimefunItemStack TOME_OF_KNOWLEDGE_SHARING = new SlimefunItemStack("TOME_OF_KNOWLEDGE_SHARING", Material.BOOK, "&6Tome of Knowledge Sharing", "&7Owner: &bNone", "", "&eRight Click&7 to bind this Tome to yourself", "", "", "&eRight Click&7 to obtain all Researches by", "&7the previously assigned Owner");
+    public static final SlimefunItemStack TOME_OF_KNOWLEDGE_SHARING = new SlimefunItemStack("TOME_OF_KNOWLEDGE_SHARING", Material.ENCHANTED_BOOK, "&6Tome of Knowledge Sharing", "&7Owner: &bNone", "", "&eRight Click&7 to bind this Tome to yourself", "", "", "&eRight Click&7 to obtain all Researches by", "&7the previously assigned Owner");
     public static final SlimefunItemStack HARDENED_GLASS = new SlimefunItemStack("HARDENED_GLASS", Material.LIGHT_GRAY_STAINED_GLASS, "&7Hardened Glass", "", "&fWithstands Explosions");
     public static final SlimefunItemStack WITHER_PROOF_OBSIDIAN = new SlimefunItemStack("WITHER_PROOF_OBSIDIAN", Material.OBSIDIAN, "&5Wither-Proof Obsidian", "", "&fWithstands Explosions", "&fWithstands Wither Bosses");
     public static final SlimefunItemStack WITHER_PROOF_GLASS = new SlimefunItemStack("WITHER_PROOF_GLASS", Material.PURPLE_STAINED_GLASS, "&5Wither-Proof Glass", "", "&fWithstands Explosions", "&fWithstands Wither Bosses");
