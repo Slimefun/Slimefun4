@@ -9,10 +9,9 @@ jobs:
     steps:
       - uses: WalshyDev/pr-labels@v1
         with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
           feature: 'New Feature'
           fix: '🐞 Bug Fix'
           chore: 'Chore'
           perf: '🛠️ Performance Improvement'
           performance: '🛠️ Performance Improvement'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
