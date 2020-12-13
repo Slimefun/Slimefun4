@@ -1,0 +1,18 @@
+name: PR Labeler
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  pr-labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: WalshyDev/pr-labels@v1
+        with:
+          feature: 'New Feature'
+          fix: '🐞 Bug Fix'
+          chore: 'Chore'
+          perf: '🛠️ Performance Improvement'
+          performance: '🛠️ Performance Improvement'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
