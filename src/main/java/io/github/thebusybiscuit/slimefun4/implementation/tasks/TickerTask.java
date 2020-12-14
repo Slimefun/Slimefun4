@@ -328,6 +328,23 @@ public class TickerTask implements Runnable {
     public void halt() {
         halted = true;
     }
+    
+    /**
+     * This method checks if the given {@link Location} has been reserved
+     * by this {@link TickerTask}.
+     * A reserved {@link Location} does not currently hold any data but will
+     * be occupied upon the next tick.
+     * Checking this ensures that our {@link Location} does not get treated like a normal
+     * {@link Location} as it is theoretically "moving".
+     * 
+     * @param l
+     *            The {@link Location} to check
+     * 
+     * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
+     */
+    public boolean isReserved(@Nonnull Location l) {
+        return movingQueue.containsValue(l);
+    }
 
     @ParametersAreNonnullByDefault
     public void queueMove(Location from, Location to) {
