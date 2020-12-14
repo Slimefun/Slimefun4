@@ -1,150 +1,112 @@
 ---
-minecraft:
-  blasting:
+slimefun:
+  multiblock:
+    name: Đa khối
     lore:
-    - Nung vật phẩm này trong một lò nung phản ứng
-    - để chế tạo vật phẩm mình muốn
-    name: Công thức lò nung phản ứng
-  campfire:
+    - Xây công trình đã hiển thị
+    - hiển thị. Đây không phải công thức chế tạo
+  enhanced_crafting_table:
+    name: Bàn chế tạo nâng cao
     lore:
-    - Nung vật phẩm này trên một lửa trại
-    - để chế tạo vật phẩm bạn muốn
-    name: Công thức nung trên lửa trại
-  furnace:
-    lore:
-    - Nung vật phẩm này trong lò
-    - để chế tạo vật phẩm bạn muốn
-    name: Công thức nung lò nung
-  shaped:
-    lore:
-    - Chế tạo vật phẩm
-    - trong bàn chế tạo thường.
-    - Hình dạng rất quan trọng.
-    name: Công thức chế tạo hình
-  shapeless:
-    lore:
-    - Chế tạo vật phẩm này
-    - trong bàn chế tạo thường
-    - Công thức này vô dạng.
-    name: Công thức chế tạo vô dạng
-  smoking:
-    lore:
-    - Nung vật phẩm này trong máy tạo hơi khói
-    - để chế tạo vật phẩm bạn mong muốn
-    name: Công thức máy tạo hơi khói
-  stonecutting:
+    - Chế tạo vật phẩm được hiển thị
+    - trong Bàn chế tạo nâng cao.
+    - Một bàn chế tạo bình thường sẽ không đủ!
+  armor_forge:
+    name: Bàn rèn giáp
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng máy cắt đá
-    name: Công thức máy cắt đá
-slimefun:
+    - sử dụng Bàn rèn giáp
+  grind_stone:
+    name: Máy nghiền đá
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng Máy nghiền đá
+  smeltery:
+    name: Lò luyện kim
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng Lò luyện kim
+  ore_crusher:
+    name: Máy nghiền quặng
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng Máy nghiền quặng
+  mob_drop:
+    name: Vật phẩm bị rơi ra từ con vật bị giết
+    lore:
+    - Giết con vật đó để
+    - lấy vật phẩm này
+  gold_pan:
+    name: Chảo sàn lọc
+    lore:
+    - Dùng chảo sàn lọc để
+    - lấy vật phẩm này
+  compressor:
+    name: Máy nén
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy nén
+  pressure_chamber:
+    name: Máy nén áp suất
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy nén áp suất
+  ore_washer:
+    name: Máy rửa quặng
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng Máy rửa quặng
+  juicer:
+    name: Máy ép trái cây
+    lore:
+    - Chế tạo nước ép này như đã hiển thị
+    - sử dụng máy ép trái cây
+  magic_workbench:
+    name: Bàn chế tạo ma thuật
+    lore:
+    - Chế tạo vật phẩm này như hình
+    - sử dụng Bàn chế tạo ma thuật
   ancient_altar:
+    name: Bàn Thờ Cổ
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng Ancient Altar.
     - Kiểm tra Ancient Altar biết thêm thông tin
-    name: Ancient Altar
-  armor_forge:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Armor Forge
-    name: Armor Forge
-  compressor:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Compressor
-    name: Compressor
-  enhanced_crafting_table:
-    lore:
-    - Chế tạo vật phẩm được hiển thị
-    - trong Enhanced Crafting Table.
-    - Một bàn chế tạo bình thường sẽ không đủ!
-    name: Enhanced Crafting Table
-  food_composter:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Food Composter
-    name: Food Composter
-  food_fabricator:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Food Fabricator
-    name: Food Fabricator
-  freezer:
-    lore:
-    - Chế tạo vật phẩm như đã hiển thị
-    - sử dụng Freezer
-    name: Freezer
-  geo_miner:
-    lore:
-    - Vật phẩm này có thể kiểm được
-    - bàng cách sử dụng GEO Miner
-    name: GEO Miner
-  gold_pan:
-    lore:
-    - Dùng Gold Pan để
-    - lấy vật phẩm này
-    name: Gold Pan
-  grind_stone:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Grind Stone
-    name: Grind Stone
   heated_pressure_chamber:
+    name: Heated Pressure Chamber
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng Heated Pressure Chamber
-    name: Heated Pressure Chamber
-  juicer:
+  food_fabricator:
+    name: Máy chế tạo thực phẩm
     lore:
-    - Chế tạo nước ép này như đã hiển thị
-    - sử dụng Juicer
-    name: Juicer
-  magic_workbench:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng Food Fabricator
+  food_composter:
+    name: Food Composter
     lore:
-    - Chế tạo vật phẩm này như hình
-    - sử dụng Magic Workbench
-    name: Magic Workbench
-  mob_drop:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng Food Composter
+  freezer:
+    name: Freezer
     lore:
-    - Giết con vật đó để
-    - lấy vật phẩm này
-    name: Vật phẩm bị rơi ra từ con vật bị giết
-  multiblock:
+    - Chế tạo vật phẩm như đã hiển thị
+    - sử dụng Freezer
+  geo_miner:
+    name: GEO Miner
     lore:
-    - Xây công trình đã hiển thị
-    - hiển thị. Đây không phải công thức chế tạo
-    name: Đa khối
+    - Vật phẩm này có thể kiểm được
+    - bàng cách sử dụng GEO Miner
   nuclear_reactor:
+    name: Nuclear Reactor
     lore:
     - Vật phẩm này là sản phẩm phụ
-    - của Nuclear Reactor
-    name: Nuclear Reactor
-  ore_crusher:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Ore Crusher
-    name: Ore Crusher
-  ore_washer:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Ore Washer
-    name: Ore Washer
-  pressure_chamber:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Pressure Chamber
-    name: Pressure Chamber
-  smeltery:
-    lore:
-    - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Smeltery
-    name: Smeltery
+    - của Nhà máy hạt nhân
   oil_pump:
-    name: Oil Pump
+    name: Máy bơm dầu
     lore:
     - Vật phẩm này có thể kiếm được
-    - bằng cách sử dụng Oil Pump
+    - bằng cách sử dụng Máy bơm dầu
   pickaxe_of_containment:
     name: Pickaxe of Containment
     lore:
@@ -152,7 +114,55 @@ slimefun:
     - bằng cách đập với
     - Pickaxe of Containment
   refinery:
-    name: Refinery
+    name: Máy lọc dầu
     lore:
     - Chế tạo vật phẩm này như hình
-    - sử dụng Refinery
+    - sử dụng Máy lọc dầu
+  barter_drop:
+    name: Piglin đổi hàng thả
+    lore:
+    - Đổi hàng với Piglins bằng cách sử dụng
+    - Thỏi Vàng để có được vật phẩm này
+minecraft:
+  shaped:
+    name: Công thức chế tạo hình
+    lore:
+    - Chế tạo vật phẩm
+    - trong bàn chế tạo thường.
+    - Hình dạng rất quan trọng.
+  shapeless:
+    name: Công thức chế tạo vô dạng
+    lore:
+    - Chế tạo vật phẩm này
+    - trong bàn chế tạo thường
+    - Công thức này vô dạng.
+  furnace:
+    name: Công thức nung lò nung
+    lore:
+    - Nung vật phẩm này trong lò
+    - để chế tạo vật phẩm bạn muốn
+  blasting:
+    name: Công thức lò nung phản ứng
+    lore:
+    - Nung vật phẩm này trong một lò nung phản ứng
+    - để chế tạo vật phẩm mình muốn
+  smoking:
+    name: Công thức máy tạo hơi khói
+    lore:
+    - Nung vật phẩm này trong máy tạo hơi khói
+    - để chế tạo vật phẩm bạn mong muốn
+  campfire:
+    name: Công thức nung trên lửa trại
+    lore:
+    - Nung vật phẩm này trên một lửa trại
+    - để chế tạo vật phẩm bạn muốn
+  stonecutting:
+    name: Công thức máy cắt đá
+    lore:
+    - Chế tạo vật phẩm này như đã hiển thị
+    - sử dụng máy cắt đá
+  smithing:
+    name: Công thức Bàn Luyện Kim
+    lore:
+    - chế tạo vật phẩm như đã chỉ
+    - sử dụng Bàn Luyện Kim
