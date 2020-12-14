@@ -370,5 +370,52 @@ public class TickerTask implements Runnable {
     public Map<String, Set<Location>> getActiveTickers() {
         return activeTickers;
     }
+    
+    
+    /**
+     * This enables the ticker at the given {@link Location} and adds it to our "queue".
+     * 
+     * @param l
+     *            The {@link Location} to activate
+     */
+    public void enableTicker(@Nonnull Location l) {
+        Validate.notNull(l, "Location cannot be null!");
+        
+        String chunk = l.getWorld().getName() + ";" + l.getChunk().getX() + ";" + l.getChunk().getZ();
 
+        Set<Location> newValue = new HashSet<>();
+        Set<Location> oldValue = activeTickers.putIfAbsent(chunk, newValue);
+
+        /**
+         * This is faster than doing computeIfAbsent(...)
+         * on a ConcurrentHashMap because it won't block the Thread for too long
+         */
+        if (oldValue != null) {
+            oldValue.add(l);
+        } else {
+            newValue.add(l);
+        }
+    }
+    
+    /**
+     * This method disables the ticker at the given {@link Location} and removes it from our internal
+     * "queue".
+     * 
+     * @param l
+     *            The {@link Location} to remove
+     */
+    public void disableTicker(@Nonnull Location l) {
+        Validate.notNull(l, "Location cannot be null!");
+
+        String chunk = l.getWorld().getName() + ";" + l.getChunk().getX() + ";" + l.getChunk().getZ();
+        Set<Location> locations = activeTickers.get(chunk);
+
+        if (locations != null) {
+            locations.remove(l);
+
+            if (locations.isEmpty()) {
+                tickingLocations.remove(chunk);
+            }
+        }
+    }
 }
