@@ -125,9 +125,8 @@ messages:
   invalid-amount: '&4%amount% &cis not a valid amount : it must be higher than 0!'
   given-item: '&bYou have been given &a%amount% &7"%item%&7"'
   give-item: '&bYou have given %player% &a%amount% &7"%item%&7"'
-  invalid-research: '&4%research% &cis not a valid Research!'
   drop-item: '&a%amount% &7"%item%&7" &bhas been dropped at &a%world%&7: &a%x%&7, &a%y%&7, &a%z%'
-  not-valid-research: '&4%research% &cis not a valid Research!'
+  invalid-research: '&4%research% &cis not a valid Research!'
   give-research: '&bYou have given %player% the Research &7"%research%&7"'
   hungry: '&cYou are too hungry to do that!'
   disabled-in-world: '&4&lThis Item has been disabled in this world'
@@ -135,7 +134,6 @@ messages:
   no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
   multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4You cannot barter with piglins using Slimefun items'
-  bee-suit-slow-fall: '&eYour Bee Wings will help you to get back to the ground safe and slow'
 
   multi-tool:
     mode-change: '&b%device% mode changed to: &9%mode%'
