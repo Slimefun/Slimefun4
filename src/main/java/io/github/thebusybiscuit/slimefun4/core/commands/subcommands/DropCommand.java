@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
+import javax.annotation.Nonnull;
 import java.util.Locale;
 
 import org.bukkit.Bukkit;
@@ -16,7 +17,7 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * The drop command drops a {@link SlimefunItem} of
+ * The {@link DropCommand} drops a {@link SlimefunItem} of
  * a specified quantity at the specified coordinates.
  *
  * @author NCBPFluffyBear
@@ -36,19 +37,18 @@ class DropCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    public void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args) {
         if (!(sender instanceof Player) || sender.hasPermission("slimefun.cheat.items")) {
-            if (args.length > 2) {
-                if (args.length > 5) {
+            if (args.length > 5) {
                     SlimefunItem sfItem = SlimefunItem.getByID(args[5].toUpperCase(Locale.ROOT));
 
                     if (sfItem != null) {
                         dropItem(sender, args[1], args[2], args[3], args[4], sfItem, args);
                     } else {
-                        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
+                        SlimefunPlugin.getLocalization().sendMessage(sender, "messages.invalid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
                     }
                 }
-            } else {
+            else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf drop <World> <X> <Y> <Z> <Slimefun Item> [Amount]"));
             }
         } else {
@@ -66,7 +66,7 @@ class DropCommand extends SubCommand {
                 Bukkit.getWorld(world).dropItem(new Location(Bukkit.getWorld(world), Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(z)), new CustomItem(sfItem.getItem(), amount));
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.drop-item", true, msg -> msg.replace(PLACEHOLDER_WORLD, args[1]).replace(PLACEHOLDER_X, args[2]).replace(PLACEHOLDER_Y, args[3]).replace(PLACEHOLDER_Z, args[4]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.not-valid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+                SlimefunPlugin.getLocalization().sendMessage(sender, "messages.invalid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
             }
         }
     }
