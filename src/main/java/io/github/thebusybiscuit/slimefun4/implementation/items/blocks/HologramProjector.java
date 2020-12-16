@@ -62,21 +62,11 @@ public class HologramProjector extends SlimefunItem {
 
     @Nonnull
     private BlockBreakHandler onBreak() {
-        return new BlockBreakHandler(true, true) {
+        return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                remove(e.getBlock());
-            }
-
-            @Override
-            public void onExplode(Block b, List<ItemStack> drops) {
+            public void onBlockBreaking(@Nonnull Block b) {
                 remove(b);
-            }
-
-            @Override
-            public void onAndroidBreak(AndroidMineEvent e) {
-                remove(e.getBlock());
             }
         };
     }
