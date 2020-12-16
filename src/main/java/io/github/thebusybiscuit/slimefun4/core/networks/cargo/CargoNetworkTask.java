@@ -15,6 +15,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -32,11 +33,12 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
  * 
  * @see CargoNet
  * @see CargoUtils
- * @see ChestTerminalNetwork
+ * @see AbstractItemNetwork
  *
  */
 class CargoNetworkTask implements Runnable {
 
+    private final NetworkManager manager;
     private final CargoNet network;
     private final Map<Location, Inventory> inventories = new HashMap<>();
 
@@ -49,6 +51,7 @@ class CargoNetworkTask implements Runnable {
     @ParametersAreNonnullByDefault
     CargoNetworkTask(CargoNet network, Map<Location, Integer> inputs, Map<Integer, List<Location>> outputs, Set<Location> chestTerminalInputs, Set<Location> chestTerminalOutputs) {
         this.network = network;
+        this.manager = SlimefunPlugin.getNetworkManager();
 
         this.inputs = inputs;
         this.outputs = outputs;
@@ -65,8 +68,10 @@ class CargoNetworkTask implements Runnable {
             network.handleItemRequests(inventories, chestTerminalInputs, chestTerminalOutputs);
         }
 
-        // All operations happen here: Everything gets iterated from the Input Nodes.
-        // (Apart from ChestTerminal Buses)
+        /**
+         * All operations happen here: Everything gets iterated from the Input Nodes.
+         * (Apart from ChestTerminal Buses)
+         */
         SlimefunItem inputNode = SlimefunItems.CARGO_INPUT_NODE.getItem();
         for (Map.Entry<Location, Integer> entry : inputs.entrySet()) {
             long nodeTimestamp = System.nanoTime();
@@ -89,8 +94,9 @@ class CargoNetworkTask implements Runnable {
         SlimefunPlugin.getProfiler().closeEntry(network.getRegulator(), SlimefunItems.CARGO_MANAGER.getItem(), timestamp);
     }
 
+    @ParametersAreNonnullByDefault
     private void routeItems(Location inputNode, Block inputTarget, int frequency, Map<Integer, List<Location>> outputNodes) {
-        ItemStackAndInteger slot = CargoUtils.withdraw(inventories, inputNode.getBlock(), inputTarget);
+        ItemStackAndInteger slot = CargoUtils.withdraw(network, inventories, inputNode.getBlock(), inputTarget);
 
         if (slot == null) {
             return;
@@ -105,30 +111,35 @@ class CargoNetworkTask implements Runnable {
         }
 
         if (stack != null) {
-            Inventory inv = inventories.get(inputTarget.getLocation());
+            insertItem(inputTarget, previousSlot, stack);
+        }
+    }
 
-            if (inv != null) {
-                // Check if the original slot hasn't been occupied in the meantime
-                if (inv.getItem(previousSlot) == null) {
-                    inv.setItem(previousSlot, stack);
-                } else {
-                    // Try to add the item into another available slot then
-                    ItemStack rest = inv.addItem(stack).get(0);
+    @ParametersAreNonnullByDefault
+    private void insertItem(Block inputTarget, int previousSlot, ItemStack item) {
+        Inventory inv = inventories.get(inputTarget.getLocation());
 
-                    if (rest != null) {
-                        // If the item still couldn't be inserted, simply drop it on the ground
-                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), rest);
-                    }
-                }
+        if (inv != null) {
+            // Check if the original slot hasn't been occupied in the meantime
+            if (inv.getItem(previousSlot) == null) {
+                inv.setItem(previousSlot, item);
             } else {
-                DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+                // Try to add the item into another available slot then
+                ItemStack rest = inv.addItem(item).get(0);
 
-                if (menu != null) {
-                    if (menu.getItemInSlot(previousSlot) == null) {
-                        menu.replaceExistingItem(previousSlot, stack);
-                    } else {
-                        inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), stack);
-                    }
+                if (rest != null && !manager.isItemDeletionEnabled()) {
+                    // If the item still couldn't be inserted, simply drop it on the ground
+                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), rest);
+                }
+            }
+        } else {
+            DirtyChestMenu menu = CargoUtils.getChestMenu(inputTarget);
+
+            if (menu != null) {
+                if (menu.getItemInSlot(previousSlot) == null) {
+                    menu.replaceExistingItem(previousSlot, item);
+                } else if (!manager.isItemDeletionEnabled()) {
+                    inputTarget.getWorld().dropItem(inputTarget.getLocation().add(0, 1, 0), item);
                 }
             }
         }
@@ -149,7 +160,7 @@ class CargoNetworkTask implements Runnable {
             Optional<Block> target = network.getAttachedBlock(output);
 
             if (target.isPresent()) {
-                item = CargoUtils.insert(inventories, output.getBlock(), target.get(), item);
+                item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), item);
 
                 if (item == null) {
                     break;

@@ -24,6 +24,7 @@ public final class NumberUtils {
 
     /**
      * This is our {@link DecimalFormat} for decimal values.
+     * This instance is not thread-safe!
      */
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
@@ -46,6 +47,34 @@ public final class NumberUtils {
     @Nonnull
     public static String formatBigNumber(int number) {
         return NumberFormat.getNumberInstance(Locale.US).format(number);
+    }
+
+    @Nonnull
+    public static String getCompactDouble(double value) {
+        if (value < 0) {
+            // Negative numbers are a special case
+            return '-' + getCompactDouble(-value);
+        }
+
+        if (value < 1000.0) {
+            // Below 1K
+            return DECIMAL_FORMAT.format(value);
+        } else if (value < 1000000.0) {
+            // Thousands
+            return DECIMAL_FORMAT.format(value / 1000.0) + 'K';
+        } else if (value < 1000000000.0) {
+            // Million
+            return DECIMAL_FORMAT.format(value / 1000000.0) + 'M';
+        } else if (value < 1000000000000.0) {
+            // Billion
+            return DECIMAL_FORMAT.format(value / 1000000000.0) + 'B';
+        } else if (value < 1000000000000000.0) {
+            // Trillion
+            return DECIMAL_FORMAT.format(value / 1000000000000.0) + 'T';
+        } else {
+            // Quadrillion
+            return DECIMAL_FORMAT.format(value / 1000000000000000.0) + 'Q';
+        }
     }
 
     /**
@@ -119,18 +148,19 @@ public final class NumberUtils {
      * One hour later it will read {@code "1d 1h"}. For values smaller than an hour {@code "< 1h"}
      * will be returned instead.
      * 
-     * @param start
-     *            The starting {@link LocalDateTime}.
-     * @param end
-     *            The ending {@link LocalDateTime}.
+     * @param current
+     *            The current {@link LocalDateTime}.
+     * @param priorDate
+     *            The {@link LocalDateTime} in the past.
      * 
      * @return The elapsed time as a {@link String}
      */
     @Nonnull
-    public static String getElapsedTime(@Nonnull LocalDateTime start, @Nonnull LocalDateTime end) {
-        Validate.notNull(start, "Provided start was null");
-        Validate.notNull(end, "Provided end was null");
-        long hours = Duration.between(start, end).toHours();
+    public static String getElapsedTime(@Nonnull LocalDateTime current, @Nonnull LocalDateTime priorDate) {
+        Validate.notNull(current, "Provided current date was null");
+        Validate.notNull(priorDate, "Provided past date was null");
+
+        long hours = Duration.between(priorDate, current).toHours();
 
         if (hours == 0) {
             return "< 1h";

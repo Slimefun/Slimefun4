@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -48,6 +50,24 @@ class TestNetworkManager {
         NetworkManager manager = new NetworkManager(size);
 
         Assertions.assertEquals(size, manager.getMaxSize());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    @DisplayName("Test visualizer setting")
+    void testVisualizerSetting(boolean enabled) {
+        NetworkManager manager = new NetworkManager(200, enabled, false);
+
+        Assertions.assertEquals(enabled, manager.isVisualizerEnabled());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = { true, false })
+    @DisplayName("Test item deletion setting")
+    void testItemDeletionSetting(boolean enabled) {
+        NetworkManager manager = new NetworkManager(200, true, enabled);
+
+        Assertions.assertEquals(enabled, manager.isItemDeletionEnabled());
     }
 
     @Test

@@ -26,8 +26,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link ArmorTask} is responsible for handling {@link PotionEffect PotionEffects} for
@@ -167,8 +169,16 @@ public class ArmorTask implements Runnable {
             return false;
         }
 
-        for (SlimefunItem radioactiveItem : SlimefunPlugin.getRegistry().getRadioactiveItems()) {
-            if (radioactiveItem.isItem(item) && Slimefun.isEnabled(p, radioactiveItem, true)) {
+        Set<SlimefunItem> radioactiveItems = SlimefunPlugin.getRegistry().getRadioactiveItems();
+        ItemStack subject = item;
+
+        if (!(item instanceof SlimefunItemStack) && radioactiveItems.size() > 1) {
+            // Performance optimization to reduce ItemMeta calls
+            subject = new ItemStackWrapper(item);
+        }
+
+        for (SlimefunItem radioactiveItem : radioactiveItems) {
+            if (radioactiveItem.isItem(subject) && Slimefun.isEnabled(p, radioactiveItem, true)) {
                 // If the item is enabled in the world, then make radioactivity do its job
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.radiation");
 

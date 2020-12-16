@@ -68,8 +68,11 @@ public abstract class FlexCategory extends Category {
 
     @Override
     public final boolean isHidden(@Nonnull Player p) {
-        // We can stop this method right here.
-        // We provide a custom method with more parameters for this. See isVisible(...)
+        /**
+         * We can stop this method right here.
+         * We provide a custom method with more parameters for this.
+         * See isVisible(...)
+         */
         return false;
     }
 

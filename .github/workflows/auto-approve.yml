@@ -26,4 +26,4 @@ jobs:
       with:
          token: ${{ secrets.ACCESS_TOKEN }}
          issue_number: ${{ github.event.pull_request.number }}
-         labels: 'Translations Update'
+         labels: '📄 Translations Update'

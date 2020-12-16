@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
- * It is also an extension of {@link ChestTerminalNetwork} which provides methods to deal
+ * It is also an extension of {@link AbstractItemNetwork} which provides methods to deal
  * with the addon ChestTerminal.
  * 
  * @author meiamsome
@@ -37,7 +37,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author DNx5
  *
  */
-public class CargoNet extends ChestTerminalNetwork {
+public class CargoNet extends AbstractItemNetwork {
 
     private static final int RANGE = 5;
     private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("networks.cargo-ticker-delay");
