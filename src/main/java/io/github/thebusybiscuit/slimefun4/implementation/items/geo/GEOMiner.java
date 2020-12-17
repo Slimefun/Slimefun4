@@ -66,7 +66,7 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem {
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreaking(@Nonnull Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 SimpleHologram.remove(b);
 
                 BlockMenu inv = BlockStorage.getInventory(b);

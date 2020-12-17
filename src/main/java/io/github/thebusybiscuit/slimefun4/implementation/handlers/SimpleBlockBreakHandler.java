@@ -39,21 +39,21 @@ public abstract class SimpleBlockBreakHandler extends BlockBreakHandler {
      * @param b
      *            The broken {@link Block}
      */
-    public abstract void onBlockBreaking(@Nonnull Block b);
+    public abstract void onBlockBreak(@Nonnull Block b);
 
     @Override
     public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-        onBlockBreaking(e.getBlock());
+        onBlockBreak(e.getBlock());
     }
 
     @Override
     public void onAndroidBreak(AndroidMineEvent e) {
-        onBlockBreaking(e.getBlock());
+        onBlockBreak(e.getBlock());
     }
 
     @Override
     public void onExplode(Block b, List<ItemStack> drops) {
-        onBlockBreaking(b);
+        onBlockBreak(b);
     }
 
 }

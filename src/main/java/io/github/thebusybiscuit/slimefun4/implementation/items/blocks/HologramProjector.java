@@ -1,7 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -11,18 +9,17 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
-import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -65,7 +62,7 @@ public class HologramProjector extends SlimefunItem {
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreaking(@Nonnull Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 remove(b);
             }
         };

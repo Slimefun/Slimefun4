@@ -38,7 +38,7 @@ public class CargoManager extends SlimefunItem {
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreaking(@Nonnull Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 SimpleHologram.remove(b);
             }
         };

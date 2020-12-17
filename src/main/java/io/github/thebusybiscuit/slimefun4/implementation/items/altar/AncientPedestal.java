@@ -62,7 +62,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> {
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreaking(@Nonnull Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 Optional<Item> entity = getPlacedItem(b);
 
                 if (entity.isPresent()) {

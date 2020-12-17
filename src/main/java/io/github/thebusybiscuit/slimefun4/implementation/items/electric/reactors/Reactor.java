@@ -118,7 +118,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreaking(@Nonnull Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 BlockMenu inv = BlockStorage.getInventory(b);
 
                 if (inv != null) {
