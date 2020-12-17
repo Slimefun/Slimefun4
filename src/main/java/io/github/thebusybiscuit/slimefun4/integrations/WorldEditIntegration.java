@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.services.plugins;
+package io.github.thebusybiscuit.slimefun4.integrations;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -24,6 +24,16 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 class WorldEditIntegration {
 
     WorldEditIntegration() {
+        try {
+            // This ensures that we are using a version which supports Extents
+            Class.forName("com.sk89q.worldedit.extent.Extent");
+        } catch (ClassNotFoundException e) {
+            // Re-throw the exception for the IntegrationsManager to catch
+            throw new IllegalStateException(e.getMessage());
+        }
+    }
+
+    public void register() {
         WorldEdit.getInstance().getEventBus().register(this);
     }
 

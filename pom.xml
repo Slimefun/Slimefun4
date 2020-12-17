@@ -49,11 +49,11 @@
     <repositories>
         <repository>
             <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
         </repository>
         <repository>
             <id>paper-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://papermc.io/repo/repository/maven-public</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
@@ -61,7 +61,7 @@
         </repository>
         <repository>
             <id>worldedit-repo</id>
-            <url>https://maven.sk89q.com/repo/</url>
+            <url>https://maven.sk89q.com/repo</url>
         </repository>
         <repository>
             <id>codemc-repo</id>
@@ -69,11 +69,11 @@
         </repository>
         <repository>
             <id>placeholderapi-repo</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi</url>
         </repository>
         <repository>
             <id>walshy-public</id>
-            <url>https://repo.walshy.dev/public/</url>
+            <url>https://repo.walshy.dev/public</url>
         </repository>
     </repositories>
 
@@ -314,7 +314,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.17.0</version>
+            <version>0.18.0</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -348,7 +348,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.05</version>
+            <version>3.11.06</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -418,6 +418,20 @@
             <artifactId>clearlag-core</artifactId>
             <version>3.1.6</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.LoneDev6</groupId>
+            <artifactId>itemsadder-api</artifactId>
+            <version>0.1.2</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

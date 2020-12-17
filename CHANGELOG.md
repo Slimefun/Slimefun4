@@ -26,6 +26,9 @@
 
 ## Release Candidate 19 (TBD)
 
+#### Additions
+* Added Bee Armor (1.15+ only)
+
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
@@ -37,6 +40,8 @@
 * Fixed #2560
 
 #### Fixes
+* Fixed a couple of compatibility issues with ItemsAdder
+* Fixed #2575
 * Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
 
 ## Release Candidate 18 (03 Dec 2020)

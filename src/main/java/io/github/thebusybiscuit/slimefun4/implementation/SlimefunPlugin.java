@@ -56,12 +56,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAlta
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHook;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockPhysicsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ButcherAndroidListener;
@@ -111,6 +113,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.setup.SlimefunItemSetup
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
+import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -527,6 +530,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
             new BeeListener(this);
+            new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem());
         }
 
         // Piglins were added in 1.16
@@ -594,7 +598,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This returns the global instance of {@link SlimefunPlugin}.
      * This may return null if the {@link Plugin} was disabled.
-     * 
+     *
      * @return The {@link SlimefunPlugin} instance
      */
     @Nullable
@@ -664,12 +668,31 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.blockDataService;
     }
 
+    public static PerWorldSettingsService getWorldSettingsService() {
+        return instance.worldSettingsService;
+    }
+
+    /**
+     * This method has been renamed.
+     * 
+     * @deprecated Please use {@link #getIntegrations()} instead.
+     * 
+     * @return the {@link ThirdPartyPluginService}
+     */
+    @Deprecated
     public static ThirdPartyPluginService getThirdPartySupportService() {
         return instance.thirdPartySupportService;
     }
 
-    public static PerWorldSettingsService getWorldSettingsService() {
-        return instance.worldSettingsService;
+    /**
+     * This returns our instance of {@link IntegrationsManager}.
+     * This is responsible for managing any integrations with third party {@link Plugin plugins}.
+     * 
+     * @return Our instance of {@link IntegrationsManager}
+     */
+    @Nonnull
+    public static IntegrationsManager getIntegrations() {
+        return instance.thirdPartySupportService;
     }
 
     /**
@@ -747,7 +770,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
      * to analyse performance and lag.
-     * 
+     *
      * @return The {@link SlimefunProfiler}
      */
     public static SlimefunProfiler getProfiler() {
@@ -766,7 +789,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     /**
      * This method returns whether this version of Slimefun was newly installed.
      * It will return true if this {@link Server} uses Slimefun for the very first time.
-     * 
+     *
      * @return Whether this is a new installation of Slimefun
      */
     public static boolean isNewlyInstalled() {
