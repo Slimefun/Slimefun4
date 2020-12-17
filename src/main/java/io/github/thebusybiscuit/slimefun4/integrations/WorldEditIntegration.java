@@ -29,7 +29,7 @@ class WorldEditIntegration {
             Class.forName("com.sk89q.worldedit.extent.Extent");
         } catch (ClassNotFoundException e) {
             // Re-throw the exception for the IntegrationsManager to catch
-            throw new IllegalStateException(e.getMessage());
+            throw new IllegalStateException(e);
         }
     }
 

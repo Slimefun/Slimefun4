@@ -61,7 +61,7 @@ class TestPluginClass {
         Assertions.assertNotNull(SlimefunPlugin.getItemTextureService());
         Assertions.assertNotNull(SlimefunPlugin.getPermissionsService());
         Assertions.assertNotNull(SlimefunPlugin.getBlockDataService());
-        Assertions.assertNotNull(SlimefunPlugin.getThirdPartySupportService());
+        Assertions.assertNotNull(SlimefunPlugin.getIntegrations());
         Assertions.assertNotNull(SlimefunPlugin.getWorldSettingsService());
         Assertions.assertNotNull(SlimefunPlugin.getGitHubService());
         Assertions.assertNotNull(SlimefunPlugin.getUpdater());
