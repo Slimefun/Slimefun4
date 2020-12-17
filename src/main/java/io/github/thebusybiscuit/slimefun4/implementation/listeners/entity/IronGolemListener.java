@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
 import javax.annotation.Nonnull;
 
@@ -49,7 +49,7 @@ public class IronGolemListener implements Listener {
                     e.setCancelled(true);
                     SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.no-iron-golem-heal");
 
-                    /**
+                    /*
                      * This is just there to update the Inventory...
                      * Somehow cancelling it isn't enough.
                      */
