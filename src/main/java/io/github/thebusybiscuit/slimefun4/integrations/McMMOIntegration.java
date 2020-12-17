@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.services.plugins;
+package io.github.thebusybiscuit.slimefun4.integrations;
 
 import javax.annotation.Nonnull;
 
@@ -23,7 +23,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 class McMMOIntegration implements Listener {
 
+    private final SlimefunPlugin plugin;
+
     McMMOIntegration(@Nonnull SlimefunPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public void register() {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 

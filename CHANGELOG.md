@@ -34,6 +34,8 @@
 * Removed an old version of bStats
 
 #### Fixes
+* Fixed a couple of compatibility issues with ItemsAdder
+* Fixed #2575
 * Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
 
 ## Release Candidate 18 (03 Dec 2020)
