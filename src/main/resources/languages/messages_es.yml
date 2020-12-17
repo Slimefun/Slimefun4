@@ -20,6 +20,10 @@ commands:
     player-never-joined: "&4¡Ningún jugador con ese nombre pudo ser encontrado!"
     backpack-does-not-exist: "&4¡La mochila especificada no existe!"
     restored-backpack-given: "&a¡Tu mochila ha sido restaurada y añadida a tu inventario!"
+  charge:
+    description: Carga el ítem que estés sosteniendo
+    charge-success: El Ítem ha sido cargado!
+    not-rechargeable: Este ítem no puede ser cargado!
 guide:
   search:
     message: "&b¿Qué te gustaría buscar?"
@@ -102,12 +106,8 @@ messages:
   no-permission: "&4No tienes el permiso requerido para hacer esto."
   usage: "&4Uso: &c%usage%"
   not-online: "&c¡&4%player% &cno está conectado!"
-  invalid-item: "&c¡&4%item% &cno es un objeto válido!"
-  invalid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a
-    0!"
   given-item: '&bTe han dado &a%amount% &7"%item%&7"'
   give-item: '&bLe has dado a %player%, &a%amount% &7"%item%&7"'
-  invalid-research: "&c¡&4%research% &cno es un conocimiento válido!"
   give-research: '&bLe has dado a %player% la investigación &7"%research%&7"'
   hungry: "&c¡Tienes demasiada hambre para hacer eso!"
   disabled-in-world: "&4&lEste item ha sido desactivado en el mundo."
@@ -129,6 +129,7 @@ messages:
     whirlwind: "&a&oTu talismán ha reflejado un proyectil."
     wizard: "&a&oTu talismán te ha dado un mayor nivel de fortuna, pero pudo disminuír
       el nivel de otros encantamientos."
+    caveman: "&a&oTu Talismán te ha dado Haste"
   soulbound-rune:
     fail: "&cSolo puedes ligar un objeto a tu alma."
     success: "&a¡Has ligado este objeto a tu alma exitosamente! No lo perderás al
@@ -181,6 +182,9 @@ messages:
     dual-wielding: "&4Necesitas sostener Climbing Picks con las 2 manos para usarlos!"
     wrong-material: "&cNo puedes escalar esta superficie. Mira tu guia de Slimefun
       para mas info!"
+  invalid-item: "&c¡&4%item% &cno es un objeto válido!"
+  invalid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a 0!"
+  invalid-research: "&c¡&4%research% &cno es un conocimiento válido!"
   mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
 machines:
   pattern-not-found: "&eLo siento, no puedo reconocer esta receta. Por favor coloca
@@ -238,6 +242,7 @@ machines:
     finished: "&e?¡Tu Industrial Miner ha acabado! ¡Obtuvo un total de %ores% mineral(es)!"
 anvil:
   not-working: "&4¡No puedes usar objetos de Slimefun en un yunque!"
+  mcmmo-salvaging: "&4No puedes salvar items de Slimefun!"
 backpack:
   already-open: "&cPerdón, ¡Esta mochila esta abierta en otro lugar!"
   no-stack: "&cNo puedes juntar mochilas."
@@ -349,5 +354,9 @@ brewing_stand:
   not-working: "&4¡No puedes usar objetos de Slimefun en un soporte para pociones!"
 villagers:
   no-trading: "&4¡No puedes comerciar objetos de Slimefun con los aldeanos!"
+cartography_table:
+  not-working: "&4No puedes usar items de Slimefun en una Mesa de Cartografía!"
+cauldron:
+  no-discoloring: "&4No puedes descolorar Armaduras de Slimefun"
 miner:
   no-ores: "&ePerdón, ¡No encuentro ningún mineral cerca!"
