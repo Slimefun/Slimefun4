@@ -66,14 +66,14 @@ public class BlockListener implements Listener {
         if (e.getBlockReplacedState().getType().isAir()) {
             SlimefunItem sfItem = BlockStorage.check(block);
 
-            if (sfItem != null) {
-                /* Temp fix for #2636
+            // Fixes #2636
+            if (sfItem != null && !SlimefunPlugin.getTickerTask().isDeletedSoon(block.getLocation())) {
                 for (ItemStack item : sfItem.getDrops()) {
                     if (item != null && !item.getType().isAir()) {
                         block.getWorld().dropItemNaturally(block.getLocation(), item);
                     }
                 }
-                 */
+
                 BlockStorage.clearBlockInfo(block);
             }
         } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
@@ -118,7 +118,7 @@ public class BlockListener implements Listener {
         int fortune = getBonusDropsWithFortune(item, e.getBlock());
         List<ItemStack> drops = new ArrayList<>();
 
-        if (item.getType() != Material.AIR) {
+        if (!item.getType().isAir()) {
             callToolHandler(e, item, fortune, drops);
         }
 
