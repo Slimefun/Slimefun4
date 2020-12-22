@@ -57,6 +57,9 @@ public class MagicianTalisman extends Talisman {
      * 
      * @param item
      *            The {@link ItemStack} to find an {@link Enchantment} for
+     * @param existingEnchantments
+     *            A {@link Set} containing the {@link Enchantment Enchantments} that currently exist on the
+     *            {@link ItemStack}
      * 
      * @return An applicable {@link TalismanEnchantment} or null
      */

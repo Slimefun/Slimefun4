@@ -58,6 +58,8 @@ public class Translators {
         addTranslator("nahkd123", SupportedLanguage.VIETNAMESE, true);
         addTranslator("JustAPieOP", SupportedLanguage.VIETNAMESE, true);
         addTranslator("that4life", SupportedLanguage.VIETNAMESE, true);
+        addTranslator("CactusTheGuy", SupportedLanguage.VIETNAMESE, true);
+        addTranslator("hniV", SupportedLanguage.VIETNAMESE, true);
 
         // Translators - Slovak
         addTranslator("KillerXCoder", SupportedLanguage.SLOVAK, true);
@@ -90,6 +92,7 @@ public class Translators {
         addTranslator("Vravinite", SupportedLanguage.SPANISH, true);
         addTranslator("NotUmBr4", SupportedLanguage.SPANISH, true);
         addTranslator("dbzjjoe", SupportedLanguage.SPANISH, true);
+        addTranslator("DaHolyCheese", SupportedLanguage.SPANISH, true);
 
         // Translators - Swedish
         addTranslator("NihilistBrew", "ma1yang2", SupportedLanguage.SWEDISH, false);
@@ -165,12 +168,17 @@ public class Translators {
         // Translators - Tagalog
         addTranslator("sccooottttie", SupportedLanguage.TAGALOG, true);
 
+        // Translators - Portuguese
+        addTranslator("Gusstavo", SupportedLanguage.PORTUGUESE_PORTUGAL, true);
+
         // Translators - Portuguese (Brazil)
         addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("yurinogueira", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Sakanas", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("krazybeat", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("Gusstavo", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
     @ParametersAreNonnullByDefault
@@ -183,7 +191,7 @@ public class Translators {
         Contributor contributor = github.addContributor(minecraftName, "https://github.com/" + username, "translator," + lang.getLanguageId(), 0);
 
         if (lock) {
-            contributor.lock();
+            contributor.setImmutable();
         }
     }
 

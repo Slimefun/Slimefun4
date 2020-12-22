@@ -15,7 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
@@ -23,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -210,14 +210,14 @@ public class EnergyNet extends Network {
             SlimefunItem item = (SlimefunItem) provider;
 
             try {
-                Config config = BlockStorage.getLocationInfo(loc);
-                int energy = provider.getGeneratedOutput(loc, config);
+                Config data = BlockStorage.getLocationInfo(loc);
+                int energy = provider.getGeneratedOutput(loc, data);
 
                 if (provider.isChargeable()) {
-                    energy += provider.getCharge(loc);
+                    energy += provider.getCharge(loc, data);
                 }
 
-                if (provider.willExplode(loc, config)) {
+                if (provider.willExplode(loc, data)) {
                     explodedBlocks.add(loc);
                     BlockStorage.clearBlockInfo(loc);
 
@@ -228,9 +228,9 @@ public class EnergyNet extends Network {
                 } else {
                     supply += energy;
                 }
-            } catch (Exception | LinkageError t) {
+            } catch (Exception | LinkageError throwable) {
                 explodedBlocks.add(loc);
-                new ErrorReport<>(t, loc, item);
+                new ErrorReport<>(throwable, loc, item);
             }
 
             long time = SlimefunPlugin.getProfiler().closeEntry(loc, item, timestamp);
@@ -238,7 +238,10 @@ public class EnergyNet extends Network {
         }
 
         // Remove all generators which have exploded
-        generators.keySet().removeAll(explodedBlocks);
+        if (!explodedBlocks.isEmpty()) {
+            generators.keySet().removeAll(explodedBlocks);
+        }
+
         return supply;
     }
 
@@ -254,10 +257,10 @@ public class EnergyNet extends Network {
 
     private void updateHologram(@Nonnull Block b, double supply, double demand) {
         if (demand > supply) {
-            String netLoss = DoubleHandler.getFancyDouble(Math.abs(supply - demand));
+            String netLoss = NumberUtils.getCompactDouble(demand - supply);
             SimpleHologram.update(b, "&4&l- &c" + netLoss + " &7J &e\u26A1");
         } else {
-            String netGain = DoubleHandler.getFancyDouble(supply - demand);
+            String netGain = NumberUtils.getCompactDouble(supply - demand);
             SimpleHologram.update(b, "&2&l+ &a" + netGain + " &7J &e\u26A1");
         }
     }

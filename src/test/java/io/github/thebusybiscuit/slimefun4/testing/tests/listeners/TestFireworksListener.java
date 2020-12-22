@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 
 class TestFireworksListener {
