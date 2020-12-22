@@ -106,11 +106,8 @@ messages:
   no-permission: "&4Ehhez nincs jogod"
   usage: "&4Használat: &c%usage%"
   not-online: "&4%player% &cjelenleg nem elérhető!"
-  invalid-item: "&4%item% &cnem megfelelő tárgy!"
-  invalid-amount: "&4%amount% &cnem megfelelő mennyiség: 0-nál nagyobbnak kell lennie!"
   given-item: '&bKaptál &a%amount% darab &7"%item%&7"&b-t'
   give-item: '&bAdtál %player%-nek/nak &a%amount% &7"%item%&7"&b-t'
-  invalid-research: "&4%research% &cnem érvényes Kutatás!"
   give-research: '&bMegadtad %player% játékosnak a(z) &7"%research%&7" &bkutatást'
   hungry: "&cTúl éhes vagy ehhez!"
   disabled-in-world: "&4&lEz a tárgy tiltva van ebben a világban"
@@ -185,6 +182,10 @@ messages:
       őket!"
     wrong-material: "&cEzt a felületet nem mászhatod meg. Nyisd meg a Slimefun Útmutatót
       további információért!"
+  invalid-item: "&4%item% &cnem megfelelő tárgy!"
+  invalid-amount: "&4%amount% &cnem megfelelő mennyiség: 0-nál nagyobbnak kell lennie!"
+  invalid-research: "&4%research% &cnem érvényes Kutatás!"
+  bee-suit-slow-fall: "&eA Bee Wings segít neked visszatérni a földre lassan és biztonságosan"
   mode-change: "&b%device% mód állítva erre: &9%mode%"
 machines:
   pattern-not-found: "&eSajnálom, nem ismerem fel ezt a receptet. Kérlek, helyezd
@@ -329,6 +330,7 @@ languages:
   zh-CN: Kínai (Kína)
   el: Görög
   he: Héber
+  pt-BR: Portugál (Brazília)
   ar: Arab
   af: Afrikaans
   da: Dán
@@ -341,7 +343,6 @@ languages:
   th: Thai
   ro: Román
   pt: Portugál (Portugália)
-  pt-BR: Portugál (Brazília)
   bg: Bolgár
   ko: Koreai
   tr: Török

@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import java.util.Optional;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -25,6 +27,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class AdvancedFarmerAndroid extends FarmerAndroid {
 
+    @ParametersAreNonnullByDefault
     public AdvancedFarmerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, tier, item, recipeType, recipe);
     }
@@ -38,7 +41,7 @@ public class AdvancedFarmerAndroid extends FarmerAndroid {
     protected void exoticFarm(BlockMenu menu, Block block) {
         farm(menu, block);
 
-        if (SlimefunPlugin.getThirdPartySupportService().isExoticGardenInstalled()) {
+        if (SlimefunPlugin.getIntegrations().isExoticGardenInstalled()) {
             Optional<ItemStack> result = SlimefunPlugin.getThirdPartySupportService().harvestExoticGardenPlant(block);
 
             if (result.isPresent()) {
