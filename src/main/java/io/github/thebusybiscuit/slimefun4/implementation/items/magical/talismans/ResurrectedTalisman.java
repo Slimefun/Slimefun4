@@ -56,6 +56,7 @@ public class ResurrectedTalisman extends Talisman {
                 item.setItemMeta(itemMeta);
     
                 SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location", true);
+                return;
             }
 
             SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.talisman.resurrected-location-failed", true);
