@@ -26,7 +26,8 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * This {@link SlimefunItem} is a special variant of the {@Link Talisman}. This specific {@Link Talisman} saves you
- * from a death caused by the void.
+ * from a death caused by the void and teleports to a safe location.
+ * This location is determined as follows: Talisman NBT-saved location -> Bed spawn -> World spawn
  *
  * @author svr333
  *
