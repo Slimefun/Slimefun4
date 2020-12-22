@@ -148,17 +148,16 @@ public class LockedCategory extends Category {
      *            The {@link Player} to check
      * @param profile
      *            The {@link PlayerProfile} that belongs to the given {@link Player}
+     * 
      * @return Whether the {@link Player} has fully completed all parent categories, otherwise false
      */
     public boolean hasUnlocked(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+        Validate.notNull(p, "The player cannot be null!");
+        Validate.notNull(profile, "The Profile cannot be null!");
+
         for (Category category : parents) {
             for (SlimefunItem item : category.getItems()) {
-                /**
-                 * Should probably be replaced with Slimefun.hasUnlocked(...)
-                 * However this will result in better performance because we don't
-                 * request the PlayerProfile everytime
-                 */
-                if (Slimefun.isEnabled(p, item, false) && Slimefun.hasPermission(p, item, false) && !profile.hasUnlocked(item.getResearch())) {
+                if (item.canUse(p, false)) {
                     return false;
                 }
             }

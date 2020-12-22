@@ -13,7 +13,6 @@ import org.bukkit.potion.PotionEffect;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is exclusively used for the {@link VampireBlade}.
@@ -44,7 +43,7 @@ public class VampireBladeListener implements Listener {
             Player p = (Player) e.getDamager();
 
             if (blade.isItem(p.getInventory().getItemInMainHand())) {
-                if (Slimefun.hasUnlocked(p, blade, true)) {
+                if (blade.canUse(p, true)) {
                     blade.heal(p);
                 } else {
                     e.setCancelled(true);

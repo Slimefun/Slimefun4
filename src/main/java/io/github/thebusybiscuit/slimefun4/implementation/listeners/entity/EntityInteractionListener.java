@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link Listener} responsible for a {@link Player} interacting with an {@link Entity}.
@@ -48,7 +47,7 @@ public class EntityInteractionListener implements Listener {
         SlimefunItem sfItem = SlimefunItem.getByItem(itemStack);
 
         if (sfItem != null) {
-            if (Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
+            if (sfItem.canUse(e.getPlayer(), true)) {
                 sfItem.callItemHandler(EntityInteractHandler.class, handler -> handler.onInteract(e, itemStack, e.getHand() == EquipmentSlot.OFF_HAND));
             } else if (sfItem.getState() != ItemState.VANILLA_FALLBACK) {
                 /*
