@@ -258,6 +258,21 @@ public class TickerTask implements Runnable {
     }
 
     /**
+     * This method checks if the given {@link Location} is pending deletion
+     * by this {@link TickerTask}.
+     * A reserved {@link Location} does hold data but will be deleted
+     * upon the next tick.
+     *
+     * @param l
+     *            The {@link Location} to check
+     *
+     * @return Whether this {@link Location} is pending deletion.
+     */
+    public boolean isPendingDeletion(@Nonnull Location l) {
+        return deletionQueue.containsKey(l);
+    }
+
+    /**
      * This returns the delay between ticks
      * 
      * @return The tick delay

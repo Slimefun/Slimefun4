@@ -63,18 +63,16 @@ public class BlockListener implements Listener {
          */
         Block block = e.getBlock();
 
-        if (e.getBlockReplacedState().getType().isAir()) {
+        if (e.getBlockReplacedState().getType().isAir() && !SlimefunPlugin.getTickerTask().isPendingDeletion(block.getLocation())) {
             SlimefunItem sfItem = BlockStorage.check(block);
-
             if (sfItem != null) {
-                /* Temp fix for #2636
                 for (ItemStack item : sfItem.getDrops()) {
                     if (item != null && !item.getType().isAir()) {
                         block.getWorld().dropItemNaturally(block.getLocation(), item);
                     }
                 }
-                 */
                 BlockStorage.clearBlockInfo(block);
+                e.setCancelled(true);
             }
         } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
