@@ -49,7 +49,7 @@ public class StomperBoots extends SlimefunItem {
         player.setVelocity(new Vector(0, 0.7, 0));
 
         for (Entity entity : player.getNearbyEntities(4, 4, 4)) {
-            if (entity instanceof LivingEntity && canMoveEntity((LivingEntity) entity, player)) {
+            if (entity instanceof LivingEntity && canPush(player, (LivingEntity) entity)) {
                 Vector velocity = getShockwave(player.getLocation(), entity.getLocation());
                 entity.setVelocity(velocity);
 
@@ -93,9 +93,10 @@ public class StomperBoots extends SlimefunItem {
 
     /**
      * Checks if the stomper boots can move an entity and is not the player who is using the boots.
-     * <br><b>For developers:</b> If you're spawning an immovable NPC, you should be denying
-     * collision with {@code LivingEntity#setCollidable(false)} or
-     * gravity with {@code LivingEntity#setGravity(false)}.
+     * <p>
+     * <b>For developers:</b> If you're spawning an immovable NPC, you should be denying
+     * collision with {@link LivingEntity#setCollidable(boolean)} or
+     * gravity with {@link LivingEntity#setGravity(boolean)}.
      *
      * @param entity
      *            The {@link LivingEntity} to check.
@@ -103,7 +104,7 @@ public class StomperBoots extends SlimefunItem {
      *            The {@link Player} using the {@link StomperBoots}.
      * @return If the entity can move.
      */
-    private boolean canMoveEntity(@Nonnull LivingEntity entity, @Nonnull Player player) {
+    protected boolean canPush(@Nonnull Player player, @Nonnull LivingEntity entity) {
         return entity.isValid() && !entity.getUniqueId().equals(player.getUniqueId())
             && entity.isCollidable() && entity.hasGravity();
     }
