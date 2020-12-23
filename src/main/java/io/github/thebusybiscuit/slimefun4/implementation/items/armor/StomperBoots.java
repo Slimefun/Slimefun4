@@ -47,7 +47,12 @@ public class StomperBoots extends SlimefunItem {
         p.setVelocity(new Vector(0, 0.7, 0));
 
         for (Entity n : p.getNearbyEntities(4, 4, 4)) {
-            if (n instanceof LivingEntity && n.isValid() && !n.getUniqueId().equals(p.getUniqueId())) {
+            if (n instanceof LivingEntity
+                && n.isValid()
+                && !n.getUniqueId().equals(p.getUniqueId())
+                && ((LivingEntity) n).isCollidable()
+                && n.hasGravity()
+            ) {
                 Vector velocity = getShockwave(p.getLocation(), n.getLocation());
                 n.setVelocity(velocity);
 
