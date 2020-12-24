@@ -38,6 +38,7 @@
 * Fixed #2575
 * Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
 * Fixed #2636 (hotfix)
+* Fixed #2647
 
 ## Release Candidate 18 (03 Dec 2020)
 
