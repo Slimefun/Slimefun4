@@ -174,5 +174,4 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
 
         return null;
     }
-
 }
