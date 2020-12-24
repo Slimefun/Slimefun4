@@ -87,7 +87,7 @@ public class BlockPhysicsListener implements Listener {
         Material type = block.getType();
 
         // Check if this Material can be destroyed by fluids
-        if (SlimefunTag.FLUID_SENSITIVE_MATERIALS.isTagged(block.getType())) {
+        if (SlimefunTag.FLUID_SENSITIVE_MATERIALS.isTagged(type)) {
             // Check if this Block holds any data
             if (BlockStorage.hasBlockInfo(block)) {
                 e.setCancelled(true);
