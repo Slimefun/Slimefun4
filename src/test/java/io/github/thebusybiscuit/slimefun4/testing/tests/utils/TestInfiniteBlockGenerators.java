@@ -164,5 +164,4 @@ class TestInfiniteBlockGenerators {
         Stream<BlockFace> stream = Arrays.stream(faces);
         return stream.flatMap(a -> Arrays.stream(faces).filter(b -> a != b).map(b -> Arguments.of(a, b)));
     }
-
 }
