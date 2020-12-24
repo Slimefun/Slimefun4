@@ -147,6 +147,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      */
     @Nonnull
     public BlockFormEvent callEvent(@Nonnull Block block) {
+        Validate.notNull(block, "The Block cannot be null!");
         BlockState state = PaperLib.getBlockState(block, false).getState();
         BlockFormEvent event = new BlockFormEvent(block, state);
         Bukkit.getPluginManager().callEvent(event);
