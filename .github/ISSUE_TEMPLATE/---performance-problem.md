@@ -17,21 +17,20 @@ assignees: ''
    https://www.spigotmc.org/resources/spark.57242/)
 
 ## :timer_clock: 1. Generic Timings Report (REQUIRED)
-Run `/timings on` and wait at least **5 minutes!**.
-Then proceed by running `/timings paste` and post the resulting link below the next line:
+<!-- Run `/timings on` and wait at least 5 minutes! -->
+<!-- Then proceed by running `/timings paste` and post the resulting link below the next line: -->
 <!-- Post your link below this line -->
 
 
 ## :stopwatch: 2. Slimefun Timings Report (REQUIRED)
-Please run the command `sf timings` from your **console**!
-Copy the resulting text and post it via https://pastebin.com/ or similar.
+<!-- Please run the command `sf timings` from your CONSOLE -->
+<!-- Copy the resulting text and post it via https://pastebin.com/ or similar -->
 <!-- Post your link below this line -->
 
 
 ## :zap: 3. Spark Timings Report (REQUIRED)
-Please install [Spark](https://www.spigotmc.org/resources/spark.57242/).
-Now run the command `/spark profiler --thread * --timeout 300` and wait **5 minutes.**
-Copy the resulting link and post it below the next line:
+<!-- Make sure you have Spark installed! -->
+<!-- Now run the command `/spark profiler --thread * --timeout 300` and wait 5 minutes. -->
 <!-- Post your link below this line -->
 
 
