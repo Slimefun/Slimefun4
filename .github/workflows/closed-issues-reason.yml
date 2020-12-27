@@ -21,7 +21,7 @@ jobs:
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
-          labels: 'Resolved'
+          labels: '✔ Resolved'
       - uses: maxkomarychev/octions/octions/issues/create-comment@master
         id: comment
         if: contains(steps.resolved.outputs.issues, github.event.issue.number) == false
