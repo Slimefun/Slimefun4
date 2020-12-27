@@ -10,6 +10,12 @@ assignees: ''
 <!-- FILL IN THE FORM BELOW AND READ IT CAREFULLY -->
 <!-- Make sure to install Spark and follow the steps carefully to ensure that we can give you the best response possible. -->
 
+# :warning: Prerequisites
+1. Make sure you have read the wiki article on Server-Optimization: 
+   https://github.com/Slimefun/Slimefun4/wiki/Server-Optimizations
+2. Please install Spark: 
+   https://www.spigotmc.org/resources/spark.57242/)
+
 ## :timer_clock: 1. Generic Timings Report (REQUIRED)
 Run `/timings on` and wait at least **5 minutes!**.
 Then proceed by running `/timings paste` and post the resulting link below the next line:
