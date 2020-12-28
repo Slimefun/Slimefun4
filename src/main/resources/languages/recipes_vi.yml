@@ -67,7 +67,7 @@ slimefun:
     - Chế tạo vật phẩm này như hình
     - sử dụng Bàn chế tạo ma thuật
   ancient_altar:
-    name: Ancient Altar
+    name: Bàn Thờ Cổ
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng Ancient Altar.
@@ -118,6 +118,11 @@ slimefun:
     lore:
     - Chế tạo vật phẩm này như hình
     - sử dụng Máy lọc dầu
+  barter_drop:
+    name: Piglin đổi hàng thả
+    lore:
+    - Đổi hàng với Piglins bằng cách sử dụng
+    - Thỏi Vàng để có được vật phẩm này
 minecraft:
   shaped:
     name: Công thức chế tạo hình
@@ -159,3 +164,5 @@ minecraft:
   smithing:
     lore:
     - chế tạo vật phẩm như đã chỉ
+    - sử dụng Bàn Luyện Kim
+    name: Công thức Bàn Luyện Kim
