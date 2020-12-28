@@ -45,7 +45,7 @@ slimefun:
     name: Máy nén
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
-    - sử dụng Compressor
+    - sử dụng máy nén
   pressure_chamber:
     name: Máy nén áp suất
     lore:
