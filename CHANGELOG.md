@@ -40,6 +40,7 @@
 * Fixed #2636 (hotfix)
 * Fixed #2647
 * Fixed #2664
+* Fixed #2655
 
 ## Release Candidate 18 (03 Dec 2020)
 
