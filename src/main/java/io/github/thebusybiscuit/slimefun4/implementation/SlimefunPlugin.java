@@ -200,22 +200,24 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     @Override
     public void onEnable() {
-        instance = this;
-
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             // We handle Unit Tests seperately.
+            setInstance(this);
             getLogger().log(Level.INFO, "This is a UNIT TEST Environment.");
             onUnitTestStart();
         } else if (isVersionUnsupported()) {
             // We wanna ensure that the Server uses a compatible version of Minecraft.
+            setInstance(this);
             getLogger().log(Level.WARNING, "Slimefun was not installed properly! Disabling...");
             getServer().getPluginManager().disablePlugin(this);
         } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
             // The Environment and dependencies have been validated.
+            setInstance(this);
             getLogger().log(Level.INFO, "CS-CoreLib was detected!");
             onPluginStart();
         } else {
-            instance = null;
+            // Terminate our Plugin instance
+            setInstance(null);
 
             // CS-CoreLib has not been installed!
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
@@ -399,20 +401,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Close and unload any resources from our Metrics Service
         metricsService.cleanUp();
 
-        /**
-         * Prevent Memory Leaks for reloads...
-         * These static Maps should really be removed at some point...
-         */
-        AContainer.processing = null;
-        AContainer.progress = null;
+        // Terminate our Plugin instance
+        setInstance(null);
 
-        AGenerator.processing = null;
-        AGenerator.progress = null;
-
-        Reactor.processing = null;
-        Reactor.progress = null;
-
-        instance = null;
+        // Clean up any static fields
+        cleanUp();
 
         /**
          * Close all inventories on the server to prevent item dupes
@@ -421,6 +414,19 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.closeInventory();
         }
+    }
+
+    /**
+     * This is a private internal method to set the de-facto instance of {@link SlimefunPlugin}.
+     * Having this as a seperate method ensures the seperation between static and non-static fields.
+     * It also makes sonarcloud happy :)
+     * Only ever use it during {@link #onEnable()} or {@link #onDisable()}.
+     * 
+     * @param pluginInstance
+     *            Our instance of {@link SlimefunPlugin} or null
+     */
+    private static final void setInstance(@Nullable SlimefunPlugin pluginInstance) {
+        instance = pluginInstance;
     }
 
     @Nonnull
@@ -432,6 +438,23 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         } else {
             return DoubleHandler.fixDouble(ms) + "ms";
         }
+    }
+
+    /**
+     * Cleaning up our static fields prevents memory leaks from a reload.
+     * 
+     * @deprecated These static Maps should really be removed at some point...
+     */
+    @Deprecated
+    private static final void cleanUp() {
+        AContainer.processing = null;
+        AContainer.progress = null;
+
+        AGenerator.processing = null;
+        AGenerator.progress = null;
+
+        Reactor.processing = null;
+        Reactor.progress = null;
     }
 
     /**
