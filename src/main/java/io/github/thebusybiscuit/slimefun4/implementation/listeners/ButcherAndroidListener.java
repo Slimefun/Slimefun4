@@ -68,7 +68,8 @@ public class ButcherAndroidListener implements Listener {
     }
 
     /**
-     * Some items are not dropped by default. Wither Skeleton Skulls but for some weird reason
+     * Some items are not dropped by default.
+     * Wither Skeleton Skulls but for some weird reason
      * even Blaze rods...
      * 
      * @param drops
