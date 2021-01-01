@@ -15,7 +15,7 @@ slimefun:
     name: Forge d'armure
     lore:
     - Fabriquez cet objet comme indiqué
-    - en utilisant une Armor Forge
+    - en utilisant une forge d'armure
   grind_stone:
     name: Machine à broyer
     lore:
@@ -136,27 +136,27 @@ minecraft:
     - dans un établi normal.
     - La forme n'a pas d'importance.
   furnace:
-    name: Recette de fourneau
+    name: Four
     lore:
-    - Faites fondre cet objet dans un fourneau
+    - Faites cuir cet objet dans un four
     - pour fabriquer l'objet désiré
   blasting:
     name: Recette de haut fourneau
     lore:
-    - Faites fondre cet objet dans un haut fourneau
+    - Faites cuir cet objet dans un haut fourneau
     - pour fabriquer l'objet désiré
   smoking:
-    name: Recette de fumoir
+    name: Fumoir
     lore:
-    - Faites fondre cet objet dans un fumoir
+    - Faites cuir cet objet dans un fumoir
     - pour fabriquer l'objet désiré
   campfire:
-    name: Recette de feu de camp
+    name: Feu de camp
     lore:
     - Faites cuir cet objet au-dessus d'un feu de camp
     - pour fabriquer l'objet désiré
   stonecutting:
-    name: Recette de tailleur de pierre
+    name: Tailleur de pierre
     lore:
     - Fabriquez l'objet comme indiqué
     - en utilisant un tailleur de pierre
