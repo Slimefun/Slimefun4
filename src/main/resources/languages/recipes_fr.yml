@@ -12,7 +12,7 @@ slimefun:
     - dans un établie amélioré.
     - Un établi normal ne suffira pas !
   armor_forge:
-    name: Armor Forge
+    name: Forge d'armure
     lore:
     - Fabriquez cet objet comme indiqué
     - en utilisant une Armor Forge
@@ -88,7 +88,7 @@ slimefun:
     - Fabriquez cet objet comme indiqué
     - en utilisant un composteur de nourriture
   freezer:
-    name: Freezer
+    name: Congélateur
     lore:
     - Fabriquez cet objet comme indiqué
     - en utilisant un congélateur
@@ -160,3 +160,6 @@ minecraft:
     lore:
     - Fabriquez l'objet comme indiqué
     - en utilisant un tailleur de pierre
+  smithing:
+    lore:
+    - Fabriquer cet objet comme indiqué
