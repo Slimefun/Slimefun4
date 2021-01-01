@@ -194,6 +194,8 @@ messages:
     à 0!"
   invalid-research: "&4%research% &cn'est pas une recherche valide!"
   mode-change: 'Vous avez changé votre &b%device% en mode : &9%mode%'
+  bee-suit-slow-fall: "&eVos ailes d'abeille vous aideront à revenir au sol lentement
+    et en toute sécurité"
 machines:
   pattern-not-found: "&eDésolé, je ne reconnais pas cette recette. Veuillez disposer
     les objets correctement dans le distributeur."
