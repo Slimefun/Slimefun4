@@ -166,6 +166,7 @@ public class Translators {
 
         // Translators - Bulgarian
         addTranslator("DNBGlol", SupportedLanguage.BULGARIAN, true);
+        addTranslator("Pukejoy", SupportedLanguage.BULGARIAN, true);
 
         // Translators - Tagalog
         addTranslator("sccooottttie", SupportedLanguage.TAGALOG, true);
