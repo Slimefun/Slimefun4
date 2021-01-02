@@ -36,6 +36,8 @@ public class Translators {
         addTranslator("ishi-sama", SupportedLanguage.FRENCH, true);
         addTranslator("amarcais53", SupportedLanguage.FRENCH, true);
         addTranslator("NinoFutur", SupportedLanguage.FRENCH, true);
+        addTranslator("TheRetix", SupportedLanguage.FRENCH, true);
+        addTranslator("Aeris1One", SupportedLanguage.FRENCH, true);
 
         // Translators - Italian
         addTranslator("xXDOTTORXx", SupportedLanguage.ITALIAN, true);
