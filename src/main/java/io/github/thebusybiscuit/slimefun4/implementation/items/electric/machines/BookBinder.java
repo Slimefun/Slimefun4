@@ -19,15 +19,19 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+/**
+* Represents Book Binder, a machine that binds multiple enchantments books into one.
+* @author ProfElements
+*/
 public class BookBinder extends AContainer {
 
-    private final ItemSetting<Boolean> deniesVanillaRules = new ItemSetting<>("denies-vanilla-rules", true); 
+    private final ItemSetting<Boolean> bypassMaxLevel = new ItemSetting<>("bypass-max-level", true); 
 
     @ParametersAreNonnullByDefault
     public BookBinder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
         
-       addItemSetting(deniesVanillaRules); 
+        addItemSetting(bypassMaxLevel); 
     }
 
     @Override
@@ -40,47 +44,43 @@ public class BookBinder extends AContainer {
             }
 
             ItemStack item = menu.getItemInSlot(slot);
-            if  (item != null && item.getType() == Material.ENCHANTED_BOOK && target != null) {
+            if  (isCompatible(item) && isCompatible(target)) {
                 Map<Enchantment, Integer> enchantments = new HashMap<>();
-                int amount = 0;
                 EnchantmentStorageMeta itemMeta = (EnchantmentStorageMeta) item.getItemMeta();
                 EnchantmentStorageMeta targetMeta = (EnchantmentStorageMeta) target.getItemMeta();
 
-                for(Map.Entry<Enchantment, Integer> e : itemMeta.getStoredEnchants().entrySet()) {
-                    for (Map.Entry<Enchantment, Integer> e2 : targetMeta.getStoredEnchants().entrySet()) {
-                        if (e.getKey() == e2.getKey()) {
-                            if (e.getValue() == e2.getValue()) {
-                                enchantments.put(e.getKey(), e.getValue()+1);
-                            } else {
-                                enchantments.put(e.getKey(), e.getValue() > e2.getValue() ? e.getValue() : e2.getValue());
-                            }
-                        }
-                        enchantments.put(e2.getKey(), e2.getValue());
-                    }
+                Map<Enchantment, Integer> storedItemEnchantments = itemMeta.getStoredEnchants();
+                Map<Enchantment, Integer> storedTargetEnchantments = targetMeta.getStoredEnchants();
+                enchantments.putAll(storedItemEnchantments);
 
-                    amount++;
-                    enchantments.put(e.getKey(), e.getValue());
+                for (Map.Entry<Enchantment, Integer> entry : storedTargetEnchantments.entrySet()) {
+                    enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
+                            if (a == b) {
+                                return a + 1;
+                            } else {
+                                return Math.max(a, b);
+                            }
+                    });
                 }
 
-                if (amount > 0) {
+                if (enchantments.size() > 0) {
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
                     book.setAmount(1);
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
                     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                        if(deniesVanillaRules.getValue()) {
+                        if (bypassMaxLevel.getValue()) {
                             enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
                         } else {
                             enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), false);
                         }
-                        
                     }
 
                     book.setItemMeta(enchantMeta);
                     
-                    MachineRecipe recipe = new MachineRecipe(50 * amount / this.getSpeed(), new ItemStack[] {target, item}, new ItemStack[] {book});
+                    MachineRecipe recipe = new MachineRecipe(50 * enchantments.size() / this.getSpeed(), new ItemStack[] {target, item}, new ItemStack[] {book});
 
-                    if(!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
+                    if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                         return null;
                     }
 
@@ -102,8 +102,6 @@ public class BookBinder extends AContainer {
     private boolean isCompatible(ItemStack item) {
         if (item != null && item.getType() == Material.ENCHANTED_BOOK) {
             return true;
-
-            //Figure out what to do with incompatible enchantments if we should allow it at all ex. Protection + Fire Protection
         }
 
         return false;
