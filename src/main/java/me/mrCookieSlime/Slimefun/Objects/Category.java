@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
@@ -86,7 +87,8 @@ public class Category implements Keyed {
     }
 
     @Override
-    public NamespacedKey getKey() {
+    @Nonnull
+    public final NamespacedKey getKey() {
         return key;
     }
 
@@ -205,7 +207,7 @@ public class Category implements Keyed {
      * 
      * @return Whether the given {@link SlimefunItem} was found in this {@link Category}
      */
-    public boolean contains(SlimefunItem item) {
+    public boolean contains(@Nullable SlimefunItem item) {
         return item != null && items.contains(item);
     }
 
@@ -217,6 +219,20 @@ public class Category implements Keyed {
      */
     public int getTier() {
         return tier;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof Category) {
+            return ((Category) obj).getKey().equals(getKey());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public final int hashCode() {
+        return key.hashCode();
     }
 
     @Override

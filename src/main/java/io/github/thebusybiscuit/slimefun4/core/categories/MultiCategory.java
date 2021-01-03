@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
 import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
@@ -117,6 +118,13 @@ public class MultiCategory extends FlexCategory {
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), guide.getSound(), 1, 1));
         guide.createHeader(p, profile, menu);
+
+        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide"))));
+        menu.addMenuClickHandler(1, (pl, s, is, action) -> {
+            SlimefunGuide.openMainMenu(profile, layout, 1);
+            return false;
+        });
+
         int index = 9;
 
         int target = (CATEGORY_SIZE * (page - 1)) - 1;

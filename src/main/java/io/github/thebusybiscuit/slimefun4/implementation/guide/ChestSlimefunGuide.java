@@ -226,12 +226,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
         ChestMenu menu = create(p);
         createHeader(p, profile, menu);
-
-        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide"))));
-        menu.addMenuClickHandler(1, (pl, s, is, action) -> {
-            openMainMenu(profile, 1);
-            return false;
-        });
+        addBackButton(menu, 1, p, profile);
 
         int pages = (category.getItems().size() - 1) / CATEGORY_SIZE + 1;
 
