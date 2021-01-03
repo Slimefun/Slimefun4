@@ -76,7 +76,7 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
     }
 
     @Override
-    protected void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
+    public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
         super.createHeader(p, profile, menu);
 
         // Remove Settings Panel

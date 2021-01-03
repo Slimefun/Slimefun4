@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -74,6 +75,17 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     public ChestSlimefunGuide(boolean showVanillaRecipes) {
         this.showVanillaRecipes = showVanillaRecipes;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
+    }
+
+    /**
+     * This returns the {@link Sound} which is played when someone navigates through
+     * the {@link SlimefunGuide}
+     * 
+     * @return The {@link Sound}
+     */
+    @Nonnull
+    public Sound getSound() {
+        return sound;
     }
 
     @Override
@@ -543,7 +555,12 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
     }
 
-    protected void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
+    @ParametersAreNonnullByDefault
+    public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
+        Validate.notNull(p, "The Player cannot be null!");
+        Validate.notNull(profile, "The Profile cannot be null!");
+        Validate.notNull(menu, "The Inventory cannot be null!");
+
         for (int i = 0; i < 9; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }

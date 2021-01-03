@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -71,7 +74,12 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
         return item;
     }
 
-    private void openBook(Player p, PlayerProfile profile, List<ChatComponent> lines, boolean backButton) {
+    @ParametersAreNonnullByDefault
+    public void showBook(Player p, PlayerProfile profile, List<ChatComponent> lines, boolean backButton) {
+        Validate.notNull(p, "Player cannot be null");
+        Validate.notNull(profile, "Profile cannot be null");
+        Validate.notNull(lines, "Lines cannot be null");
+
         CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
         book.setTitle(SlimefunPlugin.getLocalization().getMessage(p, "guide.title.main"));
 
@@ -135,7 +143,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
             }
         }
 
-        openBook(p, profile, lines, false);
+        showBook(p, profile, lines, false);
     }
 
     private void addCategory(Player p, PlayerProfile profile, Category category, List<ChatComponent> lines) {
@@ -201,7 +209,7 @@ public class BookSlimefunGuide implements SlimefunGuideImplementation {
                 }
             }
 
-            openBook(p, profile, items, true);
+            showBook(p, profile, items, true);
         } else {
             p.sendMessage(ChatColor.RED + "That Category is too big to open :/");
         }
