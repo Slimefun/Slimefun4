@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -25,13 +26,15 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 */
 public class BookBinder extends AContainer {
 
-    private final ItemSetting<Boolean> bypassMaxLevel = new ItemSetting<>("bypass-max-level", true); 
+    private final ItemSetting<Boolean> bypassVanillaMaxLevel = new ItemSetting<>("bypass-vanilla-max-level", true);
+    private final ItemSetting<Boolean> hasCustomMaxLevel = new ItemSetting<>("has-custom-max-level", false);
+    private final ItemSetting<Integer> customMaxLevel = new IntRangeSetting("custom-max-level", 0, 0, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public BookBinder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
         
-        addItemSetting(bypassMaxLevel); 
+        addItemSetting(bypassVanillaMaxLevel, hasCustomMaxLevel, customMaxLevel); 
     }
 
     @Override
@@ -56,9 +59,19 @@ public class BookBinder extends AContainer {
                 for (Map.Entry<Enchantment, Integer> entry : storedTargetEnchantments.entrySet()) {
                     enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
                             if (a == b) {
-                                return a + 1;
+                                if (hasCustomMaxLevel.getValue()) {
+                                    return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1; 
+                                } else {
+                                    return a + 1;
+                                }
+                                
                             } else {
-                                return Math.max(a, b);
+                                if (hasCustomMaxLevel.getValue()) {
+                                    return Math.max(a, b) > customMaxLevel.getValue() ? customMaxLevel.getValue() : Math.max(a, b);
+                                } else {
+                                    return Math.max(a, b);
+                                }
+                               
                             }
                     });
                 }
@@ -69,7 +82,7 @@ public class BookBinder extends AContainer {
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
                     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                        if (bypassMaxLevel.getValue()) {
+                        if (bypassVanillaMaxLevel.getValue()) {
                             enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
                         } else {
                             enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), false);
