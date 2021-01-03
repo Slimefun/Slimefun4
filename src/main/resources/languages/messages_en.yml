@@ -132,6 +132,7 @@ messages:
   no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
   multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4You cannot barter with piglins using Slimefun items'
+  bee-suit-slow-fall: '&eYour Bee Wings will help you to get back to the ground safe and slow'
 
   multi-tool:
     mode-change: '&b%device% mode changed to: &9%mode%'

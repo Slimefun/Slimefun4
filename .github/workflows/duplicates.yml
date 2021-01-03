@@ -18,4 +18,4 @@ jobs:
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           issue_number: ${{ github.event.issue.number }}
-          labels: 'Duplicate'
+          labels: '🚩 Duplicate'

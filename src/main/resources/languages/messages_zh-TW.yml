@@ -178,6 +178,7 @@ messages:
   invalid-item: "&4%item% &c不存在！"
   invalid-amount: "&4%amount% &c不是有效數量：數值必須大於 0！"
   invalid-research: "&4%research% &c不存在!"
+  bee-suit-slow-fall: "&e你的蜂翅將會幫你緩慢且安全的回到地面"
   mode-change: "&b%device% 模式切換至: &9%mode%"
 machines:
   pattern-not-found: "&e查無此合成表，請確認使用的機器或合成表的材料。"
@@ -312,7 +313,7 @@ languages:
   zh-CN: 中文（簡體）
   el: 希臘語
   he: 希伯來語
-  pt: 葡萄牙文（葡萄牙）
+  pt-BR: 葡萄牙文（巴西）
   ar: 阿拉伯文
   af: 南非語
   da: 丹麥文
@@ -324,7 +325,7 @@ languages:
   fa: 波斯語
   th: 泰語
   ro: 羅馬尼亞語
-  pt-BR: 葡萄牙文（巴西）
+  pt: 葡萄牙文（葡萄牙）
   bg: 保加利亞語
   ko: 韓語
   tr: 土耳其

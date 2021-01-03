@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.listeners;
+package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
 import javax.annotation.Nonnull;
 
@@ -51,7 +51,7 @@ public class EntityInteractionListener implements Listener {
             if (Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
                 sfItem.callItemHandler(EntityInteractHandler.class, handler -> handler.onInteract(e, itemStack, e.getHand() == EquipmentSlot.OFF_HAND));
             } else if (sfItem.getState() != ItemState.VANILLA_FALLBACK) {
-                /**
+                /*
                  * If an Item is disabled, we don't want it to fallback to the vanilla behaviour
                  * unless it is a Vanilla Item of course.
                  * Related to Issue #2446
