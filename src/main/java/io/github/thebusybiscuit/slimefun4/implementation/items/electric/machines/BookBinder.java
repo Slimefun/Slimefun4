@@ -78,7 +78,7 @@ public class BookBinder extends AContainer {
 
                     book.setItemMeta(enchantMeta);
                     
-                    MachineRecipe recipe = new MachineRecipe(50 * enchantments.size() / this.getSpeed(), new ItemStack[] {target, item}, new ItemStack[] {book});
+                    MachineRecipe recipe = new MachineRecipe(25 * enchantments.size() / this.getSpeed(), new ItemStack[] {target, item}, new ItemStack[] {book});
 
                     if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                         return null;
