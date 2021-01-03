@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -20,9 +21,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class BookBinder extends AContainer {
 
+    private final ItemSetting<Boolean> deniesVanillaRules = new ItemSetting<>("denies-vanilla-rules", true); 
+
     @ParametersAreNonnullByDefault
     public BookBinder(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+        
+       addItemSetting(deniesVanillaRules); 
     }
 
     @Override
@@ -63,7 +68,12 @@ public class BookBinder extends AContainer {
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
                     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                        enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
+                        if(deniesVanillaRules.getValue()) {
+                            enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
+                        } else {
+                            enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), false);
+                        }
+                        
                     }
 
                     book.setItemMeta(enchantMeta);
