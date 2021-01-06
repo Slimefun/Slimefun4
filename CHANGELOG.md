@@ -33,6 +33,7 @@
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
 * CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
+* Removed the deprecated ItemManipulationAPI for BlockMenus
 
 #### Fixes
 * Fixed a couple of compatibility issues with ItemsAdder
