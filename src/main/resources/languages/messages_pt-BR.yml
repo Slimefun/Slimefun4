@@ -163,6 +163,11 @@ messages:
   tape-measure:
     no-anchor: "&cVocê precisa definir uma âncora antes de começar a medir!"
     wrong-world: "&cSua âncora parece estar em um mundo diferente!"
+  piglin-barter: "&4Você não pode negociar com piglins usando itens do Slimefun"
+  enchantment-rune:
+    fail: "&cVocê não pode encantar este item."
+    no-enchantment: "&cNão foi possível encontrar nenhum encantamento aplicável para
+      este item."
 machines:
   pattern-not-found: "&eDesculpe, não pude reconhecer esta receita. Coloque os itens
     no padrão correto no Ejetor."
