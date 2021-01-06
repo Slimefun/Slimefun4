@@ -166,7 +166,7 @@ messages:
   - "&7Một Walshy mỗi ngày sẽ giữ những rắc rối đi."
   - "&7Không bao giờ đào thẳng xuống!"
   - "&7Đó chỉ là một vết thương da thịt!"
-  - 
+  - "&7Luôn nhìn theo hướng tích cực!"
   - "&7 Cái này là bánh giòn chứ không phải bánh phồng"
   - "&7Bảng đèn neon đẹp dữ!"
   invalid-item: "&4%item% &ckhông phải là vật phẩm hợp lệ!"
@@ -182,6 +182,17 @@ messages:
     wrong-material: "&cBạn không thể leo bề mặt này. Hãy xem hướng dẫn của Slimefun
       để biết thêm!"
   bee-suit-slow-fall: "&eCánh ong của bạn sẽ giúp bạn tiếp đất an toàn và chậm"
+  enchantment-rune:
+    fail: "&cBạn không thể phù phép vật phẩm này."
+    success: "&aBạn đã áp dụng thành công một loại phù phép ngẫu nhiên cho vật phẩm
+      này."
+  tape-measure:
+    no-anchor: "&cBạn cần đặt neo trước khi có thể bắt đầu đo!"
+    wrong-world: "&cNeo của bạn dường như đang ở trong một thế giới khác!"
+    distance: |-
+      &7Đo lường được thực hiện.
+      &eKhoảng cách: %distance%
+    anchor-set: "&aĐặt thành công neo:&e% anchor%"
 machines:
   pattern-not-found: "&eXin lỗi, tôi không thể nhận ra Công Thức này. Vui lòng đặt
     các vật phẩm với mẫu nhất định vào trong Máy Phân Phát."
@@ -354,3 +365,5 @@ cartography_table:
   not-working: "&4Bạn không thể sử dụng vật phẩm sủa Slimefun trong bàn sửa bản đồ"
 cauldron:
   no-discoloring: "&4Bạn không thể đổi màu giáp của Slimefun"
+brewing_stand:
+  not-working: "&4Bạn không thể sử dụng các vật phẩm Slimefun trong quầy pha chế thuốc!"
