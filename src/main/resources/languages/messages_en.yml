@@ -26,7 +26,7 @@ commands:
     description: Charges the item you are holding
     charge-success: Item has been charged!
     not-rechargeable: This item can not be charged!
-  
+
   timings:
     please-wait: '&ePlease wait a second... The results are coming in!'
     verbose-player: '&4The verbose flag cannot by used by a Player!'
