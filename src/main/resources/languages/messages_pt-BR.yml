@@ -14,6 +14,17 @@ commands:
     description: Desbloqueia/Redefine pesquisas para um jogador
     reset: "&cVocê redifiniu o Conhecimento de %player%"
     reset-target: "&cSeu Conhecimento foi redefinido"
+  backpack:
+    description: Recuperar uma cópia de uma mochila existente
+    invalid-id: "&4O id deve ser um número não negativo!"
+    player-never-joined: Nenhum jogador com esse nome foi encontrado!
+    backpack-does-not-exist: "&4A mochila especificada não existe!"
+    restored-backpack-given: "&aSua mochila foi restaurada e foi adicionada ao seu
+      inventário!"
+  charge:
+    description: Carrega o item que você está segurando
+    charge-success: O item foi carregado!
+    not-rechargeable: Este item não pode ser carregado!
 guide:
   search:
     message: "&bO que você gostaria de pesquisar?"
@@ -108,6 +119,7 @@ messages:
     whirlwind: "&a&oSeu talismã refletiu o projétil."
     wizard: "&a&oSeu talismã deu a você um nível de Fortuna melhor, mas talvez tenha
       diminuído alguns outros Níveis de Encantamento."
+    caveman: "&a&oSeu talismã te deu pressa"
   soulbound-rune:
     fail: "&cVocê pode vincular apenas um item à sua alma por vez."
     success: "&aVocê vinculou com sucesso este item à sua alma! Você o manterá quando
@@ -139,6 +151,10 @@ messages:
   - "&742. A resposta é 42."
   - "&7Um Walshy por dia manterá os problemas afastados."
   - "&7Nunca cave para baixo!"
+  - "&7É apenas uma ferida de carne!"
+  - "&7Sempre olhe para o lado positivo da vida!"
+  - "&7Este foi realmente um bolacha e não um biscoito"
+  - "&7Os sinais de néon estão ILUMINADOS!"
   invalid-item: "&4%item% &cnão é um item válido!"
   invalid-amount: "&4%amount% &cnão é uma quantidade válida (precisa ser maior que
     0)!"
@@ -193,6 +209,15 @@ machines:
   INDUSTRIAL_MINER:
     finished: "&eSua Mineradora Industrial terminou! Obteve um total de %ores% minério
       (s)!"
+    no-fuel: "&aSua mineradora industrial ficou sem combustível! Coloque seu combustível
+      no peito acima."
+    piston-facing: "&cSua Mineradora Industrial exige pistões para cima!"
+    piston-space: "&cOs dois pistões precisam ter um bloco vazio acima deles!"
+    destroyed: "&cO sua Mineradora industrial parece ter sido destruída."
+    already-running: "&cEsta Mineradora industrial já está em execução!"
+    full-chest: "&cO baú do sua Mineradora industrial está cheio!"
+    no-permission: "&4Você não parece ter permissão para operar uma Mineradora industrial
+      aqui!"
 anvil:
   not-working: "&4Você não pode usar os itens do Slimefun em uma bigorna!"
 backpack:
@@ -305,3 +330,5 @@ miner:
   no-ores: "&eDesculpe, não encontrei nenhum minério por perto!"
 cauldron:
   no-discoloring: "&4Você não pode descolorir uma Armadura do Slimefun"
+cartography_table:
+  not-working: "&4Você não pode usar itens Slimefun em uma tabela de cartografia!"
