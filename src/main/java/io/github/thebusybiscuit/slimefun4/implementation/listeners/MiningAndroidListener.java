@@ -22,7 +22,7 @@ public class MiningAndroidListener implements Listener {
         SlimefunItem item = BlockStorage.check(e.getBlock());
 
         item.callItemHandler(BlockBreakHandler.class, handler -> {
-            if (handler.isAndroidAllowed()) {
+            if (handler.isAndroidAllowed(e.getBlock())) {
                 handler.onAndroidBreak(e);
             } else {
                 e.setCancelled(true);

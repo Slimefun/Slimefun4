@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.handlers;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.block.Block;
@@ -64,11 +65,35 @@ public abstract class BlockBreakHandler implements ItemHandler {
         // This can be overridden, if necessary
     }
 
-    public boolean isExplosionAllowed() {
+    /**
+     * This returns whether an explosion is able to break the given {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block}
+     * @return Whether explosions can destroy this {@link Block}
+     */
+    public boolean isExplosionAllowed(@Nonnull Block b) {
+        /*
+         * By default our flag is returned, but you can override it
+         * to be handled on a per-Block basis.
+         */
         return allowExplosions;
     }
 
-    public boolean isAndroidAllowed() {
+    /**
+     * This returns whether a {@link MinerAndroid} is allowed to break
+     * the given {@link Block}.
+     * 
+     * @param b
+     *            The {@link Block}
+     * 
+     * @return Whether androids can break the given {@link Block}
+     */
+    public boolean isAndroidAllowed(@Nonnull Block b) {
+        /*
+         * By default our flag is returned, but you can override it
+         * to be handled on a per-Block basis.
+         */
         return allowAndroids;
     }
 
