@@ -425,7 +425,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * @param pluginInstance
      *            Our instance of {@link SlimefunPlugin} or null
      */
-    private static final void setInstance(@Nullable SlimefunPlugin pluginInstance) {
+    private static void setInstance(@Nullable SlimefunPlugin pluginInstance) {
         instance = pluginInstance;
     }
 
@@ -446,7 +446,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * @deprecated These static Maps should really be removed at some point...
      */
     @Deprecated
-    private static final void cleanUp() {
+    private static void cleanUp() {
         AContainer.processing = null;
         AContainer.progress = null;
 
