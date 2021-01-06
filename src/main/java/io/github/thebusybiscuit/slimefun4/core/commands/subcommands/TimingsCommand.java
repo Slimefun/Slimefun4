@@ -64,7 +64,7 @@ class TimingsCommand extends SubCommand {
         for (int i = 1; i < args.length; i++) {
             String argument = args[i].toLowerCase(Locale.ROOT);
 
-            if (!argument.startsWith(FLAG_PREFIX) || !flags.contains(argument.substring(2))) {
+            if (argument.startsWith(FLAG_PREFIX) && !flags.contains(argument.substring(2))) {
                 hasInvalidFlags = true;
                 SlimefunPlugin.getLocalization().sendMessage(sender, "commands.timings.unknown-flag", true, msg -> msg.replace("%flag%", argument));
             }

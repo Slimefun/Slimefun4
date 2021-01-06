@@ -27,7 +27,7 @@ commands:
     not-rechargeable: This item can not be charged!
 
   timings:
-    description: Lag-Info about your Server
+    description: Timings for Slimefun and its addon
     please-wait: '&ePlease wait a second... The results are coming in!'
     verbose-player: '&4The verbose flag cannot by used by a Player!'
     unknown-flag: '&4Unknown flag: &c%flag%'
