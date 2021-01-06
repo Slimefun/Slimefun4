@@ -191,6 +191,8 @@ messages:
       para usá-las!"
     wrong-material: "&cVocê não pode escalar esta superfície. Verifique o seu Guia
       do Slimefun para mais informações!"
+  bee-suit-slow-fall: "&eSuas Assas de Abelhas irão te ajudar a retornar ao chão em
+    segurança e lentamente"
 machines:
   pattern-not-found: "&eDesculpe, não pude reconhecer esta receita. Coloque os itens
     no padrão correto no Ejetor."
