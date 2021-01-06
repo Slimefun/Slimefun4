@@ -73,8 +73,8 @@ guide:
     open: Nhấp để xem những người đóng góp của chúng tôi
     description:
     - "&7Slimefun là một dự án mã nguồn mở"
-    - "&7 và được duy trì bởi một cộng đồng lớn."
-    - "&7Hơn & e%contributors% & 7người đã làm việc"
+    - "&7và được duy trì bởi một cộng đồng lớn."
+    - "&7Hơn &e%contributors% &7người đã làm việc"
     - "&7Slimefun trong suốt những năm qua."
   pages:
     previous: Trang trước
@@ -195,7 +195,7 @@ messages:
     distance: |-
       &7Đo lường được thực hiện.
       &eKhoảng cách: %distance%
-    anchor-set: "&aĐặt thành công neo:&e% anchor%"
+    anchor-set: "&aĐặt thành công neo:&e%anchor%"
 machines:
   pattern-not-found: "&eXin lỗi, tôi không thể nhận ra Công Thức này. Vui lòng đặt
     các vật phẩm với mẫu nhất định vào trong Máy Phân Phát."
