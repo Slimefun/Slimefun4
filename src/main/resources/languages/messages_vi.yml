@@ -21,6 +21,10 @@ commands:
     backpack-does-not-exist: "&4Không tìm thấy ba lô đó!"
     restored-backpack-given: "&aBa lô của bạn được khôi phục và được thêm vào túi
       đồ của bạn!"
+  charge:
+    description: Sạc vật phẩm bạn đang cầm
+    charge-success: Vật phẩm này đã sạc xong!
+    not-rechargeable: Vật phẩm này không thể sạc được!
 guide:
   search:
     message: "&bBạn muốn tìm kiếm cái gì?"
@@ -41,6 +45,12 @@ guide:
     select: Nhấn vào đây để chọn ngôn ngữ này
     select-default: Nhấn vào đây để chọn ngôn ngữ mặc định
     selected-language: 'Ngôn ngữ hiện đang chọn:'
+    change: Nhấp để chọn ngôn ngữ mới
+    description:
+    - "&7Bạn hiện có tùy chọn để thay đổi"
+    - "&7ngôn ngữ trong đó Slimefun"
+    - "&7sẽ được giới thiệu cho bạn. Vật phẩm"
+    - "& 7hiện không thể dịch được."
   title:
     main: Hướng dẫn sử dụng Slimefun
     settings: Cài đặt và thông tin
@@ -50,6 +60,7 @@ guide:
     addons: Các bổ sung cho Slimefun4
     bugs: Báo cáo lỗi
     source: Mã nguồn
+    versions: Phiên bản đã cài
   credits:
     commit: Commit
     commits: Commits
@@ -59,6 +70,11 @@ guide:
       resourcepack: "&cNghệ sĩ gói tài nguyên"
       translator: "&9Đóng góp bản dịch"
     profile-link: Nhấp để truy cập hồ sơ của họ trên GitHub
+    open: Nhấp để xem những người đóng góp của chúng tôi
+    description:
+    - "&7Slimefun là một dự án mã nguồn mở"
+    - "&7 và được duy trì bởi một cộng đồng lớn."
+    - "&7Hơn & e%contributors% & 7người đã làm việc"
   pages:
     previous: Trang trước
     next: Trang tiếp theo
@@ -71,6 +87,7 @@ guide:
       miner: Tài nguyên bạn có thể kiếm được với máy đào này
       generator: Các loại nguyên liệu có thể dùng
       gold-pan: Tài nguyên bạn có thể kiếm được
+      climbing-pick: Những bề mặt bạn có thể leo lên
   back:
     title: Quay lại
     guide: Quay trở lại Hướng dẫn Slimefun
@@ -80,6 +97,7 @@ guide:
   - Để mở khóa danh mục này, bạn
   - cần phải mở khóa các vật phẩm trong
   - danh mục sau
+  work-in-progress: Tính năng này vẫn chưa hoàn thành!
 messages:
   not-researched: "&4Bạn không có đủ kiến thức để hiểu điều này"
   not-enough-xp: "&4Bạn không có đủ kinh nghiệm để mở khóa"
@@ -114,6 +132,7 @@ messages:
     whirlwind: "&a&oBùa hộ mệnhcủa bạn phản lại Phát Bắn"
     wizard: "&a&oBùa hộ mệnh của bạn đã cho bạn một Cấp độ may mắn tốt hơn nhưng cũng
       có thể hạ thấp một số Cấp độ phù phép khác"
+    caveman: "&a&oBùa ma thuật của bạn cho bạn hiệu ứng Đào nhanh"
   soulbound-rune:
     fail: "&cBạn chỉ có thể liên kết một vật phẩm với linh hồn của bạn trong cùng
       một thời điểm."
@@ -146,11 +165,23 @@ messages:
   - "&742. Câu trả lời là 42."
   - "&7Một Walshy mỗi ngày sẽ giữ những rắc rối đi."
   - "&7Không bao giờ đào thẳng xuống!"
+  - "&7Đó chỉ là một vết thương da thịt!"
+  - 
+  - "&7 Cái này là bánh giòn chứ không phải bánh phồng"
+  - "&7Bảng đèn neon đẹp dữ!"
   invalid-item: "&4%item% &ckhông phải là vật phẩm hợp lệ!"
   invalid-amount: "&4%amount% &ckhông hợp lệ : phải lớn hơn 0!"
   invalid-research: "&4%research% &ckhông phải là nghiên cứu hợp lệ!"
   mode-change: "&b%device% đổi chế độ thành: &9%mode%"
   piglin-barter: "&4Bạn không thể trao đổi với piglin bằng vật phẩm của Slimefun"
+  multi-tool:
+    mode-change: "&b%device% chế độ thay đổi thành: &9%mode%"
+    not-shears: "&cA Đa dụng cụ này không thể sử dụng như cái kéo!"
+  climbing-pick:
+    dual-wielding: "&4Bạn cần cầm Rìu leo ở cả 2 tay để dùng nó!"
+    wrong-material: "&cBạn không thể leo bề mặt này. Hãy xem hướng dẫn của Slimefun
+      để biết thêm!"
+  bee-suit-slow-fall: "&eCánh ong của bạn sẽ giúp bạn tiếp đất an toàn và chậm"
 machines:
   pattern-not-found: "&eXin lỗi, tôi không thể nhận ra Công Thức này. Vui lòng đặt
     các vật phẩm với mẫu nhất định vào trong Máy Phân Phát."
@@ -208,6 +239,7 @@ machines:
       sản(s)!"
 anvil:
   not-working: "&4Bạn không thể sử dụng vật phẩm Slimefun trên cái đê!"
+  mcmmo-salvaging: "&4Bạn không thể phục hồi giáp của Slimefun!"
 backpack:
   already-open: "&cXin lỗi, cái Ba lô này đã được mở ở một nơi nào khác!"
   no-stack: "&cBạn không thể xếp nhiều Ba lô lại với nhau"
@@ -221,6 +253,7 @@ gps:
       màu được hỗ trợ!)"
     added: "&aĐã thêm thành công một điểm tham chiếu mới"
     max: "&4Bạn đã đạt đến số lượng điểm tham chiếu tối đa"
+    duplicate: "&4Bạn từng tạo vị trí dịch chuyển tên: &f%waypoint% &4rồi"
   insufficient-complexity:
   - "&4Độ phức tạp của mạng GPS không đủ: &c%complexity%"
   - "&4a) Bạn chưa có thiết lập Mạng GPS"
@@ -315,3 +348,9 @@ languages:
   tl: Tiếng Filipino
 miner:
   no-ores: "&eXin lỗi, tôi không thể tìm bất kì Khoáng sản nào xung quanh!"
+villagers:
+  no-trading: "&4Bạn không thể trao đổi các  vật phẩm Slimefun với dân làng!"
+cartography_table:
+  not-working: "&4Bạn không thể sử dụng vật phẩm sủa Slimefun trong bàn sửa bản đồ"
+cauldron:
+  no-discoloring: "&4Bạn không thể đổi màu giáp của Slimefun"
