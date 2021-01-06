@@ -36,13 +36,17 @@
 * Improvements to the BlockBreakHandler (API)
 
 #### Fixes
-* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
-* Fixed #2560
-
-#### Fixes
 * Fixed a couple of compatibility issues with ItemsAdder
 * Fixed #2575
 * Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
+* Fixed #2636 (hotfix)
+* Fixed #2647
+* Fixed #2664
+* Fixed #2655
+* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
+* Fixed #2560
+* CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
+* Removed the deprecated ItemManipulationAPI for BlockMenus
 
 ## Release Candidate 18 (03 Dec 2020)
 
