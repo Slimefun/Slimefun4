@@ -22,6 +22,7 @@ guide:
     - "&bO que você gostaria de pesquisar?"
     - "&7Digite seu termo de pesquisa no bate-papo."
     inventory: 'Procurando por: %item%'
+    tooltip: "&bClique para procurar um item"
   cheat:
     no-multiblocks: '&4Você não pode "trapacear" em Multiblocks, você precisa construí-los!'
   languages:
@@ -50,6 +51,10 @@ guide:
       resourcepack: "&cArtista de ResourcePack"
       translator: "&9Tradutor(a)"
     profile-link: Clique aqui para visitar o perfil deles no GitHub
+    description:
+    - 
+    - 
+    - "&7Mais de &e%contributors% &7pessoas trabalharam"
   pages:
     previous: Página Anterior
     next: Próxima Página
@@ -139,6 +144,9 @@ messages:
     0)!"
   invalid-research: "&4%research% &cnão é uma Pesquisa válida!"
   mode-change: "&bO modo do dispositivo %device% foi alterado para: &9%mode%"
+  tape-measure:
+    no-anchor: "&cVocê precisa definir uma âncora antes de começar a medir!"
+    wrong-world: "&cSua âncora parece estar em um mundo diferente!"
 machines:
   pattern-not-found: "&eDesculpe, não pude reconhecer esta receita. Coloque os itens
     no padrão correto no Ejetor."
@@ -182,6 +190,9 @@ machines:
     title: GPS - Painel de Controle
     transmitters: Informação de Transmissores
     waypoints: Informação de Locais de Teleporte
+  INDUSTRIAL_MINER:
+    finished: "&eSua Mineradora Industrial terminou! Obteve um total de %ores% minério
+      (s)!"
 anvil:
   not-working: "&4Você não pode usar os itens do Slimefun em uma bigorna!"
 backpack:
@@ -196,6 +207,7 @@ gps:
     new: "&eDigite o nome do WayPoint no bate-papo. &7(Códigos de cores suportados!)"
     added: "&aNovo WayPoint adicionado com sucesso."
     max: "&4Você atingiu a quantidade máxima de WayPoints!"
+    duplicate: "&4Você já criou um waypoint chamado: &f%waypoint%"
   insufficient-complexity:
   - "&4Complexidade insuficiente da rede de GPS: &c%complexity%"
   - "&4a) Você ainda não tem uma configuração de rede de GPS!"
@@ -288,5 +300,8 @@ languages:
   mk: Macedonian
   sr: Serbian
   be: Belarusian
+  tl: Tagalog
 miner:
   no-ores: "&eDesculpe, não encontrei nenhum minério por perto!"
+cauldron:
+  no-discoloring: "&4Você não pode descolorir uma Armadura do Slimefun"
