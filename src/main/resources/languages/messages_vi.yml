@@ -75,6 +75,7 @@ guide:
     - "&7Slimefun là một dự án mã nguồn mở"
     - "&7 và được duy trì bởi một cộng đồng lớn."
     - "&7Hơn & e%contributors% & 7người đã làm việc"
+    - "&7Slimefun trong suốt những năm qua."
   pages:
     previous: Trang trước
     next: Trang tiếp theo
@@ -186,6 +187,8 @@ messages:
     fail: "&cBạn không thể phù phép vật phẩm này."
     success: "&aBạn đã áp dụng thành công một loại phù phép ngẫu nhiên cho vật phẩm
       này."
+    no-enchantment: "&cKhông thể tìm được bất kì loại phù phép nào phù hợp cho vật
+      phẩm"
   tape-measure:
     no-anchor: "&cBạn cần đặt neo trước khi có thể bắt đầu đo!"
     wrong-world: "&cNeo của bạn dường như đang ở trong một thế giới khác!"
