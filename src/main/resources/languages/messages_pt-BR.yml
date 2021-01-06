@@ -248,6 +248,7 @@ machines:
       aqui!"
 anvil:
   not-working: "&4Você não pode usar os itens do Slimefun em uma bigorna!"
+  mcmmo-salvaging: "&4Você não pode reciclar itens do Slimefun!"
 backpack:
   already-open: "&cEsta mochila já está aberta em outro lugar!"
   no-stack: "&cVocê não pode empilhar mochilas!"
