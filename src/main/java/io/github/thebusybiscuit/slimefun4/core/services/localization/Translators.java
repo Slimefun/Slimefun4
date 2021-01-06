@@ -180,8 +180,10 @@ public class Translators {
         addTranslator("Sakanas", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("krazybeat", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("FaolanMalcadh", SupportedLanguage.PORTUGUESE_BRAZIL, true);
-        addTranslator("G4stavoM1ster", SupportedLanguage.PORTUGUESE_BRAZIL, true);
         addTranslator("Gusstavo", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("Day-OS", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("ooicram", SupportedLanguage.PORTUGUESE_BRAZIL, true);
+        addTranslator("Sxigames", SupportedLanguage.PORTUGUESE_BRAZIL, true);
     }
 
     @ParametersAreNonnullByDefault
