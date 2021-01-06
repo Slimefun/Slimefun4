@@ -44,6 +44,12 @@ guide:
     select: Clique aqui para selecionar este idioma
     select-default: Clique aqui para selecionar o idioma padrão
     selected-language: 'Idioma atual:'
+    change: Clique para selecionar um novo idioma
+    description:
+    - "&7Agora você tem a opção de alterar"
+    - "&7o idioma no qual Slimefun"
+    - "&7será apresentado a você. Itens"
+    - "&7não podem ser traduzido por enquanto."
   title:
     main: Guia do Slimefun
     settings: Config & Info
@@ -53,6 +59,7 @@ guide:
     addons: Add-ons do Slimefun4
     bugs: Relatório de Erros
     source: Código Fonte
+    versions: Versões instaladas
   credits:
     commit: Comissão
     commits: Comissões
@@ -63,9 +70,11 @@ guide:
       translator: "&9Tradutor(a)"
     profile-link: Clique aqui para visitar o perfil deles no GitHub
     description:
-    - 
-    - 
+    - "&7Slimefun é um projeto de código aberto"
+    - "&7e mantido por uma grande comunidade de pessoas."
     - "&7Mais de &e%contributors% &7pessoas trabalharam"
+    - "&7no Slimefun ao longo de todos esses anos."
+    open: Clique para ver nossos colaboradores
   pages:
     previous: Página Anterior
     next: Próxima Página
@@ -78,6 +87,7 @@ guide:
       miner: Recursos que você pode obter com essa Mineradora
       generator: Tipos disponíveis de combustível
       gold-pan: Recursos que você pode obter
+      climbing-pick: Superfícies que você pode escalar
   back:
     title: Voltar
     guide: Voltar Para o Guia do Slimefun
@@ -87,6 +97,7 @@ guide:
   - Para desbloquear esta categoria, você
   - precisa desbloquear todos os itens das
   - seguintes categorias
+  work-in-progress: Este recurso não está totalmente concluído ainda!
 messages:
   not-researched: "&4Você não tem conhecimento suficiente para entender sobre isso."
   not-enough-xp: "&4Você não tem XP suficiente para desbloquear isso!"
@@ -163,11 +174,23 @@ messages:
   tape-measure:
     no-anchor: "&cVocê precisa definir uma âncora antes de começar a medir!"
     wrong-world: "&cSua âncora parece estar em um mundo diferente!"
+    distance: "&7Medição realizada. \n&eDistância: %distance%"
+    anchor-set: "&aConfigurou a âncora com sucesso: &e%anchor%"
   piglin-barter: "&4Você não pode negociar com piglins usando itens do Slimefun"
   enchantment-rune:
     fail: "&cVocê não pode encantar este item."
     no-enchantment: "&cNão foi possível encontrar nenhum encantamento aplicável para
       este item."
+    success: "&aVocê aplicou com sucesso um encantamento aplicável aleatório a este
+      item."
+  multi-tool:
+    mode-change: "&b%device% modo alterado para: &9%mode%"
+    not-shears: "&cA Multi Tool não pode ser usada como tesoura!"
+  climbing-pick:
+    dual-wielding: "&4Você precisa segurar as Escolhas de Escalada com as duas mãos
+      para usá-las!"
+    wrong-material: "&cVocê não pode escalar esta superfície. Verifique o seu Guia
+      do Slimefun para mais informações!"
 machines:
   pattern-not-found: "&eDesculpe, não pude reconhecer esta receita. Coloque os itens
     no padrão correto no Ejetor."
@@ -337,3 +360,7 @@ cauldron:
   no-discoloring: "&4Você não pode descolorir uma Armadura do Slimefun"
 cartography_table:
   not-working: "&4Você não pode usar itens Slimefun em uma tabela de cartografia!"
+brewing_stand:
+  not-working: "&4Você não pode usar itens Slimefun em um Suporte de poções!"
+villagers:
+  no-trading: "&4Você não pode trocar itens Slimefun com os aldeões!"
