@@ -27,7 +27,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class BookBinder extends AContainer {
 
     private final ItemSetting<Boolean> bypassVanillaMaxLevel = new ItemSetting<>("bypass-vanilla-max-level", false);
-    private final ItemSetting<Boolean> hasCustomMaxLevel = new ItemSetting<>("has-custom-max-level", true);
+    private final ItemSetting<Boolean> hasCustomMaxLevel = new ItemSetting<>("has-custom-max-level", false);
     private final ItemSetting<Integer> customMaxLevel = new IntRangeSetting("custom-max-level", 0, 15, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
