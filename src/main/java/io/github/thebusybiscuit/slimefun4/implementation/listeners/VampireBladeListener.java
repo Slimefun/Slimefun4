@@ -36,7 +36,7 @@ public class VampireBladeListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (blade == null || blade.isDisabled()) {
+        if (blade.isDisabled()) {
             return;
         }
 

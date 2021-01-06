@@ -26,11 +26,25 @@
 
 ## Release Candidate 19 (TBD)
 
+#### Additions
+* Added Bee Armor (1.15+ only)
+
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
+* CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
+* Removed the deprecated ItemManipulationAPI for BlockMenus
 * Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
 * Androids operating on a Cobblestone/Stone/Basalt generator now work faster
+
+#### Fixes
+* Fixed a couple of compatibility issues with ItemsAdder
+* Fixed #2575
+* Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
+* Fixed #2636 (hotfix)
+* Fixed #2647
+* Fixed #2664
+* Fixed #2655
 
 ## Release Candidate 18 (03 Dec 2020)
 

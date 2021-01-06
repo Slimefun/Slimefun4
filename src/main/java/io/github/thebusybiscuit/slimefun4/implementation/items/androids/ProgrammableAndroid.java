@@ -673,6 +673,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void executeInstruction(Instruction instruction, Block b, BlockMenu inv, Config data, int index) {
         if (getAndroidType().isType(instruction.getRequiredType())) {
             String rotationData = data.getString("rotation");
@@ -830,11 +831,16 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         preset.addItem(34, getFuelSource().getItem(), ChestMenuUtils.getEmptyClickHandler());
     }
 
+    @ParametersAreNonnullByDefault
     public void addItems(Block b, ItemStack... items) {
+        Validate.notNull(b, "The Block cannot be null.");
+
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        for (ItemStack item : items) {
-            inv.pushItem(item, getOutputSlots());
+        if (inv != null) {
+            for (ItemStack item : items) {
+                inv.pushItem(item, getOutputSlots());
+            }
         }
     }
 

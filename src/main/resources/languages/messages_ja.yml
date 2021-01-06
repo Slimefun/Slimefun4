@@ -106,11 +106,8 @@ messages:
   no-permission: "&4権限がありません"
   usage: "&4使用法: &c%usage%"
   not-online: "&4%player% &cはオンラインではありません！"
-  invalid-item: "&4%item% &cは正しくないアイテムです"
-  invalid-amount: "&4%amount% &cの部分には、正の整数を指定してください"
   given-item: "&b%item%を%amount%個与えられました"
   give-item: "&b%player%に%item%を%amount%個与えました"
-  invalid-research: "&4%research%&cは正しくないリサーチです"
   give-research: "&b%player%のリサーチ%research%を完了させました"
   hungry: "&c空腹のため使えません"
   disabled-in-world: "&4&lこのワールドでは使用できません"
@@ -178,6 +175,10 @@ messages:
   climbing-pick:
     dual-wielding: "&4Climbing Pickを両手に持って使用！"
     wrong-material: "&cこの地表はクライミングできません。Slimefunガイドを確認してください！"
+  invalid-item: "&4%item% &cは正しくないアイテムです"
+  invalid-amount: "&4%amount% &cの部分には、正の整数を指定してください"
+  invalid-research: "&4%research%&cは正しくないリサーチです"
+  bee-suit-slow-fall: "&e蜂の羽が着地を安全でゆっくりにした"
   mode-change: "&b%device%のモード変更: &9%mode%"
 machines:
   pattern-not-found: "&eレシピが確認できません、アイテムを正しく配置してください"
@@ -313,6 +314,7 @@ languages:
   el: ギリシャ語
   he: ヘブライ語
   pt: ポルトガル語（ポルトガル）
+  pt-BR: ポルトガル語（ブラジル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -324,7 +326,6 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
-  pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語
   tr: トルコ語

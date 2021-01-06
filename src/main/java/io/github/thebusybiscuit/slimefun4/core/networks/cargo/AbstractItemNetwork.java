@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -38,10 +37,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -426,12 +423,7 @@ abstract class AbstractItemNetwork extends Network {
             }
         } else if (BlockStorage.hasInventory(target)) {
             BlockMenu blockMenu = BlockStorage.getInventory(target);
-
-            if (blockMenu.getPreset().getID().startsWith("BARREL_")) {
-                gatherItemsFromBarrel(l, blockMenu, items);
-            } else {
-                handleWithdraw(blockMenu, items, l);
-            }
+            handleWithdraw(blockMenu, items, l);
         } else if (CargoUtils.hasInventory(target)) {
             BlockState state = PaperLib.getBlockState(target, false).getState();
 
@@ -442,41 +434,6 @@ abstract class AbstractItemNetwork extends Network {
                     filter(is, items, l);
                 }
             }
-        }
-    }
-
-    @ParametersAreNonnullByDefault
-    private void gatherItemsFromBarrel(Location l, BlockMenu blockMenu, List<ItemStackAndInteger> items) {
-        try {
-            Config cfg = BlockStorage.getLocationInfo(blockMenu.getLocation());
-            String data = cfg.getString("storedItems");
-
-            if (data == null) {
-                return;
-            }
-
-            int stored = Integer.parseInt(data);
-
-            for (int slot : blockMenu.getPreset().getSlotsAccessedByItemTransport((DirtyChestMenu) blockMenu, ItemTransportFlow.WITHDRAW, null)) {
-                ItemStack stack = blockMenu.getItemInSlot(slot);
-
-                if (stack != null && CargoUtils.matchesFilter(this, l.getBlock(), stack)) {
-                    boolean add = true;
-
-                    for (ItemStackAndInteger item : items) {
-                        if (SlimefunUtils.isItemSimilar(stack, item.getItemStackWrapper(), true, false)) {
-                            add = false;
-                            item.add(stack.getAmount() + stored);
-                        }
-                    }
-
-                    if (add) {
-                        items.add(new ItemStackAndInteger(stack, stack.getAmount() + stored));
-                    }
-                }
-            }
-        } catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, "An Exception occurred while trying to read data from a Barrel", x);
         }
     }
 
