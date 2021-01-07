@@ -22,9 +22,20 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+/**
+ * This is a helper class for the {@link CargoNet} which provides
+ * a free static utility methods to let the {@link CargoNet} interact with
+ * an {@link Inventory} or {@link BlockMenu}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * @author DNx5
+ *
+ */
 final class CargoUtils {
 
     /**
@@ -32,6 +43,10 @@ final class CargoUtils {
      */
     private static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
 
+    /**
+     * This is a utility class and should not be instantiated.
+     * Therefore we just hide the public constructor.
+     */
     private CargoUtils() {}
 
     /**
@@ -51,10 +66,6 @@ final class CargoUtils {
 
         Material type = block.getType();
 
-        if (SlimefunTag.SHULKER_BOXES.isTagged(type)) {
-            return true;
-        }
-
         switch (type) {
         case CHEST:
         case TRAPPED_CHEST:
@@ -68,10 +79,11 @@ final class CargoUtils {
         case SMOKER:
             return true;
         default:
-            return false;
+            return SlimefunTag.SHULKER_BOXES.isTagged(type);
         }
     }
 
+    @Nonnull
     static int[] getInputSlotRange(@Nonnull Inventory inv, @Nullable ItemStack item) {
         if (inv instanceof FurnaceInventory) {
             if (item != null && item.getType().isFuel()) {
@@ -101,7 +113,8 @@ final class CargoUtils {
         }
     }
 
-    static int[] getOutputSlotRange(Inventory inv) {
+    @Nonnull
+    static int[] getOutputSlotRange(@Nonnull Inventory inv) {
         if (inv instanceof FurnaceInventory) {
             // Slot 2-3
             return new int[] { 2, 3 };
@@ -114,6 +127,7 @@ final class CargoUtils {
         }
     }
 
+    @Nullable
     static ItemStack withdraw(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
@@ -145,7 +159,7 @@ final class CargoUtils {
             if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(network, node, is)) {
                 if (is.getAmount() > template.getAmount()) {
                     is.setAmount(is.getAmount() - template.getAmount());
-                    menu.replaceExistingItem(slot, is.clone());
+                    menu.replaceExistingItem(slot, is);
                     return template;
                 } else {
                     menu.replaceExistingItem(slot, null);
@@ -157,6 +171,7 @@ final class CargoUtils {
         return null;
     }
 
+    @Nullable
     static ItemStack withdrawFromVanillaInventory(AbstractItemNetwork network, Block node, ItemStack template, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int[] range = getOutputSlotRange(inv);
@@ -184,6 +199,7 @@ final class CargoUtils {
         return null;
     }
 
+    @Nullable
     static ItemStackAndInteger withdraw(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target) {
         DirtyChestMenu menu = getChestMenu(target);
 
@@ -215,6 +231,7 @@ final class CargoUtils {
         return null;
     }
 
+    @Nullable
     private static ItemStackAndInteger withdrawFromVanillaInventory(AbstractItemNetwork network, Block node, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int[] range = getOutputSlotRange(inv);
@@ -233,6 +250,7 @@ final class CargoUtils {
         return null;
     }
 
+    @Nullable
     static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, ItemStack stack) {
         if (!matchesFilter(network, node, stack)) {
             return stack;
@@ -273,7 +291,7 @@ final class CargoUtils {
             int maxStackSize = itemInSlot.getType().getMaxStackSize();
             int currentAmount = itemInSlot.getAmount();
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && currentAmount < maxStackSize) {
+            if (currentAmount < maxStackSize && SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
                 int amount = currentAmount + stack.getAmount();
 
                 itemInSlot.setAmount(Math.min(amount, maxStackSize));
@@ -291,6 +309,7 @@ final class CargoUtils {
         return stack;
     }
 
+    @Nullable
     private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int[] range = getInputSlotRange(inv, stack);
@@ -309,7 +328,7 @@ final class CargoUtils {
             } else {
                 int maxStackSize = itemInSlot.getType().getMaxStackSize();
 
-                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && itemInSlot.getAmount() < maxStackSize) {
+                if (itemInSlot.getAmount() < maxStackSize && SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
                     int amount = itemInSlot.getAmount() + stack.getAmount();
 
                     if (amount > maxStackSize) {
@@ -327,12 +346,13 @@ final class CargoUtils {
         return stack;
     }
 
+    @Nullable
     static DirtyChestMenu getChestMenu(@Nonnull Block block) {
         if (BlockStorage.hasInventory(block)) {
             return BlockStorage.getInventory(block);
+        } else {
+            return BlockStorage.getUniversalInventory(block);
         }
-
-        return BlockStorage.getUniversalInventory(block);
     }
 
     static boolean matchesFilter(@Nonnull AbstractItemNetwork network, @Nonnull Block node, @Nullable ItemStack item) {
@@ -365,7 +385,12 @@ final class CargoUtils {
     }
 
     private static boolean isPotion(@Nullable ItemStack item) {
-        return item != null && (item.getType() == Material.POTION || item.getType() == Material.SPLASH_POTION || item.getType() == Material.LINGERING_POTION);
+        if (item != null) {
+            Material type = item.getType();
+            return type == Material.POTION || type == Material.SPLASH_POTION || type == Material.LINGERING_POTION;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -378,7 +403,7 @@ final class CargoUtils {
      */
     @Deprecated
     public static int[] getWhitelistBlacklistSlots() {
-        return FILTER_SLOTS;
+        return getFilteringSlots();
     }
 
     /**
@@ -387,6 +412,7 @@ final class CargoUtils {
      *
      * @return The slots where the {@link ItemFilter} section for a cargo node sits
      */
+    @Nonnull
     public static int[] getFilteringSlots() {
         return FILTER_SLOTS;
     }
