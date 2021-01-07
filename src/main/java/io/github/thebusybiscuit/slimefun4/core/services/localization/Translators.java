@@ -52,6 +52,8 @@ public class Translators {
 
         // Translators - Hungarian
         addTranslator("andris155", SupportedLanguage.HUNGARIAN, true);
+        addTranslator("KingDeadZ", SupportedLanguage.HUNGARIAN, true);
+        addTranslator("poma123", SupportedLanguage.HUNGARIAN, false);
 
         // Translators - Vietnamese
         addTranslator("HSGamer", SupportedLanguage.VIETNAMESE, false);
