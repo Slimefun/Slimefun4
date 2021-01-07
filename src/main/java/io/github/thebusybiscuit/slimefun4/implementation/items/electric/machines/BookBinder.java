@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
@@ -22,6 +23,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
 * Represents Book Binder, a machine that binds multiple enchantments books into one.
+*
 * @author ProfElements
 */
 public class BookBinder extends AContainer {
@@ -48,34 +50,14 @@ public class BookBinder extends AContainer {
 
             ItemStack item = menu.getItemInSlot(slot);
             if  (isCompatible(item) && isCompatible(target)) {
-                Map<Enchantment, Integer> enchantments = new HashMap<>();
+                
                 EnchantmentStorageMeta itemMeta = (EnchantmentStorageMeta) item.getItemMeta();
                 EnchantmentStorageMeta targetMeta = (EnchantmentStorageMeta) target.getItemMeta();
 
                 Map<Enchantment, Integer> storedItemEnchantments = itemMeta.getStoredEnchants();
                 Map<Enchantment, Integer> storedTargetEnchantments = targetMeta.getStoredEnchants();
-                enchantments.putAll(storedItemEnchantments);
-
-                for (Map.Entry<Enchantment, Integer> entry : storedTargetEnchantments.entrySet()) {
-                    enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
-                            if (a == b) {
-                                if (hasCustomMaxLevel.getValue()) {
-                                    return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1; 
-                                } else {
-                                    return a + 1;
-                                }
-                                
-                            } else {
-                                if (hasCustomMaxLevel.getValue()) {
-                                    return Math.max(a, b) > customMaxLevel.getValue() ? customMaxLevel.getValue() : Math.max(a, b);
-                                } else {
-                                    return Math.max(a, b);
-                                }
-                               
-                            }
-                    });
-                }
-
+                Map<Enchantment, Integer> enchantments = combineEnchantments(storedItemEnchantments, storedTargetEnchantments);
+                
                 if (enchantments.size() > 0) {
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
                     book.setAmount(1);
@@ -112,7 +94,7 @@ public class BookBinder extends AContainer {
         return null;
     }
 
-    private boolean isCompatible(ItemStack item) {
+    private boolean isCompatible(@Nullable ItemStack item) {
         if (item != null && item.getType() == Material.ENCHANTED_BOOK) {
             return true;
         }
@@ -128,5 +110,33 @@ public class BookBinder extends AContainer {
     @Override
     public String getMachineIdentifier() {
         return "BOOK_BINDER";
+    }
+
+    private Map<Enchantment, Integer> combineEnchantments(Map<Enchantment, Integer> ech1, Map<Enchantment, Integer> ech2) {
+        Map<Enchantment, Integer> enchantments = new HashMap<>();
+        
+        enchantments.putAll(ech1);
+        for (Map.Entry<Enchantment, Integer> entry : ech2.entrySet()) {
+            enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
+                    if (a == b) {
+                        if (hasCustomMaxLevel.getValue()) {
+                            return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1;
+                        } else {
+                            return a + 1;
+                        }
+                        
+                    } else {
+                        if (hasCustomMaxLevel.getValue()) {
+                            return Math.max(a, b) > customMaxLevel.getValue() ? customMaxLevel.getValue() : Math.max(a, b);
+                        } else {
+                            return Math.max(a, b);
+                        }
+                       
+                    }
+            });
+        }        
+
+    return enchantments;
+    
     }
 }
