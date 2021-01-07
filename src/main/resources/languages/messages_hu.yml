@@ -122,13 +122,13 @@ messages:
     water: "&a&oA talizmánod megmentett a fulladástól"
     angel: "&a&oA talizmánod megmentett a zuhanási sérüléstől"
     fire: "&a&oA talizmánod megmentett a halálra elégéstől"
-    magician: "&a&oA talizmánod adott további fejlesztéseket is"
+    magician: "&a&oA talizmánod adott további varázslatokat is"
     traveller: "&a&oA talizmánod gyors sebességet adott neked"
     warrior: "&a&oA talizmánodtól növelte az erőd egy kis időre"
     knight: "&a&oA talizmánod adott 5 másodpercre Regenerációt"
     whirlwind: "&a&oA talizmánod visszavert egy lövedéket"
-    wizard: "&a&oA talizmánod erősítette a Szerencse enchantot, de néhány egyéb enchantot
-      gyengített"
+    wizard: "&a&oA talizmánod erősítette a Szerencse varázslatot, de néhány egyéb
+      varázslatot gyengített"
     caveman: "&a&oA talizmánod adott Sietség effektet"
   soulbound-rune:
     fail: "&cEgyszerre csak egy tárgyat köthetsz a lelkedhez."
@@ -151,24 +151,24 @@ messages:
   - "&7Segítség, csapdába estem egy szerencsesüti gyárban!"
   - "&7Holnap meghalsz...     egy Creeper által"
   - "&7Valamikor az életedben valami rossz fog történni!!!"
-  - "&7A következő héten észreveszed, hogy ez nem az igazi világ, hanem egy számítógépes
+  - "&7A jövő héten észreveszed, hogy ez nem az igazi világ, hanem egy számítógépes
     játékban vagy"
   - "&7Ez a süti néhány másodperc múlva jó ízű lesz"
   - '&7Az utolsó szó, amelyet hallani fogsz: "KIÍRTANI!!!"'
   - "&7Bármit is teszel, ne ölelj meg egy Creepert... Kipróbáltam. Jó érzés, de nem
     éri meg."
   - "&742. A válasz 42."
-  - "&7Walshy egy nap távol tartja a bajokat."
+  - "&7Minden nap egy Walshy távol tartja a bajokat."
   - "&7Soha ne áss egyenesen!"
   - "&7Ez csak egy kis karcolás!"
   - "&7Mindig nézd az élet jó oldalát!"
   - "&7Ez valójában keksz volt, és nem süti"
   - "&7A neon táblák VILÁGÍTANAK!"
-  piglin-barter: "&4Slimefun tárgyakat nem cserélhetsz el piglinekkel."
+  piglin-barter: "&4Slimefun tárgyakat nem cserélhetsz el a piglinekkel."
   enchantment-rune:
-    fail: "&cNem enchantolhatod ezt a tárgyat."
-    no-enchantment: "&cNem található megfelelő enchant ehhez az tárgyhoz."
-    success: "&aSikeresen alkalmaztál egy véletlenszerű enchantot erre a tárgyra."
+    fail: "&cNem varázsolhatod el ezt a tárgyat."
+    no-enchantment: "&cNem található megfelelő varázslat ehhez az tárgyhoz."
+    success: "&aSikeresen alkalmaztál egy véletlenszerű varázslatot erre a tárgyra."
   tape-measure:
     no-anchor: "&cBe kell állítanod egy kezdőpontot, mielőtt megkezdenéd a mérést!"
     wrong-world: "&cA kezdőpont úgy tűnik, hogy egy másik világban van!"
@@ -259,7 +259,7 @@ gps:
     max: "&4Elérted a maximális útpontok számát"
     duplicate: "&4Már létrehoztál egy ilyen nevű útpontot: &f%waypoint%"
   insufficient-complexity:
-  - "&4Nem megfelelő a GPS-hálózat komplexitása: &c%complexity%"
+  - "&4Nem megfelelő a GPS-hálózat összetettsége: &c%complexity%"
   - "&4a) Még nem telepítetted a GPS-hálózatot"
   - "&4b) A GPS-hálózatod nem eléggé összetett"
   geo:
@@ -325,11 +325,12 @@ languages:
   ru: Orosz
   sk: Szlovák
   zh-TW: Kínai (Tajvan)
-  vi: Vietnami
+  vi: Vietnámi
   id: Indonéz
   zh-CN: Kínai (Kína)
   el: Görög
   he: Héber
+  pt: Portugál (Portugália)
   pt-BR: Portugál (Brazília)
   ar: Arab
   af: Afrikaans
@@ -342,7 +343,6 @@ languages:
   fa: Perzsa
   th: Thai
   ro: Román
-  pt: Portugál (Portugália)
   bg: Bolgár
   ko: Koreai
   tr: Török
