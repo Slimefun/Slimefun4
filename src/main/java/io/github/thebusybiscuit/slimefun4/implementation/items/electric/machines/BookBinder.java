@@ -44,10 +44,6 @@ public class BookBinder extends AContainer {
         for (int slot : getInputSlots()) {
             ItemStack target = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
-            if (!isCompatible(target)) {
-                return null;
-            }
-
             ItemStack item = menu.getItemInSlot(slot);
             if  (isCompatible(item) && isCompatible(target)) {
                 
@@ -97,9 +93,9 @@ public class BookBinder extends AContainer {
     private boolean isCompatible(@Nullable ItemStack item) {
         if (item != null && item.getType() == Material.ENCHANTED_BOOK) {
             return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     @Override
