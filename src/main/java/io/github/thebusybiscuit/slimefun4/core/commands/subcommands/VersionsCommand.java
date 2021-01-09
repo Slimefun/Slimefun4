@@ -29,7 +29,7 @@ class VersionsCommand extends SubCommand {
             String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
 
             sender.sendMessage(ChatColor.GRAY + "This Server uses the following setup of Slimefun:");
-            sender.sendMessage(ChatColors.color("&a" + serverSoftware + " &2" + ReflectionUtils.getVersion()));
+            sender.sendMessage(ChatColors.color("&a" + serverSoftware + " &2" + Bukkit.getVersion()));
             sender.sendMessage(ChatColors.color("&aCS-CoreLib &2v" + SlimefunPlugin.getCSCoreLibVersion()));
             sender.sendMessage(ChatColors.color("&aSlimefun &2v" + SlimefunPlugin.getVersion()));
 
