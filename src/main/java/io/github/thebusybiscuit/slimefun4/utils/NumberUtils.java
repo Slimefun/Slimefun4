@@ -228,6 +228,11 @@ public final class NumberUtils {
         return DECIMAL_FORMAT.format(number);
     }
 
+    @Nonnull
+    public static double reparseDouble(double number) {
+        return Double.valueOf(roundDecimalNumber(number));
+    }
+
     public static long getLong(@Nullable Long value, long defaultValue) {
         return value == null ? defaultValue : value;
     }
