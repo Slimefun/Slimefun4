@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.chat.TextComponent;
 
 /**
@@ -63,11 +65,11 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
         }
     }
 
-    public void sendMessage(@Nonnull TextComponent component) {
+    public void sendMessage(@Nonnull Component component) {
         Player player = getPlayer();
 
         if (player != null) {
-            player.spigot().sendMessage(component);
+            SlimefunPlugin.getAudienceProvider().player(player).sendMessage(component);
         }
     }
 

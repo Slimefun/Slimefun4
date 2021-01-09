@@ -11,15 +11,15 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import org.bukkit.ChatColor;
+
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Content;
-import net.md_5.bungee.api.chat.hover.content.Text;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 class PerformanceSummary {
 
@@ -95,7 +95,7 @@ class PerformanceSummary {
         String prefix = count + " " + name + (count != 1 ? 's' : "");
 
         if (inspector instanceof PlayerPerformanceInspector) {
-            TextComponent component = summarizeAsTextComponent(count, prefix, results, formatter);
+            Component component = summarizeAsTextComponent(count, prefix, results, formatter);
             ((PlayerPerformanceInspector) inspector).sendMessage(component);
         } else {
             String text = summarizeAsString(inspector, count, prefix, results, formatter);
@@ -105,21 +105,20 @@ class PerformanceSummary {
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private TextComponent summarizeAsTextComponent(int count, String prefix, List<Map.Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
-        TextComponent component = new TextComponent(prefix);
-        component.setColor(ChatColor.YELLOW);
+    private Component summarizeAsTextComponent(int count, String prefix, List<Map.Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
+        TextComponent.Builder component = Component.text().content(prefix).color(NamedTextColor.YELLOW);
 
         if (count > 0) {
-            TextComponent hoverComponent = new TextComponent("  (Hover for details)");
-            hoverComponent.setColor(ChatColor.GRAY);
-            StringBuilder builder = new StringBuilder();
+            TextComponent.Builder details = Component.text().content("  (Hover for details)").color(NamedTextColor.GRAY);
+            TextComponent.Builder tooltip = Component.text();
 
             int shownEntries = 0;
             int hiddenEntries = 0;
 
             for (Map.Entry<String, Long> entry : results) {
                 if (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD)) {
-                    builder.append("\n").append(ChatColor.YELLOW).append(formatter.apply(entry));
+                    tooltip.append(Component.newline());
+                    tooltip.append(Component.text(formatter.apply(entry), NamedTextColor.YELLOW));
                     shownEntries++;
                 } else {
                     hiddenEntries++;
@@ -127,16 +126,17 @@ class PerformanceSummary {
             }
 
             if (hiddenEntries > 0) {
-                builder.append("\n\n&c+ &6").append(hiddenEntries).append(" more");
+                tooltip.append(Component.newline());
+                tooltip.append(Component.newline());
+                tooltip.append(Component.text("+ ", NamedTextColor.RED));
+                tooltip.append(Component.text(hiddenEntries + " more", NamedTextColor.GOLD));
             }
 
-            Content content = new Text(TextComponent.fromLegacyText(ChatColors.color(builder.toString())));
-            hoverComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, content));
-
-            component.addExtra(hoverComponent);
+            details.hoverEvent(HoverEvent.showText(tooltip));
+            component.append(details);
         }
 
-        return component;
+        return component.build();
     }
 
     @Nonnull
@@ -152,7 +152,7 @@ class PerformanceSummary {
             builder.append(ChatColor.YELLOW);
 
             for (Map.Entry<String, Long> entry : results) {
-                if (!inspector.isVerbose() || (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD))) {
+                if (inspector.isVerbose() || (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD))) {
                     builder.append("\n  ");
                     builder.append(ChatColor.stripColor(formatter.apply(entry)));
                     shownEntries++;
