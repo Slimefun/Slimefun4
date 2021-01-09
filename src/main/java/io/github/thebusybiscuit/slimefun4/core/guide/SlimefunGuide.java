@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -23,7 +22,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @see SlimefunGuideImplementation
  * @see ChestSlimefunGuide
- * @see BookSlimefunGuide
  *
  */
 public final class SlimefunGuide {
@@ -41,8 +39,6 @@ public final class SlimefunGuide {
     public static void openGuide(Player p, ItemStack guide) {
         if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
             openGuide(p, SlimefunGuideLayout.CHEST);
-        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
-            openGuide(p, SlimefunGuideLayout.BOOK);
         } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
             openGuide(p, SlimefunGuideLayout.CHEAT_SHEET);
         } else {
@@ -104,14 +100,11 @@ public final class SlimefunGuide {
     }
 
     public static boolean isGuideItem(ItemStack item) {
-        return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.BOOK), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
+        return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true)
+            || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
     }
 
     public static SlimefunGuideLayout getDefaultLayout() {
-        if (SlimefunPlugin.getCfg().getBoolean("guide.default-view-book")) {
-            return SlimefunGuideLayout.BOOK;
-        } else {
-            return SlimefunGuideLayout.CHEST;
-        }
+        return SlimefunGuideLayout.CHEST;
     }
 }

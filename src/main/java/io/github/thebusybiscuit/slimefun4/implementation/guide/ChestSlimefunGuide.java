@@ -58,7 +58,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * 
  * @see SlimefunGuide
  * @see SlimefunGuideImplementation
- * @see BookSlimefunGuide
  * @see CheatSheetSlimefunGuide
  *
  */
@@ -76,11 +75,13 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
+    @Nonnull
     @Override
     public SlimefunGuideLayout getLayout() {
         return SlimefunGuideLayout.CHEST;
     }
 
+    @Nonnull
     @Override
     public ItemStack getItem() {
         return item;

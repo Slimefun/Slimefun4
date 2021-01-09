@@ -12,22 +12,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
-import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -40,9 +36,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * The {@link ElevatorPlate} is a quick way of teleportation.
  * You can place multiple {@link ElevatorPlate ElevatorPlates} along the y axis
  * to teleport between them.
- * 
- * @author TheBusyBiscuit
  *
+ * @author TheBusyBiscuit
+ * @author Walshy
  */
 public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
@@ -77,6 +73,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         };
     }
 
+    @Nonnull
     @Override
     public BlockUseHandler getItemHandler() {
         return e -> {
@@ -119,45 +116,56 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         if (floors.size() < 2) {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
         } else {
-            openFloorSelector(b, floors, p);
+            openFloorSelector(b, floors, p, 1);
         }
     }
 
     @ParametersAreNonnullByDefault
-    private void openFloorSelector(Block b, List<Block> floors, Player p) {
-        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
-        ChatComponent page = null;
+    private void openFloorSelector(Block b, List<Block> floors, Player p, int page) {
+        ChestMenu menu = new ChestMenu("Floor Selector");
+        menu.setEmptySlotsClickable(false);
+        int pages = 1 + (floors.size() / 27);
 
-        for (int i = 0; i < floors.size(); i++) {
-            if (i % 10 == 0) {
-                if (page != null) {
-                    book.addPage(page);
-                }
-
-                page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor")) + "\n");
-            }
-
+        for (int i = 0; i < Math.min(27, floors.size()); i++) {
+            // SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor"))
             Block block = floors.get(i);
             String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
-            ChatComponent line;
 
             if (block.getY() == b.getY()) {
-                line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.WHITE + floor, ""));
+                menu.addItem(i, new CustomItem(
+                    Material.END_STONE,
+                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor,
+                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor")
+                ));
             } else {
-                line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.BLACK + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.WHITE + floor, ""));
-                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), DATA_KEY + i), player -> teleport(player, floor, block)));
+                menu.addItem(i, new CustomItem(
+                    Material.END_STONE,
+                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor,
+                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor
+                ), (player, slot, itemStack, clickAction) -> {
+                    teleport(player, floor, block);
+                    return false;
+                });
             }
-
-            page.append(line);
         }
 
-        if (page != null) {
-            book.addPage(page);
+        for (int i = 27; i < 36; i++) {
+            if (i == 28 && pages > 1) {
+                menu.addItem(i, ChestMenuUtils.getPreviousButton(p, page, pages), (player, i1, itemStack, clickAction) -> {
+                    openFloorSelector(b, floors, p, page - 1);
+                    return false;
+                });
+            } else if (i == 34 && pages > 1) {
+                menu.addItem(i, ChestMenuUtils.getNextButton(p, page, pages), (player, i1, itemStack, clickAction) -> {
+                    openFloorSelector(b, floors, p, page + 1);
+                    return false;
+                });
+            } else {
+                menu.addItem(i, ChestMenuUtils.getBackground(), (player, i1, itemStack, clickAction) -> false);
+            }
         }
 
-        book.open(p);
+        menu.open(p);
     }
 
     @ParametersAreNonnullByDefault

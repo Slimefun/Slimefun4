@@ -10,7 +10,6 @@ import org.bukkit.event.HandlerList;
 import org.apache.commons.lang.Validate;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 
@@ -22,7 +21,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefu
  * @author uiytt
  *
  * @see ChestSlimefunGuide
- * @see BookSlimefunGuide
  *
  */
 public class PlayerPreResearchEvent extends Event implements Cancellable {
