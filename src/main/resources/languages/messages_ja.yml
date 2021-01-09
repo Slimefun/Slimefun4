@@ -20,10 +20,14 @@ commands:
     backpack-does-not-exist: "&4指定したバックパックは存在しません！"
     restored-backpack-given: "&aバックパックが返還されました！"
   charge:
-    description: 手に持っているアイテムを充電
-    charge-success: アイテムは充電されました！
+    description: 手に持っているアイテムを充電する
+    charge-success: アイテムが充電されました！
     not-rechargeable: このアイテムは充電できません！
-  timings: サーバの負荷状況を表示
+  timings:
+    description: Slimefunに関連する負荷の計測
+    please-wait: "&e数秒お待ちください… 負荷の測定中です！"
+    verbose-player: "&4プレイヤーはverboseフラグを使用できません！"
+    unknown-flag: "&4未知のフラグです: &c%flag%"
 guide:
   search:
     message: "&b検索ワードをチャットで入力してください"
