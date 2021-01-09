@@ -24,15 +24,21 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
     private final CommandSender console;
 
     /**
+     * Whether a summary will be verbose or trimmed of.
+     */
+    private final boolean verbose;
+
+    /**
      * This creates a new {@link ConsolePerformanceInspector} for the given {@link CommandSender}.
      * 
      * @param console
      *            The {@link CommandSender}, preferabbly a {@link ConsoleCommandSender}
      */
-    public ConsolePerformanceInspector(@Nonnull CommandSender console) {
+    public ConsolePerformanceInspector(@Nonnull CommandSender console, boolean verbose) {
         Validate.notNull(console, "CommandSender cannot be null");
 
         this.console = console;
+        this.verbose = verbose;
     }
 
     @Override
@@ -42,8 +48,8 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
     }
 
     @Override
-    public boolean hasFullView() {
-        return false;
+    public boolean isVerbose() {
+        return verbose;
     }
 
     @Override

@@ -152,7 +152,7 @@ class PerformanceSummary {
             builder.append(ChatColor.YELLOW);
 
             for (Map.Entry<String, Long> entry : results) {
-                if (!inspector.hasFullView() || (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD))) {
+                if (!inspector.isVerbose() || (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD))) {
                     builder.append("\n  ");
                     builder.append(ChatColor.stripColor(formatter.apply(entry)));
                     shownEntries++;
