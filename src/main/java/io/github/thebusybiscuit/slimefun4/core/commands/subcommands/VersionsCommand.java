@@ -21,7 +21,7 @@ class VersionsCommand extends SubCommand {
         super(plugin, cmd, "versions", false);
     }
 
-    @Override   
+    @Override  
     public void onExecute(CommandSender sender, @Nonnull String[] args) {
         if (sender.hasPermission("slimefun.command.versions") || sender instanceof ConsoleCommandSender) {
             // After all these years... Spigot still displays as "CraftBukkit"
