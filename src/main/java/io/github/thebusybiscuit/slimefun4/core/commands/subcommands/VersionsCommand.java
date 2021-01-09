@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import java.util.Collection;
 
+import javax.annotation.Nonnull;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -20,8 +21,8 @@ class VersionsCommand extends SubCommand {
         super(plugin, cmd, "versions", false);
     }
 
-    @Override
-    public void onExecute(CommandSender sender, String[] args) {
+    @Override   
+    public void onExecute(CommandSender sender, @Nonnull String[] args) {
         if (sender.hasPermission("slimefun.command.versions") || sender instanceof ConsoleCommandSender) {
             // After all these years... Spigot still displays as "CraftBukkit"
             // so we will just fix this inconsistency for them :)
