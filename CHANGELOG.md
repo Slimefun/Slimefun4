@@ -28,6 +28,7 @@
 
 #### Additions
 * Added Bee Armor (1.15+ only)
+* (API) Added AndroidFarmEvent
 
 #### Changes
 * Performance optimizations for Cargo networks
