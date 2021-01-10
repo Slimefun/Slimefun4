@@ -29,7 +29,6 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
@@ -99,7 +98,7 @@ public class DebugFishListener implements Listener {
             try {
                 sendInfo(p, b);
             } catch (Exception x) {
-                Slimefun.getLogger().log(Level.SEVERE, "An Exception occurred while using a Debug-Fish", x);
+                SlimefunPlugin.logger().log(Level.SEVERE, "An Exception occurred while using a Debug-Fish", x);
             }
         }
     }

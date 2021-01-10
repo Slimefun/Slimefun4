@@ -28,6 +28,7 @@
 
 #### Additions
 * Added Bee Armor (1.15+ only)
+* (API) Added AndroidFarmEvent
 * (API) Added Adventure text-library
 
 #### Changes
