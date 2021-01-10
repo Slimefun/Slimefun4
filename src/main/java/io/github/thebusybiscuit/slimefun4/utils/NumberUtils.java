@@ -228,7 +228,6 @@ public final class NumberUtils {
         return DECIMAL_FORMAT.format(number);
     }
 
-    @Nonnull
     public static double reparseDouble(double number) {
         return Double.valueOf(roundDecimalNumber(number));
     }
