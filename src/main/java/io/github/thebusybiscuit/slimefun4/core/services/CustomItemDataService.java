@@ -30,6 +30,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class CustomItemDataService implements Keyed {
 
+    /**
+     * This is the {@link NamespacedKey} used to store/read data.
+     */
     private final NamespacedKey namespacedKey;
 
     /**

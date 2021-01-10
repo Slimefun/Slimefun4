@@ -29,7 +29,7 @@ commands:
   timings:
     description: Timings for Slimefun and its addon
     please-wait: '&ePlease wait a second... The results are coming in!'
-    verbose-player: '&4The verbose flag cannot by used by a Player!'
+    verbose-player: '&4The verbose flag cannot be used by a Player!'
     unknown-flag: '&4Unknown flag: &c%flag%'
 
 guide:

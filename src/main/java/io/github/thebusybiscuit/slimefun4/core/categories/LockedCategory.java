@@ -94,7 +94,7 @@ public class LockedCategory extends Category {
         }
 
         for (NamespacedKey key : namespacedKeys) {
-            Slimefun.getLogger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
+            SlimefunPlugin.logger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
         }
     }
 

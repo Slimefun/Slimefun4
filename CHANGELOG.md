@@ -28,6 +28,7 @@
 
 #### Additions
 * Added Bee Armor (1.15+ only)
+* (API) Added AndroidFarmEvent
 
 #### Changes
 * Performance optimizations for Cargo networks
@@ -43,6 +44,7 @@
 * Fixed #2647
 * Fixed #2664
 * Fixed #2655
+* Fixed /sf timings --verbose not working correctly
 
 ## Release Candidate 18 (03 Dec 2020)
 

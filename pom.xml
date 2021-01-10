@@ -362,7 +362,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.0</version>
+            <version>7.2.1</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -396,6 +396,13 @@
                 <exclusion>
                     <groupId>com.sk89q.worldguard</groupId>
                     <artifactId>worldguard-legacy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- We do not want to use the wrong TextComponents by -->
+                    <!-- accident. If we use adventure, then we will add -->
+                    <!-- it ourselves. -->
+                    <groupId>net.kyori</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

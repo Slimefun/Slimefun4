@@ -23,11 +23,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 /**
  * As the name suggests, this Service is responsible for Localization.
@@ -78,7 +77,7 @@ public class LocalizationService extends SlimefunLocalization {
                 plugin.getLogger().log(Level.WARNING, "Could not recognize the given language: \"{0}\"", serverDefaultLanguage);
             }
 
-            Slimefun.getLogger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
+            SlimefunPlugin.logger().log(Level.INFO, "Available languages: {0}", String.join(", ", languages.keySet()));
             save();
         } else {
             translationsEnabled = false;
@@ -178,7 +177,7 @@ public class LocalizationService extends SlimefunLocalization {
         defaultLanguage.setCategoriesFile(streamConfigFile("categories_" + language + ".yml", null));
         defaultLanguage.setRecipeTypesFile(streamConfigFile("recipes_" + language + ".yml", null));
 
-        Slimefun.getLogger().log(Level.INFO, "Loaded language \"{0}\"", language);
+        SlimefunPlugin.logger().log(Level.INFO, "Loaded language \"{0}\"", language);
         getConfig().setValue(LANGUAGE_PATH, language);
 
         // Loading in the defaults from our resources folder
@@ -188,7 +187,7 @@ public class LocalizationService extends SlimefunLocalization {
             FileConfiguration config = YamlConfiguration.loadConfiguration(reader);
             getConfig().getConfiguration().setDefaults(config);
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file: \"" + path + "\"");
+            SlimefunPlugin.logger().log(Level.SEVERE, e, () -> "Failed to load language file: \"" + path + "\"");
         }
 
         save();
@@ -245,13 +244,15 @@ public class LocalizationService extends SlimefunLocalization {
             }
         }
 
-        return Math.min(DoubleHandler.fixDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
+        return Math.min(NumberUtils.reparseDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
     }
 
+    @Nonnull
     private Set<String> getTotalKeys(@Nonnull Language lang) {
         return getKeys(lang.getFiles());
     }
 
+    @Nonnull
     private Set<String> getKeys(FileConfiguration... files) {
         Set<String> keys = new HashSet<>();
 
@@ -278,7 +279,7 @@ public class LocalizationService extends SlimefunLocalization {
 
             return config;
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + path + "\"");
+            SlimefunPlugin.logger().log(Level.SEVERE, e, () -> "Failed to load language file into memory: \"" + path + "\"");
             return null;
         }
     }
