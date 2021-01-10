@@ -16,7 +16,6 @@ import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
 import dev.lone.itemsadder.api.ItemsAdder;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
@@ -133,7 +132,7 @@ public class IntegrationsManager {
 
     private boolean isAddonInstalled(@Nonnull String addon) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(addon)) {
-            Slimefun.getLogger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
+            SlimefunPlugin.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
             return true;
         } else {
             return false;
@@ -154,14 +153,14 @@ public class IntegrationsManager {
 
         if (integration != null && integration.isEnabled()) {
             String version = integration.getDescription().getVersion();
-            Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
+            SlimefunPlugin.logger().log(Level.INFO, "Hooked into Plugin: {0} v{1}", new Object[] { pluginName, version });
 
             try {
                 // Run our callback
                 consumer.accept(integration);
             } catch (Exception | LinkageError x) {
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating {0} or Slimefun?", pluginName);
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
+                SlimefunPlugin.logger().log(Level.WARNING, "Maybe consider updating {0} or Slimefun?", pluginName);
+                SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
             }
         }
     }

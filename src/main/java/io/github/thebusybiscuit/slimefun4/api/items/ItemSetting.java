@@ -10,7 +10,6 @@ import org.apache.commons.lang.Validate;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This class represents a Setting for a {@link SlimefunItem} that can be modified via
@@ -152,19 +151,19 @@ public class ItemSetting<T> {
             if (validateInput(newValue)) {
                 this.value = newValue;
             } else {
-                Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
-                Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
-                Slimefun.getLogger().log(Level.WARNING, "{0} is not a valid input!", configuredValue);
-                Slimefun.getLogger().log(Level.WARNING, getErrorMessage());
+                SlimefunPlugin.logger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
+                SlimefunPlugin.logger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
+                SlimefunPlugin.logger().log(Level.WARNING, "{0} is not a valid input!", configuredValue);
+                SlimefunPlugin.logger().log(Level.WARNING, getErrorMessage());
             }
         } else {
             this.value = defaultValue;
             String found = configuredValue == null ? "null" : configuredValue.getClass().getSimpleName();
 
-            Slimefun.getLogger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
-            Slimefun.getLogger().log(Level.WARNING, "Please only use settings that are valid.");
-            Slimefun.getLogger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
-            Slimefun.getLogger().log(Level.WARNING, "Expected \"{0}\" but found: \"{1}\"", new Object[] { defaultValue.getClass().getSimpleName(), found });
+            SlimefunPlugin.logger().log(Level.WARNING, "Slimefun has found an invalid config setting in your Items.yml!");
+            SlimefunPlugin.logger().log(Level.WARNING, "Please only use settings that are valid.");
+            SlimefunPlugin.logger().log(Level.WARNING, "  at \"{0}.{1}\"", new Object[] { item.getId(), getKey() });
+            SlimefunPlugin.logger().log(Level.WARNING, "Expected \"{0}\" but found: \"{1}\"", new Object[] { defaultValue.getClass().getSimpleName(), found });
         }
     }
 

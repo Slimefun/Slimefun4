@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -692,6 +693,19 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Nullable
     public static SlimefunPlugin instance() {
         return instance;
+    }
+
+    /**
+     * This returns the {@link Logger} instance that Slimefun uses.
+     * <p>
+     * <strong>Any {@link SlimefunAddon} should use their own {@link Logger} instance!</strong>
+     * 
+     * @return Our {@link Logger} instance
+     */
+    @Nonnull
+    public static Logger logger() {
+        validateInstance();
+        return instance.getLogger();
     }
 
     /**
