@@ -14,6 +14,7 @@ import org.bukkit.plugin.Plugin;
 import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
 
 import dev.lone.itemsadder.api.ItemsAdder;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
@@ -34,6 +35,11 @@ public class IntegrationsManager {
      * This is our instance of {@link SlimefunPlugin}.
      */
     protected final SlimefunPlugin plugin;
+
+    /**
+     * Our {@link ProtectionManager} instance.
+     */
+    private ProtectionManager protectionManager;
 
     /**
      * This boolean determines whether {@link #start()} was run.
@@ -126,10 +132,25 @@ public class IntegrationsManager {
      * This method is called when the {@link Server} has finished loading all its {@link Plugin Plugins}.
      */
     private void onServerStart() {
+        try {
+            // Load Protection plugin integrations
+            protectionManager = new ProtectionManager(plugin.getServer());
+        } catch (Exception | LinkageError x) {
+            SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Failed to load Protection plugin integrations for Slimefun v" + SlimefunPlugin.getVersion());
+        }
+
         isChestTerminalInstalled = isAddonInstalled("ChestTerminal");
         isExoticGardenInstalled = isAddonInstalled("ExoticGarden");
     }
 
+    /**
+     * This method checks if the given addon is installed.
+     * 
+     * @param addon
+     *            The name of the addon
+     * 
+     * @return Whether that addon is installed on the {@link Server}
+     */
     private boolean isAddonInstalled(@Nonnull String addon) {
         if (plugin.getServer().getPluginManager().isPluginEnabled(addon)) {
             SlimefunPlugin.logger().log(Level.INFO, "Hooked into Slimefun Addon: {0}", addon);
@@ -163,6 +184,17 @@ public class IntegrationsManager {
                 SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Failed to hook into " + pluginName + " v" + version);
             }
         }
+    }
+
+    /**
+     * This returns out instance of the {@link ProtectionManager}.
+     * This bridge is used to hook into any third-party protection {@link Plugin}.
+     * 
+     * @return Our instanceof of the {@link ProtectionManager}
+     */
+    @Nonnull
+    public ProtectionManager getProtectionManager() {
+        return protectionManager;
     }
 
     /**
