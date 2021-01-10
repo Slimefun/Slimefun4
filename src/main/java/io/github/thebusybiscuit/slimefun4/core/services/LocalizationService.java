@@ -23,10 +23,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
@@ -245,13 +245,15 @@ public class LocalizationService extends SlimefunLocalization {
             }
         }
 
-        return Math.min(DoubleHandler.fixDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
+        return Math.min(NumberUtils.reparseDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
     }
 
+    @Nonnull
     private Set<String> getTotalKeys(@Nonnull Language lang) {
         return getKeys(lang.getFiles());
     }
 
+    @Nonnull
     private Set<String> getKeys(FileConfiguration... files) {
         Set<String> keys = new HashSet<>();
 

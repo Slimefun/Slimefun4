@@ -43,6 +43,7 @@
 * Fixed #2647
 * Fixed #2664
 * Fixed #2655
+* Fixed /sf timings --verbose not working correctly
 
 ## Release Candidate 18 (03 Dec 2020)
 

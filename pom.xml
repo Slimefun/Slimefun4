@@ -397,6 +397,13 @@
                     <groupId>com.sk89q.worldguard</groupId>
                     <artifactId>worldguard-legacy</artifactId>
                 </exclusion>
+                <exclusion>
+                    <!-- We do not want to use the wrong TextComponents by -->
+                    <!-- accident. If we use adventure, then we will add -->
+                    <!-- it ourselves. -->
+                    <groupId>net.kyori</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
