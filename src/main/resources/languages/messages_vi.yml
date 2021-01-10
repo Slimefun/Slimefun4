@@ -24,7 +24,9 @@ commands:
     description: Sạc vật phẩm bạn đang cầm
     charge-success: Vật phẩm này đã sạc xong!
     not-rechargeable: Vật phẩm này không thể sạc được!
-  timings: Thông tin Lag về máy chủ của bạn
+  timings:
+    description: Độ trễ của slimefun và addon của nó
+    verbose-player: "&4Cờ dài này không thể sử dụng bới Người chơi!"
 guide:
   search:
     message: "&bBạn muốn tìm kiếm cái gì?"
