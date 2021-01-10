@@ -27,7 +27,7 @@ slimefun:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng Lò luyện kim
   ore_crusher:
-    name: Ore Crusher
+    name: Máy nghiền quặng
     lore:
     - Chế tạo vật phẩm này như đã hiển thị
     - sử dụng Máy nghiền quặng
@@ -103,7 +103,7 @@ slimefun:
     - Vật phẩm này là sản phẩm phụ
     - của Lò phản ứng hạt nhân
   oil_pump:
-    name: Oil Pump
+    name: Máy bơm dầu
     lore:
     - Vật phẩm này có thể kiếm được
     - bằng cách sử dụng Máy bơm dầu
