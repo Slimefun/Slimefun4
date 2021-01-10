@@ -50,7 +50,7 @@ public class PlayerPerformanceInspector implements PerformanceInspector {
     }
 
     @Override
-    public boolean hasFullView() {
+    public boolean isVerbose() {
         return false;
     }
 

@@ -25,9 +25,15 @@ public final class Slimefun {
 
     private Slimefun() {}
 
+    /**
+     * This returns the {@link Logger} for Slimefun.
+     * 
+     * @deprecated Use {@link SlimefunPlugin#logger()} instead
+     */
+    @Deprecated
     @Nonnull
     public static Logger getLogger() {
-        return SlimefunPlugin.instance().getLogger();
+        return SlimefunPlugin.logger();
     }
 
     /**

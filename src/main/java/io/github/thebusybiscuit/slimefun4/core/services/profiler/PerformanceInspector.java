@@ -36,6 +36,6 @@ public interface PerformanceInspector {
      * 
      * @return Whether to send the full {@link PerformanceSummary} or a trimmed version
      */
-    boolean hasFullView();
+    boolean isVerbose();
 
 }

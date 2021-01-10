@@ -26,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
@@ -192,7 +191,7 @@ public class SlimefunProfiler {
                     return;
                 }
             } catch (InterruptedException e) {
-                Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
+                SlimefunPlugin.logger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
                 Thread.currentThread().interrupt();
             }
         }

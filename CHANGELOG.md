@@ -28,12 +28,15 @@
 
 #### Additions
 * Added Bee Armor (1.15+ only)
+* (API) Added AndroidFarmEvent
 
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
 * General performance improvements
-* Improvements to the BlockBreakHandler (API)
+* CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
+* Removed the deprecated ItemManipulationAPI for BlockMenus
+* (API) Improvements to the BlockBreakHandler
 
 #### Fixes
 * Fixed a couple of compatibility issues with ItemsAdder
@@ -43,10 +46,9 @@
 * Fixed #2647
 * Fixed #2664
 * Fixed #2655
+* Fixed /sf timings --verbose not working correctly
 * Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
 * Fixed #2560
-* CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
-* Removed the deprecated ItemManipulationAPI for BlockMenus
 
 ## Release Candidate 18 (03 Dec 2020)
 
