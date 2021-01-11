@@ -137,7 +137,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         menu.setEmptySlotsClickable(false);
 
         int pages = 1 + (floors.size() / GUI_SIZE);
-        int index = page == 1 ? 0 : GUI_SIZE * (page - 1);
+        int index = GUI_SIZE * (page - 1);
 
         for (int i = 0; i < Math.min(GUI_SIZE, floors.size() - index); i++) {
             ElevatorFloor floor = floors.get(index + i);
