@@ -46,8 +46,6 @@ public class ThirdPartyPluginService extends IntegrationsManager {
 
     @Deprecated
     public void loadExoticGarden(Plugin plugin, Function<Block, Optional<ItemStack>> method) {
-        // TODO: Move this method to IntegrationsManager and think of a better way to handle this
-        // For next RC!
         if (plugin.getName().equals("ExoticGarden")) {
             exoticGardenIntegration = method;
         }

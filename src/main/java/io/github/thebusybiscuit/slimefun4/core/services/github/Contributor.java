@@ -181,10 +181,10 @@ public class Contributor {
     public String getTexture() {
         if (!headTexture.isComputed() || !headTexture.isPresent()) {
             GitHubService github = SlimefunPlugin.getGitHubService();
+            String cached = github.getCachedTexture(githubUsername);
 
-            if (github != null) {
-                String cached = github.getCachedTexture(githubUsername);
-                return cached != null ? cached : HeadTexture.UNKNOWN.getTexture();
+            if (cached != null) {
+                return cached;
             } else {
                 return HeadTexture.UNKNOWN.getTexture();
             }

@@ -4,7 +4,6 @@ commands:
   cheat: Ezzel lekérhetsz tárgyakat
   give: Slimefun tárgyak lekérése egy játékosnak
   guide: Slimefun Útmutató lekérése
-  timings: Lag-információ a szerverről
   teleporter: Játékosok útpontjainak megtekintése
   versions: A kiegészítők listázása
   search: Keresés egy kifejezésre az Útmutatóban
@@ -24,6 +23,11 @@ commands:
     description: Feltölti a kezedben lévő tárgyat
     charge-success: Tárgy feltöltve!
     not-rechargeable: Ez a tárgy nem tölthető fel!
+  timings:
+    description: Teljesítményinformáció a Slimefunról és a kiegészítőiről
+    please-wait: "&eKérjük várj... Érkeznek az eredmények!"
+    verbose-player: "&4A részletes megjelenítés flag nem használható játékosként!"
+    unknown-flag: "&4Ismeretlen flag: &c%flag%"
 guide:
   search:
     message: "&bMire szeretnél keresni?"
@@ -330,8 +334,6 @@ languages:
   zh-CN: Kínai (Kína)
   el: Görög
   he: Héber
-  pt: Portugál (Portugália)
-  pt-BR: Portugál (Brazília)
   ar: Arab
   af: Afrikaans
   da: Dán
@@ -343,6 +345,8 @@ languages:
   fa: Perzsa
   th: Thai
   ro: Román
+  pt: Portugál (Portugália)
+  pt-BR: Portugál (Brazília)
   bg: Bolgár
   ko: Koreai
   tr: Török

@@ -58,7 +58,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * 
  * @see SlimefunGuide
  * @see SlimefunGuideImplementation
- * @see BookSlimefunGuide
  * @see CheatSheetSlimefunGuide
  *
  */
@@ -76,11 +75,13 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
+    @Nonnull
     @Override
     public SlimefunGuideLayout getLayout() {
         return SlimefunGuideLayout.CHEST;
     }
 
+    @Nonnull
     @Override
     public ItemStack getItem() {
         return item;
@@ -698,7 +699,7 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
 
     private void printErrorMessage(Player p, Throwable x) {
         p.sendMessage(ChatColor.DARK_RED + "An internal server error has occurred. Please inform an admin, check the console for further info.");
-        Slimefun.getLogger().log(Level.SEVERE, "An error has occurred while trying to open a SlimefunItem in the guide!", x);
+        SlimefunPlugin.logger().log(Level.SEVERE, "An error has occurred while trying to open a SlimefunItem in the guide!", x);
     }
 
 }

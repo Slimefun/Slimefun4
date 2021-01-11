@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -152,11 +153,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     private final IntegrationsManager integrations = new ThirdPartyPluginService(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
-    private LocalizationService local;
 
+    private LocalizationService local;
     private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
-    private ProtectionManager protections;
 
     // Important config files for Slimefun
     private final Config config = new Config(this);
@@ -227,6 +227,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Please download and install CS-CoreLib manually:");
             getLogger().log(Level.INFO, "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
 
+            // Send a message upon doing /slimefun
             getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
                 sender.sendMessage("You have forgotten to install CS-CoreLib! Slimefun is disabled.");
                 sender.sendMessage("https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
@@ -243,7 +244,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         gpsNetwork = new GPSNetwork();
         networkManager = new NetworkManager(200);
         command.register();
-        registry.load(config);
+        registry.load(this, config);
         loadTags();
     }
 
@@ -270,7 +271,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Creating all necessary Folders
         getLogger().log(Level.INFO, "Creating directories...");
         createDirectories();
-        registry.load(config);
+        registry.load(this, config);
 
         // Set up localization
         getLogger().log(Level.INFO, "Loading language files...");
@@ -320,7 +321,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
         runSync(new SlimefunStartupTask(this, () -> {
-            protections = new ProtectionManager(getServer());
             textureService.register(registry.getAllSlimefunItems(), true);
             permissionsService.register(registry.getAllSlimefunItems(), true);
 
@@ -346,9 +346,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
         }
 
+        // Starting our tasks
         autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
         ticker.start(this);
 
+        // Loading integrations
         getLogger().log(Level.INFO, "Loading Third-Party plugin integrations...");
         integrations.start();
         gitHubService.start(this);
@@ -404,6 +406,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
         }
 
+        // Save all "universal" inventories (ender chests for example)
         for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
             menu.save();
         }
@@ -442,6 +445,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         instance = pluginInstance;
     }
 
+    /**
+     * This returns the time it took to load Slimefun (given a starting point).
+     * 
+     * @param timestamp
+     *            The time at which we started to load Slimefun.
+     * 
+     * @return The total time it took to load Slimefun (in ms or s)
+     */
     @Nonnull
     private String getStartupTime(long timestamp) {
         long ms = (System.nanoTime() - timestamp) / 1000000;
@@ -533,6 +544,18 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This private method gives us a {@link Collection} of every {@link MinecraftVersion}
+     * that Slimefun is compatible with (as a {@link String} representation).
+     * <p>
+     * Example:
+     * 
+     * <pre>
+     * { 1.14.x, 1.15.x, 1.16.x }
+     * </pre>
+     * 
+     * @return A {@link Collection} of all compatible minecraft versions as strings
+     */
     @Nonnull
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
@@ -546,6 +569,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return list;
     }
 
+    /**
+     * This method creates all necessary directories (and sub directories) for Slimefun.
+     */
     private void createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
         String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
@@ -641,6 +667,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new PlayerProfileListener(this);
     }
 
+    /**
+     * This (re)loads every {@link SlimefunTag}.
+     */
     private void loadTags() {
         for (SlimefunTag tag : SlimefunTag.valuesCache) {
             try {
@@ -654,6 +683,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This loads all of our items.
+     */
     private void loadItems() {
         try {
             SlimefunItemSetup.setup(this);
@@ -662,6 +694,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This loads our researches.
+     */
     private void loadResearches() {
         try {
             ResearchSetup.setupResearches();
@@ -692,6 +727,19 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Nullable
     public static SlimefunPlugin instance() {
         return instance;
+    }
+
+    /**
+     * This returns the {@link Logger} instance that Slimefun uses.
+     * <p>
+     * <strong>Any {@link SlimefunAddon} should use their own {@link Logger} instance!</strong>
+     * 
+     * @return Our {@link Logger} instance
+     */
+    @Nonnull
+    public static Logger logger() {
+        validateInstance();
+        return instance.getLogger();
     }
 
     /**
@@ -744,12 +792,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static LocalizationService getLocalization() {
         validateInstance();
         return instance.local;
-    }
-
-    @Nonnull
-    public static ProtectionManager getProtectionManager() {
-        validateInstance();
-        return instance.protections;
     }
 
     @Nonnull
@@ -810,6 +852,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static IntegrationsManager getIntegrations() {
         validateInstance();
         return instance.integrations;
+    }
+
+    /**
+     * This returns out instance of the {@link ProtectionManager}.
+     * This bridge is used to hook into any third-party protection {@link Plugin}.
+     * 
+     * @return Our instanceof of the {@link ProtectionManager}
+     */
+    @Nonnull
+    public static ProtectionManager getProtectionManager() {
+        return getIntegrations().getProtectionManager();
     }
 
     /**
