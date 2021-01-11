@@ -82,10 +82,6 @@ public final class SlimefunGuide {
 
     @ParametersAreNonnullByDefault
     public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideMode layout, int selectedPage) {
-        if (category == null) {
-            return;
-        }
-
         SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, selectedPage);
     }
 
@@ -110,8 +106,12 @@ public final class SlimefunGuide {
         SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, addToHistory);
     }
 
-    public static boolean isGuideItem(@Nonnull ItemStack item) {
-        return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
+    public static boolean isGuideItem(@Nullable ItemStack item) {
+        if (item == null) {
+            return false;
+        } else {
+            return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
+        }
     }
 
     /**
