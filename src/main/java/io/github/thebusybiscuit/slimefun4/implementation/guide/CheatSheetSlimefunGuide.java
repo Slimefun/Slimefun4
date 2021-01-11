@@ -12,7 +12,7 @@ import org.bukkit.inventory.Recipe;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
@@ -35,11 +35,6 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
         super(false);
 
         item = new SlimefunGuideItem(this, "&cSlimefun Guide &4(Cheat Sheet)");
-    }
-
-    @Override
-    public boolean isSurvivalMode() {
-        return false;
     }
 
     /**
@@ -66,8 +61,8 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
     }
 
     @Override
-    public SlimefunGuideLayout getLayout() {
-        return SlimefunGuideLayout.CHEAT_MODE;
+    public SlimefunGuideMode getMode() {
+        return SlimefunGuideMode.CHEAT_MODE;
     }
 
     @Override

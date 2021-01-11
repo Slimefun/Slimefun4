@@ -13,7 +13,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see SlimefunGuideImplementation
  *
  */
-public enum SlimefunGuideLayout {
+public enum SlimefunGuideMode {
 
     /**
      * This design is the standard layout, it uses a {@link ChestMenu}

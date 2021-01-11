@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunGuideOpenEvent;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -38,7 +38,7 @@ public class SlimefunGuideListener implements Listener {
                 return;
             }
 
-            SlimefunGuideLayout type = SlimefunGuide.getDefaultLayout();
+            SlimefunGuideMode type = SlimefunGuide.getDefaultLayout();
             p.getInventory().addItem(SlimefunGuide.getItem(type).clone());
         }
     }
@@ -47,13 +47,13 @@ public class SlimefunGuideListener implements Listener {
     public void onInteract(PlayerRightClickEvent e) {
         Player p = e.getPlayer();
 
-        if (tryOpenGuide(p, e, SlimefunGuideLayout.SURVIVAL_MODE) == Result.ALLOW) {
+        if (tryOpenGuide(p, e, SlimefunGuideMode.SURVIVAL_MODE) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             } else {
-                openGuide(p, e, SlimefunGuideLayout.SURVIVAL_MODE);
+                openGuide(p, e, SlimefunGuideMode.SURVIVAL_MODE);
             }
-        } else if (tryOpenGuide(p, e, SlimefunGuideLayout.CHEAT_MODE) == Result.ALLOW) {
+        } else if (tryOpenGuide(p, e, SlimefunGuideMode.CHEAT_MODE) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
             } else {
@@ -67,7 +67,7 @@ public class SlimefunGuideListener implements Listener {
     }
 
     @ParametersAreNonnullByDefault
-    private void openGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
+    private void openGuide(Player p, PlayerRightClickEvent e, SlimefunGuideMode layout) {
         SlimefunGuideOpenEvent event = new SlimefunGuideOpenEvent(p, e.getItem(), layout);
         Bukkit.getPluginManager().callEvent(event);
 
@@ -79,7 +79,7 @@ public class SlimefunGuideListener implements Listener {
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private Result tryOpenGuide(Player p, PlayerRightClickEvent e, SlimefunGuideLayout layout) {
+    private Result tryOpenGuide(Player p, PlayerRightClickEvent e, SlimefunGuideMode layout) {
         ItemStack item = e.getItem();
         if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true, false)) {
 

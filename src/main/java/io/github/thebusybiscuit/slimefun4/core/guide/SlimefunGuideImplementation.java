@@ -21,7 +21,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @author TheBusyBiscuit
  * 
- * @see SlimefunGuideLayout
+ * @see SlimefunGuideMode
  * @see SurvivalSlimefunGuide
  *
  */
@@ -29,12 +29,12 @@ public interface SlimefunGuideImplementation {
 
     /**
      * Every {@link SlimefunGuideImplementation} can be associated with a
-     * {@link SlimefunGuideLayout}.
+     * {@link SlimefunGuideMode}.
      * 
-     * @return The layout this {@link SlimefunGuideImplementation} represents
+     * @return The mode this {@link SlimefunGuideImplementation} represents
      */
     @Nonnull
-    SlimefunGuideLayout getLayout();
+    SlimefunGuideMode getMode();
 
     /**
      * Returns the {@link ItemStack} representation for this {@link SlimefunGuideImplementation}.
@@ -45,16 +45,6 @@ public interface SlimefunGuideImplementation {
      */
     @Nonnull
     ItemStack getItem();
-
-    /**
-     * This method returns whether this {@link SlimefunGuideImplementation} is meant
-     * for Survival Mode.
-     * 
-     * @return Whether this is a survival mode implementation
-     */
-    default boolean isSurvivalMode() {
-        return getLayout() != SlimefunGuideLayout.CHEAT_MODE;
-    }
 
     void openMainMenu(PlayerProfile profile, int page);
 

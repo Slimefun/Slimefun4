@@ -27,6 +27,7 @@ import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
@@ -34,7 +35,7 @@ import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -76,8 +77,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @Override
-    public SlimefunGuideLayout getLayout() {
-        return SlimefunGuideLayout.SURVIVAL_MODE;
+    public SlimefunGuideMode getMode() {
+        return SlimefunGuideMode.SURVIVAL_MODE;
     }
 
     @Override
@@ -85,9 +86,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         return item;
     }
 
-    @Override
-    public boolean isSurvivalMode() {
-        return true;
+    protected final boolean isSurvivalMode() {
+        return getMode() != SlimefunGuideMode.CHEAT_MODE;
     }
 
     /**
@@ -104,8 +104,18 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         List<Category> categories = new LinkedList<>();
 
         for (Category category : SlimefunPlugin.getRegistry().getCategories()) {
-            if (!category.isHidden(p) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getLayout()))) {
-                categories.add(category);
+            try {
+                if (!category.isHidden(p) && (!(category instanceof FlexCategory) || ((FlexCategory) category).isVisible(p, profile, getMode()))) {
+                    categories.add(category);
+                }
+            } catch (Exception | LinkageError x) {
+                SlimefunAddon addon = category.getAddon();
+
+                if (addon != null) {
+                    addon.getLogger().log(Level.SEVERE, x, () -> "Could not display Category: " + category);
+                } else {
+                    SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "Could not display Category: " + category);
+                }
             }
         }
 
@@ -203,7 +213,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         if (category instanceof FlexCategory) {
-            ((FlexCategory) category).open(p, profile, getLayout());
+            ((FlexCategory) category).open(p, profile, getMode());
             return;
         }
 
