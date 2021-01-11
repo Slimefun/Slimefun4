@@ -12,7 +12,7 @@ import org.bukkit.inventory.Recipe;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
@@ -21,13 +21,13 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * This is an admin-variant of the {@link ChestSlimefunGuide} which allows a {@link Player}
+ * This is an admin-variant of the {@link SurvivalSlimefunGuide} which allows a {@link Player}
  * to spawn in a {@link SlimefunItem} via click rather than showing their {@link Recipe}.
  * 
  * @author TheBusyBiscuit
  *
  */
-public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
+public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
 
     private final ItemStack item;
 
@@ -35,11 +35,6 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
         super(false);
 
         item = new SlimefunGuideItem(this, "&cSlimefun Guide &4(Cheat Sheet)");
-    }
-
-    @Override
-    public boolean isSurvivalMode() {
-        return false;
     }
 
     /**
@@ -67,8 +62,8 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
 
     @Nonnull
     @Override
-    public SlimefunGuideLayout getLayout() {
-        return SlimefunGuideLayout.CHEAT_SHEET;
+    public SlimefunGuideMode getMode() {
+        return SlimefunGuideMode.CHEAT_MODE;
     }
 
     @Nonnull

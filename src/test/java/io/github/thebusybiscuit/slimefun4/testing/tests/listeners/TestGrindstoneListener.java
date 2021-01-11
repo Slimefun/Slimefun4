@@ -22,7 +22,7 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
@@ -82,8 +82,8 @@ public class TestGrindstoneListener {
     }
 
     @ParameterizedTest
-    @EnumSource(SlimefunGuideLayout.class)
-    public void testGrindStoneWithSlimefunGuide(SlimefunGuideLayout layout) {
+    @EnumSource(SlimefunGuideMode.class)
+    public void testGrindStoneWithSlimefunGuide(SlimefunGuideMode layout) {
         InventoryClickEvent event = mockGrindStoneEvent(SlimefunGuide.getItem(layout));
         Assertions.assertEquals(Result.DENY, event.getResult());
     }

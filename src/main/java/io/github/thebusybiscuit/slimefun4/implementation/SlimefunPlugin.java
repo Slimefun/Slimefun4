@@ -203,7 +203,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             // We handle Unit Tests seperately.
             setInstance(this);
-            getLogger().log(Level.INFO, "This is a UNIT TEST Environment.");
             onUnitTestStart();
         } else if (isVersionUnsupported()) {
             // We wanna ensure that the Server uses a compatible version of Minecraft.
@@ -901,16 +900,22 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.gitHubService;
     }
 
-    @Nonnull
-    public static SlimefunRegistry getRegistry() {
-        validateInstance();
-        return instance.registry;
-    }
-
+    /**
+     * This returns our {@link NetworkManager} which is responsible
+     * for handling the Cargo and Energy networks.
+     * 
+     * @return Our {@link NetworkManager} instance
+     */
     @Nonnull
     public static NetworkManager getNetworkManager() {
         validateInstance();
         return instance.networkManager;
+    }
+
+    @Nonnull
+    public static SlimefunRegistry getRegistry() {
+        validateInstance();
+        return instance.registry;
     }
 
     @Nonnull

@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -46,6 +47,10 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
      * This is our key for storing the floor name.
      */
     private static final String DATA_KEY = "floor";
+    
+    /**
+     * This is the size of our {@link Inventory}.
+     */
     private static final int GUI_SIZE = 27;
 
     /**

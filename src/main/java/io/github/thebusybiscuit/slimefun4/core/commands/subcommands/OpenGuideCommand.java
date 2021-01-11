@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class OpenGuideCommand extends SubCommand {
@@ -22,7 +22,7 @@ class OpenGuideCommand extends SubCommand {
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             if (sender.hasPermission("slimefun.command.open_guide")) {
-                SlimefunGuide.openGuide((Player) sender, SlimefunGuideLayout.CHEST);
+                SlimefunGuide.openGuide((Player) sender, SlimefunGuideMode.SURVIVAL_MODE);
             } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }

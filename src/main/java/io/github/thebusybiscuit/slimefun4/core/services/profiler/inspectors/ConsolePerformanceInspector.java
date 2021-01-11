@@ -33,6 +33,8 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
      * 
      * @param console
      *            The {@link CommandSender}, preferabbly a {@link ConsoleCommandSender}
+     * @param verbose
+     *            Whether the summary will be verbose or not
      */
     public ConsolePerformanceInspector(@Nonnull CommandSender console, boolean verbose) {
         Validate.notNull(console, "CommandSender cannot be null");

@@ -11,7 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+//github.com/Slimefun/Slimefun4.git
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -21,20 +22,20 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @author TheBusyBiscuit
  * 
- * @see SlimefunGuideLayout
- * @see ChestSlimefunGuide
+ * @see SlimefunGuideMode
+ * @see SurvivalSlimefunGuide
  *
  */
 public interface SlimefunGuideImplementation {
 
     /**
      * Every {@link SlimefunGuideImplementation} can be associated with a
-     * {@link SlimefunGuideLayout}.
+     * {@link SlimefunGuideMode}.
      * 
-     * @return The layout this {@link SlimefunGuideImplementation} represents
+     * @return The mode this {@link SlimefunGuideImplementation} represents
      */
     @Nonnull
-    SlimefunGuideLayout getLayout();
+    SlimefunGuideMode getMode();
 
     /**
      * Returns the {@link ItemStack} representation for this {@link SlimefunGuideImplementation}.
@@ -45,14 +46,6 @@ public interface SlimefunGuideImplementation {
      */
     @Nonnull
     ItemStack getItem();
-
-    /**
-     * This method returns whether this {@link SlimefunGuideImplementation} is meant
-     * for Survival Mode.
-     * 
-     * @return Whether this is a survival mode implementation
-     */
-    boolean isSurvivalMode();
 
     void openMainMenu(PlayerProfile profile, int page);
 
