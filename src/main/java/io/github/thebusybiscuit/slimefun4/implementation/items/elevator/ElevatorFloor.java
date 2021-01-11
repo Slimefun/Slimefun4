@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.elevator;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -21,6 +22,11 @@ class ElevatorFloor {
     private final String name;
 
     /**
+     * The floor number.
+     */
+    private final int number;
+
+    /**
      * The {@link Location} of this floor.
      */
     private final Location location;
@@ -34,8 +40,12 @@ class ElevatorFloor {
      * @param block
      *            The {@link Block} of this floor
      */
-    public ElevatorFloor(@Nonnull String name, @Nonnull Block block) {
+    public ElevatorFloor(@Nonnull String name, int number, @Nonnull Block block) {
+        Validate.notNull(name, "An ElevatorFloor must have a name");
+        Validate.notNull(block, "An ElevatorFloor must have a block");
+
         this.name = name;
+        this.number = number;
         this.location = block.getLocation();
     }
 
@@ -67,6 +77,17 @@ class ElevatorFloor {
      */
     public int getAltitude() {
         return location.getBlockY();
+    }
+
+    /**
+     * This returns the number of this floor.
+     * The lowest floor will have the number 0 and it
+     * increments from there.
+     * 
+     * @return The number of this floor.
+     */
+    public int getNumber() {
+        return number;
     }
 
 }

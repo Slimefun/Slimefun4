@@ -93,12 +93,14 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     @Nonnull
     public List<ElevatorFloor> getFloors(@Nonnull Block b) {
-        List<ElevatorFloor> floors = new LinkedList<>();
+        LinkedList<ElevatorFloor> floors = new LinkedList<>();
+        int index = 0;
 
-        for (int y = b.getWorld().getMaxHeight(); y > 0; y--) {
+        for (int y = 0; y < b.getWorld().getMaxHeight(); y++) {
             if (y == b.getY()) {
                 String name = ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY));
-                floors.add(new ElevatorFloor(name, b));
+                floors.addLast(new ElevatorFloor(name, index, b));
+                index++;
                 continue;
             }
 
@@ -106,7 +108,8 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             if (block.getType() == getItem().getType() && BlockStorage.check(block, getId())) {
                 String name = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
-                floors.add(new ElevatorFloor(name, block));
+                floors.addLast(new ElevatorFloor(name, index, block));
+                index++;
             }
         }
 
@@ -143,13 +146,13 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             if (floor.getAltitude() == b.getY()) {
                 menu.addItem(i, new CustomItem(
                     Material.COMPASS,
-                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor.getName(),
+                    ChatColor.GRAY + "> " + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
                     SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor.getName()
                 ), ChestMenuUtils.getEmptyClickHandler());
             } else {
                 menu.addItem(i, new CustomItem(
                     Material.PAPER,
-                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor.getName(),
+                    ChatColor.GRAY + "> " + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
                     SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor.getName()
                 ), (player, slot, itemStack, clickAction) -> {
                     teleport(player, floor);
