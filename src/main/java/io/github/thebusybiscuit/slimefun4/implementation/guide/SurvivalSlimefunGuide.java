@@ -51,18 +51,17 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
- * The {@link ChestSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
+ * The {@link SurvivalSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
  * It uses an {@link Inventory} to display {@link SlimefunGuide} contents.
  * 
  * @author TheBusyBiscuit
  * 
  * @see SlimefunGuide
  * @see SlimefunGuideImplementation
- * @see BookSlimefunGuide
  * @see CheatSheetSlimefunGuide
  *
  */
-public class ChestSlimefunGuide implements SlimefunGuideImplementation {
+public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int CATEGORY_SIZE = 36;
     private static final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
@@ -71,14 +70,14 @@ public class ChestSlimefunGuide implements SlimefunGuideImplementation {
     private final ItemStack item;
     private final boolean showVanillaRecipes;
 
-    public ChestSlimefunGuide(boolean showVanillaRecipes) {
+    public SurvivalSlimefunGuide(boolean showVanillaRecipes) {
         this.showVanillaRecipes = showVanillaRecipes;
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
     @Override
     public SlimefunGuideLayout getLayout() {
-        return SlimefunGuideLayout.CHEST;
+        return SlimefunGuideLayout.SURVIVAL_MODE;
     }
 
     @Override

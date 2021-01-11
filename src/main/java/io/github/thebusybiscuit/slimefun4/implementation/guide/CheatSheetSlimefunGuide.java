@@ -21,13 +21,13 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
- * This is an admin-variant of the {@link ChestSlimefunGuide} which allows a {@link Player}
+ * This is an admin-variant of the {@link SurvivalSlimefunGuide} which allows a {@link Player}
  * to spawn in a {@link SlimefunItem} via click rather than showing their {@link Recipe}.
  * 
  * @author TheBusyBiscuit
  *
  */
-public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
+public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
 
     private final ItemStack item;
 
@@ -67,7 +67,7 @@ public class CheatSheetSlimefunGuide extends ChestSlimefunGuide {
 
     @Override
     public SlimefunGuideLayout getLayout() {
-        return SlimefunGuideLayout.CHEAT_SHEET;
+        return SlimefunGuideLayout.CHEAT_MODE;
     }
 
     @Override

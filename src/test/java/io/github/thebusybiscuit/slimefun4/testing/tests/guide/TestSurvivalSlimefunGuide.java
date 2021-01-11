@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 
-class TestChestSlimefunGuide {
+class TestSurvivalSlimefunGuide {
 
     @BeforeAll
     public static void load() {
@@ -27,9 +27,9 @@ class TestChestSlimefunGuide {
     @Test
     @DisplayName("Test Getters for Chest Slimefun Guide")
     void testBasicGetters() {
-        ChestSlimefunGuide guide = new ChestSlimefunGuide(false);
+        SurvivalSlimefunGuide guide = new SurvivalSlimefunGuide(false);
 
-        Assertions.assertEquals(SlimefunGuideLayout.CHEST, guide.getLayout());
+        Assertions.assertEquals(SlimefunGuideLayout.SURVIVAL_MODE, guide.getLayout());
         Assertions.assertTrue(guide.isSurvivalMode());
     }
 

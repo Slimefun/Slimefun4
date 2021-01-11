@@ -16,21 +16,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public enum SlimefunGuideLayout {
 
     /**
-     * This design is a book representation of the {@link SlimefunGuide}
-     */
-    BOOK,
-
-    /**
      * This design is the standard layout, it uses a {@link ChestMenu}
      */
-    CHEST,
+    SURVIVAL_MODE,
 
     /**
      * This is an admin-only design which creates a {@link SlimefunGuide} that allows
      * you to spawn in any {@link SlimefunItem}
      */
-    CHEAT_SHEET;
-
-    public static final SlimefunGuideLayout[] valuesCache = values();
+    CHEAT_MODE;
 
 }

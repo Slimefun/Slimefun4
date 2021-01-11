@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -32,16 +34,19 @@ class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
 
     @Override
     public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
+        if (!p.hasPermission("slimefun.cheat.items")) {
+            // Only Players with the appropriate permission can access the cheat sheet
+            return Optional.empty();
+        }
+
         Optional<SlimefunGuideLayout> current = getSelectedOption(p, guide);
 
         if (current.isPresent()) {
             SlimefunGuideLayout layout = current.get();
             ItemStack item = new ItemStack(Material.AIR);
 
-            if (layout == SlimefunGuideLayout.CHEST) {
+            if (layout == SlimefunGuideLayout.SURVIVAL_MODE) {
                 item.setType(Material.CHEST);
-            } else if (layout == SlimefunGuideLayout.BOOK) {
-                item.setType(Material.BOOK);
             } else {
                 item.setType(Material.COMMAND_BLOCK);
             }
@@ -50,12 +55,9 @@ class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
             meta.setDisplayName(ChatColor.GRAY + "Slimefun Guide Design: " + ChatColor.YELLOW + ChatUtils.humanize(layout.name()));
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add((layout == SlimefunGuideLayout.CHEST ? ChatColor.GREEN : ChatColor.GRAY) + "Chest");
-            lore.add((layout == SlimefunGuideLayout.BOOK ? ChatColor.GREEN : ChatColor.GRAY) + "Book");
+            lore.add((layout == SlimefunGuideLayout.SURVIVAL_MODE ? ChatColor.GREEN : ChatColor.GRAY) + "Chest");
 
-            if (p.hasPermission("slimefun.cheat.items")) {
-                lore.add((layout == SlimefunGuideLayout.CHEAT_SHEET ? ChatColor.GREEN : ChatColor.GRAY) + "Cheat Sheet");
-            }
+            lore.add((layout == SlimefunGuideLayout.CHEAT_MODE ? ChatColor.GREEN : ChatColor.GRAY) + "Cheat Sheet");
 
             lore.add("");
             lore.add(ChatColor.GRAY + "\u21E8 " + ChatColor.YELLOW + "Click to change your layout");
@@ -80,31 +82,26 @@ class GuideLayoutOption implements SlimefunGuideOption<SlimefunGuideLayout> {
         SlimefunGuideSettings.openSettings(p, guide);
     }
 
-    private SlimefunGuideLayout getNextLayout(Player p, SlimefunGuideLayout layout) {
+    @Nonnull
+    private SlimefunGuideLayout getNextLayout(@Nonnull Player p, @Nonnull SlimefunGuideLayout layout) {
         if (p.hasPermission("slimefun.cheat.items")) {
-            if (layout == SlimefunGuideLayout.CHEST) {
-                return SlimefunGuideLayout.BOOK;
+            if (layout == SlimefunGuideLayout.SURVIVAL_MODE) {
+                return SlimefunGuideLayout.CHEAT_MODE;
+            } else {
+                return SlimefunGuideLayout.SURVIVAL_MODE;
             }
-
-            if (layout == SlimefunGuideLayout.BOOK) {
-                return SlimefunGuideLayout.CHEAT_SHEET;
-            }
-
-            return SlimefunGuideLayout.CHEST;
         } else {
-            return layout == SlimefunGuideLayout.CHEST ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST;
+            return SlimefunGuideLayout.SURVIVAL_MODE;
         }
     }
 
     @Override
     public Optional<SlimefunGuideLayout> getSelectedOption(Player p, ItemStack guide) {
-        for (SlimefunGuideLayout layout : SlimefunGuideLayout.valuesCache) {
-            if (SlimefunUtils.isItemSimilar(guide, SlimefunGuide.getItem(layout), true, false)) {
-                return Optional.of(layout);
-            }
+        if (SlimefunUtils.isItemSimilar(guide, SlimefunGuide.getItem(SlimefunGuideLayout.CHEAT_MODE), true, false)) {
+            return Optional.of(SlimefunGuideLayout.CHEAT_MODE);
+        } else {
+            return Optional.of(SlimefunGuideLayout.SURVIVAL_MODE);
         }
-
-        return Optional.empty();
     }
 
     @Override

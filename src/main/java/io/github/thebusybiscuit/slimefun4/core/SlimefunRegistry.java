@@ -30,9 +30,8 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -98,9 +97,8 @@ public final class SlimefunRegistry {
 
         boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
 
-        layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
-        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
-        layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
+        layouts.put(SlimefunGuideLayout.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes));
+        layouts.put(SlimefunGuideLayout.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 

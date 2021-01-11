@@ -203,7 +203,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             // We handle Unit Tests seperately.
             setInstance(this);
-            getLogger().log(Level.INFO, "This is a UNIT TEST Environment.");
             onUnitTestStart();
         } else if (isVersionUnsupported()) {
             // We wanna ensure that the Server uses a compatible version of Minecraft.

@@ -12,17 +12,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ChatComponent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.ClickEvent;
-import io.github.thebusybiscuit.cscorelib2.chat.json.CustomBookInterface;
-import io.github.thebusybiscuit.cscorelib2.chat.json.HoverEvent;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
@@ -125,39 +120,46 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
     private void openFloorSelector(Block b, List<Block> floors, Player p) {
-        CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
-        ChatComponent page = null;
-
-        for (int i = 0; i < floors.size(); i++) {
-            if (i % 10 == 0) {
-                if (page != null) {
-                    book.addPage(page);
-                }
-
-                page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor")) + "\n");
-            }
-
-            Block block = floors.get(i);
-            String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
-            ChatComponent line;
-
-            if (block.getY() == b.getY()) {
-                line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor")), "", ChatColor.WHITE + floor, ""));
-            } else {
-                line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.BLACK + floor);
-                line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport")), "", ChatColor.WHITE + floor, ""));
-                line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), DATA_KEY + i), player -> teleport(player, floor, block)));
-            }
-
-            page.append(line);
-        }
-
-        if (page != null) {
-            book.addPage(page);
-        }
-
-        book.open(p);
+        p.sendMessage(ChatColor.DARK_RED + "Slimefun > " + ChatColor.RED + "Due to some issues, the elevator plate is temporarily disabled. It will be re-enabled soon, once the issue has been resolved.");
+        // TODO: Re-implement the Elevator plate
+        // CustomBookInterface book = new CustomBookInterface(SlimefunPlugin.instance());
+        // ChatComponent page = null;
+        //
+        // for (int i = 0; i < floors.size(); i++) {
+        // if (i % 10 == 0) {
+        // if (page != null) {
+        // book.addPage(page);
+        // }
+        //
+        // page = new ChatComponent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p,
+        // "machines.ELEVATOR.pick-a-floor")) + "\n");
+        // }
+        //
+        // Block block = floors.get(i);
+        // String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
+        // ChatComponent line;
+        //
+        // if (block.getY() == b.getY()) {
+        // line = new ChatComponent("\n" + ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK +
+        // floor);
+        // line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p,
+        // "machines.ELEVATOR.current-floor")), "", ChatColor.WHITE + floor, ""));
+        // } else {
+        // line = new ChatComponent("\n" + ChatColor.GRAY + (floors.size() - i) + ". " + ChatColor.BLACK + floor);
+        // line.setHoverEvent(new HoverEvent(ChatColors.color(SlimefunPlugin.getLocalization().getMessage(p,
+        // "machines.ELEVATOR.click-to-teleport")), "", ChatColor.WHITE + floor, ""));
+        // line.setClickEvent(new ClickEvent(new NamespacedKey(SlimefunPlugin.instance(), DATA_KEY + i), player ->
+        // teleport(player, floor, block)));
+        // }
+        //
+        // page.append(line);
+        // }
+        //
+        // if (page != null) {
+        // book.addPage(page);
+        // }
+        //
+        // book.open(p);
     }
 
     @ParametersAreNonnullByDefault

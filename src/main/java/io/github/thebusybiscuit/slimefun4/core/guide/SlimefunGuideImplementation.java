@@ -11,8 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -23,8 +22,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  * 
  * @see SlimefunGuideLayout
- * @see ChestSlimefunGuide
- * @see BookSlimefunGuide
+ * @see SurvivalSlimefunGuide
  *
  */
 public interface SlimefunGuideImplementation {
@@ -54,7 +52,9 @@ public interface SlimefunGuideImplementation {
      * 
      * @return Whether this is a survival mode implementation
      */
-    boolean isSurvivalMode();
+    default boolean isSurvivalMode() {
+        return getLayout() != SlimefunGuideLayout.CHEAT_MODE;
+    }
 
     void openMainMenu(PlayerProfile profile, int page);
 

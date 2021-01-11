@@ -19,8 +19,7 @@ class OpenGuideCommand extends SubCommand {
     public void onExecute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             if (sender.hasPermission("slimefun.command.open_guide")) {
-                boolean book = SlimefunPlugin.getCfg().getBoolean("guide.default-view-book");
-                SlimefunGuide.openGuide((Player) sender, book ? SlimefunGuideLayout.BOOK : SlimefunGuideLayout.CHEST);
+                SlimefunGuide.openGuide((Player) sender, SlimefunGuideLayout.SURVIVAL_MODE);
             } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
             }
