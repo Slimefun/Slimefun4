@@ -39,7 +39,7 @@ public final class SlimefunGuideSettings {
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
-        options.add(new GuideLayoutOption());
+        options.add(new GuideModeOption());
         options.add(new FireworksOption());
         options.add(new PlayerLanguageOption());
     }

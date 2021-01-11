@@ -60,11 +60,13 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
         return categories;
     }
 
+    @Nonnull
     @Override
     public SlimefunGuideMode getMode() {
         return SlimefunGuideMode.CHEAT_MODE;
     }
 
+    @Nonnull
     @Override
     public ItemStack getItem() {
         return item;

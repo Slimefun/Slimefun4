@@ -36,6 +36,7 @@
 * CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
 * Removed the deprecated ItemManipulationAPI for BlockMenus
 * Removed the "Written Book" variant of the Slimefun Guide
+* The Elevator has an Inventory menu now
 
 #### Fixes
 * Fixed a couple of compatibility issues with ItemsAdder
@@ -46,6 +47,7 @@
 * Fixed #2664
 * Fixed #2655
 * Fixed /sf timings --verbose not working correctly
+* Fixed #2675
 
 ## Release Candidate 18 (03 Dec 2020)
 

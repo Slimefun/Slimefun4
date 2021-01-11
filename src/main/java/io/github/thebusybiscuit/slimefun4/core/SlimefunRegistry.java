@@ -30,6 +30,7 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -98,7 +99,6 @@ public final class SlimefunRegistry {
         guideKey = new NamespacedKey(plugin, "slimefun_guide_mode");
 
         boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
-
         layouts.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes));
         layouts.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
