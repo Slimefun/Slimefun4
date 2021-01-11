@@ -99,7 +99,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         for (int y = 0; y < b.getWorld().getMaxHeight(); y++) {
             if (y == b.getY()) {
                 String name = ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY));
-                floors.addLast(new ElevatorFloor(name, index, b));
+                floors.addFirst(new ElevatorFloor(name, index, b));
                 index++;
                 continue;
             }
@@ -108,7 +108,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
             if (block.getType() == getItem().getType() && BlockStorage.check(block, getId())) {
                 String name = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
-                floors.addLast(new ElevatorFloor(name, index, block));
+                floors.addFirst(new ElevatorFloor(name, index, block));
                 index++;
             }
         }
