@@ -145,13 +145,13 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             if (floor.getAltitude() == b.getY()) {
                 menu.addItem(i, new CustomItem(
                     Material.COMPASS,
-                    ChatColor.GRAY + "> " + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
+                    ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
                     SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor.getName()
                 ), ChestMenuUtils.getEmptyClickHandler());
             } else {
                 menu.addItem(i, new CustomItem(
                     Material.PAPER,
-                    ChatColor.GRAY + "> " + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
+                    ChatColor.GRAY.toString() + floor.getNumber() + ". " + ChatColor.BLACK + floor.getName(),
                     SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor.getName()
                 ), (player, slot, itemStack, clickAction) -> {
                     teleport(player, floor);
