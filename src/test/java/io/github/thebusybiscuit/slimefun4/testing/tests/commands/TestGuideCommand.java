@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
@@ -39,7 +39,7 @@ class TestGuideCommand {
         player.setOp(op);
         server.execute("slimefun", player, "guide").assertSucceeded();
 
-        ItemStack guide = SlimefunGuide.getItem(SlimefunGuideLayout.CHEST);
+        ItemStack guide = SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE);
         Assertions.assertEquals(op, SlimefunUtils.containsSimilarItem(player.getInventory(), guide, true));
     }
 }

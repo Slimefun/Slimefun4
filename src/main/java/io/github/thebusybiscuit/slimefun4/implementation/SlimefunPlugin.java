@@ -50,7 +50,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
-import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
@@ -152,7 +151,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
 
-    private final IntegrationsManager integrations = new ThirdPartyPluginService(this);
+    private final IntegrationsManager integrations = new IntegrationsManager(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
 
     private LocalizationService local;
@@ -204,7 +203,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             // We handle Unit Tests seperately.
             setInstance(this);
-            getLogger().log(Level.INFO, "This is a UNIT TEST Environment.");
             onUnitTestStart();
         } else if (isVersionUnsupported()) {
             // We wanna ensure that the Server uses a compatible version of Minecraft.
@@ -833,18 +831,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
-     * This method has been renamed.
-     * 
-     * @deprecated Please use {@link #getIntegrations()} instead.
-     * 
-     * @return the {@link ThirdPartyPluginService}
-     */
-    @Deprecated
-    public static ThirdPartyPluginService getThirdPartySupportService() {
-        return (ThirdPartyPluginService) instance.integrations;
-    }
-
-    /**
      * This returns our instance of {@link IntegrationsManager}.
      * This is responsible for managing any integrations with third party {@link Plugin plugins}.
      * 
@@ -903,16 +889,22 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.gitHubService;
     }
 
-    @Nonnull
-    public static SlimefunRegistry getRegistry() {
-        validateInstance();
-        return instance.registry;
-    }
-
+    /**
+     * This returns our {@link NetworkManager} which is responsible
+     * for handling the Cargo and Energy networks.
+     * 
+     * @return Our {@link NetworkManager} instance
+     */
     @Nonnull
     public static NetworkManager getNetworkManager() {
         validateInstance();
         return instance.networkManager;
+    }
+
+    @Nonnull
+    public static SlimefunRegistry getRegistry() {
+        validateInstance();
+        return instance.registry;
     }
 
     @Nonnull

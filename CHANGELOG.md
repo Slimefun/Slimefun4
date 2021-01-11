@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 19 (TBD)](#release-candidate-19-tbd)
+- [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
 - [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
 - [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
 - [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
@@ -24,7 +24,19 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 19 (TBD)
+## Release Candidate 20 (TBD)
+
+#### Additions
+
+#### Changes
+* (API) Improvements to the BlockBreakHandler
+
+#### Fixes
+* Fixed elevator floor order
+* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
+* Fixed #2560
+
+## Release Candidate 19 (11 Jan 2021)
 
 #### Additions
 * Added Bee Armor (1.15+ only)
@@ -36,7 +48,8 @@
 * General performance improvements
 * CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
 * Removed the deprecated ItemManipulationAPI for BlockMenus
-* (API) Improvements to the BlockBreakHandler
+* Removed the "Written Book" variant of the Slimefun Guide
+* The Elevator has an Inventory menu now
 
 #### Fixes
 * Fixed a couple of compatibility issues with ItemsAdder
@@ -47,8 +60,7 @@
 * Fixed #2664
 * Fixed #2655
 * Fixed /sf timings --verbose not working correctly
-* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
-* Fixed #2560
+* Fixed #2675
 
 ## Release Candidate 18 (03 Dec 2020)
 

@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -39,7 +39,7 @@ public final class SlimefunGuideSettings {
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
-        options.add(new GuideLayoutOption());
+        options.add(new GuideModeOption());
         options.add(new FireworksOption());
         options.add(new PlayerLanguageOption());
     }
@@ -65,7 +65,7 @@ public final class SlimefunGuideSettings {
     }
 
     private static void addHeader(Player p, ChestMenu menu, ItemStack guide) {
-        menu.addItem(0, new CustomItem(SlimefunGuide.getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), "", "&7" + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide")), (pl, slot, item, action) -> {
+        menu.addItem(0, new CustomItem(SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE), "&e\u21E6 " + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.title"), "", "&7" + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide")), (pl, slot, item, action) -> {
             SlimefunGuide.openGuide(pl, guide);
             return false;
         });
@@ -141,7 +141,7 @@ public final class SlimefunGuideSettings {
         for (SlimefunGuideOption<?> option : options) {
             if (option instanceof FireworksOption) {
                 FireworksOption fireworks = (FireworksOption) option;
-                return fireworks.getSelectedOption(p, SlimefunGuide.getItem(SlimefunGuideLayout.CHEST)).orElse(true);
+                return fireworks.getSelectedOption(p, SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE)).orElse(true);
             }
         }
 

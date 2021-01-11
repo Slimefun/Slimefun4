@@ -23,7 +23,6 @@ softdepend:
 # We hook into these plugins too, but they depend on Slimefun.
 loadBefore:
 - ChestTerminal
-- ExoticGarden
 
 # Our commands
 commands:

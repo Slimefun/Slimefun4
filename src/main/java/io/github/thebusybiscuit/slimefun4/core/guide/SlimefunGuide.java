@@ -3,14 +3,16 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -22,36 +24,35 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  * 
  * @see SlimefunGuideImplementation
- * @see ChestSlimefunGuide
- * @see BookSlimefunGuide
+ * @see SurvivalSlimefunGuide
  *
  */
 public final class SlimefunGuide {
 
     private SlimefunGuide() {}
 
-    public static ItemStack getItem(@Nonnull SlimefunGuideLayout design) {
+    @Nonnull
+    public static ItemStack getItem(@Nonnull SlimefunGuideMode design) {
         return SlimefunPlugin.getRegistry().getGuideLayout(design).getItem();
     }
 
-    public static void openCheatMenu(Player p) {
-        openMainMenuAsync(p, SlimefunGuideLayout.CHEAT_SHEET, 1);
+    public static void openCheatMenu(@Nonnull Player p) {
+        openMainMenuAsync(p, SlimefunGuideMode.CHEAT_MODE, 1);
     }
 
-    public static void openGuide(Player p, ItemStack guide) {
-        if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
-            openGuide(p, SlimefunGuideLayout.CHEST);
-        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
-            openGuide(p, SlimefunGuideLayout.BOOK);
-        } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-            openGuide(p, SlimefunGuideLayout.CHEAT_SHEET);
+    public static void openGuide(@Nonnull Player p, @Nullable ItemStack guide) {
+        if (getItem(SlimefunGuideMode.CHEAT_MODE).equals(guide)) {
+            openGuide(p, SlimefunGuideMode.CHEAT_MODE);
         } else {
-            // When using /sf cheat or /sf open_guide, ItemStack is null.
-            openGuide(p, SlimefunGuideLayout.CHEST);
+            /*
+             * When using /sf cheat or /sf open_guide the ItemStack is null anyway,
+             * so we don't even need to check here at this point.
+             */
+            openGuide(p, SlimefunGuideMode.SURVIVAL_MODE);
         }
     }
 
-    public static void openGuide(Player p, SlimefunGuideLayout layout) {
+    public static void openGuide(@Nonnull Player p, @Nonnull SlimefunGuideMode layout) {
         if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
             return;
         }
@@ -67,51 +68,60 @@ public final class SlimefunGuide {
         }
     }
 
-    private static void openMainMenuAsync(Player player, SlimefunGuideLayout layout, int selectedPage) {
+    @ParametersAreNonnullByDefault
+    private static void openMainMenuAsync(Player player, SlimefunGuideMode layout, int selectedPage) {
         if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
             SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 
-    public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, int selectedPage) {
+    @ParametersAreNonnullByDefault
+    public static void openMainMenu(PlayerProfile profile, SlimefunGuideMode layout, int selectedPage) {
         SlimefunPlugin.getRegistry().getGuideLayout(layout).openMainMenu(profile, selectedPage);
     }
 
-    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, int selectedPage) {
-        if (category == null) {
-            return;
-        }
-
+    @ParametersAreNonnullByDefault
+    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideMode layout, int selectedPage) {
         SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, selectedPage);
     }
 
+    @ParametersAreNonnullByDefault
     public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-        SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST);
+        SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.SURVIVAL_MODE);
 
         if (!survival) {
-            layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEAT_SHEET);
+            layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.CHEAT_MODE);
         }
 
         layout.openSearch(profile, input, addToHistory);
     }
 
+    @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, 0, addToHistory);
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, 0, addToHistory);
     }
 
+    @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
+        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, addToHistory);
     }
 
-    public static boolean isGuideItem(ItemStack item) {
-        return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.BOOK), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
-    }
-
-    public static SlimefunGuideLayout getDefaultLayout() {
-        if (SlimefunPlugin.getCfg().getBoolean("guide.default-view-book")) {
-            return SlimefunGuideLayout.BOOK;
+    public static boolean isGuideItem(@Nullable ItemStack item) {
+        if (item == null) {
+            return false;
         } else {
-            return SlimefunGuideLayout.CHEST;
+            return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
         }
+    }
+
+    /**
+     * Get the default layout for the Slimefun guide.
+     * Currently this is only {@link SlimefunGuideMode#SURVIVAL_MODE}.
+     *
+     * @return The default {@link SlimefunGuideLayout}.
+     */
+    @Nonnull
+    public static SlimefunGuideMode getDefaultLayout() {
+        return SlimefunGuideMode.SURVIVAL_MODE;
     }
 }
