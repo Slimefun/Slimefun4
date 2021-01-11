@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.guide;
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,11 +34,11 @@ public final class SlimefunGuide {
         return SlimefunPlugin.getRegistry().getGuideLayout(design).getItem();
     }
 
-    public static void openCheatMenu(Player p) {
+    public static void openCheatMenu(@Nonnull Player p) {
         openMainMenuAsync(p, SlimefunGuideLayout.CHEAT_SHEET, 1);
     }
 
-    public static void openGuide(Player p, ItemStack guide) {
+    public static void openGuide(@Nonnull Player p, @Nonnull ItemStack guide) {
         if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
             openGuide(p, SlimefunGuideLayout.CHEST);
         } else if (SlimefunUtils.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
@@ -47,7 +49,7 @@ public final class SlimefunGuide {
         }
     }
 
-    public static void openGuide(Player p, SlimefunGuideLayout layout) {
+    public static void openGuide(@Nonnull Player p, @Nonnull SlimefunGuideLayout layout) {
         if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
             return;
         }
@@ -63,17 +65,20 @@ public final class SlimefunGuide {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private static void openMainMenuAsync(Player player, SlimefunGuideLayout layout, int selectedPage) {
         if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
             SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 
+    @ParametersAreNonnullByDefault
     public static void openMainMenu(PlayerProfile profile, SlimefunGuideLayout layout, int selectedPage) {
         SlimefunPlugin.getRegistry().getGuideLayout(layout).openMainMenu(profile, selectedPage);
     }
 
-    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideLayout layout, int selectedPage) {
+    @ParametersAreNonnullByDefault
+    public static void openCategory(PlayerProfile profile, @Nullable Category category, SlimefunGuideLayout layout, int selectedPage) {
         if (category == null) {
             return;
         }
@@ -81,6 +86,7 @@ public final class SlimefunGuide {
         SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, selectedPage);
     }
 
+    @ParametersAreNonnullByDefault
     public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
         SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST);
 
@@ -91,19 +97,28 @@ public final class SlimefunGuide {
         layout.openSearch(profile, input, addToHistory);
     }
 
+    @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
         SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, 0, addToHistory);
     }
 
+    @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
         SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideLayout.CHEST).displayItem(profile, item, addToHistory);
     }
 
-    public static boolean isGuideItem(ItemStack item) {
+    public static boolean isGuideItem(@Nonnull ItemStack item) {
         return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEST), true)
             || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideLayout.CHEAT_SHEET), true);
     }
 
+    /**
+     * Get the default layout for the Slimefun guide.
+     * Currently this is only {@link SlimefunGuideLayout#CHEST}.
+     *
+     * @return The default {@link SlimefunGuideLayout}.
+     */
+    @Nonnull
     public static SlimefunGuideLayout getDefaultLayout() {
         return SlimefunGuideLayout.CHEST;
     }

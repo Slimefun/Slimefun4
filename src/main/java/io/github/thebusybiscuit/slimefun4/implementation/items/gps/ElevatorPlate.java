@@ -46,6 +46,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
      * This is our key for storing the floor name.
      */
     private static final String DATA_KEY = "floor";
+    private static final int GUI_SIZE = 27;
 
     /**
      * This is our {@link Set} of currently teleporting {@link Player Players}.
@@ -122,24 +123,24 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
     private void openFloorSelector(Block b, List<Block> floors, Player p, int page) {
-        ChestMenu menu = new ChestMenu("Floor Selector");
+        ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor"));
         menu.setEmptySlotsClickable(false);
-        int pages = 1 + (floors.size() / 27);
+        int pages = 1 + (floors.size() / GUI_SIZE);
+        int idx = page == 1 ? 0 : GUI_SIZE * (page - 1);
 
-        for (int i = 0; i < Math.min(27, floors.size()); i++) {
-            // SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor"))
-            Block block = floors.get(i);
+        for (int i = 0; i < Math.min(GUI_SIZE, floors.size() - idx); i++) {
+            Block block = floors.get(idx + i);
             String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
 
             if (block.getY() == b.getY()) {
                 menu.addItem(i, new CustomItem(
-                    Material.END_STONE,
+                    Material.COMPASS,
                     ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor,
-                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor")
+                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor
                 ));
             } else {
                 menu.addItem(i, new CustomItem(
-                    Material.END_STONE,
+                    Material.PAPER,
                     ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor,
                     SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor
                 ), (player, slot, itemStack, clickAction) -> {
@@ -149,13 +150,14 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             }
         }
 
-        for (int i = 27; i < 36; i++) {
-            if (i == 28 && pages > 1) {
+        // 0 index so size is the first slot of the last row.
+        for (int i = GUI_SIZE; i < GUI_SIZE + 9; i++) {
+            if (i == GUI_SIZE + 2 && pages > 1 && page != 1) {
                 menu.addItem(i, ChestMenuUtils.getPreviousButton(p, page, pages), (player, i1, itemStack, clickAction) -> {
                     openFloorSelector(b, floors, p, page - 1);
                     return false;
                 });
-            } else if (i == 34 && pages > 1) {
+            } else if (i == GUI_SIZE + 6 && pages > 1 && page != pages) {
                 menu.addItem(i, ChestMenuUtils.getNextButton(p, page, pages), (player, i1, itemStack, clickAction) -> {
                     openFloorSelector(b, floors, p, page + 1);
                     return false;
