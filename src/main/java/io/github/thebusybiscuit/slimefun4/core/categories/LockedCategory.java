@@ -14,6 +14,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -76,8 +77,8 @@ public class LockedCategory extends Category {
     }
 
     @Override
-    public void register() {
-        super.register();
+    public void register(@Nonnull SlimefunAddon addon) {
+        super.register(addon);
 
         List<NamespacedKey> namespacedKeys = new ArrayList<>();
 
@@ -94,7 +95,7 @@ public class LockedCategory extends Category {
         }
 
         for (NamespacedKey key : namespacedKeys) {
-            Slimefun.getLogger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
+            SlimefunPlugin.logger().log(Level.INFO, "Parent \"{0}\" for Category \"{1}\" was not found, probably just disabled.", new Object[] { key, getKey() });
         }
     }
 

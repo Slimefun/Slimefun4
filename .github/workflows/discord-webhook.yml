@@ -6,6 +6,8 @@ on:
     - 'src/**'
     - '!src/main/resources/languages/**'
     - 'pom.xml'
+    tags-ignore:
+    - 'RC.*'
 
 jobs:
   report:

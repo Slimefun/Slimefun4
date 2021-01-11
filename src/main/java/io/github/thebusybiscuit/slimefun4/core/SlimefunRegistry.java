@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -25,12 +26,13 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -71,12 +73,16 @@ public final class SlimefunRegistry {
     private final Set<SlimefunItem> radioactive = new HashSet<>();
     private final Set<ItemStack> barterDrops = new HashSet<>();
 
+    private NamespacedKey soulboundKey;
+    private NamespacedKey itemChargeKey;
+    private NamespacedKey guideKey;
+
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
     private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
-    private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
+    private final Map<SlimefunGuideMode, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideMode.class);
     private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
 
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
@@ -84,14 +90,17 @@ public final class SlimefunRegistry {
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
     private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
-    public void load(@Nonnull Config cfg) {
+    public void load(@Nonnull SlimefunPlugin plugin, @Nonnull Config cfg) {
+        Validate.notNull(plugin, "The Plugin cannot be null!");
         Validate.notNull(cfg, "The Config cannot be null!");
 
-        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
+        soulboundKey = new NamespacedKey(plugin, "soulbound");
+        itemChargeKey = new NamespacedKey(plugin, "item_charge");
+        guideKey = new NamespacedKey(plugin, "slimefun_guide_mode");
 
-        layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
-        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
-        layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
+        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
+        layouts.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes));
+        layouts.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
@@ -190,7 +199,7 @@ public final class SlimefunRegistry {
         return multiblocks;
     }
 
-    public SlimefunGuideImplementation getGuideLayout(SlimefunGuideLayout layout) {
+    public SlimefunGuideImplementation getGuideLayout(SlimefunGuideMode layout) {
         return layouts.get(layout);
     }
 
@@ -260,6 +269,21 @@ public final class SlimefunRegistry {
 
     public boolean logDuplicateBlockEntries() {
         return logDuplicateBlockEntries;
+    }
+
+    @Nonnull
+    public NamespacedKey getSoulboundDataKey() {
+        return soulboundKey;
+    }
+
+    @Nonnull
+    public NamespacedKey getItemChargeDataKey() {
+        return itemChargeKey;
+    }
+
+    @Nonnull
+    public NamespacedKey getGuideDataKey() {
+        return guideKey;
     }
 
 }
