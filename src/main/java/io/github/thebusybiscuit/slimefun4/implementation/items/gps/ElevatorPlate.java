@@ -137,7 +137,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                     Material.COMPASS,
                     ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor,
                     SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor
-                ));
+                ), (player, i1, itemStack, clickAction) -> false);
             } else {
                 menu.addItem(i, new CustomItem(
                     Material.PAPER,
