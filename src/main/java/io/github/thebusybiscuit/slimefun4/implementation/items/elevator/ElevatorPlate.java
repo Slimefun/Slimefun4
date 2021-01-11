@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.gps;
+package io.github.thebusybiscuit.slimefun4.implementation.items.elevator;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -47,7 +47,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
      * This is our key for storing the floor name.
      */
     private static final String DATA_KEY = "floor";
-    
+
     /**
      * This is the size of our {@link Inventory}.
      */
@@ -92,19 +92,21 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     }
 
     @Nonnull
-    public List<Block> getFloors(@Nonnull Block b) {
-        List<Block> floors = new LinkedList<>();
+    public List<ElevatorFloor> getFloors(@Nonnull Block b) {
+        List<ElevatorFloor> floors = new LinkedList<>();
 
         for (int y = b.getWorld().getMaxHeight(); y > 0; y--) {
             if (y == b.getY()) {
-                floors.add(b);
+                String name = ChatColors.color(BlockStorage.getLocationInfo(b.getLocation(), DATA_KEY));
+                floors.add(new ElevatorFloor(name, b));
                 continue;
             }
 
             Block block = b.getWorld().getBlockAt(b.getX(), y, b.getZ());
 
             if (block.getType() == getItem().getType() && BlockStorage.check(block, getId())) {
-                floors.add(block);
+                String name = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
+                floors.add(new ElevatorFloor(name, block));
             }
         }
 
@@ -117,7 +119,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             return;
         }
 
-        List<Block> floors = getFloors(b);
+        List<ElevatorFloor> floors = getFloors(b);
 
         if (floors.size() < 2) {
             SlimefunPlugin.getLocalization().sendMessage(p, "machines.ELEVATOR.no-destinations", true);
@@ -127,32 +129,34 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     }
 
     @ParametersAreNonnullByDefault
-    private void openFloorSelector(Block b, List<Block> floors, Player p, int page) {
+    private void openFloorSelector(Block b, List<ElevatorFloor> floors, Player p, int page) {
         ChestMenu menu = new ChestMenu(SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.pick-a-floor"));
         menu.setEmptySlotsClickable(false);
+
         int pages = 1 + (floors.size() / GUI_SIZE);
-        int idx = page == 1 ? 0 : GUI_SIZE * (page - 1);
+        int index = page == 1 ? 0 : GUI_SIZE * (page - 1);
 
-        for (int i = 0; i < Math.min(GUI_SIZE, floors.size() - idx); i++) {
-            Block block = floors.get(idx + i);
-            String floor = ChatColors.color(BlockStorage.getLocationInfo(block.getLocation(), DATA_KEY));
+        for (int i = 0; i < Math.min(GUI_SIZE, floors.size() - index); i++) {
+            ElevatorFloor floor = floors.get(index + i);
 
-            if (block.getY() == b.getY()) {
+            // @formatter:off
+            if (floor.getAltitude() == b.getY()) {
                 menu.addItem(i, new CustomItem(
                     Material.COMPASS,
-                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor,
-                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor
-                ), (player, i1, itemStack, clickAction) -> false);
+                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor.getName(),
+                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.current-floor") + ' ' + ChatColor.WHITE + floor.getName()
+                ), ChestMenuUtils.getEmptyClickHandler());
             } else {
                 menu.addItem(i, new CustomItem(
                     Material.PAPER,
-                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor,
-                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor
+                    ChatColor.GRAY + "> " + (floors.size() - i) + ". " + ChatColor.BLACK + floor.getName(),
+                    SlimefunPlugin.getLocalization().getMessage(p, "machines.ELEVATOR.click-to-teleport") + ' ' + ChatColor.WHITE + floor.getName()
                 ), (player, slot, itemStack, clickAction) -> {
-                    teleport(player, floor, block);
+                    teleport(player, floor);
                     return false;
                 });
             }
+            // @formatter:on
         }
 
         // 0 index so size is the first slot of the last row.
@@ -176,7 +180,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
     }
 
     @ParametersAreNonnullByDefault
-    private void teleport(Player player, String floorName, Block target) {
+    private void teleport(Player player, ElevatorFloor floor) {
         SlimefunPlugin.runSync(() -> {
             users.add(player.getUniqueId());
 
@@ -186,11 +190,12 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                 yaw = -180 + (yaw - 180);
             }
 
-            Location destination = new Location(player.getWorld(), target.getX() + 0.5, target.getY() + 0.4, target.getZ() + 0.5, yaw, player.getEyeLocation().getPitch());
+            Location loc = floor.getLocation();
+            Location destination = new Location(player.getWorld(), loc.getX() + 0.5, loc.getY() + 0.4, loc.getZ() + 0.5, yaw, player.getEyeLocation().getPitch());
 
             PaperLib.teleportAsync(player, destination).thenAccept(teleported -> {
                 if (teleported.booleanValue()) {
-                    player.sendTitle(ChatColor.WHITE + ChatColors.color(floorName), null, 20, 60, 20);
+                    player.sendTitle(ChatColor.WHITE + ChatColors.color(floor.getName()), null, 20, 60, 20);
                 }
             });
         });
