@@ -2,21 +2,16 @@ package io.github.thebusybiscuit.slimefun4.core.services.plugins;
 
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.block.Block;
-import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
-
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
+import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
@@ -26,17 +21,13 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * 
  * @author TheBusyBiscuit
  * 
+ * @deprecated Renamed to {@link IntegrationsManager}
+ * 
  * @see SlimefunPlugin
  *
  */
-public class ThirdPartyPluginService {
-
-    private final SlimefunPlugin plugin;
-
-    private boolean initialized = false;
-    private boolean isExoticGardenInstalled = false;
-    private boolean isChestTerminalInstalled = false;
-    private boolean isMcMMOInstalled = false;
+@Deprecated
+public class ThirdPartyPluginService extends IntegrationsManager {
 
     /**
      * This gets overridden if ExoticGarden is loaded
@@ -50,111 +41,19 @@ public class ThirdPartyPluginService {
      *            Our instance of {@link SlimefunPlugin}
      */
     public ThirdPartyPluginService(@Nonnull SlimefunPlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
-    /**
-     * This method initializes all third party integrations.
-     */
-    public void start() {
-        if (initialized) {
-            throw new UnsupportedOperationException("Third Party Integrations have already been initialized!");
-        }
-
-        initialized = true;
-
-        if (isPluginInstalled("PlaceholderAPI")) {
-            try {
-                PlaceholderAPIIntegration hook = new PlaceholderAPIIntegration(plugin);
-                hook.register();
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("PlaceholderAPI").getDescription().getVersion();
-
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating PlaceholderAPI or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into PlaceholderAPI v" + version);
-            }
-        }
-
-        // WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-        if (isPluginInstalled("WorldEdit")) {
-            try {
-                Class.forName("com.sk89q.worldedit.extent.Extent");
-                new WorldEditIntegration();
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
-
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating WorldEdit or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into WorldEdit v" + version);
-            }
-        }
-
-        // mcMMO Integration
-        if (isPluginInstalled("mcMMO")) {
-            try {
-                new McMMOIntegration(plugin);
-                isMcMMOInstalled = true;
-            } catch (Exception | LinkageError x) {
-                String version = plugin.getServer().getPluginManager().getPlugin("mcMMO").getDescription().getVersion();
-                Slimefun.getLogger().log(Level.WARNING, "Maybe consider updating mcMMO or Slimefun?");
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Failed to hook into mcMMO v" + version);
-            }
-        }
-
-        /*
-         * These Items are not marked as soft-dependencies and
-         * therefore need to be loaded after the Server has finished
-         * loading all plugins
-         */
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            if (isPluginInstalled("ClearLag")) {
-                new ClearLagIntegration(plugin);
-            }
-
-            isChestTerminalInstalled = isPluginInstalled("ChestTerminal");
-        });
-    }
-
-    private boolean isPluginInstalled(@Nonnull String hook) {
-        if (plugin.getServer().getPluginManager().isPluginEnabled(hook)) {
-            Slimefun.getLogger().log(Level.INFO, "Hooked into Plugin: {0}", hook);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @ParametersAreNonnullByDefault
+    @Deprecated
     public void loadExoticGarden(Plugin plugin, Function<Block, Optional<ItemStack>> method) {
         if (plugin.getName().equals("ExoticGarden")) {
-            isExoticGardenInstalled = true;
             exoticGardenIntegration = method;
         }
     }
 
-    public boolean isExoticGardenInstalled() {
-        return isExoticGardenInstalled;
-    }
-
-    public boolean isChestTerminalInstalled() {
-        return isChestTerminalInstalled;
-    }
-
+    @Deprecated
     public Optional<ItemStack> harvestExoticGardenPlant(Block block) {
         return exoticGardenIntegration.apply(block);
-    }
-
-    /**
-     * This checks if one of our third party integrations faked an {@link Event}.
-     * Faked {@link Event Events} should be ignored in our logic.
-     * 
-     * @param event
-     *            The {@link Event} to test
-     * 
-     * @return Whether this is a fake event
-     */
-    public boolean isEventFaked(@Nonnull Event event) {
-        // This can be changed to "FakeEvent" in a later version
-        return isMcMMOInstalled && event instanceof FakeBlockBreakEvent;
     }
 
 }

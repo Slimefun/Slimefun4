@@ -476,7 +476,7 @@ public class SlimefunItem implements Placeable {
     private final void onEnable() {
         // Register the Category too if it hasn't been registered yet
         if (!category.isRegistered()) {
-            category.register();
+            category.register(addon);
         }
 
         // Send out deprecation warnings for any classes or interfaces

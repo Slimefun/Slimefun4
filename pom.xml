@@ -30,7 +30,6 @@
         <sonar.organization>slimefun</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.log.level>DEBUG</sonar.log.level>
-        <sonar.exclusions>src/main/java/me/mrCookieSlime/Slimefun/bstats/bukkit/Metrics.java</sonar.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -50,11 +49,11 @@
     <repositories>
         <repository>
             <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
         </repository>
         <repository>
             <id>paper-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://papermc.io/repo/repository/maven-public</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
@@ -62,7 +61,7 @@
         </repository>
         <repository>
             <id>worldedit-repo</id>
-            <url>https://maven.sk89q.com/repo/</url>
+            <url>https://maven.sk89q.com/repo</url>
         </repository>
         <repository>
             <id>codemc-repo</id>
@@ -70,11 +69,11 @@
         </repository>
         <repository>
             <id>placeholderapi-repo</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi</url>
         </repository>
         <repository>
             <id>walshy-public</id>
-            <url>https://repo.walshy.dev/public/</url>
+            <url>https://repo.walshy.dev/public</url>
         </repository>
     </repositories>
 
@@ -315,7 +314,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.16.0</version>
+            <version>0.20.0</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -329,7 +328,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.6.28</version>
+            <version>3.7.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -337,7 +336,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.27.4</version>
+            <version>0.29</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -349,7 +348,7 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.05</version>
+            <version>3.11.10</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -363,7 +362,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.0</version>
+            <version>7.2.1</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -381,7 +380,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.159</version>
+            <version>2.1.171</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -397,6 +396,13 @@
                 <exclusion>
                     <groupId>com.sk89q.worldguard</groupId>
                     <artifactId>worldguard-legacy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <!-- We do not want to use the wrong TextComponents by -->
+                    <!-- accident. If we use adventure, then we will add -->
+                    <!-- it ourselves. -->
+                    <groupId>net.kyori</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -419,6 +425,20 @@
             <artifactId>clearlag-core</artifactId>
             <version>3.1.6</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.LoneDev6</groupId>
+            <artifactId>itemsadder-api</artifactId>
+            <version>0.1.2</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We use javax.annotation instead. Excluding this -->
+                    <!-- prevents us from using inconsistent annotations -->
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

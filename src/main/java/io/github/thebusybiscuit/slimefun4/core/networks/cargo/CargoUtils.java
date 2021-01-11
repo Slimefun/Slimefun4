@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,24 +16,37 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+/**
+ * This is a helper class for the {@link CargoNet} which provides
+ * a free static utility methods to let the {@link CargoNet} interact with
+ * an {@link Inventory} or {@link BlockMenu}.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ * @author DNx5
+ *
+ */
 final class CargoUtils {
 
-    // Whitelist or blacklist slots
+    /**
+     * These are the slots where our filter items sit.
+     */
     private static final int[] FILTER_SLOTS = { 19, 20, 21, 28, 29, 30, 37, 38, 39 };
 
+    /**
+     * This is a utility class and should not be instantiated.
+     * Therefore we just hide the public constructor.
+     */
     private CargoUtils() {}
 
     /**
@@ -54,10 +66,6 @@ final class CargoUtils {
 
         Material type = block.getType();
 
-        if (SlimefunTag.SHULKER_BOXES.isTagged(type)) {
-            return true;
-        }
-
         switch (type) {
         case CHEST:
         case TRAPPED_CHEST:
@@ -71,10 +79,11 @@ final class CargoUtils {
         case SMOKER:
             return true;
         default:
-            return false;
+            return SlimefunTag.SHULKER_BOXES.isTagged(type);
         }
     }
 
+    @Nonnull
     static int[] getInputSlotRange(@Nonnull Inventory inv, @Nullable ItemStack item) {
         if (inv instanceof FurnaceInventory) {
             if (item != null && item.getType().isFuel()) {
@@ -104,7 +113,8 @@ final class CargoUtils {
         }
     }
 
-    static int[] getOutputSlotRange(Inventory inv) {
+    @Nonnull
+    static int[] getOutputSlotRange(@Nonnull Inventory inv) {
         if (inv instanceof FurnaceInventory) {
             // Slot 2-3
             return new int[] { 2, 3 };
@@ -117,7 +127,8 @@ final class CargoUtils {
         }
     }
 
-    static ItemStack withdraw(Map<Location, Inventory> inventories, Block node, Block target, ItemStack template) {
+    @Nullable
+    static ItemStack withdraw(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, ItemStack template) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu == null) {
@@ -125,7 +136,7 @@ final class CargoUtils {
                 Inventory inventory = inventories.get(target.getLocation());
 
                 if (inventory != null) {
-                    return withdrawFromVanillaInventory(node, template, inventory);
+                    return withdrawFromVanillaInventory(network, node, template, inventory);
                 }
 
                 BlockState state = PaperLib.getBlockState(target, false).getState();
@@ -133,7 +144,7 @@ final class CargoUtils {
                 if (state instanceof InventoryHolder) {
                     inventory = ((InventoryHolder) state).getInventory();
                     inventories.put(target.getLocation(), inventory);
-                    return withdrawFromVanillaInventory(node, template, inventory);
+                    return withdrawFromVanillaInventory(network, node, template, inventory);
                 }
             }
 
@@ -145,10 +156,10 @@ final class CargoUtils {
         for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
             ItemStack is = menu.getItemInSlot(slot);
 
-            if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(node, is)) {
+            if (SlimefunUtils.isItemSimilar(is, wrapper, true) && matchesFilter(network, node, is)) {
                 if (is.getAmount() > template.getAmount()) {
                     is.setAmount(is.getAmount() - template.getAmount());
-                    menu.replaceExistingItem(slot, is.clone());
+                    menu.replaceExistingItem(slot, is);
                     return template;
                 } else {
                     menu.replaceExistingItem(slot, null);
@@ -160,7 +171,8 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStack withdrawFromVanillaInventory(Block node, ItemStack template, Inventory inv) {
+    @Nullable
+    static ItemStack withdrawFromVanillaInventory(AbstractItemNetwork network, Block node, ItemStack template, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int[] range = getOutputSlotRange(inv);
         int minSlot = range[0];
@@ -172,7 +184,7 @@ final class CargoUtils {
             // Changes to these ItemStacks are synchronized with the Item in the Inventory
             ItemStack itemInSlot = contents[slot];
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && matchesFilter(node, itemInSlot)) {
+            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && matchesFilter(network, node, itemInSlot)) {
                 if (itemInSlot.getAmount() > template.getAmount()) {
                     itemInSlot.setAmount(itemInSlot.getAmount() - template.getAmount());
                     return template;
@@ -187,14 +199,15 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStackAndInteger withdraw(Map<Location, Inventory> inventories, Block node, Block target) {
+    @Nullable
+    static ItemStackAndInteger withdraw(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target) {
         DirtyChestMenu menu = getChestMenu(target);
 
         if (menu != null) {
             for (int slot : menu.getPreset().getSlotsAccessedByItemTransport(menu, ItemTransportFlow.WITHDRAW, null)) {
                 ItemStack is = menu.getItemInSlot(slot);
 
-                if (matchesFilter(node, is)) {
+                if (matchesFilter(network, node, is)) {
                     menu.replaceExistingItem(slot, null);
                     return new ItemStackAndInteger(is, slot);
                 }
@@ -203,7 +216,7 @@ final class CargoUtils {
             Inventory inventory = inventories.get(target.getLocation());
 
             if (inventory != null) {
-                return withdrawFromVanillaInventory(node, inventory);
+                return withdrawFromVanillaInventory(network, node, inventory);
             }
 
             BlockState state = PaperLib.getBlockState(target, false).getState();
@@ -211,14 +224,15 @@ final class CargoUtils {
             if (state instanceof InventoryHolder) {
                 inventory = ((InventoryHolder) state).getInventory();
                 inventories.put(target.getLocation(), inventory);
-                return withdrawFromVanillaInventory(node, inventory);
+                return withdrawFromVanillaInventory(network, node, inventory);
             }
         }
 
         return null;
     }
 
-    private static ItemStackAndInteger withdrawFromVanillaInventory(Block node, Inventory inv) {
+    @Nullable
+    private static ItemStackAndInteger withdrawFromVanillaInventory(AbstractItemNetwork network, Block node, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int[] range = getOutputSlotRange(inv);
         int minSlot = range[0];
@@ -227,7 +241,7 @@ final class CargoUtils {
         for (int slot = minSlot; slot < maxSlot; slot++) {
             ItemStack is = contents[slot];
 
-            if (matchesFilter(node, is)) {
+            if (matchesFilter(network, node, is)) {
                 inv.setItem(slot, null);
                 return new ItemStackAndInteger(is, slot);
             }
@@ -236,8 +250,9 @@ final class CargoUtils {
         return null;
     }
 
-    static ItemStack insert(Map<Location, Inventory> inventories, Block node, Block target, ItemStack stack) {
-        if (!matchesFilter(node, stack)) {
+    @Nullable
+    static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, ItemStack stack) {
+        if (!matchesFilter(network, node, stack)) {
             return stack;
         }
 
@@ -276,7 +291,7 @@ final class CargoUtils {
             int maxStackSize = itemInSlot.getType().getMaxStackSize();
             int currentAmount = itemInSlot.getAmount();
 
-            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && currentAmount < maxStackSize) {
+            if (currentAmount < maxStackSize && SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
                 int amount = currentAmount + stack.getAmount();
 
                 itemInSlot.setAmount(Math.min(amount, maxStackSize));
@@ -294,6 +309,7 @@ final class CargoUtils {
         return stack;
     }
 
+    @Nullable
     private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
         ItemStack[] contents = inv.getContents();
         int[] range = getInputSlotRange(inv, stack);
@@ -312,7 +328,7 @@ final class CargoUtils {
             } else {
                 int maxStackSize = itemInSlot.getType().getMaxStackSize();
 
-                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && itemInSlot.getAmount() < maxStackSize) {
+                if (itemInSlot.getAmount() < maxStackSize && SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
                     int amount = itemInSlot.getAmount() + stack.getAmount();
 
                     if (amount > maxStackSize) {
@@ -330,85 +346,21 @@ final class CargoUtils {
         return stack;
     }
 
+    @Nullable
     static DirtyChestMenu getChestMenu(@Nonnull Block block) {
         if (BlockStorage.hasInventory(block)) {
             return BlockStorage.getInventory(block);
+        } else {
+            return BlockStorage.getUniversalInventory(block);
         }
-
-        return BlockStorage.getUniversalInventory(block);
     }
 
-    static boolean matchesFilter(@Nonnull Block block, @Nullable ItemStack item) {
+    static boolean matchesFilter(@Nonnull AbstractItemNetwork network, @Nonnull Block node, @Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return false;
         }
 
-        // Store the returned Config instance to avoid heavy calls
-        Config blockData = BlockStorage.getLocationInfo(block.getLocation());
-        String id = blockData.getString("id");
-
-        if (id == null) {
-            // This should normally not happen but if it does...
-            // Don't accept any items.
-            return false;
-        } else if (id.equals("CARGO_NODE_OUTPUT")) {
-            // Cargo Output nodes have no filter actually
-            return true;
-        }
-
-        try {
-            BlockMenu menu = BlockStorage.getInventory(block.getLocation());
-
-            if (menu == null) {
-                return false;
-            }
-
-            boolean lore = "true".equals(blockData.getString("filter-lore"));
-            boolean allowByDefault = !"whitelist".equals(blockData.getString("filter-type"));
-            return matchesFilterList(item, menu, lore, allowByDefault);
-        } catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to filter items for a Cargo Node (" + id + ") at " + new BlockPosition(block));
-            return false;
-        }
-    }
-
-    private static boolean matchesFilterList(ItemStack item, BlockMenu menu, boolean respectLore, boolean defaultValue) {
-        // Little performance optimization:
-        // First check if there is more than one item to compare, if so
-        // then we know we should create an ItemStackWrapper, otherwise it would
-        // be of no benefit to us and just be redundant
-        int itemsToCompare = 0;
-
-        for (int slot : FILTER_SLOTS) {
-            ItemStack stack = menu.getItemInSlot(slot);
-
-            if (stack != null && stack.getType() != Material.AIR) {
-                itemsToCompare++;
-
-                if (itemsToCompare > 1) {
-                    break;
-                }
-            }
-        }
-
-        // Check if there are event non-air items
-        if (itemsToCompare > 0) {
-            // Only create the Wrapper if its worth it
-            if (itemsToCompare > 1) {
-                // Create an itemStackWrapper to save performance
-                item = new ItemStackWrapper(item);
-            }
-
-            for (int slot : FILTER_SLOTS) {
-                ItemStack stack = menu.getItemInSlot(slot);
-
-                if (SlimefunUtils.isItemSimilar(stack, item, respectLore, false)) {
-                    return !defaultValue;
-                }
-            }
-        }
-
-        return defaultValue;
+        return network.getItemFilter(node).test(item);
     }
 
     /**
@@ -433,16 +385,35 @@ final class CargoUtils {
     }
 
     private static boolean isPotion(@Nullable ItemStack item) {
-        return item != null && (item.getType() == Material.POTION || item.getType() == Material.SPLASH_POTION || item.getType() == Material.LINGERING_POTION);
+        if (item != null) {
+            Material type = item.getType();
+            return type == Material.POTION || type == Material.SPLASH_POTION || type == Material.LINGERING_POTION;
+        } else {
+            return false;
+        }
     }
 
     /**
      * Get the whitelist/blacklist slots in a Cargo Input Node. If you wish to access the items
      * in the cargo (without hardcoding the slots in case of change) then you can use this method.
+     * 
+     * @deprecated Renamed to {@link #getFilteringSlots()}
      *
      * @return The slot indexes for the whitelist/blacklist section.
      */
+    @Deprecated
     public static int[] getWhitelistBlacklistSlots() {
+        return getFilteringSlots();
+    }
+
+    /**
+     * Gets the {@link ItemFilter} slots for a Cargo Node. If you wish to access the items
+     * in the cargo (without hardcoding the slots in case of change) then you can use this method.
+     *
+     * @return The slots where the {@link ItemFilter} section for a cargo node sits
+     */
+    @Nonnull
+    public static int[] getFilteringSlots() {
         return FILTER_SLOTS;
     }
 }

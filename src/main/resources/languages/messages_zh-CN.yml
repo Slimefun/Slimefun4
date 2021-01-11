@@ -106,11 +106,8 @@ messages:
   no-permission: "&4你没有足够的权限做这个"
   usage: "&4用法: &c%usage%"
   not-online: "&4%player% &c不在线"
-  invalid-item: "&4%item% &c不是一个有效的物品名!"
-  invalid-amount: "&4%amount% &ci不是一个有效的数字 : 它必须大于 0!"
   given-item: '&b你获得了 &a%amount% &7"%item%&7"'
   give-item: '&b成功给予玩家 %player% &a%amount% &7"%item%&7"'
-  invalid-research: "&4%research% &c不是一个有效的研究名!"
   give-research: '&b你成功解锁了玩家 %player% 的研究 &7"%research%&7"'
   hungry: "&c你太饿了, 先吃点东西再试试吧!"
   disabled-in-world: "&4&l这个物品在此世界已被禁用"
@@ -178,6 +175,10 @@ messages:
   climbing-pick:
     dual-wielding: "&4你需要双手拿着攀岩镐才能使用!"
     wrong-material: "&c你不能爬上这个平面. 查看指南书了解更多!"
+  invalid-item: "&4%item% &c不是一个有效的物品名!"
+  invalid-amount: "&4%amount% &ci不是一个有效的数字 : 它必须大于 0!"
+  invalid-research: "&4%research% &c不是一个有效的研究名!"
+  bee-suit-slow-fall: "&e你的蜂翅会让你安全且缓慢地回到地面"
   mode-change: "&b%device% 的模式已切换为: &9%mode%"
 machines:
   pattern-not-found: "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成配方, 请检查发射器里放置物品的顺序."

@@ -20,7 +20,6 @@ options:
   drop-excess-sf-give-items: false
 
 guide:
-  default-view-book: false
   show-vanilla-recipes: true
   receive-on-first-join: true
 
