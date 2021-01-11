@@ -50,7 +50,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
-import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
@@ -151,7 +150,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
 
-    private final IntegrationsManager integrations = new ThirdPartyPluginService(this);
+    private final IntegrationsManager integrations = new IntegrationsManager(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
 
     private LocalizationService local;
@@ -827,18 +826,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static PerWorldSettingsService getWorldSettingsService() {
         validateInstance();
         return instance.worldSettingsService;
-    }
-
-    /**
-     * This method has been renamed.
-     * 
-     * @deprecated Please use {@link #getIntegrations()} instead.
-     * 
-     * @return the {@link ThirdPartyPluginService}
-     */
-    @Deprecated
-    public static ThirdPartyPluginService getThirdPartySupportService() {
-        return (ThirdPartyPluginService) instance.integrations;
     }
 
     /**

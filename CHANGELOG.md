@@ -24,6 +24,14 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Release Candidate 20 (TBD)
+
+#### Additions
+
+#### Changes
+
+#### Fixes
+
 ## Release Candidate 19 (11 Jan 2021)
 
 #### Additions
