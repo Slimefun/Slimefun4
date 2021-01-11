@@ -901,16 +901,22 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.gitHubService;
     }
 
-    @Nonnull
-    public static SlimefunRegistry getRegistry() {
-        validateInstance();
-        return instance.registry;
-    }
-
+    /**
+     * This returns our {@link NetworkManager} which is responsible
+     * for handling the Cargo and Energy networks.
+     * 
+     * @return Our {@link NetworkManager} instance
+     */
     @Nonnull
     public static NetworkManager getNetworkManager() {
         validateInstance();
         return instance.networkManager;
+    }
+
+    @Nonnull
+    public static SlimefunRegistry getRegistry() {
+        validateInstance();
+        return instance.registry;
     }
 
     @Nonnull
