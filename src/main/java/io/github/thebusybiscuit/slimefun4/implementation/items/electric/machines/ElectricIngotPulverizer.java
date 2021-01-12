@@ -3,10 +3,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
