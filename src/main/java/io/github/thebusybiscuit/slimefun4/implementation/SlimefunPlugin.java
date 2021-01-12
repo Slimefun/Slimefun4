@@ -75,6 +75,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsLis
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.FireworksListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.HopperListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.IronGolemListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
@@ -101,7 +102,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.Cart
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CauldronListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CraftingTableListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.GrindstoneListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.HopperListener;
 import io.github.thebusybiscuit.slimefun4.implementation.resources.GEOResourcesSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.PostSetup;
 import io.github.thebusybiscuit.slimefun4.implementation.setup.ResearchSetup;
