@@ -19,7 +19,6 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -27,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
@@ -69,7 +67,7 @@ public class SlimefunProfiler {
     private long totalElapsedTime;
 
     private final Map<ProfiledBlock, Long> timings = new ConcurrentHashMap<>();
-    private final Queue<CommandSender> requests = new ConcurrentLinkedQueue<>();
+    private final Queue<PerformanceInspector> requests = new ConcurrentLinkedQueue<>();
 
     /**
      * This method terminates the {@link SlimefunProfiler}.
@@ -183,7 +181,7 @@ public class SlimefunProfiler {
 
                 // If we waited for too long, then we should just abort
                 if (iterations <= 0) {
-                    Iterator<CommandSender> iterator = requests.iterator();
+                    Iterator<PerformanceInspector> iterator = requests.iterator();
 
                     while (iterator.hasNext()) {
                         iterator.next().sendMessage("Your timings report has timed out, we were still waiting for " + queued.get() + " samples to be collected :/");
@@ -193,7 +191,7 @@ public class SlimefunProfiler {
                     return;
                 }
             } catch (InterruptedException e) {
-                Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
+                SlimefunPlugin.logger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
                 Thread.currentThread().interrupt();
             }
         }
@@ -207,7 +205,7 @@ public class SlimefunProfiler {
 
         if (!requests.isEmpty()) {
             PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
-            Iterator<CommandSender> iterator = requests.iterator();
+            Iterator<PerformanceInspector> iterator = requests.iterator();
 
             while (iterator.hasNext()) {
                 summary.send(iterator.next());
@@ -217,16 +215,16 @@ public class SlimefunProfiler {
     }
 
     /**
-     * This method requests a summary for the given {@link CommandSender}.
+     * This method requests a summary for the given {@link PerformanceInspector}.
      * The summary will be sent upon the next available moment in time.
      * 
-     * @param sender
-     *            The {@link CommandSender} who shall receive this summary.
+     * @param inspector
+     *            The {@link PerformanceInspector} who shall receive this summary.
      */
-    public void requestSummary(@Nonnull CommandSender sender) {
-        Validate.notNull(sender, "Cannot request a summary for null");
+    public void requestSummary(@Nonnull PerformanceInspector inspector) {
+        Validate.notNull(inspector, "Cannot request a summary for null");
 
-        requests.add(sender);
+        requests.add(inspector);
     }
 
     @Nonnull

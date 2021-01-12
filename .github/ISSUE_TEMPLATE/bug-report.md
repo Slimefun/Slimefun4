@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report a Bug or an Issue with Slimefun 4.
 title: ''
-labels: '🐞 Bug Report'
+labels: "\U0001F3AF Needs testing, \U0001F41E Bug Report"
 assignees: ''
 
 ---
@@ -51,4 +51,4 @@ assignees: ''
  - Server Software: 
  - Minecraft Version: 
  - Slimefun Version: 
- - CS-CoreLib Version: 
+ - CS-CoreLib Version:

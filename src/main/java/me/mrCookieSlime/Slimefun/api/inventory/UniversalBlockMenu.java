@@ -4,6 +4,7 @@ import java.io.File;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 
+// This class will be deprecated, relocated and rewritten in a future version.
 public class UniversalBlockMenu extends DirtyChestMenu {
 
     public UniversalBlockMenu(BlockMenuPreset preset) {

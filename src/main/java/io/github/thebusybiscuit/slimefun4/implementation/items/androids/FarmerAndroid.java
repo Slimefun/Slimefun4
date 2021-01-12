@@ -3,6 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,6 +13,7 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AndroidFarmEvent;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -17,37 +21,41 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class FarmerAndroid extends ProgrammableAndroid {
 
+    @ParametersAreNonnullByDefault
     public FarmerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, tier, item, recipeType, recipe);
     }
 
     @Override
     public AndroidType getAndroidType() {
-        return AndroidType.FARMER;
-    }
-
-    private boolean isFullGrown(Block block) {
-        BlockData data = block.getBlockData();
-
-        if (!(data instanceof Ageable)) {
-            return false;
-        }
-
-        Ageable ageable = (Ageable) data;
-        return ageable.getAge() >= ageable.getMaximumAge();
+        return getTier() == 1 ? AndroidType.FARMER : AndroidType.ADVANCED_FARMER;
     }
 
     @Override
-    protected void farm(BlockMenu menu, Block block) {
-        if (isFullGrown(block)) {
-            ItemStack drop = getDropFromCrop(block.getType());
+    protected void farm(Block b, BlockMenu menu, Block block, boolean isAdvanced) {
+        Material blockType = block.getType();
+        BlockData data = block.getBlockData();
+        ItemStack drop = null;
 
-            if (drop != null && menu.fits(drop, getOutputSlots())) {
-                menu.pushItem(drop, getOutputSlots());
-                Ageable ageable = (Ageable) block.getBlockData();
-                ageable.setAge(0);
-                block.setBlockData(ageable);
-                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+        if (data instanceof Ageable && ((Ageable) data).getAge() >= ((Ageable) data).getMaximumAge()) {
+            drop = getDropFromCrop(blockType);
+        }
+
+        AndroidInstance instance = new AndroidInstance(this, b);
+
+        AndroidFarmEvent event = new AndroidFarmEvent(block, instance, isAdvanced, drop);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()) {
+            drop = event.getDrop();
+
+            if (drop != null && menu.pushItem(drop, getOutputSlots()) == null) {
+                block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, blockType);
+
+                if (data instanceof Ageable) {
+                    ((Ageable) data).setAge(0);
+                    block.setBlockData(data);
+                }
             }
         }
     }

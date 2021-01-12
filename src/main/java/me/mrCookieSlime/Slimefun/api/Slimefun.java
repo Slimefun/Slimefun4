@@ -1,9 +1,6 @@
 package me.mrCookieSlime.Slimefun.api;
 
 import java.util.Optional;
-import java.util.logging.Logger;
-
-import javax.annotation.Nonnull;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,11 +21,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 public final class Slimefun {
 
     private Slimefun() {}
-
-    @Nonnull
-    public static Logger getLogger() {
-        return SlimefunPlugin.instance().getLogger();
-    }
 
     /**
      * Checks if this player can use this item.
