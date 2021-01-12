@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
@@ -85,7 +84,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
 
     @Override
     @Nonnull
-    public EnergyNetComponentType getEnergyComponentType() {
+    public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.GENERATOR;
     }
 
@@ -95,7 +94,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
     }
 
     @Nonnull
-    public Set<MachineFuel> getFuelTypes2() {
+    public Set<MachineFuel> getFuelTypes() {
         return fuelTypes;
     }
 
@@ -114,7 +113,7 @@ public abstract class AbstractEnergyProvider extends SlimefunItem implements Inv
             List<String> lore = new ArrayList<>();
             lore.add(ChatColors.color("&8\u21E8 &7Lasts " + NumberUtils.getTimeLeft(fuel.getTicks() / 2)));
             lore.add(ChatColors.color("&8\u21E8 &e\u26A1 &7" + getEnergyProduction() * 2) + " J/s");
-            lore.add(ChatColors.color("&8\u21E8 &e\u26A1 &7" + DoubleHandler.getFancyDouble((double) fuel.getTicks() * getEnergyProduction()) + " J in total"));
+            lore.add(ChatColors.color("&8\u21E8 &e\u26A1 &7" + NumberUtils.getCompactDouble((double) fuel.getTicks() * getEnergyProduction()) + " J in total"));
             im.setLore(lore);
             item.setItemMeta(im);
             list.add(item);

@@ -24,6 +24,7 @@ public final class NumberUtils {
 
     /**
      * This is our {@link DecimalFormat} for decimal values.
+     * This instance is not thread-safe!
      */
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
@@ -46,6 +47,34 @@ public final class NumberUtils {
     @Nonnull
     public static String formatBigNumber(int number) {
         return NumberFormat.getNumberInstance(Locale.US).format(number);
+    }
+
+    @Nonnull
+    public static String getCompactDouble(double value) {
+        if (value < 0) {
+            // Negative numbers are a special case
+            return '-' + getCompactDouble(-value);
+        }
+
+        if (value < 1000.0) {
+            // Below 1K
+            return DECIMAL_FORMAT.format(value);
+        } else if (value < 1000000.0) {
+            // Thousands
+            return DECIMAL_FORMAT.format(value / 1000.0) + 'K';
+        } else if (value < 1000000000.0) {
+            // Million
+            return DECIMAL_FORMAT.format(value / 1000000.0) + 'M';
+        } else if (value < 1000000000000.0) {
+            // Billion
+            return DECIMAL_FORMAT.format(value / 1000000000.0) + 'B';
+        } else if (value < 1000000000000000.0) {
+            // Trillion
+            return DECIMAL_FORMAT.format(value / 1000000000000.0) + 'T';
+        } else {
+            // Quadrillion
+            return DECIMAL_FORMAT.format(value / 1000000000000000.0) + 'Q';
+        }
     }
 
     /**
@@ -194,8 +223,13 @@ public final class NumberUtils {
         }
     }
 
+    @Nonnull
     public static String roundDecimalNumber(double number) {
         return DECIMAL_FORMAT.format(number);
+    }
+
+    public static double reparseDouble(double number) {
+        return Double.valueOf(roundDecimalNumber(number));
     }
 
     public static long getLong(@Nullable Long value, long defaultValue) {

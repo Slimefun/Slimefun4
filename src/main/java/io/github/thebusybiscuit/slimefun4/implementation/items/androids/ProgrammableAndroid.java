@@ -58,7 +58,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -425,7 +424,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                             openScriptEditor(player, b);
                         }
                     } catch (Exception x) {
-                        Slimefun.getLogger().log(Level.SEVERE, "An Exception was thrown when a User tried to download a Script!", x);
+                        SlimefunPlugin.logger().log(Level.SEVERE, "An Exception was thrown when a User tried to download a Script!", x);
                     }
 
                     return false;
@@ -496,6 +495,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         menu.open(p);
     }
 
+    @Nonnull
     protected List<Instruction> getValidScriptInstructions() {
         List<Instruction> list = new ArrayList<>();
 
@@ -593,8 +593,9 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         }
     }
 
-    public void registerFuelType(MachineFuel fuel) {
+    public void registerFuelType(@Nonnull MachineFuel fuel) {
         Validate.notNull(fuel, "Cannot register null as a Fuel type");
+
         fuelTypes.add(fuel);
     }
 
@@ -671,6 +672,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void executeInstruction(Instruction instruction, Block b, BlockMenu inv, Config data, int index) {
         if (getAndroidType().isType(instruction.getRequiredType())) {
             String rotationData = data.getString("rotation");
@@ -828,14 +830,20 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         preset.addItem(34, getFuelSource().getItem(), ChestMenuUtils.getEmptyClickHandler());
     }
 
+    @ParametersAreNonnullByDefault
     public void addItems(Block b, ItemStack... items) {
+        Validate.notNull(b, "The Block cannot be null.");
+
         BlockMenu inv = BlockStorage.getInventory(b);
 
-        for (ItemStack item : items) {
-            inv.pushItem(item, getOutputSlots());
+        if (inv != null) {
+            for (ItemStack item : items) {
+                inv.pushItem(item, getOutputSlots());
+            }
         }
     }
 
+    @ParametersAreNonnullByDefault
     protected void move(Block b, BlockFace face, Block block) {
         if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && block.isEmpty()) {
             BlockData blockData = Material.PLAYER_HEAD.createBlockData(data -> {
@@ -873,11 +881,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         throw new UnsupportedOperationException("Non-woodcutter Android tried to chop a Tree!");
     }
 
-    protected void farm(BlockMenu menu, Block block) {
-        throw new UnsupportedOperationException("Non-farming Android tried to farm!");
-    }
-
-    protected void exoticFarm(BlockMenu menu, Block block) {
+    protected void farm(Block b, BlockMenu menu, Block block, boolean isAdvanced) {
         throw new UnsupportedOperationException("Non-farming Android tried to farm!");
     }
 

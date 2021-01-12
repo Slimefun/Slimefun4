@@ -21,9 +21,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * A {@link Script} represents runnable code for a {@link ProgrammableAndroid}.
@@ -151,7 +151,7 @@ public final class Script {
     @Nonnull
     private String getScriptRatingPercentage() {
         float percentage = getRating();
-        return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.RESET + "% ";
+        return NumberUtils.getColorFromPercentage(percentage) + String.valueOf(percentage) + ChatColor.WHITE + "% ";
     }
 
     /**
@@ -244,7 +244,7 @@ public final class Script {
                         scripts.add(new Script(config));
                     }
                 } catch (Exception x) {
-                    Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to load Android Script '" + file.getName() + "'");
+                    SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to load Android Script '" + file.getName() + "'");
                 }
             }
         }

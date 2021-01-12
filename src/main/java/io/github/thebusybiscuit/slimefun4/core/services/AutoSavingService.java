@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This Service is responsible for automatically saving {@link Player} and {@link Block}
@@ -66,7 +65,7 @@ public class AutoSavingService {
         }
 
         if (players > 0) {
-            Slimefun.getLogger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
+            SlimefunPlugin.logger().log(Level.INFO, "Auto-saved all player data for {0} player(s)!", players);
         }
     }
 
@@ -77,8 +76,9 @@ public class AutoSavingService {
         Set<BlockStorage> worlds = new HashSet<>();
 
         for (World world : Bukkit.getWorlds()) {
-            if (BlockStorage.isWorldRegistered(world.getName())) {
-                BlockStorage storage = BlockStorage.getStorage(world);
+            BlockStorage storage = BlockStorage.getStorage(world);
+
+            if (storage != null) {
                 storage.computeChanges();
 
                 if (storage.getChanges() > 0) {
@@ -88,7 +88,7 @@ public class AutoSavingService {
         }
 
         if (!worlds.isEmpty()) {
-            Slimefun.getLogger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
+            SlimefunPlugin.logger().log(Level.INFO, "Auto-saving block data... (Next auto-save: {0}m)", interval);
 
             for (BlockStorage storage : worlds) {
                 storage.save();

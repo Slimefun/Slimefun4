@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report a Bug or an Issue with Slimefun 4.
 title: ''
-labels: Bug Report
+labels: "\U0001F3AF Needs testing, \U0001F41E Bug Report"
 assignees: ''
 
 ---
@@ -19,7 +19,9 @@ assignees: ''
 <!-- Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it. -->
 <!-- Youtube Videos and Screenshots are recommended!!! -->
 <!-- Start writing below this line -->
-
+1. 
+2. 
+3. 
 
 ## :bulb: Expected behavior (REQUIRED)
 <!-- What were you expecting to happen? -->
@@ -34,7 +36,7 @@ assignees: ''
 
 
 ## :open_file_folder: /error-reports/ Folder
-<!-- Check the folder /plugins/Slimefun/error-reports/ and upload all files inside that folder. -->
+<!-- Check the folder /plugins/Slimefun/error-reports/ and upload any files inside that folder. -->
 <!-- You can also post these files via https://pastebin.com/ -->
 <!-- Paste your link(s) below this line -->
 
@@ -46,7 +48,7 @@ assignees: ''
 <!-- Make sure that the screenshot covers the entire output of that command. -->
 <!-- If your issue is related to other plugins, make sure to include the versions of these plugins too! -->
 
- - Server Software (Spigot/Paper):
- - Minecraft Version:
- - Slimefun Version:
+ - Server Software: 
+ - Minecraft Version: 
+ - Slimefun Version: 
  - CS-CoreLib Version:

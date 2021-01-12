@@ -10,7 +10,6 @@ options:
   armor-update-interval: 10
   enable-armor-effects: true
   auto-save-delay-in-minutes: 10
-  emerald-enchantment-limit: 2
   legacy-ore-washer: false
   legacy-dust-washer: false
   legacy-ore-grinder: true
@@ -21,7 +20,6 @@ options:
   drop-excess-sf-give-items: false
 
 guide:
-  default-view-book: false
   show-vanilla-recipes: true
   receive-on-first-join: true
 

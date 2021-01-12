@@ -28,25 +28,20 @@ import com.google.gson.JsonParser;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.GrindStone;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class PostSetup {
 
     private PostSetup() {}
 
     public static void setupWiki() {
-        Slimefun.getLogger().log(Level.INFO, "Loading Wiki pages...");
+        SlimefunPlugin.logger().log(Level.INFO, "Loading Wiki pages...");
         JsonParser parser = new JsonParser();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(SlimefunPlugin.class.getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
@@ -61,7 +56,7 @@ public final class PostSetup {
                 }
             }
         } catch (IOException e) {
-            Slimefun.getLogger().log(Level.SEVERE, "Failed to load wiki.json file", e);
+            SlimefunPlugin.logger().log(Level.SEVERE, "Failed to load wiki.json file", e);
         }
     }
 
@@ -72,10 +67,14 @@ public final class PostSetup {
             SlimefunItem item = iterator.next();
 
             if (item == null) {
-                Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
+                SlimefunPlugin.logger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
                 iterator.remove();
             } else {
-                item.load();
+                try {
+                    item.load();
+                } catch (Exception | LinkageError x) {
+                    item.error("Failed to properly load this Item", x);
+                }
             }
         }
 
@@ -115,33 +114,25 @@ public final class PostSetup {
         SlimefunPlugin.getRegistry().setAutoLoadingMode(true);
     }
 
+    /**
+     * This method counts the amount of {@link SlimefunItem SlimefunItems} registered
+     * by Slimefun itself and not by any addons.
+     * 
+     * @return The amount of {@link SlimefunItem SlimefunItems} added by Slimefun itself
+     */
     private static int countNonAddonItems() {
-        return (int) SlimefunPlugin.getRegistry().getEnabledSlimefunItems().stream().filter(item -> item.getAddon() instanceof SlimefunPlugin).count();
+        // @formatter:off
+        return (int) SlimefunPlugin.getRegistry().getEnabledSlimefunItems().stream()
+                        .filter(item -> item.getAddon() instanceof SlimefunPlugin)
+                        .count();
+        // @formatter:on
     }
 
     private static void loadAutomaticCraftingChamber() {
         AutomatedCraftingChamber crafter = (AutomatedCraftingChamber) SlimefunItems.AUTOMATED_CRAFTING_CHAMBER.getItem();
 
         if (crafter != null) {
-            EnhancedCraftingTable machine = (EnhancedCraftingTable) SlimefunItems.ENHANCED_CRAFTING_TABLE.getItem();
-
-            for (ItemStack[] inputs : RecipeType.getRecipeInputList(machine)) {
-                StringBuilder builder = new StringBuilder();
-                int i = 0;
-
-                for (ItemStack item : inputs) {
-                    if (i > 0) {
-                        builder.append(" </slot> ");
-                    }
-
-                    builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
-
-                    i++;
-                }
-
-                SlimefunPlugin.getRegistry().getAutomatedCraftingChamberRecipes().put(builder.toString(), RecipeType.getRecipeOutputList(machine, inputs));
-            }
-
+            crafter.loadRecipes();
         }
     }
 

@@ -38,10 +38,11 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 /**
  * The {@link BlockListener} is responsible for listening to the {@link BlockPlaceEvent}
  * and {@link BlockBreakEvent}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Linox
- * 
+ * @author Patbox
+ *
  * @see BlockPlaceHandler
  * @see BlockBreakHandler
  * @see ToolUseHandler
@@ -55,10 +56,27 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockPlaceExisting(BlockPlaceEvent e) {
-        // This prevents Players from placing a block where another block already exists
-        // While this can cause ghost blocks it also prevents them from replacing grass
-        // or saplings etc...
-        if (BlockStorage.hasBlockInfo(e.getBlock())) {
+        /*
+         * This prevents Players from placing a block where another block already exists.
+         * While this can cause ghost blocks it also prevents them from replacing grass
+         * or saplings etc...
+         */
+        Block block = e.getBlock();
+
+        if (e.getBlockReplacedState().getType().isAir()) {
+            SlimefunItem sfItem = BlockStorage.check(block);
+
+            if (sfItem != null) {
+                /* Temp fix for #2636
+                for (ItemStack item : sfItem.getDrops()) {
+                    if (item != null && !item.getType().isAir()) {
+                        block.getWorld().dropItemNaturally(block.getLocation(), item);
+                    }
+                }
+                 */
+                BlockStorage.clearBlockInfo(block);
+            }
+        } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
         }
     }
@@ -84,8 +102,13 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent e) {
-        if (SlimefunPlugin.getThirdPartySupportService().isEventFaked(e)) {
-            // This is a "fake" event, we can ignore it.
+        // Simply ignore any events that were faked by other plugins
+        if (SlimefunPlugin.getIntegrations().isEventFaked(e)) {
+            return;
+        }
+
+        // Also ignore custom blocks which were placed by other plugins
+        if (SlimefunPlugin.getIntegrations().isCustomBlock(e.getBlock())) {
             return;
         }
 
@@ -170,7 +193,7 @@ public class BlockListener implements Listener {
      * This method checks for a sensitive {@link Block}.
      * Sensitive {@link Block Blocks} are pressure plates or saplings, which should be broken
      * when the block beneath is broken as well.
-     * 
+     *
      * @param p
      *            The {@link Player} who broke this {@link Block}
      * @param b

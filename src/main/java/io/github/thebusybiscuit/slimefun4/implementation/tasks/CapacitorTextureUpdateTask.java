@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.papermc.lib.PaperLib;
 
 /**
  * This task is run whenever a {@link Capacitor} needs to update their texture.
@@ -57,15 +58,24 @@ public class CapacitorTextureUpdateTask implements Runnable {
         // Ensure that this Block is still a Player Head
         if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
             if (filledPercentage <= 0.25) {
-                SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_25.getTexture());
+                // 0-25% capacity
+                setTexture(b, HeadTexture.CAPACITOR_25);
             } else if (filledPercentage <= 0.5) {
-                SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_50.getTexture());
+                // 25-50% capacity
+                setTexture(b, HeadTexture.CAPACITOR_50);
             } else if (filledPercentage <= 0.75) {
-                SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_75.getTexture());
+                // 50-75% capacity
+                setTexture(b, HeadTexture.CAPACITOR_75);
             } else {
-                SkullBlock.setFromHash(b, HeadTexture.CAPACITOR_100.getTexture());
+                // 75-100% capacity
+                setTexture(b, HeadTexture.CAPACITOR_100);
             }
         }
+    }
+
+    private void setTexture(@Nonnull Block b, @Nonnull HeadTexture texture) {
+        SkullBlock.setFromHash(b, texture.getUniqueId(), texture.getTexture(), false);
+        PaperLib.getBlockState(b, false).getState().update(true, false);
     }
 
 }

@@ -3,7 +3,6 @@ commands:
   cheat: Allows you to cheat Items
   give: Give somebody some Slimefun Items
   guide: Gives yourself a Slimefun Guide
-  timings: Lag-Info about your Server
   teleporter: See other Player's Waypoints
   versions: Lists all installed Addons
   search: Searches your Guide for the given term
@@ -26,6 +25,12 @@ commands:
     description: Charges the item you are holding
     charge-success: Item has been charged!
     not-rechargeable: This item can not be charged!
+
+  timings:
+    description: Timings for Slimefun and its addon
+    please-wait: '&ePlease wait a second... The results are coming in!'
+    verbose-player: '&4The verbose flag cannot be used by a Player!'
+    unknown-flag: '&4Unknown flag: &c%flag%'
 
 guide:
   locked: 'LOCKED'
@@ -132,6 +137,7 @@ messages:
   no-tome-yourself: '&cYou cannot use the &4Tome of Knowledge &con yourself...'
   multimeter: '&bStored Energy: &3%stored% &b/ &3%capacity%'
   piglin-barter: '&4You cannot barter with piglins using Slimefun items'
+  bee-suit-slow-fall: '&eYour Bee Wings will help you to get back to the ground safe and slow'
 
   multi-tool:
     mode-change: '&b%device% mode changed to: &9%mode%'

@@ -19,8 +19,8 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link BlockDataService} is similar to the {@link CustomItemDataService},
@@ -78,12 +78,12 @@ public class BlockDataService implements Keyed {
                 container.set(namespacedKey, PersistentDataType.STRING, value);
                 state.update();
             } catch (Exception x) {
-                Slimefun.getLogger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
+                SlimefunPlugin.logger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
 
                 String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
-                Slimefun.getLogger().log(Level.SEVERE, () -> serverSoftware + " | " + Bukkit.getVersion() + " | " + Bukkit.getBukkitVersion());
+                SlimefunPlugin.logger().log(Level.SEVERE, () -> serverSoftware + " | " + Bukkit.getVersion() + " | " + Bukkit.getBukkitVersion());
 
-                Slimefun.getLogger().log(Level.SEVERE, "An Exception was thrown while trying to set Persistent Data for a Block", x);
+                SlimefunPlugin.logger().log(Level.SEVERE, "An Exception was thrown while trying to set Persistent Data for a Block", x);
             }
         }
     }

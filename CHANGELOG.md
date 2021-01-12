@@ -2,7 +2,8 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Release Candidate 18 (TBD)](#release-candidate-18-tbd)
+- [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
+- [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
 - [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
 - [Release Candidate 16 (07 Sep 2020)](#release-candidate-16-07-sep-2020)
 - [Release Candidate 15 (01 Aug 2020)](#release-candidate-15-01-aug-2020)
@@ -23,7 +24,41 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 18 (TBD)
+## Release Candidate 20 (TBD)
+
+#### Additions
+
+#### Changes
+
+#### Fixes
+* Fixed elevator floor order
+
+## Release Candidate 19 (11 Jan 2021)
+
+#### Additions
+* Added Bee Armor (1.15+ only)
+* (API) Added AndroidFarmEvent
+
+#### Changes
+* Performance optimizations for Cargo networks
+* Removed an old version of bStats
+* CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
+* Removed the deprecated ItemManipulationAPI for BlockMenus
+* Removed the "Written Book" variant of the Slimefun Guide
+* The Elevator has an Inventory menu now
+
+#### Fixes
+* Fixed a couple of compatibility issues with ItemsAdder
+* Fixed #2575
+* Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
+* Fixed #2636 (hotfix)
+* Fixed #2647
+* Fixed #2664
+* Fixed #2655
+* Fixed /sf timings --verbose not working correctly
+* Fixed #2675
+
+## Release Candidate 18 (03 Dec 2020)
 
 #### Additions
 * The Smelters Pick now also works on Ancient Debris
@@ -33,6 +68,8 @@
 * Added a config option to delete excess cargo network items
 * Added an item setting to configure the Wind Staff velocity
 * Added an item setting to the Infused Hopper to toggle it with redstone
+* Added an item setting to prevent Reinforced Spawners from being changed by Spawn Eggs
+* Added 4 bricks -> 1 brick block recipe to the Electric Press
 
 #### Changes
 * Removed 1.13 support
@@ -47,6 +84,8 @@
 * Improved performance for radioactive items
 * Memory/GC improvements for the profiler
 * Performance improvements for the Fluid Pump
+* Removed EmeraldEnchants integration
+* Memory and performance improvements for ticking blocks
 
 #### Fixes
 * Fixed #2448
@@ -77,6 +116,12 @@
 * Fixed Sword of Beheading dropping Zombie/Skeleton Skulls from Zombie/Skeleton subvariants
 * Fixed #2518
 * Fixed #2421
+* Fixed #2574
+* Fixed color in android script downloading screen
+* Fixed #2576
+* Fixed #2496
+* Fixed #2585
+* Fixed #2583
 
 ## Release Candidate 17 (17 Oct 2020)
 

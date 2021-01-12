@@ -11,7 +11,6 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public class WorldListener implements Listener {
 
@@ -22,7 +21,7 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
         SlimefunPlugin.getWorldSettingsService().load(e.getWorld());
-        BlockStorage.getForcedStorage(e.getWorld());
+        BlockStorage.getOrCreate(e.getWorld());
     }
 
     @EventHandler
@@ -32,7 +31,7 @@ public class WorldListener implements Listener {
         if (storage != null) {
             storage.saveAndRemove();
         } else {
-            Slimefun.getLogger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", e.getWorld().getName());
+            SlimefunPlugin.logger().log(Level.SEVERE, "Could not save Slimefun Blocks for World \"{0}\"", e.getWorld().getName());
         }
     }
 

@@ -202,7 +202,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
         }
 
         ItemStackWrapper wrapper = new ItemStackWrapper(item);
-        return SlimefunUtils.isItemSimilar(wrapper, new ItemStack(Material.LAVA_BUCKET), true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.FUEL_BUCKET, true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.OIL_BUCKET, true);
+        return item.getType() == Material.LAVA_BUCKET || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.FUEL_BUCKET, true) || SlimefunUtils.isItemSimilar(wrapper, SlimefunItems.OIL_BUCKET, true);
     }
 
     private MachineFuel findRecipe(BlockMenu menu, Map<Integer, Integer> found) {

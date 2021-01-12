@@ -7,10 +7,10 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import kong.unirest.JsonNode;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 class GitHubIssuesConnector extends GitHubConnector {
 
@@ -42,7 +42,7 @@ class GitHubIssuesConnector extends GitHubConnector {
 
             callback.accept(issues, pullRequests);
         } else {
-            Slimefun.getLogger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
+            SlimefunPlugin.logger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
         }
     }
 

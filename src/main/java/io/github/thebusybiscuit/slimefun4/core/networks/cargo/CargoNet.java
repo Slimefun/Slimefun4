@@ -20,11 +20,10 @@ import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
- * It is also an extension of {@link ChestTerminalNetwork} which provides methods to deal
+ * It is also an extension of {@link AbstractItemNetwork} which provides methods to deal
  * with the addon ChestTerminal.
  * 
  * @author meiamsome
@@ -37,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author DNx5
  *
  */
-public class CargoNet extends ChestTerminalNetwork {
+public class CargoNet extends AbstractItemNetwork {
 
     private static final int RANGE = 5;
     private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("networks.cargo-ticker-delay");
@@ -250,7 +249,7 @@ public class CargoNet extends ChestTerminalNetwork {
             String str = BlockStorage.getLocationInfo(node).getString("frequency");
             return str == null ? 0 : Integer.parseInt(str);
         } catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
             return 0;
         }
     }

@@ -4,7 +4,6 @@ commands:
   cheat: Slimefunガイドをチートモードで開く
   give: 指定したプレイヤーにSlimefunアイテムを与える
   guide: Slimefunガイドを取得
-  timings: サーバの負荷状況を表示
   teleporter: 指定したプレイヤーのウェイポイントを表示
   versions: バージョンについて
   search: Slimefunガイド内を検索
@@ -21,9 +20,14 @@ commands:
     backpack-does-not-exist: "&4指定したバックパックは存在しません！"
     restored-backpack-given: "&aバックパックが返還されました！"
   charge:
-    description: 手に持っているアイテムを充電
-    charge-success: アイテムは充電されました！
+    description: 手に持っているアイテムを充電する
+    charge-success: アイテムが充電されました！
     not-rechargeable: このアイテムは充電できません！
+  timings:
+    description: Slimefunに関連する負荷の計測
+    please-wait: "&e数秒お待ちください… 負荷の測定中です！"
+    verbose-player: "&4プレイヤーはverboseフラグを使用できません！"
+    unknown-flag: "&4未知のフラグです: &c%flag%"
 guide:
   search:
     message: "&b検索ワードをチャットで入力してください"
@@ -106,11 +110,8 @@ messages:
   no-permission: "&4権限がありません"
   usage: "&4使用法: &c%usage%"
   not-online: "&4%player% &cはオンラインではありません！"
-  invalid-item: "&4%item% &cは正しくないアイテムです"
-  invalid-amount: "&4%amount% &cの部分には、正の整数を指定してください"
   given-item: "&b%item%を%amount%個与えられました"
   give-item: "&b%player%に%item%を%amount%個与えました"
-  invalid-research: "&4%research%&cは正しくないリサーチです"
   give-research: "&b%player%のリサーチ%research%を完了させました"
   hungry: "&c空腹のため使えません"
   disabled-in-world: "&4&lこのワールドでは使用できません"
@@ -178,6 +179,10 @@ messages:
   climbing-pick:
     dual-wielding: "&4Climbing Pickを両手に持って使用！"
     wrong-material: "&cこの地表はクライミングできません。Slimefunガイドを確認してください！"
+  invalid-item: "&4%item% &cは正しくないアイテムです"
+  invalid-amount: "&4%amount% &cの部分には、正の整数を指定してください"
+  invalid-research: "&4%research%&cは正しくないリサーチです"
+  bee-suit-slow-fall: "&e蜂の羽が着地を安全でゆっくりにした"
   mode-change: "&b%device%のモード変更: &9%mode%"
 machines:
   pattern-not-found: "&eレシピが確認できません、アイテムを正しく配置してください"
