@@ -570,7 +570,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             pl.closeInventory();
 
             SlimefunPlugin.getLocalization().sendMessage(pl, "guide.search.message");
-            ChatInput.waitForPlayer(SlimefunPlugin.instance(), pl, msg -> SlimefunGuide.openSearch(profile, msg, isSurvivalMode(), isSurvivalMode()));
+            ChatInput.waitForPlayer(SlimefunPlugin.instance(), pl, msg -> SlimefunGuide.openSearch(profile, msg, getMode(), isSurvivalMode()));
 
             return false;
         });

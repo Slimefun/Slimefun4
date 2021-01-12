@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -33,7 +35,7 @@ public final class SlimefunGuide {
 
     @Nonnull
     public static ItemStack getItem(@Nonnull SlimefunGuideMode design) {
-        return SlimefunPlugin.getRegistry().getGuideLayout(design).getItem();
+        return SlimefunPlugin.getRegistry().getSlimefunGuide(design).getItem();
     }
 
     public static void openCheatMenu(@Nonnull Player p) {
@@ -52,7 +54,7 @@ public final class SlimefunGuide {
         }
     }
 
-    public static void openGuide(@Nonnull Player p, @Nonnull SlimefunGuideMode layout) {
+    public static void openGuide(@Nonnull Player p, @Nonnull SlimefunGuideMode mode) {
         if (!SlimefunPlugin.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
             return;
         }
@@ -61,67 +63,72 @@ public final class SlimefunGuide {
 
         if (optional.isPresent()) {
             PlayerProfile profile = optional.get();
-            SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getGuideLayout(layout);
+            SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getSlimefunGuide(mode);
             profile.getGuideHistory().openLastEntry(guide);
         } else {
-            openMainMenuAsync(p, layout, 1);
+            openMainMenuAsync(p, mode, 1);
         }
     }
 
     @ParametersAreNonnullByDefault
-    private static void openMainMenuAsync(Player player, SlimefunGuideMode layout, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
+    private static void openMainMenuAsync(Player player, SlimefunGuideMode mode, int selectedPage) {
+        if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, mode, selectedPage)))) {
             SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 
     @ParametersAreNonnullByDefault
-    public static void openMainMenu(PlayerProfile profile, SlimefunGuideMode layout, int selectedPage) {
-        SlimefunPlugin.getRegistry().getGuideLayout(layout).openMainMenu(profile, selectedPage);
+    public static void openMainMenu(PlayerProfile profile, SlimefunGuideMode mode, int selectedPage) {
+        SlimefunPlugin.getRegistry().getSlimefunGuide(mode).openMainMenu(profile, selectedPage);
     }
 
     @ParametersAreNonnullByDefault
-    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideMode layout, int selectedPage) {
-        SlimefunPlugin.getRegistry().getGuideLayout(layout).openCategory(profile, category, selectedPage);
+    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideMode mode, int selectedPage) {
+        SlimefunPlugin.getRegistry().getSlimefunGuide(mode).openCategory(profile, category, selectedPage);
     }
 
     @ParametersAreNonnullByDefault
-    public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-        SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.SURVIVAL_MODE);
-
-        if (!survival) {
-            layout = SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.CHEAT_MODE);
-        }
-
-        layout.openSearch(profile, input, addToHistory);
+    public static void openSearch(PlayerProfile profile, String input, SlimefunGuideMode mode, boolean addToHistory) {
+        SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getSlimefunGuide(mode);
+        guide.openSearch(profile, input, addToHistory);
     }
 
     @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, 0, addToHistory);
+        SlimefunPlugin.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, 0, addToHistory);
     }
 
     @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-        SlimefunPlugin.getRegistry().getGuideLayout(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, addToHistory);
+        SlimefunPlugin.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, addToHistory);
     }
 
+    /**
+     * This method checks if a given {@link ItemStack} is a {@link SlimefunGuide}.
+     * 
+     * @param item
+     *            The {@link ItemStack} to check
+     * 
+     * @return Whether this {@link ItemStack} represents a {@link SlimefunGuide}
+     */
     public static boolean isGuideItem(@Nullable ItemStack item) {
-        if (item == null) {
+        if (item == null || item.getType() != Material.ENCHANTED_BOOK) {
             return false;
+        } else if (item instanceof SlimefunGuideItem) {
+            return true;
         } else {
             return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
         }
     }
 
     /**
-     * Get the default layout for the Slimefun guide.
+     * Get the default mode for the Slimefun guide.
      * Currently this is only {@link SlimefunGuideMode#SURVIVAL_MODE}.
      *
-     * @return The default {@link SlimefunGuideLayout}.
+     * @return The default {@link SlimefunGuideMode}.
      */
     @Nonnull
-    public static SlimefunGuideMode getDefaultLayout() {
+    public static SlimefunGuideMode getDefaultMode() {
         return SlimefunGuideMode.SURVIVAL_MODE;
     }
 }

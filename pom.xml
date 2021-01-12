@@ -9,10 +9,11 @@
 
     <!-- Our default version will be UNOFFICIAL, this will prevent auto updates -->
     <!-- from overriding our local test file -->
-    <version>4.8-UNOFFICIAL</version>
+    <version>4.9-UNOFFICIAL</version>
     <inceptionYear>2013</inceptionYear>
     <packaging>jar</packaging>
 
+    <!-- Project Info -->
     <description>Slimefun is a Spigot/Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server.</description>
     <url>https://github.com/Slimefun/Slimefun4</url>
 
@@ -33,11 +34,13 @@
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
+    <!-- Bug Tracker -->
     <issueManagement>
         <system>GitHub Issues</system>
         <url>https://github.com/Slimefun/Slimefun4/issues</url>
     </issueManagement>
 
+    <!-- License -->
     <licenses>
         <license>
             <name>GNU General Public License v3.0</name>
@@ -46,6 +49,7 @@
         </license>
     </licenses>
 
+    <!-- The repositories which host our dependencies -->
     <repositories>
         <repository>
             <id>spigot-repo</id>
@@ -77,11 +81,13 @@
         </repository>
     </repositories>
 
+    <!-- Build settings -->
     <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
         <defaultGoal>clean package</defaultGoal>
 
+        <!-- The name of the final jar -->
         <finalName>${project.name} v${project.version}</finalName>
 
         <plugins>
@@ -104,6 +110,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.1</version>
+
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -119,6 +126,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
+
+                <configuration>
+                    <junitArtifactName>org.junit.jupiter:junit-jupiter</junitArtifactName>
+                    <trimStackTrace>false</trimStackTrace>
+                </configuration>
             </plugin>
 
             <!-- Sonarcloud Scanner -->
@@ -137,6 +149,7 @@
                 <executions>
                     <execution>
                         <id>prepare</id>
+
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
@@ -145,6 +158,7 @@
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
+
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -159,8 +173,7 @@
                 <version>3.2.4</version>
 
                 <configuration>
-
-                    <!-- Shade dependencies into the output jar -->
+                    <!-- Relocate these to avoid clashes and conflicts -->
                     <relocations>
                         <relocation>
                             <pattern>io.github.thebusybiscuit.cscorelib2</pattern>
@@ -336,7 +349,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.29</version>
+            <version>0.29.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

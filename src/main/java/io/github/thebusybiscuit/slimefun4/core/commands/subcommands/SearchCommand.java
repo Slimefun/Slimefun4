@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class SearchCommand extends SubCommand {
@@ -23,7 +24,7 @@ class SearchCommand extends SubCommand {
             if (sender.hasPermission("slimefun.command.search")) {
                 if (args.length > 1) {
                     String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                    PlayerProfile.get((Player) sender, profile -> SlimefunGuide.openSearch(profile, query, true, true));
+                    PlayerProfile.get((Player) sender, profile -> SlimefunGuide.openSearch(profile, query, SlimefunGuideMode.SURVIVAL_MODE, true));
                 } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf search <SearchTerm>"));
                 }
