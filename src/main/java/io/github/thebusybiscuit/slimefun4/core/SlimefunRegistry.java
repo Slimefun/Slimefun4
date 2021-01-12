@@ -140,6 +140,7 @@ public final class SlimefunRegistry {
         automaticallyLoadItems = mode;
     }
 
+    @Nonnull
     public List<Category> getCategories() {
         return categories;
     }
@@ -149,6 +150,7 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link List} containing every {@link SlimefunItem}
      */
+    @Nonnull
     public List<SlimefunItem> getAllSlimefunItems() {
         return slimefunItems;
     }
@@ -158,18 +160,22 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link List} containing every enabled {@link SlimefunItem}
      */
+    @Nonnull
     public List<SlimefunItem> getEnabledSlimefunItems() {
         return enabledItems;
     }
 
+    @Nonnull
     public List<Research> getResearches() {
         return researches;
     }
 
+    @Nonnull
     public Set<UUID> getCurrentlyResearchingPlayers() {
         return researchingPlayers;
     }
 
+    @Nonnull
     public List<String> getResearchRanks() {
         return researchRanks;
     }
@@ -194,6 +200,7 @@ public final class SlimefunRegistry {
         return researchFireworks;
     }
 
+    @Nonnull
     public List<MultiBlock> getMultiBlocks() {
         return multiblocks;
     }
@@ -226,6 +233,7 @@ public final class SlimefunRegistry {
      * 
      * @return The {@link Map} of custom mob drops
      */
+    @Nonnull
     public Map<EntityType, Set<ItemStack>> getMobDrops() {
         return mobDrops;
     }
@@ -236,50 +244,62 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link Set} of bartering drops
      */
+    @Nonnull
     public Set<ItemStack> getBarteringDrops() {
         return barterDrops;
     }
 
+    @Nonnull
     public Set<SlimefunItem> getRadioactiveItems() {
         return radioactive;
     }
 
+    @Nonnull
     public Set<String> getTickerBlocks() {
         return tickers;
     }
 
+    @Nonnull
     public Map<String, SlimefunItem> getSlimefunItemIds() {
         return slimefunIds;
     }
 
+    @Nonnull
     public Map<String, BlockMenuPreset> getMenuPresets() {
         return blockMenuPresets;
     }
 
+    @Nonnull
     public Map<String, UniversalBlockMenu> getUniversalInventories() {
         return universalInventories;
     }
 
+    @Nonnull
     public Map<UUID, PlayerProfile> getPlayerProfiles() {
         return profiles;
     }
 
+    @Nonnull
     public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
         return globalItemHandlers;
     }
 
+    @Nonnull
     public Map<String, SlimefunBlockHandler> getBlockHandlers() {
         return blockHandlers;
     }
 
+    @Nonnull
     public Map<String, BlockStorage> getWorlds() {
         return worlds;
     }
 
+    @Nonnull
     public Map<String, BlockInfoConfig> getChunks() {
         return chunks;
     }
 
+    @Nonnull
     public KeyMap<GEOResource> getGEOResources() {
         return geoResources;
     }

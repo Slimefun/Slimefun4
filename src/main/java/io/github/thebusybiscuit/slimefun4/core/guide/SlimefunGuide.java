@@ -71,31 +71,26 @@ public final class SlimefunGuide {
     }
 
     @ParametersAreNonnullByDefault
-    private static void openMainMenuAsync(Player player, SlimefunGuideMode layout, int selectedPage) {
-        if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, layout, selectedPage)))) {
+    private static void openMainMenuAsync(Player player, SlimefunGuideMode mode, int selectedPage) {
+        if (!PlayerProfile.get(player, profile -> SlimefunPlugin.runSync(() -> openMainMenu(profile, mode, selectedPage)))) {
             SlimefunPlugin.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }
 
     @ParametersAreNonnullByDefault
-    public static void openMainMenu(PlayerProfile profile, SlimefunGuideMode layout, int selectedPage) {
-        SlimefunPlugin.getRegistry().getSlimefunGuide(layout).openMainMenu(profile, selectedPage);
+    public static void openMainMenu(PlayerProfile profile, SlimefunGuideMode mode, int selectedPage) {
+        SlimefunPlugin.getRegistry().getSlimefunGuide(mode).openMainMenu(profile, selectedPage);
     }
 
     @ParametersAreNonnullByDefault
-    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideMode layout, int selectedPage) {
-        SlimefunPlugin.getRegistry().getSlimefunGuide(layout).openCategory(profile, category, selectedPage);
+    public static void openCategory(PlayerProfile profile, Category category, SlimefunGuideMode mode, int selectedPage) {
+        SlimefunPlugin.getRegistry().getSlimefunGuide(mode).openCategory(profile, category, selectedPage);
     }
 
     @ParametersAreNonnullByDefault
-    public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
-        SlimefunGuideImplementation layout = SlimefunPlugin.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE);
-
-        if (!survival) {
-            layout = SlimefunPlugin.getRegistry().getSlimefunGuide(SlimefunGuideMode.CHEAT_MODE);
-        }
-
-        layout.openSearch(profile, input, addToHistory);
+    public static void openSearch(PlayerProfile profile, String input, SlimefunGuideMode mode, boolean addToHistory) {
+        SlimefunGuideImplementation guide = SlimefunPlugin.getRegistry().getSlimefunGuide(mode);
+        guide.openSearch(profile, input, addToHistory);
     }
 
     @ParametersAreNonnullByDefault
@@ -127,13 +122,13 @@ public final class SlimefunGuide {
     }
 
     /**
-     * Get the default layout for the Slimefun guide.
+     * Get the default mode for the Slimefun guide.
      * Currently this is only {@link SlimefunGuideMode#SURVIVAL_MODE}.
      *
-     * @return The default {@link SlimefunGuideLayout}.
+     * @return The default {@link SlimefunGuideMode}.
      */
     @Nonnull
-    public static SlimefunGuideMode getDefaultLayout() {
+    public static SlimefunGuideMode getDefaultMode() {
         return SlimefunGuideMode.SURVIVAL_MODE;
     }
 }

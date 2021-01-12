@@ -52,8 +52,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             if (index >= modes.size()) {
                 index = 0;
             }
-        }
-        while (index != i && !modes.get(index).isEnabled());
+        } while (index != i && !modes.get(index).isEnabled());
 
         return index;
     }
