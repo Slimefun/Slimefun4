@@ -35,6 +35,8 @@
 * Fixed elevator floor order
 * Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
 * Fixed #2560
+* Fixed #2449
+* Fixed #2511
 
 ## Release Candidate 19 (11 Jan 2021)
 
