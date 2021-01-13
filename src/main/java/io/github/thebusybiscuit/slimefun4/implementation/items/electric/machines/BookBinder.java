@@ -57,20 +57,15 @@ public class BookBinder extends AContainer {
                 
                 if (enchantments.size() > 0) {
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
-                    book.setAmount(1);
 
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
                     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                        if (bypassVanillaMaxLevel.getValue()) {
-                            enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), true);
-                        } else {
-                            enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), false);
-                        }
+                        enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), bypassVanillaMaxLevel.getValue());
                     }
 
                     book.setItemMeta(enchantMeta);
                     
-                    MachineRecipe recipe = new MachineRecipe(25 * enchantments.size() / this.getSpeed(), new ItemStack[] {target, item}, new ItemStack[] {book});
+                    MachineRecipe recipe = new MachineRecipe(25 * (enchantments.size() / this.getSpeed()), new ItemStack[] {target, item}, new ItemStack[] {book});
 
                     if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                         return null;
@@ -92,11 +87,7 @@ public class BookBinder extends AContainer {
     }
 
     private boolean isCompatible(@Nullable ItemStack item) {
-        if (item != null && item.getType() == Material.ENCHANTED_BOOK) {
-            return true;
-        } else {
-            return false;
-        }
+        return item != null && item.getType() == Material.ENCHANTED_BOOK;
     }
 
     @Override
