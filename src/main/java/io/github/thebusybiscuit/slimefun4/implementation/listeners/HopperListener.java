@@ -8,14 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDrier;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricFurnace;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricIngotPulverizer;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricOreGrinder;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricSmeltery;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
@@ -25,12 +19,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
  *
  * @author CURVX
  *
- * @see AutoBrewer
- * @see AutoDrier
- * @see ElectricFurnace
- * @see ElectricIngotPulverizer
- * @see ElectricOreGrinder
- * @see ElectricSmeltery
+ * @see NotHopperable
  *
  */
 public class HopperListener implements Listener {
