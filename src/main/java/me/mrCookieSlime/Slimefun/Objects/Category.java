@@ -111,17 +111,6 @@ public class Category implements Keyed {
     }
 
     /**
-     * Old way of registering categories, do not call this manually.
-     * 
-     * @deprecated Please use {@link #register(SlimefunAddon)} instead.
-     */
-    @Deprecated
-    public void register() {
-        SlimefunPlugin.getRegistry().getCategories().add(this);
-        Collections.sort(SlimefunPlugin.getRegistry().getCategories(), Comparator.comparingInt(Category::getTier));
-    }
-
-    /**
      * This returns the {@link SlimefunAddon} which has registered this {@link Category}.
      * Or null if it has not been registered yet.
      * 
