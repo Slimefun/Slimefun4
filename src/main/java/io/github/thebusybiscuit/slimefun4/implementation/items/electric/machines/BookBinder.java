@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -108,6 +109,8 @@ public class BookBinder extends AContainer {
         return "BOOK_BINDER";
     }
 
+    @Nonnull
+    @ParametersAreNonnullByDefault
     private Map<Enchantment, Integer> combineEnchantments(Map<Enchantment, Integer> ech1, Map<Enchantment, Integer> ech2) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         
@@ -122,10 +125,12 @@ public class BookBinder extends AContainer {
                         }
                         
                     } else {
+                        int highestLevel = Math.max(a, b);
+
                         if (hasCustomMaxLevel.getValue()) {
-                            return Math.max(a, b) > customMaxLevel.getValue() ? customMaxLevel.getValue() : Math.max(a, b);
+                            return highestLevel > customMaxLevel.getValue() ? customMaxLevel.getValue() : highestLevel;
                         } else {
-                            return Math.max(a, b);
+                            return highestLevel;
                         }
                        
                     }
