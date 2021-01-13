@@ -43,7 +43,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * A class that can store a Player's {@link Research} progress for caching purposes.
@@ -96,7 +95,7 @@ public final class PlayerProfile {
                     waypoints.add(new Waypoint(this, key, loc, waypointName));
                 }
             } catch (Exception x) {
-                Slimefun.getLogger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
+                SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
             }
         }
     }

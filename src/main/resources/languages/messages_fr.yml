@@ -110,12 +110,8 @@ messages:
   no-permission: "&4Vous n'avez pas les permissions requises pour faire ceci"
   usage: "&4Utilisation: &c%usage%"
   not-online: "&4%player% &cn'est pas en ligne!"
-  invalid-item: "&4%item% &cn'est pas un item valide!"
-  invalid-amount: "&4%amount% &cn'est pas un montant valide: il doit être supérieur
-    à 0!"
   given-item: '&bVous avez reçu &a%amount%&7 "%item%&7"'
   give-item: '&bVous avez donné &a%amount% &7"%item%&7" à %player%'
-  invalid-research: "&4%research% &cn'est pas une recherche valide!"
   give-research: '&bVous avez débloqué la recherche "%research%&7" à %player%'
   hungry: "&cVous avez trop faim pour faire ça!"
   disabled-in-world: "&4&lCet item a été désactivé dans ce monde"
@@ -193,7 +189,13 @@ messages:
       utiliser !"
     wrong-material: "&cVous ne pouvez pas escalader cette surface. Consultez votre
       guide Slimefun pour plus d'informations !"
+  invalid-item: "&4%item% &cn'est pas un item valide!"
+  invalid-amount: "&4%amount% &cn'est pas un montant valide: il doit être supérieur
+    à 0!"
+  invalid-research: "&4%research% &cn'est pas une recherche valide!"
   mode-change: 'Vous avez changé votre &b%device% en mode : &9%mode%'
+  bee-suit-slow-fall: "&eVos ailes d'abeille vous aideront à revenir au sol lentement
+    et en toute sécurité"
 machines:
   pattern-not-found: "&eDésolé, je ne reconnais pas cette recette. Veuillez disposer
     les objets correctement dans le distributeur."
@@ -341,7 +343,6 @@ languages:
   zh-CN: Chinois (Chine)
   el: Grec
   he: Hébreu
-  pt: Portugais (Portugal)
   ar: Arabe
   af: Afrikaans
   da: Danois
@@ -353,6 +354,7 @@ languages:
   fa: Persan
   th: Thaï
   ro: Roumain
+  pt: Portugais (Portugal)
   pt-BR: Portugais (Brésil)
   bg: Bulgare
   ko: Coréen

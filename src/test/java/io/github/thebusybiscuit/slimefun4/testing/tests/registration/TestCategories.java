@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -19,7 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.categories.FlexCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
@@ -28,7 +29,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class TestCategories {
+class TestCategories {
 
     private static ServerMock server;
     private static SlimefunPlugin plugin;
@@ -45,17 +46,23 @@ public class TestCategories {
     }
 
     @Test
-    public void testCategoryGetters() {
+    @DisplayName("Test the Getters for Category")
+    void testCategoryGetters() {
         Category category = new Category(new NamespacedKey(plugin, "getter_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
 
         Assertions.assertEquals(3, category.getTier());
         Assertions.assertEquals(new NamespacedKey(SlimefunPlugin.instance(), "getter_test"), category.getKey());
         Assertions.assertEquals("Testing", category.getUnlocalizedName());
         Assertions.assertEquals(0, category.getItems().size());
+
+        Assertions.assertNull(category.getAddon());
+        category.register(plugin);
+        Assertions.assertEquals(plugin, category.getAddon());
     }
 
     @Test
-    public void testAddItem() {
+    @DisplayName("Test adding an item to a Category")
+    void testAddItem() {
         Category category = new Category(new NamespacedKey(plugin, "items_test"), new CustomItem(Material.DIAMOND_AXE, "&6Testing"));
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_ITEMS_TEST_ITEM", new CustomItem(Material.BAMBOO, "&6Test Bamboo"));
         item.setCategory(category);
@@ -73,7 +80,8 @@ public class TestCategories {
     }
 
     @Test
-    public void testHidden() {
+    @DisplayName("Test hidden Categories")
+    void testHidden() {
         Category category = new Category(new NamespacedKey(plugin, "hiddenCategory"), new ItemStack(Material.BEACON));
         Player player = server.addPlayer();
 
@@ -103,7 +111,8 @@ public class TestCategories {
     }
 
     @Test
-    public void testContains() {
+    @DisplayName("Test Category#contains")
+    void testContains() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "CATEGORY_TEST_ITEM_2", new CustomItem(Material.BOW, "&6Test Bow"));
         item.register(plugin);
         item.load();
@@ -118,16 +127,17 @@ public class TestCategories {
     }
 
     @Test
-    public void testLockedCategoriesParents() {
+    @DisplayName("Test LockedCategory parental locking")
+    void testLockedCategoriesParents() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
         Category category = new Category(new NamespacedKey(plugin, "unlocked"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
-        category.register();
+        category.register(plugin);
 
         Category unregistered = new Category(new NamespacedKey(plugin, "unregistered"), new CustomItem(Material.EMERALD, "&5I am unregistered"));
 
         LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey(), unregistered.getKey());
-        locked.register();
+        locked.register(plugin);
 
         Assertions.assertTrue(locked.getParents().contains(category));
         Assertions.assertFalse(locked.getParents().contains(unregistered));
@@ -143,17 +153,18 @@ public class TestCategories {
     }
 
     @Test
-    public void testLockedCategoriesUnlocking() throws InterruptedException {
+    @DisplayName("Test an unlocked LockedCategory")
+    void testLockedCategoriesUnlocking() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), (NamespacedKey) null));
 
         Category category = new Category(new NamespacedKey(plugin, "parent"), new CustomItem(Material.EMERALD, "&5I am SHERlocked"));
-        category.register();
+        category.register(plugin);
 
         LockedCategory locked = new LockedCategory(new NamespacedKey(plugin, "locked"), new CustomItem(Material.GOLD_NUGGET, "&6Locked Test"), category.getKey());
-        locked.register();
+        locked.register(plugin);
 
         // No Items, so it should be unlocked
         Assertions.assertTrue(locked.hasUnlocked(player, profile));
@@ -176,7 +187,8 @@ public class TestCategories {
     }
 
     @Test
-    public void testSeasonalCategories() {
+    @DisplayName("Test a seasonal Category")
+    void testSeasonalCategories() {
         // Category with current Month
         Month month = LocalDate.now().getMonth();
         SeasonalCategory category = new SeasonalCategory(new NamespacedKey(plugin, "seasonal"), month, 1, new CustomItem(Material.NETHER_STAR, "&cSeasonal Test"));
@@ -196,16 +208,17 @@ public class TestCategories {
     }
 
     @Test
-    public void testFlexCategory() {
+    @DisplayName("Test the FlexCategory")
+    void testFlexCategory() {
         FlexCategory category = new FlexCategory(new NamespacedKey(plugin, "flex"), new CustomItem(Material.REDSTONE, "&4Weird flex but ok")) {
 
             @Override
-            public void open(Player p, PlayerProfile profile, SlimefunGuideLayout layout) {
+            public void open(Player p, PlayerProfile profile, SlimefunGuideMode layout) {
                 // Nothing
             }
 
             @Override
-            public boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideLayout layout) {
+            public boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideMode layout) {
                 return true;
             }
         };

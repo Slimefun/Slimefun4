@@ -18,10 +18,10 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
+// This class will be deprecated, relocated and rewritten in a future version.
 public class DirtyChestMenu extends ChestMenu {
 
     protected final BlockMenuPreset preset;
-    protected ItemManipulationEvent event;
     protected int changes = 1;
 
     public DirtyChestMenu(@Nonnull BlockMenuPreset preset) {
@@ -61,32 +61,17 @@ public class DirtyChestMenu extends ChestMenu {
         return preset.canOpen(b, p);
     }
 
+    @Override
+    public void open(Player... players) {
+        super.open(players);
+
+        // The Inventory will likely be modified soon
+        markDirty();
+    }
+
     public void close() {
         for (HumanEntity human : new ArrayList<>(toInventory().getViewers())) {
             human.closeInventory();
-        }
-    }
-
-    /**
-     * This method has been deprecated.
-     * 
-     * @deprecated The {@link ItemManipulationEvent} has been deprecated.
-     * 
-     * @param event
-     *            deprecated class
-     */
-    @Deprecated
-    public void registerEvent(ItemManipulationEvent event) {
-        this.event = event;
-    }
-
-    @Override
-    public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
-        if (handler instanceof MenuSavingHandler) {
-            MenuOpeningHandler openingHandler = ((MenuSavingHandler) handler).getOpeningHandler();
-            return super.addMenuOpeningHandler(new MenuSavingHandler(this, openingHandler));
-        } else {
-            return super.addMenuOpeningHandler(new MenuSavingHandler(this, handler));
         }
     }
 
@@ -161,11 +146,6 @@ public class DirtyChestMenu extends ChestMenu {
     public void replaceExistingItem(int slot, ItemStack item, boolean event) {
         if (event) {
             ItemStack previous = getItemInSlot(slot);
-
-            if (this.event != null) {
-                item = this.event.onEvent(slot, previous, item);
-            }
-
             item = preset.onItemStackChange(this, slot, previous, item);
         }
 

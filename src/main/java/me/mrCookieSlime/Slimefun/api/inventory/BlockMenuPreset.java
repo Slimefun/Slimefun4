@@ -20,6 +20,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
+// This class will be deprecated, relocated and rewritten in a future version.
 public abstract class BlockMenuPreset extends ChestMenu {
 
     private final Set<Integer> occupiedSlots = new HashSet<>();
@@ -31,8 +32,6 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     private final boolean universal;
     private boolean locked;
-
-    private ItemManipulationEvent event;
 
     public BlockMenuPreset(@Nonnull String id, @Nonnull String title) {
         this(id, title, false);
@@ -74,19 +73,6 @@ public abstract class BlockMenuPreset extends ChestMenu {
     public abstract boolean canOpen(@Nonnull Block b, @Nonnull Player p);
 
     public abstract int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow);
-
-    /**
-     * This method is deprecated.
-     * 
-     * @deprecated Override {@link #onItemStackChange(DirtyChestMenu, int, ItemStack, ItemStack)} instead
-     * 
-     * @param event
-     *            The event
-     */
-    @Deprecated
-    public void registerEvent(ItemManipulationEvent event) {
-        this.event = event;
-    }
 
     /**
      * This method is called whenever an {@link ItemStack} changes.
@@ -259,7 +245,6 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
         menu.addMenuOpeningHandler(getMenuOpeningHandler());
         menu.addMenuCloseHandler(getMenuCloseHandler());
-        menu.registerEvent(event);
     }
 
     public void newInstance(@Nonnull BlockMenu menu, @Nonnull Location l) {
