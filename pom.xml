@@ -302,12 +302,6 @@
             <version>${spigot.version}-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.TheBusyBiscuit</groupId>
-            <artifactId>CS-CoreLib</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- Development dependencies -->
         <dependency>

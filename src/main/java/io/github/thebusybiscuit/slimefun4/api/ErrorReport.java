@@ -149,7 +149,6 @@ public class ErrorReport<T extends Throwable> {
             stream.println();
 
             stream.println("Slimefun Environment:");
-            stream.println("  CS-CoreLib v" + SlimefunPlugin.getCSCoreLibVersion());
             stream.println("  Slimefun v" + SlimefunPlugin.getVersion());
             stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
             stream.println();
