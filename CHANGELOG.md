@@ -32,6 +32,8 @@
 
 #### Fixes
 * Fixed elevator floor order
+* Fixed #2449
+* Fixed #2511
 
 ## Release Candidate 19 (11 Jan 2021)
 
