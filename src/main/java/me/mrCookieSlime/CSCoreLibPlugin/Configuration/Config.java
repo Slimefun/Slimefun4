@@ -2,22 +2,10 @@ package me.mrCookieSlime.CSCoreLibPlugin.Configuration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 /**
  * An old remnant of CS-CoreLib.
@@ -31,26 +19,13 @@ public class Config {
     private FileConfiguration config;
 
     /**
-     * Creates a new Config Object for the config.yml File of
-     * the specified Plugin
-     *
-     * @param plugin
-     *            The Instance of the Plugin, the config.yml is referring to
-     */
-    public Config(Plugin plugin) {
-        this.file = new File("plugins/" + plugin.getDescription().getName().replace(" ", "_") + "/config.yml");
-        this.config = YamlConfiguration.loadConfiguration(this.file);
-    }
-
-    /**
      * Creates a new Config Object for the specified File
      *
      * @param file
      *            The File for which the Config object is created for
      */
     public Config(File file) {
-        this.file = file;
-        this.config = YamlConfiguration.loadConfiguration(this.file);
+        this(file, YamlConfiguration.loadConfiguration(file));
     }
 
     /**
@@ -96,10 +71,6 @@ public class Config {
         return this.config;
     }
 
-    protected void store(String path, Object value) {
-        this.config.set(path, value);
-    }
-
     /**
      * Sets the Value for the specified Path
      *
@@ -109,38 +80,7 @@ public class Config {
      *            The Value for that Path
      */
     public void setValue(String path, Object value) {
-        if (value == null) {
-            this.store(path, value);
-            this.store(path + "_extra", null);
-        } else if (value instanceof Inventory) {
-            for (int i = 0; i < ((Inventory) value).getSize(); i++) {
-                setValue(path + "." + i, ((Inventory) value).getItem(i));
-            }
-        } else if (value instanceof Date) {
-            this.store(path, String.valueOf(((Date) value).getTime()));
-        } else if (value instanceof Long) {
-            this.store(path, String.valueOf(value));
-        } else if (value instanceof UUID) {
-            this.store(path, value.toString());
-        } else if (value instanceof Sound) {
-            this.store(path, String.valueOf(value));
-        } else if (value instanceof ItemStack) {
-            this.store(path, new ItemStack((ItemStack) value));
-        } else if (value instanceof Location) {
-            setValue(path + ".x", ((Location) value).getX());
-            setValue(path + ".y", ((Location) value).getY());
-            setValue(path + ".z", ((Location) value).getZ());
-            setValue(path + ".pitch", ((Location) value).getPitch());
-            setValue(path + ".yaw", ((Location) value).getYaw());
-            setValue(path + ".world", ((Location) value).getWorld().getName());
-        } else if (value instanceof Chunk) {
-            setValue(path + ".x", ((Chunk) value).getX());
-            setValue(path + ".z", ((Chunk) value).getZ());
-            setValue(path + ".world", ((Chunk) value).getWorld().getName());
-        } else if (value instanceof World) {
-            this.store(path, ((World) value).getName());
-        } else
-            this.store(path, value);
+        this.config.set(path, value);
     }
 
     /**
@@ -174,8 +114,9 @@ public class Config {
      *            The Value for that Path
      */
     public void setDefaultValue(String path, Object value) {
-        if (!contains(path))
+        if (!contains(path)) {
             setValue(path, value);
+        }
     }
 
     /**
@@ -201,17 +142,6 @@ public class Config {
     }
 
     /**
-     * Returns the ItemStack at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The ItemStack at that Path
-     */
-    public ItemStack getItem(String path) {
-        return config.getItemStack(path);
-    }
-
-    /**
      * Returns the String at the specified Path
      *
      * @param path
@@ -223,209 +153,12 @@ public class Config {
     }
 
     /**
-     * Returns the Integer at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Integer at that Path
-     */
-    public int getInt(String path) {
-        return config.getInt(path);
-    }
-
-    /**
-     * Returns the Boolean at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Boolean at that Path
-     */
-    public boolean getBoolean(String path) {
-        return config.getBoolean(path);
-    }
-
-    /**
-     * Returns the StringList at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The StringList at that Path
-     */
-    public List<String> getStringList(String path) {
-        return config.getStringList(path);
-    }
-
-    /**
-     * Returns the ItemList at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The ItemList at that Path
-     */
-    public List<ItemStack> getItemList(String path) {
-        List<ItemStack> list = new ArrayList<ItemStack>();
-        for (String key : getKeys(path)) {
-            if (!key.endsWith("_extra"))
-                list.add(getItem(path + "." + key));
-        }
-        return list;
-    }
-
-    /**
-     * Returns the IntegerList at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The IntegerList at that Path
-     */
-    public List<Integer> getIntList(String path) {
-        return config.getIntegerList(path);
-    }
-
-    /**
      * Recreates the File of this Config
      */
     public void createFile() {
         try {
             this.file.createNewFile();
         } catch (IOException e) {}
-    }
-
-    /**
-     * Returns the Float at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Float at that Path
-     */
-    public Float getFloat(String path) {
-        return Float.valueOf(String.valueOf(getValue(path)));
-    }
-
-    /**
-     * Returns the Long at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Long at that Path
-     */
-    public Long getLong(String path) {
-        return Long.valueOf(String.valueOf(getValue(path)));
-    }
-
-    /**
-     * Returns the Sound at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Sound at that Path
-     */
-    public Sound getSound(String path) {
-        return Sound.valueOf(getString(path));
-    }
-
-    /**
-     * Returns the Date at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Date at that Path
-     */
-    public Date getDate(String path) {
-        return new Date(getLong(path));
-    }
-
-    /**
-     * Returns the Chunk at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Chunk at that Path
-     */
-    public Chunk getChunk(String path) {
-        return Bukkit.getWorld(getString(path + ".world")).getChunkAt(getInt(path + ".x"), getInt(path + ".z"));
-    }
-
-    /**
-     * Returns the UUID at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The UUID at that Path
-     */
-    public UUID getUUID(String path) {
-        return UUID.fromString(getString(path));
-    }
-
-    /**
-     * Returns the World at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The World at that Path
-     */
-    public World getWorld(String path) {
-        return Bukkit.getWorld(getString(path));
-    }
-
-    /**
-     * Returns the Double at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Double at that Path
-     */
-    public Double getDouble(String path) {
-        return config.getDouble(path);
-    }
-
-    /**
-     * Returns the Location at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @return The Location at that Path
-     */
-    public Location getLocation(String path) {
-        if (this.contains(path + ".pitch")) {
-            return new Location(Bukkit.getWorld(getString(path + ".world")), getDouble(path + ".x"), getDouble(path + ".y"), getDouble(path + ".z"), getFloat(path + ".yaw"), getFloat(path + ".pitch"));
-        } else {
-            return new Location(Bukkit.getWorld(this.getString(path + ".world")), this.getDouble(path + ".x"), this.getDouble(path + ".y"), this.getDouble(path + ".z"));
-        }
-    }
-
-    @Deprecated
-    public void setLocation(String path, Location location) {
-        setValue(path + ".x", location.getX());
-        setValue(path + ".y", location.getY());
-        setValue(path + ".z", location.getZ());
-        setValue(path + ".world", location.getWorld().getName());
-    }
-
-    @Deprecated
-    public void setInventory(String path, Inventory inventory) {
-        for (int i = 0; i < inventory.getSize(); i++) {
-            setValue(path + "." + i, inventory.getItem(i));
-        }
-    }
-
-    /**
-     * Gets the Contents of an Inventory at the specified Path
-     *
-     * @param path
-     *            The path in the Config File
-     * @param size
-     *            The Size of the Inventory
-     * @param title
-     *            The Title of the Inventory
-     * @return The generated Inventory
-     */
-    public Inventory getInventory(String path, int size, String title) {
-        Inventory inventory = Bukkit.createInventory(null, size, title);
-        for (int i = 0; i < size; i++) {
-            inventory.setItem(i, getItem(path + "." + i));
-        }
-        return inventory;
     }
 
     /**

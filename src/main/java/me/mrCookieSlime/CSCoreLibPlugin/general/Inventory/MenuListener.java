@@ -33,11 +33,10 @@ public class MenuListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
-        ChestMenu menu = menus.get(e.getPlayer().getUniqueId());
+        ChestMenu menu = menus.remove(e.getPlayer().getUniqueId());
 
         if (menu != null) {
             menu.getMenuCloseHandler().onClose((Player) e.getPlayer());
-            menus.remove(e.getPlayer().getUniqueId());
         }
     }
 
