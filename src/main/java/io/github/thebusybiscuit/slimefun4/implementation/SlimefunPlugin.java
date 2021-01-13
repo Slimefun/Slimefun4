@@ -75,6 +75,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurna
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.HopperListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
@@ -625,6 +626,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new CartographyTableListener(this);
         new ButcherAndroidListener(this);
         new NetworkListener(this, networkManager);
+        new HopperListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
