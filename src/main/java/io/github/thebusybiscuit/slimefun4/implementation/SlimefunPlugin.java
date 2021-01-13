@@ -21,6 +21,7 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +30,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
-import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
@@ -502,13 +502,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
 
             // Now check the actual Version of Minecraft
-            String currentVersion = ReflectionUtils.getVersion();
+            int version = PaperLib.getMinecraftVersion();
 
-            if (currentVersion.startsWith("v")) {
+            if (version > 0) {
                 // Check all supported versions of Minecraft
-                for (MinecraftVersion version : MinecraftVersion.valuesCache) {
-                    if (version.matches(currentVersion)) {
-                        minecraftVersion = version;
+                for (MinecraftVersion supportedVersion : MinecraftVersion.valuesCache) {
+                    if (supportedVersion.isMinecraftVersion(version)) {
+                        minecraftVersion = supportedVersion;
                         return false;
                     }
                 }
@@ -518,22 +518,22 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
                 getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
                 getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
                 getLogger().log(Level.SEVERE, "###");
-                getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", currentVersion);
+                getLogger().log(Level.SEVERE, "### You are using Minecraft 1.{0}.x", version);
                 getLogger().log(Level.SEVERE, "### but Slimefun {0} requires you to be using", getDescription().getVersion());
                 getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
                 getLogger().log(Level.SEVERE, "#############################################");
                 return true;
+            } else {
+                getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using? ({0})", Bukkit.getVersion());
+
+                /*
+                 * If we are unsure about it, we will assume "supported".
+                 * They could be using a non-Bukkit based Software which still
+                 * might support Bukkit-based plugins.
+                 * Use at your own risk in this case.
+                 */
+                return false;
             }
-
-            getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);
-
-            /*
-             * If we are unsure about it, we will assume "supported".
-             * They could be using a non-Bukkit based Software which still
-             * might support Bukkit-based plugins.
-             * Use at your own risk in this case.
-             */
-            return false;
         } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "Error: Could not determine Environment or version of Minecraft for Slimefun v" + getDescription().getVersion());
 
@@ -792,6 +792,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.local;
     }
 
+    /**
+     * This method returns out {@link MinecraftRecipeService} for Slimefun.
+     * This service is responsible for finding/identifying {@link Recipe Recipes}
+     * from vanilla Minecraft.
+     * 
+     * @return Slimefun's {@link MinecraftRecipeService} instance
+     */
     @Nonnull
     public static MinecraftRecipeService getMinecraftRecipeService() {
         validateInstance();
