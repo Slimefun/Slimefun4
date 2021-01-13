@@ -59,6 +59,8 @@ public enum MinecraftVersion {
      * This constructor forces the {@link MinecraftVersion} to be real.
      * It must be a real version of Minecraft.
      * 
+     * @param majorVersion
+     *            The major version of minecraft as an {@link Integer}
      * @param name
      *            The display name of this {@link MinecraftVersion}
      */
@@ -117,7 +119,9 @@ public enum MinecraftVersion {
      * Example: {@literal "1.13"} returns {@literal 13}
      * 
      * @param minecraftVersion
-     * @return
+     *            The {@link Integer} version to match
+     * 
+     * @return Whether this {@link MinecraftVersion} matches the specified version id
      */
     public boolean isMinecraftVersion(int minecraftVersion) {
         return !isVirtual() && this.majorVersion == minecraftVersion;

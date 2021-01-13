@@ -268,7 +268,7 @@ public class Category implements Keyed {
 
     /**
      * This method returns whether this {@link Category} has been registered yet.
-     * More specifically: Whether {@link #register()} was called or not.
+     * More specifically: Whether {@link #register(SlimefunAddon)} was called or not.
      * 
      * @return Whether this {@link Category} has been registered
      */
