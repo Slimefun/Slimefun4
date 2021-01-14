@@ -152,7 +152,7 @@ public class SlimefunItem implements Placeable {
      *            The result of crafting this item
      */
     @ParametersAreNonnullByDefault
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
@@ -264,8 +264,19 @@ public class SlimefunItem implements Placeable {
      * @return The linked {@link Research} or null
      */
     @Nullable
-    public Research getResearch() {
+    public final Research getResearch() {
         return research;
+    }
+
+    /**
+     * This returns whether this {@link SlimefunItem} has a {@link Research}
+     * assigned to it.
+     * It is equivalent to a null check performed on {@link #getResearch()}.
+     * 
+     * @return Whether this {@link SlimefunItem} has a {@link Research}
+     */
+    public final boolean hasResearch() {
+        return research != null;
     }
 
     /**
@@ -491,7 +502,7 @@ public class SlimefunItem implements Placeable {
         if (itemStackTemplate.getAmount() != 1) {
             // @formatter:off
             warn("This item has an illegal stack size: " + itemStackTemplate.getAmount()
-                + "An Item size of 1 is recommended. Please inform the autho of " + addon.getName()
+                + ". An Item size of 1 is recommended. Please inform the author(s) of " + addon.getName()
                 + " to fix this. Crafting Results with amounts of higher should be handled"
                 + " via the recipeOutput parameter!");
             // @formatter:on
