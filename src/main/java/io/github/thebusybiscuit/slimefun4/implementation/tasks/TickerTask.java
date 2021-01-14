@@ -252,8 +252,24 @@ public class TickerTask implements Runnable {
      * 
      * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
      */
-    public boolean isReserved(@Nonnull Location l) {
+    public boolean isOccupiedSoon(@Nonnull Location l) {
+        Validate.notNull(l, "Null is not a valid Location!");
+
         return movingQueue.containsValue(l);
+    }
+
+    /**
+     * This method checks if a given {@link Location} will be deleted on the next tick.
+     * 
+     * @param l
+     *            The {@link Location} to check
+     * 
+     * @return Whether this {@link Location} will be deleted on the next tick
+     */
+    public boolean isDeletedSoon(@Nonnull Location l) {
+        Validate.notNull(l, "Null is not a valid Location!");
+
+        return deletionQueue.containsKey(l);
     }
 
     /**
