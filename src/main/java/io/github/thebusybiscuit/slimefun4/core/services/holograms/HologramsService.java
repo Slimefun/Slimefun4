@@ -156,6 +156,8 @@ public class HologramsService {
             PersistentDataContainer container = hologram.getPersistentDataContainer();
             container.set(persistentDataKey, PersistentDataType.LONG, position.getPosition());
 
+            hologram.setInvisible(true);
+            hologram.setInvulnerable(true);
             hologram.setSilent(true);
             hologram.setMarker(true);
             hologram.setAI(false);
@@ -228,7 +230,16 @@ public class HologramsService {
     private boolean isHologram(@Nonnull Entity n) {
         if (n instanceof ArmorStand) {
             ArmorStand armorstand = (ArmorStand) n;
-            return armorstand.isValid() && armorstand.isSilent() && armorstand.isMarker() && !armorstand.hasAI() && !armorstand.hasGravity();
+
+            // @formatter:off
+            return armorstand.isValid() 
+                && armorstand.isInvisible() 
+                && armorstand.isInvulnerable() 
+                && armorstand.isSilent() 
+                && armorstand.isMarker() 
+                && !armorstand.hasAI() 
+                && !armorstand.hasGravity();
+            // @formatter:on
         } else {
             return false;
         }
