@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: URL-checker
-      uses: SuperKogito/URLs-checker@0.2.1
+      uses: SuperKogito/URLs-checker@0.2.2
       with:
         git_path: https://github.com/Slimefun/Slimefun4
         file_types: .md,.java,.yml
