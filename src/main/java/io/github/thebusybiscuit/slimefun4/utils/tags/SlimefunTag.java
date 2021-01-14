@@ -62,7 +62,7 @@ public enum SlimefunTag implements Tag<Material> {
      * All command block variants
      */
     COMMAND_BLOCKS,
-    
+
     /**
      * All variants of Spawn Eggs
      */

@@ -29,11 +29,13 @@
 #### Additions
 
 #### Changes
+* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
+* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 
 #### Fixes
 * Fixed elevator floor order
-* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
-* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
+* Fixed #2449
+* Fixed #2511
 
 ## Release Candidate 19 (11 Jan 2021)
 

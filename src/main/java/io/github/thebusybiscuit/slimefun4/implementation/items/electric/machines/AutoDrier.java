@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -22,7 +23,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author Linox
  *
  */
-public class AutoDrier extends AContainer implements RecipeDisplayItem {
+public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHopperable {
 
     private List<ItemStack> recipeList;
 

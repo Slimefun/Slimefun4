@@ -105,7 +105,6 @@ public class StomperBoots extends SlimefunItem {
      * @return If the entity can move.
      */
     protected boolean canPush(@Nonnull Player player, @Nonnull LivingEntity entity) {
-        return entity.isValid() && !entity.getUniqueId().equals(player.getUniqueId())
-            && entity.isCollidable() && entity.hasGravity();
+        return entity.isValid() && !entity.getUniqueId().equals(player.getUniqueId()) && entity.isCollidable() && entity.hasGravity();
     }
 }
