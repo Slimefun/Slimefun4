@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -133,6 +134,7 @@ public class SlimefunItem implements Placeable {
      * @param recipe
      *            An Array representing the recipe of this {@link SlimefunItem}
      */
+    @ParametersAreNonnullByDefault
     public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, item, recipeType, recipe, null);
     }
@@ -151,7 +153,8 @@ public class SlimefunItem implements Placeable {
      * @param recipeOutput
      *            The result of crafting this item
      */
-    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    @ParametersAreNonnullByDefault
+    public SlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
         Validate.notNull(recipeType, "'recipeType' is not allowed to be null!");
@@ -165,6 +168,7 @@ public class SlimefunItem implements Placeable {
     }
 
     // Previously deprecated constructor, now only for internal purposes
+    @ParametersAreNonnullByDefault
     protected SlimefunItem(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
         Validate.notNull(category, "'category' is not allowed to be null!");
         Validate.notNull(item, "'item' is not allowed to be null!");
@@ -266,6 +270,13 @@ public class SlimefunItem implements Placeable {
         return research;
     }
 
+    /**
+     * This returns whether this {@link SlimefunItem} has a {@link Research}
+     * assigned to it.
+     * It is equivalent to a null check performed on {@link #getResearch()}.
+     * 
+     * @return Whether this {@link SlimefunItem} has a {@link Research}
+     */
     public final boolean hasResearch() {
         return research != null;
     }
@@ -378,7 +389,7 @@ public class SlimefunItem implements Placeable {
      * @return The {@link SlimefunAddon} that registered this {@link SlimefunItem}
      */
     @Nonnull
-    public SlimefunAddon getAddon() {
+    public final SlimefunAddon getAddon() {
         if (addon == null) {
             throw new UnregisteredItemException(this);
         }
@@ -483,11 +494,21 @@ public class SlimefunItem implements Placeable {
     private final void onEnable() {
         // Register the Category too if it hasn't been registered yet
         if (!category.isRegistered()) {
-            category.register();
+            category.register(addon);
         }
 
         // Send out deprecation warnings for any classes or interfaces
         checkForDeprecations(getClass());
+
+        // Check for an illegal stack size
+        if (itemStackTemplate.getAmount() != 1) {
+            // @formatter:off
+            warn("This item has an illegal stack size: " + itemStackTemplate.getAmount()
+                + ". An Item size of 1 is recommended. Please inform the author(s) of " + addon.getName()
+                + " to fix this. Crafting Results with amounts of higher should be handled"
+                + " via the recipeOutput parameter!");
+            // @formatter:on
+        }
 
         // Add it to the list of enabled items
         SlimefunPlugin.getRegistry().getEnabledSlimefunItems().add(this);
@@ -508,13 +529,17 @@ public class SlimefunItem implements Placeable {
             if (exception.isPresent()) {
                 throw exception.get();
             } else {
-                // Make developers or at least Server admins aware that
-                // an Item is using a deprecated ItemHandler
+                /*
+                 * Make developers or at least Server admins aware that an Item
+                 * is using a deprecated ItemHandler
+                 */
                 checkForDeprecations(handler.getClass());
             }
 
-            // If this ItemHandler is "public" (not bound to this SlimefunItem),
-            // we add it to the list of public Item handlers
+            /*
+             * If this ItemHandler is "public" (not bound to this SlimefunItem),
+             * we add it to the list of public Item handlers
+             */
             if (!handler.isPrivate()) {
                 Set<ItemHandler> handlerset = getPublicItemHandlers(handler.getIdentifier());
                 handlerset.add(handler);
@@ -570,15 +595,19 @@ public class SlimefunItem implements Placeable {
      */
     private void checkForDeprecations(@Nullable Class<?> c) {
         if (SlimefunPlugin.getUpdater().getBranch() == SlimefunBranch.DEVELOPMENT) {
-            // This method is currently way too spammy with all the restructuring going on...
-            // Since DEV builds are anyway under "development", things may be relocated.
-            // So we fire these only for stable versions, since devs should update then, so
-            // it's the perfect moment to tell them to act.
+            /*
+             * This method is currently way too spammy with all the restructuring going on...
+             * Since DEV builds are anyway under "development", things may be relocated.
+             * So we fire these only for stable versions, since devs should update then, so
+             * it's the perfect moment to tell them to act.
+             */
             return;
         }
 
-        // We do not wanna throw an Exception here since this could also mean that
-        // we have reached the end of the Class hierarchy
+        /*
+         * We do not wanna throw an Exception here since this could also mean that.
+         * We have reached the end of the Class hierarchy
+         */
         if (c != null) {
             // Check if this Class is deprecated
             if (c.isAnnotationPresent(Deprecated.class)) {

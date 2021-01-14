@@ -4,7 +4,6 @@ commands:
   cheat: Slimefunガイドをチートモードで開く
   give: 指定したプレイヤーにSlimefunアイテムを与える
   guide: Slimefunガイドを取得
-  timings: サーバの負荷状況を表示
   teleporter: 指定したプレイヤーのウェイポイントを表示
   versions: バージョンについて
   search: Slimefunガイド内を検索
@@ -21,9 +20,14 @@ commands:
     backpack-does-not-exist: "&4指定したバックパックは存在しません！"
     restored-backpack-given: "&aバックパックが返還されました！"
   charge:
-    description: 手に持っているアイテムを充電
-    charge-success: アイテムは充電されました！
+    description: 手に持っているアイテムを充電する
+    charge-success: アイテムが充電されました！
     not-rechargeable: このアイテムは充電できません！
+  timings:
+    description: Slimefunに関連する負荷の計測
+    please-wait: "&e数秒お待ちください… 負荷の測定中です！"
+    verbose-player: "&4プレイヤーはverboseフラグを使用できません！"
+    unknown-flag: "&4未知のフラグです: &c%flag%"
 guide:
   search:
     message: "&b検索ワードをチャットで入力してください"
@@ -314,7 +318,6 @@ languages:
   el: ギリシャ語
   he: ヘブライ語
   pt: ポルトガル語（ポルトガル）
-  pt-BR: ポルトガル語（ブラジル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -326,6 +329,7 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
+  pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語
   tr: トルコ語

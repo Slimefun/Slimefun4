@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -25,12 +26,12 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -71,12 +72,16 @@ public final class SlimefunRegistry {
     private final Set<SlimefunItem> radioactive = new HashSet<>();
     private final Set<ItemStack> barterDrops = new HashSet<>();
 
+    private NamespacedKey soulboundKey;
+    private NamespacedKey itemChargeKey;
+    private NamespacedKey guideKey;
+
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
     private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
-    private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
+    private final Map<SlimefunGuideMode, SlimefunGuideImplementation> guides = new EnumMap<>(SlimefunGuideMode.class);
     private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
 
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
@@ -84,14 +89,17 @@ public final class SlimefunRegistry {
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
     private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
-    public void load(@Nonnull Config cfg) {
+    public void load(@Nonnull SlimefunPlugin plugin, @Nonnull Config cfg) {
+        Validate.notNull(plugin, "The Plugin cannot be null!");
         Validate.notNull(cfg, "The Config cannot be null!");
 
-        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
+        soulboundKey = new NamespacedKey(plugin, "soulbound");
+        itemChargeKey = new NamespacedKey(plugin, "item_charge");
+        guideKey = new NamespacedKey(plugin, "slimefun_guide_mode");
 
-        layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
-        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
-        layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
+        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
+        guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes));
+        guides.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
@@ -132,6 +140,7 @@ public final class SlimefunRegistry {
         automaticallyLoadItems = mode;
     }
 
+    @Nonnull
     public List<Category> getCategories() {
         return categories;
     }
@@ -141,6 +150,7 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link List} containing every {@link SlimefunItem}
      */
+    @Nonnull
     public List<SlimefunItem> getAllSlimefunItems() {
         return slimefunItems;
     }
@@ -150,18 +160,22 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link List} containing every enabled {@link SlimefunItem}
      */
+    @Nonnull
     public List<SlimefunItem> getEnabledSlimefunItems() {
         return enabledItems;
     }
 
+    @Nonnull
     public List<Research> getResearches() {
         return researches;
     }
 
+    @Nonnull
     public Set<UUID> getCurrentlyResearchingPlayers() {
         return researchingPlayers;
     }
 
+    @Nonnull
     public List<String> getResearchRanks() {
         return researchRanks;
     }
@@ -186,12 +200,31 @@ public final class SlimefunRegistry {
         return researchFireworks;
     }
 
+    @Nonnull
     public List<MultiBlock> getMultiBlocks() {
         return multiblocks;
     }
 
-    public SlimefunGuideImplementation getGuideLayout(SlimefunGuideLayout layout) {
-        return layouts.get(layout);
+    /**
+     * This returns the corresponding {@link SlimefunGuideImplementation} for a certain
+     * {@link SlimefunGuideMode}.
+     * 
+     * @param mode
+     *            The {@link SlimefunGuideMode}
+     * 
+     * @return The corresponding {@link SlimefunGuideImplementation}
+     */
+    @Nonnull
+    public SlimefunGuideImplementation getSlimefunGuide(@Nonnull SlimefunGuideMode mode) {
+        Validate.notNull(mode, "The Guide mode cannot be null");
+
+        SlimefunGuideImplementation guide = guides.get(mode);
+
+        if (guide == null) {
+            throw new IllegalStateException("Slimefun Guide '" + mode + "' has no registered implementation.");
+        }
+
+        return guide;
     }
 
     /**
@@ -200,6 +233,7 @@ public final class SlimefunRegistry {
      * 
      * @return The {@link Map} of custom mob drops
      */
+    @Nonnull
     public Map<EntityType, Set<ItemStack>> getMobDrops() {
         return mobDrops;
     }
@@ -210,56 +244,83 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link Set} of bartering drops
      */
+    @Nonnull
     public Set<ItemStack> getBarteringDrops() {
         return barterDrops;
     }
 
+    @Nonnull
     public Set<SlimefunItem> getRadioactiveItems() {
         return radioactive;
     }
 
+    @Nonnull
     public Set<String> getTickerBlocks() {
         return tickers;
     }
 
+    @Nonnull
     public Map<String, SlimefunItem> getSlimefunItemIds() {
         return slimefunIds;
     }
 
+    @Nonnull
     public Map<String, BlockMenuPreset> getMenuPresets() {
         return blockMenuPresets;
     }
 
+    @Nonnull
     public Map<String, UniversalBlockMenu> getUniversalInventories() {
         return universalInventories;
     }
 
+    @Nonnull
     public Map<UUID, PlayerProfile> getPlayerProfiles() {
         return profiles;
     }
 
+    @Nonnull
     public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
         return globalItemHandlers;
     }
 
+    @Nonnull
     public Map<String, SlimefunBlockHandler> getBlockHandlers() {
         return blockHandlers;
     }
 
+    @Nonnull
     public Map<String, BlockStorage> getWorlds() {
         return worlds;
     }
 
+    @Nonnull
     public Map<String, BlockInfoConfig> getChunks() {
         return chunks;
     }
 
+    @Nonnull
     public KeyMap<GEOResource> getGEOResources() {
         return geoResources;
     }
 
     public boolean logDuplicateBlockEntries() {
         return logDuplicateBlockEntries;
+    }
+
+    @Nonnull
+    public NamespacedKey getSoulboundDataKey() {
+        return soulboundKey;
+    }
+
+    @Nonnull
+    public NamespacedKey getItemChargeDataKey() {
+        return itemChargeKey;
+    }
+
+    @Nonnull
+    public NamespacedKey getGuideDataKey() {
+        return guideKey;
     }
 
 }

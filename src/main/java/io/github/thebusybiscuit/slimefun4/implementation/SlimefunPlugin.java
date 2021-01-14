@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -20,6 +21,7 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,9 +29,7 @@ import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.scheduler.BukkitTask;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
-import io.github.thebusybiscuit.cscorelib2.reflection.ReflectionUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
@@ -50,7 +50,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
-import io.github.thebusybiscuit.slimefun4.core.services.plugins.ThirdPartyPluginService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
@@ -76,6 +75,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.EnhancedFurna
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ExplosionsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.GrapplingHookListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.HopperListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.MultiBlockListener;
@@ -113,6 +113,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.ArmorTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.SlimefunStartupTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -148,14 +149,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final BackupService backupService = new BackupService();
     private final PermissionsService permissionsService = new PermissionsService(this);
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
-    private final ThirdPartyPluginService thirdPartySupportService = new ThirdPartyPluginService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
-    private final SlimefunProfiler profiler = new SlimefunProfiler();
-    private LocalizationService local;
 
+    private final IntegrationsManager integrations = new IntegrationsManager(this);
+    private final SlimefunProfiler profiler = new SlimefunProfiler();
+
+    private LocalizationService local;
     private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
-    private ProtectionManager protections;
 
     // Important config files for Slimefun
     private final Config config = new Config(this);
@@ -199,121 +200,25 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     @Override
     public void onEnable() {
-        instance = this;
-
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
+            // We handle Unit Tests seperately.
+            setInstance(this);
             onUnitTestStart();
+        } else if (isVersionUnsupported()) {
+            // We wanna ensure that the Server uses a compatible version of Minecraft.
+            setInstance(this);
+            getLogger().log(Level.WARNING, "Slimefun was not installed properly! Disabling...");
+            getServer().getPluginManager().disablePlugin(this);
         } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
+            // The Environment and dependencies have been validated.
+            setInstance(this);
             getLogger().log(Level.INFO, "CS-CoreLib was detected!");
-            long timestamp = System.nanoTime();
-            PaperLib.suggestPaper(this);
-
-            if (PaperLib.isPaper()) {
-                getLogger().log(Level.INFO, "Paper was detected! Performance optimizations have been applied.");
-            }
-
-            // We wanna ensure that the Server uses a compatible version of Minecraft
-            if (isVersionUnsupported()) {
-                getServer().getPluginManager().disablePlugin(this);
-                return;
-            }
-
-            // Disabling backwards-compatibility for fresh Slimefun installs
-            if (!new File("data-storage/Slimefun").exists()) {
-                config.setValue("options.backwards-compatibility", false);
-                config.save();
-
-                isNewlyInstalled = true;
-            }
-
-            // Creating all necessary Folders
-            getLogger().log(Level.INFO, "Creating directories...");
-            createDirectories();
-            registry.load(config);
-
-            // Set up localization
-            getLogger().log(Level.INFO, "Loading language files...");
-            local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
-
-            // Setting up Networks
-            gpsNetwork = new GPSNetwork();
-
-            int networkSize = config.getInt("networks.max-size");
-
-            if (networkSize < 1) {
-                getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
-                networkSize = 1;
-            }
-
-            networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
-
-            // Setting up bStats
-            new Thread(metricsService::start, "Slimefun Metrics").start();
-
-            // Starting the Auto-Updater
-            if (config.getBoolean("options.auto-update")) {
-                getLogger().log(Level.INFO, "Starting Auto-Updater...");
-                updaterService.start();
-            } else {
-                updaterService.disable();
-            }
-
-            // Registering all GEO Resources
-            getLogger().log(Level.INFO, "Loading GEO-Resources...");
-            GEOResourcesSetup.setup();
-
-            getLogger().log(Level.INFO, "Loading Tags...");
-            loadTags();
-
-            getLogger().log(Level.INFO, "Loading items...");
-            loadItems();
-
-            getLogger().log(Level.INFO, "Loading researches...");
-            loadResearches();
-
-            registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
-            PostSetup.setupWiki();
-
-            getLogger().log(Level.INFO, "Registering listeners...");
-            registerListeners();
-
-            // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
-            runSync(new SlimefunStartupTask(this, () -> {
-                protections = new ProtectionManager(getServer());
-                textureService.register(registry.getAllSlimefunItems(), true);
-                permissionsService.register(registry.getAllSlimefunItems(), true);
-
-                // This try/catch should prevent buggy Spigot builds from blocking item loading
-                try {
-                    recipeService.refresh();
-                } catch (Exception | LinkageError x) {
-                    getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
-                }
-
-            }), 0);
-
-            // Setting up the command /sf and all subcommands
-            command.register();
-
-            // Armor Update Task
-            if (config.getBoolean("options.enable-armor-effects")) {
-                boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
-                getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
-            }
-
-            autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
-            ticker.start(this);
-
-            getLogger().log(Level.INFO, "Loading Third-Party plugin integrations...");
-            thirdPartySupportService.start();
-
-            gitHubService.start(this);
-
-            // Hooray!
-            getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
+            onPluginStart();
         } else {
-            instance = null;
+            // Terminate our Plugin instance
+            setInstance(null);
 
+            // CS-CoreLib has not been installed!
             getLogger().log(Level.INFO, "#################### - INFO - ####################");
             getLogger().log(Level.INFO, " ");
             getLogger().log(Level.INFO, "Slimefun could not be loaded (yet).");
@@ -321,6 +226,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             getLogger().log(Level.INFO, "Please download and install CS-CoreLib manually:");
             getLogger().log(Level.INFO, "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
 
+            // Send a message upon doing /slimefun
             getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
                 sender.sendMessage("You have forgotten to install CS-CoreLib! Slimefun is disabled.");
                 sender.sendMessage("https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
@@ -337,8 +243,129 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         gpsNetwork = new GPSNetwork();
         networkManager = new NetworkManager(200);
         command.register();
-        registry.load(config);
+        registry.load(this, config);
         loadTags();
+    }
+
+    /**
+     * This is our start method for a correct Slimefun installation.
+     */
+    private void onPluginStart() {
+        long timestamp = System.nanoTime();
+
+        if (PaperLib.isPaper()) {
+            getLogger().log(Level.INFO, "Paper was detected! Performance optimizations have been applied.");
+        } else {
+            PaperLib.suggestPaper(this);
+        }
+
+        // Disabling backwards-compatibility for fresh Slimefun installs
+        if (!new File("data-storage/Slimefun").exists()) {
+            config.setValue("options.backwards-compatibility", false);
+            config.save();
+
+            isNewlyInstalled = true;
+        }
+
+        // Creating all necessary Folders
+        getLogger().log(Level.INFO, "Creating directories...");
+        createDirectories();
+        registry.load(this, config);
+
+        // Set up localization
+        getLogger().log(Level.INFO, "Loading language files...");
+        local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
+
+        // Setting up Networks
+        gpsNetwork = new GPSNetwork();
+
+        int networkSize = config.getInt("networks.max-size");
+
+        if (networkSize < 1) {
+            getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
+            networkSize = 1;
+        }
+
+        networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
+
+        // Setting up bStats
+        new Thread(metricsService::start, "Slimefun Metrics").start();
+
+        // Starting the Auto-Updater
+        if (config.getBoolean("options.auto-update")) {
+            getLogger().log(Level.INFO, "Starting Auto-Updater...");
+            updaterService.start();
+        } else {
+            updaterService.disable();
+        }
+
+        // Registering all GEO Resources
+        getLogger().log(Level.INFO, "Loading GEO-Resources...");
+        GEOResourcesSetup.setup();
+
+        getLogger().log(Level.INFO, "Loading Tags...");
+        loadTags();
+
+        getLogger().log(Level.INFO, "Loading items...");
+        loadItems();
+
+        getLogger().log(Level.INFO, "Loading researches...");
+        loadResearches();
+
+        registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
+        PostSetup.setupWiki();
+
+        getLogger().log(Level.INFO, "Registering listeners...");
+        registerListeners();
+
+        // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
+        runSync(new SlimefunStartupTask(this, () -> {
+            textureService.register(registry.getAllSlimefunItems(), true);
+            permissionsService.register(registry.getAllSlimefunItems(), true);
+
+            // This try/catch should prevent buggy Spigot builds from blocking item loading
+            try {
+                recipeService.refresh();
+            } catch (Exception | LinkageError x) {
+                getLogger().log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
+            }
+
+        }), 0);
+
+        // Setting up our commands
+        try {
+            command.register();
+        } catch (Exception | LinkageError x) {
+            getLogger().log(Level.SEVERE, "An Exception occurred while registering the /slimefun command", x);
+        }
+
+        // Armor Update Task
+        if (config.getBoolean("options.enable-armor-effects")) {
+            boolean radioactiveFire = config.getBoolean("options.burn-players-when-radioactive");
+            getServer().getScheduler().runTaskTimerAsynchronously(this, new ArmorTask(radioactiveFire), 0L, config.getInt("options.armor-update-interval") * 20L);
+        }
+
+        // Starting our tasks
+        autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
+        ticker.start(this);
+
+        // Loading integrations
+        getLogger().log(Level.INFO, "Loading Third-Party plugin integrations...");
+        integrations.start();
+        gitHubService.start(this);
+
+        // Hooray!
+        getLogger().log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
+    }
+
+    @Override
+    public JavaPlugin getJavaPlugin() {
+        return this;
+    }
+
+    @Override
+    public String getBugTrackerURL() {
+        return "https://github.com/Slimefun/Slimefun4/issues";
     }
 
     /**
@@ -378,6 +405,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
             }
         }
 
+        // Save all "universal" inventories (ender chests for example)
         for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
             menu.save();
         }
@@ -388,20 +416,11 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Close and unload any resources from our Metrics Service
         metricsService.cleanUp();
 
-        /**
-         * Prevent Memory Leaks for reloads...
-         * These static Maps should really be removed at some point...
-         */
-        AContainer.processing = null;
-        AContainer.progress = null;
+        // Terminate our Plugin instance
+        setInstance(null);
 
-        AGenerator.processing = null;
-        AGenerator.progress = null;
-
-        Reactor.processing = null;
-        Reactor.progress = null;
-
-        instance = null;
+        // Clean up any static fields
+        cleanUp();
 
         /**
          * Close all inventories on the server to prevent item dupes
@@ -412,15 +431,53 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This is a private internal method to set the de-facto instance of {@link SlimefunPlugin}.
+     * Having this as a seperate method ensures the seperation between static and non-static fields.
+     * It also makes sonarcloud happy :)
+     * Only ever use it during {@link #onEnable()} or {@link #onDisable()}.
+     * 
+     * @param pluginInstance
+     *            Our instance of {@link SlimefunPlugin} or null
+     */
+    private static void setInstance(@Nullable SlimefunPlugin pluginInstance) {
+        instance = pluginInstance;
+    }
+
+    /**
+     * This returns the time it took to load Slimefun (given a starting point).
+     * 
+     * @param timestamp
+     *            The time at which we started to load Slimefun.
+     * 
+     * @return The total time it took to load Slimefun (in ms or s)
+     */
     @Nonnull
     private String getStartupTime(long timestamp) {
         long ms = (System.nanoTime() - timestamp) / 1000000;
 
         if (ms > 1000) {
-            return DoubleHandler.fixDouble(ms / 1000.0) + "s";
+            return NumberUtils.roundDecimalNumber(ms / 1000.0) + "s";
         } else {
-            return DoubleHandler.fixDouble(ms) + "ms";
+            return NumberUtils.roundDecimalNumber(ms) + "ms";
         }
+    }
+
+    /**
+     * Cleaning up our static fields prevents memory leaks from a reload.
+     * 
+     * @deprecated These static Maps should really be removed at some point...
+     */
+    @Deprecated
+    private static void cleanUp() {
+        AContainer.processing = null;
+        AContainer.progress = null;
+
+        AGenerator.processing = null;
+        AGenerator.progress = null;
+
+        Reactor.processing = null;
+        Reactor.progress = null;
     }
 
     /**
@@ -430,32 +487,74 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * @return Whether the {@link MinecraftVersion} is unsupported
      */
     private boolean isVersionUnsupported() {
-        String currentVersion = ReflectionUtils.getVersion();
+        try {
+            // First check if they still use the unsupported CraftBukkit software.
+            if (!PaperLib.isSpigot() && Bukkit.getName().equals("CraftBukkit")) {
+                getLogger().log(Level.SEVERE, "###############################################");
+                getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
+                getLogger().log(Level.SEVERE, "### CraftBukkit is no longer supported!");
+                getLogger().log(Level.SEVERE, "###");
+                getLogger().log(Level.SEVERE, "### Slimefun requires you to use Spigot, Paper or");
+                getLogger().log(Level.SEVERE, "### any supported fork of Spigot or Paper.");
+                getLogger().log(Level.SEVERE, "### (We recommend Paper)");
+                getLogger().log(Level.SEVERE, "###############################################");
 
-        if (currentVersion.startsWith("v")) {
-            for (MinecraftVersion version : MinecraftVersion.valuesCache) {
-                if (version.matches(currentVersion)) {
-                    minecraftVersion = version;
-                    return false;
-                }
+                return true;
             }
 
-            // Looks like you are using an unsupported Minecraft Version
-            getLogger().log(Level.SEVERE, "#############################################");
-            getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
-            getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
-            getLogger().log(Level.SEVERE, "###");
-            getLogger().log(Level.SEVERE, "### You are using Minecraft {0}", currentVersion);
-            getLogger().log(Level.SEVERE, "### but Slimefun {0} requires you to be using", getDescription().getVersion());
-            getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
-            getLogger().log(Level.SEVERE, "#############################################");
+            // Now check the actual Version of Minecraft
+            int version = PaperLib.getMinecraftVersion();
+
+            if (version > 0) {
+                // Check all supported versions of Minecraft
+                for (MinecraftVersion supportedVersion : MinecraftVersion.valuesCache) {
+                    if (supportedVersion.isMinecraftVersion(version)) {
+                        minecraftVersion = supportedVersion;
+                        return false;
+                    }
+                }
+
+                // Looks like you are using an unsupported Minecraft Version
+                getLogger().log(Level.SEVERE, "#############################################");
+                getLogger().log(Level.SEVERE, "### Slimefun was not installed correctly!");
+                getLogger().log(Level.SEVERE, "### You are using the wrong version of Minecraft!");
+                getLogger().log(Level.SEVERE, "###");
+                getLogger().log(Level.SEVERE, "### You are using Minecraft 1.{0}.x", version);
+                getLogger().log(Level.SEVERE, "### but Slimefun {0} requires you to be using", getDescription().getVersion());
+                getLogger().log(Level.SEVERE, "### Minecraft {0}", String.join(" / ", getSupportedVersions()));
+                getLogger().log(Level.SEVERE, "#############################################");
+                return true;
+            } else {
+                getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using? ({0})", Bukkit.getVersion());
+
+                /*
+                 * If we are unsure about it, we will assume "supported".
+                 * They could be using a non-Bukkit based Software which still
+                 * might support Bukkit-based plugins.
+                 * Use at your own risk in this case.
+                 */
+                return false;
+            }
+        } catch (Exception | LinkageError x) {
+            getLogger().log(Level.SEVERE, x, () -> "Error: Could not determine Environment or version of Minecraft for Slimefun v" + getDescription().getVersion());
+
+            // We assume "unsupported" if something went wrong.
             return true;
         }
-
-        getLogger().log(Level.WARNING, "We could not determine the version of Minecraft you were using ({0})", currentVersion);
-        return false;
     }
 
+    /**
+     * This private method gives us a {@link Collection} of every {@link MinecraftVersion}
+     * that Slimefun is compatible with (as a {@link String} representation).
+     * <p>
+     * Example:
+     * 
+     * <pre>
+     * { 1.14.x, 1.15.x, 1.16.x }
+     * </pre>
+     * 
+     * @return A {@link Collection} of all compatible minecraft versions as strings
+     */
     @Nonnull
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
@@ -469,6 +568,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return list;
     }
 
+    /**
+     * This method creates all necessary directories (and sub directories) for Slimefun.
+     */
     private void createDirectories() {
         String[] storageFolders = { "Players", "blocks", "stored-blocks", "stored-inventories", "stored-chunks", "universal-inventories", "waypoints", "block-backups" };
         String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
@@ -524,6 +626,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new CartographyTableListener(this);
         new ButcherAndroidListener(this);
         new NetworkListener(this, networkManager);
+        new HopperListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -564,6 +667,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new PlayerProfileListener(this);
     }
 
+    /**
+     * This (re)loads every {@link SlimefunTag}.
+     */
     private void loadTags() {
         for (SlimefunTag tag : SlimefunTag.valuesCache) {
             try {
@@ -577,6 +683,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This loads all of our items.
+     */
     private void loadItems() {
         try {
             SlimefunItemSetup.setup(this);
@@ -585,11 +694,27 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         }
     }
 
+    /**
+     * This loads our researches.
+     */
     private void loadResearches() {
         try {
             ResearchSetup.setupResearches();
         } catch (Exception | LinkageError x) {
             getLogger().log(Level.SEVERE, x, () -> "An Error occurred while initializing Slimefun Researches for Slimefun " + getVersion());
+        }
+    }
+
+    /**
+     * This private static method allows us to throw a proper {@link Exception}
+     * whenever someone tries to access a static method while the instance is null.
+     * This happens when the method is invoked before {@link #onEnable()} or after {@link #onDisable()}.
+     * <p>
+     * Use it whenever a null check is needed to avoid a non-descriptive {@link NullPointerException}.
+     */
+    private static void validateInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Cannot invoke static method, Slimefun instance is null.");
         }
     }
 
@@ -604,24 +729,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance;
     }
 
-    public static Config getCfg() {
-        return instance.config;
-    }
-
-    public static Config getResearchCfg() {
-        return instance.researches;
-    }
-
-    public static Config getItemCfg() {
-        return instance.items;
-    }
-
-    public static GPSNetwork getGPSNetwork() {
-        return instance.gpsNetwork;
-    }
-
-    public static TickerTask getTickerTask() {
-        return instance.ticker;
+    /**
+     * This returns the {@link Logger} instance that Slimefun uses.
+     * <p>
+     * <strong>Any {@link SlimefunAddon} should use their own {@link Logger} instance!</strong>
+     * 
+     * @return Our {@link Logger} instance
+     */
+    @Nonnull
+    public static Logger logger() {
+        validateInstance();
+        return instance.getLogger();
     }
 
     /**
@@ -629,8 +747,40 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return The currently installed version of Slimefun
      */
+    @Nonnull
     public static String getVersion() {
+        validateInstance();
         return instance.getDescription().getVersion();
+    }
+
+    @Nonnull
+    public static Config getCfg() {
+        validateInstance();
+        return instance.config;
+    }
+
+    @Nonnull
+    public static Config getResearchCfg() {
+        validateInstance();
+        return instance.researches;
+    }
+
+    @Nonnull
+    public static Config getItemCfg() {
+        validateInstance();
+        return instance.items;
+    }
+
+    @Nonnull
+    public static GPSNetwork getGPSNetwork() {
+        validateInstance();
+        return instance.gpsNetwork;
+    }
+
+    @Nonnull
+    public static TickerTask getTickerTask() {
+        validateInstance();
+        return instance.ticker;
     }
 
     /**
@@ -638,48 +788,53 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return The {@link LocalizationService} of Slimefun
      */
+    @Nonnull
     public static LocalizationService getLocalization() {
+        validateInstance();
         return instance.local;
     }
 
-    public static ProtectionManager getProtectionManager() {
-        return instance.protections;
-    }
-
+    /**
+     * This method returns out {@link MinecraftRecipeService} for Slimefun.
+     * This service is responsible for finding/identifying {@link Recipe Recipes}
+     * from vanilla Minecraft.
+     * 
+     * @return Slimefun's {@link MinecraftRecipeService} instance
+     */
+    @Nonnull
     public static MinecraftRecipeService getMinecraftRecipeService() {
+        validateInstance();
         return instance.recipeService;
     }
 
+    @Nonnull
     public static CustomItemDataService getItemDataService() {
+        validateInstance();
         return instance.itemDataService;
     }
 
+    @Nonnull
     public static CustomTextureService getItemTextureService() {
+        validateInstance();
         return instance.textureService;
     }
 
+    @Nonnull
     public static PermissionsService getPermissionsService() {
+        validateInstance();
         return instance.permissionsService;
     }
 
+    @Nonnull
     public static BlockDataService getBlockDataService() {
+        validateInstance();
         return instance.blockDataService;
     }
 
+    @Nonnull
     public static PerWorldSettingsService getWorldSettingsService() {
+        validateInstance();
         return instance.worldSettingsService;
-    }
-
-    /**
-     * This method has been renamed.
-     * 
-     * @deprecated Please use {@link #getIntegrations()} instead.
-     * 
-     * @return the {@link ThirdPartyPluginService}
-     */
-    @Deprecated
-    public static ThirdPartyPluginService getThirdPartySupportService() {
-        return instance.thirdPartySupportService;
     }
 
     /**
@@ -690,7 +845,19 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     @Nonnull
     public static IntegrationsManager getIntegrations() {
-        return instance.thirdPartySupportService;
+        validateInstance();
+        return instance.integrations;
+    }
+
+    /**
+     * This returns out instance of the {@link ProtectionManager}.
+     * This bridge is used to hook into any third-party protection {@link Plugin}.
+     * 
+     * @return Our instanceof of the {@link ProtectionManager}
+     */
+    @Nonnull
+    public static ProtectionManager getProtectionManager() {
+        return getIntegrations().getProtectionManager();
     }
 
     /**
@@ -699,7 +866,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return The {@link UpdaterService} for Slimefun
      */
+    @Nonnull
     public static UpdaterService getUpdater() {
+        validateInstance();
         return instance.updaterService;
     }
 
@@ -709,7 +878,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return The {@link MetricsService} for Slimefun
      */
+    @Nonnull
     public static MetricsService getMetricsService() {
+        validateInstance();
         return instance.metricsService;
     }
 
@@ -719,28 +890,103 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      *
      * @return The {@link GitHubService} for Slimefun
      */
+    @Nonnull
     public static GitHubService getGitHubService() {
+        validateInstance();
         return instance.gitHubService;
     }
 
-    public static SlimefunRegistry getRegistry() {
-        return instance.registry;
-    }
-
+    /**
+     * This returns our {@link NetworkManager} which is responsible
+     * for handling the Cargo and Energy networks.
+     * 
+     * @return Our {@link NetworkManager} instance
+     */
+    @Nonnull
     public static NetworkManager getNetworkManager() {
+        validateInstance();
         return instance.networkManager;
     }
 
+    @Nonnull
+    public static SlimefunRegistry getRegistry() {
+        validateInstance();
+        return instance.registry;
+    }
+
+    @Nonnull
     public static GrapplingHookListener getGrapplingHookListener() {
+        validateInstance();
         return instance.grapplingHookListener;
     }
 
+    @Nonnull
     public static BackpackListener getBackpackListener() {
+        validateInstance();
         return instance.backpackListener;
     }
 
+    @Nonnull
     public static SlimefunBowListener getBowListener() {
+        validateInstance();
         return instance.bowListener;
+    }
+
+    /**
+     * The {@link Command} that was added by Slimefun.
+     *
+     * @return Slimefun's command
+     */
+    @Nonnull
+    public static SlimefunCommand getCommand() {
+        validateInstance();
+        return instance.command;
+    }
+
+    /**
+     * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
+     * to analyse performance and lag.
+     *
+     * @return The {@link SlimefunProfiler}
+     */
+    @Nonnull
+    public static SlimefunProfiler getProfiler() {
+        validateInstance();
+        return instance.profiler;
+    }
+
+    /**
+     * This returns the currently installed version of Minecraft.
+     *
+     * @return The current version of Minecraft
+     */
+    @Nonnull
+    public static MinecraftVersion getMinecraftVersion() {
+        validateInstance();
+        return instance.minecraftVersion;
+    }
+
+    /**
+     * This method returns whether this version of Slimefun was newly installed.
+     * It will return true if this {@link Server} uses Slimefun for the very first time.
+     *
+     * @return Whether this is a new installation of Slimefun
+     */
+    public static boolean isNewlyInstalled() {
+        validateInstance();
+        return instance.isNewlyInstalled;
+    }
+
+    @Nonnull
+    public static String getCSCoreLibVersion() {
+        validateInstance();
+        Plugin cscorelib = instance.getServer().getPluginManager().getPlugin("CS-CoreLib");
+
+        if (cscorelib == null) {
+            throw new IllegalStateException("CS-CoreLib is not installed.");
+        } else {
+            return cscorelib.getDescription().getVersion();
+        }
     }
 
     /**
@@ -753,66 +999,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     @Nonnull
     public static Set<Plugin> getInstalledAddons() {
-        return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> plugin.getDescription().getDepend().contains(instance.getName()) || plugin.getDescription().getSoftDepend().contains(instance.getName())).collect(Collectors.toSet());
-    }
+        validateInstance();
 
-    /**
-     * The {@link Command} that was added by Slimefun.
-     *
-     * @return Slimefun's command
-     */
-    public static SlimefunCommand getCommand() {
-        return instance.command;
-    }
+        String pluginName = instance.getName();
 
-    /**
-     * This returns our instance of the {@link SlimefunProfiler}, a tool that is used
-     * to analyse performance and lag.
-     *
-     * @return The {@link SlimefunProfiler}
-     */
-    public static SlimefunProfiler getProfiler() {
-        return instance.profiler;
-    }
-
-    /**
-     * This returns the currently installed version of Minecraft.
-     *
-     * @return The current version of Minecraft
-     */
-    public static MinecraftVersion getMinecraftVersion() {
-        return instance.minecraftVersion;
-    }
-
-    /**
-     * This method returns whether this version of Slimefun was newly installed.
-     * It will return true if this {@link Server} uses Slimefun for the very first time.
-     *
-     * @return Whether this is a new installation of Slimefun
-     */
-    public static boolean isNewlyInstalled() {
-        return instance.isNewlyInstalled;
-    }
-
-    @Nonnull
-    public static String getCSCoreLibVersion() {
-        Plugin cscorelib = instance.getServer().getPluginManager().getPlugin("CS-CoreLib");
-
-        if (cscorelib == null) {
-            throw new IllegalStateException("CS-CoreLib is not installed.");
-        } else {
-            return cscorelib.getDescription().getVersion();
-        }
-    }
-
-    @Override
-    public JavaPlugin getJavaPlugin() {
-        return this;
-    }
-
-    @Override
-    public String getBugTrackerURL() {
-        return "https://github.com/Slimefun/Slimefun4/issues";
+        // @formatter:off
+        return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
+                .filter(plugin -> {
+                    PluginDescriptionFile description = plugin.getDescription();
+                    return description.getDepend().contains(pluginName) || description.getSoftDepend().contains(pluginName);
+                }).collect(Collectors.toSet());
+        // @formatter:on
     }
 
     /**

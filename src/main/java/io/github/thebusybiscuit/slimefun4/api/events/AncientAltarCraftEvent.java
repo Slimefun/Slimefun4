@@ -34,10 +34,10 @@ public class AncientAltarCraftEvent extends PlayerEvent implements Cancellable {
     private boolean cancelled;
 
     /**
-     * @param block
-     *            The altar {@link Block}
      * @param output
      *            The {@link ItemStack} that would be dropped by the ritual
+     * @param block
+     *            The altar {@link Block}
      * @param player
      *            The {@link Player} that started the ritual.
      */

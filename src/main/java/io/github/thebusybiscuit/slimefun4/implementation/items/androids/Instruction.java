@@ -1,11 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
@@ -191,7 +192,7 @@ public enum Instruction {
      */
     FARM_FORWARD(AndroidType.FARMER, HeadTexture.SCRIPT_FARM_FORWARD, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
-        android.farm(inv, target);
+        android.farm(b, inv, target, false);
     }),
 
     /**
@@ -200,7 +201,7 @@ public enum Instruction {
      */
     FARM_DOWN(AndroidType.FARMER, HeadTexture.SCRIPT_FARM_DOWN, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.DOWN);
-        android.farm(inv, target);
+        android.farm(b, inv, target, false);
     }),
 
     /**
@@ -211,7 +212,7 @@ public enum Instruction {
      */
     FARM_EXOTIC_FORWARD(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_FORWARD, (android, b, inv, face) -> {
         Block target = b.getRelative(face);
-        android.exoticFarm(inv, target);
+        android.farm(b, inv, target, true);
     }),
 
     /**
@@ -222,7 +223,7 @@ public enum Instruction {
      */
     FARM_EXOTIC_DOWN(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_DOWN, (android, b, inv, face) -> {
         Block target = b.getRelative(BlockFace.DOWN);
-        android.exoticFarm(inv, target);
+        android.farm(b, inv, target, true);
     }),
 
     /**
