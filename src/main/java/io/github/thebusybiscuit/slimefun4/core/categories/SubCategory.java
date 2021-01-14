@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 
 /**
@@ -53,11 +54,11 @@ public class SubCategory extends Category {
     }
 
     @Override
-    public final void register() {
-        super.register();
+    public final void register(@Nonnull SlimefunAddon addon) {
+        super.register(addon);
 
         if (!multiCategory.isRegistered()) {
-            multiCategory.register();
+            multiCategory.register(addon);
         }
     }
 

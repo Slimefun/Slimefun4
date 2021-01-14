@@ -2,25 +2,25 @@
 slimefun:
   weapons: Оръжия
   tools: Инструменти
-  items: Полезни предмети
+  items: Полезни Предмети
   food: Храна
-  basic_machines: Основни машини
+  basic_machines: Основни Машини
   electricity: Енергия и Eлектричество
   gps: GPS Машини
-  armor: Броня
+  armor: Брони
   magical_items: Магически Предмети
   magical_gadgets: Магически Джаджи
   misc: Разни Предмети
-  technical_gadgets: Технически джаджи
+  technical_gadgets: Технически Джаджи
   resources: Ресурси
   cargo: Товарно Управление
   tech_misc: Технически Компоненти
-  magical_armor: Магическа Броня
+  magical_armor: Магически Брони
   talismans: Талисмани (Ниво I)
   ender_talismans: Ендър Талисмани (Ниво II)
   christmas: Коледа (Декември)
   valentines_day: Свети Валентин (14ти Февруари)
-  easter: Великден (април)
+  easter: Великден (Април)
   birthday: Рожденият Ден на TheBusyBiscuit (26ти Октомври)
   halloween: Хелоуин (31и Октомври)
   androids: Програмируеми Андроиди

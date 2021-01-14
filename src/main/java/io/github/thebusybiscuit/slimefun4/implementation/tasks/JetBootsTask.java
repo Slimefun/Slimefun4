@@ -10,8 +10,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 public class JetBootsTask extends AbstractPlayerTask {
 
@@ -30,7 +30,7 @@ public class JetBootsTask extends AbstractPlayerTask {
             return;
         }
 
-        double accuracy = DoubleHandler.fixDouble(boots.getSpeed() - 0.7);
+        double accuracy = NumberUtils.reparseDouble(boots.getSpeed() - 0.7);
 
         if (boots.removeItemCharge(p.getInventory().getBoots(), COST)) {
             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, (float) 0.25, 1);

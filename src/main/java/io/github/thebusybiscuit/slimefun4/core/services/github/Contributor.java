@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
-import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
+import io.github.thebusybiscuit.cscorelib2.data.TriStateOptional;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
@@ -35,7 +35,7 @@ public class Contributor {
     private final String profileLink;
 
     private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
-    private final ComputedOptional<String> headTexture = ComputedOptional.createNew();
+    private final TriStateOptional<String> headTexture = TriStateOptional.createNew();
 
     private Optional<UUID> uuid = Optional.empty();
     private boolean immutable = false;
@@ -181,10 +181,10 @@ public class Contributor {
     public String getTexture() {
         if (!headTexture.isComputed() || !headTexture.isPresent()) {
             GitHubService github = SlimefunPlugin.getGitHubService();
+            String cached = github.getCachedTexture(githubUsername);
 
-            if (github != null) {
-                String cached = github.getCachedTexture(githubUsername);
-                return cached != null ? cached : HeadTexture.UNKNOWN.getTexture();
+            if (cached != null) {
+                return cached;
             } else {
                 return HeadTexture.UNKNOWN.getTexture();
             }

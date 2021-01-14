@@ -1,7 +1,13 @@
 # Modifications to the source code should be handled by the review team
-*.java              @Slimefun/code-reviewers
+*.java                     @Slimefun/code-reviewers
 
 # Modifications to sensitive files should be reviewed by maintainers
-/.github/           @Slimefun/slimefun4-maintainers
-pom.xml             @Slimefun/slimefun4-maintainers
-CONTRIBUTING.md     @Slimefun/slimefun4-maintainers
+/.github/                  @Slimefun/slimefun4-maintainers
+pom.xml                    @Slimefun/slimefun4-maintainers
+CONTRIBUTING.md            @Slimefun/slimefun4-maintainers
+
+# Changes to the Issue templates need to be checked by the triage team
+/.github/ISSUE_TEMPLATE/   @Slimefun/bug-testers
+
+# This file is handled by TheBusyBiscuit (admins have overwrite access anyway)
+/.github/CODEOWNERS        @TheBusyBiscuit
