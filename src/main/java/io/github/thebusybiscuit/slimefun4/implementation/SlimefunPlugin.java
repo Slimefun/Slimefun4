@@ -43,6 +43,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
+import io.github.thebusybiscuit.slimefun4.core.services.HologramsService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
@@ -149,6 +150,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final PermissionsService permissionsService = new PermissionsService(this);
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
+    private final HologramsService hologramsService = new HologramsService(this);
 
     private final IntegrationsManager integrations = new IntegrationsManager(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
@@ -833,6 +835,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static PerWorldSettingsService getWorldSettingsService() {
         validateInstance();
         return instance.worldSettingsService;
+    }
+
+    @Nonnull
+    public static HologramsService getHologramsService() {
+        validateInstance();
+        return instance.hologramsService;
     }
 
     /**
