@@ -14,7 +14,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
@@ -44,7 +43,8 @@ public abstract class NetherStarReactor extends Reactor {
     @Override
     public void extraTick(@Nonnull Location l) {
         SlimefunPlugin.runSync(() -> {
-            ArmorStand hologram = ReactorHologram.getArmorStand(l, true);
+            ArmorStand hologram = getHologram(l.getBlock(), true);
+
             for (Entity entity : hologram.getNearbyEntities(5, 5, 5)) {
                 if (entity instanceof LivingEntity && entity.isValid()) {
                     ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));

@@ -12,14 +12,18 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * This utility class provides a few static methods for modifying a simple Text-based Hologram.
  * 
+ * @deprecated Please use the interface {@link HologramOwner} instead
+ * 
  * @author TheBusyBiscuit
  *
  */
+@Deprecated
 public final class SimpleHologram {
 
     private SimpleHologram() {}
