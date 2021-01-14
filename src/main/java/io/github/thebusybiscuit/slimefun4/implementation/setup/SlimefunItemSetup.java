@@ -1768,7 +1768,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new BookBinder(categories.electricity, SlimefunItems.BOOK_BINDER, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, new ItemStack(Material.BOOKSHELF), SlimefunItems.HARDENED_METAL_INGOT, new ItemStack(Material.BOOKSHELF), SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.SYNTHETIC_EMERALD, SlimefunItems.SYNTHETIC_SAPPHIRE})
+        new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, new ItemStack(Material.BOOKSHELF), SlimefunItems.HARDENED_METAL_INGOT, new ItemStack(Material.BOOKSHELF), SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.SYNTHETIC_SAPPHIRE})
         .setCapacity(256)
         .setEnergyConsumption(16)
         .setProcessingSpeed(1)

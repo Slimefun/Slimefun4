@@ -280,6 +280,7 @@ public final class ResearchSetup {
         register("elytra_cap", 268, "Crash Gear", 20, SlimefunItems.ELYTRA_CAP);
         register("energy_connectors", 269, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
         register("bee_armor", 270, "Bee Armor", 24, SlimefunItems.BEE_HELMET, SlimefunItems.BEE_WINGS, SlimefunItems.BEE_LEGGINGS, SlimefunItems.BEE_BOOTS);
+        register("book_binder", 271, "Enchantment Book Binding", 20, SlimefunItems.BOOK_BINDER);
     }
 
     @ParametersAreNonnullByDefault
