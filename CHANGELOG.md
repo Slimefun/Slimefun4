@@ -36,6 +36,7 @@
 * Fixed #2511
 * Fixed #2636
 * Fixed a threading issue related to BlockStates and persistent data
+* Fixed some backpack opening issues
 
 ## Release Candidate 19 (11 Jan 2021)
 
@@ -55,8 +56,7 @@
 * Fixed a couple of compatibility issues with ItemsAdder
 * Fixed #2575
 * Fixed ghost blocks to some extent (ghost blocks will now drop and be replaced)
-* Fixed #2636
-* Fixed some backpack opening issues
+* Fixed #2636 (hotfix)
 * Fixed #2647
 * Fixed #2664
 * Fixed #2655
