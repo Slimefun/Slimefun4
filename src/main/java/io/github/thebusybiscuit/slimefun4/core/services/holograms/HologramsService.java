@@ -41,9 +41,10 @@ public class HologramsService {
     private static final double RADIUS = 0.45;
 
     /**
-     * The frequency at which to purge
+     * The frequency at which to purge.
+     * Every 45 seconds.
      */
-    private static final long PURGE_RATE = 60L * 20L;
+    private static final long PURGE_RATE = 45L * 20L;
 
     /**
      * Our {@link Plugin} instance
