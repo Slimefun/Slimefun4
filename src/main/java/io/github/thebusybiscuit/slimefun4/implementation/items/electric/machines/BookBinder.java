@@ -104,10 +104,18 @@ public class BookBinder extends AContainer {
     @ParametersAreNonnullByDefault
     private Map<Enchantment, Integer> combineEnchantments(Map<Enchantment, Integer> ech1, Map<Enchantment, Integer> ech2) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
+        boolean conflicts = false;
         
         enchantments.putAll(ech1);
         for (Map.Entry<Enchantment, Integer> entry : ech2.entrySet()) {
-            enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
+            for (Map.Entry<Enchantment, Integer> conflictsWith : enchantments.entrySet()) {
+                if (entry.getKey().conflictsWith(conflictsWith.getKey())) {
+                  conflicts = true;
+                }
+            }
+            
+            if (!conflicts) {
+                enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
                     if (a == b) {
                         if (hasCustomMaxLevel.getValue()) {
                             return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1;
@@ -123,9 +131,10 @@ public class BookBinder extends AContainer {
                         } else {
                             return highestLevel;
                         }
-                       
+                    
                     }
-            });
+                });                
+            }   
         }        
 
     return enchantments;
