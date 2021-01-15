@@ -21,6 +21,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
@@ -52,6 +53,11 @@ public class HologramsService {
     private final Plugin plugin;
 
     /**
+     * The default hologram offset
+     */
+    private final Vector defaultOffset = new Vector(0.5, 0.75, 0.5);
+
+    /**
      * The {@link NamespacedKey} used to store data on a hologram
      */
     private final NamespacedKey persistentDataKey;
@@ -80,6 +86,16 @@ public class HologramsService {
      */
     public void start() {
         plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, this::purge, PURGE_RATE, PURGE_RATE);
+    }
+
+    /**
+     * This returns the default {@link Hologram} offset.
+     * 
+     * @return The default offset
+     */
+    @Nonnull
+    public Vector getDefaultOffset() {
+        return defaultOffset;
     }
 
     /**
@@ -252,9 +268,8 @@ public class HologramsService {
      * @param loc
      *            The {@link Location}
      * 
-     * @return Whether the {@link Hologram} could be removed, false if the {@link Hologram} does not exist or was
-     *         already
-     *         removed
+     * @return Whether the {@link Hologram} could be removed, false if the {@link Hologram} does not
+     *         exist or was already removed
      */
     public boolean removeHologram(@Nonnull Location loc) {
         Validate.notNull(loc, "Location cannot be null");

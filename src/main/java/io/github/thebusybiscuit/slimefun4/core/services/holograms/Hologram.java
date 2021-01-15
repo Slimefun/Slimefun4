@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.holograms;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -10,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
-import com.google.common.base.Objects;
 
 /**
  * This represents an {@link ArmorStand} that can expire and be renamed.
@@ -99,7 +99,7 @@ class Hologram {
      *            The label to set
      */
     void setLabel(@Nullable String label) {
-        if (Objects.equal(this.label, label)) {
+        if (Objects.equals(this.label, label)) {
             /*
              * Label is already set, no need to cause an entity
              * update. But we can update the lastAccess flag.

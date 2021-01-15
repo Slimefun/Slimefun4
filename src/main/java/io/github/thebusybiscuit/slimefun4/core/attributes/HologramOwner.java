@@ -32,7 +32,7 @@ public interface HologramOwner extends ItemAttribute {
      *            The nametag for the hologram
      */
     default void updateHologram(@Nonnull Block b, @Nonnull String text) {
-        Location loc = b.getLocation().add(getHologramOffset());
+        Location loc = b.getLocation().add(getHologramOffset(b));
         SlimefunPlugin.getHologramsService().setHologramLabel(loc, ChatColors.color(text));
     }
 
@@ -43,7 +43,7 @@ public interface HologramOwner extends ItemAttribute {
      *            The {@link Block} to which the hologram blocks
      */
     default void removeHologram(@Nonnull Block b) {
-        Location loc = b.getLocation().add(getHologramOffset());
+        Location loc = b.getLocation().add(getHologramOffset(b));
         SlimefunPlugin.getHologramsService().removeHologram(loc);
     }
 
@@ -52,11 +52,14 @@ public interface HologramOwner extends ItemAttribute {
      * This offset is applied to {@link Block#getLocation()} when spawning
      * the hologram.
      * 
+     * @param block
+     *            The {@link Block} which serves as the origin point
+     * 
      * @return The hologram offset
      */
     @Nonnull
-    default Vector getHologramOffset() {
-        return new Vector(0.5, 0.75, 0.5);
+    default Vector getHologramOffset(@Nonnull Block block) {
+        return SlimefunPlugin.getHologramsService().getDefaultOffset();
     }
 
 }
