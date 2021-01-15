@@ -179,8 +179,22 @@ public class Contributor {
      */
     @Nonnull
     public String getTexture() {
+        return getTexture(SlimefunPlugin.getGitHubService());
+    }
+
+    /**
+     * Returns this contributor's head texture.
+     * If no texture could be found, or it hasn't been pulled yet,
+     * then it will return a placeholder texture.
+     * 
+     * @param github
+     *            Our {@link GitHubService} instance
+     * 
+     * @return A Base64-Head Texture
+     */
+    @Nonnull
+    protected String getTexture(@Nonnull GitHubService github) {
         if (!headTexture.isComputed() || !headTexture.isPresent()) {
-            GitHubService github = SlimefunPlugin.getGitHubService();
             String cached = github.getCachedTexture(githubUsername);
 
             if (cached != null) {
