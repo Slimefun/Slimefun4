@@ -29,6 +29,7 @@
 #### Additions
 
 #### Changes
+* Massive performance improvements to holograms/armorstands
 
 #### Fixes
 * Fixed elevator floor order
@@ -37,6 +38,7 @@
 * Fixed #2636
 * Fixed a threading issue related to BlockStates and persistent data
 * Fixed #2721
+* Fixed duplication issues related to holograms/armorstands
 
 ## Release Candidate 19 (11 Jan 2021)
 

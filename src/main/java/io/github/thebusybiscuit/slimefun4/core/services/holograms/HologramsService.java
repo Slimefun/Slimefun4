@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -109,11 +110,6 @@ public class HologramsService {
     @Nullable
     private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
         Validate.notNull(loc, "Location cannot be null");
-
-        // Make sure there's no concurrency issues
-        if (!Bukkit.isPrimaryThread()) {
-            throw new UnsupportedOperationException("A hologram cannot be accessed asynchronously.");
-        }
 
         BlockPosition position = new BlockPosition(loc);
         Hologram hologram = cache.get(position);
@@ -230,10 +226,14 @@ public class HologramsService {
         Validate.notNull(consumer, "Callbacks must not be null");
 
         Runnable runnable = () -> {
-            Hologram hologram = getHologram(loc, true);
+            try {
+                Hologram hologram = getHologram(loc, true);
 
-            if (hologram != null) {
-                consumer.accept(hologram);
+                if (hologram != null) {
+                    consumer.accept(hologram);
+                }
+            } catch (Exception | LinkageError x) {
+                SlimefunPlugin.logger().log(Level.SEVERE, "Something went wrong while trying to update a hologram", x);
             }
         };
 
@@ -260,13 +260,18 @@ public class HologramsService {
         Validate.notNull(loc, "Location cannot be null");
 
         if (Bukkit.isPrimaryThread()) {
-            Hologram hologram = getHologram(loc, false);
+            try {
+                Hologram hologram = getHologram(loc, false);
 
-            if (hologram != null) {
-                cache.remove(new BlockPosition(loc));
-                hologram.remove();
-                return true;
-            } else {
+                if (hologram != null) {
+                    cache.remove(new BlockPosition(loc));
+                    hologram.remove();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception | LinkageError x) {
+                SlimefunPlugin.logger().log(Level.SEVERE, "Something went wrong while trying to remove a hologram", x);
                 return false;
             }
         } else {
