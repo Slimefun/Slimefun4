@@ -1,11 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -35,17 +33,7 @@ public interface HologramOwner extends ItemAttribute {
      */
     default void updateHologram(@Nonnull Block b, @Nonnull String text) {
         Location loc = b.getLocation().add(getHologramOffset());
-
-        SlimefunPlugin.getHologramsService().updateHologram(loc, hologram -> {
-            hologram.setCustomName(ChatColors.color(text));
-            hologram.setCustomNameVisible(true);
-        });
-    }
-
-    @Nullable
-    default ArmorStand getHologram(@Nonnull Block b, boolean createIfNoneExists) {
-        Location loc = b.getLocation().add(getHologramOffset());
-        return SlimefunPlugin.getHologramsService().getHologram(loc, createIfNoneExists);
+        SlimefunPlugin.getHologramsService().setHologramLabel(loc, ChatColors.color(text));
     }
 
     /**

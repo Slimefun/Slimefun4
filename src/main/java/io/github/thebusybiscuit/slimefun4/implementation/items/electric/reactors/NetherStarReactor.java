@@ -5,7 +5,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -43,10 +42,8 @@ public abstract class NetherStarReactor extends Reactor {
     @Override
     public void extraTick(@Nonnull Location l) {
         SlimefunPlugin.runSync(() -> {
-            ArmorStand hologram = getHologram(l.getBlock(), true);
-
-            for (Entity entity : hologram.getNearbyEntities(5, 5, 5)) {
-                if (entity instanceof LivingEntity && entity.isValid()) {
+            for (Entity entity : l.getWorld().getNearbyEntities(l, 5, 5, 5, n -> n instanceof LivingEntity && n.isValid())) {
+                if (entity instanceof LivingEntity) {
                     ((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
                 }
             }
