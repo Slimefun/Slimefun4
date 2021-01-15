@@ -32,6 +32,11 @@
 
 #### Fixes
 * Fixed elevator floor order
+* Fixed #2449
+* Fixed #2511
+* Fixed #2636
+* Fixed a threading issue related to BlockStates and persistent data
+* Fixed #2721
 
 ## Release Candidate 19 (11 Jan 2021)
 
