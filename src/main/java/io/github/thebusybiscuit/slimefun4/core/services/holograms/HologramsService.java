@@ -119,7 +119,7 @@ public class HologramsService {
         Hologram hologram = cache.get(position);
 
         // Check if the ArmorStand was cached and still exists
-        if (hologram != null && hologram.hasDespawned()) {
+        if (hologram != null && !hologram.hasDespawned()) {
             return hologram;
         }
 
@@ -263,6 +263,7 @@ public class HologramsService {
             Hologram hologram = getHologram(loc, false);
 
             if (hologram != null) {
+                cache.remove(new BlockPosition(loc));
                 hologram.remove();
                 return true;
             } else {
