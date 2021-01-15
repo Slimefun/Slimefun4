@@ -82,7 +82,7 @@ public class HologramsService {
     }
 
     /**
-     * This purges all expired {@link Hologram CachedArmorStands}.
+     * This purges any expired {@link Hologram}.
      */
     private void purge() {
         Iterator<Hologram> iterator = cache.values().iterator();
