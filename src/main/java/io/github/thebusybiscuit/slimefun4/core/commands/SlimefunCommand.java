@@ -83,7 +83,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 
         sendHelp(sender);
 
-        /**
+        /*
          * We could just return true here, but if there's no subcommands,
          * then something went horribly wrong anyway.
          * This will also stop sonarcloud from nagging about

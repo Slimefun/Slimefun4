@@ -28,13 +28,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link InfusedHopper} is a special kind of {@link Hopper} which teleports any
- * neaby {@link Item} to itself.
+ * nearby {@link Item} to itself.
  * The radius can be configured in the config.
- * 
- * @author TheBusyBiscuit
- * 
- * @see InfusedMagnet
  *
+ * @author TheBusyBiscuit
+ * @see InfusedMagnet
  */
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
@@ -65,7 +63,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                 if (toggleable.getValue()) {
                     Hopper hopper = (Hopper) b.getBlockData();
 
-                    /**
+                    /*
                      * If the Hopper was disabled by a redstone signal,
                      * we just don't do anything.
                      */
@@ -85,7 +83,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                     playSound = true;
                 }
 
-                /**
+                /*
                  * Play a sound if at least one item was teleported and
                  * the "silent" setting is set to false.
                  */
@@ -104,7 +102,10 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
     private boolean isValidItem(@Nonnull Location l, @Nonnull Entity entity) {
         if (entity instanceof Item && entity.isValid()) {
             Item item = (Item) entity;
-            return !SlimefunUtils.hasNoPickupFlag(item) && item.getLocation().distanceSquared(l) > 0.25;
+            // Check if the item cannot be picked up or has the "no pickup" metadata
+            return item.getPickupDelay() != Short.MAX_VALUE
+                && !SlimefunUtils.hasNoPickupFlag(item)
+                && item.getLocation().distanceSquared(l) > 0.25;
         }
 
         return false;
