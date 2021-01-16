@@ -474,7 +474,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 openScript(pl, b, getScript(b.getLocation()));
             } else {
                 pl.closeInventory();
-                pl.sendMessage("&cThe script is too large to edit!");
+                pl.sendMessage(ChatColor.RED + "The script is too large to edit!");
             }
             return false;
         });
