@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for handling any {@link Soulbound} items.
@@ -43,11 +44,10 @@ public class SoulboundListener implements Listener {
             ItemStack item = p.getInventory().getItem(slot);
 
             // Store soulbound items for later retrieval
-            if (SlimefunUtils.isSoulbound(item)) {
+            if (SlimefunUtils.isSoulbound(item) && Slimefun.isEnabled(p, item, false)) {
                 items.put(slot, item);
             }
         }
-
         // There shouldn't even be any items in there, but let's be extra safe!
         Map<Integer, ItemStack> existingItems = soulbound.get(p.getUniqueId());
 
@@ -62,7 +62,7 @@ public class SoulboundListener implements Listener {
         while (drops.hasNext()) {
             ItemStack item = drops.next();
 
-            if (SlimefunUtils.isSoulbound(item)) {
+            if (SlimefunUtils.isSoulbound(item) && Slimefun.isEnabled(p, item, false)) {
                 drops.remove();
             }
         }
