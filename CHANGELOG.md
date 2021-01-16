@@ -27,6 +27,7 @@
 ## Release Candidate 20 (TBD)
 
 #### Additions
+* Added a new language: Bulgarian
 
 #### Changes
 
@@ -41,6 +42,7 @@
 * Fixed #2662
 * Fixed #2728
 * Fixed some backpack opening issues
+* Fixed Infused Hopper picking up items with a max pickup delay
 
 ## Release Candidate 19 (11 Jan 2021)
 

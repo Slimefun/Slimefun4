@@ -327,7 +327,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.20.0</version>
+            <version>0.21.0</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -341,7 +341,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.7.0</version>
+            <version>3.7.7</version>
             <scope>test</scope>
         </dependency>
 
