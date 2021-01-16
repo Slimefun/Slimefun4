@@ -27,6 +27,7 @@
 ## Release Candidate 20 (TBD)
 
 #### Additions
+* Added a new language: Bulgarian
 
 #### Changes
 
