@@ -39,6 +39,7 @@
 * Fixed an error when the server was shutting down
 * Fixed #2721
 * Fixed #2662
+* Fixed #2728
 
 ## Release Candidate 19 (11 Jan 2021)
 
