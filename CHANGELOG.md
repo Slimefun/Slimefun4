@@ -41,6 +41,7 @@
 * Fixed #2721
 * Fixed #2662
 * Fixed #2728
+* Fixed Infused Hopper picking up items with a max pickup delay
 
 ## Release Candidate 19 (11 Jan 2021)
 
