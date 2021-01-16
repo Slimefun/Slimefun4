@@ -38,6 +38,7 @@
 * Fixed a threading issue related to BlockStates and persistent data
 * Fixed an error when the server was shutting down
 * Fixed #2721
+* Fixed #2662
 
 ## Release Candidate 19 (11 Jan 2021)
 
