@@ -30,6 +30,7 @@
 * Added a new language: Bulgarian
 
 #### Changes
+* Massive performance improvements to holograms/armorstands
 
 #### Fixes
 * Fixed elevator floor order
@@ -42,6 +43,7 @@
 * Fixed #2662
 * Fixed #2728
 * Fixed Infused Hopper picking up items with a max pickup delay
+* Fixed duplication issues related to holograms/armorstands
 
 ## Release Candidate 19 (11 Jan 2021)
 
