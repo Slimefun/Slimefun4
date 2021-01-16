@@ -32,6 +32,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * The radius can be configured in the config.
  *
  * @author TheBusyBiscuit
+ * @author Walshy
  * @see InfusedMagnet
  */
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
