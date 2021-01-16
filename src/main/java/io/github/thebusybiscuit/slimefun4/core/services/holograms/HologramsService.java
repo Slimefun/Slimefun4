@@ -249,7 +249,8 @@ public class HologramsService {
                     consumer.accept(hologram);
                 }
             } catch (Exception | LinkageError x) {
-                SlimefunPlugin.logger().log(Level.SEVERE, "Something went wrong while trying to update a hologram", x);
+                SlimefunPlugin.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
+                SlimefunPlugin.logger().log(Level.SEVERE, "Something went wrong while trying to update this hologram", x);
             }
         };
 
@@ -286,7 +287,8 @@ public class HologramsService {
                     return false;
                 }
             } catch (Exception | LinkageError x) {
-                SlimefunPlugin.logger().log(Level.SEVERE, "Something went wrong while trying to remove a hologram", x);
+                SlimefunPlugin.logger().log(Level.SEVERE, "Hologram located at {0}", new BlockPosition(loc));
+                SlimefunPlugin.logger().log(Level.SEVERE, "Something went wrong while trying to remove this hologram", x);
                 return false;
             }
         } else {
