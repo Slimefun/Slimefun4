@@ -16,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -310,7 +311,15 @@ final class CargoUtils {
     }
 
     @Nullable
-    private static ItemStack insertIntoVanillaInventory(ItemStack stack, Inventory inv) {
+    private static ItemStack insertIntoVanillaInventory(@Nonnull ItemStack stack, @Nonnull Inventory inv) {
+        /*
+         * If the Inventory does not accept this Item Type, bounce the item back.
+         * Example: Shulker boxes within shulker boxes (fixes #2662)
+         */
+        if (!InvUtils.isItemAllowed(stack.getType(), inv.getType())) {
+            return stack;
+        }
+
         ItemStack[] contents = inv.getContents();
         int[] range = getInputSlotRange(inv, stack);
         int minSlot = range[0];
