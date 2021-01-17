@@ -8,7 +8,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This interface marks a {@link SlimefunItem} as a {@link CargoNode}.
- * <b>
+ * <p>
  * Do not implement this interface yourself, it will not have any effect.
  * 
  * @author TheBusyBiscuit
