@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -27,6 +29,7 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final int healingLevel;
 
+    @ParametersAreNonnullByDefault
     public Bandage(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
         super(category, item, recipeType, recipe, recipeOutput);
 

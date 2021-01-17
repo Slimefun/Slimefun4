@@ -104,9 +104,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
         if (entity instanceof Item && entity.isValid()) {
             Item item = (Item) entity;
             // Check if the item cannot be picked up or has the "no pickup" metadata
-            return item.getPickupDelay() <= 0
-                && !SlimefunUtils.hasNoPickupFlag(item)
-                && item.getLocation().distanceSquared(l) > 0.25;
+            return item.getPickupDelay() <= 0 && !SlimefunUtils.hasNoPickupFlag(item) && item.getLocation().distanceSquared(l) > 0.25;
         }
 
         return false;

@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemConsumptionHandler;
@@ -9,6 +11,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Medicine extends MedicalSupply<ItemConsumptionHandler> {
 
+    @ParametersAreNonnullByDefault
     public Medicine(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, 8, item, recipeType, recipe);
     }

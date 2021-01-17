@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 
-
 /**
  * This represents an {@link ArmorStand} that can expire and be renamed.
  * 
