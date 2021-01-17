@@ -118,6 +118,7 @@ public class BackpackListener implements Listener {
         return backpack.isItemAllowed(item, SlimefunItem.getByItem(item));
     }
 
+    @ParametersAreNonnullByDefault
     public void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
         if (item.getAmount() == 1) {
             if (backpack.canUse(p, true) && !PlayerProfile.get(p, profile -> openBackpack(p, item, profile, backpack.getSize()))) {

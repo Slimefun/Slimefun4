@@ -19,11 +19,12 @@ import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 class TestWaypoints {
 
     private static ServerMock server;
+    private static SlimefunPlugin plugin;
 
     @BeforeAll
     public static void load() {
         server = MockBukkit.mock();
-        MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 
     @AfterAll
@@ -102,7 +103,7 @@ class TestWaypoints {
     @Test
     @DisplayName("Verify that a WaypointCreateEvent is thrown")
     void testWaypointEvent() throws InterruptedException {
-        GPSNetwork network = new GPSNetwork();
+        GPSNetwork network = new GPSNetwork(plugin);
         Player player = server.addPlayer();
         TestUtilities.awaitProfile(player);
 

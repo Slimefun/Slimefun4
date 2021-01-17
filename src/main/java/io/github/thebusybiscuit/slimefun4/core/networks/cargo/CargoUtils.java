@@ -342,12 +342,12 @@ final class CargoUtils {
 
                     if (amount > maxStackSize) {
                         stack.setAmount(amount - maxStackSize);
+                        itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                        return stack;
                     } else {
-                        stack = null;
+                        itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                        return null;
                     }
-
-                    itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                    return stack;
                 }
             }
         }

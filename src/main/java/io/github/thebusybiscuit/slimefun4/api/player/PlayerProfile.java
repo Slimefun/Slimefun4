@@ -456,6 +456,7 @@ public final class PlayerProfile {
 
         if (id.isPresent()) {
             int number = id.getAsInt();
+
             fromUUID(UUID.fromString(uuid), profile -> {
                 Optional<PlayerBackpack> backpack = profile.getBackpack(number);
                 backpack.ifPresent(callback);

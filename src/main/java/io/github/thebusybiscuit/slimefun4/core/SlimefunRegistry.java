@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
@@ -132,14 +133,36 @@ public final class SlimefunRegistry {
         return backwardsCompatibility;
     }
 
+    /**
+     * This method sets the status of backwards compatibility.
+     * Backwards compatibility allows Slimefun to recognize items from older versions but comes
+     * at a huge performance cost.
+     * 
+     * @param compatible
+     *            Whether backwards compatibility should be enabled
+     */
     public void setBackwardsCompatible(boolean compatible) {
         backwardsCompatibility = compatible;
     }
 
+    /**
+     * This method will make any {@link SlimefunItem} which is registered automatically
+     * call {@link SlimefunItem#load()}.
+     * Normally this method call is delayed but when the {@link Server} is already running,
+     * the method can be called instantaneously.
+     * 
+     * @param mode
+     *            Whether auto-loading should be enabled
+     */
     public void setAutoLoadingMode(boolean mode) {
         automaticallyLoadItems = mode;
     }
 
+    /**
+     * This returns a {@link List} containing every enabled {@link Category}.
+     * 
+     * @return {@link List} containing every enabled {@link Category}
+     */
     @Nonnull
     public List<Category> getCategories() {
         return categories;
@@ -165,11 +188,23 @@ public final class SlimefunRegistry {
         return enabledItems;
     }
 
+    /**
+     * This returns a {@link List} containing every enabled {@link Research}.
+     * 
+     * @return A {@link List} containing every enabled {@link Research}
+     */
     @Nonnull
     public List<Research> getResearches() {
         return researches;
     }
 
+    /**
+     * This method returns a {@link Set} containing the {@link UUID} of every
+     * {@link Player} who is currently unlocking a {@link Research}.
+     * 
+     * @return A {@link Set} holding the {@link UUID} from every {@link Player}
+     *         who is currently unlocking a {@link Research}
+     */
     @Nonnull
     public Set<UUID> getCurrentlyResearchingPlayers() {
         return researchingPlayers;
@@ -200,6 +235,11 @@ public final class SlimefunRegistry {
         return researchFireworks;
     }
 
+    /**
+     * This method returns a {@link List} of every enabled {@link MultiBlock}.
+     * 
+     * @return A {@link List} containing every enabled {@link MultiBlock}
+     */
     @Nonnull
     public List<MultiBlock> getMultiBlocks() {
         return multiblocks;
@@ -208,6 +248,10 @@ public final class SlimefunRegistry {
     /**
      * This returns the corresponding {@link SlimefunGuideImplementation} for a certain
      * {@link SlimefunGuideMode}.
+     * <p>
+     * This mainly only exists for internal purposes, if you want to open a certain section
+     * using the {@link SlimefunGuide}, then please use the static methods provided in the
+     * {@link SlimefunGuide} class.
      * 
      * @param mode
      *            The {@link SlimefunGuideMode}

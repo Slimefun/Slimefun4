@@ -56,7 +56,11 @@ public class GPSNetwork {
 
     private final Map<UUID, Set<Location>> transmitters = new HashMap<>();
     private final TeleportationManager teleportation = new TeleportationManager();
-    private final ResourceManager resourceManager = new ResourceManager(SlimefunPlugin.instance());
+    private final ResourceManager resourceManager;
+
+    public GPSNetwork(@Nonnull SlimefunPlugin plugin) {
+        resourceManager = new ResourceManager(plugin);
+    }
 
     /**
      * This method updates the status of a {@link GPSTransmitter}.
@@ -89,12 +93,14 @@ public class GPSNetwork {
      * @return The network complexity for that {@link UUID}
      */
     public int getNetworkComplexity(@Nonnull UUID uuid) {
-        if (!transmitters.containsKey(uuid)) {
+        Set<Location> locations = transmitters.get(uuid);
+
+        if (locations == null) {
             return 0;
         }
 
         int level = 0;
-        for (Location l : transmitters.get(uuid)) {
+        for (Location l : locations) {
             SlimefunItem item = BlockStorage.check(l);
 
             if (item instanceof GPSTransmitter) {
@@ -115,11 +121,8 @@ public class GPSNetwork {
      * @return The amount of transmitters
      */
     public int countTransmitters(@Nonnull UUID uuid) {
-        if (!transmitters.containsKey(uuid)) {
-            return 0;
-        } else {
-            return transmitters.get(uuid).size();
-        }
+        Set<Location> locations = transmitters.get(uuid);
+        return locations == null ? 0 : locations.size();
     }
 
     public void openTransmitterControlPanel(@Nonnull Player p) {
