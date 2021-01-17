@@ -155,10 +155,10 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     private final IntegrationsManager integrations = new IntegrationsManager(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
+    private final GPSNetwork gpsNetwork = new GPSNetwork(this);
 
-    private LocalizationService local;
-    private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
+    private LocalizationService local;
 
     // Important config files for Slimefun
     private final Config config = new Config(this);
@@ -242,7 +242,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     private void onUnitTestStart() {
         local = new LocalizationService(this, "", null);
-        gpsNetwork = new GPSNetwork();
         networkManager = new NetworkManager(200);
         command.register();
         registry.load(this, config);
@@ -277,9 +276,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Set up localization
         getLogger().log(Level.INFO, "Loading language files...");
         local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
-
-        // Setting up Networks
-        gpsNetwork = new GPSNetwork();
 
         int networkSize = config.getInt("networks.max-size");
 
@@ -510,7 +506,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             if (version > 0) {
                 // Check all supported versions of Minecraft
-                for (MinecraftVersion supportedVersion : MinecraftVersion.valuesCache) {
+                for (MinecraftVersion supportedVersion : MinecraftVersion.values()) {
                     if (supportedVersion.isMinecraftVersion(version)) {
                         minecraftVersion = supportedVersion;
                         return false;
@@ -562,7 +558,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
-        for (MinecraftVersion version : MinecraftVersion.valuesCache) {
+        for (MinecraftVersion version : MinecraftVersion.values()) {
             if (!version.isVirtual()) {
                 list.add(version.getName());
             }

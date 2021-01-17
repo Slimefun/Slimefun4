@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
@@ -24,11 +27,13 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class CoolantCell extends UnplaceableBlock {
 
+    @ParametersAreNonnullByDefault
     public CoolantCell(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(category, item, recipeType, recipe);
+        this(category, item, recipeType, recipe, null);
     }
 
-    public CoolantCell(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    @ParametersAreNonnullByDefault
+    public CoolantCell(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 

@@ -61,6 +61,13 @@ public class SlimefunProfiler {
      */
     private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
 
+    /**
+     * All possible values of {@link PerformanceRating}.
+     * We cache these for fast access since Enum#values() creates
+     * an array everytime it is called.
+     */
+    private final PerformanceRating[] performanceRatings = PerformanceRating.values();
+
     private final AtomicBoolean isProfiling = new AtomicBoolean(false);
     private final AtomicInteger queued = new AtomicInteger(0);
 
@@ -324,7 +331,7 @@ public class SlimefunProfiler {
     public PerformanceRating getPerformance() {
         float percentage = getPercentageOfTick();
 
-        for (PerformanceRating rating : PerformanceRating.valuesCache) {
+        for (PerformanceRating rating : performanceRatings) {
             if (rating.test(percentage)) {
                 return rating;
             }
