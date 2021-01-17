@@ -42,6 +42,7 @@
 * Fixed #2721
 * Fixed #2662
 * Fixed #2728
+* Fixed some backpack opening issues
 * Fixed Infused Hopper picking up items with a max pickup delay
 * Fixed duplication issues related to holograms/armorstands
 
