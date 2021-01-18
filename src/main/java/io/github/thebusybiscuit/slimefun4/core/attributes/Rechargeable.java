@@ -24,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see MultiTool
  *
  */
-@FunctionalInterface
 public interface Rechargeable extends ItemAttribute {
 
     /**

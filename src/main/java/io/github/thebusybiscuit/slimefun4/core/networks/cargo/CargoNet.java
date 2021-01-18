@@ -74,6 +74,11 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
     }
 
     @Override
+    public String getId() {
+        return "CARGO_NETWORK";
+    }
+
+    @Override
     public int getRange() {
         return RANGE;
     }

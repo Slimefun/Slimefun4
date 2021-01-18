@@ -29,7 +29,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
  * @see AGenerator
  *
  */
-@FunctionalInterface
 public interface RecipeDisplayItem extends ItemAttribute {
 
     /**

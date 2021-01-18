@@ -59,6 +59,11 @@ public class EnergyNet extends Network implements HologramOwner {
     }
 
     @Override
+    public String getId() {
+        return "ENERGY_NETWORK";
+    }
+
+    @Override
     public NetworkComponent classifyLocation(@Nonnull Location l) {
         if (regulator.equals(l)) {
             return NetworkComponent.REGULATOR;
