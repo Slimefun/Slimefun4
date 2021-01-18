@@ -673,7 +673,8 @@ public class BlockStorage {
 
     @Nullable
     public static String checkID(@Nonnull Block b) {
-        if (SlimefunPlugin.getBlockDataService().isTileEntity(b.getType())) {
+        // Only access the BlockState when on the main thread
+        if (Bukkit.isPrimaryThread() && SlimefunPlugin.getBlockDataService().isTileEntity(b.getType())) {
             Optional<String> blockData = SlimefunPlugin.getBlockDataService().getBlockData(b);
 
             if (blockData.isPresent()) {

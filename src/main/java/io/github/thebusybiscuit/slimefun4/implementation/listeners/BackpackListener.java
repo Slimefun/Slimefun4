@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
@@ -57,12 +58,21 @@ public class BackpackListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
-        Player p = ((Player) e.getPlayer());
+        Player p = (Player) e.getPlayer();
+
+        if (markBackpackDirty(p)) {
+            p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+        }
+    }
+
+    private boolean markBackpackDirty(@Nonnull Player p) {
         ItemStack backpack = backpacks.remove(p.getUniqueId());
 
         if (backpack != null) {
-            p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
             PlayerProfile.getBackpack(backpack, PlayerBackpack::markDirty);
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -109,6 +119,7 @@ public class BackpackListener implements Listener {
         return backpack.isItemAllowed(item, SlimefunItem.getByItem(item));
     }
 
+    @ParametersAreNonnullByDefault
     public void openBackpack(Player p, ItemStack item, SlimefunBackpack backpack) {
         if (item.getAmount() == 1) {
             if (Slimefun.hasUnlocked(p, backpack, true) && !PlayerProfile.get(p, profile -> openBackpack(p, item, profile, backpack.getSize()))) {
@@ -119,8 +130,10 @@ public class BackpackListener implements Listener {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void openBackpack(Player p, ItemStack item, PlayerProfile profile, int size) {
         List<String> lore = item.getItemMeta().getLore();
+
         for (int line = 0; line < lore.size(); line++) {
             if (lore.get(line).equals(ChatColor.GRAY + "ID: <ID>")) {
                 setBackpackId(p, item, line, profile.createBackpack(size).getId());
@@ -128,6 +141,15 @@ public class BackpackListener implements Listener {
             }
         }
 
+        /*
+         * If the current Player is already viewing a backpack (for whatever reason),
+         * terminate that view.
+         */
+        if (markBackpackDirty(p)) {
+            p.closeInventory();
+        }
+
+        // Check if someone else is currently viewing this backpack
         if (!backpacks.containsValue(item)) {
             p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
             backpacks.put(p.getUniqueId(), item);

@@ -10,6 +10,17 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
+/**
+ * This is an abstract parent class for any {@link GEOResource}
+ * that is added by Slimefun itself. It is package-private, therefore
+ * only classes inside this package can access it.
+ * <p>
+ * It just provides a bit of a convenience for us to reduce redundancies
+ * in our {@link GEOResource} implementations.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 abstract class SlimefunResource implements GEOResource {
 
     private final NamespacedKey key;

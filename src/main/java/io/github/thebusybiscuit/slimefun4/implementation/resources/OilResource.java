@@ -3,8 +3,21 @@ package io.github.thebusybiscuit.slimefun4.implementation.resources;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import io.github.thebusybiscuit.slimefun4.implementation.items.geo.OilPump;
 
+/**
+ * A {@link GEOResource} which consists of buckets of Oil.
+ * It cannot be obtained via a {@link GEOMiner} but instead requires
+ * and {@link OilPump}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ * @see OilPump
+ *
+ */
 class OilResource extends SlimefunResource {
 
     OilResource() {
