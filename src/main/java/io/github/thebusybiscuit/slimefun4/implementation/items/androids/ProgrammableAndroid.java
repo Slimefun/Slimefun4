@@ -474,7 +474,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 openScript(pl, b, getScript(b.getLocation()));
             } else {
                 pl.closeInventory();
-                pl.sendMessage(ChatColor.RED + "The script is too large to edit!");
+                SlimefunPlugin.getLocalization().sendMessage(pl, "android.scripts.too-long");
             }
             return false;
         });
@@ -556,7 +556,6 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         Validate.notNull(script, "No script given");
         Validate.isTrue(script.startsWith(Instruction.START.name() + '-'), "A script must begin with a 'START' token.");
         Validate.isTrue(script.endsWith('-' + Instruction.REPEAT.name()), "A script must end with a 'REPEAT' token.");
-        Validate.isTrue(PatternUtils.DASH.split(script).length <= MAX_SCRIPT_LENGTH, "Scripts may not have more than " + MAX_SCRIPT_LENGTH + " segments");
 
         BlockStorage.addBlockInfo(l, "script", script);
     }
