@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.api.blocks;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 
@@ -42,11 +43,30 @@ public class SlimefunBlockData extends AbstractDataObject {
         super(data);
     }
 
+    @Override
+    public void setValue(String key, Object value) {
+        if (Objects.equals(key, "id") && value == null) {
+            throw new IllegalArgumentException("SlimefunItem Ids are not nullable.");
+        } else {
+            super.setValue(key, value);
+        }
+    }
+
+    /**
+     * This returns the id of the associated {@link SlimefunItem} with this {@link SlimefunBlockData}.
+     * 
+     * @return The {@link SlimefunItem} id
+     */
     @Nonnull
     public String getId() {
         return getValue("id");
     }
 
+    /**
+     * This returns the {@link SlimefunItem} associated with this {@link SlimefunBlockData}.
+     * 
+     * @return The {@link SlimefunItem}
+     */
     @Nonnull
     public SlimefunItem getSlimefunItem() {
         return SlimefunItem.getByID(getId());

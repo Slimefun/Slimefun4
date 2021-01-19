@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.api.blocks;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -38,6 +37,12 @@ class AbstractDataObject {
     protected final Map<String, String> data;
 
     /**
+     * This flag marks whether this object has recently been modified.
+     * A dirty object needs to be saved.
+     */
+    private volatile boolean isDirty = false;
+
+    /**
      * This creates a new {@link AbstractDataObject} object
      * and also initializes it using the given {@link Map}
      * 
@@ -51,18 +56,23 @@ class AbstractDataObject {
         this.data = data;
     }
 
+    public void markDirty(boolean isDirty) {
+        this.isDirty = isDirty;
+    }
+
+    public boolean isDirty() {
+        return isDirty;
+    }
+
     public void setValue(@Nonnull String key, @Nullable Object value) {
         Validate.notNull(key, "Cannot set block data with a key that is null");
-
-        if (Objects.equals(key, "id") && value == null) {
-            throw new IllegalArgumentException("SlimefunItem Ids are not nullable.");
-        }
 
         if (value == null) {
             lock.writeLock().lock();
 
             try {
                 data.remove(key);
+                markDirty(true);
             } finally {
                 lock.readLock().unlock();
             }
@@ -71,6 +81,7 @@ class AbstractDataObject {
 
             try {
                 data.put(key, (String) value);
+                markDirty(true);
             } finally {
                 lock.readLock().unlock();
             }
