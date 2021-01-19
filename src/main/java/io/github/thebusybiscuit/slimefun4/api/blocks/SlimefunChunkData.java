@@ -9,8 +9,6 @@ import org.bukkit.Location;
 
 import com.google.gson.JsonObject;
 
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-
 /**
  * This class is used to speed up parsing of a {@link JsonObject} that is stored at
  * a given {@link Location}.
@@ -21,35 +19,25 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see BlockDatabase
  *
  */
-public class SlimefunBlockData extends AbstractDataObject {
+public class SlimefunChunkData extends AbstractDataObject {
 
     /**
-     * This creates a new {@link SlimefunBlockData} object.
+     * This creates a new {@link SlimefunChunkData} object.
      * It is initialized with an empty {@link HashMap}.
      */
-    public SlimefunBlockData() {
+    public SlimefunChunkData() {
         this(new HashMap<>());
     }
 
     /**
-     * This creates a new {@link SlimefunBlockData} object
+     * This creates a new {@link SlimefunChunkData} object
      * and also initializes it using the given {@link Map}
      * 
      * @param data
      *            The data {@link Map}
      */
-    public SlimefunBlockData(@Nonnull Map<String, String> data) {
+    public SlimefunChunkData(@Nonnull Map<String, String> data) {
         super(data);
-    }
-
-    @Nonnull
-    public String getId() {
-        return getValue("id");
-    }
-
-    @Nonnull
-    public SlimefunItem getSlimefunItem() {
-        return SlimefunItem.getByID(getId());
     }
 
 }
