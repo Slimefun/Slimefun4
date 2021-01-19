@@ -108,6 +108,24 @@ public class SlimefunWorldData {
         }
     }
 
+    public void save(@Nonnull BlockDataSource source) {
+        blocksLock.writeLock().lock();
+
+        try {
+            source.saveBlocks(this, blocks);
+        } finally {
+            blocksLock.readLock().unlock();
+        }
+
+        chunksLock.readLock().lock();
+
+        try {
+            source.saveChunks(this, chunks);
+        } finally {
+            chunksLock.readLock().unlock();
+        }
+    }
+
     @Nonnull
     public String getName() {
         return name;

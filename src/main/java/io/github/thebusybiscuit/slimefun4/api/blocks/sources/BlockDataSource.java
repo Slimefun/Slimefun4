@@ -27,4 +27,10 @@ public interface BlockDataSource {
     @ParametersAreNonnullByDefault
     void loadChunks(SlimefunWorldData data, Map<Long, SlimefunChunkData> chunks);
 
+    @ParametersAreNonnullByDefault
+    void saveBlocks(SlimefunWorldData data, Map<Long, SlimefunBlockData> blocks);
+
+    @ParametersAreNonnullByDefault
+    void saveChunks(SlimefunWorldData data, Map<Long, SlimefunChunkData> chunks);
+
 }

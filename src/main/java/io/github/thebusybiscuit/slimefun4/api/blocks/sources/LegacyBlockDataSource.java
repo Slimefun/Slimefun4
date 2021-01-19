@@ -210,6 +210,7 @@ public class LegacyBlockDataSource implements BlockDataSource {
         }
     }
 
+    @Nonnull
     private OptionalLong deserializeChunk(@Nonnull String string) {
         try {
             String[] segments = PatternUtils.SEMICOLON.split(string);
@@ -220,6 +221,16 @@ public class LegacyBlockDataSource implements BlockDataSource {
             SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Could not parse Chunk: " + string);
             return OptionalLong.empty();
         }
+    }
+
+    @Override
+    public void saveBlocks(SlimefunWorldData data, Map<Long, SlimefunBlockData> blocks) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void saveChunks(SlimefunWorldData data, Map<Long, SlimefunChunkData> chunks) {
+        // TODO Auto-generated method stub
     }
 
 }
