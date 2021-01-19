@@ -27,6 +27,7 @@ commands:
     description: Timings para Slimefun y sus addon
     verbose-player: "&4La flag verbose no puede ser usada por un jugador!"
     unknown-flag: "&4flag desconocida: &c%flag%"
+    please-wait: "&ePor favor, espere un segundo... ¡Los resultados están llegando!"
 guide:
   search:
     message: "&b¿Qué te gustaría buscar?"
