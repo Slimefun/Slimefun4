@@ -26,6 +26,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
  * @see BlockStorage
  *
  */
+@Deprecated
 public class BlockInfoConfig extends Config {
 
     private final Map<String, String> data;
