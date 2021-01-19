@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,6 +18,7 @@ import org.bukkit.block.Block;
 import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.cscorelib2.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.api.blocks.sources.BlockDataSource;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 /**
  * 
@@ -86,6 +88,9 @@ public class SlimefunWorldData {
     }
 
     private void loadWorldData(@Nonnull BlockDataSource source) {
+        SlimefunPlugin.logger().log(Level.INFO, "Loading data for World \"{0}\"", getName());
+        SlimefunPlugin.logger().log(Level.INFO, "This may take a while...");
+
         blocksLock.writeLock().lock();
 
         try {
