@@ -471,7 +471,12 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
         menu.addItem(1, new CustomItem(HeadTexture.SCRIPT_FORWARD.getAsItemStack(), "&2> Edit Script", "", "&aEdits your current Script"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-            openScript(pl, b, getScript(b.getLocation()));
+            if (PatternUtils.DASH.split(BlockStorage.getLocationInfo(b.getLocation()).getString("script")).length <= MAX_SCRIPT_LENGTH) {
+                openScript(pl, b, getScript(b.getLocation()));
+            } else {
+                pl.closeInventory();
+                SlimefunPlugin.getLocalization().sendMessage(pl, "android.scripts.too-long");
+            }
             return false;
         });
 
