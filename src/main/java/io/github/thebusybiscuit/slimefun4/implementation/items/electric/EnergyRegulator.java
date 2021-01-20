@@ -9,10 +9,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -30,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see EnergyNetComponent
  *
  */
-public class EnergyRegulator extends SlimefunItem {
+public class EnergyRegulator extends SlimefunItem implements HologramOwner {
 
     @ParametersAreNonnullByDefault
     public EnergyRegulator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -45,7 +44,7 @@ public class EnergyRegulator extends SlimefunItem {
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
-                SimpleHologram.remove(b);
+                removeHologram(b);
             }
         };
     }
@@ -56,7 +55,7 @@ public class EnergyRegulator extends SlimefunItem {
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                SimpleHologram.update(e.getBlock(), "&7Connecting...");
+                updateHologram(e.getBlock(), "&7Connecting...");
             }
 
         };

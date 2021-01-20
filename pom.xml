@@ -137,7 +137,7 @@
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.7.0.1746</version>
+                <version>3.8.0.2131</version>
             </plugin>
 
             <!-- Code Coverage Reports -->
@@ -327,7 +327,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.20.0</version>
+            <version>0.21.0</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -341,7 +341,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.7.0</version>
+            <version>3.7.7</version>
             <scope>test</scope>
         </dependency>
 
@@ -349,7 +349,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.29.1</version>
+            <version>0.29.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -375,7 +375,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.1</version>
+            <version>7.2.2</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>

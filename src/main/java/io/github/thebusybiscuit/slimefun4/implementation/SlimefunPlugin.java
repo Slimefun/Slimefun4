@@ -50,6 +50,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.PerWorldSettingsService;
 import io.github.thebusybiscuit.slimefun4.core.services.PermissionsService;
 import io.github.thebusybiscuit.slimefun4.core.services.UpdaterService;
 import io.github.thebusybiscuit.slimefun4.core.services.github.GitHubService;
+import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.core.services.profiler.SlimefunProfiler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
@@ -151,13 +152,14 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final PermissionsService permissionsService = new PermissionsService(this);
     private final PerWorldSettingsService worldSettingsService = new PerWorldSettingsService(this);
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
+    private final HologramsService hologramsService = new HologramsService(this);
 
     private final IntegrationsManager integrations = new IntegrationsManager(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
+    private final GPSNetwork gpsNetwork = new GPSNetwork(this);
 
-    private LocalizationService local;
-    private GPSNetwork gpsNetwork;
     private NetworkManager networkManager;
+    private LocalizationService local;
 
     // Important config files for Slimefun
     private final Config config = new Config(this);
@@ -241,7 +243,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     private void onUnitTestStart() {
         local = new LocalizationService(this, "", null);
-        gpsNetwork = new GPSNetwork();
         networkManager = new NetworkManager(200);
         command.register();
         registry.load(this, config);
@@ -276,9 +277,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Set up localization
         getLogger().log(Level.INFO, "Loading language files...");
         local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
-
-        // Setting up Networks
-        gpsNetwork = new GPSNetwork();
 
         int networkSize = config.getInt("networks.max-size");
 
@@ -348,6 +346,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         // Starting our tasks
         autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
+        hologramsService.start();
         ticker.start(this);
 
         // Loading integrations
@@ -508,7 +507,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
             if (version > 0) {
                 // Check all supported versions of Minecraft
-                for (MinecraftVersion supportedVersion : MinecraftVersion.valuesCache) {
+                for (MinecraftVersion supportedVersion : MinecraftVersion.values()) {
                     if (supportedVersion.isMinecraftVersion(version)) {
                         minecraftVersion = supportedVersion;
                         return false;
@@ -560,7 +559,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
-        for (MinecraftVersion version : MinecraftVersion.valuesCache) {
+        for (MinecraftVersion version : MinecraftVersion.values()) {
             if (!version.isVirtual()) {
                 list.add(version.getName());
             }
@@ -837,6 +836,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static PerWorldSettingsService getWorldSettingsService() {
         validateInstance();
         return instance.worldSettingsService;
+    }
+
+    @Nonnull
+    public static HologramsService getHologramsService() {
+        validateInstance();
+        return instance.hologramsService;
     }
 
     /**

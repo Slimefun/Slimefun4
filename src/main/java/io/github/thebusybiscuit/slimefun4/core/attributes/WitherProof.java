@@ -18,7 +18,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see WitherProofBlock
  *
  */
-@FunctionalInterface
 public interface WitherProof extends ItemAttribute {
 
     /**

@@ -27,10 +27,17 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListen
  */
 public abstract class Network {
 
+    /**
+     * Our {@link NetworkManager} instance.
+     */
     private final NetworkManager manager;
-    protected Location regulator;
-    private final Queue<Location> nodeQueue = new ArrayDeque<>();
 
+    /**
+     * The {@link Location} of the regulator of this {@link Network}.
+     */
+    protected Location regulator;
+
+    private final Queue<Location> nodeQueue = new ArrayDeque<>();
     protected final Set<Location> connectedLocations = new HashSet<>();
     protected final Set<Location> regulatorNodes = new HashSet<>();
     protected final Set<Location> connectorNodes = new HashSet<>();
@@ -231,6 +238,10 @@ public abstract class Network {
         return regulator;
     }
 
+    /**
+     * This method updates this {@link Network} and serves as the starting point
+     * for any running operations.
+     */
     public void tick() {
         discoverStep();
     }

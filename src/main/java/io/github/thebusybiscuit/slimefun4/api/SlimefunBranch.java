@@ -46,6 +46,7 @@ public enum SlimefunBranch {
 
     SlimefunBranch(@Nonnull String name, boolean official) {
         Validate.notNull(name, "The branch name cannot be null");
+
         this.name = name;
         this.official = official;
 

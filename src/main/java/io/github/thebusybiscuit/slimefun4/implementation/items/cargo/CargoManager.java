@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -24,7 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
-public class CargoManager extends SlimefunItem {
+public class CargoManager extends SlimefunItem implements HologramOwner {
 
     @ParametersAreNonnullByDefault
     public CargoManager(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -39,7 +39,7 @@ public class CargoManager extends SlimefunItem {
 
             @Override
             public void onBlockBreak(@Nonnull Block b) {
-                SimpleHologram.remove(b);
+                removeHologram(b);
             }
         };
     }

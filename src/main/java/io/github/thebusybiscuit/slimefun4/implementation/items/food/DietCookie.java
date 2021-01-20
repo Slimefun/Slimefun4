@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -24,6 +26,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
+    @ParametersAreNonnullByDefault
     public DietCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

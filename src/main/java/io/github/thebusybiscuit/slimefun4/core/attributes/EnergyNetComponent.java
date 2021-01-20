@@ -1,12 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import java.util.logging.Level;
+
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -117,65 +121,80 @@ public interface EnergyNetComponent extends ItemAttribute {
     default void setCharge(@Nonnull Location l, int charge) {
         Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge >= 0, "You can only set a charge of zero or more!");
-        int capacity = getCapacity();
 
-        // This method only makes sense if we can actually store energy
-        if (capacity > 0) {
-            charge = NumberUtils.clamp(0, charge, capacity);
+        try {
+            int capacity = getCapacity();
 
-            // Do we even need to update the value?
-            if (charge != getCharge(l)) {
-                BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+            // This method only makes sense if we can actually store energy
+            if (capacity > 0) {
+                charge = NumberUtils.clamp(0, charge, capacity);
 
-                // Update the capacitor texture
-                if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
-                    SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
+                // Do we even need to update the value?
+                if (charge != getCharge(l)) {
+                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(charge), false);
+
+                    // Update the capacitor texture
+                    if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
+                        SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
+                    }
                 }
             }
+        } catch (Exception | LinkageError x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "Exception while trying to set the energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
     }
 
     default void addCharge(@Nonnull Location l, int charge) {
         Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge > 0, "You can only add a positive charge!");
-        int capacity = getCapacity();
 
-        // This method only makes sense if we can actually store energy
-        if (capacity > 0) {
-            int currentCharge = getCharge(l);
+        try {
+            int capacity = getCapacity();
 
-            // Check if there is even space for new energy
-            if (currentCharge < capacity) {
-                int newCharge = Math.min(capacity, currentCharge + charge);
-                BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+            // This method only makes sense if we can actually store energy
+            if (capacity > 0) {
+                int currentCharge = getCharge(l);
 
-                // Update the capacitor texture
-                if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
-                    SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
+                // Check if there is even space for new energy
+                if (currentCharge < capacity) {
+                    int newCharge = Math.min(capacity, currentCharge + charge);
+                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+
+                    // Update the capacitor texture
+                    if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
+                        SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
+                    }
                 }
             }
+        } catch (Exception | LinkageError x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "Exception while trying to add an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
     }
 
     default void removeCharge(@Nonnull Location l, int charge) {
         Validate.notNull(l, "Location was null!");
         Validate.isTrue(charge > 0, "The charge to remove must be greater than zero!");
-        int capacity = getCapacity();
 
-        // This method only makes sense if we can actually store energy
-        if (capacity > 0) {
-            int currentCharge = getCharge(l);
+        try {
+            int capacity = getCapacity();
 
-            // Check if there is even energy stored
-            if (currentCharge > 0) {
-                int newCharge = Math.max(0, currentCharge - charge);
-                BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+            // This method only makes sense if we can actually store energy
+            if (capacity > 0) {
+                int currentCharge = getCharge(l);
 
-                // Update the capacitor texture
-                if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
-                    SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
+                // Check if there is even energy stored
+                if (currentCharge > 0) {
+                    int newCharge = Math.max(0, currentCharge - charge);
+                    BlockStorage.addBlockInfo(l, "energy-charge", String.valueOf(newCharge), false);
+
+                    // Update the capacitor texture
+                    if (getEnergyComponentType() == EnergyNetComponentType.CAPACITOR) {
+                        SlimefunUtils.updateCapacitorTexture(l, charge, capacity);
+                    }
                 }
             }
+        } catch (Exception | LinkageError x) {
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "Exception while trying to remove an energy-charge for \"" + getId() + "\" at " + new BlockPosition(l));
         }
     }
 

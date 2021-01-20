@@ -29,6 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class VampireBlade extends SlimefunItem {
 
     private static final double HEALING_AMOUNT = 4.0;
+
     private final ItemSetting<Integer> chance = new IntRangeSetting("chance", 0, 45, 100);
 
     @ParametersAreNonnullByDefault

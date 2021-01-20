@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -13,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Vitamins extends MedicalSupply<ItemUseHandler> {
 
+    @ParametersAreNonnullByDefault
     public Vitamins(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, 8, item, recipeType, recipe);
     }

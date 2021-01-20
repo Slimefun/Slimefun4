@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
@@ -31,8 +32,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAcce
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -58,7 +57,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see NetherStarReactor
  *
  */
-public abstract class Reactor extends AbstractEnergyProvider {
+public abstract class Reactor extends AbstractEnergyProvider implements HologramOwner {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
@@ -129,7 +128,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
                 progress.remove(b.getLocation());
                 processing.remove(b.getLocation());
-                SimpleHologram.remove(b);
+                removeHologram(b);
             }
         };
     }
@@ -341,7 +340,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
                 Bukkit.getPluginManager().callEvent(event);
 
                 BlockStorage.getInventory(l).close();
-                SimpleHologram.remove(l.getBlock());
+                removeHologram(l.getBlock());
             });
 
             explosionsQueue.remove(l);
@@ -436,14 +435,14 @@ public abstract class Reactor extends AbstractEnergyProvider {
             for (int slot : getCoolantSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), coolant, true, false)) {
                     menu.consumeItem(slot);
-                    ReactorHologram.update(reactor, "&b\u2744 &7100%");
+                    updateHologram(reactor.getBlock(), "&b\u2744 &7100%");
                     return true;
                 }
             }
 
             return false;
         } else {
-            ReactorHologram.update(reactor, "&b\u2744 &7" + getPercentage(timeleft, processing.get(reactor).getTicks()) + "%");
+            updateHologram(reactor.getBlock(), "&b\u2744 &7" + getPercentage(timeleft, processing.get(reactor).getTicks()) + "%");
         }
 
         return true;
