@@ -27,6 +27,8 @@ commands:
   timings:
     description: Độ trễ của slimefun và addon của nó
     verbose-player: "&4Cờ dài này không thể sử dụng bới Người chơi!"
+    please-wait: "&eVui lòng đợi một chút... Kết quả chuẩn bị đến!"
+    unknown-flag: "&4Không rõ cờ: &c%flag%"
 guide:
   search:
     message: "&bBạn muốn tìm kiếm cái gì?"
@@ -320,6 +322,7 @@ android:
       own: "&4Bạn không thể xếp hạng đoạn mã của chính mình!"
       already: "&4Bạn đã để lại Xếp Hạng cho đoạn mã này!"
     editor: Trình chỉnh sửa kịch bản
+    too-long: "&cĐoạn mã quá dài để chỉnh sửa!"
 languages:
   default: Máy chủ-Mặc định
   en: Tiếng Anh
