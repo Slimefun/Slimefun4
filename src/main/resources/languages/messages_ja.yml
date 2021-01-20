@@ -296,6 +296,7 @@ android:
       own: "&4自身のスクリプトは評価できません！"
       already: "&4このスクリプトは評価済みです！"
     editor: スクリプトエディタ
+    too-long: "&cこのスクリプトは長すぎて編集できません！"
 languages:
   default: サーバデフォルト
   en: 英語
