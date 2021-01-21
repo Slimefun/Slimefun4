@@ -51,6 +51,7 @@ class TestChargeUtils {
         Assertions.assertThrows(IllegalArgumentException.class, () -> ChargeUtils.setCharge(null, 1, 1));
         Assertions.assertThrows(IllegalArgumentException.class, () -> ChargeUtils.setCharge(meta, -1, 10));
         Assertions.assertThrows(IllegalArgumentException.class, () -> ChargeUtils.setCharge(meta, 100, 10));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> ChargeUtils.setCharge(meta, 10, -10));
     }
 
     @Test
