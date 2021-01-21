@@ -16,7 +16,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import net.md_5.bungee.api.ChatColor;
 
 /**
@@ -78,12 +77,14 @@ public final class RechargeableHelper {
             for (String line : meta.getLore()) {
                 if (REGEX.matcher(line).matches()) {
                     String data = ChatColor.stripColor(PatternUtils.SLASH_SEPARATOR.split(line)[0].replace(LORE_PREFIX, ""));
-                    return Float.parseFloat(data);
+
+                    float loreValue = Float.parseFloat(data);
+                    meta.getPersistentDataContainer().set(key, PersistentDataType.FLOAT, loreValue);
+                    return loreValue;
                 }
             }
         }
 
         return 0;
     }
-
 }
