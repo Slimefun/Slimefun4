@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import io.github.thebusybiscuit.slimefun4.utils.ChargeUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +10,6 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.MultiTool;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ChargingBench;
-import io.github.thebusybiscuit.slimefun4.utils.RechargeableHelper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -58,7 +58,7 @@ public interface Rechargeable extends ItemAttribute {
         }
 
         ItemMeta meta = item.getItemMeta();
-        RechargeableHelper.setCharge(meta, charge, maximum);
+        ChargeUtils.setCharge(meta, charge, maximum);
         item.setItemMeta(meta);
     }
 
@@ -75,7 +75,7 @@ public interface Rechargeable extends ItemAttribute {
             throw new IllegalArgumentException("Cannot get Item charge for null or AIR");
         }
 
-        return RechargeableHelper.getCharge(item.getItemMeta());
+        return ChargeUtils.getCharge(item.getItemMeta());
     }
 
     /**
@@ -98,7 +98,7 @@ public interface Rechargeable extends ItemAttribute {
         }
 
         ItemMeta meta = item.getItemMeta();
-        float currentCharge = RechargeableHelper.getCharge(meta);
+        float currentCharge = ChargeUtils.getCharge(meta);
         float maximum = getMaxItemCharge(item);
 
         // If the item is already fully charged, we abort.
@@ -107,7 +107,7 @@ public interface Rechargeable extends ItemAttribute {
         }
 
         float newCharge = Math.min(currentCharge + charge, maximum);
-        RechargeableHelper.setCharge(meta, newCharge, maximum);
+        ChargeUtils.setCharge(meta, newCharge, maximum);
 
         item.setItemMeta(meta);
         return true;
@@ -133,7 +133,7 @@ public interface Rechargeable extends ItemAttribute {
         }
 
         ItemMeta meta = item.getItemMeta();
-        float currentCharge = RechargeableHelper.getCharge(meta);
+        float currentCharge = ChargeUtils.getCharge(meta);
 
         // If the item does not have enough charge, we abort
         if (currentCharge < charge) {
@@ -141,7 +141,7 @@ public interface Rechargeable extends ItemAttribute {
         }
 
         float newCharge = Math.max(currentCharge - charge, 0);
-        RechargeableHelper.setCharge(meta, newCharge, getMaxItemCharge(item));
+        ChargeUtils.setCharge(meta, newCharge, getMaxItemCharge(item));
 
         item.setItemMeta(meta);
         return true;
