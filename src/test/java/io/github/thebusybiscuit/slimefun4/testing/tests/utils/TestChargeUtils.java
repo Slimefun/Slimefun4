@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.utils;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -71,6 +72,13 @@ class TestChargeUtils {
 
         Assertions.assertEquals(10.5, ChargeUtils.getCharge(metaWithLore), 0.001);
         Assertions.assertTrue(PersistentDataAPI.hasFloat(metaWithLore, SlimefunPlugin.getRegistry().getItemChargeDataKey()));
+
+        // Test no data and empty lore
+        ItemStack itemWithEmptyLore = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta metaWithEmptyLore = itemWithEmptyLore.getItemMeta();
+        metaWithEmptyLore.setLore(Collections.emptyList());
+
+        Assertions.assertEquals(0, ChargeUtils.getCharge(metaWithEmptyLore));
 
         // Test no data and no lore
         ItemStack itemWithNoDataOrLore = new ItemStack(Material.DIAMOND_SWORD);
