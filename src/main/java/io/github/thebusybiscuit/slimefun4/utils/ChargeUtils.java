@@ -39,7 +39,7 @@ public final class ChargeUtils {
     public static void setCharge(@Nonnull ItemMeta meta, float charge, float capacity) {
         Validate.notNull(meta, "Meta cannot be null!");
         Validate.isTrue(charge >= 0, "Charge has to be equal to or greater than 0!");
-        Validate.isTrue(capacity >= 0, "Capacity has to be equal to or greater than 0!");
+        Validate.isTrue(capacity > 0, "Capacity has to be greater than 0!");
         Validate.isTrue(charge <= capacity, "Charge may not be bigger than the capacity!");
 
         BigDecimal decimal = BigDecimal.valueOf(charge).setScale(2, RoundingMode.HALF_UP);
