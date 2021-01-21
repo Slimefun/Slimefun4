@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
@@ -28,17 +29,17 @@ import net.md_5.bungee.api.ChatColor;
  * @see Rechargeable
  *
  */
-public final class RechargeableHelper {
+public final class ChargeUtils {
 
     private static final String LORE_PREFIX = ChatColors.color("&8\u21E8 &e\u26A1 &7");
     private static final Pattern REGEX = Pattern.compile(ChatColors.color("(&c&o)?" + LORE_PREFIX) + "[0-9.]+ / [0-9.]+ J");
 
-    private RechargeableHelper() {}
+    private ChargeUtils() {}
 
     public static void setCharge(@Nonnull ItemMeta meta, float charge, float capacity) {
         Validate.notNull(meta, "Meta cannot be null!");
         Validate.isTrue(charge >= 0, "Charge has to be equal to or greater than 0!");
-        Validate.isTrue(charge <= capacity, "Charge must be less than the capacity!");
+        Validate.isTrue(charge <= capacity, "Charge may not be bigger than the capacity!");
 
         BigDecimal decimal = BigDecimal.valueOf(charge).setScale(2, RoundingMode.HALF_UP);
         float value = decimal.floatValue();
@@ -65,7 +66,8 @@ public final class RechargeableHelper {
         Validate.notNull(meta, "Meta cannot be null!");
 
         NamespacedKey key = SlimefunPlugin.getRegistry().getItemChargeDataKey();
-        Float value = meta.getPersistentDataContainer().get(key, PersistentDataType.FLOAT);
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        Float value = container.get(key, PersistentDataType.FLOAT);
 
         // If persistent data is available, we just return this value
         if (value != null) {
@@ -79,7 +81,7 @@ public final class RechargeableHelper {
                     String data = ChatColor.stripColor(PatternUtils.SLASH_SEPARATOR.split(line)[0].replace(LORE_PREFIX, ""));
 
                     float loreValue = Float.parseFloat(data);
-                    meta.getPersistentDataContainer().set(key, PersistentDataType.FLOAT, loreValue);
+                    container.set(key, PersistentDataType.FLOAT, loreValue);
                     return loreValue;
                 }
             }

@@ -21,6 +21,7 @@ class TestRechargeableHelper {
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
+        MockBukkit.load(SlimefunPlugin.class);
     }
 
     @AfterAll
