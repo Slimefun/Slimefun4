@@ -318,6 +318,7 @@ languages:
   el: 希臘語
   he: 希伯來語
   pt: 葡萄牙文（葡萄牙）
+  pt-BR: 葡萄牙文（巴西）
   ar: 阿拉伯文
   af: 南非語
   da: 丹麥文
@@ -329,7 +330,6 @@ languages:
   fa: 波斯語
   th: 泰語
   ro: 羅馬尼亞語
-  pt-BR: 葡萄牙文（巴西）
   bg: 保加利亞語
   ko: 韓語
   tr: 土耳其
