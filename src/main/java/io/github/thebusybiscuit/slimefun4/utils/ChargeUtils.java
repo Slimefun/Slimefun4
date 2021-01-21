@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -17,7 +18,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import net.md_5.bungee.api.ChatColor;
 
 /**
  * This is just a simple helper class to provide static methods to the {@link Rechargeable}
