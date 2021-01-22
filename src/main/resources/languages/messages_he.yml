@@ -21,6 +21,8 @@ commands:
     please-wait: "&e !אנא המתן שנייה ... התוצאות מגיעות"
     verbose-player: "& 4 האיתות המילולי אינו יכול להיות בשימוש על ידי שחקן!"
     unknown-flag: "&4איתות לא ידוע: &c%flag%"
+  versions: הצגת תוספים מותקנים
+  open_guide: פתח את המדריך בלי להשתמש בספר
 guide:
   title:
     main: סליים פאן מדריך
