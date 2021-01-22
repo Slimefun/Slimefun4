@@ -28,6 +28,7 @@
 
 #### Additions
 * Added a new language: Bulgarian
+* Added a new language: Hebrew
 
 #### Changes
 * Massive performance improvements to holograms/armorstands
