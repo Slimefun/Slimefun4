@@ -27,7 +27,7 @@ commands:
   research:
     description: 'בטל נעילה /מחקרים עבור שחקן זה '
     reset: "&c איפס את הידע של %שחקן% זה"
-    reset-target: &cהידע שלך אופס 
+    reset-target: "&cהידע שלך אופס "
 guide:
   title:
     main: סליים פאן מדריך
