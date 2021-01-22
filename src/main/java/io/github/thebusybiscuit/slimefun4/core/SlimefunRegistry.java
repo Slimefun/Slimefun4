@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,7 +62,7 @@ public final class SlimefunRegistry {
 
     private final List<Research> researches = new LinkedList<>();
     private final List<String> researchRanks = new ArrayList<>();
-    private final Set<UUID> researchingPlayers = new HashSet<>();
+    private final Set<UUID> researchingPlayers = Collections.synchronizedSet(new HashSet<>());
 
     private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
