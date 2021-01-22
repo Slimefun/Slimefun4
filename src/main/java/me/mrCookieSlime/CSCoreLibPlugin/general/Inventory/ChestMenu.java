@@ -138,7 +138,7 @@ public class ChestMenu {
      *            The Slot in the Inventory
      * @param item
      *            The Item for that Slot
-     * @param handler
+     * @param clickHandler
      *            The MenuClickHandler for that Slot
      * @return The ChestMenu Instance
      */
@@ -231,9 +231,6 @@ public class ChestMenu {
         }
     }
 
-    /**
-     * Resets this ChestMenu to a Point BEFORE the User interacted with it
-     */
     public void reset(boolean update) {
         if (update)
             this.inv.clear();
