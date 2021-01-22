@@ -138,6 +138,7 @@ public class Translators {
         addTranslator("sarhatabaot", SupportedLanguage.HEBREW, false);
         addTranslator("Timotiyadeyhakesem", SupportedLanguage.HEBREW, true);
         addTranslator("Molioron", SupportedLanguage.HEBREW, true);
+        addTranslator("McAlmog", SupportedLanguage.HEBREW, true);
 
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", SupportedLanguage.JAPANESE, false);
