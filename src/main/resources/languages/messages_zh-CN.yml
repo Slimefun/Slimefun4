@@ -296,6 +296,7 @@ android:
       own: "&4你不能评价你自己的脚本!"
       already: "&4你已经给这个脚本留下评价了!"
     editor: 脚本编辑器
+    too-long: "&c脚本长度已达上限, 你不能再编辑了!"
 languages:
   default: 服务器默认语言
   en: 英语
