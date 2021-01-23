@@ -208,7 +208,7 @@ messages:
   - '&7This one was actually a Biscuit and not a Cookie'
   - '&7Neon signs are LIT!'
 
-  above-limit-level: '&cThe enchant level you want to enchant exceeds the limit'
+  above-limit-level: '&cThe enchant level you want to enchant exceeds the limit level: %level%'
 
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'

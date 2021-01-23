@@ -82,8 +82,7 @@ public class AutoDisenchanter extends AContainer {
                         amount++;
                     } else {
                         if (!menu.toInventory().getViewers().isEmpty()) {
-                            menu.toInventory().getViewers().forEach(p -> SlimefunPlugin.getLocalization().sendMessage(p, "messages.above-limit-level", true));
-                        }
+                            menu.toInventory().getViewers().forEach(p -> SlimefunPlugin.getLocalization().sendMessage(p, "messages.above-limit-level", true, (message -> message.replace("%level%", enchantLevelLimit.getValue().toString()))));}
                     }
                 }
 
