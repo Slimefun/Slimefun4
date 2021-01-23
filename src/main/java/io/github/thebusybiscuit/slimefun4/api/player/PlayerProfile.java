@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.player;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,6 +32,7 @@ import com.google.common.collect.ImmutableSet;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
@@ -56,7 +56,7 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  * @see HashedArmorpiece
  *
  */
-public final class PlayerProfile {
+public class PlayerProfile {
 
     private final UUID uuid;
     private final String name;
@@ -74,13 +74,17 @@ public final class PlayerProfile {
 
     private final HashedArmorpiece[] armor = { new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece(), new HashedArmorpiece() };
 
-    private PlayerProfile(@Nonnull OfflinePlayer p) {
+    protected PlayerProfile(@Nonnull OfflinePlayer p) {
         this.uuid = p.getUniqueId();
         this.name = p.getName();
 
-        configFile = new Config(new File("data-storage/Slimefun/Players/" + uuid.toString() + ".yml"));
+        configFile = new Config("data-storage/Slimefun/Players/" + uuid.toString() + ".yml");
         waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid.toString() + ".yml");
 
+        loadProfileData();
+    }
+
+    private void loadProfileData() {
         for (Research research : SlimefunPlugin.getRegistry().getResearches()) {
             if (configFile.contains("researches." + research.getID())) {
                 researches.add(research);
@@ -95,7 +99,7 @@ public final class PlayerProfile {
                     waypoints.add(new Waypoint(this, key, loc, waypointName));
                 }
             } catch (Exception x) {
-                SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + p.getName() + '"');
+                SlimefunPlugin.logger().log(Level.WARNING, x, () -> "Could not load Waypoint \"" + key + "\" for Player \"" + name + '"');
             }
         }
     }
@@ -268,14 +272,14 @@ public final class PlayerProfile {
      * Call this method if the Player has left.
      * The profile can then be removed from RAM.
      */
-    public void markForDeletion() {
+    public final void markForDeletion() {
         markedForDeletion = true;
     }
 
     /**
      * Call this method if this Profile has unsaved changes.
      */
-    public void markDirty() {
+    public final void markDirty() {
         dirty = true;
     }
 
@@ -382,9 +386,11 @@ public final class PlayerProfile {
         }
 
         Bukkit.getScheduler().runTaskAsynchronously(SlimefunPlugin.instance(), () -> {
-            PlayerProfile pp = new PlayerProfile(p);
-            SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, pp);
-            callback.accept(pp);
+            AsyncProfileLoadEvent event = new AsyncProfileLoadEvent(new PlayerProfile(p));
+            Bukkit.getPluginManager().callEvent(event);
+            
+            SlimefunPlugin.getRegistry().getPlayerProfiles().put(uuid, event.getProfile());
+            callback.accept(event.getProfile());
         });
 
         return false;

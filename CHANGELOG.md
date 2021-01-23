@@ -29,6 +29,7 @@
 #### Additions
 * Added a new language: Bulgarian
 * Added a new language: Hebrew
+* (API) Added AsyncProfileLoadEvent
 
 #### Changes
 * Massive performance improvements to holograms/armorstands
