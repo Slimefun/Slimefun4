@@ -296,6 +296,7 @@ android:
       own: "&4你不能评价你自己的脚本!"
       already: "&4你已经给这个脚本留下评价了!"
     editor: 脚本编辑器
+    too-long: "&c脚本长度已达上限, 你不能再编辑了!"
 languages:
   default: 服务器默认语言
   en: 英语
@@ -317,6 +318,8 @@ languages:
   zh-CN: 简体中文 (中国)
   el: 希腊语
   he: 希伯来语
+  pt: 葡萄牙语 (葡萄牙)
+  pt-BR: 葡萄牙语 (巴西)
   ar: 阿拉伯语
   af: 南非语
   da: 丹麦语
@@ -328,8 +331,6 @@ languages:
   fa: 波斯语
   th: 泰语
   ro: 罗马尼亚语
-  pt: 葡萄牙语 (葡萄牙)
-  pt-BR: 葡萄牙语 (巴西)
   bg: 保加利亚语
   ko: 韩语
   tr: 土耳其语

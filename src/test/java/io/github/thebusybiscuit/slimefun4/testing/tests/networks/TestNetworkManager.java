@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.networks;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -170,6 +171,20 @@ class TestNetworkManager {
         network.tick();
 
         Assertions.assertEquals(3, network.getSize());
+    }
+
+    @Test
+    @DisplayName("Test empty network list for null locations")
+    void testNullLocations() {
+        NetworkManager manager = new NetworkManager(10, false, false);
+
+        Optional<Network> optional = manager.getNetworkFromLocation(null, Network.class);
+        Assertions.assertNotNull(optional);
+        Assertions.assertFalse(optional.isPresent());
+
+        List<Network> list = manager.getNetworksFromLocation(null, Network.class);
+        Assertions.assertNotNull(list);
+        Assertions.assertTrue(list.isEmpty());
     }
 
 }

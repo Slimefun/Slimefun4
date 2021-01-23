@@ -314,6 +314,7 @@ android:
   scripts:
     already-uploaded: '&4This script has already been uploaded.'
     editor: 'Script Editor'
+    too-long: '&cThe script is too long to edit!'
     
     instructions:
       START: '&2Start Script'

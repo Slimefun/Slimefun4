@@ -296,6 +296,7 @@ android:
       own: "&4你不能評價自己的程式！"
       already: "&4你已經評價過此程式！"
     editor: 程式編輯器
+    too-long: "&c程式太長了，無法編輯！"
 languages:
   default: 預設
   en: 英語
@@ -318,6 +319,7 @@ languages:
   el: 希臘語
   he: 希伯來語
   pt: 葡萄牙文（葡萄牙）
+  pt-BR: 葡萄牙文（巴西）
   ar: 阿拉伯文
   af: 南非語
   da: 丹麥文
@@ -329,7 +331,6 @@ languages:
   fa: 波斯語
   th: 泰語
   ro: 羅馬尼亞語
-  pt-BR: 葡萄牙文（巴西）
   bg: 保加利亞語
   ko: 韓語
   tr: 土耳其

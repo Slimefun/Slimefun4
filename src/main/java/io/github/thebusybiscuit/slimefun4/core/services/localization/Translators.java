@@ -133,8 +133,12 @@ public class Translators {
         addTranslator("mohkamfer", "AgentBabbie", SupportedLanguage.ARABIC, false);
 
         // Translators - Hebrew
-        addTranslator("dhtdht020", SupportedLanguage.HEBREW, false);
-        addTranslator("Eylonnn", SupportedLanguage.HEBREW, false);
+        addTranslator("dhtdht020", SupportedLanguage.HEBREW, true);
+        addTranslator("Eylonnn", SupportedLanguage.HEBREW, true);
+        addTranslator("sarhatabaot", SupportedLanguage.HEBREW, false);
+        addTranslator("Timotiyadeyhakesem", SupportedLanguage.HEBREW, true);
+        addTranslator("Molioron", SupportedLanguage.HEBREW, true);
+        addTranslator("McAlmog", SupportedLanguage.HEBREW, true);
 
         // Translators - Japanese
         addTranslator("bito-blosh", "Bloshop", SupportedLanguage.JAPANESE, false);

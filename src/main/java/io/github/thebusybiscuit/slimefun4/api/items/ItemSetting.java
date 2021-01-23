@@ -92,7 +92,7 @@ public class ItemSetting<T> {
      */
     @Nonnull
     public T getValue() {
-        Validate.notNull(value, "An ItemSetting was invoked but was not initialized yet.");
+        Validate.notNull(value, "ItemSetting '" + key + "' was invoked but was not initialized yet.");
 
         return value;
     }

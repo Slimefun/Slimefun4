@@ -117,6 +117,7 @@ import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -202,38 +203,17 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      */
     @Override
     public void onEnable() {
-        if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
+        setInstance(this);
+
+        if (isUnitTest()) {
             // We handle Unit Tests seperately.
-            setInstance(this);
             onUnitTestStart();
         } else if (isVersionUnsupported()) {
             // We wanna ensure that the Server uses a compatible version of Minecraft.
-            setInstance(this);
-            getLogger().log(Level.WARNING, "Slimefun was not installed properly! Disabling...");
             getServer().getPluginManager().disablePlugin(this);
-        } else if (getServer().getPluginManager().isPluginEnabled("CS-CoreLib")) {
-            // The Environment and dependencies have been validated.
-            setInstance(this);
-            getLogger().log(Level.INFO, "CS-CoreLib was detected!");
-            onPluginStart();
         } else {
-            // Terminate our Plugin instance
-            setInstance(null);
-
-            // CS-CoreLib has not been installed!
-            getLogger().log(Level.INFO, "#################### - INFO - ####################");
-            getLogger().log(Level.INFO, " ");
-            getLogger().log(Level.INFO, "Slimefun could not be loaded (yet).");
-            getLogger().log(Level.INFO, "It appears that you have not installed CS-CoreLib.");
-            getLogger().log(Level.INFO, "Please download and install CS-CoreLib manually:");
-            getLogger().log(Level.INFO, "https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
-
-            // Send a message upon doing /slimefun
-            getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
-                sender.sendMessage("You have forgotten to install CS-CoreLib! Slimefun is disabled.");
-                sender.sendMessage("https://thebusybiscuit.github.io/builds/TheBusyBiscuit/CS-CoreLib/master/");
-                return true;
-            });
+            // The Environment has been validated.
+            onPluginStart();
         }
     }
 
@@ -456,7 +436,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         long ms = (System.nanoTime() - timestamp) / 1000000;
 
         if (ms > 1000) {
-            return NumberUtils.roundDecimalNumber(ms / 1000.0) + "s";
+            return NumberUtils.roundDecimalNumber(ms / 1000.0) + 's';
         } else {
             return NumberUtils.roundDecimalNumber(ms) + "ms";
         }
@@ -477,6 +457,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         Reactor.processing = null;
         Reactor.progress = null;
+    }
+
+    /**
+     * This method checks if this is currently running in a unit test
+     * environment.
+     * 
+     * @return Whether we are inside a unit test
+     */
+    public boolean isUnitTest() {
+        return minecraftVersion == MinecraftVersion.UNIT_TEST;
     }
 
     /**
@@ -595,6 +585,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * This method registers all of our {@link Listener Listeners}.
      */
     private void registerListeners() {
+        // Old deprecated CS-CoreLib Listener
+        new MenuListener(this);
+
         new SlimefunBootsListener(this);
         new SlimefunItemInteractListener(this);
         new SlimefunItemConsumeListener(this);
@@ -980,18 +973,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     public static boolean isNewlyInstalled() {
         validateInstance();
         return instance.isNewlyInstalled;
-    }
-
-    @Nonnull
-    public static String getCSCoreLibVersion() {
-        validateInstance();
-        Plugin cscorelib = instance.getServer().getPluginManager().getPlugin("CS-CoreLib");
-
-        if (cscorelib == null) {
-            throw new IllegalStateException("CS-CoreLib is not installed.");
-        } else {
-            return cscorelib.getDescription().getVersion();
-        }
     }
 
     /**

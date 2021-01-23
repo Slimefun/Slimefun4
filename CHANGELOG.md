@@ -28,9 +28,11 @@
 
 #### Additions
 * Added a new language: Bulgarian
+* Added a new language: Hebrew
 
 #### Changes
 * Massive performance improvements to holograms/armorstands
+* Slimefun no longer requires CS-CoreLib to be installed
 
 #### Fixes
 * Fixed elevator floor order
