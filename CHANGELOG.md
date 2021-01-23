@@ -47,6 +47,7 @@
 * Fixed some backpack opening issues
 * Fixed Infused Hopper picking up items with a max pickup delay
 * Fixed duplication issues related to holograms/armorstands
+* Fixed #2754
 
 ## Release Candidate 19 (11 Jan 2021)
 
