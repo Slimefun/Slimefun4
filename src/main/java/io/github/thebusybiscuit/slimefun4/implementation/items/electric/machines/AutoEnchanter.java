@@ -1,16 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -18,6 +10,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AutoEnchanter extends AContainer {
     
@@ -54,8 +54,14 @@ public class AutoEnchanter extends AContainer {
 
                 for (Map.Entry<Enchantment, Integer> e : meta.getStoredEnchants().entrySet()) {
                     if (e.getKey().canEnchantItem(target)) {
-                        amount++;
-                        enchantments.put(e.getKey(), e.getValue());
+                        if (e.getValue() <= enchantLevelLimit.getValue() || enchantLevelLimit.getValue() < 1) {
+                            amount++;
+                            enchantments.put(e.getKey(), e.getValue());
+                        } else {
+                            if (!menu.toInventory().getViewers().isEmpty()) {
+                                menu.toInventory().getViewers().forEach(p -> SlimefunPlugin.getLocalization().sendMessage(p, "messages.above-limit-level", true));
+                            }
+                        }
                     }
                 }
 

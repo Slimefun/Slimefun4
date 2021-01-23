@@ -193,20 +193,22 @@ messages:
   diet-cookie: '&eYou are starting to feel very light...'
   
   fortune-cookie:
-  - '&7Help me, I am trapped in a Fortune Cookie Factory!'
+    - '&7Help me, I am trapped in a Fortune Cookie Factory!'
   - '&7You will die tomorrow...     by a Creeper'
   - '&7At some point in your Life something bad will happen!!!'
   - '&7Next week you will notice that this is not the real world, you are in a computer game'
-  - '&7This cookie will taste good in a few seconds'
-  - '&7The last word you will hear is gonna be "EXTERMINATE!!!"'
-  - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
-  - '&742. The answer is 42.'
-  - '&7A Walshy a day will keep the troubles away.'
-  - '&7Never dig straight down!'
-  - '&7Tis but a flesh wound!'
-  - '&7Always look on the bright side of life!'
-  - '&7This one was actually a Biscuit and not a Cookie'
-  - '&7Neon signs are LIT!'
+    - '&7This cookie will taste good in a few seconds'
+    - '&7The last word you will hear is gonna be "EXTERMINATE!!!"'
+    - '&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it''s not worth it.'
+    - '&742. The answer is 42.'
+    - '&7A Walshy a day will keep the troubles away.'
+    - '&7Never dig straight down!'
+    - '&7Tis but a flesh wound!'
+    - '&7Always look on the bright side of life!'
+    - '&7This one was actually a Biscuit and not a Cookie'
+    - '&7Neon signs are LIT!'
+
+  above-limit-level: "&cThe enchant level you want to enchant exceeds the limit"
 
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'

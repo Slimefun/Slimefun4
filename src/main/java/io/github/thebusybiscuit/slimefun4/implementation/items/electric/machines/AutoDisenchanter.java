@@ -1,11 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,33 +19,32 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
-import me.mrCookieSlime.Slimefun.Lists.RecipeType;
-import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The {@link AutoDisenchanter}, in contrast to the {@link AutoEnchanter}, removes
  * {@link Enchantment Enchantments} from a given {@link ItemStack} and transfers them
  * to a book.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
  * @author poma123
- * 
+ *
  * @see AutoEnchanter
  *
  */
 public class AutoDisenchanter extends AContainer {
 
+    private final ItemSetting<Integer> enchantLevelLimit = new ItemSetting<>("enchant-level-limit", 5);
+
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        addItemSetting(enchantLevelLimit);
     }
 
     @Override
@@ -73,8 +77,14 @@ public class AutoDisenchanter extends AContainer {
                 int amount = 0;
 
                 for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
-                    enchantments.put(entry.getKey(), entry.getValue());
-                    amount++;
+                    if (entry.getValue() <= enchantLevelLimit.getValue() || enchantLevelLimit.getValue() < 1) {
+                        enchantments.put(entry.getKey(), entry.getValue());
+                        amount++;
+                    } else {
+                        if (!menu.toInventory().getViewers().isEmpty()) {
+                            menu.toInventory().getViewers().forEach(p -> SlimefunPlugin.getLocalization().sendMessage(p, "messages.above-limit-level", true));
+                        }
+                    }
                 }
 
                 if (amount > 0) {
