@@ -239,6 +239,10 @@ public class TalismanListener implements Listener {
             TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
 
             if (enchantment != null) {
+                /*
+                 * Fix #2679
+                 * By default, Bukkit doesn't allow book enchant any type enchantment.
+                 */
                 if (e.getItem().getType() == Material.BOOK) {
                     e.getItem().addUnsafeEnchantment(enchantment.getEnchantment(), enchantment.getLevel());
                 } else {

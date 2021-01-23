@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -70,7 +71,7 @@ public class MagicianTalisman extends Talisman {
 
         // @formatter:off
         List<TalismanEnchantment> enabled = enchantments.stream()
-                .filter(e -> e.getEnchantment().canEnchantItem(item))
+                .filter(e -> item.getType() == Material.BOOK || e.getEnchantment().canEnchantItem(item))
                 .filter(e -> hasConflicts(existingEnchantments, e))
                 .filter(TalismanEnchantment::getValue)
                 .collect(Collectors.toList());
