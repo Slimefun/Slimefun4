@@ -239,7 +239,11 @@ public class TalismanListener implements Listener {
             TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
 
             if (enchantment != null) {
-                enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
+                if (e.getItem().getType() == Material.BOOK) {
+                    e.getItem().addUnsafeEnchantment(enchantment.getEnchantment(), enchantment.getLevel());
+                } else {
+                    enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
+                }
             }
         }
 
