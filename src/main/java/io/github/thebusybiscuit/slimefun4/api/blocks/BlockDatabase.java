@@ -65,4 +65,56 @@ public class BlockDatabase {
         this.dataSource = new LegacyBlockDataSource();
     }
 
+    @Nonnull
+    public SlimefunWorldData getWorld(@Nonnull World world) {
+        lock.readLock().lock();
+
+        try {
+            SlimefunWorldData data = worlds.get(world.getUID());
+
+            if (data != null) {
+                return data;
+            }
+        } finally {
+            lock.readLock().unlock();
+        }
+
+        // No data was found if we end up here
+        return loadWorld(world);
+    }
+
+    @Nonnull
+    public SlimefunWorldData loadWorld(@Nonnull World world) {
+        lock.writeLock().lock();
+
+        try {
+            // Only load the world data if necessary, this one extra map operation won't hurt
+            SlimefunWorldData data = worlds.get(world.getUID());
+
+            if (data == null) {
+                data = new SlimefunWorldData(world, dataSource);
+                worlds.put(world.getUID(), data);
+            }
+
+            return data;
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public void unloadWorld(@Nonnull World world) {
+        lock.writeLock().lock();
+
+        try {
+            SlimefunWorldData data = worlds.remove(world.getUID());
+
+            if (data != null) {
+                // TODO: Queue up the saving?
+                data.save(dataSource);
+            }
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
 }

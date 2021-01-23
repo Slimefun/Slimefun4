@@ -10,6 +10,7 @@ import org.bukkit.Location;
 
 import com.google.gson.JsonObject;
 
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -70,6 +71,12 @@ public class SlimefunBlockData extends AbstractDataObject {
     @Nonnull
     public SlimefunItem getSlimefunItem() {
         return SlimefunItem.getByID(getId());
+    }
+
+    @Deprecated
+    @Nonnull
+    public Config getLegacyAdapter() {
+        return new LegacyAdapter(this);
     }
 
 }

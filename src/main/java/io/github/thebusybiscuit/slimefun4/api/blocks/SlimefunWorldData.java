@@ -55,15 +55,14 @@ public class SlimefunWorldData {
     private final Map<Long, SlimefunChunkData> chunks = new HashMap<>();
 
     /**
-     * This is our singleton instance for {@link EmptyBlockData}.
-     * It will always return null and cannot hold any values.
-     */
-    private final EmptyBlockData emptyBlockData = new EmptyBlockData();
-
-    /**
      * The name of the {@link World}.
      */
     private final String name;
+
+    /**
+     * This signals whether the {@link SlimefunWorldData} has been loaded yet.
+     */
+    private volatile boolean isLoaded = false;
 
     /**
      * We keep a {@link WeakReference} of our {@link World} to prevent
@@ -87,6 +86,10 @@ public class SlimefunWorldData {
         loadWorldData(source);
     }
 
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
     private void loadWorldData(@Nonnull BlockDataSource source) {
         SlimefunPlugin.logger().log(Level.INFO, "Loading data for World \"{0}\"", getName());
         SlimefunPlugin.logger().log(Level.INFO, "This may take a while...");
@@ -95,6 +98,7 @@ public class SlimefunWorldData {
 
         try {
             source.loadBlocks(this, blocks);
+            isLoaded = true;
         } finally {
             blocksLock.writeLock().unlock();
         }
@@ -138,6 +142,10 @@ public class SlimefunWorldData {
 
     @Nullable
     public SlimefunBlockData getBlockData(int x, int y, int z) {
+        if (!isLoaded) {
+            throw new IllegalStateException("World data has not been loaded yet. Check #isLoaded() before accessing this!");
+        }
+
         blocksLock.readLock().lock();
 
         try {
@@ -163,6 +171,10 @@ public class SlimefunWorldData {
 
     @Nullable
     public SlimefunChunkData getChunkData(int x, int z) {
+        if (!isLoaded) {
+            throw new IllegalStateException("World data has not been loaded yet. Check #isLoaded() before accessing this!");
+        }
+
         chunksLock.readLock().lock();
 
         try {
