@@ -20,10 +20,14 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class AutoEnchanter extends AContainer {
+    
+    private final ItemSetting<Integer> enchantLevelLimit = new ItemSetting<>("enchant-level-limit", 5);
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+        
+        addItemSetting(enchantLevelLimit);
     }
 
     @Override
