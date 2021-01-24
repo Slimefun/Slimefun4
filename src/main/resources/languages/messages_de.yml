@@ -136,6 +136,7 @@ messages:
     wizard: "&a&oDein Talisman hat dein Glück-Level erhöht aber möglicherweise das
       Level einer anderen Verzauberung vermindert"
     caveman: "&a&oDein Talisman hat dir einen Abbau-Boost verschafft"
+    wise: "&a&oDein Talisman hat soeben deine Erfahrungspunkte verdoppelt"
   soulbound-rune:
     fail: "&cDu kannst nicht mehrere Items auf einmal an deine Seele binden"
     success: "&aDu hast dieses Item erfolgreich an deine Seele gebunden! Solltest
@@ -319,6 +320,7 @@ android:
       own: "&4Du kannst nicht dein eigenes Skript bewerten!"
       already: "&4Du hast dieses Skript bereits bewertet!"
     editor: Skripteditor
+    too-long: "&cDieses Skript ist zu lang, um es zu bearbeiten!"
 languages:
   default: Server-Standard
   en: Englisch
