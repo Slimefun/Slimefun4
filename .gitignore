@@ -4,10 +4,12 @@
 /sonar/
 /.settings/
 /.idea/
+/.vscode/
 
 dependency-reduced-pom.xml
 
 .classpath
+.factorypath
 .project
 *.iml
 .DS_Store
