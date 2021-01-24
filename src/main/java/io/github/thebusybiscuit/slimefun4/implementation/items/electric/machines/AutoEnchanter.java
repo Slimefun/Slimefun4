@@ -12,6 +12,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
@@ -57,9 +58,12 @@ public class AutoEnchanter extends AContainer {
                         if (e.getValue() <= enchantLevelLimit.getValue() || enchantLevelLimit.getValue() < 1) {
                             amount++;
                             enchantments.put(e.getKey(), e.getValue());
-                        } else {
-                            if (!menu.toInventory().getViewers().isEmpty()) {
-                                menu.toInventory().getViewers().forEach(p -> SlimefunPlugin.getLocalization().sendMessage(p, "messages.above-limit-level", true, (message -> message.replace("%level%", enchantLevelLimit.getValue().toString()))));
+                        } else if (!menu.toInventory().getViewers().isEmpty()) {
+                            for (HumanEntity viewer : menu.toInventory().getViewers()) {
+                                SlimefunPlugin.getLocalization().sendMessage(viewer, "messages.above-limit-level", true,
+                                        (message -> message.replace("%level%", enchantLevelLimit.getValue().toString())
+                                                .replace("%item%", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name())
+                                        ));
                             }
                         }
                     }

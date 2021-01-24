@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.core.services.localization.SlimefunLocalization;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -14,6 +16,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,6 +24,8 @@ import org.bukkit.inventory.meta.Repairable;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +43,7 @@ import java.util.Map;
  */
 public class AutoDisenchanter extends AContainer {
 
-    private final ItemSetting<Integer> enchantLevelLimit = new ItemSetting<>("enchant-level-limit", 5);
+    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting("enchant-level-limit", 0, 5, 12);
 
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -77,12 +82,16 @@ public class AutoDisenchanter extends AContainer {
                 int amount = 0;
 
                 for (Map.Entry<Enchantment, Integer> entry : item.getEnchantments().entrySet()) {
-                    if (entry.getValue() <= enchantLevelLimit.getValue() || enchantLevelLimit.getValue() < 1) {
+                    if (enchantLevelLimit.validateInput(entry.getValue())) {
                         enchantments.put(entry.getKey(), entry.getValue());
                         amount++;
-                    } else {
-                        if (!menu.toInventory().getViewers().isEmpty()) {
-                            menu.toInventory().getViewers().forEach(p -> SlimefunPlugin.getLocalization().sendMessage(p, "messages.above-limit-level", true, (message -> message.replace("%level%", enchantLevelLimit.getValue().toString()))));}
+                    } else if (!menu.toInventory().getViewers().isEmpty()) {
+                        for (HumanEntity viewer : menu.toInventory().getViewers()) {
+                            SlimefunPlugin.getLocalization().sendMessage(viewer, "messages.above-limit-level", true,
+                                    (message -> message.replace("%level%", enchantLevelLimit.getValue().toString())
+                                            .replace("%item%", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name())
+                                    ));
+                        }
                     }
                 }
 
