@@ -75,7 +75,7 @@ public class MagicianTalisman extends Talisman {
 
         // @formatter:off
         List<TalismanEnchantment> enabled = enchantments.stream()
-                .filter(e -> item.getType() == Material.BOOK || e.getEnchantment().canEnchantItem(item))
+                .filter(e -> (isAllowEnchantBook().getValue() && item.getType() == Material.BOOK) || e.getEnchantment().canEnchantItem(item))
                 .filter(e -> hasConflicts(existingEnchantments, e))
                 .filter(TalismanEnchantment::getValue)
                 .collect(Collectors.toList());
