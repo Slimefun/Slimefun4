@@ -25,9 +25,9 @@ commands:
     not-rechargeable: Este ítem no puede ser cargado!
   timings:
     description: Timings para Slimefun y sus addon
+    please-wait: "&ePor favor, espere un segundo... ¡Los resultados están llegando!"
     verbose-player: "&4La flag verbose no puede ser usada por un jugador!"
     unknown-flag: "&4flag desconocida: &c%flag%"
-    please-wait: "&ePor favor, espere un segundo... ¡Los resultados están llegando!"
 guide:
   search:
     message: "&b¿Qué te gustaría buscar?"
@@ -189,9 +189,9 @@ messages:
   invalid-item: "&c¡&4%item% &cno es un objeto válido!"
   invalid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a 0!"
   invalid-research: "&c¡&4%research% &cno es un conocimiento válido!"
-  mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
   bee-suit-slow-fall: "&eTus alas de Abeja te ayudarán a llegar seguro y lento al
     piso"
+  mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
 machines:
   pattern-not-found: "&eLo siento, no puedo reconocer esta receta. Por favor coloca
     el objeto en el patrón correcto dentro del dispensador."
@@ -335,6 +335,7 @@ languages:
   zh-CN: Chino (China)
   el: Griego
   he: Hebreo
+  pt: Portugués (Portugal)
   ar: Árabe
   af: Africano
   da: Danés
@@ -346,7 +347,6 @@ languages:
   fa: Persa
   th: Tailandés
   ro: Rumano
-  pt: Portugués (Portugal)
   pt-BR: Portugués (Brasil)
   bg: Búlgaro
   ko: Coreano
