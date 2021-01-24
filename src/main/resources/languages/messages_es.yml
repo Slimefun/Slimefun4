@@ -134,6 +134,7 @@ messages:
     wizard: "&a&oTu talismán te ha dado un mayor nivel de fortuna, pero pudo disminuír
       el nivel de otros encantamientos."
     caveman: "&a&oTu Talismán te ha dado Haste"
+    wise: "&a&oTu Talismán ha duplicado tu drop de experiencia"
   soulbound-rune:
     fail: "&cSolo puedes ligar un objeto a tu alma."
     success: "&a¡Has ligado este objeto a tu alma exitosamente! No lo perderás al
