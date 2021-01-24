@@ -31,11 +31,15 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class MagicianTalisman extends Talisman {
 
+    private final ItemSetting<Boolean> allowEnchantBook = new ItemSetting<>("allow-enchant-book", false);
+
     private final Set<TalismanEnchantment> enchantments = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public MagicianTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, false, false, "magician", 80);
+
+        addItemSetting(allowEnchantBook);
 
         for (Enchantment enchantment : Enchantment.values()) {
             try {
@@ -91,4 +95,14 @@ public class MagicianTalisman extends Talisman {
         return true;
     }
 
+    /**
+     * This method checks when enchanting book
+     * can it be applied a extra {@link Enchantment} or not.
+     *
+     * @return Whether the book can be apply extra {@link Enchantment}
+     */
+    @Nonnull
+    public ItemSetting<Boolean> isAllowEnchantBook() {
+        return allowEnchantBook;
+    }
 }
