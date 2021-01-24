@@ -158,10 +158,7 @@ messages:
     whirlwind: '&a&oYour Talisman reflected the Projectile'
     wizard: '&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels'
     caveman: '&a&oYour Talisman gave you haste'
-    wise: '&a&oYour Talisman doubled your experience drops'
-    resurrected: '&a&oYour Talisman a-voided your death, but sacrificed itself in the process'
-    resurrected-location: 'Successfully saved your current location. You will teleport here when you fall into the void.'
-    resurrected-location-failed: 'Failed to set location here, you dont have enough permissions.'
+    wise: '&a&oYour Talisman has doubled your experience drops'
 
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'

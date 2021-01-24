@@ -30,6 +30,7 @@
 * Added a new language: Bulgarian
 * Added a new language: Hebrew
 * (API) Added AsyncProfileLoadEvent
+* Added Talisman of the Wise
 
 #### Changes
 * Massive performance improvements to holograms/armorstands

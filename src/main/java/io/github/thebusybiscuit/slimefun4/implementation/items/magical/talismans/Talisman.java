@@ -19,7 +19,6 @@ import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -152,68 +151,50 @@ public class Talisman extends SlimefunItem {
         return talisman.getMessageSuffix() != null;
     }
 
-    public static boolean tryActivate(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
-        return tryActivateAndGet(e, stack.getItem()) != null;
+    @ParametersAreNonnullByDefault
+    public static boolean checkFor(Event e, SlimefunItemStack stack) {
+        return checkFor(e, stack.getItem());
     }
 
-    public static boolean tryActivate(@Nonnull Event e, @Nonnull SlimefunItem item) {
-        return tryActivateAndGet(e, item) != null;
-    }
-
-    public static ItemStack tryActivateAndGet(@Nonnull Event e, @Nonnull SlimefunItemStack stack) {
-        return tryActivateAndGet(e, stack.getItem());
-    }
-
-    @Nullable
-    public static ItemStack tryActivateAndGet(@Nonnull Event e, @Nonnull SlimefunItem item) {
+    @ParametersAreNonnullByDefault
+    public static boolean checkFor(Event e, SlimefunItem item) {
         if (!(item instanceof Talisman)) {
-            return null;
+            return false;
         }
 
         Talisman talisman = (Talisman) item;
         if (ThreadLocalRandom.current().nextInt(100) > talisman.getChance()) {
-            return null;
+            return false;
         }
 
         Player p = getPlayerByEventType(e);
         if (p == null || !pass(p, talisman)) {
-            return null;
+            return false;
         }
 
-        ItemStack possibleTalisman = retrieveTalismanFromInventory(p.getInventory(), talisman.getItem());
+        ItemStack talismanItem = talisman.getItem();
 
-        if (possibleTalisman != null) {
+        if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
             if (Slimefun.hasUnlocked(p, talisman, true)) {
-                activateTalisman(e, p, p.getInventory(), talisman, possibleTalisman);
-                return possibleTalisman;
+                activateTalisman(e, p, p.getInventory(), talisman, talismanItem);
+                return true;
             } else {
-                return null;
+                return false;
             }
-        }
+        } else {
+            ItemStack enderTalisman = talisman.getEnderVariant();
 
-        possibleTalisman = retrieveTalismanFromInventory(p.getEnderChest(), talisman.getEnderVariant());
-
-        if (possibleTalisman != null) {
-            if (Slimefun.hasUnlocked(p, talisman, true)) {
-                activateTalisman(e, p, p.getEnderChest(), talisman, possibleTalisman);
-                return possibleTalisman;
+            if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
+                if (Slimefun.hasUnlocked(p, talisman, true)) {
+                    activateTalisman(e, p, p.getEnderChest(), talisman, enderTalisman);
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return null;
+                return false;
             }
         }
-
-        return null;
-    }
-
-    @Nullable
-    private static ItemStack retrieveTalismanFromInventory(@Nonnull Inventory inv, @Nonnull ItemStack talismanItem) {
-        for (ItemStack item : inv) {
-            if (SlimefunUtils.isItemSimilar(item, talismanItem, false, false)) {
-                return item;
-            }
-        }
-
-        return null;
     }
 
     @ParametersAreNonnullByDefault
@@ -248,15 +229,20 @@ public class Talisman extends SlimefunItem {
     @ParametersAreNonnullByDefault
     private static void consumeItem(Inventory inv, Talisman talisman, ItemStack talismanItem) {
         if (talisman.isConsumable()) {
-            ItemUtils.consumeItem(talismanItem, false);
+            ItemStack[] contents = inv.getContents();
+            for (int i = 0; i < contents.length; i++) {
+                ItemStack item = contents[i];
+
+                if (SlimefunUtils.isItemSimilar(item, talismanItem, true, false)) {
+                    ItemUtils.consumeItem(item, false);
+                    return;
+                }
+            }
         }
     }
 
-    @Nullable
-    private static Player getPlayerByEventType(@Nonnull Event e) {
-        if (e instanceof PlayerDeathEvent) {
-            return ((PlayerDeathEvent) e).getEntity();
-        } else if (e instanceof EntityDeathEvent) {
+    private static Player getPlayerByEventType(Event e) {
+        if (e instanceof EntityDeathEvent) {
             return ((EntityDeathEvent) e).getEntity().getKiller();
         } else if (e instanceof BlockBreakEvent) {
             return ((BlockBreakEvent) e).getPlayer();
@@ -273,7 +259,7 @@ public class Talisman extends SlimefunItem {
         return null;
     }
 
-    private static boolean pass(@Nonnull Player p, @Nonnull SlimefunItem talisman) {
+    private static boolean pass(Player p, SlimefunItem talisman) {
         for (PotionEffect effect : ((Talisman) talisman).getEffects()) {
             if (effect != null && p.hasPotionEffect(effect.getType())) {
                 return false;
@@ -282,4 +268,5 @@ public class Talisman extends SlimefunItem {
 
         return true;
     }
+
 }

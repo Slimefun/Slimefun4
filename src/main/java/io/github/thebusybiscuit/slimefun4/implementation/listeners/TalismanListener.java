@@ -1,10 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,15 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.ResurrectedTalisman;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.ArmorStand;
@@ -40,7 +31,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
@@ -71,24 +61,24 @@ public class TalismanListener implements Listener {
     public void onDamageGet(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             if (e.getCause() == DamageCause.LAVA) {
-                Talisman.tryActivate(e, SlimefunItems.TALISMAN_LAVA);
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_LAVA);
             }
 
             if (e.getCause() == DamageCause.DROWNING) {
-                Talisman.tryActivate(e, SlimefunItems.TALISMAN_WATER);
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_WATER);
             }
 
             if (e.getCause() == DamageCause.FALL) {
-                Talisman.tryActivate(e, SlimefunItems.TALISMAN_ANGEL);
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_ANGEL);
             }
 
             if (e.getCause() == DamageCause.FIRE) {
-                Talisman.tryActivate(e, SlimefunItems.TALISMAN_FIRE);
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_FIRE);
             }
 
             if (e.getCause() == DamageCause.ENTITY_ATTACK) {
-                Talisman.tryActivate(e, SlimefunItems.TALISMAN_KNIGHT);
-                Talisman.tryActivate(e, SlimefunItems.TALISMAN_WARRIOR);
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_KNIGHT);
+                Talisman.checkFor(e, SlimefunItems.TALISMAN_WARRIOR);
             }
 
             if (e.getCause() == DamageCause.PROJECTILE && e instanceof EntityDamageByEntityEvent) {
@@ -101,7 +91,7 @@ public class TalismanListener implements Listener {
         if (e.getDamager() instanceof Projectile && !(e.getDamager() instanceof Trident)) {
             Projectile projectile = (Projectile) e.getDamager();
 
-            if (Talisman.tryActivate(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
+            if (Talisman.checkFor(e, SlimefunItems.TALISMAN_WHIRLWIND)) {
                 Player p = (Player) e.getEntity();
                 returnProjectile(p, projectile);
             }
@@ -153,7 +143,7 @@ public class TalismanListener implements Listener {
 
         // We are also excluding entities which can pickup items, this is not perfect
         // but it at least prevents dupes by tossing items to zombies
-        if (!entity.getCanPickupItems() && Talisman.tryActivate(e, SlimefunItems.TALISMAN_HUNTER)) {
+        if (!entity.getCanPickupItems() && Talisman.checkFor(e, SlimefunItems.TALISMAN_HUNTER)) {
             Collection<ItemStack> extraDrops = getExtraDrops(e.getEntity(), e.getDrops());
 
             for (ItemStack drop : extraDrops) {
@@ -188,7 +178,6 @@ public class TalismanListener implements Listener {
 
         // Prevents duplication of handheld items or armor
         EntityEquipment equipment = entity.getEquipment();
-
         if (equipment != null) {
             for (ItemStack item : equipment.getArmorContents()) {
                 items.remove(item);
@@ -203,7 +192,7 @@ public class TalismanListener implements Listener {
 
     @EventHandler
     public void onItemBreak(PlayerItemBreakEvent e) {
-        if (Talisman.tryActivate(e, SlimefunItems.TALISMAN_ANVIL)) {
+        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_ANVIL)) {
             PlayerInventory inv = e.getPlayer().getInventory();
             int slot = inv.getHeldItemSlot();
 
@@ -236,7 +225,7 @@ public class TalismanListener implements Listener {
     @EventHandler
     public void onSprint(PlayerToggleSprintEvent e) {
         if (e.isSprinting()) {
-            Talisman.tryActivate(e, SlimefunItems.TALISMAN_TRAVELLER);
+            Talisman.checkFor(e, SlimefunItems.TALISMAN_TRAVELLER);
         }
     }
 
@@ -246,7 +235,7 @@ public class TalismanListener implements Listener {
         Map<Enchantment, Integer> enchantments = e.getEnchantsToAdd();
 
         // Magician Talisman
-        if (Talisman.tryActivate(e, SlimefunItems.TALISMAN_MAGICIAN)) {
+        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
             MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
             TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
 
@@ -256,7 +245,8 @@ public class TalismanListener implements Listener {
         }
 
         // Wizard Talisman
-        if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.tryActivate(e, SlimefunItems.TALISMAN_WIZARD)) {
+        if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
+
             for (Enchantment enchantment : enchantments.keySet()) {
                 if (random.nextInt(100) < 40) {
                     e.getEnchantsToAdd().put(enchantment, random.nextInt(3) + 1);
@@ -266,19 +256,26 @@ public class TalismanListener implements Listener {
             enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
         }
     }
+    
+    @EventHandler(ignoreCancelled = true)
+    public void onExperienceReceive(PlayerExpChangeEvent e) {
+        if (e.getAmount() > 0 && Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
+            // Double-XP
+            e.setAmount(e.getAmount() * 2);
+        }
+    }
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockDropItems(BlockDropItemEvent e) {
         // We only want to double ores
         Material type = e.getBlockState().getType();
-
         if (type.name().endsWith("_ORE")) {
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
             if (item.getType() != Material.AIR && item.getAmount() > 0 && !item.containsEnchantment(Enchantment.SILK_TOUCH)) {
                 Collection<Item> drops = e.getItems();
 
-                if (Talisman.tryActivate(e, SlimefunItems.TALISMAN_MINER)) {
+                if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MINER)) {
                     int dropAmount = getAmountWithFortune(type, item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
                     boolean doubledDrops = false;
 
@@ -303,45 +300,8 @@ public class TalismanListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         if (SlimefunTag.CAVEMAN_TALISMAN_TRIGGERS.isTagged(e.getBlock().getType())) {
-            Talisman.tryActivate(e, SlimefunItems.TALISMAN_CAVEMAN);
+            Talisman.checkFor(e, SlimefunItems.TALISMAN_CAVEMAN);
         }
-    }
-
-    @EventHandler
-    public void onExperienceReceive(PlayerExpChangeEvent e) {
-        if (e.getAmount() > 0 && Talisman.tryActivate(e, SlimefunItems.TALISMAN_WISE)) {
-            e.setAmount(e.getAmount() * 2);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e) {
-        Player player = e.getEntity();
-        DamageCause dmgCause = player.getLastDamageCause().getCause();
-        ItemStack talisman = Talisman.tryActivateAndGet(e, SlimefunItems.TALISMAN_RESURRECTED);
-
-        if (dmgCause == DamageCause.VOID && talisman != null) {
-            // This event is cancelled by the Talisman, so they don't actually die, we just teleport them after 2 ticks.
-            SlimefunPlugin.runSync(() -> PaperLib.teleportAsync(player, getSafeRespawnLocation(talisman, player)), 2);
-        }
-    }
-
-    @Nonnull
-    private Location getSafeRespawnLocation(@Nonnull ItemStack item, @Nonnull Player player) {
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
-
-        if (sfItem instanceof ResurrectedTalisman) {
-            ResurrectedTalisman talisman = (ResurrectedTalisman) sfItem;
-
-            Location savedLoc = talisman.getSavedLocation(item);
-    
-            if (savedLoc != null) {
-                return savedLoc;
-            } 
-        }         
-
-        Location bedSpawn = player.getBedSpawnLocation();
-        return bedSpawn != null ? bedSpawn : player.getLocation().getWorld().getSpawnLocation();
     }
 
     private int getAmountWithFortune(@Nonnull Material type, int fortuneLevel) {
