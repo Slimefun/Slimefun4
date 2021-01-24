@@ -314,6 +314,7 @@ android:
       own: "&4¡No puedes calificar tu propio script!"
       already: "&4¡Ya has calificado este script!"
     editor: Editor de Guión
+    too-long: "&cEl script es demasiado largo para editar!"
 languages:
   default: Predeterminado
   en: Inglés
