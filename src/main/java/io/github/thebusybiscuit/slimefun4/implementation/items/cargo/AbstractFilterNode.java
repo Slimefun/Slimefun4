@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,7 +35,8 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
     private static final String FILTER_TYPE = "filter-type";
     private static final String FILTER_LORE = "filter-lore";
 
-    public AbstractFilterNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    @ParametersAreNonnullByDefault
+    public AbstractFilterNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
         registerBlockHandler(getId(), (p, b, stack, reason) -> {
@@ -47,6 +50,7 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
         });
     }
 
+    @Nonnull
     protected abstract int[] getBorder();
 
     @Override

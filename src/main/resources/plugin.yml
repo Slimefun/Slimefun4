@@ -13,7 +13,6 @@ api-version: '1.14'
 
 # (Soft) dependencies of Slimefun, we hook into these plugins.
 softdepend:
-- CS-CoreLib
 - PlaceholderAPI
 - WorldEdit
 - ClearLag
@@ -23,7 +22,6 @@ softdepend:
 # We hook into these plugins too, but they depend on Slimefun.
 loadBefore:
 - ChestTerminal
-- ExoticGarden
 
 # Our commands
 commands:

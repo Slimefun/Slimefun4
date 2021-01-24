@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -23,7 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see ElectricIngotFactory
  *
  */
-public class ElectricIngotPulverizer extends AContainer implements RecipeDisplayItem {
+public class ElectricIngotPulverizer extends AContainer implements RecipeDisplayItem, NotHopperable {
 
     public ElectricIngotPulverizer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);

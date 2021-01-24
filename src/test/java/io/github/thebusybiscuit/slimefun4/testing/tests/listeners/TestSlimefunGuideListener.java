@@ -51,7 +51,7 @@ class TestSlimefunGuideListener {
         PlayerJoinEvent event = new PlayerJoinEvent(player, "CanIHazGuide has joined and wants sum guide");
         listener.onJoin(event);
 
-        ItemStack guide = SlimefunGuide.getItem(SlimefunGuide.getDefaultLayout());
+        ItemStack guide = SlimefunGuide.getItem(SlimefunGuide.getDefaultMode());
         Assertions.assertEquals(!hasPlayedBefore && giveSlimefunGuide, hasSlimefunGuide(player, guide));
     }
 

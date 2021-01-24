@@ -3,16 +3,16 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.apache.commons.lang.Validate;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This {@link Event} is called whenever a {@link Player} clicks to unlock a {@link Research}.
@@ -21,8 +21,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefu
  *
  * @author uiytt
  *
- * @see ChestSlimefunGuide
- * @see BookSlimefunGuide
+ * @see SurvivalSlimefunGuide
  *
  */
 public class PlayerPreResearchEvent extends Event implements Cancellable {

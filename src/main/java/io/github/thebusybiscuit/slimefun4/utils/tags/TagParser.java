@@ -42,6 +42,10 @@ import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
  */
 public class TagParser implements Keyed {
 
+    /**
+     * Every {@link Tag} has a {@link NamespacedKey}.
+     * This is the {@link NamespacedKey} for the resulting {@link Tag}.
+     */
     private final NamespacedKey key;
 
     /**

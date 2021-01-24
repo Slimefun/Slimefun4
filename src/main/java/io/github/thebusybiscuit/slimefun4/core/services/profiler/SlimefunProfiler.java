@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
@@ -19,7 +18,6 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -27,7 +25,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link SlimefunProfiler} works closely to the {@link TickerTask} and is
@@ -63,13 +60,28 @@ public class SlimefunProfiler {
      */
     private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
 
-    private final AtomicBoolean isProfiling = new AtomicBoolean(false);
+    /**
+     * All possible values of {@link PerformanceRating}.
+     * We cache these for fast access since Enum#values() creates
+     * an array everytime it is called.
+     */
+    private final PerformanceRating[] performanceRatings = PerformanceRating.values();
+
+    /**
+     * This boolean marks whether we are currently profiling or not.
+     */
+    private volatile boolean isProfiling = false;
+
+    /**
+     * This {@link AtomicInteger} holds the amount of blocks that still need to be
+     * profiled.
+     */
     private final AtomicInteger queued = new AtomicInteger(0);
 
     private long totalElapsedTime;
 
     private final Map<ProfiledBlock, Long> timings = new ConcurrentHashMap<>();
-    private final Queue<CommandSender> requests = new ConcurrentLinkedQueue<>();
+    private final Queue<PerformanceInspector> requests = new ConcurrentLinkedQueue<>();
 
     /**
      * This method terminates the {@link SlimefunProfiler}.
@@ -84,7 +96,7 @@ public class SlimefunProfiler {
      * This method starts the profiling, data from previous runs will be cleared.
      */
     public void start() {
-        isProfiling.set(true);
+        isProfiling = true;
         queued.set(0);
         timings.clear();
     }
@@ -95,7 +107,7 @@ public class SlimefunProfiler {
      * @return A timestamp, best fed back into {@link #closeEntry(Location, SlimefunItem, long)}
      */
     public long newEntry() {
-        if (!isProfiling.get()) {
+        if (!isProfiling) {
             return 0;
         }
 
@@ -114,7 +126,7 @@ public class SlimefunProfiler {
      *            The amount of entries that should be scheduled. Can be negative
      */
     public void scheduleEntries(int amount) {
-        if (isProfiling.get()) {
+        if (isProfiling) {
             queued.getAndAdd(amount);
         }
     }
@@ -157,7 +169,7 @@ public class SlimefunProfiler {
      * This stops the profiling.
      */
     public void stop() {
-        isProfiling.set(false);
+        isProfiling = false;
 
         if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             // Slimefun has been disabled
@@ -172,7 +184,7 @@ public class SlimefunProfiler {
         int iterations = 4000;
 
         // Wait for all timing results to come in
-        while (!isProfiling.get() && queued.get() > 0) {
+        while (!isProfiling && queued.get() > 0) {
             try {
                 /**
                  * Since we got more than one Thread in our pool,
@@ -183,7 +195,7 @@ public class SlimefunProfiler {
 
                 // If we waited for too long, then we should just abort
                 if (iterations <= 0) {
-                    Iterator<CommandSender> iterator = requests.iterator();
+                    Iterator<PerformanceInspector> iterator = requests.iterator();
 
                     while (iterator.hasNext()) {
                         iterator.next().sendMessage("Your timings report has timed out, we were still waiting for " + queued.get() + " samples to be collected :/");
@@ -193,12 +205,12 @@ public class SlimefunProfiler {
                     return;
                 }
             } catch (InterruptedException e) {
-                Slimefun.getLogger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
+                SlimefunPlugin.logger().log(Level.SEVERE, "A Profiler Thread was interrupted", e);
                 Thread.currentThread().interrupt();
             }
         }
 
-        if (isProfiling.get() && queued.get() > 0) {
+        if (isProfiling && queued.get() > 0) {
             // Looks like the next profiling has already started, abort!
             return;
         }
@@ -207,7 +219,7 @@ public class SlimefunProfiler {
 
         if (!requests.isEmpty()) {
             PerformanceSummary summary = new PerformanceSummary(this, totalElapsedTime, timings.size());
-            Iterator<CommandSender> iterator = requests.iterator();
+            Iterator<PerformanceInspector> iterator = requests.iterator();
 
             while (iterator.hasNext()) {
                 summary.send(iterator.next());
@@ -217,16 +229,16 @@ public class SlimefunProfiler {
     }
 
     /**
-     * This method requests a summary for the given {@link CommandSender}.
+     * This method requests a summary for the given {@link PerformanceInspector}.
      * The summary will be sent upon the next available moment in time.
      * 
-     * @param sender
-     *            The {@link CommandSender} who shall receive this summary.
+     * @param inspector
+     *            The {@link PerformanceInspector} who shall receive this summary.
      */
-    public void requestSummary(@Nonnull CommandSender sender) {
-        Validate.notNull(sender, "Cannot request a summary for null");
+    public void requestSummary(@Nonnull PerformanceInspector inspector) {
+        Validate.notNull(inspector, "Cannot request a summary for null");
 
-        requests.add(sender);
+        requests.add(inspector);
     }
 
     @Nonnull
@@ -326,7 +338,7 @@ public class SlimefunProfiler {
     public PerformanceRating getPerformance() {
         float percentage = getPercentageOfTick();
 
-        for (PerformanceRating rating : PerformanceRating.valuesCache) {
+        for (PerformanceRating rating : performanceRatings) {
             if (rating.test(percentage)) {
                 return rating;
             }

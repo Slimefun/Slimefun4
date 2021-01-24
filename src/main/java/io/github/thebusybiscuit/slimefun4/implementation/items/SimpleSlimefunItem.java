@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +37,7 @@ public abstract class SimpleSlimefunItem<T extends ItemHandler> extends Slimefun
     }
 
     @ParametersAreNonnullByDefault
-    public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public SimpleSlimefunItem(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 

@@ -33,7 +33,7 @@ enum SupportedLanguage {
     NORWEGIAN("no", false, "e0596e165ec3f389b59cfdda93dd6e363e97d9c6456e7c2e123973fa6c5fda"),
     CZECH("cs", true, "48152b7334d7ecf335e47a4f35defbd2eb6957fc7bfe94212642d62f46e61e"),
     ROMANIAN("ro", false, "dceb1708d5404ef326103e7b60559c9178f3dce729007ac9a0b498bdebe46107"),
-    BULGARIAN("bg", false, "19039e1fd88c78d9d7adc5aad5ab16e356be13464934ed9e2b0cef2051c5b534"),
+    BULGARIAN("bg", true, "19039e1fd88c78d9d7adc5aad5ab16e356be13464934ed9e2b0cef2051c5b534"),
     PORTUGUESE_PORTUGAL("pt", false, "ebd51f4693af174e6fe1979233d23a40bb987398e3891665fafd2ba567b5a53a"),
     PORTUGUESE_BRAZIL("pt-BR", true, "9a46475d5dcc815f6c5f2859edbb10611f3e861c0eb14f088161b3c0ccb2b0d9"),
     HUNGARIAN("hu", true, "4a9c3c4b6c5031332dd2bfece5e31e999f8deff55474065cc86993d7bdcdbd0"),
@@ -47,11 +47,11 @@ enum SupportedLanguage {
     CHINESE_TAIWAN("zh-TW", true, "702a4afb2e1e2e3a1894a8b74272f95cfa994ce53907f9ac140bd3c932f9f"),
     JAPANESE("ja", true, "d640ae466162a47d3ee33c4076df1cab96f11860f07edb1f0832c525a9e33323"),
     KOREAN("ko", true, "fc1be5f12f45e413eda56f3de94e08d90ede8e339c7b1e8f32797390e9a5f"),
-    HEBREW("he", false, "1ba086a2cc7272cf5ba49c80248546c22e5ef1bab54120e8a8e5d9e75b6a"),
+    HEBREW("he", true, "1ba086a2cc7272cf5ba49c80248546c22e5ef1bab54120e8a8e5d9e75b6a"),
     ARABIC("ar", true, "a4be759a9cf7f0a19a7e8e62f23789ad1d21cebae38af9d9541676a3db001572"),
     TURKISH("tr", true, "9852b9aba3482348514c1034d0affe73545c9de679ae4647f99562b5e5f47d09"),
     PERSIAN("fa", false, "5cd9badf1972583b663b44b1e027255de8f275aa1e89defcf77782ba6fcc652"),
-    SERBIA("sr", false, "5b0483a4f0ddf4fbbc977b127b3d294d7a869f995366e3f50f6b05a70f522510"),
+    SERBIAN("sr", false, "5b0483a4f0ddf4fbbc977b127b3d294d7a869f995366e3f50f6b05a70f522510"),
     AFRIKAANS("af", false, "961a1eacc10524d1f45f23b0e487bb2fc33948d9676b418b19a3da0b109d0e3c"),
     MALAY("ms", false, "754b9041dea6db6db44750f1385a743adf653767b4b8802cad4c585dd3f5be46"),
     THAI("th", true, "2a7916e4a852f7e6f3f3de19c7fb57686a37bce834bd54684a7dbef8d53fb"),
@@ -89,6 +89,14 @@ enum SupportedLanguage {
         return releaseReady;
     }
 
+    /**
+     * This returns the texture hash for this language.
+     * This will be the flag of the corresponding country.
+     * (Not accurate I know, but better than having all languages
+     * look the same by using the same items)
+     * 
+     * @return The texture hash of this language
+     */
     @Nonnull
     public String getTexture() {
         return textureHash;

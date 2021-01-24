@@ -114,8 +114,6 @@ public enum HeadTexture {
     PIGLIN_HEAD("2882af1294a74023e6919a31d1a027310f2e142afb4667d230d155e7f21dbb41"),
     NECROTIC_SKULL("7953b6c68448e7e6b6bf8fb273d7203acd8e1be19e81481ead51f45de59a8");
 
-    public static final HeadTexture[] valuesCache = values();
-
     private final String texture;
     private final UUID uuid;
 

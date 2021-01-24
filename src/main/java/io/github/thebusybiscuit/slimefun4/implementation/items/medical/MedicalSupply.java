@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
@@ -23,6 +24,7 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
     private final Set<PotionEffectType> curedEffects = new HashSet<>();
     private final int healAmount;
 
+    @ParametersAreNonnullByDefault
     public MedicalSupply(Category category, int healAmount, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -43,6 +45,7 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
      * 
      * @return An immutable {@link Set} of cured {@link PotionEffect PotionEffects}
      */
+    @Nonnull
     public Set<PotionEffectType> getCuredEffects() {
         return Collections.unmodifiableSet(curedEffects);
     }

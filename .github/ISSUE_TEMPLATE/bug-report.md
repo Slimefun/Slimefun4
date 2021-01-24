@@ -2,7 +2,7 @@
 name: Bug Report
 about: Report a Bug or an Issue with Slimefun 4.
 title: ''
-labels: '🐞 Bug Report'
+labels: "\U0001F3AF Needs testing, \U0001F41E Bug Report"
 assignees: ''
 
 ---
@@ -42,7 +42,7 @@ assignees: ''
 
 
 ## :compass: Environment (REQUIRED)
-<!-- Any info without the exact version numbers will be closed! -->
+<!-- Any issue without the exact version numbers will be closed! -->
 <!-- "latest" IS NOT A VERSION NUMBER. -->
 <!-- We recommend running "/sf versions" and showing us a screenshot of that. -->
 <!-- Make sure that the screenshot covers the entire output of that command. -->
@@ -51,4 +51,3 @@ assignees: ''
  - Server Software: 
  - Minecraft Version: 
  - Slimefun Version: 
- - CS-CoreLib Version: 

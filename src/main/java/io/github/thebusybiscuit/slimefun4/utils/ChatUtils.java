@@ -32,10 +32,12 @@ public final class ChatUtils {
         sender.sendMessage("");
     }
 
+    @Nonnull
     public static String removeColorCodes(@Nonnull String string) {
         return ChatColor.stripColor(ChatColors.color(string));
     }
 
+    @Nonnull
     public static String crop(@Nonnull ChatColor color, @Nonnull String string) {
         if (ChatColor.stripColor(color + string).length() > 19) {
             return (color + ChatColor.stripColor(string)).substring(0, 18) + "...";
@@ -44,6 +46,7 @@ public final class ChatUtils {
         }
     }
 
+    @Nonnull
     public static String christmas(@Nonnull String text) {
         return ChatColors.alternating(text, ChatColor.GREEN, ChatColor.RED);
     }

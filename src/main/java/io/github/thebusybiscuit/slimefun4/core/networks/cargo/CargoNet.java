@@ -17,10 +17,9 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
@@ -37,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * @author DNx5
  *
  */
-public class CargoNet extends AbstractItemNetwork {
+public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
     private static final int RANGE = 5;
     private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("networks.cargo-ticker-delay");
@@ -72,6 +71,11 @@ public class CargoNet extends AbstractItemNetwork {
      */
     protected CargoNet(@Nonnull Location l) {
         super(l);
+    }
+
+    @Override
+    public String getId() {
+        return "CARGO_NETWORK";
     }
 
     @Override
@@ -143,16 +147,16 @@ public class CargoNet extends AbstractItemNetwork {
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
+            updateHologram(b, "&4Multiple Cargo Regulators connected");
             return;
         }
 
         super.tick();
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-            SimpleHologram.update(b, "&cNo Cargo Nodes found");
+            updateHologram(b, "&cNo Cargo Nodes found");
         } else {
-            SimpleHologram.update(b, "&7Status: &a&lONLINE");
+            updateHologram(b, "&7Status: &a&lONLINE");
 
             // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
             // but it's based on 'custom-ticker-delay' config.
@@ -250,7 +254,7 @@ public class CargoNet extends AbstractItemNetwork {
             String str = BlockStorage.getLocationInfo(node).getString("frequency");
             return str == null ? 0 : Integer.parseInt(str);
         } catch (Exception x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
             return 0;
         }
     }

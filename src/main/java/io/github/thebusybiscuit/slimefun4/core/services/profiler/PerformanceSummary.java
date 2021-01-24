@@ -11,10 +11,8 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import net.md_5.bungee.api.ChatColor;
@@ -54,7 +52,7 @@ class PerformanceSummary {
         items = profiler.getByItem();
     }
 
-    public void send(@Nonnull CommandSender sender) {
+    public void send(@Nonnull PerformanceInspector sender) {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "===== Slimefun Lag Profiler =====");
         sender.sendMessage(ChatColor.GOLD + "Total time: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
@@ -91,17 +89,17 @@ class PerformanceSummary {
     }
 
     @ParametersAreNonnullByDefault
-    private void summarizeTimings(int count, String name, CommandSender sender, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
+    private void summarizeTimings(int count, String name, PerformanceInspector inspector, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
         Stream<Map.Entry<String, Long>> stream = map.entrySet().stream();
         List<Entry<String, Long>> results = stream.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toList());
         String prefix = count + " " + name + (count != 1 ? 's' : "");
 
-        if (sender instanceof Player) {
+        if (inspector instanceof PlayerPerformanceInspector) {
             TextComponent component = summarizeAsTextComponent(count, prefix, results, formatter);
-            sender.spigot().sendMessage(component);
+            ((PlayerPerformanceInspector) inspector).sendMessage(component);
         } else {
-            String text = summarizeAsString(count, prefix, results, formatter);
-            sender.sendMessage(text);
+            String text = summarizeAsString(inspector, count, prefix, results, formatter);
+            inspector.sendMessage(text);
         }
     }
 
@@ -143,7 +141,7 @@ class PerformanceSummary {
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private String summarizeAsString(int count, String prefix, List<Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
+    private String summarizeAsString(PerformanceInspector inspector, int count, String prefix, List<Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
         int shownEntries = 0;
         int hiddenEntries = 0;
 
@@ -154,7 +152,7 @@ class PerformanceSummary {
             builder.append(ChatColor.YELLOW);
 
             for (Map.Entry<String, Long> entry : results) {
-                if (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD)) {
+                if (inspector.isVerbose() || (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD))) {
                     builder.append("\n  ");
                     builder.append(ChatColor.stripColor(formatter.apply(entry)));
                     shownEntries++;
