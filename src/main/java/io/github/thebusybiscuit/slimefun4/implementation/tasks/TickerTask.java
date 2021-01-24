@@ -34,7 +34,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * The {@link TickerTask} is responsible for ticking every {@link BlockTicker}, synchronous
@@ -94,7 +93,6 @@ public class TickerTask implements Runnable {
 
     @Override 
     public final void run() {
-
         // This should only happen when the plugin gets disabled and the task is already running. Process all
         // sync tasks before returning, blocking the main thread until the task is complete.
         if (running) {
@@ -107,7 +105,7 @@ public class TickerTask implements Runnable {
 
         // Iterate over the ticker tasks. Process the asynchronous ones on the new thread, and queue the sync
         // tasks to the queue.
-        new Thread(() -> this.tick(), "Slimefun Async Ticker Thread").start();
+        new Thread(this::tick, "Slimefun Async Ticker Thread").start();
 
         // Process the synchronous ticker tasks on the main thread.
         processSyncTasks();
@@ -117,8 +115,10 @@ public class TickerTask implements Runnable {
         if (!Bukkit.isPrimaryThread()) {
             return;
         }
+
         // Let's not lag the main thread. Spikes suck. Steady time usage is much better.
         long endNs = System.nanoTime() + MAX_TICK_NS;
+
         try {
             while (endNs > System.nanoTime() || !SlimefunPlugin.instance().isEnabled()) {
 
@@ -150,11 +150,7 @@ public class TickerTask implements Runnable {
         }
 
         // We're not done with the synchronous tickers yet. Give the server a breather and let it progress one tick.
-        Bukkit.getScheduler().runTaskLater(
-                SlimefunPlugin.instance(),
-                () -> processSyncTasks(),
-                2L
-        );
+        Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance(), this::processSyncTasks, 2L);
     }
 
     private void finish() {
@@ -223,7 +219,7 @@ public class TickerTask implements Runnable {
             
             SlimefunPlugin.getProfiler().stop();
         } catch (Exception | LinkageError x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v" + SlimefunPlugin.getVersion());
         } finally {
             try {
                 // Notify the sync task processor that the end of the ticker list has been reached.
@@ -251,7 +247,7 @@ public class TickerTask implements Runnable {
                 }
             }
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException x) {
-            Slimefun.getLogger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to parse Chunk: " + chunk);
+            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception has occurred while trying to resolve Chunk: " + chunk);
         }
     }
 
@@ -305,17 +301,16 @@ public class TickerTask implements Runnable {
     @ParametersAreNonnullByDefault
     private void reportErrors(Location l, SlimefunItem item, Throwable x) {
         BlockPosition position = new BlockPosition(l);
-        int errors = bugs.computeIfAbsent(position, (key) -> new AtomicInteger()).incrementAndGet();
+        int errors = bugs.computeIfAbsent(position, pos -> new AtomicInteger()).incrementAndGet();
 
         if (errors == 1) {
             // Generate a new Error-Report
             new ErrorReport<>(x, l, item);
-            bugs.put(position, new AtomicInteger(1));
         } else if (errors >= 4) {
-            Slimefun.getLogger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getId() });
-            Slimefun.getLogger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
-            Slimefun.getLogger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
-            Slimefun.getLogger().log(Level.SEVERE, " ");
+            SlimefunPlugin.logger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getId() });
+            SlimefunPlugin.logger().log(Level.SEVERE, "has thrown 4 error messages in the last 4 Ticks, the Block has been terminated.");
+            SlimefunPlugin.logger().log(Level.SEVERE, "Check your /plugins/Slimefun/error-reports/ folder for details.");
+            SlimefunPlugin.logger().log(Level.SEVERE, " ");
             bugs.remove(position);
 
             BlockStorage.deleteLocationInfoUnsafely(l, true);
@@ -344,7 +339,9 @@ public class TickerTask implements Runnable {
      * 
      * @return Whether this {@link Location} has been reserved and will be filled upon the next tick
      */
-    public boolean isReserved(@Nonnull Location l) {
+    public boolean isOccupiedSoon(@Nonnull Location l) {
+        Validate.notNull(l, "Null is not a valid Location!");
+
         return movingQueue.containsValue(l);
     }
 
@@ -368,6 +365,20 @@ public class TickerTask implements Runnable {
         } finally {
             queueLock.readLock().unlock();
         }
+    }
+
+    /**
+     * This method checks if a given {@link Location} will be deleted on the next tick.
+     * 
+     * @param l
+     *            The {@link Location} to check
+     * 
+     * @return Whether this {@link Location} will be deleted on the next tick
+     */
+    public boolean isDeletedSoon(@Nonnull Location l) {
+        Validate.notNull(l, "Null is not a valid Location!");
+
+        return deletionQueue.containsKey(l);
     }
 
     /**

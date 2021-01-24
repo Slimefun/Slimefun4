@@ -11,12 +11,11 @@ class TestMinecraftVersion {
     @Test
     @DisplayName("Test if Minecraft versions match themselves")
     void testMatches() {
-        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_14.matches("v1_14_R2"));
-        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_15.matches("v1_15_R1"));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_14.isMinecraftVersion(14));
+        Assertions.assertTrue(MinecraftVersion.MINECRAFT_1_15.isMinecraftVersion(15));
 
-        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_15.matches("v1_14_R2"));
-        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_14.matches("1.14.x"));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> MinecraftVersion.MINECRAFT_1_14.matches(null));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_15.isMinecraftVersion(14));
+        Assertions.assertFalse(MinecraftVersion.MINECRAFT_1_14.isMinecraftVersion(0));
     }
 
     @Test

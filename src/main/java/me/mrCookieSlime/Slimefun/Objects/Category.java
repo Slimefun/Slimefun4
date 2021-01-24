@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.categories.LockedCategory;
 import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
@@ -36,6 +38,8 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  * 
  */
 public class Category implements Keyed {
+
+    private SlimefunAddon addon;
 
     protected final List<SlimefunItem> items = new ArrayList<>();
     protected final NamespacedKey key;
@@ -94,10 +98,27 @@ public class Category implements Keyed {
      * Registers this category.
      * <p>
      * By default, a category is automatically registered when a {@link SlimefunItem} was added to it.
+     * 
+     * @param addon
+     *            The {@link SlimefunAddon} that wants to register this {@link Category}
      */
-    public void register() {
+    public void register(@Nonnull SlimefunAddon addon) {
+        Validate.notNull(addon, "The Addon cannot be null");
+        this.addon = addon;
+
         SlimefunPlugin.getRegistry().getCategories().add(this);
         Collections.sort(SlimefunPlugin.getRegistry().getCategories(), Comparator.comparingInt(Category::getTier));
+    }
+
+    /**
+     * This returns the {@link SlimefunAddon} which has registered this {@link Category}.
+     * Or null if it has not been registered yet.
+     * 
+     * @return The {@link SlimefunAddon} or null if unregistered
+     */
+    @Nullable
+    public final SlimefunAddon getAddon() {
+        return addon;
     }
 
     /**
@@ -247,7 +268,7 @@ public class Category implements Keyed {
 
     /**
      * This method returns whether this {@link Category} has been registered yet.
-     * More specifically: Whether {@link #register()} was called or not.
+     * More specifically: Whether {@link #register(SlimefunAddon)} was called or not.
      * 
      * @return Whether this {@link Category} has been registered
      */

@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,23 +15,26 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Piglin;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideLayout;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.BookSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.CheatSheetSlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.ChestSlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -58,7 +62,7 @@ public final class SlimefunRegistry {
 
     private final List<Research> researches = new LinkedList<>();
     private final List<String> researchRanks = new ArrayList<>();
-    private final Set<UUID> researchingPlayers = new HashSet<>();
+    private final Set<UUID> researchingPlayers = Collections.synchronizedSet(new HashSet<>());
 
     private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
@@ -71,12 +75,16 @@ public final class SlimefunRegistry {
     private final Set<SlimefunItem> radioactive = new HashSet<>();
     private final Set<ItemStack> barterDrops = new HashSet<>();
 
+    private NamespacedKey soulboundKey;
+    private NamespacedKey itemChargeKey;
+    private NamespacedKey guideKey;
+
     private final KeyMap<GEOResource> geoResources = new KeyMap<>();
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
     private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
     private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
-    private final Map<SlimefunGuideLayout, SlimefunGuideImplementation> layouts = new EnumMap<>(SlimefunGuideLayout.class);
+    private final Map<SlimefunGuideMode, SlimefunGuideImplementation> guides = new EnumMap<>(SlimefunGuideMode.class);
     private final Map<EntityType, Set<ItemStack>> mobDrops = new EnumMap<>(EntityType.class);
 
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
@@ -84,14 +92,17 @@ public final class SlimefunRegistry {
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
     private final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 
-    public void load(@Nonnull Config cfg) {
+    public void load(@Nonnull SlimefunPlugin plugin, @Nonnull Config cfg) {
+        Validate.notNull(plugin, "The Plugin cannot be null!");
         Validate.notNull(cfg, "The Config cannot be null!");
 
-        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
+        soulboundKey = new NamespacedKey(plugin, "soulbound");
+        itemChargeKey = new NamespacedKey(plugin, "item_charge");
+        guideKey = new NamespacedKey(plugin, "slimefun_guide_mode");
 
-        layouts.put(SlimefunGuideLayout.CHEST, new ChestSlimefunGuide(showVanillaRecipes));
-        layouts.put(SlimefunGuideLayout.CHEAT_SHEET, new CheatSheetSlimefunGuide());
-        layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
+        boolean showVanillaRecipes = cfg.getBoolean("guide.show-vanilla-recipes");
+        guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide(showVanillaRecipes));
+        guides.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
         researchRanks.addAll(cfg.getStringList("research-ranks"));
 
@@ -124,14 +135,37 @@ public final class SlimefunRegistry {
         return backwardsCompatibility;
     }
 
+    /**
+     * This method sets the status of backwards compatibility.
+     * Backwards compatibility allows Slimefun to recognize items from older versions but comes
+     * at a huge performance cost.
+     * 
+     * @param compatible
+     *            Whether backwards compatibility should be enabled
+     */
     public void setBackwardsCompatible(boolean compatible) {
         backwardsCompatibility = compatible;
     }
 
+    /**
+     * This method will make any {@link SlimefunItem} which is registered automatically
+     * call {@link SlimefunItem#load()}.
+     * Normally this method call is delayed but when the {@link Server} is already running,
+     * the method can be called instantaneously.
+     * 
+     * @param mode
+     *            Whether auto-loading should be enabled
+     */
     public void setAutoLoadingMode(boolean mode) {
         automaticallyLoadItems = mode;
     }
 
+    /**
+     * This returns a {@link List} containing every enabled {@link Category}.
+     * 
+     * @return {@link List} containing every enabled {@link Category}
+     */
+    @Nonnull
     public List<Category> getCategories() {
         return categories;
     }
@@ -141,6 +175,7 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link List} containing every {@link SlimefunItem}
      */
+    @Nonnull
     public List<SlimefunItem> getAllSlimefunItems() {
         return slimefunItems;
     }
@@ -150,18 +185,34 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link List} containing every enabled {@link SlimefunItem}
      */
+    @Nonnull
     public List<SlimefunItem> getEnabledSlimefunItems() {
         return enabledItems;
     }
 
+    /**
+     * This returns a {@link List} containing every enabled {@link Research}.
+     * 
+     * @return A {@link List} containing every enabled {@link Research}
+     */
+    @Nonnull
     public List<Research> getResearches() {
         return researches;
     }
 
+    /**
+     * This method returns a {@link Set} containing the {@link UUID} of every
+     * {@link Player} who is currently unlocking a {@link Research}.
+     * 
+     * @return A {@link Set} holding the {@link UUID} from every {@link Player}
+     *         who is currently unlocking a {@link Research}
+     */
+    @Nonnull
     public Set<UUID> getCurrentlyResearchingPlayers() {
         return researchingPlayers;
     }
 
+    @Nonnull
     public List<String> getResearchRanks() {
         return researchRanks;
     }
@@ -186,12 +237,40 @@ public final class SlimefunRegistry {
         return researchFireworks;
     }
 
+    /**
+     * This method returns a {@link List} of every enabled {@link MultiBlock}.
+     * 
+     * @return A {@link List} containing every enabled {@link MultiBlock}
+     */
+    @Nonnull
     public List<MultiBlock> getMultiBlocks() {
         return multiblocks;
     }
 
-    public SlimefunGuideImplementation getGuideLayout(SlimefunGuideLayout layout) {
-        return layouts.get(layout);
+    /**
+     * This returns the corresponding {@link SlimefunGuideImplementation} for a certain
+     * {@link SlimefunGuideMode}.
+     * <p>
+     * This mainly only exists for internal purposes, if you want to open a certain section
+     * using the {@link SlimefunGuide}, then please use the static methods provided in the
+     * {@link SlimefunGuide} class.
+     * 
+     * @param mode
+     *            The {@link SlimefunGuideMode}
+     * 
+     * @return The corresponding {@link SlimefunGuideImplementation}
+     */
+    @Nonnull
+    public SlimefunGuideImplementation getSlimefunGuide(@Nonnull SlimefunGuideMode mode) {
+        Validate.notNull(mode, "The Guide mode cannot be null");
+
+        SlimefunGuideImplementation guide = guides.get(mode);
+
+        if (guide == null) {
+            throw new IllegalStateException("Slimefun Guide '" + mode + "' has no registered implementation.");
+        }
+
+        return guide;
     }
 
     /**
@@ -200,6 +279,7 @@ public final class SlimefunRegistry {
      * 
      * @return The {@link Map} of custom mob drops
      */
+    @Nonnull
     public Map<EntityType, Set<ItemStack>> getMobDrops() {
         return mobDrops;
     }
@@ -210,56 +290,83 @@ public final class SlimefunRegistry {
      * 
      * @return A {@link Set} of bartering drops
      */
+    @Nonnull
     public Set<ItemStack> getBarteringDrops() {
         return barterDrops;
     }
 
+    @Nonnull
     public Set<SlimefunItem> getRadioactiveItems() {
         return radioactive;
     }
 
+    @Nonnull
     public Set<String> getTickerBlocks() {
         return tickers;
     }
 
+    @Nonnull
     public Map<String, SlimefunItem> getSlimefunItemIds() {
         return slimefunIds;
     }
 
+    @Nonnull
     public Map<String, BlockMenuPreset> getMenuPresets() {
         return blockMenuPresets;
     }
 
+    @Nonnull
     public Map<String, UniversalBlockMenu> getUniversalInventories() {
         return universalInventories;
     }
 
+    @Nonnull
     public Map<UUID, PlayerProfile> getPlayerProfiles() {
         return profiles;
     }
 
+    @Nonnull
     public Map<Class<? extends ItemHandler>, Set<ItemHandler>> getPublicItemHandlers() {
         return globalItemHandlers;
     }
 
+    @Nonnull
     public Map<String, SlimefunBlockHandler> getBlockHandlers() {
         return blockHandlers;
     }
 
+    @Nonnull
     public Map<String, BlockStorage> getWorlds() {
         return worlds;
     }
 
+    @Nonnull
     public Map<String, BlockInfoConfig> getChunks() {
         return chunks;
     }
 
+    @Nonnull
     public KeyMap<GEOResource> getGEOResources() {
         return geoResources;
     }
 
     public boolean logDuplicateBlockEntries() {
         return logDuplicateBlockEntries;
+    }
+
+    @Nonnull
+    public NamespacedKey getSoulboundDataKey() {
+        return soulboundKey;
+    }
+
+    @Nonnull
+    public NamespacedKey getItemChargeDataKey() {
+        return itemChargeKey;
+    }
+
+    @Nonnull
+    public NamespacedKey getGuideDataKey() {
+        return guideKey;
     }
 
 }

@@ -31,6 +31,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.EntityEquipment;
@@ -253,6 +254,14 @@ public class TalismanListener implements Listener {
             }
 
             enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+        }
+    }
+    
+    @EventHandler(ignoreCancelled = true)
+    public void onExperienceReceive(PlayerExpChangeEvent e) {
+        if (e.getAmount() > 0 && Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
+            // Double-XP
+            e.setAmount(e.getAmount() * 2);
         }
     }
 

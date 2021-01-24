@@ -118,6 +118,11 @@ slimefun:
     lore:
     - このアイテムの作成に使用する
     - '機械: Refinery'
+  barter_drop:
+    name: ピグリンとの物々交換
+    lore:
+    - このアイテムは金インゴットを
+    - ピグリンとの物々交換で入手
 minecraft:
   shaped:
     name: 定形レシピ

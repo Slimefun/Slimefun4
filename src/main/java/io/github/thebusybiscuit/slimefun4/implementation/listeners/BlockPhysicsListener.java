@@ -94,7 +94,7 @@ public class BlockPhysicsListener implements Listener {
                 Location loc = block.getLocation();
 
                 // Fixes #2496 - Make sure it is not a moving block
-                if (SlimefunPlugin.getTickerTask().isReserved(loc)) {
+                if (SlimefunPlugin.getTickerTask().isOccupiedSoon(loc)) {
                     e.setCancelled(true);
                 }
             }

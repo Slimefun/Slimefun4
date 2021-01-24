@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.MobDropListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.entity.MobDropListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -21,7 +21,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see PiglinBarterDrop
  * 
  */
-@FunctionalInterface
 public interface RandomMobDrop extends ItemAttribute {
 
     /**

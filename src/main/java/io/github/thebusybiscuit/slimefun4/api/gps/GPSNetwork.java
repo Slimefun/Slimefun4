@@ -23,7 +23,6 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.events.WaypointCreateEvent;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
@@ -34,6 +33,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitte
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -56,7 +56,11 @@ public class GPSNetwork {
 
     private final Map<UUID, Set<Location>> transmitters = new HashMap<>();
     private final TeleportationManager teleportation = new TeleportationManager();
-    private final ResourceManager resourceManager = new ResourceManager(SlimefunPlugin.instance());
+    private final ResourceManager resourceManager;
+
+    public GPSNetwork(@Nonnull SlimefunPlugin plugin) {
+        resourceManager = new ResourceManager(plugin);
+    }
 
     /**
      * This method updates the status of a {@link GPSTransmitter}.
@@ -89,12 +93,14 @@ public class GPSNetwork {
      * @return The network complexity for that {@link UUID}
      */
     public int getNetworkComplexity(@Nonnull UUID uuid) {
-        if (!transmitters.containsKey(uuid)) {
+        Set<Location> locations = transmitters.get(uuid);
+
+        if (locations == null) {
             return 0;
         }
 
         int level = 0;
-        for (Location l : transmitters.get(uuid)) {
+        for (Location l : locations) {
             SlimefunItem item = BlockStorage.check(l);
 
             if (item instanceof GPSTransmitter) {
@@ -115,11 +121,8 @@ public class GPSNetwork {
      * @return The amount of transmitters
      */
     public int countTransmitters(@Nonnull UUID uuid) {
-        if (!transmitters.containsKey(uuid)) {
-            return 0;
-        } else {
-            return transmitters.get(uuid).size();
-        }
+        Set<Location> locations = transmitters.get(uuid);
+        return locations == null ? 0 : locations.size();
     }
 
     public void openTransmitterControlPanel(@Nonnull Player p) {
@@ -157,7 +160,7 @@ public class GPSNetwork {
             if (sfi instanceof GPSTransmitter) {
                 int slot = inventory[index];
 
-                menu.addItem(slot, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS Transmitter", "&8\u21E8 &7World: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &f" + ((GPSTransmitter) sfi).getMultiplier(l.getBlockY()), "&8\u21E8 &7Ping: &f" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
+                menu.addItem(slot, new CustomItem(SlimefunItems.GPS_TRANSMITTER, "&bGPS Transmitter", "&8\u21E8 &7World: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &f" + ((GPSTransmitter) sfi).getMultiplier(l.getBlockY()), "&8\u21E8 &7Ping: &f" + NumberUtils.roundDecimalNumber(1000D / l.getY()) + "ms"));
                 menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
 
                 index++;

@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
+import io.github.thebusybiscuit.cscorelib2.data.TriStateOptional;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -46,8 +46,8 @@ public class PlayerRightClickEvent extends PlayerEvent {
     private final EquipmentSlot hand;
     private final BlockFace face;
 
-    private ComputedOptional<SlimefunItem> slimefunItem = ComputedOptional.createNew();
-    private ComputedOptional<SlimefunItem> slimefunBlock = ComputedOptional.createNew();
+    private TriStateOptional<SlimefunItem> slimefunItem = TriStateOptional.createNew();
+    private TriStateOptional<SlimefunItem> slimefunBlock = TriStateOptional.createNew();
 
     private Result itemResult;
     private Result blockResult;
@@ -127,7 +127,7 @@ public class PlayerRightClickEvent extends PlayerEvent {
             if (itemStack.isPresent()) {
                 slimefunItem.compute(SlimefunItem.getByItem(itemStack.get()));
             } else {
-                slimefunItem = ComputedOptional.empty();
+                slimefunItem = TriStateOptional.empty();
             }
         }
 
@@ -140,7 +140,7 @@ public class PlayerRightClickEvent extends PlayerEvent {
             if (clickedBlock.isPresent()) {
                 slimefunBlock.compute(BlockStorage.check(clickedBlock.get()));
             } else {
-                slimefunBlock = ComputedOptional.empty();
+                slimefunBlock = TriStateOptional.empty();
             }
         }
 

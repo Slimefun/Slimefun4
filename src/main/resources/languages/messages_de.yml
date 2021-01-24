@@ -4,7 +4,6 @@ commands:
   cheat: Ermöglicht das Cheaten von Items
   give: Gibt jemandem ein bestimmtes Item
   guide: Gibt dir das Slimefun-Handbuch
-  timings: Zeigt einige Informationen über die Performance
   teleporter: Erlaubt es dir Wegpunkte anderer Spieler anzusehen
   versions: Eine Liste aller installierter Addons
   search: Durchsucht dein Slimefun-Handbuch nach einem Begriff
@@ -25,6 +24,11 @@ commands:
     description: Lädt das Item in deiner Hand auf
     charge-success: Dein Item wurde erfolgreich aufgeladen!
     not-rechargeable: Dieses Item kann nicht aufgeladen werden!
+  timings:
+    description: Performance-Info für Slimefun und dessen Addons
+    please-wait: "&eEine Sekunde Geduld bitte... Die Ergebnisse werden aufbereitet!"
+    verbose-player: '&4Das "verbose" Argument kann nicht von Spielern verwendet werden.'
+    unknown-flag: "&4Unbekanntes Argument: &c%flag%"
 guide:
   search:
     message: "&bWonach möchtest du suchen?"
@@ -108,11 +112,8 @@ messages:
   no-permission: "&4Du hast nicht die benötigten Rechte hierfür"
   usage: "&4Korrekte Schreibweise: &c%usage%"
   not-online: "&4%player% &cist derzeit nicht online!"
-  invalid-item: "&4%item% &cist kein gültiges Item!"
-  invalid-amount: "&4%amount% &cist keine gültige Anzahl! Sie muss höher als 0 sein!"
   given-item: '&bDir wurde &a%amount% &7mal "%item%&7" gegeben'
   give-item: '&bDu hast %player% &a%amount% &7"%item%&7" gegeben'
-  invalid-research: "&4%research% &cist kein gültiger Erfahrungsgrad!"
   give-research: '&bDu hast %player% den Erfahrungsgrad &7"%research%&7" vergeben'
   hungry: "&cDu bist zu hungrig, um dies zu tun!"
   disabled-in-world: "&4&lDieses Item wurde in dieser Welt deaktiviert!"
@@ -190,6 +191,10 @@ messages:
     dual-wielding: "&4Du musst zum Klettern einen KletterPickel in beiden Händen halten!"
     wrong-material: "&cDu kannst nicht an dieser Wand klettern. Erkundige dich im
       Slimefun Guide für mehr Infos!"
+  invalid-item: "&4%item% &cist kein gültiges Item!"
+  invalid-amount: "&4%amount% &cist keine gültige Anzahl! Sie muss höher als 0 sein!"
+  invalid-research: "&4%research% &cist kein gültiger Erfahrungsgrad!"
+  bee-suit-slow-fall: "&eDeine Bienenflügel haben dir eine sichere Landung ermöglicht"
   mode-change: "&bDer Modus von deinem %device% wurde geändert zu: &9%mode%"
 machines:
   pattern-not-found: "&eEs tut mir leid, aber ich konnte kein passendes Rezept finden."
@@ -249,6 +254,7 @@ machines:
       gefunden!"
 anvil:
   not-working: "&4Items von Slimefun können nicht in einem Amboss verwendet werden!"
+  mcmmo-salvaging: "&4Du kannst Slimefun-Items nicht ausschlachten!"
 backpack:
   already-open: "&cDieser Rucksack wird derzeit von jemand anderem benutzt!"
   no-stack: "&cRucksäcke dürfen nicht gestapelt werden"
@@ -334,6 +340,7 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
+  pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   ar: Arabisch
   af: Afrikaans
@@ -346,7 +353,6 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
-  pt: Portugiesisch (Portugal)
   bg: Bulgarisch
   ko: Koreanisch
   tr: Türkisch
@@ -361,5 +367,7 @@ villagers:
   no-trading: "&4Items von Slimefun können nicht zum Handeln verwendet werden!"
 cartography_table:
   not-working: "&4Slimefun Items können nicht in einem Kartentisch verwendet werden!"
+cauldron:
+  no-discoloring: "&4Du kannst Slimefun-Rüstung nicht entfärben"
 miner:
   no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"

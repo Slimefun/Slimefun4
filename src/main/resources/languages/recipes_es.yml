@@ -3,8 +3,8 @@ slimefun:
   multiblock:
     name: Multiblock
     lore:
-    - Construye la estructura presentada
-    - tal cual. No es una receta.
+    - Construye la estructura tal como se muestra
+    - como se muestra. No es una receta.
   enhanced_crafting_table:
     name: Enhanced Crafting Table
     lore:
@@ -121,7 +121,7 @@ slimefun:
   barter_drop:
     name: Piglin Bartering Drop
     lore:
-    - Troca con Piglins usando
+    - Tradea con Piglins usando
     - Lingotes de Oro para obtener este objeto
 minecraft:
   shaped:

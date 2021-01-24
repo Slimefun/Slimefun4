@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -20,66 +21,90 @@ import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.gps.Teleporter;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
+/**
+ * The {@link TeleportationManager} handles the process of teleportation for a {@link Player}
+ * who is using a {@link Teleporter}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see GPSNetwork
+ * @see Teleporter
+ *
+ */
 public final class TeleportationManager {
 
-    private final Set<UUID> teleporterUsers = new HashSet<>();
     private final int[] teleporterBorder = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private final int[] teleporterInventory = { 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43 };
 
+    /**
+     * This {@link Set} holds the {@link UUID} of all Players that are
+     * teleporting right now.
+     */
+    private final Set<UUID> teleporterUsers = new HashSet<>();
+
     @ParametersAreNonnullByDefault
     public void openTeleporterGUI(Player p, UUID uuid, Block b, int complexity) {
-        if (teleporterUsers.contains(p.getUniqueId())) {
-            return;
-        }
+        if (teleporterUsers.add(p.getUniqueId())) {
+            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
 
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-        teleporterUsers.add(p.getUniqueId());
+            PlayerProfile.fromUUID(uuid, profile -> {
+                ChestMenu menu = new ChestMenu("&3Teleporter");
+                menu.addMenuCloseHandler(pl -> teleporterUsers.remove(pl.getUniqueId()));
 
-        PlayerProfile.fromUUID(uuid, profile -> {
-            ChestMenu menu = new ChestMenu("&3Teleporter");
-            menu.addMenuCloseHandler(pl -> teleporterUsers.remove(pl.getUniqueId()));
-
-            for (int slot : teleporterBorder) {
-                menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-            }
-
-            menu.addItem(4, new CustomItem(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), ChatColor.YELLOW + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.title")));
-            menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
-
-            Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
-            int index = 0;
-
-            for (Waypoint waypoint : profile.getWaypoints()) {
-                if (index >= teleporterInventory.length) {
-                    break;
+                for (int slot : teleporterBorder) {
+                    menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
                 }
 
-                int slot = teleporterInventory[index];
-                Location l = waypoint.getLocation();
-                double time = DoubleHandler.fixDouble(0.5 * getTeleportationTime(complexity, source, l));
+                menu.addItem(4, new CustomItem(HeadTexture.GLOBE_OVERWORLD.getAsItemStack(), ChatColor.YELLOW + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.title")));
+                menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
-                String[] lore = { "", "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + time + "s", "", "&8\u21E8 &c" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip") };
+                Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
+                int index = 0;
 
-                menu.addItem(slot, new CustomItem(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), lore));
-                menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
-                    pl.closeInventory();
-                    teleport(pl.getUniqueId(), complexity, source, l, false);
-                    return false;
-                });
+                for (Waypoint waypoint : profile.getWaypoints()) {
+                    if (index >= teleporterInventory.length) {
+                        break;
+                    }
 
-                index++;
-            }
+                    int slot = teleporterInventory[index];
+                    Location l = waypoint.getLocation();
+                    double time = NumberUtils.reparseDouble(0.5 * getTeleportationTime(complexity, source, l));
 
-            SlimefunPlugin.runSync(() -> menu.open(p));
-        });
+                    // @formatter:off
+                    String[] lore = {
+                        "",
+                        "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.world") + ": &f" + l.getWorld().getName(),
+                        "&8\u21E8 &7X: &f" + l.getX(),
+                        "&8\u21E8 &7Y: &f" + l.getY(),
+                        "&8\u21E8 &7Z: &f" + l.getZ(),
+                        "&8\u21E8 &7" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.time") + ": &f" + time + "s",
+                        "",
+                        "&8\u21E8 &c" + SlimefunPlugin.getLocalization().getMessage(p, "machines.TELEPORTER.gui.tooltip")
+                    };
+                    // @formatter:on
+
+                    menu.addItem(slot, new CustomItem(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), lore));
+                    menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
+                        pl.closeInventory();
+                        teleport(pl.getUniqueId(), complexity, source, l, false);
+                        return false;
+                    });
+
+                    index++;
+                }
+
+                SlimefunPlugin.runSync(() -> menu.open(p));
+            });
+        }
     }
 
     @ParametersAreNonnullByDefault
@@ -90,8 +115,32 @@ public final class TeleportationManager {
         updateProgress(uuid, Math.max(1, 100 / time), 0, source, destination, resistance);
     }
 
-    @ParametersAreNonnullByDefault
-    public int getTeleportationTime(int complexity, Location source, Location destination) {
+    /**
+     * This returns the amount of time it will take to teleport from the source {@link Location}
+     * to the destination {@link Location}, given the specified complexity.
+     * <p>
+     * The returned time will be measured in 500ms intervals.
+     * 
+     * <ul>
+     * <li>A returned time of {@literal 100} will mean 50,000ms (50s) of real-life time.</li>
+     * <li>A returned time of {@literal 10} will mean 5,000ms (5s) of real-life time.</li>
+     * <li>A returned time of {@literal 2} will mean 1,000ms (1s) of real-life time.</li>
+     * <li>and so on...</li>
+     * </ul>
+     * 
+     * @param complexity
+     *            The complexity of the {@link GPSNetwork}
+     * @param source
+     *            The source {@link Location}
+     * @param destination
+     *            The destination {@link Location}
+     * 
+     * @return The amount of time the teleportation will take
+     */
+    public int getTeleportationTime(int complexity, @Nonnull Location source, @Nonnull Location destination) {
+        Validate.notNull(source, "Source cannot be null");
+        Validate.notNull(source, "Destination cannot be null");
+
         if (complexity < 100) {
             return 100;
         }
@@ -145,8 +194,10 @@ public final class TeleportationManager {
 
     @ParametersAreNonnullByDefault
     private void onTeleport(Player p, Location destination, boolean success, boolean resistance) {
-        // This needs to run on the main Thread so we force it, as the
-        // async teleportation might happen on a separate Thread.
+        /*
+         * This needs to run on the main Thread so we force it, as
+         * the async teleportation might happen on a separate Thread.
+         */
         SlimefunPlugin.runSync(() -> {
             if (success) {
                 // Apply Resistance Effect, if enabled
@@ -161,8 +212,10 @@ public final class TeleportationManager {
                 destination.getWorld().playSound(destination, Sound.BLOCK_BEACON_ACTIVATE, 1F, 1F);
                 teleporterUsers.remove(p.getUniqueId());
             } else {
-                // Make sure the Player is removed from the actively teleporting users
-                // and notified about the failed teleportation
+                /*
+                 * Make sure the Player is removed from the actively teleporting
+                 * users and notified about the failed teleportation
+                 */
                 cancel(p.getUniqueId(), p);
             }
         });

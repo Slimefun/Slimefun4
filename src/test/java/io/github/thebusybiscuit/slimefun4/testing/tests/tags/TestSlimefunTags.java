@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.tags;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -98,6 +100,19 @@ class TestSlimefunTags {
                     Assertions.assertTrue(tag.isTagged(value));
                 }
             }
+        }
+    }
+
+    @Test
+    @DisplayName("Test SlimefunTag#stream()")
+    void testStream() throws TagMisconfigurationException {
+        SlimefunTag.reloadAll();
+
+        for (SlimefunTag tag : SlimefunTag.values()) {
+            Set<Material> values = tag.getValues();
+            Stream<Material> stream = tag.stream();
+
+            Assertions.assertEquals(values, stream.collect(Collectors.toSet()));
         }
     }
 
