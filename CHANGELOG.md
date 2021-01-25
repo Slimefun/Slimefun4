@@ -31,6 +31,7 @@
 * Added a new language: Hebrew
 * (API) Added AsyncProfileLoadEvent
 * Added Talisman of the Wise
+* Added Book Binder
 
 #### Changes
 * Massive performance improvements to holograms/armorstands
