@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: WalshyDev/pr-labels@v1
+      - uses: WalshyDev/pr-labels@v1.1
         name: Apply labels based on branch
         with:
           token: "${{ secrets.ACCESS_TOKEN }}"
