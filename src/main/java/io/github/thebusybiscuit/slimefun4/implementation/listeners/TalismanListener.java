@@ -1,26 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.AbstractArrow;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.ChestedHorse;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Trident;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -40,13 +30,10 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
-import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TalismanListener implements Listener {
 
@@ -241,9 +228,9 @@ public class TalismanListener implements Listener {
             if (enchantment != null) {
                 /*
                  * Fix #2679
-                 * By default, Bukkit doesn't allow book enchant any type enchantment.
+                 * By default, the Bukkit API doesn't allow us to give enchantment books extra enchantments.
                  */
-                if (talisman.isAllowEnchantBook().getValue() && e.getItem().getType() == Material.BOOK) {
+                if (talisman.isEnchantmentBookAllowed() && e.getItem().getType() == Material.BOOK) {
                     e.getItem().addUnsafeEnchantment(enchantment.getEnchantment(), enchantment.getLevel());
                 } else {
                     enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
