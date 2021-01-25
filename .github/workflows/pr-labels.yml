@@ -41,11 +41,11 @@ jobs:
             **Pro Tip!**
             You can help us label your Pull Requests by using the following branch naming convention next time you create a pull request. ❤️ 
             Branch naming convention | Label
-            ------------------------------ | ------
-            `feature/**`                           | 🎈 Feature
-            `fix/**`                                   | ✨ Fix
-            `chore/**`                             | 🧹 Chores 
-            `performance/**`                  | 💡 Performance Optimization
+            ------------------------ | ------
+            `feature/**`             | 🎈 Feature
+            `fix/**`                 | ✨ Fix
+            `chore/**`               | 🧹 Chores 
+            `performance/**`         | 💡 Performance Optimization
             <hr>
             If your changes do not fall into any of these categories, don't worry.
             You can just ignore this message in that case! 👀
