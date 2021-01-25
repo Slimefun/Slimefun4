@@ -32,6 +32,7 @@
 * (API) Added AsyncProfileLoadEvent
 * Added Talisman of the Wise
 * Added Book Binder
+* Added Tier 3 Electric Ore Grinder
 
 #### Changes
 * Massive performance improvements to holograms/armorstands

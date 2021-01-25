@@ -256,7 +256,7 @@ public class TalismanListener implements Listener {
             enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
         }
     }
-    
+
     @EventHandler(ignoreCancelled = true)
     public void onExperienceReceive(PlayerExpChangeEvent e) {
         if (e.getAmount() > 0 && Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
