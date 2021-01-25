@@ -39,12 +39,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           message: |
             **Pro Tip!**
-            You can help us label your Pull Requests by using the following branch naming convention next time you create a pull request. ❤️ 
+            You can help us label your Pull Requests by using the following branch naming convention next time you create a pull request. ❤️
             Branch naming convention | Label
             ------------------------ | ------
             `feature/**`             | 🎈 Feature
             `fix/**`                 | ✨ Fix
-            `chore/**`               | 🧹 Chores 
+            `chore/**`               | 🧹 Chores
             `performance/**`         | 💡 Performance Optimization
             <hr>
             If your changes do not fall into any of these categories, don't worry.
