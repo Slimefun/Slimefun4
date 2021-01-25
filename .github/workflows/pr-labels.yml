@@ -1,0 +1,21 @@
+name: Pull Request Labels
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  pr-labeler:
+
+    name: Pull Request Labels
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: WalshyDev/pr-labels@v1.1
+        name: Apply labels based on branch
+        with:
+          token: "${{ secrets.ACCESS_TOKEN }}"
+          feature: '🎈 Feature'
+          fix: '✨ Fix'
+          chore: '🧹 Chores'
+          performance: '💡 Performance Optimization'
