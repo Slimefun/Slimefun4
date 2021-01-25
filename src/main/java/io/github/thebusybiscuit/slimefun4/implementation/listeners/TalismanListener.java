@@ -221,21 +221,19 @@ public class TalismanListener implements Listener {
         Map<Enchantment, Integer> enchantments = e.getEnchantsToAdd();
 
         // Magician Talisman
-        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
-            MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
-            TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
+        MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
+        TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
 
-            if (enchantment != null) {
-                /*
-                 * Fix #2679
-                 * By default, the Bukkit API doesn't allow us to give enchantment books extra enchantments.
-                 */
-                if (talisman.isEnchantmentBookAllowed() && e.getItem().getType() == Material.BOOK) {
-                    e.getItem().addUnsafeEnchantment(enchantment.getEnchantment(), enchantment.getLevel());
-                } else {
-                    enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
-                }
-            }
+        if (enchantment != null && Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
+              /*
+               * Fix #2679
+               * By default, the Bukkit API doesn't allow us to give enchantment books extra enchantments.
+               */
+              if (talisman.isEnchantmentBookAllowed() && e.getItem().getType() == Material.BOOK) {
+                  e.getItem().addUnsafeEnchantment(enchantment.getEnchantment(), enchantment.getLevel());
+              } else {
+                  enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
+              }
         }
 
         // Wizard Talisman
