@@ -134,6 +134,7 @@ messages:
     wizard: "&a&oA talizmánod erősítette a Szerencse varázslatot, de néhány egyéb
       varázslatot gyengített"
     caveman: "&a&oA talizmánod adott Sietség effektet"
+    wise: "&a&oA talizmánod megduplázta a dobott tapasztalat pontokat"
   soulbound-rune:
     fail: "&cEgyszerre csak egy tárgyat köthetsz a lelkedhez."
     success: "&aSikeresen hozzákötötted ezt a tárgyat a lelkedhez! Megmarad, amikor
