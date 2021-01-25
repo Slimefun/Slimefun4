@@ -281,6 +281,7 @@ public final class ResearchSetup {
         register("energy_connectors", 269, "Wired Connections", 12, SlimefunItems.ENERGY_CONNECTOR);
         register("bee_armor", 270, "Bee Armor", 24, SlimefunItems.BEE_HELMET, SlimefunItems.BEE_WINGS, SlimefunItems.BEE_LEGGINGS, SlimefunItems.BEE_BOOTS);
         register("wise_talisman", 271, "Talisman of the Wise", 20, SlimefunItems.TALISMAN_WISE);
+        register("book_binder", 272, "Enchantment Book Binding", 26, SlimefunItems.BOOK_BINDER);
     }
 
     @ParametersAreNonnullByDefault

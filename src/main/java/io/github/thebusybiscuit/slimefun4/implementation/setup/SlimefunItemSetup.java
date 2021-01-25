@@ -85,6 +85,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDrier;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.BookBinder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CarbonPress;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ChargingBench;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CropGrowthAccelerator;
@@ -1765,6 +1766,13 @@ public final class SlimefunItemSetup {
 
         new AutoAnvil(categories.electricity, 25, SlimefunItems.AUTO_ANVIL_2, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.AUTO_ANVIL, null, SlimefunItems.STEEL_PLATE, SlimefunItems.HEATING_COIL, SlimefunItems.STEEL_PLATE, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK)})
+        .setCapacity(256)
+        .setEnergyConsumption(16)
+        .setProcessingSpeed(1)
+        .register(plugin);
+
+        new BookBinder(categories.electricity, SlimefunItems.BOOK_BINDER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, new ItemStack(Material.ENCHANTING_TABLE), null, new ItemStack(Material.BOOKSHELF), SlimefunItems.HARDENED_METAL_INGOT, new ItemStack(Material.BOOKSHELF), SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.SMALL_CAPACITOR, SlimefunItems.SYNTHETIC_SAPPHIRE})
         .setCapacity(256)
         .setEnergyConsumption(16)
         .setProcessingSpeed(1)
