@@ -313,6 +313,7 @@ android:
       own: "&4Nem értékelheted a saját szkriptedet!"
       already: "&4Ezt a szkriptet már értékelted!"
     editor: Szkript szerkesztő
+    too-long: "&cA szkript túl hosszú a szerkesztéshez!"
 languages:
   default: Szerver-alapértelmezett
   en: Angol
