@@ -138,6 +138,7 @@ public class Translators {
         addTranslator("Eylonnn", SupportedLanguage.HEBREW, true);
         addTranslator("sarhatabaot", SupportedLanguage.HEBREW, false);
         addTranslator("Timotiyadeyhakesem", SupportedLanguage.HEBREW, true);
+        addTranslator("PaladinBear", SupportedLanguage.HEBREW, true);
         addTranslator("Molioron", SupportedLanguage.HEBREW, true);
         addTranslator("McAlmog", SupportedLanguage.HEBREW, true);
 
