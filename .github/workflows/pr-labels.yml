@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: WalshyDev/pr-labels@v1
         with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          token: "${{ secrets.ACCESS_TOKEN }}"
           feature: 'New Feature'
           fix: '🐞 Bug Fix'
           chore: 'Chore'
