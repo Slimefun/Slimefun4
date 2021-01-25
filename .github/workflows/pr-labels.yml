@@ -2,7 +2,8 @@ name: Pull Request Labels
 
 on:
   pull_request:
-    types: [opened]
+    types:
+      - opened
 
 jobs:
   pr-labeler:
@@ -37,5 +38,5 @@ jobs:
             `fix/**` -> ✨ Fix
             `chore/**` -> 🧹 Chores
             `performance/**` -> 💡 Performance Optimization
-            
-            If your changes do not fall into any of these categories, don't worry. You can ignore this message in that case! 👀
+            <br>
+            > If your changes do not fall into any of these categories, don't worry. You can ignore this message in that case! 👀
