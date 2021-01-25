@@ -12,6 +12,7 @@ jobs:
 
     steps:
       - uses: WalshyDev/pr-labels@v1.1
+        id: labeller
         name: Apply labels based on branch
         with:
           token: "${{ secrets.ACCESS_TOKEN }}"
@@ -19,3 +20,22 @@ jobs:
           fix: '✨ Fix'
           chore: '🧹 Chores'
           performance: '💡 Performance Optimization'
+      - uses: thollander/actions-comment-pull-request@1.0.1
+        name: Comment the applied label
+        if: ${{ steps.labeller.outputs.applied != 0 }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          message: 'Your Pull Request was automatically labelled as: ${{ steps.labeller.outputs.applied }}'
+      - uses: thollander/actions-comment-pull-request@1.0.1
+        name: Comment the applied label
+        if: ${{ steps.labeller.outputs.applied == 0 }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          message: |
+            **Pro Tip**: You can help us to label your Pull Request by using the following branch naming convention when you create a pull request the next time:<br>
+            `feature/**` -> 🎈 Feature
+            `fix/**` -> ✨ Fix
+            `chore/**` -> 🧹 Chores
+            `performance/**` -> 💡 Performance Optimization
+            
+            If your changes do not fall into any of these categories, don't worry. You can ignore this message in that case! 👀
