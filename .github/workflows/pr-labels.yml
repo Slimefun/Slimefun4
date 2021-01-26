@@ -22,6 +22,7 @@ jobs:
           fix: '✨ Fix'
           chore: '🧹 Chores'
           performance: '💡 Performance Optimization'
+          api: '🔧 API'
 
       - uses: thollander/actions-comment-pull-request@1.0.1
         name: Comment the applied label
@@ -45,6 +46,7 @@ jobs:
             `feature/**`             | 🎈 Feature
             `fix/**`                 | ✨ Fix
             `chore/**`               | 🧹 Chores
+            `api/**`                 | 🔧 API
             `performance/**`         | 💡 Performance Optimization
             <hr>
             If your changes do not fall into any of these categories, don't worry.
