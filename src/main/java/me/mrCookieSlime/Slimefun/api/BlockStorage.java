@@ -373,7 +373,7 @@ public class BlockStorage {
 
         BlockStorage storage = getStorage(world);
         if (storage != null) {
-            return storage.getStorage();
+            return storage.getRawStorage();
         } else {
             return null;
         }
