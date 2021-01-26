@@ -371,7 +371,7 @@ public class BlockStorage {
      */
     @Nonnull
     public Map<Location, Config> getRawStorage() {
-        return this.storage;
+        return ImmutableMap.copyOf(this.storage);
     }
 
     /**
@@ -387,7 +387,7 @@ public class BlockStorage {
 
         BlockStorage storage = getStorage(world);
         if (storage != null) {
-            return ImmutableMap.copyOf(storage.getRawStorage());
+            return (storage.getRawStorage();
         } else {
             return null;
         }
