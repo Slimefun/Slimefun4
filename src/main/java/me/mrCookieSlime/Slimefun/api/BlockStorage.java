@@ -360,6 +360,23 @@ public class BlockStorage {
         }
     }
 
+    @Nonnull
+    public Map<Location, String> getStorage() {
+        return this.storage;
+    }
+
+    @Nullable
+    public static Map<Location, String> getStorage(@Nonnull World world) {
+        Validate.notNull(world, "World cannot be null!");
+
+        BlockStorage storage = getStorage(world);
+        if (storage != null) {
+            return storage.getStorage();
+        } else {
+            return null;
+        }
+    }
+
     public static void store(Block block, ItemStack item) {
         SlimefunItem sfitem = SlimefunItem.getByItem(item);
 
