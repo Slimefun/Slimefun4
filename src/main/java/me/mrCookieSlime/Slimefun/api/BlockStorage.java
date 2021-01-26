@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.collect.ImmutableMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -362,18 +363,31 @@ public class BlockStorage {
         }
     }
 
+    /**
+     * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
+     * this worlds {@link BlockStorage}.
+     *
+     * @return An {@link ImmutableMap} of the raw data.
+     */
     @Nonnull
     public Map<Location, Config> getRawStorage() {
         return this.storage;
     }
 
+    /**
+     * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
+     * this worlds {@link BlockStorage}. If there is no registered world then this will return null.
+     *
+     * @param world The world of which to fetch the data from.
+     * @return An {@link ImmutableMap} of the raw data or null if the world isn't registered.
+     */
     @Nullable
     public static Map<Location, Config> getRawStorage(@Nonnull World world) {
         Validate.notNull(world, "World cannot be null!");
 
         BlockStorage storage = getStorage(world);
         if (storage != null) {
-            return storage.getRawStorage();
+            return ImmutableMap.copyOf(storage.getRawStorage());
         } else {
             return null;
         }
