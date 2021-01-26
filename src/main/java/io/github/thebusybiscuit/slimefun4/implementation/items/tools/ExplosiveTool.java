@@ -8,6 +8,7 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -138,12 +139,17 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
         } else if (material == Material.PLAYER_HEAD || SlimefunTag.SHULKER_BOXES.isTagged(material)) {
             b.breakNaturally(item);
         } else {
-            boolean applyFortune = SlimefunTag.FORTUNE_COMPATIBLE_ORES.isTagged(material);
+            // Check if the block was mined using Silk Touch
+            if (item.containsEnchantment(Enchantment.SILK_TOUCH)) {
+                b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
+            } else {
+                boolean applyFortune = SlimefunTag.FORTUNE_COMPATIBLE_ORES.isTagged(material);
 
-            for (ItemStack drop : b.getDrops(getItem())) {
-                // For some reason this check is necessary with Paper
-                if (drop != null && drop.getType() != Material.AIR) {
-                    b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
+                for (ItemStack drop : b.getDrops(getItem())) {
+                    // For some reason this check is necessary with Paper
+                    if (drop != null && drop.getType() != Material.AIR) {
+                        b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
+                    }
                 }
             }
 
