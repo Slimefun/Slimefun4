@@ -3,17 +3,17 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
@@ -44,6 +44,7 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
     private final ItemSetting<Boolean> callExplosionEvent = new ItemSetting<>("call-explosion-event", false);
 
+    @ParametersAreNonnullByDefault
     public ExplosiveTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -60,11 +61,12 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             b.getWorld().playSound(b.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.2F, 1F);
 
             List<Block> blocks = findBlocks(b);
-            breakBlocks(p, tool, b, blocks, fortune, drops);
+            breakBlocks(p, tool, b, blocks, drops);
         };
     }
 
-    private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, int fortune, List<ItemStack> drops) {
+    @ParametersAreNonnullByDefault
+    private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, List<ItemStack> drops) {
         if (callExplosionEvent.getValue().booleanValue()) {
             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
@@ -72,14 +74,14 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             if (!blockExplodeEvent.isCancelled()) {
                 for (Block block : blockExplodeEvent.blockList()) {
                     if (canBreak(p, block)) {
-                        breakBlock(p, item, block, fortune, drops);
+                        breakBlock(p, item, block, drops);
                     }
                 }
             }
         } else {
             for (Block block : blocks) {
                 if (canBreak(p, block)) {
-                    breakBlock(p, item, block, fortune, drops);
+                    breakBlock(p, item, block, drops);
                 }
             }
         }
@@ -123,7 +125,8 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
         }
     }
 
-    private void breakBlock(Player p, ItemStack item, Block b, int fortune, List<ItemStack> drops) {
+    @ParametersAreNonnullByDefault
+    private void breakBlock(Player p, ItemStack item, Block b, List<ItemStack> drops) {
         SlimefunPlugin.getProtectionManager().logAction(p, b, ProtectableAction.BREAK_BLOCK);
         Material material = b.getType();
 
@@ -136,24 +139,8 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             if (handler != null && !handler.onBreak(p, b, sfItem, UnregisterReason.PLAYER_BREAK)) {
                 drops.add(BlockStorage.retrieve(b));
             }
-        } else if (material == Material.PLAYER_HEAD || SlimefunTag.SHULKER_BOXES.isTagged(material)) {
-            b.breakNaturally(item);
         } else {
-            // Check if the block was mined using Silk Touch
-            if (item.containsEnchantment(Enchantment.SILK_TOUCH)) {
-                b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
-            } else {
-                boolean applyFortune = SlimefunTag.FORTUNE_COMPATIBLE_ORES.isTagged(material);
-
-                for (ItemStack drop : b.getDrops(getItem())) {
-                    // For some reason this check is necessary with Paper
-                    if (drop != null && drop.getType() != Material.AIR) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), applyFortune ? new CustomItem(drop, fortune) : drop);
-                    }
-                }
-            }
-
-            b.setType(Material.AIR);
+            b.breakNaturally(item);
         }
 
         damageItem(p, item);

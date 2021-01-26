@@ -106,7 +106,7 @@ public class BookBinder extends AContainer {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         boolean conflicts = false;
         enchantments.putAll(ech1);
-        
+
         for (Map.Entry<Enchantment, Integer> entry : ech2.entrySet()) {
             for (Map.Entry<Enchantment, Integer> conflictsWith : enchantments.entrySet()) {
                 if (entry.getKey().conflictsWith(conflictsWith.getKey())) {
