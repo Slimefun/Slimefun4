@@ -363,12 +363,12 @@ public class BlockStorage {
     }
 
     @Nonnull
-    public Map<Location, Config> getStorage() {
+    public Map<Location, Config> getRawStorage() {
         return this.storage;
     }
 
     @Nullable
-    public static Map<Location, Config> getStorage(@Nonnull World world) {
+    public static Map<Location, Config> getRawStorage(@Nonnull World world) {
         Validate.notNull(world, "World cannot be null!");
 
         BlockStorage storage = getStorage(world);
