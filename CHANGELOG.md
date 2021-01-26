@@ -55,6 +55,7 @@
 * Fixed machines not respecting max size from inventories
 * Fixed #2761
 * Fixed #2460
+* Fixed #2760
 
 ## Release Candidate 19 (11 Jan 2021)
 
