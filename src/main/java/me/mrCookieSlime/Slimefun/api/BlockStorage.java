@@ -27,6 +27,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 
+import org.apache.commons.lang.Validate;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -357,6 +359,23 @@ public class BlockStorage {
             cfg.save(chunks);
 
             chunkChanges = 0;
+        }
+    }
+
+    @Nonnull
+    public Map<Location, Config> getRawStorage() {
+        return this.storage;
+    }
+
+    @Nullable
+    public static Map<Location, Config> getRawStorage(@Nonnull World world) {
+        Validate.notNull(world, "World cannot be null!");
+
+        BlockStorage storage = getStorage(world);
+        if (storage != null) {
+            return storage.getRawStorage();
+        } else {
+            return null;
         }
     }
 
