@@ -1,0 +1,53 @@
+name: Pull Request Labels
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  pr-labeler:
+
+    name: Pull Request Labels
+    runs-on: ubuntu-latest
+    if: github.repository == 'Slimefun/Slimefun4' && github.actor != 'gitlocalize-app[bot]' && github.actor != 'renovate[bot]'
+
+    steps:
+      - uses: WalshyDev/pr-labels@v1.1
+        id: labeller
+        name: Apply labels based on branch
+        with:
+          token: "${{ secrets.ACCESS_TOKEN }}"
+          feature: '🎈 Feature'
+          fix: '✨ Fix'
+          chore: '🧹 Chores'
+          performance: '💡 Performance Optimization'
+          api: '🔧 API'
+
+      - uses: thollander/actions-comment-pull-request@1.0.1
+        name: Comment the applied label
+        if: ${{ steps.labeller.outputs.applied != 0 }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          message: |
+            Your Pull Request was automatically labelled as: ${{ steps.labeller.outputs.applied }}
+            Thank you for contributing to this project! ❤️
+
+      - uses: thollander/actions-comment-pull-request@1.0.1
+        name: Comment the applied label
+        if: ${{ steps.labeller.outputs.applied == 0 }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          message: |
+            **Pro Tip!**
+            You can help us label your Pull Requests by using the following branch naming convention next time you create a pull request. ❤️
+            Branch naming convention | Label
+            ------------------------ | ------
+            `feature/**`             | 🎈 Feature
+            `fix/**`                 | ✨ Fix
+            `chore/**`               | 🧹 Chores
+            `api/**`                 | 🔧 API
+            `performance/**`         | 💡 Performance Optimization
+            <hr>
+            If your changes do not fall into any of these categories, don't worry.
+            You can just ignore this message in that case! 👀

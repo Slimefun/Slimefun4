@@ -13,7 +13,6 @@ api-version: '1.14'
 
 # (Soft) dependencies of Slimefun, we hook into these plugins.
 softdepend:
-- CS-CoreLib
 - PlaceholderAPI
 - WorldEdit
 - ClearLag

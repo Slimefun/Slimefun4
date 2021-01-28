@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -15,7 +16,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 
-public class TestPlayerProfileListener {
+class TestPlayerProfileListener {
 
     private static SlimefunPlugin plugin;
     private static PlayerProfileListener listener;
@@ -34,7 +35,8 @@ public class TestPlayerProfileListener {
     }
 
     @Test
-    public void testPlayerLeave() throws InterruptedException {
+    @DisplayName("Test PlayerProfile being marked for deletion when Player leaves")
+    void testPlayerLeave() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         PlayerQuitEvent event = new PlayerQuitEvent(player, "bye");
@@ -44,7 +46,8 @@ public class TestPlayerProfileListener {
     }
 
     @Test
-    public void testUnloadedPlayerLeave() {
+    @DisplayName("Test PlayerProfile being unloaded when Player leaves")
+    void testUnloadedPlayerLeave() {
         Player player = server.addPlayer();
         PlayerQuitEvent event = new PlayerQuitEvent(player, "bye");
         listener.onDisconnect(event);
@@ -53,7 +56,8 @@ public class TestPlayerProfileListener {
     }
 
     @Test
-    public void testPlayerKick() throws InterruptedException {
+    @DisplayName("Test PlayerProfile being marked for deletion when Player is kicked")
+    void testPlayerKick() throws InterruptedException {
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
         PlayerKickEvent event = new PlayerKickEvent(player, "You're not welcome anymore", "bye");
@@ -63,7 +67,8 @@ public class TestPlayerProfileListener {
     }
 
     @Test
-    public void testUnloadedPlayerKick() {
+    @DisplayName("Test PlayerProfile being unloaded when Player is kicked")
+    void testUnloadedPlayerKick() {
         Player player = server.addPlayer();
         PlayerKickEvent event = new PlayerKickEvent(player, "You're not welcome anymore", "bye");
         listener.onKick(event);

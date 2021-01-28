@@ -133,6 +133,7 @@ messages:
     whirlwind: "&a&o你的护身符反弹了所有射向你的投掷物"
     wizard: "&a&o你的护身符随机提高了一个附魔的等级, 但其他的附魔等级将会下降"
     caveman: "&a&o你的护身符给予了你急迫效果"
+    wise: "&a&o你的护身符让掉落的经验翻倍了"
   soulbound-rune:
     fail: "&c灵魂一次只能绑定一个物品."
     success: "&a物品绑定成功! 在你死亡后此物品将不会掉落."
@@ -296,6 +297,7 @@ android:
       own: "&4你不能评价你自己的脚本!"
       already: "&4你已经给这个脚本留下评价了!"
     editor: 脚本编辑器
+    too-long: "&c脚本长度已达上限, 你不能再编辑了!"
 languages:
   default: 服务器默认语言
   en: 英语

@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.collect.ImmutableMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,6 +27,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
+
+import org.apache.commons.lang.Validate;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -357,6 +360,36 @@ public class BlockStorage {
             cfg.save(chunks);
 
             chunkChanges = 0;
+        }
+    }
+
+    /**
+     * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
+     * this worlds {@link BlockStorage}.
+     *
+     * @return An {@link ImmutableMap} of the raw data.
+     */
+    @Nonnull
+    public Map<Location, Config> getRawStorage() {
+        return ImmutableMap.copyOf(this.storage);
+    }
+
+    /**
+     * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
+     * this worlds {@link BlockStorage}. If there is no registered world then this will return null.
+     *
+     * @param world The world of which to fetch the data from.
+     * @return An {@link ImmutableMap} of the raw data or null if the world isn't registered.
+     */
+    @Nullable
+    public static Map<Location, Config> getRawStorage(@Nonnull World world) {
+        Validate.notNull(world, "World cannot be null!");
+
+        BlockStorage storage = getStorage(world);
+        if (storage != null) {
+            return storage.getRawStorage();
+        } else {
+            return null;
         }
     }
 

@@ -12,10 +12,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 
 class TestPluginClass {
 
+    private static SlimefunPlugin plugin;
+
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
-        MockBukkit.load(SlimefunPlugin.class);
+        plugin = MockBukkit.load(SlimefunPlugin.class);
     }
 
     @AfterAll
@@ -28,6 +30,7 @@ class TestPluginClass {
     void verifyTestEnvironment() {
         MinecraftVersion version = SlimefunPlugin.getMinecraftVersion();
 
+        Assertions.assertTrue(plugin.isUnitTest());
         Assertions.assertEquals(MinecraftVersion.UNIT_TEST, version);
         Assertions.assertEquals("Unit Test Environment", version.getName());
     }
