@@ -24,6 +24,8 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -47,10 +49,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
-    public static Map<Block, MachineRecipe> processing = new HashMap<>();
-    public static Map<Block, Integer> progress = new HashMap<>();
-
     protected final List<MachineRecipe> recipes = new ArrayList<>();
+    
+    private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>();
 
     private int energyConsumedPerTick = -1;
     private int energyCapacity = -1;
@@ -60,6 +61,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
+        processor.setProgressBar(getProgressBar());
         createPreset(this, getInventoryTitle(), this::constructMenu);
 
         registerBlockHandler(item.getItemId(), (p, b, tool, reason) -> {
@@ -70,8 +72,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
                 inv.dropItems(b.getLocation(), getOutputSlots());
             }
 
-            progress.remove(b);
-            processing.remove(b);
+            processor.removeOperation(b);
             return true;
         });
     }

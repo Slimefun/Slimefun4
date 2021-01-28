@@ -21,6 +21,8 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncGeneratorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
+import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
@@ -40,12 +42,11 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public abstract class AGenerator extends AbstractEnergyProvider {
 
-    public static Map<Location, MachineFuel> processing = new HashMap<>();
-    public static Map<Location, Integer> progress = new HashMap<>();
-
     private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
     private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
+
+    private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>();
 
     private int energyProducedPerTick = -1;
     private int energyCapacity = -1;
@@ -53,6 +54,8 @@ public abstract class AGenerator extends AbstractEnergyProvider {
     @ParametersAreNonnullByDefault
     public AGenerator(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        processor.setProgressBar(getProgressBar());
 
         new BlockMenuPreset(item.getItemId(), getInventoryTitle()) {
 
@@ -84,8 +87,7 @@ public abstract class AGenerator extends AbstractEnergyProvider {
                 inv.dropItems(b.getLocation(), getOutputSlots());
             }
 
-            progress.remove(b.getLocation());
-            processing.remove(b.getLocation());
+            processor.removeOperation(b);
             return true;
         });
 
