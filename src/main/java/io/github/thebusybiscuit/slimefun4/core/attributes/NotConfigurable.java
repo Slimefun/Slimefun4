@@ -9,6 +9,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
-public interface NotConfigurable {
+public interface NotConfigurable extends ItemAttribute {
 
 }

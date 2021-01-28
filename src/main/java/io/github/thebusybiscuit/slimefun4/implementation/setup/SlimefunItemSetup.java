@@ -2149,9 +2149,6 @@ public final class SlimefunItemSetup {
 
         new GEOMiner(categories.gps, SlimefunItems.GEO_MINER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.MEDIUM_CAPACITOR, new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.OIL_PUMP, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null})
-        .setCapacity(512)
-        .setEnergyConsumption(24)
-        .setProcessingSpeed(1)
         .register(plugin);
 
         new SlimefunItem(categories.resources, SlimefunItems.OIL_BUCKET, new RecipeType(new NamespacedKey(plugin, "oil_pump"), SlimefunItems.OIL_PUMP),
