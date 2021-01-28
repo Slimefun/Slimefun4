@@ -350,3 +350,5 @@ cauldron:
   no-discoloring: "&4Slimefunアイテムの脱色はできません"
 miner:
   no-ores: "&e周辺には鉱石が見つかりませんでした！"
+placeholderapi:
+  profile-loading: ロード中…
