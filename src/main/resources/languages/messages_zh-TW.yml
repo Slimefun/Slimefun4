@@ -133,6 +133,7 @@ messages:
     whirlwind: "&a&o你的護符反射了投射物"
     wizard: "&a&o你的護符為你升高了幸運等級，但也降低了其他附魔等級"
     caveman: "&a&o你的護符給了你挖掘加速效果"
+    wise: "&a&o你的護身符加倍了你得到的經驗值"
   soulbound-rune:
     fail: "&c你一次只能靈魂綁定一個物品。"
     success: "&a您已成功將此物品綁定靈魂！死後不會掉落。"
