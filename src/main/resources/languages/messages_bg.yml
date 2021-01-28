@@ -370,3 +370,5 @@ cartography_table:
   not-working: "&4Не може да използвате Slimefun предмети в картографска маса!"
 cauldron:
   no-discoloring: "&4Не можете да обезцветявате Slimefun брони"
+placeholderapi:
+  profile-loading: Зареждане...
