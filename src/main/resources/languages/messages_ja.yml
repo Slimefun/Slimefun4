@@ -319,7 +319,7 @@ languages:
   zh-CN: 中国語（中国）
   el: ギリシャ語
   he: ヘブライ語
-  pt-BR: ポルトガル語（ブラジル）
+  pt: ポルトガル語（ポルトガル）
   ar: アラビア語
   af: アフリカーンス語
   da: デンマーク語
@@ -331,7 +331,7 @@ languages:
   fa: ペルシア語
   th: タイ語
   ro: ルーマニア語
-  pt: ポルトガル語（ポルトガル）
+  pt-BR: ポルトガル語（ブラジル）
   bg: ブルガリア語
   ko: 韓国語
   tr: トルコ語
@@ -350,3 +350,5 @@ cauldron:
   no-discoloring: "&4Slimefunアイテムの脱色はできません"
 miner:
   no-ores: "&e周辺には鉱石が見つかりませんでした！"
+placeholderapi:
+  profile-loading: ロード中…
