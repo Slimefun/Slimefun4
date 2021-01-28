@@ -32,6 +32,9 @@ commands:
     verbose-player: '&4The verbose flag cannot be used by a Player!'
     unknown-flag: '&4Unknown flag: &c%flag%'
 
+placeholderapi:
+  profile-loading: 'Loading...'
+
 guide:
   locked: 'LOCKED'
   work-in-progress: 'This feature is not fully finished yet!'
