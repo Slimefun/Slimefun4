@@ -250,9 +250,9 @@ public class TalismanListener implements Listener {
         // Wizard Talisman
         if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
 
-            for (Enchantment enchantment : enchantments.keySet()) {
+            for (Enchantment enchant : enchantments.keySet()) {
                 if (random.nextInt(100) < 40) {
-                    e.getEnchantsToAdd().put(enchantment, random.nextInt(3) + 1);
+                    e.getEnchantsToAdd().put(enchant, random.nextInt(3) + 1);
                 }
             }
 
