@@ -62,7 +62,12 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
 
     private boolean isPlaceholder(@Nullable OfflinePlayer p, boolean requiresProfile, @Nonnull String params, @Nonnull String placeholder) {
         if (requiresProfile) {
-            return p != null && placeholder.equals(params) && PlayerProfile.request(p);
+            if (p != null && placeholder.equals(params)) {
+                PlayerProfile.request(p);
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return placeholder.equals(params);
         }
