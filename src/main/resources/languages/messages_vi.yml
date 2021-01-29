@@ -138,6 +138,7 @@ messages:
     wizard: "&a&oBùa hộ mệnh của bạn đã cho bạn một Cấp độ may mắn tốt hơn nhưng cũng
       có thể hạ thấp một số Cấp độ phù phép khác"
     caveman: "&a&oBùa ma thuật của bạn cho bạn hiệu ứng Đào nhanh"
+    wise: "&a&oBùa ma thuật đã nhân đôi số kinh nghiệm của bạn"
   soulbound-rune:
     fail: "&cBạn chỉ có thể liên kết một vật phẩm với linh hồn của bạn trong cùng
       một thời điểm."
@@ -375,3 +376,5 @@ cauldron:
   no-discoloring: "&4Bạn không thể đổi màu giáp của Slimefun"
 miner:
   no-ores: "&eXin lỗi, tôi không thể tìm bất kì Khoáng sản nào xung quanh!"
+placeholderapi:
+  profile-loading: Đang tải...
