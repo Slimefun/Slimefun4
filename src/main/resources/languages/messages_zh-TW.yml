@@ -350,3 +350,5 @@ cauldron:
   no-discoloring: "&4你不能把 Slimefun 裝備的顏色消除！"
 miner:
   no-ores: "&e附近沒礦了!"
+placeholderapi:
+  profile-loading: 載入中……
