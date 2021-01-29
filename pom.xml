@@ -23,7 +23,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Spigot properties -->
-        <spigot.version>1.16.4</spigot.version>
+        <spigot.version>1.16.5</spigot.version>
         <spigot.javadocs>https://hub.spigotmc.org/javadocs/spigot/</spigot.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -321,7 +321,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.21.0</version>
+            <version>0.22.1</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -387,7 +387,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.172</version>
+            <version>2.1.173</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>

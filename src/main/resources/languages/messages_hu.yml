@@ -134,6 +134,7 @@ messages:
     wizard: "&a&oA talizmánod erősítette a Szerencse varázslatot, de néhány egyéb
       varázslatot gyengített"
     caveman: "&a&oA talizmánod adott Sietség effektet"
+    wise: "&a&oA talizmánod megduplázta a dobott tapasztalat pontokat"
   soulbound-rune:
     fail: "&cEgyszerre csak egy tárgyat köthetsz a lelkedhez."
     success: "&aSikeresen hozzákötötted ezt a tárgyat a lelkedhez! Megmarad, amikor
@@ -313,6 +314,7 @@ android:
       own: "&4Nem értékelheted a saját szkriptedet!"
       already: "&4Ezt a szkriptet már értékelted!"
     editor: Szkript szerkesztő
+    too-long: "&cA szkript túl hosszú a szerkesztéshez!"
 languages:
   default: Szerver-alapértelmezett
   en: Angol

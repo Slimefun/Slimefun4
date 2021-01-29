@@ -28,6 +28,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.EntityEquipment;
@@ -249,14 +250,23 @@ public class TalismanListener implements Listener {
 
         // Wizard Talisman
         if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
-
-            for (Enchantment enchant : enchantments.keySet()) {
-                if (random.nextInt(100) < 40) {
-                    e.getEnchantsToAdd().put(enchant, random.nextInt(3) + 1);
+            // Randomly lower some enchantments
+            for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+                if (entry.getValue() > 1 && random.nextInt(100) < 40) {
+                    enchantments.put(entry.getKey(), entry.getValue() - 1);
                 }
             }
 
+            // Give an extra Fortune boost (Lvl 3 - 5)
             enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onExperienceReceive(PlayerExpChangeEvent e) {
+        if (e.getAmount() > 0 && Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
+            // Double-XP
+            e.setAmount(e.getAmount() * 2);
         }
     }
 
