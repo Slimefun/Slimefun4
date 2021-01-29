@@ -29,6 +29,7 @@
 * Added Talisman of the Wise
 * Added Book Binder
 * Added Tier 3 Electric Ore Grinder
+* Added an option to allow Talismans to send their notifications via the Actionbar
 
 #### Changes
 * Massive performance improvements to holograms/armorstands
