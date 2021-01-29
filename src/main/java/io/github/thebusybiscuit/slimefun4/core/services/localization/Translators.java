@@ -124,6 +124,7 @@ public class Translators {
         addTranslator("StarWishsama", "StarWish_Sama", SupportedLanguage.CHINESE_CHINA, false);
         addTranslator("Rothes", SupportedLanguage.CHINESE_CHINA, true);
         addTranslator("Chihsiao", SupportedLanguage.CHINESE_CHINA, true);
+        addTranslator("Jiejue233", SupportedLanguage.CHINESE_CHINA, true);
 
         // Translators - Chinese (Taiwan)
         addTranslator("BrineYT", "HeroBrineKing", SupportedLanguage.CHINESE_TAIWAN, true);
