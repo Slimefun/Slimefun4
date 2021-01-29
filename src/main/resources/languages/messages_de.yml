@@ -342,7 +342,6 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
-  pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   ar: Arabisch
   af: Afrikaans
@@ -355,6 +354,7 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
+  pt: Portugiesisch (Portugal)
   bg: Bulgarisch
   ko: Koreanisch
   tr: Türkisch
@@ -373,3 +373,5 @@ cauldron:
   no-discoloring: "&4Du kannst Slimefun-Rüstung nicht entfärben"
 miner:
   no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"
+placeholderapi:
+  profile-loading: Lade...
