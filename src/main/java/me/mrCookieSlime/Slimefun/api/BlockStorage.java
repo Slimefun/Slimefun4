@@ -378,7 +378,8 @@ public class BlockStorage {
      * This will return an {@link ImmutableMap} of the underline {@code Map<String, Config>} of
      * this worlds {@link BlockStorage}. If there is no registered world then this will return null.
      *
-     * @param world The world of which to fetch the data from.
+     * @param world
+     *            The world of which to fetch the data from.
      * @return An {@link ImmutableMap} of the raw data or null if the world isn't registered.
      */
     @Nullable

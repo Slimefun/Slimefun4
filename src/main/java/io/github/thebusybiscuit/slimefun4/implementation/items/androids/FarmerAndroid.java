@@ -64,22 +64,22 @@ public class FarmerAndroid extends ProgrammableAndroid {
         Random random = ThreadLocalRandom.current();
 
         switch (crop) {
-        case WHEAT:
-            return new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
-        case POTATOES:
-            return new ItemStack(Material.POTATO, random.nextInt(3) + 1);
-        case CARROTS:
-            return new ItemStack(Material.CARROT, random.nextInt(3) + 1);
-        case BEETROOTS:
-            return new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
-        case COCOA:
-            return new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
-        case NETHER_WART:
-            return new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
-        case SWEET_BERRY_BUSH:
-            return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
-        default:
-            return null;
+            case WHEAT:
+                return new ItemStack(Material.WHEAT, random.nextInt(2) + 1);
+            case POTATOES:
+                return new ItemStack(Material.POTATO, random.nextInt(3) + 1);
+            case CARROTS:
+                return new ItemStack(Material.CARROT, random.nextInt(3) + 1);
+            case BEETROOTS:
+                return new ItemStack(Material.BEETROOT, random.nextInt(3) + 1);
+            case COCOA:
+                return new ItemStack(Material.COCOA_BEANS, random.nextInt(3) + 1);
+            case NETHER_WART:
+                return new ItemStack(Material.NETHER_WART, random.nextInt(3) + 1);
+            case SWEET_BERRY_BUSH:
+                return new ItemStack(Material.SWEET_BERRIES, random.nextInt(3) + 1);
+            default:
+                return null;
         }
     }
 

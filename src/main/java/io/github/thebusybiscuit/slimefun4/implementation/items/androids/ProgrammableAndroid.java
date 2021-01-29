@@ -194,14 +194,14 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
      */
     public AndroidFuelSource getFuelSource() {
         switch (getTier()) {
-        case 1:
-            return AndroidFuelSource.SOLID;
-        case 2:
-            return AndroidFuelSource.LIQUID;
-        case 3:
-            return AndroidFuelSource.NUCLEAR;
-        default:
-            throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
+            case 1:
+                return AndroidFuelSource.SOLID;
+            case 2:
+                return AndroidFuelSource.LIQUID;
+            case 3:
+                return AndroidFuelSource.NUCLEAR;
+            default:
+                throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
         }
     }
 
@@ -564,38 +564,38 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     private void registerDefaultFuelTypes() {
         switch (getFuelSource()) {
-        case SOLID:
-            registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
-            registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
-            registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
+            case SOLID:
+                registerFuelType(new MachineFuel(80, new ItemStack(Material.COAL_BLOCK)));
+                registerFuelType(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
+                registerFuelType(new MachineFuel(70, new ItemStack(Material.DRIED_KELP_BLOCK)));
 
-            // Coal & Charcoal
-            registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
-            registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
+                // Coal & Charcoal
+                registerFuelType(new MachineFuel(8, new ItemStack(Material.COAL)));
+                registerFuelType(new MachineFuel(8, new ItemStack(Material.CHARCOAL)));
 
-            // Logs
-            for (Material mat : Tag.LOGS.getValues()) {
-                registerFuelType(new MachineFuel(2, new ItemStack(mat)));
-            }
+                // Logs
+                for (Material mat : Tag.LOGS.getValues()) {
+                    registerFuelType(new MachineFuel(2, new ItemStack(mat)));
+                }
 
-            // Wooden Planks
-            for (Material mat : Tag.PLANKS.getValues()) {
-                registerFuelType(new MachineFuel(1, new ItemStack(mat)));
-            }
+                // Wooden Planks
+                for (Material mat : Tag.PLANKS.getValues()) {
+                    registerFuelType(new MachineFuel(1, new ItemStack(mat)));
+                }
 
-            break;
-        case LIQUID:
-            registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
-            registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
-            registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
-            break;
-        case NUCLEAR:
-            registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
-            registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
-            registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
-            break;
-        default:
-            throw new IllegalStateException("Unhandled Fuel Source: " + getFuelSource());
+                break;
+            case LIQUID:
+                registerFuelType(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
+                registerFuelType(new MachineFuel(200, SlimefunItems.OIL_BUCKET));
+                registerFuelType(new MachineFuel(500, SlimefunItems.FUEL_BUCKET));
+                break;
+            case NUCLEAR:
+                registerFuelType(new MachineFuel(2500, SlimefunItems.URANIUM));
+                registerFuelType(new MachineFuel(1200, SlimefunItems.NEPTUNIUM));
+                registerFuelType(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
+                break;
+            default:
+                throw new IllegalStateException("Unhandled Fuel Source: " + getFuelSource());
         }
     }
 
@@ -685,26 +685,26 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             BlockFace face = rotationData == null ? BlockFace.NORTH : BlockFace.valueOf(rotationData);
 
             switch (instruction) {
-            case START:
-            case WAIT:
-                // We are "waiting" here, so we only move a step forward
-                BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-                break;
-            case REPEAT:
-                // "repeat" just means, we reset our index
-                BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
-                break;
-            case CHOP_TREE:
-                // We only move to the next step if we finished chopping wood
-                if (chopTree(b, inv, face)) {
+                case START:
+                case WAIT:
+                    // We are "waiting" here, so we only move a step forward
                     BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-                }
-                break;
-            default:
-                // We set the index here in advance to fix moving android issues
-                BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
-                instruction.execute(this, b, inv, face);
-                break;
+                    break;
+                case REPEAT:
+                    // "repeat" just means, we reset our index
+                    BlockStorage.addBlockInfo(b, "index", String.valueOf(0));
+                    break;
+                case CHOP_TREE:
+                    // We only move to the next step if we finished chopping wood
+                    if (chopTree(b, inv, face)) {
+                        BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                    }
+                    break;
+                default:
+                    // We set the index here in advance to fix moving android issues
+                    BlockStorage.addBlockInfo(b, "index", String.valueOf(index));
+                    instruction.execute(this, b, inv, face);
+                    break;
             }
         }
     }
