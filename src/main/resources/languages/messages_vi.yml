@@ -26,8 +26,8 @@ commands:
     not-rechargeable: Vật phẩm này không thể sạc được!
   timings:
     description: Độ trễ của slimefun và addon của nó
-    verbose-player: "&4Cờ dài này không thể sử dụng bới Người chơi!"
     please-wait: "&eVui lòng đợi một chút... Kết quả chuẩn bị đến!"
+    verbose-player: "&4Cờ dài này không thể sử dụng bới Người chơi!"
     unknown-flag: "&4Không rõ cờ: &c%flag%"
 guide:
   search:
