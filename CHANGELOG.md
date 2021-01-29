@@ -54,6 +54,7 @@
 * Fixed #2760
 * Fixed #2771
 * Fixed placeholders that did not get loaded yet not having a label
+* Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
 
