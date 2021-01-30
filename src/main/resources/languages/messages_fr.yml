@@ -24,7 +24,11 @@ commands:
     description: Charge l'objet que vous avez en main
     charge-success: L'objet a été chargé !
     not-rechargeable: Cet objet ne peut pas être chargé !
-  timings: Informations sur la latence de votre serveur
+  timings:
+    description: Timings pour Slimefun et ses addons
+    please-wait: "&eAttendez s'il vous plaît, les résultats arrivent !"
+    verbose-player: "&4Ce flag ne peux pas être utiliser par un joueur!"
+    unknown-flag: "&4Flag inconnu: &c%flag%"
 guide:
   search:
     message: "&bQue souhaitez-vous rechercher?"
