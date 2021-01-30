@@ -18,6 +18,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerPreResearchEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -88,7 +89,7 @@ public class Research implements Keyed {
      * @return Whether this {@link Research} is enabled or not
      */
     public boolean isEnabled() {
-        return SlimefunPlugin.getRegistry().isResearchingEnabled() && enabled;
+        return SlimefunPlugin.getConfigManager().isResearchingEnabled() && enabled;
     }
 
     /**
@@ -239,7 +240,7 @@ public class Research implements Keyed {
             return true;
         }
 
-        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled();
+        boolean creativeResearch = p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getConfigManager().isFreeCreativeResearchingEnabled();
         return creativeResearch || p.getLevel() >= cost;
     }
 
@@ -273,10 +274,10 @@ public class Research implements Keyed {
      * Registers this {@link Research}.
      */
     public void register() {
-        SlimefunPlugin.getResearchCfg().setDefaultValue("enable-researching", true);
+        Config config = SlimefunPlugin.getConfigManager().getResearchConfig();
         String path = key.getNamespace() + '.' + key.getKey();
 
-        if (SlimefunPlugin.getResearchCfg().contains(path + ".enabled") && !SlimefunPlugin.getResearchCfg().getBoolean(path + ".enabled")) {
+        if (config.contains(path + ".enabled") && !config.getBoolean(path + ".enabled")) {
             for (SlimefunItem item : new ArrayList<>(items)) {
                 if (item != null) {
                     item.setResearch(null);
@@ -287,10 +288,10 @@ public class Research implements Keyed {
             return;
         }
 
-        SlimefunPlugin.getResearchCfg().setDefaultValue(path + ".cost", getCost());
-        SlimefunPlugin.getResearchCfg().setDefaultValue(path + ".enabled", true);
+        config.setDefaultValue(path + ".cost", getCost());
+        config.setDefaultValue(path + ".enabled", true);
 
-        setCost(SlimefunPlugin.getResearchCfg().getInt(path + ".cost"));
+        setCost(config.getInt(path + ".cost"));
         enabled = true;
 
         SlimefunPlugin.getRegistry().getResearches().add(this);

@@ -140,7 +140,7 @@ public class BlockStorage {
         long done = 0;
         long timestamp = System.currentTimeMillis();
         long totalBlocks = 0;
-        int delay = SlimefunPlugin.getCfg().getInt("URID.info-delay");
+        int delay = SlimefunPlugin.getConfigManager().getPluginConfig().getInt("URID.info-delay");
 
         try {
             for (File file : directory.listFiles()) {
@@ -195,7 +195,7 @@ public class BlockStorage {
                      * Ignore the new entry if a block is already present and print an
                      * error to the console (if enabled).
                      */
-                    if (SlimefunPlugin.getRegistry().logDuplicateBlockEntries()) {
+                    if (SlimefunPlugin.getConfigManager().isDuplicateBlockLoggingEnabled()) {
                         SlimefunPlugin.logger().log(Level.INFO, "Ignoring duplicate block @ {0}, {1}, {2} ({3} -> {4})", new Object[] { l.getBlockX(), l.getBlockY(), l.getBlockZ(), blockInfo.getString("id"), storage.get(l).getString("id") });
                     }
 

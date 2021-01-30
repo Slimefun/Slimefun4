@@ -36,7 +36,7 @@ class VersionsCommand extends SubCommand {
                 sender.sendMessage(ChatColors.color("&aMetrics build: &2#" + SlimefunPlugin.getMetricsService().getVersion()));
             }
 
-            if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+            if (SlimefunPlugin.getConfigManager().isBackwardsCompatible()) {
                 sender.sendMessage(ChatColor.RED + "Backwards compatibility enabled!");
             }
 

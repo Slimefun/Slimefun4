@@ -42,7 +42,7 @@ class TestResearchCommand {
     @Test
     @DisplayName("Test /sf research all")
     void testResearchAll() throws InterruptedException {
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -55,7 +55,7 @@ class TestResearchCommand {
     @Test
     @DisplayName("Test /sf research <research id>")
     void testResearchSpecific() throws InterruptedException {
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 
@@ -68,7 +68,7 @@ class TestResearchCommand {
     @Test
     @DisplayName("Test /sf research reset")
     void testResearchReset() throws InterruptedException {
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
 

@@ -38,17 +38,27 @@ public class PermissionsService {
         config.getConfiguration().options().copyHeader(true);
     }
 
-    public void register(@Nonnull Iterable<SlimefunItem> items, boolean save) {
+    public void update(@Nonnull Iterable<SlimefunItem> items, boolean save) {
         for (SlimefunItem item : items) {
             if (item != null) {
-                String path = item.getId() + ".permission";
-
-                config.setDefaultValue(path, "none");
-                config.setDefaultValue(item.getId() + ".lore", new String[] { "&rYou do not have the permission", "&rto access this item." });
-
-                permissions.put(item.getId(), config.getString(path));
+                update(item, false);
             }
         }
+
+        if (save) {
+            config.save();
+        }
+    }
+
+    public void update(@Nonnull SlimefunItem item, boolean save) {
+        Validate.notNull(item, "The Item should not be null!");
+
+        String path = item.getId() + ".permission";
+
+        config.setDefaultValue(path, "none");
+        config.setDefaultValue(item.getId() + ".lore", new String[] { "&rYou do not have the permission", "&rto access this item." });
+
+        permissions.put(item.getId(), config.getString(path));
 
         if (save) {
             config.save();

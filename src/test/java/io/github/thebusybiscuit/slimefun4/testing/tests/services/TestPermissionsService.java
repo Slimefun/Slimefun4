@@ -47,7 +47,7 @@ class TestPermissionsService {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "PERMISSIONS_TEST", new CustomItem(Material.EMERALD, "&bBad omen"));
 
         if (registered) {
-            service.register(Arrays.asList(item), false);
+            service.update(Arrays.asList(item), false);
         }
 
         Optional<String> permission = service.getPermission(item);

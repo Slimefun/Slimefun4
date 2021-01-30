@@ -36,7 +36,7 @@ class TestProfileResearches {
     @Test
     @DisplayName("Test setting a Research as unlocked")
     void testSetResearched() throws InterruptedException {
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
 
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
@@ -57,7 +57,7 @@ class TestProfileResearches {
     @Test
     @DisplayName("Test checking if Research is unlocked")
     void testHasUnlocked() throws InterruptedException {
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
 
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);
@@ -76,14 +76,14 @@ class TestProfileResearches {
 
         // Researches are disabled now, so this method should pass
         // Whether Research#isEnabled() works correctly is covered elsewhere
-        SlimefunPlugin.getRegistry().setResearchingEnabled(false);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(false);
         Assertions.assertTrue(profile.hasUnlocked(research));
     }
 
     @Test
     @DisplayName("Test getting all unlocked Researches")
     void testGetResearches() throws InterruptedException {
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
 
         Player player = server.addPlayer();
         PlayerProfile profile = TestUtilities.awaitProfile(player);

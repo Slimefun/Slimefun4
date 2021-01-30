@@ -21,7 +21,9 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,6 +39,7 @@ import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun4.core.config.SlimefunConfigManager;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.core.services.AutoSavingService;
 import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
@@ -118,9 +121,11 @@ import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 /**
@@ -137,8 +142,9 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private boolean isNewlyInstalled = false;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
-    private final TickerTask ticker = new TickerTask();
+    private final SlimefunConfigManager configManager = new SlimefunConfigManager(this);
     private final SlimefunCommand command = new SlimefunCommand(this);
+    private final TickerTask ticker = new TickerTask();
 
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
@@ -160,11 +166,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     private NetworkManager networkManager;
     private LocalizationService local;
-
-    // Important config files for Slimefun
-    private final Config config = new Config(this);
-    private final Config items = new Config(this, "Items.yml");
-    private final Config researches = new Config(this, "Researches.yml");
 
     // Listeners that need to be accessed elsewhere
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
@@ -224,7 +225,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         local = new LocalizationService(this, "", null);
         networkManager = new NetworkManager(200);
         command.register();
-        registry.load(this, config);
+        configManager.update();
+        registry.load(this);
         loadTags();
     }
 
@@ -242,8 +244,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         // Disabling backwards-compatibility for fresh Slimefun installs
         if (!new File("data-storage/Slimefun").exists()) {
-            config.setValue("options.backwards-compatibility", false);
-            config.save();
+            configManager.getPluginConfig().setValue("options.backwards-compatibility", false);
+            configManager.getPluginConfig().save();
 
             isNewlyInstalled = true;
         }
@@ -251,10 +253,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Creating all necessary Folders
         getLogger().log(Level.INFO, "Creating directories...");
         createDirectories();
-        registry.load(this, config);
+        configManager.update();
+        registry.load(this);
 
         // Set up localization
         getLogger().log(Level.INFO, "Loading language files...");
+        Config config = configManager.getPluginConfig();
         local = new LocalizationService(this, config.getString("options.chat-prefix"), config.getString("options.language"));
 
         int networkSize = config.getInt("networks.max-size");
@@ -270,7 +274,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new Thread(metricsService::start, "Slimefun Metrics").start();
 
         // Starting the Auto-Updater
-        if (config.getBoolean("options.auto-update")) {
+        if (updaterService.isEnabled()) {
             getLogger().log(Level.INFO, "Starting Auto-Updater...");
             updaterService.start();
         } else {
@@ -290,7 +294,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         getLogger().log(Level.INFO, "Loading researches...");
         loadResearches();
 
-        registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
+        // Load our wiki entries
         PostSetup.setupWiki();
 
         getLogger().log(Level.INFO, "Registering listeners...");
@@ -299,7 +303,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
         runSync(new SlimefunStartupTask(this, () -> {
             textureService.register(registry.getAllSlimefunItems(), true);
-            permissionsService.register(registry.getAllSlimefunItems(), true);
+            permissionsService.update(registry.getAllSlimefunItems(), true);
 
             // This try/catch should prevent buggy Spigot builds from blocking item loading
             try {
@@ -641,16 +645,16 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         backpackListener.register(this);
 
         // Toggleable Listeners for performance reasons
-        if (config.getBoolean("items.talismans")) {
+        if (configManager.getPluginConfig().getBoolean("items.talismans")) {
             new TalismanListener(this);
         }
 
-        if (config.getBoolean("items.soulbound")) {
+        if (configManager.getPluginConfig().getBoolean("items.soulbound")) {
             new SoulboundListener(this);
         }
 
         // Handle Slimefun Guide being given on Join
-        new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));
+        new SlimefunGuideListener(this, configManager.isSlimefunGuideGivenOnJoin());
 
         // Load/Unload Worlds in Slimefun
         new WorldListener(this);
@@ -746,21 +750,48 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     @Nonnull
-    public static Config getCfg() {
+    public static SlimefunConfigManager getConfigManager() {
         validateInstance();
-        return instance.config;
+        return instance.configManager;
     }
 
+    /**
+     * This returns the config.
+     * 
+     * @deprecated Use {@link #getConfigManager()} instead.
+     * 
+     * @return the {@link Config}
+     */
+    @Deprecated
+    @Nonnull
+    public static Config getCfg() {
+        return getConfigManager().getPluginConfig();
+    }
+
+    /**
+     * This returns the research config.
+     * 
+     * @deprecated Use {@link #getConfigManager()} instead.
+     * 
+     * @return the {@link Config} or researches
+     */
+    @Deprecated
     @Nonnull
     public static Config getResearchCfg() {
-        validateInstance();
-        return instance.researches;
+        return getConfigManager().getResearchConfig();
     }
 
+    /**
+     * This returns the items config.
+     * 
+     * @deprecated Use {@link #getConfigManager()} instead.
+     * 
+     * @return the {@link Config} for items
+     */
+    @Deprecated
     @Nonnull
     public static Config getItemCfg() {
-        validateInstance();
-        return instance.items;
+        return getConfigManager().getItemsConfig();
     }
 
     @Nonnull
@@ -787,7 +818,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
-     * This method returns out {@link MinecraftRecipeService} for Slimefun.
+     * This method returns our {@link MinecraftRecipeService} for Slimefun.
      * This service is responsible for finding/identifying {@link Recipe Recipes}
      * from vanilla Minecraft.
      * 
@@ -799,18 +830,40 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.recipeService;
     }
 
+    /**
+     * This returns our {@link CustomItemDataService}.
+     * The service is responsible for assigning/reading custom persistent data to/from
+     * an {@link ItemStack}.
+     * <p>
+     * We use it to store our {@link SlimefunItem} ids on the {@link ItemStack}.
+     * 
+     * @return Our {@link CustomItemDataService} instance
+     */
     @Nonnull
     public static CustomItemDataService getItemDataService() {
         validateInstance();
         return instance.itemDataService;
     }
 
+    /**
+     * This returns our instance of {@link CustomTextureService}.
+     * This service assigns every {@link SlimefunItemStack} the corresponding
+     * custom model data as defined in the {@link Config}.
+     * 
+     * @return Our {@link CustomTextureService} instance
+     */
     @Nonnull
     public static CustomTextureService getItemTextureService() {
         validateInstance();
         return instance.textureService;
     }
 
+    /**
+     * This method returns our {@link PermissionsService}.
+     * This service handles any configured {@link Permission} for a {@link SlimefunItem}.
+     * 
+     * @return Our {@link PermissionsService}
+     */
     @Nonnull
     public static PermissionsService getPermissionsService() {
         validateInstance();

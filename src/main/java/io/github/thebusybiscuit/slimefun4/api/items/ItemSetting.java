@@ -5,6 +5,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 
+import com.google.common.base.Objects;
+
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -134,20 +136,25 @@ public class ItemSetting<T> {
      * 
      * @param item
      *            The {@link SlimefunItem} who called this method
+     * 
+     * @return Whether the value was successfully updated
      */
     @SuppressWarnings("unchecked")
-    public void load(@Nonnull SlimefunItem item) {
+    public boolean load(@Nonnull SlimefunItem item) {
         Validate.notNull(item, "Cannot apply settings for a non-existing SlimefunItem");
 
-        SlimefunPlugin.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
-        Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getId() + '.' + getKey());
+        Config config = SlimefunPlugin.getConfigManager().getItemsConfig();
+        config.setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
+        Object configuredValue = config.getValue(item.getId() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
             // We can unsafe cast here, we did an isInstance(...) check before!
             T newValue = (T) configuredValue;
 
             if (validateInput(newValue)) {
+                boolean hasChanged = !Objects.equal(value, defaultValue);
                 this.value = newValue;
+                return hasChanged;
             } else {
                 // @formatter:off
                 item.warn(
@@ -157,6 +164,7 @@ public class ItemSetting<T> {
                         "\n" + getErrorMessage()
                 );
                 // @formatter:on
+                return false;
             }
         } else {
             this.value = defaultValue;
@@ -170,6 +178,7 @@ public class ItemSetting<T> {
                     "\n  Expected \"" + defaultValue.getClass().getSimpleName() + "\" but found: \"" + found + "\""
             );
             // @formatter:on
+            return false;
         }
     }
 

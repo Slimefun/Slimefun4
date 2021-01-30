@@ -59,7 +59,7 @@ public interface SlimefunGuideImplementation {
     default void unlockItem(Player p, SlimefunItem sfitem, Consumer<Player> callback) {
         Research research = sfitem.getResearch();
 
-        if (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getRegistry().isFreeCreativeResearchingEnabled()) {
+        if (p.getGameMode() == GameMode.CREATIVE && SlimefunPlugin.getConfigManager().isFreeCreativeResearchingEnabled()) {
             research.unlock(p, true, callback);
         } else {
             p.setLevel(p.getLevel() - research.getCost());

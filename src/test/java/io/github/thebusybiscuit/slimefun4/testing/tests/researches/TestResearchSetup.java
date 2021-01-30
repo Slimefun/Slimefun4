@@ -42,7 +42,7 @@ class TestResearchSetup {
         // Not really ideal but still important to test.
         // Research amount is variable, so we can't test for that.
         // We are really only concerned about any runtime exceptions here.
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
         Assertions.assertDoesNotThrow(() -> ResearchSetup.setupResearches());
 
         // Running it a second time should NOT be allowed.

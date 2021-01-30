@@ -109,7 +109,7 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
         onFinish(p);
 
         // Check if the Server and the Player have enabled fireworks for researches
-        if (SlimefunPlugin.getRegistry().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
+        if (SlimefunPlugin.getConfigManager().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
             FireworkUtils.launchRandom(p, 1);
         }
     }

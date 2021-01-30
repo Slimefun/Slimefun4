@@ -135,7 +135,7 @@ public class UpdaterService {
      * @return Whether the {@link Updater} is enabled
      */
     public boolean isEnabled() {
-        return SlimefunPlugin.getCfg().getBoolean("options.auto-update") && updater != null;
+        return SlimefunPlugin.getConfigManager().isUpdaterEnabled() && updater != null;
     }
 
     /**

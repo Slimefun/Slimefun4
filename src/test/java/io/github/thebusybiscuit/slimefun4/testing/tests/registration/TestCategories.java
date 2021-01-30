@@ -173,7 +173,7 @@ class TestCategories {
         item.register(plugin);
         item.load();
 
-        SlimefunPlugin.getRegistry().setResearchingEnabled(true);
+        SlimefunPlugin.getConfigManager().setResearchingEnabled(true);
         Research research = new Research(new NamespacedKey(plugin, "cant_touch_this"), 432432, "MC Hammer", 90);
         research.addItems(item);
         research.register();

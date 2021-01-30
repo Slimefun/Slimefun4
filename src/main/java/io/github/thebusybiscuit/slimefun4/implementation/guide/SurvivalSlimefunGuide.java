@@ -69,10 +69,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
-    private final boolean showVanillaRecipes;
 
-    public SurvivalSlimefunGuide(boolean showVanillaRecipes) {
-        this.showVanillaRecipes = showVanillaRecipes;
+    public SurvivalSlimefunGuide() {
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
@@ -386,7 +384,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (!showVanillaRecipes) {
+        if (!SlimefunPlugin.getConfigManager().isVanillaRecipeShown()) {
             return;
         }
 
