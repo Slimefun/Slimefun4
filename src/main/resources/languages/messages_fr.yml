@@ -138,6 +138,7 @@ messages:
     wizard: "&a&oVotre talisman vous a donné un meilleur niveau de Fortune mais a
       peut-être diminué plusieurs autres enchantements"
     caveman: "&a&oVotre Talisman vous a donné Célérité"
+    wise: "&a&oVotre talisman a doublé votre XP"
   soulbound-rune:
     fail: "&cVous pouvez lier un seul objet à la fois à votre âme"
     success: "&aVous avez réussi à lier cet objet à votre âme! Vous le garderez quand
