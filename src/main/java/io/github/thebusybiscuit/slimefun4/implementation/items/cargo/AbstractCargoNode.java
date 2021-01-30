@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -33,12 +35,12 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @author TheBusyBiscuit
  *
  */
-abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> {
+abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> implements CargoNode {
 
     protected static final String FREQUENCY = "frequency";
 
     @ParametersAreNonnullByDefault
-    public AbstractCargoNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    AbstractCargoNode(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
         new BlockMenuPreset(getId(), ChatUtils.removeColorCodes(item.getItemMeta().getDisplayName())) {
@@ -132,7 +134,10 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> {
         });
     }
 
-    private int getSelectedChannel(@Nonnull Block b) {
+    @Override
+    public int getSelectedChannel(@Nonnull Block b) {
+        Validate.notNull(b, "Block must not be null");
+
         if (!BlockStorage.hasBlockInfo(b)) {
             return 0;
         } else {
@@ -147,12 +152,12 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> {
         }
     }
 
-    protected abstract void onPlace(@Nonnull BlockPlaceEvent e);
+    abstract void onPlace(@Nonnull BlockPlaceEvent e);
 
-    protected abstract void createBorder(@Nonnull BlockMenuPreset preset);
+    abstract void createBorder(@Nonnull BlockMenuPreset preset);
 
-    protected abstract void updateBlockMenu(@Nonnull BlockMenu menu, @Nonnull Block b);
+    abstract void updateBlockMenu(@Nonnull BlockMenu menu, @Nonnull Block b);
 
-    protected abstract void markDirty(@Nonnull Location loc);
+    abstract void markDirty(@Nonnull Location loc);
 
 }

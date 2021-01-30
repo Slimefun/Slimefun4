@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Axis;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -17,9 +20,10 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -30,33 +34,27 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @author TheBusyBiscuit
  *
  */
-public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
+public class LumberAxe extends SlimefunItem implements NotPlaceable {
 
     private static final int MAX_BROKEN = 100;
     private static final int MAX_STRIPPED = 20;
 
+    @ParametersAreNonnullByDefault
     public LumberAxe(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        addItemHandler(onBlockBreak(), onItemUse());
     }
 
-    @Override
-    public void preRegister() {
-        super.preRegister();
-
-        addItemHandler(onBlockBreak());
-    }
-
+    @Nonnull
     private ToolUseHandler onBlockBreak() {
         return (e, tool, fortune, drops) -> {
             if (Tag.LOGS.isTagged(e.getBlock().getType())) {
                 List<Block> logs = Vein.find(e.getBlock(), MAX_BROKEN, b -> Tag.LOGS.isTagged(b.getType()));
-
-                if (logs.contains(e.getBlock())) {
-                    logs.remove(e.getBlock());
-                }
+                logs.remove(e.getBlock());
 
                 for (Block b : logs) {
-                    if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
+                    if (!BlockStorage.hasBlockInfo(b) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
                         breakLog(b);
                     }
                 }
@@ -64,8 +62,8 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
         };
     }
 
-    @Override
-    public ItemUseHandler getItemHandler() {
+    @Nonnull
+    public ItemUseHandler onItemUse() {
         return e -> {
             if (e.getClickedBlock().isPresent()) {
                 Block block = e.getClickedBlock().get();
@@ -78,7 +76,7 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
                     }
 
                     for (Block b : logs) {
-                        if (SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
+                        if (!BlockStorage.hasBlockInfo(b) && SlimefunPlugin.getProtectionManager().hasPermission(e.getPlayer(), b, ProtectableAction.BREAK_BLOCK)) {
                             stripLog(b);
                         }
                     }
@@ -87,11 +85,11 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
         };
     }
 
-    private boolean isUnstrippedLog(Block block) {
+    private boolean isUnstrippedLog(@Nonnull Block block) {
         return Tag.LOGS.isTagged(block.getType()) && !block.getType().name().startsWith("STRIPPED_");
     }
 
-    private void stripLog(Block b) {
+    private void stripLog(@Nonnull Block b) {
         b.getWorld().playSound(b.getLocation(), Sound.ITEM_AXE_STRIP, 1, 1);
         Axis axis = ((Orientable) b.getBlockData()).getAxis();
         b.setType(Material.valueOf("STRIPPED_" + b.getType().name()));
@@ -101,7 +99,7 @@ public class LumberAxe extends SimpleSlimefunItem<ItemUseHandler> implements Not
         b.setBlockData(orientable);
     }
 
-    private void breakLog(Block b) {
+    private void breakLog(@Nonnull Block b) {
         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
 
         for (ItemStack drop : b.getDrops(getItem())) {

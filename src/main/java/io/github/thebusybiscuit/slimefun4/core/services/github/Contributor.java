@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
-import io.github.thebusybiscuit.cscorelib2.data.ComputedOptional;
+import io.github.thebusybiscuit.cscorelib2.data.TriStateOptional;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
@@ -35,7 +35,7 @@ public class Contributor {
     private final String profileLink;
 
     private final ConcurrentMap<String, Integer> contributions = new ConcurrentHashMap<>();
-    private final ComputedOptional<String> headTexture = ComputedOptional.createNew();
+    private final TriStateOptional<String> headTexture = TriStateOptional.createNew();
 
     private Optional<UUID> uuid = Optional.empty();
     private boolean immutable = false;
@@ -179,8 +179,22 @@ public class Contributor {
      */
     @Nonnull
     public String getTexture() {
+        return getTexture(SlimefunPlugin.getGitHubService());
+    }
+
+    /**
+     * Returns this contributor's head texture.
+     * If no texture could be found, or it hasn't been pulled yet,
+     * then it will return a placeholder texture.
+     * 
+     * @param github
+     *            Our {@link GitHubService} instance
+     * 
+     * @return A Base64-Head Texture
+     */
+    @Nonnull
+    protected String getTexture(@Nonnull GitHubService github) {
         if (!headTexture.isComputed() || !headTexture.isPresent()) {
-            GitHubService github = SlimefunPlugin.getGitHubService();
             String cached = github.getCachedTexture(githubUsername);
 
             if (cached != null) {

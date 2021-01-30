@@ -133,6 +133,7 @@ messages:
     whirlwind: "&a&oタリスマンが飛び道具から身を護った"
     wizard: "&a&oタリスマンが高レベルの幸運を付与したが、他のエンチャントレベルは下がってしまった"
     caveman: "&a&oタリスマンが採掘速度を上昇させた"
+    wise: "&a&oタリスマンが経験値のドロップを倍にした"
   soulbound-rune:
     fail: "&c一度に複数アイテムとのバインディングはできません"
     success: "&aアイテムとのバインディングが確立した！リスポーン時に当該アイテムは手繰り寄せられます"
@@ -296,6 +297,7 @@ android:
       own: "&4自身のスクリプトは評価できません！"
       already: "&4このスクリプトは評価済みです！"
     editor: スクリプトエディタ
+    too-long: "&cこのスクリプトは長すぎて編集できません！"
 languages:
   default: サーバデフォルト
   en: 英語
@@ -348,3 +350,5 @@ cauldron:
   no-discoloring: "&4Slimefunアイテムの脱色はできません"
 miner:
   no-ores: "&e周辺には鉱石が見つかりませんでした！"
+placeholderapi:
+  profile-loading: ロード中…

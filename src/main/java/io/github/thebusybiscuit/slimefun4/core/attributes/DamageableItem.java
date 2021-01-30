@@ -24,7 +24,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
-@FunctionalInterface
 public interface DamageableItem extends ItemAttribute {
 
     /**

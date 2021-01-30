@@ -16,7 +16,7 @@ class TestHeadTextures {
     void testForDuplicates() {
         Set<String> textures = new HashSet<>();
 
-        for (HeadTexture head : HeadTexture.valuesCache) {
+        for (HeadTexture head : HeadTexture.values()) {
             String texture = head.getTexture();
             Assertions.assertNotNull(texture);
 

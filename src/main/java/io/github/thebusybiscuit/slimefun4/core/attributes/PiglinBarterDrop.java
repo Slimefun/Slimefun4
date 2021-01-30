@@ -17,7 +17,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see RandomMobDrop
  * 
  */
-@FunctionalInterface
 public interface PiglinBarterDrop extends ItemAttribute {
 
     /**

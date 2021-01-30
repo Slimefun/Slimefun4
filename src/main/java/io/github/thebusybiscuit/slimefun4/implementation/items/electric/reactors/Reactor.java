@@ -23,14 +23,13 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncReactorProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -56,7 +55,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see NetherStarReactor
  *
  */
-public abstract class Reactor extends AbstractEnergyProvider {
+public abstract class Reactor extends AbstractEnergyProvider implements HologramOwner {
 
     public static Map<Location, MachineFuel> processing = new HashMap<>();
     public static Map<Location, Integer> progress = new HashMap<>();
@@ -118,7 +117,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
 
             progress.remove(b.getLocation());
             processing.remove(b.getLocation());
-            SimpleHologram.remove(b);
+            removeHologram(b);
             return true;
         });
 
@@ -129,24 +128,24 @@ public abstract class Reactor extends AbstractEnergyProvider {
         ReactorMode mode = getReactorMode(b.getLocation());
 
         switch (mode) {
-        case GENERATOR:
-            menu.replaceExistingItem(4, new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
-            menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
-                updateInventory(menu, b);
-                return false;
-            });
-            break;
-        case PRODUCTION:
-            menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
-            menu.addMenuClickHandler(4, (p, slot, item, action) -> {
-                BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
-                updateInventory(menu, b);
-                return false;
-            });
-            break;
-        default:
-            break;
+            case GENERATOR:
+                menu.replaceExistingItem(4, new CustomItem(SlimefunItems.NUCLEAR_REACTOR, "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7\u21E8 Click to change the Focus to &eProduction"));
+                menu.addMenuClickHandler(4, (p, slot, item, action) -> {
+                    BlockStorage.addBlockInfo(b, MODE, ReactorMode.PRODUCTION.toString());
+                    updateInventory(menu, b);
+                    return false;
+                });
+                break;
+            case PRODUCTION:
+                menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7\u21E8 Click to change the Focus to &ePower Generation"));
+                menu.addMenuClickHandler(4, (p, slot, item, action) -> {
+                    BlockStorage.addBlockInfo(b, MODE, ReactorMode.GENERATOR.toString());
+                    updateInventory(menu, b);
+                    return false;
+                });
+                break;
+            default:
+                break;
         }
 
         BlockMenu port = getAccessPort(b.getLocation());
@@ -332,7 +331,7 @@ public abstract class Reactor extends AbstractEnergyProvider {
                 Bukkit.getPluginManager().callEvent(event);
 
                 BlockStorage.getInventory(l).close();
-                SimpleHologram.remove(l.getBlock());
+                removeHologram(l.getBlock());
             });
 
             explosionsQueue.remove(l);
@@ -427,14 +426,14 @@ public abstract class Reactor extends AbstractEnergyProvider {
             for (int slot : getCoolantSlots()) {
                 if (SlimefunUtils.isItemSimilar(menu.getItemInSlot(slot), coolant, true, false)) {
                     menu.consumeItem(slot);
-                    ReactorHologram.update(reactor, "&b\u2744 &7100%");
+                    updateHologram(reactor.getBlock(), "&b\u2744 &7100%");
                     return true;
                 }
             }
 
             return false;
         } else {
-            ReactorHologram.update(reactor, "&b\u2744 &7" + getPercentage(timeleft, processing.get(reactor).getTicks()) + "%");
+            updateHologram(reactor.getBlock(), "&b\u2744 &7" + getPercentage(timeleft, processing.get(reactor).getTicks()) + "%");
         }
 
         return true;

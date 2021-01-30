@@ -53,10 +53,12 @@ public final class ItemStackWrapper extends ItemStack {
 
     @Override
     public ItemMeta getItemMeta() {
-        // This method normally always does a .clone() operation which can be very slow.
-        // Since this class is immutable, we can simply let the super class create one copy
-        // and then store that instead of creating a clone everytime.
-        // This will significantly speed up any loop comparisons if used correctly.
+        /*
+         * This method normally always does a .clone() operation which can be very slow.
+         * Since this class is immutable, we can simply let the super class create one copy
+         * and then store that instead of creating a clone everytime.
+         * This will significantly speed up any loop comparisons if used correctly.
+         */
         if (meta == null) {
             throw new UnsupportedOperationException("This ItemStack has no ItemMeta! Make sure to check ItemStack#hasItemMeta() before accessing this method!");
         } else {

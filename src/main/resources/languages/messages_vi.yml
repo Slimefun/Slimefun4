@@ -4,7 +4,6 @@ commands:
   cheat: Cho phép bạn gian lận vật phẩm
   give: Đưa cho ai đó vài món đồ Slimefun
   guide: Cung cấp cho bạn một cuốn hướng dẫn Slimefun
-  timings: Thông tin Lag về máy chủ của bạn
   teleporter: Xem các điểm dịch chuyển của người chơi khác
   versions: Liệt kê tất cả các tiện ích mở rộng đã cài đặt
   search: Tìm kiếm Hướng dẫn của bạn cho cụm từ đã cho
@@ -25,6 +24,11 @@ commands:
     description: Sạc vật phẩm bạn đang cầm
     charge-success: Vật phẩm này đã sạc xong!
     not-rechargeable: Vật phẩm này không thể sạc được!
+  timings:
+    description: Độ trễ của slimefun và addon của nó
+    please-wait: "&eVui lòng đợi một chút... Kết quả chuẩn bị đến!"
+    verbose-player: "&4Cờ dài này không thể sử dụng bới Người chơi!"
+    unknown-flag: "&4Không rõ cờ: &c%flag%"
 guide:
   search:
     message: "&bBạn muốn tìm kiếm cái gì?"
@@ -134,6 +138,7 @@ messages:
     wizard: "&a&oBùa hộ mệnh của bạn đã cho bạn một Cấp độ may mắn tốt hơn nhưng cũng
       có thể hạ thấp một số Cấp độ phù phép khác"
     caveman: "&a&oBùa ma thuật của bạn cho bạn hiệu ứng Đào nhanh"
+    wise: "&a&oBùa ma thuật đã nhân đôi số kinh nghiệm của bạn"
   soulbound-rune:
     fail: "&cBạn chỉ có thể liên kết một vật phẩm với linh hồn của bạn trong cùng
       một thời điểm."
@@ -170,25 +175,13 @@ messages:
   - "&7Luôn nhìn theo hướng tích cực!"
   - "&7 Cái này là bánh giòn chứ không phải bánh phồng"
   - "&7Bảng đèn neon đẹp dữ!"
-  invalid-item: "&4%item% &ckhông phải là vật phẩm hợp lệ!"
-  invalid-amount: "&4%amount% &ckhông hợp lệ : phải lớn hơn 0!"
-  invalid-research: "&4%research% &ckhông phải là nghiên cứu hợp lệ!"
-  mode-change: "&b%device% đổi chế độ thành: &9%mode%"
   piglin-barter: "&4Bạn không thể trao đổi với piglin bằng vật phẩm của Slimefun"
-  multi-tool:
-    mode-change: "&b%device% chế độ thay đổi thành: &9%mode%"
-    not-shears: "&cA Đa dụng cụ này không thể sử dụng như cái kéo!"
-  climbing-pick:
-    dual-wielding: "&4Bạn cần cầm Rìu leo ở cả 2 tay để dùng nó!"
-    wrong-material: "&cBạn không thể leo bề mặt này. Hãy xem hướng dẫn của Slimefun
-      để biết thêm!"
-  bee-suit-slow-fall: "&eCánh ong của bạn sẽ giúp bạn tiếp đất an toàn và chậm"
   enchantment-rune:
     fail: "&cBạn không thể phù phép vật phẩm này."
-    success: "&aBạn đã áp dụng thành công một loại phù phép ngẫu nhiên cho vật phẩm
-      này."
     no-enchantment: "&cKhông thể tìm được bất kì loại phù phép nào phù hợp cho vật
       phẩm"
+    success: "&aBạn đã áp dụng thành công một loại phù phép ngẫu nhiên cho vật phẩm
+      này."
   tape-measure:
     no-anchor: "&cBạn cần đặt neo trước khi có thể bắt đầu đo!"
     wrong-world: "&cNeo của bạn dường như đang ở trong một thế giới khác!"
@@ -196,6 +189,18 @@ messages:
       &7Đo lường được thực hiện.
       &eKhoảng cách: %distance%
     anchor-set: "&aĐặt thành công neo:&e%anchor%"
+  multi-tool:
+    mode-change: "&b%device% chế độ thay đổi thành: &9%mode%"
+    not-shears: "&cA Đa dụng cụ này không thể sử dụng như cái kéo!"
+  climbing-pick:
+    dual-wielding: "&4Bạn cần cầm Rìu leo ở cả 2 tay để dùng nó!"
+    wrong-material: "&cBạn không thể leo bề mặt này. Hãy xem hướng dẫn của Slimefun
+      để biết thêm!"
+  invalid-item: "&4%item% &ckhông phải là vật phẩm hợp lệ!"
+  invalid-amount: "&4%amount% &ckhông hợp lệ : phải lớn hơn 0!"
+  invalid-research: "&4%research% &ckhông phải là nghiên cứu hợp lệ!"
+  bee-suit-slow-fall: "&eCánh ong của bạn sẽ giúp bạn tiếp đất an toàn và chậm"
+  mode-change: "&b%device% đổi chế độ thành: &9%mode%"
 machines:
   pattern-not-found: "&eXin lỗi, tôi không thể nhận ra Công Thức này. Vui lòng đặt
     các vật phẩm với mẫu nhất định vào trong Máy Phân Phát."
@@ -318,6 +323,7 @@ android:
       own: "&4Bạn không thể xếp hạng đoạn mã của chính mình!"
       already: "&4Bạn đã để lại Xếp Hạng cho đoạn mã này!"
     editor: Trình chỉnh sửa kịch bản
+    too-long: "&cĐoạn mã quá dài để chỉnh sửa!"
 languages:
   default: Máy chủ-Mặc định
   en: Tiếng Anh
@@ -339,7 +345,6 @@ languages:
   zh-CN: Tiếng Trung (Trung Quốc)
   el: Tiếng Hy Lạp
   he: Tiếng Do Thái
-  pt: Tiếng Bồ Đào Nha (Bồ Đào Nha)
   pt-BR: Tiếng Bồ Đào Nha (Brazil)
   ar: Tiếng Ả Rập
   af: Tiếng Nam Phi
@@ -352,6 +357,7 @@ languages:
   fa: Tiếng Ba Tư
   th: Tiếng Thái
   ro: Tiếng Rumani
+  pt: Tiếng Bồ Đào Nha (Bồ Đào Nha)
   bg: Tiếng Bulgaria
   ko: Tiếng Hàn
   tr: Tiếng Thổ Nhĩ Kỳ
@@ -360,13 +366,15 @@ languages:
   sr: Tiếng Serbia
   be: Tiếng Bêlarut
   tl: Tiếng Filipino
-miner:
-  no-ores: "&eXin lỗi, tôi không thể tìm bất kì Khoáng sản nào xung quanh!"
+brewing_stand:
+  not-working: "&4Bạn không thể sử dụng các vật phẩm Slimefun trong quầy pha chế thuốc!"
 villagers:
   no-trading: "&4Bạn không thể trao đổi các  vật phẩm Slimefun với dân làng!"
 cartography_table:
   not-working: "&4Bạn không thể sử dụng vật phẩm sủa Slimefun trong bàn sửa bản đồ"
 cauldron:
   no-discoloring: "&4Bạn không thể đổi màu giáp của Slimefun"
-brewing_stand:
-  not-working: "&4Bạn không thể sử dụng các vật phẩm Slimefun trong quầy pha chế thuốc!"
+miner:
+  no-ores: "&eXin lỗi, tôi không thể tìm bất kì Khoáng sản nào xung quanh!"
+placeholderapi:
+  profile-loading: Đang tải...

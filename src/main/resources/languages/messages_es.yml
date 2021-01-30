@@ -4,7 +4,6 @@ commands:
   cheat: Te da objetos con trucos.
   give: Da a alguien algún objeto de Slimefun.
   guide: Obtén la guia de Slimefun.
-  timings: Información del lag de tu servidor.
   teleporter: Ve los  Waypoints de otros jugadores.
   versions: Lista los Addons instalados.
   search: Busca en la guía el término dado.
@@ -24,6 +23,11 @@ commands:
     description: Carga el ítem que estés sosteniendo
     charge-success: El Ítem ha sido cargado!
     not-rechargeable: Este ítem no puede ser cargado!
+  timings:
+    description: Timings para Slimefun y sus addon
+    please-wait: "&ePor favor, espere un segundo... ¡Los resultados están llegando!"
+    verbose-player: "&4La flag verbose no puede ser usada por un jugador!"
+    unknown-flag: "&4flag desconocida: &c%flag%"
 guide:
   search:
     message: "&b¿Qué te gustaría buscar?"
@@ -130,6 +134,7 @@ messages:
     wizard: "&a&oTu talismán te ha dado un mayor nivel de fortuna, pero pudo disminuír
       el nivel de otros encantamientos."
     caveman: "&a&oTu Talismán te ha dado Haste"
+    wise: "&a&oTu Talismán ha duplicado tu drop de experiencia"
   soulbound-rune:
     fail: "&cSolo puedes ligar un objeto a tu alma."
     success: "&a¡Has ligado este objeto a tu alma exitosamente! No lo perderás al
@@ -185,6 +190,8 @@ messages:
   invalid-item: "&c¡&4%item% &cno es un objeto válido!"
   invalid-amount: "&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a 0!"
   invalid-research: "&c¡&4%research% &cno es un conocimiento válido!"
+  bee-suit-slow-fall: "&eTus alas de Abeja te ayudarán a llegar seguro y lento al
+    piso"
   mode-change: 'El modo de &b%device% ha cambiado a: &9%mode%'
 machines:
   pattern-not-found: "&eLo siento, no puedo reconocer esta receta. Por favor coloca
@@ -308,6 +315,7 @@ android:
       own: "&4¡No puedes calificar tu propio script!"
       already: "&4¡Ya has calificado este script!"
     editor: Editor de Guión
+    too-long: "&cEl script es demasiado largo para editar!"
 languages:
   default: Predeterminado
   en: Inglés
@@ -329,6 +337,7 @@ languages:
   zh-CN: Chino (China)
   el: Griego
   he: Hebreo
+  pt: Portugués (Portugal)
   ar: Árabe
   af: Africano
   da: Danés
@@ -340,7 +349,6 @@ languages:
   fa: Persa
   th: Tailandés
   ro: Rumano
-  pt: Portugués (Portugal)
   pt-BR: Portugués (Brasil)
   bg: Búlgaro
   ko: Coreano

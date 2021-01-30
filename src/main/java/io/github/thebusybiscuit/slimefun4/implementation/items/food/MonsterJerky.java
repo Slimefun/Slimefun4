@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -21,6 +23,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class MonsterJerky extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
+    @ParametersAreNonnullByDefault
     public MonsterJerky(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

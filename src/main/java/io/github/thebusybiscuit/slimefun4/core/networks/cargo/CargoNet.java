@@ -17,8 +17,8 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -36,7 +36,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @author DNx5
  *
  */
-public class CargoNet extends AbstractItemNetwork {
+public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
     private static final int RANGE = 5;
     private static final int TICK_DELAY = SlimefunPlugin.getCfg().getInt("networks.cargo-ticker-delay");
@@ -74,6 +74,11 @@ public class CargoNet extends AbstractItemNetwork {
     }
 
     @Override
+    public String getId() {
+        return "CARGO_NETWORK";
+    }
+
+    @Override
     public int getRange() {
         return RANGE;
     }
@@ -87,19 +92,19 @@ public class CargoNet extends AbstractItemNetwork {
         }
 
         switch (id) {
-        case "CARGO_MANAGER":
-            return NetworkComponent.REGULATOR;
-        case "CARGO_NODE":
-            return NetworkComponent.CONNECTOR;
-        case "CARGO_NODE_INPUT":
-        case "CARGO_NODE_OUTPUT":
-        case "CARGO_NODE_OUTPUT_ADVANCED":
-        case "CT_IMPORT_BUS":
-        case "CT_EXPORT_BUS":
-        case "CHEST_TERMINAL":
-            return NetworkComponent.TERMINUS;
-        default:
-            return null;
+            case "CARGO_MANAGER":
+                return NetworkComponent.REGULATOR;
+            case "CARGO_NODE":
+                return NetworkComponent.CONNECTOR;
+            case "CARGO_NODE_INPUT":
+            case "CARGO_NODE_OUTPUT":
+            case "CARGO_NODE_OUTPUT_ADVANCED":
+            case "CT_IMPORT_BUS":
+            case "CT_EXPORT_BUS":
+            case "CHEST_TERMINAL":
+                return NetworkComponent.TERMINUS;
+            default:
+                return null;
         }
     }
 
@@ -118,40 +123,40 @@ public class CargoNet extends AbstractItemNetwork {
         if (to == NetworkComponent.TERMINUS) {
             String id = BlockStorage.checkID(l);
             switch (id) {
-            case "CARGO_NODE_INPUT":
-                inputNodes.add(l);
-                break;
-            case "CARGO_NODE_OUTPUT":
-            case "CARGO_NODE_OUTPUT_ADVANCED":
-                outputNodes.add(l);
-                break;
-            case "CHEST_TERMINAL":
-                terminals.add(l);
-                break;
-            case "CT_IMPORT_BUS":
-                imports.add(l);
-                break;
-            case "CT_EXPORT_BUS":
-                exports.add(l);
-                break;
-            default:
-                break;
+                case "CARGO_NODE_INPUT":
+                    inputNodes.add(l);
+                    break;
+                case "CARGO_NODE_OUTPUT":
+                case "CARGO_NODE_OUTPUT_ADVANCED":
+                    outputNodes.add(l);
+                    break;
+                case "CHEST_TERMINAL":
+                    terminals.add(l);
+                    break;
+                case "CT_IMPORT_BUS":
+                    imports.add(l);
+                    break;
+                case "CT_EXPORT_BUS":
+                    exports.add(l);
+                    break;
+                default:
+                    break;
             }
         }
     }
 
     public void tick(Block b) {
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4Multiple Cargo Regulators connected");
+            updateHologram(b, "&4Multiple Cargo Regulators connected");
             return;
         }
 
         super.tick();
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-            SimpleHologram.update(b, "&cNo Cargo Nodes found");
+            updateHologram(b, "&cNo Cargo Nodes found");
         } else {
-            SimpleHologram.update(b, "&7Status: &a&lONLINE");
+            updateHologram(b, "&7Status: &a&lONLINE");
 
             // Skip ticking if the threshold is not reached. The delay is not same as minecraft tick,
             // but it's based on 'custom-ticker-delay' config.

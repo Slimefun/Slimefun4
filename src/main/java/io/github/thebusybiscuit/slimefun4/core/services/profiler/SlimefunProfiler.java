@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
@@ -61,7 +60,22 @@ public class SlimefunProfiler {
      */
     private final ExecutorService executor = Executors.newFixedThreadPool(threadFactory.getThreadCount(), threadFactory);
 
-    private final AtomicBoolean isProfiling = new AtomicBoolean(false);
+    /**
+     * All possible values of {@link PerformanceRating}.
+     * We cache these for fast access since Enum#values() creates
+     * an array everytime it is called.
+     */
+    private final PerformanceRating[] performanceRatings = PerformanceRating.values();
+
+    /**
+     * This boolean marks whether we are currently profiling or not.
+     */
+    private volatile boolean isProfiling = false;
+
+    /**
+     * This {@link AtomicInteger} holds the amount of blocks that still need to be
+     * profiled.
+     */
     private final AtomicInteger queued = new AtomicInteger(0);
 
     private long totalElapsedTime;
@@ -82,7 +96,7 @@ public class SlimefunProfiler {
      * This method starts the profiling, data from previous runs will be cleared.
      */
     public void start() {
-        isProfiling.set(true);
+        isProfiling = true;
         queued.set(0);
         timings.clear();
     }
@@ -93,7 +107,7 @@ public class SlimefunProfiler {
      * @return A timestamp, best fed back into {@link #closeEntry(Location, SlimefunItem, long)}
      */
     public long newEntry() {
-        if (!isProfiling.get()) {
+        if (!isProfiling) {
             return 0;
         }
 
@@ -112,7 +126,7 @@ public class SlimefunProfiler {
      *            The amount of entries that should be scheduled. Can be negative
      */
     public void scheduleEntries(int amount) {
-        if (isProfiling.get()) {
+        if (isProfiling) {
             queued.getAndAdd(amount);
         }
     }
@@ -155,7 +169,7 @@ public class SlimefunProfiler {
      * This stops the profiling.
      */
     public void stop() {
-        isProfiling.set(false);
+        isProfiling = false;
 
         if (SlimefunPlugin.instance() == null || !SlimefunPlugin.instance().isEnabled()) {
             // Slimefun has been disabled
@@ -170,7 +184,7 @@ public class SlimefunProfiler {
         int iterations = 4000;
 
         // Wait for all timing results to come in
-        while (!isProfiling.get() && queued.get() > 0) {
+        while (!isProfiling && queued.get() > 0) {
             try {
                 /**
                  * Since we got more than one Thread in our pool,
@@ -196,7 +210,7 @@ public class SlimefunProfiler {
             }
         }
 
-        if (isProfiling.get() && queued.get() > 0) {
+        if (isProfiling && queued.get() > 0) {
             // Looks like the next profiling has already started, abort!
             return;
         }
@@ -324,7 +338,7 @@ public class SlimefunProfiler {
     public PerformanceRating getPerformance() {
         float percentage = getPercentageOfTick();
 
-        for (PerformanceRating rating : PerformanceRating.valuesCache) {
+        for (PerformanceRating rating : performanceRatings) {
             if (rating.test(percentage)) {
                 return rating;
             }

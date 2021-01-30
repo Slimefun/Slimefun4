@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,6 +28,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class FortuneCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
+    @ParametersAreNonnullByDefault
     public FortuneCookie(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

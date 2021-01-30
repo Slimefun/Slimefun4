@@ -32,6 +32,9 @@ commands:
     verbose-player: '&4The verbose flag cannot be used by a Player!'
     unknown-flag: '&4Unknown flag: &c%flag%'
 
+placeholderapi:
+  profile-loading: 'Loading...'
+
 guide:
   locked: 'LOCKED'
   work-in-progress: 'This feature is not fully finished yet!'
@@ -158,6 +161,7 @@ messages:
     whirlwind: '&a&oYour Talisman reflected the Projectile'
     wizard: '&a&oYour Talisman has given you a better Fortune Level but maybe also lowered some other Enchantment Levels'
     caveman: '&a&oYour Talisman gave you haste'
+    wise: '&a&oYour Talisman has doubled your experience drops'
 
   soulbound-rune:
     fail: '&cYou can only bind one item to your soul at a time.'
@@ -314,6 +318,7 @@ android:
   scripts:
     already-uploaded: '&4This script has already been uploaded.'
     editor: 'Script Editor'
+    too-long: '&cThe script is too long to edit!'
     
     instructions:
       START: '&2Start Script'

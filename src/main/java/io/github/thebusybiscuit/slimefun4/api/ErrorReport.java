@@ -35,6 +35,9 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * an {@link ErrorReport} instead.
  * Error reports get saved in the plugin folder.
  * 
+ * @param <T>
+ *            The type of {@link Throwable} which has spawned this {@link ErrorReport}
+ * 
  * @author TheBusyBiscuit
  *
  */
@@ -146,7 +149,6 @@ public class ErrorReport<T extends Throwable> {
             stream.println();
 
             stream.println("Slimefun Environment:");
-            stream.println("  CS-CoreLib v" + SlimefunPlugin.getCSCoreLibVersion());
             stream.println("  Slimefun v" + SlimefunPlugin.getVersion());
             stream.println("  Caused by: " + addon.getName() + " v" + addon.getPluginVersion());
             stream.println();
@@ -222,6 +224,16 @@ public class ErrorReport<T extends Throwable> {
         return newFile;
     }
 
+    /**
+     * This helper method wraps the given {@link Runnable} into a try-catch block.
+     * When an {@link Exception} occurs, a new {@link ErrorReport} will be generated using
+     * the provided {@link Function}.
+     * 
+     * @param function
+     *            The {@link Function} to generate a new {@link ErrorReport}
+     * @param runnable
+     *            The code to execute
+     */
     public static void tryCatch(@Nonnull Function<Exception, ErrorReport<Exception>> function, @Nonnull Runnable runnable) {
         try {
             runnable.run();

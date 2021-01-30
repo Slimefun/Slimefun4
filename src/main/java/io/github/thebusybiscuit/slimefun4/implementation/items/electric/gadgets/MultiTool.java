@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +23,13 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link MultiTool} is an electric device which can mimic
+ * the behaviour of any other {@link SlimefunItem}.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
 public class MultiTool extends SlimefunItem implements Rechargeable {
 
     private static final float COST = 0.3F;
@@ -28,6 +38,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
     private final List<MultiToolMode> modes = new ArrayList<>();
     private final float capacity;
 
+    @ParametersAreNonnullByDefault
     public MultiTool(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, float capacity, String... items) {
         super(category, item, recipeType, recipe);
 
@@ -52,12 +63,12 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             if (index >= modes.size()) {
                 index = 0;
             }
-        }
-        while (index != i && !modes.get(index).isEnabled());
+        } while (index != i && !modes.get(index).isEnabled());
 
         return index;
     }
 
+    @Nonnull
     protected ItemUseHandler getItemUseHandler() {
         return e -> {
             Player p = e.getPlayer();
@@ -69,6 +80,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             if (!p.isSneaking()) {
                 if (removeItemCharge(item, COST)) {
                     SlimefunItem sfItem = modes.get(index).getItem();
+
                     if (sfItem != null) {
                         sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(e));
                     }
@@ -84,25 +96,28 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
         };
     }
 
+    @Nonnull
     private ToolUseHandler getToolUseHandler() {
         return (e, tool, fortune, drops) -> {
+            // Multi Tools cannot be used as shears
             SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
             e.setCancelled(true);
         };
     }
 
+    @Nonnull
     private EntityInteractHandler getEntityInteractionHandler() {
         return (e, item, offhand) -> {
             // Fixes #2217 - Prevent them from being used to shear entities
             switch (e.getRightClicked().getType()) {
-            case MUSHROOM_COW:
-            case SHEEP:
-            case SNOWMAN:
-                SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
-                e.setCancelled(true);
-                break;
-            default:
-                break;
+                case MUSHROOM_COW:
+                case SHEEP:
+                case SNOWMAN:
+                    SlimefunPlugin.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
+                    e.setCancelled(true);
+                    break;
+                default:
+                    break;
             }
         };
     }

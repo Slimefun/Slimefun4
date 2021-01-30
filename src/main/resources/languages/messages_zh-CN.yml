@@ -1,12 +1,11 @@
 ---
 commands:
-  help: 展示此帮助页面
-  cheat: 使用作弊模式获取 Slimefun 的物品
-  give: 给某人 Slimefun 物品
-  guide: 给你自己一本 Slimefun 指南
-  timings: 查看关于 Slimefun 的耗能信息
-  teleporter: 查看其他玩家的公开传送点
-  versions: 列出已安装的扩展插件
+  help: 显示此帮助
+  cheat: 直接拿取 Slimefun 物品
+  give: 给予玩家 Slimefun 物品
+  guide: 获取一本 Slimefun 指南书
+  teleporter: 查看其他玩家的公共传送点
+  versions: 显示 Slimefun 运行环境
   search: 搜索 Slimefun 物品
   open_guide: 使用命令打开 Slimefun 指南
   stats: 查看玩家的统计数据
@@ -24,9 +23,14 @@ commands:
     description: 为你手持的物品充电
     charge-success: 充电完成!
     not-rechargeable: 这个物品不能充电!
+  timings:
+    description: Slimefun 及其附属插件的性能报告
+    please-wait: "&e请稍等一会...结果马上就来!"
+    verbose-player: "&4该标记不能对玩家使用!"
+    unknown-flag: "&4未知标记: &c%flag%"
 guide:
   search:
-    message: "&b你想要搜索什么?"
+    message: "&b今天要搜些什么?"
     name: "&7搜索..."
     tooltip: "&b单击搜索物品"
     inventory: '正在搜索: %item%'
@@ -34,28 +38,28 @@ guide:
     - "&b你想要搜索什么?"
     - "&7将要搜索的物品的名字输入在聊天栏上"
   cheat:
-    no-multiblocks: "&4你不能在作弊模式下直接获得多方块结构的机器, 你必须自己建造!"
+    no-multiblocks: "&4你不能在作弊模式下获得多方块结构的机器, 必须按书中所示建造!"
   languages:
-    updated: "&a你的语言已设为: &b%lang%"
+    updated: "&a成功修改语言为: &b%lang%"
     translations:
       name: "&a少了些什么?"
       lore: 单击添加你自己的翻译
     select: 单击选中此语言
     select-default: 单击选中默认语言
     selected-language: '目前使用的语言:'
-    change: 单击选择新的语言
+    change: 单击选择要更改的语言
     description:
-    - "&7现在你有了修改 Slimefun"
-    - "&7展示给你的文本语言选项了."
-    - "&7物品中的文本"
-    - "&7还不能够修改."
+    - "&7现在你可以修改 Slimefun"
+    - "&7展示的文本消息的语言了."
+    - "&7注意: 物品中的文本"
+    - "&7暂时无法修改."
   title:
     main: Slimefun 指南
-    settings: 设置 & 关于
-    languages: 选择你想要的语言
+    settings: 设置 & 详情
+    languages: 选择你想要更改的语言
     credits: Slimefun4 贡献者
     wiki: Slimefun4 维基
-    addons: Slimefun4 扩展
+    addons: Slimefun4 附属插件
     bugs: 问题反馈
     source: 源代码
     versions: 安装的版本
@@ -67,8 +71,8 @@ guide:
       wiki: "&3Wiki 编辑者"
       resourcepack: "&c材质制作者"
       translator: "&9翻译者"
-    profile-link: 单击访问TA们的 Github 个人主页
-    open: 单击查看我们的贡献者
+    profile-link: 单击访问他们的 Github 个人主页
+    open: 单击查看贡献者名单
     description:
     - "&7Slimefun 是一个开源的项目"
     - "&7并且由玩家社区维护."
@@ -84,7 +88,7 @@ guide:
     recipes:
       machine: 此机器可用的合成配方
       miner: 此采矿机可以获得的资源
-      generator: 可用的燃料种类
+      generator: 可用的燃料类型
       gold-pan: 你可以获得的资源
       climbing-pick: 你可以攀爬的平面
   back:
@@ -96,14 +100,14 @@ guide:
   - 为了解锁这一类别
   - 你需要先解锁以下
   - 类别里的所有物品
-  work-in-progress: 这个功能还没完全做完!
+  work-in-progress: 该功能暂未推出!
 messages:
-  not-researched: "&4你没有足够的学识来理解它"
+  not-researched: "&4你的知识还不足以理解这个物品"
   not-enough-xp: "&4你没有足够的经验来解锁这个研究"
   unlocked: '&b成功解锁研究 &7"%research%"'
   only-players: "&4这个指令只能在游戏内使用"
   unknown-player: "&4未知玩家: &c%player%"
-  no-permission: "&4你没有足够的权限做这个"
+  no-permission: "&4你没有足够的权限这么做"
   usage: "&4用法: &c%usage%"
   not-online: "&4%player% &c不在线"
   given-item: '&b你获得了 &a%amount% &7"%item%&7"'
@@ -123,25 +127,26 @@ messages:
     angel: "&a&o你的护身符使你在信仰之跃时不受伤害"
     fire: "&a&o你的护身符使你免受火焰伤害"
     magician: "&a&o你的护身符赠送了你额外的附魔"
-    traveller: "&a&o你的护身符让你跑起来更快了"
-    warrior: "&a&o你的护身符使你在一段时间内变强了"
+    traveller: "&a&o你的护身符让你跑得更快了"
+    warrior: "&a&o你的护身符使你变强了"
     knight: "&a&o你的护身符给予了你 5 秒的生命恢复"
-    whirlwind: "&a&o你的护身符反弹了所有的弹射物"
-    wizard: "&a&o你的护身符使一个附魔的等级提高了, 同时其他附魔等级将会下降"
+    whirlwind: "&a&o你的护身符反弹了所有射向你的投掷物"
+    wizard: "&a&o你的护身符随机提高了一个附魔的等级, 但其他的附魔等级将会下降"
     caveman: "&a&o你的护身符给予了你急迫效果"
+    wise: "&a&o你的护身符让掉落的经验翻倍了"
   soulbound-rune:
-    fail: "&c一次只能灵魂绑定一个物品."
+    fail: "&c灵魂一次只能绑定一个物品."
     success: "&a物品绑定成功! 在你死亡后此物品将不会掉落."
   research:
-    start: "&7古老的灵魂正向你诉说神秘的话语!"
-    progress: "&7你开始慢慢理解研究 &b%research% &e(%progress%)"
+    start: "&7古老的灵魂正向你低语其中的神秘!"
+    progress: "&7你逐渐开始理解研究 &b%research% &e(%progress%)"
   fire-extinguish: "&7你灭掉了身上的火"
   cannot-place: "&c你不能在这里放置方块!"
-  no-pvp: "&c你不能在这里 PVP!"
+  no-pvp: "&c你不能在这里攻击其他玩家!"
   radiation: "&4你已经暴露在致命的辐射之下! &c快把辐射物品丢掉或者穿上防化服!"
   opening-guide: "&b正在打开指南书, 请稍等..."
   opening-backpack: "&b正在打开背包, 请稍等...."
-  no-iron-golem-heal: "&c这不是铁锭. 你不能用这个治疗铁傀儡!"
+  no-iron-golem-heal: "&c这不是铁锭. 不能用来治疗铁傀儡!"
   link-prompt: "&e单击此处:"
   diet-cookie: "&e你感觉变轻了..."
   fortune-cookie:
@@ -159,7 +164,7 @@ messages:
   - "&7要总是看着生活中光明的一面!"
   - "&7这一块其实是饼干而不是曲奇"
   - "&7霓虹灯亮起来了!"
-  piglin-barter: "&4你不能使用 Slimefun 的物品和猪灵以物换物"
+  piglin-barter: "&4你不能使用 Slimefun 的物品和猪灵易物"
   enchantment-rune:
     fail: "&c你不能附魔这个物品."
     no-enchantment: "&c无法找到此物品可用的附魔属性."
@@ -167,21 +172,21 @@ messages:
   tape-measure:
     no-anchor: "&c在开始测量之前请先选定测量起点!"
     wrong-world: "&c你设置的起点似乎在另一个世界!"
-    distance: "&7已测量到距离, &e为: %distance%"
+    distance: "&7距离已测量, &e为: %distance%"
     anchor-set: "&a成功在 &e %anchor% &a设置了测量起点"
   multi-tool:
     mode-change: "&b%device% 的模式已切换为: &9%mode%"
-    not-shears: "&c多功能工具 (Multi Tool) 不能当成剪刀来用!"
+    not-shears: "&c多功能工具 (Multi Tool) 不能作为剪刀使用!"
   climbing-pick:
     dual-wielding: "&4你需要双手拿着攀岩镐才能使用!"
-    wrong-material: "&c你不能爬上这个平面. 查看指南书了解更多!"
+    wrong-material: "&c你不能爬上这个平面. 查看指南书了解详情!"
   invalid-item: "&4%item% &c不是一个有效的物品名!"
   invalid-amount: "&4%amount% &ci不是一个有效的数字 : 它必须大于 0!"
   invalid-research: "&4%research% &c不是一个有效的研究名!"
-  bee-suit-slow-fall: "&e你的蜂翅会让你安全且缓慢地回到地面"
+  bee-suit-slow-fall: "&e你的蜂翅将会让你安全缓降"
   mode-change: "&b%device% 的模式已切换为: &9%mode%"
 machines:
-  pattern-not-found: "&e抱歉, 你记错合成表了吧. 这不是一个正确的合成配方, 请检查发射器里放置物品的顺序."
+  pattern-not-found: "&e抱歉, 这不是正确的合成配方, 请检查发射器里放置物品的顺序."
   unknown-material: "&e抱歉, 我无法识别在发射器里的物品. 请按照合成配方放置物品."
   wrong-item: "&e抱歉, 我无法识别你右键的物品. 检查指南书看看哪些物品可以使用."
   full-inventory: "&e抱歉, 物品栏已经满了!"
@@ -190,14 +195,14 @@ machines:
   ANCIENT_ALTAR:
     not-enough-pedestals: "&4古代基座不足. 目前已摆放的基座数: &c(%pedestals% / 8)"
     unknown-catalyst: "&4无效的催化剂! &c请按照合成配方正确摆放物品!"
-    unknown-recipe: "&4未知合成表! &c请使用正确的合成配方!"
+    unknown-recipe: "&4未知合成表! &c请按照合成配方正确摆放物品!"
   ANCIENT_PEDESTAL:
     obstructed: "&4基座被挡住了! &c把基座上面的东西移开!"
   HOLOGRAM_PROJECTOR:
     enter-text: "&7请写下想显示在全息文本上的话. &r(支持颜色代码)"
     inventory-title: 全息图像编辑器
   ELEVATOR:
-    no-destinations: "&4找不到目的地"
+    no-destinations: "&4找不到上下楼"
     pick-a-floor: "&3- 选择一个楼层 -"
     current-floor: "&e你现在所在的楼层:"
     click-to-teleport: "&e单击 &7传送至楼层:"
@@ -213,10 +218,10 @@ machines:
       tooltip: 单击传送
       time: 预计时间
   CARGO_NODES:
-    must-be-placed: "&4必须放置在箱子或机器上!"
+    must-be-placed: "&4货运节点必须放置在箱子或机器上!"
   GPS_CONTROL_PANEL:
     title: GPS - 控制面板
-    transmitters: 信号发射器概览
+    transmitters: 信号发射机详情
     waypoints: 传送点列表
   INDUSTRIAL_MINER:
     no-fuel: "&c你的工业矿机没有燃料了! 将燃料放入它上面的箱子里."
@@ -225,7 +230,7 @@ machines:
     destroyed: "&c你的工业矿机被拆除了."
     already-running: "&c这个工业矿机正在运行!"
     full-chest: "&c你的工业矿机的箱子已经满了!"
-    no-permission: "&4你没有权限在此操作此工业矿机!"
+    no-permission: "&4你没有权限操作这台工业矿机!"
     finished: "&e你的工业矿机采矿已完成! 总共开采了 %ores% 个矿石!"
 anvil:
   not-working: "&4你不能在铁砧里使用 Slimefun 的物品"
@@ -236,14 +241,14 @@ backpack:
 workbench:
   not-enhanced: "&4你不能在普通的工作台上使用 Slimefun 物品"
 gps:
-  deathpoint: "&4死亡地点 &7%date%"
+  deathpoint: "&4死亡点 &7%date%"
   waypoint:
     new: "&e给你的路径点起个名字吧 &7(支持彩色代码!)"
     added: "&a成功添加了新的传送点"
     max: "&4你已到达设置传送点个数的最大上限"
-    duplicate: "&4你已经创建了一个相同名字的传送点了: &f%waypoint%"
+    duplicate: "&4已经有相同名字的传送点了: &f%waypoint%"
   insufficient-complexity:
-  - "&4GPS网络复杂度不足: &c%complexity%"
+  - "&4GPS 网络复杂度不足: &c%complexity%"
   - "&4a) 你还没有设置一个 GPS 网络"
   - "&4b) 你的 GPS 网络复杂度不够, 多放置几个 GPS 信号发射机"
   geo:
@@ -251,10 +256,10 @@ gps:
 inventory:
   no-access: "&4你没有权限使用这个方块"
 android:
-  started: "&7你的机器人开始运行脚本"
-  stopped: "&7你的机器人暂停运行了脚本"
+  started: "&7机器人正在依照脚本运行"
+  stopped: "&7机器人停止了运行"
   scripts:
-    already-uploaded: "&4这个脚本已经上传过了."
+    already-uploaded: "&4你已经上传过这个脚本了."
     instructions:
       START: "&2运行脚本"
       REPEAT: "&9重复运行脚本"
@@ -278,8 +283,8 @@ android:
       CATCH_FISH: "&b钓鱼"
       FARM_FORWARD: "&b自动采收并补种作物"
       FARM_DOWN: "&b自动采收并补种下面的作物"
-      FARM_EXOTIC_FORWARD: "&b自动采收并补种作物 &7(支持异域花园植物)"
-      FARM_EXOTIC_DOWN: "&b自动采收并补种下面的作物 &7(支持异域花园植物)"
+      FARM_EXOTIC_FORWARD: "&b自动采收并补种所有作物"
+      FARM_EXOTIC_DOWN: "&b自动采收并补种下面的所有作物"
       INTERFACE_ITEMS: "&9将物品栏里的物品放入面前的容器"
       INTERFACE_FUEL: "&c从面前的容器中拿出燃料"
     enter-name:
@@ -292,6 +297,7 @@ android:
       own: "&4你不能评价你自己的脚本!"
       already: "&4你已经给这个脚本留下评价了!"
     editor: 脚本编辑器
+    too-long: "&c脚本长度已达上限, 你不能再编辑了!"
 languages:
   default: 服务器默认语言
   en: 英语
@@ -341,6 +347,8 @@ villagers:
 cartography_table:
   not-working: "&4你不能在制图台中使用 Slimefun 物品!"
 cauldron:
-  no-discoloring: "&4你不能用炼药锅清洗 Slimefun 物品上的颜色"
+  no-discoloring: "&4你不能用炼药锅洗去 Slimefun 物品的颜色"
 miner:
   no-ores: "&e抱歉, 周围找不到矿石了!"
+placeholderapi:
+  profile-loading: 加载中...

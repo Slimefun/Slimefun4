@@ -3,6 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.food;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -36,11 +39,13 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     private final List<PotionEffect> effects;
 
+    @ParametersAreNonnullByDefault
     public Juice(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(category, item, recipeType, recipe, null);
     }
 
-    public Juice(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    @ParametersAreNonnullByDefault
+    public Juice(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
 
         ItemMeta meta = item.getItemMeta();
@@ -55,9 +60,10 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
     @Override
     public ItemConsumptionHandler getItemHandler() {
         return (e, p, item) -> {
-            // Fix for Saturation on potions is no longer working,
-            // Minecraft has been broken when it comes to Saturation potions for a long time
-
+            /*
+             * Fix for Saturation on potions is no longer working,
+             * Minecraft has been broken when it comes to Saturation potions for a long time
+             */
             for (PotionEffect effect : effects) {
                 if (effect.getType().equals(PotionEffectType.SATURATION)) {
                     p.addPotionEffect(effect);
@@ -77,6 +83,7 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
      * @param item
      *            The {@link ItemStack} in question
      */
+    @ParametersAreNonnullByDefault
     private void removeGlassBottle(Player p, ItemStack item) {
         if (SlimefunUtils.isItemSimilar(item, p.getInventory().getItemInMainHand(), true)) {
             if (p.getInventory().getItemInMainHand().getAmount() == 1) {

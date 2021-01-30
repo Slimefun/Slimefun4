@@ -20,10 +20,10 @@ import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -41,7 +41,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @see EnergyNetComponentType
  *
  */
-public class EnergyNet extends Network {
+public class EnergyNet extends Network implements HologramOwner {
 
     private static final int RANGE = 6;
 
@@ -59,6 +59,11 @@ public class EnergyNet extends Network {
     }
 
     @Override
+    public String getId() {
+        return "ENERGY_NETWORK";
+    }
+
+    @Override
     public NetworkComponent classifyLocation(@Nonnull Location l) {
         if (regulator.equals(l)) {
             return NetworkComponent.REGULATOR;
@@ -70,14 +75,14 @@ public class EnergyNet extends Network {
             return null;
         } else {
             switch (component.getEnergyComponentType()) {
-            case CONNECTOR:
-            case CAPACITOR:
-                return NetworkComponent.CONNECTOR;
-            case CONSUMER:
-            case GENERATOR:
-                return NetworkComponent.TERMINUS;
-            default:
-                return null;
+                case CONNECTOR:
+                case CAPACITOR:
+                    return NetworkComponent.CONNECTOR;
+                case CONSUMER:
+                case GENERATOR:
+                    return NetworkComponent.TERMINUS;
+                default:
+                    return null;
             }
         }
     }
@@ -93,21 +98,21 @@ public class EnergyNet extends Network {
 
         if (component != null) {
             switch (component.getEnergyComponentType()) {
-            case CAPACITOR:
-                capacitors.put(l, component);
-                break;
-            case CONSUMER:
-                consumers.put(l, component);
-                break;
-            case GENERATOR:
-                if (component instanceof EnergyNetProvider) {
-                    generators.put(l, (EnergyNetProvider) component);
-                } else if (component instanceof SlimefunItem) {
-                    ((SlimefunItem) component).warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
-                }
-                break;
-            default:
-                break;
+                case CAPACITOR:
+                    capacitors.put(l, component);
+                    break;
+                case CONSUMER:
+                    consumers.put(l, component);
+                    break;
+                case GENERATOR:
+                    if (component instanceof EnergyNetProvider) {
+                        generators.put(l, (EnergyNetProvider) component);
+                    } else if (component instanceof SlimefunItem) {
+                        ((SlimefunItem) component).warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -116,7 +121,7 @@ public class EnergyNet extends Network {
         AtomicLong timestamp = new AtomicLong(SlimefunPlugin.getProfiler().newEntry());
 
         if (!regulator.equals(b.getLocation())) {
-            SimpleHologram.update(b, "&4Multiple Energy Regulators connected");
+            updateHologram(b, "&4Multiple Energy Regulators connected");
             SlimefunPlugin.getProfiler().closeEntry(b.getLocation(), SlimefunItems.ENERGY_REGULATOR.getItem(), timestamp.get());
             return;
         }
@@ -124,7 +129,7 @@ public class EnergyNet extends Network {
         super.tick();
 
         if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-            SimpleHologram.update(b, "&4No Energy Network found");
+            updateHologram(b, "&4No Energy Network found");
         } else {
             int supply = tickAllGenerators(timestamp::getAndAdd) + tickAllCapacitors();
             int remainingEnergy = supply;
@@ -258,10 +263,10 @@ public class EnergyNet extends Network {
     private void updateHologram(@Nonnull Block b, double supply, double demand) {
         if (demand > supply) {
             String netLoss = NumberUtils.getCompactDouble(demand - supply);
-            SimpleHologram.update(b, "&4&l- &c" + netLoss + " &7J &e\u26A1");
+            updateHologram(b, "&4&l- &c" + netLoss + " &7J &e\u26A1");
         } else {
             String netGain = NumberUtils.getCompactDouble(supply - demand);
-            SimpleHologram.update(b, "&2&l+ &a" + netGain + " &7J &e\u26A1");
+            updateHologram(b, "&2&l+ &a" + netGain + " &7J &e\u26A1");
         }
     }
 

@@ -15,9 +15,10 @@ import java.util.Optional;
 
 /**
  * This {@link SlimefunItem} can be obtained by crafting, it's
- * used for various foods and recipes
+ * used for various foods and recipes.
  *
  * @author TheSilentPro
+ * 
  */
 public class HeavyCream extends SimpleSlimefunItem<ItemUseHandler> {
 

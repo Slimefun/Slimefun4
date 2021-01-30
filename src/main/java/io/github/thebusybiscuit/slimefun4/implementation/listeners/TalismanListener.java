@@ -1,15 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -31,6 +28,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.EntityEquipment;
@@ -40,13 +38,14 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.MagicianTalisman;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
-import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TalismanListener implements Listener {
 
@@ -234,25 +233,40 @@ public class TalismanListener implements Listener {
         Map<Enchantment, Integer> enchantments = e.getEnchantsToAdd();
 
         // Magician Talisman
-        if (Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
-            MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
-            TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
+        MagicianTalisman talisman = (MagicianTalisman) SlimefunItems.TALISMAN_MAGICIAN.getItem();
+        TalismanEnchantment enchantment = talisman.getRandomEnchantment(e.getItem(), enchantments.keySet());
 
-            if (enchantment != null) {
-                enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
-            }
+        if (enchantment != null && Talisman.checkFor(e, SlimefunItems.TALISMAN_MAGICIAN)) {
+              /*
+               * Fix #2679
+               * By default, the Bukkit API doesn't allow us to give enchantment books extra enchantments.
+               */
+              if (talisman.isEnchantmentBookAllowed() && e.getItem().getType() == Material.BOOK) {
+                  e.getItem().addUnsafeEnchantment(enchantment.getEnchantment(), enchantment.getLevel());
+              } else {
+                  enchantments.put(enchantment.getEnchantment(), enchantment.getLevel());
+              }
         }
 
         // Wizard Talisman
         if (!enchantments.containsKey(Enchantment.SILK_TOUCH) && Enchantment.LOOT_BONUS_BLOCKS.canEnchantItem(e.getItem()) && Talisman.checkFor(e, SlimefunItems.TALISMAN_WIZARD)) {
-
-            for (Enchantment enchantment : enchantments.keySet()) {
-                if (random.nextInt(100) < 40) {
-                    e.getEnchantsToAdd().put(enchantment, random.nextInt(3) + 1);
+            // Randomly lower some enchantments
+            for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
+                if (entry.getValue() > 1 && random.nextInt(100) < 40) {
+                    enchantments.put(entry.getKey(), entry.getValue() - 1);
                 }
             }
 
+            // Give an extra Fortune boost (Lvl 3 - 5)
             enchantments.put(Enchantment.LOOT_BONUS_BLOCKS, random.nextInt(3) + 3);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onExperienceReceive(PlayerExpChangeEvent e) {
+        if (e.getAmount() > 0 && Talisman.checkFor(e, SlimefunItems.TALISMAN_WISE)) {
+            // Double-XP
+            e.setAmount(e.getAmount() * 2);
         }
     }
 

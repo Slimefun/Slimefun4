@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.seasonal;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,12 +23,15 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * spawn a random {@link ItemStack} from the {@link ItemStack} Array specified in the constructor.
  * 
  * @author TheBusyBiscuit
+ * 
+ * @see ChristmasPresent
  *
  */
 public class EasterEgg extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final ItemStack[] gifts;
 
+    @ParametersAreNonnullByDefault
     public EasterEgg(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, ItemStack... gifts) {
         super(category, item, recipeType, recipe, recipeOutput);
 

@@ -63,17 +63,17 @@ public class BlockListener implements Listener {
          */
         Block block = e.getBlock();
 
+        // Fixes #2636
         if (e.getBlockReplacedState().getType().isAir()) {
             SlimefunItem sfItem = BlockStorage.check(block);
 
-            if (sfItem != null) {
-                /* Temp fix for #2636
+            if (sfItem != null && !SlimefunPlugin.getTickerTask().isDeletedSoon(block.getLocation())) {
                 for (ItemStack item : sfItem.getDrops()) {
                     if (item != null && !item.getType().isAir()) {
                         block.getWorld().dropItemNaturally(block.getLocation(), item);
                     }
                 }
-                 */
+
                 BlockStorage.clearBlockInfo(block);
             }
         } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
@@ -112,13 +112,18 @@ public class BlockListener implements Listener {
             return;
         }
 
+        // Ignore blocks which we have marked as deleted (Fixes #2771)
+        if (SlimefunPlugin.getTickerTask().isDeletedSoon(e.getBlock().getLocation())) {
+            return;
+        }
+
         checkForSensitiveBlockAbove(e.getPlayer(), e.getBlock());
 
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         int fortune = getBonusDropsWithFortune(item, e.getBlock());
         List<ItemStack> drops = new ArrayList<>();
 
-        if (item.getType() != Material.AIR) {
+        if (!item.getType().isAir()) {
             callToolHandler(e, item, fortune, drops);
         }
 
@@ -158,9 +163,13 @@ public class BlockListener implements Listener {
             SlimefunBlockHandler blockHandler = SlimefunPlugin.getRegistry().getBlockHandlers().get(sfItem.getId());
 
             if (blockHandler != null) {
-                if (!blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK)) {
-                    e.setCancelled(true);
-                    return;
+                try {
+                    if (!blockHandler.onBreak(e.getPlayer(), e.getBlock(), sfItem, UnregisterReason.PLAYER_BREAK)) {
+                        e.setCancelled(true);
+                        return;
+                    }
+                } catch (Exception | LinkageError x) {
+                    sfItem.error("Something went wrong while triggering a BlockHandler", x);
                 }
             } else {
                 sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onBlockBreak(e, item, fortune, drops));

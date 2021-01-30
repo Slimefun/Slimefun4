@@ -62,7 +62,12 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
 
     private boolean isPlaceholder(@Nullable OfflinePlayer p, boolean requiresProfile, @Nonnull String params, @Nonnull String placeholder) {
         if (requiresProfile) {
-            return p != null && placeholder.equals(params) && PlayerProfile.request(p);
+            if (p != null && placeholder.equals(params)) {
+                PlayerProfile.request(p);
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return placeholder.equals(params);
         }
@@ -76,6 +81,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             if (profile.isPresent()) {
                 Stream<Research> stream = profile.get().getResearches().stream();
                 return String.valueOf(stream.mapToInt(Research::getCost).sum());
+            } else if (p instanceof Player) {
+                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
             }
         }
 
@@ -85,6 +92,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             if (profile.isPresent()) {
                 Set<Research> set = profile.get().getResearches();
                 return String.valueOf(set.size());
+            } else if (p instanceof Player) {
+                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
             }
         }
 
@@ -98,6 +107,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             if (profile.isPresent()) {
                 Set<Research> set = profile.get().getResearches();
                 return String.valueOf(Math.round(((set.size() * 100.0F) / SlimefunPlugin.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
+            } else if (p instanceof Player) {
+                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
             }
         }
 
@@ -106,6 +117,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
 
             if (profile.isPresent()) {
                 return profile.get().getTitle();
+            } else if (p instanceof Player) {
+                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
             }
         }
 
