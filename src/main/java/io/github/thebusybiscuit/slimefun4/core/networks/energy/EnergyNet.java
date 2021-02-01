@@ -75,14 +75,14 @@ public class EnergyNet extends Network implements HologramOwner {
             return null;
         } else {
             switch (component.getEnergyComponentType()) {
-            case CONNECTOR:
-            case CAPACITOR:
-                return NetworkComponent.CONNECTOR;
-            case CONSUMER:
-            case GENERATOR:
-                return NetworkComponent.TERMINUS;
-            default:
-                return null;
+                case CONNECTOR:
+                case CAPACITOR:
+                    return NetworkComponent.CONNECTOR;
+                case CONSUMER:
+                case GENERATOR:
+                    return NetworkComponent.TERMINUS;
+                default:
+                    return null;
             }
         }
     }
@@ -98,21 +98,21 @@ public class EnergyNet extends Network implements HologramOwner {
 
         if (component != null) {
             switch (component.getEnergyComponentType()) {
-            case CAPACITOR:
-                capacitors.put(l, component);
-                break;
-            case CONSUMER:
-                consumers.put(l, component);
-                break;
-            case GENERATOR:
-                if (component instanceof EnergyNetProvider) {
-                    generators.put(l, (EnergyNetProvider) component);
-                } else if (component instanceof SlimefunItem) {
-                    ((SlimefunItem) component).warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
-                }
-                break;
-            default:
-                break;
+                case CAPACITOR:
+                    capacitors.put(l, component);
+                    break;
+                case CONSUMER:
+                    consumers.put(l, component);
+                    break;
+                case GENERATOR:
+                    if (component instanceof EnergyNetProvider) {
+                        generators.put(l, (EnergyNetProvider) component);
+                    } else if (component instanceof SlimefunItem) {
+                        ((SlimefunItem) component).warn("This Item is marked as a GENERATOR but does not implement the interface EnergyNetProvider!");
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }

@@ -92,19 +92,19 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         }
 
         switch (id) {
-        case "CARGO_MANAGER":
-            return NetworkComponent.REGULATOR;
-        case "CARGO_NODE":
-            return NetworkComponent.CONNECTOR;
-        case "CARGO_NODE_INPUT":
-        case "CARGO_NODE_OUTPUT":
-        case "CARGO_NODE_OUTPUT_ADVANCED":
-        case "CT_IMPORT_BUS":
-        case "CT_EXPORT_BUS":
-        case "CHEST_TERMINAL":
-            return NetworkComponent.TERMINUS;
-        default:
-            return null;
+            case "CARGO_MANAGER":
+                return NetworkComponent.REGULATOR;
+            case "CARGO_NODE":
+                return NetworkComponent.CONNECTOR;
+            case "CARGO_NODE_INPUT":
+            case "CARGO_NODE_OUTPUT":
+            case "CARGO_NODE_OUTPUT_ADVANCED":
+            case "CT_IMPORT_BUS":
+            case "CT_EXPORT_BUS":
+            case "CHEST_TERMINAL":
+                return NetworkComponent.TERMINUS;
+            default:
+                return null;
         }
     }
 
@@ -123,24 +123,24 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         if (to == NetworkComponent.TERMINUS) {
             String id = BlockStorage.checkID(l);
             switch (id) {
-            case "CARGO_NODE_INPUT":
-                inputNodes.add(l);
-                break;
-            case "CARGO_NODE_OUTPUT":
-            case "CARGO_NODE_OUTPUT_ADVANCED":
-                outputNodes.add(l);
-                break;
-            case "CHEST_TERMINAL":
-                terminals.add(l);
-                break;
-            case "CT_IMPORT_BUS":
-                imports.add(l);
-                break;
-            case "CT_EXPORT_BUS":
-                exports.add(l);
-                break;
-            default:
-                break;
+                case "CARGO_NODE_INPUT":
+                    inputNodes.add(l);
+                    break;
+                case "CARGO_NODE_OUTPUT":
+                case "CARGO_NODE_OUTPUT_ADVANCED":
+                    outputNodes.add(l);
+                    break;
+                case "CHEST_TERMINAL":
+                    terminals.add(l);
+                    break;
+                case "CT_IMPORT_BUS":
+                    imports.add(l);
+                    break;
+                case "CT_EXPORT_BUS":
+                    exports.add(l);
+                    break;
+                default:
+                    break;
             }
         }
     }

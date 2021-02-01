@@ -136,6 +136,7 @@ messages:
     wizard: "&a&oDein Talisman hat dein Glück-Level erhöht aber möglicherweise das
       Level einer anderen Verzauberung vermindert"
     caveman: "&a&oDein Talisman hat dir einen Abbau-Boost verschafft"
+    wise: "&a&oDein Talisman hat soeben deine Erfahrungspunkte verdoppelt"
   soulbound-rune:
     fail: "&cDu kannst nicht mehrere Items auf einmal an deine Seele binden"
     success: "&aDu hast dieses Item erfolgreich an deine Seele gebunden! Solltest
@@ -319,6 +320,7 @@ android:
       own: "&4Du kannst nicht dein eigenes Skript bewerten!"
       already: "&4Du hast dieses Skript bereits bewertet!"
     editor: Skripteditor
+    too-long: "&cDieses Skript ist zu lang, um es zu bearbeiten!"
 languages:
   default: Server-Standard
   en: Englisch
@@ -340,7 +342,6 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
-  pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   ar: Arabisch
   af: Afrikaans
@@ -353,6 +354,7 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
+  pt: Portugiesisch (Portugal)
   bg: Bulgarisch
   ko: Koreanisch
   tr: Türkisch
@@ -371,3 +373,5 @@ cauldron:
   no-discoloring: "&4Du kannst Slimefun-Rüstung nicht entfärben"
 miner:
   no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"
+placeholderapi:
+  profile-loading: Lade...

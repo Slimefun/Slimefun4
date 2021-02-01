@@ -59,49 +59,49 @@ public class CustomItemSerializer {
             builder.append(flag.toString() + "=");
 
             switch (flag) {
-            case AMOUNT: {
-                builder.append(item.getAmount());
-                break;
-            }
-            case DATA: {
-                builder.append((int) item.getData().getData());
-                break;
-            }
-            case DURABILITY: {
-                builder.append((int) item.getDurability());
-                break;
-            }
-            case ENCHANTMENTS:
-                for (Enchantment enchantment : Enchantment.values()) {
-                    if (item.getEnchantments().containsKey(enchantment)) {
-                        builder.append(enchantment.getName() + ":" + item.getEnchantmentLevel(enchantment));
-                    } else {
-                        builder.append(enchantment.getName() + ":0");
+                case AMOUNT: {
+                    builder.append(item.getAmount());
+                    break;
+                }
+                case DATA: {
+                    builder.append((int) item.getData().getData());
+                    break;
+                }
+                case DURABILITY: {
+                    builder.append((int) item.getDurability());
+                    break;
+                }
+                case ENCHANTMENTS:
+                    for (Enchantment enchantment : Enchantment.values()) {
+                        if (item.getEnchantments().containsKey(enchantment)) {
+                            builder.append(enchantment.getName() + ":" + item.getEnchantmentLevel(enchantment));
+                        } else {
+                            builder.append(enchantment.getName() + ":0");
+                        }
                     }
+                    break;
+                case ITEMMETA_DISPLAY_NAME: {
+                    if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+                        builder.append(item.getItemMeta().getDisplayName().replaceAll("\\u00a7", "&"));
+                    } else {
+                        builder.append("NONE");
+                    }
+                    break;
                 }
-                break;
-            case ITEMMETA_DISPLAY_NAME: {
-                if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
-                    builder.append(item.getItemMeta().getDisplayName().replaceAll("\\u00a7", "&"));
-                } else {
-                    builder.append("NONE");
+                case ITEMMETA_LORE: {
+                    if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
+                        builder.append(item.getItemMeta().getLore().toString().replaceAll("\\u00a7", "&"));
+                    } else {
+                        builder.append("NONE");
+                    }
+                    break;
                 }
-                break;
-            }
-            case ITEMMETA_LORE: {
-                if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-                    builder.append(item.getItemMeta().getLore().toString().replaceAll("\\u00a7", "&"));
-                } else {
-                    builder.append("NONE");
+                case MATERIAL: {
+                    builder.append(item.getType().toString());
+                    break;
                 }
-                break;
-            }
-            case MATERIAL: {
-                builder.append(item.getType().toString());
-                break;
-            }
-            default:
-                break;
+                default:
+                    break;
             }
 
             i++;
