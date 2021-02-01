@@ -225,12 +225,12 @@ public class LegacyBlockDataSource implements BlockDataSource {
 
     @Override
     public void saveBlocks(SlimefunWorldData data, Map<Long, SlimefunBlockData> blocks) {
-        // TODO Auto-generated method stub
+        // TODO Implement block saving
     }
 
     @Override
     public void saveChunks(SlimefunWorldData data, Map<Long, SlimefunChunkData> chunks) {
-        // TODO Auto-generated method stub
+        // TODO Implement chunk saving
     }
 
 }

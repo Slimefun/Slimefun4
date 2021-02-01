@@ -63,6 +63,12 @@ public class SlimefunWorldData {
      * This signals whether the {@link SlimefunWorldData} has been loaded yet.
      */
     private volatile boolean isLoaded = false;
+    
+    /**
+     * This signals whether this world has been marked for cleanup.
+     * No longer used worlds will be cleaned up and removed from memory.
+     */
+    private volatile boolean isMarkedForCleanup = false;
 
     /**
      * We keep a {@link WeakReference} of our {@link World} to prevent
@@ -88,6 +94,14 @@ public class SlimefunWorldData {
 
     public boolean isLoaded() {
         return isLoaded;
+    }
+    
+    public boolean isMarkedForCleanup() {
+        return isMarkedForCleanup;
+    }
+    
+    public void markForCleanup() {
+        this.isMarkedForCleanup = true;
     }
 
     private void loadWorldData(@Nonnull BlockDataSource source) {

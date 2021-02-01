@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.blocks;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -109,8 +110,26 @@ public class BlockDatabase {
             SlimefunWorldData data = worlds.remove(world.getUID());
 
             if (data != null) {
-                // TODO: Queue up the saving?
-                data.save(dataSource);
+                data.markForCleanup();
+            }
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    public void saveAll() {
+        lock.writeLock().lock();
+
+        try {
+            Iterator<SlimefunWorldData> iterator = worlds.values().iterator();
+
+            while (iterator.hasNext()) {
+                SlimefunWorldData world = iterator.next();
+
+                if (world.isMarkedForCleanup()) {
+                    world.save(dataSource);
+                    iterator.remove();
+                }
             }
         } finally {
             lock.writeLock().unlock();

@@ -103,6 +103,15 @@ class AbstractDataObject {
         }
     }
 
+    @Nonnull
+    public String getValueOrDefault(@Nonnull String key, @Nonnull String defaultValue) {
+        Validate.notNull(key, "Keys cannot be null.");
+        Validate.notNull(defaultValue, "The provided default value cannot be null.");
+
+        String value = getValue(key);
+        return value != null ? value : defaultValue;
+    }
+
     public boolean hasValue(@Nonnull String key) {
         Validate.notNull(key, "Keys cannot be null.");
 
