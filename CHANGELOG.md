@@ -24,6 +24,7 @@
 ## Release Candidate 21 (TBD)
 
 #### Additions
+* Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
 
 #### Changes
 

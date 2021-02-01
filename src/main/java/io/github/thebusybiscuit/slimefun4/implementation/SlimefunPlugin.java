@@ -137,8 +137,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private boolean isNewlyInstalled = false;
 
     private final SlimefunRegistry registry = new SlimefunRegistry();
-    private final TickerTask ticker = new TickerTask();
     private final SlimefunCommand command = new SlimefunCommand(this);
+    private final TickerTask ticker = new TickerTask();
 
     // Services - Systems that fulfill certain tasks, treat them as a black box
     private final CustomItemDataService itemDataService = new CustomItemDataService(this, "slimefun_item");
@@ -362,8 +362,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         Bukkit.getScheduler().cancelTasks(this);
 
         // Finishes all started movements/removals of block data
-        ticker.halt();
-        ticker.run();
+        try {
+            ticker.halt();
+            ticker.run();
+        } catch (Exception x) {
+            getLogger().log(Level.SEVERE, x, () -> "Something went wrong while disabling the ticker task for Slimefun v" + getDescription().getVersion());
+        }
 
         // Kill our Profiler Threads
         profiler.kill();
