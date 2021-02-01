@@ -4,7 +4,10 @@ import java.util.Collection;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
@@ -45,14 +48,19 @@ class VersionsCommand extends SubCommand {
             addJavaVersion(builder);
 
             if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
-                builder.append("Backwards compatibility enabled!\n").color(ChatColor.RED);
+                HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                    "Backwards compatibility has a negative impact on performance!\n"
+                        + "We recommend you to disable this setting unless your server still"
+                        + "has legacy Slimefun items (from before summer 2019) in circulation."
+                ));
+
+                builder.append("Backwards compatibility enabled!\n").color(ChatColor.RED).event(hoverEvent);
             }
 
-            builder.append("\n");
+            builder.append("\n").event((HoverEvent) null);
 
             addPluginVersions(builder);
 
-            System.out.println(ComponentSerializer.toString(builder.create()));
             sender.spigot().sendMessage(builder.create());
         } else {
             SlimefunPlugin.getLocalization().sendMessage(sender, "messages.no-permission", true);
@@ -64,7 +72,9 @@ class VersionsCommand extends SubCommand {
         if (javaVer.startsWith("1.")) {
             javaVer = javaVer.substring(2);
         }
-        if (javaVer.indexOf('.') != -1) { // If it's like 11.0.1.3 or 8.0_275
+
+        // If it's like 11.0.1.3 or 8.0_275
+        if (javaVer.indexOf('.') != -1) {
             javaVer = javaVer.substring(0, javaVer.indexOf('.'));
         }
         int ver = Integer.parseInt(javaVer);
@@ -90,16 +100,41 @@ class VersionsCommand extends SubCommand {
             String version = plugin.getDescription().getVersion();
 
             if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-                builder.append("\n  " + plugin.getName()).color(ChatColor.GREEN)
-                    .append(" v" + version).color(ChatColor.DARK_GREEN);
+                HoverEvent hoverEvent;
+                ClickEvent clickEvent = null;
+                if (plugin instanceof SlimefunAddon) {
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                        "Author: " + String.join(", ", plugin.getDescription().getAuthors())
+                        + "\nClick to open the Bug Tracker"
+                    ));
+                    clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, ((SlimefunAddon) plugin).getBugTrackerURL());
+                } else {
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                        "Author: " + String.join(", ", plugin.getDescription().getAuthors())
+                    ));
+                }
+
+                builder.append("\n  " + plugin.getName()).color(ChatColor.GREEN).event(hoverEvent).event(clickEvent)
+                    .append(" v" + version).color(ChatColor.DARK_GREEN)
+                .append("").event((ClickEvent) null).event((HoverEvent) null);
             } else {
-                HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    new Text("Plugin is disabled. Check the console for an error and report on their issue tracker."));
+                HoverEvent hoverEvent;
+                ClickEvent clickEvent = null;
+                if (plugin instanceof SlimefunAddon) {
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        new Text("Plugin is disabled. Check the console for an error. Click here to report on their issue tracker"));
+                    if (((SlimefunAddon) plugin).getBugTrackerURL() != null) {
+                        clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, ((SlimefunAddon) plugin).getBugTrackerURL());
+                    }
+                } else {
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        new Text("Plugin is disabled. Check the console for an error and report on their issue tracker."));
+                }
 
                 // We need to reset the hover event or it's added to all components
-                builder.append("\n  " + plugin.getName()).color(ChatColor.RED).event(hover)
+                builder.append("\n  " + plugin.getName()).color(ChatColor.RED).event(hoverEvent).event(clickEvent)
                     .append(" v" + version).color(ChatColor.DARK_RED)
-                    .append("").event((HoverEvent) null);
+                    .append("").event((ClickEvent) null).event((HoverEvent) null);
             }
         }
     }
