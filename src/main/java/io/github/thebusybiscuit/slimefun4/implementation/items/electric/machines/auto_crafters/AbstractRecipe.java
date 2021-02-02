@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -28,11 +30,22 @@ public class AbstractRecipe {
         this.result = result;
     }
 
-    public AbstractRecipe(@Nonnull ShapelessRecipe recipe) {
+    @Nullable
+    public static AbstractRecipe wrapRecipe(@Nullable Recipe recipe) {
+        if (recipe instanceof ShapedRecipe) {
+            return new AbstractRecipe((ShapedRecipe) recipe);
+        } else if (recipe instanceof ShapelessRecipe) {
+            return new AbstractRecipe((ShapelessRecipe) recipe);
+        } else {
+            return null;
+        }
+    }
+
+    private AbstractRecipe(@Nonnull ShapelessRecipe recipe) {
         this(new ArrayList<>(recipe.getChoiceList()), recipe.getResult());
     }
 
-    public AbstractRecipe(@Nonnull ShapedRecipe recipe) {
+    private AbstractRecipe(@Nonnull ShapedRecipe recipe) {
         this(getChoices(recipe), recipe.getResult());
     }
 
