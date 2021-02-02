@@ -48,7 +48,7 @@ class VersionsCommand extends SubCommand {
             if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
                 HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
                     "Backwards compatibility has a negative impact on performance!\n"
-                        + "We recommend you to disable this setting unless your server still"
+                        + "We recommend you to disable this setting unless your server still "
                         + "has legacy Slimefun items (from before summer 2019) in circulation."
                 ));
 
