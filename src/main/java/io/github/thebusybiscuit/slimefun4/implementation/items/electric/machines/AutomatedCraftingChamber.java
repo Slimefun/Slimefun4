@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -57,10 +60,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
     private final Map<String, ItemStack> craftingRecipes = new HashMap<>();
 
+    @ParametersAreNonnullByDefault
     public AutomatedCraftingChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getId(), "&6Automated Crafting Chamber") {
+        new BlockMenuPreset(getId(), "&4Deprecated item. Do not use.") {
 
             @Override
             public void init() {
@@ -94,6 +98,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
             @Override
             public boolean canOpen(Block b, Player p) {
+                p.sendMessage(ChatColor.DARK_RED + "This item has been deprecated. It will be removed soon!");
                 return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
@@ -145,6 +150,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
+                e.getPlayer().sendMessage(ChatColor.DARK_RED + "This item has been deprecated. It will be removed soon!");
                 BlockStorage.addBlockInfo(e.getBlock(), "enabled", String.valueOf(false));
             }
 
