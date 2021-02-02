@@ -121,6 +121,12 @@ public enum SlimefunTag implements Tag<Material> {
     DIRT_VARIANTS,
 
     /**
+     * All soil blocks for a fungus to grow on.
+     * This includes all dirt variants, nylium and soul soil.
+     */
+    FUNGUS_SOIL,
+
+    /**
      * All variants of concrete powder.
      * Can you believe there is no tag for this already?
      */
