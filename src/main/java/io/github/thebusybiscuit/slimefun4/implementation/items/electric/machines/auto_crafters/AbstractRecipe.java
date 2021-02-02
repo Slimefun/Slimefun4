@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.crafters;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters;
 
 import java.util.ArrayList;
 import java.util.Collection;
