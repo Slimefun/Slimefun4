@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class AutoEnchanter extends AContainer {
 
-    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting("enchant-level-limit", 0, 5, 12);
+    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting("enchant-level-limit", 0, Short.MAX_VALUE, Short.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -55,7 +55,7 @@ public class AutoEnchanter extends AContainer {
 
                 for (Map.Entry<Enchantment, Integer> e : meta.getStoredEnchants().entrySet()) {
                     if (e.getKey().canEnchantItem(target)) {
-                        if (enchantLevelLimit.validateInput(e.getValue())) {
+                        if (enchantLevelLimit.getValue() >= e.getValue()) {
                             amount++;
                             enchantments.put(e.getKey(), e.getValue());
                         } else if (!menu.toInventory().getViewers().isEmpty()) {
