@@ -38,9 +38,8 @@ networks:
   enable-visualizer: true
   delete-excess-items: false
 
-items:
-  talismans: true
-  soulbound: true
+talismans:
+  use-actionbar: true
 
 metrics:
   auto-update: true

@@ -623,6 +623,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new ButcherAndroidListener(this);
         new NetworkListener(this, networkManager);
         new HopperListener(this);
+        new TalismanListener(this);
+        new SoulboundListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -643,15 +645,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         grapplingHookListener.register(this, (GrapplingHook) SlimefunItems.GRAPPLING_HOOK.getItem());
         bowListener.register(this);
         backpackListener.register(this);
-
-        // Toggleable Listeners for performance reasons
-        if (config.getBoolean("items.talismans")) {
-            new TalismanListener(this);
-        }
-
-        if (config.getBoolean("items.soulbound")) {
-            new SoulboundListener(this);
-        }
 
         // Handle Slimefun Guide being given on Join
         new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));

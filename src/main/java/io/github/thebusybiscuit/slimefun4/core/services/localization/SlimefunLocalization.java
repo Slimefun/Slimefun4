@@ -26,6 +26,9 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * This is an abstract parent class of {@link LocalizationService}.
@@ -223,6 +226,14 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         } else {
             sender.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + getMessage(key))));
         }
+    }
+
+    public void sendActionbarMessage(@Nonnull Player player, @Nonnull String key, boolean addPrefix) {
+        String prefix = addPrefix ? getPrefix() : "";
+        String message = ChatColors.color(prefix + getMessage(player, key));
+
+        BaseComponent[] components = TextComponent.fromLegacyText(message);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
     }
 
     @Override
