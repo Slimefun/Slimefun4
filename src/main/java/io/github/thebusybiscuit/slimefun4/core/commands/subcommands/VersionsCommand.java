@@ -5,13 +5,11 @@ import java.util.Collection;
 import javax.annotation.Nonnull;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.hover.content.Text;
-import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -104,13 +102,13 @@ class VersionsCommand extends SubCommand {
                 ClickEvent clickEvent = null;
                 if (plugin instanceof SlimefunAddon) {
                     hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                        "Author: " + String.join(", ", plugin.getDescription().getAuthors())
+                        "Author(s): " + String.join(", ", plugin.getDescription().getAuthors())
                         + "\nClick to open the Bug Tracker"
                     ));
                     clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, ((SlimefunAddon) plugin).getBugTrackerURL());
                 } else {
                     hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                        "Author: " + String.join(", ", plugin.getDescription().getAuthors())
+                        "Author(s): " + String.join(", ", plugin.getDescription().getAuthors())
                     ));
                 }
 
