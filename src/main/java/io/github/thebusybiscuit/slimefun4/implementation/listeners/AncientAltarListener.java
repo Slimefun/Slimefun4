@@ -248,7 +248,7 @@ public class AncientAltarListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent e) {
         if (altarItem == null || altarItem.isDisabled()) {
             return;
