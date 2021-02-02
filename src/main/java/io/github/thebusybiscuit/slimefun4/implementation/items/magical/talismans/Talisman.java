@@ -33,7 +33,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class Talisman extends SlimefunItem {
@@ -167,7 +166,7 @@ public class Talisman extends SlimefunItem {
         ItemStack talismanItem = talisman.getItem();
 
         if (SlimefunUtils.containsSimilarItem(p.getInventory(), talismanItem, true)) {
-            if (Slimefun.hasUnlocked(p, talisman, true)) {
+            if (talisman.canUse(p, true)) {
                 activateTalisman(e, p, p.getInventory(), talisman, talismanItem);
                 return true;
             } else {
@@ -177,7 +176,7 @@ public class Talisman extends SlimefunItem {
             ItemStack enderTalisman = talisman.getEnderVariant();
 
             if (SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalisman, true)) {
-                if (Slimefun.hasUnlocked(p, talisman, true)) {
+                if (talisman.canUse(p, true)) {
                     activateTalisman(e, p, p.getEnderChest(), talisman, enderTalisman);
                     return true;
                 } else {

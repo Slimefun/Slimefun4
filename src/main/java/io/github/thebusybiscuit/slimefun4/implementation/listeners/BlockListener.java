@@ -87,7 +87,7 @@ public class BlockListener implements Listener {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem != null && !(sfItem instanceof NotPlaceable) && Slimefun.isEnabled(e.getPlayer(), sfItem, true)) {
-            if (!Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
+            if (!sfItem.canUse(e.getPlayer(), true)) {
                 e.setCancelled(true);
             } else {
                 if (SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
@@ -139,7 +139,7 @@ public class BlockListener implements Listener {
         SlimefunItem tool = SlimefunItem.getByItem(item);
 
         if (tool != null) {
-            if (Slimefun.hasUnlocked(e.getPlayer(), tool, true)) {
+            if (tool.canUse(e.getPlayer(), true)) {
                 tool.callItemHandler(ToolUseHandler.class, handler -> handler.onToolUse(e, item, fortune, drops));
             } else {
                 e.setCancelled(true);
