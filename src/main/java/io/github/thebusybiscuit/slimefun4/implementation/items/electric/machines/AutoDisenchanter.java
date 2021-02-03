@@ -101,6 +101,7 @@ public class AutoDisenchanter extends AContainer {
                         progressBar.setItemMeta(im);
 
                         menu.replaceExistingItem(22, progressBar);
+                        return null;
                     }
                 }
 
