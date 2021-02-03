@@ -67,8 +67,7 @@ public class AutoEnchanter extends AContainer {
                             enchantments.put(e.getKey(), e.getValue());
                         } else if (!menu.toInventory().getViewers().isEmpty()) {
                             String notice = SlimefunPlugin.getLocalization().getMessage("messages.above-limit-level")
-                                    .replace("%level%", enchantLevelLimit.getValue().toString())
-                                    .replace("%item%", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name());
+                                    .replace("%level%", enchantLevelLimit.getValue().toString());
 
                             ItemStack progressBar = getProgressBar().clone();
                             progressBar.setType(Material.BARRIER);
