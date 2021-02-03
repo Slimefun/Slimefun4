@@ -26,7 +26,7 @@ jobs:
           api: '🔧 API'
 
       - uses: thollander/actions-comment-pull-request@1.0.1
-        name: Comment the applied label
+        name: Leave a comment about the applied label
         if: ${{ steps.labeller.outputs.applied != 0 }}
         with:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -35,7 +35,7 @@ jobs:
             Thank you for contributing to this project! ❤️
 
       - uses: thollander/actions-comment-pull-request@1.0.1
-        name: Comment the applied label
+        name: Leave a comment about our branch naming convention
         if: ${{ steps.labeller.outputs.applied == 0 }}
         with:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
