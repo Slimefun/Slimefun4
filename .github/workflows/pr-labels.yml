@@ -10,7 +10,7 @@ jobs:
 
     name: Pull Request Labels
     runs-on: ubuntu-latest
-    if: github.repository == 'Slimefun/Slimefun4' && github.actor != 'gitlocalize-app[bot]' && github.actor != 'renovate[bot]'
+    if: github.repository == 'Slimefun/Slimefun4' && github.actor != 'gitlocalize-app[bot]'
 
     steps:
       - uses: WalshyDev/pr-labels@v1.1
@@ -18,6 +18,7 @@ jobs:
         name: Apply labels based on branch
         with:
           token: "${{ secrets.ACCESS_TOKEN }}"
+          renovate: '🚨 Dependency Update'
           feature: '🎈 Feature'
           fix: '✨ Fix'
           chore: '🧹 Chores'
