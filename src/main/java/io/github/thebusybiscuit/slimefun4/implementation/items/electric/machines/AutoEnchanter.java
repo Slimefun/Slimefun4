@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -13,21 +14,27 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AutoEnchanter extends AContainer {
 
+    private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>("use-enchant-level-limit", false);
     private final IntRangeSetting enchantLevelLimit = new IntRangeSetting("enchant-level-limit", 0, Short.MAX_VALUE, Short.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-        
+
+        addItemSetting(useEnchantLevelLimit);
         addItemSetting(enchantLevelLimit);
     }
 
@@ -55,16 +62,24 @@ public class AutoEnchanter extends AContainer {
 
                 for (Map.Entry<Enchantment, Integer> e : meta.getStoredEnchants().entrySet()) {
                     if (e.getKey().canEnchantItem(target)) {
-                        if (enchantLevelLimit.getValue() >= e.getValue()) {
+                        if (!useEnchantLevelLimit.getValue() || enchantLevelLimit.getValue() >= e.getValue()) {
                             amount++;
                             enchantments.put(e.getKey(), e.getValue());
                         } else if (!menu.toInventory().getViewers().isEmpty()) {
-                            for (HumanEntity viewer : menu.toInventory().getViewers()) {
-                                SlimefunPlugin.getLocalization().sendMessage(viewer, "messages.above-limit-level", true,
-                                        (message -> message.replace("%level%", enchantLevelLimit.getValue().toString())
-                                                .replace("%item%", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name())
-                                        ));
-                            }
+                            String notice = SlimefunPlugin.getLocalization().getMessage("messages.above-limit-level")
+                                    .replace("%level%", enchantLevelLimit.getValue().toString())
+                                    .replace("%item%", item.hasItemMeta() && item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name());
+
+                            ItemStack progressBar = getProgressBar().clone();
+                            progressBar.setType(Material.BARRIER);
+
+                            ItemMeta im = progressBar.getItemMeta();
+                            im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                            im.setLore(Collections.singletonList(notice));
+
+                            progressBar.setItemMeta(im);
+
+                            menu.replaceExistingItem(22, progressBar);
                         }
                     }
                 }
