@@ -35,9 +35,9 @@ slimefun:
   magical_book_cover: Magické vázání knihy
   slimefun_metals: Nové kovy
   ore_crusher: Zdvojování rud
-  bronze: Vytvoření Bronzu
+  bronze: Výroby bronzu
   alloys: Pokročilé slitiny
-  compressor_and_carbon: Vytvoření Karbonu
+  compressor_and_carbon: Výroby karbonu
   gilded_iron_armor: Pozlacené železné brnění
   synthetic_diamond: Syntetické diamanty
   pressure_chamber: Tlaková komora
@@ -98,18 +98,18 @@ slimefun:
   woven_backpack: Tkaný batoh
   crucible: Kotel
   gilded_backpack: Vázaný batoh
-  armored_jetpack: Trysky s Brněním
+  armored_jetpack: Obrněný raketový batoh
   ender_talismans: Enderitové talismany
   nickel_and_cobalt: Ještě více rud
   magnet: Magnetické kovy
   infused_magnet: Naplněný magnet
-  cobalt_pickaxe: Urychlený Krumpáč
+  cobalt_pickaxe: Zrychlený krumpáč
   essence_of_afterlife: Černá magie
   bound_backpack: Uložiště spoutané duší
-  jetboots: Tryskové Boty
-  armored_jetboots: Obrněné Tryskové Boty
+  jetboots: Raketové boty
+  armored_jetboots: Obrněné raketové boty
   seismic_axe: Seizmická sekera
-  pickaxe_of_vein_mining: Krumpáč Těžení Nalezišť
+  pickaxe_of_vein_mining: Krumpáč těžby rud
   bound_weapons: Zbraně spoutané duší
   bound_tools: Nástroje spoutané duší
   bound_armor: Brnění spoutané duší
@@ -118,10 +118,10 @@ slimefun:
   enhanced_furnace: Vylepšená pec
   more_enhanced_furnaces: Lepší pece
   high_tier_enhanced_furnaces: Nejlepší pece
-  reinforced_furnace: Vyztužená Pec
-  carbonado_furnace: Carbonado Lemováná Pec
+  reinforced_furnace: Zesílená pec
+  carbonado_furnace: Pec lemovaná černými diamanty
   electric_motor: Zahřívání
-  block_placer: Pokládač Bloků
+  block_placer: Pokládač bloků
   scroll_of_dimensional_teleposition: Otáčí věcí kolem
   special_bows: Robin Hood
   tome_of_knowledge_sharing: Dělení s přáteli
@@ -129,14 +129,14 @@ slimefun:
   hardened_glass: Odolávání výbuchům
   golden_apple_juice: Zlatý lektvar
   cooler: Přenašeč nápojů
-  ancient_altar: Starověký Oltář
-  wither_proof_obsidian: Obsidian co vydrží Withera
+  ancient_altar: Starověký oltář
+  wither_proof_obsidian: Pevný obsidián proti witherovi
   ancient_runes: Elementální rudy
   special_runes: Fialové rudy
   infernal_bonemeal: Pekelná kostní moučka
   rainbow_blocks: Duhové bloky
   infused_hopper: Vylepšená násypka
-  wither_proof_glass: Sklo co vydrží Withera
+  wither_proof_glass: Pevné sklo proti witherovi
   duct_tape: Lepící páska
   plastic_sheet: Plast
   android_memory_core: Paměťové jádro
@@ -155,7 +155,7 @@ slimefun:
   auto_anvil: Automatická kovadlina
   multimeter: Měření energie
   gps_setup: Základní GPS nastavení
-  gps_emergency_transmitter: GPS Nouzový Cestovní Bod
+  gps_emergency_transmitter: GPS nouzový záchytný bod
   programmable_androids: Programovatelné androidy
   android_interfaces: Rozhraní androidu
   geo_scanner: GEO snímače
@@ -227,7 +227,7 @@ slimefun:
   totem_of_undying: Totem nesmrtelnosti
   charging_bench: Nabíječka
   nether_gold_pan: Netherová rýžovací miska
-  electric_press: Electrický Lis
+  electric_press: Elektrický lis
   magnesium_generator: Energie z magnézia
   kelp_cookie: Chutná řasa
   advanced_industrial_miner: Lepší těžení
@@ -241,3 +241,10 @@ slimefun:
   bee_armor: Včelí zbroj
   wise_talisman: Talisman moudrosti
   book_binder: Vázání knihy očarování
+  makeshift_smeltery: Vylepšená tavírna
+  tree_growth_accelerator: Rychlejší stromy
+  lead_clothing: Olověné oblečení
+  tape_measure: Svinovací metr
+  iron_golem_assembler: Automatická farma na železné golemy
+  shulker_shell: Syntetičtí shulkeři
+  villager_rune: Obnova vesnických obchodů
