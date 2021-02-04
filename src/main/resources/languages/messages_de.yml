@@ -36,8 +36,8 @@ guide:
     tooltip: "&bKlicke um die Suche zu starten"
     inventory: 'Suche nach: %item%'
     lore:
-    - "&bWonach möchtest du suchen?"
-    - "&7Gib den Begriff, nach dem du suchen willst, in das Chatfenster ein"
+      '1': "&7Gib den Begriff, nach dem du suchen willst, in das Chatfenster ein"
+      '0': "&bWonach möchtest du suchen?"
   cheat:
     no-multiblocks: "&4Multiblöcke müssen gebaut werden! Du kannst dir diese nicht
       geben."
@@ -51,10 +51,10 @@ guide:
     selected-language: 'Aktuell ausgewählt:'
     change: Klicke um die Sprache zu ändern
     description:
-    - "&7Hier kannst du deine Spracheinstellungen"
-    - "&7verwalten. Derzeit umfasst dies"
-    - "&7jedoch nur bestimmte Nachrichten,"
-    - "&7Items können noch nicht übersetzt werden."
+      '0': "&7Hier kannst du deine Spracheinstellungen"
+      '1': "&7verwalten. Derzeit umfasst dies"
+      '2': "&7jedoch nur bestimmte Nachrichten,"
+      '3': "&7Items können noch nicht übersetzt werden."
   title:
     main: Slimefun-Handbuch
     settings: Einstellungen & Infos
@@ -76,10 +76,10 @@ guide:
     profile-link: Klick um mich auf GitHub zu sehen
     open: Klicke um Mitwirkende zu sehen
     description:
-    - "&7Slimefun ist ein Open-Source Projekt"
-    - "&7und wird von einer riesigen Community entwickelt."
-    - "&7Über &e%contributors% &7Personen haben bereits"
-    - "&7an Slimefun mitgewirkt."
+      '0': "&7Slimefun ist ein Open-Source Projekt"
+      '1': "&7und wird von einer riesigen Community entwickelt."
+      '2': "&7Über &e%contributors% &7Personen haben bereits"
+      '3': "&7an Slimefun mitgewirkt."
   pages:
     previous: Vorherige Seite
     next: Nächste Seite
@@ -99,9 +99,9 @@ guide:
     settings: Gehe zurück zu den Einstellungen
   locked: GESPERRT
   locked-category:
-  - Um diese Kategorie freizuschalten,
-  - müssen zuerst sämtliche Items der
-  - folgenden Kategorien freigeschaltet werden
+    '0': Um diese Kategorie freizuschalten,
+    '1': müssen zuerst sämtliche Items der
+    '2': folgenden Kategorien freigeschaltet werden
   work-in-progress: Dieses Feature befindet sich noch in der Testphase!
 messages:
   not-researched: "&4Du hast diesen Gegenstand noch nicht freigeschaltet!"
@@ -157,22 +157,22 @@ messages:
   link-prompt: "&eKlicke hier:"
   diet-cookie: "&eDu beginnst dich sehr leicht zu fühlen..."
   fortune-cookie:
-  - "&7Hilfe, ich bin in einer Glückskeks-Fabrik gefangen!"
-  - "&7Morgen könntest du sterben... durch einen Creeper"
-  - "&7Irgendwann im Leben passiert auch mal etwas schlechtes!!!"
-  - "&7Irgendwann fällt dir auf, dass dies nicht die echte Welt ist. Es ist alles
-    nur ein Computerspiel."
-  - "&7Dieser Keks wird in ein paar Sekunden gut schmecken"
-  - '&7"ELIMINIEREN!!!!!" wird das letzte Wort sein, welches du hören wirst.'
-  - "&7Umarme keine Creeper... Es fühlt sich gut an, ich habe es ausprobiert, aber
-    es ist es nicht wert."
-  - "&742. Die Antwort ist 42."
-  - "&7Ein Walshy am Tag, hält die Sorgen fern. (Insiderwitz)"
-  - "&7Grabe niemals direkt nach unten!"
-  - "&7Das ist nur ein Kratzer!"
-  - "&7Always look on the bright side of life!"
-  - "&7Ist das jetzt ein Keks, Cookie oder ein Biscuit?"
-  - "&7Jetzt auch zuckerfrei!"
+    '0': "&7Hilfe, ich bin in einer Glückskeks-Fabrik gefangen!"
+    '1': "&7Morgen könntest du sterben... durch einen Creeper"
+    '2': "&7Irgendwann im Leben passiert auch mal etwas schlechtes!!!"
+    '3': "&7Irgendwann fällt dir auf, dass dies nicht die echte Welt ist. Es ist alles
+      nur ein Computerspiel."
+    '4': "&7Dieser Keks wird in ein paar Sekunden gut schmecken"
+    '5': '&7"ELIMINIEREN!!!!!" wird das letzte Wort sein, welches du hören wirst.'
+    '6': "&7Umarme keine Creeper... Es fühlt sich gut an, ich habe es ausprobiert,
+      aber es ist es nicht wert."
+    '7': "&742. Die Antwort ist 42."
+    '8': "&7Ein Walshy am Tag, hält die Sorgen fern. (Insiderwitz)"
+    '9': "&7Grabe niemals direkt nach unten!"
+    '10': "&7Das ist nur ein Kratzer!"
+    '11': "&7Always look on the bright side of life!"
+    '12': "&7Ist das jetzt ein Keks, Cookie oder ein Biscuit?"
+    '13': "&7Jetzt auch zuckerfrei!"
   piglin-barter: "&4Du kannst Piglins keine Slimefun-Gegenständen anbieten!"
   enchantment-rune:
     fail: "&cDieser Gegenstand kann nicht verzaubert werden"
@@ -270,10 +270,10 @@ gps:
     max: "&4Du hast die maximale Anzahl an Wegpunkten erreicht"
     duplicate: "&4Es existiert bereits ein Wegpunkt mit folgendem Namen: &f%waypoint%"
   insufficient-complexity:
-  - "&4Unzureichende Komplexität deines GPS-Netzwerkes! Folgende Komplexität wird
-    benötigt: &c%complexity%"
-  - "&4a) Vielleicht hast du gar kein GPS-Netzwerk"
-  - "&4b) Oder dein GPS-Netzwerk ist nicht komplex genug"
+    '0': "&4Unzureichende Komplexität deines GPS-Netzwerkes! Folgende Komplexität
+      wird benötigt: &c%complexity%"
+    '1': "&4a) Vielleicht hast du gar kein GPS-Netzwerk"
+    '2': "&4b) Oder dein GPS-Netzwerk ist nicht komplex genug"
   geo:
     scan-required: "&4GEO-Scan benötigt! &cScanne diesen Chunk mit einem GEO-Scanner!"
 inventory:
@@ -311,11 +311,10 @@ android:
       INTERFACE_ITEMS: "&9Items ins vorliegende Interface bewegen"
       INTERFACE_FUEL: "&cTreibstoff aus dem vorliegenden Interface nehmen"
     enter-name:
-    - 
-    - "&eBitte gebe einen Namen für dein Skript ins Chatfenster ein"
+      '1': "&eBitte gebe einen Namen für dein Skript ins Chatfenster ein"
     uploaded:
-    - "&bLade dein Skript hoch..."
-    - "&aDein Skript wurde erfolgreich hochgeladen!"
+      '0': "&bLade dein Skript hoch..."
+      '1': "&aDein Skript wurde erfolgreich hochgeladen!"
     rating:
       own: "&4Du kannst nicht dein eigenes Skript bewerten!"
       already: "&4Du hast dieses Skript bereits bewertet!"
@@ -342,6 +341,7 @@ languages:
   zh-CN: Chinesisch (China)
   el: Griechisch
   he: Hebräisch
+  pt: Portugiesisch (Portugal)
   pt-BR: Portugiesisch (Brasilien)
   ar: Arabisch
   af: Afrikaans
@@ -354,7 +354,6 @@ languages:
   fa: Persisch
   th: Thailändisch
   ro: Rumänisch
-  pt: Portugiesisch (Portugal)
   bg: Bulgarisch
   ko: Koreanisch
   tr: Türkisch
@@ -371,7 +370,7 @@ cartography_table:
   not-working: "&4Slimefun Items können nicht in einem Kartentisch verwendet werden!"
 cauldron:
   no-discoloring: "&4Du kannst Slimefun-Rüstung nicht entfärben"
-miner:
-  no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"
 placeholderapi:
   profile-loading: Lade...
+miner:
+  no-ores: "&eIch konnte leider keine Erze in der Nähe finden!"
