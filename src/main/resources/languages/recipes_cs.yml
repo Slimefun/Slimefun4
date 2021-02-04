@@ -20,6 +20,7 @@ slimefun:
     name: Brusný kámen
     lore:
       '0': Vyrob tento předmět, jak je ukázáno,
+      '1': za použití brusného kamene
   smeltery:
     name: Smeltery
     lore:
@@ -34,6 +35,7 @@ slimefun:
     lore:
       '0': Zabij tohle stvoření
       '1': k získání tohoto předmětu
+    name: Mob Drop
   gold_pan:
     name: Gold Pan
     lore:
@@ -99,6 +101,7 @@ slimefun:
     name: Nuclear Reactor
     lore:
       '1': při provozování v Nuclear Reactor
+      '0': Tento předmět je vedlejší produkt
   oil_pump:
     name: Oil Pump
     lore:
@@ -109,6 +112,7 @@ slimefun:
     lore:
       '1': těžbou líhně pomocí
       '2': Pickaxe of Containment
+      '0': Tento blok lze získat
   refinery:
     name: Refinery
     lore:
@@ -125,15 +129,18 @@ minecraft:
     lore:
       '0': Vyrob tento předmět, jak je ukázáno,
       '1': v normálním pracovním stole
+      '2': Tvar je důležitý.
   shapeless:
     name: U receptu nezáleží na tvaru
     lore:
       '0': Vyrob tento předmět, jak je ukázáno,
       '1': v normálním pracovním stole
+      '2': Tento recept je beztvarý.
   furnace:
     lore:
       '0': Roztav tento předmět v peci
       '1': k vyrobení vysněného předmětu
+    name: Recept na pec
   blasting:
     name: Recept na tavicí pec
     lore:
@@ -148,6 +155,7 @@ minecraft:
     lore:
       '0': Upeč tenhle předmět v táboráku
       '1': k vyrobení vysněného předmětu
+    name: Recept na táborák
   stonecutting:
     name: Recept na řezačku kamene
     lore:
