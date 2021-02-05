@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -70,7 +71,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     protected final NamespacedKey recipeStorageKey;
 
     // @formatter:off
-    private final int[] background = {
+    protected final int[] background = {
         0, 1, 2, 3, 4, 5, 6, 7, 8,
         9, 10, 14, 15, 16, 17,
         18, 19, 23, 25, 26,
@@ -196,7 +197,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         ChestMenuUtils.drawBackground(menu, background);
         ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
 
-        menu.addItem(49, new CustomItem(Material.BARRIER, SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.remove")));
+        menu.addItem(49, new CustomItem(Material.BARRIER, ChatColor.RED + SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.remove")));
         menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
             setSelectedRecipe(b, null);
             pl.closeInventory();

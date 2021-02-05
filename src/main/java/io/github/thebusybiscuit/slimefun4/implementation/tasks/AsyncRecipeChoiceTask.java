@@ -92,6 +92,20 @@ public class AsyncRecipeChoiceTask implements Runnable {
         }
     }
 
+    /**
+     * This method clears the {@link AsyncRecipeChoiceTask} and removes all active
+     * iterators.
+     */
+    public void clear() {
+        lock.writeLock().lock();
+
+        try {
+            iterators.clear();
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
     @Override
     public void run() {
         // Terminate the task when noone is viewing the Inventory

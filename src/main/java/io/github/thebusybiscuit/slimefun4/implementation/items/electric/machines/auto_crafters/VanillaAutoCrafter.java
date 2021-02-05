@@ -8,8 +8,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
@@ -20,10 +24,13 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.papermc.lib.PaperLib;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -89,13 +96,57 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
         if (recipes.isEmpty()) {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
         } else {
-            // TODO Choose vanilla recipe
+            ChestMenu menu = new ChestMenu(getItemName());
+            menu.setPlayerInventoryClickable(false);
+            menu.setEmptySlotsClickable(false);
+
+            ChestMenuUtils.drawBackground(menu, background);
+            ChestMenuUtils.drawBackground(menu, 45, 47, 48, 50, 51, 53);
+            // 46 // 52
+
         }
     }
-    
+
     @ParametersAreNonnullByDefault
-    private void offerRecipe(Player p, Block b, List<Recipe> recipes, int page, BlockMenu menu, AsyncRecipeChoiceTask task) {
-        
+    private void offerRecipe(Player p, Block b, List<Recipe> recipes, int index, BlockMenu menu, AsyncRecipeChoiceTask task) {
+        Validate.isTrue(index >= 0 && index < recipes.size(), "page must be between 0 and " + (recipes.size() - 1));
+
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.size()));
+        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+            if (index > 0) {
+                pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                offerRecipe(p, b, recipes, index - 1, menu, task);
+            }
+
+            return false;
+        });
+
+        menu.addItem(52, ChestMenuUtils.getNextButton(p, index + 1, recipes.size()));
+        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+            if (index < (recipes.size() - 1)) {
+                pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                offerRecipe(p, b, recipes, index + 1, menu, task);
+            }
+
+            return false;
+        });
+
+        AbstractRecipe recipe = AbstractRecipe.of(recipes.get(index));
+
+        menu.addItem(49, new CustomItem(Material.CRAFTING_TABLE, ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.select")));
+        menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
+            setSelectedRecipe(b, recipe);
+            pl.closeInventory();
+
+            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-set");
+            showRecipe(p, b, recipe);
+
+            return false;
+        });
+
+        task.clear();
+        recipe.show(menu, task);
     }
 
     @Nonnull
