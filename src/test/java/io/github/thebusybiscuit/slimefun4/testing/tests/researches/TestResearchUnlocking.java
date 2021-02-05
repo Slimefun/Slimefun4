@@ -54,7 +54,6 @@ class TestResearchUnlocking {
 
     @ParameterizedTest
     @DisplayName("Test Unlocking Researches")
-    @Disabled(value = "Blocked by a concurrency issue in MockBukkit")
     @ValueSource(booleans = { true, false })
     void testUnlock(boolean instant) throws InterruptedException {
         SlimefunPlugin.getRegistry().setResearchingEnabled(true);
