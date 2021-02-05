@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -44,7 +45,17 @@ public class EnhancedAutoCrafter extends AbstractAutoCrafter {
 
     @Override
     protected void updateRecipe(@Nonnull Block b, @Nonnull Player p) {
-        // TODO Choose enhanced recipe
+        ItemStack itemInHand = p.getInventory().getItemInMainHand();
+        SlimefunItem item = SlimefunItem.getByItem(itemInHand);
+
+        if (item != null && item.getRecipeType().equals(RecipeType.ENHANCED_CRAFTING_TABLE)) {
+            // Fixes #1161
+            if (item.canUse(p, true)) {
+                setSelectedRecipe(b, AbstractRecipe.of(item));
+            }
+        } else {
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
+        }
     }
 
 }

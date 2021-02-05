@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
@@ -62,6 +63,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     private int energyCapacity = -1;
 
+    /**
+     * The {@link NamespacedKey} used to store recipe data.
+     */
     protected final NamespacedKey recipeStorageKey;
 
     // @formatter:off
@@ -100,18 +104,20 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         return e -> e.getClickedBlock().ifPresent(b -> {
             Player p = e.getPlayer();
 
-            if (p.isSneaking()) {
-                // Select a new recipe
-                updateRecipe(b, p);
-            } else {
-                AbstractRecipe recipe = getSelectedRecipe(b);
-
-                if (recipe == null) {
-                    // Prompt the User to crouch
-                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
+            if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
+                if (p.isSneaking()) {
+                    // Select a new recipe
+                    updateRecipe(b, p);
                 } else {
-                    // Show the current recipe
-                    showRecipe(p, b, recipe);
+                    AbstractRecipe recipe = getSelectedRecipe(b);
+
+                    if (recipe == null) {
+                        // Prompt the User to crouch
+                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
+                    } else {
+                        // Show the current recipe
+                        showRecipe(p, b, recipe);
+                    }
                 }
             }
         });
@@ -188,13 +194,13 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
         ChestMenuUtils.drawBackground(menu, background);
         ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
-        
+
         menu.addItem(49, new CustomItem(Material.BARRIER, SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.remove")));
         menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
             setSelectedRecipe(b, null);
-           return false; 
+            return false;
         });
-        
+
         RecipeChoiceTask task = new RecipeChoiceTask();
         recipe.show(menu, task);
         menu.open(p);
