@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.guide;
+package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +16,7 @@ import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
 import io.github.thebusybiscuit.cscorelib2.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 
 /**
  * A {@link RecipeChoiceTask} is an asynchronously repeating task that cycles
@@ -27,13 +28,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  * @author TheBusyBiscuit
  *
  */
-class RecipeChoiceTask implements Runnable {
+public class RecipeChoiceTask implements Runnable {
 
     private static final int UPDATE_INTERVAL = 14;
 
+    private final Map<Integer, LoopIterator<Material>> iterators = new HashMap<>();
     private Inventory inventory;
     private int id;
-    private final Map<Integer, LoopIterator<Material>> iterators = new HashMap<>();
 
     /**
      * This will start this task for the given {@link Inventory}.
@@ -43,17 +44,20 @@ class RecipeChoiceTask implements Runnable {
      */
     public void start(@Nonnull Inventory inv) {
         Validate.notNull(inv, "Inventory must not be null");
+        
         inventory = inv;
         id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance(), this, 0, UPDATE_INTERVAL).getTaskId();
     }
 
     public void add(int slot, @Nonnull MaterialChoice choice) {
         Validate.notNull(choice, "Cannot add a null RecipeChoice");
+        
         iterators.put(slot, new LoopIterator<>(choice.getChoices()));
     }
 
     public void add(int slot, @Nonnull Tag<Material> tag) {
         Validate.notNull(tag, "Cannot add a null Tag");
+        
         iterators.put(slot, new LoopIterator<>(tag.getValues()));
     }
 

@@ -33,9 +33,25 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * This is the abstract super class for our auto crafters.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see VanillaAutoCrafter
+ * @see EnhancedAutoCrafter
+ *
+ */
 public abstract class AbstractAutoCrafter extends SlimefunItem implements EnergyNetComponent {
 
-    private int energyConsumedPerTick = -1;
+    /**
+     * The amount of energy consumed per crafting operation.
+     */
+    private int energyConsumed = -1;
+
+    /**
+     * The amount of energy this machine can store.
+     */
     private int energyCapacity = -1;
 
     @ParametersAreNonnullByDefault
@@ -79,6 +95,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 Inventory inv = ((InventoryHolder) state).getInventory();
 
                 if (craft(inv, recipe)) {
+                    // We are done crafting!
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 }
             }
@@ -189,7 +206,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * @return The rate of energy consumption
      */
     public int getEnergyConsumption() {
-        return energyConsumedPerTick;
+        return energyConsumed;
     }
 
     /**
@@ -202,6 +219,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * 
      * @return This method will return the current instance of {@link AContainer}, so that can be chained.
      */
+    @Nonnull
     public final AbstractAutoCrafter setCapacity(int capacity) {
         Validate.isTrue(capacity > 0, "The capacity must be greater than zero!");
 
@@ -221,12 +239,13 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * 
      * @return This method will return the current instance of {@link AContainer}, so that can be chained.
      */
+    @Nonnull
     public final AbstractAutoCrafter setEnergyConsumption(int energyConsumption) {
         Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
         Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
         Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
 
-        this.energyConsumedPerTick = energyConsumption;
+        this.energyConsumed = energyConsumption;
         return this;
     }
 
