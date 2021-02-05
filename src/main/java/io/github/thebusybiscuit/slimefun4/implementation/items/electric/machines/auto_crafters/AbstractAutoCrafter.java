@@ -10,22 +10,30 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.RecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -54,9 +62,23 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     private int energyCapacity = -1;
 
+    protected final NamespacedKey recipeStorageKey;
+
+    // @formatter:off
+    private final int[] background = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        9, 10, 14, 15, 16, 17,
+        18, 19, 23, 25, 26,
+        27, 28, 32, 33, 34, 35,
+        36, 37, 38, 39, 40, 41, 42, 43, 44
+    };
+    // @formatter:on
+
     @ParametersAreNonnullByDefault
     public AbstractAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
+
+        recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
 
         addItemHandler(onRightClick());
         addItemHandler(new BlockTicker() {
@@ -75,7 +97,24 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     @Nonnull
     private BlockUseHandler onRightClick() {
-        return e -> e.getClickedBlock().ifPresent(b -> onRightClick(e.getPlayer(), b));
+        return e -> e.getClickedBlock().ifPresent(b -> {
+            Player p = e.getPlayer();
+
+            if (p.isSneaking()) {
+                // Select a new recipe
+                updateRecipe(b, p);
+            } else {
+                AbstractRecipe recipe = getSelectedRecipe(b);
+
+                if (recipe == null) {
+                    // Prompt the User to crouch
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
+                } else {
+                    // Show the current recipe
+                    showRecipe(p, b, recipe);
+                }
+            }
+        });
     }
 
     protected void tick(@Nonnull Block b, @Nonnull Config data) {
@@ -88,7 +127,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
         Block chest = b.getRelative(BlockFace.DOWN);
 
-        if (chest.getType() == Material.CHEST || chest.getType() == Material.TRAPPED_CHEST) {
+        // Make sure this is a Chest
+        if (chest.getType() == Material.CHEST) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
             if (state instanceof InventoryHolder) {
@@ -115,15 +155,54 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     public abstract AbstractRecipe getSelectedRecipe(@Nonnull Block b);
 
     /**
-     * This method is called when a {@link Player} right clicks the {@link AbstractAutoCrafter}.
+     * This method is called when a {@link Player} right clicks the {@link AbstractAutoCrafter}
+     * while holding the shift button.
      * Use it to choose the {@link AbstractRecipe}.
      * 
-     * @param p
-     *            The {@link Player} who clicked
      * @param b
      *            The {@link Block} which was clicked
+     * @param p
+     *            The {@link Player} who clicked
      */
-    protected abstract void onRightClick(@Nonnull Player p, @Nonnull Block b);
+    protected abstract void updateRecipe(@Nonnull Block b, @Nonnull Player p);
+
+    protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
+        BlockState state = PaperLib.getBlockState(b, false).getState();
+
+        if (state instanceof Skull) {
+            if (recipe == null) {
+                // Clear the value from persistent data storage
+                PersistentDataAPI.remove((Skull) state, recipeStorageKey);
+            } else {
+                // Store the value to persistent data storage
+                PersistentDataAPI.setString((Skull) state, recipeStorageKey, recipe.toString());
+            }
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    protected void showRecipe(Player p, Block b, AbstractRecipe recipe) {
+        ChestMenu menu = new ChestMenu(getItemName());
+        menu.setPlayerInventoryClickable(false);
+        menu.setEmptySlotsClickable(false);
+
+        ChestMenuUtils.drawBackground(menu, background);
+        ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
+        
+        menu.addItem(49, new CustomItem(Material.BARRIER, SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.remove")));
+        menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
+            setSelectedRecipe(b, null);
+           return false; 
+        });
+        
+        RecipeChoiceTask task = new RecipeChoiceTask();
+        recipe.show(menu, task);
+        menu.open(p);
+
+        if (!task.isEmpty()) {
+            task.start(menu.toInventory());
+        }
+    }
 
     /**
      * This method checks whether the given {@link Predicate} matches the provided {@link ItemStack}.

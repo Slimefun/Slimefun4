@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -18,7 +17,9 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.RecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
@@ -42,8 +43,8 @@ public abstract class AbstractRecipe {
             return new AbstractRecipe((ShapedRecipe) recipe) {
 
                 @Override
-                public void show(@Nonnull Inventory inv) {
-                    // TODO Implement Recipe Preview
+                public void show(@Nonnull ChestMenu menu, @Nonnull RecipeChoiceTask task) {
+                    // TODO Auto-generated method stub
 
                 }
 
@@ -52,8 +53,9 @@ public abstract class AbstractRecipe {
             return new AbstractRecipe((ShapelessRecipe) recipe) {
 
                 @Override
-                public void show(@Nonnull Inventory inv) {
-                    // TODO Implement Recipe Preview
+                public void show(@Nonnull ChestMenu menu, @Nonnull RecipeChoiceTask task) {
+                    // TODO Auto-generated method stub
+
                 }
 
             };
@@ -67,8 +69,9 @@ public abstract class AbstractRecipe {
         return new AbstractRecipe(item) {
 
             @Override
-            public void show(@Nonnull Inventory inv) {
-                // TODO Implement Recipe Preview
+            public void show(@Nonnull ChestMenu menu, @Nonnull RecipeChoiceTask task) {
+                // TODO Auto-generated method stub
+
             }
         };
     }
@@ -126,6 +129,6 @@ public abstract class AbstractRecipe {
         return result;
     }
 
-    public abstract void show(@Nonnull Inventory inv);
+    public abstract void show(@Nonnull ChestMenu menu, @Nonnull RecipeChoiceTask task);
 
 }

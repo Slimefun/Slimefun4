@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
@@ -12,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -21,13 +19,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class EnhancedAutoCrafter extends AbstractAutoCrafter {
 
-    private final NamespacedKey recipeStorageKey;
-
     @ParametersAreNonnullByDefault
     public EnhancedAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-
-        recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
     }
 
     @Override
@@ -49,8 +43,8 @@ public class EnhancedAutoCrafter extends AbstractAutoCrafter {
     }
 
     @Override
-    protected void onRightClick(@Nonnull Player p, @Nonnull Block b) {
-        // TODO: Implement Recipe Chooser
+    protected void updateRecipe(@Nonnull Block b, @Nonnull Player p) {
+        // TODO Choose enhanced recipe
     }
 
 }

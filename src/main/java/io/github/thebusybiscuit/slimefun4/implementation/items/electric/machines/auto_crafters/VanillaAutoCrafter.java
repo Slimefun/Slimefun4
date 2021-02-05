@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -26,13 +25,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
-    private final NamespacedKey recipeStorageKey;
-
     @ParametersAreNonnullByDefault
     public VanillaAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
-
-        recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
     }
 
     @Override
@@ -80,8 +75,8 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
     }
 
     @Override
-    protected void onRightClick(@Nonnull Player p, @Nonnull Block b) {
-        // TODO: Implement Recipe Chooser
+    protected void updateRecipe(@Nonnull Block b, @Nonnull Player p) {
+        // TODO Choose vanilla recipe
     }
 
 }
