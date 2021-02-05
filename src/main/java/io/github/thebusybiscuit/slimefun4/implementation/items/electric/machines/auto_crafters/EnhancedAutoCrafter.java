@@ -51,7 +51,14 @@ public class EnhancedAutoCrafter extends AbstractAutoCrafter {
         if (item != null && item.getRecipeType().equals(RecipeType.ENHANCED_CRAFTING_TABLE)) {
             // Fixes #1161
             if (item.canUse(p, true)) {
-                setSelectedRecipe(b, AbstractRecipe.of(item));
+                AbstractRecipe recipe = AbstractRecipe.of(item);
+
+                if (recipe != null) {
+                    setSelectedRecipe(b, recipe);
+                    showRecipe(p, b, recipe);
+                } else {
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
+                }
             }
         } else {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
