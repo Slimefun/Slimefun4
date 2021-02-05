@@ -4,22 +4,29 @@ import java.util.Collection;
 
 import javax.annotation.Nonnull;
 
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.papermc.lib.PaperLib;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
+/**
+ * This is our class for the /sf versions subcommand.
+ * 
+ * @author TheBusyBiscuit
+ * @author Walshy
+ *
+ */
 class VersionsCommand extends SubCommand {
 
     VersionsCommand(SlimefunPlugin plugin, SlimefunCommand cmd) {
@@ -29,34 +36,50 @@ class VersionsCommand extends SubCommand {
     @Override
     public void onExecute(@Nonnull CommandSender sender, @Nonnull String[] args) {
         if (sender.hasPermission("slimefun.command.versions") || sender instanceof ConsoleCommandSender) {
-            // After all these years... Spigot still displays as "CraftBukkit"
-            // so we will just fix this inconsistency for them :)
+            /*
+             * After all these years... Spigot still displays as "CraftBukkit".
+             * so we will just fix this inconsistency for them :)
+             */
             String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
-
             ComponentBuilder builder = new ComponentBuilder();
-            builder.append("This Server uses the following setup of Slimefun:\n").color(ChatColor.GRAY)
-                .append(serverSoftware).color(ChatColor.GREEN).append(" " + Bukkit.getVersion() + '\n').color(ChatColor.DARK_GREEN)
-                .append("Slimefun").color(ChatColor.GREEN).append(" v" + SlimefunPlugin.getVersion() + '\n').color(ChatColor.DARK_GREEN);
+
+            // @formatter:off
+            builder.append("This Server uses the following setup of Slimefun:\n")
+                .color(ChatColor.GRAY)
+                .append(serverSoftware)
+                .color(ChatColor.GREEN)
+                .append(" " + Bukkit.getVersion() + '\n')
+                .color(ChatColor.DARK_GREEN)
+                .append("Slimefun ")
+                .color(ChatColor.GREEN)
+                .append(SlimefunPlugin.getVersion() + '\n')
+                .color(ChatColor.DARK_GREEN);
+            // @formatter:on
 
             if (SlimefunPlugin.getMetricsService().getVersion() != null) {
-                builder.append("Metrics build: ").color(ChatColor.GREEN)
-                    .append("#" + SlimefunPlugin.getMetricsService().getVersion() + '\n').color(ChatColor.DARK_GREEN);
+                // @formatter:off
+                builder.append("Metrics-Module ")
+                    .color(ChatColor.GREEN)
+                    .append("#" + SlimefunPlugin.getMetricsService().getVersion() + '\n')
+                    .color(ChatColor.DARK_GREEN);
+                // @formatter:on
             }
 
             addJavaVersion(builder);
 
             if (SlimefunPlugin.getRegistry().isBackwardsCompatible()) {
+                // @formatter:off
                 HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                    "Backwards compatibility has a negative impact on performance!\n"
-                        + "We recommend you to disable this setting unless your server still "
-                        + "has legacy Slimefun items (from before summer 2019) in circulation."
+                    "Backwards compatibility has a negative impact on performance!\n" +
+                    "We recommend you to disable this setting unless your server still " +
+                    "has legacy Slimefun items (from before summer 2019) in circulation."
                 ));
+                // @formatter:on
 
-                builder.append("Backwards compatibility enabled!\n").color(ChatColor.RED).event(hoverEvent);
+                builder.append("\nBackwards compatibility enabled!\n").color(ChatColor.RED).event(hoverEvent);
             }
 
             builder.append("\n").event((HoverEvent) null);
-
             addPluginVersions(builder);
 
             sender.spigot().sendMessage(builder.create());
@@ -67,6 +90,7 @@ class VersionsCommand extends SubCommand {
 
     private void addJavaVersion(@Nonnull ComponentBuilder builder) {
         String javaVer = System.getProperty("java.version");
+
         if (javaVer.startsWith("1.")) {
             javaVer = javaVer.substring(2);
         }
@@ -75,65 +99,108 @@ class VersionsCommand extends SubCommand {
         if (javaVer.indexOf('.') != -1) {
             javaVer = javaVer.substring(0, javaVer.indexOf('.'));
         }
-        int ver = Integer.parseInt(javaVer);
 
-        if (ver < 11) {
-            builder.append("Java " + ver).color(ChatColor.RED)
+        int version = Integer.parseInt(javaVer);
+
+        if (version < 11) {
+            // @formatter:off
+            builder.append("Java " + version).color(ChatColor.RED)
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                    "You should be using at least Java 11! Paper will be dropping support for before Java 11 starting at MC 1.17"
+                    "Your Java version is out of date!\n!" +
+                    "You should use Java 11 or higher.\n" +
+                    "Paper will be dropping support for older versions with the release of Minecraft 1.17."
                 )))
                 .append("\n")
                 .event((HoverEvent) null);
+            // @formatter:on
         } else {
-            builder.append("Java " + ver + "\n").color(ChatColor.GREEN);
+            builder.append("Java ").color(ChatColor.GREEN).append(version + "\n").color(ChatColor.DARK_GREEN);
         }
     }
 
     private void addPluginVersions(@Nonnull ComponentBuilder builder) {
         Collection<Plugin> addons = SlimefunPlugin.getInstalledAddons();
-        builder.append("Installed Addons: ").color(ChatColor.GRAY)
-            .append("(" + addons.size() + ")").color(ChatColor.DARK_GRAY);
+
+        if (addons.isEmpty()) {
+            builder.append("No Addons installed").color(ChatColor.GRAY).italic(true);
+            return;
+        }
+
+        builder.append("Installed Addons: ").color(ChatColor.GRAY).append("(" + addons.size() + ")").color(ChatColor.DARK_GRAY);
 
         for (Plugin plugin : addons) {
             String version = plugin.getDescription().getVersion();
 
+            HoverEvent hoverEvent = null;
+            ClickEvent clickEvent = null;
+            ChatColor primaryColor;
+            ChatColor secondaryColor;
+
             if (Bukkit.getPluginManager().isPluginEnabled(plugin)) {
-                HoverEvent hoverEvent;
-                ClickEvent clickEvent = null;
-                if (plugin instanceof SlimefunAddon) {
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                        "Author(s): " + String.join(", ", plugin.getDescription().getAuthors())
-                        + "\nClick to open the Bug Tracker"
+                primaryColor = ChatColor.GREEN;
+                secondaryColor = ChatColor.DARK_GREEN;
+                String authors = String.join(", ", plugin.getDescription().getAuthors());
+
+                if (plugin instanceof SlimefunAddon && ((SlimefunAddon) plugin).getBugTrackerURL() != null) {
+                    // @formatter:off
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()
+                        .append("Author(s): ")
+                        .append(authors)
+                        .color(ChatColor.YELLOW)
+                        .append("\n> Click here to go to their issues tracker")
+                        .color(ChatColor.GOLD)
+                        .create()
                     ));
+                    // @formatter:on
+
                     clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, ((SlimefunAddon) plugin).getBugTrackerURL());
                 } else {
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                        "Author(s): " + String.join(", ", plugin.getDescription().getAuthors())
+                    // @formatter:off
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()
+                        .append("Author(s): ")
+                        .append(authors)
+                        .color(ChatColor.YELLOW)
+                        .create()
                     ));
+                    // @formatter:on
                 }
-
-                builder.append("\n  " + plugin.getName()).color(ChatColor.GREEN).event(hoverEvent).event(clickEvent)
-                    .append(" v" + version).color(ChatColor.DARK_GREEN)
-                .append("").event((ClickEvent) null).event((HoverEvent) null);
             } else {
-                HoverEvent hoverEvent;
-                ClickEvent clickEvent = null;
-                if (plugin instanceof SlimefunAddon) {
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new Text("Plugin is disabled. Check the console for an error. Click here to report on their issue tracker"));
-                    if (((SlimefunAddon) plugin).getBugTrackerURL() != null) {
-                        clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, ((SlimefunAddon) plugin).getBugTrackerURL());
+                primaryColor = ChatColor.RED;
+                secondaryColor = ChatColor.DARK_RED;
+
+                if (plugin instanceof SlimefunAddon && ((SlimefunAddon) plugin).getBugTrackerURL() != null) {
+                    // @formatter:off
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(new ComponentBuilder()
+                        .append("This plugin is disabled.\nCheck the console for an error message.")
+                        .color(ChatColor.RED)
+                        .append("\n> Click here to report on their issues tracker")
+                        .color(ChatColor.DARK_RED)
+                        .create()
+                    ));
+                    // @formatter:on
+
+                    SlimefunAddon addon = (SlimefunAddon) plugin;
+
+                    if (addon.getBugTrackerURL() != null) {
+                        clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, addon.getBugTrackerURL());
                     }
                 } else {
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new Text("Plugin is disabled. Check the console for an error and report on their issue tracker."));
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Plugin is disabled. Check the console for an error and report on their issues tracker."));
                 }
-
-                // We need to reset the hover event or it's added to all components
-                builder.append("\n  " + plugin.getName()).color(ChatColor.RED).event(hoverEvent).event(clickEvent)
-                    .append(" v" + version).color(ChatColor.DARK_RED)
-                    .append("").event((ClickEvent) null).event((HoverEvent) null);
             }
+
+            // @formatter:off
+            // We need to reset the hover event or it's added to all components
+            builder.append("\n  " + plugin.getName())
+                .color(primaryColor)
+                .event(hoverEvent)
+                .event(clickEvent)
+                .append(" v" + version)
+                .color(secondaryColor)
+                .append("")
+                .event((ClickEvent) null)
+                .event((HoverEvent) null);
+            // @formatter:on
         }
     }
 }

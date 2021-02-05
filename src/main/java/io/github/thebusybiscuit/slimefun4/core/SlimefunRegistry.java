@@ -356,7 +356,7 @@ public final class SlimefunRegistry {
     public boolean logDuplicateBlockEntries() {
         return logDuplicateBlockEntries;
     }
-    
+
     public boolean useActionbarForTalismans() {
         return talismanActionBarMessages;
     }
