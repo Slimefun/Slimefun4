@@ -15,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -356,6 +357,33 @@ public final class SlimefunUtils {
         Validate.isTrue(capacity > 0, "Capacity must be greater than zero!");
 
         SlimefunPlugin.runSync(new CapacitorTextureUpdateTask(l, charge, capacity));
+    }
+
+    /**
+     * This checks whether the {@link Player} is able to use the given {@link ItemStack}.
+     * It will always return <code>true</code> for non-Slimefun items.
+     * <p>
+     * If you already have an instance of {@link SlimefunItem}, please use {@link SlimefunItem#canUse(Player, boolean)}.
+     * 
+     * @param p
+     *            The {@link Player}
+     * @param item
+     *            The {@link ItemStack} to check
+     * @param sendMessage
+     *            Whether to send a message response to the {@link Player}
+     * 
+     * @return Whether the {@link Player} is able to use that item.
+     */
+    public static boolean canPlayerUseItem(@Nonnull Player p, @Nullable ItemStack item, boolean sendMessage) {
+        Validate.notNull(p, "The player cannot be null");
+
+        SlimefunItem sfItem = SlimefunItem.getByItem(item);
+
+        if (sfItem != null) {
+            return sfItem.canUse(p, sendMessage);
+        } else {
+            return true;
+        }
     }
 
 }

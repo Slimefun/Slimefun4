@@ -14,13 +14,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.JetBoots;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Jetpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.InfusedMagnet;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.InfusedMagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetBootsTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.JetpackTask;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.InfusedMagnetTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.ParachuteTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for listening to the {@link PlayerToggleSneakEvent}
@@ -59,7 +58,7 @@ public class GadgetsListener implements Listener {
             if (SlimefunUtils.containsSimilarItem(p.getInventory(), SlimefunItems.INFUSED_MAGNET, true)) {
                 InfusedMagnet magnet = (InfusedMagnet) SlimefunItems.INFUSED_MAGNET.getItem();
 
-                if (Slimefun.hasUnlocked(p, magnet, true)) {
+                if (magnet.canUse(p, true)) {
                     new InfusedMagnetTask(p, magnet.getRadius()).scheduleRepeating(0, 8);
                 }
             }
@@ -67,7 +66,7 @@ public class GadgetsListener implements Listener {
     }
 
     private void handleChestplate(@Nonnull Player p, @Nullable SlimefunItem chestplate) {
-        if (chestplate == null || !Slimefun.hasUnlocked(p, chestplate, true)) {
+        if (chestplate == null || !chestplate.canUse(p, true)) {
             return;
         }
 
@@ -83,7 +82,7 @@ public class GadgetsListener implements Listener {
     }
 
     private void handleBoots(@Nonnull Player p, @Nullable SlimefunItem boots) {
-        if (boots instanceof JetBoots && Slimefun.hasUnlocked(p, boots, true)) {
+        if (boots instanceof JetBoots && boots.canUse(p, true)) {
             double speed = ((JetBoots) boots).getSpeed();
 
             if (speed > 0.2) {

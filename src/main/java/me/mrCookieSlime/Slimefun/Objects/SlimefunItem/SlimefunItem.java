@@ -16,9 +16,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
 
 import io.github.thebusybiscuit.cscorelib2.collections.OptionalMap;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
@@ -32,6 +34,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemExcepti
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
@@ -1009,6 +1012,90 @@ public class SlimefunItem implements Placeable {
         // We definitely want to re-throw them during Unit Tests
         if (throwable instanceof RuntimeException && SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             throw (RuntimeException) throwable;
+        }
+    }
+
+    /**
+     * This method checks if the given {@link Player} is able to use this {@link SlimefunItem}.
+     * A {@link Player} can use it if the following conditions apply:
+     * 
+     * <p>
+     * <ul>
+     * <li>The {@link SlimefunItem} is not disabled
+     * <li>The {@link SlimefunItem} was not disabled for that {@link Player}'s {@link World}.
+     * <li>The {@link Player} has the required {@link Permission} (if present)
+     * <li>The {@link Player} has unlocked the required {@link Research} (if present)
+     * </ul>
+     * <p>
+     * 
+     * If any of these conditions evaluate to <code>false</code>, then an optional message will be
+     * sent to the {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player} to check
+     * @param sendMessage
+     *            Whether to send that {@link Player} a message response.
+     * 
+     * @return Whether this {@link Player} is able to use this {@link SlimefunItem}.
+     */
+    public boolean canUse(@Nonnull Player p, boolean sendMessage) {
+        Validate.notNull(p, "The Player cannot be null!");
+
+        if (getState() == ItemState.VANILLA_FALLBACK) {
+            // Vanilla items (which fell back) can always be used.
+            return true;
+        } else if (isDisabled()) {
+            // The Item has been disabled in the config
+            if (sendMessage) {
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-item", true);
+            }
+
+            return false;
+        } else if (!SlimefunPlugin.getWorldSettingsService().isEnabled(p.getWorld(), this)) {
+            // The Item was disabled in the current World
+            if (sendMessage) {
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.disabled-in-world", true);
+            }
+
+            return false;
+        } else if (!SlimefunPlugin.getPermissionsService().hasPermission(p, this)) {
+            // The Player does not have the required permission node
+            if (sendMessage) {
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.no-permission", true);
+            }
+
+            return false;
+        } else if (hasResearch()) {
+            Optional<PlayerProfile> profile = PlayerProfile.find(p);
+
+            if (!profile.isPresent()) {
+                /*
+                 * We will return false since we cannot know the answer yet.
+                 * But we will schedule the Profile for loading and not send
+                 * any message.
+                 */
+                PlayerProfile.request(p);
+                return false;
+            } else if (!profile.get().hasUnlocked(getResearch())) {
+                /*
+                 * The Profile is loaded but Player has not unlocked the
+                 * required Research to use this SlimefunItem.
+                 */
+                if (sendMessage && !(this instanceof VanillaItem)) {
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-researched", true);
+                }
+
+                return false;
+            } else {
+                /*
+                 * The PlayerProfile is loaded and the Player has unlocked
+                 * the required Research.
+                 */
+                return true;
+            }
+        } else {
+            // All checks have passed, the Player can use this item.
+            return true;
         }
     }
 
