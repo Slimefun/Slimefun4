@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
@@ -29,13 +32,20 @@ class EnhancedRecipe extends AbstractRecipe {
     private final SlimefunItem item;
 
     EnhancedRecipe(@Nonnull SlimefunItem item) {
-        super(new ArrayList<>(), item.getRecipeOutput());
+        super(getInputs(item), item.getRecipeOutput());
         this.item = item;
+    }
+
+    @Nonnull
+    private static Collection<Predicate<ItemStack>> getInputs(@Nonnull SlimefunItem item) {
+        List<Predicate<ItemStack>> predicates = new ArrayList<>();
 
         for (int i = 0; i < 9; i++) {
             ItemStack ingredient = item.getRecipe()[i];
-            getInputs().add(stack -> SlimefunUtils.isItemSimilar(stack, ingredient, true));
+            predicates.add(stack -> SlimefunUtils.isItemSimilar(stack, ingredient, true));
         }
+
+        return predicates;
     }
 
     @Override

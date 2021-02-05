@@ -35,7 +35,6 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
@@ -102,13 +101,18 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
             ChestMenuUtils.drawBackground(menu, background);
             ChestMenuUtils.drawBackground(menu, 45, 47, 48, 50, 51, 53);
-            // 46 // 52
 
+            AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
+            offerRecipe(p, b, recipes, 0, menu, task);
+
+            menu.open(p);
+            task.start(menu.toInventory());
+            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
         }
     }
 
     @ParametersAreNonnullByDefault
-    private void offerRecipe(Player p, Block b, List<Recipe> recipes, int index, BlockMenu menu, AsyncRecipeChoiceTask task) {
+    private void offerRecipe(Player p, Block b, List<Recipe> recipes, int index, ChestMenu menu, AsyncRecipeChoiceTask task) {
         Validate.isTrue(index >= 0 && index < recipes.size(), "page must be between 0 and " + (recipes.size() - 1));
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.size()));
