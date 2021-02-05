@@ -21,12 +21,14 @@ import org.bukkit.inventory.ShapelessRecipe;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
@@ -89,6 +91,11 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
         } else {
             // TODO Choose vanilla recipe
         }
+    }
+    
+    @ParametersAreNonnullByDefault
+    private void offerRecipe(Player p, Block b, List<Recipe> recipes, int page, BlockMenu menu, AsyncRecipeChoiceTask task) {
+        
     }
 
     @Nonnull

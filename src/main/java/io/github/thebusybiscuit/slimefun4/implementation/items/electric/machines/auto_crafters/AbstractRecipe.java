@@ -13,7 +13,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.RecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -42,7 +42,7 @@ public abstract class AbstractRecipe {
         return result;
     }
 
-    public abstract void show(@Nonnull ChestMenu menu, @Nonnull RecipeChoiceTask task);
+    public abstract void show(@Nonnull ChestMenu menu, @Nonnull AsyncRecipeChoiceTask task);
 
     @Nullable
     public static AbstractRecipe of(@Nullable Recipe recipe) {

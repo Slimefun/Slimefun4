@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.RecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -39,7 +39,7 @@ class EnhancedRecipe extends AbstractRecipe {
     }
 
     @Override
-    public void show(@Nonnull ChestMenu menu, @Nonnull RecipeChoiceTask task) {
+    public void show(@Nonnull ChestMenu menu, @Nonnull AsyncRecipeChoiceTask task) {
         menu.addItem(24, getResult().clone(), ChestMenuUtils.getEmptyClickHandler());
         ItemStack[] recipe = item.getRecipe();
 

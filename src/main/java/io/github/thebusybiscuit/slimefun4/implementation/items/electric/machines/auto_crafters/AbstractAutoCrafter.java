@@ -31,7 +31,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.RecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -205,7 +205,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             return false;
         });
 
-        RecipeChoiceTask task = new RecipeChoiceTask();
+        AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
         recipe.show(menu, task);
         menu.open(p);
 

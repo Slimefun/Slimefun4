@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +21,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 
 /**
- * A {@link RecipeChoiceTask} is an asynchronously repeating task that cycles
+ * A {@link AsyncRecipeChoiceTask} is an asynchronously repeating task that cycles
  * through the different variants of {@link Material} that a {@link MaterialChoice} or {@link Tag} can represent.
  * 
  * It is used in the {@link SurvivalSlimefunGuide} for any {@link ItemStack} from Minecraft
@@ -28,11 +30,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunG
  * @author TheBusyBiscuit
  *
  */
-public class RecipeChoiceTask implements Runnable {
+public class AsyncRecipeChoiceTask implements Runnable {
 
     private static final int UPDATE_INTERVAL = 14;
 
     private final Map<Integer, LoopIterator<Material>> iterators = new HashMap<>();
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+
     private Inventory inventory;
     private int id;
 
@@ -44,21 +48,33 @@ public class RecipeChoiceTask implements Runnable {
      */
     public void start(@Nonnull Inventory inv) {
         Validate.notNull(inv, "Inventory must not be null");
-        
+
         inventory = inv;
         id = Bukkit.getScheduler().runTaskTimerAsynchronously(SlimefunPlugin.instance(), this, 0, UPDATE_INTERVAL).getTaskId();
     }
 
     public void add(int slot, @Nonnull MaterialChoice choice) {
         Validate.notNull(choice, "Cannot add a null RecipeChoice");
-        
-        iterators.put(slot, new LoopIterator<>(choice.getChoices()));
+
+        lock.writeLock().lock();
+
+        try {
+            iterators.put(slot, new LoopIterator<>(choice.getChoices()));
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     public void add(int slot, @Nonnull Tag<Material> tag) {
         Validate.notNull(tag, "Cannot add a null Tag");
-        
-        iterators.put(slot, new LoopIterator<>(tag.getValues()));
+
+        lock.writeLock().lock();
+
+        try {
+            iterators.put(slot, new LoopIterator<>(tag.getValues()));
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     /**
@@ -67,7 +83,13 @@ public class RecipeChoiceTask implements Runnable {
      * @return Whether this task has nothing to do
      */
     public boolean isEmpty() {
-        return iterators.isEmpty();
+        lock.readLock().lock();
+
+        try {
+            return iterators.isEmpty();
+        } finally {
+            lock.readLock().unlock();
+        }
     }
 
     @Override
@@ -78,8 +100,14 @@ public class RecipeChoiceTask implements Runnable {
             return;
         }
 
-        for (Map.Entry<Integer, LoopIterator<Material>> entry : iterators.entrySet()) {
-            inventory.setItem(entry.getKey(), new ItemStack(entry.getValue().next()));
+        lock.readLock().lock();
+
+        try {
+            for (Map.Entry<Integer, LoopIterator<Material>> entry : iterators.entrySet()) {
+                inventory.setItem(entry.getKey(), new ItemStack(entry.getValue().next()));
+            }
+        } finally {
+            lock.readLock().unlock();
         }
     }
 
