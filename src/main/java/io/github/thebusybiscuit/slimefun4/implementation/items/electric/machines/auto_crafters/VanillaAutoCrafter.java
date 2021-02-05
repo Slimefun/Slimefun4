@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
@@ -14,8 +16,11 @@ import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -76,7 +81,27 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
     @Override
     protected void updateRecipe(@Nonnull Block b, @Nonnull Player p) {
-        // TODO Choose vanilla recipe
+        ItemStack item = p.getInventory().getItemInMainHand();
+        List<Recipe> recipes = getRecipesFor(item);
+
+        if (recipes.isEmpty()) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
+        } else {
+            // TODO Choose vanilla recipe
+        }
+    }
+
+    @Nonnull
+    private List<Recipe> getRecipesFor(@Nonnull ItemStack item) {
+        List<Recipe> recipes = new ArrayList<>();
+
+        for (Recipe recipe : Bukkit.getRecipesFor(item)) {
+            if (recipe instanceof ShapedRecipe || recipe instanceof ShapelessRecipe) {
+                recipes.add(recipe);
+            }
+        }
+
+        return recipes;
     }
 
 }

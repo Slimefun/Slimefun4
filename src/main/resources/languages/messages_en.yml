@@ -148,6 +148,8 @@ messages:
 
   auto-crafting:
     select-a-recipe: '&eCrouch and Right-Click &7this block with the Item you want it to craft.'
+    recipe-set: '&aYou have successfully set the recipe for this machine.'
+    recipe-removed: '&eYou have successfully removed the recipe from this machine. You can set a new recipe at any time!'
     no-recipes: '&cWe could not find any valid recipes for the item you are holding.'
     select: 'Select this recipe'
     remove: 'Remove this recipe'

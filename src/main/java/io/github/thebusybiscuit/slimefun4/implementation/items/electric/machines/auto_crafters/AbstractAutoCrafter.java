@@ -11,6 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -198,12 +199,17 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         menu.addItem(49, new CustomItem(Material.BARRIER, SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.remove")));
         menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
             setSelectedRecipe(b, null);
+            pl.closeInventory();
+            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
             return false;
         });
 
         RecipeChoiceTask task = new RecipeChoiceTask();
         recipe.show(menu, task);
         menu.open(p);
+
+        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
 
         if (!task.isEmpty()) {
             task.start(menu.toInventory());

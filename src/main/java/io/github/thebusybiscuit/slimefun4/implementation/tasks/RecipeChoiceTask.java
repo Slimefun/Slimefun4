@@ -72,6 +72,7 @@ public class RecipeChoiceTask implements Runnable {
 
     @Override
     public void run() {
+        // Terminate the task when noone is viewing the Inventory
         if (inventory.getViewers().isEmpty()) {
             Bukkit.getScheduler().cancelTask(id);
             return;

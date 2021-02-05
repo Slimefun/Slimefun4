@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
@@ -55,6 +56,8 @@ public class EnhancedAutoCrafter extends AbstractAutoCrafter {
 
                 if (recipe != null) {
                     setSelectedRecipe(b, recipe);
+                    p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-set");
                     showRecipe(p, b, recipe);
                 } else {
                     SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
