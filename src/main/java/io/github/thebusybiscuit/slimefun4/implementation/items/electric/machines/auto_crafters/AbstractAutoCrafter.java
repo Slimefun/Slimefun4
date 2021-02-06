@@ -180,6 +180,15 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     protected abstract void updateRecipe(@Nonnull Block b, @Nonnull Player p);
 
+    /**
+     * This method sets the selected {@link AbstractRecipe} for the given {@link Block}.
+     * The recipe will be stored using the {@link PersistentDataAPI}.
+     * 
+     * @param b
+     *            The {@link Block} to store the data on
+     * @param recipe
+     *            The {@link AbstractRecipe} to select
+     */
     protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
@@ -194,8 +203,22 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         }
     }
 
+    /**
+     * This shows the given {@link AbstractRecipe} to the {@link Player} in a preview window.
+     * 
+     * @param p
+     *            The {@link Player}
+     * @param b
+     *            The {@link Block} of the {@link AbstractAutoCrafter}
+     * @param recipe
+     *            The {@link AbstractRecipe} to show them
+     */
     @ParametersAreNonnullByDefault
     protected void showRecipe(Player p, Block b, AbstractRecipe recipe) {
+        Validate.notNull(p, "The Player should not be null");
+        Validate.notNull(b, "The Block should not be null");
+        Validate.notNull(recipe, "The Recipe should not be null");
+
         ChestMenu menu = new ChestMenu(getItemName());
         menu.setPlayerInventoryClickable(false);
         menu.setEmptySlotsClickable(false);
@@ -259,6 +282,20 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         return false;
     }
 
+    /**
+     * This method performs a crafting operation.
+     * It will attempt to fulfill the provided {@link AbstractRecipe} using
+     * the given {@link Inventory}.
+     * This will consume items and add the result to the {@link Inventory}.
+     * This method does not handle energy consumption.
+     * 
+     * @param inv
+     *            The {@link Inventory} to take resources from
+     * @param recipe
+     *            The {@link AbstractRecipe} to craft
+     * 
+     * @return Whether this crafting operation was successful or not
+     */
     public boolean craft(@Nonnull Inventory inv, @Nonnull AbstractRecipe recipe) {
         Validate.notNull(inv, "The Inventory must not be null");
         Validate.notNull(recipe, "The Recipe shall not be null");

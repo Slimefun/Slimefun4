@@ -36,6 +36,18 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link VanillaAutoCrafter} is an implementation of the {@link AbstractAutoCrafter}.
+ * It can craft items that are crafted using a normal crafting table.
+ * Only {@link ShapedRecipe} and {@link ShapelessRecipe} are therefore supported.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see AbstractAutoCrafter
+ * @see EnhancedAutoCrafter
+ * @see VanillaRecipe
+ *
+ */
 public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
     @ParametersAreNonnullByDefault

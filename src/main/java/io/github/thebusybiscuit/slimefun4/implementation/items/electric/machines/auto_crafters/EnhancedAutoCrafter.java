@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.papermc.lib.PaperLib;
@@ -25,6 +26,17 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link EnhancedAutoCrafter} is an implementation of the {@link AbstractAutoCrafter}.
+ * It can craft items that are crafted using the {@link EnhancedCraftingTable}.
+ * 
+ * @author TheBusyBiscuit
+ * 
+ * @see AbstractAutoCrafter
+ * @see VanillaAutoCrafter
+ * @see EnhancedRecipe
+ *
+ */
 public class EnhancedAutoCrafter extends AbstractAutoCrafter {
 
     @ParametersAreNonnullByDefault
