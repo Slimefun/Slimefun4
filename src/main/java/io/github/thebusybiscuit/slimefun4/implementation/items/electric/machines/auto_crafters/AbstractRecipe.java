@@ -33,7 +33,7 @@ public abstract class AbstractRecipe {
     }
 
     @Nonnull
-    public Collection<Predicate<ItemStack>> getInputs() {
+    public Collection<Predicate<ItemStack>> getIngredients() {
         return inputs;
     }
 

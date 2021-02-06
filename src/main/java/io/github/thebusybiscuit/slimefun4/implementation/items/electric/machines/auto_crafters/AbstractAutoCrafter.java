@@ -267,7 +267,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (inv.firstEmpty() != -1) {
             Map<Integer, Integer> itemQuantities = new HashMap<>();
 
-            for (Predicate<ItemStack> predicate : recipe.getInputs()) {
+            for (Predicate<ItemStack> predicate : recipe.getIngredients()) {
                 // Check if any Item matches the Predicate
                 if (!matchesAny(inv, itemQuantities, predicate)) {
                     return false;
