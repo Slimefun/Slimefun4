@@ -29,6 +29,7 @@
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes
+* Deprecated Automatic Crafting Chamber
 
 #### Fixes
 * Fixed #2794
