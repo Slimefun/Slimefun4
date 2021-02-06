@@ -106,6 +106,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         return e -> e.getClickedBlock().ifPresent(b -> {
             Player p = e.getPlayer();
 
+            // Prevent blocks from being placed, food from being eaten, etc...
+            e.cancel();
+
             if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
                 if (p.isSneaking()) {
                     // Select a new recipe

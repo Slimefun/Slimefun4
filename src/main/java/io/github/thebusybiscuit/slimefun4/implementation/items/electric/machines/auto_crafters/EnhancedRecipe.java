@@ -58,4 +58,9 @@ class EnhancedRecipe extends AbstractRecipe {
         }
     }
 
+    @Override
+    public String toString() {
+        return item.getId();
+    }
+
 }

@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -93,6 +94,15 @@ class VanillaRecipe extends AbstractRecipe {
 
         for (int i = 0; i < 9; i++) {
             menu.addItem(slots[i], items[i], ChestMenuUtils.getEmptyClickHandler());
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (recipe instanceof Keyed) {
+            return ((Keyed) recipe).getKey().toString();
+        } else {
+            return "invalid-recipe";
         }
     }
 
