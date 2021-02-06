@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * 
  * @see AbstractAutoCrafter
  * @see VanillaRecipe
- * @see EnhancedRecipe
+ * @see SlimefunItemRecipe
  *
  */
 public abstract class AbstractRecipe {
@@ -120,18 +120,20 @@ public abstract class AbstractRecipe {
 
     /**
      * This static accessor is for {@link SlimefunItem} recipes.
-     * Note that the {@link SlimefunItem} must be crafted using an {@link EnhancedCraftingTable},
+     * Note that the {@link SlimefunItem} must be crafted using the specified {@link RecipeType},
      * otherwise null will be returned.
      * 
      * @param item
      *            The {@link SlimefunItem} the recipe belongs to
+     * @param recipeType
+     *            The {@link RecipeType}
      * 
      * @return The wrapped {@link AbstractRecipe} or null
      */
     @Nullable
-    public static AbstractRecipe of(@Nullable SlimefunItem item) {
-        if (item != null && item.getRecipeType().equals(RecipeType.ENHANCED_CRAFTING_TABLE)) {
-            return new EnhancedRecipe(item);
+    public static AbstractRecipe of(@Nullable SlimefunItem item, @Nonnull RecipeType recipeType) {
+        if (item != null && item.getRecipeType().equals(recipeType)) {
+            return new SlimefunItemRecipe(item);
         } else {
             return null;
         }
