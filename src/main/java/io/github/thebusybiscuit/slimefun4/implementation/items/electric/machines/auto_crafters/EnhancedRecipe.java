@@ -42,7 +42,10 @@ class EnhancedRecipe extends AbstractRecipe {
 
         for (int i = 0; i < 9; i++) {
             ItemStack ingredient = item.getRecipe()[i];
-            predicates.add(stack -> SlimefunUtils.isItemSimilar(stack, ingredient, true));
+
+            if (ingredient != null && !ingredient.getType().isAir()) {
+                predicates.add(stack -> SlimefunUtils.isItemSimilar(stack, ingredient, true));
+            }
         }
 
         return predicates;

@@ -12,6 +12,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -147,6 +148,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
                 if (craft(inv, recipe)) {
                     // We are done crafting!
+                    b.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, b.getLocation(), 16);
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 }
             }
@@ -279,7 +281,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             }
 
             // All Predicates have found a match
-            return true;
+            return inv.addItem(recipe.getResult().clone()).isEmpty();
         }
 
         return false;
