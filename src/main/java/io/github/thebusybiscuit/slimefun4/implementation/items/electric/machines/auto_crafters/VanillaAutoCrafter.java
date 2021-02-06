@@ -68,7 +68,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
                 @SuppressWarnings("deprecation")
                 NamespacedKey key = new NamespacedKey(values[0], values[1]);
 
-                return Bukkit.getRecipe(key);
+                return SlimefunPlugin.getMinecraftRecipeService().getRecipe(key);
             }
         }
 
@@ -115,7 +115,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
     private void offerRecipe(Player p, Block b, List<Recipe> recipes, int index, ChestMenu menu, AsyncRecipeChoiceTask task) {
         Validate.isTrue(index >= 0 && index < recipes.size(), "page must be between 0 and " + (recipes.size() - 1));
 
-        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.size()));
+        menu.replaceExistingItem(46, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.size()));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
             if (index > 0) {
                 pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
@@ -125,7 +125,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
             return false;
         });
 
-        menu.addItem(52, ChestMenuUtils.getNextButton(p, index + 1, recipes.size()));
+        menu.replaceExistingItem(52, ChestMenuUtils.getNextButton(p, index + 1, recipes.size()));
         menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
             if (index < (recipes.size() - 1)) {
                 pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
@@ -137,7 +137,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
         AbstractRecipe recipe = AbstractRecipe.of(recipes.get(index));
 
-        menu.addItem(49, new CustomItem(Material.CRAFTING_TABLE, ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.select")));
+        menu.replaceExistingItem(49, new CustomItem(Material.CRAFTING_TABLE, ChatColor.GREEN + SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.select")));
         menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
             setSelectedRecipe(b, recipe);
             pl.closeInventory();

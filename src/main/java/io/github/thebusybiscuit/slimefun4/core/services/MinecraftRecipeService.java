@@ -10,6 +10,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -157,6 +159,18 @@ public class MinecraftRecipeService {
             return new Recipe[0];
         } else {
             return snapshot.getRecipesFor(item).toArray(new Recipe[0]);
+        }
+    }
+
+    @Nullable
+    public Recipe getRecipe(@Nonnull NamespacedKey key) {
+        Validate.notNull(key, "The NamespacedKey should not be null");
+
+        if (snapshot != null) {
+            // We operate on a cached HashMap which is much faster than Bukkit's method.
+            return snapshot.getRecipe(key);
+        } else {
+            return Bukkit.getRecipe(key);
         }
     }
 

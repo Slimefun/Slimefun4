@@ -70,7 +70,9 @@ class VanillaRecipe extends AbstractRecipe {
 
     @Override
     public void show(@Nonnull ChestMenu menu, @Nonnull AsyncRecipeChoiceTask task) {
-        menu.addItem(24, getResult().clone(), ChestMenuUtils.getEmptyClickHandler());
+        menu.replaceExistingItem(24, getResult().clone());
+        menu.addMenuClickHandler(24, ChestMenuUtils.getEmptyClickHandler());
+
         RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipeService().getRecipeShape(recipe);
         ItemStack[] items = new ItemStack[9];
 
@@ -93,7 +95,8 @@ class VanillaRecipe extends AbstractRecipe {
         }
 
         for (int i = 0; i < 9; i++) {
-            menu.addItem(slots[i], items[i], ChestMenuUtils.getEmptyClickHandler());
+            menu.replaceExistingItem(slots[i], items[i]);
+            menu.addMenuClickHandler(slots[i], ChestMenuUtils.getEmptyClickHandler());
         }
     }
 

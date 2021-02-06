@@ -10,6 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -24,7 +25,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -148,7 +148,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
                 if (craft(inv, recipe)) {
                     // We are done crafting!
-                    b.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, b.getLocation(), 16);
+                    Location loc = b.getLocation().add(0.5, 0.8, 0.5);
+                    b.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, loc, 6);
                     removeCharge(b.getLocation(), getEnergyConsumption());
                 }
             }
@@ -239,8 +240,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     @ParametersAreNonnullByDefault
     protected boolean matchesAny(Inventory inv, Map<Integer, Integer> itemQuantities, Predicate<ItemStack> predicate) {
-        for (int slot = 0; slot < inv.getSize(); slot++) {
-            ItemStack item = inv.getItem(slot);
+        ItemStack[] contents = inv.getContents();
+
+        for (int slot = 0; slot < contents.length; slot++) {
+            ItemStack item = contents[slot];
 
             if (item != null) {
                 int amount = itemQuantities.getOrDefault(slot, item.getAmount());
@@ -260,7 +263,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         Validate.notNull(inv, "The Inventory must not be null");
         Validate.notNull(recipe, "The Recipe shall not be null");
 
-        if (InvUtils.fits(inv, recipe.getResult())) {
+        // Check if we have an empty slot
+        if (inv.firstEmpty() != -1) {
             Map<Integer, Integer> itemQuantities = new HashMap<>();
 
             for (Predicate<ItemStack> predicate : recipe.getInputs()) {
