@@ -266,7 +266,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             SlimefunItem sfitem = category.getItems().get(target);
 
-            if (Slimefun.isEnabled(p, sfitem, false)) {
+            if (!sfitem.isDisabledIn(p.getWorld())) {
                 displaySlimefunItem(menu, category, p, profile, sfitem, page, index);
                 index++;
             }

@@ -381,6 +381,26 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
+     * This method returns whether this {@link SlimefunItem} is disabled
+     * for that specific {@link World}.
+     * Note that if the item is disabled globally, this method will still return false.
+     * 
+     * @param world
+     *            The {@link World} to check
+     * 
+     * @return Whether this {@link SlimefunItem} is disabled in that world (or in general).
+     */
+    public boolean isDisabledIn(@Nonnull World world) {
+        if (state == ItemState.UNREGISTERED) {
+            error("isDisabled(World) cannot be called before registering the item", new UnregisteredItemException(this));
+            return false;
+        }
+
+        // Check if the Item is disabled globally or in this specific world
+        return isDisabled() || !SlimefunPlugin.getWorldSettingsService().isEnabled(world, this);
+    }
+
+    /**
      * This method returns the {@link SlimefunAddon} that registered this
      * {@link SlimefunItem}. If this Item is from Slimefun itself, the current
      * instance of {@link SlimefunPlugin} will be returned.
