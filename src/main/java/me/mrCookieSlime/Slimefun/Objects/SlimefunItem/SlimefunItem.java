@@ -1019,7 +1019,6 @@ public class SlimefunItem implements Placeable {
      */
     public void error(@Nonnull String message, @Nonnull Throwable throwable) {
         Validate.notNull(addon, "Cannot send an error for an unregistered item!");
-
         addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
 
         if (addon.getBugTrackerURL() != null) {
