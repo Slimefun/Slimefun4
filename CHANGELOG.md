@@ -36,6 +36,7 @@
 * Fixed #2793
 * Fixed #2809
 * Fixed #2810
+* Fixed #2804
 * Fixed a small exception which gets thrown when Slimefun is disabled due to an invalid environment
 
 ## Release Candidate 20 (30 Jan 2021)
