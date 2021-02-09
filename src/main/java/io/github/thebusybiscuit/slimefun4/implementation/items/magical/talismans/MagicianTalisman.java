@@ -115,6 +115,9 @@ public class MagicianTalisman extends Talisman {
      * This method checks if a given {@link Enchantment} is valid
      * or whether an enchantment was set up incorrectly.
      *
+     * @param enchantment
+     *            The enchantment to validate
+     *
      * @return Whether this enchantment is valid or not
      */
     protected boolean isValidEnchantment(@Nonnull Enchantment enchantment) {
