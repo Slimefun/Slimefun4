@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.settings;
 
 import javax.annotation.Nonnull;
 
+import java.util.Objects;
+
 import org.bukkit.enchantments.Enchantment;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -46,4 +48,20 @@ public class TalismanEnchantment extends ItemSetting<Boolean> {
         return level;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(enchantment.getKey(), level);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TalismanEnchantment) {
+            TalismanEnchantment instance = (TalismanEnchantment) obj;
+
+            return instance.getEnchantment().getKey().equals(this.enchantment.getKey())
+                && instance.getLevel() == this.level;
+        } else {
+            return false;
+        }
+    }
 }

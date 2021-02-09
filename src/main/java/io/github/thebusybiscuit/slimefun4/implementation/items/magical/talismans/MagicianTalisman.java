@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchan
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -40,12 +41,17 @@ public class MagicianTalisman extends Talisman {
         addItemSetting(allowEnchantmentBooks);
 
         for (Enchantment enchantment : Enchantment.values()) {
-            try {
-                for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
-                    enchantments.add(new TalismanEnchantment(enchantment, i));
+            // Stop custom enchant plugins appearing
+            // We also want to stop some stupid plugins which register as Minecraft enchants
+            // but also go above the max enchant level.
+            if (enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT) && enchantment.getMaxLevel() < Short.MAX_VALUE) {
+                try {
+                    for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
+                        enchantments.add(new TalismanEnchantment(enchantment, i));
+                    }
+                } catch (Exception x) {
+                    SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "The following Exception occurred while trying to register the following Enchantment: " + enchantment);
                 }
-            } catch (Exception x) {
-                SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "The following Exception occurred while trying to register the following Enchantment: " + enchantment);
             }
         }
 
