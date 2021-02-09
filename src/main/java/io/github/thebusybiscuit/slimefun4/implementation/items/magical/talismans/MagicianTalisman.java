@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 public class MagicianTalisman extends Talisman {
 
     private final ItemSetting<Boolean> allowEnchantmentBooks = new ItemSetting<>("allow-enchantment-books", false);
+    private final ItemSetting<Boolean> allowCustomEnchantments = new ItemSetting<>("allow-custom-enchants", false);
 
     private final Set<TalismanEnchantment> enchantments = new HashSet<>();
 
@@ -42,13 +43,14 @@ public class MagicianTalisman extends Talisman {
 
         for (Enchantment enchantment : Enchantment.values()) {
             /* 
-            * Stop custom enchant plugins appearing
-            * We also want to stop some stupid plugins which register as Minecraft enchants
-            * but also go above the max enchant level.
-            */
-            if (enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT) && enchantment.getMaxLevel() < Short.MAX_VALUE) {
+             * Stop custom enchant plugins appearing
+             * We also want to stop some stupid plugins which register as Minecraft enchants
+             * but also go above the max enchant level.
+             */
+            if ((allowCustomEnchantments.getValue() || enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT))) {
                 try {
-                    for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
+                    // Make sure we cap this at max level or if set it incorrectly, use Short.MAX_VALUE
+                    for (int i = 1; i <= Math.max(enchantment.getMaxLevel(), Short.MAX_VALUE); i++) {
                         enchantments.add(new TalismanEnchantment(enchantment, i));
                     }
                 } catch (Exception x) {
