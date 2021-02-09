@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 public class MagicianTalisman extends Talisman {
 
     private final ItemSetting<Boolean> allowEnchantmentBooks = new ItemSetting<>("allow-enchantment-books", false);
-    private final ItemSetting<Boolean> allowCustomEnchantments = new ItemSetting<>("allow-custom-enchants", false);
 
     private final Set<TalismanEnchantment> enchantments = new HashSet<>();
 
@@ -39,7 +38,7 @@ public class MagicianTalisman extends Talisman {
     public MagicianTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, false, false, "magician", 80);
 
-        addItemSetting(allowEnchantmentBooks, allowCustomEnchantments);
+        addItemSetting(allowEnchantmentBooks);
 
         for (Enchantment enchantment : Enchantment.values()) {
             /* 
@@ -47,7 +46,9 @@ public class MagicianTalisman extends Talisman {
              * We also want to stop some stupid plugins which register as Minecraft enchants
              * but also go above the max enchant level.
              */
-            if ((allowCustomEnchantments.getValue() || enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT))) {
+            if ((SlimefunPlugin.getCfg().getBoolean("allow-custom-enchants")
+                || enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT))
+            ) {
                 try {
                     // Make sure we cap this at max level or if set it incorrectly, use Short.MAX_VALUE
                     for (int i = 1; i <= Math.min(enchantment.getMaxLevel(), Short.MAX_VALUE); i++) {

@@ -40,6 +40,7 @@ networks:
 
 talismans:
   use-actionbar: true
+  allow-custom-enchants: false
 
 metrics:
   auto-update: true
