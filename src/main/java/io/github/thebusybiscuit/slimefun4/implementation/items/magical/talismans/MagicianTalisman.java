@@ -124,7 +124,7 @@ public class MagicianTalisman extends Talisman {
         if (enchantment.getMaxLevel() > Short.MAX_VALUE) {
             // Enchantment levels are shorts, even if Bukkit allows integers.
             return false;
-        } else if (!SlimefunPlugin.getCfg().getBoolean("allow-custom-enchants") {
+        } else if (!SlimefunPlugin.getCfg().getBoolean("allow-custom-enchants")) {
             // Only allow Enchantments from the "minecraft:" namespace.
             return enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT);
         } else {
