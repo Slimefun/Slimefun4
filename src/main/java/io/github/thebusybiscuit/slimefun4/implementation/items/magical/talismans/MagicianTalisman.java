@@ -50,7 +50,7 @@ public class MagicianTalisman extends Talisman {
             if ((allowCustomEnchantments.getValue() || enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT))) {
                 try {
                     // Make sure we cap this at max level or if set it incorrectly, use Short.MAX_VALUE
-                    for (int i = 1; i <= Math.max(enchantment.getMaxLevel(), Short.MAX_VALUE); i++) {
+                    for (int i = 1; i <= Math.min(enchantment.getMaxLevel(), Short.MAX_VALUE); i++) {
                         enchantments.add(new TalismanEnchantment(enchantment, i));
                     }
                 } catch (Exception x) {
