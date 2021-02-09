@@ -41,9 +41,11 @@ public class MagicianTalisman extends Talisman {
         addItemSetting(allowEnchantmentBooks);
 
         for (Enchantment enchantment : Enchantment.values()) {
-            // Stop custom enchant plugins appearing
-            // We also want to stop some stupid plugins which register as Minecraft enchants
-            // but also go above the max enchant level.
+            /* 
+            * Stop custom enchant plugins appearing
+            * We also want to stop some stupid plugins which register as Minecraft enchants
+            * but also go above the max enchant level.
+            */
             if (enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT) && enchantment.getMaxLevel() < Short.MAX_VALUE) {
                 try {
                     for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
