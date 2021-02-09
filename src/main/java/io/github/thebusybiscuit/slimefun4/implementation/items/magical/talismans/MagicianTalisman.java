@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 public class MagicianTalisman extends Talisman {
 
     private final ItemSetting<Boolean> allowEnchantmentBooks = new ItemSetting<>("allow-enchantment-books", false);
-
     private final Set<TalismanEnchantment> enchantments = new HashSet<>();
 
     @ParametersAreNonnullByDefault
@@ -46,12 +45,10 @@ public class MagicianTalisman extends Talisman {
              * We also want to stop some stupid plugins which register as Minecraft enchants
              * but also go above the max enchant level.
              */
-            if ((SlimefunPlugin.getCfg().getBoolean("allow-custom-enchants")
-                || enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT))
-            ) {
+            if (isValidEnchantment(enchantment)) {
                 try {
                     // Make sure we cap this at max level or if set it incorrectly, use Short.MAX_VALUE
-                    for (int i = 1; i <= Math.min(enchantment.getMaxLevel(), Short.MAX_VALUE); i++) {
+                    for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
                         enchantments.add(new TalismanEnchantment(enchantment, i));
                     }
                 } catch (Exception x) {
@@ -112,5 +109,24 @@ public class MagicianTalisman extends Talisman {
      */
     public boolean isEnchantmentBookAllowed() {
         return allowEnchantmentBooks.getValue();
+    }
+
+    /**
+     * This method checks if a given {@link Enchantment} is valid
+     * or whether an enchantment was set up incorrectly.
+     *
+     * @return Whether this enchantment is valid or not
+     */
+    protected boolean isValidEnchantment(@Nonnull Enchantment enchantment) {
+        if (enchantment.getMaxLevel() > Short.MAX_VALUE) {
+            // Enchantment levels are shorts, even if Bukkit allows integers.
+            return false;
+        } else if (!SlimefunPlugin.getCfg().getBoolean("allow-custom-enchants") {
+            // Only allow Enchantments from the "minecraft:" namespace.
+            return enchantment.getKey().getNamespace().equals(NamespacedKey.MINECRAFT);
+        } else {
+            // Custom Enchantments are allowed
+            return true;
+        }
     }
 }
