@@ -39,7 +39,7 @@ public class MagicianTalisman extends Talisman {
     public MagicianTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, false, false, "magician", 80);
 
-        addItemSetting(allowEnchantmentBooks);
+        addItemSetting(allowEnchantmentBooks, allowCustomEnchantments);
 
         for (Enchantment enchantment : Enchantment.values()) {
             /* 
