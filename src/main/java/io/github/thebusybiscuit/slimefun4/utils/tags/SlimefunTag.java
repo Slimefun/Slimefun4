@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationExce
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CropGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans.Talisman;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ClimbingPick;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveShovel;
@@ -191,6 +192,11 @@ public enum SlimefunTag implements Tag<Material> {
     INDUSTRIAL_MINER_ORES,
 
     /**
+     * All materials (ores) which can be doubled using a Miner {@link Talisman}.
+     */
+    MINER_TALISMAN_TRIGGERS,
+
+    /**
      * All materials (crops) which the {@link CropGrowthAccelerator} will recognize.
      */
     CROP_GROWTH_ACCELERATOR_BLOCKS,
@@ -216,8 +222,16 @@ public enum SlimefunTag implements Tag<Material> {
      */
     CAVEMAN_TALISMAN_TRIGGERS;
 
+    /**
+     * Lookup table for tag names.
+     */
     private static final Map<String, SlimefunTag> nameLookup = new HashMap<>();
-    public static final SlimefunTag[] valuesCache = values();
+
+    /**
+     * Speed up lookups by caching the values instead of creating a new array
+     * on every method call.
+     */
+    private static final SlimefunTag[] valuesCache = values();
 
     static {
         for (SlimefunTag tag : valuesCache) {

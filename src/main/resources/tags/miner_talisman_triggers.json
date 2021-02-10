@@ -1,0 +1,9 @@
+{
+	"values" : [
+		"#slimefun:fortune_compatible_ores",
+		{
+			"id" : "minecraft:gilded_blackstone",
+			"required" : false
+		}
+	]
+}
