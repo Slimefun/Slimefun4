@@ -26,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
@@ -258,7 +257,7 @@ public class Category implements Keyed {
      */
     public boolean isHidden(@Nonnull Player p) {
         for (SlimefunItem slimefunItem : getItems()) {
-            if (!slimefunItem.isHidden() && Slimefun.isEnabled(p, slimefunItem, false)) {
+            if (!slimefunItem.isHidden() && !slimefunItem.isDisabledIn(p.getWorld())) {
                 return false;
             }
         }

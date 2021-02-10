@@ -24,6 +24,7 @@ jobs:
           chore: '🧹 Chores'
           performance: '💡 Performance Optimization'
           api: '🔧 API'
+          compatibility: '🤝 Compatibility'
 
       - uses: thollander/actions-comment-pull-request@1.0.1
         name: Leave a comment about the applied label
@@ -49,6 +50,7 @@ jobs:
             `chore/**`               | 🧹 Chores
             `api/**`                 | 🔧 API
             `performance/**`         | 💡 Performance Optimization
+            `compatibility/**`       | 🤝 Compatibility
             <hr>
             If your changes do not fall into any of these categories, don't worry.
             You can just ignore this message in that case! 👀
