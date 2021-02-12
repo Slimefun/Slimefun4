@@ -9,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.cscorelib2.config.Config;
@@ -45,6 +46,12 @@ public final class SlimefunConfigManager {
      * Our {@link Research} {@link Config} (Researches.yml)
      */
     private final Config researchesConfig;
+
+    /**
+     * This flag marks whether we require a {@link Server} restart to
+     * apply the latest changes.
+     */
+    private boolean isRestartRequired = false;
 
     // Various booleans we want to cache instead of re-parsing everytime
     private boolean isBackwardsCompatibilityEnabled;
@@ -123,6 +130,11 @@ public final class SlimefunConfigManager {
                 NamespacedKey key = research.getKey();
                 int cost = researchesConfig.getInt(key.getNamespace() + '.' + key.getKey() + ".cost");
                 research.setCost(cost);
+
+                if (!researchesConfig.getBoolean(key.getNamespace() + '.' + key.getKey() + ".enabled")) {
+                    // Disabling a research requires a restart (for now)
+                    isRestartRequired = true;
+                }
             } catch (Exception x) {
                 plugin.getLogger().log(Level.SEVERE, x, () -> "Something went wrong while trying to update the cost of a research: " + research);
                 isSuccessful = false;
@@ -130,6 +142,11 @@ public final class SlimefunConfigManager {
         }
 
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
+            if (!itemsConfig.getBoolean(item.getId() + ".enabled")) {
+                // Disabling an item requires a restart (for now)
+                isRestartRequired = true;
+            }
+
             // Reload Item Settings
             try {
                 for (ItemSetting<?> setting : item.getItemSettings()) {
@@ -153,6 +170,15 @@ public final class SlimefunConfigManager {
         }
 
         return isSuccessful;
+    }
+
+    /**
+     * This method returns whether the {@link Server} should be restarted to apply the latest changes.
+     * 
+     * @return Whether a restart is required.
+     */
+    public boolean isRestartRequired() {
+        return isRestartRequired;
     }
 
     @Nonnull

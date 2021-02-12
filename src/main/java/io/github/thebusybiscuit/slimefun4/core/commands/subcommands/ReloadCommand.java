@@ -22,9 +22,15 @@ class ReloadCommand extends SubCommand {
         if (sender.hasPermission("slimefun.command.reload")) {
             SlimefunPlugin.getLocalization().sendMessage(sender, "guide.work-in-progress", true);
             boolean reloaded = SlimefunPlugin.getConfigManager().reload();
+            boolean isRestartRequired = SlimefunPlugin.getConfigManager().isRestartRequired();
 
             if (reloaded) {
-                SlimefunPlugin.getLocalization().sendMessage(sender, "commands.reload.success", true);
+                if (isRestartRequired) {
+                    SlimefunPlugin.getLocalization().sendMessage(sender, "commands.reload.restart-required", true);
+                }
+                else {
+                    SlimefunPlugin.getLocalization().sendMessage(sender, "commands.reload.success", true);
+                }
             } else {
                 SlimefunPlugin.getLocalization().sendMessage(sender, "commands.reload.errors", true);
             }

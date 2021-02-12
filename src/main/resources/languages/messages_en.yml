@@ -16,6 +16,7 @@ commands:
 
   reload:
     description: Reloads our config files
+    restart-required: '&eYour changes have been saved. But some of your changes require a restart to get applied!'
     success: '&aYour configuration files have been successfully reloaded!'
     errors: '&cYour configuration files have been reloaded, but some errors have been found! Please check your console for more info.'
 

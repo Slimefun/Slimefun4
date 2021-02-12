@@ -138,7 +138,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     /**
      * Our static instance of {@link SlimefunPlugin}.
-     * Make sure to clean this up in {@link #onDisable()} !
+     * Make sure to clean this up in {@link #onDisable()}!
      */
     private static SlimefunPlugin instance;
 
@@ -154,7 +154,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
     // Various things we need
     private final SlimefunRegistry registry = new SlimefunRegistry();
-    private final SlimefunConfigManager configManager = new SlimefunConfigManager(this);
     private final SlimefunCommand command = new SlimefunCommand(this);
     private final TickerTask ticker = new TickerTask();
 
@@ -173,6 +172,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final HologramsService hologramsService = new HologramsService(this);
 
     // Some other things we need
+    private final SlimefunConfigManager configManager = new SlimefunConfigManager(this);
     private final IntegrationsManager integrations = new IntegrationsManager(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
     private final GPSNetwork gpsNetwork = new GPSNetwork(this);
