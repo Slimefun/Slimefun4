@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 21 (TBD)](#release-candidate-21-tbd)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
 - [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
 - [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
@@ -19,6 +20,27 @@
 - [Release Candidate 3 (21 Nov 2019)](#release-candidate-3-21-nov-2019)
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
+
+## Release Candidate 21 (TBD)
+
+#### Additions
+* Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
+* Added an option to allow Talismans to send their notifications via the Actionbar
+* /sf versions now shows the Java version and some useful tooltips
+
+#### Changes
+* Deprecated Automatic Crafting Chamber
+
+#### Fixes
+* Fixed #2794
+* Fixed #2793
+* Fixed #2809
+* Fixed a small exception which gets thrown when Slimefun is disabled due to an invalid environment
+* Fixed #2810
+* Fixed #2804
+* Fixed #2817
+* Fixed exceptions with inventories not being printed using the logger of the addon that caused it
+* Fixed #2818
 
 ## Release Candidate 20 (30 Jan 2021)
 
@@ -54,6 +76,7 @@
 * Fixed #2760
 * Fixed #2771
 * Fixed placeholders that did not get loaded yet not having a label
+* Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
 

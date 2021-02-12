@@ -1,0 +1,17 @@
+{
+    "values" : [
+        "#slimefun:dirt_variants",
+        {
+            "id" : "minecraft:soul_soil",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:crimson_nylium",
+            "required" : false
+        },
+        {
+            "id" : "minecraft:warped_nylium",
+            "required" : false
+        }
+    ]
+}

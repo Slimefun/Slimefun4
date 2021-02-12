@@ -10,7 +10,7 @@ jobs:
 
     name: Pull Request Labels
     runs-on: ubuntu-latest
-    if: github.repository == 'Slimefun/Slimefun4' && github.actor != 'gitlocalize-app[bot]' && github.actor != 'renovate[bot]'
+    if: github.repository == 'Slimefun/Slimefun4' && github.actor != 'gitlocalize-app[bot]'
 
     steps:
       - uses: WalshyDev/pr-labels@v1.1
@@ -18,14 +18,16 @@ jobs:
         name: Apply labels based on branch
         with:
           token: "${{ secrets.ACCESS_TOKEN }}"
+          renovate: '🚨 Dependency Update'
           feature: '🎈 Feature'
           fix: '✨ Fix'
           chore: '🧹 Chores'
           performance: '💡 Performance Optimization'
           api: '🔧 API'
+          compatibility: '🤝 Compatibility'
 
       - uses: thollander/actions-comment-pull-request@1.0.1
-        name: Comment the applied label
+        name: Leave a comment about the applied label
         if: ${{ steps.labeller.outputs.applied != 0 }}
         with:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -34,7 +36,7 @@ jobs:
             Thank you for contributing to this project! ❤️
 
       - uses: thollander/actions-comment-pull-request@1.0.1
-        name: Comment the applied label
+        name: Leave a comment about our branch naming convention
         if: ${{ steps.labeller.outputs.applied == 0 }}
         with:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -48,6 +50,7 @@ jobs:
             `chore/**`               | 🧹 Chores
             `api/**`                 | 🔧 API
             `performance/**`         | 💡 Performance Optimization
+            `compatibility/**`       | 🤝 Compatibility
             <hr>
             If your changes do not fall into any of these categories, don't worry.
             You can just ignore this message in that case! 👀

@@ -136,11 +136,23 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  */
 public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
+    /**
+     * Our static instance of {@link SlimefunPlugin}.
+     * Make sure to clean this up in {@link #onDisable()} !
+     */
     private static SlimefunPlugin instance;
 
+    /**
+     * Keep track of which {@link MinecraftVersion} we are on.
+     */
     private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
+
+    /**
+     * Keep track of whether this is a fresh install or a regular boot up.
+     */
     private boolean isNewlyInstalled = false;
 
+    // Various things we need
     private final SlimefunRegistry registry = new SlimefunRegistry();
     private final SlimefunConfigManager configManager = new SlimefunConfigManager(this);
     private final SlimefunCommand command = new SlimefunCommand(this);
@@ -160,10 +172,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private final MinecraftRecipeService recipeService = new MinecraftRecipeService(this);
     private final HologramsService hologramsService = new HologramsService(this);
 
+    // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
     private final SlimefunProfiler profiler = new SlimefunProfiler();
     private final GPSNetwork gpsNetwork = new GPSNetwork(this);
 
+    // Even more things we need
     private NetworkManager networkManager;
     private LocalizationService local;
 
@@ -236,6 +250,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     private void onPluginStart() {
         long timestamp = System.nanoTime();
 
+        // Check if Paper (<3) is installed
         if (PaperLib.isPaper()) {
             getLogger().log(Level.INFO, "Paper was detected! Performance optimizations have been applied.");
         } else {
@@ -263,6 +278,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         int networkSize = config.getInt("networks.max-size");
 
+        // Make sure that the network size is a valid input
         if (networkSize < 1) {
             getLogger().log(Level.WARNING, "Your 'networks.max-size' setting is misconfigured! It must be at least 1, it was set to: {0}", networkSize);
             networkSize = 1;
@@ -366,8 +382,12 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         Bukkit.getScheduler().cancelTasks(this);
 
         // Finishes all started movements/removals of block data
-        ticker.halt();
-        ticker.run();
+        try {
+            ticker.halt();
+            ticker.run();
+        } catch (Exception x) {
+            getLogger().log(Level.SEVERE, x, () -> "Something went wrong while disabling the ticker task for Slimefun v" + getDescription().getVersion());
+        }
 
         // Kill our Profiler Threads
         profiler.kill();
@@ -623,6 +643,8 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new ButcherAndroidListener(this);
         new NetworkListener(this, networkManager);
         new HopperListener(this);
+        new TalismanListener(this);
+        new SoulboundListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -644,15 +666,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         bowListener.register(this);
         backpackListener.register(this);
 
-        // Toggleable Listeners for performance reasons
-        if (configManager.getPluginConfig().getBoolean("items.talismans")) {
-            new TalismanListener(this);
-        }
-
-        if (configManager.getPluginConfig().getBoolean("items.soulbound")) {
-            new SoulboundListener(this);
-        }
-
         // Handle Slimefun Guide being given on Join
         new SlimefunGuideListener(this, configManager.isSlimefunGuideGivenOnJoin());
 
@@ -667,7 +680,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
      * This (re)loads every {@link SlimefunTag}.
      */
     private void loadTags() {
-        for (SlimefunTag tag : SlimefunTag.valuesCache) {
+        for (SlimefunTag tag : SlimefunTag.values()) {
             try {
                 // Only reload "empty" (or unloaded) Tags
                 if (tag.isEmpty()) {

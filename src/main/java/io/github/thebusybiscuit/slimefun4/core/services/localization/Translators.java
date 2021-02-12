@@ -38,6 +38,7 @@ public class Translators {
         addTranslator("NinoFutur", SupportedLanguage.FRENCH, true);
         addTranslator("TheRetix", SupportedLanguage.FRENCH, true);
         addTranslator("Aeris1One", SupportedLanguage.FRENCH, true);
+        addTranslator("Aomitsu", SupportedLanguage.FRENCH, true);
 
         // Translators - Italian
         addTranslator("xXDOTTORXx", SupportedLanguage.ITALIAN, true);
@@ -89,6 +90,9 @@ public class Translators {
         addTranslator("MrFriggo", SupportedLanguage.CZECH, true);
         addTranslator("100petr", SupportedLanguage.CZECH, true);
         addTranslator("frfole", SupportedLanguage.CZECH, true);
+        addTranslator("bobhenl", SupportedLanguage.CZECH, true);
+        addTranslator("janvrska", SupportedLanguage.CZECH, true);
+        addTranslator("LirCZE", SupportedLanguage.CZECH, true);
 
         // Translators - Russian
         addTranslator("SoSeDiK", SupportedLanguage.RUSSIAN, false);

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,7 +27,6 @@ import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -135,7 +136,7 @@ public class OreCrusher extends MultiBlockMachine {
                         ItemStack adding = RecipeType.getRecipeOutput(this, convert);
                         Inventory outputInv = findOutputInventory(adding, dispBlock, inv);
 
-                        if (Slimefun.hasUnlocked(p, adding, true)) {
+                        if (SlimefunUtils.canPlayerUseItem(p, adding, true)) {
                             if (outputInv != null) {
                                 ItemStack removing = current.clone();
                                 removing.setAmount(convert.getAmount());
@@ -197,35 +198,43 @@ public class OreCrusher extends MultiBlockMachine {
         }
 
         @Override
-        public void load(SlimefunItem item) {
-            super.load(item);
+        public boolean load(SlimefunItem item) {
+            boolean isSuccessful = super.load(item);
             apply(getValue());
+            return isSuccessful;
         }
 
+        @Nonnull
         public ItemStack getCoal() {
             return coal;
         }
 
+        @Nonnull
         public ItemStack getLapisLazuli() {
             return lapis;
         }
 
+        @Nonnull
         public ItemStack getRedstone() {
             return redstone;
         }
 
+        @Nonnull
         public ItemStack getDiamond() {
             return diamond;
         }
 
+        @Nonnull
         public ItemStack getEmerald() {
             return emerald;
         }
 
+        @Nonnull
         public ItemStack getNetherQuartz() {
             return quartz;
         }
 
+        @Nonnull
         public ItemStack getGoldNuggets() {
             return goldNuggets;
         }

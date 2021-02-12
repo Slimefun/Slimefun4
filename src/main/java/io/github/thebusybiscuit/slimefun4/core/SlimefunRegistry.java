@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
+import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
@@ -96,7 +97,8 @@ public final class SlimefunRegistry {
         guides.put(SlimefunGuideMode.SURVIVAL_MODE, new SurvivalSlimefunGuide());
         guides.put(SlimefunGuideMode.CHEAT_MODE, new CheatSheetSlimefunGuide());
 
-        researchRanks.addAll(SlimefunPlugin.getConfigManager().getPluginConfig().getStringList("research-ranks"));
+        Config cfg = SlimefunPlugin.getConfigManager().getPluginConfig();
+        researchRanks.addAll(cfg.getStringList("research-ranks"));
     }
 
     /**

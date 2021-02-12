@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -34,9 +38,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunG
  */
 public class MinecraftRecipeService {
 
+    /**
+     * Our {@link Plugin} instance
+     */
     private final Plugin plugin;
+
+    /**
+     * The subscriber list for the {@link RecipeSnapshot}.
+     */
     private final List<Consumer<RecipeSnapshot>> subscriptions = new LinkedList<>();
 
+    /**
+     * Our {@link RecipeSnapshot} - The centerpiece of this class.
+     */
     private RecipeSnapshot snapshot;
 
     /**
@@ -115,6 +129,7 @@ public class MinecraftRecipeService {
      * 
      * @param recipe
      *            The {@link Recipe} to get the shape from
+     * 
      * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
      */
     @Nonnull
@@ -149,6 +164,7 @@ public class MinecraftRecipeService {
      * 
      * @param item
      *            The {@link ItemStack} for which to get the recipes
+     * 
      * @return An array of {@link Recipe Recipes} to craft the given {@link ItemStack}
      */
     @Nonnull
@@ -157,6 +173,29 @@ public class MinecraftRecipeService {
             return new Recipe[0];
         } else {
             return snapshot.getRecipesFor(item).toArray(new Recipe[0]);
+        }
+    }
+
+    /**
+     * This returns the corresponding {@link Keyed} {@link Recipe} for the given {@link NamespacedKey}.
+     * If no {@link Recipe} was found, null will be returned.
+     * This is a significantly faster method over {@link Bukkit#getRecipe(NamespacedKey)} since we
+     * operate on a cached {@link HashMap}
+     * 
+     * @param key
+     *            The {@link NamespacedKey}
+     * 
+     * @return The corresponding {@link Recipe} or null
+     */
+    @Nullable
+    public Recipe getRecipe(@Nonnull NamespacedKey key) {
+        Validate.notNull(key, "The NamespacedKey should not be null");
+
+        if (snapshot != null) {
+            // We operate on a cached HashMap which is much faster than Bukkit's method.
+            return snapshot.getRecipe(key);
+        } else {
+            return Bukkit.getRecipe(key);
         }
     }
 
