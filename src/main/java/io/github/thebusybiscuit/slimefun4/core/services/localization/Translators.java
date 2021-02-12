@@ -114,6 +114,7 @@ public class Translators {
         addTranslator("milvantiou", SupportedLanguage.DUTCH, true);
         addTranslator("Sven313D", SupportedLanguage.DUTCH, true);
         addTranslator("TypischTeun", SupportedLanguage.DUTCH, true);
+        addTranslator("peppower", SupportedLanguage.DUTCH, true);
 
         // Translators - Danish
         addTranslator("Mini-kun", SupportedLanguage.DANISH, true);
