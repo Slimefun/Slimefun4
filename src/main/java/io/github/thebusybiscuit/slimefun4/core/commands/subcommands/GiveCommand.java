@@ -62,7 +62,9 @@ class GiveCommand extends SubCommand {
             if (amount > 0) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
                 Map<Integer, ItemStack> excess = p.getInventory().addItem(new CustomItem(sfItem.getItem(), amount));
-                if (SlimefunPlugin.getCfg().getBoolean("options.drop-excess-sf-give-items") && !excess.isEmpty()) {
+
+                // Check whether we should drop excess items to the ground
+                if (SlimefunPlugin.getConfigManager().isExcessCommandItemsDroppingEnabled() && !excess.isEmpty()) {
                     for (ItemStack is : excess.values()) {
                         p.getWorld().dropItem(p.getLocation(), is);
                     }

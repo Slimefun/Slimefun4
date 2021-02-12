@@ -5,8 +5,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 
-import com.google.common.base.Objects;
-
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -137,7 +135,7 @@ public class ItemSetting<T> {
      * @param item
      *            The {@link SlimefunItem} who called this method
      * 
-     * @return Whether the value was successfully updated
+     * @return Whether the value was successfully updated or misconfigured
      */
     @SuppressWarnings("unchecked")
     public boolean load(@Nonnull SlimefunItem item) {
@@ -152,9 +150,8 @@ public class ItemSetting<T> {
             T newValue = (T) configuredValue;
 
             if (validateInput(newValue)) {
-                boolean hasChanged = !Objects.equal(value, defaultValue);
                 this.value = newValue;
-                return hasChanged;
+                return true;
             } else {
                 // @formatter:off
                 item.warn(

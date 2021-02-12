@@ -274,7 +274,7 @@ public class Talisman extends SlimefunItem {
             try {
                 String messageKey = "messages.talisman." + getMessageSuffix();
 
-                if (SlimefunPlugin.getRegistry().useActionbarForTalismans()) {
+                if (SlimefunPlugin.getConfigManager().isTalismanMessageInActionbar()) {
                     // Use the actionbar
                     SlimefunPlugin.getLocalization().sendActionbarMessage(p, messageKey, false);
                 } else {

@@ -83,3 +83,6 @@ permissions:
   slimefun.debugging:
     description: Allows you to use the debugging tool from Slimefun
     default: op
+  slimefun.command.reload:
+    description: Allows you to do /sf reload
+    default: op

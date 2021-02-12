@@ -26,6 +26,7 @@
 #### Additions
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
 * Added an option to allow Talismans to send their notifications via the Actionbar
+* Added /sf reload
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes

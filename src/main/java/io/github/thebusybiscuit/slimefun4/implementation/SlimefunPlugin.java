@@ -239,7 +239,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         local = new LocalizationService(this, "", null);
         networkManager = new NetworkManager(200);
         command.register();
-        configManager.update();
+        configManager.reload();
         registry.load(this);
         loadTags();
     }
@@ -268,7 +268,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Creating all necessary Folders
         getLogger().log(Level.INFO, "Creating directories...");
         createDirectories();
-        configManager.update();
+        configManager.reload();
         registry.load(this);
 
         // Set up localization
