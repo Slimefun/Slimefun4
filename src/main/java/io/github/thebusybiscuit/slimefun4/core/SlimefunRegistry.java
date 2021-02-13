@@ -27,6 +27,7 @@ import io.github.thebusybiscuit.cscorelib2.collections.KeyMap;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.config.SlimefunConfigManager;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
@@ -309,6 +310,32 @@ public final class SlimefunRegistry {
     @Nonnull
     public NamespacedKey getGuideDataKey() {
         return guideKey;
+    }
+
+    /**
+     * This has been moved.
+     * Our metrics module accesses this though.
+     * 
+     * @deprecated Please use {@link SlimefunConfigManager#isFreeCreativeResearchingEnabled()}
+     * 
+     * @return free research in creative?
+     */
+    @Deprecated
+    public boolean isFreeCreativeResearchingEnabled() {
+        return SlimefunPlugin.getConfigManager().isFreeCreativeResearchingEnabled();
+    }
+
+    /**
+     * This has been moved.
+     * Our metrics module accesses this though.
+     * 
+     * @deprecated Please use {@link SlimefunConfigManager#isBackwardsCompatible()}
+     * 
+     * @return backwards compat?
+     */
+    @Deprecated
+    public boolean isBackwardsCompatible() {
+        return SlimefunPlugin.getConfigManager().isBackwardsCompatible();
     }
 
 }
