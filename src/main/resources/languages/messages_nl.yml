@@ -4,7 +4,6 @@ commands:
   cheat: Geeft je toestemming om gratis spullen in het spel te brengen
   give: Geef iemand een aantal Slimefun spullen
   guide: Geef jezelf een Slimefun Handboek
-  timings: Laat informatie over de server's prestaties zien
   teleporter: Bekijk de opgeslagen locaties van andere spelers
   versions: Laat een lijst met alle geïnstalleerde uitbreidingen zien
   search: Doorzoek de Slimefun handleiding voor een bepaald trefwoord
@@ -15,6 +14,18 @@ commands:
     description: Ontgrendel of herstart Slimefun kennissen van een speler
     reset: "&cJe hebt %player%'s Slimefun kennis herstart"
     reset-target: "&cJe Slimefun kennis is herstart"
+  backpack:
+    description: Krijg een kopie van een al bestaande rugzak
+    invalid-id: "&4Het id moet een positieve nummer zijn!"
+    player-never-joined: "&4Er is geen speler met die naam gevonden!"
+    backpack-does-not-exist: "& 4De opgegeven rugzak bestaat niet!"
+    restored-backpack-given: "&aJouw rugzak is hersteld en is toegevoegd aan jouw
+      inventaris."
+  charge:
+    description: Laad het item wat je vasthoud op
+    charge-success: Item is opgeladen!
+    not-rechargeable: Dit item kan niet opgeladen worden!
+  timings: Laat informatie over de server's prestaties zien
 guide:
   search:
     message: "&bOp welk woord zou je willen zoeken?"
@@ -22,8 +33,8 @@ guide:
     tooltip: "&bKlik om naar een item te zoeken"
     inventory: 'Zoeken naar: %item%'
     lore:
-    - "&bOp welk woord zou je willen zoeken?"
-    - "&7Type je zoekterm in het gespreksvenster"
+      '1': "&7Type je zoekterm in het gespreksvenster"
+      '0': "&bOp welk woord zou je willen zoeken?"
   cheat:
     no-multiblocks: "&4Je kan geen Slimefun machines in het spel brengen, je moet
       ze bouwen zoals aangegeven."
@@ -34,7 +45,13 @@ guide:
       lore: Klik om een eigen vertaling toe the voegen
     select: Klik om deze taal te selecteren
     select-default: Klik om de standaard taal te selecteren
-    selected-language: 'Momenteel geselecteerd:'
+    selected-language: " Op dit moment geselecteerd:"
+    change: Klik om een nieuwe taal te kiezen
+    description:
+      '0': "&7Je hebt nu de mogelijkheid om de taal"
+      '1': "&7van Slimefun te veranderen"
+      '2': "&7aan jou wordt vertoond. Items"
+      '3': "&7kunnen momenteel niet vertaald worden."
   title:
     main: Slimefun Handboek
     settings: Instellingen & Informatie
@@ -44,6 +61,7 @@ guide:
     addons: Uitbreidingen voor Slimefun4
     bugs: Fouten rapporteren
     source: Source Code
+    versions: Geïnstalleerde versies
   credits:
     commit: Bijdrage
     commits: Bijdragen
@@ -53,6 +71,12 @@ guide:
       resourcepack: "&cGrafische bundel Ontwikkelaar"
       translator: "&9Vertaler"
     profile-link: Klik om hun profielen op Github te bezoeken
+    open: Klik om onze bijdragers te zien
+    description:
+      '0': "&7Slimefun is een open-source project"
+      '1': "&7en wordt in stand gehouden door een grote gemeenschap van mensen."
+      '2': "&7Meer dan &e%contributors% &7mensen hebben hieraan"
+      '3': "&7al deze jaren gewerkt."
   pages:
     previous: Vorige bladzijde
     next: Volgende bladzijde
@@ -65,15 +89,17 @@ guide:
       miner: Grondstoffen die je met deze Miner kunt verkrijgen
       generator: Beschikbare soorten brandstof
       gold-pan: Grondstoffen die je kunt verkrijgen
+      climbing-pick: Oppervlakken die je kunt beklimmen
   back:
     title: Terug
     guide: Ga terug naar de Slimefun Handleiding
     settings: Ga terug naar Instellingen
   locked: VERGRENDELD
   locked-category:
-  - Om deze categorie te ontgrendelen zul je
-  - alle items moeten ontgrendelen van de
-  - volgende categorieën
+    '0': Om deze categorie te ontgrendelen zul je
+    '1': alle items moeten ontgrendelen van de
+    '2': volgende categorieën
+  work-in-progress: Dit is nog niet helemaal klaar!
 messages:
   not-researched: "&4Je hebt niet genoeg Slimefun kennis om dit te begrijpen"
   not-enough-xp: "&4Je hebt niet genoeg XP om dit te ontgrendelen"
@@ -83,12 +109,8 @@ messages:
   no-permission: "&4Je hebt geen toestemming om deze actie uit te voeren"
   usage: "&4Gebruik, zoals: &c%usage%"
   not-online: "&4%player% &cis niet online!"
-  invalid-item: "&4%item% &cis geen geldig voorwerp!"
-  invalid-amount: "&4%amount% &cis geen geldige hoeveelheid: het moet meer zijn
-    dan 0!"
   given-item: '&bJe hebt &a%amount% keer &7"%item%&7" ontvangen'
   give-item: '&bJe hebt %player% &a%amount% keer &7"%item%&7" gegeven'
-  invalid-research: "&4%research% &cis geen geldig Slimefun onderzoek"
   give-research: '&bJe hebt %player% de kennis over &7"%research%&7" gegeven'
   hungry: "&cJe hebt teveel honger om zoiets te doen!"
   disabled-in-world: "&4&lDit voorwerp is uitgeschakeld in deze wereld"
@@ -110,6 +132,8 @@ messages:
     whirlwind: "&a&oJe Talisman heeft het projectiel weerkaatst"
     wizard: "&a&oJe Talisman heeft je een hoger level van geluk gegeven, maar heeft
       misschien ook de levels van andere betoveringen verlaagd"
+    caveman: "&a&oJe talisman gaf je haast"
+    wise: "&a&oJe Talisman heeft je verkregen experience punten verdubbeld"
   soulbound-rune:
     fail: "&cJe kan maar één voorwerp met je ziel verbinden op elk moment"
     success: "&aJe hebt dit voorwerp succesvol met je ziel verbonden! Het blijft bij
@@ -129,19 +153,46 @@ messages:
   link-prompt: "&eKlik mij:"
   diet-cookie: "&eJe begint je zo ligt als een veertje te voelen..."
   fortune-cookie:
-  - "&7Hellup mij, ik zit vast in een gelukskoekjes-fabriek!"
-  - "&7Je overlijdt morgen...     door een creeper..."
-  - "&7Ooit gaat  er iets ergs gebeuren in je leven!!! Muhahaha"
-  - "&7Volgende week zal je eindelijk doorhebben dat dit niet de echte wereld is,
-    maar een simulatie"
-  - "&7Dit koekje gaat over een paar seconden heerlijk smaken"
-  - '&7De laatste woorden die je ooit zal horen zijn "Voor mij is deze wereld alleen
-    maar vals!"'
-  - "&7What je ook wilt worden, knuffels nooit een creeper... Ik heb het geprobeerd,
-    maar het is het echt niet waard"
-  - "&742. Het antwoord op alles is 42"
-  - "&7A Walshy, één dag houdt alle problemen weg"
-  - "&7Graaf nooit recht naar beneden!"
+    '0': "&7Hellup mij, ik zit vast in een gelukskoekjes-fabriek!"
+    '1': "&7Je overlijdt morgen...     door een creeper..."
+    '2': "&7Ooit gaat  er iets ergs gebeuren in je leven!!! Muhahaha"
+    '3': "&7Volgende week zal je eindelijk doorhebben dat dit niet de echte wereld
+      is, maar een simulatie"
+    '4': "&7Dit koekje gaat over een paar seconden heerlijk smaken"
+    '5': '&7De laatste woorden die je ooit zal horen zijn "Voor mij is deze wereld
+      alleen maar vals!"'
+    '6': "&7What je ook wilt worden, knuffels nooit een creeper... Ik heb het geprobeerd,
+      maar het is het echt niet waard"
+    '7': "&742. Het antwoord op alles is 42"
+    '8': "&7A Walshy, één dag houdt alle problemen weg"
+    '9': "&7Graaf nooit recht naar beneden!"
+    '10': "&7Het is slechts een vleeswonde!"
+    '11': "&7Kijk altijd naar de blije kant van je leven!"
+    '12': "&7Deze was eigenlijk een biscuitje en geen koekje"
+    '13': "&7Neon borden zijn LIT!"
+  piglin-barter: "&4Je kunt geen Slimefun spullen met piglins ruilen"
+  enchantment-rune:
+    fail: "&cJe kunt dit item niet betoveren."
+    no-enchantment: "&cKon geen mogelijke betoveringen vinden voor dit item."
+    success: "&aJe hebt succesvol een random betovering toegevoegd op dit item."
+  tape-measure:
+    no-anchor: "&cJe hebt nog een anker nodig voordat je kunt meten!"
+    wrong-world: "&cJe anker lijkt in een andere wereld te zitten!"
+    distance: "&7Afstand gemeten. &eAfstand: %distance%"
+    anchor-set: "&aHet is gelukt om het anker in te stellen:&e %anchor%"
+  multi-tool:
+    mode-change: "&b%device% mode veranderd naar: &9%mode%"
+    not-shears: "&cEen Mutli Tool kan niet gebruikt worden als een schaar!"
+  climbing-pick:
+    dual-wielding: "&4Je moet een klim-pickaxe in bijde handen hebben om hem te gebruiken!"
+    wrong-material: "&cJe kunt dit oppervlak niet beklimmen. Check je Slimefun Guide
+      voor meer info!"
+  invalid-item: "&4%item% &cis geen geldig voorwerp!"
+  invalid-amount: "&4%amount% &cis geen geldige hoeveelheid: het moet meer zijn dan
+    0!"
+  invalid-research: "&4%research% &cis geen geldig Slimefun onderzoek"
+  bee-suit-slow-fall: "&eJe Bee Wings zullen je helpen om weer veilig op de grond
+    te komen"
   mode-change: "&b%device% mode is veranderd naar: &9%mode%"
 machines:
   pattern-not-found: "&eSorry, ik heb het recept niet herkend. Plaats astublieft de
@@ -187,8 +238,20 @@ machines:
     title: GPS - Configuratiescherm
     transmitters: Transmitter-overzicht
     waypoints: Waypoint-overzicht
+  INDUSTRIAL_MINER:
+    no-fuel: "& cUw Industrial Miner heeft geen brandstof meer! Doe de brandstof in
+      de kist erboven."
+    piston-facing: "&cJe  Industrial Miner moet de duwmachines naar boven hebben!"
+    piston-space: "&cDe twee duwmachines moeten een leeg blok boven hem hebben!"
+    destroyed: "&cJouw Industrial Miner lijkt vernietigt te zijn!"
+    already-running: "&cDeze Industrial Miner draait al!"
+    full-chest: "&cDe kist van je Industrial Miner is vol!"
+    no-permission: "&4Het lijkt er op dat je geen permissie hebt om een Industrial
+      Miner hier te laten werken!"
+    finished: "&eJe Industrial Miner is klaar! Het heeft in totaal %ores% grondstof(fen)! "
 anvil:
   not-working: "&4Je kan geen Slimefun voorwerpen gebruiken in een aambeeld!"
+  mcmmo-salvaging: "&4Je kunt geen Slimefun items afbreken!"
 backpack:
   already-open: "&cSorry, deze rugzak is al ergens anders geopend!"
   no-stack: "&cJe kan geen rugzakken stapelen"
@@ -201,10 +264,11 @@ gps:
       &r(Kleurcodes zijn ondersteund)"
     added: "&aEen nieuw locatiepunt is succesvol toegevoegd"
     max: "&4Je hebt het maximum aantal locatiepunten bereikt"
+    duplicate: "&4Je hebt al een waypoint genaamd: &f%waypoint%"
   insufficient-complexity:
-  - "&4Er is te weinig GPS netwerk complexiteit: &c%complexity%"
-  - "&4a) Je hebt nog geen GPS netwerk opgezet"
-  - "&4b) Je GPS netwerk is niet complex genoeg"
+    '0': "&4Er is te weinig GPS netwerk complexiteit: &c%complexity%"
+    '1': "&4a) Je hebt nog geen GPS netwerk opgezet"
+    '2': "&4b) Je GPS netwerk is niet complex genoeg"
   geo:
     scan-required: "&4Een GEO-Scan is nodig! &cScan deze chunk eerst met behulp van
       een GEO-Scanner!"
@@ -243,15 +307,15 @@ android:
       INTERFACE_ITEMS: "&9Geef inventaris aan de geconfronteerde interface"
       INTERFACE_FUEL: "&cOntvang brandstof van de geconfronteerde interface"
     enter-name:
-    - 
-    - "&eType astublieft de gewenste naam in voor het script"
+      '1': "&eType astublieft de gewenste naam in voor het script"
     uploaded:
-    - "&bBezig met uploaden..."
-    - "&aHet script is succesvol geupload!"
+      '0': "&bBezig met uploaden..."
+      '1': "&aHet script is succesvol geupload!"
     rating:
       own: "&4Je kan je eigen script geen waardering geven!"
       already: "&4Je hebt aan een waardering achtergelaten voor dit script!"
     editor: Scripteditor
+    too-long: "&cDe code is te lang om te kunnen editen!"
 languages:
   default: Server-Standaard
   en: Engels
@@ -284,10 +348,25 @@ languages:
   fa: Perzisch
   th: Thais
   ro: Roemeens
-  pt: Portugees (Portugal)
+  pt: Portugees  (Portugal)
   pt-BR: Portugees (Brazilië)
   bg: Bulgaars
   ko: Koreaans
   tr: Turks
+  hr: Kroatisch
+  mk: Macedonisch
+  sr: Servisch
+  be: Wit-Russisch/Russisch
+  tl: Tagalog
+brewing_stand:
+  not-working: "&4Je kunt geen Slimefun spullen in een brouwstandaard doen!"
+villagers:
+  no-trading: "&4Je kunt geen Slimefun spullen met villagers ruilen!"
+cartography_table:
+  not-working: "&4Je kunt Slimefun items niet in een cartografie tafel gebruiken!"
+cauldron:
+  no-discoloring: "&4Je kunt de kleur van Slimefun Bescherming niet er af halen"
+placeholderapi:
+  profile-loading: Aan het laden...
 miner:
   no-ores: "&eSorry, ik kon geen ertsen vinden dichtbij!"
