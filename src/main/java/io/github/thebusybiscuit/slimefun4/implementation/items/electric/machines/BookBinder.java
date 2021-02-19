@@ -63,6 +63,7 @@ public class BookBinder extends AContainer {
                         enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), bypassVanillaMaxLevel.getValue());
                     }
 
+                    //Make sure we never return a no enchant enchanted book.
                     if (enchantMeta.getStoredEnchants().isEmpty()) {
                         return null;
                     }
@@ -113,6 +114,8 @@ public class BookBinder extends AContainer {
 
         for (Map.Entry<Enchantment, Integer> entry : ech2.entrySet()) {
             for (Map.Entry<Enchantment, Integer> conflictsWith : enchantments.entrySet()) {
+
+                //Check if entry enchantments and conflictsWith enchantment conflict, and confirms that the enchantsments aren't the exact same.
                 if (entry.getKey().conflictsWith(conflictsWith.getKey()) && entry.getKey() != conflictsWith.getKey()) {
                         conflicts = true;
                 }
@@ -123,7 +126,9 @@ public class BookBinder extends AContainer {
                     int enchantMaxLevel = entry.getKey().getMaxLevel();
 
                     if (a.intValue() == b.intValue()) {
-                        if (enchantMaxLevel <= a) { 
+                        
+                        //Confirm the entries enchant level doesnt  go over the maximums unless it uses bypass-vanilla-max-level
+                        if (enchantMaxLevel <= a && !bypassVanillaMaxLevel.getValue()) { 
                             return enchantMaxLevel;
                         }
                         else if (hasCustomMaxLevel.getValue()) {
@@ -134,7 +139,8 @@ public class BookBinder extends AContainer {
                     } else {
                         int highestLevel = Math.max(a, b);
 
-                        if (enchantMaxLevel <= highestLevel) {
+                        //Confirm the entries enchant level doesnt  go over the maximums unless it uses bypass-vanilla-max-level
+                        if (enchantMaxLevel <= highestLevel && !bypassVanillaMaxLevel.getValue()) {
                             return enchantMaxLevel;
                         }
                          else if (hasCustomMaxLevel.getValue()) {
