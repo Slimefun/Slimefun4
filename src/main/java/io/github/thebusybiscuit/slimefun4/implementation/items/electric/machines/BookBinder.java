@@ -63,8 +63,12 @@ public class BookBinder extends AContainer {
                         enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), bypassVanillaMaxLevel.getValue());
                     }
 
+                    if (enchantMeta.getStoredEnchants().isEmpty()) {
+                        return null;
+                    }
+
                     book.setItemMeta(enchantMeta);
-                    
+
                     MachineRecipe recipe = new MachineRecipe(25 * (enchantments.size() / this.getSpeed()), new ItemStack[] {target, item}, new ItemStack[] {book});
 
                     if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
@@ -110,13 +114,23 @@ public class BookBinder extends AContainer {
         for (Map.Entry<Enchantment, Integer> entry : ech2.entrySet()) {
             for (Map.Entry<Enchantment, Integer> conflictsWith : enchantments.entrySet()) {
                 if (entry.getKey().conflictsWith(conflictsWith.getKey())) {
-                  conflicts = true;
+                    if (entry.getKey() == conflictsWith.getKey()) { 
+
+                    } else {
+                        conflicts = true;
+                    }
+                  
                 }
             }
             
             if (!conflicts) {
                 enchantments.merge(entry.getKey(), entry.getValue(), (a, b) -> {
+                    int enchantMaxLevel = entry.getKey().getMaxLevel();
+
                     if (a == b) {
+                        if (enchantMaxLevel <= a) { 
+                            return enchantMaxLevel;
+                        }
                         if (hasCustomMaxLevel.getValue()) {
                             return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1;
                         } else {
@@ -125,6 +139,10 @@ public class BookBinder extends AContainer {
                         
                     } else {
                         int highestLevel = Math.max(a, b);
+
+                        if (enchantMaxLevel <= highestLevel) {
+                            return enchantMaxLevel;
+                        }
 
                         if (hasCustomMaxLevel.getValue()) {
                             return highestLevel > customMaxLevel.getValue() ? customMaxLevel.getValue() : highestLevel;
