@@ -113,13 +113,8 @@ public class BookBinder extends AContainer {
 
         for (Map.Entry<Enchantment, Integer> entry : ech2.entrySet()) {
             for (Map.Entry<Enchantment, Integer> conflictsWith : enchantments.entrySet()) {
-                if (entry.getKey().conflictsWith(conflictsWith.getKey())) {
-                    if (entry.getKey() == conflictsWith.getKey()) { 
-
-                    } else {
+                if (entry.getKey().conflictsWith(conflictsWith.getKey()) && entry.getKey() != conflictsWith.getKey()) {
                         conflicts = true;
-                    }
-                  
                 }
             }
 
@@ -131,7 +126,7 @@ public class BookBinder extends AContainer {
                         if (enchantMaxLevel <= a) { 
                             return enchantMaxLevel;
                         }
-                        if (hasCustomMaxLevel.getValue()) {
+                        else if (hasCustomMaxLevel.getValue()) {
                             return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1;
                         } else {
                             return a + 1;
@@ -142,8 +137,7 @@ public class BookBinder extends AContainer {
                         if (enchantMaxLevel <= highestLevel) {
                             return enchantMaxLevel;
                         }
-
-                        if (hasCustomMaxLevel.getValue()) {
+                         else if (hasCustomMaxLevel.getValue()) {
                             return highestLevel > customMaxLevel.getValue() ? customMaxLevel.getValue() : highestLevel;
                         } else {
                             return highestLevel;
