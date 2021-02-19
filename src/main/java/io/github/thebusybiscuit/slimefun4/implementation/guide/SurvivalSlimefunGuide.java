@@ -266,7 +266,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             SlimefunItem sfitem = category.getItems().get(target);
 
-            if (Slimefun.isEnabled(p, sfitem, false)) {
+            if (!sfitem.isDisabledIn(p.getWorld())) {
                 displaySlimefunItem(menu, category, p, profile, sfitem, page, index);
                 index++;
             }
@@ -613,7 +613,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             }
 
             String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&fNeeds to be unlocked elsewhere" : "&fNo Permission";
-            return Slimefun.hasUnlocked(p, slimefunItem, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", lore);
+            return slimefunItem.canUse(p, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", lore);
         } else {
             return item;
         }

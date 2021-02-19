@@ -26,8 +26,8 @@ commands:
     not-rechargeable: Vật phẩm này không thể sạc được!
   timings:
     description: Độ trễ của slimefun và addon của nó
-    verbose-player: "&4Cờ dài này không thể sử dụng bới Người chơi!"
     please-wait: "&eVui lòng đợi một chút... Kết quả chuẩn bị đến!"
+    verbose-player: "&4Cờ dài này không thể sử dụng bới Người chơi!"
     unknown-flag: "&4Không rõ cờ: &c%flag%"
 guide:
   search:
@@ -138,6 +138,7 @@ messages:
     wizard: "&a&oBùa hộ mệnh của bạn đã cho bạn một Cấp độ may mắn tốt hơn nhưng cũng
       có thể hạ thấp một số Cấp độ phù phép khác"
     caveman: "&a&oBùa ma thuật của bạn cho bạn hiệu ứng Đào nhanh"
+    wise: "&a&oBùa ma thuật đã nhân đôi số kinh nghiệm của bạn"
   soulbound-rune:
     fail: "&cBạn chỉ có thể liên kết một vật phẩm với linh hồn của bạn trong cùng
       một thời điểm."
@@ -375,3 +376,5 @@ cauldron:
   no-discoloring: "&4Bạn không thể đổi màu giáp của Slimefun"
 miner:
   no-ores: "&eXin lỗi, tôi không thể tìm bất kì Khoáng sản nào xung quanh!"
+placeholderapi:
+  profile-loading: Đang tải...

@@ -32,56 +32,56 @@ class OilResource extends SlimefunResource {
         }
 
         switch (biome) {
-        case SNOWY_BEACH:
-        case STONE_SHORE:
-        case BEACH:
-            return 6;
+            case SNOWY_BEACH:
+            case STONE_SHORE:
+            case BEACH:
+                return 6;
 
-        case DESERT:
-        case DESERT_HILLS:
-        case DESERT_LAKES:
-            return 45;
+            case DESERT:
+            case DESERT_HILLS:
+            case DESERT_LAKES:
+                return 45;
 
-        case MOUNTAINS:
-        case GRAVELLY_MOUNTAINS:
-        case MOUNTAIN_EDGE:
-        case RIVER:
-            return 17;
+            case MOUNTAINS:
+            case GRAVELLY_MOUNTAINS:
+            case MOUNTAIN_EDGE:
+            case RIVER:
+                return 17;
 
-        case SNOWY_MOUNTAINS:
-        case SNOWY_TUNDRA:
-        case ICE_SPIKES:
-        case FROZEN_OCEAN:
-        case FROZEN_RIVER:
-            return 14;
+            case SNOWY_MOUNTAINS:
+            case SNOWY_TUNDRA:
+            case ICE_SPIKES:
+            case FROZEN_OCEAN:
+            case FROZEN_RIVER:
+                return 14;
 
-        case BADLANDS:
-        case BADLANDS_PLATEAU:
-        case WOODED_BADLANDS_PLATEAU:
-        case ERODED_BADLANDS:
-        case MODIFIED_BADLANDS_PLATEAU:
-        case MODIFIED_WOODED_BADLANDS_PLATEAU:
-        case MUSHROOM_FIELDS:
-        case MUSHROOM_FIELD_SHORE:
-            return 24;
+            case BADLANDS:
+            case BADLANDS_PLATEAU:
+            case WOODED_BADLANDS_PLATEAU:
+            case ERODED_BADLANDS:
+            case MODIFIED_BADLANDS_PLATEAU:
+            case MODIFIED_WOODED_BADLANDS_PLATEAU:
+            case MUSHROOM_FIELDS:
+            case MUSHROOM_FIELD_SHORE:
+                return 24;
 
-        case DEEP_OCEAN:
-        case OCEAN:
-        case COLD_OCEAN:
-        case DEEP_COLD_OCEAN:
-        case DEEP_FROZEN_OCEAN:
-        case DEEP_LUKEWARM_OCEAN:
-        case DEEP_WARM_OCEAN:
-        case LUKEWARM_OCEAN:
-        case WARM_OCEAN:
-            return 62;
+            case DEEP_OCEAN:
+            case OCEAN:
+            case COLD_OCEAN:
+            case DEEP_COLD_OCEAN:
+            case DEEP_FROZEN_OCEAN:
+            case DEEP_LUKEWARM_OCEAN:
+            case DEEP_WARM_OCEAN:
+            case LUKEWARM_OCEAN:
+            case WARM_OCEAN:
+                return 62;
 
-        case SWAMP:
-        case SWAMP_HILLS:
-            return 20;
+            case SWAMP:
+            case SWAMP_HILLS:
+                return 20;
 
-        default:
-            return 10;
+            default:
+                return 10;
         }
     }
 

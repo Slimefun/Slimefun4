@@ -1,7 +1,6 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of contents**
-
+# Table of contents
+- [Release Candidate 21 (TBD)](#release-candidate-21-tbd)
+- [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
 - [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
 - [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
 - [Release Candidate 17 (17 Oct 2020)](#release-candidate-17-17-oct-2020)
@@ -22,15 +21,36 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+## Release Candidate 21 (TBD)
 
-## Release Candidate 20 (TBD)
+#### Additions
+* Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
+* Added an option to allow Talismans to send their notifications via the Actionbar
+* /sf versions now shows the Java version and some useful tooltips
+
+#### Changes
+* Deprecated Automatic Crafting Chamber
+
+#### Fixes
+* Fixed #2794
+* Fixed #2793
+* Fixed #2809
+* Fixed a small exception which gets thrown when Slimefun is disabled due to an invalid environment
+* Fixed #2810
+* Fixed #2804
+* Fixed #2817
+* Fixed exceptions with inventories not being printed using the logger of the addon that caused it
+* Fixed #2818
+
+## Release Candidate 20 (30 Jan 2021)
 
 #### Additions
 * Added a new language: Bulgarian
 * Added a new language: Hebrew
 * (API) Added AsyncProfileLoadEvent
 * Added Talisman of the Wise
+* Added Book Binder
+* Added Tier 3 Electric Ore Grinder
 
 #### Changes
 * Massive performance improvements to holograms/armorstands
@@ -50,6 +70,13 @@
 * Fixed Infused Hopper picking up items with a max pickup delay
 * Fixed duplication issues related to holograms/armorstands
 * Fixed #2754
+* Fixed machines not respecting max size from inventories
+* Fixed #2761
+* Fixed #2460
+* Fixed #2760
+* Fixed #2771
+* Fixed placeholders that did not get loaded yet not having a label
+* Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
 

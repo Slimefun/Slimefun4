@@ -10,7 +10,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -51,10 +50,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
  */
 public class BlockListener implements Listener {
 
-    private final SlimefunPlugin plugin;
-
     public BlockListener(@Nonnull SlimefunPlugin plugin) {
-        this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -71,22 +67,14 @@ public class BlockListener implements Listener {
         if (e.getBlockReplacedState().getType().isAir()) {
             SlimefunItem sfItem = BlockStorage.check(block);
 
-            if (sfItem != null) {
-                /*
-                 * We can move the TickerTask synchronization to an async task to
-                 * avoid blocking the main Thread here.
-                 */
-                Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                    if (!SlimefunPlugin.getTickerTask().isDeletedSoon(block.getLocation())) {
-                        for (ItemStack item : sfItem.getDrops()) {
-                            if (item != null && !item.getType().isAir()) {
-                                SlimefunPlugin.runSync(() -> block.getWorld().dropItemNaturally(block.getLocation(), item));
-                            }
-                        }
-
-                        BlockStorage.clearBlockInfo(block);
+            if (sfItem != null && !SlimefunPlugin.getTickerTask().isDeletedSoon(block.getLocation())) {
+                for (ItemStack item : sfItem.getDrops()) {
+                    if (item != null && !item.getType().isAir()) {
+                        block.getWorld().dropItemNaturally(block.getLocation(), item);
                     }
-                });
+                }
+
+                BlockStorage.clearBlockInfo(block);
             }
         } else if (BlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
@@ -99,7 +87,7 @@ public class BlockListener implements Listener {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
         if (sfItem != null && !(sfItem instanceof NotPlaceable) && Slimefun.isEnabled(e.getPlayer(), sfItem, true)) {
-            if (!Slimefun.hasUnlocked(e.getPlayer(), sfItem, true)) {
+            if (!sfItem.canUse(e.getPlayer(), true)) {
                 e.setCancelled(true);
             } else {
                 if (SlimefunPlugin.getBlockDataService().isTileEntity(e.getBlock().getType())) {
@@ -121,6 +109,11 @@ public class BlockListener implements Listener {
 
         // Also ignore custom blocks which were placed by other plugins
         if (SlimefunPlugin.getIntegrations().isCustomBlock(e.getBlock())) {
+            return;
+        }
+
+        // Ignore blocks which we have marked as deleted (Fixes #2771)
+        if (SlimefunPlugin.getTickerTask().isDeletedSoon(e.getBlock().getLocation())) {
             return;
         }
 
@@ -146,7 +139,7 @@ public class BlockListener implements Listener {
         SlimefunItem tool = SlimefunItem.getByItem(item);
 
         if (tool != null) {
-            if (Slimefun.hasUnlocked(e.getPlayer(), tool, true)) {
+            if (tool.canUse(e.getPlayer(), true)) {
                 tool.callItemHandler(ToolUseHandler.class, handler -> handler.onToolUse(e, item, fortune, drops));
             } else {
                 e.setCancelled(true);

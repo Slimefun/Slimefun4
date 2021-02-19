@@ -1,25 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.settings.TalismanEnchantment;
-import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
  * The {@link MagicianTalisman} is a special kind of {@link Talisman} which awards a {@link Player}
@@ -30,11 +29,15 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class MagicianTalisman extends Talisman {
 
+    private final ItemSetting<Boolean> allowEnchantmentBooks = new ItemSetting<>("allow-enchantment-books", false);
+
     private final Set<TalismanEnchantment> enchantments = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public MagicianTalisman(SlimefunItemStack item, ItemStack[] recipe) {
         super(item, recipe, false, false, "magician", 80);
+
+        addItemSetting(allowEnchantmentBooks);
 
         for (Enchantment enchantment : Enchantment.values()) {
             try {
@@ -70,7 +73,7 @@ public class MagicianTalisman extends Talisman {
 
         // @formatter:off
         List<TalismanEnchantment> enabled = enchantments.stream()
-                .filter(e -> e.getEnchantment().canEnchantItem(item))
+                .filter(e -> (isEnchantmentBookAllowed() && item.getType() == Material.BOOK) || e.getEnchantment().canEnchantItem(item))
                 .filter(e -> hasConflicts(existingEnchantments, e))
                 .filter(TalismanEnchantment::getValue)
                 .collect(Collectors.toList());
@@ -90,4 +93,13 @@ public class MagicianTalisman extends Talisman {
         return true;
     }
 
+    /**
+     * This method checks whether enchantment books
+     * can be given an extra {@link Enchantment} or not.
+     *
+     * @return Whether enchantment books can receive an extra {@link Enchantment}
+     */
+    public boolean isEnchantmentBookAllowed() {
+        return allowEnchantmentBooks.getValue();
+    }
 }

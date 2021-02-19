@@ -68,19 +68,19 @@ final class CargoUtils {
         Material type = block.getType();
 
         switch (type) {
-        case CHEST:
-        case TRAPPED_CHEST:
-        case FURNACE:
-        case DISPENSER:
-        case DROPPER:
-        case HOPPER:
-        case BREWING_STAND:
-        case BARREL:
-        case BLAST_FURNACE:
-        case SMOKER:
-            return true;
-        default:
-            return SlimefunTag.SHULKER_BOXES.isTagged(type);
+            case CHEST:
+            case TRAPPED_CHEST:
+            case FURNACE:
+            case DISPENSER:
+            case DROPPER:
+            case HOPPER:
+            case BREWING_STAND:
+            case BARREL:
+            case BLAST_FURNACE:
+            case SMOKER:
+                return true;
+            default:
+                return SlimefunTag.SHULKER_BOXES.isTagged(type);
         }
     }
 
