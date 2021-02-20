@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -293,7 +294,9 @@ public final class SlimefunUtils {
             return false;
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
             return false;
-        } else if (!checkLore) {
+        } else if (itemMeta instanceof PotionMeta && sfitemMeta instanceof PotionMeta) {
+            return ((PotionMeta) itemMeta).getBasePotionData().equals(((PotionMeta) sfitemMeta).getBasePotionData());
+        }else if (!checkLore) {
             return true;
         } else if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
             return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
