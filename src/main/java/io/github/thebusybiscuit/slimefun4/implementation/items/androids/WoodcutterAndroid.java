@@ -159,6 +159,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
             } else {
                 // Simply drop the sapling if the soil does not fit
                 block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(saplingType));
+                block.setType(Material.AIR);
             }
         }
     }
