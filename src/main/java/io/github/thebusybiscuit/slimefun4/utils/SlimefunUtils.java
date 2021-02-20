@@ -296,7 +296,7 @@ public final class SlimefunUtils {
             return false;
         } else if (itemMeta instanceof PotionMeta && sfitemMeta instanceof PotionMeta) {
             return ((PotionMeta) itemMeta).getBasePotionData().equals(((PotionMeta) sfitemMeta).getBasePotionData());
-        }else if (!checkLore) {
+        } else if (!checkLore) {
             return true;
         } else if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
             return equalsLore(itemMeta.getLore(), sfitemMeta.getLore());
