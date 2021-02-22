@@ -53,11 +53,14 @@
 * Added Tier 3 Electric Ore Grinder
 
 #### Changes
+* (API) Improvements to the BlockBreakHandler
 * Massive performance improvements to holograms/armorstands
 * Slimefun no longer requires CS-CoreLib to be installed
 
 #### Fixes
 * Fixed elevator floor order
+* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
+* Fixed #2560
 * Fixed #2449
 * Fixed #2511
 * Fixed #2636
@@ -87,6 +90,7 @@
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
+* General performance improvements
 * CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
 * Removed the deprecated ItemManipulationAPI for BlockMenus
 * Removed the "Written Book" variant of the Slimefun Guide
