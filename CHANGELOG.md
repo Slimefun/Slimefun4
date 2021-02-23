@@ -30,6 +30,8 @@
 
 #### Changes
 * Deprecated Automatic Crafting Chamber
+* (API) Improvements to the BlockBreakHandler
+* (API) Deprecated SlimefunBlockHandler
 
 #### Fixes
 * Fixed #2794
@@ -53,7 +55,6 @@
 * Added Tier 3 Electric Ore Grinder
 
 #### Changes
-* (API) Improvements to the BlockBreakHandler
 * Massive performance improvements to holograms/armorstands
 * Slimefun no longer requires CS-CoreLib to be installed
 
