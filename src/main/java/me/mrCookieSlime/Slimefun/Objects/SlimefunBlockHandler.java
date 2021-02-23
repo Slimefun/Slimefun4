@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 
@@ -16,8 +17,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
  * 
  * @author TheBusyBiscuit
  * 
+ * @deprecated Please use the {@link BlockBreakHandler} instead.
  * 
  */
+@Deprecated
 @FunctionalInterface
 public interface SlimefunBlockHandler {
 
