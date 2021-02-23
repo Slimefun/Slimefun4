@@ -79,10 +79,6 @@
             <id>walshy-public</id>
             <url>https://repo.walshy.dev/public</url>
         </repository>
-        <repository>
-            <id>silk-spawners-repo</id>
-            <url>https://repo.dustplanet.de/artifactory/libs-release-local</url>
-        </repository>
     </repositories>
 
     <!-- Build settings -->
