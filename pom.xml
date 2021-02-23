@@ -79,6 +79,10 @@
             <id>walshy-public</id>
             <url>https://repo.walshy.dev/public</url>
         </repository>
+        <repository>
+            <id>silk-spawners-repo</id>
+            <url>https://repo.dustplanet.de/artifactory/libs-release-local</url>
+        </repository>
     </repositories>
 
     <!-- Build settings -->
@@ -335,7 +339,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.8.0</version>
+            <version>3.7.7</version>
             <scope>test</scope>
         </dependency>
 
@@ -359,6 +363,7 @@
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
+                    <!-- No need to shade Gson, Spigot does that already -->
                     <groupId>com.google.code.gson</groupId>
                     <artifactId>gson</artifactId>
                 </exclusion>
@@ -368,19 +373,27 @@
         <!-- Third party plugin integrations / soft dependencies -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.2</version>
+            <artifactId>worldedit-core</artifactId>
+            <version>7.2.3</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <!-- This one is ignored because it pops up everytime -->
-                    <!-- I try to import File... yes, I want java.io.File -->
-                    <groupId>de.schlichtherle</groupId>
-                    <artifactId>truezip</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.2.3</version>
+            <scope>provided</scope>
+            <exclusions>
                 <exclusion>
-                    <groupId>net.java.truevfs</groupId>
-                    <artifactId>truevfs-profile-default_2.13</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -391,24 +404,8 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <!-- We use javax.annotation instead. Excluding this -->
-                    <!-- prevents us from using inconsistent annotations -->
-                    <groupId>org.jetbrains</groupId>
-                    <artifactId>annotations</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sk89q.worldguard</groupId>
-                    <artifactId>worldguard-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sk89q.worldguard</groupId>
-                    <artifactId>worldguard-legacy</artifactId>
-                </exclusion>
-                <exclusion>
-                    <!-- We do not want to use the wrong TextComponents by -->
-                    <!-- accident. If we use adventure, then we will add -->
-                    <!-- it ourselves. -->
-                    <groupId>net.kyori</groupId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
@@ -420,10 +417,9 @@
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <!-- We use javax.annotation instead. Excluding this -->
-                    <!-- prevents us from using inconsistent annotations -->
-                    <groupId>org.jetbrains</groupId>
-                    <artifactId>annotations</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -432,18 +428,24 @@
             <artifactId>clearlag-core</artifactId>
             <version>3.1.6</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>itemsadder-api</artifactId>
-            <version>2.1.35</version>
+            <version>2.1.25</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
-                    <!-- We use javax.annotation instead. Excluding this -->
-                    <!-- prevents us from using inconsistent annotations -->
-                    <groupId>org.jetbrains</groupId>
-                    <artifactId>annotations</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
