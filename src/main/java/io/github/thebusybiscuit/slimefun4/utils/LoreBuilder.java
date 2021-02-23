@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 /**
@@ -30,6 +31,7 @@ public final class LoreBuilder {
     public static final String CROUCH_TO_USE = "&eCrouch&7 to use";
 
     private static final DecimalFormat hungerFormat = new DecimalFormat("#.0", DecimalFormatSymbols.getInstance(Locale.ROOT));
+    private static final DecimalFormat powerFormat = new DecimalFormat("###,###,###.##", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
     private LoreBuilder() {}
 
@@ -55,7 +57,7 @@ public final class LoreBuilder {
 
     @Nonnull
     public static String powerPerSecond(int power) {
-        return power(power, "/s");
+        return power(powerFormat.format(power * 20 / SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay")), "/s");
     }
 
     @Nonnull
