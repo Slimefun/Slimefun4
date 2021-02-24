@@ -57,12 +57,12 @@ public final class LoreBuilder {
 
     @Nonnull
     public static String powerPerSecond(int power) {
-        return power(powerFormat.format(power * 20 / SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay")), "/s");
+        return power((float)power * 20f / SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay"), "/s");
     }
 
     @Nonnull
-    public static String power(@Nonnull String power, @Nonnull String suffix) {
-        return "&8\u21E8 &e\u26A1 &7" + power + " J" + suffix;
+    public static String power(float power, @Nonnull String suffix) {
+        return "&8\u21E8 &e\u26A1 &7" + powerFormat.format(power) + " J" + suffix;
     }
 
     @Nonnull
