@@ -29,6 +29,8 @@ public final class LoreBuilder {
     public static final String RIGHT_CLICK_TO_USE = "&eRight Click&7 to use";
     public static final String RIGHT_CLICK_TO_OPEN = "&eRight Click&7 to open";
     public static final String CROUCH_TO_USE = "&eCrouch&7 to use";
+    
+    private static final float powerFactor = 20f / SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay");
 
     private static final DecimalFormat hungerFormat = new DecimalFormat("#.0", DecimalFormatSymbols.getInstance(Locale.ROOT));
     private static final DecimalFormat powerFormat = new DecimalFormat("###,###,###.##", DecimalFormatSymbols.getInstance(Locale.ROOT));
@@ -56,8 +58,8 @@ public final class LoreBuilder {
     }
 
     @Nonnull
-    public static String powerPerSecond(int power) {
-        return power((float)power * 20f / SlimefunPlugin.getCfg().getInt("URID.custom-ticker-delay"), "/s");
+    public static String powerPerSecond(float power) {
+        return power(power * powerFactor, "/s");
     }
 
     @Nonnull
