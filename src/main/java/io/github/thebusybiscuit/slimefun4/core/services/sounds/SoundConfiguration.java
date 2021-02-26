@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
  * 
  * @see SoundService
  * @see SoundEffect
- *
  */
 public class SoundConfiguration {
 

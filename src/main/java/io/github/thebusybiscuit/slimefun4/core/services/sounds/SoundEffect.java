@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -12,11 +13,9 @@ import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
 /**
  * This enum holds references to all our sounds.
- *
+ * 
  * @author TheBusyBiscuit
  *
  * @see SoundService
