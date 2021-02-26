@@ -5,8 +5,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.type.Hopper;
 import org.bukkit.entity.Entity;
@@ -21,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
@@ -95,7 +94,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                  * the "silent" setting is set to false.
                  */
                 if (playSound && !silent.getValue().booleanValue()) {
-                    b.getWorld().playSound(b.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1F, 2F);
+                    SoundEffect.INFUSED_HOPPER_TELEPORT_SOUND.play(b);
                 }
             }
 

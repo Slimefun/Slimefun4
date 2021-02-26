@@ -13,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
 /**
@@ -34,7 +35,7 @@ public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements
         return e -> {
             Player p = e.getPlayer();
             p.openInventory(p.getEnderChest());
-            p.playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
+            SoundEffect.ENDER_BACKPACK_OPEN_SOUND.play(p);
             e.cancel();
         };
     }
