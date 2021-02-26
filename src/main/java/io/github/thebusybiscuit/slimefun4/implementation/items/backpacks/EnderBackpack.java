@@ -1,12 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 
-import org.bukkit.Sound;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.EnderChest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -22,6 +24,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
 
+    @ParametersAreNonnullByDefault
     public EnderBackpack(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
@@ -31,7 +34,7 @@ public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements
         return e -> {
             Player p = e.getPlayer();
             p.openInventory(p.getEnderChest());
-            p.playSound(p.getEyeLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 1F);
+            SoundEffect.ENDER_BACKPACK_OPEN_SOUND.play(p);
             e.cancel();
         };
     }
