@@ -54,6 +54,7 @@ public class BookBinder extends AContainer {
                 Map<Enchantment, Integer> storedTargetEnchantments = targetMeta.getStoredEnchants();
                 Map<Enchantment, Integer> enchantments = combineEnchantments(storedItemEnchantments, storedTargetEnchantments);
 
+                //just return if enchantments are none. shouldnt ever happen. :NotLikeThis:
                 if (enchantments.size() > 0) {
                     ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
 
@@ -130,8 +131,7 @@ public class BookBinder extends AContainer {
                         //Confirm the entries enchant level doesnt  go over the maximums unless it uses bypass-vanilla-max-level
                         if (enchantMaxLevel <= a && !bypassVanillaMaxLevel.getValue()) { 
                             return enchantMaxLevel;
-                        }
-                        else if (hasCustomMaxLevel.getValue()) {
+                        } else if (hasCustomMaxLevel.getValue()) {
                             return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1;
                         } else {
                             return a + 1;
@@ -142,8 +142,7 @@ public class BookBinder extends AContainer {
                         //Confirm the entries enchant level doesnt  go over the maximums unless it uses bypass-vanilla-max-level
                         if (enchantMaxLevel <= highestLevel && !bypassVanillaMaxLevel.getValue()) {
                             return enchantMaxLevel;
-                        }
-                         else if (hasCustomMaxLevel.getValue()) {
+                        } else if (hasCustomMaxLevel.getValue()) {
                             return highestLevel > customMaxLevel.getValue() ? customMaxLevel.getValue() : highestLevel;
                         } else {
                             return highestLevel;
