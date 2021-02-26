@@ -29,7 +29,7 @@ public class JetpackTask extends AbstractPlayerTask {
         }
 
         if (jetpack.removeItemCharge(p.getInventory().getChestplate(), COST)) {
-            SoundEffect.JETPACK_THRUST_SOUND.play(p.getLocation(), SoundCategory.PLAYERS);
+            SoundEffect.JETPACK_THRUST_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
 
             p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
             p.setFallDistance(0F);

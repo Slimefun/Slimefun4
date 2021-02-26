@@ -39,7 +39,7 @@ public class Splint extends SimpleSlimefunItem<ItemUseHandler> {
                 ItemUtils.consumeItem(e.getItem(), false);
             }
 
-            SoundEffect.SPLINT_CONSUME_SOUND.play(p.getLocation(), SoundCategory.PLAYERS);
+            SoundEffect.SPLINT_CONSUME_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
             p.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
 
             e.cancel();

@@ -35,7 +35,7 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
     public ItemConsumptionHandler getItemHandler() {
         return (e, p, item) -> {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.diet-cookie");
-            SoundEffect.DIET_COOKIE_CONSUME_SOUND.play(p);
+            SoundEffect.DIET_COOKIE_CONSUME_SOUND.playFor(p);
 
             if (p.hasPotionEffect(PotionEffectType.LEVITATION)) {
                 p.removePotionEffect(PotionEffectType.LEVITATION);

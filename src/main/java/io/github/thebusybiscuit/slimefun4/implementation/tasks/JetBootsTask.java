@@ -34,7 +34,7 @@ public class JetBootsTask extends AbstractPlayerTask {
         double accuracy = NumberUtils.reparseDouble(boots.getSpeed() - 0.7);
 
         if (boots.removeItemCharge(p.getInventory().getBoots(), COST)) {
-            SoundEffect.JETBOOTS_THRUST_SOUND.play(p.getLocation(), SoundCategory.PLAYERS);
+            SoundEffect.JETBOOTS_THRUST_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
             p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
             p.setFallDistance(0F);
             double gravity = 0.04;

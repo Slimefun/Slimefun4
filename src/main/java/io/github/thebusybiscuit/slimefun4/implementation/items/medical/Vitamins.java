@@ -24,7 +24,7 @@ public class Vitamins extends MedicalSupply<ItemUseHandler> {
     public ItemUseHandler getItemHandler() {
         return e -> {
             Player p = e.getPlayer();
-            SoundEffect.VITAMINS_CONSUME_SOUND.play(p);
+            SoundEffect.VITAMINS_CONSUME_SOUND.playFor(p);
 
             if (p.getGameMode() != GameMode.CREATIVE) {
                 ItemUtils.consumeItem(e.getItem(), false);

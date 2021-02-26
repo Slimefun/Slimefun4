@@ -34,7 +34,7 @@ public class EnderBackpack extends SimpleSlimefunItem<ItemUseHandler> implements
         return e -> {
             Player p = e.getPlayer();
             p.openInventory(p.getEnderChest());
-            SoundEffect.ENDER_BACKPACK_OPEN_SOUND.play(p);
+            SoundEffect.ENDER_BACKPACK_OPEN_SOUND.playFor(p);
             e.cancel();
         };
     }

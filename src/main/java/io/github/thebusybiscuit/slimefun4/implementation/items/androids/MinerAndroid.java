@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 import java.util.Collection;
 import java.util.UUID;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -27,6 +29,7 @@ public class MinerAndroid extends ProgrammableAndroid {
     // Determines the drops a miner android will get
     private final ItemStack effectivePickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
 
+    @ParametersAreNonnullByDefault
     public MinerAndroid(Category category, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, tier, item, recipeType, recipe);
     }
