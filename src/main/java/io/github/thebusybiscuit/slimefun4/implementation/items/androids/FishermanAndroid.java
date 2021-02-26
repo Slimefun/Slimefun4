@@ -2,6 +2,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -15,8 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 public class FishermanAndroid extends ProgrammableAndroid {
 

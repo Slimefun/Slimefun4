@@ -3,6 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -22,8 +25,6 @@ import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 
-import javax.annotation.Nonnull;
-
 /**
  * The {@link KnowledgeTome} allows you to copy every unlocked {@link Research}
  * from one {@link Player} to another.
@@ -33,6 +34,7 @@ import javax.annotation.Nonnull;
  */
 public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
 
+    @ParametersAreNonnullByDefault
     public KnowledgeTome(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
