@@ -37,7 +37,7 @@ public class PortableCrafter extends SimpleSlimefunItem<ItemUseHandler> implemen
 
             Player p = e.getPlayer();
             p.openWorkbench(p.getLocation(), true);
-            SoundEffect.PORTABLE_CRAFTER_OPEN_SOUND.play(p.getLocation(), SoundCategory.PLAYERS);
+            SoundEffect.PORTABLE_CRAFTER_OPEN_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
         };
     }
 }

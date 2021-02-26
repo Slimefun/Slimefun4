@@ -41,7 +41,7 @@ public class MagicEyeOfEnder extends SimpleSlimefunItem<ItemUseHandler> {
 
             if (hasArmor(p.getInventory())) {
                 p.launchProjectile(EnderPearl.class);
-                SoundEffect.MAGICAL_EYE_OF_ENDER_USE_SOUND.play(p.getLocation(), SoundCategory.PLAYERS);
+                SoundEffect.MAGICAL_EYE_OF_ENDER_USE_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
             }
         };
     }

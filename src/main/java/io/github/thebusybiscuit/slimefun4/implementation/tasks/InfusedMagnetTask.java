@@ -57,7 +57,7 @@ public class InfusedMagnetTask extends AbstractPlayerTask {
 
         // Only play a sound if an Item was found
         if (playSound) {
-            SoundEffect.INFUSED_MAGNET_TELEPORT_SOUND.play(p);
+            SoundEffect.INFUSED_MAGNET_TELEPORT_SOUND.playFor(p);
         }
     }
 

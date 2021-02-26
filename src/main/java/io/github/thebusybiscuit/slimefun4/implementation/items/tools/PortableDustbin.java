@@ -39,7 +39,7 @@ public class PortableDustbin extends SimpleSlimefunItem<ItemUseHandler> implemen
 
             Player p = e.getPlayer();
             p.openInventory(Bukkit.createInventory(null, 9 * 3, ChatColor.DARK_RED + "Delete Items"));
-            SoundEffect.TRASH_CAN_OPEN_SOUND.play(p);
+            SoundEffect.TRASH_CAN_OPEN_SOUND.playFor(p);
         };
     }
 }

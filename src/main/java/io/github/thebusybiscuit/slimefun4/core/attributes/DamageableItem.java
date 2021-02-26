@@ -58,12 +58,11 @@ public interface DamageableItem extends ItemAttribute {
             }
 
             ItemMeta meta = item.getItemMeta();
-
-            if (!meta.isUnbreakable()) {
-                Damageable damageable = (Damageable) meta;
-
+            if (meta instanceof Damageable damageable) {
                 if (damageable.getDamage() >= item.getType().getMaxDurability()) {
+                    // No need for a SoundEffect equivalent here since this is supposed to be a vanilla sound.
                     p.playSound(p.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+
                     item.setAmount(0);
                 } else {
                     damageable.setDamage(damageable.getDamage() + 1);

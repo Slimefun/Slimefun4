@@ -94,7 +94,7 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
                  * the "silent" setting is set to false.
                  */
                 if (playSound && !silent.getValue().booleanValue()) {
-                    SoundEffect.INFUSED_HOPPER_TELEPORT_SOUND.play(b);
+                    SoundEffect.INFUSED_HOPPER_TELEPORT_SOUND.playAt(b);
                 }
             }
 
