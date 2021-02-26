@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
@@ -144,8 +143,7 @@ public enum SoundEffect {
      * This method will play this {@link SoundEffect} only to the given {@link Player} using the
      * eye {@link Location} of the {@link Player} and the {@link SoundCategory} {@code PLAYERS}.
      *
-     * @param player
-     *            The {@link Player} which to play the {@link Sound} to.
+     * @param player The {@link Player} which to play the {@link Sound} to.
      */
     public void playFor(@Nonnull Player player) {
         Validate.notNull(player, "Cannot play sounds to a Player that is null!");
@@ -161,10 +159,8 @@ public enum SoundEffect {
      * This method will play this {@link SoundEffect} at the given {@link Location} using the
      * provided {@link SoundCategory}.
      *
-     * @param loc
-     *            The {@link Location} at which to play the {@link SoundEffect}.
-     * @param category
-     *            The {@link SoundCategory} that should be used.
+     * @param loc      The {@link Location} at which to play the {@link SoundEffect}.
+     * @param category The {@link SoundCategory} that should be used.
      */
     public void playAt(@Nonnull Location loc, @Nonnull SoundCategory category) {
         Validate.notNull(loc, "The location should not be null.");
@@ -179,8 +175,7 @@ public enum SoundEffect {
      * This method will play this {@link SoundEffect} at the {@link Location} of the given {@link Block},
      * the used {@link SoundCategory} will be {@code BLOCKS}.
      *
-     * @param block
-     *            The {@link Block} at which to play the {@link SoundEffect}
+     * @param block The {@link Block} at which to play the {@link SoundEffect}
      */
     public void playAt(@Nonnull Block block) {
         Validate.notNull(block, "The block cannot be null.");
@@ -213,5 +208,4 @@ public enum SoundEffect {
     float getDefaultPitch() {
         return defaultPitch;
     }
-
 }

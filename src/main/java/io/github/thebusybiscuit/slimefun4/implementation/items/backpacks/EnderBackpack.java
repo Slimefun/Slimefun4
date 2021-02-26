@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.backpacks;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-
 import org.bukkit.block.EnderChest;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
