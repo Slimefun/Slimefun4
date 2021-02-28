@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 /**
  * {@link LongFallBoots} are a pair of boots which negate fall damage.
  * Nameworthy examples of this are Slime Boots and Bee Boots.
- *
  * <p>
  * <i>Yes, you just found a Portal reference :P</i>
  * 
