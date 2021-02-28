@@ -295,7 +295,7 @@ public final class SlimefunUtils {
         } else if (itemMeta.hasDisplayName() && sfitemMeta.hasDisplayName() && !itemMeta.getDisplayName().equals(sfitemMeta.getDisplayName())) {
             return false;
         } else if (itemMeta instanceof PotionMeta && sfitemMeta instanceof PotionMeta) {
-            return ((PotionMeta) itemMeta).getBasePotionData().equals(((PotionMeta) sfitemMeta).getBasePotionData());
+            return ((PotionMeta) itemMeta).getBasePotionData().hashCode() == ((PotionMeta) sfitemMeta).getBasePotionData().hashCode();
         } else if (!checkLore) {
             return true;
         } else if (itemMeta.hasLore() && sfitemMeta.hasLore()) {
