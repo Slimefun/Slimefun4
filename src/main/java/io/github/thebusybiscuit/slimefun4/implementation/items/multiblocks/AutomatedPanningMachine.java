@@ -3,10 +3,11 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
@@ -28,6 +30,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
     private final GoldPan goldPan = (GoldPan) SlimefunItems.GOLD_PAN.getItem();
     private final GoldPan netherGoldPan = (GoldPan) SlimefunItems.NETHER_GOLD_PAN.getItem();
 
+    @ParametersAreNonnullByDefault
     public AutomatedPanningMachine(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.OAK_TRAPDOOR), null, null, new ItemStack(Material.CAULDRON), null }, BlockFace.SELF);
     }
@@ -68,9 +71,9 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
                         b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
                     }
 
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                    SoundEffect.AUTOMATED_PANNING_MACHINE_SUCCESS_SOUND.playAt(b);
                 } else {
-                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARMOR_STAND_BREAK, 1F, 1F);
+                    SoundEffect.AUTOMATED_PANNING_MACHINE_FAIL_SOUND.playAt(b);
                 }
             });
 

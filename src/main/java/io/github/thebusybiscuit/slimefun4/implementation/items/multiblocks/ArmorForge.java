@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -16,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
@@ -85,9 +85,9 @@ public class ArmorForge extends AbstractCraftingTable {
 
                 SlimefunPlugin.runSync(() -> {
                     if (current < 3) {
-                        p.getWorld().playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1F, 2F);
+                        SoundEffect.ARMOR_FORGE_WORKING_SOUND.playAt(dispenser);
                     } else {
-                        p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F);
+                        SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
                         outputInv.addItem(output);
                     }
                 }, j * 20L);
