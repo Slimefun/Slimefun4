@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.RainbowTickHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.EnchantedItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.HiddenItem;
@@ -375,7 +376,8 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.SLIME_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.IRON_INGOT), null, new ItemStack(Material.IRON_INGOT)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)})
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)},
+        SoundEffect.SLIME_BOOTS_FALL_SOUND)
         .register(plugin);
 
         new SwordOfBeheading(itemGroups.weapons, SlimefunItems.SWORD_OF_BEHEADING, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -1050,7 +1052,8 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.SLIME_BOOTS_STEEL, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, new ItemStack(Material.SLIME_BALL), null, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.STEEL_PLATE, new ItemStack(Material.SLIME_BALL)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)})
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 5)},
+        SoundEffect.SLIME_BOOTS_FALL_SOUND)
         .register(plugin);
 
         new VampireBlade(itemGroups.weapons, SlimefunItems.BLADE_OF_VAMPIRES, RecipeType.MAGIC_WORKBENCH,
@@ -2606,7 +2609,8 @@ public final class SlimefunItemSetup {
 
         new LongFallBoots(itemGroups.magicalArmor, SlimefunItems.BEE_BOOTS, RecipeType.ARMOR_FORGE,
         new ItemStack[] {null, null, null, SlimefunItems.GOLD_8K, null, SlimefunItems.GOLD_8K, new ItemStack(Material.HONEY_BLOCK), null, new ItemStack(Material.HONEY_BLOCK)},
-        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)})
+        new PotionEffect[] {new PotionEffect(PotionEffectType.JUMP, 300, 2)},
+                SoundEffect.BEE_BOOTS_FALL_SOUND)
         .register(plugin);
 
         new VillagerRune(itemGroups.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR,
