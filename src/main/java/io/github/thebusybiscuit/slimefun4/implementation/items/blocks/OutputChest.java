@@ -6,8 +6,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -48,8 +48,9 @@ public class OutputChest extends SimpleSlimefunItem<BlockBreakHandler> {
                 Block b = e.getBlock();
                 BlockState state = PaperLib.getBlockState(b, false).getState();
 
-                if (state instanceof InventoryHolder) {
-                    for (ItemStack stack : ((InventoryHolder) state).getInventory()) {
+                if (state instanceof Chest) {
+                    // Fixes #2851 - Only drop the actual BlockInventory
+                    for (ItemStack stack : ((Chest) state).getBlockInventory()) {
                         if (stack != null && !stack.getType().isAir()) {
                             drops.add(stack);
                         }

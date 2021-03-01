@@ -46,6 +46,7 @@
 * Fixed a duplication glitch with the Woodcutter Android
 * Fixed #2839
 * Fixed #2849
+* Fixed #2851
 
 ## Release Candidate 20 (30 Jan 2021)
 
