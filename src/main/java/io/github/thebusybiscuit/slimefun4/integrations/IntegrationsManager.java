@@ -4,7 +4,9 @@ import java.util.function.Consumer;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
@@ -159,6 +161,30 @@ public class IntegrationsManager {
     }
 
     /**
+     * This method logs a {@link Throwable} that was caused by a {@link Plugin}
+     * we integrate into.
+     * Calling this method will probably log the error and provide the version of this {@link Plugin}
+     * for error analysis.
+     * 
+     * @param name
+     *            The name of the {@link Plugin}
+     * @param throwable
+     *            The {@link Throwable} to throw
+     */
+    @ParametersAreNonnullByDefault
+    protected void logError(String name, Throwable throwable) {
+        Plugin externalPlugin = Bukkit.getPluginManager().getPlugin(name);
+
+        if (externalPlugin != null) {
+            String version = externalPlugin.getDescription().getVersion();
+            SlimefunPlugin.logger().log(Level.WARNING, "Is {0} v{1} up to date?", new Object[] { name, version });
+            SlimefunPlugin.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with \"" + name + " v" + version + "\"");
+        } else {
+            SlimefunPlugin.logger().log(Level.SEVERE, throwable, () -> "An unknown error was detected while interacting with the plugin \"" + name + "\"");
+        }
+    }
+
+    /**
      * This method loads an integration with a {@link Plugin} of the specified name.
      * If that {@link Plugin} is installed and enabled, the provided callback will be run.
      * 
@@ -220,7 +246,15 @@ public class IntegrationsManager {
      */
     @SuppressWarnings("deprecation")
     public boolean isCustomBlock(@Nonnull Block block) {
-        return isItemsAdderInstalled && ItemsAdder.isCustomBlock(block);
+        if (isItemsAdderInstalled) {
+            try {
+                return ItemsAdder.isCustomBlock(block);
+            } catch (Exception | LinkageError x) {
+                logError("ItemsAdder", x);
+            }
+        }
+
+        return false;
     }
 
     public boolean isPlaceholderAPIInstalled() {
