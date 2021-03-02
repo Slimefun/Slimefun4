@@ -40,7 +40,7 @@ public class SubCategory extends Category {
     }
 
     @Override
-    public final boolean isHidden(Player p) {
+    public final boolean isHidden(@Nonnull Player p) {
         /*
          * Sub Categories are always hidden,
          * they won't show up in the normal guide view.

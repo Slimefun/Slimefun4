@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -73,6 +74,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
         super.createHeader(p, profile, menu);
 
