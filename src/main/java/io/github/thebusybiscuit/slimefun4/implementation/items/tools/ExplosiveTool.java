@@ -91,7 +91,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             }
         }
 
-        ExplosiveToolBreakBlockEvent event = new ExplosiveToolBreakBlockEvent(p, blocksToDestroy, item);
+        ExplosiveToolBreakBlockEvent event = new ExplosiveToolBreakBlockEvent(p, blocksToDestroy, item, this);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
         if (!event.isCancelled()){

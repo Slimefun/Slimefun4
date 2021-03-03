@@ -24,14 +24,34 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
     private static final HandlerList handlers = new HandlerList();
 
     private final ItemStack tool;
+    private final ExplosiveTool explosiveTool;
     private final ArrayList<Block> blocks;
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public ExplosiveToolBreakBlockEvent(Player player, ArrayList<Block> blocks, ItemStack item) {
+    public ExplosiveToolBreakBlockEvent(Player player, ArrayList<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
         this.blocks = blocks;
         this.tool = item;
+        this.explosiveTool = explosiveTool;
+    }
+
+    /**
+     * Gets the {@link Block} ArrayList of blocks destroyed in the event
+     *
+     */
+    @Nonnull
+    public ArrayList<Block> getBlocks() {
+        return this.blocks;
+    }
+
+    /**
+     * Gets the {@link ExplosiveTool} which triggered this event
+     *
+     */
+    @Nonnull
+    public ExplosiveTool getExplosiveTool() {
+        return this.explosiveTool;
     }
 
     /**
@@ -43,14 +63,7 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
         return this.tool;
     }
 
-    /**
-     * Gets the {@link Block} ArrayList of blocks destroyed in the event
-     *
-     */
-    @Nonnull
-    public ArrayList<Block> getBlocks() {
-        return this.blocks;
-    }
+
 
     @Override
     public boolean isCancelled() {
