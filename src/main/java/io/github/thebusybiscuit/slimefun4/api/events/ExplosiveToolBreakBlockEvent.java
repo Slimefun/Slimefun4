@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 
 /**
  * This {@link Event} is called when a {@link Block} is destroyed by an {@link ExplosiveTool}.
@@ -23,13 +24,13 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
     private static final HandlerList handlers = new HandlerList();
 
     private final ItemStack tool;
-    private final Block block;
+    private final ArrayList<Block> blocks;
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public ExplosiveToolBreakBlockEvent(Player player, Block block, ItemStack item) {
+    public ExplosiveToolBreakBlockEvent(Player player, ArrayList<Block> blocks, ItemStack item) {
         super(player);
-        this.block = block;
+        this.blocks = blocks;
         this.tool = item;
     }
 
@@ -43,12 +44,12 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
     }
 
     /**
-     * Gets the {@link Block} destroyed in the event
+     * Gets the {@link Block} ArrayList of blocks destroyed in the event
      *
      */
     @Nonnull
-    public Block getBlock() {
-        return this.block;
+    public ArrayList<Block> getBlocks() {
+        return this.blocks;
     }
 
     @Override

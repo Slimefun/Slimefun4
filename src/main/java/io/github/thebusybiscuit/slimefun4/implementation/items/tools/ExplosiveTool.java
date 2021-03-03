@@ -70,6 +70,8 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
 
     @ParametersAreNonnullByDefault
     private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, List<ItemStack> drops) {
+        ArrayList<Block> blocksToDestroy = new ArrayList<>();
+
         if (callExplosionEvent.getValue().booleanValue()) {
             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
@@ -77,26 +79,25 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             if (!blockExplodeEvent.isCancelled()) {
                 for (Block block : blockExplodeEvent.blockList()) {
                     if (canBreak(p, block)) {
-                        ExplosiveToolBreakBlockEvent event = new ExplosiveToolBreakBlockEvent(p, block, item);
-                        Bukkit.getServer().getPluginManager().callEvent(event);
-
-                        if (!event.isCancelled()) {
-                            breakBlock(p, item, block, drops);
-                        }
+                        blocksToDestroy.add(block);
                     }
                 }
             }
         } else {
             for (Block block : blocks) {
                 if (canBreak(p, block)) {
-                    ExplosiveToolBreakBlockEvent event = new ExplosiveToolBreakBlockEvent(p, block, item);
-                    Bukkit.getServer().getPluginManager().callEvent(event);
-
-                    if (!event.isCancelled()) {
-                        breakBlock(p, item, block, drops);
-                    }
+                    blocksToDestroy.add(block);
                 }
             }
+        }
+
+        ExplosiveToolBreakBlockEvent event = new ExplosiveToolBreakBlockEvent(p, blocksToDestroy, item);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()){
+            for (Block block : blocksToDestroy) {
+                breakBlock(p, item, block, drops);
+           }
         }
     }
 
