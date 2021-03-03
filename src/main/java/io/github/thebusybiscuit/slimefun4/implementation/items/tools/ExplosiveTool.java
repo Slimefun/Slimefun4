@@ -70,7 +70,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
 
     @ParametersAreNonnullByDefault
     private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, List<ItemStack> drops) {
-        ArrayList<Block> blocksToDestroy = new ArrayList<>();
+        List<Block> blocksToDestroy = new ArrayList<>();
 
         if (callExplosionEvent.getValue().booleanValue()) {
             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
