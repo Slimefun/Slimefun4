@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This {@link Event} is called when a {@link Block} is destroyed by an {@link ExplosiveTool}.
@@ -25,11 +25,11 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
 
     private final ItemStack tool;
     private final ExplosiveTool explosiveTool;
-    private final ArrayList<Block> blocks;
+    private final List<Block> blocks;
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public ExplosiveToolBreakBlockEvent(Player player, ArrayList<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
+    public ExplosiveToolBreakBlockEvent(Player player, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
         this.blocks = blocks;
         this.tool = item;
@@ -38,16 +38,14 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
 
     /**
      * Gets the {@link Block} ArrayList of blocks destroyed in the event
-     *
      */
     @Nonnull
-    public ArrayList<Block> getBlocks() {
+    public List<Block> getBlocks() {
         return this.blocks;
     }
 
     /**
      * Gets the {@link ExplosiveTool} which triggered this event
-     *
      */
     @Nonnull
     public ExplosiveTool getExplosiveTool() {
@@ -56,14 +54,11 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
 
     /**
      * Gets the {@link ItemStack} of the tool used to destroy this block
-     *
      */
     @Nonnull
     public ItemStack getTool() {
         return this.tool;
     }
-
-
 
     @Override
     public boolean isCancelled() {
@@ -72,7 +67,7 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
 
     @Override
     public void setCancelled(boolean b) {
-        this.cancelled = true;
+        this.cancelled = b;
     }
 
     @Nonnull
