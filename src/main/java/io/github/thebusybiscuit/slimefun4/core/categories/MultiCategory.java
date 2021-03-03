@@ -61,11 +61,13 @@ public class MultiCategory extends FlexCategory {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideMode mode) {
         return true;
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void open(Player p, PlayerProfile profile, SlimefunGuideMode mode) {
         openGuide(p, profile, mode, 1);
     }
