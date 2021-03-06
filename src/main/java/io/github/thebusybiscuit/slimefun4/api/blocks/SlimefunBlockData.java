@@ -25,6 +25,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class SlimefunBlockData extends AbstractDataObject {
 
+    @Nonnull
+    public static SlimefunBlockData empty() {
+        return EmptyBlockData.INSTANCE;
+    }
+
     /**
      * This creates a new {@link SlimefunBlockData} object.
      * It is initialized with an empty {@link HashMap}.

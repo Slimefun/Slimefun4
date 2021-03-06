@@ -104,7 +104,7 @@ public class SlimefunWorldData {
         this.isMarkedForCleanup = true;
     }
 
-    private void loadWorldData(@Nonnull BlockDataSource source) {
+    private synchronized void loadWorldData(@Nonnull BlockDataSource source) {
         SlimefunPlugin.logger().log(Level.INFO, "Loading data for World \"{0}\"", getName());
         SlimefunPlugin.logger().log(Level.INFO, "This may take a while...");
 
@@ -127,7 +127,7 @@ public class SlimefunWorldData {
     }
 
     public void save(@Nonnull BlockDataSource source) {
-        blocksLock.writeLock().lock();
+        blocksLock.readLock().lock();
 
         try {
             source.saveBlocks(this, blocks);
@@ -164,6 +164,21 @@ public class SlimefunWorldData {
 
         try {
             return blocks.get(BlockPosition.getAsLong(x, y, z));
+        } finally {
+            blocksLock.readLock().unlock();
+        }
+    }
+
+    @Nullable
+    public SlimefunBlockData getBlockData(@Nonnull BlockPosition blockPosition) {
+        if (!isLoaded) {
+            throw new IllegalStateException("World data has not been loaded yet. Check #isLoaded() before accessing this!");
+        }
+
+        blocksLock.readLock().lock();
+
+        try {
+            return blocks.get(blockPosition.getPosition());
         } finally {
             blocksLock.readLock().unlock();
         }
