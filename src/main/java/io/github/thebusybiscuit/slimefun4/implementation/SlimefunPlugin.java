@@ -667,9 +667,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         // Handle Slimefun Guide being given on Join
         new SlimefunGuideListener(this, config.getBoolean("guide.receive-on-first-join"));
 
-        // Load/Unload Worlds in Slimefun
-        new WorldListener(this);
-
         // Clear the Slimefun Guide History upon Player Leaving
         new PlayerProfileListener(this);
     }
