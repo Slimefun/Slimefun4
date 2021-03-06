@@ -14,8 +14,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 final class EmptyBlockData extends SlimefunBlockData {
 
-    static EmptyBlockData INSTANCE = new EmptyBlockData();
-
     EmptyBlockData() {
         super();
     }

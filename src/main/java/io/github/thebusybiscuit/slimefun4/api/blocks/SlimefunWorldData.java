@@ -171,6 +171,7 @@ public class SlimefunWorldData {
 
     @Nullable
     public SlimefunBlockData getBlockData(@Nonnull BlockPosition blockPosition) {
+        Validate.notNull(blockPosition, "The BlockPosition must not be null");
         if (!isLoaded) {
             throw new IllegalStateException("World data has not been loaded yet. Check #isLoaded() before accessing this!");
         }
