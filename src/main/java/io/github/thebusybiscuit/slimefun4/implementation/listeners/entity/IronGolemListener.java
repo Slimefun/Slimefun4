@@ -2,11 +2,13 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 
 import javax.annotation.Nonnull;
 
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -59,6 +61,15 @@ public class IronGolemListener implements Listener {
                         inv.setItemInOffHand(item);
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onIronGolemSpawn(CreatureSpawnEvent e) {
+        if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.BUILD_IRONGOLEM) {
+            if (BlockStorage.hasBlockInfo(e.getLocation().getBlock())) {
+                e.setCancelled(true);
             }
         }
     }
