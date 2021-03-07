@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang.Validate;
 
 import com.google.gson.GsonBuilder;
@@ -23,6 +24,8 @@ import com.google.gson.GsonBuilder;
  *
  */
 class AbstractDataObject {
+
+    protected static final Gson DEFAULT_GSON = new GsonBuilder().create();
 
     /**
      * The {@link ReadWriteLock} protects us from concurrent modifications.
@@ -56,7 +59,7 @@ class AbstractDataObject {
         this.data = data;
     }
 
-    public void markDirty(boolean isDirty) {
+    public synchronized void markDirty(boolean isDirty) {
         this.isDirty = isDirty;
     }
 
@@ -74,7 +77,7 @@ class AbstractDataObject {
                 data.remove(key);
                 markDirty(true);
             } finally {
-                lock.readLock().unlock();
+                lock.writeLock().unlock();
             }
         } else if (value instanceof String) {
             lock.writeLock().lock();
@@ -83,7 +86,7 @@ class AbstractDataObject {
                 data.put(key, (String) value);
                 markDirty(true);
             } finally {
-                lock.readLock().unlock();
+                lock.writeLock().unlock();
             }
         } else {
             throw new UnsupportedOperationException("Can't set \"" + key + "\" to \"" + value + "\" (type: " + value.getClass().getSimpleName() + ") because SlimefunBlockData only supports Strings");
@@ -126,10 +129,16 @@ class AbstractDataObject {
 
     @Nonnull
     public String toJSON() {
+        return toJSON(DEFAULT_GSON);
+    }
+
+    @Nonnull
+    public String toJSON(@Nonnull Gson gson) {
+        Validate.notNull(gson, "The provided gson instance cannot be null!");
         lock.readLock().lock();
 
         try {
-            return new GsonBuilder().create().toJson(data);
+            return gson.toJson(data);
         } finally {
             lock.readLock().unlock();
         }

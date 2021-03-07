@@ -12,7 +12,7 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  * @author TheBusyBiscuit
  *
  */
-class EmptyBlockData extends SlimefunBlockData {
+final class EmptyBlockData extends SlimefunBlockData {
 
     EmptyBlockData() {
         super();
