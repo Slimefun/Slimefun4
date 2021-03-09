@@ -78,18 +78,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generato
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.LavaGenerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.MagnesiumGenerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.SolarGenerator;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AnimalGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoAnvil;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBreeder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDrier;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.BookBinder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CarbonPress;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ChargingBench;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.CropGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricDustWasher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricFurnace;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.ElectricGoldPan;
@@ -104,11 +99,16 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.FoodFabricator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.Freezer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.HeatedPressureChamber;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.IronGolemAssembler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.Refinery;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.TreeGrowthAccelerator;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.WitherAssembler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.XPCollector;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.AnimalGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.CropGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.TreeGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.BookBinder;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.IronGolemAssembler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.WitherAssembler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.ExpCollector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.elevator.ElevatorPlate;
@@ -2291,7 +2291,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.CARBONADO, null, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.DIAMOND_AXE), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.MAGNESIUM_SALT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.MAGNESIUM_SALT})
         .register(plugin);
         
-        new XPCollector(categories.electricity, SlimefunItems.EXP_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ExpCollector(categories.electricity, SlimefunItems.EXP_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRONZE_INGOT})
         .register(plugin);
 

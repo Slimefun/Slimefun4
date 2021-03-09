@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
 import java.util.HashMap;
 import java.util.Map;
