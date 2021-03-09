@@ -1,0 +1,123 @@
+---
+slimefun:
+  multiblock:
+    name: Multiblock
+    lore:
+      '0': Bangun struktur yang ditunjukkan
+  enhanced_crafting_table:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+  armor_forge:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': menggunakan Penempa Baju Zirah
+  grind_stone:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': menggunakan Penggiling Batu
+  smeltery:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': menggunakan Kompor Pelebur
+  ore_crusher:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': menggunakan Penghancur Bijih
+  mob_drop:
+    name: Jatuhan Mob
+  compressor:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+  pressure_chamber:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Ruang Tekanan
+  ore_washer:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Pencuci Bijih
+  juicer:
+    lore:
+      '0': Buat jus ini seperti yang ditunjukkan
+      '1': gunakan Pembuat Jus
+  magic_workbench:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Meja Kerajinan Sihir
+  ancient_altar:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '2': Lihat Altar Kuno untuk info lebih lanjut
+  heated_pressure_chamber:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Ruang Bertekanan Panas
+  food_fabricator:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Mesin Perakit Makanan
+  food_composter:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Mesin Kompos Makanan
+  freezer:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Lemari Es
+  geo_miner:
+    lore:
+      '0': Barang ini bisa dikumpulkan
+      '1': gunakan Penambang GEO
+  nuclear_reactor:
+    lore:
+      '0': Barang ini adalah produk sampingan
+      '1': menjalankan Reaktor Nuklir
+  oil_pump:
+    name: Pompa Minyak
+    lore:
+      '0': Barang ini bisa dikumpulkan
+      '1': dengan menggunakan Pompa Minyak
+  pickaxe_of_containment:
+    name: Beliung Penahanan
+    lore:
+      '0': Blok ini bisa didapatkan
+      '1': dengan menambang Spawner dengan
+      '2': Beliung Penahanan
+  refinery:
+    name: Kilang Minyak
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': menggunakan Kilang Minyak
+minecraft:
+  shaped:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': di Meja Kerajinan biasa.
+      '2': Bentuk itu penting.
+  shapeless:
+    name: Resep Kerajinan Tidak Berbentuk
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': di Meja Kerajinan biasa.
+      '2': Resep ini tidak sesuai bentuk.
+  furnace:
+    lore:
+      '0': Lelehkan item ini di dalam Tungku
+      '1': untuk membuat barang yang kamu inginkan
+  blasting:
+    name: Lelehkan item ini di Tungku Peledak
+    lore:
+      '0': Lelehkan item ini di Tungku Peledak
+      '1': untuk membuat barang yang kamu inginkan
+  smoking:
+    lore:
+      '0': Lelehkan item ini di Mesin Pengasap
+      '1': untuk membuat barang yang kamu inginkan
+  campfire:
+    lore:
+      '0': Lelehkan item ini di Api Unggun
+      '1': untuk membuat barang yang kamu inginkan
+  stonecutting:
+    lore:
+      '0': Buat Item ini seperti yang ditunjukkan
+      '1': gunakan Pemahat Batu
