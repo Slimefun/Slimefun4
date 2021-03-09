@@ -4,9 +4,13 @@ slimefun:
     name: Multiblock
     lore:
       '0': Bangun struktur yang ditunjukkan
+      '1': seperti yang ditunjukkan. Bukan dibuat.
   enhanced_crafting_table:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
+      '1': di Meja Kerajinan Lanjutan
+      '2': Meja Kerajinan biasa tidak akan cukup!
+    name: Meja Kerajinan Lanjutan
   armor_forge:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
@@ -25,6 +29,9 @@ slimefun:
       '1': menggunakan Penghancur Bijih
   mob_drop:
     name: Jatuhan Mob
+    lore:
+      '0': Bunuh Mob tersebut untuk
+      '1': mendapatkan item ini
   compressor:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
@@ -48,6 +55,7 @@ slimefun:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '2': Lihat Altar Kuno untuk info lebih lanjut
+      '1': menggunakan Altar Kuno
   heated_pressure_chamber:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
@@ -60,6 +68,7 @@ slimefun:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Mesin Kompos Makanan
+    name: Komposter Makanan
   freezer:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
@@ -88,6 +97,10 @@ slimefun:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': menggunakan Kilang Minyak
+  gold_pan:
+    lore:
+      '0': Gunakan Wajan Emas untuk
+      '1': mendapatkan item ini
 minecraft:
   shaped:
     lore:
