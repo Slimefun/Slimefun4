@@ -118,6 +118,11 @@ slimefun:
       '0': Gunakan Wajan Emas untuk
       '1': mendapatkan item ini
     name: Wajan Emas
+  barter_drop:
+    name: Hasil Barter Piglin
+    lore:
+      '0': Barter dengan Piglins menggunakan
+      '1': Logam Emas untuk mendapatkan Benda ini
 minecraft:
   shaped:
     lore:
