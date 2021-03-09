@@ -51,6 +51,7 @@
 * Fixed some issues with the Book Binder
 * Fixed #2805
 * Fixed #2861
+* Fixed #2856
 
 ## Release Candidate 20 (30 Jan 2021)
 
