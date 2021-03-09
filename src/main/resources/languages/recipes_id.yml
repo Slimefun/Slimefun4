@@ -156,3 +156,8 @@ minecraft:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Pemahat Batu
     name: Resep Pemahat Batu
+  smithing:
+    name: Resep Meja Smithing
+    lore:
+      '0': Craft Item Ini Seperti Yang Telah Di Tunjukan
+      '1': menggunakan Smithing Table
