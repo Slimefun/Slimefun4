@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -81,11 +82,11 @@ class ItemFilter implements Predicate<ItemStack> {
         SlimefunItem item = SlimefunItem.getByID(id);
         BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 
-        if (item == null || menu == null) {
+        if (!(item instanceof CargoNode) || menu == null) {
             // Don't filter for a non-existing item (safety check)
             clear(false);
-        } else if (id.equals("CARGO_NODE_OUTPUT")) {
-            // Output Nodes have no filter, allow everything
+        } else if (((CargoNode) item).hasItemFilter()) {
+            // Node does not have a filter, allow everything
             clear(true);
         } else {
             this.items.clear();
