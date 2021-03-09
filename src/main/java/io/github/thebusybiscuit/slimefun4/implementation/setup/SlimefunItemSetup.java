@@ -110,7 +110,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.BookBinder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.IronGolemAssembler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.WitherAssembler;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.XPCollector;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.ExpCollector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.elevator.ElevatorPlate;
@@ -2293,7 +2293,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.CARBONADO, null, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.DIAMOND_AXE), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.MAGNESIUM_SALT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.MAGNESIUM_SALT})
         .register(plugin);
         
-        new XPCollector(categories.electricity, SlimefunItems.EXP_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ExpCollector(categories.electricity, SlimefunItems.EXP_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.ALUMINUM_BRONZE_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRONZE_INGOT})
         .register(plugin);
 

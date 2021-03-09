@@ -22,5 +22,4 @@ public class AutoEnchanter extends io.github.thebusybiscuit.slimefun4.implementa
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
-
 }

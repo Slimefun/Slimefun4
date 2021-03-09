@@ -51,7 +51,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -1201,7 +1200,7 @@ public class SlimefunItem implements Placeable {
      *            The handler
      */
     @Deprecated
-    public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
+    public static void registerBlockHandler(String id, me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler handler) {
         SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
     }
 

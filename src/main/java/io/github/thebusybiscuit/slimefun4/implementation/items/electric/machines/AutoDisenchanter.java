@@ -22,5 +22,4 @@ public class AutoDisenchanter extends io.github.thebusybiscuit.slimefun4.impleme
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
-
 }
