@@ -15,18 +15,22 @@ slimefun:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': menggunakan Penempa Baju Zirah
+    name: Penempa Baju Zirah
   grind_stone:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': menggunakan Penggiling Batu
+    name: Penggiling Batu
   smeltery:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': menggunakan Kompor Pelebur
+    name: Kompor Pelebur
   ore_crusher:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': menggunakan Penghancur Bijih
+    name: Penghancur Bijih
   mob_drop:
     name: Jatuhan Mob
     lore:
@@ -35,35 +39,44 @@ slimefun:
   compressor:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
+      '1': Gunakan Kompresor
+    name: Kompresor
   pressure_chamber:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Ruang Tekanan
+    name: Ruang Tekanan
   ore_washer:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Pencuci Bijih
+    name: Pencuci Bijih
   juicer:
     lore:
       '0': Buat jus ini seperti yang ditunjukkan
       '1': gunakan Pembuat Jus
+    name: Pembuat Jus
   magic_workbench:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Meja Kerajinan Sihir
+    name: Meja Kerajinan Sihir
   ancient_altar:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '2': Lihat Altar Kuno untuk info lebih lanjut
       '1': menggunakan Altar Kuno
+    name: Altar Kuno
   heated_pressure_chamber:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Ruang Bertekanan Panas
+    name: Ruang Bertekanan Panas
   food_fabricator:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Mesin Perakit Makanan
+    name: Mesin Perakit Makanan
   food_composter:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
@@ -73,14 +86,17 @@ slimefun:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Lemari Es
+    name: Lemari Es
   geo_miner:
     lore:
       '0': Barang ini bisa dikumpulkan
       '1': gunakan Penambang GEO
+    name: Penambang GEO
   nuclear_reactor:
     lore:
       '0': Barang ini adalah produk sampingan
       '1': menjalankan Reaktor Nuklir
+    name: Reaktor Nuklir
   oil_pump:
     name: Pompa Minyak
     lore:
@@ -101,12 +117,14 @@ slimefun:
     lore:
       '0': Gunakan Wajan Emas untuk
       '1': mendapatkan item ini
+    name: Wajan Emas
 minecraft:
   shaped:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': di Meja Kerajinan biasa.
       '2': Bentuk itu penting.
+    name: Resep Kerajinan Berbentuk
   shapeless:
     name: Resep Kerajinan Tidak Berbentuk
     lore:
@@ -117,6 +135,7 @@ minecraft:
     lore:
       '0': Lelehkan item ini di dalam Tungku
       '1': untuk membuat barang yang kamu inginkan
+    name: Resep Tungku Pembakaran
   blasting:
     name: Lelehkan item ini di Tungku Peledak
     lore:
@@ -126,11 +145,14 @@ minecraft:
     lore:
       '0': Lelehkan item ini di Mesin Pengasap
       '1': untuk membuat barang yang kamu inginkan
+    name: Mesin Pengasap
   campfire:
     lore:
       '0': Lelehkan item ini di Api Unggun
       '1': untuk membuat barang yang kamu inginkan
+    name: Resep Api Unggun
   stonecutting:
     lore:
       '0': Buat Item ini seperti yang ditunjukkan
       '1': gunakan Pemahat Batu
+    name: Resep Pemahat Batu
