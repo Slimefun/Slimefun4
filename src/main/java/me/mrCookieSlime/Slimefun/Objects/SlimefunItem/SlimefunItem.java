@@ -936,6 +936,7 @@ public class SlimefunItem implements Placeable {
      * 
      * @return Whether or not an {@link ItemHandler} was found.
      */
+    @ParametersAreNonnullByDefault
     public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
         Optional<ItemHandler> handler = itemhandlers.get(c);
 
@@ -1185,7 +1186,8 @@ public class SlimefunItem implements Placeable {
         return null;
     }
 
-    public static Set<ItemHandler> getPublicItemHandlers(Class<? extends ItemHandler> identifier) {
+    @Nonnull
+    public static Set<ItemHandler> getPublicItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
         return SlimefunPlugin.getRegistry().getPublicItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
@@ -1200,7 +1202,7 @@ public class SlimefunItem implements Placeable {
      *            The handler
      */
     @Deprecated
-    public static void registerBlockHandler(String id, me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler handler) {
+    public static void registerBlockHandler(@Nonnull String id, @Nullable me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler handler) {
         SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
     }
 
