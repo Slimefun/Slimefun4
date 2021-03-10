@@ -26,6 +26,7 @@
 #### Additions
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
 * Added an option to allow Talismans to send their notifications via the Actionbar
+* Added an option to enable/disable water in the nether via a crucible
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes
@@ -53,6 +54,7 @@
 * Fixed #2861
 * Fixed #2856
 * Fixed #2876
+* Fixed #2877
 
 ## Release Candidate 20 (30 Jan 2021)
 
