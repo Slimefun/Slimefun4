@@ -82,7 +82,7 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
                 Stream<Research> stream = profile.get().getResearches().stream();
                 return String.valueOf(stream.mapToInt(Research::getCost).sum());
             } else if (p instanceof Player) {
-                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
+                return getProfilePlaceholder((Player) p);
             }
         }
 
@@ -93,7 +93,7 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
                 Set<Research> set = profile.get().getResearches();
                 return String.valueOf(set.size());
             } else if (p instanceof Player) {
-                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
+                return getProfilePlaceholder((Player) p);
             }
         }
 
@@ -108,7 +108,7 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
                 Set<Research> set = profile.get().getResearches();
                 return String.valueOf(Math.round(((set.size() * 100.0F) / SlimefunPlugin.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
             } else if (p instanceof Player) {
-                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
+                return getProfilePlaceholder((Player) p);
             }
         }
 
@@ -118,7 +118,7 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
             if (profile.isPresent()) {
                 return profile.get().getTitle();
             } else if (p instanceof Player) {
-                return SlimefunPlugin.getLocalization().getMessage((Player) p, "placeholderapi.profile-loading");
+                return getProfilePlaceholder((Player) p);
             }
         }
 
@@ -136,6 +136,11 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
         }
 
         return null;
+    }
+
+    @Nonnull
+    private String getProfilePlaceholder(@Nonnull Player p) {
+        return SlimefunPlugin.getLocalization().getMessage(p, "placeholderapi.profile-loading");
     }
 
 }

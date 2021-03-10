@@ -417,19 +417,14 @@ public class BlockStorage {
      * @return the SlimefunItem's ItemStack corresponding to the block if it has one, otherwise null
      */
     @Nullable
-    public static ItemStack retrieve(Block block) {
-        if (!hasBlockInfo(block)) {
+    public static ItemStack retrieve(@Nonnull Block block) {
+        SlimefunItem item = check(block);
+
+        if (item == null) {
             return null;
         } else {
-            String id = getLocationInfo(block.getLocation(), "id");
-            SlimefunItem item = SlimefunItem.getByID(id);
             clearBlockInfo(block);
-
-            if (item == null) {
-                return null;
-            } else {
-                return item.getItem();
-            }
+            return item.getItem();
         }
     }
 
@@ -705,6 +700,11 @@ public class BlockStorage {
         return id == null ? null : SlimefunItem.getByID(id);
     }
 
+    public static boolean check(Block block, String slimefunItem) {
+        String id = checkID(block);
+        return id != null && id.equals(slimefunItem);
+    }
+
     @Nullable
     public static String checkID(@Nonnull Block b) {
         // Only access the BlockState when on the main thread
@@ -719,16 +719,8 @@ public class BlockStorage {
         return checkID(b.getLocation());
     }
 
-    public static boolean check(Block block, String slimefunItem) {
-        String id = checkID(block);
-        return id != null && id.equals(slimefunItem);
-    }
-
-    public static String checkID(Location l) {
-        if (!hasBlockInfo(l)) {
-            return null;
-        }
-
+    @Nullable
+    public static String checkID(@Nonnull Location l) {
         return getLocationInfo(l, "id");
     }
 
@@ -741,7 +733,7 @@ public class BlockStorage {
         return id != null && id.equals(slimefunItem);
     }
 
-    public static boolean isWorldLoaded(World world) {
+    public static boolean isWorldLoaded(@Nonnull World world) {
         return SlimefunPlugin.getRegistry().getWorlds().containsKey(world.getName());
     }
 

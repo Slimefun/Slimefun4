@@ -26,11 +26,14 @@
 #### Additions
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
 * Added an option to allow Talismans to send their notifications via the Actionbar
+* Added an option to enable/disable water in the nether via a crucible
 * Added /sf reload
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes
 * Deprecated Automatic Crafting Chamber
+* (API) Improvements to the BlockBreakHandler
+* (API) Deprecated SlimefunBlockHandler
 
 #### Fixes
 * Fixed #2794
@@ -42,6 +45,17 @@
 * Fixed #2817
 * Fixed exceptions with inventories not being printed using the logger of the addon that caused it
 * Fixed #2818
+* Fixed a duplication glitch with the Woodcutter Android
+* Fixed #2839
+* Fixed #2849
+* Fixed #2851
+* Fixed #2852
+* Fixed some issues with the Book Binder
+* Fixed #2805
+* Fixed #2861
+* Fixed #2856
+* Fixed #2876
+* Fixed #2877
 
 ## Release Candidate 20 (30 Jan 2021)
 
@@ -59,6 +73,8 @@
 
 #### Fixes
 * Fixed elevator floor order
+* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
+* Fixed #2560
 * Fixed #2449
 * Fixed #2511
 * Fixed #2636
@@ -88,6 +104,7 @@
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
+* General performance improvements
 * CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
 * Removed the deprecated ItemManipulationAPI for BlockMenus
 * Removed the "Written Book" variant of the Slimefun Guide

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -50,6 +52,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     protected final List<ItemStack> displayRecipes;
     protected final MultiBlock multiblock;
 
+    @ParametersAreNonnullByDefault
     public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, ItemStack[] machineRecipes, BlockFace trigger) {
         super(category, item, RecipeType.MULTIBLOCK, recipe);
         this.recipes = new ArrayList<>();
@@ -60,6 +63,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         registerDefaultRecipes(displayRecipes);
     }
 
+    @ParametersAreNonnullByDefault
     public MultiBlockMachine(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
         this(category, item, recipe, new ItemStack[0], trigger);
     }
@@ -142,17 +146,25 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
      *            The {@link Block} of our {@link Dispenser}
      * @param dispInv
      *            The {@link Inventory} of our {@link Dispenser}
+     * 
      * @return The target {@link Inventory}
      */
+    @Nullable
+    @ParametersAreNonnullByDefault
     protected Inventory findOutputInventory(ItemStack adding, Block dispBlock, Inventory dispInv) {
         return findOutputInventory(adding, dispBlock, dispInv, dispInv);
     }
 
+    @Nullable
+    @ParametersAreNonnullByDefault
     protected Inventory findOutputInventory(ItemStack product, Block dispBlock, Inventory dispInv, Inventory placeCheckerInv) {
         Inventory outputInv = findOutputChest(dispBlock, product);
 
-        // This if-clause will trigger if no suitable output chest was found. It's functionally the same as the old fit
-        // check for the dispenser, only refactored.
+        /*
+         * This if-clause will trigger if no suitable output chest was found.
+         * It's functionally the same as the old fit check for the dispenser,
+         * only refactored.
+         */
         if (outputInv == null && InvUtils.fits(placeCheckerInv, product)) {
             return dispInv;
         } else {
@@ -166,9 +178,9 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             Block potentialOutput = b.getRelative(face);
 
             if (potentialOutput.getType() == Material.CHEST) {
-                String id = BlockStorage.checkID(potentialOutput);
+                SlimefunItem slimefunItem = BlockStorage.check(potentialOutput);
 
-                if (id != null && id.equals("OUTPUT_CHEST")) {
+                if (slimefunItem instanceof OutputChest) {
                     // Found the output chest! Now, let's check if we can fit the product in it.
                     BlockState state = PaperLib.getBlockState(potentialOutput, false).getState();
 
@@ -187,7 +199,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     }
 
     @Nonnull
-    private static Material[] convertItemStacksToMaterial(ItemStack[] items) {
+    private static Material[] convertItemStacksToMaterial(@Nonnull ItemStack[] items) {
         List<Material> materials = new ArrayList<>();
 
         for (ItemStack item : items) {

@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -107,6 +107,9 @@ public class Translators {
         addTranslator("NihilistBrew", "ma1yang2", SupportedLanguage.SWEDISH, false);
         addTranslator("Tra-sh", "TurretTrash", SupportedLanguage.SWEDISH, true);
 
+        // Translators - Finnish
+        addTranslator("developer-pseudo", SupportedLanguage.FINNISH, true);
+
         // Translators - Dutch
         addTranslator("Dr4gonD", "DragonD", SupportedLanguage.DUTCH, true);
         addTranslator("svr333", SupportedLanguage.DUTCH, false);

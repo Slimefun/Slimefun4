@@ -41,17 +41,17 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDisenchanter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoEnchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -246,6 +246,13 @@ public class SlimefunItem implements Placeable {
         return recipe;
     }
 
+    /**
+     * This method returns the {@link RecipeType}.
+     * The {@link RecipeType} determines how this {@link SlimefunItem} is crafted.
+     * 
+     * @return The {@link RecipeType} of this {@link SlimefunItem}
+     */
+    @Nonnull
     public RecipeType getRecipeType() {
         return recipeType;
     }
@@ -932,6 +939,7 @@ public class SlimefunItem implements Placeable {
      * 
      * @return Whether or not an {@link ItemHandler} was found.
      */
+    @ParametersAreNonnullByDefault
     public <T extends ItemHandler> boolean callItemHandler(Class<T> c, Consumer<T> callable) {
         Optional<ItemHandler> handler = itemhandlers.get(c);
 
@@ -1161,12 +1169,16 @@ public class SlimefunItem implements Placeable {
             // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
             ItemStackWrapper wrapper = new ItemStackWrapper(item);
 
-            // Quite expensive performance-wise
-            // But necessary for supporting legacy items
+            /*
+             * Quite expensive performance-wise.
+             * But necessary for supporting legacy items
+             */
             for (SlimefunItem sfi : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
                 if (sfi.isItem(wrapper)) {
-                    // If we have to loop all items for the given item, then at least
-                    // set the id via PersistentDataAPI for future performance boosts
+                    /*
+                     * If we have to loop all items for the given item, then at least
+                     * set the id via PersistentDataAPI for future performance boosts
+                     */
                     SlimefunPlugin.getItemDataService().setItemData(item, sfi.getId());
 
                     return sfi;
@@ -1177,11 +1189,23 @@ public class SlimefunItem implements Placeable {
         return null;
     }
 
-    public static Set<ItemHandler> getPublicItemHandlers(Class<? extends ItemHandler> identifier) {
+    @Nonnull
+    public static Set<ItemHandler> getPublicItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
         return SlimefunPlugin.getRegistry().getPublicItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
     }
 
-    public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
+    /**
+     * This has been deprecated.
+     * 
+     * @deprecated Please use {@link #addItemHandler(ItemHandler...)} and {@link BlockBreakHandler} instead
+     * 
+     * @param id
+     *            The id
+     * @param handler
+     *            The handler
+     */
+    @Deprecated
+    public static void registerBlockHandler(@Nonnull String id, @Nullable me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler handler) {
         SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
     }
 
