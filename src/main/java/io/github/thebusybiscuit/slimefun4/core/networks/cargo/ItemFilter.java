@@ -89,15 +89,29 @@ class ItemFilter implements Predicate<ItemStack> {
             try {
                 CargoNode node = (CargoNode) item;
 
-                if (node.hasItemFilter()) {
+                if (!node.hasItemFilter()) {
                     // Node does not have a filter, allow everything
                     clear(true);
                 } else {
+                    int[] slots = CargoUtils.getFilteringSlots();
+                    int inventorySize = menu.toInventory().getSize();
+
+                    if (inventorySize < slots[slots.length - 1]) {
+                        /*
+                         * Related to #2876
+                         * The reason was a missing negation int he filtering statement above.
+                         * However if that ever happens again, we will know the reason and be able
+                         * to send a warning in response to it.
+                         */
+                        item.warn("Cargo Node was marked as a 'filtering' node but has an insufficient inventory size (" + inventorySize + ")");
+                        return;
+                    }
+
                     this.items.clear();
                     this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
                     this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
 
-                    for (int slot : CargoUtils.getFilteringSlots()) {
+                    for (int slot : slots) {
                         ItemStack stack = menu.getItemInSlot(slot);
 
                         if (stack != null && stack.getType() != Material.AIR) {

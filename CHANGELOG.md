@@ -52,6 +52,7 @@
 * Fixed #2805
 * Fixed #2861
 * Fixed #2856
+* Fixed #2876
 
 ## Release Candidate 20 (30 Jan 2021)
 
