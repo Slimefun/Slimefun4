@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveTool;
+import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -19,20 +20,25 @@ import java.util.List;
  * @author GallowsDove
  *
  */
-public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancellable {
+public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
-    private final ItemStack tool;
+    private final ItemStack itemInHand;
     private final ExplosiveTool explosiveTool;
     private final List<Block> blocks;
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public ExplosiveToolBreakBlockEvent(Player player, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
+    public ExplosiveToolBreakBlocksEvent(Player player, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
+
+        Validate.notNull(blocks, "Blocks cannot be null");
+        Validate.notNull(item, "Item cannot be null");
+        Validate.notNull(explosiveTool, "ExplosiveTool cannot be null");
+
         this.blocks = blocks;
-        this.tool = item;
+        this.itemInHand = item;
         this.explosiveTool = explosiveTool;
     }
 
@@ -56,8 +62,8 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
      * Gets the {@link ItemStack} of the tool used to destroy this block
      */
     @Nonnull
-    public ItemStack getTool() {
-        return this.tool;
+    public ItemStack getItemInHand() {
+        return this.itemInHand;
     }
 
     @Override
@@ -66,8 +72,8 @@ public class ExplosiveToolBreakBlockEvent extends PlayerEvent implements Cancell
     }
 
     @Override
-    public void setCancelled(boolean b) {
-        this.cancelled = b;
+    public void setCancelled(boolean cancel) {
+        this.cancelled = cancel;
     }
 
     @Nonnull
