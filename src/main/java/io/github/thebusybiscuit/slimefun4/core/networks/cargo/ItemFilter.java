@@ -85,20 +85,28 @@ class ItemFilter implements Predicate<ItemStack> {
         if (!(item instanceof CargoNode) || menu == null) {
             // Don't filter for a non-existing item (safety check)
             clear(false);
-        } else if (((CargoNode) item).hasItemFilter()) {
-            // Node does not have a filter, allow everything
-            clear(true);
         } else {
-            this.items.clear();
-            this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
-            this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
+            try {
+                CargoNode node = (CargoNode) item;
 
-            for (int slot : CargoUtils.getFilteringSlots()) {
-                ItemStack stack = menu.getItemInSlot(slot);
+                if (node.hasItemFilter()) {
+                    // Node does not have a filter, allow everything
+                    clear(true);
+                } else {
+                    this.items.clear();
+                    this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
+                    this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
 
-                if (stack != null && stack.getType() != Material.AIR) {
-                    this.items.add(new ItemStackWrapper(stack));
+                    for (int slot : CargoUtils.getFilteringSlots()) {
+                        ItemStack stack = menu.getItemInSlot(slot);
+
+                        if (stack != null && stack.getType() != Material.AIR) {
+                            this.items.add(new ItemStackWrapper(stack));
+                        }
+                    }
                 }
+            } catch (Exception | LinkageError x) {
+                item.error("Something went wrong while updating the ItemFilter for this cargo node.", x);
             }
         }
 
