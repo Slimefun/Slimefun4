@@ -67,6 +67,8 @@
 * Added Tier 3 Electric Ore Grinder
 
 #### Changes
+* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
+* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 * Massive performance improvements to holograms/armorstands
 * Slimefun no longer requires CS-CoreLib to be installed
 
