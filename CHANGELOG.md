@@ -26,11 +26,14 @@
 #### Additions
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
 * Added an option to allow Talismans to send their notifications via the Actionbar
+* (API) Added support for nested Categories
 * Added an option to enable/disable water in the nether via a crucible
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes
 * Deprecated Automatic Crafting Chamber
+* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
+* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 * (API) Improvements to the BlockBreakHandler
 * (API) Deprecated SlimefunBlockHandler
 
@@ -67,8 +70,6 @@
 * Added Tier 3 Electric Ore Grinder
 
 #### Changes
-* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
-* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 * Massive performance improvements to holograms/armorstands
 * Slimefun no longer requires CS-CoreLib to be installed
 
