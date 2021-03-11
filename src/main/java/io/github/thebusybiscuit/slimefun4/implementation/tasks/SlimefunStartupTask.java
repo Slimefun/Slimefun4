@@ -58,7 +58,7 @@ public class SlimefunStartupTask implements Runnable {
             }
         }
         
-        // Load/Unload Worlds, only after all plugins have started up.
+        // Load/Unload Worlds, only after all plugins have started up. Fixes #2862
         new WorldListener(this.plugin);
 
         // Only load this Listener if the corresponding items are enabled
