@@ -3,8 +3,10 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -39,7 +41,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see ExplosiveShovel
  *
  */
-class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPlaceable, DamageableItem {
+public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPlaceable, DamageableItem {
 
     private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
     private final ItemSetting<Boolean> callExplosionEvent = new ItemSetting<>("call-explosion-event", false);
@@ -51,6 +53,7 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
         addItemSetting(damageOnUse, callExplosionEvent);
     }
 
+    @Nonnull
     @Override
     public ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
@@ -67,6 +70,8 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
 
     @ParametersAreNonnullByDefault
     private void breakBlocks(Player p, ItemStack item, Block b, List<Block> blocks, List<ItemStack> drops) {
+        List<Block> blocksToDestroy = new ArrayList<>();
+
         if (callExplosionEvent.getValue().booleanValue()) {
             BlockExplodeEvent blockExplodeEvent = new BlockExplodeEvent(b, blocks, 0);
             Bukkit.getServer().getPluginManager().callEvent(blockExplodeEvent);
@@ -74,16 +79,25 @@ class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements NotPla
             if (!blockExplodeEvent.isCancelled()) {
                 for (Block block : blockExplodeEvent.blockList()) {
                     if (canBreak(p, block)) {
-                        breakBlock(p, item, block, drops);
+                        blocksToDestroy.add(block);
                     }
                 }
             }
         } else {
             for (Block block : blocks) {
                 if (canBreak(p, block)) {
-                    breakBlock(p, item, block, drops);
+                    blocksToDestroy.add(block);
                 }
             }
+        }
+
+        ExplosiveToolBreakBlocksEvent event = new ExplosiveToolBreakBlocksEvent(p, blocksToDestroy, item, this);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+
+        if (!event.isCancelled()) {
+            for (Block block : blocksToDestroy) {
+                breakBlock(p, item, block, drops);
+           }
         }
     }
 
