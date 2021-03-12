@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -41,6 +44,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
     private static final double RANGE = 1.5;
     private final Map<Material, List<Enchantment>> applicableEnchantments = new EnumMap<>(Material.class);
 
+    @ParametersAreNonnullByDefault
     public EnchantmentRune(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
@@ -48,7 +52,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
             List<Enchantment> enchantments = new ArrayList<>();
 
             for (Enchantment enchantment : Enchantment.values()) {
-                if (enchantment == Enchantment.BINDING_CURSE || enchantment == Enchantment.VANISHING_CURSE) {
+                if (enchantment.equals(Enchantment.BINDING_CURSE) || enchantment.equals(Enchantment.VANISHING_CURSE)) {
                     continue;
                 }
 
@@ -82,7 +86,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         };
     }
 
-    private void addRandomEnchantment(Player p, Item rune) {
+    private void addRandomEnchantment(@Nonnull Player p, @Nonnull Item rune) {
         // Being sure the entity is still valid and not picked up or whatsoever.
         if (!rune.isValid()) {
             return;
@@ -105,8 +109,18 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                 potentialEnchantments = new ArrayList<>(potentialEnchantments);
             }
 
-            // Removing the enchantments that the item already has from enchantmentSet
-            // This also removes any conflicting enchantments
+            SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+
+            // Fixes #2878 - Respect enchatability config setting.
+            if (slimefunItem != null && !slimefunItem.isEnchantable()) {
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.enchantment-rune.fail", true);
+                return;
+            }
+
+            /*
+             * Removing the enchantments that the item already has from enchantmentSet.
+             * This also removes any conflicting enchantments
+             */
             removeIllegalEnchantments(itemStack, potentialEnchantments);
 
             if (potentialEnchantments.isEmpty()) {
@@ -143,7 +157,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         }
     }
 
-    private int getRandomlevel(Enchantment enchantment) {
+    private int getRandomlevel(@Nonnull Enchantment enchantment) {
         int level = 1;
 
         if (enchantment.getMaxLevel() != 1) {
@@ -153,7 +167,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         return level;
     }
 
-    private void removeIllegalEnchantments(ItemStack target, List<Enchantment> potentialEnchantments) {
+    private void removeIllegalEnchantments(@Nonnull ItemStack target, @Nonnull List<Enchantment> potentialEnchantments) {
         for (Enchantment enchantment : target.getEnchantments().keySet()) {
             Iterator<Enchantment> iterator = potentialEnchantments.iterator();
 
@@ -168,7 +182,7 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
         }
     }
 
-    private boolean findCompatibleItem(Entity n) {
+    private boolean findCompatibleItem(@Nonnull Entity n) {
         if (n instanceof Item) {
             Item item = (Item) n;
 
