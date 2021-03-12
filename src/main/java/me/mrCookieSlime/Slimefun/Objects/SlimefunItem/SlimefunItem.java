@@ -1053,7 +1053,7 @@ public class SlimefunItem implements Placeable {
      * <li>The {@link Player} has the required {@link Permission} (if present)
      * <li>The {@link Player} has unlocked the required {@link Research} (if present)
      * </ul>
-     * <p>
+     * </p>
      * 
      * If any of these conditions evaluate to <code>false</code>, then an optional message will be
      * sent to the {@link Player}.

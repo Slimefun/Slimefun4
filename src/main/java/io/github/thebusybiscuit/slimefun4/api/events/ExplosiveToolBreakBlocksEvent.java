@@ -15,7 +15,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 /**
- * This {@link Event} is called when a {@link Block} is destroyed by an {@link ExplosiveTool}.
+ * This {@link Event} is called when an {@link ExplosiveTool} is used to break blocks.
  *
  * @author GallowsDove
  *
@@ -33,7 +33,7 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
     public ExplosiveToolBreakBlocksEvent(Player player, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
 
-        Validate.notNull(blocks, "Blocks cannot be null");
+        Validate.notEmpty(blocks, "Blocks cannot be null or empty");
         Validate.notNull(item, "Item cannot be null");
         Validate.notNull(explosiveTool, "ExplosiveTool cannot be null");
 
@@ -43,7 +43,9 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
     }
 
     /**
-     * Gets the {@link Block} ArrayList of blocks destroyed in the event
+     * Gets the {@link Block} {@link List} of blocks destroyed in this event.
+     * 
+     * @return The broken blocks
      */
     @Nonnull
     public List<Block> getBlocks() {
@@ -52,6 +54,8 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     /**
      * Gets the {@link ExplosiveTool} which triggered this event
+     * 
+     * @return the {@link ExplosiveTool} that was involved
      */
     @Nonnull
     public ExplosiveTool getExplosiveTool() {
@@ -60,6 +64,8 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     /**
      * Gets the {@link ItemStack} of the tool used to destroy this block
+     * 
+     * @return The {@link ItemStack} in the hand of the {@link Player}
      */
     @Nonnull
     public ItemStack getItemInHand() {

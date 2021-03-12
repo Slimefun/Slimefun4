@@ -83,22 +83,22 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
          */
         if (b.getType() == getGeneratedMaterial()) {
             switch (this) {
-            case COBBLESTONE_GENERATOR:
-                return hasSurroundingMaterials(b, Material.WATER, Material.LAVA);
-            case STONE_GENERATOR:
-                if (b.getRelative(BlockFace.UP).getType() == Material.LAVA) {
-                    return hasSurroundingMaterials(b, Material.WATER);
-                } else {
+                case COBBLESTONE_GENERATOR:
+                    return hasSurroundingMaterials(b, Material.WATER, Material.LAVA);
+                case STONE_GENERATOR:
+                    if (b.getRelative(BlockFace.UP).getType() == Material.LAVA) {
+                        return hasSurroundingMaterials(b, Material.WATER);
+                    } else {
+                        return false;
+                    }
+                case BASALT_GENERATOR:
+                    if (b.getRelative(BlockFace.DOWN).getType() == Material.SOUL_SOIL) {
+                        return hasSurroundingMaterials(b, Material.LAVA, Material.BLUE_ICE);
+                    } else {
+                        return false;
+                    }
+                default:
                     return false;
-                }
-            case BASALT_GENERATOR:
-                if (b.getRelative(BlockFace.DOWN).getType() == Material.SOUL_SOIL) {
-                    return hasSurroundingMaterials(b, Material.LAVA, Material.BLUE_ICE);
-                } else {
-                    return false;
-                }
-            default:
-                return false;
             }
         } else {
             return false;
@@ -138,10 +138,8 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      * There are a few plugins who catch these events to inject custom {@link Material Materials} into
      * Cobblestone Generators, so we wanna give them the oppurtunity to catch this as well.
      * 
-     * @param from
-     *            The {@link Block} where our liquid is coming from.
-     * @param to
-     *            The {@link Block} our liquid has flown to / solidified at.
+     * @param block
+     *            The {@link Block} where the liquid has solidified
      * 
      * @return Our called {@link BlockFormEvent}
      */
