@@ -19,7 +19,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineOperator;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.machines.FuelOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -39,7 +39,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
-public abstract class AGenerator extends AbstractEnergyProvider implements MachineOperator<FuelOperation> {
+public abstract class AGenerator extends AbstractEnergyProvider implements ProcessHolder<FuelOperation> {
 
     private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
     private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };

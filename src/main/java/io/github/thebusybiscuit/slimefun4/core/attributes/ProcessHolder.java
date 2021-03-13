@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 
-public interface MachineOperator<T extends MachineOperation> extends ItemAttribute {
+public interface ProcessHolder<T extends MachineOperation> extends ItemAttribute {
 
     /**
      * This method returns our {@link MachineProcessor} instance.

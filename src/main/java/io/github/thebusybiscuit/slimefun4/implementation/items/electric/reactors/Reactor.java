@@ -23,7 +23,7 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineOperator;
+import io.github.thebusybiscuit.slimefun4.core.attributes.ProcessHolder;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.FuelOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
@@ -59,7 +59,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * @see NetherStarReactor
  *
  */
-public abstract class Reactor extends AbstractEnergyProvider implements HologramOwner, MachineOperator<FuelOperation> {
+public abstract class Reactor extends AbstractEnergyProvider implements HologramOwner, ProcessHolder<FuelOperation> {
 
     private static final String MODE = "reactor-mode";
     private static final int INFO_SLOT = 49;
