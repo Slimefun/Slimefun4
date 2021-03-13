@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -72,6 +73,17 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     public SurvivalSlimefunGuide() {
         item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
+    }
+
+    /**
+     * This returns the {@link Sound} which is played when someone navigates through
+     * the {@link SlimefunGuide}
+     * 
+     * @return The {@link Sound}
+     */
+    @Nonnull
+    public Sound getSound() {
+        return sound;
     }
 
     @Override
@@ -222,11 +234,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         ChestMenu menu = create(p);
         createHeader(p, profile, menu);
 
-        menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + SlimefunPlugin.getLocalization().getMessage(p, "guide.back.guide"))));
-        menu.addMenuClickHandler(1, (pl, s, is, action) -> {
-            openMainMenu(profile, 1);
-            return false;
-        });
+        addBackButton(menu, 1, p, profile);
 
         int pages = (category.getItems().size() - 1) / CATEGORY_SIZE + 1;
 
@@ -550,7 +558,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
     }
 
-    protected void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
+    @ParametersAreNonnullByDefault
+    public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
+        Validate.notNull(p, "The Player cannot be null!");
+        Validate.notNull(profile, "The Profile cannot be null!");
+        Validate.notNull(menu, "The Inventory cannot be null!");
+
         for (int i = 0; i < 9; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }

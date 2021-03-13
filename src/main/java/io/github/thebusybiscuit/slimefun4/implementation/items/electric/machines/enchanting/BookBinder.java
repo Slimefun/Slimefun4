@@ -116,9 +116,10 @@ public class BookBinder extends AContainer {
         for (Map.Entry<Enchantment, Integer> entry : ech2.entrySet()) {
             for (Map.Entry<Enchantment, Integer> conflictsWith : enchantments.entrySet()) {
 
-                // Check if entry enchantment and conflictsWith enchantment conflict, and confirm that the enchantsments aren't the exact same.
+                // Check if entry enchantment and conflictsWith enchantment conflict, and confirm that the enchantsments
+                // aren't the exact same.
                 if (entry.getKey().conflictsWith(conflictsWith.getKey()) && !entry.getKey().equals(conflictsWith.getKey())) {
-                        conflicts = true;
+                    conflicts = true;
                 }
             }
 
@@ -127,9 +128,10 @@ public class BookBinder extends AContainer {
                     int enchantMaxLevel = entry.getKey().getMaxLevel();
 
                     if (a.intValue() == b.intValue()) {
-                        
-                        // Confirm the entry's enchant level doesn't go over the maximum unless it uses bypass-vanilla-max-level
-                        if (enchantMaxLevel <= a && !bypassVanillaMaxLevel.getValue()) { 
+
+                        // Confirm the entry's enchant level doesn't go over the maximum unless it uses
+                        // bypass-vanilla-max-level
+                        if (enchantMaxLevel <= a && !bypassVanillaMaxLevel.getValue()) {
                             return enchantMaxLevel;
                         } else if (hasCustomMaxLevel.getValue()) {
                             return a + 1 > customMaxLevel.getValue() ? customMaxLevel.getValue() : a + 1;
@@ -139,7 +141,8 @@ public class BookBinder extends AContainer {
                     } else {
                         int highestLevel = Math.max(a, b);
 
-                        // Confirm the entry's enchant level doesn't go over the maximum unless it uses bypass-vanilla-max-level
+                        // Confirm the entry's enchant level doesn't go over the maximum unless it uses
+                        // bypass-vanilla-max-level
                         if (enchantMaxLevel <= highestLevel && !bypassVanillaMaxLevel.getValue()) {
                             return enchantMaxLevel;
                         } else if (hasCustomMaxLevel.getValue()) {
