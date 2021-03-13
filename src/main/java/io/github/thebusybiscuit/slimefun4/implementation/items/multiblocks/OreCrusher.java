@@ -200,7 +200,7 @@ public class OreCrusher extends MultiBlockMachine {
         }
 
         @Override
-        public void reload() {
+        public boolean reload() {
             boolean isSuccessful = super.reload();
             apply(getValue());
             return isSuccessful;
