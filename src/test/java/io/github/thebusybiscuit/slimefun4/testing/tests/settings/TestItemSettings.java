@@ -37,17 +37,16 @@ class TestItemSettings {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ItemSetting<>("prematureInvocation", "Hello world").getValue());
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting());
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting((ItemSetting<String>) null));
-        Assertions.assertThrows(UnsupportedOperationException.class, () -> item.addItemSetting(new ItemSetting<>("test", "Hello World")));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> item.addItemSetting(new ItemSetting<>(item, "test", "Hello World")));
     }
 
     @Test
     @DisplayName("Test adding an Item Setting")
     void testAddItemSetting() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
-        ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
+        ItemSetting<String> setting = new ItemSetting<>(item, "test", "Hello World");
 
         Assertions.assertTrue(setting.isType(String.class));
         Assertions.assertFalse(setting.isType(Integer.class));
@@ -70,7 +69,7 @@ class TestItemSettings {
     @DisplayName("Test updating an Item Settings value")
     void testUpdateItemSetting() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST_3", new CustomItem(Material.DIAMOND, "&cTest"));
-        ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
+        ItemSetting<String> setting = new ItemSetting<>(item, "test", "Hello World");
 
         item.addItemSetting(setting);
         item.register(plugin);
@@ -87,7 +86,7 @@ class TestItemSettings {
     @DisplayName("Test Item Settings double-registration")
     void testAlreadyExistingItemSetting() {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
-        ItemSetting<String> setting = new ItemSetting<>("test", "Hello World");
+        ItemSetting<String> setting = new ItemSetting<>(item, "test", "Hello World");
 
         item.addItemSetting(setting);
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting(setting));

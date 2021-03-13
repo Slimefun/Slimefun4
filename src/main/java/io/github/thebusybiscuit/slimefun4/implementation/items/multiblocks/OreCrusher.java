@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -38,8 +39,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class OreCrusher extends MultiBlockMachine {
 
-    private final DoubleOreSetting doubleOres = new DoubleOreSetting();
+    private final DoubleOreSetting doubleOres = new DoubleOreSetting(this);
 
+    @ParametersAreNonnullByDefault
     public OreCrusher(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.IRON_BARS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.IRON_BARS) }, BlockFace.SELF);
 
@@ -167,8 +169,8 @@ public class OreCrusher extends MultiBlockMachine {
         private final ItemStack quartz = new ItemStack(Material.QUARTZ, 1);
         private final ItemStack goldNuggets = new ItemStack(Material.GOLD_NUGGET, 4);
 
-        public DoubleOreSetting() {
-            super("double-ores", true);
+        public DoubleOreSetting(@Nonnull OreCrusher oreCrusher) {
+            super(oreCrusher, "double-ores", true);
         }
 
         private void apply(boolean value) {
@@ -198,8 +200,8 @@ public class OreCrusher extends MultiBlockMachine {
         }
 
         @Override
-        public boolean load(SlimefunItem item) {
-            boolean isSuccessful = super.load(item);
+        public void reload() {
+            boolean isSuccessful = super.reload();
             apply(getValue());
             return isSuccessful;
         }

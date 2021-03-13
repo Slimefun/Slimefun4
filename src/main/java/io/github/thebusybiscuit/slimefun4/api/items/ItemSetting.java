@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
@@ -20,6 +21,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class ItemSetting<T> {
 
+    private SlimefunItem item;
+
     private final String key;
     private final T defaultValue;
 
@@ -28,18 +31,36 @@ public class ItemSetting<T> {
     /**
      * This creates a new {@link ItemSetting} with the given key and default value
      * 
+     * @param item
+     *            The {@link SlimefunItem} this {@link ItemSetting} belongs to
      * @param key
      *            The key under which this setting will be stored (relative to the {@link SlimefunItem})
      * @param defaultValue
      *            The default value for this {@link ItemSetting}
      */
     @ParametersAreNonnullByDefault
-    public ItemSetting(String key, T defaultValue) {
+    public ItemSetting(SlimefunItem item, String key, T defaultValue) {
         Validate.notNull(key, "The key of an ItemSetting is not allowed to be null!");
         Validate.notNull(defaultValue, "The default value of an ItemSetting is not allowed to be null!");
 
+        this.item = item;
         this.key = key;
         this.defaultValue = defaultValue;
+    }
+
+    /**
+     * This creates a new {@link ItemSetting} with the given key and default value
+     * 
+     * @deprecated Please use the other constructor.
+     * 
+     * @param key
+     *            The key under which this setting will be stored (relative to the {@link SlimefunItem})
+     * @param defaultValue
+     *            The default value for this {@link ItemSetting}
+     */
+    @Deprecated
+    public ItemSetting(String key, T defaultValue) {
+        this(null, key, defaultValue);
     }
 
     /**
@@ -90,9 +111,14 @@ public class ItemSetting<T> {
      */
     @Nonnull
     public T getValue() {
-        Validate.notNull(value, "ItemSetting '" + key + "' was invoked but was not initialized yet.");
-
-        return value;
+        if (value != null) {
+            return value;
+        } else if (item != null) {
+            item.warn("ItemSetting '" + key + "' was invoked but was not initialized yet.");
+            return defaultValue;
+        } else {
+            throw new IllegalStateException("ItemSetting '" + key + "' was invoked but was not initialized yet.");
+        }
     }
 
     /**
@@ -138,7 +164,7 @@ public class ItemSetting<T> {
      * @return Whether the value was successfully updated or misconfigured
      */
     @SuppressWarnings("unchecked")
-    public boolean load(@Nonnull SlimefunItem item) {
+    public boolean reload() {
         Validate.notNull(item, "Cannot apply settings for a non-existing SlimefunItem");
 
         Config config = SlimefunPlugin.getConfigManager().getItemsConfig();
@@ -183,6 +209,19 @@ public class ItemSetting<T> {
     public String toString() {
         T currentValue = this.value != null ? this.value : defaultValue;
         return getClass().getSimpleName() + " {" + getKey() + " = " + currentValue + " (default: " + getDefaultValue() + ")";
+    }
+
+    /**
+     * This is a temporary workaround and will be removed.
+     * 
+     * @deprecated Do not use this method!
+     * @param item
+     *            the item
+     */
+    @Deprecated
+    public void reload(@Nullable SlimefunItem item) {
+        this.item = item;
+        reload();
     }
 
 }
