@@ -151,7 +151,7 @@ public final class SlimefunConfigManager {
             try {
                 for (ItemSetting<?> setting : item.getItemSettings()) {
                     // Make sure that the setting was loaded properly
-                    if (!setting.load(item)) {
+                    if (!setting.reload()) {
                         isSuccessful = false;
                     }
                 }
