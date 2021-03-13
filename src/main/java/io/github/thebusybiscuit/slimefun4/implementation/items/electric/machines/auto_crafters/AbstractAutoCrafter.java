@@ -18,6 +18,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -110,7 +111,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             // Prevent blocks from being placed, food from being eaten, etc...
             e.cancel();
 
-            if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
+            if (!isValidChest(b.getRelative(BlockFace.DOWN))) {
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
+            } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
                 if (p.isSneaking()) {
                     // Select a new recipe
                     updateRecipe(b, p);
@@ -140,7 +143,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         Block chest = b.getRelative(BlockFace.DOWN);
 
         // Make sure this is a Chest
-        if (chest.getType() == Material.CHEST) {
+        if (isValidChest(chest)) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
             if (state instanceof InventoryHolder) {
@@ -154,6 +157,21 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 }
             }
         }
+    }
+
+    /**
+     * This method checks if the given {@link Block} is a valid {@link Chest}
+     * where the auto crafter could be placed upon.
+     * Right now this only supports {@code Material.CHEST} but it can change or
+     * be overridden in the future.
+     * 
+     * @param block
+     *            The {@link Block} to check
+     * 
+     * @return Whether that {@link Block} is a valid {@link Chest}
+     */
+    protected boolean isValidChest(@Nonnull Block block) {
+        return block.getType() == Material.CHEST;
     }
 
     /**
