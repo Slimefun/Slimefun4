@@ -37,7 +37,6 @@ class TestItemSettings {
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "ITEM_SETTINGS_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
         item.register(plugin);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ItemSetting<>(item, "prematureInvocation", "Hello world").getValue());
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting());
         Assertions.assertThrows(IllegalArgumentException.class, () -> item.addItemSetting((ItemSetting<String>) null));
         Assertions.assertThrows(UnsupportedOperationException.class, () -> item.addItemSetting(new ItemSetting<>(item, "test", "Hello World")));
