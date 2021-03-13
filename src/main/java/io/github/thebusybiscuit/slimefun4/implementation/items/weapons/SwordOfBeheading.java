@@ -37,11 +37,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 
-    private final ItemSetting<Integer> chanceZombie = new IntRangeSetting("chance.ZOMBIE", 0, 40, 100);
-    private final ItemSetting<Integer> chanceSkeleton = new IntRangeSetting("chance.SKELETON", 0, 40, 100);
-    private final ItemSetting<Integer> chanceWitherSkeleton = new IntRangeSetting("chance.WITHER_SKELETON", 0, 25, 100);
-    private final ItemSetting<Integer> chanceCreeper = new IntRangeSetting("chance.CREEPER", 0, 40, 100);
-    private final ItemSetting<Integer> chancePlayer = new IntRangeSetting("chance.PLAYER", 0, 70, 100);
+    private final ItemSetting<Integer> chanceZombie = new IntRangeSetting(this, "chance.ZOMBIE", 0, 40, 100);
+    private final ItemSetting<Integer> chanceSkeleton = new IntRangeSetting(this, "chance.SKELETON", 0, 40, 100);
+    private final ItemSetting<Integer> chanceWitherSkeleton = new IntRangeSetting(this, "chance.WITHER_SKELETON", 0, 25, 100);
+    private final ItemSetting<Integer> chanceCreeper = new IntRangeSetting(this, "chance.CREEPER", 0, 40, 100);
+    private final ItemSetting<Integer> chancePlayer = new IntRangeSetting(this, "chance.PLAYER", 0, 70, 100);
 
     @ParametersAreNonnullByDefault
     public SwordOfBeheading(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

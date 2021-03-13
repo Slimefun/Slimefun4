@@ -30,7 +30,7 @@ public class VampireBlade extends SlimefunItem {
 
     private static final double HEALING_AMOUNT = 4.0;
 
-    private final ItemSetting<Integer> chance = new IntRangeSetting("chance", 0, 45, 100);
+    private final ItemSetting<Integer> chance = new IntRangeSetting(this, "chance", 0, 45, 100);
 
     @ParametersAreNonnullByDefault
     public VampireBlade(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

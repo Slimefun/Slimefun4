@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.settings;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.enchantments.Enchantment;
 
@@ -14,14 +15,16 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListe
  * 
  * @author TheBusyBiscuit
  *
+ * @see MagicianTalisman
  */
 public class TalismanEnchantment extends ItemSetting<Boolean> {
 
     private final Enchantment enchantment;
     private final int level;
 
-    public TalismanEnchantment(@Nonnull Enchantment enchantment, int level) {
-        super("allow-enchantments." + enchantment.getKey().getNamespace() + '.' + enchantment.getKey().getKey() + ".level." + level, true);
+    @ParametersAreNonnullByDefault
+    public TalismanEnchantment(MagicianTalisman talisman, Enchantment enchantment, int level) {
+        super(talisman, "allow-enchantments." + enchantment.getKey().getNamespace() + '.' + enchantment.getKey().getKey() + ".level." + level, true);
 
         this.enchantment = enchantment;
         this.level = level;

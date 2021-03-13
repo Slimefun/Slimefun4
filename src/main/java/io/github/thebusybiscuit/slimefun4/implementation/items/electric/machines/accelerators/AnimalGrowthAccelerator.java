@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators;
 
 import org.bukkit.Particle;
 import org.bukkit.block.Block;

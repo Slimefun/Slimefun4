@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This variation of {@link ItemSetting} allows you to allow {@link Enum} constants to be
@@ -25,10 +26,15 @@ public class EnumSetting<T extends Enum<T>> extends ItemSetting<String> {
     private final Class<T> enumClass;
 
     @ParametersAreNonnullByDefault
-    public EnumSetting(String key, Class<T> enumClass, T defaultValue) {
-        super(key, defaultValue.name());
+    public EnumSetting(SlimefunItem item, String key, Class<T> enumClass, T defaultValue) {
+        super(item, key, defaultValue.name());
 
         this.enumClass = enumClass;
+    }
+
+    @Deprecated
+    public EnumSetting(String key, Class<T> enumClass, T defaultValue) {
+        this(null, key, enumClass, defaultValue);
     }
 
     @Nonnull

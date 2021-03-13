@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.misc;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
@@ -39,8 +41,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class StrangeNetherGoo extends SimpleSlimefunItem<ItemUseHandler> implements PiglinBarterDrop {
 
-    private final ItemSetting<Integer> chance = new IntRangeSetting("barter-chance", 0, 7, 100);
+    private final ItemSetting<Integer> chance = new IntRangeSetting(this, "barter-chance", 0, 7, 100);
 
+    @ParametersAreNonnullByDefault
     public StrangeNetherGoo(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 

@@ -31,8 +31,8 @@ public class ClimbableSurface extends DoubleRangeSetting {
      * @param defaultValue
      *            The default launch amount
      */
-    public ClimbableSurface(@Nonnull Material surface, double defaultValue) {
-        super("launch-amounts." + surface.name(), 0, defaultValue, Double.MAX_VALUE);
+    public ClimbableSurface(@Nonnull ClimbingPick climbingPick, @Nonnull Material surface, double defaultValue) {
+        super(climbingPick, "launch-amounts." + surface.name(), 0, defaultValue, Double.MAX_VALUE);
 
         this.type = surface;
     }
