@@ -37,6 +37,7 @@
 * Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 * (API) Improvements to the BlockBreakHandler
 * (API) Deprecated SlimefunBlockHandler
+* (API) Improved ItemSetting API and error handling
 
 #### Fixes
 * Fixed #2794
@@ -60,6 +61,7 @@
 * Fixed #2876
 * Fixed #2877
 * Fixed #2878
+* Fixed Mining Androids being broken
 
 ## Release Candidate 20 (30 Jan 2021)
 

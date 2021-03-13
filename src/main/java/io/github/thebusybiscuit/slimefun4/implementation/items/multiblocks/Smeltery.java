@@ -37,7 +37,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Smeltery extends AbstractSmeltery {
 
     private final BlockFace[] faces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
-    private final ItemSetting<Integer> fireBreakingChance = new IntRangeSetting("fire-breaking-chance", 0, 34, 100);
+    private final ItemSetting<Integer> fireBreakingChance = new IntRangeSetting(this, "fire-breaking-chance", 0, 34, 100);
 
     @ParametersAreNonnullByDefault
     public Smeltery(Category category, SlimefunItemStack item) {
