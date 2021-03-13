@@ -27,8 +27,7 @@ class ReloadCommand extends SubCommand {
             if (reloaded) {
                 if (isRestartRequired) {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "commands.reload.restart-required", true);
-                }
-                else {
+                } else {
                     SlimefunPlugin.getLocalization().sendMessage(sender, "commands.reload.success", true);
                 }
             } else {

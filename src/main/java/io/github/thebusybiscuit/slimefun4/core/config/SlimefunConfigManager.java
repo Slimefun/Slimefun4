@@ -54,16 +54,16 @@ public final class SlimefunConfigManager {
     private boolean isRestartRequired = false;
 
     // Various booleans we want to cache instead of re-parsing everytime
-    private boolean isBackwardsCompatibilityEnabled;
-    private boolean isResearchingEnabled;
-    private boolean isResearchingFreeInCreativeMode;
-    private boolean isResearchFireworkEnabled;
-    private boolean isDuplicateBlockLoggingEnabled;
-    private boolean isVanillaRecipeShowingEnabled;
-    private boolean isSlimefunGuideGivenOnJoin;
-    private boolean isUpdaterEnabled;
-    private boolean isTalismanMessageInActionbar;
-    private boolean isExcessCommandItemsDroppingEnabled;
+    private boolean enableBackwardsCompatibility;
+    private boolean enableResearching;
+    private boolean enableFreeCreativeResearches;
+    private boolean enableResearchFireworks;
+    private boolean enableDuplicateBlockLogging;
+    private boolean enableVanillaRecipesInGuide;
+    private boolean enableGuideOnJoin;
+    private boolean enableUpdater;
+    private boolean enableActionbarTalismanMessages;
+    private boolean enableCommandItemDropExcess;
 
     /**
      * This constructs a new {@link SlimefunConfigManager} for the given instance
@@ -109,16 +109,16 @@ public final class SlimefunConfigManager {
 
             researchesConfig.setDefaultValue("enable-researching", true);
 
-            isBackwardsCompatibilityEnabled = pluginConfig.getBoolean("options.backwards-compatibility");
-            isResearchingEnabled = researchesConfig.getBoolean("enable-researching");
-            isResearchingFreeInCreativeMode = pluginConfig.getBoolean("researches.free-in-creative-mode");
-            isResearchFireworkEnabled = pluginConfig.getBoolean("researches.enable-fireworks");
-            isDuplicateBlockLoggingEnabled = pluginConfig.getBoolean("options.log-duplicate-block-entries");
-            isVanillaRecipeShowingEnabled = pluginConfig.getBoolean("guide.show-vanilla-recipes");
-            isSlimefunGuideGivenOnJoin = pluginConfig.getBoolean("guide.receive-on-first-join");
-            isUpdaterEnabled = pluginConfig.getBoolean("options.auto-update");
-            isTalismanMessageInActionbar = pluginConfig.getBoolean("talismans.use-actionbar");
-            isExcessCommandItemsDroppingEnabled = pluginConfig.getBoolean("options.drop-excess-sf-give-items");
+            enableBackwardsCompatibility = pluginConfig.getBoolean("options.backwards-compatibility");
+            enableResearching = researchesConfig.getBoolean("enable-researching");
+            enableFreeCreativeResearches = pluginConfig.getBoolean("researches.free-in-creative-mode");
+            enableResearchFireworks = pluginConfig.getBoolean("researches.enable-fireworks");
+            enableDuplicateBlockLogging = pluginConfig.getBoolean("options.log-duplicate-block-entries");
+            enableVanillaRecipesInGuide = pluginConfig.getBoolean("guide.show-vanilla-recipes");
+            enableGuideOnJoin = pluginConfig.getBoolean("guide.receive-on-first-join");
+            enableUpdater = pluginConfig.getBoolean("options.auto-update");
+            enableActionbarTalismanMessages = pluginConfig.getBoolean("talismans.use-actionbar");
+            enableCommandItemDropExcess = pluginConfig.getBoolean("options.drop-excess-sf-give-items");
         } catch (Exception x) {
             plugin.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while (re)loading the config files for Slimefun v" + plugin.getDescription().getVersion());
             isSuccessful = false;
@@ -213,7 +213,7 @@ public final class SlimefunConfigManager {
      * @return Whether backwards compatibility is enabled
      */
     public boolean isBackwardsCompatible() {
-        return isBackwardsCompatibilityEnabled;
+        return enableBackwardsCompatibility;
     }
 
     /**
@@ -225,51 +225,51 @@ public final class SlimefunConfigManager {
      *            Whether backwards compatibility should be enabled
      */
     public void setBackwardsCompatible(boolean compatible) {
-        isBackwardsCompatibilityEnabled = compatible;
+        enableBackwardsCompatibility = compatible;
     }
 
     public void setResearchingEnabled(boolean enabled) {
-        isResearchingEnabled = enabled;
+        enableResearching = enabled;
     }
 
     public boolean isResearchingEnabled() {
-        return isResearchingEnabled;
+        return enableResearching;
     }
 
     public void setFreeCreativeResearchingEnabled(boolean enabled) {
-        isResearchingFreeInCreativeMode = enabled;
+        enableFreeCreativeResearches = enabled;
     }
 
     public boolean isFreeCreativeResearchingEnabled() {
-        return isResearchingFreeInCreativeMode;
+        return enableFreeCreativeResearches;
     }
 
     public boolean isResearchFireworkEnabled() {
-        return isResearchFireworkEnabled;
+        return enableResearchFireworks;
     }
 
     public boolean isDuplicateBlockLoggingEnabled() {
-        return isDuplicateBlockLoggingEnabled;
+        return enableDuplicateBlockLogging;
     }
 
     public boolean isVanillaRecipeShown() {
-        return isVanillaRecipeShowingEnabled;
+        return enableVanillaRecipesInGuide;
     }
 
     public boolean isSlimefunGuideGivenOnJoin() {
-        return isSlimefunGuideGivenOnJoin;
+        return enableGuideOnJoin;
     }
 
     public boolean isUpdaterEnabled() {
-        return isUpdaterEnabled;
+        return enableUpdater;
     }
 
     public boolean isTalismanMessageInActionbar() {
-        return isTalismanMessageInActionbar;
+        return enableActionbarTalismanMessages;
     }
 
     public boolean isExcessCommandItemsDroppingEnabled() {
-        return isExcessCommandItemsDroppingEnabled;
+        return enableCommandItemDropExcess;
     }
 
 }
