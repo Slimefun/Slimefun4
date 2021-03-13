@@ -120,21 +120,21 @@ public class IndustrialMiner extends MultiBlockMachine {
         Random random = ThreadLocalRandom.current();
 
         switch (ore) {
-        case COAL_ORE:
-            return new ItemStack(Material.COAL);
-        case DIAMOND_ORE:
-            return new ItemStack(Material.DIAMOND);
-        case EMERALD_ORE:
-            return new ItemStack(Material.EMERALD);
-        case NETHER_QUARTZ_ORE:
-            return new ItemStack(Material.QUARTZ);
-        case REDSTONE_ORE:
-            return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
-        case LAPIS_ORE:
-            return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
-        default:
-            // This includes Iron and Gold ore (and Ancient Debris)
-            return new ItemStack(ore);
+            case COAL_ORE:
+                return new ItemStack(Material.COAL);
+            case DIAMOND_ORE:
+                return new ItemStack(Material.DIAMOND);
+            case EMERALD_ORE:
+                return new ItemStack(Material.EMERALD);
+            case NETHER_QUARTZ_ORE:
+                return new ItemStack(Material.QUARTZ);
+            case REDSTONE_ORE:
+                return new ItemStack(Material.REDSTONE, 4 + random.nextInt(2));
+            case LAPIS_ORE:
+                return new ItemStack(Material.LAPIS_LAZULI, 4 + random.nextInt(4));
+            default:
+                // This includes Iron and Gold ore (and Ancient Debris)
+                return new ItemStack(ore);
         }
     }
 

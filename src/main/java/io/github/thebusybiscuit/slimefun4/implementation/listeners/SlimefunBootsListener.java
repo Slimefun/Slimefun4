@@ -23,7 +23,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.LongFallBoo
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoots;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * This {@link Listener} is responsible for handling all boots provided by
@@ -53,7 +52,7 @@ public class SlimefunBootsListener implements Listener {
             Player p = (Player) e.getEntity();
             SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
-            if (boots instanceof EnderBoots && Slimefun.hasUnlocked(p, boots, true)) {
+            if (boots instanceof EnderBoots && boots.canUse(p, true)) {
                 e.setCancelled(true);
             }
         }
@@ -65,7 +64,7 @@ public class SlimefunBootsListener implements Listener {
 
         if (boots != null) {
             // Check if the boots were researched
-            if (!Slimefun.hasUnlocked(p, boots, true)) {
+            if (!boots.canUse(p, true)) {
                 return;
             }
 
@@ -91,7 +90,7 @@ public class SlimefunBootsListener implements Listener {
                 Player p = e.getPlayer();
                 SlimefunItem boots = SlimefunItem.getByItem(p.getInventory().getBoots());
 
-                if (boots instanceof FarmerShoes && Slimefun.hasUnlocked(p, boots, true)) {
+                if (boots instanceof FarmerShoes && boots.canUse(p, true)) {
                     e.setCancelled(true);
                 }
             }

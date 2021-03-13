@@ -2,7 +2,7 @@
 slimefun:
   weapons: Wapens
   tools: Gereedschappen
-  items: Voorwerpen
+  items: Handige Voorwerpen
   food: Eten
   basic_machines: Standaard machines
   electricity: Energie en Elektriciteit
@@ -13,7 +13,7 @@ slimefun:
   misc: Diverse Voorwerpen
   technical_gadgets: Technische Gadgets
   resources: Grondstoffen
-  cargo: Cargobehering
+  cargo: Opslagbehering
   tech_misc: Technische Componenten
   magical_armor: Magische Bescherming
   talismans: Amuletten (Niveau I)

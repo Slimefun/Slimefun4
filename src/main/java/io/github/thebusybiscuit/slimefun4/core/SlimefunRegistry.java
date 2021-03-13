@@ -64,12 +64,14 @@ public final class SlimefunRegistry {
     private final List<String> researchRanks = new ArrayList<>();
     private final Set<UUID> researchingPlayers = Collections.synchronizedSet(new HashSet<>());
 
+    // TODO: Move this all into a proper "config cache" class
     private boolean backwardsCompatibility;
     private boolean automaticallyLoadItems;
     private boolean enableResearches;
     private boolean freeCreativeResearches;
     private boolean researchFireworks;
     private boolean logDuplicateBlockEntries;
+    private boolean talismanActionBarMessages;
 
     private final Set<String> tickers = new HashSet<>();
     private final Set<SlimefunItem> radioactive = new HashSet<>();
@@ -110,6 +112,7 @@ public final class SlimefunRegistry {
         freeCreativeResearches = cfg.getBoolean("researches.free-in-creative-mode");
         researchFireworks = cfg.getBoolean("researches.enable-fireworks");
         logDuplicateBlockEntries = cfg.getBoolean("options.log-duplicate-block-entries");
+        talismanActionBarMessages = cfg.getBoolean("talismans.use-actionbar");
     }
 
     /**
@@ -330,6 +333,7 @@ public final class SlimefunRegistry {
         return globalItemHandlers;
     }
 
+    @Deprecated
     @Nonnull
     public Map<String, SlimefunBlockHandler> getBlockHandlers() {
         return blockHandlers;
@@ -352,6 +356,10 @@ public final class SlimefunRegistry {
 
     public boolean logDuplicateBlockEntries() {
         return logDuplicateBlockEntries;
+    }
+
+    public boolean useActionbarForTalismans() {
+        return talismanActionBarMessages;
     }
 
     @Nonnull

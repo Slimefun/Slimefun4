@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 21 (TBD)](#release-candidate-21-tbd)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
 - [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
 - [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
@@ -20,6 +21,46 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 21 (TBD)
+
+#### Additions
+* Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
+* Added an option to allow Talismans to send their notifications via the Actionbar
+* (API) Added support for nested Categories
+* (API) Added ExplosiveToolBreakBlocksEvent
+* Added an option to enable/disable water in the nether via a crucible
+* /sf versions now shows the Java version and some useful tooltips
+
+#### Changes
+* Deprecated Automatic Crafting Chamber
+* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
+* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
+* (API) Improvements to the BlockBreakHandler
+* (API) Deprecated SlimefunBlockHandler
+
+#### Fixes
+* Fixed #2794
+* Fixed #2793
+* Fixed #2809
+* Fixed a small exception which gets thrown when Slimefun is disabled due to an invalid environment
+* Fixed #2810
+* Fixed #2804
+* Fixed #2817
+* Fixed exceptions with inventories not being printed using the logger of the addon that caused it
+* Fixed #2818
+* Fixed a duplication glitch with the Woodcutter Android
+* Fixed #2839
+* Fixed #2849
+* Fixed #2851
+* Fixed #2852
+* Fixed some issues with the Book Binder
+* Fixed #2805
+* Fixed #2861
+* Fixed #2856
+* Fixed #2876
+* Fixed #2877
+* Fixed #2878
+
 ## Release Candidate 20 (30 Jan 2021)
 
 #### Additions
@@ -36,6 +77,8 @@
 
 #### Fixes
 * Fixed elevator floor order
+* Fixed "block-explosions" (e.g. beds in Nether) not properly respecting explosion-resistant blocks
+* Fixed #2560
 * Fixed #2449
 * Fixed #2511
 * Fixed #2636
@@ -54,6 +97,7 @@
 * Fixed #2760
 * Fixed #2771
 * Fixed placeholders that did not get loaded yet not having a label
+* Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
 
@@ -64,6 +108,7 @@
 #### Changes
 * Performance optimizations for Cargo networks
 * Removed an old version of bStats
+* General performance improvements
 * CraftBukkit is officially no longer supported, Slimefun will now be disabled on old builds of CraftBukkit
 * Removed the deprecated ItemManipulationAPI for BlockMenus
 * Removed the "Written Book" variant of the Slimefun Guide

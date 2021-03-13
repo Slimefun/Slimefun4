@@ -138,29 +138,29 @@ public class BlockDataService implements Keyed {
         }
 
         switch (type) {
-        case PLAYER_HEAD:
-        case PLAYER_WALL_HEAD:
-        case CHEST:
-        case DISPENSER:
-        case BREWING_STAND:
-        case DROPPER:
-        case FURNACE:
-        case BLAST_FURNACE:
-        case HOPPER:
-        case LECTERN:
-        case JUKEBOX:
-        case ENDER_CHEST:
-        case ENCHANTING_TABLE:
-        case DAYLIGHT_DETECTOR:
-        case SMOKER:
-        case BARREL:
-        case SPAWNER:
-        case BEACON:
-            // All of the above Materials are Tile Entities
-            return true;
-        default:
-            // Otherwise we assume they're not Tile Entities
-            return false;
+            case PLAYER_HEAD:
+            case PLAYER_WALL_HEAD:
+            case CHEST:
+            case DISPENSER:
+            case BREWING_STAND:
+            case DROPPER:
+            case FURNACE:
+            case BLAST_FURNACE:
+            case HOPPER:
+            case LECTERN:
+            case JUKEBOX:
+            case ENDER_CHEST:
+            case ENCHANTING_TABLE:
+            case DAYLIGHT_DETECTOR:
+            case SMOKER:
+            case BARREL:
+            case SPAWNER:
+            case BEACON:
+                // All of the above Materials are Tile Entities
+                return true;
+            default:
+                // Otherwise we assume they're not Tile Entities
+                return false;
         }
     }
 

@@ -21,12 +21,15 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Processor;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.machines.MiningOperation;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+// github.com/Slimefun/Slimefun4.git
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -56,20 +59,10 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
         processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));
         createPreset(this, getItemName(), this::constructMenu);
-        addItemHandler(onPlace());
+        addItemHandler(onPlace(), onBreak());
 
-        registerBlockHandler(getId(), (p, b, stack, reason) -> {
-            removeHologram(b);
-
-            BlockMenu inv = BlockStorage.getInventory(b);
-
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), OUTPUT_SLOTS);
-            }
-
-            getMachineProcessor().removeOperation(b);
-            return true;
-        });
+        // Unregister the Block handler from AContainer (Fixes #2861)
+        registerBlockHandler(getId(), null);
     }
 
     @Override
@@ -84,6 +77,24 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
                 updateHologram(e.getBlock(), "&7Idling...");
+            }
+        };
+    }
+
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+        return new SimpleBlockBreakHandler() {
+
+            @Override
+            public void onBlockBreak(@Nonnull Block b) {
+                removeHologram(b);
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), OUTPUT_SLOTS);
+                }
+
+                processor.removeOperation(b);
             }
         };
     }

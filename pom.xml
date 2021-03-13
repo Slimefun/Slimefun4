@@ -18,7 +18,10 @@
     <url>https://github.com/Slimefun/Slimefun4</url>
 
     <properties>
+        <!-- UTF-8 is our standard encoding for source files -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Target Java 8 -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
@@ -34,68 +37,81 @@
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
-    <!-- Bug Tracker -->
     <issueManagement>
+        <!-- Bug Tracker -->
         <system>GitHub Issues</system>
         <url>https://github.com/Slimefun/Slimefun4/issues</url>
     </issueManagement>
 
-    <!-- License -->
     <licenses>
         <license>
+            <!-- License -->
             <name>GNU General Public License v3.0</name>
             <url>https://github.com/Slimefun/Slimefun4/blob/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
-    <!-- The repositories which host our dependencies -->
+    <!-- Repositories that host our dependencies -->
+    <!-- Well, any that aren't found on maven-central. -->
     <repositories>
         <repository>
+            <!-- Spigot-API -->
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
         </repository>
         <repository>
+            <!-- PaperLib -->
             <id>paper-repo</id>
             <url>https://papermc.io/repo/repository/maven-public</url>
         </repository>
         <repository>
+            <!-- CS-CoreLib2, ItemsAdder -->
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
         <repository>
+            <!-- WorldEdit -->
             <id>worldedit-repo</id>
             <url>https://maven.sk89q.com/repo</url>
         </repository>
         <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-        <repository>
+            <!-- PlaceholderAPI -->
             <id>placeholderapi-repo</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi</url>
         </repository>
         <repository>
+            <!-- mcMMO -->
+            <id>mcmmo-repo</id>
+            <url>https://nexus.neetgames.com/repository/maven-public</url>
+        </repository>
+        <repository>
+            <!-- ClearLag -->
             <id>walshy-public</id>
             <url>https://repo.walshy.dev/public</url>
         </repository>
     </repositories>
 
-    <!-- Build settings -->
     <build>
+        <!-- /src/main/java/ contains all sources (production code) -->
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+
+        <!-- /src/test/java/ contains all unit tests (testing code) -->
         <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+
+        <!-- The default goal for compiling is "clean package" -->
         <defaultGoal>clean package</defaultGoal>
 
         <!-- The name of the final jar -->
         <finalName>${project.name} v${project.version}</finalName>
 
         <plugins>
-            <!-- Compiler plugin -->
             <plugin>
+                <!-- Compiler plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
+
                 <configuration>
                     <excludes>
                         <!-- package info files are only important for Javadocs -->
@@ -105,8 +121,8 @@
                 </configuration>
             </plugin>
 
-            <!-- Attach sources -->
             <plugin>
+                <!-- Attach sources -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.1</version>
@@ -121,8 +137,8 @@
                 </executions>
             </plugin>
 
-            <!-- Plugin for Unit Tests -->
             <plugin>
+                <!-- Plugin for Unit Tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
@@ -133,15 +149,15 @@
                 </configuration>
             </plugin>
 
-            <!-- Sonarcloud Scanner -->
             <plugin>
+                <!-- Sonarcloud Scanner -->
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.8.0.2131</version>
             </plugin>
 
-            <!-- Code Coverage Reports -->
             <plugin>
+                <!-- Code Coverage Reports -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.6</version>
@@ -166,8 +182,8 @@
                 </executions>
             </plugin>
 
-            <!-- Dependency shading -->
             <plugin>
+                <!-- Dependency shading -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
@@ -210,8 +226,8 @@
                 </executions>
             </plugin>
 
-            <!-- Javadocs Settings -->
             <plugin>
+                <!-- Javadocs -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
@@ -225,8 +241,8 @@
                     <detectOfflineLinks>false</detectOfflineLinks>
                     <additionalJOption>-html5</additionalJOption>
 
-                    <!-- We can reference the Spigot API in our Javadocs -->
                     <links>
+                        <!-- We can reference the Spigot API in our Javadocs -->
                         <link>${spigot.javadocs}</link>
                     </links>
 
@@ -315,14 +331,21 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.7.0</version>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.8.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.21.0</version>
+            <version>0.31.0</version>
             <scope>test</scope>
+
             <exclusions>
                 <exclusion>
                     <!-- We use javax.annotation instead. Excluding this -->
@@ -332,18 +355,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.7.7</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Shaded packages -->
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.29.6</version>
+            <version>0.30.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -355,10 +372,12 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.11.10</version>
+            <version>3.11.11</version>
             <scope>compile</scope>
+
             <exclusions>
                 <exclusion>
+                    <!-- No need to shade Gson, Spigot does that already -->
                     <groupId>com.google.code.gson</groupId>
                     <artifactId>gson</artifactId>
                 </exclusion>
@@ -368,47 +387,42 @@
         <!-- Third party plugin integrations / soft dependencies -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.2</version>
+            <artifactId>worldedit-core</artifactId>
+            <version>7.2.3</version>
             <scope>provided</scope>
+
             <exclusions>
                 <exclusion>
-                    <!-- This one is ignored because it pops up everytime -->
-                    <!-- I try to import File... yes, I want java.io.File -->
-                    <groupId>de.schlichtherle</groupId>
-                    <artifactId>truezip</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.2.4</version>
+            <scope>provided</scope>
+
+            <exclusions>
                 <exclusion>
-                    <groupId>net.java.truevfs</groupId>
-                    <artifactId>truevfs-profile-default_2.13</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.173</version>
+            <version>2.1.181</version>
             <scope>provided</scope>
+
             <exclusions>
                 <exclusion>
-                    <!-- We use javax.annotation instead. Excluding this -->
-                    <!-- prevents us from using inconsistent annotations -->
-                    <groupId>org.jetbrains</groupId>
-                    <artifactId>annotations</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sk89q.worldguard</groupId>
-                    <artifactId>worldguard-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sk89q.worldguard</groupId>
-                    <artifactId>worldguard-legacy</artifactId>
-                </exclusion>
-                <exclusion>
-                    <!-- We do not want to use the wrong TextComponents by -->
-                    <!-- accident. If we use adventure, then we will add -->
-                    <!-- it ourselves. -->
-                    <groupId>net.kyori</groupId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
@@ -418,12 +432,12 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.10.9</version>
             <scope>provided</scope>
+
             <exclusions>
                 <exclusion>
-                    <!-- We use javax.annotation instead. Excluding this -->
-                    <!-- prevents us from using inconsistent annotations -->
-                    <groupId>org.jetbrains</groupId>
-                    <artifactId>annotations</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -432,18 +446,26 @@
             <artifactId>clearlag-core</artifactId>
             <version>3.1.6</version>
             <scope>provided</scope>
+
+            <exclusions>
+                <exclusion>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.LoneDev6</groupId>
             <artifactId>itemsadder-api</artifactId>
-            <version>2.1.25</version>
+            <version>2.2.1</version>
             <scope>provided</scope>
+
             <exclusions>
                 <exclusion>
-                    <!-- We use javax.annotation instead. Excluding this -->
-                    <!-- prevents us from using inconsistent annotations -->
-                    <groupId>org.jetbrains</groupId>
-                    <artifactId>annotations</artifactId>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

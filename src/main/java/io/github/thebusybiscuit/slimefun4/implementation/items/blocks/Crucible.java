@@ -8,8 +8,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
@@ -19,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -30,14 +33,26 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
+/**
+ * The {@link Crucible} is a machine which turns blocks into liquids.
+ * It is a very reliable source of lava and water.
+ * The liquids will accumulate over time above the machine.
+ * 
+ * @author TheBusyBiscuit
+ * @author Sfiguz7
+ *
+ */
 public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements RecipeDisplayItem {
 
+    private final ItemSetting<Boolean> allowWaterInNether = new ItemSetting<>("allow-water-in-nether", false);
     private final List<ItemStack> recipes;
 
+    @ParametersAreNonnullByDefault
     public Crucible(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         recipes = getMachineRecipes();
+        addItemSetting(allowWaterInNether);
     }
 
     @Override
@@ -45,6 +60,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         return recipes;
     }
 
+    @Nonnull
     private List<ItemStack> getMachineRecipes() {
         List<ItemStack> items = new LinkedList<>();
 
@@ -113,11 +129,11 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     @ParametersAreNonnullByDefault
     private boolean craft(Player p, ItemStack input) {
         for (int i = 0; i < recipes.size(); i += 2) {
-            ItemStack convert = recipes.get(i);
+            ItemStack catalyst = recipes.get(i);
 
-            if (SlimefunUtils.isItemSimilar(input, convert, true)) {
+            if (SlimefunUtils.isItemSimilar(input, catalyst, true)) {
                 ItemStack removing = input.clone();
-                removing.setAmount(convert.getAmount());
+                removing.setAmount(catalyst.getAmount());
                 p.getInventory().removeItem(removing);
 
                 return true;
@@ -127,15 +143,31 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         return false;
     }
 
-    private void generateLiquid(@Nonnull Block block, boolean water) {
-        if (block.getType() == (water ? Material.WATER : Material.LAVA)) {
-            addLiquidLevel(block, water);
-        } else if (block.getType() == (water ? Material.LAVA : Material.WATER)) {
+    /**
+     * This method starts the process of generating liquids.
+     * 
+     * @param block
+     *            The {@link Block} where to generate the liquid
+     * @param isWater
+     *            Whether we generate water or lava.
+     */
+    private void generateLiquid(@Nonnull Block block, boolean isWater) {
+        // Fixes #2877 - If water in the nether is disabled, abort and play an effect.
+        if (isWater && block.getWorld().getEnvironment() == Environment.NETHER && !allowWaterInNether.getValue()) {
+            // We will still consume the items but won't generate water in the Nether.
+            block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getLocation().add(0.5, 0.5, 0.5), 4);
+            block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
+            return;
+        }
+
+        if (block.getType() == (isWater ? Material.WATER : Material.LAVA)) {
+            addLiquidLevel(block, isWater);
+        } else if (block.getType() == (isWater ? Material.LAVA : Material.WATER)) {
             int level = ((Levelled) block.getBlockData()).getLevel();
             block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
             block.getWorld().playSound(block.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F);
         } else {
-            SlimefunPlugin.runSync(() -> placeLiquid(block, water), 50L);
+            SlimefunPlugin.runSync(() -> placeLiquid(block, isWater), 50L);
         }
     }
 

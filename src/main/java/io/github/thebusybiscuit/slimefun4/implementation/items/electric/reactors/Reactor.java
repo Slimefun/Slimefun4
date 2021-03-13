@@ -24,10 +24,12 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Processor;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.FuelOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.ReactorAccessPort;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -73,7 +75,6 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     private static final int[] border_4 = { 25, 34, 43 };
 
     private final Set<Location> explosionsQueue = new HashSet<>();
-
     private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>();
 
     @ParametersAreNonnullByDefault
@@ -109,26 +110,33 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
             }
         };
 
-        registerBlockHandler(getId(), (p, b, tool, reason) -> {
-            BlockMenu inv = BlockStorage.getInventory(b);
-
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getFuelSlots());
-                inv.dropItems(b.getLocation(), getCoolantSlots());
-                inv.dropItems(b.getLocation(), getOutputSlots());
-            }
-
-            processor.removeOperation(b);
-            removeHologram(b);
-            return true;
-        });
-
+        addItemHandler(onBreak());
         registerDefaultFuelTypes();
     }
 
     @Override
     public MachineProcessor<FuelOperation> getMachineProcessor() {
         return processor;
+    }
+
+    @Nonnull
+    private BlockBreakHandler onBreak() {
+        return new SimpleBlockBreakHandler() {
+
+            @Override
+            public void onBlockBreak(@Nonnull Block b) {
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), getFuelSlots());
+                    inv.dropItems(b.getLocation(), getCoolantSlots());
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
+
+                processor.removeOperation(b);
+                removeHologram(b);
+            }
+        };
     }
 
     protected void updateInventory(@Nonnull BlockMenu menu, @Nonnull Block b) {

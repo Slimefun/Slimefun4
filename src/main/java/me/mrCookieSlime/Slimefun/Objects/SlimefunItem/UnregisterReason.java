@@ -10,9 +10,12 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
  *
  * @author TheBusyBiscuit
  * 
+ * @deprecated This enum is no longer needed
+ * 
  * @see SlimefunBlockHandler
  * 
  */
+@Deprecated
 public enum UnregisterReason {
 
     /**

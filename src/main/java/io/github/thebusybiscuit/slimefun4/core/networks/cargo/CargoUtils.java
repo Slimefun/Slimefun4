@@ -68,19 +68,19 @@ final class CargoUtils {
         Material type = block.getType();
 
         switch (type) {
-        case CHEST:
-        case TRAPPED_CHEST:
-        case FURNACE:
-        case DISPENSER:
-        case DROPPER:
-        case HOPPER:
-        case BREWING_STAND:
-        case BARREL:
-        case BLAST_FURNACE:
-        case SMOKER:
-            return true;
-        default:
-            return SlimefunTag.SHULKER_BOXES.isTagged(type);
+            case CHEST:
+            case TRAPPED_CHEST:
+            case FURNACE:
+            case DISPENSER:
+            case DROPPER:
+            case HOPPER:
+            case BREWING_STAND:
+            case BARREL:
+            case BLAST_FURNACE:
+            case SMOKER:
+                return true;
+            default:
+                return SlimefunTag.SHULKER_BOXES.isTagged(type);
         }
     }
 
@@ -240,11 +240,11 @@ final class CargoUtils {
         int maxSlot = range[1];
 
         for (int slot = minSlot; slot < maxSlot; slot++) {
-            ItemStack is = contents[slot];
+            ItemStack item = contents[slot];
 
-            if (matchesFilter(network, node, is)) {
+            if (matchesFilter(network, node, item)) {
                 inv.setItem(slot, null);
-                return new ItemStackAndInteger(is, slot);
+                return new ItemStackAndInteger(item, slot);
             }
         }
 

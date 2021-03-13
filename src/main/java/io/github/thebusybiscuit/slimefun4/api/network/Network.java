@@ -79,6 +79,7 @@ public abstract class Network {
      * 
      * @param l
      *            The {@link Location} to classify
+     * 
      * @return The assigned type of {@link NetworkComponent} for this {@link Location}
      */
     @Nullable

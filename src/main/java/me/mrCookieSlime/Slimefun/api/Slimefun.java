@@ -1,18 +1,15 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import java.util.Optional;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * Provides a few static convenience methods.
+ * This class is slowly getting stripped away in favour of a more object-oriented approach.
  *
  * @author TheBusyBiscuit
  * @author Walshy
@@ -31,19 +28,17 @@ public final class Slimefun {
      *            the item to check, not null
      * @param message
      *            whether a message should be sent to the player or not
+     * 
+     * @deprecated Moved to
+     *             {@link SlimefunUtils#canPlayerUseItem(Player, ItemStack, boolean)}
      *
      * @return <code>true</code> if the item is a SlimefunItem, enabled, researched and if the player has the permission
      *         to use it,
      *         <code>false</code> otherwise.
      */
+    @Deprecated
     public static boolean hasUnlocked(Player p, ItemStack item, boolean message) {
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
-
-        if (sfItem != null) {
-            return hasUnlocked(p, sfItem, message);
-        } else {
-            return true;
-        }
+        return SlimefunUtils.canPlayerUseItem(p, item, message);
     }
 
     /**
@@ -55,39 +50,15 @@ public final class Slimefun {
      *            the item to check, not null
      * @param message
      *            whether a message should be sent to the player or not
+     * 
+     * @deprecated Please use {@link SlimefunItem#canUse(Player, boolean)} instead.
      *
      * @return <code>true</code> if the item is enabled, researched and the player has the permission to use it,
      *         <code>false</code> otherwise.
      */
+    @Deprecated
     public static boolean hasUnlocked(Player p, SlimefunItem sfItem, boolean message) {
-        if (sfItem.getState() == ItemState.VANILLA_FALLBACK) {
-            return true;
-        }
-
-        if (isEnabled(p, sfItem, message) && hasPermission(p, sfItem, message)) {
-            if (sfItem.getResearch() == null) {
-                return true;
-            } else {
-                Optional<PlayerProfile> profile = PlayerProfile.find(p);
-
-                if (!profile.isPresent()) {
-                    // We will return false since we cannot know the answer yet
-                    // But we will schedule the Profile for loading.
-                    PlayerProfile.request(p);
-                    return false;
-                } else if (profile.get().hasUnlocked(sfItem.getResearch())) {
-                    return true;
-                } else {
-                    if (message && !(sfItem instanceof VanillaItem)) {
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.not-researched", true);
-                    }
-
-                    return false;
-                }
-            }
-        }
-
-        return false;
+        return sfItem.canUse(p, message);
     }
 
     /**
@@ -126,10 +97,13 @@ public final class Slimefun {
      *            the item to check, not null
      * @param message
      *            whether a message should be sent to the player or not
+     * 
+     * @deprecated This method will be removed.
      *
      * @return <code>true</code> if the item is a SlimefunItem and is enabled in the world the player is in,
      *         <code>false</code> otherwise.
      */
+    @Deprecated
     public static boolean isEnabled(Player p, ItemStack item, boolean message) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
