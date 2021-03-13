@@ -23,11 +23,24 @@ public class MachineProcessor<T extends MachineOperation> {
     private final Map<BlockPosition, T> machines = new HashMap<>();
     private ItemStack progressBar;
 
+    /**
+     * This returns the progress bar icon for this {@link MachineProcessor}
+     * or null if no progress bar was set.
+     * 
+     * @return The progress bar icon or null
+     */
     @Nullable
     public ItemStack getProgressBar() {
         return progressBar;
     }
 
+    /**
+     * This sets the progress bar icon for this {@link MachineProcessor}.
+     * You can also set it to null to clear the progress bar.
+     * 
+     * @param progressBar
+     *            An {@link ItemStack} or null
+     */
     public void setProgressBar(@Nullable ItemStack progressBar) {
         this.progressBar = progressBar;
     }
