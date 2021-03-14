@@ -26,8 +26,8 @@ import java.util.Map;
 
 public class AutoEnchanter extends AContainer {
 
-    private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>("use-enchant-level-limit", false);
-    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting("enchant-level-limit", 0, 10, Short.MAX_VALUE);
+    private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
+    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
