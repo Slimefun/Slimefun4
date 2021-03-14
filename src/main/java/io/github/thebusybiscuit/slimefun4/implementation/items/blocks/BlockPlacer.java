@@ -53,7 +53,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class BlockPlacer extends SlimefunItem {
 
-    private final ItemSetting<List<String>> unplaceableBlocks = new MaterialTagSetting("unplaceable-blocks", SlimefunTag.UNBREAKABLE_MATERIALS);
+    private final ItemSetting<List<String>> unplaceableBlocks = new MaterialTagSetting(this, "unplaceable-blocks", SlimefunTag.UNBREAKABLE_MATERIALS);
 
     @ParametersAreNonnullByDefault
     public BlockPlacer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

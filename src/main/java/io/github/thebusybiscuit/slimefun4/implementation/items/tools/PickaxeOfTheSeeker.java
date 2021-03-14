@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> implements DamageableItem {
 
-    private final ItemSetting<Integer> maxRange = new IntRangeSetting("max-range", 1, 5, Integer.MAX_VALUE);
+    private final ItemSetting<Integer> maxRange = new IntRangeSetting(this, "max-range", 1, 5, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public PickaxeOfTheSeeker(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

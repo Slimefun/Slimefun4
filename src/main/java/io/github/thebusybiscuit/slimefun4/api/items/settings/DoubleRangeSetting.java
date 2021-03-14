@@ -6,6 +6,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This variation of {@link ItemSetting} allows you to define an {@link Double} range
@@ -23,8 +24,8 @@ public class DoubleRangeSetting extends ItemSetting<Double> {
     private final double max;
 
     @ParametersAreNonnullByDefault
-    public DoubleRangeSetting(String key, double min, double defaultValue, double max) {
-        super(key, defaultValue);
+    public DoubleRangeSetting(SlimefunItem item, String key, double min, double defaultValue, double max) {
+        super(item, key, defaultValue);
         Validate.isTrue(defaultValue >= min && defaultValue <= max, "The default value is not in range.");
 
         this.min = min;

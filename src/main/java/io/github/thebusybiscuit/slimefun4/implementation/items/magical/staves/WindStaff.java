@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -25,8 +27,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class WindStaff extends SimpleSlimefunItem<ItemUseHandler> {
 
-    private final ItemSetting<Integer> multiplier = new IntRangeSetting("power", 1, 4, Integer.MAX_VALUE);
+    private final ItemSetting<Integer> multiplier = new IntRangeSetting(this, "power", 1, 4, Integer.MAX_VALUE);
 
+    @ParametersAreNonnullByDefault
     public WindStaff(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 

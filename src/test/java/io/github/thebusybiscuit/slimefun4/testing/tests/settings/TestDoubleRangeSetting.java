@@ -34,13 +34,15 @@ class TestDoubleRangeSetting {
     @Test
     @DisplayName("Test Constructor validation")
     void testConstructorValidation() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new DoubleRangeSetting("test", min, -1.0, max));
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_00", new CustomItem(Material.DIAMOND, "&cTest"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new DoubleRangeSetting(item, "test", min, -1.0, max));
     }
 
     @Test
     @DisplayName("Test min and max getters")
     void testMinMaxGetters() {
-        DoubleRangeSetting setting = new DoubleRangeSetting("test", min, 0.5, max);
+        SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_0", new CustomItem(Material.DIAMOND, "&cTest"));
+        DoubleRangeSetting setting = new DoubleRangeSetting(item, "test", min, 0.5, max);
 
         Assertions.assertEquals(min, setting.getMinimum());
         Assertions.assertEquals(max, setting.getMaximum());
@@ -49,9 +51,9 @@ class TestDoubleRangeSetting {
     @Test
     @DisplayName("Test illegal values")
     void testIllegalValues() {
-        DoubleRangeSetting setting = new DoubleRangeSetting("test", min, 0.5, max);
-
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST", new CustomItem(Material.DIAMOND, "&cTest"));
+        DoubleRangeSetting setting = new DoubleRangeSetting(item, "test", min, 0.5, max);
+
         item.addItemSetting(setting);
         item.register(plugin);
 
@@ -63,9 +65,9 @@ class TestDoubleRangeSetting {
     @Test
     @DisplayName("Test allowed value")
     void testAllowedValue() {
-        DoubleRangeSetting setting = new DoubleRangeSetting("test", min, 0.25, max);
-
         SlimefunItem item = TestUtilities.mockSlimefunItem(plugin, "DOUBLE_RANGE_TEST_2", new CustomItem(Material.DIAMOND, "&cTest"));
+        DoubleRangeSetting setting = new DoubleRangeSetting(item, "test", min, 0.25, max);
+
         item.addItemSetting(setting);
         item.register(plugin);
 

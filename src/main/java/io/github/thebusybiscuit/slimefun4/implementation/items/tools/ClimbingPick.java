@@ -57,8 +57,9 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     private static final double EFFICIENCY_MODIFIER = 0.125;
     private static final long COOLDOWN = 4;
 
-    private final ItemSetting<Boolean> dualWielding = new ItemSetting<>("dual-wielding", true);
-    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>("damage-on-use", true);
+    private final ItemSetting<Boolean> dualWielding = new ItemSetting<>(this, "dual-wielding", true);
+    private final ItemSetting<Boolean> damageOnUse = new ItemSetting<>(this, "damage-on-use", true);
+
     private final Map<Material, ClimbableSurface> surfaces = new EnumMap<>(Material.class);
     private final Set<UUID> users = new HashSet<>();
 
@@ -86,7 +87,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     }
 
     protected void addSurface(@Nonnull Material type, double defaultValue) {
-        ClimbableSurface surface = new ClimbableSurface(type, defaultValue);
+        ClimbableSurface surface = new ClimbableSurface(this, type, defaultValue);
         addItemSetting(surface);
         surfaces.put(type, surface);
     }

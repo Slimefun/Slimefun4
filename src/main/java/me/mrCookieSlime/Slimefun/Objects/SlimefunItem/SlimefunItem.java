@@ -465,7 +465,7 @@ public class SlimefunItem implements Placeable {
 
                 // Load all item settings
                 for (ItemSetting<?> setting : itemSettings) {
-                    setting.load(this);
+                    setting.reload();
                 }
             }
 
@@ -1046,14 +1046,12 @@ public class SlimefunItem implements Placeable {
      * This method checks if the given {@link Player} is able to use this {@link SlimefunItem}.
      * A {@link Player} can use it if the following conditions apply:
      * 
-     * <p>
      * <ul>
      * <li>The {@link SlimefunItem} is not disabled
      * <li>The {@link SlimefunItem} was not disabled for that {@link Player}'s {@link World}.
      * <li>The {@link Player} has the required {@link Permission} (if present)
      * <li>The {@link Player} has unlocked the required {@link Research} (if present)
      * </ul>
-     * </p>
      * 
      * If any of these conditions evaluate to <code>false</code>, then an optional message will be
      * sent to the {@link Player}.
