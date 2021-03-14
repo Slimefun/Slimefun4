@@ -22,6 +22,7 @@
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 ## Release Candidate 21 (14 Mar 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 
 #### Additions
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
@@ -65,6 +66,7 @@
 * Fixed #2883
 
 ## Release Candidate 20 (30 Jan 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#20
 
 #### Additions
 * Added a new language: Bulgarian
@@ -103,6 +105,7 @@
 * Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#19
 
 #### Additions
 * Added Bee Armor (1.15+ only)
@@ -129,6 +132,7 @@
 * Fixed #2675
 
 ## Release Candidate 18 (03 Dec 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
 
 #### Additions
 * The Smelters Pick now also works on Ancient Debris
@@ -194,6 +198,7 @@
 * Fixed #2583
 
 ## Release Candidate 17 (17 Oct 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#17
 
 #### Additions
 * Added /sf charge
