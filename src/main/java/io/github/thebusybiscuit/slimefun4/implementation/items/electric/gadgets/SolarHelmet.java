@@ -41,7 +41,7 @@ public class SolarHelmet extends SlimefunItem {
             throw new IllegalArgumentException("A Solar Helmet must have a positive charging level!");
         }
 
-        charge = new DoubleRangeSetting("charge-amount", 0.01, defaultChargingLevel, Double.MAX_VALUE);
+        charge = new DoubleRangeSetting(this, "charge-amount", 0.01, defaultChargingLevel, Double.MAX_VALUE);
         addItemSetting(charge);
     }
 

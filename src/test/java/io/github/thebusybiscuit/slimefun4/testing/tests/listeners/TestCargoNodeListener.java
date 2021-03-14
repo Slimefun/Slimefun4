@@ -17,9 +17,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoInputNode;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CargoNodeListener;
+import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import io.github.thebusybiscuit.slimefun4.testing.annotations.SlimefunItemsSource;
+import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 class TestCargoNodeListener {
 
@@ -53,20 +59,42 @@ class TestCargoNodeListener {
         Assertions.assertFalse(event.isCancelled());
     }
 
-    @ParameterizedTest
+    @Test
     @DisplayName("Test placing Cargo nodes on invalid sides of blocks")
-    @SlimefunItemsSource(items = { "CARGO_INPUT_NODE", "CARGO_OUTPUT_NODE", "CARGO_OUTPUT_NODE_2" })
-    void testInvalidPlacement(ItemStack item) {
-        SlimefunPlugin.getRegistry().setBackwardsCompatible(true);
+    void testInvalidSidePlacement() {
         Player player = server.addPlayer();
         Location l = new Location(player.getWorld(), 190, 50, 400);
         Block b = l.getBlock();
         Block against = b.getRelative(BlockFace.DOWN);
 
+        Category category = TestUtilities.getCategory(plugin, "cargo_test");
+        SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE", new CustomItem(Material.PLAYER_HEAD, "&4Cargo node!"));
+        CargoInputNode node = new CargoInputNode(category, item, RecipeType.NULL, new ItemStack[9], null);
+        node.register(plugin);
+
         BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), against, item, player, true, EquipmentSlot.HAND);
         listener.onCargoNodePlace(event);
         Assertions.assertTrue(event.isCancelled());
-        SlimefunPlugin.getRegistry().setBackwardsCompatible(false);
+    }
+
+    @Test
+    @DisplayName("Test placing Cargo nodes on grass")
+    void testGrassPlacement() {
+        Player player = server.addPlayer();
+
+        Location l = new Location(player.getWorld(), 300, 25, 1200);
+        Block b = l.getBlock();
+        b.setType(Material.GRASS);
+
+        Category category = TestUtilities.getCategory(plugin, "cargo_test");
+        SlimefunItemStack item = new SlimefunItemStack("MOCK_CARGO_NODE_2", new CustomItem(Material.PLAYER_HEAD, "&4Cargo node!"));
+        CargoInputNode node = new CargoInputNode(category, item, RecipeType.NULL, new ItemStack[9], null);
+        node.register(plugin);
+
+        BlockPlaceEvent event = new BlockPlaceEvent(b, b.getState(), b, item, player, true, EquipmentSlot.HAND);
+        listener.onCargoNodePlace(event);
+
+        Assertions.assertTrue(event.isCancelled());
     }
 
     @Test

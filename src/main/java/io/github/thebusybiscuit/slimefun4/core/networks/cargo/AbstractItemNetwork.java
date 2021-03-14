@@ -115,14 +115,14 @@ abstract class AbstractItemNetwork extends Network {
 
             if (menu != null) {
                 switch (request.getDirection()) {
-                case INSERT:
-                    distributeInsertionRequest(inventories, request, menu, iterator, destinations);
-                    break;
-                case WITHDRAW:
-                    collectExtractionRequest(inventories, request, menu, iterator, providers);
-                    break;
-                default:
-                    break;
+                    case INSERT:
+                        distributeInsertionRequest(inventories, request, menu, iterator, destinations);
+                        break;
+                    case WITHDRAW:
+                        collectExtractionRequest(inventories, request, menu, iterator, providers);
+                        break;
+                    default:
+                        break;
                 }
             }
         }

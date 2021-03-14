@@ -26,6 +26,9 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * This is an abstract parent class of {@link LocalizationService}.
@@ -215,76 +218,84 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
     }
 
     @Override
-    public void sendMessage(CommandSender sender, String key, boolean addPrefix) {
+    public void sendMessage(CommandSender recipient, String key, boolean addPrefix) {
         String prefix = addPrefix ? getPrefix() : "";
 
-        if (sender instanceof Player) {
-            sender.sendMessage(ChatColors.color(prefix + getMessage((Player) sender, key)));
+        if (recipient instanceof Player) {
+            recipient.sendMessage(ChatColors.color(prefix + getMessage((Player) recipient, key)));
         } else {
-            sender.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + getMessage(key))));
+            recipient.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + getMessage(key))));
         }
     }
 
-    @Override
-    public void sendMessage(CommandSender sender, String key) {
-        sendMessage(sender, key, true);
+    public void sendActionbarMessage(@Nonnull Player player, @Nonnull String key, boolean addPrefix) {
+        String prefix = addPrefix ? getPrefix() : "";
+        String message = ChatColors.color(prefix + getMessage(player, key));
+
+        BaseComponent[] components = TextComponent.fromLegacyText(message);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
     }
 
-    public void sendMessage(CommandSender sender, String key, UnaryOperator<String> function) {
-        sendMessage(sender, key, true, function);
+    @Override
+    public void sendMessage(CommandSender recipient, String key) {
+        sendMessage(recipient, key, true);
+    }
+
+    public void sendMessage(CommandSender recipient, String key, UnaryOperator<String> function) {
+        sendMessage(recipient, key, true, function);
     }
 
     @Override
-    public void sendMessage(CommandSender sender, String key, boolean addPrefix, UnaryOperator<String> function) {
+    public void sendMessage(CommandSender recipient, String key, boolean addPrefix, UnaryOperator<String> function) {
         if (SlimefunPlugin.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             return;
         }
 
         String prefix = addPrefix ? getPrefix() : "";
 
-        if (sender instanceof Player) {
-            sender.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) sender, key))));
+        if (recipient instanceof Player) {
+            recipient.sendMessage(ChatColors.color(prefix + function.apply(getMessage((Player) recipient, key))));
         } else {
-            sender.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + function.apply(getMessage(key)))));
+            recipient.sendMessage(ChatColor.stripColor(ChatColors.color(prefix + function.apply(getMessage(key)))));
         }
     }
 
     @Override
-    public void sendMessages(CommandSender sender, String key) {
+    public void sendMessages(CommandSender recipient, String key) {
         String prefix = getPrefix();
 
-        if (sender instanceof Player) {
-            for (String translation : getMessages((Player) sender, key)) {
+        if (recipient instanceof Player) {
+            for (String translation : getMessages((Player) recipient, key)) {
                 String message = ChatColors.color(prefix + translation);
-                sender.sendMessage(message);
+                recipient.sendMessage(message);
             }
         } else {
             for (String translation : getMessages(key)) {
                 String message = ChatColors.color(prefix + translation);
-                sender.sendMessage(ChatColor.stripColor(message));
+                recipient.sendMessage(ChatColor.stripColor(message));
             }
         }
     }
 
     @Override
-    public void sendMessages(CommandSender sender, String key, boolean addPrefix, UnaryOperator<String> function) {
+    public void sendMessages(CommandSender recipient, String key, boolean addPrefix, UnaryOperator<String> function) {
         String prefix = addPrefix ? getPrefix() : "";
 
-        if (sender instanceof Player) {
-            for (String translation : getMessages((Player) sender, key)) {
+        if (recipient instanceof Player) {
+            for (String translation : getMessages((Player) recipient, key)) {
                 String message = ChatColors.color(prefix + function.apply(translation));
-                sender.sendMessage(message);
+                recipient.sendMessage(message);
             }
         } else {
             for (String translation : getMessages(key)) {
                 String message = ChatColors.color(prefix + function.apply(translation));
-                sender.sendMessage(ChatColor.stripColor(message));
+                recipient.sendMessage(ChatColor.stripColor(message));
             }
         }
     }
 
-    public void sendMessages(CommandSender sender, String key, UnaryOperator<String> function) {
-        sendMessages(sender, key, true, function);
+    public void sendMessages(CommandSender recipient, String key, UnaryOperator<String> function) {
+        sendMessages(recipient, key, true, function);
     }
 
 }

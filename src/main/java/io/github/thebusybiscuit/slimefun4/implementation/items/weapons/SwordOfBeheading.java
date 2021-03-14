@@ -37,11 +37,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
 
-    private final ItemSetting<Integer> chanceZombie = new IntRangeSetting("chance.ZOMBIE", 0, 40, 100);
-    private final ItemSetting<Integer> chanceSkeleton = new IntRangeSetting("chance.SKELETON", 0, 40, 100);
-    private final ItemSetting<Integer> chanceWitherSkeleton = new IntRangeSetting("chance.WITHER_SKELETON", 0, 25, 100);
-    private final ItemSetting<Integer> chanceCreeper = new IntRangeSetting("chance.CREEPER", 0, 40, 100);
-    private final ItemSetting<Integer> chancePlayer = new IntRangeSetting("chance.PLAYER", 0, 70, 100);
+    private final ItemSetting<Integer> chanceZombie = new IntRangeSetting(this, "chance.ZOMBIE", 0, 40, 100);
+    private final ItemSetting<Integer> chanceSkeleton = new IntRangeSetting(this, "chance.SKELETON", 0, 40, 100);
+    private final ItemSetting<Integer> chanceWitherSkeleton = new IntRangeSetting(this, "chance.WITHER_SKELETON", 0, 25, 100);
+    private final ItemSetting<Integer> chanceCreeper = new IntRangeSetting(this, "chance.CREEPER", 0, 40, 100);
+    private final ItemSetting<Integer> chancePlayer = new IntRangeSetting(this, "chance.PLAYER", 0, 70, 100);
 
     @ParametersAreNonnullByDefault
     public SwordOfBeheading(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -56,39 +56,39 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
             Random random = ThreadLocalRandom.current();
 
             switch (e.getEntityType()) {
-            case ZOMBIE:
-                if (random.nextInt(100) < chanceZombie.getValue()) {
-                    e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
-                }
-                break;
-            case SKELETON:
-                if (random.nextInt(100) < chanceSkeleton.getValue()) {
-                    e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
-                }
-                break;
-            case CREEPER:
-                if (random.nextInt(100) < chanceCreeper.getValue()) {
-                    e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
-                }
-                break;
-            case WITHER_SKELETON:
-                if (random.nextInt(100) < chanceWitherSkeleton.getValue()) {
-                    e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
-                }
-                break;
-            case PLAYER:
-                if (random.nextInt(100) < chancePlayer.getValue()) {
-                    ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+                case ZOMBIE:
+                    if (random.nextInt(100) < chanceZombie.getValue()) {
+                        e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
+                    }
+                    break;
+                case SKELETON:
+                    if (random.nextInt(100) < chanceSkeleton.getValue()) {
+                        e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
+                    }
+                    break;
+                case CREEPER:
+                    if (random.nextInt(100) < chanceCreeper.getValue()) {
+                        e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
+                    }
+                    break;
+                case WITHER_SKELETON:
+                    if (random.nextInt(100) < chanceWitherSkeleton.getValue()) {
+                        e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
+                    }
+                    break;
+                case PLAYER:
+                    if (random.nextInt(100) < chancePlayer.getValue()) {
+                        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
 
-                    ItemMeta meta = skull.getItemMeta();
-                    ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
-                    skull.setItemMeta(meta);
+                        ItemMeta meta = skull.getItemMeta();
+                        ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());
+                        skull.setItemMeta(meta);
 
-                    e.getDrops().add(skull);
-                }
-                break;
-            default:
-                break;
+                        e.getDrops().add(skull);
+                    }
+                    break;
+                default:
+                    break;
             }
         };
     }

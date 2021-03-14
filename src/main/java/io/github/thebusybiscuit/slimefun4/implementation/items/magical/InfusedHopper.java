@@ -37,9 +37,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
-    private final ItemSetting<Boolean> silent = new ItemSetting<>("silent", false);
-    private final ItemSetting<Boolean> toggleable = new ItemSetting<>("toggleable-with-redstone", false);
-    private final ItemSetting<Double> radius = new DoubleRangeSetting("radius", 0.1, 3.5, Double.MAX_VALUE);
+    private final ItemSetting<Boolean> silent = new ItemSetting<>(this, "silent", false);
+    private final ItemSetting<Boolean> toggleable = new ItemSetting<>(this, "toggleable-with-redstone", false);
+    private final ItemSetting<Double> radius = new DoubleRangeSetting(this, "radius", 0.1, 3.5, Double.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public InfusedHopper(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

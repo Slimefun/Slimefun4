@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -26,6 +28,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.IgnitionChamber;
 import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -34,8 +37,9 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class Smeltery extends AbstractSmeltery {
 
     private final BlockFace[] faces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
-    private final ItemSetting<Integer> fireBreakingChance = new IntRangeSetting("fire-breaking-chance", 0, 34, 100);
+    private final ItemSetting<Integer> fireBreakingChance = new IntRangeSetting(this, "fire-breaking-chance", 0, 34, 100);
 
+    @ParametersAreNonnullByDefault
     public Smeltery(Category category, SlimefunItemStack item) {
         super(category, item, new ItemStack[] { null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.NETHER_BRICKS), new CustomItem(Material.DISPENSER, "Dispenser (Facing up)"), new ItemStack(Material.NETHER_BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
 
@@ -73,6 +77,7 @@ public class Smeltery extends AbstractSmeltery {
         }
     }
 
+    @ParametersAreNonnullByDefault
     private void consumeFire(Player p, Block dispenser, Block b) {
         Inventory chamber = findIgnitionChamber(dispenser);
 
@@ -103,9 +108,12 @@ public class Smeltery extends AbstractSmeltery {
         }
     }
 
+    @Nullable
     private Inventory findIgnitionChamber(@Nonnull Block b) {
         for (BlockFace face : faces) {
-            if (b.getRelative(face).getType() == Material.DROPPER && BlockStorage.check(b.getRelative(face), "IGNITION_CHAMBER")) {
+            Block block = b.getRelative(face);
+
+            if (block.getType() == Material.DROPPER && BlockStorage.check(block) instanceof IgnitionChamber) {
                 BlockState state = PaperLib.getBlockState(b.getRelative(face), false).getState();
 
                 if (state instanceof Dropper) {

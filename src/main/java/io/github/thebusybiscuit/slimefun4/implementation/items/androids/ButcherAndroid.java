@@ -38,20 +38,20 @@ public class ButcherAndroid extends ProgrammableAndroid {
             boolean attack = false;
 
             switch (face) {
-            case NORTH:
-                attack = n.getLocation().getZ() < b.getZ();
-                break;
-            case EAST:
-                attack = n.getLocation().getX() > b.getX();
-                break;
-            case SOUTH:
-                attack = n.getLocation().getZ() > b.getZ();
-                break;
-            case WEST:
-                attack = n.getLocation().getX() < b.getX();
-                break;
-            default:
-                break;
+                case NORTH:
+                    attack = n.getLocation().getZ() < b.getZ();
+                    break;
+                case EAST:
+                    attack = n.getLocation().getX() > b.getX();
+                    break;
+                case SOUTH:
+                    attack = n.getLocation().getZ() > b.getZ();
+                    break;
+                case WEST:
+                    attack = n.getLocation().getX() < b.getX();
+                    break;
+                default:
+                    break;
             }
 
             if (attack) {

@@ -2,6 +2,8 @@ package me.mrCookieSlime.Slimefun.Objects.handlers;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
@@ -51,7 +53,8 @@ public interface ItemHandler {
      * @return An {@link Optional} describing the result, it will contain an {@link IncompatibleItemHandlerException}
      *         should there be an issue
      */
-    default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+    @Nonnull
+    default Optional<IncompatibleItemHandlerException> validate(@Nonnull SlimefunItem item) {
         return Optional.empty();
     }
 
@@ -61,5 +64,6 @@ public interface ItemHandler {
      * 
      * @return The {@link Class} identifier for this {@link ItemHandler}
      */
+    @Nonnull
     Class<? extends ItemHandler> getIdentifier();
 }

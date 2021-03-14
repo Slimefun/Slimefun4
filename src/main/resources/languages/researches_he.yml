@@ -3,29 +3,18 @@ slimefun:
   walking_sticks: מקלות הליכה
   portable_crafter: שולחן מלאכה נייד
   fortune_cookie: עוגיית מזל
-  ender_armor: שריון אנדר
-  magic_eye_of_ender: עין אנדר קסומה
-  magic_sugar: סוכר קסום
-  slime_armor: שריון רפש
-  sword_of_beheading: חרב העריפות
-  parachute: מצנח
-  bronze: יצירת ברונזה
-  reinforced_alloy: סגסוגת מחוזקת
-  magic_workbench: שולחן מלאכה קסום
-  wind_staff: מטה רוח
-  gold_carats: זהב טהור
-  fire_staff: מטה אש
-  first_aid: עזרה ראשונה
-  water_staff: מטה מים
-  farmer_shoes: נעלי איכר
-  backpacks: תיקי גב
   portable_dustbin: פח אשפה נייד
   meat_jerky: בשר מלוח
   armor_forge: יצירת שריון
   glowstone_armor: שריון גלוסטון
   lumps: גושים וקסמים
   ender_backpack: תיק גב אנדר
+  ender_armor: שריון אנדר
+  magic_eye_of_ender: עין אנדר קסומה
+  magic_sugar: סוכר קסום
   monster_jerky: בשר מפלצת מלוח
+  slime_armor: שריון רפש
+  sword_of_beheading: חרב העריפות
   basic_circuit_board: לוח מגעים בסיסי
   advanced_circuit_board: לוח מגעים מתקדם
   smeltery: תנור התכה
@@ -34,6 +23,7 @@ slimefun:
   battery: הסוללה הראשונה שלך
   steel_plate: ציפוי פלדה
   steel_thruster: דוחף פלדה
+  parachute: מצנח
   grappling_hook: וו אחיזה
   jetpacks: תרמיל רחיפה
   multitools: רב כלים
@@ -45,6 +35,7 @@ slimefun:
   magical_book_cover: כריכת ספרים קסומה
   slimefun_metals: מתכות חדשות
   ore_crusher: הכפלת עפרת
+  bronze: יצירת ברונזה
   alloys: סגסוגות מתקדמות
   compressor_and_carbon: יצירת פחמן
   gilded_iron_armor: שריון ברזל מוזהב
@@ -53,10 +44,15 @@ slimefun:
   synthetic_sapphire: ספיר סינטטי
   damascus_steel: פלדת דמשק
   damascus_steel_armor: שריון פלדת דמשק
+  reinforced_alloy: סגסוגת מחוזקת
   carbonado: יהלומים שחורים
+  magic_workbench: שולחן מלאכה קסום
+  wind_staff: מטה רוח
   reinforced_armor: שריון מחוזק
   ore_washer: שוטף עופרת
+  gold_carats: זהב טהור
   silicon: עמק הסיליקון
+  fire_staff: מטה אש
   smelters_pickaxe: מכוש התכה
   common_talisman: קמע נפוץ
   anvil_talisman: קמע הסדן
@@ -82,6 +78,7 @@ slimefun:
   crushed_ore: טיהור עפרת
   redstone_alloy: סגסוגת רדסטון
   carbonado_tools: מכונות ברמה עליונה
+  first_aid: עזרה ראשונה
   gold_armor: שריון מבריק
   night_vision_googles: משקפי ראיית לילה
   pickaxe_of_containment: מקוש הכלה
@@ -89,12 +86,15 @@ slimefun:
   table_saw: מסור שולחני
   slime_steel_armor: שריון פלדה רזה
   blade_of_vampires: להב הערפדים
+  water_staff: מטה מים
   24k_gold_block: עיר מוזהבת
   composter: עפר קומפוסטציה
+  farmer_shoes: נעלי איכר
   explosive_tools: כלי נפץ
   automated_panning_machine: מסננת אוטומטית
   boots_of_the_stomper: מגפי הרוקע
   pickaxe_of_the_seeker: מכוש המחפש
+  backpacks: תיקי גב
   woven_backpack: תיק גב ארוג
   crucible: כור היתוך
   gilded_backpack: תיק גב מוזהב
@@ -133,6 +133,7 @@ slimefun:
   wither_proof_obsidian: בזלת עמידה לוויד'ר
   ancient_runes: רונות אלמנטריות
   special_runes: רונות סגולות
+  infernal_bonemeal: אינפרנל בואונמיל
   rainbow_blocks: בלוקים צבעוניים
   infused_hopper: משפך חדור
   wither_proof_glass: זכוכית עמידה לוויד'ר
@@ -247,4 +248,5 @@ slimefun:
   elytra_cap: גלגל שיניים מרסק
   energy_connectors: חיבור קווי
   bee_armor: שריון דבורים
-  infernal_bonemeal: אינפרנל בואונמיל
+  wise_talisman: קמע של החכמה
+  book_binder: כריכת ספר קסום

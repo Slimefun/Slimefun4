@@ -26,7 +26,6 @@ import io.github.thebusybiscuit.slimefun4.core.categories.SeasonalCategory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 /**
  * Represents a category, which structure multiple {@link SlimefunItem} in the {@link SlimefunGuide}.
@@ -90,7 +89,8 @@ public class Category implements Keyed {
     }
 
     @Override
-    public NamespacedKey getKey() {
+    @Nonnull
+    public final NamespacedKey getKey() {
         return key;
     }
 
@@ -226,7 +226,7 @@ public class Category implements Keyed {
      * 
      * @return Whether the given {@link SlimefunItem} was found in this {@link Category}
      */
-    public boolean contains(SlimefunItem item) {
+    public boolean contains(@Nullable SlimefunItem item) {
         return item != null && items.contains(item);
     }
 
@@ -238,6 +238,20 @@ public class Category implements Keyed {
      */
     public int getTier() {
         return tier;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj instanceof Category) {
+            return ((Category) obj).getKey().equals(getKey());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public final int hashCode() {
+        return key.hashCode();
     }
 
     @Override
@@ -258,7 +272,7 @@ public class Category implements Keyed {
      */
     public boolean isHidden(@Nonnull Player p) {
         for (SlimefunItem slimefunItem : getItems()) {
-            if (!slimefunItem.isHidden() && Slimefun.isEnabled(p, slimefunItem, false)) {
+            if (!slimefunItem.isHidden() && !slimefunItem.isDisabledIn(p.getWorld())) {
                 return false;
             }
         }
