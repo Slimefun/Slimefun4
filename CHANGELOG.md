@@ -25,6 +25,7 @@
 ## Release Candidate 22 (TBD)
 
 #### Additions
+* Added /sf reload
 
 #### Changes
 
@@ -39,7 +40,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * (API) Added support for nested Categories
 * (API) Added ExplosiveToolBreakBlocksEvent
 * Added an option to enable/disable water in the nether via a crucible
-* Added /sf reload
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes
