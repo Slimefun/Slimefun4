@@ -475,18 +475,23 @@ public class SlimefunItem implements Placeable {
             }
 
             if (this instanceof NotConfigurable) {
-                // Not-configurable items will be enabled.
-                // Any other settings will remain as default.
+                /*
+                 * Not-configurable items will be enabled.
+                 * Any other settings will remain as default.
+                 */
                 state = ItemState.ENABLED;
             } else if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
+                // The item has been enabled.
                 state = ItemState.ENABLED;
                 useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
                 hidden = SlimefunPlugin.getItemCfg().getBoolean(id + ".hide-in-guide");
                 enchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-enchanting");
                 disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
             } else if (this instanceof VanillaItem) {
+                // This item is a vanilla "mock" but was disabled.
                 state = ItemState.VANILLA_FALLBACK;
             } else {
+                // The item has been disabled.
                 state = ItemState.DISABLED;
             }
 
@@ -805,7 +810,9 @@ public class SlimefunItem implements Placeable {
         }
 
         for (ItemHandler handler : handlers) {
-            itemhandlers.put(handler.getIdentifier(), handler);
+            if (itemhandlers.put(handler.getIdentifier(), handler).isPresent()) {
+                warn("ItemHandler \"" + handler.getIdentifier().getSimpleName() + "\" has already been assigned to this item. It was overridden.");
+            }
 
             // Tickers are a special case (at the moment at least)
             if (handler instanceof BlockTicker) {
