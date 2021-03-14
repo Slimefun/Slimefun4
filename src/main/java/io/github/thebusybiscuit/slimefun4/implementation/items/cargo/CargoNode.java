@@ -14,7 +14,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @author TheBusyBiscuit
  *
  */
-@FunctionalInterface
 public interface CargoNode {
 
     /**
@@ -26,5 +25,12 @@ public interface CargoNode {
      * @return The channel which this {@link CargoNode} is currently on
      */
     int getSelectedChannel(@Nonnull Block b);
+
+    /**
+     * This returns whether this {@link CargoNode} has item filtering capabilities.
+     * 
+     * @return Whether this {@link CargoNode} can filter items
+     */
+    boolean hasItemFilter();
 
 }

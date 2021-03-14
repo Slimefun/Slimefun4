@@ -31,7 +31,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class RepairedSpawner extends AbstractMonsterSpawner {
 
-    private final ItemSetting<Boolean> allowSpawnEggs = new ItemSetting<>("allow-spawn-eggs", true);
+    private final ItemSetting<Boolean> allowSpawnEggs = new ItemSetting<>(this, "allow-spawn-eggs", true);
 
     @ParametersAreNonnullByDefault
     public RepairedSpawner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

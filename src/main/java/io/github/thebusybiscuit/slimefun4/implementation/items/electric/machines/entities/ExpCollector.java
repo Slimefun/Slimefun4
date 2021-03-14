@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
+package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
 import java.util.Iterator;
 
@@ -25,14 +25,14 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 
-public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
+public class ExpCollector extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
     private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
 
     private static final int ENERGY_CONSUMPTION = 10;
     private static final String DATA_KEY = "stored-exp";
 
-    public XPCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public ExpCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         createPreset(this, this::constructMenu);
@@ -91,7 +91,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock, EnergyN
 
             @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
-                XPCollector.this.tick(b);
+                ExpCollector.this.tick(b);
             }
 
             @Override

@@ -38,6 +38,7 @@ public class Translators {
         addTranslator("NinoFutur", SupportedLanguage.FRENCH, true);
         addTranslator("TheRetix", SupportedLanguage.FRENCH, true);
         addTranslator("Aeris1One", SupportedLanguage.FRENCH, true);
+        addTranslator("Aomitsu", SupportedLanguage.FRENCH, true);
 
         // Translators - Italian
         addTranslator("xXDOTTORXx", SupportedLanguage.ITALIAN, true);
@@ -89,6 +90,9 @@ public class Translators {
         addTranslator("MrFriggo", SupportedLanguage.CZECH, true);
         addTranslator("100petr", SupportedLanguage.CZECH, true);
         addTranslator("frfole", SupportedLanguage.CZECH, true);
+        addTranslator("bobhenl", SupportedLanguage.CZECH, true);
+        addTranslator("janvrska", SupportedLanguage.CZECH, true);
+        addTranslator("LirCZE", SupportedLanguage.CZECH, true);
 
         // Translators - Russian
         addTranslator("SoSeDiK", SupportedLanguage.RUSSIAN, false);
@@ -103,6 +107,9 @@ public class Translators {
         addTranslator("NihilistBrew", "ma1yang2", SupportedLanguage.SWEDISH, false);
         addTranslator("Tra-sh", "TurretTrash", SupportedLanguage.SWEDISH, true);
 
+        // Translators - Finnish
+        addTranslator("developer-pseudo", SupportedLanguage.FINNISH, true);
+
         // Translators - Dutch
         addTranslator("Dr4gonD", "DragonD", SupportedLanguage.DUTCH, true);
         addTranslator("svr333", SupportedLanguage.DUTCH, false);
@@ -110,6 +117,7 @@ public class Translators {
         addTranslator("milvantiou", SupportedLanguage.DUTCH, true);
         addTranslator("Sven313D", SupportedLanguage.DUTCH, true);
         addTranslator("TypischTeun", SupportedLanguage.DUTCH, true);
+        addTranslator("peppower", SupportedLanguage.DUTCH, true);
 
         // Translators - Danish
         addTranslator("Mini-kun", SupportedLanguage.DANISH, true);

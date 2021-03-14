@@ -56,7 +56,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -133,6 +132,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             }
         };
 
+        // TODO: Move this into a BlockBreakHandler
         registerBlockHandler(getId(), (p, b, stack, reason) -> {
             boolean allow = reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 
@@ -151,7 +151,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         addItemHandler(onPlace());
     }
 
-    private ItemHandler onPlace() {
+    @Nonnull
+    private BlockPlaceHandler onPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override

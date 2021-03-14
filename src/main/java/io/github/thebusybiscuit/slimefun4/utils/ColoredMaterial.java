@@ -48,6 +48,28 @@ public enum ColoredMaterial {
     }),
 
     /**
+     * This {@link List} contains all carpet colors ordered by their appearance ingame.
+     */
+    CARPET(new Material[] {
+            Material.WHITE_CARPET,
+            Material.ORANGE_CARPET,
+            Material.MAGENTA_CARPET,
+            Material.LIGHT_BLUE_CARPET,
+            Material.YELLOW_CARPET,
+            Material.LIME_CARPET,
+            Material.PINK_CARPET,
+            Material.GRAY_CARPET,
+            Material.LIGHT_GRAY_CARPET,
+            Material.CYAN_CARPET,
+            Material.PURPLE_CARPET,
+            Material.BLUE_CARPET,
+            Material.BROWN_CARPET,
+            Material.GREEN_CARPET,
+            Material.RED_CARPET,
+            Material.BLACK_CARPET
+    }),
+
+    /**
      * This {@link List} contains all stained glass colors ordered by their appearance ingame.
      */
     STAINED_GLASS(new Material[] {

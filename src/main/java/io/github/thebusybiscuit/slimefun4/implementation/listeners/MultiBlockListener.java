@@ -62,8 +62,13 @@ public class MultiBlockListener implements Listener {
             e.setCancelled(true);
 
             MultiBlock mb = multiblocks.getLast();
-            mb.getSlimefunItem().callItemHandler(MultiBlockInteractionHandler.class, handler -> handler.onInteract(p, mb, b));
-            Bukkit.getPluginManager().callEvent(new MultiBlockInteractEvent(p, mb, b, e.getBlockFace()));
+            MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, mb, b, e.getBlockFace());
+            Bukkit.getPluginManager().callEvent(event);
+
+            // Fixes #2809
+            if (!event.isCancelled()) {
+                mb.getSlimefunItem().callItemHandler(MultiBlockInteractionHandler.class, handler -> handler.onInteract(p, mb, b));
+            }
         }
     }
 

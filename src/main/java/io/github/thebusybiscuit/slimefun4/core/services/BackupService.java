@@ -29,38 +29,51 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
  */
 public class BackupService implements Runnable {
 
+    /**
+     * The maximum amount of backups to maintain
+     */
     private static final int MAX_BACKUPS = 20;
 
+    /**
+     * Our {@link DateTimeFormatter} for formatting file names.
+     */
     private final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
+
+    /**
+     * The directory in which to create the backups
+     */
     private final File directory = new File("data-storage/Slimefun/block-backups");
 
     @Override
     public void run() {
-        List<File> backups = Arrays.asList(directory.listFiles());
+        // Make sure that the directory exists.
+        if (directory.exists()) {
+            List<File> backups = Arrays.asList(directory.listFiles());
 
-        if (backups.size() > MAX_BACKUPS) {
-            try {
-                purgeBackups(backups);
-            } catch (IOException e) {
-                SlimefunPlugin.logger().log(Level.WARNING, "Could not delete an old backup", e);
-            }
-        }
-
-        File file = new File(directory, format.format(LocalDateTime.now()) + ".zip");
-
-        if (!file.exists()) {
-            try {
-                if (file.createNewFile()) {
-                    try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
-                        createBackup(output);
-                    }
-
-                    SlimefunPlugin.logger().log(Level.INFO, "Backed up Slimefun data to: {0}", file.getName());
-                } else {
-                    SlimefunPlugin.logger().log(Level.WARNING, "Could not create backup-file: {0}", file.getName());
+            if (backups.size() > MAX_BACKUPS) {
+                try {
+                    purgeBackups(backups);
+                } catch (IOException e) {
+                    SlimefunPlugin.logger().log(Level.WARNING, "Could not delete an old backup", e);
                 }
-            } catch (IOException x) {
-                SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Error occurred while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
+            }
+
+            File file = new File(directory, format.format(LocalDateTime.now()) + ".zip");
+
+            if (!file.exists()) {
+                try {
+                    if (file.createNewFile()) {
+                        try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
+                            createBackup(output);
+                        }
+
+                        SlimefunPlugin.logger().log(Level.INFO, "Backed up Slimefun data to: {0}", file.getName());
+                    } else {
+                        SlimefunPlugin.logger().log(Level.WARNING, "Could not create backup-file: {0}", file.getName());
+                    }
+                } catch (IOException x) {
+                    SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Exception occurred while creating a backup for Slimefun " + SlimefunPlugin.getVersion());
+                }
             }
         }
     }
