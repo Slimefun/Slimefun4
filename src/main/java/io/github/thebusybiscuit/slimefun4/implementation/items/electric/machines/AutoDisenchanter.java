@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -13,10 +14,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -44,7 +43,7 @@ import java.util.Map;
 public class AutoDisenchanter extends AContainer {
 
     private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>("use-enchant-level-limit", false);
-    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting("enchant-level-limit", 0, Short.MAX_VALUE, Short.MAX_VALUE);
+    private final IntRangeSetting enchantLevelLimit = new IntRangeSetting("enchant-level-limit", 0, 10, Short.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -88,10 +87,10 @@ public class AutoDisenchanter extends AContainer {
                         enchantments.put(entry.getKey(), entry.getValue());
                         amount++;
                     } else if (!menu.toInventory().getViewers().isEmpty()) {
-                        String notice = ChatColor.translateAlternateColorCodes('&', SlimefunPlugin.getLocalization().getMessage("messages.above-limit-level")
+                        String notice = ChatColors.color(SlimefunPlugin.getLocalization().getMessage("messages.above-limit-level")
                                 .replace("%level%", enchantLevelLimit.getValue().toString()));
 
-                        ItemStack progressBar = getProgressBar().clone();
+                        ItemStack progressBar = getProgressBar();
                         progressBar.setType(Material.BARRIER);
 
                         ItemMeta im = progressBar.getItemMeta();
