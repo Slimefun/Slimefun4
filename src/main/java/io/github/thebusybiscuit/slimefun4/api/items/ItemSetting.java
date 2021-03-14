@@ -158,8 +158,6 @@ public class ItemSetting<T> {
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
      * 
-     * @param item
-     *            The {@link SlimefunItem} who called this method
      */
     @SuppressWarnings("unchecked")
     public void reload() {
@@ -169,7 +167,7 @@ public class ItemSetting<T> {
         Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getId() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
-            // We can unsafe cast here, we did an isInstance(...) check before!
+            // We can do an unsafe cast here, we did an isInstance(...) check before!
             T newValue = (T) configuredValue;
 
             if (validateInput(newValue)) {
