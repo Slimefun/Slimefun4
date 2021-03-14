@@ -25,10 +25,13 @@
 ## Release Candidate 22 (TBD)
 
 #### Additions
+* Added Vanilla Auto Crafter
+* Added Enhanced Auto Crafter
 
 #### Changes
 
 #### Fixes
+* Fixed #1161
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
@@ -40,8 +43,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * (API) Added ExplosiveToolBreakBlocksEvent
 * Added an option to enable/disable water in the nether via a crucible
 * /sf versions now shows the Java version and some useful tooltips
-* Added Vanilla Auto Crafter
-* Added Enhanced Auto Crafter
 
 #### Changes
 * Deprecated Automatic Crafting Chamber
@@ -61,7 +62,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * Fixed #2817
 * Fixed exceptions with inventories not being printed using the logger of the addon that caused it
 * Fixed #2818
-* Fixed #1161
 * Fixed a duplication glitch with the Woodcutter Android
 * Fixed #2839
 * Fixed #2849
