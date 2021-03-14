@@ -468,7 +468,7 @@ public class SlimefunItem implements Placeable {
 
                 // Load all item settings
                 for (ItemSetting<?> setting : itemSettings) {
-                    setting.reload(this);
+                    setting.reload();
                 }
             }
 

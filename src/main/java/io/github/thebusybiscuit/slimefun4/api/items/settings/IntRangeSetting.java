@@ -32,11 +32,6 @@ public class IntRangeSetting extends ItemSetting<Integer> {
         this.max = max;
     }
 
-    @Deprecated
-    public IntRangeSetting(String key, int min, int defaultValue, int max) {
-        this(null, key, min, defaultValue, max);
-    }
-
     @Nonnull
     @Override
     protected String getErrorMessage() {

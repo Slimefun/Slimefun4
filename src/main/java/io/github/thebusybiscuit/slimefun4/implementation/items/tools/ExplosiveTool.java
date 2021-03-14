@@ -91,7 +91,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             }
         }
 
-        ExplosiveToolBreakBlocksEvent event = new ExplosiveToolBreakBlocksEvent(p, blocksToDestroy, item, this);
+        ExplosiveToolBreakBlocksEvent event = new ExplosiveToolBreakBlocksEvent(p, b, blocksToDestroy, item, this);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
         if (!event.isCancelled()) {
@@ -101,7 +101,8 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         }
     }
 
-    private List<Block> findBlocks(Block b) {
+    @Nonnull
+    private List<Block> findBlocks(@Nonnull Block b) {
         List<Block> blocks = new ArrayList<>(26);
 
         for (int x = -1; x <= 1; x++) {
@@ -125,7 +126,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         return damageOnUse.getValue();
     }
 
-    protected boolean canBreak(Player p, Block b) {
+    protected boolean canBreak(@Nonnull Player p, @Nonnull Block b) {
         if (b.isEmpty() || b.isLiquid()) {
             return false;
         } else if (SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(b.getType())) {
