@@ -2569,13 +2569,13 @@ public final class SlimefunItemSetup {
         }
 
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            new StrangeNetherGoo(categories.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
-            new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
-            .register(plugin);
-
             new VillagerRune(categories.magicalResources, SlimefunItems.VILLAGER_RUNE, RecipeType.ANCIENT_ALTAR, 
             new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.MAGICAL_GLASS, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.STRANGE_NETHER_GOO, SlimefunItems.FIRE_RUNE, SlimefunItems.STRANGE_NETHER_GOO, new ItemStack(Material.CRYING_OBSIDIAN), SlimefunItems.MAGICAL_GLASS, SlimefunItems.MAGIC_LUMP_3},
             new SlimefunItemStack(SlimefunItems.VILLAGER_RUNE, 3))
+            .register(plugin);
+
+            new StrangeNetherGoo(categories.magicalResources, SlimefunItems.STRANGE_NETHER_GOO, RecipeType.BARTER_DROP,
+            new ItemStack[] {null, null, null, null, new CustomItem(HeadTexture.PIGLIN_HEAD.getAsItemStack(), "&fPiglin"), null, null, null, null})
             .register(plugin);
         }
 
