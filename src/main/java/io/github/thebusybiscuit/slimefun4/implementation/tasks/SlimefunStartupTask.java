@@ -4,6 +4,7 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -56,6 +57,9 @@ public class SlimefunStartupTask implements Runnable {
                 SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
             }
         }
+        
+        // Load/Unload Worlds, only after all plugins have started up. Fixes #2862
+        new WorldListener(this.plugin);
 
         // Only load this Listener if the corresponding items are enabled
         if (isEnabled("ELEVATOR_PLATE", "GPS_ACTIVATION_DEVICE_SHARED", "GPS_ACTIVATION_DEVICE_PERSONAL")) {
