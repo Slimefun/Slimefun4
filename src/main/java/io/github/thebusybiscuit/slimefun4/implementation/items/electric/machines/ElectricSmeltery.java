@@ -1,5 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
@@ -12,25 +26,10 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link ElectricSmeltery} is an electric version of the standard {@link Smeltery}.
@@ -102,19 +101,6 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
                 }
             }
         };
-
-        registerBlockHandler(getId(), (p, b, tool, reason) -> {
-            BlockMenu inv = BlockStorage.getInventory(b);
-
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getInputSlots());
-                inv.dropItems(b.getLocation(), getOutputSlots());
-            }
-
-            progress.remove(b);
-            processing.remove(b);
-            return true;
-        });
     }
 
     @Nonnull

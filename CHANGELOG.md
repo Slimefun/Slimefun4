@@ -29,9 +29,11 @@
 * Added Enhanced Auto Crafter
 
 #### Changes
+* Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
 
 #### Fixes
 * Fixed #1161
+* Fixed #2862
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
