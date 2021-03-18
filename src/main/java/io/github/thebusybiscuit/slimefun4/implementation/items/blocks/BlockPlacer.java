@@ -13,10 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.Nameable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -27,10 +25,10 @@ import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.MaterialTagSetting;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockDispenseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
@@ -60,7 +58,9 @@ public class BlockPlacer extends SlimefunItem {
         super(category, item, recipeType, recipe);
 
         addItemSetting(unplaceableBlocks);
-        addItemHandler(onPlace(), onBlockBreak(), onBlockDispense());
+
+        addItemHandler(onPlace(), onBlockDispense());
+        addItemHandler(new VanillaInventoryDropHandler<>(Dispenser.class));
     }
 
     @Nonnull
@@ -73,32 +73,6 @@ public class BlockPlacer extends SlimefunItem {
                 Block b = e.getBlock();
 
                 BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
-            }
-        };
-    }
-
-    @Nonnull
-    private BlockBreakHandler onBlockBreak() {
-        /*
-         * Explosions don't need explicit handling here.
-         * The default of "destroy the dispenser and drop the contents" is
-         * fine for our purposes already.
-         */
-        return new BlockBreakHandler(false, true) {
-
-            @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
-                // Fixes #2852 - Manually drop inventory contents
-                Block b = e.getBlock();
-                BlockState state = PaperLib.getBlockState(b, false).getState();
-
-                if (state instanceof Dispenser) {
-                    for (ItemStack stack : ((Dispenser) state).getInventory()) {
-                        if (stack != null && !stack.getType().isAir()) {
-                            drops.add(stack);
-                        }
-                    }
-                }
             }
         };
     }
