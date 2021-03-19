@@ -96,7 +96,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.SoulboundList
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VampireBladeListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.VillagerTradingListener;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.AnvilListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.BrewingStandListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting.CartographyTableListener;
@@ -670,9 +669,6 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
 
         // Handle Slimefun Guide being given on Join
         new SlimefunGuideListener(this, configManager.isSlimefunGuideGivenOnJoin());
-
-        // Load/Unload Worlds in Slimefun
-        new WorldListener(this);
 
         // Clear the Slimefun Guide History upon Player Leaving
         new PlayerProfileListener(this);
