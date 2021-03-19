@@ -142,8 +142,8 @@ public final class SlimefunConfigManager {
         }
 
         for (SlimefunItem item : SlimefunPlugin.getRegistry().getAllSlimefunItems()) {
-            if (!itemsConfig.getBoolean(item.getId() + ".enabled")) {
-                // Disabling an item requires a restart (for now)
+            if (item.isDisabled() != !itemsConfig.getBoolean(item.getId() + ".enabled")) {
+                // Enabling/Disabling an item requires a restart (for now)
                 isRestartRequired = true;
             }
 
