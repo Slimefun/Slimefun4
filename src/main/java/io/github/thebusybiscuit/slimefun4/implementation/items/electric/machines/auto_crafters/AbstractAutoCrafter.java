@@ -161,7 +161,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method checks if the given {@link Block} is a valid {@link Chest}
-     * where the auto crafter could be placed upon.
+     * where the Auto Crafter could be placed upon.
      * Right now this only supports {@code Material.CHEST} but it can change or
      * be overridden in the future.
      * 
