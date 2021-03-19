@@ -21,12 +21,14 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 /**
  * This is an implementation of {@link BlockBreakHandler} which is suited for any {@link SlimefunItem}
  * that uses the vanilla {@link Inventory} from the {@link BlockState}.
+ * 
  * <p>
  * The default behaviour is the following:
+ * <p>
  * 
- * <table>
+ * <table border="1" width="100%" summary="Drop contents when broken by player, do not allow androids">
  * <tr>
- * <th>Type</th>
+ * <th>Broken by...</th>
  * <th>Behaviour</th>
  * </tr>
  * <tr>
