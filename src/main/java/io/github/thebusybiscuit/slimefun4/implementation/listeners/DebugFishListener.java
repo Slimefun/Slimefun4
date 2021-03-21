@@ -155,6 +155,12 @@ public class DebugFishListener implements Listener {
             } else {
                 p.sendMessage(ChatColors.color("&dChargeable: " + redCross));
             }
+
+            if (item instanceof EnergyNetProvider) {
+                EnergyNetProvider provider = (EnergyNetProvider) item;
+
+                p.sendMessage(ChatColors.color("  &dGenerating: &e" + provider.getGeneratedOutput(b.getLocation(), BlockStorage.getLocationInfo(b.getLocation()))));
+            }
         }
 
         p.sendMessage(ChatColors.color("&6" + BlockStorage.getBlockInfoAsJson(b)));
