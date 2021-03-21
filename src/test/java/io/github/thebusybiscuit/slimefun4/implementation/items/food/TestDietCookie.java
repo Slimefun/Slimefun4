@@ -6,7 +6,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +45,6 @@ class TestDietCookie implements SlimefunItemTest<DietCookie> {
     }
 
     @Test
-    @Disabled("MockBukkit does not sound String sounds atm")
     @DisplayName("Test Diet Cookies giving Levitation Effect")
     void testConsumptionBehaviour() {
         PlayerMock player = server.addPlayer();
