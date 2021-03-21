@@ -111,6 +111,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             // Prevent blocks from being placed, food from being eaten, etc...
             e.cancel();
 
+            // Check if we have a valid chest below
             if (!isValidChest(b.getRelative(BlockFace.DOWN))) {
                 SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
             } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
@@ -128,6 +129,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                         showRecipe(p, b, recipe);
                     }
                 }
+            } else {
+                SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access");
             }
         });
     }
@@ -373,7 +376,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * @param capacity
      *            The amount of energy this machine can store
      * 
-     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
     public final AbstractAutoCrafter setCapacity(int capacity) {
@@ -393,7 +396,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * @param energyConsumption
      *            The energy consumed per tick
      * 
-     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
     public final AbstractAutoCrafter setEnergyConsumption(int energyConsumption) {
@@ -407,6 +410,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     @Override
     public void register(@Nonnull SlimefunAddon addon) {
+        Validate.notNull(addon, "A SlimefunAddon cannot be null!");
         this.addon = addon;
 
         if (getCapacity() <= 0) {

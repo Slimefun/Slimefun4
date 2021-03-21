@@ -16,6 +16,7 @@ import org.bukkit.util.Vector;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInventoryDropHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -33,6 +34,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  *
  * @author TheBusyBiscuit
  * @author Walshy
+ * 
  * @see InfusedMagnet
  */
 public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
@@ -46,6 +48,9 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
         super(category, item, recipeType, recipe);
 
         addItemSetting(silent, radius, toggleable);
+
+        // Fixes #2895 - Make sure we drop all inventory contents
+        addItemHandler(new VanillaInventoryDropHandler<>(org.bukkit.block.Hopper.class));
     }
 
     @Override
