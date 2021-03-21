@@ -25,11 +25,14 @@
 ## Release Candidate 22 (TBD)
 
 #### Additions
+* Added Vanilla Auto Crafter
+* Added Enhanced Auto Crafter
 
 #### Changes
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
 
 #### Fixes
+* Fixed #1161
 * Fixed #2862
 * Fixed #2887
 * Fixed items getting deleted when breaking enhanced furnaces
