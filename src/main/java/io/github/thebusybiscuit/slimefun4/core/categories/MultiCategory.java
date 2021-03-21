@@ -19,12 +19,13 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 public class MultiCategory extends FlexCategory {
 
     private static final int CATEGORY_SIZE = 36;
-    private final List<SubCategory> subCategories = new ArrayList<>();
+    private final List<Category> subCategories = new ArrayList<>();
 
     @ParametersAreNonnullByDefault
     public MultiCategory(NamespacedKey key, ItemStack item) {
@@ -37,24 +38,24 @@ public class MultiCategory extends FlexCategory {
     }
 
     /**
-     * This will add the given {@link SubCategory} to this {@link MultiCategory}.
+     * This will add the given {@link Category} to this {@link MultiCategory}.
      * 
      * @param category
-     *            The {@link SubCategory} to add.
+     *            The {@link Category} to add.
      */
-    public void addSubCategory(@Nonnull SubCategory category) {
+    public void addSubCategory(@Nonnull Category category) {
         Validate.notNull(category, "The Category cannot be null!");
 
         subCategories.add(category);
     }
 
     /**
-     * This will remove the given {@link SubCategory} from this {@link MultiCategory} (if present).
+     * This will remove the given {@link Category} from this {@link MultiCategory} (if present).
      * 
      * @param category
-     *            The {@link SubCategory} to remove.
+     *            The {@link Category} to remove.
      */
-    public void removeSubCategory(@Nonnull SubCategory category) {
+    public void removeSubCategory(@Nonnull Category category) {
         Validate.notNull(category, "The Category cannot be null!");
 
         subCategories.remove(category);
@@ -98,7 +99,7 @@ public class MultiCategory extends FlexCategory {
         while (target < (subCategories.size() - 1) && index < CATEGORY_SIZE + 9) {
             target++;
 
-            SubCategory category = subCategories.get(target);
+            Category category = subCategories.get(target);
             menu.addItem(index, category.getItem(p));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 SlimefunGuide.openCategory(profile, category, mode, 1);
