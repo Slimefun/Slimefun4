@@ -484,8 +484,6 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 * (API) Added ExplosiveToolBreakBlocksEvent
 * Added an option to enable/disable water in the nether via a crucible
 * /sf versions now shows the Java version and some useful tooltips
-* Added sound effects for Slime Boots
-* Added sounds.yml file to configure all sound effects
 
 #### Changes
 * Deprecated Automatic Crafting Chamber
