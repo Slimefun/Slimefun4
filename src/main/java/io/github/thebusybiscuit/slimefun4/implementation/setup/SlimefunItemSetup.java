@@ -104,6 +104,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.AnimalGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.CropGrowthAccelerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.accelerators.TreeGrowthAccelerator;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.EnhancedAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.VanillaAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.BookBinder;
@@ -2580,7 +2582,19 @@ public final class SlimefunItemSetup {
         }
 
         new ElytraCap(categories.magicalArmor, SlimefunItems.ELYTRA_CAP, RecipeType.ARMOR_FORGE,
-        new ItemStack[]{new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
+        new ItemStack[] {new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
+        .register(plugin);
+
+        new VanillaAutoCrafter(categories.cargo, SlimefunItems.VANILLA_AUTO_CRAFTER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, SlimefunItems.BLISTERING_INGOT_3, null, new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.CARGO_MOTOR, new ItemStack(Material.CRAFTING_TABLE), null, SlimefunItems.ELECTRIC_MOTOR, null})
+        .setCapacity(256)
+        .setEnergyConsumption(16)
+        .register(plugin);
+
+        new EnhancedAutoCrafter(categories.cargo, SlimefunItems.ENHANCED_AUTO_CRAFTER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, SlimefunItems.VANILLA_AUTO_CRAFTER, null, new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER), new ItemStack(Material.CRAFTING_TABLE), null, SlimefunItems.CARGO_MOTOR, null})
+        .setCapacity(256)
+        .setEnergyConsumption(16)
         .register(plugin);
 
         // @formatter:on

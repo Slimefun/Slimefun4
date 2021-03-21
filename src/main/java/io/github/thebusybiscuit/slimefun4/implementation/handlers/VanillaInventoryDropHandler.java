@@ -24,24 +24,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * <p>
  * The default behaviour is the following:
  * 
- * <table>
- * <tr>
- * <th>Type</th>
- * <th>Behaviour</th>
- * </tr>
- * <tr>
- * <td>Player</td>
- * <td>Drop inventory contents.</td>
- * </tr>
- * <tr>
- * <td>Android</td>
- * <td>Not allowed.</td>
- * </tr>
- * <tr>
- * <td>Explosions</td>
- * <td>Delete contents.</td>
- * </tr>
- * </table>
+ * <pre>
+| Broken by... | Behaviour                |
+| ------------ | ------------------------ |
+| Player       | Drop inventory contents. |
+| Android      | Not allowed.             |
+| Explosions   | Delete contents.         |
+ * </pre>
  * 
  * @author TheBusyBiscuit
  *
