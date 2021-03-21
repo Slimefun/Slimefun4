@@ -18,6 +18,8 @@ import java.util.List;
  * This {@link Event} is called when an {@link ExplosiveTool} is used to break blocks.
  *
  * @author GallowsDove
+ * 
+ * @see ExplosiveTool
  *
  */
 public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancellable {
@@ -26,20 +28,35 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     private final ItemStack itemInHand;
     private final ExplosiveTool explosiveTool;
-    private final List<Block> blocks;
+    private final Block mainBlock;
+    private final List<Block> additionalBlocks;
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public ExplosiveToolBreakBlocksEvent(Player player, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
+    public ExplosiveToolBreakBlocksEvent(Player player, Block block, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
 
-        Validate.notEmpty(blocks, "Blocks cannot be null or empty");
+        Validate.notNull(block, "The center block cannot be null!");
+        Validate.notNull(blocks, "Blocks cannot be null");
         Validate.notNull(item, "Item cannot be null");
         Validate.notNull(explosiveTool, "ExplosiveTool cannot be null");
 
-        this.blocks = blocks;
+        this.mainBlock = block;
+        this.additionalBlocks = blocks;
         this.itemInHand = item;
         this.explosiveTool = explosiveTool;
+    }
+
+    /**
+     * This returns the primary {@link Block} that was broken.
+     * This {@link Block} triggered this {@link Event} and is not included
+     * in {@link #getAdditionalBlocks()}.
+     * 
+     * @return The primary broken {@link Block}
+     */
+    @Nonnull
+    public Block getPrimaryBlock() {
+        return this.mainBlock;
     }
 
     /**
@@ -48,8 +65,8 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
      * @return The broken blocks
      */
     @Nonnull
-    public List<Block> getBlocks() {
-        return this.blocks;
+    public List<Block> getAdditionalBlocks() {
+        return this.additionalBlocks;
     }
 
     /**

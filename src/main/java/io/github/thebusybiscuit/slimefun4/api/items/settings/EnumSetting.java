@@ -32,11 +32,6 @@ public class EnumSetting<T extends Enum<T>> extends ItemSetting<String> {
         this.enumClass = enumClass;
     }
 
-    @Deprecated
-    public EnumSetting(String key, Class<T> enumClass, T defaultValue) {
-        this(null, key, enumClass, defaultValue);
-    }
-
     @Nonnull
     @Override
     protected String getErrorMessage() {

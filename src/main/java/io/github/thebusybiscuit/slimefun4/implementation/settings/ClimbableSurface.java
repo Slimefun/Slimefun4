@@ -26,6 +26,8 @@ public class ClimbableSurface extends DoubleRangeSetting {
     /**
      * This creates a new {@link ClimbableSurface} for the given {@link Material}.
      * 
+     * @param climbingPick
+     *            The {@link ClimbingPick} instance
      * @param surface
      *            The {@link Material} of this surface
      * @param defaultValue

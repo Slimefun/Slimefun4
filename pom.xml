@@ -261,6 +261,10 @@
                             <packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
                         </group>
                         <group>
+                            <title>Slimefun4 - Integrations with other plugins</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.integrations*</packages>
+                        </group>
+                        <group>
                             <title>Slimefun4 - Common utility packages</title>
                             <packages>io.github.thebusybiscuit.slimefun4.utils*</packages>
                         </group>
@@ -343,7 +347,7 @@
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.31.0</version>
+            <version>0.32.1</version>
             <scope>test</scope>
 
             <exclusions>

@@ -35,11 +35,6 @@ public class MaterialTagSetting extends ItemSetting<List<String>> {
         this.defaultTag = defaultTag;
     }
 
-    @Deprecated
-    public MaterialTagSetting(String key, Tag<Material> defaultValue) {
-        this(null, key, defaultValue);
-    }
-
     /**
      * This {@link Tag} holds the default values for this {@link MaterialTagSetting}.
      * 

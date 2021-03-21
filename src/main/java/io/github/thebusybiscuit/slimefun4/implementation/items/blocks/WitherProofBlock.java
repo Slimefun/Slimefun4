@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
@@ -22,10 +24,12 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class WitherProofBlock extends SlimefunItem implements WitherProof {
 
+    @ParametersAreNonnullByDefault
     public WitherProofBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }
 
+    @ParametersAreNonnullByDefault
     public WitherProofBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
