@@ -57,7 +57,7 @@ public class SlimefunStartupTask implements Runnable {
                 SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + SlimefunPlugin.getVersion());
             }
         }
-        
+
         // Load/Unload Worlds, only after all plugins have started up. Fixes #2862
         new WorldListener(this.plugin);
 
