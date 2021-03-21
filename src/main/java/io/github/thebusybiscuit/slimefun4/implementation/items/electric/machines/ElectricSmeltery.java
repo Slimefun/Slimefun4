@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
@@ -25,9 +26,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -102,21 +101,10 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
                 }
             }
         };
-
-        registerBlockHandler(getId(), (p, b, tool, reason) -> {
-            BlockMenu inv = BlockStorage.getInventory(b);
-
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getInputSlots());
-                inv.dropItems(b.getLocation(), getOutputSlots());
-            }
-
-            getMachineProcessor().removeOperation(b);
-            return true;
-        });
     }
 
-    private Comparator<Integer> compareSlots(DirtyChestMenu menu) {
+    @Nonnull
+    private Comparator<Integer> compareSlots(@Nonnull DirtyChestMenu menu) {
         return Comparator.comparingInt(slot -> menu.getItemInSlot(slot).getAmount());
     }
 

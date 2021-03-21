@@ -22,7 +22,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class InfusedMagnet extends UnplaceableBlock {
 
-    private final ItemSetting<Double> radius = new DoubleRangeSetting("pickup-radius", 0.1, 6.0, Double.MAX_VALUE);
+    private final ItemSetting<Double> radius = new DoubleRangeSetting(this, "pickup-radius", 0.1, 6.0, Double.MAX_VALUE);
 
     public InfusedMagnet(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
