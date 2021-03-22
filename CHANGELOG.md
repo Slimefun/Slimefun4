@@ -37,6 +37,7 @@
 * Fixed #2887
 * Fixed items getting deleted when breaking enhanced furnaces
 * Fixed #2895
+* Fixed #2896
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21

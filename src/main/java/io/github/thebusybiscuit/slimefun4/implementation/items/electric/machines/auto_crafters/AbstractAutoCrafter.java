@@ -31,9 +31,9 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.papermc.lib.PaperLib;
@@ -88,7 +88,6 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
         recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
 
-        addItemHandler(onRightClick());
         addItemHandler(new BlockTicker() {
 
             @Override
@@ -103,36 +102,43 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         });
     }
 
-    @Nonnull
-    private BlockUseHandler onRightClick() {
-        return e -> e.getClickedBlock().ifPresent(b -> {
-            Player p = e.getPlayer();
+    /**
+     * This method handles our right-clicking behaviour.
+     * <p>
+     * Do not call this method directly, see our {@link AutoCrafterListener} for the intended
+     * use case.
+     * 
+     * @param b
+     *            The {@link Block} that was clicked
+     * @param p
+     *            The {@link Player} who clicked
+     */
+    @ParametersAreNonnullByDefault
+    public void onRightClick(Block b, Player p) {
+        Validate.notNull(b, "The Block must not be null!");
+        Validate.notNull(p, "The Player cannot be null!");
 
-            // Prevent blocks from being placed, food from being eaten, etc...
-            e.cancel();
-
-            // Check if we have a valid chest below
-            if (!isValidChest(b.getRelative(BlockFace.DOWN))) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
-            } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
-                if (p.isSneaking()) {
-                    // Select a new recipe
-                    updateRecipe(b, p);
-                } else {
-                    AbstractRecipe recipe = getSelectedRecipe(b);
-
-                    if (recipe == null) {
-                        // Prompt the User to crouch
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
-                    } else {
-                        // Show the current recipe
-                        showRecipe(p, b, recipe);
-                    }
-                }
+        // Check if we have a valid chest below
+        if (!isValidChest(b.getRelative(BlockFace.DOWN))) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
+        } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
+            if (p.isSneaking()) {
+                // Select a new recipe
+                updateRecipe(b, p);
             } else {
-                SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access");
+                AbstractRecipe recipe = getSelectedRecipe(b);
+
+                if (recipe == null) {
+                    // Prompt the User to crouch
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
+                } else {
+                    // Show the current recipe
+                    showRecipe(p, b, recipe);
+                }
             }
-        });
+        } else {
+            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access");
+        }
     }
 
     protected void tick(@Nonnull Block b, @Nonnull Config data) {
