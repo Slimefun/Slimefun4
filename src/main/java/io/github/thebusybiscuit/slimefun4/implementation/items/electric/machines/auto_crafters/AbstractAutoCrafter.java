@@ -211,6 +211,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      *            The {@link AbstractRecipe} to select
      */
     protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
+        Validate.notNull(b);
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof Skull) {
@@ -416,21 +417,20 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (getCapacity() <= 0) {
             warn("The capacity has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
+            return;
         }
 
         if (getEnergyConsumption() <= 0) {
             warn("The energy consumption has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyConsumption(...)' before registering!");
+            return;
         }
-
-        if (getCapacity() > 0 && getEnergyConsumption() > 0) {
-            super.register(addon);
-        }
+        
+        super.register(addon);
     }
 
     @Override
     public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
-
 }
