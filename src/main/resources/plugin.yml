@@ -28,7 +28,7 @@ commands:
   slimefun:
     aliases: sf
     description: Slimefun base command
-    usage: You either forgot to install CS-CoreLib or you installed an unsupported version.
+    usage: The Slimefun version you have installed does not seem to be compatible with your server setup. Check your console for more detailed info.
 
 # Default permissions
 permissions:
