@@ -54,7 +54,13 @@ public class AutoCrafterListener implements Listener {
                 e.cancel();
 
                 // Fixes 2896 - Forward the interaction before items get handled.
-                ((AbstractAutoCrafter) block).onRightClick(clickedBlock.get(), e.getPlayer());
+                AbstractAutoCrafter crafter = (AbstractAutoCrafter) block;
+
+                try {
+                    crafter.onRightClick(clickedBlock.get(), e.getPlayer());
+                } catch (Exception | LinkageError x) {
+                    crafter.error("Something went wrong while right-clicking an Auto-Crafter", x);
+                }
             }
         }
     }
