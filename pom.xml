@@ -261,6 +261,10 @@
                             <packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
                         </group>
                         <group>
+                            <title>Slimefun4 - Integrations with other plugins</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.integrations*</packages>
+                        </group>
+                        <group>
                             <title>Slimefun4 - Common utility packages</title>
                             <packages>io.github.thebusybiscuit.slimefun4.utils*</packages>
                         </group>
