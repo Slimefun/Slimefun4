@@ -3,9 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -23,19 +21,14 @@ import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.AbstractAutoCrafter;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -47,7 +40,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  * This class needs to be rewritten VERY BADLY.
  * But we should focus on rewriting the recipe system first.
  * 
- * @deprecated This is horribly done. Someone needs to rewrite this.
+ * @deprecated This has been replaced by the {@link AbstractAutoCrafter}.
  * 
  * @author TheBusyBiscuit
  *
@@ -58,13 +51,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
     private final int[] inputBorder = { 9, 10, 11, 12, 13, 18, 22, 27, 31, 36, 40, 45, 46, 47, 48, 49 };
     private final int[] outputBorder = { 23, 24, 25, 26, 32, 35, 41, 42, 43, 44 };
 
-    private final Map<String, ItemStack> craftingRecipes = new HashMap<>();
-
     @ParametersAreNonnullByDefault
     public AutomatedCraftingChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset(getId(), "&4Deprecated item. Do not use.") {
+        new BlockMenuPreset(getId(), "&4Machine is disabled.") {
 
             @Override
             public void init() {
@@ -88,17 +79,11 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
                         return false;
                     });
                 }
-
-                menu.replaceExistingItem(7, new CustomItem(Material.CRAFTING_TABLE, "&7Craft Last", "", "&e> Click to craft the last shaped recipe", "&cOnly works with the last one"));
-                menu.addMenuClickHandler(7, (p, slot, item, action) -> {
-                    tick(b, true);
-                    return false;
-                });
             }
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                p.sendMessage(ChatColor.DARK_RED + "This item has been deprecated. It will be removed soon!");
+                p.sendMessage(ChatColor.DARK_RED + "This item has been disabled and will be removed soon. Please switch over to the new Auto Crafters in the Cargo Category.");
                 return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK);
             }
 
@@ -150,7 +135,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                e.getPlayer().sendMessage(ChatColor.DARK_RED + "This item has been deprecated. It will be removed soon!");
+                e.getPlayer().sendMessage(ChatColor.DARK_RED + "This item has been disabled and will be removed soon. Please switch over to the new Auto Crafters in the Cargo Category.");
                 BlockStorage.addBlockInfo(e.getBlock(), "enabled", String.valueOf(false));
             }
 
@@ -211,107 +196,5 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
     @Override
     public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
-    }
-
-    @Override
-    public void preRegister() {
-        addItemHandler(new BlockTicker() {
-
-            @Override
-            public void tick(Block b, SlimefunItem sf, Config data) {
-                AutomatedCraftingChamber.this.tick(b, false);
-            }
-
-            @Override
-            public boolean isSynchronized() {
-                return false;
-            }
-        });
-    }
-
-    protected void tick(Block block, boolean craftLast) {
-        if (!craftLast && BlockStorage.getLocationInfo(block.getLocation(), "enabled").equals(String.valueOf(false))) {
-            return;
-        }
-
-        if (getCharge(block.getLocation()) < getEnergyConsumption()) {
-            return;
-        }
-
-        String input = getSerializedInput(block, craftLast);
-        testInputAgainstRecipes(block, input);
-    }
-
-    private String getSerializedInput(Block block, boolean craftLast) {
-        BlockMenu menu = BlockStorage.getInventory(block);
-        StringBuilder builder = new StringBuilder();
-        int i = 0;
-        boolean lastIteration = false;
-
-        for (int j = 0; j < 9; j++) {
-            if (i > 0) {
-                builder.append(" </slot> ");
-            }
-
-            ItemStack item = menu.getItemInSlot(getInputSlots()[j]);
-
-            if (item != null && item.getAmount() == 1) {
-                if (craftLast) {
-                    lastIteration = true;
-                } else {
-                    return "";
-                }
-            }
-
-            builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
-
-            i++;
-        }
-
-        // we're only executing the last possible shaped recipe
-        // we don't want to allow this to be pressed instead of the default timer-based
-        // execution to prevent abuse and auto clickers
-        if (craftLast && !lastIteration) {
-            return "";
-        }
-
-        return builder.toString();
-    }
-
-    private void testInputAgainstRecipes(Block block, String input) {
-        BlockMenu menu = BlockStorage.getInventory(block);
-
-        ItemStack output = craftingRecipes.get(input);
-        if (output != null && menu.fits(output, getOutputSlots())) {
-            menu.pushItem(output.clone(), getOutputSlots());
-            removeCharge(block.getLocation(), getEnergyConsumption());
-
-            for (int j = 0; j < 9; j++) {
-                if (menu.getItemInSlot(getInputSlots()[j]) != null) {
-                    menu.consumeItem(getInputSlots()[j]);
-                }
-            }
-        }
-    }
-
-    public void loadRecipes() {
-        EnhancedCraftingTable machine = (EnhancedCraftingTable) SlimefunItems.ENHANCED_CRAFTING_TABLE.getItem();
-
-        for (ItemStack[] inputs : RecipeType.getRecipeInputList(machine)) {
-            StringBuilder builder = new StringBuilder();
-            int i = 0;
-
-            for (ItemStack item : inputs) {
-                if (i > 0) {
-                    builder.append(" </slot> ");
-                }
-
-                builder.append(CustomItemSerializer.serialize(item, ItemFlag.MATERIAL, ItemFlag.ITEMMETA_DISPLAY_NAME, ItemFlag.ITEMMETA_LORE));
-
-                i++;
-            }
-
-            craftingRecipes.put(builder.toString(), RecipeType.getRecipeOutputList(machine, inputs));
-        }
     }
 }
