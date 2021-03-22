@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -70,6 +71,9 @@ class VanillaRecipe extends AbstractRecipe {
 
     @Override
     public void show(@Nonnull ChestMenu menu, @Nonnull AsyncRecipeChoiceTask task) {
+        Validate.notNull(menu, "The ChestMenu cannot be null!");
+        Validate.notNull(task, "The RecipeChoiceTask cannot be null!");
+
         menu.replaceExistingItem(24, getResult().clone());
         menu.addMenuClickHandler(24, ChestMenuUtils.getEmptyClickHandler());
 
@@ -108,5 +112,4 @@ class VanillaRecipe extends AbstractRecipe {
             return "invalid-recipe";
         }
     }
-
 }

@@ -177,5 +177,4 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
         return recipes;
     }
-
 }

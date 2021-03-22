@@ -217,6 +217,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      *            The {@link AbstractRecipe} to select
      */
     protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
+        Validate.notNull(b, "The Block cannot be null!");
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof Skull) {
@@ -438,5 +439,4 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
-
 }

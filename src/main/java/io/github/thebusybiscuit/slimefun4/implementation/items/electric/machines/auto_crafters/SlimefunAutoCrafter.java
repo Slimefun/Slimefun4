@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -53,6 +54,8 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     @Override
     @Nullable
     public AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
+        Validate.notNull(b, "The Block cannot be null!");
+
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof Skull) {
@@ -112,5 +115,4 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
         }
     }
-
 }
