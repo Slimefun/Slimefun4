@@ -37,6 +37,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterLi
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -218,7 +219,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
         Validate.notNull(b, "The Block cannot be null!");
-        BlockState state = PaperLib.getBlockState(b, false).getState();
+
+        BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
+        BlockState state = result.getState();
 
         if (state instanceof Skull) {
             if (recipe == null) {
@@ -227,6 +230,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             } else {
                 // Store the value to persistent data storage
                 PersistentDataAPI.setString((Skull) state, recipeStorageKey, recipe.toString());
+            }
+
+            // Fixes #2899 - Update the BlockState if necessary
+            if (result.isSnapshot()) {
+                state.update(true, false);
             }
         }
     }
@@ -263,12 +271,14 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             return false;
         });
 
+        // This makes the slots cycle through different ingredients
         AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
         recipe.show(menu, task);
         menu.open(p);
 
         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
 
+        // Only schedule the task if necessary
         if (!task.isEmpty()) {
             task.start(menu.toInventory());
         }
