@@ -112,5 +112,4 @@ class VanillaRecipe extends AbstractRecipe {
             return "invalid-recipe";
         }
     }
-
 }
