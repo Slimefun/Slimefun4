@@ -218,7 +218,6 @@ public final class ResearchSetup {
         register("cargo_nodes", 206, "Cargo Setup", 30, SlimefunItems.CARGO_INPUT_NODE, SlimefunItems.CARGO_OUTPUT_NODE);
         register("electric_ingot_machines", 207, "Electric Ingot Fabrication", 18, SlimefunItems.ELECTRIC_GOLD_PAN, SlimefunItems.ELECTRIC_DUST_WASHER, SlimefunItems.ELECTRIC_INGOT_FACTORY);
         register("high_tier_electric_ingot_machines", 209, "Super Fast Ingot Fabrication", 32, SlimefunItems.ELECTRIC_GOLD_PAN_3, SlimefunItems.ELECTRIC_DUST_WASHER_3, SlimefunItems.ELECTRIC_INGOT_FACTORY_3, SlimefunItems.ELECTRIC_ORE_GRINDER_2, SlimefunItems.ELECTRIC_ORE_GRINDER_3);
-        register("automated_crafting_chamber", 210, "Automated Crafting", 20, SlimefunItems.AUTOMATED_CRAFTING_CHAMBER);
         register("better_food_fabricator", 211, "Upgraded Food Fabrication", 28, SlimefunItems.FOOD_FABRICATOR_2, SlimefunItems.FOOD_COMPOSTER_2);
         register("reactor_access_port", 212, "Reactor Interaction", 18, SlimefunItems.REACTOR_ACCESS_PORT);
         register("fluid_pump", 213, "Fluid Pump", 28, SlimefunItems.FLUID_PUMP);
