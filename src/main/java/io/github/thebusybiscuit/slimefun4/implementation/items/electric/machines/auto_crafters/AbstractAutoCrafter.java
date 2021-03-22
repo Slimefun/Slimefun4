@@ -417,16 +417,16 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (getCapacity() <= 0) {
             warn("The capacity has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyCapacity(...)' before registering!");
-            return;
         }
 
         if (getEnergyConsumption() <= 0) {
             warn("The energy consumption has not been configured correctly. The Item was disabled.");
             warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyConsumption(...)' before registering!");
-            return;
         }
         
-        super.register(addon);
+        if (getCapacity() > 0 && getEnergyConsumption() > 0) {
+            super.register(addon);
+        }
     }
 
     @Override

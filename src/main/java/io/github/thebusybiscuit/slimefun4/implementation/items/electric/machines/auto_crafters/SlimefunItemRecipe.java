@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * @see SlimefunAutoCrafter
  *
  */
-public class SlimefunItemRecipe extends AbstractRecipe {
+class SlimefunItemRecipe extends AbstractRecipe {
 
     private final int[] slots = { 11, 12, 13, 20, 21, 22, 29, 30, 31 };
     private final SlimefunItem item;
