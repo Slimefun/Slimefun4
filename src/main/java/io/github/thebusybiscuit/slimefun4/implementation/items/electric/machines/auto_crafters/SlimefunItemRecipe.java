@@ -53,8 +53,8 @@ public class SlimefunItemRecipe extends AbstractRecipe {
 
     @Override
     public void show(@Nonnull ChestMenu menu, @Nonnull AsyncRecipeChoiceTask task) {
-        Validate.notNull(menu);
-        Validate.notNull(task);
+        Validate.notNull(menu, "The ChestMenu cannot be null!");
+        Validate.notNull(task, "The RecipeChoiceTask cannot be null!");
         menu.addItem(24, getResult().clone(), ChestMenuUtils.getEmptyClickHandler());
         ItemStack[] recipe = item.getRecipe();
 

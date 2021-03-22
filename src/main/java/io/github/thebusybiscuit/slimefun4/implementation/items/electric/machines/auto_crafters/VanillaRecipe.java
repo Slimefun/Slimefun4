@@ -71,9 +71,9 @@ class VanillaRecipe extends AbstractRecipe {
 
     @Override
     public void show(@Nonnull ChestMenu menu, @Nonnull AsyncRecipeChoiceTask task) {
-        Validate.notNull(menu);
-        Validate.notNull(task);
-        
+        Validate.notNull(menu, "The ChestMenu cannot be null!");
+        Validate.notNull(task, "The RecipeChoiceTask cannot be null!");
+
         menu.replaceExistingItem(24, getResult().clone());
         menu.addMenuClickHandler(24, ChestMenuUtils.getEmptyClickHandler());
 

@@ -54,8 +54,8 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     @Override
     @Nullable
     public AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
-        Validate.notNull(b);
-        
+        Validate.notNull(b, "The Block cannot be null!");
+
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof Skull) {
