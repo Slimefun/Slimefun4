@@ -18,7 +18,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -36,6 +35,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -120,7 +120,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         Validate.notNull(p, "The Player cannot be null!");
 
         // Check if we have a valid chest below
-        if (!isValidChest(b.getRelative(BlockFace.DOWN))) {
+        if (!isValidInventory(b.getRelative(BlockFace.DOWN))) {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
         } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
             if (p.isSneaking()) {
@@ -153,7 +153,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         Block chest = b.getRelative(BlockFace.DOWN);
 
         // Make sure this is a Chest
-        if (isValidChest(chest)) {
+        if (isValidInventory(chest)) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
             if (state instanceof InventoryHolder) {
@@ -170,18 +170,27 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     }
 
     /**
-     * This method checks if the given {@link Block} is a valid {@link Chest}
+     * This method checks if the given {@link Block} has a valid {@link Inventory}
      * where the Auto Crafter could be placed upon.
-     * Right now this only supports {@code Material.CHEST} but it can change or
+     * Right now this only supports chests and a few select tile entities but it can change or
      * be overridden in the future.
      * 
      * @param block
      *            The {@link Block} to check
      * 
-     * @return Whether that {@link Block} is a valid {@link Chest}
+     * @return Whether that {@link Block} has a valid {@link Inventory}
      */
-    protected boolean isValidChest(@Nonnull Block block) {
-        return block.getType() == Material.CHEST;
+    protected boolean isValidInventory(@Nonnull Block block) {
+        Material type = block.getType();
+
+        switch (type) {
+            case CHEST:
+            case TRAPPED_CHEST:
+            case BARREL:
+                return true;
+            default:
+                return SlimefunTag.SHULKER_BOXES.isTagged(type);
+        }
     }
 
     /**
