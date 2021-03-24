@@ -12,8 +12,8 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.AbstractAutoCrafter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.EnhancedAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
