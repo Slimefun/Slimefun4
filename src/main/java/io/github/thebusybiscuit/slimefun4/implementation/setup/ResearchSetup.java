@@ -181,7 +181,7 @@ public final class ResearchSetup {
         register("electric_furnaces", 170, "Powered Furnace", 15, SlimefunItems.ELECTRIC_FURNACE);
         register("electric_ore_grinding", 171, "Crushing and Grinding", 20, SlimefunItems.ELECTRIC_ORE_GRINDER, SlimefunItems.ELECTRIC_INGOT_PULVERIZER);
         register("heated_pressure_chamber", 172, "Heated Pressure Chamber", 22, SlimefunItems.HEATED_PRESSURE_CHAMBER);
-        register("coal_generator", 173, "Coal Generator", 18, SlimefunItems.COAL_GENERATOR);
+        register("coal_generator", 173, "Coal Generator", 14, SlimefunItems.COAL_GENERATOR);
         register("bio_reactor", 173, "Bio-Reactor", 18, SlimefunItems.BIO_REACTOR);
         register("auto_enchanting", 174, "Automatic Enchanting and Disenchanting", 24, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.AUTO_DISENCHANTER);
         register("auto_anvil", 175, "Automatic Anvil", 34, SlimefunItems.AUTO_ANVIL, SlimefunItems.AUTO_ANVIL_2);
@@ -243,7 +243,7 @@ public final class ResearchSetup {
         register("better_electric_crucibles", 231, "Hot Crucibles", 30, SlimefunItems.ELECTRIFIED_CRUCIBLE_2, SlimefunItems.ELECTRIFIED_CRUCIBLE_3);
         register("advanced_electric_smeltery", 232, "Advanced Electric Smeltery", 28, SlimefunItems.ELECTRIC_SMELTERY_2);
         register("advanced_farmer_android", 233, "Advanced Androids - Farmer", 30, SlimefunItems.PROGRAMMABLE_ANDROID_2_FARMER);
-        register("lava_generator", 234, "Lava Generator", 38, SlimefunItems.LAVA_GENERATOR);
+        register("lava_generator", 234, "Lava Generator", 16, SlimefunItems.LAVA_GENERATOR);
         register("nether_ice", 235, "Nether Ice Coolant", 45, SlimefunItems.NETHER_ICE, SlimefunItems.ENRICHED_NETHER_ICE, SlimefunItems.NETHER_ICE_COOLANT_CELL);
         register("nether_star_reactor", 236, "Nether Star Reactor", 60, SlimefunItems.NETHER_STAR_REACTOR);
         register("blistering_ingots", 237, "Blistering Radioactivity", 38, SlimefunItems.BLISTERING_INGOT, SlimefunItems.BLISTERING_INGOT_2, SlimefunItems.BLISTERING_INGOT_3);
@@ -284,7 +284,7 @@ public final class ResearchSetup {
         register("wise_talisman", 271, "Talisman of the Wise", 20, SlimefunItems.TALISMAN_WISE);
         register("book_binder", 272, "Enchantment Book Binding", 26, SlimefunItems.BOOK_BINDER);
         register("auto_crafting", 273, "Automatic Crafting", 30, SlimefunItems.VANILLA_AUTO_CRAFTER, SlimefunItems.ENHANCED_AUTO_CRAFTER);
-        register("improved_generators", 274, "Improved Generators", 38, SlimefunItems.COAL_GENERATOR_2, SlimefunItems.LAVA_GENERATOR_2);
+        register("improved_generators", 274, "Improved Generators", 24, SlimefunItems.COAL_GENERATOR_2, SlimefunItems.LAVA_GENERATOR_2);
         register("ingredients_and_cheese", 275, "Slimefun Cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);
     }
 
