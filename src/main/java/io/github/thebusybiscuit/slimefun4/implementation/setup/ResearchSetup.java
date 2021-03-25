@@ -285,7 +285,7 @@ public final class ResearchSetup {
         register("book_binder", 272, "Enchantment Book Binding", 26, SlimefunItems.BOOK_BINDER);
         register("auto_crafting", 273, "Automatic Crafting", 30, SlimefunItems.VANILLA_AUTO_CRAFTER, SlimefunItems.ENHANCED_AUTO_CRAFTER);
         register("improved_generators", 274, "Improved Generators", 38, SlimefunItems.COAL_GENERATOR_2, SlimefunItems.LAVA_GENERATOR_2);
-        register("ingredients_and_cheese", 275, "Slimefun cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);
+        register("ingredients_and_cheese", 275, "Slimefun Cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);
     }
 
     @ParametersAreNonnullByDefault
