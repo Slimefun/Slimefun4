@@ -27,6 +27,7 @@
 #### Additions
 * Added Vanilla Auto Crafter
 * Added Enhanced Auto Crafter
+* Added "Smart-Filling" mode to Cargo Input nodes
 
 #### Changes
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
