@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters;
+package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
 import java.util.Collection;
 import java.util.function.Predicate;

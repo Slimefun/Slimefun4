@@ -18,6 +18,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -64,6 +65,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GrapplingHo
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SeismicAxe;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.VampireBlade;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.BlockListener;
@@ -646,6 +648,7 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         new HopperListener(this);
         new TalismanListener(this);
         new SoulboundListener(this);
+        new AutoCrafterListener(this);
 
         // Bees were added in 1.15
         if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
@@ -887,12 +890,26 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.blockDataService;
     }
 
+    /**
+     * This method returns out world settings service.
+     * That service is responsible for managing item settings per
+     * {@link World}, such as disabling a {@link SlimefunItem} in a
+     * specific {@link World}.
+     * 
+     * @return Our instance of {@link PerWorldSettingsService}
+     */
     @Nonnull
     public static PerWorldSettingsService getWorldSettingsService() {
         validateInstance();
         return instance.worldSettingsService;
     }
 
+    /**
+     * This returns our {@link HologramsService} which handles the creation and
+     * cleanup of any holograms.
+     * 
+     * @return Our instance of {@link HologramsService}
+     */
     @Nonnull
     public static HologramsService getHologramsService() {
         validateInstance();
@@ -1050,15 +1067,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
     @Nonnull
     public static Set<Plugin> getInstalledAddons() {
         validateInstance();
-
         String pluginName = instance.getName();
 
         // @formatter:off
-        return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
-                .filter(plugin -> {
-                    PluginDescriptionFile description = plugin.getDescription();
-                    return description.getDepend().contains(pluginName) || description.getSoftDepend().contains(pluginName);
-                }).collect(Collectors.toSet());
+        return Arrays.stream(instance.getServer().getPluginManager().getPlugins()).filter(plugin -> {
+            PluginDescriptionFile description = plugin.getDescription();
+            return description.getDepend().contains(pluginName) || description.getSoftDepend().contains(pluginName);
+        }).collect(Collectors.toSet());
         // @formatter:on
     }
 

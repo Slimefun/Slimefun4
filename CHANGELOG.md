@@ -28,6 +28,7 @@
 * Added Vanilla Auto Crafter
 * Added Enhanced Auto Crafter
 * Added /sf reload
+* Added "Smart-Filling" mode to Cargo Input nodes
 
 #### Changes
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
@@ -37,6 +38,10 @@
 * Fixed #2862
 * Fixed #2887
 * Fixed items getting deleted when breaking enhanced furnaces
+* Fixed #2895
+* Fixed #2896
+* Fixed #2899
+* Fixed #2906
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21

@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters;
+package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -31,12 +30,14 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
+import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -88,7 +89,6 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
         recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
 
-        addItemHandler(onRightClick());
         addItemHandler(new BlockTicker() {
 
             @Override
@@ -103,33 +103,43 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         });
     }
 
-    @Nonnull
-    private BlockUseHandler onRightClick() {
-        return e -> e.getClickedBlock().ifPresent(b -> {
-            Player p = e.getPlayer();
+    /**
+     * This method handles our right-clicking behaviour.
+     * <p>
+     * Do not call this method directly, see our {@link AutoCrafterListener} for the intended
+     * use case.
+     * 
+     * @param b
+     *            The {@link Block} that was clicked
+     * @param p
+     *            The {@link Player} who clicked
+     */
+    @ParametersAreNonnullByDefault
+    public void onRightClick(Block b, Player p) {
+        Validate.notNull(b, "The Block must not be null!");
+        Validate.notNull(p, "The Player cannot be null!");
 
-            // Prevent blocks from being placed, food from being eaten, etc...
-            e.cancel();
+        // Check if we have a valid chest below
+        if (!isValidInventory(b.getRelative(BlockFace.DOWN))) {
+            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
+        } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
+            if (p.isSneaking()) {
+                // Select a new recipe
+                updateRecipe(b, p);
+            } else {
+                AbstractRecipe recipe = getSelectedRecipe(b);
 
-            if (!isValidChest(b.getRelative(BlockFace.DOWN))) {
-                SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.missing-chest");
-            } else if (SlimefunPlugin.getProtectionManager().hasPermission(p, b, ProtectableAction.INTERACT_BLOCK)) {
-                if (p.isSneaking()) {
-                    // Select a new recipe
-                    updateRecipe(b, p);
+                if (recipe == null) {
+                    // Prompt the User to crouch
+                    SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
                 } else {
-                    AbstractRecipe recipe = getSelectedRecipe(b);
-
-                    if (recipe == null) {
-                        // Prompt the User to crouch
-                        SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.select-a-recipe");
-                    } else {
-                        // Show the current recipe
-                        showRecipe(p, b, recipe);
-                    }
+                    // Show the current recipe
+                    showRecipe(p, b, recipe);
                 }
             }
-        });
+        } else {
+            SlimefunPlugin.getLocalization().sendMessage(p, "inventory.no-access");
+        }
     }
 
     protected void tick(@Nonnull Block b, @Nonnull Config data) {
@@ -143,7 +153,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         Block chest = b.getRelative(BlockFace.DOWN);
 
         // Make sure this is a Chest
-        if (isValidChest(chest)) {
+        if (isValidInventory(chest)) {
             BlockState state = PaperLib.getBlockState(chest, false).getState();
 
             if (state instanceof InventoryHolder) {
@@ -160,18 +170,27 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     }
 
     /**
-     * This method checks if the given {@link Block} is a valid {@link Chest}
+     * This method checks if the given {@link Block} has a valid {@link Inventory}
      * where the Auto Crafter could be placed upon.
-     * Right now this only supports {@code Material.CHEST} but it can change or
+     * Right now this only supports chests and a few select tile entities but it can change or
      * be overridden in the future.
      * 
      * @param block
      *            The {@link Block} to check
      * 
-     * @return Whether that {@link Block} is a valid {@link Chest}
+     * @return Whether that {@link Block} has a valid {@link Inventory}
      */
-    protected boolean isValidChest(@Nonnull Block block) {
-        return block.getType() == Material.CHEST;
+    protected boolean isValidInventory(@Nonnull Block block) {
+        Material type = block.getType();
+
+        switch (type) {
+            case CHEST:
+            case TRAPPED_CHEST:
+            case BARREL:
+                return true;
+            default:
+                return SlimefunTag.SHULKER_BOXES.isTagged(type);
+        }
     }
 
     /**
@@ -208,7 +227,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      *            The {@link AbstractRecipe} to select
      */
     protected void setSelectedRecipe(@Nonnull Block b, @Nullable AbstractRecipe recipe) {
-        BlockState state = PaperLib.getBlockState(b, false).getState();
+        Validate.notNull(b, "The Block cannot be null!");
+
+        BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);
+        BlockState state = result.getState();
 
         if (state instanceof Skull) {
             if (recipe == null) {
@@ -217,6 +239,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             } else {
                 // Store the value to persistent data storage
                 PersistentDataAPI.setString((Skull) state, recipeStorageKey, recipe.toString());
+            }
+
+            // Fixes #2899 - Update the BlockState if necessary
+            if (result.isSnapshot()) {
+                state.update(true, false);
             }
         }
     }
@@ -253,12 +280,14 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             return false;
         });
 
+        // This makes the slots cycle through different ingredients
         AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
         recipe.show(menu, task);
         menu.open(p);
 
         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
 
+        // Only schedule the task if necessary
         if (!task.isEmpty()) {
             task.start(menu.toInventory());
         }
@@ -373,7 +402,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * @param capacity
      *            The amount of energy this machine can store
      * 
-     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
     public final AbstractAutoCrafter setCapacity(int capacity) {
@@ -393,7 +422,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * @param energyConsumption
      *            The energy consumed per tick
      * 
-     * @return This method will return the current instance of {@link AContainer}, so that can be chained.
+     * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
     public final AbstractAutoCrafter setEnergyConsumption(int energyConsumption) {
@@ -407,6 +436,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     @Override
     public void register(@Nonnull SlimefunAddon addon) {
+        Validate.notNull(addon, "A SlimefunAddon cannot be null!");
         this.addon = addon;
 
         if (getCapacity() <= 0) {
@@ -428,5 +458,4 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     public final EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
-
 }

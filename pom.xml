@@ -261,6 +261,10 @@
                             <packages>io.github.thebusybiscuit.slimefun4.implementation*</packages>
                         </group>
                         <group>
+                            <title>Slimefun4 - Integrations with other plugins</title>
+                            <packages>io.github.thebusybiscuit.slimefun4.integrations*</packages>
+                        </group>
+                        <group>
                             <title>Slimefun4 - Common utility packages</title>
                             <packages>io.github.thebusybiscuit.slimefun4.utils*</packages>
                         </group>
@@ -360,7 +364,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.30.2</version>
+            <version>0.30.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

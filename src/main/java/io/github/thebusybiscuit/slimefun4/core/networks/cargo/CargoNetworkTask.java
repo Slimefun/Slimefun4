@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Location;
@@ -152,12 +153,15 @@ class CargoNetworkTask implements Runnable {
         }
     }
 
+    @Nullable
+    @ParametersAreNonnullByDefault
     private ItemStack distributeItem(ItemStack stack, Location inputNode, List<Location> outputNodes) {
         ItemStack item = stack;
 
         Deque<Location> destinations = new LinkedList<>(outputNodes);
         Config cfg = BlockStorage.getLocationInfo(inputNode);
         boolean roundrobin = Objects.equals(cfg.getString("round-robin"), "true");
+        boolean smartFill = Objects.equals(cfg.getString("smart-fill"), "true");
 
         if (roundrobin) {
             roundRobinSort(inputNode, destinations);
@@ -167,7 +171,7 @@ class CargoNetworkTask implements Runnable {
             Optional<Block> target = network.getAttachedBlock(output);
 
             if (target.isPresent()) {
-                item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), item);
+                item = CargoUtils.insert(network, inventories, output.getBlock(), target.get(), smartFill, item);
 
                 if (item == null) {
                     break;

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.AbstractRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractRecipe;
 
 class TestAbstractRecipe {
 

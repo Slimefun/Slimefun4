@@ -57,6 +57,11 @@ public class VanillaInventoryDropHandler<T extends BlockState & InventoryHolder>
     @Override
     @ParametersAreNonnullByDefault
     public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
+        // Fixes #2906 - Spigot being buggy as always...
+        if (!PaperLib.isPaper()) {
+            return;
+        }
+
         Block b = e.getBlock();
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
