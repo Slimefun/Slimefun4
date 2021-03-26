@@ -44,7 +44,7 @@ public class AutoEnchanter extends AContainer {
 
     private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting enchantLevelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
-    private final ItemSetting<List<String>> cantEnchantLores = new ItemSetting<>(this, "cant-enchant-lores", asList("§7- §cCan't be Auto-Enchanted"));
+    private final ItemSetting<List<String>> cantEnchantLores = new ItemSetting<>(this, "cant-enchant-lores", asList("&7- &cCan't be Auto-Enchanted"));
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -124,7 +124,7 @@ public class AutoEnchanter extends AContainer {
         SlimefunItem sfItem = null;
         if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore()) {
             for (String lore : cantEnchantLores.getValue()) {
-                if (item.getItemMeta().getLore().contains(lore)) {
+                if (item.getItemMeta().getLore().contains(ChatColors.color(lore))) {
                     return false;
                 }
             }
