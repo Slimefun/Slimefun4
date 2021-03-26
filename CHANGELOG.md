@@ -28,6 +28,7 @@
 * Added Vanilla Auto Crafter
 * Added Enhanced Auto Crafter
 * Added "Smart-Filling" mode to Cargo Input nodes
+* Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
 
 #### Changes
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
