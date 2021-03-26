@@ -14,6 +14,7 @@ import org.bukkit.Tag;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Player;
@@ -188,7 +189,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
     private void placeLiquid(@Nonnull Block block, boolean water) {
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
-            block.setType(water ? Material.WATER : Material.LAVA);
+            block.setType(water ? Material.WATER : Material.LAVA, false);
         } else {
             if (water && block.getBlockData() instanceof Waterlogged) {
                 Waterlogged wl = (Waterlogged) block.getBlockData();
