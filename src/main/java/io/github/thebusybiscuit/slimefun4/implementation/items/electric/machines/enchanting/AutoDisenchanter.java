@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -29,6 +28,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+import static java.util.Arrays.asList;
+
 /**
  * The {@link AutoDisenchanter}, in contrast to the {@link AutoEnchanter}, removes
  * {@link Enchantment Enchantments} from a given {@link ItemStack} and transfers them
@@ -50,6 +51,7 @@ public class AutoDisenchanter extends AContainer {
 
     private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting enchantLevelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
+    private final ItemSetting<List<String>> cantDisenchantLores = new ItemSetting<>(this, "cant-disenchant-lores", asList("§7- §cCan't be Auto-Disenchanted"));
 
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -57,6 +59,7 @@ public class AutoDisenchanter extends AContainer {
 
         addItemSetting(useEnchantLevelLimit);
         addItemSetting(enchantLevelLimit);
+        addItemSetting(cantDisenchantLores);
     }
 
     @Override
@@ -147,7 +150,14 @@ public class AutoDisenchanter extends AContainer {
     private boolean isDisenchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else if (item.getType() != Material.BOOK) {
+        } else if (item.hasItemMeta() && item.getItemMeta().getLore() != null) {
+            for (String lore : cantDisenchantLores.getValue()) {
+                if (item.getItemMeta().getLore().contains(lore)) {
+                    return false;
+                }
+            }
+        }
+        if (item.getType() != Material.BOOK) {
             // ^ This stops endless checks of getByItem for books
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             return sfItem == null || sfItem.isDisenchantable();

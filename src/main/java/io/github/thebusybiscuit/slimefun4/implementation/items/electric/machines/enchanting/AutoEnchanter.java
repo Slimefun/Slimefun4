@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -24,6 +25,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecip
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+import static java.util.Arrays.asList;
+
 /**
  * The {@link AutoEnchanter}, in contrast to the {@link AutoDisenchanter}, adds
  * {@link Enchantment Enchantments} from a given enchanted book and transfers them onto
@@ -41,6 +44,7 @@ public class AutoEnchanter extends AContainer {
 
     private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting enchantLevelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
+    private final ItemSetting<List<String>> cantEnchantLores = new ItemSetting<>(this, "cant-enchant-lores", asList("§7- §cCan't be Auto-Enchanted"));
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -48,6 +52,7 @@ public class AutoEnchanter extends AContainer {
 
         addItemSetting(useEnchantLevelLimit);
         addItemSetting(enchantLevelLimit);
+        addItemSetting(cantEnchantLores);
     }
 
     @Override
@@ -117,7 +122,13 @@ public class AutoEnchanter extends AContainer {
 
     private boolean isEnchantable(ItemStack item) {
         SlimefunItem sfItem = null;
-
+        if (item != null && item.hasItemMeta() && item.getItemMeta().getLore() != null) {
+            for (String lore : cantEnchantLores.getValue()) {
+                if (item.getItemMeta().getLore().contains(lore)) {
+                    return false;
+                }
+            }
+        }
         // stops endless checks of getByItem for enchanted book stacks.
         if (item != null && item.getType() != Material.ENCHANTED_BOOK) {
             sfItem = SlimefunItem.getByItem(item);

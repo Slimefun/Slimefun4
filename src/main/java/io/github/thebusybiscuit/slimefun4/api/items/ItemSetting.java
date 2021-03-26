@@ -9,6 +9,8 @@ import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
+import java.util.List;
+
 /**
  * This class represents a Setting for a {@link SlimefunItem} that can be modified via
  * the {@code Items.yml} {@link Config} file.
@@ -149,7 +151,7 @@ public class ItemSetting<T> {
         SlimefunPlugin.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
         Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getId() + '.' + getKey());
 
-        if (defaultValue.getClass().isInstance(configuredValue)) {
+        if (defaultValue.getClass().isInstance(configuredValue) || (configuredValue instanceof List && defaultValue instanceof List)) {
             // We can do an unsafe cast here, we did an isInstance(...) check before!
             T newValue = (T) configuredValue;
 
