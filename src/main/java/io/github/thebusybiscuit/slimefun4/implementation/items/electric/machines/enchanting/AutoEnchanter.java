@@ -122,7 +122,7 @@ public class AutoEnchanter extends AContainer {
 
     private boolean isEnchantable(ItemStack item) {
         SlimefunItem sfItem = null;
-        if (item != null && item.hasItemMeta() && item.getItemMeta().getLore() != null) {
+        if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore()) {
             for (String lore : cantEnchantLores.getValue()) {
                 if (item.getItemMeta().getLore().contains(lore)) {
                     return false;
