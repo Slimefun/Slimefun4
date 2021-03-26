@@ -292,6 +292,11 @@ final class CargoUtils {
             int maxStackSize = itemInSlot.getType().getMaxStackSize();
             int currentAmount = itemInSlot.getAmount();
 
+            if (!smartFill && currentAmount == maxStackSize) {
+                // Skip full stacks - Performance optimization for non-smartfill nodes
+                continue;
+            }
+
             if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
                 if (currentAmount < maxStackSize) {
                     int amount = currentAmount + stack.getAmount();
@@ -339,11 +344,17 @@ final class CargoUtils {
                 inv.setItem(slot, stack);
                 return null;
             } else {
+                int currentAmount = itemInSlot.getAmount();
                 int maxStackSize = itemInSlot.getType().getMaxStackSize();
 
+                if (!smartFill && currentAmount == maxStackSize) {
+                    // Skip full stacks - Performance optimization for non-smartfill nodes
+                    continue;
+                }
+
                 if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
-                    if (itemInSlot.getAmount() < maxStackSize) {
-                        int amount = itemInSlot.getAmount() + stack.getAmount();
+                    if (currentAmount < maxStackSize) {
+                        int amount = currentAmount + stack.getAmount();
 
                         if (amount > maxStackSize) {
                             stack.setAmount(amount - maxStackSize);
