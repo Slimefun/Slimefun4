@@ -53,7 +53,7 @@ public class AutoDisenchanter extends AContainer {
 
     private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting enchantLevelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
-    private final ItemSetting<List<String>> cantDisenchantLores = new ItemSetting<>(this, "cant-disenchant-lores", asList("§7- §cCan't be Auto-Disenchanted"));
+    private final ItemSetting<List<String>> cantDisenchantLores = new ItemSetting<>(this, "cant-disenchant-lores", asList("&7- &cCan't be Auto-Disenchanted"));
 
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -152,9 +152,9 @@ public class AutoDisenchanter extends AContainer {
     private boolean isDisenchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
+        } else if (item.hasItemMeta() && item.getItemMeta().getLore() != null) {
             for (String lore : cantDisenchantLores.getValue()) {
-                if (item.getItemMeta().getLore().contains(lore)) {
+                if (item.getItemMeta().getLore().contains(ChatColors.color(lore))) {
                     return false;
                 }
             }
