@@ -536,19 +536,6 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 if (itemstack != null) {
                     if (itemstack.getType() != Material.BARRIER) {
                         displayItem(profile, itemstack, 0, true);
-                    } else {
-                        if (!itemstack.hasItemMeta()){
-                            return false;
-                        }
-                        ItemMeta itemMeta = itemstack.getItemMeta();
-                        if (!itemMeta.hasLore()){
-                            return false;
-                        }
-                        List<String> lore = itemMeta.getLore();
-                        if (lore.contains(ChatColor.GREEN + "> Click to unlock")) {
-                            SlimefunItem sfitem = SlimefunItem.getByItem(itemstack);
-                            this.unlockItem(pl, sfitem, player -> displayItem(profile, itemstack, 0, true));
-                        }
                     }
                 }
             } catch (Exception | LinkageError x) {
@@ -557,13 +544,36 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         };
 
+        MenuClickHandler ununlockedClickHandler = (pl, slot, itemstack, action) -> {
+            try {
+                SlimefunItem sfitem = SlimefunItem.getByItem(itemstack);
+                this.unlockItem(pl, sfitem, player -> displayItem(profile, itemstack, 0, true));
+            } catch (Exception | LinkageError x) {
+                printErrorMessage(pl, x);;
+            }
+            return false;
+        };
+
         boolean isSlimefunRecipe = item instanceof SlimefunItem;
 
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
+            if (recipeItem == null) {
+                menu.addItem(recipeSlots[i], null, clickHandler);
+                continue;
+            }
+
+            if (recipeItem.hasItemMeta()) {
+                if (recipeItem.getItemMeta().hasLore()){
+                    if (recipeItem.getItemMeta().getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))){
+                        menu.addItem(recipeSlots[i], recipeItem, ununlockedClickHandler);
+                        continue;
+                    }
+                }
+            }
             menu.addItem(recipeSlots[i], recipeItem, clickHandler);
 
-            if (recipeItem != null && item instanceof MultiBlockMachine) {
+            if (item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
                     if (tag.isTagged(recipeItem.getType())) {
                         task.add(recipeSlots[i], tag);
