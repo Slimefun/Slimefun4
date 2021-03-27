@@ -30,6 +30,7 @@
 * Added "Smart-Filling" mode to Cargo Input nodes
 * Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
 * Added Armor Forge Auto Crafter
+* Auto-Crafters can now be turned on and off
 
 #### Changes
 * Removed all functionality from the old Automated Crafting Chamber
