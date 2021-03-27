@@ -541,10 +541,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                             return false;
                         }
                         ItemMeta itemMeta = itemstack.getItemMeta();
-                        List<String> lore = itemMeta.getLore();
-                        if (lore == null){
+                        if (!itemMeta.hasLore()){
                             return false;
                         }
+                        List<String> lore = itemMeta.getLore();
                         if (lore.contains(ChatColor.GREEN + "> Click to unlock")) {
                             SlimefunItem sfitem = SlimefunItem.getByItem(itemstack);
                             this.unlockItem(pl, sfitem, player -> displayItem(profile, itemstack, 0, true));
@@ -637,14 +637,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private static ItemStack getDisplayItem(Player p, boolean isSlimefunRecipe, ItemStack item) {
         if (isSlimefunRecipe) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
-            boolean hasPerm = Slimefun.hasPermission(p, slimefunItem, false);
 
             if (slimefunItem == null || slimefunItem.canUse(p, false)) {
                 // Return if the item is usable or isn't a Slimefun item
                 return item;
             }
 
-            if (!hasPerm) {
+            if (!SlimefunPlugin.getPermissionsService().hasPermission(p, slimefunItem)) {
                 return new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", "&fNo Permission");
             } else {
                 ItemStack result = slimefunItem.getItem().clone();
