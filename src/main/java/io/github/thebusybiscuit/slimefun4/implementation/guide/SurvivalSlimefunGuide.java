@@ -16,6 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.Tag;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -52,6 +53,8 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 /**
  * The {@link SurvivalSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
@@ -532,8 +535,20 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
             try {
-                if (itemstack != null && itemstack.getType() != Material.BARRIER) {
-                    displayItem(profile, itemstack, 0, true);
+                if (itemstack != null) {
+                    if (itemstack.getType() != Material.BARRIER) {
+                        displayItem(profile, itemstack, 0, true);
+                    } else {
+                        ItemMeta itemMeta = itemstack.getItemMeta();
+                        Validate.notNull(itemMeta, "Somehow the item didn't have an item meta");
+                        List<String> lore = itemMeta.getLore();
+                        Validate.notNull(lore, "Somehow the item didn't have a lore");
+                        if (lore.contains(ChatColor.GREEN + "> Click to unlock")) {
+                            SlimefunItem sfitem = SlimefunItem.getByItem(itemstack);
+                            Validate.notNull(sfitem, "Somehow the item that is not unlocked is not a Slimefun item");
+                            this.unlockItem(pl, sfitem, (player) -> displayItem(profile, itemstack, 0, true));
+                        }
+                    }
                 }
             } catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
@@ -621,13 +636,36 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private static ItemStack getDisplayItem(Player p, boolean isSlimefunRecipe, ItemStack item) {
         if (isSlimefunRecipe) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(item);
+            boolean hasPerm = Slimefun.hasPermission(p, slimefunItem, false);
 
-            if (slimefunItem == null) {
+            if (slimefunItem == null || slimefunItem.canUse(p, false)) {
+                // Return if the item is usable or isn't a Slimefun item
                 return item;
             }
 
-            String lore = Slimefun.hasPermission(p, slimefunItem, false) ? "&fNeeds to be unlocked elsewhere" : "&fNo Permission";
-            return slimefunItem.canUse(p, false) ? item : new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", lore);
+            if (!hasPerm) {
+                return new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", "&fNo Permission");
+            } else {
+                ItemStack result = slimefunItem.getItem().clone();
+                ItemMeta resultMeta = result.getItemMeta();
+                Validate.notNull(resultMeta, "Somehow the Slimefun item didn't have an item meta");
+                Research resultResearch = slimefunItem.getResearch();
+
+                if (resultResearch != null) {
+                    List<String> lore = new ArrayList<>();
+                    lore.add(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"));
+                    lore.add("");
+                    lore.add(ChatColor.GREEN + "> Click to unlock");
+                    lore.add("");
+                    lore.add(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + resultResearch.getCost() + " Level(s)");
+                    resultMeta.setLore(lore);
+                    result.setItemMeta(resultMeta);
+                    result.setType(Material.BARRIER);
+                    return result;
+                } else {
+                    return new CustomItem(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"), "", "&fNeeds to be unlocked elsewhere");
+                }
+            }
         } else {
             return item;
         }
