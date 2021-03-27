@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,6 +24,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -169,7 +169,10 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
     private List<Recipe> getRecipesFor(@Nonnull ItemStack item) {
         List<Recipe> recipes = new ArrayList<>();
 
-        for (Recipe recipe : Bukkit.getRecipesFor(item)) {
+        // Fixes #2913 - Bukkit.getRecipesFor() only checks for Materials
+        MinecraftRecipeService recipeService = SlimefunPlugin.getMinecraftRecipeService();
+
+        for (Recipe recipe : recipeService.getRecipesFor(item)) {
             if (recipe instanceof ShapedRecipe || recipe instanceof ShapelessRecipe) {
                 recipes.add(recipe);
             }
