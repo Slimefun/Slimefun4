@@ -547,7 +547,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                         }
                         if (lore.contains(ChatColor.GREEN + "> Click to unlock")) {
                             SlimefunItem sfitem = SlimefunItem.getByItem(itemstack);
-                            this.unlockItem(pl, sfitem, (player) -> displayItem(profile, itemstack, 0, true));
+                            this.unlockItem(pl, sfitem, player -> displayItem(profile, itemstack, 0, true));
                         }
                     }
                 }
