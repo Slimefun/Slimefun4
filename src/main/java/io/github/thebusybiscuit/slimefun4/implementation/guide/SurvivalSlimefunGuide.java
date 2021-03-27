@@ -1,5 +1,30 @@
 package io.github.thebusybiscuit.slimefun4.implementation.guide;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.Tag;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
+
 import io.github.thebusybiscuit.cscorelib2.chat.ChatInput;
 import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
@@ -28,45 +53,26 @@ import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.Tag;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.RecipeChoice;
-import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.logging.Level;
+import org.bukkit.material.MaterialData;
 
 /**
  * The {@link SurvivalSlimefunGuide} is the standard version of our {@link SlimefunGuide}.
  * It uses an {@link Inventory} to display {@link SlimefunGuide} contents.
- *
+ * 
  * @author TheBusyBiscuit
+ * 
  * @see SlimefunGuide
  * @see SlimefunGuideImplementation
  * @see CheatSheetSlimefunGuide
+ *
  */
 public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     private static final int CATEGORY_SIZE = 36;
     private static final Sound sound = Sound.ITEM_BOOK_PAGE_TURN;
 
-    private final int[] recipeSlots = {3, 4, 5, 12, 13, 14, 21, 22, 23};
+    private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
     private final ItemStack item;
     private final boolean showVanillaRecipes;
 
@@ -78,7 +84,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     /**
      * This returns the {@link Sound} which is played when someone navigates through
      * the {@link SlimefunGuide}
-     *
+     * 
      * @return The {@link Sound}
      */
     @Nonnull
@@ -103,8 +109,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     /**
      * Returns a {@link List} of visible {@link Category} instances that the {@link SlimefunGuide} would display.
      *
-     * @param p       The {@link Player} who opened his {@link SlimefunGuide}
-     * @param profile The {@link PlayerProfile} of the {@link Player}
+     * @param p
+     *            The {@link Player} who opened his {@link SlimefunGuide}
+     * @param profile
+     *            The {@link PlayerProfile} of the {@link Player}
      * @return a {@link List} of visible {@link Category} instances
      */
     @Nonnull
@@ -419,7 +427,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             recipeType = new RecipeType(optional.get());
             result = recipe.getResult();
         } else {
-            recipeItems = new ItemStack[]{null, null, null, null, new CustomItem(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null};
+            recipeItems = new ItemStack[] { null, null, null, null, new CustomItem(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null };
         }
 
         ChestMenu menu = create(p);
