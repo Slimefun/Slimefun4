@@ -251,7 +251,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             if (recipe == null) {
                 // Clear the value from persistent data storage
                 PersistentDataAPI.remove((Skull) state, recipeStorageKey);
-                
+
                 // Also remove the "enabled" state since this should be per-recipe.
                 PersistentDataAPI.remove((Skull) state, recipeEnabledKey);
             } else {
@@ -405,6 +405,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     public boolean craft(@Nonnull Inventory inv, @Nonnull AbstractRecipe recipe) {
         Validate.notNull(inv, "The Inventory must not be null");
         Validate.notNull(recipe, "The Recipe shall not be null");
+
+        // Make sure that the Recipe is actually enabled
+        if (!recipe.isEnabled()) {
+            return false;
+        }
 
         // Check if we have an empty slot
         if (inv.firstEmpty() != -1) {

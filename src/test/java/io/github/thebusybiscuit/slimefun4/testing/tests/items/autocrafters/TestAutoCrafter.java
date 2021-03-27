@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.auto_crafters;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.autocrafters;
 
 import javax.annotation.Nonnull;
 
@@ -67,6 +67,35 @@ class TestAutoCrafter {
         Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
         Assertions.assertFalse(inv.contains(Material.GOLD_NUGGET, 1));
         Assertions.assertTrue(inv.containsAtLeast(result, 1));
+    }
+
+    @Test
+    @DisplayName("Test crafting a valid ShapelessRecipe")
+    void testDisabledRecipe() {
+        NamespacedKey key = new NamespacedKey(plugin, "disabled_recipe_test");
+        ItemStack result = new CustomItem(Material.DIAMOND, "&bAmazing Diamond :o");
+        ShapelessRecipe recipe = new ShapelessRecipe(key, result);
+        recipe.addIngredient(new MaterialChoice(Material.GOLD_NUGGET));
+
+        AbstractRecipe abstractRecipe = AbstractRecipe.of(recipe);
+        AbstractAutoCrafter crafter = getVanillaAutoCrafter();
+        InventoryMock inv = new ChestInventoryMock(null, 9);
+
+        // Test enabled Recipe
+        abstractRecipe.setEnabled(true);
+        inv.addItem(new ItemStack(Material.GOLD_NUGGET));
+        Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
+        Assertions.assertFalse(inv.contains(Material.GOLD_NUGGET, 1));
+        Assertions.assertTrue(inv.containsAtLeast(result, 1));
+
+        inv.clear();
+
+        // Test disabled Recipe
+        abstractRecipe.setEnabled(false);
+        inv.addItem(new ItemStack(Material.GOLD_NUGGET));
+        Assertions.assertFalse(crafter.craft(inv, abstractRecipe));
+        Assertions.assertTrue(inv.contains(Material.GOLD_NUGGET, 1));
+        Assertions.assertFalse(inv.containsAtLeast(result, 1));
     }
 
     @Test

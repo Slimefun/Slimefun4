@@ -47,7 +47,7 @@ public abstract class AbstractRecipe {
     /**
      * Whether this recipe is enabled.
      */
-    private boolean enabled;
+    private boolean enabled = true;
 
     /**
      * Protected constructor. For implementation classes only.
