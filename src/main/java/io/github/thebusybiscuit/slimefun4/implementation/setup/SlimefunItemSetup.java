@@ -40,6 +40,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.armor.LongFallBoo
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.Parachute;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun4.implementation.items.armor.StomperBoots;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.ArmorAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.VanillaAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
@@ -2595,6 +2596,12 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.VANILLA_AUTO_CRAFTER, null, new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.DISPENSER), new ItemStack(Material.CRAFTING_TABLE), null, SlimefunItems.CARGO_MOTOR, null})
         .setCapacity(256)
         .setEnergyConsumption(16)
+        .register(plugin);
+
+        new ArmorAutoCrafter(categories.cargo, SlimefunItems.ARMOR_AUTO_CRAFTER, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, SlimefunItems.ENHANCED_AUTO_CRAFTER, null, new ItemStack(Material.DISPENSER), new ItemStack(Material.ANVIL), new ItemStack(Material.DISPENSER), null, new ItemStack(Material.CRAFTING_TABLE), null})
+        .setCapacity(256)
+        .setEnergyConsumption(32)
         .register(plugin);
 
         // @formatter:on
