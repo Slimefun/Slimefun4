@@ -31,6 +31,7 @@
 * Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
 
 #### Changes
+* Removed all functionality from the old Automated Crafting Chamber
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
 
 #### Fixes

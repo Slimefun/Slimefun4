@@ -47,6 +47,12 @@ public class ResourceManager {
     private final int[] backgroundSlots = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53 };
     private final Config config;
 
+    /**
+     * This will create a new {@link ResourceManager}.
+     * 
+     * @param plugin
+     *            Our {@link SlimefunPlugin} instance
+     */
     public ResourceManager(@Nonnull SlimefunPlugin plugin) {
         config = new Config(plugin, "resources.yml");
     }
@@ -109,6 +115,20 @@ public class ResourceManager {
         }
     }
 
+    /**
+     * This method will set the supplies in a given {@link Chunk} to the specified value.
+     * 
+     * @param resource
+     *            The {@link GEOResource}
+     * @param world
+     *            The {@link World}
+     * @param x
+     *            The x coordinate of that {@link Chunk}
+     * @param z
+     *            The z coordinate of that {@link Chunk}
+     * @param value
+     *            The new supply value
+     */
     public void setSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z, int value) {
         Validate.notNull(resource, "Cannot set supplies for null");
         Validate.notNull(world, "World cannot be null");
@@ -117,6 +137,24 @@ public class ResourceManager {
         BlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
     }
 
+    /**
+     * This method will generate the default supplies for a given {@link GEOResource} at the
+     * given {@link Chunk}.
+     * <p>
+     * This method will invoke {@link #setSupplies(GEOResource, World, int, int, int)} and also calls a
+     * {@link GEOResourceGenerationEvent}.
+     * 
+     * @param resource
+     *            The {@link GEOResource} to generate
+     * @param world
+     *            The {@link World}
+     * @param x
+     *            The x coordinate of that {@link Chunk}
+     * @param z
+     *            The z coordinate of that {@link Chunk}
+     * 
+     * @return The new supply value
+     */
     private int generate(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
         Validate.notNull(resource, "Cannot generate resources for null");
         Validate.notNull(world, "World cannot be null");
@@ -166,7 +204,8 @@ public class ResourceManager {
         int x = block.getX() >> 4;
         int z = block.getZ() >> 4;
 
-        ChestMenu menu = new ChestMenu("&4" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.results"));
+        String title = "&4" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.results");
+        ChestMenu menu = new ChestMenu(title);
 
         for (int slot : backgroundSlots) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());

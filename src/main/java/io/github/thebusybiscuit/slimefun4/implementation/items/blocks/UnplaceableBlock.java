@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
@@ -31,7 +32,7 @@ public class UnplaceableBlock extends SimpleSlimefunItem<ItemUseHandler> impleme
     }
 
     @ParametersAreNonnullByDefault
-    public UnplaceableBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public UnplaceableBlock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(category, item, recipeType, recipe, recipeOutput);
     }
 
