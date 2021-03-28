@@ -533,10 +533,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
             try {
-                if (itemstack != null) {
-                    if (itemstack.getType() != Material.BARRIER) {
+                if (itemstack != null && itemstack.getType() != Material.BARRIER) {
                         displayItem(profile, itemstack, 0, true);
-                    }
                 }
             } catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
@@ -558,22 +556,15 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
-            if (recipeItem == null) {
-                menu.addItem(recipeSlots[i], null, clickHandler);
-                continue;
+
+            if (recipeItem != null && recipeItem.hasItemMeta() && recipeItem.getItemMeta().hasLore() && recipeItem.getItemMeta().getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))) {
+                menu.addItem(recipeSlots[i], recipeItem, ununlockedClickHandler);
+            } else {
+                menu.addItem(recipeSlots[i], recipeItem, clickHandler);
             }
 
-            if (recipeItem.hasItemMeta()) {
-                if (recipeItem.getItemMeta().hasLore()){
-                    if (recipeItem.getItemMeta().getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))){
-                        menu.addItem(recipeSlots[i], recipeItem, ununlockedClickHandler);
-                        continue;
-                    }
-                }
-            }
-            menu.addItem(recipeSlots[i], recipeItem, clickHandler);
 
-            if (item instanceof MultiBlockMachine) {
+            if (recipeItem != null && item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
                     if (tag.isTagged(recipeItem.getType())) {
                         task.add(recipeSlots[i], tag);
