@@ -24,6 +24,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
+import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -428,7 +429,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
                 // Double-check to be extra safe
                 if (item != null) {
-                    item.setAmount(entry.getValue());
+                    // Consume the difference
+                    int toRemove = item.getAmount() - entry.getValue();
+                    ItemUtils.consumeItem(item, toRemove, true);
                 }
             }
 

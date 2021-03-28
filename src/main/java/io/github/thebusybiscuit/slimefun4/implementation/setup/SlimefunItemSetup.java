@@ -112,6 +112,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.BookBinder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.ExpCollector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.IronGolemAssembler;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.ProduceCollector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.WitherAssembler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NetherStarReactor;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.NuclearReactor;
@@ -2602,6 +2603,13 @@ public final class SlimefunItemSetup {
         new ItemStack[] {null, SlimefunItems.ENHANCED_AUTO_CRAFTER, null, new ItemStack(Material.DISPENSER), new ItemStack(Material.ANVIL), new ItemStack(Material.DISPENSER), null, new ItemStack(Material.CRAFTING_TABLE), null})
         .setCapacity(256)
         .setEnergyConsumption(32)
+        .register(plugin);
+
+        new ProduceCollector(categories.electricity, SlimefunItems.PRODUCE_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[] {null, new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.BUCKET), SlimefunItems.MEDIUM_CAPACITOR, new ItemStack(Material.BUCKET), SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT})
+        .setCapacity(256)
+        .setProcessingSpeed(1)
+        .setEnergyConsumption(16)
         .register(plugin);
 
         // @formatter:on

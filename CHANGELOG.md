@@ -25,12 +25,14 @@
 ## Release Candidate 22 (TBD)
 
 #### Additions
-* Added Vanilla Auto Crafter
-* Added Enhanced Auto Crafter
+* Added Vanilla Auto-Crafter
+* Added Enhanced Auto-Crafter
 * Added "Smart-Filling" mode to Cargo Input nodes
 * Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
-* Added Armor Forge Auto Crafter
+* Added Armor Forge Auto-Crafter
 * Auto-Crafters can now be turned on and off
+* Added Produce Collector to automate Milk and Mushroom Stew
+* Block Placers can now place down cake
 
 #### Changes
 * Removed all functionality from the old Automated Crafting Chamber
@@ -48,6 +50,8 @@
 * Fixed #2903
 * Fixed #2913
 * Fixed #2914
+* Fixed Auto-Crafters swallowing buckets when crafting cake
+* Fixed Multimeter not working on Auto-Crafters
 * Fixed #2650
 
 ## Release Candidate 21 (14 Mar 2021)
