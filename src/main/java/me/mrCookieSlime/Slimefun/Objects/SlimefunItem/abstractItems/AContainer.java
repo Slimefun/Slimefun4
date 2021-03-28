@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -47,8 +48,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
-    public static Map<Block, MachineRecipe> processing = new HashMap<>();
-    public static Map<Block, Integer> progress = new HashMap<>();
+    // These will be replaced by proper recipe handler
+    public static Map<Block, MachineRecipe> processing = new ConcurrentHashMap<>();
+    public static Map<Block, Integer> progress = new ConcurrentHashMap<>();
 
     protected final List<MachineRecipe> recipes = new ArrayList<>();
 
