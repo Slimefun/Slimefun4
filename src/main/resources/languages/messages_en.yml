@@ -146,6 +146,28 @@ messages:
     mode-change: '&b%device% mode changed to: &9%mode%'
     not-shears: '&cA Multi Tool cannot be used as shears!'
 
+  auto-crafting:
+    select-a-recipe: '&eCrouch and Right-Click &7this block with the item you want it to craft.'
+    recipe-set: '&aYou have successfully set the recipe for this machine.'
+    recipe-removed: '&eYou have successfully removed the recipe from this machine. You can set a new recipe at any time!'
+    no-recipes: '&cWe could not find any valid recipes for the item you are holding.'
+    missing-chest: '&cMissing chest! Auto-Crafters need to be placed above a chest.'
+    select: 'Select this recipe'
+    temporarily-disabled: '&eThis Auto-Crafter was temporarily disabled. You can re-enable it at any time!'
+    re-enabled: '&eThis Auto-Crafter was re-enabled!'
+
+    tooltips:
+      enabled:
+      - '&aThis recipe is currently enabled'
+      - ''
+      - '&eLeft Click &7to temporarily disable the recipe'
+      - '&eRight Click &7to remove this recipe'
+      disabled:
+      - '&cThis recipe is currently disabled'
+      - ''
+      - '&eLeft Click &7to re-enable this recipe'
+      - '&eRight Click &7to remove this recipe'
+
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'
     miner: '&a&oYour Talisman just doubled your drops'
@@ -211,6 +233,8 @@ messages:
   - '&7Always look on the bright side of life!'
   - '&7This one was actually a Biscuit and not a Cookie'
   - '&7Neon signs are LIT!'
+
+  above-limit-level: '&cCannot (dis)enchant an enchantment level higher than %level%!'
 
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'

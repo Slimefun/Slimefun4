@@ -169,6 +169,9 @@ public class BlockListener implements Listener {
                 }
             } else {
                 sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(e, item, drops));
+                if (e.isCancelled()) {
+                    return;
+                }
             }
 
             drops.addAll(sfItem.getDrops());

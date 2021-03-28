@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
@@ -81,23 +82,45 @@ class ItemFilter implements Predicate<ItemStack> {
         SlimefunItem item = SlimefunItem.getByID(id);
         BlockMenu menu = BlockStorage.getInventory(b.getLocation());
 
-        if (item == null || menu == null) {
+        if (!(item instanceof CargoNode) || menu == null) {
             // Don't filter for a non-existing item (safety check)
             clear(false);
-        } else if (id.equals("CARGO_NODE_OUTPUT")) {
-            // Output Nodes have no filter, allow everything
-            clear(true);
         } else {
-            this.items.clear();
-            this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
-            this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
+            try {
+                CargoNode node = (CargoNode) item;
 
-            for (int slot : CargoUtils.getFilteringSlots()) {
-                ItemStack stack = menu.getItemInSlot(slot);
+                if (!node.hasItemFilter()) {
+                    // Node does not have a filter, allow everything
+                    clear(true);
+                } else {
+                    int[] slots = CargoUtils.getFilteringSlots();
+                    int inventorySize = menu.toInventory().getSize();
 
-                if (stack != null && stack.getType() != Material.AIR) {
-                    this.items.add(new ItemStackWrapper(stack));
+                    if (inventorySize < slots[slots.length - 1]) {
+                        /*
+                         * Related to #2876
+                         * The reason was a missing negation int he filtering statement above.
+                         * However if that ever happens again, we will know the reason and be able
+                         * to send a warning in response to it.
+                         */
+                        item.warn("Cargo Node was marked as a 'filtering' node but has an insufficient inventory size (" + inventorySize + ")");
+                        return;
+                    }
+
+                    this.items.clear();
+                    this.checkLore = Objects.equals(blockData.getString("filter-lore"), "true");
+                    this.rejectOnMatch = !Objects.equals(blockData.getString("filter-type"), "whitelist");
+
+                    for (int slot : slots) {
+                        ItemStack stack = menu.getItemInSlot(slot);
+
+                        if (stack != null && stack.getType() != Material.AIR) {
+                            this.items.add(new ItemStackWrapper(stack));
+                        }
+                    }
                 }
+            } catch (Exception | LinkageError x) {
+                item.error("Something went wrong while updating the ItemFilter for this cargo node.", x);
             }
         }
 

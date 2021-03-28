@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,6 +15,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
 public class CarbonPress extends AContainer implements RecipeDisplayItem {
 
+    @ParametersAreNonnullByDefault
     public CarbonPress(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
     }

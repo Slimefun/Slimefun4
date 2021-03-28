@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  */
 public class MagicianTalisman extends Talisman {
 
-    private final ItemSetting<Boolean> allowEnchantmentBooks = new ItemSetting<>("allow-enchantment-books", false);
+    private final ItemSetting<Boolean> allowEnchantmentBooks = new ItemSetting<>(this, "allow-enchantment-books", false);
 
     private final Set<TalismanEnchantment> enchantments = new HashSet<>();
 
@@ -42,7 +42,7 @@ public class MagicianTalisman extends Talisman {
         for (Enchantment enchantment : Enchantment.values()) {
             try {
                 for (int i = 1; i <= enchantment.getMaxLevel(); i++) {
-                    enchantments.add(new TalismanEnchantment(enchantment, i));
+                    enchantments.add(new TalismanEnchantment(this, enchantment, i));
                 }
             } catch (Exception x) {
                 SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "The following Exception occurred while trying to register the following Enchantment: " + enchantment);

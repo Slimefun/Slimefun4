@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
  * This variation of {@link ItemSetting} allows you to define a default {@link Tag}.
@@ -28,8 +29,8 @@ public class MaterialTagSetting extends ItemSetting<List<String>> {
     private final Tag<Material> defaultTag;
 
     @ParametersAreNonnullByDefault
-    public MaterialTagSetting(String key, Tag<Material> defaultTag) {
-        super(key, getAsStringList(defaultTag));
+    public MaterialTagSetting(SlimefunItem item, String key, Tag<Material> defaultTag) {
+        super(item, key, getAsStringList(defaultTag));
 
         this.defaultTag = defaultTag;
     }

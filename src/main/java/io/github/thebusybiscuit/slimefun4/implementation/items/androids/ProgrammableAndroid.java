@@ -132,6 +132,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             }
         };
 
+        // TODO: Move this into a BlockBreakHandler
         registerBlockHandler(getId(), (p, b, stack, reason) -> {
             boolean allow = reason == UnregisterReason.PLAYER_BREAK && (BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(p.getUniqueId().toString()) || p.hasPermission("slimefun.android.bypass"));
 

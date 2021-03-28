@@ -34,7 +34,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
 
-    private final ItemSetting<Integer> maxBlocks = new IntRangeSetting("max-blocks", 1, 16, Integer.MAX_VALUE);
+    private final ItemSetting<Integer> maxBlocks = new IntRangeSetting(this, "max-blocks", 1, 16, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public PickaxeOfVeinMining(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

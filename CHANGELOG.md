@@ -1,5 +1,6 @@
 # Table of contents
-- [Release Candidate 21 (TBD)](#release-candidate-21-tbd)
+- [Release Candidate 22 (TBD)](#release-candidate-22-tbd)
+- [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
 - [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
 - [Release Candidate 18 (03 Dec 2020)](#release-candidate-18-03-dec-2020)
@@ -21,17 +22,56 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
-## Release Candidate 21 (TBD)
+## Release Candidate 22 (TBD)
+
+#### Additions
+* Added Vanilla Auto-Crafter
+* Added Enhanced Auto-Crafter
+* Added "Smart-Filling" mode to Cargo Input nodes
+* Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
+* Added Armor Forge Auto-Crafter
+* Auto-Crafters can now be turned on and off
+* Added Produce Collector to automate Milk and Mushroom Stew
+* Block Placers can now place down cake
+
+#### Changes
+* Removed all functionality from the old Automated Crafting Chamber
+* Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
+
+#### Fixes
+* Fixed #1161
+* Fixed #2862
+* Fixed #2887
+* Fixed items getting deleted when breaking enhanced furnaces
+* Fixed #2895
+* Fixed #2896
+* Fixed #2899
+* Fixed #2906
+* Fixed #2903
+* Fixed #2913
+* Fixed #2914
+* Fixed Auto-Crafters swallowing buckets when crafting cake
+* Fixed Multimeter not working on Auto-Crafters
+* Fixed #2650
+
+## Release Candidate 21 (14 Mar 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
 
 #### Additions
 * Nether Wart Blocks can now be turned into Nether Warts using a Grind Stone
 * Added an option to allow Talismans to send their notifications via the Actionbar
+* (API) Added support for nested Categories
+* (API) Added ExplosiveToolBreakBlocksEvent
+* Added an option to enable/disable water in the nether via a crucible
 * /sf versions now shows the Java version and some useful tooltips
 
 #### Changes
 * Deprecated Automatic Crafting Chamber
+* Performance Improvements and Optimizations for Cobblestone/Stone/Basalt generators and mining androids
+* Androids operating on a Cobblestone/Stone/Basalt generator now work faster
 * (API) Improvements to the BlockBreakHandler
 * (API) Deprecated SlimefunBlockHandler
+* (API) Improved ItemSetting API and error handling
 
 #### Fixes
 * Fixed #2794
@@ -48,8 +88,18 @@
 * Fixed #2849
 * Fixed #2851
 * Fixed #2852
+* Fixed some issues with the Book Binder
+* Fixed #2805
+* Fixed #2861
+* Fixed #2856
+* Fixed #2876
+* Fixed #2877
+* Fixed #2878
+* Fixed Mining Androids being broken
+* Fixed #2883
 
 ## Release Candidate 20 (30 Jan 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#20
 
 #### Additions
 * Added a new language: Bulgarian
@@ -88,6 +138,7 @@
 * Fixed #2679
 
 ## Release Candidate 19 (11 Jan 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#19
 
 #### Additions
 * Added Bee Armor (1.15+ only)
@@ -114,6 +165,7 @@
 * Fixed #2675
 
 ## Release Candidate 18 (03 Dec 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#18
 
 #### Additions
 * The Smelters Pick now also works on Ancient Debris
@@ -179,6 +231,7 @@
 * Fixed #2583
 
 ## Release Candidate 17 (17 Oct 2020)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#17
 
 #### Additions
 * Added /sf charge

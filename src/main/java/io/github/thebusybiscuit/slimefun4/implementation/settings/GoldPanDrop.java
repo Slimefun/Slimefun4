@@ -15,7 +15,7 @@ public class GoldPanDrop extends ItemSetting<Integer> {
 
     @ParametersAreNonnullByDefault
     public GoldPanDrop(GoldPan goldPan, String key, int defaultValue, ItemStack output) {
-        super(key, defaultValue);
+        super(goldPan, key, defaultValue);
 
         this.goldPan = goldPan;
         this.output = output;

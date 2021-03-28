@@ -15,9 +15,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 /**
- * This {@link Event} is called when a {@link Block} is destroyed by an {@link ExplosiveTool}.
+ * This {@link Event} is called when an {@link ExplosiveTool} is used to break blocks.
  *
  * @author GallowsDove
+ * 
+ * @see ExplosiveTool
  *
  */
 public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancellable {
@@ -26,32 +28,51 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     private final ItemStack itemInHand;
     private final ExplosiveTool explosiveTool;
-    private final List<Block> blocks;
+    private final Block mainBlock;
+    private final List<Block> additionalBlocks;
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public ExplosiveToolBreakBlocksEvent(Player player, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
+    public ExplosiveToolBreakBlocksEvent(Player player, Block block, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
 
+        Validate.notNull(block, "The center block cannot be null!");
         Validate.notNull(blocks, "Blocks cannot be null");
         Validate.notNull(item, "Item cannot be null");
         Validate.notNull(explosiveTool, "ExplosiveTool cannot be null");
 
-        this.blocks = blocks;
+        this.mainBlock = block;
+        this.additionalBlocks = blocks;
         this.itemInHand = item;
         this.explosiveTool = explosiveTool;
     }
 
     /**
-     * Gets the {@link Block} ArrayList of blocks destroyed in the event
+     * This returns the primary {@link Block} that was broken.
+     * This {@link Block} triggered this {@link Event} and is not included
+     * in {@link #getAdditionalBlocks()}.
+     * 
+     * @return The primary broken {@link Block}
      */
     @Nonnull
-    public List<Block> getBlocks() {
-        return this.blocks;
+    public Block getPrimaryBlock() {
+        return this.mainBlock;
+    }
+
+    /**
+     * Gets the {@link Block} {@link List} of blocks destroyed in this event.
+     * 
+     * @return The broken blocks
+     */
+    @Nonnull
+    public List<Block> getAdditionalBlocks() {
+        return this.additionalBlocks;
     }
 
     /**
      * Gets the {@link ExplosiveTool} which triggered this event
+     * 
+     * @return the {@link ExplosiveTool} that was involved
      */
     @Nonnull
     public ExplosiveTool getExplosiveTool() {
@@ -60,6 +81,8 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     /**
      * Gets the {@link ItemStack} of the tool used to destroy this block
+     * 
+     * @return The {@link ItemStack} in the hand of the {@link Player}
      */
     @Nonnull
     public ItemStack getItemInHand() {

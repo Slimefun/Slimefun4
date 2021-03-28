@@ -20,6 +20,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  */
 public class ItemSetting<T> {
 
+    private final SlimefunItem item;
+
     private final String key;
     private final T defaultValue;
 
@@ -28,16 +30,20 @@ public class ItemSetting<T> {
     /**
      * This creates a new {@link ItemSetting} with the given key and default value
      * 
+     * @param item
+     *            The {@link SlimefunItem} this {@link ItemSetting} belongs to
      * @param key
      *            The key under which this setting will be stored (relative to the {@link SlimefunItem})
      * @param defaultValue
      *            The default value for this {@link ItemSetting}
      */
     @ParametersAreNonnullByDefault
-    public ItemSetting(String key, T defaultValue) {
+    public ItemSetting(SlimefunItem item, String key, T defaultValue) {
+        Validate.notNull(item, "The provided SlimefunItem must not be null!");
         Validate.notNull(key, "The key of an ItemSetting is not allowed to be null!");
         Validate.notNull(defaultValue, "The default value of an ItemSetting is not allowed to be null!");
 
+        this.item = item;
         this.key = key;
         this.defaultValue = defaultValue;
     }
@@ -90,9 +96,12 @@ public class ItemSetting<T> {
      */
     @Nonnull
     public T getValue() {
-        Validate.notNull(value, "ItemSetting '" + key + "' was invoked but was not initialized yet.");
-
-        return value;
+        if (value != null) {
+            return value;
+        } else {
+            item.warn("ItemSetting '" + key + "' was invoked but was not initialized yet.");
+            return defaultValue;
+        }
     }
 
     /**
@@ -132,18 +141,16 @@ public class ItemSetting<T> {
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
      * 
-     * @param item
-     *            The {@link SlimefunItem} who called this method
      */
     @SuppressWarnings("unchecked")
-    public void load(@Nonnull SlimefunItem item) {
+    public void reload() {
         Validate.notNull(item, "Cannot apply settings for a non-existing SlimefunItem");
 
         SlimefunPlugin.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
         Object configuredValue = SlimefunPlugin.getItemCfg().getValue(item.getId() + '.' + getKey());
 
         if (defaultValue.getClass().isInstance(configuredValue)) {
-            // We can unsafe cast here, we did an isInstance(...) check before!
+            // We can do an unsafe cast here, we did an isInstance(...) check before!
             T newValue = (T) configuredValue;
 
             if (validateInput(newValue)) {

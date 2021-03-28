@@ -50,6 +50,18 @@ public class ErrorReport<T extends Throwable> {
     private T throwable;
     private File file;
 
+    /**
+     * This is the base constructor for an {@link ErrorReport}. It will only
+     * print the necessary info and provides a {@link Consumer} for any more detailed
+     * needs.
+     * 
+     * @param throwable
+     *            The {@link Throwable} which caused this {@link ErrorReport}.
+     * @param addon
+     *            The {@link SlimefunAddon} responsible.
+     * @param printer
+     *            A custom {@link Consumer} to add more details.
+     */
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, SlimefunAddon addon, Consumer<PrintStream> printer) {
         this.throwable = throwable;
@@ -58,6 +70,17 @@ public class ErrorReport<T extends Throwable> {
         SlimefunPlugin.runSync(() -> print(printer));
     }
 
+    /**
+     * This constructs a new {@link ErrorReport} for the given {@link Location} and
+     * {@link SlimefunItem}.
+     * 
+     * @param throwable
+     *            The {@link Throwable} which caused this {@link ErrorReport}.
+     * @param l
+     *            The {@link Location} at which the error was thrown.
+     * @param item
+     *            The {@link SlimefunItem} responsible.
+     */
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, Location l, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {
@@ -91,6 +114,14 @@ public class ErrorReport<T extends Throwable> {
         });
     }
 
+    /**
+     * This constructs a new {@link ErrorReport} for the given {@link SlimefunItem}.
+     * 
+     * @param throwable
+     *            The {@link Throwable} which caused this {@link ErrorReport}.
+     * @param item
+     *            The {@link SlimefunItem} responsible.
+     */
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, SlimefunItem item) {
         this(throwable, item.getAddon(), stream -> {

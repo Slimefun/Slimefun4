@@ -188,6 +188,7 @@ slimefun:
   cargo_basics: Cargo Basics
   cargo_nodes: Cargo Setup
   electric_ingot_machines: Electric Ingot Fabrication
+  medium_tier_electric_ingot_machines: Fast Ingot Fabrication
   high_tier_electric_ingot_machines: Super Fast Ingot Fabrication
   automated_crafting_chamber: Automated Crafting
   better_food_fabricator: Upgraded Food Fabrication
@@ -249,3 +250,7 @@ slimefun:
   elytra_cap: Crash Gear
   bee_armor: Bee Armor
   book_binder: Enchantment Book Binding
+  auto_crafting: Automatic Crafting
+  produce_collector: Automatic Milking
+  improved_generators: Improved Generators
+  ingredients_and_cheese: Slimefun Cuisine
