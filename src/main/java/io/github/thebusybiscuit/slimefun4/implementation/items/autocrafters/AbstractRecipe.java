@@ -45,6 +45,11 @@ public abstract class AbstractRecipe {
     private final ItemStack result;
 
     /**
+     * Whether this recipe is enabled.
+     */
+    private boolean enabled = true;
+
+    /**
      * Protected constructor. For implementation classes only.
      * 
      * @param ingredients
@@ -81,6 +86,27 @@ public abstract class AbstractRecipe {
     @Nonnull
     public ItemStack getResult() {
         return result;
+    }
+
+    /**
+     * This returns whether or not this recipe has been enabled.
+     * A disabled recipe will not be crafted.
+     * 
+     * @return Whether this recipe is enabled
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * This method enables or disables this recipe.
+     * A disabled recipe will not be crafted.
+     * 
+     * @param enabled
+     *            Whether this recipe is enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**

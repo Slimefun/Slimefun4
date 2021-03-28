@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.auto_crafters;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.autocrafters;
 
 import java.util.Arrays;
 import java.util.HashSet;
