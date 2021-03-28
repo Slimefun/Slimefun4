@@ -152,7 +152,7 @@ public class AutoDisenchanter extends AContainer {
     private boolean isDisenchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else if (item.hasItemMeta() && item.getItemMeta().getLore() != null) {
+        } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
             for (String lore : cantDisenchantLores.getValue()) {
                 if (item.getItemMeta().getLore().contains(ChatColors.color(lore))) {
                     return false;
