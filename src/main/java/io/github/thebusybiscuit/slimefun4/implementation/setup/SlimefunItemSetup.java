@@ -2606,7 +2606,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new ProduceCollector(categories.electricity, SlimefunItems.PRODUCE_COLLECTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
-        new ItemStack[] {})
+        new ItemStack[] {null, new ItemStack(Material.HAY_BLOCK), null, new ItemStack(Material.BUCKET), SlimefunItems.MEDIUM_CAPACITOR, new ItemStack(Material.BUCKET), SlimefunItems.ALUMINUM_BRASS_INGOT, SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.ALUMINUM_BRASS_INGOT})
         .setCapacity(256)
         .setProcessingSpeed(1)
         .setEnergyConsumption(16)
