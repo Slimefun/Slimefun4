@@ -53,7 +53,7 @@ public class AutoDisenchanter extends AContainer {
 
     private final ItemSetting<Boolean> useEnchantLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting enchantLevelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
-    private final ItemSetting<List<String>> cantDisenchantLores = new ItemSetting<>(this, "cant-disenchant-lores", asList("&7- &cCan't be Auto-Disenchanted"));
+    private final ItemSetting<List<String>> cantDisenchantLores = new ItemSetting<>(this, "cant-disenchant-lores", Arrays.asList("&7- &cCan't be Auto-Disenchanted"));
 
     @ParametersAreNonnullByDefault
     public AutoDisenchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
