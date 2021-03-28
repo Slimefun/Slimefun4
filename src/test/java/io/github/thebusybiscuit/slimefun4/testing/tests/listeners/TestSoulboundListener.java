@@ -58,14 +58,13 @@ class TestSoulboundListener {
     @ValueSource(booleans = { true, false })
     void testItemDropIfItemDisabled(boolean enabled) {
         PlayerMock player = server.addPlayer();
-        World world = new WorldMock(Material.DIRT, 3);
 
         SlimefunItemStack item = new SlimefunItemStack("SOULBOUND_ITEM_" + (enabled ? "ENABLED" : "DISABLED"), Material.DIAMOND_SWORD, "&5Soulbound Sword");
         SoulboundItem soulboundItem = new SoulboundItem(TestUtilities.getCategory(plugin, "soulbound"), item, RecipeType.NULL, new ItemStack[9]);
         soulboundItem.register(plugin);
 
         if (!enabled) {
-            SlimefunPlugin.getWorldSettingsService().setEnabled(world, soulboundItem, false);
+            SlimefunPlugin.getWorldSettingsService().setEnabled(player.getWorld(), soulboundItem, false);
         }
 
         player.getInventory().setItem(0, item);
