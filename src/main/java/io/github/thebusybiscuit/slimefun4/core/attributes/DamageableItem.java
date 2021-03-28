@@ -47,22 +47,25 @@ public interface DamageableItem extends ItemAttribute {
      *            The {@link ItemStack} to damage
      */
     default void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
-        if (isDamageable() && item != null && item.getType() != Material.AIR && item.getAmount() > 0 && !item.getItemMeta().isUnbreakable()) {
-            int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
-
-            if (unbreakingLevel > 0 && Math.random() * 100 <= (60 + Math.floorDiv(40, (unbreakingLevel + 1)))) {
-                return;
-            }
-
+        if (isDamageable() && item != null && item.getType() != Material.AIR && item.getAmount() > 0 && item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
-            Damageable damageable = (Damageable) meta;
 
-            if (damageable.getDamage() >= item.getType().getMaxDurability()) {
-                p.playSound(p.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-                item.setAmount(0);
-            } else {
-                damageable.setDamage(damageable.getDamage() + 1);
-                item.setItemMeta(meta);
+            if (!meta.isUnbreakable()) {
+                Damageable damageable = (Damageable) meta;
+
+                int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
+
+                if (unbreakingLevel > 0 && Math.random() * 100 <= (60 + Math.floorDiv(40, (unbreakingLevel + 1)))) {
+                    return;
+                }
+
+                if (damageable.getDamage() >= item.getType().getMaxDurability()) {
+                    p.playSound(p.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                    item.setAmount(0);
+                } else {
+                    damageable.setDamage(damageable.getDamage() + 1);
+                    item.setItemMeta(meta);
+                }
             }
         }
     }
