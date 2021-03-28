@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -26,7 +27,7 @@ public class AsyncMachineProcessCompleteEvent extends Event {
     private final MachineRecipe machineRecipe;
 
     public AsyncMachineProcessCompleteEvent(@Nonnull Location l, @Nullable AContainer container, @Nullable MachineRecipe machineRecipe) {
-        super(true);
+        super(!Bukkit.isPrimaryThread());
 
         this.location = l;
         this.container = container;

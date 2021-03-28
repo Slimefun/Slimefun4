@@ -31,6 +31,8 @@
 * Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
 * Added Armor Forge Auto Crafter
 * Auto-Crafters can now be turned on and off
+* Added Produce Collector to automate Milk and Mushroom Stew
+* Block Placers can now place down cake
 
 #### Changes
 * Removed all functionality from the old Automated Crafting Chamber
@@ -48,6 +50,7 @@
 * Fixed #2903
 * Fixed #2913
 * Fixed #2914
+* Fixed Auto Crafters swallowing buckets when crafting cake
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
