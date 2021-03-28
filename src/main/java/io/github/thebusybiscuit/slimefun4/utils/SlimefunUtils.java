@@ -113,7 +113,7 @@ public final class SlimefunUtils {
 
             if (sfItem instanceof Soulbound) {
                 if (world != null) {
-                    return !sfItem.isDisabled() && !sfItem.isDisabledIn(world);
+                    return !sfItem.isDisabledIn(world);
                 } else {
                     return !sfItem.isDisabled();
                 }

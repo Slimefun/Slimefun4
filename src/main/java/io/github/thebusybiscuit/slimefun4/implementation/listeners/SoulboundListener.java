@@ -41,7 +41,7 @@ public class SoulboundListener implements Listener {
         for (int slot = 0; slot < p.getInventory().getSize(); slot++) {
             ItemStack item = p.getInventory().getItem(slot);
 
-            // Store soulbound items for later rtrieval
+            // Store soulbound items for later retrieval
             if (SlimefunUtils.isSoulbound(item, p.getWorld())) {
                 items.put(slot, item);
             }

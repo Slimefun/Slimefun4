@@ -1,17 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.testing.tests.listeners;
 
-import be.seeseemelk.mockbukkit.WorldMock;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -42,6 +41,7 @@ class TestSoulboundListener {
 
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
+    @DisplayName("Test if the soulbound item is dropped or not")
     void testItemDrop(boolean soulbound) {
         PlayerMock player = server.addPlayer();
         ItemStack item = new CustomItem(Material.DIAMOND_SWORD, "&4Cool Sword");
@@ -56,6 +56,7 @@ class TestSoulboundListener {
 
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
+    @DisplayName("Test if soulbound item is dropped if disabled")
     void testItemDropIfItemDisabled(boolean enabled) {
         PlayerMock player = server.addPlayer();
 
@@ -79,6 +80,7 @@ class TestSoulboundListener {
 
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
+    @DisplayName("Test if soulbound item is returned to player")
     void testItemRecover(boolean soulbound) {
         PlayerMock player = server.addPlayer();
         ItemStack item = new CustomItem(Material.DIAMOND_SWORD, "&4Cool Sword");
