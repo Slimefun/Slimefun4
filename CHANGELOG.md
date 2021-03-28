@@ -52,6 +52,7 @@
 * Fixed #2914
 * Fixed Auto-Crafters swallowing buckets when crafting cake
 * Fixed Multimeter not working on Auto-Crafters
+* Fixed #2650
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
