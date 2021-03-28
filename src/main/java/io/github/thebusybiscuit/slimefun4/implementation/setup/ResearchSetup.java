@@ -282,6 +282,7 @@ public final class ResearchSetup {
         register("wise_talisman", 271, "Talisman of the Wise", 20, SlimefunItems.TALISMAN_WISE);
         register("book_binder", 272, "Enchantment Book Binding", 26, SlimefunItems.BOOK_BINDER);
         register("auto_crafting", 273, "Automatic Crafting", 30, SlimefunItems.VANILLA_AUTO_CRAFTER, SlimefunItems.ENHANCED_AUTO_CRAFTER, SlimefunItems.ARMOR_AUTO_CRAFTER);
+        register("produce_collector", 274, "Automatic Milking", 20, SlimefunItems.PRODUCE_COLLECTOR);
     }
 
     @ParametersAreNonnullByDefault
