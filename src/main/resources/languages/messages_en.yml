@@ -151,9 +151,22 @@ messages:
     recipe-set: '&aYou have successfully set the recipe for this machine.'
     recipe-removed: '&eYou have successfully removed the recipe from this machine. You can set a new recipe at any time!'
     no-recipes: '&cWe could not find any valid recipes for the item you are holding.'
-    missing-chest: '&cMissing chest! Auto Crafters need to be placed above a chest.'
+    missing-chest: '&cMissing chest! Auto-Crafters need to be placed above a chest.'
     select: 'Select this recipe'
-    remove: 'Remove this recipe'
+    temporarily-disabled: '&eThis Auto-Crafter was temporarily disabled. You can re-enable it at any time!'
+    re-enabled: '&eThis Auto-Crafter was re-enabled!'
+
+    tooltips:
+      enabled:
+      - '&aThis recipe is currently enabled'
+      - ''
+      - '&eLeft Click &7to temporarily disable the recipe'
+      - '&eRight Click &7to remove this recipe'
+      disabled:
+      - '&cThis recipe is currently disabled'
+      - ''
+      - '&eLeft Click &7to re-enable this recipe'
+      - '&eRight Click &7to remove this recipe'
 
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'

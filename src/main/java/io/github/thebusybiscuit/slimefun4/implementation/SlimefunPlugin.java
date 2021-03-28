@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.cscorelib2.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
+import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
@@ -778,6 +779,13 @@ public final class SlimefunPlugin extends JavaPlugin implements SlimefunAddon {
         return instance.items;
     }
 
+    /**
+     * This returns our {@link GPSNetwork} instance.
+     * The {@link GPSNetwork} is responsible for handling any GPS-related
+     * operations and for managing any {@link GEOResource}.
+     * 
+     * @return Our {@link GPSNetwork} instance
+     */
     @Nonnull
     public static GPSNetwork getGPSNetwork() {
         validateInstance();
