@@ -40,6 +40,7 @@
 #### Changes
 * Removed all functionality from the old Automated Crafting Chamber
 * Changed Cargo Motor texture
+* Ancient Pedestals can now be found under "Magical Gadgets"
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
 
 #### Fixes

@@ -1483,7 +1483,7 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.WITHER_PROOF_OBSIDIAN, 4))
         .register(plugin);
 
-        new AncientPedestal(categories.magicalResources, SlimefunItems.ANCIENT_PEDESTAL, RecipeType.MAGIC_WORKBENCH,
+        new AncientPedestal(categories.magicalGadgets, SlimefunItems.ANCIENT_PEDESTAL, RecipeType.MAGIC_WORKBENCH,
         new ItemStack[] {new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN), null, new ItemStack(Material.STONE), null, new ItemStack(Material.OBSIDIAN), SlimefunItems.GOLD_8K, new ItemStack(Material.OBSIDIAN)}, 
         new SlimefunItemStack(SlimefunItems.ANCIENT_PEDESTAL, 4))
         .register(plugin);
@@ -2587,7 +2587,7 @@ public final class SlimefunItemSetup {
         new ItemStack[] {new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), new ItemStack(Material.SLIME_BALL), SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, SlimefunItems.ELYTRA_SCALE, new ItemStack(Material.SLIME_BALL), new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.SLIME_BALL)})
         .register(plugin);
         
-        new UnplaceableBlock(categories.technicalComponents, SlimefunItems.CRAFTING_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
+        new UnplaceableBlock(categories.cargo, SlimefunItems.CRAFTING_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.REDSTONE_ALLOY, SlimefunItems.CARGO_MOTOR, SlimefunItems.REDSTONE_ALLOY, new ItemStack(Material.CRAFTING_TABLE), SlimefunItems.BLISTERING_INGOT_3, new ItemStack(Material.CRAFTING_TABLE)},
         new SlimefunItemStack(SlimefunItems.CRAFTING_MOTOR, 2))
         .register(plugin);
