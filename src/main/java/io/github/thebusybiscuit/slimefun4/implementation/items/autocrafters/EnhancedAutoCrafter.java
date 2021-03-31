@@ -1,10 +1,11 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters;
+package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.EnhancedCraftingTable;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
@@ -18,6 +19,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  * @see AbstractAutoCrafter
  * @see VanillaAutoCrafter
  * @see SlimefunItemRecipe
+ * @see AutoCrafterListener
  *
  */
 public class EnhancedAutoCrafter extends SlimefunAutoCrafter {

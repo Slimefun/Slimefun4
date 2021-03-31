@@ -25,12 +25,21 @@
 ## Release Candidate 22 (TBD)
 
 #### Additions
-* Added Vanilla Auto Crafter
-* Added Enhanced Auto Crafter
+
+* Added Vanilla Auto-Crafter
+* Added Enhanced Auto-Crafter
+* Added "Smart-Filling" mode to Cargo Input nodes
+* Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
+* Added Armor Forge Auto-Crafter
+* Auto-Crafters can now be turned on and off
+* Added Produce Collector to automate Milk and Mushroom Stew
+* Added a new message when constructing a Multiblock successfully
+* Block Placers can now place down cake
 * Added sound effects for Slime Boots
 * Added sounds.yml file to configure all sound effects
 
 #### Changes
+* Removed all functionality from the old Automated Crafting Chamber
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
 
 #### Fixes
@@ -39,6 +48,16 @@
 * Fixed #2887
 * Fixed items getting deleted when breaking enhanced furnaces
 * Fixed #2895
+* Fixed #2896
+* Fixed #2899
+* Fixed #2906
+* Fixed #2903
+* Fixed #2913
+* Fixed #2914
+* Fixed Auto-Crafters swallowing buckets when crafting cake
+* Fixed Multimeter not working on Auto-Crafters
+* Fixed #2650
+* Fixed Slimefun items applying damage to items with an `unbreakable` tag
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21

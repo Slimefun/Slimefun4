@@ -1,9 +1,10 @@
-package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters;
+package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -12,8 +13,9 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
@@ -53,15 +55,21 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     @Override
     @Nullable
     public AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
+        Validate.notNull(b, "The Block cannot be null!");
+
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
         if (state instanceof Skull) {
             // Read the stored value from persistent data storage
-            String value = PersistentDataAPI.getString((Skull) state, recipeStorageKey);
+            PersistentDataContainer container = ((Skull) state).getPersistentDataContainer();
+            String value = container.get(recipeStorageKey, PersistentDataType.STRING);
             SlimefunItem item = SlimefunItem.getByID(value);
 
             if (item != null) {
-                return AbstractRecipe.of(item, targetRecipeType);
+                boolean enabled = !container.has(recipeEnabledKey, PersistentDataType.BYTE);
+                AbstractRecipe recipe = AbstractRecipe.of(item, targetRecipeType);
+                recipe.setEnabled(enabled);
+                return recipe;
             }
         }
 
@@ -112,5 +120,4 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
             SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.no-recipes");
         }
     }
-
 }

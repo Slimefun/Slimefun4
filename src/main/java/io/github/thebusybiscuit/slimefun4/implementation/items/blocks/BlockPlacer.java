@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.Nameable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -97,16 +98,7 @@ public class BlockPlacer extends SlimefunItem {
 
             e.setCancelled(true);
 
-            if (!material.isBlock() || SlimefunTag.BLOCK_PLACER_IGNORED_MATERIALS.isTagged(material)) {
-                /*
-                 * Some materials cannot be reliably placed, like beds,
-                 * it would look kinda wonky, so we just ignore these altogether.
-                 * The event has already been cancelled too, so they won't drop.
-                 */
-                return;
-            }
-
-            if (facedBlock.isEmpty() && isAllowed(material) && dispenser.getInventory().getViewers().isEmpty()) {
+            if (facedBlock.isEmpty() && dispenser.getInventory().getViewers().isEmpty() && isAllowed(facedBlock, material)) {
                 SlimefunItem item = SlimefunItem.getByItem(e.getItem());
 
                 if (item != null) {
@@ -158,14 +150,33 @@ public class BlockPlacer extends SlimefunItem {
      * 
      * @return Whether placing this {@link Material} is allowed
      */
-    private boolean isAllowed(@Nonnull Material type) {
-        for (String blockType : unplaceableBlocks.getValue()) {
-            if (type.toString().equals(blockType)) {
-                return false;
+    private boolean isAllowed(@Nonnull Block facedBlock, @Nonnull Material type) {
+        if (!type.isBlock()) {
+            // Make sure the material is actually a block.
+            return false;
+        } else if (type == Material.CAKE) {
+            /*
+             * Special case for cakes.
+             * Cakes are a lie but I really want the Block Placer to place them down!!!
+             */
+            return !facedBlock.getRelative(BlockFace.DOWN).isPassable();
+        } else if (SlimefunTag.BLOCK_PLACER_IGNORED_MATERIALS.isTagged(type)) {
+            /*
+             * Some materials cannot be reliably placed, like beds,
+             * it would look kinda wonky, so we just ignore these altogether.
+             * The event has already been cancelled too, so they won't drop.
+             */
+            return false;
+        } else {
+            // Check for all unplaceable block
+            for (String blockType : unplaceableBlocks.getValue()) {
+                if (type.toString().equals(blockType)) {
+                    return false;
+                }
             }
-        }
 
-        return true;
+            return true;
+        }
     }
 
     @ParametersAreNonnullByDefault
