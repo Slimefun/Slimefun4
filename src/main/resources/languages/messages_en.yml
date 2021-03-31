@@ -243,7 +243,7 @@ machines:
   full-inventory: '&eSorry, my inventory is too full!'
   in-use: '&cThis Block''s inventory is currently opened by a different Player.'
   ignition-chamber-no-flint: '&cIgnition Chamber is missing Flint and Steel.'
-  inventory-empty: '&cThe inventory is empty. No recipe has been placed inside the Dispenser.'
+  inventory-empty: '&6You have successfully constructed this Multiblock. Proceed by placing items inside the dispenser and click me again to craft the item you want!'
 
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4The Altar is not surrounded by the needed amount of Pedestals &c(%pedestals% / 8)'
