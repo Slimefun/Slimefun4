@@ -283,7 +283,7 @@ public final class ResearchSetup {
         register("bee_armor", 270, "Bee Armor", 24, SlimefunItems.BEE_HELMET, SlimefunItems.BEE_WINGS, SlimefunItems.BEE_LEGGINGS, SlimefunItems.BEE_BOOTS);
         register("wise_talisman", 271, "Talisman of the Wise", 20, SlimefunItems.TALISMAN_WISE);
         register("book_binder", 272, "Enchantment Book Binding", 26, SlimefunItems.BOOK_BINDER);
-        register("auto_crafting", 273, "Automatic Crafting", 30, SlimefunItems.VANILLA_AUTO_CRAFTER, SlimefunItems.ENHANCED_AUTO_CRAFTER, SlimefunItems.ARMOR_AUTO_CRAFTER);
+        register("auto_crafting", 273, "Automatic Crafting", 30, SlimefunItems.CRAFTING_MOTOR, SlimefunItems.VANILLA_AUTO_CRAFTER, SlimefunItems.ENHANCED_AUTO_CRAFTER, SlimefunItems.ARMOR_AUTO_CRAFTER);
         register("produce_collector", 274, "Automatic Milking", 20, SlimefunItems.PRODUCE_COLLECTOR);
         register("improved_generators", 275, "Improved Generators", 24, SlimefunItems.COAL_GENERATOR_2, SlimefunItems.LAVA_GENERATOR_2);
         register("ingredients_and_cheese", 276, "Slimefun Cuisine", 5, SlimefunItems.SALT, SlimefunItems.WHEAT_FLOUR, SlimefunItems.HEAVY_CREAM, SlimefunItems.CHEESE, SlimefunItems.BUTTER);

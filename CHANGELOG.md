@@ -34,10 +34,12 @@
 * Auto-Crafters can now be turned on and off
 * Added Produce Collector to automate Milk and Mushroom Stew
 * Added a new message when constructing a Multiblock successfully
+* Added Crafting Motor
 * Block Placers can now place down cake
 
 #### Changes
 * Removed all functionality from the old Automated Crafting Chamber
+* Changed Cargo Motor texture
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
 
 #### Fixes
