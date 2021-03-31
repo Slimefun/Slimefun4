@@ -36,6 +36,7 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem {
         addRecipe(5, new ItemStack(Material.GLASS), new ItemStack(Material.GLASS_PANE, 3));
         addRecipe(4, new ItemStack(Material.SNOWBALL, 4), new ItemStack(Material.SNOW_BLOCK));
         addRecipe(4, new ItemStack(Material.MAGMA_CREAM, 4), new ItemStack(Material.MAGMA_BLOCK));
+        addRecipe(4, new ItemStack(Material.SLIME_BALL, 9), new ItemStack(Material.SLIME_BLOCK));
 
         addRecipe(3, new ItemStack(Material.DRIED_KELP, 9), new ItemStack(Material.DRIED_KELP_BLOCK));
         addRecipe(3, new ItemStack(Material.BONE_MEAL, 9), new ItemStack(Material.BONE_BLOCK));

@@ -29,6 +29,7 @@
 * Added Enhanced Auto-Crafter
 * Added "Smart-Filling" mode to Cargo Input nodes
 * Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
+* Added "Slimeballs -> Slime Block" recipe to Electric Press
 * Added Armor Forge Auto-Crafter
 * Auto-Crafters can now be turned on and off
 * Added Produce Collector to automate Milk and Mushroom Stew
