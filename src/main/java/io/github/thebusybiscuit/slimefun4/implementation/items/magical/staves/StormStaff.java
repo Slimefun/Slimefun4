@@ -107,7 +107,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @ParametersAreNonnullByDefault
-    private void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
+    private void damageItem(Player p, ItemStack item) {
         if (item.getAmount() > 1) {
             item.setAmount(item.getAmount() - 1);
 
