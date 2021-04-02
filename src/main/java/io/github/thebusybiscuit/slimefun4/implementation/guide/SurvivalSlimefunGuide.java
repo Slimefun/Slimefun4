@@ -542,7 +542,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         };
 
-        MenuClickHandler ununlockedClickHandler = (pl, slot, itemstack, action) -> {
+        MenuClickHandler lockedClickHandler = (pl, slot, itemstack, action) -> {
             try {
                 SlimefunItem sfitem = SlimefunItem.getByItem(itemstack);
                 this.unlockItem(pl, sfitem, player -> displayItem(profile, itemstack, 0, true));
@@ -560,7 +560,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             if (recipeItem != null && recipeItem.hasItemMeta()) {
                 ItemMeta im = recipeItem.getItemMeta();
                 if (im.hasLore() && im.getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))){
-                    menu.addItem(recipeSlots[i], recipeItem, ununlockedClickHandler);
+                    menu.addItem(recipeSlots[i], recipeItem, lockedClickHandler);
                     continue;
                 }
             }
