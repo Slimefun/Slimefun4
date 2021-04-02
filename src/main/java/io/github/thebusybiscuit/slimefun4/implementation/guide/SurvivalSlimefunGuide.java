@@ -547,7 +547,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 SlimefunItem sfitem = SlimefunItem.getByItem(itemstack);
                 this.unlockItem(pl, sfitem, player -> displayItem(profile, itemstack, 0, true));
             } catch (Exception | LinkageError x) {
-                printErrorMessage(pl, x);;
+                printErrorMessage(pl, x);
             }
             return false;
         };
