@@ -559,7 +559,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             if (recipeItem != null && recipeItem.hasItemMeta()) {
                 ItemMeta im = recipeItem.getItemMeta();
-                if (im.hasLore() && im.getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))){
+                if (im.hasLore() && im.getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))) {
                     menu.addItem(recipeSlots[i], recipeItem, lockedClickHandler);
                     continue;
                 }
