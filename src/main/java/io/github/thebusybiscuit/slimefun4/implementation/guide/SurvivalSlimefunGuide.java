@@ -557,12 +557,15 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
 
-            if (recipeItem != null && recipeItem.hasItemMeta() && recipeItem.getItemMeta().hasLore() && recipeItem.getItemMeta().getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))) {
-                menu.addItem(recipeSlots[i], recipeItem, ununlockedClickHandler);
-            } else {
-                menu.addItem(recipeSlots[i], recipeItem, clickHandler);
+            if (recipeItem != null && recipeItem.hasItemMeta()) {
+                ItemMeta im = recipeItem.getItemMeta();
+                if (im.hasLore() && im.getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))){
+                    menu.addItem(recipeSlots[i], recipeItem, ununlockedClickHandler);
+                    continue;
+                }
             }
 
+            menu.addItem(recipeSlots[i], recipeItem, clickHandler);
 
             if (recipeItem != null && item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
