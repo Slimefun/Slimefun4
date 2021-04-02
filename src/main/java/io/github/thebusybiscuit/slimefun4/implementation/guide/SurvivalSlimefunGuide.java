@@ -534,7 +534,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {
             try {
                 if (itemstack != null && itemstack.getType() != Material.BARRIER) {
-                        displayItem(profile, itemstack, 0, true);
+                    displayItem(profile, itemstack, 0, true);
                 }
             } catch (Exception | LinkageError x) {
                 printErrorMessage(pl, x);
