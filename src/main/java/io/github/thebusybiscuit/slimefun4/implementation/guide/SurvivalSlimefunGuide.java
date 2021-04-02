@@ -663,9 +663,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 lore.add(ChatColor.GREEN + "> Click to unlock");
                 lore.add("");
                 lore.add(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + resultResearch.getCost() + " Level(s)");
+                result.setType(Material.BARRIER);
                 resultMeta.setLore(lore);
                 result.setItemMeta(resultMeta);
-                result.setType(Material.BARRIER);
                 return result;
             }
         } else {
