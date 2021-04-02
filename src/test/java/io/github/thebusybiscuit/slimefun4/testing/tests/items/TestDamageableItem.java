@@ -45,7 +45,8 @@ class TestDamageableItem {
         SlimefunItemStack stack = new SlimefunItemStack("DAMAGEABLE_PICKAXE_" + id,
                 Material.DIAMOND_PICKAXE,
                 "&4This pickaxe can break",
-                "&6It appears, it breaks, but most importantly, it tests.");
+                "&6It appears, it breaks, but most importantly, it tests."
+            );
         if (enchantment != null && enchantmentLevel != null) {
             ItemMeta im = stack.getItemMeta();
             im.addEnchant(enchantment, enchantmentLevel, true);
