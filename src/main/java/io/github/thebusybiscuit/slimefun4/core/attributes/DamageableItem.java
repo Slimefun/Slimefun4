@@ -49,7 +49,7 @@ public interface DamageableItem extends ItemAttribute {
         if (isDamageable() && item != null && !item.getType().isAir() && item.getAmount() > 0) {
             int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
-            if (unbreakingLevel > 0 && Math.random() * 100 <= (60 + Math.floorDiv(40, (unbreakingLevel + 1)))) {
+            if (unbreakingLevel > 0 && !(Math.random() < (1.0 / (unbreakingLevel + 1)))) {
                 return;
             }
 

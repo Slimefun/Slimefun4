@@ -41,7 +41,7 @@ public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, Pro
     }
 
     @Override
-    public void damageItem(Player p, ItemStack item) {
+    public void damageItem(@Nonnull Player p, ItemStack item) {
         if (p.getGameMode() != GameMode.CREATIVE) {
             DamageableItem.super.damageItem(p, item);
         }
