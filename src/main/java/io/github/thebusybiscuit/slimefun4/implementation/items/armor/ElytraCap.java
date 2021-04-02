@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.GameMode;
@@ -41,7 +42,7 @@ public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, Pro
     }
 
     @Override
-    public void damageItem(@Nonnull Player p, ItemStack item) {
+    public void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (p.getGameMode() != GameMode.CREATIVE) {
             DamageableItem.super.damageItem(p, item);
         }

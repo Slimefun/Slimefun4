@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
@@ -106,7 +107,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemUseHandler> {
     }
 
     @ParametersAreNonnullByDefault
-    private void damageItem(Player p, ItemStack item) {
+    private void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (item.getAmount() > 1) {
             item.setAmount(item.getAmount() - 1);
 
