@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
