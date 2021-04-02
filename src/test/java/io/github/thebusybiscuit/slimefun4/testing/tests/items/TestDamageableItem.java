@@ -2,12 +2,11 @@ package io.github.thebusybiscuit.slimefun4.testing.tests.items;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
+import io.github.thebusybiscuit.slimefun4.testing.mocks.DamageableMock;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -21,7 +20,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 class TestDamageableItem {
@@ -46,7 +44,7 @@ class TestDamageableItem {
                 Material.DIAMOND_PICKAXE,
                 "&4This pickaxe can break",
                 "&6It appears, it breaks, but most importantly, it tests."
-            );
+        );
         if (enchantment != null && enchantmentLevel != null) {
             ItemMeta im = stack.getItemMeta();
             im.addEnchant(enchantment, enchantmentLevel, true);
@@ -102,25 +100,6 @@ class TestDamageableItem {
         Assertions.assertTrue(xUnbreakingItemIS.hasItemMeta());
         Assertions.assertTrue(((Damageable) xUnbreakingItemIS.getItemMeta()).getDamage() < ((Damageable) iiiUnbreakingItemIS.getItemMeta()).getDamage());
         Assertions.assertTrue(((Damageable) iiiUnbreakingItemIS.getItemMeta()).getDamage() < ((Damageable) noUnbreakingItemIS.getItemMeta()).getDamage());
-    }
-
-    private static class DamageableMock extends SlimefunItem implements DamageableItem {
-        boolean itemDamageable;
-
-        public DamageableMock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, boolean damageable) {
-            super(category, item, recipeType, recipe);
-            itemDamageable = damageable;
-        }
-
-        @Override
-        public boolean isDamageable() {
-            return itemDamageable;
-        }
-
-        @Override
-        public void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
-            DamageableItem.super.damageItem(p, item);
-        }
     }
 
 }
