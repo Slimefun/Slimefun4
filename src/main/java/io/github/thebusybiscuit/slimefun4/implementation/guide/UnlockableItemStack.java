@@ -11,7 +11,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * A subclass of {@link ItemStack} that indicates the item is unlockable in the guide
@@ -34,8 +33,6 @@ public class UnlockableItemStack extends ItemStack{
      *              The player who is being showed this {@link UnlockableItemStack} to
      */
     public UnlockableItemStack(ItemStack i, SlimefunItem sfItem, Player p){
-        SlimefunPlugin.logger().log(Level.SEVERE, sfItem.getId());
-        SlimefunPlugin.logger().log(Level.SEVERE, i.getItemMeta().toString());
         ItemMeta resultMeta = i.getItemMeta();
         Research resultResearch = sfItem.getResearch();
 
