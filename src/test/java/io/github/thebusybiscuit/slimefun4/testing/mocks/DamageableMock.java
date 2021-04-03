@@ -14,7 +14,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class DamageableMock extends SlimefunItem implements DamageableItem {
-    boolean itemDamageable;
+
+    private final boolean isDamageable;
 
     @ParametersAreNonnullByDefault
     public DamageableMock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, boolean damageable) {
