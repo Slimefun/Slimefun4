@@ -159,6 +159,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Splint;
 import io.github.thebusybiscuit.slimefun4.implementation.items.medical.Vitamins;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.BasicCircuitBoard;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.CoolantCell;
+import io.github.thebusybiscuit.slimefun4.implementation.items.misc.GoldIngot;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFertilizer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.OrganicFood;
 import io.github.thebusybiscuit.slimefun4.implementation.items.misc.SteelThruster;
@@ -717,47 +718,47 @@ public final class SlimefunItemSetup {
 
         new OreWasher(categories.basicMachines, SlimefunItems.ORE_WASHER).register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_24K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 24, SlimefunItems.GOLD_24K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_22K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_22K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 22, SlimefunItems.GOLD_22K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_20K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_20K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 20, SlimefunItems.GOLD_20K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_18K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_18K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 18, SlimefunItems.GOLD_18K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_16K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_16K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 16, SlimefunItems.GOLD_16K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_14K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_14K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 14, SlimefunItems.GOLD_14K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_12K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_12K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 12, SlimefunItems.GOLD_12K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_10K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_10K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 10, SlimefunItems.GOLD_10K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_8K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_8K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 8, SlimefunItems.GOLD_8K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_6K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_6K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 6, SlimefunItems.GOLD_6K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, SlimefunItems.GOLD_4K, null, null, null, null, null, null, null})
         .register(plugin);
 
-        new SlimefunItem(categories.resources, SlimefunItems.GOLD_4K, RecipeType.SMELTERY,
+        new GoldIngot(categories.resources, 4, SlimefunItems.GOLD_4K, RecipeType.SMELTERY,
         new ItemStack[] {SlimefunItems.GOLD_DUST, null, null, null, null, null, null, null, null})
         .setUseableInWorkbench(true)
         .register(plugin);
