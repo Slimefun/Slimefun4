@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.github.thebusybiscuit.slimefun4.utils.UnbreakingRNGUtils;
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithms;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -36,21 +36,32 @@ public interface DamageableItem extends ItemAttribute {
     boolean isDamageable();
 
     /**
+     * Change this to a {@link UnbreakingAlgorithms} value if needed to fit the type of the damageable item
+     * Defaults to return {@link UnbreakingAlgorithms#TOOLS},
+     * which represents {@link DamageableItem} utilizes the tool algorithm to determine the chance of item damaging
+     *
+     * @return The {@link UnbreakingAlgorithms} of the itemType
+     */
+    default UnbreakingAlgorithms itemType() {
+        return UnbreakingAlgorithms.TOOLS;
+    }
+
+    /**
      * This method will damage the given {@link ItemStack} once.
      * It also takes into account the {@link Enchantment} {@code Unbreaking}.
      * 
      * It will only apply the damage if {@link #isDamageable()} returned true.
      * 
      * @param p
-     *            The {@link Player} to which the item belongs
+     *                The {@link Player} to which the item belongs
      * @param item
-     *            The {@link ItemStack} to damage
+     *                The {@link ItemStack} to damage
      */
     default void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (isDamageable() && item != null && !item.getType().isAir() && item.getAmount() > 0) {
             int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
-            if (unbreakingLevel > 0 && durabilityRNG(unbreakingLevel)) {
+            if (unbreakingLevel > 0 && evaluateUnbreakingEnchantment(unbreakingLevel)) {
                 return;
             }
 
@@ -73,13 +84,23 @@ public interface DamageableItem extends ItemAttribute {
     /**
      * This method will randomly decide if the item should be damaged or not
      * This does not damage the item, it is called by {@link #damageItem(Player, ItemStack)} to randomly generate a boolean
-     * This method can be overridden when trying to break a piece of armor, with the provided method {@link UnbreakingRNGUtils().getArmorRNG(Integer)}
      *
      * @param unbreakingLevel
-     *                       The {@link Integer} level of the unbreaking enchantment
+     *                                 The {@link Integer} level of the unbreaking enchantment
+     * @throws IllegalArgumentException
+     *                                 Thrown when {@link #itemType()} doesn't return a valid {@link UnbreakingAlgorithms} value
+     * @return Whether you should keep the item undamaged
+     *
      */
-    default boolean durabilityRNG(int unbreakingLevel) {
-        return new UnbreakingRNGUtils().getToolsRNG(unbreakingLevel);
+    default boolean evaluateUnbreakingEnchantment(int unbreakingLevel) {
+        switch (itemType()){
+            case TOOLS:
+                return !(Math.random() < (1.0 / (unbreakingLevel + 1)));
+            case ARMORS:
+                return !(Math.random() < 0.6 + (0.4 / (unbreakingLevel + 1)));
+            default:
+                throw new IllegalArgumentException("itemType must be either UnbreakingAlgorithms.TOOLS or UnbreakingAlgorithms.ARMORS");
+        }
     }
 
 }

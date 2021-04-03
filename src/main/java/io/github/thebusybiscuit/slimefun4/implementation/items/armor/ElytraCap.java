@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithms;
 import org.bukkit.GameMode;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -28,6 +29,11 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 public class ElytraCap extends SlimefunArmorPiece implements DamageableItem, ProtectiveArmor {
 
     private final NamespacedKey key;
+
+    @Override
+    public UnbreakingAlgorithms itemType() {
+        return UnbreakingAlgorithms.ARMORS;
+    }
 
     @ParametersAreNonnullByDefault
     public ElytraCap(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
