@@ -83,7 +83,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generato
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.MagnesiumGenerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators.SolarGenerator;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoAnvil;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBreeder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoBrewer;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutoDrier;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.AutomatedCraftingChamber;
@@ -110,6 +109,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.BookBinder;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.AutoBreeder;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.ExpCollector;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.IronGolemAssembler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities.ProduceCollector;
