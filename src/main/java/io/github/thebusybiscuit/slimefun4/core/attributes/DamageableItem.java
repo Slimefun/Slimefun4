@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithms;
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -34,17 +34,6 @@ public interface DamageableItem extends ItemAttribute {
      * @return Whether this {@link SlimefunItem} is damageable
      */
     boolean isDamageable();
-
-    /**
-     * Change this to a {@link UnbreakingAlgorithms} value if needed to fit the type of the damageable item
-     * Defaults to return {@link UnbreakingAlgorithms#TOOLS},
-     * which represents {@link DamageableItem} utilizes the tool algorithm to determine the chance of item damaging
-     *
-     * @return The {@link UnbreakingAlgorithms} of the itemType
-     */
-    default UnbreakingAlgorithms itemType() {
-        return UnbreakingAlgorithms.TOOLS;
-    }
 
     /**
      * This method will damage the given {@link ItemStack} once.
@@ -84,23 +73,15 @@ public interface DamageableItem extends ItemAttribute {
     /**
      * This method will randomly decide if the item should be damaged or not
      * This does not damage the item, it is called by {@link #damageItem(Player, ItemStack)} to randomly generate a boolean
+     * This function should be overridden when the item type is not a tool which is the default value
      *
      * @param unbreakingLevel
      *                                 The {@link Integer} level of the unbreaking enchantment
-     * @throws IllegalArgumentException
-     *                                 Thrown when {@link #itemType()} doesn't return a valid {@link UnbreakingAlgorithms} value
      * @return Whether you should keep the item undamaged
      *
      */
     default boolean evaluateUnbreakingEnchantment(int unbreakingLevel) {
-        switch (itemType()){
-            case TOOLS:
-                return !(Math.random() < (1.0 / (unbreakingLevel + 1)));
-            case ARMORS:
-                return !(Math.random() < 0.6 + (0.4 / (unbreakingLevel + 1)));
-            default:
-                throw new IllegalArgumentException("itemType must be either UnbreakingAlgorithms.TOOLS or UnbreakingAlgorithms.ARMORS");
-        }
+        return UnbreakingAlgorithm.TOOLS.evaluate(unbreakingLevel);
     }
 
 }
