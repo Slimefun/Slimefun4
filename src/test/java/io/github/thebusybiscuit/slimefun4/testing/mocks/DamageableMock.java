@@ -11,10 +11,12 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class DamageableMock extends SlimefunItem implements DamageableItem {
     boolean itemDamageable;
 
+    @ParametersAreNonnullByDefault
     public DamageableMock(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, boolean damageable) {
         super(category, item, recipeType, recipe);
         itemDamageable = damageable;
