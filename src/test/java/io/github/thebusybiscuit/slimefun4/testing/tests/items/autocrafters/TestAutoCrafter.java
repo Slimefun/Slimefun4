@@ -99,6 +99,29 @@ class TestAutoCrafter {
     }
 
     @Test
+    @DisplayName("Test resource leftovers when crafting")
+    void testResourceLeftovers() {
+        NamespacedKey key = new NamespacedKey(plugin, "resource_leftovers_test");
+        ItemStack result = new CustomItem(Material.DIAMOND, "&9Diamond. Nuff said.");
+        ShapelessRecipe recipe = new ShapelessRecipe(key, result);
+        recipe.addIngredient(new MaterialChoice(Material.HONEY_BOTTLE));
+        recipe.addIngredient(new MaterialChoice(Material.HONEY_BOTTLE));
+
+        AbstractRecipe abstractRecipe = AbstractRecipe.of(recipe);
+        AbstractAutoCrafter crafter = getVanillaAutoCrafter();
+        InventoryMock inv = new ChestInventoryMock(null, 9);
+
+        inv.addItem(new ItemStack(Material.HONEY_BOTTLE, 2));
+        Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
+
+        Assertions.assertFalse(inv.contains(Material.HONEY_BOTTLE, 2));
+        Assertions.assertTrue(inv.containsAtLeast(result, 1));
+
+        // Check for leftovers
+        Assertions.assertTrue(inv.contains(Material.GLASS_BOTTLE, 2));
+    }
+
+    @Test
     @DisplayName("Test crafting an invalid ShapelessRecipe")
     void testInvalidShapelessRecipe() {
         NamespacedKey key = new NamespacedKey(plugin, "shapeless_recipe_test");
