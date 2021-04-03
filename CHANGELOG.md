@@ -59,6 +59,8 @@
 * Fixed Multimeter not working on Auto-Crafters
 * Fixed #2650
 * Fixed Slimefun items applying damage to items with an `unbreakable` tag
+* Fixed #2930
+* Fixed #2837
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
