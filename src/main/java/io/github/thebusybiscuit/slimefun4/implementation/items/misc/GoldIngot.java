@@ -33,15 +33,15 @@ public class GoldIngot extends SlimefunItem {
     public GoldIngot(Category category, int caratRating, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        Validate.isTrue(caratRating > 0, "Carat must be above zero.");
-        Validate.isTrue(caratRating < 24, "Carat cannot go above 24.");
+        Validate.isTrue(caratRating > 0, "Carat rating must be above zero.");
+        Validate.isTrue(caratRating <= 24, "Carat rating cannot go above 24.");
         this.caratRating = caratRating;
     }
 
     /**
      * This returns the carat rating of this {@link GoldIngot}.
      * <p>
-     * The purity of the {@link GoldIngot} is measured in carat.
+     * The purity of the {@link GoldIngot} is measured in carat (1-24).
      * 
      * <pre>
      * 24k = 100% gold.
