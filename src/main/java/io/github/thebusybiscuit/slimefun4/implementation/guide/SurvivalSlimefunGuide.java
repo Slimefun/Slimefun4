@@ -557,15 +557,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = getDisplayItem(p, isSlimefunRecipe, recipe[i]);
 
-            if (recipeItem != null && recipeItem.hasItemMeta()) {
-                ItemMeta im = recipeItem.getItemMeta();
-                if (im.hasLore() && im.getLore().contains(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"))) {
-                    menu.addItem(recipeSlots[i], recipeItem, lockedClickHandler);
-                    continue;
-                }
+            if (recipeItem instanceof UnlockableItemStack) {
+                menu.addItem(recipeSlots[i], ((UnlockableItemStack) recipeItem).getItemStack(), lockedClickHandler);
+            } else {
+                menu.addItem(recipeSlots[i], recipeItem, clickHandler);
             }
-
-            menu.addItem(recipeSlots[i], recipeItem, clickHandler);
 
             if (recipeItem != null && item instanceof MultiBlockMachine) {
                 for (Tag<Material> tag : MultiBlock.getSupportedTags()) {
@@ -654,19 +650,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 if (!result.hasItemMeta()) {
                     return new CustomItem(Material.BARRIER, ItemUtils.getItemName(item));
                 }
-                ItemMeta resultMeta = result.getItemMeta();
-                Research resultResearch = slimefunItem.getResearch();
-
-                List<String> lore = new ArrayList<>();
-                lore.add(ChatColor.DARK_RED + ChatColor.BOLD.toString() + SlimefunPlugin.getLocalization().getMessage(p, "guide.locked"));
-                lore.add("");
-                lore.add(ChatColor.GREEN + "> Click to unlock");
-                lore.add("");
-                lore.add(ChatColor.GRAY + "Cost: " + ChatColor.AQUA + resultResearch.getCost() + " Level(s)");
-                result.setType(Material.BARRIER);
-                resultMeta.setLore(lore);
-                result.setItemMeta(resultMeta);
-                return result;
+                return new UnlockableItemStack(result, slimefunItem, p);
             }
         } else {
             return item;
