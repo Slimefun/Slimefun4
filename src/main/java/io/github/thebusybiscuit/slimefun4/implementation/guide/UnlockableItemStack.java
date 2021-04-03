@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author RobotHanzo
  */
-public class UnlockableItemStack extends ItemStack{
+class UnlockableItemStack extends ItemStack {
 
     public ItemStack itemStack;
 
