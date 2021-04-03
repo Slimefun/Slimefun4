@@ -61,6 +61,7 @@
 * Fixed Slimefun items applying damage to items with an `unbreakable` tag
 * Fixed #2930
 * Fixed #2926
+* Fixed Grappling Hook vanishing in creative mode
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
