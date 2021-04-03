@@ -10,17 +10,17 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.DamageableItem;
  * @author RobotHanzo
  */
 public enum UnbreakingAlgorithm {
-    TOOLS,
-    ARMOR;
-    public boolean evaluate(int unbreakingLevel){
-        if (this == TOOLS) {
-            return !(Math.random() < (1.0 / (unbreakingLevel + 1)));
-        }
 
-        if (this == ARMOR) {
-            return !(Math.random() < 0.6 + (0.4 / (unbreakingLevel + 1)));
-        }
+    ARMOR(lvl -> !(Math.random() < 0.6 + (0.4 / (lvl + 1))),
+    TOOLS(lvl -> !(Math.random() < (1.0 / (lvl + 1))));
 
-        return false;
+    private final IntFunction<Boolean> function;
+    
+    UnbreakingAlgorithm(@Nonnull IntFunction<Boolean> function) {
+        this.function = function;
+    }
+
+    public boolean evaluate(int unbreakingLevel) {
+        return function.apply(unbreakingLevel);
     }
 }
