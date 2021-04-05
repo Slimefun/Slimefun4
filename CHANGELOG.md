@@ -36,7 +36,7 @@
 * Added a new message when constructing a Multiblock successfully
 * Added Crafting Motor
 * Block Placers can now place down cake
-* Added enchantment level limit for both auto enchanter and auto disenchanter
+* Added configurable enchantment level limit for both auto enchanter and auto disenchanter
 
 #### Changes
 * Removed all functionality from the old Automated Crafting Chamber
