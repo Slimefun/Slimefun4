@@ -245,6 +245,9 @@ public class BlockListener implements Listener {
                         }
                     }
                 }
+
+                // Fixes #2944 - Don't forget to clear the Block Data
+                BlockStorage.clearBlockInfo(blockAbove);
             }
         }
     }
