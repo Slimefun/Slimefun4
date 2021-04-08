@@ -47,8 +47,11 @@ public class SoundService {
 
     /**
      * This method reloads every {@link SoundConfiguration}.
+     * 
+     * @param save
+     *            Whether to save the defaults to disk
      */
-    public void reload() {
+    public void reload(boolean save) {
         config.reload();
 
         for (SoundEffect sound : SoundEffect.values()) {
@@ -59,7 +62,9 @@ public class SoundService {
             }
         }
 
-        config.save();
+        if (save) {
+            config.save();
+        }
     }
 
     private void reloadSound(@Nonnull SoundEffect sound) {

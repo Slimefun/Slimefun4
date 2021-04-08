@@ -37,15 +37,13 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
- * This class needs to be rewritten VERY BADLY.
- * But we should focus on rewriting the recipe system first.
+ * This machine is disabled and has been replaced by Auto Crafters.
  * 
  * @deprecated This has been replaced by the {@link AbstractAutoCrafter}.
  * 
  * @author TheBusyBiscuit
  *
  */
-@Deprecated
 public abstract class AutomatedCraftingChamber extends SlimefunItem implements InventoryBlock, EnergyNetComponent {
 
     private final int[] border = { 0, 1, 3, 4, 5, 7, 8, 13, 14, 15, 16, 17, 50, 51, 52, 53 };

@@ -21,6 +21,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
@@ -238,12 +239,15 @@ public class BlockListener implements Listener {
 
                     if (!dummyEvent.isCancelled() && dummyEvent.isDropItems()) {
                         for (ItemStack drop : drops) {
-                            if (drop != null && drop.getType() != Material.AIR) {
+                            if (drop != null && !drop.getType().isAir()) {
                                 blockAbove.getWorld().dropItemNaturally(blockAbove.getLocation(), drop);
                             }
                         }
                     }
                 }
+
+                // Fixes #2944 - Don't forget to clear the Block Data
+                BlockStorage.clearBlockInfo(blockAbove);
             }
         }
     }
@@ -251,10 +255,17 @@ public class BlockListener implements Listener {
     private int getBonusDropsWithFortune(@Nullable ItemStack item, @Nonnull Block b) {
         int amount = 1;
 
-        if (item != null) {
-            int fortuneLevel = item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+        if (item != null && !item.getType().isAir() && item.hasItemMeta()) {
+            /*
+             * Small performance optimization:
+             * ItemStack#getEnchantmentLevel() calls ItemStack#getItemMeta(), so if
+             * we are handling more than one Enchantment, we should access the ItemMeta
+             * directly and re use it.
+             */
+            ItemMeta meta = item.getItemMeta();
+            int fortuneLevel = meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS);
 
-            if (fortuneLevel > 0 && !item.containsEnchantment(Enchantment.SILK_TOUCH)) {
+            if (fortuneLevel > 0 && !meta.hasEnchant(Enchantment.SILK_TOUCH)) {
                 Random random = ThreadLocalRandom.current();
 
                 amount = Math.max(1, random.nextInt(fortuneLevel + 2) - 1);

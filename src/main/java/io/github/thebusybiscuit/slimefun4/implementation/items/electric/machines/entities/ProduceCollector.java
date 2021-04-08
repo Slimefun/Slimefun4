@@ -12,7 +12,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -44,9 +43,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  */
 public class ProduceCollector extends AContainer implements RecipeDisplayItem {
 
-    private final Set<AnimalProduce> animalProduces = new HashSet<>();
-
     private final ItemSetting<Integer> range = new IntRangeSetting(this, "range", 1, 2, 32);
+    private final Set<AnimalProduce> animalProduces = new HashSet<>();
 
     @ParametersAreNonnullByDefault
     public ProduceCollector(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -57,8 +55,23 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
 
     @Override
     protected void registerDefaultRecipes() {
-        addProduce(new AnimalProduce(new ItemStack(Material.BUCKET), Cow.class::isInstance, new ItemStack(Material.MILK_BUCKET)));
-        addProduce(new AnimalProduce(new ItemStack(Material.BOWL), MushroomCow.class::isInstance, new ItemStack(Material.MUSHROOM_STEW)));
+        // Milk from adult cows
+        addProduce(new AnimalProduce(new ItemStack(Material.BUCKET), new ItemStack(Material.MILK_BUCKET), n -> {
+            if (n instanceof Cow) {
+                return ((Cow) n).isAdult();
+            } else {
+                return false;
+            }
+        }));
+
+        // Mushroom Stew from Mooshrooms
+        addProduce(new AnimalProduce(new ItemStack(Material.BOWL), new ItemStack(Material.MUSHROOM_STEW), n -> {
+            if (n instanceof MushroomCow) {
+                return ((MushroomCow) n).isAdult();
+            } else {
+                return false;
+            }
+        }));
     }
 
     /**
@@ -132,12 +145,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     @ParametersAreNonnullByDefault
     private boolean isValidAnimal(Entity n, Predicate<LivingEntity> predicate) {
         if (n instanceof LivingEntity) {
-            if (n instanceof Ageable && !((Ageable) n).isAdult()) {
-                // We only take adults into consideration
-                return false;
-            } else {
-                return predicate.test((LivingEntity) n);
-            }
+            return predicate.test((LivingEntity) n);
         } else {
             return false;
         }

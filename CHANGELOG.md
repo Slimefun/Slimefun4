@@ -30,17 +30,23 @@
 * Added Enhanced Auto-Crafter
 * Added "Smart-Filling" mode to Cargo Input nodes
 * Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
+* Added "Slimeballs -> Slime Block" recipe to Electric Press
 * Added Armor Forge Auto-Crafter
 * Auto-Crafters can now be turned on and off
 * Added Produce Collector to automate Milk and Mushroom Stew
 * Added a new message when constructing a Multiblock successfully
+* Added Crafting Motor
 * Block Placers can now place down cake
+* Added configurable enchantment level limit for both auto enchanter and auto disenchanter
 * Added sound effects for Slime Boots
 * Added sounds.yml file to configure all sound effects
 
 #### Changes
-* Removed all functionality from the old Automated Crafting Chamber
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
+* Ancient Pedestals can now be found under "Magical Gadgets"
+* Removed all functionality from the old Automated Crafting Chamber
+* Changed Cargo Motor texture
+* Small performance improvements
 
 #### Fixes
 * Fixed #1161
@@ -58,6 +64,10 @@
 * Fixed Multimeter not working on Auto-Crafters
 * Fixed #2650
 * Fixed Slimefun items applying damage to items with an `unbreakable` tag
+* Fixed #2930
+* Fixed #2926
+* Fixed Grappling Hook vanishing in creative mode
+* Fixed #2944
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
