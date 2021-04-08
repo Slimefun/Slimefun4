@@ -92,7 +92,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    public AbstractAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AbstractAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
@@ -417,7 +417,6 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         // Check if we have an empty slot
         if (inv.firstEmpty() != -1) {
             Map<Integer, Integer> itemQuantities = new HashMap<>();
-            List<ItemStack> leftoverItems = new ArrayList<>();
 
             for (Predicate<ItemStack> predicate : recipe.getIngredients()) {
                 // Check if any Item matches the Predicate
@@ -425,6 +424,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                     return false;
                 }
             }
+
+            List<ItemStack> leftoverItems = new ArrayList<>();
 
             // Remove ingredients
             for (Map.Entry<Integer, Integer> entry : itemQuantities.entrySet()) {
