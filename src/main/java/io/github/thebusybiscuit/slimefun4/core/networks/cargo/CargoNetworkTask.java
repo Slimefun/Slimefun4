@@ -1,13 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 import javax.annotation.Nullable;
@@ -158,13 +151,17 @@ class CargoNetworkTask implements Runnable {
     private ItemStack distributeItem(ItemStack stack, Location inputNode, List<Location> outputNodes) {
         ItemStack item = stack;
 
-        Deque<Location> destinations = new LinkedList<>(outputNodes);
         Config cfg = BlockStorage.getLocationInfo(inputNode);
         boolean roundrobin = Objects.equals(cfg.getString("round-robin"), "true");
         boolean smartFill = Objects.equals(cfg.getString("smart-fill"), "true");
 
+        Collection<Location> destinations;
         if (roundrobin) {
-            roundRobinSort(inputNode, destinations);
+            Deque<Location> tempDestinations = new LinkedList<>(outputNodes);
+            roundRobinSort(inputNode, tempDestinations);
+            destinations = tempDestinations;
+        } else {
+            destinations = new ArrayList<>(outputNodes);
         }
 
         for (Location output : destinations) {

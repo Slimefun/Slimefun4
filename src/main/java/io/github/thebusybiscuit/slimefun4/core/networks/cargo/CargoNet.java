@@ -11,6 +11,7 @@ import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -250,12 +251,16 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
      * @return The frequency of the given node
      */
     private static int getFrequency(Location node) {
-        try {
-            String str = BlockStorage.getLocationInfo(node).getString("frequency");
-            return str == null ? 0 : Integer.parseInt(str);
-        } catch (Exception x) {
-            SlimefunPlugin.logger().log(Level.SEVERE, x, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
+
+        String str = BlockStorage.getLocationInfo(node).getString("frequency");
+        if (str == null) {
             return 0;
         }
+        if (!PatternUtils.NUMERIC.matcher(str).matches()) {
+            SlimefunPlugin.logger().log(Level.SEVERE, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
+            return 0;
+        }
+        return Integer.parseInt(str);
+
     }
 }
