@@ -37,6 +37,8 @@
 * Added Crafting Motor
 * Block Placers can now place down cake
 * Added support for the "FunnyGuilds" plugin
+* Added "magma cream -> slime ball" recipe to the Freezer
+* Added "2 magma blocks -> slime block" recipe to the Freezer
 * Added configurable enchantment level limit for both auto enchanter and auto disenchanter
 
 #### Changes
