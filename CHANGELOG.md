@@ -36,6 +36,7 @@
 * Added a new message when constructing a Multiblock successfully
 * Added Crafting Motor
 * Block Placers can now place down cake
+* Added support for the "FunnyGuilds" plugin
 * Added configurable enchantment level limit for both auto enchanter and auto disenchanter
 
 #### Changes

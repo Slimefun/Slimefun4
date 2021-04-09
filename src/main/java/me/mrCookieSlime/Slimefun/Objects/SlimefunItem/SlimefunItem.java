@@ -532,6 +532,11 @@ public class SlimefunItem implements Placeable {
         // Send out deprecation warnings for any classes or interfaces
         checkForDeprecations(getClass());
 
+        // Inform addon developers about the BlockBreakHandler
+        if (SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.DEVELOPMENT && SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(getId())) {
+            warn("This item uses a deprecated SlimefunBlockHandler which will be removed in the very near future! Please switch to the BlockBreakHandler as soon as possible.");
+        }
+
         // Check for an illegal stack size
         if (itemStackTemplate.getAmount() != 1) {
             // @formatter:off
@@ -805,14 +810,13 @@ public class SlimefunItem implements Placeable {
         Validate.notEmpty(handlers, "You cannot add zero handlers...");
         Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
 
+        // Make sure they are added before the item was registered.
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }
 
         for (ItemHandler handler : handlers) {
-            if (itemhandlers.put(handler.getIdentifier(), handler).isPresent()) {
-                warn("ItemHandler \"" + handler.getIdentifier().getSimpleName() + "\" has already been assigned to this item. It was overridden.");
-            }
+            itemhandlers.put(handler.getIdentifier(), handler);
 
             // Tickers are a special case (at the moment at least)
             if (handler instanceof BlockTicker) {
