@@ -44,6 +44,7 @@
 * Ancient Pedestals can now be found under "Magical Gadgets"
 * Removed all functionality from the old Automated Crafting Chamber
 * Changed Cargo Motor texture
+* Lowered "Magma block -> Sulfate" recipe to only require 1 magma block
 * Small performance improvements
 
 #### Fixes
