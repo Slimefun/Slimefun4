@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Bat;
@@ -54,7 +55,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
         return e -> {
             Player p = e.getPlayer();
             UUID uuid = p.getUniqueId();
-            boolean isConsumed = consumeOnUse.getValue();
+            boolean isConsumed = consumeOnUse.getValue() && p.getGameMode() != GameMode.CREATIVE;
 
             if (!e.getClickedBlock().isPresent() && !SlimefunPlugin.getGrapplingHookListener().isGrappling(uuid)) {
                 e.cancel();

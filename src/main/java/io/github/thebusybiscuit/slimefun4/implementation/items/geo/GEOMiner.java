@@ -53,10 +53,7 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
     public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        addItemHandler(onPlace(), onBreak());
-
-        // Unregister the Block handler from AContainer (Fixes #2914)
-        registerBlockHandler(getId(), null);
+        addItemHandler(onPlace());
     }
 
     @Nonnull
@@ -71,7 +68,8 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
     }
 
     @Nonnull
-    private BlockBreakHandler onBreak() {
+    @Override
+    protected BlockBreakHandler onBlockBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override

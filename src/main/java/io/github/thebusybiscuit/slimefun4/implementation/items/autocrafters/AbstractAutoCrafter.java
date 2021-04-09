@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -24,9 +26,9 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
-import io.github.thebusybiscuit.cscorelib2.inventory.ItemUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
@@ -90,7 +92,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    public AbstractAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AbstractAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
@@ -423,23 +425,77 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 }
             }
 
+            List<ItemStack> leftoverItems = new ArrayList<>();
+
             // Remove ingredients
             for (Map.Entry<Integer, Integer> entry : itemQuantities.entrySet()) {
                 ItemStack item = inv.getItem(entry.getKey());
 
                 // Double-check to be extra safe
                 if (item != null) {
-                    // Consume the difference
-                    int toRemove = item.getAmount() - entry.getValue();
-                    ItemUtils.consumeItem(item, toRemove, true);
+                    // Handle leftovers
+                    ItemStack leftover = getLeftoverItem(item);
+
+                    if (leftover != null) {
+                        // Account for the amount of removed items
+                        leftover.setAmount(item.getAmount() - entry.getValue());
+                        leftoverItems.add(leftover);
+                    }
+
+                    // Update the item amount
+                    item.setAmount(entry.getValue());
                 }
             }
 
-            // All Predicates have found a match
-            return inv.addItem(recipe.getResult().clone()).isEmpty();
+            boolean success = inv.addItem(recipe.getResult().clone()).isEmpty();
+
+            if (success) {
+                // Fixes #2926 - Push leftover items to the inventory.
+                for (ItemStack leftoverItem : leftoverItems) {
+                    inv.addItem(leftoverItem);
+                }
+            }
+
+            return success;
         }
 
         return false;
+    }
+
+    /**
+     * This method returns the "leftovers" from a crafting operation.
+     * The method functions very similarly to {@link Material#getCraftingRemainingItem()}.
+     * However we cannot use this method as it is only available in the latest 1.16 snapshots
+     * of Spigot, not even on earlier 1.16 builds...
+     * But this gives us more control over the leftovers anyway!
+     * 
+     * @param item
+     *            The {@link ItemStack} that is being consumed
+     * 
+     * @return The leftover item or null if the item is fully consumed
+     */
+    @Nullable
+    private ItemStack getLeftoverItem(@Nonnull ItemStack item) {
+        Material type = item.getType();
+
+        switch (type) {
+            case WATER_BUCKET:
+            case LAVA_BUCKET:
+            case MILK_BUCKET:
+                return new ItemStack(Material.BUCKET);
+            case DRAGON_BREATH:
+            case POTION:
+                return new ItemStack(Material.GLASS_BOTTLE);
+            default:
+                MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
+
+                // Honey does not exist in 1.14
+                if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15) && type == Material.HONEY_BOTTLE) {
+                    return new ItemStack(Material.GLASS_BOTTLE);
+                } else {
+                    return null;
+                }
+        }
     }
 
     /**
