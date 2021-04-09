@@ -12,8 +12,9 @@ import org.bukkit.inventory.EquipmentSlot;
 
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.AbstractAutoCrafter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.EnhancedAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 
 /**
@@ -50,6 +51,13 @@ public class AutoCrafterListener implements Listener {
             SlimefunItem block = slimefunBlock.get();
 
             if (block instanceof AbstractAutoCrafter) {
+                Optional<SlimefunItem> slimefunItem = e.getSlimefunItem();
+
+                if (!e.getPlayer().isSneaking() && slimefunItem.isPresent() && slimefunItem.get() instanceof Multimeter) {
+                    // Allow Multimeters to pass through and do their job
+                    return;
+                }
+
                 // Prevent blocks from being placed, food from being eaten, etc...
                 e.cancel();
 

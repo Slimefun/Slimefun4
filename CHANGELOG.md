@@ -25,11 +25,29 @@
 ## Release Candidate 22 (TBD)
 
 #### Additions
-* Added Vanilla Auto Crafter
-* Added Enhanced Auto Crafter
+* Added Vanilla Auto-Crafter
+* Added Enhanced Auto-Crafter
+* Added "Smart-Filling" mode to Cargo Input nodes
+* Added "Netherite Ingot -> Netherite Block" recipe to Electric Press
+* Added "Slimeballs -> Slime Block" recipe to Electric Press
+* Added Armor Forge Auto-Crafter
+* Auto-Crafters can now be turned on and off
+* Added Produce Collector to automate Milk and Mushroom Stew
+* Added a new message when constructing a Multiblock successfully
+* Added Crafting Motor
+* Block Placers can now place down cake
+* Added support for the "FunnyGuilds" plugin
+* Added "magma cream -> slime ball" recipe to the Freezer
+* Added "2 magma blocks -> slime block" recipe to the Freezer
+* Added configurable enchantment level limit for both auto enchanter and auto disenchanter
 
 #### Changes
 * Changed item order in guide for the Villager Rune and Nether Goo (All runes are now grouped together)
+* Ancient Pedestals can now be found under "Magical Gadgets"
+* Removed all functionality from the old Automated Crafting Chamber
+* Changed Cargo Motor texture
+* Lowered "Magma block -> Sulfate" recipe to only require 1 magma block
+* Small performance improvements
 
 #### Fixes
 * Fixed #1161
@@ -38,6 +56,19 @@
 * Fixed items getting deleted when breaking enhanced furnaces
 * Fixed #2895
 * Fixed #2896
+* Fixed #2899
+* Fixed #2906
+* Fixed #2903
+* Fixed #2913
+* Fixed #2914
+* Fixed Auto-Crafters swallowing buckets when crafting cake
+* Fixed Multimeter not working on Auto-Crafters
+* Fixed #2650
+* Fixed Slimefun items applying damage to items with an `unbreakable` tag
+* Fixed #2930
+* Fixed #2926
+* Fixed Grappling Hook vanishing in creative mode
+* Fixed #2944
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21

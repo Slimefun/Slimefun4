@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.testing.tests.items.auto_crafters;
+package io.github.thebusybiscuit.slimefun4.testing.tests.items.autocrafters;
 
 import javax.annotation.Nonnull;
 
@@ -19,9 +19,9 @@ import be.seeseemelk.mockbukkit.inventory.InventoryMock;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.AbstractAutoCrafter;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.AbstractRecipe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.auto_crafters.VanillaAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.VanillaAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.testing.TestUtilities;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
@@ -67,6 +67,58 @@ class TestAutoCrafter {
         Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
         Assertions.assertFalse(inv.contains(Material.GOLD_NUGGET, 1));
         Assertions.assertTrue(inv.containsAtLeast(result, 1));
+    }
+
+    @Test
+    @DisplayName("Test crafting a valid ShapelessRecipe")
+    void testDisabledRecipe() {
+        NamespacedKey key = new NamespacedKey(plugin, "disabled_recipe_test");
+        ItemStack result = new CustomItem(Material.DIAMOND, "&bAmazing Diamond :o");
+        ShapelessRecipe recipe = new ShapelessRecipe(key, result);
+        recipe.addIngredient(new MaterialChoice(Material.GOLD_NUGGET));
+
+        AbstractRecipe abstractRecipe = AbstractRecipe.of(recipe);
+        AbstractAutoCrafter crafter = getVanillaAutoCrafter();
+        InventoryMock inv = new ChestInventoryMock(null, 9);
+
+        // Test enabled Recipe
+        abstractRecipe.setEnabled(true);
+        inv.addItem(new ItemStack(Material.GOLD_NUGGET));
+        Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
+        Assertions.assertFalse(inv.contains(Material.GOLD_NUGGET, 1));
+        Assertions.assertTrue(inv.containsAtLeast(result, 1));
+
+        inv.clear();
+
+        // Test disabled Recipe
+        abstractRecipe.setEnabled(false);
+        inv.addItem(new ItemStack(Material.GOLD_NUGGET));
+        Assertions.assertFalse(crafter.craft(inv, abstractRecipe));
+        Assertions.assertTrue(inv.contains(Material.GOLD_NUGGET, 1));
+        Assertions.assertFalse(inv.containsAtLeast(result, 1));
+    }
+
+    @Test
+    @DisplayName("Test resource leftovers when crafting")
+    void testResourceLeftovers() {
+        NamespacedKey key = new NamespacedKey(plugin, "resource_leftovers_test");
+        ItemStack result = new CustomItem(Material.DIAMOND, "&9Diamond. Nuff said.");
+        ShapelessRecipe recipe = new ShapelessRecipe(key, result);
+        recipe.addIngredient(new MaterialChoice(Material.HONEY_BOTTLE));
+        recipe.addIngredient(new MaterialChoice(Material.HONEY_BOTTLE));
+
+        AbstractRecipe abstractRecipe = AbstractRecipe.of(recipe);
+        AbstractAutoCrafter crafter = getVanillaAutoCrafter();
+        InventoryMock inv = new ChestInventoryMock(null, 9);
+
+        inv.addItem(new ItemStack(Material.HONEY_BOTTLE, 2));
+        Assertions.assertTrue(crafter.craft(inv, abstractRecipe));
+
+        Assertions.assertFalse(inv.contains(Material.HONEY_BOTTLE, 2));
+        Assertions.assertTrue(inv.containsAtLeast(result, 1));
+
+        // Check for leftovers
+        Assertions.assertTrue(inv.contains(Material.GLASS_BOTTLE, 2));
     }
 
     @Test

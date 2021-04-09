@@ -65,7 +65,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
 
         processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));
         createPreset(this, getItemName(), this::constructMenu);
-        addItemHandler(onPlace(), onBreak());
+        addItemHandler(onBlockPlace(), onBlockBreak());
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     }
 
     @Nonnull
-    private BlockPlaceHandler onPlace() {
+    private BlockPlaceHandler onBlockPlace() {
         return new BlockPlaceHandler(false) {
 
             @Override
@@ -85,7 +85,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     }
 
     @Nonnull
-    private BlockBreakHandler onBreak() {
+    private BlockBreakHandler onBlockBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -102,6 +102,19 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         };
     }
 
+    @Nonnull
+    @Override
+    public int[] getInputSlots() {
+        return new int[0];
+    }
+
+    @Nonnull
+    @Override
+    public int[] getOutputSlots() {
+        return OUTPUT_SLOTS;
+    }
+
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new LinkedList<>();
@@ -115,6 +128,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         return displayRecipes;
     }
 
+    @Nonnull
     @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.miner";
@@ -130,17 +144,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         return 512;
     }
 
-    @Override
-    public int[] getInputSlots() {
-        return new int[0];
-    }
-
-    @Override
-    public int[] getOutputSlots() {
-        return OUTPUT_SLOTS;
-    }
-
-    protected void constructMenu(BlockMenuPreset preset) {
+    protected void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : BORDER) {
             preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
         }
@@ -183,7 +187,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         });
     }
 
-    protected void tick(Block b) {
+    protected void tick(@Nonnull Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
         MiningOperation operation = processor.getOperation(b);
 
@@ -210,7 +214,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
         }
     }
 
-    private void start(Block b, BlockMenu inv) {
+    private void start(@Nonnull Block b, @Nonnull BlockMenu inv) {
         for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
             if (resource.isObtainableFromGEOMiner()) {
                 OptionalInt optional = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);

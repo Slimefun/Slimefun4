@@ -23,9 +23,11 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProcessHolder;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.machines.CraftingOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -49,7 +51,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
     protected final List<MachineRecipe> recipes = new ArrayList<>();
-
     private final MachineProcessor<CraftingOperation> processor = new MachineProcessor<>();
 
     private int energyConsumedPerTick = -1;
@@ -57,31 +58,40 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
-    public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         processor.setProgressBar(getProgressBar());
         createPreset(this, getInventoryTitle(), this::constructMenu);
 
-        registerBlockHandler(item.getItemId(), (p, b, tool, reason) -> {
-            BlockMenu inv = BlockStorage.getInventory(b);
+        addItemHandler(onBlockBreak());
+    }
 
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getInputSlots());
-                inv.dropItems(b.getLocation(), getOutputSlots());
+    @Nonnull
+    protected BlockBreakHandler onBlockBreak() {
+        return new SimpleBlockBreakHandler() {
+
+            @Override
+            public void onBlockBreak(Block b) {
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), getInputSlots());
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
+
+                processor.removeOperation(b);
             }
 
-            processor.removeOperation(b);
-            return true;
-        });
+        };
     }
 
     @ParametersAreNonnullByDefault
-    public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    protected AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         this(category, item, recipeType, recipe);
         this.recipeOutput = recipeOutput;
     }
-    
+
     @Override
     public MachineProcessor<CraftingOperation> getMachineProcessor() {
         return processor;

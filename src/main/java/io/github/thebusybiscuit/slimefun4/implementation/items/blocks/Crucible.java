@@ -188,7 +188,8 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
     private void placeLiquid(@Nonnull Block block, boolean water) {
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR || block.getType() == Material.VOID_AIR) {
-            block.setType(water ? Material.WATER : Material.LAVA);
+            // Fixes #2903 - Cancel physics update to resolve weird overlapping
+            block.setType(water ? Material.WATER : Material.LAVA, false);
         } else {
             if (water && block.getBlockData() instanceof Waterlogged) {
                 Waterlogged wl = (Waterlogged) block.getBlockData();

@@ -58,6 +58,13 @@ public class GPSNetwork {
     private final TeleportationManager teleportation = new TeleportationManager();
     private final ResourceManager resourceManager;
 
+    /**
+     * This constructs a new {@link GPSNetwork}.
+     * Note that this network is per {@link Server} and not per {@link Player}.
+     * 
+     * @param plugin
+     *            Our {@link SlimefunPlugin} instance
+     */
     public GPSNetwork(@Nonnull SlimefunPlugin plugin) {
         resourceManager = new ResourceManager(plugin);
     }
@@ -125,6 +132,13 @@ public class GPSNetwork {
         return locations == null ? 0 : locations.size();
     }
 
+    /**
+     * This method opens the {@link GPSTransmitter} control panel to the given
+     * {@link Player}.
+     * 
+     * @param p
+     *            The {@link Player}
+     */
     public void openTransmitterControlPanel(@Nonnull Player p) {
         ChestMenu menu = new ChestMenu(ChatColor.BLUE + SlimefunPlugin.getLocalization().getMessage(p, "machines.GPS_CONTROL_PANEL.title"));
 
