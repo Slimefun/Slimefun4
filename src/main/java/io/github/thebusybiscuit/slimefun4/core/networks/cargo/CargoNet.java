@@ -242,7 +242,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
     /**
      * This method returns the frequency a given node is set to.
-     * Should there be an {@link Exception} to this method it will fall back to zero in
+     * Should there be invalid data this method it will fall back to zero in
      * order to preserve the integrity of the {@link CargoNet}.
      * 
      * @param node
@@ -250,13 +250,12 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
      * 
      * @return The frequency of the given node
      */
-    private static int getFrequency(Location node) {
+    private static int getFrequency(@Nonnull Location node) {
 
-        String str = BlockStorage.getLocationInfo(node).getString("frequency");
+        String str = BlockStorage.getLocationInfo(node,"frequency");
         if (str == null) {
             return 0;
-        }
-        if (!PatternUtils.NUMERIC.matcher(str).matches()) {
+        } else if (!PatternUtils.NUMERIC.matcher(str).matches()) {
             SlimefunPlugin.logger().log(Level.SEVERE, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
             return 0;
         }

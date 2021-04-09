@@ -1,10 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -166,10 +166,17 @@ class CargoNetworkTask implements Runnable {
 
         Collection<Location> destinations;
         if (roundrobin) {
-            Deque<Location> tempDestinations = new LinkedList<>(outputNodes);
+            // Use an ArrayDeque to perform round-robin sorting
+            // Since the impl for roundRobinSort just does Deque.addLast(Deque#removeFirst)
+            // An ArrayDequeue is preferable as opposed to a LinkedList:
+            // - The number of elements does not change.
+            // - ArrayDequeue has better iterative performance
+            Deque<Location> tempDestinations = new ArrayDeque<>(outputNodes);
             roundRobinSort(inputNode, tempDestinations);
             destinations = tempDestinations;
         } else {
+            // Using an ArrayList here since we won't need to sort the destinations
+            // The ArrayList has the best performance for iteration bar a primitive array
             destinations = new ArrayList<>(outputNodes);
         }
 
