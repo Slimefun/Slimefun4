@@ -37,7 +37,11 @@
 * Added a new message when constructing a Multiblock successfully
 * Added Crafting Motor
 * Block Placers can now place down cake
+* Added support for the "FunnyGuilds" plugin
+* Added "magma cream -> slime ball" recipe to the Freezer
+* Added "2 magma blocks -> slime block" recipe to the Freezer
 * Added configurable enchantment level limit for both auto enchanter and auto disenchanter
+* (API) Added AutoEnchantEvent
 * Added sound effects for Slime Boots
 * Added sounds.yml file to configure all sound effects
 
@@ -46,6 +50,7 @@
 * Ancient Pedestals can now be found under "Magical Gadgets"
 * Removed all functionality from the old Automated Crafting Chamber
 * Changed Cargo Motor texture
+* Lowered "Magma block -> Sulfate" recipe to only require 1 magma block
 * Small performance improvements
 
 #### Fixes
@@ -68,6 +73,7 @@
 * Fixed #2926
 * Fixed Grappling Hook vanishing in creative mode
 * Fixed #2944
+* Fixed #2837
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21

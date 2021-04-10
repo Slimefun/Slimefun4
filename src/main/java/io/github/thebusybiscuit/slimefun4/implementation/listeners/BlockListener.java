@@ -192,6 +192,7 @@ public class BlockListener implements Listener {
                 e.setDropItems(false);
 
                 for (ItemStack drop : drops) {
+                    // Prevent null or air from being dropped
                     if (drop != null && drop.getType() != Material.AIR) {
                         e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), drop);
                     }

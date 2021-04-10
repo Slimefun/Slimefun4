@@ -2,38 +2,37 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 
 import javax.annotation.Nonnull;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
-
 /**
- * An {@link Event} that is called whenever an {@link AutoDisenchanter} has
- * disenchanted an {@link ItemStack}.
+ * An {@link Event} that is called whenever an {@link AutoEnchanter} is trying to enchant
+ * an {@link ItemStack}.
  * 
- * @author poma123
+ * @author WalshyDev
  *
- * @see AutoEnchantEvent
+ * @see AutoDisenchantEvent
  */
-public class AutoDisenchantEvent extends Event implements Cancellable {
+public class AutoEnchantEvent extends Event implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
 
     private final ItemStack item;
     private boolean cancelled;
 
-    public AutoDisenchantEvent(@Nonnull ItemStack item) {
+    public AutoEnchantEvent(@Nonnull ItemStack item) {
         super(true);
 
         this.item = item;
     }
 
     /**
-     * This returns the {@link ItemStack} that is being disenchanted.
+     * This returns the {@link ItemStack} that is being enchanted.
      * 
-     * @return The {@link ItemStack} that is being disenchanted
+     * @return The {@link ItemStack} that is being enchanted
      */
     @Nonnull
     public ItemStack getItem() {

@@ -89,7 +89,7 @@ public class OreCrusher extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.GRAVEL));
         recipes.add(new ItemStack(Material.SAND));
 
-        recipes.add(new ItemStack(Material.MAGMA_BLOCK, 4));
+        recipes.add(new ItemStack(Material.MAGMA_BLOCK));
         recipes.add(SlimefunItems.SULFATE);
 
         recipes.add(SlimefunItems.CARBON);
