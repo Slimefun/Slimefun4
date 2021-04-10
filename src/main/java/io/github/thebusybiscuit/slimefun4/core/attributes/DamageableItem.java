@@ -22,7 +22,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * option that decides whether or not this {@link SlimefunItem} shall be damageable.
  * 
  * @author TheBusyBiscuit
- *
+ * @author RobotHanzo
+ * 
+ * @see UnbreakingAlgorithm
+ * 
  */
 public interface DamageableItem extends ItemAttribute {
 
@@ -42,15 +45,15 @@ public interface DamageableItem extends ItemAttribute {
      * It will only apply the damage if {@link #isDamageable()} returned true.
      * 
      * @param p
-     *                The {@link Player} to which the item belongs
+     *            The {@link Player} to which the item belongs
      * @param item
-     *                The {@link ItemStack} to damage
+     *            The {@link ItemStack} to damage
      */
     default void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (isDamageable() && item != null && !item.getType().isAir() && item.getAmount() > 0) {
             int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
-            if (unbreakingLevel > 0 && evaluateUnbreakingEnchantment(unbreakingLevel)) {
+            if (evaluateUnbreakingEnchantment(unbreakingLevel)) {
                 return;
             }
 
@@ -72,12 +75,14 @@ public interface DamageableItem extends ItemAttribute {
 
     /**
      * This method will randomly decide if the item should be damaged or not
-     * This does not damage the item, it is called by {@link #damageItem(Player, ItemStack)} to randomly generate a boolean
+     * This does not damage the item, it is called by {@link #damageItem(Player, ItemStack)} to randomly generate a
+     * boolean
      * This function should be overridden when the item type is not a tool which is the default value
      *
      * @param unbreakingLevel
-     *                                 The {@link Integer} level of the unbreaking enchantment
-     * @return Whether you should keep the item undamaged
+     *            The {@link Integer} level of the unbreaking {@link Enchantment}
+     * 
+     * @return Whether to save the item from taking damage
      *
      */
     default boolean evaluateUnbreakingEnchantment(int unbreakingLevel) {

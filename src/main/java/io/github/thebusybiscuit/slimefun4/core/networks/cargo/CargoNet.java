@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
@@ -48,10 +49,12 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
     protected final Map<Location, Integer> roundRobin = new HashMap<>();
     private int tickDelayThreshold = 0;
 
+    @Nullable
     public static CargoNet getNetworkFromLocation(@Nonnull Location l) {
         return SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);
     }
 
+    @Nonnull
     public static CargoNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
         Optional<CargoNet> cargoNetwork = SlimefunPlugin.getNetworkManager().getNetworkFromLocation(l, CargoNet.class);
 
@@ -146,7 +149,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         }
     }
 
-    public void tick(Block b) {
+    public void tick(@Nonnull Block b) {
         if (!regulator.equals(b.getLocation())) {
             updateHologram(b, "&4Multiple Cargo Regulators connected");
             return;
@@ -187,7 +190,8 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         }
     }
 
-    private Map<Location, Integer> mapInputNodes(Set<Location> chestTerminalNodes) {
+    @Nonnull
+    private Map<Location, Integer> mapInputNodes(@Nonnull Set<Location> chestTerminalNodes) {
         Map<Location, Integer> inputs = new HashMap<>();
 
         for (Location node : inputNodes) {
@@ -203,7 +207,8 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         return inputs;
     }
 
-    private Map<Integer, List<Location>> mapOutputNodes(Set<Location> chestTerminalOutputs) {
+    @Nonnull
+    private Map<Integer, List<Location>> mapOutputNodes(@Nonnull Set<Location> chestTerminalOutputs) {
         Map<Integer, List<Location>> output = new HashMap<>();
 
         List<Location> list = new LinkedList<>();
@@ -251,14 +256,15 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
      * @return The frequency of the given node
      */
     private static int getFrequency(@Nonnull Location node) {
-        String str = BlockStorage.getLocationInfo(node,"frequency");
-        if (str == null) {
-            return 0;
-        } else if (!PatternUtils.NUMERIC.matcher(str).matches()) {
-            SlimefunPlugin.logger().log(Level.SEVERE, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + ',' + node.getBlockY() + ',' + node.getBlockZ() + ')');
-            return 0;
-        }
-        return Integer.parseInt(str);
+        String frequency = BlockStorage.getLocationInfo(node, "frequency");
 
+        if (frequency == null) {
+            return 0;
+        } else if (!PatternUtils.NUMERIC.matcher(frequency).matches()) {
+            SlimefunPlugin.logger().log(Level.SEVERE, () -> "Failed to parse a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + ',' + node.getBlockY() + ',' + node.getBlockZ() + "): " + frequency);
+            return 0;
+        } else {
+            return Integer.parseInt(frequency);
+        }
     }
 }

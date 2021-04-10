@@ -40,11 +40,7 @@ class TestDamageableItem {
 
     public static DamageableMock getDummyItem(String id, boolean damageable, @Nullable Enchantment enchantment, @Nullable Integer enchantmentLevel) {
         Category category = TestUtilities.getCategory(plugin, "damageable_item_test");
-        SlimefunItemStack stack = new SlimefunItemStack("DAMAGEABLE_PICKAXE_" + id,
-                Material.DIAMOND_PICKAXE,
-                "&4This pickaxe can break",
-                "&6It appears, it breaks, but most importantly, it tests."
-        );
+        SlimefunItemStack stack = new SlimefunItemStack("DAMAGEABLE_PICKAXE_" + id, Material.DIAMOND_PICKAXE, "&4This pickaxe can break", "&6It appears, it breaks, but most importantly, it tests.");
         if (enchantment != null && enchantmentLevel != null) {
             ItemMeta im = stack.getItemMeta();
             im.addEnchant(enchantment, enchantmentLevel, true);
