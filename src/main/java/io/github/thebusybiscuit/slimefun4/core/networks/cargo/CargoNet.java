@@ -255,7 +255,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         if (str == null) {
             return 0;
         } else if (!PatternUtils.NUMERIC.matcher(str).matches()) {
-            SlimefunPlugin.logger().log(Level.SEVERE, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + "," + node.getBlockY() + "," + +node.getBlockZ() + ")");
+            SlimefunPlugin.logger().log(Level.SEVERE, () -> "An Error occurred while parsing a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + ',' + node.getBlockY() + ',' + node.getBlockZ() + ')');
             return 0;
         }
         return Integer.parseInt(str);
