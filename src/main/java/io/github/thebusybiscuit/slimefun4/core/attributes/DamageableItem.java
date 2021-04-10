@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -41,15 +42,15 @@ public interface DamageableItem extends ItemAttribute {
      * It will only apply the damage if {@link #isDamageable()} returned true.
      * 
      * @param p
-     *            The {@link Player} to which the item belongs
+     *                The {@link Player} to which the item belongs
      * @param item
-     *            The {@link ItemStack} to damage
+     *                The {@link ItemStack} to damage
      */
     default void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
         if (isDamageable() && item != null && !item.getType().isAir() && item.getAmount() > 0) {
             int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
-            if (unbreakingLevel > 0 && Math.random() * 100 <= (60 + Math.floorDiv(40, (unbreakingLevel + 1)))) {
+            if (unbreakingLevel > 0 && evaluateUnbreakingEnchantment(unbreakingLevel)) {
                 return;
             }
 
@@ -67,6 +68,20 @@ public interface DamageableItem extends ItemAttribute {
                 }
             }
         }
+    }
+
+    /**
+     * This method will randomly decide if the item should be damaged or not
+     * This does not damage the item, it is called by {@link #damageItem(Player, ItemStack)} to randomly generate a boolean
+     * This function should be overridden when the item type is not a tool which is the default value
+     *
+     * @param unbreakingLevel
+     *                                 The {@link Integer} level of the unbreaking enchantment
+     * @return Whether you should keep the item undamaged
+     *
+     */
+    default boolean evaluateUnbreakingEnchantment(int unbreakingLevel) {
+        return UnbreakingAlgorithm.TOOLS.evaluate(unbreakingLevel);
     }
 
 }
