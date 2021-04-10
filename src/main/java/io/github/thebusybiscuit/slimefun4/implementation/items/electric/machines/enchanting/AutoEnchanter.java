@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -62,6 +64,13 @@ public class AutoEnchanter extends AContainer {
 
             // Check if the item is enchantable
             if (!isEnchantable(target)) {
+                return null;
+            }
+
+            AutoEnchantEvent event = new AutoEnchantEvent(target);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if (event.isCancelled()) {
                 return null;
             }
 
