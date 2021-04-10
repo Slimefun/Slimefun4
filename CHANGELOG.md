@@ -69,6 +69,7 @@
 * Fixed #2926
 * Fixed Grappling Hook vanishing in creative mode
 * Fixed #2944
+* Fixed #2837
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
