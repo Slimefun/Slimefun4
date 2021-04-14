@@ -143,14 +143,16 @@ public class LocalizationService extends SlimefunLocalization {
         return plugin.getClass().getResource("/languages/" + file + ".yml") != null;
     }
 
+    @Nonnull
     @Override
     public Language getDefaultLanguage() {
         return defaultLanguage;
     }
 
+    @Nonnull
     @Override
     public Language getLanguage(@Nonnull Player p) {
-        Validate.notNull("Player cannot be null!");
+        Validate.notNull(p, "Player cannot be null!");
 
         PersistentDataContainer container = p.getPersistentDataContainer();
         String language = container.get(languageKey, PersistentDataType.STRING);
@@ -253,7 +255,7 @@ public class LocalizationService extends SlimefunLocalization {
     }
 
     @Nonnull
-    private Set<String> getKeys(FileConfiguration... files) {
+    private Set<String> getKeys(@Nonnull FileConfiguration... files) {
         Set<String> keys = new HashSet<>();
 
         for (FileConfiguration cfg : files) {
