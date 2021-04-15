@@ -67,7 +67,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      *
      * @return The {@link Language} that was selected by the given {@link Player}
      */
-    @Nonnull
+    @Nullable
     public abstract Language getLanguage(@Nonnull Player p);
 
     /**
@@ -75,7 +75,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
      *
      * @return The default {@link Language}
      */
-    @Nonnull
+    @Nullable
     public abstract Language getDefaultLanguage();
 
     /**
@@ -128,7 +128,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         Language language = getDefaultLanguage();
 
-        String message = language.getMessagesFile().getString(key);
+        String message = language == null ? null : language.getMessagesFile().getString(key);
 
         if (message == null) {
             Language fallback = getLanguage(SupportedLanguage.ENGLISH.getLanguageId());
@@ -200,7 +200,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         Language language = getLanguage(p);
 
-        if (language.getResearchesFile() == null) {
+        if (language == null || language.getResearchesFile() == null) {
             return null;
         }
 
@@ -214,7 +214,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         Language language = getLanguage(p);
 
-        if (language.getCategoriesFile() == null) {
+        if (language == null || language.getCategoriesFile() == null) {
             return null;
         }
 
@@ -228,7 +228,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
         Language language = getLanguage(p);
 
-        String value = language.getResourcesFile() != null ? language.getResourcesFile().getString(key) : null;
+        String value = language != null && language.getResourcesFile() != null ? language.getResourcesFile().getString(key) : null;
 
         if (value != null) {
             return value;
@@ -247,11 +247,11 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         ItemStack item = recipeType.toItem();
         NamespacedKey key = recipeType.getKey();
 
-        if (language.getRecipeTypesFile() == null || !language.getRecipeTypesFile().contains(key.getNamespace() + "." + key.getKey())) {
+        if (language == null || language.getRecipeTypesFile() == null || !language.getRecipeTypesFile().contains(key.getNamespace() + '.' + key.getKey())) {
             language = getLanguage("en");
         }
 
-        if (!language.getRecipeTypesFile().contains(key.getNamespace() + "." + key.getKey())) {
+        if (!language.getRecipeTypesFile().contains(key.getNamespace() + '.' + key.getKey())) {
             return item;
         }
 

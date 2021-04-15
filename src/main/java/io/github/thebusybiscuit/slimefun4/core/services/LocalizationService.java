@@ -143,13 +143,11 @@ public class LocalizationService extends SlimefunLocalization {
         return plugin.getClass().getResource("/languages/" + file + ".yml") != null;
     }
 
-    @Nonnull
     @Override
     public Language getDefaultLanguage() {
         return defaultLanguage;
     }
 
-    @Nonnull
     @Override
     public Language getLanguage(@Nonnull Player p) {
         Validate.notNull(p, "Player cannot be null!");
