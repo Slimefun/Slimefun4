@@ -33,6 +33,7 @@
 #### Fixes
 
 ## Release Candidate 22 (17 Apr 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 
 #### Additions
 * Added Vanilla Auto-Crafter
