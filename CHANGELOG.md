@@ -29,6 +29,7 @@
 
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
+* (API) Removed deprecated "SlimefunBlockHandler"
 
 #### Fixes
 
