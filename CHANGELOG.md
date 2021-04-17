@@ -1,6 +1,6 @@
 # Table of contents
 - [Release Candidate 23 (TBD)](#release-candidate-23-tbd)
-- [Release Candidate 22 (17 Apr 2021)](#release-candidate-22-17-apr-2021)
+- [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
 - [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
 - [Release Candidate 19 (11 Jan 2021)](#release-candidate-19-11-jan-2021)
@@ -33,7 +33,7 @@
 
 #### Fixes
 
-## Release Candidate 22 (17 Apr 2021)
+## Release Candidate 22 (18 Apr 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 
 #### Additions
@@ -83,6 +83,7 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 * Fixed Grappling Hook vanishing in creative mode
 * Fixed #2944
 * Fixed #2837
+* Fixed #2942
 
 ## Release Candidate 21 (14 Mar 2021)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#21
