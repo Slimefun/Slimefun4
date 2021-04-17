@@ -284,6 +284,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
 
     public void sendActionbarMessage(@Nonnull Player player, @Nonnull String key, boolean addPrefix) {
         Validate.notNull(player, "Player cannot be null!");
+        Validate.notNull(key, "Message key cannot be null!");
 
         String prefix = addPrefix ? getPrefix() : "";
         String message = ChatColors.color(prefix + getMessage(player, key));
