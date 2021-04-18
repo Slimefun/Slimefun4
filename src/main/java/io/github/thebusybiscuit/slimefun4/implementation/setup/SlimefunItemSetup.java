@@ -1767,7 +1767,7 @@ public final class SlimefunItemSetup {
         new AutoEnchanter(categories.electricity, SlimefunItems.AUTO_ENCHANTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.REINFORCED_PLATE, SlimefunItems.BIG_CAPACITOR, SlimefunItems.REINFORCED_PLATE, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.AUTO_ENCHANTER, SlimefunItems.BLISTERING_INGOT_3, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.WITHER_PROOF_OBSIDIAN})
         .setCapacity(1024)
-        .setEnergyConsumption(15)
+        .setEnergyConsumption(24)
         .setProcessingSpeed(3)
         .register(plugin);
 
