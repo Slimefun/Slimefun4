@@ -1781,7 +1781,7 @@ public final class SlimefunItemSetup {
         new AutoDisenchanter(categories.electricity, SlimefunItems.AUTO_DISENCHANTER_2, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.REINFORCED_PLATE, new ItemStack(Material.ANVIL), SlimefunItems.REINFORCED_PLATE, SlimefunItems.CARBONADO, SlimefunItems.AUTO_ENCHANTER_2, SlimefunItems.CARBONADO, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN, SlimefunItems.WITHER_PROOF_OBSIDIAN})
         .setCapacity(1024)
-        .setEnergyConsumption(15)
+        .setEnergyConsumption(24)
         .setProcessingSpeed(3)
         .register(plugin);
 
