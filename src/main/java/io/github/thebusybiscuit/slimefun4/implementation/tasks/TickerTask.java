@@ -99,14 +99,7 @@ public class TickerTask implements Runnable {
             }
 
             // Fixes #2576 - Remove any deleted instances of BlockStorage
-            Iterator<BlockStorage> worlds = SlimefunPlugin.getRegistry().getWorlds().values().iterator();
-            while (worlds.hasNext()) {
-                BlockStorage storage = worlds.next();
-
-                if (storage.isMarkedForRemoval()) {
-                    worlds.remove();
-                }
-            }
+            SlimefunPlugin.getRegistry().getWorlds().values().removeIf(BlockStorage::isMarkedForRemoval);
 
             // Run our ticker code
             if (!halted) {
@@ -154,13 +147,13 @@ public class TickerTask implements Runnable {
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
-        if (item != null && item.getBlockTicker() != null) {
+        if (item != null && !item.isDisabled() && item.getBlockTicker() != null) {
             try {
                 if (item.getBlockTicker().isSynchronized()) {
                     SlimefunPlugin.getProfiler().scheduleEntries(1);
                     item.getBlockTicker().update();
 
-                    /**
+                    /*
                      * We are inserting a new timestamp because synchronized actions
                      * are always ran with a 50ms delay (1 game tick)
                      */
