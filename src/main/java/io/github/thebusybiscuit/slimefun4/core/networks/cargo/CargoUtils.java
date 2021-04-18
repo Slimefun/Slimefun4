@@ -252,7 +252,7 @@ final class CargoUtils {
     }
 
     @Nullable
-    static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, ItemStack stack) {
+    static ItemStack insert(AbstractItemNetwork network, Map<Location, Inventory> inventories, Block node, Block target, boolean smartFill, ItemStack stack) {
         if (!matchesFilter(network, node, stack)) {
             return stack;
         }
@@ -264,7 +264,7 @@ final class CargoUtils {
                 Inventory inventory = inventories.get(target.getLocation());
 
                 if (inventory != null) {
-                    return insertIntoVanillaInventory(stack, inventory);
+                    return insertIntoVanillaInventory(stack, smartFill, inventory);
                 }
 
                 BlockState state = PaperLib.getBlockState(target, false).getState();
@@ -272,7 +272,7 @@ final class CargoUtils {
                 if (state instanceof InventoryHolder) {
                     inventory = ((InventoryHolder) state).getInventory();
                     inventories.put(target.getLocation(), inventory);
-                    return insertIntoVanillaInventory(stack, inventory);
+                    return insertIntoVanillaInventory(stack, smartFill, inventory);
                 }
             }
 
@@ -292,18 +292,27 @@ final class CargoUtils {
             int maxStackSize = itemInSlot.getType().getMaxStackSize();
             int currentAmount = itemInSlot.getAmount();
 
-            if (currentAmount < maxStackSize && SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
-                int amount = currentAmount + stack.getAmount();
+            if (!smartFill && currentAmount == maxStackSize) {
+                // Skip full stacks - Performance optimization for non-smartfill nodes
+                continue;
+            }
 
-                itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                if (amount > maxStackSize) {
-                    stack.setAmount(amount - maxStackSize);
-                } else {
-                    stack = null;
+            if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+                if (currentAmount < maxStackSize) {
+                    int amount = currentAmount + stack.getAmount();
+
+                    itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                    if (amount > maxStackSize) {
+                        stack.setAmount(amount - maxStackSize);
+                    } else {
+                        stack = null;
+                    }
+
+                    menu.replaceExistingItem(slot, itemInSlot);
+                    return stack;
+                } else if (smartFill) {
+                    return stack;
                 }
-
-                menu.replaceExistingItem(slot, itemInSlot);
-                return stack;
             }
         }
 
@@ -311,7 +320,7 @@ final class CargoUtils {
     }
 
     @Nullable
-    private static ItemStack insertIntoVanillaInventory(@Nonnull ItemStack stack, @Nonnull Inventory inv) {
+    private static ItemStack insertIntoVanillaInventory(@Nonnull ItemStack stack, boolean smartFill, @Nonnull Inventory inv) {
         /*
          * If the Inventory does not accept this Item Type, bounce the item back.
          * Example: Shulker boxes within shulker boxes (fixes #2662)
@@ -335,18 +344,28 @@ final class CargoUtils {
                 inv.setItem(slot, stack);
                 return null;
             } else {
+                int currentAmount = itemInSlot.getAmount();
                 int maxStackSize = itemInSlot.getType().getMaxStackSize();
 
-                if (itemInSlot.getAmount() < maxStackSize && SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
-                    int amount = itemInSlot.getAmount() + stack.getAmount();
+                if (!smartFill && currentAmount == maxStackSize) {
+                    // Skip full stacks - Performance optimization for non-smartfill nodes
+                    continue;
+                }
 
-                    if (amount > maxStackSize) {
-                        stack.setAmount(amount - maxStackSize);
-                        itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
+                    if (currentAmount < maxStackSize) {
+                        int amount = currentAmount + stack.getAmount();
+
+                        if (amount > maxStackSize) {
+                            stack.setAmount(amount - maxStackSize);
+                            itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                            return stack;
+                        } else {
+                            itemInSlot.setAmount(Math.min(amount, maxStackSize));
+                            return null;
+                        }
+                    } else if (smartFill) {
                         return stack;
-                    } else {
-                        itemInSlot.setAmount(Math.min(amount, maxStackSize));
-                        return null;
                     }
                 }
             }

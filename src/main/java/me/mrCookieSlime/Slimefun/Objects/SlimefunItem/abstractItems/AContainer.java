@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -24,7 +25,9 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineProcessCompleteEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
@@ -47,8 +50,9 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private static final int[] BORDER_IN = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
     private static final int[] BORDER_OUT = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
 
-    public static Map<Block, MachineRecipe> processing = new HashMap<>();
-    public static Map<Block, Integer> progress = new HashMap<>();
+    // These will be replaced by proper recipe handler
+    public static Map<Block, MachineRecipe> processing = new ConcurrentHashMap<>();
+    public static Map<Block, Integer> progress = new ConcurrentHashMap<>();
 
     protected final List<MachineRecipe> recipes = new ArrayList<>();
 
@@ -57,27 +61,35 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
     private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
-    public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         createPreset(this, getInventoryTitle(), this::constructMenu);
 
-        registerBlockHandler(item.getItemId(), (p, b, tool, reason) -> {
-            BlockMenu inv = BlockStorage.getInventory(b);
+        addItemHandler(onBlockBreak());
+    }
 
-            if (inv != null) {
-                inv.dropItems(b.getLocation(), getInputSlots());
-                inv.dropItems(b.getLocation(), getOutputSlots());
+    @Nonnull
+    protected BlockBreakHandler onBlockBreak() {
+        return new SimpleBlockBreakHandler() {
+
+            @Override
+            public void onBlockBreak(Block b) {
+                BlockMenu inv = BlockStorage.getInventory(b);
+
+                if (inv != null) {
+                    inv.dropItems(b.getLocation(), getInputSlots());
+                    inv.dropItems(b.getLocation(), getOutputSlots());
+                }
+
+                progress.remove(b);
+                processing.remove(b);
             }
-
-            progress.remove(b);
-            processing.remove(b);
-            return true;
-        });
+        };
     }
 
     @ParametersAreNonnullByDefault
-    public AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    protected AContainer(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
         this(category, item, recipeType, recipe);
         this.recipeOutput = recipeOutput;
     }
@@ -141,6 +153,7 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
      * 
      * @return The max amount of electricity this Block can store.
      */
+    @Override
     public int getCapacity() {
         return energyCapacity;
     }

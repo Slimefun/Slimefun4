@@ -42,6 +42,7 @@ import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
@@ -415,7 +416,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         ItemStack result = null;
 
         Optional<MinecraftRecipe<? super Recipe>> optional = MinecraftRecipe.of(recipe);
-        RecipeChoiceTask task = new RecipeChoiceTask();
+        AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
 
         if (optional.isPresent()) {
             showRecipeChoices(recipe, recipeItems, task);
@@ -461,7 +462,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private <T extends Recipe> void showRecipeChoices(T recipe, ItemStack[] recipeItems, RecipeChoiceTask task) {
+    private <T extends Recipe> void showRecipeChoices(T recipe, ItemStack[] recipeItems, AsyncRecipeChoiceTask task) {
         RecipeChoice[] choices = SlimefunPlugin.getMinecraftRecipeService().getRecipeShape(recipe);
 
         if (choices.length == 1 && choices[0] instanceof MaterialChoice) {
@@ -503,7 +504,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             });
         }
 
-        RecipeChoiceTask task = new RecipeChoiceTask();
+        AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
 
         if (addToHistory) {
             profile.getGuideHistory().add(item);
@@ -526,7 +527,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
     }
 
-    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, RecipeChoiceTask task) {
+    private void displayItem(ChestMenu menu, PlayerProfile profile, Player p, Object item, ItemStack output, RecipeType recipeType, ItemStack[] recipe, AsyncRecipeChoiceTask task) {
         addBackButton(menu, 0, p, profile);
 
         MenuClickHandler clickHandler = (pl, slot, itemstack, action) -> {

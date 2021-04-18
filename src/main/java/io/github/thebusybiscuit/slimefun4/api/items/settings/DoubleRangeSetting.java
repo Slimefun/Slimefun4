@@ -32,11 +32,6 @@ public class DoubleRangeSetting extends ItemSetting<Double> {
         this.max = max;
     }
 
-    @Deprecated
-    public DoubleRangeSetting(String key, double min, double defaultValue, double max) {
-        this(null, key, min, defaultValue, max);
-    }
-
     @Nonnull
     @Override
     protected String getErrorMessage() {

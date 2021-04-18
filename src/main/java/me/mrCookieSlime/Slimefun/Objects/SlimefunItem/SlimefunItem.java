@@ -465,7 +465,7 @@ public class SlimefunItem implements Placeable {
 
                 // Load all item settings
                 for (ItemSetting<?> setting : itemSettings) {
-                    setting.reload(this);
+                    setting.reload();
                 }
             }
 
@@ -475,18 +475,23 @@ public class SlimefunItem implements Placeable {
             }
 
             if (this instanceof NotConfigurable) {
-                // Not-configurable items will be enabled.
-                // Any other settings will remain as default.
+                /*
+                 * Not-configurable items will be enabled.
+                 * Any other settings will remain as default.
+                 */
                 state = ItemState.ENABLED;
             } else if (SlimefunPlugin.getItemCfg().getBoolean(id + ".enabled")) {
+                // The item has been enabled.
                 state = ItemState.ENABLED;
                 useableInWorkbench = SlimefunPlugin.getItemCfg().getBoolean(id + ".can-be-used-in-workbenches");
                 hidden = SlimefunPlugin.getItemCfg().getBoolean(id + ".hide-in-guide");
                 enchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-enchanting");
                 disenchantable = SlimefunPlugin.getItemCfg().getBoolean(id + ".allow-disenchanting");
             } else if (this instanceof VanillaItem) {
+                // This item is a vanilla "mock" but was disabled.
                 state = ItemState.VANILLA_FALLBACK;
             } else {
+                // The item has been disabled.
                 state = ItemState.DISABLED;
             }
 
@@ -526,6 +531,11 @@ public class SlimefunItem implements Placeable {
 
         // Send out deprecation warnings for any classes or interfaces
         checkForDeprecations(getClass());
+
+        // Inform addon developers about the BlockBreakHandler
+        if (SlimefunPlugin.getUpdater().getBranch() != SlimefunBranch.DEVELOPMENT && SlimefunPlugin.getRegistry().getBlockHandlers().containsKey(getId())) {
+            warn("This item uses a deprecated SlimefunBlockHandler which will be removed in the very near future! Please switch to the BlockBreakHandler as soon as possible.");
+        }
 
         // Check for an illegal stack size
         if (itemStackTemplate.getAmount() != 1) {
@@ -800,6 +810,7 @@ public class SlimefunItem implements Placeable {
         Validate.notEmpty(handlers, "You cannot add zero handlers...");
         Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
 
+        // Make sure they are added before the item was registered.
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }

@@ -38,7 +38,7 @@ placeholderapi:
 guide:
   locked: 'LOCKED'
   work-in-progress: 'This feature is not fully finished yet!'
-  
+
   locked-category:
   - 'To unlock this category you will'
   - 'need to unlock all items from the'
@@ -64,11 +64,11 @@ guide:
 
   cheat:
     no-multiblocks: '&4You cannot cheat in Multiblocks, you have to build them!'
-  
+
   pages:
     previous: 'Previous page'
     next: 'Next page'
-    
+
   back:
     title: 'Back'
     guide: 'Go back to the Slimefun Guide'
@@ -86,11 +86,11 @@ guide:
     - '&7the language in which Slimefun'
     - '&7will be presented to you. Items'
     - '&7cannot be translated for now.'
-    
+
     translations:
       name: '&aIs something missing?'
       lore: 'Click to add your own translation'
-  
+
   title:
     main: 'Slimefun Guide'
     settings: 'Settings & Info'
@@ -101,7 +101,7 @@ guide:
     bugs: 'Bug Reports'
     source: 'Source Code'
     versions: 'Installed versions'
-  
+
   credits:
     commit: 'Commit'
     commits: 'Commits'
@@ -146,6 +146,28 @@ messages:
     mode-change: '&b%device% mode changed to: &9%mode%'
     not-shears: '&cA Multi Tool cannot be used as shears!'
 
+  auto-crafting:
+    select-a-recipe: '&eCrouch and Right-Click &7this block with the item you want it to craft.'
+    recipe-set: '&aYou have successfully set the recipe for this machine.'
+    recipe-removed: '&eYou have successfully removed the recipe from this machine. You can set a new recipe at any time!'
+    no-recipes: '&cWe could not find any valid recipes for the item you are holding.'
+    missing-chest: '&cMissing chest! Auto-Crafters need to be placed above a chest.'
+    select: 'Select this recipe'
+    temporarily-disabled: '&eThis Auto-Crafter was temporarily disabled. You can re-enable it at any time!'
+    re-enabled: '&eThis Auto-Crafter was re-enabled!'
+
+    tooltips:
+      enabled:
+      - '&aThis recipe is currently enabled'
+      - ''
+      - '&eLeft Click &7to temporarily disable the recipe'
+      - '&eRight Click &7to remove this recipe'
+      disabled:
+      - '&cThis recipe is currently disabled'
+      - ''
+      - '&eLeft Click &7to re-enable this recipe'
+      - '&eRight Click &7to remove this recipe'
+
   talisman:
     anvil: '&a&oYour Talisman saved your tool from breaking'
     miner: '&a&oYour Talisman just doubled your drops'
@@ -171,17 +193,17 @@ messages:
     fail: '&cYou cannot enchant this item.'
     no-enchantment: '&cCouldn''t find any applicable enchantment for this item.'
     success: '&aYou have successfully applied a random applicable enchantment to this item.'
-  
+
   research:
     start: '&7The Ancient Spirits whisper mysterious words into your ear!'
     progress: '&7You start to wonder about &b%research% &e(%progress%)'
-    
+
   tape-measure:
     no-anchor: '&cYou need to set an anchor before you can start to measure!'
     wrong-world: '&cYour anchor seems to be in a different world!'
     distance: '&7Measurement taken. &eDistance: %distance%'
     anchor-set: '&aSuccessfully set the anchor:&e %anchor%'
-    
+
   climbing-pick:
     dual-wielding: '&4You need to hold Climbing Picks in both hands to use them!'
     wrong-material: '&cYou cannot climb this surface. Check your Slimefun Guide for more info!'
@@ -195,7 +217,7 @@ messages:
   no-iron-golem-heal: '&cThat is not an Iron Ingot. You cannot use this to heal Iron Golems!'
   link-prompt: '&eClick here:'
   diet-cookie: '&eYou are starting to feel very light...'
-  
+
   fortune-cookie:
   - '&7Help me, I am trapped in a Fortune Cookie Factory!'
   - '&7You will die tomorrow...     by a Creeper'
@@ -212,6 +234,8 @@ messages:
   - '&7This one was actually a Biscuit and not a Cookie'
   - '&7Neon signs are LIT!'
 
+  above-limit-level: '&cCannot (dis)enchant an enchantment level higher than %level%!'
+
 machines:
   pattern-not-found: '&eSorry, I could not recognize this Recipe. Please place the Items in the correct pattern into the Dispenser.'
   unknown-material: '&eSorry, I could not recognize the Item in my dispenser. Please put something in that I know.'
@@ -219,6 +243,7 @@ machines:
   full-inventory: '&eSorry, my inventory is too full!'
   in-use: '&cThis Block''s inventory is currently opened by a different Player.'
   ignition-chamber-no-flint: '&cIgnition Chamber is missing Flint and Steel.'
+  inventory-empty: '&6You have successfully constructed this Multiblock. Proceed by placing items inside the dispenser and click me again to craft the item you want!'
 
   ANCIENT_ALTAR:
     not-enough-pedestals: '&4The Altar is not surrounded by the needed amount of Pedestals &c(%pedestals% / 8)'
@@ -231,7 +256,7 @@ machines:
   HOLOGRAM_PROJECTOR:
     enter-text: '&7Please enter your desired Hologram Text into your Chat. &r(Color Codes are supported!)'
     inventory-title: 'Hologram Editor'
-    
+
   ELEVATOR:
     no-destinations: '&4No destinations found'
     pick-a-floor: '&3- Pick a floor -'
@@ -239,26 +264,26 @@ machines:
     click-to-teleport: '&eClick &7to teleport to this floor:'
     enter-name: '&7Please enter your desired floor name into your Chat. &r(Color Codes are supported!)'
     named: '&2Successfully named this floor: &r%floor%'
-    
+
   TELEPORTER:
     teleporting: '&3Teleporting...'
     teleported: '&3Teleported!'
     cancelled: '&4Teleportation cancelled!'
     invulnerability: '&b&lYou have been given 30 seconds of Invulnerability!'
-    
+
     gui:
       title: 'Your waypoints'
       tooltip: 'Click to teleport'
       time: 'Estimated time'
-  
+
   GPS_CONTROL_PANEL:
     title: 'GPS - Control Panel'
     transmitters: 'Transmitter Overview'
     waypoints: 'Waypoint Overview'
-    
+
   CARGO_NODES:
     must-be-placed: '&4Must be placed onto a chest or machine!'
-    
+
   INDUSTRIAL_MINER:
     no-fuel: '&cYour Industrial Miner ran out of fuel! Put your fuel into the chest above.'
     piston-facing: '&cYour Industrial Miner requires pistons to face upwards!'
@@ -268,7 +293,7 @@ machines:
     full-chest: '&cThe Chest of your Industrial Miner is full!'
     no-permission: '&4You do not seem to have permission to operate an Industrial Miner here!'
     finished: '&eYour Industrial Miner has finished! It obtained a total of %ores% ore(s)!'
-    
+
 anvil:
   not-working: '&4You cannot use Slimefun items in an anvil!'
   mcmmo-salvaging: '&4You cannot salvage Slimefun items!'
@@ -314,12 +339,12 @@ inventory:
 android:
   started: '&7Your Android resumed running its script'
   stopped: '&7Your Android has paused its script'
-  
+
   scripts:
     already-uploaded: '&4This script has already been uploaded.'
     editor: 'Script Editor'
     too-long: '&cThe script is too long to edit!'
-    
+
     instructions:
       START: '&2Start Script'
       REPEAT: '&9Repeat Script'
