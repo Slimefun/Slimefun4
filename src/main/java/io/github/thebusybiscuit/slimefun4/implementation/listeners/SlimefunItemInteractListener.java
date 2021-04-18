@@ -71,7 +71,7 @@ public class SlimefunItemInteractListener implements Listener {
                 return;
             }
 
-            /**
+            /*
              * If the original Event was not denied but the custom one was,
              * we also want to deny the original one.
              * This only applies for non-denied events because we do not want to
