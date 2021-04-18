@@ -147,7 +147,8 @@ public class TickerTask implements Runnable {
         Config data = BlockStorage.getLocationInfo(l);
         SlimefunItem item = SlimefunItem.getByID(data.getString("id"));
 
-        if (item != null && !item.isDisabled() && item.getBlockTicker() != null) {
+        // Fixes #2954
+        if (item != null && !item.isDisabledIn(l.getWorld()) && item.getBlockTicker() != null) {
             try {
                 if (item.getBlockTicker().isSynchronized()) {
                     SlimefunPlugin.getProfiler().scheduleEntries(1);

@@ -36,6 +36,7 @@ public class TeleporterListener implements Listener {
 
         SlimefunItem item = BlockStorage.check(e.getClickedBlock());
 
+        // Fixes #2966
         if (item == null || item.isDisabledIn(e.getPlayer().getWorld())) {
             return;
         }

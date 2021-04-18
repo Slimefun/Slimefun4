@@ -50,6 +50,7 @@ public class AutoCrafterListener implements Listener {
 
             SlimefunItem block = slimefunBlock.get();
 
+            // Fixes #2957
             if (block instanceof AbstractAutoCrafter && !block.isDisabledIn(e.getPlayer().getWorld())) {
                 Optional<SlimefunItem> slimefunItem = e.getSlimefunItem();
 
