@@ -34,13 +34,13 @@ public class TeleporterListener implements Listener {
             return;
         }
 
-        String id = BlockStorage.checkID(e.getClickedBlock());
+        SlimefunItem item = BlockStorage.check(e.getClickedBlock());
 
-        if (id == null) {
+        if (item == null || item.isDisabledIn(e.getPlayer().getWorld())) {
             return;
         }
 
-        if (isTeleporterPad(id, e.getClickedBlock(), e.getPlayer().getUniqueId())) {
+        if (isTeleporterPad(item, e.getClickedBlock(), e.getPlayer().getUniqueId())) {
             SlimefunItem teleporter = BlockStorage.check(e.getClickedBlock().getRelative(BlockFace.DOWN));
 
             if (teleporter instanceof Teleporter && checkForPylons(e.getClickedBlock().getRelative(BlockFace.DOWN))) {
@@ -48,17 +48,17 @@ public class TeleporterListener implements Listener {
                 UUID owner = UUID.fromString(BlockStorage.getLocationInfo(block.getLocation(), "owner"));
                 SlimefunPlugin.getGPSNetwork().getTeleportationManager().openTeleporterGUI(e.getPlayer(), owner, block, SlimefunPlugin.getGPSNetwork().getNetworkComplexity(owner));
             }
-        } else if (id.equals(SlimefunItems.ELEVATOR_PLATE.getItemId())) {
+        } else if (item instanceof ElevatorPlate) {
             ElevatorPlate elevator = ((ElevatorPlate) SlimefunItems.ELEVATOR_PLATE.getItem());
             elevator.openInterface(e.getPlayer(), e.getClickedBlock());
         }
     }
 
     @ParametersAreNonnullByDefault
-    private boolean isTeleporterPad(String id, Block b, UUID uuid) {
-        if (id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED.getItemId())) {
+    private boolean isTeleporterPad(SlimefunItem item, Block b, UUID uuid) {
+        if (item.getId().equals(SlimefunItems.GPS_ACTIVATION_DEVICE_SHARED.getItemId())) {
             return true;
-        } else if (id.equals(SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL.getItemId())) {
+        } else if (item.getId().equals(SlimefunItems.GPS_ACTIVATION_DEVICE_PERSONAL.getItemId())) {
             return BlockStorage.getLocationInfo(b.getLocation(), "owner").equals(uuid.toString());
         } else {
             return false;
