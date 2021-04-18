@@ -67,7 +67,7 @@ public class EnhancedFurnaceListener implements Listener {
         SlimefunItem sfItem = BlockStorage.check(e.getBlock());
 
         // Fixes #2958
-        if (sfItem instanceof EnhancedFurnace && sfItem.isDisabledIn(e.getBlock().getWorld())) {
+        if (sfItem instanceof EnhancedFurnace && !sfItem.isDisabledIn(e.getBlock().getWorld())) {
             BlockState state = PaperLib.getBlockState(e.getBlock(), false).getState();
 
             if (state instanceof Furnace) {
