@@ -1,12 +1,15 @@
-## Description
-<!-- Please explain what you changed/added and why you did it in detail. -->
+## Description / Background
+<!-- Please explain why you are making this pull request. -->
+<!-- Start writing below this line -->
 
-## Changes
-<!-- Please list all the changes you have made. -->
+## Proposed changes
+<!-- Please explain what changes you have made to the code. -->
+<!-- Start writing below this line -->
 
-## Related Issues
+## Related Issues (if applicable)
 <!-- Please tag any Issues related to your Pull Request -->
 <!-- Syntax: "Resolves #000" -->
+<!-- Start writing below this line -->
 
 ## Checklist
 <!-- Here is a little checklist you should follow. -->
