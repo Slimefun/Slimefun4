@@ -26,6 +26,7 @@
 ## Release Candidate 23 (TBD)
 
 #### Additions
+* Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
 
 #### Changes
 * Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
