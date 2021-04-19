@@ -29,12 +29,12 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 abstract class AbstractSmeltery extends MultiBlockMachine {
 
-    public AbstractSmeltery(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+    protected AbstractSmeltery(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
         super(category, item, recipe, trigger);
     }
 
     @Override
-    protected void onInteract(Player p, Block b) {
+    public void onInteract(Player p, Block b) {
         Block dispBlock = b.getRelative(BlockFace.DOWN);
         BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
 
