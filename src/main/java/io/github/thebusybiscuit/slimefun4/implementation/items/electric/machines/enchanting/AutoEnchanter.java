@@ -3,9 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -124,15 +125,14 @@ public class AutoEnchanter extends AContainer {
         return null;
     }
 
-    private boolean isEnchantable(ItemStack item) {
-        SlimefunItem sfItem = null;
-
+    private boolean isEnchantable(@Nullable ItemStack item) {
         // stops endless checks of getByItem for enchanted book stacks.
         if (item != null && item.getType() != Material.ENCHANTED_BOOK) {
-            sfItem = SlimefunItem.getByItem(item);
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            return sfItem == null || sfItem.isEnchantable();
+        } else {
+            return false;
         }
-
-        return sfItem == null || sfItem.isEnchantable();
     }
 
     @Override

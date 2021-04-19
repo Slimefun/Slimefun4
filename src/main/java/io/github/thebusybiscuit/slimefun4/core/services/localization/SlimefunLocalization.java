@@ -221,7 +221,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         return language.getCategoriesFile().getString(key.getNamespace() + '.' + key.getKey());
     }
 
-    @Nonnull
+    @Nullable
     public String getResourceString(@Nonnull Player p, @Nonnull String key) {
         Validate.notNull(p, "Player cannot be null!");
         Validate.notNull(key, "Message key cannot be null!");
@@ -238,7 +238,7 @@ public abstract class SlimefunLocalization extends Localization implements Keyed
         }
     }
 
-    @Nonnull
+    @Nullable
     public ItemStack getRecipeTypeItem(@Nonnull Player p, @Nonnull RecipeType recipeType) {
         Validate.notNull(p, "Player cannot be null!");
         Validate.notNull(recipeType, "Recipe type cannot be null!");
