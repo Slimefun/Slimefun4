@@ -12,8 +12,9 @@
 <!-- Start writing below this line -->
 
 ## Checklist
-<!-- Here is a little checklist you should follow. -->
-<!-- You can click those check boxes after you posted your issue. -->
+<!-- Here is a little checklist you can follow. -->
+<!-- Click on these checkboxes after you created the pull request. -->
+<!-- Don't worry, these are not requirements. They only serve as guidance. -->
 - [ ] I have fully tested the proposed changes and promise that they will not break everything into chaos.
 - [ ] I have also tested the proposed changes in combination with various popular addons and can confirm my changes do not break them.
 - [ ] I followed the existing code standards and didn't mess up the formatting.
