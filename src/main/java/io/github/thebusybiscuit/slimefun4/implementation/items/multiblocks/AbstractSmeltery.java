@@ -34,7 +34,7 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
     }
 
     @Override
-    public void onInteract(Player p, Block b) {
+    protected void onInteract(Player p, Block b) {
         Block dispBlock = b.getRelative(BlockFace.DOWN);
         BlockState state = PaperLib.getBlockState(dispBlock, false).getState();
 
