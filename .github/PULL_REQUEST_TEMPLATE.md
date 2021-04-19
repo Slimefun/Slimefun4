@@ -1,4 +1,4 @@
-## Description / Background
+## Description
 <!-- Please explain why you are making this pull request. -->
 <!-- Start writing below this line -->
 
