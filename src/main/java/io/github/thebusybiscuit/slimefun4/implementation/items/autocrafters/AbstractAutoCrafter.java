@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -9,7 +11,6 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -27,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
@@ -35,6 +37,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
@@ -73,6 +76,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      */
     protected final NamespacedKey recipeStorageKey;
 
+    /**
+     * The {@link NamespacedKey} used to determine whether the recipe is enabled.
+     */
+    protected final NamespacedKey recipeEnabledKey;
+
     // @formatter:off
     protected final int[] background = {
         0, 1, 2, 3, 4, 5, 6, 7, 8,
@@ -84,10 +92,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    public AbstractAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AbstractAutoCrafter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         recipeStorageKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_key");
+        recipeEnabledKey = new NamespacedKey(SlimefunPlugin.instance(), "recipe_enabled");
 
         addItemHandler(new BlockTicker() {
 
@@ -142,19 +151,28 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         }
     }
 
+    /**
+     * This method performs one tick for the {@link AbstractAutoCrafter}.
+     * 
+     * @param b
+     *            The block for this {@link AbstractAutoCrafter}
+     * @param data
+     *            The data stored on this block
+     */
     protected void tick(@Nonnull Block b, @Nonnull Config data) {
         AbstractRecipe recipe = getSelectedRecipe(b);
 
-        if (recipe == null || getCharge(b.getLocation(), data) < getEnergyConsumption()) {
-            // No valid recipe selected, abort...
+        if (recipe == null || !recipe.isEnabled() || getCharge(b.getLocation(), data) < getEnergyConsumption()) {
+            // No recipe / disabled recipe / no energy, abort...
             return;
         }
 
-        Block chest = b.getRelative(BlockFace.DOWN);
+        // The block below where we would expect our inventory holder.
+        Block targetBlock = b.getRelative(BlockFace.DOWN);
 
         // Make sure this is a Chest
-        if (isValidInventory(chest)) {
-            BlockState state = PaperLib.getBlockState(chest, false).getState();
+        if (isValidInventory(targetBlock)) {
+            BlockState state = PaperLib.getBlockState(targetBlock, false).getState();
 
             if (state instanceof InventoryHolder) {
                 Inventory inv = ((InventoryHolder) state).getInventory();
@@ -236,6 +254,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             if (recipe == null) {
                 // Clear the value from persistent data storage
                 PersistentDataAPI.remove((Skull) state, recipeStorageKey);
+
+                // Also remove the "enabled" state since this should be per-recipe.
+                PersistentDataAPI.remove((Skull) state, recipeEnabledKey);
             } else {
                 // Store the value to persistent data storage
                 PersistentDataAPI.setString((Skull) state, recipeStorageKey, recipe.toString());
@@ -271,14 +292,29 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         ChestMenuUtils.drawBackground(menu, background);
         ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
 
-        menu.addItem(49, new CustomItem(Material.BARRIER, ChatColor.RED + SlimefunPlugin.getLocalization().getMessage(p, "messages.auto-crafting.remove")));
-        menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
-            setSelectedRecipe(b, null);
-            pl.closeInventory();
-            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
-            SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
-            return false;
-        });
+        if (recipe.isEnabled()) {
+            menu.addItem(49, new CustomItem(Material.BARRIER, SlimefunPlugin.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.enabled")));
+            menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
+                if (action.isRightClicked()) {
+                    deleteRecipe(pl, b);
+                } else {
+                    setRecipeEnabled(pl, b, false);
+                }
+
+                return false;
+            });
+        } else {
+            menu.addItem(49, new CustomItem(HeadTexture.EXCLAMATION_MARK.getAsItemStack(), SlimefunPlugin.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.disabled")));
+            menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
+                if (action.isRightClicked()) {
+                    deleteRecipe(pl, b);
+                } else {
+                    setRecipeEnabled(pl, b, true);
+                }
+
+                return false;
+            });
+        }
 
         // This makes the slots cycle through different ingredients
         AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
@@ -291,6 +327,32 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (!task.isEmpty()) {
             task.start(menu.toInventory());
         }
+    }
+
+    @ParametersAreNonnullByDefault
+    private void setRecipeEnabled(Player p, Block b, boolean enabled) {
+        p.closeInventory();
+        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        BlockState state = PaperLib.getBlockState(b, false).getState();
+
+        // Make sure the block is still a Skull
+        if (state instanceof Skull) {
+            if (enabled) {
+                PersistentDataAPI.remove((Skull) state, recipeEnabledKey);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.re-enabled");
+            } else {
+                PersistentDataAPI.setByte((Skull) state, recipeEnabledKey, (byte) 1);
+                SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.temporarily-disabled");
+            }
+        }
+    }
+
+    @ParametersAreNonnullByDefault
+    private void deleteRecipe(Player p, Block b) {
+        setSelectedRecipe(b, null);
+        p.closeInventory();
+        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+        SlimefunPlugin.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
     }
 
     /**
@@ -347,6 +409,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         Validate.notNull(inv, "The Inventory must not be null");
         Validate.notNull(recipe, "The Recipe shall not be null");
 
+        // Make sure that the Recipe is actually enabled
+        if (!recipe.isEnabled()) {
+            return false;
+        }
+
         // Check if we have an empty slot
         if (inv.firstEmpty() != -1) {
             Map<Integer, Integer> itemQuantities = new HashMap<>();
@@ -358,21 +425,77 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 }
             }
 
+            List<ItemStack> leftoverItems = new ArrayList<>();
+
             // Remove ingredients
             for (Map.Entry<Integer, Integer> entry : itemQuantities.entrySet()) {
                 ItemStack item = inv.getItem(entry.getKey());
 
                 // Double-check to be extra safe
                 if (item != null) {
+                    // Handle leftovers
+                    ItemStack leftover = getLeftoverItem(item);
+
+                    if (leftover != null) {
+                        // Account for the amount of removed items
+                        leftover.setAmount(item.getAmount() - entry.getValue());
+                        leftoverItems.add(leftover);
+                    }
+
+                    // Update the item amount
                     item.setAmount(entry.getValue());
                 }
             }
 
-            // All Predicates have found a match
-            return inv.addItem(recipe.getResult().clone()).isEmpty();
+            boolean success = inv.addItem(recipe.getResult().clone()).isEmpty();
+
+            if (success) {
+                // Fixes #2926 - Push leftover items to the inventory.
+                for (ItemStack leftoverItem : leftoverItems) {
+                    inv.addItem(leftoverItem);
+                }
+            }
+
+            return success;
         }
 
         return false;
+    }
+
+    /**
+     * This method returns the "leftovers" from a crafting operation.
+     * The method functions very similarly to {@link Material#getCraftingRemainingItem()}.
+     * However we cannot use this method as it is only available in the latest 1.16 snapshots
+     * of Spigot, not even on earlier 1.16 builds...
+     * But this gives us more control over the leftovers anyway!
+     * 
+     * @param item
+     *            The {@link ItemStack} that is being consumed
+     * 
+     * @return The leftover item or null if the item is fully consumed
+     */
+    @Nullable
+    private ItemStack getLeftoverItem(@Nonnull ItemStack item) {
+        Material type = item.getType();
+
+        switch (type) {
+            case WATER_BUCKET:
+            case LAVA_BUCKET:
+            case MILK_BUCKET:
+                return new ItemStack(Material.BUCKET);
+            case DRAGON_BREATH:
+            case POTION:
+                return new ItemStack(Material.GLASS_BOTTLE);
+            default:
+                MinecraftVersion minecraftVersion = SlimefunPlugin.getMinecraftVersion();
+
+                // Honey does not exist in 1.14
+                if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15) && type == Material.HONEY_BOTTLE) {
+                    return new ItemStack(Material.GLASS_BOTTLE);
+                } else {
+                    return null;
+                }
+        }
     }
 
     /**

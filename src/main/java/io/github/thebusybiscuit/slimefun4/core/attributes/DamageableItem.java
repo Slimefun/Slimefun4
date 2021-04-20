@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.bukkit.Material;
+import io.github.thebusybiscuit.slimefun4.utils.UnbreakingAlgorithm;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -22,7 +22,10 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
  * option that decides whether or not this {@link SlimefunItem} shall be damageable.
  * 
  * @author TheBusyBiscuit
- *
+ * @author RobotHanzo
+ * 
+ * @see UnbreakingAlgorithm
+ * 
  */
 public interface DamageableItem extends ItemAttribute {
 
@@ -47,24 +50,43 @@ public interface DamageableItem extends ItemAttribute {
      *            The {@link ItemStack} to damage
      */
     default void damageItem(@Nonnull Player p, @Nullable ItemStack item) {
-        if (isDamageable() && item != null && item.getType() != Material.AIR && item.getAmount() > 0) {
+        if (isDamageable() && item != null && !item.getType().isAir() && item.getAmount() > 0) {
             int unbreakingLevel = item.getEnchantmentLevel(Enchantment.DURABILITY);
 
-            if (unbreakingLevel > 0 && Math.random() * 100 <= (60 + Math.floorDiv(40, (unbreakingLevel + 1)))) {
+            if (evaluateUnbreakingEnchantment(unbreakingLevel)) {
                 return;
             }
 
             ItemMeta meta = item.getItemMeta();
-            Damageable damageable = (Damageable) meta;
 
-            if (damageable.getDamage() >= item.getType().getMaxDurability()) {
-                p.playSound(p.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-                item.setAmount(0);
-            } else {
-                damageable.setDamage(damageable.getDamage() + 1);
-                item.setItemMeta(meta);
+            if (!meta.isUnbreakable()) {
+                Damageable damageable = (Damageable) meta;
+
+                if (damageable.getDamage() >= item.getType().getMaxDurability()) {
+                    p.playSound(p.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
+                    item.setAmount(0);
+                } else {
+                    damageable.setDamage(damageable.getDamage() + 1);
+                    item.setItemMeta(meta);
+                }
             }
         }
+    }
+
+    /**
+     * This method will randomly decide if the item should be damaged or not
+     * This does not damage the item, it is called by {@link #damageItem(Player, ItemStack)} to randomly generate a
+     * boolean
+     * This function should be overridden when the item type is not a tool which is the default value
+     *
+     * @param unbreakingLevel
+     *            The {@link Integer} level of the unbreaking {@link Enchantment}
+     * 
+     * @return Whether to save the item from taking damage
+     *
+     */
+    default boolean evaluateUnbreakingEnchantment(int unbreakingLevel) {
+        return UnbreakingAlgorithm.TOOLS.evaluate(unbreakingLevel);
     }
 
 }

@@ -40,7 +40,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
@@ -805,14 +804,13 @@ public class SlimefunItem implements Placeable {
         Validate.notEmpty(handlers, "You cannot add zero handlers...");
         Validate.noNullElements(handlers, "You cannot add any 'null' ItemHandler!");
 
+        // Make sure they are added before the item was registered.
         if (state != ItemState.UNREGISTERED) {
             throw new UnsupportedOperationException("You cannot add an ItemHandler after the SlimefunItem was registered.");
         }
 
         for (ItemHandler handler : handlers) {
-            if (itemhandlers.put(handler.getIdentifier(), handler).isPresent()) {
-                warn("ItemHandler \"" + handler.getIdentifier().getSimpleName() + "\" has already been assigned to this item. It was overridden.");
-            }
+            itemhandlers.put(handler.getIdentifier(), handler);
 
             // Tickers are a special case (at the moment at least)
             if (handler instanceof BlockTicker) {
@@ -1194,21 +1192,6 @@ public class SlimefunItem implements Placeable {
     @Nonnull
     public static Set<ItemHandler> getPublicItemHandlers(@Nonnull Class<? extends ItemHandler> identifier) {
         return SlimefunPlugin.getRegistry().getPublicItemHandlers().computeIfAbsent(identifier, c -> new HashSet<>());
-    }
-
-    /**
-     * This has been deprecated.
-     * 
-     * @deprecated Please use {@link #addItemHandler(ItemHandler...)} and {@link BlockBreakHandler} instead
-     * 
-     * @param id
-     *            The id
-     * @param handler
-     *            The handler
-     */
-    @Deprecated
-    public static void registerBlockHandler(@Nonnull String id, @Nullable me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler handler) {
-        SlimefunPlugin.getRegistry().getBlockHandlers().put(id, handler);
     }
 
 }

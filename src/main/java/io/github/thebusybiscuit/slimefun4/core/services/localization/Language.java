@@ -160,8 +160,7 @@ public final class Language {
      */
     @Nonnull
     public String getName(@Nonnull Player p) {
-        String name = SlimefunPlugin.getLocalization().getMessage(p, "languages." + id);
-        return name != null ? name : toString();
+        return SlimefunPlugin.getLocalization().getMessage(p, "languages." + id);
     }
 
     /**

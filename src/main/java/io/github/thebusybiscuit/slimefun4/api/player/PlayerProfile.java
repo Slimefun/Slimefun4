@@ -471,6 +471,8 @@ public class PlayerProfile {
     }
 
     public boolean hasFullProtectionAgainst(@Nonnull ProtectionType type) {
+        Validate.notNull(type, "ProtectionType must not be null.");
+
         int armorCount = 0;
         NamespacedKey setId = null;
 

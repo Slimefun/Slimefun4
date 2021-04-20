@@ -50,8 +50,11 @@ class ContributionsConnector extends GitHubConnector {
      * These people are... "special cases".
      */
     private void loadConfiguration() {
+        // Bots and invalid accounts we want to ignore.
         ignoredAccounts.add("invalid-email-address");
+        ignoredAccounts.add("renovate");
         ignoredAccounts.add("renovate-bot");
+        ignoredAccounts.add("renovate[bot]");
         ignoredAccounts.add("TheBusyBot");
         ignoredAccounts.add("ImgBotApp");
         ignoredAccounts.add("imgbot");
@@ -61,6 +64,7 @@ class ContributionsConnector extends GitHubConnector {
         ignoredAccounts.add("gitlocalize-app[bot]");
         ignoredAccounts.add("mt-gitlocalize");
 
+        // Known Minecraft aliases.
         aliases.put("WalshyDev", "HumanRightsAct");
         aliases.put("J3fftw1", "_lagpc_");
         aliases.put("ajan-12", "ajan_12");

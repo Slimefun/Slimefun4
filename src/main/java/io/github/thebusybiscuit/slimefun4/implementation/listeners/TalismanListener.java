@@ -278,7 +278,14 @@ public class TalismanListener implements Listener {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
 
         // We are going to ignore Silk Touch here
-        if (item.getType() != Material.AIR && item.getAmount() > 0 && !item.containsEnchantment(Enchantment.SILK_TOUCH)) {
+        if (item.getType() != Material.AIR && item.getAmount() > 0) {
+            ItemMeta meta = item.getItemMeta();
+
+            // Ignore Silk Touch Enchantment
+            if (meta.hasEnchant(Enchantment.SILK_TOUCH)) {
+                return;
+            }
+
             Material type = e.getBlockState().getType();
 
             // We only want to double ores
@@ -286,7 +293,7 @@ public class TalismanListener implements Listener {
                 Collection<Item> drops = e.getItems();
 
                 if (Talisman.trigger(e, SlimefunItems.TALISMAN_MINER, false)) {
-                    int dropAmount = getAmountWithFortune(type, item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
+                    int dropAmount = getAmountWithFortune(type, meta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
 
                     // Keep track of whether we actually doubled the drops or not
                     boolean doubledDrops = false;

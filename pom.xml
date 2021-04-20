@@ -341,13 +341,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.8.0</version>
+            <version>3.9.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
             <artifactId>MockBukkit-v1.16</artifactId>
-            <version>0.32.1</version>
+            <version>0.33.0</version>
             <scope>test</scope>
 
             <exclusions>
@@ -364,7 +364,7 @@
         <dependency>
             <groupId>com.github.TheBusyBiscuit</groupId>
             <artifactId>CS-CoreLib2</artifactId>
-            <version>0.30.3</version>
+            <version>0.30.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -420,7 +420,7 @@
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
-            <version>2.1.182</version>
+            <version>2.1.194</version>
             <scope>provided</scope>
 
             <exclusions>

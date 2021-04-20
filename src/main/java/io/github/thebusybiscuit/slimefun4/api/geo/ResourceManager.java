@@ -15,10 +15,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -47,6 +49,12 @@ public class ResourceManager {
     private final int[] backgroundSlots = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 48, 49, 50, 52, 53 };
     private final Config config;
 
+    /**
+     * This will create a new {@link ResourceManager}.
+     * 
+     * @param plugin
+     *            Our {@link SlimefunPlugin} instance
+     */
     public ResourceManager(@Nonnull SlimefunPlugin plugin) {
         config = new Config(plugin, "resources.yml");
     }
@@ -95,6 +103,7 @@ public class ResourceManager {
      * 
      * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
      */
+    @Nonnull
     public OptionalInt getSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
         Validate.notNull(resource, "Cannot get supplies for null");
         Validate.notNull(world, "World must not be null");
@@ -109,6 +118,20 @@ public class ResourceManager {
         }
     }
 
+    /**
+     * This method will set the supplies in a given {@link Chunk} to the specified value.
+     * 
+     * @param resource
+     *            The {@link GEOResource}
+     * @param world
+     *            The {@link World}
+     * @param x
+     *            The x coordinate of that {@link Chunk}
+     * @param z
+     *            The z coordinate of that {@link Chunk}
+     * @param value
+     *            The new supply value
+     */
     public void setSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z, int value) {
         Validate.notNull(resource, "Cannot set supplies for null");
         Validate.notNull(world, "World cannot be null");
@@ -117,13 +140,42 @@ public class ResourceManager {
         BlockStorage.setChunkInfo(world, x, z, key, String.valueOf(value));
     }
 
+    /**
+     * This method will generate the default supplies for a given {@link GEOResource} at the
+     * given {@link Chunk}.
+     * <p>
+     * This method will invoke {@link #setSupplies(GEOResource, World, int, int, int)} and also calls a
+     * {@link GEOResourceGenerationEvent}.
+     * 
+     * @param resource
+     *            The {@link GEOResource} to generate
+     * @param world
+     *            The {@link World}
+     * @param x
+     *            The x coordinate of that {@link Chunk}
+     * @param z
+     *            The z coordinate of that {@link Chunk}
+     * 
+     * @return The new supply value
+     */
     private int generate(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
         Validate.notNull(resource, "Cannot generate resources for null");
         Validate.notNull(world, "World cannot be null");
 
+        // Get the corresponding Block (and Biome)
         Block block = world.getBlockAt(x << 4, 72, z << 4);
-        int value = resource.getDefaultSupply(world.getEnvironment(), block.getBiome());
+        Biome biome = block.getBiome();
 
+        /*
+         * getBiome() is marked as NotNull, but it seems like some servers ignore this entirely.
+         * We have seen multiple reports on Tuinity where it has indeed returned null.
+         */
+        Validate.notNull(biome, "Biome appears to be null for position: " + new BlockPosition(block));
+
+        // Make sure the value is not below zero.
+        int value = Math.max(0, resource.getDefaultSupply(world.getEnvironment(), biome));
+
+        // Check if more than zero units are to be generated.
         if (value > 0) {
             int max = resource.getMaxDeviation();
 
@@ -134,7 +186,8 @@ public class ResourceManager {
             value += ThreadLocalRandom.current().nextInt(max);
         }
 
-        GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, block.getBiome(), x, z, resource, value);
+        // Fire an event, so that plugins can modify this.
+        GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, biome, x, z, resource, value);
         Bukkit.getPluginManager().callEvent(event);
         value = event.getValue();
 
@@ -166,7 +219,8 @@ public class ResourceManager {
         int x = block.getX() >> 4;
         int z = block.getZ() >> 4;
 
-        ChestMenu menu = new ChestMenu("&4" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.results"));
+        String title = "&4" + SlimefunPlugin.getLocalization().getResourceString(p, "tooltips.results");
+        ChestMenu menu = new ChestMenu(title);
 
         for (int slot : backgroundSlots) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());

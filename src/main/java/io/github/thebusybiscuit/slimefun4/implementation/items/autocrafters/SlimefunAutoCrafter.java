@@ -13,8 +13,9 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
-import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
@@ -60,11 +61,15 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
 
         if (state instanceof Skull) {
             // Read the stored value from persistent data storage
-            String value = PersistentDataAPI.getString((Skull) state, recipeStorageKey);
+            PersistentDataContainer container = ((Skull) state).getPersistentDataContainer();
+            String value = container.get(recipeStorageKey, PersistentDataType.STRING);
             SlimefunItem item = SlimefunItem.getByID(value);
 
             if (item != null) {
-                return AbstractRecipe.of(item, targetRecipeType);
+                boolean enabled = !container.has(recipeEnabledKey, PersistentDataType.BYTE);
+                AbstractRecipe recipe = AbstractRecipe.of(item, targetRecipeType);
+                recipe.setEnabled(enabled);
+                return recipe;
             }
         }
 

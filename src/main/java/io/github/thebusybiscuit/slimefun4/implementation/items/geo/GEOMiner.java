@@ -53,7 +53,7 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
     public GEOMiner(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        addItemHandler(onPlace(), onBreak());
+        addItemHandler(onPlace());
     }
 
     @Nonnull
@@ -68,7 +68,8 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
     }
 
     @Nonnull
-    private BlockBreakHandler onBreak() {
+    @Override
+    protected BlockBreakHandler onBlockBreak() {
         return new SimpleBlockBreakHandler() {
 
             @Override
@@ -87,26 +88,31 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
         };
     }
 
+    @Nonnull
     @Override
     public String getMachineIdentifier() {
         return "GEO_MINER";
     }
 
+    @Nonnull
     @Override
     public ItemStack getProgressBar() {
         return new ItemStack(Material.DIAMOND_PICKAXE);
     }
 
+    @Nonnull
     @Override
     public int[] getInputSlots() {
         return new int[0];
     }
 
+    @Nonnull
     @Override
     public int[] getOutputSlots() {
         return OUTPUT_SLOTS;
     }
 
+    @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new LinkedList<>();
@@ -120,13 +126,14 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
         return displayRecipes;
     }
 
+    @Nonnull
     @Override
     public String getLabelLocalPath() {
         return "guide.tooltips.recipes.miner";
     }
 
     @Override
-    protected void constructMenu(BlockMenuPreset preset) {
+    protected void constructMenu(@Nonnull BlockMenuPreset preset) {
         for (int i : BORDER) {
             preset.addItem(i, new CustomItem(Material.GRAY_STAINED_GLASS_PANE, " "), (p, slot, item, action) -> false);
         }
@@ -154,7 +161,7 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
     }
 
     @Override
-    protected void tick(Block b) {
+    protected void tick(@Nonnull Block b) {
         BlockMenu inv = BlockStorage.getInventory(b);
 
         if (isProcessing(b)) {
@@ -183,7 +190,7 @@ public class GEOMiner extends AContainer implements RecipeDisplayItem, HologramO
         }
     }
 
-    private void start(Block b, BlockMenu inv) {
+    private void start(@Nonnull Block b, @Nonnull BlockMenu inv) {
         for (GEOResource resource : SlimefunPlugin.getRegistry().getGEOResources().values()) {
             if (resource.isObtainableFromGEOMiner()) {
                 OptionalInt optional = SlimefunPlugin.getGPSNetwork().getResourceManager().getSupplies(resource, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
