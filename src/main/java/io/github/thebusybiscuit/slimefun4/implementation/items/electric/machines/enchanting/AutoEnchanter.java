@@ -135,10 +135,13 @@ public class AutoEnchanter extends AContainer {
             return false;
         } else {
             ItemMeta itemMeta = item.getItemMeta();
-            if (itemMeta != null && itemMeta.hasLore()) {
-                for (String lore : cantEnchantLores.getValue()) {
-                    if (itemMeta.getLore().contains(ChatColors.color(lore))) {
-                        return false;
+            if (itemMeta != null) {
+                List<String> lores = itemMeta.getLore();
+                if (lores != null) {
+                    for (String lore : cantEnchantLores.getValue()) {
+                        if (lore.contains(ChatColors.color(lore))) {
+                            return false;
+                        }
                     }
                 }
             }
