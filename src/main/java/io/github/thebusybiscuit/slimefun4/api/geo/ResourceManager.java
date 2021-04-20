@@ -15,10 +15,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.thebusybiscuit.cscorelib2.blocks.BlockPosition;
 import io.github.thebusybiscuit.cscorelib2.config.Config;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -101,6 +103,7 @@ public class ResourceManager {
      * 
      * @return An {@link OptionalInt}, either empty or containing the amount of the given {@link GEOResource}
      */
+    @Nonnull
     public OptionalInt getSupplies(@Nonnull GEOResource resource, @Nonnull World world, int x, int z) {
         Validate.notNull(resource, "Cannot get supplies for null");
         Validate.notNull(world, "World must not be null");
@@ -159,9 +162,20 @@ public class ResourceManager {
         Validate.notNull(resource, "Cannot generate resources for null");
         Validate.notNull(world, "World cannot be null");
 
+        // Get the corresponding Block (and Biome)
         Block block = world.getBlockAt(x << 4, 72, z << 4);
-        int value = resource.getDefaultSupply(world.getEnvironment(), block.getBiome());
+        Biome biome = block.getBiome();
 
+        /*
+         * getBiome() is marked as NotNull, but it seems like some servers ignore this entirely.
+         * We have seen multiple reports on Tuinity where it has indeed returned null.
+         */
+        Validate.notNull(biome, "Biome appears to be null for position: " + new BlockPosition(block));
+
+        // Make sure the value is not below zero.
+        int value = Math.max(0, resource.getDefaultSupply(world.getEnvironment(), biome));
+
+        // Check if more than zero units are to be generated.
         if (value > 0) {
             int max = resource.getMaxDeviation();
 
@@ -172,7 +186,8 @@ public class ResourceManager {
             value += ThreadLocalRandom.current().nextInt(max);
         }
 
-        GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, block.getBiome(), x, z, resource, value);
+        // Fire an event, so that plugins can modify this.
+        GEOResourceGenerationEvent event = new GEOResourceGenerationEvent(world, biome, x, z, resource, value);
         Bukkit.getPluginManager().callEvent(event);
         value = event.getValue();
 

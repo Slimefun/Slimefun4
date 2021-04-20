@@ -1,4 +1,5 @@
 # Table of contents
+- [Release Candidate 23 (TBD)](#release-candidate-23-tbd)
 - [Release Candidate 22 (18 Apr 2021)](#release-candidate-22-18-apr-2021)
 - [Release Candidate 21 (14 Mar 2021)](#release-candidate-21-14-mar-2021)
 - [Release Candidate 20 (30 Jan 2021)](#release-candidate-20-30-jan-2021)
@@ -22,7 +23,20 @@
 - [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
+## Release Candidate 23 (TBD)
+
+#### Additions
+* Added "Quartz Block -> 4 Quartz" recipe to Grind Stone
+
+#### Changes
+* Renamed "Solar Panel" to "Photovoltaic Cell" to avoid confusions with solar generators
+* Photovoltaic Cells can no longer be placed
+* (API) Removed deprecated "SlimefunBlockHandler"
+
+#### Fixes
+
 ## Release Candidate 22 (18 Apr 2021)
+https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#22
 
 #### Additions
 * Added Vanilla Auto-Crafter
