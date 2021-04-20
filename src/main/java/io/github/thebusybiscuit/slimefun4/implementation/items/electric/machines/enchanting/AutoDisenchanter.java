@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-
-import java.util.Arrays;
 
 /**
  * The {@link AutoDisenchanter}, in contrast to the {@link AutoEnchanter}, removes
@@ -152,10 +151,13 @@ public class AutoDisenchanter extends AContainer {
     private boolean isDisenchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else if (item.hasItemMeta() && item.getItemMeta().hasLore()) {
-            for (String lore : cantDisenchantLores.getValue()) {
-                if (item.getItemMeta().getLore().contains(ChatColors.color(lore))) {
-                    return false;
+        } else {
+            ItemMeta itemMeta = item.getItemMeta();
+            if (itemMeta != null && itemMeta.hasLore()) {
+                for (String lore : cantDisenchantLores.getValue()) {
+                    if (itemMeta.getLore().contains(ChatColors.color(lore))) {
+                        return false;
+                    }
                 }
             }
         }
