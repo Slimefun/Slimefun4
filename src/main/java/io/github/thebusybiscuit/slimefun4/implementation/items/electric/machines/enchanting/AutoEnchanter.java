@@ -1,11 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +17,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 import io.github.thebusybiscuit.cscorelib2.inventory.InvUtils;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
+import io.github.thebusybiscuit.slimefun4.api.events.AutoEnchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunPlugin;
@@ -24,8 +28,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-
-import java.util.Arrays;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * The {@link AutoEnchanter}, in contrast to the {@link AutoDisenchanter}, adds
@@ -67,6 +70,13 @@ public class AutoEnchanter extends AContainer {
 
             // Check if the item is enchantable
             if (!isEnchantable(target)) {
+                return null;
+            }
+
+            AutoEnchantEvent event = new AutoEnchantEvent(target);
+            Bukkit.getPluginManager().callEvent(event);
+
+            if (event.isCancelled()) {
                 return null;
             }
 
@@ -120,21 +130,26 @@ public class AutoEnchanter extends AContainer {
         return null;
     }
 
-    private boolean isEnchantable(ItemStack item) {
-        SlimefunItem sfItem = null;
-        if (item != null && item.hasItemMeta() && item.getItemMeta().hasLore()) {
-            for (String lore : cantEnchantLores.getValue()) {
-                if (item.getItemMeta().getLore().contains(ChatColors.color(lore))) {
-                    return false;
+    private boolean isEnchantable(@Nullable ItemStack item) {
+        if (item == null) {
+            return false;
+        } else {
+            ItemMeta itemMeta = item.getItemMeta();
+            if (itemMeta != null && itemMeta.hasLore()) {
+                for (String lore : cantEnchantLores.getValue()) {
+                    if (itemMeta.getLore().contains(ChatColors.color(lore))) {
+                        return false;
+                    }
                 }
             }
         }
         // stops endless checks of getByItem for enchanted book stacks.
-        if (item != null && item.getType() != Material.ENCHANTED_BOOK) {
-            sfItem = SlimefunItem.getByItem(item);
+        if (item.getType() != Material.ENCHANTED_BOOK) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item);
+            return sfItem == null || sfItem.isEnchantable();
+        } else {
+            return false;
         }
-
-        return sfItem == null || sfItem.isEnchantable();
     }
 
     @Override
