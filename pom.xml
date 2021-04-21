@@ -392,7 +392,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-core</artifactId>
-            <version>7.2.3</version>
+            <version>7.2.5</version>
             <scope>provided</scope>
 
             <exclusions>
@@ -406,7 +406,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.4</version>
+            <version>7.2.5</version>
             <scope>provided</scope>
 
             <exclusions>
