@@ -133,15 +133,13 @@ public class AutoEnchanter extends AContainer {
     private boolean isEnchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else {
-            ItemMeta itemMeta = item.getItemMeta();
-            if (itemMeta != null) {
-                List<String> lores = itemMeta.getLore();
-                if (lores != null) {
-                    for (String lore : cantEnchantLores.getValue()) {
-                        if (lore.contains(ChatColors.color(lore))) {
-                            return false;
-                        }
+        }
+        if (item.hasItemMeta()) {
+            List<String> lores = item.getItemMeta().getLore();
+            if (lores != null) {
+                for (String lore : cantEnchantLores.getValue()) {
+                    if (lores.contains(ChatColors.color(lore))) {
+                        return false;
                     }
                 }
             }
