@@ -17,12 +17,15 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This is a super class of the {@link AutoEnchanter} and {@link AutoDisenchanter} which is
  * used to streamline some methods and combine common attributes to reduce redundancy.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see AutoEnchanter
  * @see AutoDisenchanter
  *
@@ -31,6 +34,8 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
     private final ItemSetting<Boolean> useLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting levelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
+    private final ItemSetting<List<String>> ignoredEnchantLores = new ItemSetting<>(this, "ignored-enchant-lores", Arrays.asList("&7- &cCan't be Auto-Enchanted"));
+    private final ItemSetting<List<String>> ignoredDisenchantLores = new ItemSetting<>(this, "ignored-disenchant-lores", Arrays.asList("&7- &cCan't be Auto-Disenchanted"));
 
     @ParametersAreNonnullByDefault
     protected AbstractEnchantmentMachine(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -38,6 +43,8 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
         addItemSetting(useLevelLimit);
         addItemSetting(levelLimit);
+        addItemSetting(ignoredEnchantLores);
+        addItemSetting(ignoredDisenchantLores);
     }
 
     protected boolean isEnchantmentLevelAllowed(int enchantmentLevel) {
@@ -55,4 +62,23 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         menu.replaceExistingItem(22, progressBar);
     }
 
+    protected boolean hasIgnoredLore(ItemStack itemStack, AbstractEnchantmentMachine enchantmentMachine) {
+        List<String> ignoredLores = null;
+        if (enchantmentMachine instanceof AutoEnchanter) {
+            ignoredLores = ignoredEnchantLores.getValue();
+        } else if (enchantmentMachine instanceof AutoDisenchanter) {
+            ignoredLores = ignoredDisenchantLores.getValue();
+        }
+        if (itemStack.hasItemMeta()) {
+            List<String> lores = itemStack.getItemMeta().getLore();
+            if (lores != null && ignoredLores != null) {
+                for (String lore : ignoredLores) {
+                    if (lores.contains(ChatColors.color(lore))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
