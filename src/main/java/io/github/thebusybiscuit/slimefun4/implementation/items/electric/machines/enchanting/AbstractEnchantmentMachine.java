@@ -34,8 +34,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
     private final ItemSetting<Boolean> useLevelLimit = new ItemSetting<>(this, "use-enchant-level-limit", false);
     private final IntRangeSetting levelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
-    private final ItemSetting<List<String>> ignoredEnchantLores = new ItemSetting<>(this, "ignored-enchant-lores", Arrays.asList("&7- &cCan't be Auto-Enchanted"));
-    private final ItemSetting<List<String>> ignoredDisenchantLores = new ItemSetting<>(this, "ignored-disenchant-lores", Arrays.asList("&7- &cCan't be Auto-Disenchanted"));
+    private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(this, "ignored-lores", Arrays.asList("&7- &cCan't be used in " + getMachineIdentifier()));
 
     @ParametersAreNonnullByDefault
     protected AbstractEnchantmentMachine(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -43,8 +42,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
         addItemSetting(useLevelLimit);
         addItemSetting(levelLimit);
-        addItemSetting(ignoredEnchantLores);
-        addItemSetting(ignoredDisenchantLores);
+        addItemSetting(ignoredLores);
     }
 
     protected boolean isEnchantmentLevelAllowed(int enchantmentLevel) {
@@ -62,18 +60,13 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         menu.replaceExistingItem(22, progressBar);
     }
 
-    protected boolean hasIgnoredLore(ItemStack itemStack, AbstractEnchantmentMachine enchantmentMachine) {
-        List<String> ignoredLores = null;
-        if (enchantmentMachine instanceof AutoEnchanter) {
-            ignoredLores = ignoredEnchantLores.getValue();
-        } else if (enchantmentMachine instanceof AutoDisenchanter) {
-            ignoredLores = ignoredDisenchantLores.getValue();
-        }
+    protected boolean hasIgnoredLore(ItemStack itemStack) {
+        List<String> ignoredLore = ignoredLores.getValue();
         if (itemStack.hasItemMeta()) {
-            List<String> lores = itemStack.getItemMeta().getLore();
-            if (lores != null && ignoredLores != null) {
-                for (String lore : ignoredLores) {
-                    if (lores.contains(ChatColors.color(lore))) {
+            List<String> itemLore = itemStack.getItemMeta().getLore();
+            if (itemLore != null && ignoredLore != null) {
+                for (String lore : ignoredLores.getValue()) {
+                    if (itemLore.contains(ChatColors.color(lore))) {
                         return true;
                     }
                 }

@@ -142,7 +142,7 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
     private boolean isDisenchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else if (hasIgnoredLore(item, this)) {
+        } else if (hasIgnoredLore(item)) {
             return false;
         } else if (item.getType() != Material.BOOK) {
             // ^ This stops endless checks of getByItem for books
