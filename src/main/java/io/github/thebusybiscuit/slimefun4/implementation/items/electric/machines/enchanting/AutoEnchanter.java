@@ -35,7 +35,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
  *
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
-
     @ParametersAreNonnullByDefault
     public AutoEnchanter(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
@@ -122,14 +121,12 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
     private boolean isEnchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else if (hasIgnoredLore(item, this)) {
-            return false;
         } else if (item.getType() != Material.ENCHANTED_BOOK) {
             // stops endless checks of getByItem for enchanted book stacks.
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             return sfItem == null || sfItem.isEnchantable();
         } else {
-            return false;
+            return !hasIgnoredLore(item);
         }
     }
 
