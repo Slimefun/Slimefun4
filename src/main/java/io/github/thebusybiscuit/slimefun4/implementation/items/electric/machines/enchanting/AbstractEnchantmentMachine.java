@@ -60,7 +60,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
         menu.replaceExistingItem(22, progressBar);
     }
 
-    protected boolean hasIgnoredLore(ItemStack itemStack) {
+    protected boolean hasIgnoredLore(@Nonnull ItemStack itemStack) {
         List<String> ignoredLore = ignoredLores.getValue();
         if (itemStack.hasItemMeta()) {
             List<String> itemLore = itemStack.getItemMeta().getLore();
