@@ -121,12 +121,12 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
     private boolean isEnchantable(@Nullable ItemStack item) {
         if (item == null) {
             return false;
-        } else if (item.getType() != Material.ENCHANTED_BOOK) {
+        } else if (item.getType() != Material.ENCHANTED_BOOK && !hasIgnoredLore(item)) {
             // stops endless checks of getByItem for enchanted book stacks.
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             return sfItem == null || sfItem.isEnchantable();
         } else {
-            return !hasIgnoredLore(item);
+            return false;
         }
     }
 
