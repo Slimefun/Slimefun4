@@ -53,7 +53,7 @@ public abstract class AutomatedCraftingChamber extends SlimefunItem implements I
     private final int[] outputBorder = { 23, 24, 25, 26, 32, 35, 41, 42, 43, 44 };
 
     @ParametersAreNonnullByDefault
-    public AutomatedCraftingChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AutomatedCraftingChamber(Category category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
         new BlockMenuPreset(getId(), "&4Machine is disabled.") {

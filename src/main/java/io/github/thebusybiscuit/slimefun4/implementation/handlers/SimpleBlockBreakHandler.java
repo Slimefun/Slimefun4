@@ -28,7 +28,7 @@ public abstract class SimpleBlockBreakHandler extends BlockBreakHandler {
     /**
      * This constructs a new {@link SimpleBlockBreakHandler}.
      */
-    public SimpleBlockBreakHandler() {
+    protected SimpleBlockBreakHandler() {
         super(true, true);
     }
 

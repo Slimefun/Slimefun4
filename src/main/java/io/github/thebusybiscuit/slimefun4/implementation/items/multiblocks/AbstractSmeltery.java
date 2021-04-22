@@ -29,7 +29,7 @@ import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
  */
 abstract class AbstractSmeltery extends MultiBlockMachine {
 
-    public AbstractSmeltery(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
+    protected AbstractSmeltery(Category category, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
         super(category, item, recipe, trigger);
     }
 

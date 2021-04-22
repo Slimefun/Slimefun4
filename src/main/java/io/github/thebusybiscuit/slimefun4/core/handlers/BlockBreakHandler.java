@@ -47,7 +47,7 @@ public abstract class BlockBreakHandler implements ItemHandler {
      * @param allowExplosions
      *            Whether blocks of this type are allowed to be broken by explosions
      */
-    public BlockBreakHandler(boolean allowAndroids, boolean allowExplosions) {
+    protected BlockBreakHandler(boolean allowAndroids, boolean allowExplosions) {
         this.allowAndroids = allowAndroids;
         this.allowExplosions = allowExplosions;
     }
