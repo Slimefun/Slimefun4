@@ -25,6 +25,7 @@ import java.util.List;
  * used to streamline some methods and combine common attributes to reduce redundancy.
  *
  * @author TheBusyBiscuit
+ * @author Rothes
  *
  * @see AutoEnchanter
  * @see AutoDisenchanter
